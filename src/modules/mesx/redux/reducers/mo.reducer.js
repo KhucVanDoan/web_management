@@ -1,0 +1,126 @@
+import {
+  CONFIRM_MO_FAILED,
+  CONFIRM_MO_START,
+  CONFIRM_MO_SUCCESS,
+  CREATE_MO_FAILED,
+  CREATE_MO_START,
+  CREATE_MO_SUCCESS,
+  DELETE_MO_FAILED,
+  DELETE_MO_START,
+  DELETE_MO_SUCCESS,
+  GET_MO_DETAILS_FAILED,
+  GET_MO_DETAILS_START,
+  GET_MO_DETAILS_SUCCESS,
+  REJECT_MO_FAILED,
+  REJECT_MO_START,
+  REJECT_MO_SUCCESS,
+  SEARCH_MO_FAILED,
+  SEARCH_MO_START,
+  SEARCH_MO_SUCCESS,
+  UPDATE_MO_FAILED,
+  UPDATE_MO_START,
+  UPDATE_MO_SUCCESS,
+  GET_BOM_PRODUCING_STEP_STRUCTURE_START,
+  GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED,
+  GET_BOM_PRODUCING_STEP_STRUCTURE_SUCCESS,
+  CHECK_MATERIAL_PLAN_START,
+  CHECK_MATERIAL_PLAN_SUCCESS,
+  CHECK_MATERIAL_PLAN_FAILED,
+} from 'modules/mesx/redux/actions/mo.action'
+
+const initialState = {
+  isLoading: false,
+  moList: [],
+  moDetails: {},
+  total: null,
+  BOMStructure: [],
+  materialCheck: {},
+}
+
+export default function Mo(state = initialState, action) {
+  switch (action.type) {
+    case SEARCH_MO_START:
+    case CREATE_MO_START:
+    case UPDATE_MO_START:
+    case DELETE_MO_START:
+    case GET_MO_DETAILS_START:
+    case CONFIRM_MO_START:
+    case REJECT_MO_START:
+    case GET_BOM_PRODUCING_STEP_STRUCTURE_START:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case SEARCH_MO_SUCCESS:
+      return {
+        ...state,
+        moList: action.payload.list,
+        isLoading: false,
+        total: action.payload.total,
+      }
+    case SEARCH_MO_FAILED:
+      return {
+        ...state,
+        moList: [],
+        isLoading: false,
+        total: 0,
+      }
+    case GET_BOM_PRODUCING_STEP_STRUCTURE_SUCCESS:
+      return {
+        ...state,
+        BOMStructure: action.payload,
+        isLoading: false,
+      }
+    case CONFIRM_MO_FAILED:
+    case CONFIRM_MO_SUCCESS:
+    case REJECT_MO_FAILED:
+    case REJECT_MO_SUCCESS:
+    case CREATE_MO_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case CREATE_MO_SUCCESS:
+    case UPDATE_MO_SUCCESS:
+    case UPDATE_MO_FAILED:
+    case DELETE_MO_SUCCESS:
+    case DELETE_MO_FAILED:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_MO_DETAILS_SUCCESS:
+      return {
+        ...state,
+        moDetails: action.payload,
+        isLoading: false,
+      }
+    case GET_MO_DETAILS_FAILED:
+      return {
+        ...state,
+        moDetails: {},
+        isLoading: false,
+      }
+    case GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED:
+      return {
+        ...state,
+        BOMStructure: [],
+        isLoading: false,
+      }
+    case CHECK_MATERIAL_PLAN_START:
+    case CHECK_MATERIAL_PLAN_SUCCESS:
+      return {
+        ...state,
+        materialCheck: action.payload,
+        isLoading: false,
+      }
+    case CHECK_MATERIAL_PLAN_FAILED:
+      return {
+        ...state,
+        materialCheck: {},
+        isLoading: false,
+      }
+    default:
+      return state
+  }
+}

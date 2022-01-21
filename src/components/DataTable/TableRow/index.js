@@ -1,0 +1,69 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Draggable } from 'react-beautiful-dnd'
+import TableCell from '@mui/material/TableCell'
+import MuiTableRow from '@mui/material/TableRow'
+import Box from '@mui/material/Box'
+import ReorderIcon from '@mui/icons-material/Reorder'
+import { useTheme } from '@mui/material/styles'
+
+const TableRow = ({
+  children,
+  reorderable,
+  draggableId,
+  index,
+  classes,
+  ...props
+}) => {
+  const theme = useTheme()
+  if (reorderable) {
+    return (
+      <Draggable draggableId={draggableId} index={index}>
+        {(draggableProvided, snapshot) => {
+          return (
+            <MuiTableRow
+              ref={draggableProvided.innerRef}
+              {...draggableProvided.draggableProps}
+              style={{
+                ...draggableProvided.draggableProps.style,
+                ...(snapshot.isDragging
+                  ? { background: theme.palette.bgSecondaryOpacity }
+                  : {}),
+              }}
+              {...props}
+            >
+              {reorderable && (
+                <TableCell className={classes.tableCell}>
+                  <Box
+                    {...draggableProvided.dragHandleProps}
+                    sx={{ display: 'flex' }}
+                  >
+                    <ReorderIcon color="subText" />
+                  </Box>
+                </TableCell>
+              )}
+              {children}
+            </MuiTableRow>
+          )
+        }}
+      </Draggable>
+    )
+  }
+
+  return <MuiTableRow {...props}>{children}</MuiTableRow>
+}
+
+TableRow.defaultProps = {
+  children: null,
+  reorderable: false,
+}
+
+TableRow.propsTypes = {
+  children: PropTypes.node,
+  reorderable: PropTypes.bool,
+  draggableId: PropTypes.string,
+  index: PropTypes.number,
+  classes: PropTypes.shape(),
+}
+
+export default TableRow

@@ -1,0 +1,61 @@
+{
+  "page": {
+    "searchButton": "Tìm kiếm",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "goBack": "Quay lại trang trước",
+    "copyright": "Một sản phẩm của VTI - Solution ©2021"
+  },
+
+  "form": {
+    "required": "Mục này bắt buộc phải nhập",
+    "mappingPassword": "* Mật khẩu không mapping",
+    "maxLength": "Nhập tối đa {{max}} kí tự",
+    "minLength": "Nhập tối thiểu {{min}} kí tự",
+    "validEmail": "* Bạn hãy nhập đúng email",
+    "validUserName": "Tên đăng nhập chỉ gồm chữ và số",
+    "validPassword": "Mật khẩu chỉ gồm chữ và số",
+    "validPhone": "Số điện thoại không hợp lệ",
+    "validCode": "Mã chỉ gồm chữ và số",
+    "minNumber": "Giá trị tối thiểu là {{min}}",
+    "maxNumber": "Không được nhập quá {{max}}",
+    "duplicates": "Mục này không được trùng lặp",
+    "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",
+    "minDate": "Ngày bắt đầu phải bằng hoặc sau {{from}}",
+    "maxDate": "Ngày kết thúc phải bằng hoặc trước {{to}}",
+    "maxDateBigger": "Ngày kết thúc phải bằng hoặc sau {{from}}",
+    "biggerThanMinDate": "Ngày bắt đầu phải sau {{from}}",
+    "smallerThanMaxDate": "Ngày kết thúc phải trước {{to}}",
+    "invalidDateRange": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+    "to": "đến",
+    "greaterThanZero": "Bắt buộc phải lớn hơn 0",
+    "integer": "Mục này phải là số nguyên",
+    "numeric": "Mục này phải là số",
+    "invalidTimeRange": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+    "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước"
+  },
+
+  "toast": {
+    "notificationTitle": "Thông báo"
+  },
+
+  "autocomplete": {
+    "noOptionsText": "Không có dữ liệu",
+    "loadingText": "Đang tải dữ liệu..."
+  },
+
+  "dateRangePicker": {
+    "from": "Từ ngày",
+    "to": "Đến ngày"
+  },
+
+  "dataTable": {
+    "visibleColumns": "Hiển thị các mục đã chọn",
+    "filter": "Lọc",
+    "cancel": "Hủy"
+  },
+
+  "pagination": {
+    "rowsPerPage": "Số dòng mỗi trang",
+    "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
+  }
+}

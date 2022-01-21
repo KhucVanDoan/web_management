@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  main-web:
+    image: registry.vti.com.vn/snp_smartwms/source/web
+    ports:
+      - '5081:80'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
