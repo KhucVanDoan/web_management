@@ -1,10 +1,13 @@
 import React from 'react'
+
 import { PropTypes } from 'prop-types'
-import { useClasses } from 'themes'
-import style from './style'
-import Icon from 'components/Icon'
-import Button from 'components/Button'
 import { useTranslation } from 'react-i18next'
+
+import Button from '~/components/Button'
+import Icon from '~/components/Icon'
+import { useClasses } from '~/themes'
+
+import style from './style'
 
 const SearchBox = ({ onSearch, placeholder }) => {
   const classes = useClasses(style)

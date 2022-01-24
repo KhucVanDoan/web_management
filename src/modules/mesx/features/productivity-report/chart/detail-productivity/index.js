@@ -1,4 +1,5 @@
 import { Component } from 'react'
+
 import {
   Box,
   Typography,
@@ -9,6 +10,8 @@ import {
   IconButton,
 } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import {
   Line,
   Tooltip,
@@ -20,8 +23,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
+
 import useStyles from './style'
 
 class ProductivityChart extends Component {

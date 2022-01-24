@@ -23,7 +23,7 @@ import {
   PRINT_QR_WORK_ORDER_FAILED,
   PRINT_QR_WORK_ORDER_START,
   PRINT_QR_WORK_ORDER_SUCCESS,
-} from 'modules/mesx/redux/actions/work-order.action'
+} from '~/modules/mesx/redux/actions/work-order.action'
 
 const initialState = {
   isLoading: false,

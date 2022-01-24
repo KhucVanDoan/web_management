@@ -1,9 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import {
   Button,
   Checkbox,
@@ -11,28 +10,32 @@ import {
   FormHelperText,
   IconButton,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
-import {
-  getItems,
-  getWarehouses,
-  getItemQualityPoint,
-} from 'modules/mesx/redux/actions/common.action'
-import { normalizeDecimal, scrollToBottom } from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
 import {
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
   ORDER_STATUS,
   STAGES_OPTION,
-} from 'common/constants'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
-import { getSaleOrderDetailsById } from 'modules/mesx/redux/actions/sale-order.action'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import {
+  getItems,
+  getWarehouses,
+  getItemQualityPoint,
+} from '~/modules/mesx/redux/actions/common.action'
+import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
+import { normalizeDecimal, scrollToBottom } from '~/utils'
+
+import useStyles from './style'
+
 class ItemSettingTable extends React.Component {
   constructor(props) {
     super(props)

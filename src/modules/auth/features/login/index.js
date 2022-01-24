@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
-import { Link, Redirect, useLocation, useHistory } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { Formik, Form } from 'formik'
-import IconButton from '@mui/material/IconButton'
+
+import { Box, FormHelperText, Paper, Typography } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import { FormHelperText, Paper } from '@mui/material'
-import { Box } from '@mui/material'
-import { Typography } from '@mui/material'
-import Button from 'components/Button'
-import Icon from 'components/Icon'
-import { Field } from 'components/Formik'
-import { isAuth } from 'utils'
-import { qsParse } from 'utils/qs'
-import { useClasses } from 'themes'
-import Logo from 'assets/images/Logo-Client.png'
-import { ROUTE } from 'modules/auth/routes/config'
-import { useAuth } from 'modules/auth/redux/hooks/useAuth'
-import style from './style'
+import IconButton from '@mui/material/IconButton'
+import { Form, Formik } from 'formik'
+import { useTranslation } from 'react-i18next'
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
+
+import Logo from '~/assets/images/Logo-Client.png'
+import Button from '~/components/Button'
+import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
+import { useClasses } from '~/themes'
+import { isAuth } from '~/utils'
+import { qsParse } from '~/utils/qs'
+
+import { useAuth } from '../../redux/hooks/useAuth'
+import { ROUTE } from '../../routes/config'
 import { loginSchema } from './schema'
+import style from './style'
 
 const Login = () => {
   const [visible, setVisible] = useState(false)
@@ -96,10 +97,10 @@ const Login = () => {
                     {visible ? <Icon name="show" /> : <Icon name="hide" />}
                   </IconButton>
                 }
-                sx={{ mt: '16px' }}
+                sx={{ mt: 4 / 3 }}
               />
               {!!error && (
-                <FormHelperText error sx={{ mt: '4px' }}>
+                <FormHelperText error sx={{ mt: 4 / 3 }}>
                   {error}
                 </FormHelperText>
               )}

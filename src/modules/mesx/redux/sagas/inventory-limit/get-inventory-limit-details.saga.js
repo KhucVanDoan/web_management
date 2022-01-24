@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getInventoryLimitDetailsByIdFailed,
   getInventoryLimitDetailsByIdSuccess,
   GET_INVENTORY_LIMIT_DETAILS_START,
-} from 'modules/mesx/redux/actions/inventory-limit.action'
+} from '~/modules/mesx/redux/actions/inventory-limit.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

@@ -1,9 +1,9 @@
-import FieldWrapper from './Field'
-import FormikTextField from './TextField'
+import FormikAutocomplete from './Autocomplete'
 import FormikCheckbox from './Checkbox'
 import FormikDatePicker from './DatePicker'
 import FormikDateRangePicker from './DateRangePicker'
-import FormikAutocomplete from './Autocomplete'
+import FieldWrapper from './Field'
+import FormikTextField from './TextField'
 
 export const Field = {
   TextField: FieldWrapper(FormikTextField),

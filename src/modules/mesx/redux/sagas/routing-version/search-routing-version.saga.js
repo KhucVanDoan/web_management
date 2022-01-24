@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchRoutingVersionsFailed,
   searchRoutingVersionsSuccess,
   SEARCH_ROUTING_VERSIONS_START,
-} from 'modules/mesx/redux/actions/routing-version.action'
+} from '~/modules/mesx/redux/actions/routing-version.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

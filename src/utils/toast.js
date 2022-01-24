@@ -1,6 +1,7 @@
 import i18n from 'i18next'
 import { store } from 'react-notifications-component'
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 
 const NOTIFICATION_DURATION = 5000
 

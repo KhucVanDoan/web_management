@@ -1,13 +1,14 @@
-import { NOTIFICATION_TYPE } from 'common/constants'
-import addNotification from 'utils/toast'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import { getAppStore } from 'modules/auth/redux/actions/app-store'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
+import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
   createInventoryLimitFailed,
   createInventoryLimitSuccess,
   CREATE_INVENTORY_LIMIT_START,
-} from 'modules/mesx/redux/actions/inventory-limit.action'
+} from '~/modules/mesx/redux/actions/inventory-limit.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search user API

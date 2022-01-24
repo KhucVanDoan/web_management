@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import SimpleReactValidator from 'simple-react-validator'
+
+import { Search } from '@mui/icons-material'
+import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { FormHelperText, Tab } from '@mui/material'
 import {
   Box,
@@ -12,31 +11,34 @@ import {
   Grid,
   TextField,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
-import useStyles from './style'
-import { MO_STATUS } from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { Search } from '@mui/icons-material'
-import {
-  searchMO,
-  getMODetailsById,
-} from 'modules/mesx/redux/actions/mo.action'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import {
-  searchWorkCenter,
-  getWorkCenterDetailsById,
-} from 'modules/mesx/redux/actions/work-center.action'
-import { getDataProductivityReport } from 'modules/mesx/redux/actions/productivity-report.action'
+import { MO_STATUS } from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
 import {
   searchProducingSteps,
   getProducingStepDetailsById,
-} from 'modules/mesx/redux/actions/index.action'
-import { Autocomplete } from '@mui/material'
-import { TabList, TabContext, TabPanel } from '@mui/lab'
+} from '~/modules/mesx/redux/actions/index.action'
+import {
+  searchMO,
+  getMODetailsById,
+} from '~/modules/mesx/redux/actions/mo.action'
+import { getDataProductivityReport } from '~/modules/mesx/redux/actions/productivity-report.action'
+import {
+  searchWorkCenter,
+  getWorkCenterDetailsById,
+} from '~/modules/mesx/redux/actions/work-center.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+
 import ProductivityChart from './chart/detail-productivity'
-import ProductivityTable from './table/detail-productivity'
 import OEEChart from './chart/oee'
+import useStyles from './style'
+import ProductivityTable from './table/detail-productivity'
 import OEETable from './table/oee'
 const breadcrumbs = [
   { title: 'report' },

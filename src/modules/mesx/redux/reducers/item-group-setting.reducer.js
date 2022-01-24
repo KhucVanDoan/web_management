@@ -14,7 +14,7 @@ import {
   UPDATE_ITEM_GROUP_FAILED,
   UPDATE_ITEM_GROUP_START,
   UPDATE_ITEM_GROUP_SUCCESS,
-} from 'modules/mesx/redux/actions/item-group-setting.action'
+} from '~/modules/mesx/redux/actions/item-group-setting.action'
 
 const initialState = {
   isLoading: false,

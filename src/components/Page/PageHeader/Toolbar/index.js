@@ -1,7 +1,10 @@
 import React from 'react'
+
 import { Box } from '@mui/material'
-import Button from 'components/Button'
-import { useClasses } from 'themes'
+
+import Button from '~/components/Button'
+import { useClasses } from '~/themes'
+
 import style from './style'
 
 const Toolbar = () => {

@@ -1,7 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { getIn } from 'formik'
-import TextField from 'components/TextField'
+import PropTypes from 'prop-types'
+
+import TextField from '~/components/TextField'
 
 const FormikTextField = ({ form, field, ...props }) => (
   <TextField

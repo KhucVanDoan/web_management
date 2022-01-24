@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import {
   Button,
   Divider,
@@ -11,38 +8,46 @@ import {
   MenuItem,
   Checkbox,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import ItemsSettingTable from './items-setting-table'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import BasicTabs from '~/UNSAFE_components/shared/tab'
+import {
+  MODAL_MODE,
+  BOM_STATUS,
+  BOM_STATUS_MAP,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import TableCollapse from '~/components/TableCollapse'
+import {
+  getItems,
+  getRoutings,
+} from '~/modules/mesx/redux/actions/common.action'
 import {
   confirmBOMById,
   createBOM,
   getBOMDetailsById,
   updateBOM,
   getBOMStructureById,
-} from 'modules/mesx/redux/actions/define-bom.action'
-import { onChangeSelect, onChangeTextField, redirectRouter } from 'utils'
-import useStyles from './style'
+} from '~/modules/mesx/redux/actions/define-bom.action'
+import { getItemDetailsById } from '~/modules/mesx/redux/actions/define-item.action'
+import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeSelect, onChangeTextField, redirectRouter } from '~/utils'
 
-import { getItems, getRoutings } from 'modules/mesx/redux/actions/common.action'
-import { getItemDetailsById } from 'modules/mesx/redux/actions/define-item.action'
-import { searchItemTypes } from 'modules/mesx/redux/actions/item-type-setting.action'
-import {
-  MODAL_MODE,
-  BOM_STATUS,
-  BOM_STATUS_MAP,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { Autocomplete } from '@mui/material'
-import TableCollapse from 'components/TableCollapse'
-import BasicTabs from 'UNSAFE_components/shared/tab'
+import ItemsSettingTable from './items-setting-table'
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

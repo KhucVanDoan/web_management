@@ -6,12 +6,12 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import Box from '@mui/material/Box'
 import { withStyles } from '@mui/styles'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import { normalizeDecimal } from 'utils'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { normalizeDecimal } from '~/utils'
 import useStyles from './style'
 
-import { MODAL_MODE } from 'common/constants'
-import DataTable from 'components/DataTable'
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {

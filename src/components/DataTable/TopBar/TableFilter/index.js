@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { PropTypes } from 'prop-types'
+
 import { Box, Popover } from '@mui/material'
-import { useClasses } from 'themes'
-import style from './style'
-import Button from 'components/Button'
 import { Formik, Form } from 'formik'
+import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
+
+import Button from '~/components/Button'
+import { useClasses } from '~/themes'
+
+import style from './style'
 
 const TableFilter = ({ filters: { form, values, onApply, ...props } }) => {
   const classes = useClasses(style)

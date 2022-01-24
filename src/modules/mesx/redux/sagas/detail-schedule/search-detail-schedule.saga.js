@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchDetailScheduleFailed,
   searchDetailScheduleSuccess,
   SEARCH_DETAIL_SCHEDULE_START,
-} from 'modules/mesx/redux/actions/detail-schedule.action'
+} from '~/modules/mesx/redux/actions/detail-schedule.action'
+import { api } from '~/services/api'
 
 /**
  * Search DetailSchedule API

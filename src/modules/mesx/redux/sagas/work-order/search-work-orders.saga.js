@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchWorkOrdersFailed,
   searchWorkOrdersSuccess,
   SEARCH_WORK_ORDERS_START,
-} from 'modules/mesx/redux/actions/work-order.action'
+} from '~/modules/mesx/redux/actions/work-order.action'
+import { api } from '~/services/api'
 
 /**
  * Search inventory-calendar API

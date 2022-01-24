@@ -1,5 +1,5 @@
-import { ROUTE } from './config'
 import Elements from '../features/Elements'
+import { ROUTE } from './config'
 
 const routes = [
   {

@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getItemGroupDetailsByIdFailed,
   getItemGroupDetailsByIdSuccess,
   GET_ITEM_GROUP_DETAILS_START,
-} from 'modules/mesx/redux/actions/item-group-setting.action'
+} from '~/modules/mesx/redux/actions/item-group-setting.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

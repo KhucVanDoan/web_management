@@ -1,7 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Autocomplete from 'components/Autocomplete'
+
 import { getIn } from 'formik'
+import PropTypes from 'prop-types'
+
+import Autocomplete from '~/components/Autocomplete'
 
 const FormikAutocomplete = ({ field, form, meta, ...props }) => (
   <Autocomplete

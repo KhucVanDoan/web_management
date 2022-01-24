@@ -1,10 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import {
   Button,
   Divider,
@@ -17,35 +14,17 @@ import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
-import DateRangePicker from 'UNSAFE_components/shared/date-range-picker'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  getItems,
-  getUsers,
-  createPurchasedOrder,
-} from 'modules/mesx/redux/actions/common.action'
-import {
-  confirmMOById,
-  createMO,
-  getMODetailsById,
-  rejectMOById,
-  updateMO,
-  getBOMProducingStepStructureById,
-  checkMaterialPlanById,
-} from 'modules/mesx/redux/actions/mo.action'
-import { searchSaleOrders } from 'modules/mesx/redux/actions/sale-order.action'
-import {
-  onChangeDate,
-  onChangeSelect,
-  onChangeTextField,
-  redirectRouter,
-  formatDateTimeUtc,
-} from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { isAfter, isBefore, isSameDay } from 'date-fns'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
+import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
+import Modal from '~/UNSAFE_components/shared/modal'
+import BasicTabs from '~/UNSAFE_components/shared/tab'
 import {
   MO_STATUS,
   MO_STATUS_MAP,
@@ -54,15 +33,38 @@ import {
   DATE_FORMAT_2,
   WMS_URL,
   DATE_FORMAT,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import TableCollapse from '~/components/TableCollapse'
+import {
+  getItems,
+  getUsers,
+  createPurchasedOrder,
+} from '~/modules/mesx/redux/actions/common.action'
+import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
+import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting.action'
+import {
+  confirmMOById,
+  createMO,
+  getMODetailsById,
+  rejectMOById,
+  updateMO,
+  getBOMProducingStepStructureById,
+  checkMaterialPlanById,
+} from '~/modules/mesx/redux/actions/mo.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import {
+  onChangeDate,
+  onChangeSelect,
+  onChangeTextField,
+  redirectRouter,
+  formatDateTimeUtc,
+} from '~/utils'
+
 import ItemsSettingTable from './items-setting-table'
-import { searchFactories } from 'modules/mesx/redux/actions/factory.action'
-import TableCollapse from 'components/TableCollapse'
-import BasicTabs from 'UNSAFE_components/shared/tab'
-import { searchItemTypes } from 'modules/mesx/redux/actions/item-type-setting.action'
-import moment from 'moment'
-import { isAfter, isBefore, isSameDay } from 'date-fns'
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

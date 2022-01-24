@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
 
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   confirmBomProducingStepByIdFailed,
   confirmBomProducingStepByIdSuccess,
   CONFIRM_BOM_PRODUCING_STEP_START,
-} from 'modules/mesx/redux/actions/bom-producing-step.action'
+} from '~/modules/mesx/redux/actions/bom-producing-step.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Confirm BomProducingStep

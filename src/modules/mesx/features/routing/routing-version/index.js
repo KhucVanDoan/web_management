@@ -1,38 +1,40 @@
 import React, { Component } from 'react'
+
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box } from '@mui/material'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   DATE_FORMAT_2,
   MODAL_MODE,
   ROUTING_VERSION_STATUS,
   ROUTING_VERSION_STATUS_MAP,
   ROUTING_VERSION_STATUS_OPTIONS,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Loading from 'components/Loading'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
-import InputAdornment from '@mui/material/InputAdornment'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import Modal from 'UNSAFE_components/shared/modal'
-import RoutingVersionForm from './routing-version-form'
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   searchRoutingVersions,
   deleteRoutingVersion,
   confirmRoutingVersionById,
-} from 'modules/mesx/redux/actions/routing-version.action'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
+} from '~/modules/mesx/redux/actions/routing-version.action'
+import { getRoutingDetailsById } from '~/modules/mesx/redux/actions/routing.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
-import DataTable from 'components/DataTable'
-import { Box } from '@mui/material'
-import { withRouter } from 'react-router-dom'
-import CheckBox from '@mui/icons-material/CheckBox'
-import { getRoutingDetailsById } from 'modules/mesx/redux/actions/routing.action'
+import RoutingVersionForm from './routing-version-form'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

@@ -1,13 +1,14 @@
-import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
 // import en from "assets/locales/en/translation.json";
 
-import viGenaral from 'assets/locales/vi/general.json'
-import viAuth from 'assets/locales/vi/auth.json'
-import viMesx from 'assets/locales/vi/mesx.json'
-import viMmsx from 'assets/locales/vi/mmsx.json'
-import viQmsx from 'assets/locales/vi/qmsx.json'
-import viWmsx from 'assets/locales/vi/wmsx.json'
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+
+import viAuth from '~/assets/locales/vi/auth.json'
+import viGenaral from '~/assets/locales/vi/general.json'
+import viMesx from '~/assets/locales/vi/mesx.json'
+import viMmsx from '~/assets/locales/vi/mmsx.json'
+import viQmsx from '~/assets/locales/vi/qmsx.json'
+import viWmsx from '~/assets/locales/vi/wmsx.json'
 
 const resources = {
   vi: {

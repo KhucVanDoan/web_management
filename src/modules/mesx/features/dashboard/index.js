@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+
 import { Box, Divider, Grid } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
-import useStyles from './style'
+import Page from '~/components/Page'
+import { getDashboardInProgressMos } from '~/modules/mesx/redux/actions/dashboard-store.action'
+
+import FinishedProductProgress from './components/finished-product-progress'
 import ItemSummary from './components/item-summary'
 import MoStatusReport from './components/mo-status'
-import FinishedProductProgress from './components/finished-product-progress'
 import ProducingStepProgress from './components/producing-step-progress'
 import QcProducingStepProgress from './components/qc-producing-step-progress'
-import { getDashboardInProgressMos } from 'modules/mesx/redux/actions/dashboard-store.action'
-import Page from 'components/Page'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

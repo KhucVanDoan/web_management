@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
+
 import {
   GET_COMPANIES_START,
   GET_COMPANIES_SUCCESS,
   GET_COMPANIES_FAILED,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
 
 /**
  * Search user API

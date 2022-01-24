@@ -4,7 +4,7 @@ import {
   EXPORT_PLAN_REPORT,
   EXPORT_PLAN_REPORT_FAILED,
   EXPORT_PLAN_REPORT_SUCCESS,
-} from 'modules/mesx/redux/actions/plan-report.action'
+} from '~/modules/mesx/redux/actions/plan-report.action'
 
 const initialState = {
   isLoading: false,

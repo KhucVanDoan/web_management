@@ -1,6 +1,8 @@
 import { put, takeLatest } from 'redux-saga/effects'
+
+import { redirectRouter } from '~/utils'
+
 import { logoutFailed, logoutSuccess, LOGOUT_START } from '../actions/auth'
-import { redirectRouter } from 'utils'
 
 /**
  * Handle get data request and response

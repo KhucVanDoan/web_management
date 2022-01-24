@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   deleteWorkCenterFailed,
   deleteWorkCenterSuccess,
   DELETE_WORK_CENTER_START,
-} from 'modules/mesx/redux/actions/work-center.action'
-import { NOTIFICATION_TYPE } from 'common/constants'
+} from '~/modules/mesx/redux/actions/work-center.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Delete work center API

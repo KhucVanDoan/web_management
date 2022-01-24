@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   GET_QUALITY_REPORTS,
   getQualityReportsSuccess,
-} from 'modules/mesx/redux/actions/quality-report.action'
+} from '~/modules/mesx/redux/actions/quality-report.action'
+import { api } from '~/services/api'
 
 /**
  * Search warehouse movements API

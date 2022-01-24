@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   updateWorkCenterPlanFailed,
   updateWorkCenterPlanSuccess,
   UPDATE_WORK_CENTER_PLAN_START,
-} from 'modules/mesx/redux/actions/work-center-plan.action'
-import { NOTIFICATION_TYPE } from 'common/constants'
+} from '~/modules/mesx/redux/actions/work-center-plan.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Update work center plan api

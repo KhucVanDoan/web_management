@@ -1,5 +1,6 @@
-import { DEFAULT_DATE_TIME_FORMAT } from 'common/constants'
 import { format, isAfter } from 'date-fns'
+
+import { DEFAULT_DATE_TIME_FORMAT } from '~/common/constants'
 
 /**
  * Convert date (string or Date) into string with input format

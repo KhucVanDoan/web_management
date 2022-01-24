@@ -1,12 +1,14 @@
 /* eslint-disable */
 import React, { useEffect } from 'react'
+
+import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-import { isAuth } from 'utils'
-import { socket } from 'services/socket/socket-client'
-import Box from '@mui/material/Box'
-import Sidebar from 'components/Sidebar'
-import { useAppStore } from 'modules/auth/redux/hooks/useAppStore'
+
+import Sidebar from '~/components/Sidebar'
+import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { socket } from '~/services/socket/socket-client'
+import { isAuth } from '~/utils'
 
 const PrivateLayout = ({ children }) => {
   const { actions } = useAppStore()

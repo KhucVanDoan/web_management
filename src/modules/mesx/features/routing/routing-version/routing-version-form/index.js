@@ -1,32 +1,34 @@
 import React, { Component } from 'react'
-import { withStyles } from '@mui/styles'
-import { withTranslation } from 'react-i18next'
-import clsx from 'clsx'
-import TextField from '@mui/material/TextField'
+
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import addNotification from 'utils/toast'
-import { NOTIFICATION_TYPE } from 'common/constants'
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   ROUTING_VERSION_STATUS,
   ROUTING_VERSION_STATUS_MAP,
-} from 'common/constants'
-import useStyles from './style'
+} from '~/common/constants'
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   createRoutingVersion,
   updateRoutingVersion,
   getRoutingVersionDetailsById,
   confirmRoutingVersionById,
-} from 'modules/mesx/redux/actions/routing-version.action'
-import { connect } from 'react-redux'
-import { onChangeTextField } from 'utils'
-import SimpleReactValidator from 'simple-react-validator'
-import Modal from 'UNSAFE_components/shared/modal'
-import { formatDateTimeUtc, formatInput } from 'utils'
-import ProducingStepsTable from './producing-steps-table'
+} from '~/modules/mesx/redux/actions/routing-version.action'
+import { onChangeTextField } from '~/utils'
+import { formatDateTimeUtc, formatInput } from '~/utils'
+import addNotification from '~/utils/toast'
 
-import { withRouter } from 'react-router-dom'
+import ProducingStepsTable from './producing-steps-table'
+import useStyles from './style'
 
 const DEFAULT_PRODUCING_STEP = {
   id: 1,

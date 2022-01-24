@@ -1,4 +1,5 @@
-import { PropTypes } from 'prop-types'
+import { useState, useEffect } from 'react'
+
 import {
   Autocomplete as MuiAutocomplete,
   Box,
@@ -6,14 +7,16 @@ import {
   Paper,
   Typography,
 } from '@mui/material'
-import { useClasses } from 'themes'
+import { PropTypes } from 'prop-types'
+import { useTranslation } from 'react-i18next'
+
+import { useDebounce } from '~/common/hooks/useDebounce'
+import VirtualList from '~/components/Autocomplete/VirtualList'
+import TextField from '~/components/TextField'
+import { useClasses } from '~/themes'
+
 import Icon from '../Icon'
 import style from './style'
-import TextField from 'components/TextField'
-import VirtualList from 'components/Autocomplete/VirtualList'
-import { useState, useEffect } from 'react'
-import { useDebounce } from 'common/hooks/useDebounce'
-import { useTranslation } from 'react-i18next'
 
 const Autocomplete = ({
   label,

@@ -1,37 +1,17 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid, MenuItem } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import ItemsSettingTable from './items-setting-table'
-import {
-  confirmBomProducingStepById,
-  createBomProducingStep,
-  getBomProducingStepDetailsById,
-  updateBomProducingStep,
-  getBomProducingStepBomDetails,
-  searchBomProducingStep,
-} from 'modules/mesx/redux/actions/bom-producing-step.action'
-import { onChangeSelect, onChangeTextField, redirectRouter } from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
-import {
-  getBomByItem,
-  searchBOM,
-  getBOMDetailsById,
-} from 'modules/mesx/redux/actions/define-bom.action'
-import { getItems, getRoutings } from 'modules/mesx/redux/actions/common.action'
-import { getItemDetailsById } from 'modules/mesx/redux/actions/define-item.action'
-import { searchItemTypes } from 'modules/mesx/redux/actions/item-type-setting.action'
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   BOM_PRODUCING_STEP_STATUS,
@@ -39,9 +19,34 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   BOM_STATUS,
   NOTIFICATION_TYPE,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import addNotification from 'utils/toast'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import {
+  confirmBomProducingStepById,
+  createBomProducingStep,
+  getBomProducingStepDetailsById,
+  updateBomProducingStep,
+  getBomProducingStepBomDetails,
+  searchBomProducingStep,
+} from '~/modules/mesx/redux/actions/bom-producing-step.action'
+import {
+  getItems,
+  getRoutings,
+} from '~/modules/mesx/redux/actions/common.action'
+import {
+  getBomByItem,
+  searchBOM,
+  getBOMDetailsById,
+} from '~/modules/mesx/redux/actions/define-bom.action'
+import { getItemDetailsById } from '~/modules/mesx/redux/actions/define-item.action'
+import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeSelect, onChangeTextField, redirectRouter } from '~/utils'
+import addNotification from '~/utils/toast'
+
+import ItemsSettingTable from './items-setting-table'
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

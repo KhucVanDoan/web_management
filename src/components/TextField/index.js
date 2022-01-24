@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   FormControl,
   FormHelperText,
@@ -5,9 +7,11 @@ import {
   FormLabel as MuiFormLabel,
   Box,
 } from '@mui/material'
-import { useClasses } from 'themes'
-import { PropTypes } from 'prop-types'
 import clsx from 'clsx'
+import { PropTypes } from 'prop-types'
+
+import { useClasses } from '~/themes'
+
 import style from './style'
 
 const TextField = ({

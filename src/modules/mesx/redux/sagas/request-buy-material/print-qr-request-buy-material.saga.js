@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   printQRRequestBuyMaterialFailed,
   printQRRequestBuyMaterialSuccess,
   PRINT_QR_REQUEST_BUY_MATERIAL_START,
-} from 'modules/mesx/redux/actions/request-by-materials.action'
+} from '~/modules/mesx/redux/actions/request-by-materials.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Print QR work order

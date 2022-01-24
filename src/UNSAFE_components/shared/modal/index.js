@@ -1,15 +1,17 @@
 import React from 'react'
-import clsx from 'clsx'
+
+import CloseIcon from '@mui/icons-material/Close'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import CloseIcon from '@mui/icons-material/Close'
-import useStyles from './style'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
+
+import useStyles from './style'
 
 /**
  *

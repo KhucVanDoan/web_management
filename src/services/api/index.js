@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
-import { NOTIFICATION_TYPE } from 'common/constants'
-import i18n from 'utils/i18n'
-import addNotification from 'utils/toast'
-import history from 'services/history'
-import store from 'store'
-import { logout } from 'modules/auth/redux/actions/auth'
-import { validateStatus } from 'utils/api'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
+import { logout } from '~/modules/auth/redux/actions/auth'
+import history from '~/services/history'
+import store from '~/store'
+import { validateStatus } from '~/utils/api'
+import i18n from '~/utils/i18n'
+import addNotification from '~/utils/toast'
 
 // common base instance
 const BASE_URL = process.env.REACT_APP_HOST + '/api'

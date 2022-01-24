@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+
+import { AddCircle, RemoveCircleOutlined } from '@mui/icons-material'
 import {
   Button,
   Checkbox,
@@ -10,41 +8,45 @@ import {
   FormControlLabel,
   FormHelperText,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
-import DataTable from 'components/DataTable'
-import { AddCircle, RemoveCircleOutlined } from '@mui/icons-material'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  getDetails,
-  getItemGroups,
-  getItemTypes,
-  getItemUnits,
-} from 'modules/mesx/redux/actions/common.action'
-import {
-  createItem,
-  getItemDetailsById,
-  updateItem,
-} from 'modules/mesx/redux/actions/define-item.action'
-import {
-  formatDateTimeUtc,
-  initCode,
-  onChangeCodeField,
-  onChangeTextField,
-} from 'utils'
-import useStyles from './style'
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   CODE_SETTINGS,
   DATE_TIME_12_HOURS_FORMAT,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import {
+  getDetails,
+  getItemGroups,
+  getItemTypes,
+  getItemUnits,
+} from '~/modules/mesx/redux/actions/common.action'
+import {
+  createItem,
+  getItemDetailsById,
+  updateItem,
+} from '~/modules/mesx/redux/actions/define-item.action'
+import {
+  formatDateTimeUtc,
+  initCode,
+  onChangeCodeField,
+  onChangeTextField,
+} from '~/utils'
+
+import useStyles from './style'
 
 const DEFAULT_DETAIL = {
   detailInfo: {

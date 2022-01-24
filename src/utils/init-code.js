@@ -1,4 +1,4 @@
-import { CODE_SETTINGS } from 'common/constants'
+import { CODE_SETTINGS } from '~/common/constants'
 
 /**
  *

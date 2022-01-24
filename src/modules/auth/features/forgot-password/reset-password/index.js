@@ -1,15 +1,6 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
 
-import useStyles from './style'
-import { withStyles } from '@mui/styles'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { connect } from 'react-redux'
-import { onChangeTextField, redirectRouter } from 'utils'
-import SimpleReactValidator from 'simple-react-validator'
-import { resetPassword } from 'modules/mesx/redux/actions/user-management.action'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import {
   Card,
   FormHelperText,
@@ -18,9 +9,19 @@ import {
   InputAdornment,
   OutlinedInput,
 } from '@mui/material'
-import { ROUTE, TEXTFIELD_REQUIRED_LENGTH } from 'common/constants'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { ROUTE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { resetPassword } from '~/modules/mesx/redux/actions/user-management.action'
+import { onChangeTextField, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 class ResetPassword extends Component {
   constructor(props) {
     super(props)

@@ -1,3 +1,6 @@
+import React, { Component } from 'react'
+
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import {
   Box,
   Button,
@@ -12,46 +15,45 @@ import {
   Tab,
   TextField,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
+import clsx from 'clsx'
+import { max, groupBy, uniq, isEmpty } from 'lodash'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
 import {
   DATE_TIME_12_HOURS_FORMAT,
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   WORK_CENTER_STATUS,
   WORK_CENTER_STATUS_MAP,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import {
+  getUsers,
+  getFactories,
+} from '~/modules/mesx/redux/actions/common.action'
+import { searchProducingSteps } from '~/modules/mesx/redux/actions/index.action'
 import {
   deleteWorkCenter,
   createWorkCenter,
   updateWorkCenter,
   getWorkCenterDetailsById,
-} from 'modules/mesx/redux/actions/work-center.action'
-import {
-  getUsers,
-  getFactories,
-} from 'modules/mesx/redux/actions/common.action'
-import { searchProducingSteps } from 'modules/mesx/redux/actions/index.action'
-import useStyles from './style'
-import clsx from 'clsx'
+} from '~/modules/mesx/redux/actions/work-center.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   formatDateTimeUtc,
   onChangeSelect,
   onChangeTextField,
   redirectRouter,
-} from 'utils'
-import { Autocomplete } from '@mui/material'
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import ShiftTable from './work-center-shifts'
+} from '~/utils'
+
 import BreakTimeTable from './break-time'
-import { max, groupBy, uniq, isEmpty } from 'lodash'
+import useStyles from './style'
+import ShiftTable from './work-center-shifts'
 
 const DEFAULT_SHIFT = {
   id: 0,

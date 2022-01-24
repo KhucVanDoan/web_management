@@ -1,23 +1,27 @@
 /* eslint-disable no-param-reassign */
 
 import React, { Component } from 'react'
-import { withStyles } from '@mui/styles'
-import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
+
+import { Divider } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import { MODAL_MODE } from 'common/constants'
-import useStyles from './style'
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
-import Modal from 'UNSAFE_components/shared/modal'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE } from '~/common/constants'
 import {
   generateWorkCenterPlan,
   createWorkCenterPlan,
-} from 'modules/mesx/redux/actions/work-center-plan.action'
-import { getWorkCenterDetailsById } from 'modules/mesx/redux/actions/work-center.action'
-import { Divider } from '@mui/material'
+} from '~/modules/mesx/redux/actions/work-center-plan.action'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
+
 import CustomTable from '../table'
+import useStyles from './style'
+
 class WorkCenterPlanForm extends Component {
   /**
    *

@@ -1,7 +1,10 @@
 import React from 'react'
+
 import { Box, Typography } from '@mui/material'
-import { Breadcrumbs } from 'components/Breadcrumbs'
 import { PropTypes } from 'prop-types'
+
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+
 import GoBack from './GoBack'
 import SearchBox from './SearchBox'
 import Toolbar from './Toolbar'

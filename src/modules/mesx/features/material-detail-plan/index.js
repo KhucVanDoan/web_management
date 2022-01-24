@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import withStyles from '@mui/styles/withStyles'
 
-import useStyles from './style'
-import { MO_STATUS } from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Loading from 'components/Loading'
-import DataTable from 'components/DataTable'
+import Search from '@mui/icons-material/Search'
 import {
   Box,
   Grid,
@@ -19,21 +11,31 @@ import {
   MenuItem,
   FormHelperText,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import { Autocomplete } from '@mui/material'
-import { searchMO } from 'modules/mesx/redux/actions/mo.action'
-import { getMODetailsById } from 'modules/mesx/redux/actions/mo.action'
-import { getProducingStepDetailsById } from 'modules/mesx/redux/actions/index.action'
-import { getWorkCenterDetailsById } from 'modules/mesx/redux/actions/work-center.action'
-import { searchMaterialDetailPlan } from 'modules/mesx/redux/actions/material-detail-plan.action'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import Search from '@mui/icons-material/Search'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
+
+import { MO_STATUS } from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/index.action'
+import { searchMaterialDetailPlan } from '~/modules/mesx/redux/actions/material-detail-plan.action'
+import { searchMO } from '~/modules/mesx/redux/actions/mo.action'
+import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+
+import useStyles from './style'
 
 const breadcrumbs = [
   {

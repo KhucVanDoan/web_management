@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
-import storage from 'utils/storage'
+
+import storage from '~/utils/storage'
 
 const useTableSetting = (keyTableSetting) => {
   const { pathname } = useLocation()

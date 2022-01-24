@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import clsx from 'clsx'
+
 import {
   Box,
   Typography,
@@ -12,6 +12,10 @@ import {
   MenuItem,
 } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
+import clsx from 'clsx'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import {
   Line,
   ResponsiveContainer,
@@ -23,16 +27,14 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import moment from 'moment'
 
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
-import useStyles from './style'
-import { bigNumberFormater } from 'utils/number'
 import {
   getDashboardFinishedItemProgress,
   getDashboardFinishedItemByMo,
-} from 'modules/mesx/redux/actions/dashboard-store.action'
+} from '~/modules/mesx/redux/actions/dashboard-store.action'
+import { bigNumberFormater } from '~/utils/number'
+
+import useStyles from './style'
 
 function CustomizedLabel(data) {
   const { x, y, stroke, value } = data

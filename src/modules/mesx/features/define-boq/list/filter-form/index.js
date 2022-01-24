@@ -1,8 +1,10 @@
 import React from 'react'
-import { PropTypes } from 'prop-types'
+
 import { Grid } from '@mui/material'
-import { Field } from 'components/Formik'
-import { BOQ_STATUS_OPTIONS } from 'common/constants'
+import { PropTypes } from 'prop-types'
+
+import { BOQ_STATUS_OPTIONS } from '~/common/constants'
+import { Field } from '~/components/Formik'
 
 const FilterForm = ({ filters, onChangeFilter }) => {
   return (

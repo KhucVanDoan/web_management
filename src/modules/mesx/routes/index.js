@@ -1,60 +1,46 @@
 import React from 'react'
-import {
-  Assessment,
-  EventAvailable,
-  Settings,
-  Storage,
-  AssignmentRounded,
-} from '@mui/icons-material'
+
+import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
+import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
+import Dashboard from '~/modules/mesx/features/dashboard'
+import BOMForm from '~/modules/mesx/features/define-bom/form'
+import DefineBOM from '~/modules/mesx/features/define-bom/list'
+import BOQForm from '~/modules/mesx/features/define-boq/form'
+import DefineBOQ from '~/modules/mesx/features/define-boq/list'
+import DefineItem from '~/modules/mesx/features/define-item'
+import DefinePlan from '~/modules/mesx/features/define-plan'
+import DefinePlanForm from '~/modules/mesx/features/define-plan/form'
+import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
+import DetailSchedule from '~/modules/mesx/features/detail-schedule/list'
+import InventoryLimit from '~/modules/mesx/features/inventory-limit'
+import ItemGroupSetting from '~/modules/mesx/features/item-group-setting'
+import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
+import ItemUnitSetting from '~/modules/mesx/features/item-unit-setting'
+import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
+import MaterialReport from '~/modules/mesx/features/material-report'
+import Mo from '~/modules/mesx/features/mo'
+import MoForm from '~/modules/mesx/features/mo/form'
+import PlanReport from '~/modules/mesx/features/plan-report'
+import ProducingStep from '~/modules/mesx/features/producing-steps'
+import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
+import ProductivityReport from '~/modules/mesx/features/productivity-report'
+import QualityReport from '~/modules/mesx/features/quality-report'
+import RequestBuyMaterialForm from '~/modules/mesx/features/request-buy-material/form'
+import RequestBuyMaterial from '~/modules/mesx/features/request-buy-material/list'
+import RoutingForm from '~/modules/mesx/features/routing/form'
+import Routing from '~/modules/mesx/features/routing/list'
+import RoutingVersion from '~/modules/mesx/features/routing/routing-version'
+import SaleOrderForm from '~/modules/mesx/features/sale-order/form'
+import SaleOrder from '~/modules/mesx/features/sale-order/list'
+import SOExportForm from '~/modules/mesx/features/so-export/form'
+import SOExport from '~/modules/mesx/features/so-export/list'
+import UserManagement from '~/modules/mesx/features/user-management'
+import WorkCenterForm from '~/modules/mesx/features/work-center/form'
+import WorkCenter from '~/modules/mesx/features/work-center/list'
+import WorkOderForm from '~/modules/mesx/features/work-order/form'
+import WorkOrder from '~/modules/mesx/features/work-order/list'
+
 import { ROUTE } from './config'
-import Dashboard from 'modules/mesx/features/dashboard'
-
-import UserManagement from 'modules/mesx/features/user-management'
-import DefineItem from 'modules/mesx/features/define-item'
-import ItemGroupSetting from 'modules/mesx/features/item-group-setting'
-import ItemUnitSetting from 'modules/mesx/features/item-unit-setting'
-import ItemTypeSetting from 'modules/mesx/features/item-type-setting'
-import DefinePlan from 'modules/mesx/features/define-plan'
-import DefinePlanForm from 'modules/mesx/features/define-plan/form'
-import Routing from 'modules/mesx/features/routing/list'
-import RoutingForm from 'modules/mesx/features/routing/form'
-import RoutingVersion from 'modules/mesx/features/routing/routing-version'
-import ProducingStep from 'modules/mesx/features/producing-steps'
-import ProducingStepForm from 'modules/mesx/features/producing-steps/form'
-import DefineBOQ from 'modules/mesx/features/define-boq/list'
-import BOQForm from 'modules/mesx/features/define-boq/form'
-import DefineBOM from 'modules/mesx/features/define-bom/list'
-import BOMForm from 'modules/mesx/features/define-bom/form'
-
-import QualityReport from 'modules/mesx/features/quality-report'
-import PlanReport from 'modules/mesx/features/plan-report'
-import MaterialReport from 'modules/mesx/features/material-report'
-import WorkOrder from 'modules/mesx/features/work-order/list'
-import WorkOderForm from 'modules/mesx/features/work-order/form'
-
-import WorkCenter from 'modules/mesx/features/work-center/list'
-import WorkCenterForm from 'modules/mesx/features/work-center/form'
-import Mo from 'modules/mesx/features/mo'
-import MoForm from 'modules/mesx/features/mo/form'
-
-import SaleOrder from 'modules/mesx/features/sale-order/list'
-import SaleOrderForm from 'modules/mesx/features/sale-order/form'
-import SOExport from 'modules/mesx/features/so-export/list'
-import SOExportForm from 'modules/mesx/features/so-export/form'
-
-import ProductivityReport from 'modules/mesx/features/productivity-report'
-
-import DetailSchedule from 'modules/mesx/features/detail-schedule/list'
-import DetailScheduleForm from 'modules/mesx/features/detail-schedule/form'
-
-import MaterialDetailPlan from 'modules/mesx/features/material-detail-plan'
-
-import RequestBuyMaterial from 'modules/mesx/features/request-buy-material/list'
-import RequestBuyMaterialForm from 'modules/mesx/features/request-buy-material/form'
-import InventoryLimit from 'modules/mesx/features/inventory-limit'
-
-import BomProducingStep from 'modules/mesx/features/bom-operation/list'
-import BomProducingStepForm from 'modules/mesx/features/bom-operation/form'
 
 const routes = [
   {

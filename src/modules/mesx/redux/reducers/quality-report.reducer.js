@@ -5,7 +5,7 @@ import {
   EXPORT_QUALITY_REPORTS,
   EXPORT_QUALITY_REPORTS_SUCCESS,
   EXPORT_QUALITY_REPORTS_FAILED,
-} from 'modules/mesx/redux/actions/quality-report.action'
+} from '~/modules/mesx/redux/actions/quality-report.action'
 
 const initialState = {
   isLoading: false,

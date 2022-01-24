@@ -1,11 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Draggable } from 'react-beautiful-dnd'
+
+import ReorderIcon from '@mui/icons-material/Reorder'
+import Box from '@mui/material/Box'
 import TableCell from '@mui/material/TableCell'
 import MuiTableRow from '@mui/material/TableRow'
-import Box from '@mui/material/Box'
-import ReorderIcon from '@mui/icons-material/Reorder'
 import { useTheme } from '@mui/material/styles'
+import PropTypes from 'prop-types'
+import { Draggable } from 'react-beautiful-dnd'
 
 const TableRow = ({
   children,
