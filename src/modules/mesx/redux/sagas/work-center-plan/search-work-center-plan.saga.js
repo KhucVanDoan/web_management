@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchWorkCenterPlanFailed,
   searchWorkCenterPlanSuccess,
   SEARCH_WORK_CENTER_PLAN_START,
-} from 'modules/mesx/redux/actions/work-center-plan.action'
+} from '~/modules/mesx/redux/actions/work-center-plan.action'
+import { api } from '~/services/api'
 
 /**
  * Search work center plan

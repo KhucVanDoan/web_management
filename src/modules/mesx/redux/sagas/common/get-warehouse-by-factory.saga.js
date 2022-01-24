@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   GET_WAREHOUSES_BY_FACTORIES_START,
   GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
   GET_WAREHOUSES_BY_FACTORIES_FAILED,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
+import { api } from '~/services/api'
 /**
  * Search user API
  * @param {any} params Params will be sent to server

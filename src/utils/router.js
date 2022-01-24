@@ -1,5 +1,6 @@
 import { generatePath } from 'react-router'
-const { default: history } = require('services/history')
+
+const { default: history } = require('~/services/history')
 
 /**
  * Redirect to path with state

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PropTypes } from 'prop-types'
+
 import {
   Box,
   Checkbox,
@@ -7,11 +7,14 @@ import {
   Popover,
   Typography,
 } from '@mui/material'
-import { useClasses } from 'themes'
-import style from './style'
-import Button from 'components/Button'
+import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import useTableSetting from 'components/DataTable/hooks/useTableSetting'
+
+import Button from '~/components/Button'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import { useClasses } from '~/themes'
+
+import style from './style'
 
 const TableSetting = ({
   columns: rawColumns,

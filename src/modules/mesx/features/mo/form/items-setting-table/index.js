@@ -2,29 +2,30 @@
 
 import React from 'react'
 
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import { Button, FormHelperText, IconButton } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import { normalizeDecimal, scrollToBottom, formatDateTimeUtc } from 'utils'
-import useStyles from './style'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
 import {
   DEFAULT_ITEM_TYPE_ENUM,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
   DATE_FORMAT,
-} from 'common/constants'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
-import { getSaleOrderDetailsById } from 'modules/mesx/redux/actions/sale-order.action'
-import moment from 'moment'
-import SimpleReactValidator from 'simple-react-validator'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
+import { normalizeDecimal, scrollToBottom, formatDateTimeUtc } from '~/utils'
+
+import useStyles from './style'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {

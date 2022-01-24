@@ -1,13 +1,15 @@
-import { NOTIFICATION_TYPE } from 'common/constants'
-import addNotification from 'utils/toast'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import { getAppStore } from 'modules/auth/redux/actions/app-store'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
+import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
   createProducingStepFailed,
   createProducingStepSuccess,
   CREATE_PRODUCING_STEP_START,
-} from 'modules/mesx/redux/actions/index.action'
+} from '~/modules/mesx/redux/actions/index.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search producing step API

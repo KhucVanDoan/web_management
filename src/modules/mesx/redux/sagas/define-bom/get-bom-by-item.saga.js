@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getBomByItemFailed,
   getBomByItemSuccess,
   GET_BOM_BY_ITEM_START,
-} from 'modules/mesx/redux/actions/define-bom.action'
+} from '~/modules/mesx/redux/actions/define-bom.action'
+import { api } from '~/services/api'
 
 /**
  * @param {any} params Params will be sent to server

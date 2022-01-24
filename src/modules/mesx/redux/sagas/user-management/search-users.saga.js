@@ -1,11 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchUsersFailed,
   searchUsersSuccess,
   SEARCH_USERS_START,
-} from 'modules/mesx/redux/actions/user-management.action'
-import { validateStatus } from 'utils/api'
+} from '~/modules/mesx/redux/actions/user-management.action'
+import { api } from '~/services/api'
+import { validateStatus } from '~/utils/api'
 
 /**
  * Search user API

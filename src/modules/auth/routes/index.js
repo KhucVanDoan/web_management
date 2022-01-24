@@ -1,8 +1,9 @@
+import GenerateOTP from '~/modules/auth/features/forgot-password/generate-otp'
+import ResetPassword from '~/modules/auth/features/forgot-password/reset-password'
+import VerifyOTP from '~/modules/auth/features/forgot-password/send-otp'
+import Login from '~/modules/auth/features/login'
+
 import { ROUTE } from './config'
-import Login from 'modules/auth/features/login'
-import GenerateOTP from 'modules/auth/features/forgot-password/generate-otp'
-import VerifyOTP from 'modules/auth/features/forgot-password/send-otp'
-import ResetPassword from 'modules/auth/features/forgot-password/reset-password'
 
 const routes = [
   {

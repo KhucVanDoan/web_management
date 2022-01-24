@@ -1,11 +1,14 @@
 import React from 'react'
+
 import { List, Typography } from '@mui/material'
-import ListModuleStyled from './style'
-import logo from 'assets/images/logo.svg'
 import clsx from 'clsx'
 import { Link, useLocation } from 'react-router-dom'
-import { getCurrentModule } from 'utils/menu'
+
+import logo from '~/assets/images/logo.svg'
+import { getCurrentModule } from '~/utils/menu'
+
 import modules from './config'
+import ListModuleStyled from './style'
 
 export default function ModuleList() {
   const { pathname } = useLocation()

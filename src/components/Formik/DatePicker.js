@@ -1,7 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import DatePicker from 'components/DatePicker'
+
 import { getIn } from 'formik'
+import PropTypes from 'prop-types'
+
+import DatePicker from '~/components/DatePicker'
 
 const FormikDatePicker = ({ form, field, ...props }) => (
   <DatePicker

@@ -17,7 +17,7 @@ import {
   UPDATE_ITEM_FAILED,
   UPDATE_ITEM_START,
   UPDATE_ITEM_SUCCESS,
-} from 'modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/define-item.action'
 
 const initialState = {
   isLoading: false,

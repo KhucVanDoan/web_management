@@ -1,20 +1,22 @@
 import React from 'react'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import { Button, FormHelperText, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { scrollToBottom } from 'utils'
-import useStyles from './style'
-
-import { END_TIME, MODAL_MODE } from 'common/constants'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
+import clsx from 'clsx'
 // import { TimePicker } from '@material-ui/pickers';
 import { isAfter } from 'date-fns'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+
+import { END_TIME, MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { scrollToBottom } from '~/utils'
+
+import useStyles from './style'
 
 class ShiftTable extends React.Component {
   constructor(props) {

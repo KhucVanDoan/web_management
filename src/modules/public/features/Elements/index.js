@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
-import { useTheme } from '@mui/material/styles'
 
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-
-import Typography from '@mui/material/Typography'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Switch from '@mui/material/Switch'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 
-import Icon from 'components/Icon'
-import Button from 'components/Button'
-import Dialog from 'components/Dialog'
-import TextField from 'components/TextField'
-import DatePicker from 'components/DatePicker'
-import DateRangePicker from 'components/DateRangePicker'
-import Autocomplete from 'components/Autocomplete'
+import Autocomplete from '~/components/Autocomplete'
+import Button from '~/components/Button'
+import DatePicker from '~/components/DatePicker'
+import DateRangePicker from '~/components/DateRangePicker'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import TextField from '~/components/TextField'
 
 const Elements = () => {
   const theme = useTheme()
@@ -144,7 +143,7 @@ const Elements = () => {
         color="primary"
         sx={{ bgcolor: 'primary.a1', p: 1, mt: 4, mb: 2 }}
       >
-        Import from 'components/...'
+        Import from '~/components/...'
       </Typography>
 
       <Typography variant="h2" sx={{ mt: 2, mb: 1 }}>

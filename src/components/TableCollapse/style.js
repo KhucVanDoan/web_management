@@ -1,4 +1,4 @@
-import dataTableStyle from 'components/DataTable/style'
+import dataTableStyle from '~/components/DataTable/style'
 
 const style = (theme) => ({
   ...dataTableStyle(theme),

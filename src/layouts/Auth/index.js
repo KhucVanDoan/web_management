@@ -1,10 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { Box, Typography, Hidden } from '@mui/material'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useClasses } from 'themes'
-import style from './style'
+
+import { useClasses } from '~/themes'
+
 import IntroSlider from './IntroSlider'
+import style from './style'
 
 const AuthLayout = ({ children }) => {
   const { t } = useTranslation()

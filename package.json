@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@date-io/date-fns": "^1.3.13",
     "@emotion/css": "^11.5.0",
     "@emotion/react": "^11.6.0",
@@ -12,6 +13,7 @@
     "@mui/lab": "^5.0.0-alpha.57",
     "@mui/material": "^5.2.0",
     "@mui/styles": "^5.2.1",
+    "add": "^2.0.6",
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.22.1",
@@ -40,13 +42,14 @@
     "redux-saga": "^1.1.3",
     "simple-react-validator": "^1.6.0",
     "socket.io-client": "^4.1.3",
+    "yarn": "^1.22.17",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "lint": "eslint \"./src/**/*.js\"",
     "lint:file": "eslint"
   },
@@ -79,7 +82,7 @@
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-eslint-plugin": "^3.3.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsdoc": "^35.4.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",

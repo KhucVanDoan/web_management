@@ -1,46 +1,50 @@
 import React from 'react'
-import clsx from 'clsx'
-import { withStyles } from '@mui/styles'
 import { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import DateFnsUtils from '@date-io/date-fns' // choose your lib
-// import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers' // @TODO: use mui v5 instead
-import useStyles from './style'
 
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputAdornment from '@mui/material/InputAdornment'
+// import DateFnsUtils from '@date-io/date-fns' // choose your lib
+
+// import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers' // @TODO: use mui v5 instead
+
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { Button, FormHelperText } from '@mui/material'
+import { Autocomplete } from '@mui/material'
+import Box from '@mui/material/Box'
+import CheckBox from '@mui/material/Checkbox'
+import FormControl from '@mui/material/FormControl'
 import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import {
+  DATE_TIME_12_HOURS_FORMAT,
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
+import { getFactoriesByCompany } from '~/modules/mesx/redux/actions/common.action'
+import {
+  getWarehouses,
+  getWarehousesByFactories,
+} from '~/modules/mesx/redux/actions/common.action'
 import {
   createUser,
   updateUser,
   deleteUser,
   getUserDetailsById,
-} from 'modules/mesx/redux/actions/user-management.action'
-import { connect } from 'react-redux'
-import { onChangeTextField } from 'utils'
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
-import CheckBoxIcon from '@mui/icons-material/CheckBox'
-import { Button, FormHelperText } from '@mui/material'
-import SimpleReactValidator from 'simple-react-validator'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  DATE_TIME_12_HOURS_FORMAT,
-  MODAL_MODE,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
-import { Autocomplete } from '@mui/material'
-import CheckBox from '@mui/material/Checkbox'
-import {
-  getWarehouses,
-  getWarehousesByFactories,
-} from 'modules/mesx/redux/actions/common.action'
-import { getFactoriesByCompany } from 'modules/mesx/redux/actions/common.action'
-import { formatDateTimeUtc } from 'utils'
+} from '~/modules/mesx/redux/actions/user-management.action'
+import { formatDateTimeUtc } from '~/utils'
+import { onChangeTextField } from '~/utils'
+
+import useStyles from './style'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />

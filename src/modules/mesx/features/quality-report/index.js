@@ -1,26 +1,32 @@
 import React, { Component } from 'react'
+
+import { Search } from '@mui/icons-material'
+import { Box, FormControl, Grid } from '@mui/material'
+import { Autocomplete } from '@mui/material'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { QUALITY_REPORT_SCREEN_TYPE, SALE_ORDER_STATUS } from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Loading from 'components/Loading'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import Button from '@mui/material/Button'
-import DataTable from 'components/DataTable'
 
-import { onChangeTextField } from 'utils'
-import { Box, FormControl, Grid } from '@mui/material'
+import {
+  QUALITY_REPORT_SCREEN_TYPE,
+  SALE_ORDER_STATUS,
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import { searchMO } from '~/modules/mesx/redux/actions/mo.action'
 import {
   getQualityReports,
   exportQualityReports,
-} from 'modules/mesx/redux/actions/quality-report.action'
-import { searchSaleOrders } from 'modules/mesx/redux/actions/sale-order.action'
-import { Search } from '@mui/icons-material'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import TextField from '@mui/material/TextField'
-import { searchMO } from 'modules/mesx/redux/actions/mo.action'
-import { Autocomplete } from '@mui/material'
+} from '~/modules/mesx/redux/actions/quality-report.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField } from '~/utils'
+
+import useStyles from './style'
+
 class QualityReports extends Component {
   constructor(props) {
     super(props)

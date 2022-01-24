@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchSOExportFailed,
   searchSOExportSuccess,
   SEARCH_SO_EXPORT_START,
-} from 'modules/mesx/redux/actions/so-export.action'
+} from '~/modules/mesx/redux/actions/so-export.action'
+import { api } from '~/services/api'
 
 /**
  * Search SO export API

@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import {
   Button,
   Divider,
@@ -14,33 +11,38 @@ import {
 } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  createProducingStep,
-  updateProducingStep,
-  getProducingStepDetailsById,
-} from 'modules/mesx/redux/actions/index.action'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import NumberFormat from 'react-number-format'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   PRODUCING_STEP_STATUS,
   PRODUCING_STEP_STATUS_MAP,
   STAGES_OPTION,
   TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import useStyles from './style'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import { searchQualityPoints } from '~/modules/mesx/redux/actions/common.action'
+import {
+  createProducingStep,
+  updateProducingStep,
+  getProducingStepDetailsById,
+} from '~/modules/mesx/redux/actions/index.action'
+import { searchWorkCenter } from '~/modules/mesx/redux/actions/work-center.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField, redirectRouter, onChangeSelect } from '~/utils'
 
-import RadioGroup from '@mui/material/RadioGroup'
-import Radio from '@mui/material/Radio'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import { onChangeTextField, redirectRouter, onChangeSelect } from 'utils'
-import { searchWorkCenter } from 'modules/mesx/redux/actions/work-center.action'
-import NumberFormat from 'react-number-format'
-import { searchQualityPoints } from 'modules/mesx/redux/actions/common.action'
+import useStyles from './style'
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props

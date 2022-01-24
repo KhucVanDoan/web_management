@@ -14,7 +14,7 @@ import {
   UPDATE_INVENTORY_LIMIT_FAILED,
   UPDATE_INVENTORY_LIMIT_START,
   UPDATE_INVENTORY_LIMIT_SUCCESS,
-} from 'modules/mesx/redux/actions/inventory-limit.action'
+} from '~/modules/mesx/redux/actions/inventory-limit.action'
 
 const initialState = {
   isLoading: false,

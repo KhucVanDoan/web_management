@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   updateMOFailed,
   updateMOSuccess,
   UPDATE_MO_START,
-} from 'modules/mesx/redux/actions/mo.action'
-import { NOTIFICATION_TYPE } from 'common/constants'
+} from '~/modules/mesx/redux/actions/mo.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Update MO API

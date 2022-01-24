@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { PropTypes } from 'prop-types'
+
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import {
   ListItemButton,
   ListItemIcon,
@@ -8,14 +9,16 @@ import {
   Typography,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import Icon from 'components/Icon'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import { isEmpty } from 'lodash'
-import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
+import { isEmpty } from 'lodash'
+import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import ListMenuStyled from './style'
+import { Link, useLocation } from 'react-router-dom'
+
+import Icon from '~/components/Icon'
+
 import SubMenu from './SubMenu'
+import ListMenuStyled from './style'
 
 const ListMenu = ({ routes, currentModule, isMinimal }) => {
   const [open, setOpen] = useState()
@@ -74,7 +77,7 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
               mt: index === 0 ? 0 : '8px',
               pr: '10px',
             }}
-            className={clsx('button', {
+            className={clsx({
               active:
                 isActive(router.path) ||
                 (isMinimal && isActiveChildren(router.subMenu)),
@@ -89,7 +92,8 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
               <Icon
                 name={router.icon}
                 fill={
-                  isActive(router.path)
+                  isActive(router.path) ||
+                  (isMinimal && isActiveChildren(router.subMenu))
                     ? theme.palette.text.main
                     : theme.palette.subText.main
                 }

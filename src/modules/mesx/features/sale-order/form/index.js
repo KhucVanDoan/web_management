@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid, MenuItem } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -10,39 +7,44 @@ import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 // import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  getCustomers,
-  getItems,
-  getWarehouses,
-} from 'modules/mesx/redux/actions/common.action'
-import {
-  confirmSaleOrderById,
-  createSaleOrder,
-  getSaleOrderDetailsById,
-  rejectSaleOrderById,
-  updateSaleOrder,
-} from 'modules/mesx/redux/actions/sale-order.action'
-import { searchBOQ } from 'modules/mesx/redux/actions/define-boq.action'
-import {
-  onChangeDate,
-  onChangeSelect,
-  onChangeTextField,
-  redirectRouter,
-} from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   BOQ_STATUS,
   MODAL_MODE,
   ORDER_STATUS,
   ORDER_STATUS_MAP,
   TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import ItemsSettingTable from 'modules/mesx/features/sale-order/form/items-setting-table'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import ItemsSettingTable from '~/modules/mesx/features/sale-order/form/items-setting-table'
+import {
+  getCustomers,
+  getItems,
+  getWarehouses,
+} from '~/modules/mesx/redux/actions/common.action'
+import { searchBOQ } from '~/modules/mesx/redux/actions/define-boq.action'
+import {
+  confirmSaleOrderById,
+  createSaleOrder,
+  getSaleOrderDetailsById,
+  rejectSaleOrderById,
+  updateSaleOrder,
+} from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import {
+  onChangeDate,
+  onChangeSelect,
+  onChangeTextField,
+  redirectRouter,
+} from '~/utils'
+
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

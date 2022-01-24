@@ -14,7 +14,7 @@ import {
   UPDATE_ITEM_UNIT_FAILED,
   UPDATE_ITEM_UNIT_START,
   UPDATE_ITEM_UNIT_SUCCESS,
-} from 'modules/mesx/redux/actions/item-unit-setting.action'
+} from '~/modules/mesx/redux/actions/item-unit-setting.action'
 
 const initialState = {
   isLoading: false,

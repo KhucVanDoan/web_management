@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getProducingStepsFailed,
   getProducingStepsSuccess,
   GET_BY_ROUTING_VERSION_START,
-} from 'modules/mesx/redux/actions/index.action'
+} from '~/modules/mesx/redux/actions/index.action'
+import { api } from '~/services/api'
 
 /**
  * Get producing step API

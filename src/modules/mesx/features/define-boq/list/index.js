@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import IconButton from '@mui/material/IconButton'
-import withStyles from '@mui/styles/withStyles'
-import Modal from 'UNSAFE_components/shared/modal'
-import DataTable from 'components/DataTable'
 
-import useStyles from './style'
-import {
-  confirmBOQById,
-  deleteBOQ,
-  searchBOQ,
-} from 'modules/mesx/redux/actions/define-boq.action'
-import { searchPlans } from 'modules/mesx/redux/actions/plan.action'
 import { Delete, Edit, Visibility } from '@mui/icons-material'
 import CheckBox from '@mui/icons-material/CheckBox'
+import { Box } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import {
-  convertObjectToArrayFilter,
-  formatDateTimeUtc,
-  redirectRouter,
-} from 'utils'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   BOQ_STATUS_MAP,
   BOQ_STATUS_OPTIONS,
@@ -29,12 +18,25 @@ import {
   BOQ_STATUS_TO_DELETE,
   BOQ_STATUS_PLAN,
   DATE_FORMAT_2,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Page from 'components/Page'
-import { Box } from '@mui/material'
-import Button from 'components/Button'
+} from '~/common/constants'
+import Button from '~/components/Button'
+import DataTable from '~/components/DataTable'
+import Page from '~/components/Page'
+import {
+  confirmBOQById,
+  deleteBOQ,
+  searchBOQ,
+} from '~/modules/mesx/redux/actions/define-boq.action'
+import { searchPlans } from '~/modules/mesx/redux/actions/plan.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import {
+  convertObjectToArrayFilter,
+  formatDateTimeUtc,
+  redirectRouter,
+} from '~/utils'
+
 import FilterForm from './filter-form'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

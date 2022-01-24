@@ -1,40 +1,42 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  getItems,
-  getWarehouses,
-} from 'modules/mesx/redux/actions/common.action'
-import {
-  confirmRoutingById,
-  createRouting,
-  getRoutingDetailsById,
-  updateRouting,
-} from 'modules/mesx/redux/actions/routing.action'
-import { onChangeTextField, redirectRouter } from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { generatePath } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
 
+import Modal from '~/UNSAFE_components/shared/modal'
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   MODAL_MODE,
   ROUTING_STATUS,
   ROUTING_STATUS_MAP,
   TEXTFIELD_REQUIRED_LENGTH,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { generatePath } from 'react-router-dom'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import {
+  getItems,
+  getWarehouses,
+} from '~/modules/mesx/redux/actions/common.action'
+import {
+  confirmRoutingById,
+  createRouting,
+  getRoutingDetailsById,
+  updateRouting,
+} from '~/modules/mesx/redux/actions/routing.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField, redirectRouter } from '~/utils'
+import addNotification from '~/utils/toast'
+
 import ProducingStepsTable from '../routing-version/routing-version-form/producing-steps-table'
-import addNotification from 'utils/toast'
-import { NOTIFICATION_TYPE } from 'common/constants'
+import useStyles from './style'
 
 const MODAL_CONFIRM_TYPE = {
   APPROVE: 'APPROVE',

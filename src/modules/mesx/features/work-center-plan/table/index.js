@@ -1,8 +1,5 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { withStyles } from '@mui/styles'
-import useStyles from './style'
 
 import {
   Table,
@@ -12,10 +9,15 @@ import {
   TableHead,
   Grid,
 } from '@mui/material'
-import { DATE_FORMAT_2 } from 'common/constants'
-import { formatDateTimeUtc } from 'utils'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
+
+import { DATE_FORMAT_2 } from '~/common/constants'
+import { formatDateTimeUtc } from '~/utils'
 
 import NewTable from './right-table'
+import useStyles from './style'
+
 const rows = (data) => {
   const shift = data[0]?.scheduleShiftDetails?.length
   let rows = []

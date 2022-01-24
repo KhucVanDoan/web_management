@@ -1,8 +1,10 @@
-import { PropTypes } from 'prop-types'
-import { useTheme } from '@mui/material/styles'
 import { Button as MuiButton, CircularProgress } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import clsx from 'clsx'
-import { useClasses } from 'themes'
+import { PropTypes } from 'prop-types'
+
+import { useClasses } from '~/themes'
+
 import Icon from '../Icon'
 import style from './style'
 

@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getUserDetailsByIdFailed,
   getUserDetailsByIdSuccess,
   GET_USER_DETAILS_START,
-} from 'modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

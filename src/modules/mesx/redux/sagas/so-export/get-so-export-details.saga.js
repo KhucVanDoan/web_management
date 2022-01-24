@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getSOExportDetailsByIdFailed,
   getSOExportDetailsByIdSuccess,
   GET_SO_EXPORT_DETAILS_START,
-} from 'modules/mesx/redux/actions/so-export.action'
+} from '~/modules/mesx/redux/actions/so-export.action'
+import { api } from '~/services/api'
 
 /**
  * get so export details

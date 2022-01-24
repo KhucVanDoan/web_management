@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   GET_ROLES_START,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILED,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

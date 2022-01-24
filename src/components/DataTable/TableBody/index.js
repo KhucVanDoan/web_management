@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import MuiTableBody from '@mui/material/TableBody'
+import PropTypes from 'prop-types'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 const TableBody = ({ children, rows, reorderable, onChangeRowsOrder }) => {

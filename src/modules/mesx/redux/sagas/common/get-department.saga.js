@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   GET_DEPARTMENTS_START,
   GET_DEPARTMENTS_SUCCESS,
   GET_DEPARTMENTS_FAILED,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

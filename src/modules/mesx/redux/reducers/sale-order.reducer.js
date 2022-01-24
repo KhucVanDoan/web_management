@@ -20,7 +20,7 @@ import {
   UPDATE_SALE_ORDER_FAILED,
   UPDATE_SALE_ORDER_START,
   UPDATE_SALE_ORDER_SUCCESS,
-} from 'modules/mesx/redux/actions/sale-order.action'
+} from '~/modules/mesx/redux/actions/sale-order.action'
 
 const initialState = {
   isLoading: false,

@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
 
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   rejectSaleOrderByIdFailed,
   rejectSaleOrderByIdSuccess,
   REJECT_SALE_ORDER_START,
-} from 'modules/mesx/redux/actions/sale-order.action'
+} from '~/modules/mesx/redux/actions/sale-order.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Reject sale order

@@ -2,7 +2,7 @@ import {
   SEARCH_MATERIAL_DETAIL_PLAN_START,
   SEARCH_MATERIAL_DETAIL_PLAN_SUCCESS,
   SEARCH_MATERIAL_DETAIL_PLAN_FAILED,
-} from 'modules/mesx/redux/actions/material-detail-plan.action'
+} from '~/modules/mesx/redux/actions/material-detail-plan.action'
 
 const initialState = {
   mdpDetails: {},

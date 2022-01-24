@@ -1,26 +1,28 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { MODAL_MODE } from 'common/constants'
-import Loading from 'components/Loading'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
+
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import SearchIcon from '@mui/icons-material/Search'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import Modal from 'UNSAFE_components/shared/modal'
-import ItemTypeForm from './item-type-form'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE } from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   searchItemTypes,
   deleteItemType,
-} from 'modules/mesx/redux/actions/item-type-setting.action'
-import { formatDateTimeUtc, onChangeTextField } from 'utils'
+} from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { formatDateTimeUtc, onChangeTextField } from '~/utils'
 
-import DataTable from 'components/DataTable'
+import ItemTypeForm from './item-type-form'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

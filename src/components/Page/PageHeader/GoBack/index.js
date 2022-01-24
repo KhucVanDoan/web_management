@@ -1,9 +1,12 @@
 import React from 'react'
+
+import { Box, Typography } from '@mui/material'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import Button from 'components/Button'
-import { Box, Typography } from '@mui/material'
-import { useClasses } from 'themes'
+
+import Button from '~/components/Button'
+import { useClasses } from '~/themes'
+
 import style from './style'
 
 const GoBack = ({ onBack }) => {

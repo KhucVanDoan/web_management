@@ -1,10 +1,13 @@
 import React from 'react'
+
 import { Box, Typography } from '@mui/material'
-import Carousel from 'react-material-ui-carousel'
 import { useTheme } from '@mui/system'
-import { useClasses } from 'themes'
-import LogoMESX from 'assets/images/auth/Logo-MESX.png'
 import { useTranslation } from 'react-i18next'
+import Carousel from 'react-material-ui-carousel'
+
+import LogoMESX from '~/assets/images/auth/Logo-MESX.png'
+import { useClasses } from '~/themes'
+
 import style from './style'
 
 const IntroSlider = () => {

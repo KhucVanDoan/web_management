@@ -1,9 +1,21 @@
 /* eslint-disable no-param-reassign */
 
 import React, { Component } from 'react'
+
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box, Typography } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   DATE_FORMAT_2,
@@ -16,34 +28,22 @@ import {
   PLAN_STATUS_TO_DELETE,
   PRODUCING_STEP_STATUS_MAP,
   PRODUCING_STEP_OPTIONS,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-
-import Loading from 'components/Loading'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
-import InputAdornment from '@mui/material/InputAdornment'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import Modal from 'UNSAFE_components/shared/modal'
-
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import Button from '~/components/Button'
+import Loading from '~/components/Loading'
+import Page from '~/components/Page'
+import TableCollapse from '~/components/TableCollapse'
 import {
   searchPlans,
   getPlanDetailsById,
   deletePlan,
   confirmPlanById,
-} from 'modules/mesx/redux/actions/plan.action'
-import { onChangeTextField, redirectRouter, formatDateTimeUtc } from 'utils'
-import TableCollapse from 'components/TableCollapse'
-import CheckBox from '@mui/icons-material/CheckBox'
-import { Box, Typography } from '@mui/material'
+} from '~/modules/mesx/redux/actions/plan.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField, redirectRouter, formatDateTimeUtc } from '~/utils'
 
-import moment from 'moment'
-import Page from 'components/Page'
-import Button from 'components/Button'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

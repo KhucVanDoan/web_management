@@ -1,29 +1,32 @@
 import React, { Component } from 'react'
-import { withStyles } from '@mui/styles'
-import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
+
+import { FormHelperText, Grid, MenuItem, Select } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   NOTIFICATION_TYPE,
   NUMBER_FIELD_REQUIRED_SIZE,
-} from 'common/constants'
-import useStyles from './style'
+} from '~/common/constants'
+import {
+  searchItems,
+  getItemDetailsById,
+} from '~/modules/mesx/redux/actions/define-item.action'
 import {
   createInventoryLimit,
   updateInventoryLimit,
   getInventoryLimitDetailsById,
-} from 'modules/mesx/redux/actions/inventory-limit.action'
-import { connect } from 'react-redux'
-import { onChangeTextField, onChangeSelect, formatInput } from 'utils'
-import { FormHelperText, Grid, MenuItem, Select } from '@mui/material'
-import SimpleReactValidator from 'simple-react-validator'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  searchItems,
-  getItemDetailsById,
-} from 'modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/inventory-limit.action'
+import { onChangeTextField, onChangeSelect, formatInput } from '~/utils'
+
+import useStyles from './style'
 
 class InventoryLimitForm extends Component {
   /**

@@ -1,9 +1,12 @@
 import React from 'react'
-import { PropTypes } from 'prop-types'
+
 import { Collapse, Popover } from '@mui/material'
-import { useClasses } from 'themes'
-import style from './style'
 import { isEmpty } from 'lodash'
+import { PropTypes } from 'prop-types'
+
+import { useClasses } from '~/themes'
+
+import style from './style'
 
 const SubMenu = ({
   router,
@@ -39,6 +42,7 @@ const SubMenu = ({
         PaperProps={{
           onMouseEnter: () => handlePopoverOpen(hoverMenu),
           onMouseLeave: handlePopoverClose,
+          ...(!isEmpty(router.subMenu) ? { sx: { width: 250 } } : {}),
         }}
       >
         {children}

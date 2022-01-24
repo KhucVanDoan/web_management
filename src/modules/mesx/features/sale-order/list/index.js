@@ -1,34 +1,36 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import SearchIcon from '@mui/icons-material/Search'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import withStyles from '@mui/styles/withStyles'
 import TextField from '@mui/material/TextField'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import SearchIcon from '@mui/icons-material/Search'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  confirmSaleOrderById,
-  deleteSaleOrder,
-  searchSaleOrders,
-} from 'modules/mesx/redux/actions/sale-order.action'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   ORDER_STATUS,
   SALE_ORDER_STATUS_MAP,
   SALE_ORDER_STATUS_OPTIONS,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import {
+  confirmSaleOrderById,
+  deleteSaleOrder,
+  searchSaleOrders,
+} from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
-import CheckBox from '@mui/icons-material/CheckBox'
-import DataTable from 'components/DataTable'
 
 const breadcrumbs = [
   {

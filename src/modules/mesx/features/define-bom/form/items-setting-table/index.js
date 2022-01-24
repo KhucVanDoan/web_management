@@ -2,30 +2,31 @@
 
 import React from 'react'
 
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { RemoveCircleOutlined } from '@mui/icons-material'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { Button, FormHelperText, IconButton } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
-import { getItems, getBoms } from 'modules/mesx/redux/actions/common.action'
-import { searchItems } from 'modules/mesx/redux/actions/define-item.action'
-import { getBomsByItemId } from 'modules/mesx/redux/actions/work-order.action'
-import { normalizeDecimal, redirectRouter, scrollToBottom } from 'utils'
-import useStyles from './style'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import {
   DEFAULT_ITEM_TYPE_ENUM,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
-import { Link } from 'react-router-dom'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { getItems, getBoms } from '~/modules/mesx/redux/actions/common.action'
+import { searchItems } from '~/modules/mesx/redux/actions/define-item.action'
+import { getBomsByItemId } from '~/modules/mesx/redux/actions/work-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { normalizeDecimal, redirectRouter, scrollToBottom } from '~/utils'
+
+import useStyles from './style'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import {
   GET_DASHBOARD_PRODUCING_STEP_PROGRESS_START_SUCCESS,
   GET_DASHBOARD_SUMMARY_START,
   GET_DASHBOARD_SUMMARY_SUCCESS,
-} from 'modules/mesx/redux/actions/dashboard-store.action'
+} from '~/modules/mesx/redux/actions/dashboard-store.action'
 
 const initialState = {
   summary: {},

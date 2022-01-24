@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
 
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   rejectDetailScheduleByIdFailed,
   rejectDetailScheduleByIdSuccess,
   REJECT_DETAIL_SCHEDULE_START,
-} from 'modules/mesx/redux/actions/detail-schedule.action'
+} from '~/modules/mesx/redux/actions/detail-schedule.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Reject detail schedule

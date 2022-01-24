@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getVendorsFailed,
   getVendorsSuccess,
   GET_VENDORS_START,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
+import { api } from '~/services/api'
 
 /**
  * Get all vendors API

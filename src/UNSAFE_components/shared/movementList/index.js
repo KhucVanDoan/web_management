@@ -1,4 +1,13 @@
+import { Search, Visibility } from '@mui/icons-material'
+import { Box, FormControl, Grid, MenuItem, Select } from '@mui/material'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
 import clsx from 'clsx'
+import { isAfter } from 'date-fns'
+import SimpleReactValidator from 'simple-react-validator'
+
+import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
+import MovementDetailsForm from '~/UNSAFE_components/shared/movement/movement-details-form'
 import {
   ROUTING_STATUS_MAP,
   MOVEMENT_STATUS,
@@ -6,18 +15,10 @@ import {
   MOVEMENT_TYPE,
   ORDER_TYPE_ENUM,
   ROUTING_STATUS_OPTIONS,
-} from 'common/constants'
-import { onChangeDate, onChangeSelect, formatDateTimeUtc } from 'utils'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import { Search, Visibility } from '@mui/icons-material'
-import { Box, FormControl, Grid, MenuItem, Select } from '@mui/material'
-import DateRangePicker from 'UNSAFE_components/shared/date-range-picker'
-import DataTable from 'components/DataTable'
-import MovementDetailsForm from 'UNSAFE_components/shared/movement/movement-details-form'
-import Loading from 'components/Loading'
-import SimpleReactValidator from 'simple-react-validator'
-import { isAfter } from 'date-fns'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import { onChangeDate, onChangeSelect, formatDateTimeUtc } from '~/utils'
 
 const { Component } = require('react')
 

@@ -23,7 +23,7 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_START,
   RESET_PASSWORD_SUCCESS,
-} from 'modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management.action'
 
 const initialState = {
   isLoading: false,

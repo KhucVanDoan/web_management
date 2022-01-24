@@ -1,34 +1,18 @@
 /* eslint-disable no-param-reassign */
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  getItems,
-  getSaleOrders,
-  getCustomers,
-} from 'modules/mesx/redux/actions/common.action'
-import {
-  confirmSOExportById,
-  createSOExport,
-  getSOExportDetailsById,
-  rejectSOExportById,
-  updateSOExport,
-} from 'modules/mesx/redux/actions/so-export.action'
-import { getSaleOrderDetailsById } from 'modules/mesx/redux/actions/sale-order.action'
-import { onChangeTextField, redirectRouter } from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   ORDER_STATUS,
@@ -37,10 +21,28 @@ import {
   SALE_ORDER_STATUS,
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import ItemsSettingTable from 'modules/mesx/features/so-export/form/items-setting-table'
-import { Autocomplete } from '@mui/material'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import ItemsSettingTable from '~/modules/mesx/features/so-export/form/items-setting-table'
+import {
+  getItems,
+  getSaleOrders,
+  getCustomers,
+} from '~/modules/mesx/redux/actions/common.action'
+import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
+import {
+  confirmSOExportById,
+  createSOExport,
+  getSOExportDetailsById,
+  rejectSOExportById,
+  updateSOExport,
+} from '~/modules/mesx/redux/actions/so-export.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
+import { onChangeTextField, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

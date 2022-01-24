@@ -1,4 +1,4 @@
-import BackgroundImg from 'assets/images/auth/BackgroundIntroduction.png'
+import BackgroundImg from '~/assets/images/auth/BackgroundIntroduction.png'
 
 const style = (theme) => ({
   root: {

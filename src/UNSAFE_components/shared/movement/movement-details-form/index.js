@@ -1,23 +1,26 @@
 import React from 'react'
-import { withStyles } from '@mui/styles'
 import { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
+
+import { Divider, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import useStyles from './style'
-
+import TextField from '@mui/material/TextField'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { formatDateTimeUtc } from 'utils'
-import { Divider, Grid } from '@mui/material'
-import Modal from 'UNSAFE_components/shared/modal'
 import { getMovementsDetailsById } from 'stores/movements/movements.action'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   DATE_FORMAT,
   MOVEMENT_ORDER_TYPE_MAP_TEXT,
   MOVEMENT_TYPE_MAP_TEXT,
-} from 'common/constants'
-import DataTable from 'components/DataTable'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { formatDateTimeUtc } from '~/utils'
+
+import useStyles from './style'
+
 class MovementsForm extends Component {
   /**
    *

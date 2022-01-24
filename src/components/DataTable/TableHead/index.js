@@ -1,13 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import clsx from 'clsx'
+
+import { Typography } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
 import TableCell from '@mui/material/TableCell'
 import MuiTableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Checkbox from '@mui/material/Checkbox'
 import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
-import { useClasses } from 'themes'
+import clsx from 'clsx'
+import PropTypes from 'prop-types'
+
+import { useClasses } from '~/themes'
+
 import style from './style'
 
 const ORDER_DIRECTION = {

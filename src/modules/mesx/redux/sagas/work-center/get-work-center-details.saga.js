@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getWorkCenterDetailsByIdFailed,
   getWorkCenterDetailsByIdSuccess,
   GET_WORK_CENTER_DETAILS_START,
-} from 'modules/mesx/redux/actions/work-center.action'
+} from '~/modules/mesx/redux/actions/work-center.action'
+import { api } from '~/services/api'
 
 /**
  * Get work center details API

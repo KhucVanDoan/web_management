@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+
+import { Box } from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import Checkbox from '@mui/material/Checkbox'
-import { Box } from '@mui/material'
-import TruncateMarkup from 'react-truncate-markup'
-import Pagination from './Pagination'
-import TableHead from './TableHead'
-import TableBody from './TableBody'
-import TableRow from './TableRow'
 import clsx from 'clsx'
-import { withClasses } from 'themes'
-import style from './style'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import TruncateMarkup from 'react-truncate-markup'
+
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import { withClasses } from '~/themes'
+
+import Pagination from './Pagination'
+import TableBody from './TableBody'
+import TableHead from './TableHead'
+import TableRow from './TableRow'
 import TopBar from './TopBar'
-import useTableSetting from 'components/DataTable/hooks/useTableSetting'
+import style from './style'
 
 /**
  * Data Table

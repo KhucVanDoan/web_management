@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { Box, MenuItem, Select, Typography } from '@mui/material'
 import { Pagination as MuiPagination } from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
 
 const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 

@@ -26,7 +26,7 @@ import {
   CHECK_MATERIAL_PLAN_START,
   CHECK_MATERIAL_PLAN_SUCCESS,
   CHECK_MATERIAL_PLAN_FAILED,
-} from 'modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/mo.action'
 
 const initialState = {
   isLoading: false,

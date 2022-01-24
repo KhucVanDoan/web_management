@@ -1,4 +1,5 @@
 import { Component } from 'react'
+
 import {
   Box,
   Typography,
@@ -10,14 +11,15 @@ import {
   Divider,
 } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
-import { PieChart, ResponsiveContainer, Pie, Cell, Legend } from 'recharts'
 import moment from 'moment'
-
-import { connect } from 'react-redux'
 import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { PieChart, ResponsiveContainer, Pie, Cell, Legend } from 'recharts'
+
+import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
+import { getDashboardMoStatus } from '~/modules/mesx/redux/actions/dashboard-store.action'
+
 import useStyles from './style'
-import DateRangePicker from 'UNSAFE_components/shared/date-range-picker'
-import { getDashboardMoStatus } from 'modules/mesx/redux/actions/dashboard-store.action'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 

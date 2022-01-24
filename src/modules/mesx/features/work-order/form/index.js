@@ -1,45 +1,48 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import { isAfter, isBefore, isSameDay } from 'date-fns'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
+import clsx from 'clsx'
+import { isAfter, isBefore, isSameDay } from 'date-fns'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
+import Modal from '~/UNSAFE_components/shared/modal'
+import {
+  MODAL_MODE,
+  WORK_ORDER_STATUS,
+  WORK_ORDER_STATUS_MAP,
+  DATE_FORMAT,
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
 import {
   confirmWorkOrderById,
   createWorkOrder,
   getWorkOrderDetailsById,
   updateWorkOrder,
-} from 'modules/mesx/redux/actions/work-order.action'
-import { getMODetailsById } from 'modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/work-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeTextField,
   redirectRouter,
   onChangeSelect,
   onChangeDate,
   formatDateTimeUtc,
-} from 'utils'
+} from '~/utils'
+
 import useStyles from './style'
 
-import {
-  MODAL_MODE,
-  WORK_ORDER_STATUS,
-  WORK_ORDER_STATUS_MAP,
-  DATE_FORMAT,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import DateRangePicker from 'UNSAFE_components/shared/date-range-picker'
 // import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
-import { getWorkCenterDetailsById } from 'modules/mesx/redux/actions/work-center.action'
-import { Autocomplete } from '@mui/material'
-import moment from 'moment'
 
 const MODAL_CONFIRM_TYPE = {
   APPROVE: 'APPROVE',

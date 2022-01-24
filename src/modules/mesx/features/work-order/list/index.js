@@ -1,31 +1,8 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
-import DataTable from 'components/DataTable'
-import {
-  WORK_ORDER_STATUS_OPTIONS,
-  MODAL_MODE,
-  QR_CODE_TYPE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-  DATE_FORMAT_2,
-} from 'common/constants'
+
 import { Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
 import SearchIcon from '@mui/icons-material/Search'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  confirmWorkOrderById,
-  deleteWorkOrder,
-  searchWorkOrders,
-  printQRWorkOrder,
-} from 'modules/mesx/redux/actions/work-order.action'
 import {
   FormControl,
   FormHelperText,
@@ -36,13 +13,39 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { WORK_ORDER_STATUS, WORK_ORDER_STATUS_MAP } from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import {
+  WORK_ORDER_STATUS_OPTIONS,
+  MODAL_MODE,
+  QR_CODE_TYPE,
+  NUMBER_FIELD_REQUIRED_SIZE,
+  DATE_FORMAT_2,
+} from '~/common/constants'
+import { WORK_ORDER_STATUS, WORK_ORDER_STATUS_MAP } from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import {
+  confirmWorkOrderById,
+  deleteWorkOrder,
+  searchWorkOrders,
+  printQRWorkOrder,
+} from '~/modules/mesx/redux/actions/work-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
-import CheckBox from '@mui/icons-material/CheckBox'
-import { Link } from 'react-router-dom'
+
 const breadcrumbs = [
   {
     title: 'plan',

@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchBOQFailed,
   searchBOQSuccess,
   SEARCH_BOQ_START,
-} from 'modules/mesx/redux/actions/define-boq.action'
+} from '~/modules/mesx/redux/actions/define-boq.action'
+import { api } from '~/services/api'
 
 /**
  * Search boq API

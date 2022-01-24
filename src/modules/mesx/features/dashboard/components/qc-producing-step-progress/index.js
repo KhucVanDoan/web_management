@@ -1,4 +1,6 @@
 import { Component } from 'react'
+
+import { FilterList } from '@mui/icons-material'
 import {
   Box,
   Typography,
@@ -9,6 +11,8 @@ import {
   IconButton,
 } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import {
   Line,
   Tooltip,
@@ -20,18 +24,16 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { bigNumberFormater } from 'utils/number'
-import { FilterList } from '@mui/icons-material'
 
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
-import useStyles from './style'
 import {
   getDashboardFinishedItemProgress,
   getDashboardFinishedItemByMo,
   getDashboardQCProducingStepProgress,
-} from 'modules/mesx/redux/actions/dashboard-store.action'
+} from '~/modules/mesx/redux/actions/dashboard-store.action'
+import { bigNumberFormater } from '~/utils/number'
+
 import FilterModal from '../filter-modal/filter-modal'
+import useStyles from './style'
 
 function CustomizedLabel(data) {
   const { x, y, stroke, value } = data

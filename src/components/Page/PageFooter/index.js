@@ -1,8 +1,11 @@
 import React from 'react'
-import { useClasses } from 'themes'
-import style from './style'
-import { useTranslation } from 'react-i18next'
+
 import { Box, Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+
+import { useClasses } from '~/themes'
+
+import style from './style'
 
 const PageFooter = () => {
   const classes = useClasses(style)

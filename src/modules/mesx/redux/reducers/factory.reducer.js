@@ -14,7 +14,7 @@ import {
   UPDATE_FACTORY_FAILED,
   UPDATE_FACTORY_START,
   UPDATE_FACTORY_SUCCESS,
-} from 'modules/mesx/redux/actions/factory.action'
+} from '~/modules/mesx/redux/actions/factory.action'
 
 const initialState = {
   isLoading: false,

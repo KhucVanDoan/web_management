@@ -1,7 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import DateRangePicker from 'components/DateRangePicker'
+
 import { getIn } from 'formik'
+import PropTypes from 'prop-types'
+
+import DateRangePicker from '~/components/DateRangePicker'
 
 const FormikDateRangePicker = ({ form, field, ...props }) => (
   <DateRangePicker

@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getBOMDetailsByIdFailed,
   getBOMDetailsByIdSuccess,
   GET_BOM_DETAILS_START,
-} from 'modules/mesx/redux/actions/define-bom.action'
+} from '~/modules/mesx/redux/actions/define-bom.action'
+import { api } from '~/services/api'
 
 /**
  * Search BOM API
