@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import Checkbox from '@mui/material/Checkbox'
+import PropTypes from 'prop-types'
 
 const FormikCheckbox = ({ field, ...props }) => (
   <Checkbox {...field} checked={field.value} {...props} />

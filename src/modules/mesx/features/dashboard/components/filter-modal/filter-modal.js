@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import {
   Box,
   Divider,
@@ -7,18 +8,19 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
+import { withStyles } from '@mui/styles'
 import clsx from 'clsx'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { withStyles } from '@mui/styles'
-import useStyles from './style'
 
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   getDashboardFinishedItemProgress,
   getDashboardAllItemByMo,
   getDashboardBomItemRoutingByMo,
-} from 'modules/mesx/redux/actions/dashboard-store.action'
-import Modal from 'UNSAFE_components/shared/modal'
+} from '~/modules/mesx/redux/actions/dashboard-store.action'
+
+import useStyles from './style'
 
 class FilterModal extends Component {
   constructor(props) {

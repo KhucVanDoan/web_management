@@ -20,7 +20,7 @@ import {
   REJECT_REQUEST_BUY_MATERIAL_FAILED,
   REJECT_REQUEST_BUY_MATERIAL_START,
   REJECT_REQUEST_BUY_MATERIAL_SUCCESS,
-} from 'modules/mesx/redux/actions/request-by-materials.action'
+} from '~/modules/mesx/redux/actions/request-by-materials.action'
 
 const initialState = {
   isLoading: false,

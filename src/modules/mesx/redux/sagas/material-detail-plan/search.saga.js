@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchMaterialDetailPlanFailed,
   searchMaterialDetailPlanSuccess,
   SEARCH_MATERIAL_DETAIL_PLAN_START,
-} from 'modules/mesx/redux/actions/material-detail-plan.action'
+} from '~/modules/mesx/redux/actions/material-detail-plan.action'
+import { api } from '~/services/api'
 
 const res = {
   statusCode: 200,

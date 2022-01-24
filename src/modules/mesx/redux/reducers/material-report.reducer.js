@@ -5,7 +5,7 @@ import {
   EXPORT_MATERIAL_REPORT,
   EXPORT_MATERIAL_REPORT_FAILED,
   EXPORT_MATERIAL_REPORT_SUCCESS,
-} from 'modules/mesx/redux/actions/plan-report.action'
+} from '~/modules/mesx/redux/actions/plan-report.action'
 
 const initialState = {
   isLoading: false,

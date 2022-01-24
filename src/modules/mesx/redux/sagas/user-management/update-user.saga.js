@@ -1,12 +1,14 @@
-import { NOTIFICATION_TYPE } from 'common/constants'
-import addNotification from 'utils/toast'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   updateUserFailed,
   updateUserSuccess,
   UPDATE_USER_START,
-} from 'modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search user API

@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
+
+import { Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import SearchIcon from '@mui/icons-material/Search'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
 import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   WORK_CENTER_PLAN_STATUS_TO_EDIT,
   WORK_CENTER_PLAN_STATUS_TO_CONFIRM,
@@ -9,25 +19,18 @@ import {
   WORK_CENTER_PLAN_STATUS_MAP,
   WORK_CENTER_PLAN_STATUS_TO_VIEW,
   MODAL_MODE,
-} from 'common/constants'
-import useStyles from './style'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   searchWorkCenterPlan,
   deleteWorkCenterPlan,
   confirmWorkCenterPlan,
-} from 'modules/mesx/redux/actions/work-center-plan.action'
-import { connect } from 'react-redux'
-import { onChangeTextField } from 'utils'
-import SimpleReactValidator from 'simple-react-validator'
-import Modal from 'UNSAFE_components/shared/modal'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
-import DataTable from 'components/DataTable'
+} from '~/modules/mesx/redux/actions/work-center-plan.action'
+import { onChangeTextField } from '~/utils'
 
-import { Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
-import Loading from 'components/Loading'
+import useStyles from './style'
+
 class WorkCenterPlanList extends Component {
   /**
    *

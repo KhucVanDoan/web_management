@@ -23,7 +23,7 @@ import {
   REJECT_DETAIL_SCHEDULE_FAILED,
   REJECT_DETAIL_SCHEDULE_START,
   REJECT_DETAIL_SCHEDULE_SUCCESS,
-} from 'modules/mesx/redux/actions/detail-schedule.action'
+} from '~/modules/mesx/redux/actions/detail-schedule.action'
 
 const initialState = {
   isLoading: false,

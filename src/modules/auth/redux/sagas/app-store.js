@@ -1,5 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
+import { api } from '~/services/api'
+
 import {
   getAppStoreFailed,
   getAppStoreSuccess,

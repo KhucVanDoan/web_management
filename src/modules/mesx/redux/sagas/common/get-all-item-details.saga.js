@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getAllItemDetailsFailed,
   getAllItemDetailsSuccess,
   GET_ALL_ITEM_DETAILS_START,
-} from 'modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common.action'
+import { api } from '~/services/api'
 
 /**
  * Get all itemDetails API

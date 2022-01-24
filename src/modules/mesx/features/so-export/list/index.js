@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
+
 import {
   AddCircle,
   Delete,
@@ -14,28 +7,37 @@ import {
   RemoveCircle,
   Visibility,
 } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
 import SearchIcon from '@mui/icons-material/Search'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import Modal from 'UNSAFE_components/shared/modal'
-import {
-  searchSOExport,
-  confirmSOExportById,
-  deleteSOExport,
-} from 'modules/mesx/redux/actions/so-export.action'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   ORDER_STATUS,
   ORDER_STATUS_MAP,
   ORDER_STATUS_OPTIONS,
   WMS_URL,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import {
+  searchSOExport,
+  confirmSOExportById,
+  deleteSOExport,
+} from '~/modules/mesx/redux/actions/so-export.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
-import { Link } from 'react-router-dom'
-import CheckBox from '@mui/icons-material/CheckBox'
-import DataTable from 'components/DataTable'
 
 const breadcrumbs = [
   {

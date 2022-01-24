@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withTranslation } from 'react-i18next'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import withStyles from '@mui/styles/withStyles'
 
-import useStyles from './style'
-import { Box, Button, TextField } from '@mui/material'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
 import {
   AddCircle,
   Delete,
@@ -16,16 +8,16 @@ import {
   CheckBox,
 } from '@mui/icons-material'
 import SearchIcon from '@mui/icons-material/Search'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import DataTable from 'components/DataTable'
-import { onChangeTextField, formatDateTimeUtc, redirectRouter } from 'utils'
-import {
-  searchMO,
-  deleteMO,
-  confirmMOById,
-} from 'modules/mesx/redux/actions/mo.action'
-import { searchPlans } from 'modules/mesx/redux/actions/plan.action'
+import { Box, Button, TextField } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   DATE_FORMAT_2,
@@ -35,10 +27,20 @@ import {
   MO_STATUS_TO_EDIT,
   MO_STATUS_TO_DELETE,
   MO_STATUS_PLAN,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { Link } from 'react-router-dom'
-import SimpleReactValidator from 'simple-react-validator'
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import {
+  searchMO,
+  deleteMO,
+  confirmMOById,
+} from '~/modules/mesx/redux/actions/mo.action'
+import { searchPlans } from '~/modules/mesx/redux/actions/plan.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField, formatDateTimeUtc, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 const breadcrumbs = [
   {

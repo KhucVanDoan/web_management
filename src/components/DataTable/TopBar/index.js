@@ -1,10 +1,13 @@
 import React from 'react'
-import { PropTypes } from 'prop-types'
+
 import { Box, Typography } from '@mui/material'
-import { useClasses } from 'themes'
-import style from './style'
+import { PropTypes } from 'prop-types'
+
+import { useClasses } from '~/themes'
+
 import TableFilter from './TableFilter'
 import TableSetting from './TableSetting'
+import style from './style'
 
 const TopBar = ({
   title,

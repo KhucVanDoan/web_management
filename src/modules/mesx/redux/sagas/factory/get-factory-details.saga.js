@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getFactoryDetailsByIdFailed,
   getFactoryDetailsByIdSuccess,
   GET_FACTORY_DETAILS_START,
-} from 'modules/mesx/redux/actions/factory.action'
+} from '~/modules/mesx/redux/actions/factory.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

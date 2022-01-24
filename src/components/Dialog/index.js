@@ -6,8 +6,9 @@ import {
   IconButton,
 } from '@mui/material'
 import { PropTypes } from 'prop-types'
-import Icon from '../Icon'
+
 import Button from '../Button'
+import Icon from '../Icon'
 
 const Dialog = ({
   title,

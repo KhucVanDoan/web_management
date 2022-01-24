@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getSaleOrderDetailsByIdFailed,
   getSaleOrderDetailsByIdSuccess,
   GET_SALE_ORDER_DETAILS_START,
-} from 'modules/mesx/redux/actions/sale-order.action'
+} from '~/modules/mesx/redux/actions/sale-order.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

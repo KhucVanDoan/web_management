@@ -1,8 +1,11 @@
 import React from 'react'
-import { PropTypes } from 'prop-types'
+
 import { Box, Paper } from '@mui/material'
-import Loading from 'components/Loading'
-import { useClasses } from 'themes'
+import { PropTypes } from 'prop-types'
+
+import Loading from '~/components/Loading'
+import { useClasses } from '~/themes'
+
 import PageFooter from './PageFooter'
 import PageHeader from './PageHeader'
 import style from './style'

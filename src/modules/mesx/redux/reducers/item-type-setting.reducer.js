@@ -14,7 +14,7 @@ import {
   UPDATE_ITEM_TYPE_FAILED,
   UPDATE_ITEM_TYPE_START,
   UPDATE_ITEM_TYPE_SUCCESS,
-} from 'modules/mesx/redux/actions/item-type-setting.action'
+} from '~/modules/mesx/redux/actions/item-type-setting.action'
 
 const initialState = {
   isLoading: false,

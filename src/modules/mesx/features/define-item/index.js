@@ -1,33 +1,9 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import {
-  MODAL_MODE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-  QR_CODE_TYPE,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Loading from 'components/Loading'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import SearchIcon from '@mui/icons-material/Search'
-import InputAdornment from '@mui/material/InputAdornment'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import Modal from 'UNSAFE_components/shared/modal'
-import ItemForm from './item-form'
 
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
-import {
-  deleteItem,
-  printQRItems,
-  searchItems,
-} from 'modules/mesx/redux/actions/define-item.action'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   FormControl,
   FormHelperText,
@@ -38,10 +14,36 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
-import { getBoms } from 'modules/mesx/redux/actions/common.action'
-import DataTable from 'components/DataTable'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import {
+  MODAL_MODE,
+  NUMBER_FIELD_REQUIRED_SIZE,
+  QR_CODE_TYPE,
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import { getBoms } from '~/modules/mesx/redux/actions/common.action'
+import {
+  deleteItem,
+  printQRItems,
+  searchItems,
+} from '~/modules/mesx/redux/actions/define-item.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
+
+import ItemForm from './item-form'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

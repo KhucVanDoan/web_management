@@ -2,7 +2,7 @@ import {
   GET_DATA_PRODUCTIVITY_REPORT_FAILED,
   GET_DATA_PRODUCTIVITY_REPORT_START,
   GET_DATA_PRODUCTIVITY_REPORT_SUCCESS,
-} from 'modules/mesx/redux/actions/productivity-report.action'
+} from '~/modules/mesx/redux/actions/productivity-report.action'
 
 const initialState = {
   isLoading: false,

@@ -1,18 +1,19 @@
 /* eslint-disable no-param-reassign */
 import React from 'react'
 
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
 import { Button } from '@mui/material'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import { normalizeDecimal } from 'utils'
-import useStyles from './style'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
-import { MODAL_MODE } from 'common/constants'
-import DataTable from 'components/DataTable'
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { normalizeDecimal } from '~/utils'
+
+import useStyles from './style'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {

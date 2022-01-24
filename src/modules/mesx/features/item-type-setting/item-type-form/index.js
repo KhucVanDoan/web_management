@@ -1,28 +1,32 @@
 import React, { Component } from 'react'
+
+import { FormHelperText } from '@mui/material'
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
 import { withTranslation } from 'react-i18next'
-import TextField from '@mui/material/TextField'
-import Box from '@mui/material/Box'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import useStyles from './style'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import {
   createItemType,
   updateItemType,
   getItemTypeDetailsById,
-} from 'modules/mesx/redux/actions/item-type-setting.action'
-import { connect } from 'react-redux'
+} from '~/modules/mesx/redux/actions/item-type-setting.action'
 import {
   onChangeTextField,
   formatDateTimeUtc,
   onChangeSelect,
   formatInput,
-} from 'utils'
-import { FormHelperText } from '@mui/material'
-import SimpleReactValidator from 'simple-react-validator'
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from 'common/constants'
-import Modal from 'UNSAFE_components/shared/modal'
+} from '~/utils'
+
+import useStyles from './style'
+
 class ItemTypeForm extends Component {
   /**
    *

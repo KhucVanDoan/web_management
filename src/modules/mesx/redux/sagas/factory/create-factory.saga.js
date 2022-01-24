@@ -1,14 +1,15 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
-import { NOTIFICATION_TYPE } from 'common/constants'
 
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
+import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
   createFactoryFailed,
   createFactorySuccess,
   CREATE_FACTORY_START,
-} from 'modules/mesx/redux/actions/factory.action'
-import { getAppStore } from 'modules/auth/redux/actions/app-store'
+} from '~/modules/mesx/redux/actions/factory.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search user API

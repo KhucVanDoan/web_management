@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+
 import { Box } from '@mui/material'
+import PropTypes from 'prop-types'
 
 const PublicLayout = ({ children }) => (
   <Box sx={{ height: '100%', overflow: 'auto' }}>{children}</Box>

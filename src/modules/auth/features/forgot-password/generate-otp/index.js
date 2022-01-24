@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
 
-import useStyles from './style'
-import { withStyles } from '@mui/styles'
+import { ArrowBackIosOutlined } from '@mui/icons-material'
+import { Card, FormHelperText, Grid, IconButton } from '@mui/material'
+import Button from '@mui/material/Button'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { Link } from 'react-router-dom'
+import { withStyles } from '@mui/styles'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { onChangeTextField, redirectRouter } from 'utils'
+import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
-import { Card, FormHelperText, Grid, IconButton } from '@mui/material'
-import { TEXTFIELD_REQUIRED_LENGTH } from 'common/constants'
-import { ROUTE } from 'modules/auth/routes/config'
-import { ArrowBackIosOutlined } from '@mui/icons-material'
-import { generateOTP } from 'modules/mesx/redux/actions/user-management.action'
+
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { ROUTE } from '~/modules/auth/routes/config'
+import { generateOTP } from '~/modules/mesx/redux/actions/user-management.action'
+import { onChangeTextField, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 class GenerateOTP extends Component {
   constructor(props) {

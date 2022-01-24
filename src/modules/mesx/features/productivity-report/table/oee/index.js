@@ -1,4 +1,5 @@
 import { Component } from 'react'
+
 import {
   Box,
   Card,
@@ -8,11 +9,10 @@ import {
   TableCell,
   TableRow,
 } from '@mui/material'
-
 import withStyles from '@mui/styles/withStyles'
-
-import { connect } from 'react-redux'
 import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+
 import useStyles from './style'
 
 class OEETable extends Component {

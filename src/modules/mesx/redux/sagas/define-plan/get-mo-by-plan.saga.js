@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   getMoByPlanIdFailed,
   getMoByPlanIdSuccess,
   GET_MO_BY_PLAN_START,
-} from 'modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan.action'
+import { api } from '~/services/api'
 
 /**
  * get list Mo by plan

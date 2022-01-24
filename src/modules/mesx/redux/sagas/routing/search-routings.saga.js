@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchRoutingsFailed,
   searchRoutingsSuccess,
   SEARCH_ROUTINGS_START,
-} from 'modules/mesx/redux/actions/routing.action'
+} from '~/modules/mesx/redux/actions/routing.action'
+import { api } from '~/services/api'
 
 /**
  * Search routing API

@@ -1,31 +1,19 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+
+import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import SearchIcon from '@mui/icons-material/Search'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import withStyles from '@mui/styles/withStyles'
 import TextField from '@mui/material/TextField'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import DataTable from 'components/DataTable'
-
-import useStyles from './style'
-import {
-  searchDetailSchedule,
-  updateDetailSchedule,
-  approveDetailScheduleById,
-  rejectDetailScheduleById,
-  getDetailScheduleDetailsById,
-  deleteDetailSchedule,
-} from 'modules/mesx/redux/actions/detail-schedule.action'
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import SearchIcon from '@mui/icons-material/Search'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import CheckBox from '@mui/icons-material/CheckBox'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { formatDateTimeUtc, onChangeTextField, redirectRouter } from 'utils'
+import SimpleReactValidator from 'simple-react-validator'
+
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   DATE_FORMAT_2,
@@ -34,10 +22,24 @@ import {
   DETAIL_SCHEDULE_STATUS_OPTIONS,
   DETAIL_SCHEDULE_STATUS_MAP,
   DETAIL_SCHEDULE_STATUS,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import WorkCenterPlanList from 'modules/mesx/features/work-center-plan/list'
-import WorkCenterPlanForm from 'modules/mesx/features/work-center-plan/form'
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
+import WorkCenterPlanForm from '~/modules/mesx/features/work-center-plan/form'
+import WorkCenterPlanList from '~/modules/mesx/features/work-center-plan/list'
+import {
+  searchDetailSchedule,
+  updateDetailSchedule,
+  approveDetailScheduleById,
+  rejectDetailScheduleById,
+  getDetailScheduleDetailsById,
+  deleteDetailSchedule,
+} from '~/modules/mesx/redux/actions/detail-schedule.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 const breadcrumbs = [
   {

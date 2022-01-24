@@ -1,46 +1,48 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import clsx from 'clsx'
+
 import { Button, Divider, FormHelperText, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import DateRangePicker from 'UNSAFE_components/shared/date-range-picker'
 import { withStyles } from '@mui/styles'
-import { Breadcrumbs } from 'components/Breadcrumbs'
-import Loading from 'components/Loading'
-import Modal from 'UNSAFE_components/shared/modal'
-import { getItems, getUsers } from 'modules/mesx/redux/actions/common.action'
-import {
-  confirmRequestBuyMaterialById,
-  getRequestBuyMaterialDetailsById,
-  rejectRequestBuyMaterialById,
-  updateRequestBuyMaterial,
-} from 'modules/mesx/redux/actions/request-by-materials.action'
-import {
-  onChangeDate,
-  onChangeTextField,
-  redirectRouter,
-  formatDateTimeUtc,
-} from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import isBefore from 'date-fns/isBefore'
+import isSameDay from 'date-fns/isSameDay'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
+import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
+import Modal from '~/UNSAFE_components/shared/modal'
 import {
   ORDER_STATUS,
   ORDER_STATUS_MAP,
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   DATE_FORMAT,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
+} from '~/common/constants'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import { getItems, getUsers } from '~/modules/mesx/redux/actions/common.action'
+import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
+import {
+  confirmRequestBuyMaterialById,
+  getRequestBuyMaterialDetailsById,
+  rejectRequestBuyMaterialById,
+  updateRequestBuyMaterial,
+} from '~/modules/mesx/redux/actions/request-by-materials.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import {
+  onChangeDate,
+  onChangeTextField,
+  redirectRouter,
+  formatDateTimeUtc,
+} from '~/utils'
+
 import ItemsSettingTable from './items-setting-table'
-import { searchFactories } from 'modules/mesx/redux/actions/factory.action'
-import { searchSaleOrders } from 'modules/mesx/redux/actions/sale-order.action'
-import moment from 'moment'
-import isBefore from 'date-fns/isBefore'
-import isSameDay from 'date-fns/isSameDay'
+import useStyles from './style'
 
 const DEFAULT_ITEM = {
   id: 0,

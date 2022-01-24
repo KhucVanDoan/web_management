@@ -1,24 +1,26 @@
 /* eslint-disable no-param-reassign */
 import React from 'react'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { isEmpty, orderBy } from 'lodash'
-import { connect } from 'react-redux'
+
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import { Button, FormHelperText, IconButton } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
-import { getProducingSteps } from 'modules/mesx/redux/actions/common.action'
-import { scrollToBottom, redirectRouter } from 'utils'
-import useStyles from './style'
+import clsx from 'clsx'
+import { isEmpty, orderBy } from 'lodash'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
-import { MODAL_MODE } from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
-import { NUMBER_FIELD_REQUIRED_SIZE } from 'common/constants'
+import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { getProducingSteps } from '~/modules/mesx/redux/actions/common.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { scrollToBottom, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 class ProducingStepsTable extends React.Component {
   constructor(props) {

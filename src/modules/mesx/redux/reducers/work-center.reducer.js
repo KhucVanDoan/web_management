@@ -17,7 +17,7 @@ import {
   CONFIRM_WORK_CENTER_START,
   CONFIRM_WORK_CENTER_SUCCESS,
   CONFIRM_WORK_CENTER_FAILED,
-} from 'modules/mesx/redux/actions/work-center.action'
+} from '~/modules/mesx/redux/actions/work-center.action'
 
 const initialState = {
   isLoading: false,

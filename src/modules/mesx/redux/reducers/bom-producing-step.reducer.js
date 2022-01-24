@@ -23,7 +23,7 @@ import {
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_START,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS,
-} from 'modules/mesx/redux/actions/bom-producing-step.action'
+} from '~/modules/mesx/redux/actions/bom-producing-step.action'
 
 const initialState = {
   isLoading: false,

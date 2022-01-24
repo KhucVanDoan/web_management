@@ -1,7 +1,7 @@
-import publicRoutes from 'modules/public/routes'
-import authRoutes from 'modules/auth/routes'
-import welcomeRoute from 'modules/welcome/routes'
-import mesxRoutes from 'modules/mesx/routes'
+import authRoutes from '~/modules/auth/routes'
+import mesxRoutes from '~/modules/mesx/routes'
+import publicRoutes from '~/modules/public/routes'
+import welcomeRoute from '~/modules/welcome/routes'
 
 const flatten = (arr) => {
   if (!arr) return []

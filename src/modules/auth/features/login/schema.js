@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
-import { TEXTFIELD_REQUIRED_LENGTH } from 'common/constants'
+
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const loginSchema = (t) =>
   Yup.object().shape({

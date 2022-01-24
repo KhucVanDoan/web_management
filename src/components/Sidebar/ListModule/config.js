@@ -1,10 +1,11 @@
-import wmsx_icon from 'assets/images/menu/wmsx_icon.svg'
-import mmsx_icon from 'assets/images/menu/mmsx_icon.svg'
-import qmsx_icon from 'assets/images/menu/qmsx_icon.svg'
-import mesx_icon from 'assets/images/menu/mesx_icon.svg'
-import solution_icon from 'assets/images/menu/solution_icon.svg'
-import tnt_icon from 'assets/images/menu/tnt_icon.svg'
 import { Typography } from '@mui/material'
+
+import mesx_icon from '~/assets/images/menu/mesx_icon.svg'
+import mmsx_icon from '~/assets/images/menu/mmsx_icon.svg'
+import qmsx_icon from '~/assets/images/menu/qmsx_icon.svg'
+import solution_icon from '~/assets/images/menu/solution_icon.svg'
+import tnt_icon from '~/assets/images/menu/tnt_icon.svg'
+import wmsx_icon from '~/assets/images/menu/wmsx_icon.svg'
 
 const modules = [
   {

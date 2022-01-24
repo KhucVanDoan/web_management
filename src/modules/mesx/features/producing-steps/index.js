@@ -1,20 +1,5 @@
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import Loading from 'components/Loading'
-import useStyles from './style'
-import {
-  PRODUCING_STEP_OPTIONS,
-  PRODUCING_STEP_STATUS_MAP,
-  PRODUCING_STEP_STATUS_TO_CONFIRM,
-  PRODUCING_STEP_STATUS_TO_EDIT,
-  PRODUCING_STEP_STATUS_TO_DELETE,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import { connect } from 'react-redux'
-import withStyles from '@mui/styles/withStyles'
-import IconButton from '@mui/material/IconButton'
-import TextField from '@mui/material/TextField'
+
 import {
   AddCircle,
   CheckBox,
@@ -22,21 +7,38 @@ import {
   Edit,
   Visibility,
 } from '@mui/icons-material'
+import SearchIcon from '@mui/icons-material/Search'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
+import withStyles from '@mui/styles/withStyles'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
+import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE } from '~/common/constants'
+import {
+  PRODUCING_STEP_OPTIONS,
+  PRODUCING_STEP_STATUS_MAP,
+  PRODUCING_STEP_STATUS_TO_CONFIRM,
+  PRODUCING_STEP_STATUS_TO_EDIT,
+  PRODUCING_STEP_STATUS_TO_DELETE,
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   searchProducingSteps,
   deleteProducingStep,
   updateProducingStep,
   getProducingStepDetailsById,
   confirmProducingStep,
-} from 'modules/mesx/redux/actions/index.action'
-import { MODAL_MODE } from 'common/constants'
-import DataTable from 'components/DataTable'
-import Modal from 'UNSAFE_components/shared/modal'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
-import InputAdornment from '@mui/material/InputAdornment'
-import { onChangeTextField, redirectRouter } from 'utils'
+} from '~/modules/mesx/redux/actions/index.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { onChangeTextField, redirectRouter } from '~/utils'
+
+import useStyles from './style'
 
 const breadcrumbs = [
   {

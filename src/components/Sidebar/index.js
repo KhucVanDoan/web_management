@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+
 import { Box } from '@mui/material'
-import ListModule from './ListModule'
-import ListMenu from './ListMenu'
-import { appRoutesObj } from 'routes'
-import { getCurrentModule } from 'utils/menu'
-import { Drawer, DrawerHeader } from './style'
 import IconButton from '@mui/material/IconButton'
-import Icon from 'components/Icon'
-import LogoClient from 'assets/images/Logo-Client.png'
-import LogoMinimal from 'assets/images/Logo-Minimal.png'
 import { useTheme } from '@mui/material/styles'
-import storage from 'utils/storage'
+import { useLocation } from 'react-router-dom'
+
+import LogoClient from '~/assets/images/Logo-Client.png'
+import LogoMinimal from '~/assets/images/Logo-Minimal.png'
+import Icon from '~/components/Icon'
+import { appRoutesObj } from '~/routes'
+import { getCurrentModule } from '~/utils/menu'
+import storage from '~/utils/storage'
+
+import ListMenu from './ListMenu'
+import ListModule from './ListModule'
+import { Drawer, DrawerHeader } from './style'
 
 export default function Sidebar() {
   const { pathname } = useLocation()
@@ -32,21 +35,31 @@ export default function Sidebar() {
 
       {currentModule && (
         <Drawer variant="permanent" isMinimal={isMinimal}>
-          <DrawerHeader isMinimal={isMinimal}>
-            {isMinimal ? (
-              <img
-                src={LogoMinimal}
-                alt="minimal-logo"
-                style={{ marginLeft: -10 }}
-              />
-            ) : (
-              <img src={LogoClient} alt="client-logo" />
-            )}
+          <DrawerHeader>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                flex: 1,
+                px: isMinimal ? 0.5 : 1,
+                overflow: 'hidden',
+                img: { maxHeight: theme.spacing(2) },
+              }}
+            >
+              {isMinimal ? (
+                <img src={LogoMinimal} alt="minimal-logo" />
+              ) : (
+                <img src={LogoClient} alt="client-logo" />
+              )}
+            </Box>
+
             <IconButton
               sx={{
-                background: theme.palette.grayEE.main,
+                background: isMinimal
+                  ? 'transparent'
+                  : theme.palette.grayEE.main,
                 borderRadius: '3px 0 0 3px',
                 p: '2px',
+                flex: '0 0 24px',
               }}
               onClick={() => {
                 setIsMinimal(!isMinimal)

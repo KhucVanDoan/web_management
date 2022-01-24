@@ -1,27 +1,29 @@
 /* eslint-disable no-param-reassign */
 
 import React from 'react'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import { Button, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
+import clsx from 'clsx'
+// import { TimePicker } from '@material-ui/pickers'
+import { cloneDeep, flatMap, uniqBy } from 'lodash'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
 import {
   getItems,
   getWarehouses,
   getBoms,
-} from 'modules/mesx/redux/actions/common.action'
-import { scrollToBottom } from 'utils'
-import useStyles from './style'
+} from '~/modules/mesx/redux/actions/common.action'
+import { scrollToBottom } from '~/utils'
 
-import { MODAL_MODE } from 'common/constants'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
-// import { TimePicker } from '@material-ui/pickers'
-import { cloneDeep, flatMap, uniqBy } from 'lodash'
+import useStyles from './style'
 
 class BreakTimeTable extends React.Component {
   constructor(props) {

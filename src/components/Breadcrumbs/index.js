@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+
 import { Breadcrumbs as MuiBreadcrumbs, Typography } from '@mui/material'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
+
+import { useClasses } from '~/themes'
+import { getCurrentModule } from '~/utils/menu'
+
 import Icon from '../Icon'
 import style from './style'
-import { useClasses } from 'themes'
-import { getCurrentModule } from 'utils/menu'
 
 export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
   const classes = useClasses(style)

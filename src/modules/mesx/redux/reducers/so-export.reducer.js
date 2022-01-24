@@ -20,7 +20,7 @@ import {
   DELETE_SO_EXPORT_FAILED,
   DELETE_SO_EXPORT_START,
   DELETE_SO_EXPORT_SUCCESS,
-} from 'modules/mesx/redux/actions/so-export.action'
+} from '~/modules/mesx/redux/actions/so-export.action'
 
 const initialState = {
   isLoading: false,

@@ -1,23 +1,9 @@
 /* eslint-disable no-param-reassign */
 
 import React, { Component } from 'react'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
-import {
-  DATE_FORMAT_2,
-  PLAN_STATUS_MAP,
-  PLAN_STATUS_OPTIONS,
-  PRODUCING_STEP_OPTIONS,
-  PRODUCING_STEP_STATUS_MAP,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import clsx from 'clsx'
-import Loading from 'components/Loading'
-import withBreadcrumbs from 'components/Breadcrumbs'
-import useStyles from './style'
-import withStyles from '@mui/styles/withStyles'
-import Button from '@mui/material/Button'
+
+import { Search } from '@mui/icons-material'
+import ClearIcon from '@mui/icons-material/Clear'
 import {
   Box,
   FormControl,
@@ -26,24 +12,41 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material'
+import { Autocomplete } from '@mui/material'
+import Button from '@mui/material/Button'
+import withStyles from '@mui/styles/withStyles'
+import clsx from 'clsx'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import SimpleReactValidator from 'simple-react-validator'
 
-import { Search } from '@mui/icons-material'
-import ClearIcon from '@mui/icons-material/Clear'
-// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 import {
-  searchPlans,
-  getPlanDetailsById,
-} from 'modules/mesx/redux/actions/plan.action'
-import { searchSaleOrders } from 'modules/mesx/redux/actions/sale-order.action'
+  DATE_FORMAT_2,
+  PLAN_STATUS_MAP,
+  PLAN_STATUS_OPTIONS,
+  PRODUCING_STEP_OPTIONS,
+  PRODUCING_STEP_STATUS_MAP,
+} from '~/common/constants'
+import withBreadcrumbs from '~/components/Breadcrumbs'
+import Loading from '~/components/Loading'
+import TableCollapse from '~/components/TableCollapse'
 import {
   searchMO,
   getMODetailsById,
   getBOMProducingStepStructureById,
-} from 'modules/mesx/redux/actions/mo.action'
-import { exportPlanReport } from 'modules/mesx/redux/actions/plan-report.action'
-import { formatDateTimeUtc, onChangeDate, onChangeTextField } from 'utils'
-import TableCollapse from 'components/TableCollapse'
-import { Autocomplete } from '@mui/material'
+} from '~/modules/mesx/redux/actions/mo.action'
+import { exportPlanReport } from '~/modules/mesx/redux/actions/plan-report.action'
+import {
+  searchPlans,
+  getPlanDetailsById,
+} from '~/modules/mesx/redux/actions/plan.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc, onChangeDate, onChangeTextField } from '~/utils'
+
+import useStyles from './style'
+
+// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 const breadcrumbs = [
   {
     title: 'report',

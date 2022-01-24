@@ -1,18 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
+import { Delete, Edit, Visibility } from '@mui/icons-material'
+import CheckBox from '@mui/icons-material/CheckBox'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import withStyles from '@mui/styles/withStyles'
 import DataTable from 'components/DataTable'
-
-import useStyles from './style'
-import { Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
+import Dialog from 'components/Dialog'
+import { useDefineBOQ } from 'modules/mesx/redux/hooks/useDefineBOQ'
+import { useDefinePlan } from 'modules/mesx/redux/hooks/useDefinePlan'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import {
-  convertObjectToArrayFilter,
-  formatDateTimeUtc,
-  redirectRouter,
-} from 'utils'
+
 import {
   BOQ_STATUS_MAP,
   BOQ_STATUS_OPTIONS,
@@ -21,15 +20,18 @@ import {
   BOQ_STATUS_TO_DELETE,
   BOQ_STATUS_PLAN,
   DATE_FORMAT_2,
-} from 'common/constants'
-import { ROUTE } from 'modules/mesx/routes/config'
-import Page from 'components/Page'
-import { Box } from '@mui/material'
-import Button from 'components/Button'
+} from '~/common/constants'
+import Button from '~/components/Button'
+import Page from '~/components/Page'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import {
+  convertObjectToArrayFilter,
+  formatDateTimeUtc,
+  redirectRouter,
+} from '~/utils'
+
 import FilterForm from './filter-form'
-import { useDefineBOQ } from 'modules/mesx/redux/hooks/useDefineBOQ'
-import { useDefinePlan } from 'modules/mesx/redux/hooks/useDefinePlan'
-import Dialog from 'components/Dialog'
+import useStyles from './style'
 
 const breadcrumbs = [
   {

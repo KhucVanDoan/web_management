@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects'
+
 // app-init
 import watchGetAppStore from './app-store'
-
 import watchLogin from './login'
 import watchLogout from './logout'
 

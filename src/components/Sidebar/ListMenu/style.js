@@ -32,6 +32,8 @@ const ListMenuStyled = styled(List)((props) => {
         marginLeft: 10,
         marginRight: 20,
       },
+
+      '&>.active:before': { display: 'none' },
     }),
   }
 })

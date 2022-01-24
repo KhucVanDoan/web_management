@@ -1,25 +1,26 @@
 /* eslint-disable no-param-reassign */
 import React from 'react'
 
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import { Button, FormHelperText, IconButton } from '@mui/material'
+import { Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
-import { getItems } from 'modules/mesx/redux/actions/common.action'
-import { normalizeDecimal, scrollToBottom } from 'utils'
-import useStyles from './style'
+import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
 
 import {
   DEFAULT_ITEM_TYPE_ENUM,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
-} from 'common/constants'
-import { RemoveCircleOutlined } from '@mui/icons-material'
-import DataTable from 'components/DataTable'
+} from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { normalizeDecimal, scrollToBottom } from '~/utils'
+
+import useStyles from './style'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {

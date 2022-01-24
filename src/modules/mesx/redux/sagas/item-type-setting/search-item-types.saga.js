@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
+
 import {
   searchItemTypesFailed,
   searchItemTypesSuccess,
   SEARCH_ITEM_TYPES_START,
-} from 'modules/mesx/redux/actions/item-type-setting.action'
+} from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { api } from '~/services/api'
 
 /**
  * Search user API

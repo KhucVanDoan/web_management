@@ -14,7 +14,7 @@ import {
   UPDATE_ROUTING_VERSION_FAILED,
   UPDATE_ROUTING_VERSION_START,
   UPDATE_ROUTING_VERSION_SUCCESS,
-} from 'modules/mesx/redux/actions/routing-version.action'
+} from '~/modules/mesx/redux/actions/routing-version.action'
 
 const initialState = {
   isLoading: false,

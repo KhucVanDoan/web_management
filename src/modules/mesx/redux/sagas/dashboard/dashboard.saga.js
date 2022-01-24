@@ -1,8 +1,7 @@
 import { call, put, takeLatest, fork } from 'redux-saga/effects'
-import { api } from 'services/api'
-import addNotification from 'utils/toast'
 
-import { NOTIFICATION_TYPE } from 'common/constants'
+
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   getDashboardMoStatusSuccess,
   getDashboardFinishedItemProgressSuccess,
@@ -19,7 +18,9 @@ import {
   getDashboardQCProducingStepProgressSuccess,
   getDashboardProducingStepProgressSuccess,
   getDashboardInProgressMosSuccess,
-} from 'modules/mesx/redux/actions/dashboard-store.action'
+} from '~/modules/mesx/redux/actions/dashboard-store.action'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Confirm BOM

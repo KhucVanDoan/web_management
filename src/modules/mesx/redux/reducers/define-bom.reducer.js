@@ -26,7 +26,7 @@ import {
   GET_BOM_BY_ITEM_FAILED,
   GET_BOM_BY_ITEM_START,
   GET_BOM_BY_ITEM_SUCCESS,
-} from 'modules/mesx/redux/actions/define-bom.action'
+} from '~/modules/mesx/redux/actions/define-bom.action'
 
 const initialState = {
   isLoading: false,
