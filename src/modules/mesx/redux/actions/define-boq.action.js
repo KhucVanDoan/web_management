@@ -1,30 +1,30 @@
-export const SEARCH_BOQ_START = 'SEARCH_BOQ_START';
-export const SEARCH_BOQ_SUCCESS = 'SEARCH_BOQ_SUCCESS';
-export const SEARCH_BOQ_FAILED = 'SEARCH_BOQ_FAILED';
+export const SEARCH_BOQ_START = 'SEARCH_BOQ_START'
+export const SEARCH_BOQ_SUCCESS = 'SEARCH_BOQ_SUCCESS'
+export const SEARCH_BOQ_FAILED = 'SEARCH_BOQ_FAILED'
 
-export const CREATE_BOQ_START = 'CREATE_BOQ_START';
-export const CREATE_BOQ_SUCCESS = 'CREATE_BOQ_SUCCESS';
-export const CREATE_BOQ_FAILED = 'CREATE_BOQ_FAILED';
+export const CREATE_BOQ_START = 'CREATE_BOQ_START'
+export const CREATE_BOQ_SUCCESS = 'CREATE_BOQ_SUCCESS'
+export const CREATE_BOQ_FAILED = 'CREATE_BOQ_FAILED'
 
-export const UPDATE_BOQ_START = 'UPDATE_BOQ_START';
-export const UPDATE_BOQ_SUCCESS = 'UPDATE_BOQ_SUCCESS';
-export const UPDATE_BOQ_FAILED = 'UPDATE_BOQ_FAILED';
+export const UPDATE_BOQ_START = 'UPDATE_BOQ_START'
+export const UPDATE_BOQ_SUCCESS = 'UPDATE_BOQ_SUCCESS'
+export const UPDATE_BOQ_FAILED = 'UPDATE_BOQ_FAILED'
 
-export const DELETE_BOQ_START = 'DELETE_BOQ_START';
-export const DELETE_BOQ_SUCCESS = 'DELETE_BOQ_SUCCESS';
-export const DELETE_BOQ_FAILED = 'DELETE_BOQ_FAILED';
+export const DELETE_BOQ_START = 'DELETE_BOQ_START'
+export const DELETE_BOQ_SUCCESS = 'DELETE_BOQ_SUCCESS'
+export const DELETE_BOQ_FAILED = 'DELETE_BOQ_FAILED'
 
-export const GET_BOQ_DETAILS_START = 'GET_BOQ_DETAILS_START';
-export const GET_BOQ_DETAILS_SUCCESS = 'GET_BOQ_DETAILS_SUCCESS';
-export const GET_BOQ_DETAILS_FAILED = 'GET_BOQ_DETAILS_FAILED';
+export const GET_BOQ_DETAILS_START = 'GET_BOQ_DETAILS_START'
+export const GET_BOQ_DETAILS_SUCCESS = 'GET_BOQ_DETAILS_SUCCESS'
+export const GET_BOQ_DETAILS_FAILED = 'GET_BOQ_DETAILS_FAILED'
 
-export const CONFIRM_BOQ_START = 'CONFIRM_BOQ_START';
-export const CONFIRM_BOQ_SUCCESS = 'CONFIRM_BOQ_SUCCESS';
-export const CONFIRM_BOQ_FAILED = 'CONFIRM_BOQ_FAILED';
+export const CONFIRM_BOQ_START = 'CONFIRM_BOQ_START'
+export const CONFIRM_BOQ_SUCCESS = 'CONFIRM_BOQ_SUCCESS'
+export const CONFIRM_BOQ_FAILED = 'CONFIRM_BOQ_FAILED'
 
-export const REJECT_BOQ_START = 'REJECT_BOQ_START';
-export const REJECT_BOQ_SUCCESS = 'REJECT_BOQ_SUCCESS';
-export const REJECT_BOQ_FAILED = 'REJECT_BOQ_FAILED';
+export const REJECT_BOQ_START = 'REJECT_BOQ_START'
+export const REJECT_BOQ_SUCCESS = 'REJECT_BOQ_SUCCESS'
+export const REJECT_BOQ_FAILED = 'REJECT_BOQ_FAILED'
 
 /**
  * Search BOQ
@@ -39,7 +39,7 @@ export function searchBOQ(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -51,7 +51,7 @@ export function searchBOQSuccess(payload) {
   return {
     type: SEARCH_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -61,7 +61,7 @@ export function searchBOQSuccess(payload) {
 export function searchBOQFailed() {
   return {
     type: SEARCH_BOQ_FAILED,
-  };
+  }
 }
 
 /**
@@ -77,7 +77,7 @@ export function createBOQ(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -89,7 +89,7 @@ export function createBOQSuccess(payload) {
   return {
     type: CREATE_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -99,7 +99,7 @@ export function createBOQSuccess(payload) {
 export function createBOQFailed() {
   return {
     type: CREATE_BOQ_FAILED,
-  };
+  }
 }
 
 /**
@@ -115,7 +115,7 @@ export function updateBOQ(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update BOQ success action
@@ -126,7 +126,7 @@ export function updateBOQSuccess(payload) {
   return {
     type: UPDATE_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -136,7 +136,7 @@ export function updateBOQSuccess(payload) {
 export function updateBOQFailed() {
   return {
     type: UPDATE_BOQ_FAILED,
-  };
+  }
 }
 /**
  * Delete BOQ
@@ -151,7 +151,7 @@ export function deleteBOQ(BOQId, onSuccess, onError) {
     payload: BOQId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -163,7 +163,7 @@ export function deleteBOQSuccess(payload) {
   return {
     type: DELETE_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -173,7 +173,7 @@ export function deleteBOQSuccess(payload) {
 export function deleteBOQFailed() {
   return {
     type: DELETE_BOQ_FAILED,
-  };
+  }
 }
 
 /**
@@ -189,7 +189,7 @@ export function getBOQDetailsById(BOQId, onSuccess, onError) {
     payload: BOQId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -201,7 +201,7 @@ export function getBOQDetailsByIdSuccess(payload) {
   return {
     type: GET_BOQ_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -211,7 +211,7 @@ export function getBOQDetailsByIdSuccess(payload) {
 export function getBOQDetailsByIdFailed() {
   return {
     type: GET_BOQ_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -227,7 +227,7 @@ export function confirmBOQById(BOQId, onSuccess, onError) {
     payload: BOQId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -239,7 +239,7 @@ export function confirmBOQByIdSuccess(payload) {
   return {
     type: CONFIRM_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -249,7 +249,7 @@ export function confirmBOQByIdSuccess(payload) {
 export function confirmBOQByIdFailed() {
   return {
     type: CONFIRM_BOQ_FAILED,
-  };
+  }
 }
 
 /**
@@ -265,7 +265,7 @@ export function rejectBOQById(BOQId, onSuccess, onError) {
     payload: BOQId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -277,7 +277,7 @@ export function rejectBOQByIdSuccess(payload) {
   return {
     type: REJECT_BOQ_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -287,5 +287,29 @@ export function rejectBOQByIdSuccess(payload) {
 export function rejectBOQByIdFailed() {
   return {
     type: REJECT_BOQ_FAILED,
-  };
+  }
+}
+
+export default {
+  searchBOQ,
+  searchBOQSuccess,
+  searchBOQFailed,
+  createBOQ,
+  createBOQSuccess,
+  createBOQFailed,
+  updateBOQ,
+  updateBOQSuccess,
+  updateBOQFailed,
+  deleteBOQ,
+  deleteBOQSuccess,
+  deleteBOQFailed,
+  getBOQDetailsById,
+  getBOQDetailsByIdSuccess,
+  getBOQDetailsByIdFailed,
+  confirmBOQById,
+  confirmBOQByIdSuccess,
+  confirmBOQByIdFailed,
+  rejectBOQById,
+  rejectBOQByIdSuccess,
+  rejectBOQByIdFailed,
 }

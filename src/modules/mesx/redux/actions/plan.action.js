@@ -1,30 +1,30 @@
-export const SEARCH_PLANS_START = 'SEARCH_PLANS_START';
-export const SEARCH_PLANS_SUCCESS = 'SEARCH_PLANS_SUCCESS';
-export const SEARCH_PLANS_FAILED = 'SEARCH_PLANS_FAILED';
+export const SEARCH_PLANS_START = 'SEARCH_PLANS_START'
+export const SEARCH_PLANS_SUCCESS = 'SEARCH_PLANS_SUCCESS'
+export const SEARCH_PLANS_FAILED = 'SEARCH_PLANS_FAILED'
 
-export const CREATE_PLAN_START = 'CREATE_PLAN_START';
-export const CREATE_PLAN_SUCCESS = 'CREATE_PLAN_SUCCESS';
-export const CREATE_PLAN_FAILED = 'CREATE_PLAN_FAILED';
+export const CREATE_PLAN_START = 'CREATE_PLAN_START'
+export const CREATE_PLAN_SUCCESS = 'CREATE_PLAN_SUCCESS'
+export const CREATE_PLAN_FAILED = 'CREATE_PLAN_FAILED'
 
-export const UPDATE_PLAN_START = 'UPDATE_PLAN_START';
-export const UPDATE_PLAN_SUCCESS = 'UPDATE_PLAN_SUCCESS';
-export const UPDATE_PLAN_FAILED = 'UPDATE_PLAN_FAILED';
+export const UPDATE_PLAN_START = 'UPDATE_PLAN_START'
+export const UPDATE_PLAN_SUCCESS = 'UPDATE_PLAN_SUCCESS'
+export const UPDATE_PLAN_FAILED = 'UPDATE_PLAN_FAILED'
 
-export const DELETE_PLAN_START = 'DELETE_PLAN_START';
-export const DELETE_PLAN_SUCCESS = 'DELETE_PLAN_SUCCESS';
-export const DELETE_PLAN_FAILED = 'DELETE_PLAN_FAILED';
+export const DELETE_PLAN_START = 'DELETE_PLAN_START'
+export const DELETE_PLAN_SUCCESS = 'DELETE_PLAN_SUCCESS'
+export const DELETE_PLAN_FAILED = 'DELETE_PLAN_FAILED'
 
-export const GET_PLAN_DETAILS_START = 'GET_PLAN_DETAILS_START';
-export const GET_PLAN_DETAILS_SUCCESS = 'GET_PLAN_DETAILS_SUCCESS';
-export const GET_PLAN_DETAILS_FAILED = 'GET_PLAN_DETAILS_FAILED';
+export const GET_PLAN_DETAILS_START = 'GET_PLAN_DETAILS_START'
+export const GET_PLAN_DETAILS_SUCCESS = 'GET_PLAN_DETAILS_SUCCESS'
+export const GET_PLAN_DETAILS_FAILED = 'GET_PLAN_DETAILS_FAILED'
 
-export const GET_MO_BY_PLAN_START = 'GET_MO_BY_PLAN_START';
-export const GET_MO_BY_PLAN_SUCCESS = 'GET_MO_BY_PLAN_SUCCESS';
-export const GET_MO_BY_PLAN_FAILED = 'GET_MO_BY_PLAN_FAILED';
+export const GET_MO_BY_PLAN_START = 'GET_MO_BY_PLAN_START'
+export const GET_MO_BY_PLAN_SUCCESS = 'GET_MO_BY_PLAN_SUCCESS'
+export const GET_MO_BY_PLAN_FAILED = 'GET_MO_BY_PLAN_FAILED'
 
-export const CONFIRM_PLAN_START = 'CONFIRM_PLAN_START';
-export const CONFIRM_PLAN_SUCCESS = 'CONFIRM_PLAN_SUCCESS';
-export const CONFIRM_PLAN_FAILED = 'CONFIRM_PLAN_FAILED';
+export const CONFIRM_PLAN_START = 'CONFIRM_PLAN_START'
+export const CONFIRM_PLAN_SUCCESS = 'CONFIRM_PLAN_SUCCESS'
+export const CONFIRM_PLAN_FAILED = 'CONFIRM_PLAN_FAILED'
 
 /**
  * Search plan
@@ -39,7 +39,7 @@ export function searchPlans(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -51,7 +51,7 @@ export function searchPlansSuccess(payload) {
   return {
     type: SEARCH_PLANS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -61,7 +61,7 @@ export function searchPlansSuccess(payload) {
 export function searchPlansFailed() {
   return {
     type: SEARCH_PLANS_FAILED,
-  };
+  }
 }
 
 /**
@@ -77,7 +77,7 @@ export function createPlan(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -89,7 +89,7 @@ export function createPlanSuccess(payload) {
   return {
     type: CREATE_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -99,7 +99,7 @@ export function createPlanSuccess(payload) {
 export function createPlanFailed() {
   return {
     type: CREATE_PLAN_FAILED,
-  };
+  }
 }
 
 /**
@@ -115,7 +115,7 @@ export function updatePlan(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update plan success action
@@ -126,7 +126,7 @@ export function updatePlanSuccess(payload) {
   return {
     type: UPDATE_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -136,7 +136,7 @@ export function updatePlanSuccess(payload) {
 export function updatePlanFailed() {
   return {
     type: UPDATE_PLAN_FAILED,
-  };
+  }
 }
 /**
  * Delete plan
@@ -151,7 +151,7 @@ export function deletePlan(planId, onSuccess, onError) {
     payload: planId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -163,7 +163,7 @@ export function deletePlanSuccess(payload) {
   return {
     type: DELETE_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -173,7 +173,7 @@ export function deletePlanSuccess(payload) {
 export function deletePlanFailed() {
   return {
     type: DELETE_PLAN_FAILED,
-  };
+  }
 }
 
 /**
@@ -189,7 +189,7 @@ export function getPlanDetailsById(planId, onSuccess, onError) {
     payload: planId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -201,7 +201,7 @@ export function getPlanDetailsByIdSuccess(payload) {
   return {
     type: GET_PLAN_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -211,7 +211,7 @@ export function getPlanDetailsByIdSuccess(payload) {
 export function getPlanDetailsByIdFailed() {
   return {
     type: GET_PLAN_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -225,7 +225,7 @@ export function getMoByPlanId(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -237,7 +237,7 @@ export function getMoByPlanIdSuccess(payload) {
   return {
     type: GET_MO_BY_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -247,7 +247,7 @@ export function getMoByPlanIdSuccess(payload) {
 export function getMoByPlanIdFailed() {
   return {
     type: GET_MO_BY_PLAN_FAILED,
-  };
+  }
 }
 
 /**
@@ -255,13 +255,13 @@ export function getMoByPlanIdFailed() {
  * @param {*} payload
  * @returns {object}
  */
- export function confirmPlanById(payload, onSuccess, onError) {
+export function confirmPlanById(payload, onSuccess, onError) {
   return {
     type: CONFIRM_PLAN_START,
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -273,7 +273,7 @@ export function confirmPlanByIdSuccess(payload) {
   return {
     type: CONFIRM_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -283,6 +283,29 @@ export function confirmPlanByIdSuccess(payload) {
 export function confirmPlanByIdFailed() {
   return {
     type: CONFIRM_PLAN_FAILED,
-  };
+  }
 }
 
+export default {
+  searchPlans,
+  searchPlansSuccess,
+  searchPlansFailed,
+  createPlan,
+  createPlanSuccess,
+  createPlanFailed,
+  updatePlan,
+  updatePlanSuccess,
+  updatePlanFailed,
+  deletePlan,
+  deletePlanSuccess,
+  deletePlanFailed,
+  getPlanDetailsById,
+  getPlanDetailsByIdSuccess,
+  getPlanDetailsByIdFailed,
+  getMoByPlanId,
+  getMoByPlanIdSuccess,
+  getMoByPlanIdFailed,
+  confirmPlanById,
+  confirmPlanByIdSuccess,
+  confirmPlanByIdFailed,
+}
