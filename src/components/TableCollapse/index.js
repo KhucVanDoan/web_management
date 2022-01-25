@@ -14,20 +14,18 @@ import TableRow from '@mui/material/TableRow'
 import clsx from 'clsx'
 import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
-import isSameDay from 'date-fns/isSameDay'
 import { isEmpty } from 'lodash'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
 import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
 import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import TopBar from '~/components/DataTable/TopBar'
-import { withClasses } from '~/themes'
 import { formatDateTimeUtc } from '~/utils'
 
 import Pagination from '../DataTable/Pagination'
 import TableHead from '../DataTable/TableHead'
+import { withClasses } from '~/themes'
 import DateRangePicker from '../DateRangePicker'
 import style from './style'
 
@@ -61,6 +59,8 @@ const TableCollapse = (props) => {
     pageSize,
     title,
     hideSetting,
+    onPageChange,
+    onPageSizeChange,
   } = props
 
   const [open, setOpen] = useState({})
@@ -263,53 +263,33 @@ const TableCollapse = (props) => {
           prevPlanTo = prevRow.workOrders[0].planTo
         }
       }
+
+      const shouldDisableDate = (date) => {
+        return (
+          (parentPlanFrom && isBefore(date, new Date(parentPlanFrom))) ||
+          (parentPlanTo && isAfter(date, new Date(parentPlanTo)))
+        )
+      }
+
       return (
         <>
           {mode === MODAL_MODE.DETAIL ? (
             planFrom + ' - ' + planTo
           ) : (
             <DateRangePicker
-              value={[
-                planFrom ? moment(planFrom)._d : null,
-                planTo ? moment(planTo)._d : null,
-              ]}
+              value={[planFrom || null, planTo || null]}
               onChange={(value) => {
                 onChangeDate(value[0], true, row)
                 onChangeDate(value[1], false, row)
               }}
-              // isSubmitForm={true}
-              // from={planFrom ? moment(planFrom)._d : null}
-              // to={planTo ? moment(planTo)._d : null}
-              // isRequiredFrom={false}
-              // isRequiredTo={false}
-              // onChangeFrom={(date) => this.onChangeDate(date, true, row)}
-              // onChangeTo={(date) => this.onChangeDate(date, false, row)}
+              shouldDisableDate={shouldDisableDate}
               // isDisabled={mode === MODAL_MODE.DETAIL}
             />
           )}
-          {/* check isValid to show messages */}
-          {!isAfter(moment(planFrom)._d, moment(parentPlanFrom)._d) &&
-            !isSameDay(moment(parentPlanFrom)._d, moment(planFrom)._d) && (
-              <FormHelperText error>
-                {t('form.minDate', {
-                  from: formatDateTimeUtc(parentPlanFrom, DATE_FORMAT),
-                })}
-              </FormHelperText>
-            )}
-          {/* check isValid to show messages */}
-          {!isBefore(moment(planTo)._d, moment(parentPlanTo)._d) &&
-            !isSameDay(moment(parentPlanTo)._d, moment(planTo)._d) && (
-              <FormHelperText error>
-                {t('form.maxDate', {
-                  to: formatDateTimeUtc(parentPlanTo, DATE_FORMAT),
-                })}
-              </FormHelperText>
-            )}
 
           {/* check isValid to show messages */}
           {prevPlanFrom &&
-            !isAfter(moment(planFrom)._d, moment(prevPlanFrom)._d) &&
-            !isSameDay(moment(prevPlanFrom)._d, moment(planFrom)._d) && (
+            isBefore(new Date(planFrom || null), new Date(prevPlanFrom)) && (
               <FormHelperText error>
                 {t('form.minDate', {
                   from: formatDateTimeUtc(prevPlanFrom, DATE_FORMAT),
@@ -318,8 +298,7 @@ const TableCollapse = (props) => {
             )}
           {/* check isValid to show messages */}
           {prevPlanTo &&
-            !isAfter(moment(planTo)._d, moment(prevPlanTo)._d) &&
-            !isSameDay(moment(prevPlanTo)._d, moment(planTo)._d) && (
+            isBefore(new Date(planTo || null), new Date(prevPlanTo)) && (
               <FormHelperText error>
                 {t('form.maxDateBigger', {
                   from: formatDateTimeUtc(prevPlanTo, DATE_FORMAT),
@@ -633,9 +612,9 @@ const TableCollapse = (props) => {
       </TableContainer>
       {!hideFooter && (
         <Pagination
-          onChange={(page, pageSize) => {
-            props.onPageChange({ page, pageSize })
-            props.onPageSizeChange({ page, pageSize })
+          onChange={(newPage, newPageSize) => {
+            onPageChange(newPage)
+            onPageSizeChange(newPageSize)
           }}
           total={total}
           pageSize={pageSize}
@@ -644,6 +623,11 @@ const TableCollapse = (props) => {
       )}
     </>
   )
+}
+
+TableCollapse.defaultProps = {
+  onPageChange: () => {},
+  onPageSizeChange: () => {},
 }
 
 TableCollapse.propsTypes = {
@@ -669,7 +653,6 @@ TableCollapse.propsTypes = {
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
   onChangeFilter: PropTypes.func,
-  onChangeSelectedRows: PropTypes.func,
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,

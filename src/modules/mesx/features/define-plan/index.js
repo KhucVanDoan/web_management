@@ -584,7 +584,7 @@ class DefinePlan extends Component {
    *
    * @param {int} pageSize
    */
-  onPageSizeChange = ({ pageSize }) => {
+  onPageSizeChange = (pageSize) => {
     this.setState({ pageSize }, this.refreshData)
   }
 
@@ -592,7 +592,7 @@ class DefinePlan extends Component {
    *
    * @param {int} page
    */
-  onPageChange = ({ page }) => {
+  onPageChange = (page) => {
     this.setState({ page }, this.refreshData)
   }
 

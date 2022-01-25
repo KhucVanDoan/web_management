@@ -162,10 +162,14 @@ const TableHead = (props) => {
     </MuiTableHead>
   )
 }
+TableHead.defaultProps = {
+  onChangeSort: () => {},
+  onSelectAllClick: () => {},
+}
 
 TableHead.propTypes = {
-  onChangeSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  onChangeSort: PropTypes.func,
+  onSelectAllClick: PropTypes.func,
   order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,
 }

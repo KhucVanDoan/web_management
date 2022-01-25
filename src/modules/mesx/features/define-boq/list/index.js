@@ -279,9 +279,9 @@ const DefineBOQ = (props) => {
         columns={columns}
         pageSize={pageSize}
         page={page}
-        onPageChange={({ page }) => setPage(page)}
-        onPageSizeChange={({ pageSize }) => setPageSize(pageSize)}
-        onChangeSort={(sort) => setSort(sort)}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+        onChangeSort={setSort}
         total={defineBOQ.total}
         title="Danh sách"
         sort={sort}
