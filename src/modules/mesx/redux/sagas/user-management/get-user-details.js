@@ -4,7 +4,7 @@ import {
   getUserDetailsByIdFailed,
   getUserDetailsByIdSuccess,
   GET_USER_DETAILS_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 
 /**

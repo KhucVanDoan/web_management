@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteUserFailed,
-  deleteUserSuccess,
-  DELETE_USER_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+  createUserFailed,
+  createUserSuccess,
+  CREATE_USER_START,
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,21 +14,21 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteUserApi = (params) => {
-  const uri = `/v1/users/${params}`
-  return api.delete(uri)
+const createUserApi = (params) => {
+  const uri = `/v1/users/create`
+  return api.post(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteUser(action) {
+function* doCreateUser(action) {
   try {
-    const response = yield call(deleteUserApi, action?.payload)
+    const response = yield call(createUserApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteUserSuccess(response.results))
+      yield put(createUserSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +36,7 @@ function* doDeleteUser(action) {
       }
 
       addNotification(
-        'userManagement.deleteUserSuccess',
+        'userManagement.createUserSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +44,7 @@ function* doDeleteUser(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteUserFailed())
+    yield put(createUserFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,6 +55,6 @@ function* doDeleteUser(action) {
 /**
  * Watch search users
  */
-export default function* watchDeleteUser() {
-  yield takeLatest(DELETE_USER_START, doDeleteUser)
+export default function* watchCreateUser() {
+  yield takeLatest(CREATE_USER_START, doCreateUser)
 }

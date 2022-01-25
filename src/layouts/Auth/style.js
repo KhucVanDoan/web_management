@@ -39,8 +39,8 @@ const style = (theme) => ({
     },
   },
   box: {
-    width: 616,
-    maxWidth: '100%',
+    width: '100%',
+    max: 616,
     marginLeft: 'auto',
     marginRight: 'auto',
   },

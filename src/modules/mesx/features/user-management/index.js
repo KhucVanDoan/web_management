@@ -18,7 +18,7 @@ import Loading from '~/components/Loading'
 import {
   deleteUser,
   searchUsers,
-} from '~/modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management'
 import { onChangeTextField } from '~/utils'
 
 import useStyles from './style'

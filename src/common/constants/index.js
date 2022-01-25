@@ -66,6 +66,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 100,
   },
 }
+
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 
 export const DEFAULT_DATE_TIME_FORMAT = 'yyy-MM-dd hh:mm a'

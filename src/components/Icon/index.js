@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types'
 
 import { ReactComponent as Add } from '~/assets/images/icons/add.svg'
 import { ReactComponent as ArrowLeft } from '~/assets/images/icons/arrowLeft.svg'
+import { ReactComponent as Back } from '~/assets/images/icons/back.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
@@ -24,6 +25,7 @@ const icons = {
   calendar: <Calendar />,
   notification: <Notification />,
   search: <Search />,
+  back: <Back />,
   arrowLeft: <ArrowLeft />,
   tableSetting: <TableSetting />,
   tableFilter: <TableFilter />,

@@ -1,209 +1,77 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import { ArrowBackIosOutlined } from '@mui/icons-material'
-import { Card, FormHelperText, Grid, IconButton } from '@mui/material'
-import Button from '@mui/material/Button'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import { withStyles } from '@mui/styles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import SimpleReactValidator from 'simple-react-validator'
+import { Box, Paper, Typography } from '@mui/material'
+import { Form, Formik } from 'formik'
+import { useTranslation } from 'react-i18next'
+import { Link, useHistory } from 'react-router-dom'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import Button from '~/components/Button'
+import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import { ROUTE } from '~/modules/auth/routes/config'
-import { generateOTP } from '~/modules/mesx/redux/actions/user-management.action'
-import { onChangeTextField, redirectRouter } from '~/utils'
+import { useUserManagement } from '~/modules/mesx/redux/hooks/useUserManagement'
+import { useClasses } from '~/themes'
 
-import useStyles from './style'
+import { forgotPasswordSchema } from './schema'
+import style from './style'
 
-class GenerateOTP extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: '',
-      isSubmitForm: false,
-    }
+const GenerateOTP = () => {
+  const classes = useClasses(style)
+  const { t } = useTranslation('auth')
+  const { actions, isLoading } = useUserManagement()
+  const history = useHistory()
 
-    this.validator = new SimpleReactValidator()
-  }
-
-  /**
-   * componentDidMount
-   */
-  componentDidMount() {
-    // do nothing
-  }
-
-  /**
-   * Handle key down event
-   * @param {*} e
-   */
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.onSendOTP()
-    }
-  }
-  backToLogin = () => {
-    redirectRouter('/login')
-  }
-  onSendOTP = () => {
-    this.setState({ isSubmitForm: true })
-    if (this.validator.allValid()) {
-      const { email } = this.state
-      const params = {
-        email: email?.trim(),
-      }
-      this.props.generateOTP(params, (res) => {
-        this.goToVerifyOTP(email)
-      })
-    }
-  }
-  goToVerifyOTP = (email) => {
-    redirectRouter(ROUTE.VERIFY_OTP.PATH + '?email=' + email)
-  }
-  /**
-   * Render
-   * @returns {JSX.Element}
-   */
-  render() {
-    const { classes, t } = this.props
-    const { email, isSubmitForm } = this.state
-    return (
-      <Grid container>
-        <Grid lg={5} sm={12} xs={12}></Grid>
-        <Grid
-          lg={7}
-          sm={12}
-          xs={12}
-          className={classes.rightBox}
-          container
-          direction="column"
-        >
-          <div className={classes.divRight}>
-            <Grid className={classes.itemRightBox} container>
-              <div className={classes.labelLogin}>
-                <h2>{t('forgotPassword.generateOTP.title')}</h2>
-                <p>{t('forgotPassword.generateOTP.text')}</p>
-              </div>
-              <Card className={classes.boxForgot}>
-                <div className={classes.submitForm}>
-                  <form>
-                    <Grid
-                      className={classes.passwordItem}
-                      container
-                      justifyContent="space-between"
-                      direction="column"
-                    >
-                      <label>{t('forgotPassword.generateOTP.account')}</label>
-                      <FormControl className={classes.textField}>
-                        <TextField
-                          name="email"
-                          id="email"
-                          margin="dense"
-                          value={email}
-                          placeholder={t(
-                            'forgotPassword.generateOTP.placeholder',
-                          )}
-                          variant="outlined"
-                          size="small"
-                          onChange={(event) => onChangeTextField(this, event)}
-                          className={classes.textInput}
-                        />
-                        {/* add rule to validate */}
-                        {this.validator.message(
-                          'email',
-                          email?.trim(),
-                          `required|email|min:${TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN}|max:${TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX}`,
-                        )}
-                        {/* check isValid to show messages */}
-                        {isSubmitForm &&
-                          !this.validator.check(email?.trim(), `required`) && (
-                            <FormHelperText error>
-                              {t('form.required')}
-                            </FormHelperText>
-                          )}
-
-                        {isSubmitForm &&
-                          !this.validator.check(
-                            email?.trim(),
-                            `min:${TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN}`,
-                          ) && (
-                            <FormHelperText error>
-                              {t('form.minLength', {
-                                min: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
-                              })}
-                            </FormHelperText>
-                          )}
-
-                        {isSubmitForm &&
-                          !this.validator.check(
-                            email?.trim(),
-                            `max:${TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX}`,
-                          ) && (
-                            <FormHelperText error>
-                              {t('form.maxLength', {
-                                max: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-                              })}
-                            </FormHelperText>
-                          )}
-
-                        {isSubmitForm &&
-                          !this.validator.check(email?.trim(), `email`) && (
-                            <FormHelperText error>
-                              {t('form.validEmail')}
-                            </FormHelperText>
-                          )}
-                      </FormControl>
-                      <br />
-
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        onClick={this.onSendOTP}
-                        disabled={!email}
-                      >
-                        {t('forgotPassword.generateOTP.continue')}
-                      </Button>
-                    </Grid>
-                  </form>
-                </div>
-              </Card>
-              <Grid container className={classes.backToLogin}>
-                <IconButton
-                  type="button"
-                  className={classes.iconButton}
-                  size="large"
-                >
-                  <ArrowBackIosOutlined />
-                </IconButton>
-                <Link className={classes.linkBackToLogin} to={'/login'}>
-                  {t('forgotPassword.generateOTP.backToLogin')}
-                </Link>
-              </Grid>
-            </Grid>
-          </div>
-          <div></div>
-          <div className={classes.footerLogin}>
-            <span className={classes.subText}>{t('login.footerText')}</span>
-          </div>
-        </Grid>
-      </Grid>
+  const handleSubmit = ({ email }) => {
+    actions.generateOTP({ email }, () =>
+      history.push(`${ROUTE.VERIFY_OTP.PATH + '?email=' + email}`),
     )
   }
+
+  return (
+    <Box>
+      <Typography variant="h2" sx={{ mb: 2 / 3 }}>
+        {t('forgotPassword.generateOTP.title')}
+      </Typography>
+      <Typography variant="body2">
+        {t('forgotPassword.generateOTP.text')}
+      </Typography>
+
+      <Paper className={classes.paper}>
+        <Formik
+          initialValues={{ email: '' }}
+          validationSchema={forgotPasswordSchema(t)}
+          onSubmit={handleSubmit}
+        >
+          {({ isValidating, isValid, dirty }) => (
+            <Form>
+              <Field.TextField
+                vertical
+                label={t('forgotPassword.generateOTP.account')}
+                placeholder={t('forgotPassword.generateOTP.placeholder')}
+                name="email"
+              />
+
+              <Button
+                type="submit"
+                fullWidth
+                loading={isLoading}
+                disabled={!dirty || !isValid || isValidating}
+                sx={{ mt: 2 }}
+              >
+                {t('forgotPassword.generateOTP.continue')}
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Paper>
+      <Box className={classes.goBackBox}>
+        <Link className={classes.goBack} to={ROUTE.LOGIN.PATH}>
+          <Icon name="arrowLeft" size={12} sx={{ mr: '3px' }} />
+          {t('forgotPassword.generateOTP.backToLogin')}
+        </Link>
+      </Box>
+    </Box>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  userManagement: state.userManagement,
-})
-
-const mapDispatchToProps = { generateOTP }
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(GenerateOTP)),
-)
+export default GenerateOTP

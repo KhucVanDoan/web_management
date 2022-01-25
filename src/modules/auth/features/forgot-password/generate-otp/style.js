@@ -1,55 +1,29 @@
-const useStyles = (theme) => ({
-  rightBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alightItems: 'center',
+const style = (theme) => ({
+  paper: {
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(2.5, 4, 4),
   },
-  divRight: {
-    display: 'flex',
-    justifyContent: 'center',
-    // marginTop: theme.spacing(5),
+
+  goBackBox: {
+    textAlign: 'center',
   },
-  itemRightBox: {
-    display: 'flex',
-    maxWidth: 600,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    margin: 'auto',
-  },
-  boxForgot: {
-    // padding: theme.spacing(3),
-    minWidth: 600,
-    margin: 'auto',
-  },
-  linkBackToLogin: {
-    textDecoration: 'none',
-    color: 'gray',
-  },
-  // margin: theme.spacing(1),
-  submitForm: {
-    // padding: theme.spacing(2),
-  },
-  decorImage: {
-    display: 'inherit',
-    width: '100%',
-    height: '100%',
-  },
-  linkButton: {
-    textDecoration: 'none',
-    color: 'white',
-  },
-  backToLogin: {
-    justifyContent: 'center',
+
+  goBack: {
+    display: 'inline-flex',
     alignItems: 'center',
-  },
-  footerLogin: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  subText: {
-    color: '#666666',
+    margin: 'auto',
+    fontSize: 13,
+    color: theme.palette.subText.main,
+    textDecoration: 'none',
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+
+      '.x-icon svg path': {
+        fill: theme.palette.primary.main,
+      },
+    },
   },
 })
 
-export default useStyles
+export default style
