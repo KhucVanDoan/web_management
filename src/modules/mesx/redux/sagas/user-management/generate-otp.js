@@ -1,22 +1,21 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createUserFailed,
-  createUserSuccess,
-  CREATE_USER_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+  generateOTPFailed,
+  generateOTPSuccess,
+  GENERATE_OTP_START,
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Search user API
+ * Generate OTP API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const createUserApi = (params) => {
-  const uri = `/v1/users/create`
+const generateOTPApi = (params) => {
+  const uri = `/v1/users/forgot-password/generate`
   return api.post(uri, params)
 }
 
@@ -24,20 +23,18 @@ const createUserApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreateUser(action) {
+function* doGenerateOTP(action) {
   try {
-    const response = yield call(createUserApi, action?.payload)
+    const response = yield call(generateOTPApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createUserSuccess(response.data))
-
+      yield put(generateOTPSuccess(response.data))
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
       addNotification(
-        'userManagement.createUserSuccess',
+        'userManagement.generateOTPSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +42,7 @@ function* doCreateUser(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createUserFailed())
+    yield put(generateOTPFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -54,8 +51,8 @@ function* doCreateUser(action) {
 }
 
 /**
- * Watch search users
+ * Watch search production-orders
  */
-export default function* watchCreateUser() {
-  yield takeLatest(CREATE_USER_START, doCreateUser)
+export default function* watchGenerateOTP() {
+  yield takeLatest(GENERATE_OTP_START, doGenerateOTP)
 }

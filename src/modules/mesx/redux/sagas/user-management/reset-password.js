@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   resetPasswordFailed,
   resetPasswordSuccess,
   RESET_PASSWORD_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

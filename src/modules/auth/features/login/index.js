@@ -11,12 +11,12 @@ import Logo from '~/assets/images/Logo-Client.png'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
+import { ROUTE } from '~/modules/auth/routes/config'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
 import { qsParse } from '~/utils/qs'
 
-import { useAuth } from '../../redux/hooks/useAuth'
-import { ROUTE } from '../../routes/config'
 import { loginSchema } from './schema'
 import style from './style'
 
@@ -24,7 +24,7 @@ const Login = () => {
   const [visible, setVisible] = useState(false)
   const [error, setError] = useState('')
   const classes = useClasses(style)
-  const { t } = useTranslation(['auth'])
+  const { t } = useTranslation('auth')
   const { actions, isLoading } = useAuth()
   const history = useHistory()
   const location = useLocation()
@@ -54,9 +54,7 @@ const Login = () => {
 
   return (
     <Box>
-      <Typography variant="h2" sx={{ mb: 2 }}>
-        {t('login.pageTitle')}
-      </Typography>
+      <Typography variant="h2">{t('login.pageTitle')}</Typography>
 
       <Paper className={classes.paper}>
         <Box className={classes.logoBox}>
@@ -68,7 +66,7 @@ const Login = () => {
           validationSchema={loginSchema(t)}
           onSubmit={handleSubmit}
         >
-          {({ handleChange }) => (
+          {({ handleChange, isValidating, isValid, dirty }) => (
             <Form>
               <Field.TextField
                 vertical
@@ -76,7 +74,7 @@ const Login = () => {
                 name="username"
                 onChange={(e) => {
                   handleChange(e)
-                  if (!!error) setError('')
+                  setError('')
                 }}
               />
               <Field.TextField
@@ -86,7 +84,7 @@ const Login = () => {
                 name="password"
                 onChange={(e) => {
                   handleChange(e)
-                  if (!!error) setError('')
+                  setError('')
                 }}
                 endAdornment={
                   <IconButton
@@ -119,7 +117,12 @@ const Login = () => {
                 </Link>
               </Box>
 
-              <Button type="submit" fullWidth loading={isLoading}>
+              <Button
+                type="submit"
+                fullWidth
+                loading={isLoading}
+                disabled={!dirty || !isValid || isValidating}
+              >
                 {t('login.loginButton')}
               </Button>
             </Form>

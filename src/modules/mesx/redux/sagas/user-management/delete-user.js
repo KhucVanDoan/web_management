@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateUserFailed,
-  updateUserSuccess,
-  UPDATE_USER_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+  deleteUserFailed,
+  deleteUserSuccess,
+  DELETE_USER_START,
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,28 +14,29 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const updateUserApi = (params) => {
-  const uri = `/v1/users/${params.id}`
-  return api.put(uri, params)
+const deleteUserApi = (params) => {
+  const uri = `/v1/users/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateUser(action) {
+function* doDeleteUser(action) {
   try {
-    const response = yield call(updateUserApi, action?.payload)
+    const response = yield call(deleteUserApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateUserSuccess(response.data))
+      yield put(deleteUserSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(
-        'userManagement.updateUserSuccess',
+        'userManagement.deleteUserSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -44,7 +44,7 @@ function* doUpdateUser(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateUserFailed())
+    yield put(deleteUserFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -55,6 +55,6 @@ function* doUpdateUser(action) {
 /**
  * Watch search users
  */
-export default function* watchUpdateUser() {
-  yield takeLatest(UPDATE_USER_START, doUpdateUser)
+export default function* watchDeleteUser() {
+  yield takeLatest(DELETE_USER_START, doDeleteUser)
 }

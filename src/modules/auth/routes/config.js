@@ -1,4 +1,8 @@
 export const ROUTE = {
+  LOGIN: {
+    PATH: '/login',
+    TITLE: 'login',
+  },
   FORGOT_PASSWORD: {
     PATH: '/forgot-password',
     TITLE: 'forgotPassword',

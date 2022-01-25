@@ -1,34 +1,34 @@
-export const SEARCH_USERS_START = 'SEARCH_USERS_START';
-export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS';
-export const SEARCH_USERS_FAILED = 'SEARCH_USERS_FAILED';
+export const SEARCH_USERS_START = 'SEARCH_USERS_START'
+export const SEARCH_USERS_SUCCESS = 'SEARCH_USERS_SUCCESS'
+export const SEARCH_USERS_FAILED = 'SEARCH_USERS_FAILED'
 
-export const CREATE_USER_START = 'CREATE_USER_START';
-export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
-export const CREATE_USER_FAILED = 'CREATE_USER_FAILED';
+export const CREATE_USER_START = 'CREATE_USER_START'
+export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS'
+export const CREATE_USER_FAILED = 'CREATE_USER_FAILED'
 
-export const UPDATE_USER_START = 'UPDATE_USER_START';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+export const UPDATE_USER_START = 'UPDATE_USER_START'
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS'
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED'
 
-export const DELETE_USER_START = 'DELETE_USER_START';
-export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
-export const DELETE_USER_FAILED = 'DELETE_USER_FAILED';
+export const DELETE_USER_START = 'DELETE_USER_START'
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS'
+export const DELETE_USER_FAILED = 'DELETE_USER_FAILED'
 
-export const GET_USER_DETAILS_START = 'GET_USER_DETAILS_START';
-export const GET_USER_DETAILS_SUCCESS = 'GET_USER_DETAILS_SUCCESS';
-export const GET_USER_DETAILS_FAILED = 'GET_USER_DETAILS_FAILED';
+export const GET_USER_DETAILS_START = 'GET_USER_DETAILS_START'
+export const GET_USER_DETAILS_SUCCESS = 'GET_USER_DETAILS_SUCCESS'
+export const GET_USER_DETAILS_FAILED = 'GET_USER_DETAILS_FAILED'
 
-export const GENERATE_OTP_START = 'GENERATE_OTP_START';
-export const GENERATE_OTP_SUCCESS = 'GENERATE_OTP_SUCCESS';
-export const GENERATE_OTP_FAILED = 'GENERATE_OTP_FAILED';
+export const GENERATE_OTP_START = 'GENERATE_OTP_START'
+export const GENERATE_OTP_SUCCESS = 'GENERATE_OTP_SUCCESS'
+export const GENERATE_OTP_FAILED = 'GENERATE_OTP_FAILED'
 
-export const VERIFY_OTP_START = 'VERIFY_OTP_START';
-export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
-export const VERIFY_OTP_FAILED = 'VERIFY_OTP_FAILED';
+export const VERIFY_OTP_START = 'VERIFY_OTP_START'
+export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS'
+export const VERIFY_OTP_FAILED = 'VERIFY_OTP_FAILED'
 
-export const RESET_PASSWORD_START = 'RESET_PASSWORD_START';
-export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
+export const RESET_PASSWORD_START = 'RESET_PASSWORD_START'
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED'
 
 /**
  * Search user
@@ -43,7 +43,7 @@ export function searchUsers(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -55,7 +55,7 @@ export function searchUsersSuccess(payload) {
   return {
     type: SEARCH_USERS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -65,7 +65,7 @@ export function searchUsersSuccess(payload) {
 export function searchUsersFailed() {
   return {
     type: SEARCH_USERS_FAILED,
-  };
+  }
 }
 
 /**
@@ -81,7 +81,7 @@ export function createUser(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -93,7 +93,7 @@ export function createUserSuccess(payload) {
   return {
     type: CREATE_USER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -103,7 +103,7 @@ export function createUserSuccess(payload) {
 export function createUserFailed() {
   return {
     type: CREATE_USER_FAILED,
-  };
+  }
 }
 
 /**
@@ -119,7 +119,7 @@ export function updateUser(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update user success action
@@ -130,7 +130,7 @@ export function updateUserSuccess(payload) {
   return {
     type: UPDATE_USER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -140,7 +140,7 @@ export function updateUserSuccess(payload) {
 export function updateUserFailed() {
   return {
     type: UPDATE_USER_FAILED,
-  };
+  }
 }
 /**
  * Delete user
@@ -155,7 +155,7 @@ export function deleteUser(userId, onSuccess, onError) {
     payload: userId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -167,7 +167,7 @@ export function deleteUserSuccess(payload) {
   return {
     type: DELETE_USER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -177,7 +177,7 @@ export function deleteUserSuccess(payload) {
 export function deleteUserFailed() {
   return {
     type: DELETE_USER_FAILED,
-  };
+  }
 }
 
 /**
@@ -193,7 +193,7 @@ export function getUserDetailsById(userId, onSuccess, onError) {
     payload: userId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -205,7 +205,7 @@ export function getUserDetailsByIdSuccess(payload) {
   return {
     type: GET_USER_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -215,7 +215,7 @@ export function getUserDetailsByIdSuccess(payload) {
 export function getUserDetailsByIdFailed() {
   return {
     type: GET_USER_DETAILS_FAILED,
-  };
+  }
 }
 /**
  * generate otp
@@ -230,7 +230,7 @@ export function generateOTP(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -242,7 +242,7 @@ export function generateOTPSuccess(payload) {
   return {
     type: GENERATE_OTP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -252,7 +252,7 @@ export function generateOTPSuccess(payload) {
 export function generateOTPFailed() {
   return {
     type: GENERATE_OTP_FAILED,
-  };
+  }
 }
 /**
  * verify otp
@@ -267,7 +267,7 @@ export function verifyOTP(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -279,7 +279,7 @@ export function verifyOTPSuccess(payload) {
   return {
     type: VERIFY_OTP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -289,7 +289,7 @@ export function verifyOTPSuccess(payload) {
 export function verifyOTPFailed() {
   return {
     type: VERIFY_OTP_FAILED,
-  };
+  }
 }
 /**
  * reset password
@@ -304,7 +304,7 @@ export function resetPassword(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -316,7 +316,7 @@ export function resetPasswordSuccess(payload) {
   return {
     type: RESET_PASSWORD_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -326,5 +326,32 @@ export function resetPasswordSuccess(payload) {
 export function resetPasswordFailed() {
   return {
     type: RESET_PASSWORD_FAILED,
-  };
+  }
+}
+
+export default {
+  searchUsers,
+  searchUsersSuccess,
+  searchUsersFailed,
+  createUser,
+  createUserSuccess,
+  createUserFailed,
+  updateUser,
+  updateUserSuccess,
+  updateUserFailed,
+  deleteUser,
+  deleteUserSuccess,
+  deleteUserFailed,
+  getUserDetailsById,
+  getUserDetailsByIdSuccess,
+  getUserDetailsByIdFailed,
+  generateOTP,
+  generateOTPSuccess,
+  generateOTPFailed,
+  verifyOTP,
+  verifyOTPSuccess,
+  verifyOTPFailed,
+  resetPassword,
+  resetPasswordSuccess,
+  resetPasswordFailed,
 }

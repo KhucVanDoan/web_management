@@ -40,7 +40,7 @@ import {
   updateUser,
   deleteUser,
   getUserDetailsById,
-} from '~/modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management'
 import { formatDateTimeUtc } from '~/utils'
 import { onChangeTextField } from '~/utils'
 
