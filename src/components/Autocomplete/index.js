@@ -31,6 +31,7 @@ const Autocomplete = ({
   required,
   error,
   helperText,
+  getOptionLabel,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -40,6 +41,10 @@ const Autocomplete = ({
   const [options, setOptions] = useState(rawOptions)
   const isAsync = typeof asyncRequest === 'function'
   const { t } = useTranslation()
+
+  useEffect(() => {
+    setOptions(rawOptions)
+  }, [rawOptions])
 
   const getOptionsByKeyword = async (keyword) => {
     if (!keyword) {
@@ -66,9 +71,9 @@ const Autocomplete = ({
     }
   }, [debouncedInputValue, isAsync])
 
-  const renderOptionWithSubLabel = (props, option) => {
+  const renderOptionWithSubLabel = (optionProps, option) => {
     return (
-      <ListItemButton {...props} component="li">
+      <ListItemButton {...optionProps} component="li">
         <Typography sx={{ flex: 1, wordBreak: 'break-word' }}>
           {option.label}
         </Typography>
@@ -79,14 +84,14 @@ const Autocomplete = ({
     )
   }
 
-  const renderOptionMultiple = (props, option, selected) => {
+  const renderOptionMultiple = (optionProps, option, selected) => {
     return (
       <ListItemButton
-        {...props}
+        {...optionProps}
         component="li"
         sx={{ justifyContent: 'space-between' }}
       >
-        <Typography>{option.label}</Typography>
+        <Typography>{getOptionLabel(option)}</Typography>
         {selected && (
           <Box sx={{ ml: 2 }}>
             <Icon name="check" />
@@ -137,13 +142,14 @@ const Autocomplete = ({
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
-      renderOption={(props, option, { selected }) => {
-        if (typeof renderOption === 'function') return renderOption()
-        if (multiple) return renderOptionMultiple(props, option, selected)
-        if (hasSubLabel) return renderOptionWithSubLabel(props, option)
+      renderOption={(optionProps, option, { selected }) => {
+        if (typeof renderOption === 'function')
+          return renderOption(optionProps, option)
+        if (multiple) return renderOptionMultiple(optionProps, option, selected)
+        if (hasSubLabel) return renderOptionWithSubLabel(optionProps, option)
         return (
-          <ListItemButton component="li" {...props}>
-            {option.label}
+          <ListItemButton component="li" {...optionProps}>
+            {getOptionLabel(option)}
           </ListItemButton>
         )
       }}
@@ -184,6 +190,7 @@ Autocomplete.defaultProps = {
   required: false,
   error: false,
   helperText: '',
+  getOptionLabel: (option) => option?.label,
 }
 
 Autocomplete.propTypes = {
@@ -203,6 +210,7 @@ Autocomplete.propTypes = {
   required: PropTypes.bool,
   error: PropTypes.bool,
   helperText: PropTypes.string,
+  getOptionLabel: PropTypes.func,
 }
 
 export default Autocomplete
