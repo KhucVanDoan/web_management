@@ -39,7 +39,7 @@ import {
   getPlanDetailsById,
   deletePlan,
   confirmPlanById,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { onChangeTextField, redirectRouter, formatDateTimeUtc } from '~/utils'
 

@@ -4,7 +4,7 @@ import {
   getPlanDetailsByIdFailed,
   getPlanDetailsByIdSuccess,
   GET_PLAN_DETAILS_START,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 import { api } from '~/services/api'
 
 /**

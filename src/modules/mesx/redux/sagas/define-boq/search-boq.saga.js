@@ -4,7 +4,7 @@ import {
   searchBOQFailed,
   searchBOQSuccess,
   SEARCH_BOQ_START,
-} from '~/modules/mesx/redux/actions/define-boq.action'
+} from '~/modules/mesx/redux/actions/define-boq'
 import { api } from '~/services/api'
 
 /**

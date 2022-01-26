@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   confirmBOQByIdFailed,
   confirmBOQByIdSuccess,
   CONFIRM_BOQ_START,
-} from '~/modules/mesx/redux/actions/define-boq.action'
+} from '~/modules/mesx/redux/actions/define-boq'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

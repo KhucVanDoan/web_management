@@ -20,7 +20,7 @@ import {
   UPDATE_BOQ_FAILED,
   UPDATE_BOQ_START,
   UPDATE_BOQ_SUCCESS,
-} from '~/modules/mesx/redux/actions/define-boq.action'
+} from '~/modules/mesx/redux/actions/define-boq'
 
 const initialState = {
   isLoading: false,

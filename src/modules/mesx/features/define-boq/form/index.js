@@ -30,7 +30,7 @@ import {
   getBOQDetailsById,
   rejectBOQById,
   updateBOQ,
-} from '~/modules/mesx/redux/actions/define-boq.action'
+} from '~/modules/mesx/redux/actions/define-boq'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeDate,
