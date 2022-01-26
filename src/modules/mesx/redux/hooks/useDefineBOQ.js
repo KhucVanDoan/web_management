@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import BOQActions from '../actions/define-boq.action'
+import BOQActions from '../actions/define-boq'
 
 export const useDefineBOQ = () => {
   const data = useSelector((state) => state.defineBOQ)
