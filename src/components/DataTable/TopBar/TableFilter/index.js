@@ -56,18 +56,17 @@ const TableFilter = ({ filters: { form, values, onApply, ...props } }) => {
               <Form>
                 {form}
                 <Box sx={{ display: 'flex', mt: '16px' }}>
-                  <Button type="submit" sx={{ ml: 'auto', mr: '8px' }}>
-                    {t('dataTable.filter')}
-                  </Button>
                   <Button
                     color="grayF4"
                     onClick={() => {
                       resetForm()
                       handleClose()
                     }}
+                    sx={{ ml: 'auto', mr: '8px' }}
                   >
                     {t('dataTable.cancel')}
                   </Button>
+                  <Button type="submit">{t('dataTable.filter')}</Button>
                 </Box>
               </Form>
             )}

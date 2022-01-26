@@ -4,7 +4,6 @@ import { Delete, Edit, Visibility } from '@mui/icons-material'
 import CheckBox from '@mui/icons-material/CheckBox'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import withStyles from '@mui/styles/withStyles'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
@@ -31,7 +30,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import useStyles from './style'
 
 const breadcrumbs = [
   {
@@ -290,7 +288,7 @@ const DefineBOQ = (props) => {
         onPageSizeChange={({ pageSize }) => setPageSize(pageSize)}
         onChangeSort={setSort}
         total={total}
-        title="Danh sách"
+        title={t('dataTable.title')}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
@@ -341,4 +339,4 @@ const DefineBOQ = (props) => {
   )
 }
 
-export default withStyles(useStyles)(DefineBOQ)
+export default DefineBOQ
