@@ -14,7 +14,7 @@ import { ROUTE } from '~/modules/auth/routes/config'
 import {
   generateOTP,
   verifyOTP,
-} from '~/modules/mesx/redux/actions/user-management.action'
+} from '~/modules/mesx/redux/actions/user-management'
 import { onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'

@@ -69,15 +69,23 @@ const DateRangePicker = ({
                 }}
               >
                 <Box className={classes.textField}>
-                  <Typography component="span" noWrap>
-                    {startValue ? startValue : t('dateRangePicker.from')}
+                  <Typography
+                    component="span"
+                    noWrap
+                    sx={{ color: startValue ? 'text.main' : 'text.a4' }}
+                  >
+                    {startValue || t('dateRangePicker.from')}
                   </Typography>
                   <ArrowForwardIcon
                     sx={{ width: 18, height: 18, mx: 1 }}
                     color="disabled"
                   />
-                  <Typography component="span" noWrap>
-                    {endValue ? endValue : t('dateRangePicker.to')}
+                  <Typography
+                    component="span"
+                    noWrap
+                    sx={{ color: endValue ? 'text.main' : 'text.a4' }}
+                  >
+                    {endValue || t('dateRangePicker.to')}
                   </Typography>
                 </Box>
                 <Box className={classes.iconCalendar}>

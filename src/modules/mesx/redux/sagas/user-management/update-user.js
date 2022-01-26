@@ -1,41 +1,41 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  verifyOTPFailed,
-  verifyOTPSuccess,
-  VERIFY_OTP_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+  updateUserFailed,
+  updateUserSuccess,
+  UPDATE_USER_START,
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * verify OTP API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const verifyOTPApi = (params) => {
-  const uri = `/v1/users/forgot-password/otp`
-  return api.post(uri, params)
+const updateUserApi = (params) => {
+  const uri = `/v1/users/${params.id}`
+  return api.put(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doVerifyOTP(action) {
+function* doUpdateUser(action) {
   try {
-    const response = yield call(verifyOTPApi, action?.payload)
+    const response = yield call(updateUserApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(verifyOTPSuccess(response.data))
+      yield put(updateUserSuccess(response.data))
+
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
       addNotification(
-        'userManagement.verifyOTPSuccess',
+        'userManagement.updateUserSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -43,7 +43,7 @@ function* doVerifyOTP(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(verifyOTPFailed())
+    yield put(updateUserFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -52,8 +52,8 @@ function* doVerifyOTP(action) {
 }
 
 /**
- * Watch verify OTP
+ * Watch search users
  */
-export default function* watchVerifyOTP() {
-  yield takeLatest(VERIFY_OTP_START, doVerifyOTP)
+export default function* watchUpdateUser() {
+  yield takeLatest(UPDATE_USER_START, doUpdateUser)
 }

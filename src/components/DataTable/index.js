@@ -43,6 +43,10 @@ const DataTable = (props) => {
     sort,
     selected,
     filters,
+    onChangeSort,
+    onPageChange,
+    onPageSizeChange,
+    onChangeSelectedRows,
   } = props
 
   const indexCol = props.indexCol || 'id'
@@ -73,12 +77,12 @@ const DataTable = (props) => {
       const newSelected = uniqueIndexValues.map((indexValue) =>
         concatSelected.find((item) => item[indexCol] === indexValue),
       )
-      props.onChangeSelectedRows && props.onChangeSelectedRows(newSelected)
+      onChangeSelectedRows(newSelected)
     } else {
       const newSelected = selected.filter(
         (item) => !rows.find((e) => e[indexCol] === item[indexCol]),
       )
-      props.onChangeSelectedRows && props.onChangeSelectedRows(newSelected)
+      onChangeSelectedRows(newSelected)
     }
   }
 
@@ -109,7 +113,7 @@ const DataTable = (props) => {
       )
     }
 
-    props.onChangeSelectedRows && props.onChangeSelectedRows(newSelected)
+    onChangeSelectedRows(newSelected)
   }
 
   /**
@@ -145,7 +149,7 @@ const DataTable = (props) => {
             rows={rows}
             order={sort?.order}
             orderBy={sort?.orderBy}
-            onChangeSort={(newSort) => props.onChangeSort(newSort)}
+            onChangeSort={onChangeSort}
             onSelectAllClick={handleSelectAllClick}
             checkboxSelection={checkboxSelection}
             columns={columns}
@@ -262,9 +266,9 @@ const DataTable = (props) => {
       </TableContainer>
       {!hideFooter && (
         <Pagination
-          onChange={(page, pageSize) => {
-            props.onPageChange({ page, pageSize })
-            props.onPageSizeChange({ page, pageSize })
+          onChange={(newPage, newPageSize) => {
+            onPageChange(newPage)
+            onPageSizeChange(newPageSize)
           }}
           total={total}
           pageSize={pageSize}
@@ -283,6 +287,10 @@ DataTable.defaultProps = {
   pageSize: 20,
   sort: {},
   selected: [],
+  onChangeSort: () => {},
+  onPageChange: () => {},
+  onPageSizeChange: () => {},
+  onChangeSelectedRows: () => {},
 }
 
 DataTable.propsTypes = {
@@ -310,6 +318,7 @@ DataTable.propsTypes = {
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
   onChangeSelectedRows: PropTypes.func,
+  onChangeSort: PropTypes.func,
   hideFooter: PropTypes.bool,
   reorderable: PropTypes.bool, // default false
   striped: PropTypes.bool,

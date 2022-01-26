@@ -18,7 +18,7 @@ import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
 import { ROUTE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import { resetPassword } from '~/modules/mesx/redux/actions/user-management.action'
+import { resetPassword } from '~/modules/mesx/redux/actions/user-management'
 import { onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'

@@ -1,22 +1,21 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  generateOTPFailed,
-  generateOTPSuccess,
-  GENERATE_OTP_START,
-} from '~/modules/mesx/redux/actions/user-management.action'
+  verifyOTPFailed,
+  verifyOTPSuccess,
+  VERIFY_OTP_START,
+} from '~/modules/mesx/redux/actions/user-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Generate OTP API
+ * verify OTP API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const generateOTPApi = (params) => {
-  const uri = `/v1/users/forgot-password/generate`
+const verifyOTPApi = (params) => {
+  const uri = `/v1/users/forgot-password/otp`
   return api.post(uri, params)
 }
 
@@ -24,18 +23,18 @@ const generateOTPApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGenerateOTP(action) {
+function* doVerifyOTP(action) {
   try {
-    const response = yield call(generateOTPApi, action?.payload)
+    const response = yield call(verifyOTPApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(generateOTPSuccess(response.data))
+      yield put(verifyOTPSuccess(response.data))
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
       addNotification(
-        'userManagement.generateOTPSuccess',
+        'userManagement.verifyOTPSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -43,7 +42,7 @@ function* doGenerateOTP(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(generateOTPFailed())
+    yield put(verifyOTPFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -52,8 +51,8 @@ function* doGenerateOTP(action) {
 }
 
 /**
- * Watch search production-orders
+ * Watch verify OTP
  */
-export default function* watchGenerateOTP() {
-  yield takeLatest(GENERATE_OTP_START, doGenerateOTP)
+export default function* watchVerifyOTP() {
+  yield takeLatest(VERIFY_OTP_START, doVerifyOTP)
 }
