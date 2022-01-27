@@ -5,7 +5,7 @@ import CheckBox from '@mui/icons-material/CheckBox'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import {
   BOQ_STATUS_MAP,
@@ -23,11 +23,7 @@ import Page from '~/components/Page'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import {
-  convertObjectToArrayFilter,
-  formatDateTimeUtc,
-  redirectRouter,
-} from '~/utils'
+import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -51,6 +47,7 @@ const DefineBOQ = (props) => {
     actions: planActions,
   } = useDefinePlan()
   const { t } = useTranslation(['mesx'])
+  const history = useHistory()
   const [id, setId] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -73,20 +70,17 @@ const DefineBOQ = (props) => {
         field: 'code',
         headerName: t('defineBOQ.boqCode'),
         width: 150,
-        filterable: true,
         fixed: true,
       },
       {
         field: 'name',
         headerName: t('defineBOQ.boqName'),
         width: 150,
-        filterable: true,
       },
       {
         field: 'pmName',
         headerName: t('defineBOQ.boqPm'),
         width: 80,
-        filterable: true,
         renderCell: (params) => {
           const { row } = params
           return row?.pm?.fullName
@@ -97,7 +91,6 @@ const DefineBOQ = (props) => {
         headerName: t('defineBOQ.boqPlan'),
         width: 200,
         type: 'date',
-        filterable: true,
         renderCell: (params) => {
           return (
             formatDateTimeUtc(params.row.planFrom, DATE_FORMAT_2) +
@@ -111,7 +104,6 @@ const DefineBOQ = (props) => {
         headerName: t('defineBOQ.status'),
         width: 200,
         type: 'categorical',
-        filterable: true,
         filterOptions: {
           options: BOQ_STATUS_OPTIONS,
           getOptionValue: (option) => option?.id?.toString(),
@@ -146,7 +138,9 @@ const DefineBOQ = (props) => {
               <IconButton
                 type="button"
                 onClick={() =>
-                  redirectRouter(ROUTE.DEFINE_BOQ.DETAIL.PATH, { id: id })
+                  history.push(
+                    ROUTE.DEFINE_BOQ.DETAIL.PATH.replace(':id', `${id}`),
+                  )
                 }
                 size="large"
               >
@@ -156,7 +150,9 @@ const DefineBOQ = (props) => {
                 <IconButton
                   type="button"
                   onClick={() =>
-                    redirectRouter(ROUTE.DEFINE_BOQ.EDIT.PATH, { id: id })
+                    history.push(
+                      ROUTE.DEFINE_BOQ.EDIT.PATH.replace(':id', `${id}`),
+                    )
                   }
                   size="large"
                 >
@@ -190,9 +186,12 @@ const DefineBOQ = (props) => {
               {goDetail && (
                 <Link
                   onClick={() => {
-                    redirectRouter(ROUTE.PLAN.DETAILS.PATH, {
-                      id: boqHasPlan[0],
-                    })
+                    history.push(
+                      ROUTE.PLAN.DETAILS.PATH.replace(
+                        ':id',
+                        `${boqHasPlan[0]}`,
+                      ),
+                    )
                   }}
                 >
                   {t('defineBOQ.planList')}
@@ -260,7 +259,7 @@ const DefineBOQ = (props) => {
           {t('defineBOQ.import')}
         </Button>
         <Button
-          onClick={() => redirectRouter(ROUTE.DEFINE_BOQ.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.DEFINE_BOQ.CREATE.PATH)}
           icon="add"
           sx={{ ml: '16px' }}
         >
@@ -284,8 +283,8 @@ const DefineBOQ = (props) => {
         columns={columns}
         pageSize={pageSize}
         page={page}
-        onPageChange={({ page }) => setPage(page)}
-        onPageSizeChange={({ pageSize }) => setPageSize(pageSize)}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
         onChangeSort={setSort}
         total={total}
         title={t('dataTable.title')}

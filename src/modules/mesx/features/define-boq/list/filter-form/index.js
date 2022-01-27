@@ -1,13 +1,12 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import { BOQ_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
-const FilterForm = ({ filters }) => {
+const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -53,14 +52,6 @@ const FilterForm = ({ filters }) => {
       </Grid>
     </Grid>
   )
-}
-
-FilterForm.defaultProps = {
-  filters: {},
-}
-
-FilterForm.propTypes = {
-  filters: PropTypes.shape(),
 }
 
 export default FilterForm
