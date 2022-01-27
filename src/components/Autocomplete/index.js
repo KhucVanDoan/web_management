@@ -122,7 +122,6 @@ const Autocomplete = ({
         root: classes.root,
         tag: classes.tag,
         listbox: classes.listbox,
-        paper: {},
       }}
       forcePopupIcon={false}
       multiple={multiple}
@@ -152,6 +151,8 @@ const Autocomplete = ({
             ListboxComponent: VirtualList,
           }
         : {})}
+      {...(isAsync ? { filterOptions: (opts) => opts } : {})}
+      {...(multiple ? { disableCloseOnSelect: true } : {})}
       PaperComponent={StickyHeader}
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
@@ -159,7 +160,7 @@ const Autocomplete = ({
           vertical={vertical}
           required={required}
           error={error}
-          helperText={required}
+          helperText={helperText}
           label={label}
           onChange={(e) => {
             setInputValue(e.target.value)

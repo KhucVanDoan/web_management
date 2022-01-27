@@ -4,7 +4,7 @@ import {
   FormControl,
   FormHelperText,
   OutlinedInput,
-  FormLabel as MuiFormLabel,
+  FormLabel,
   Box,
 } from '@mui/material'
 import clsx from 'clsx'
@@ -25,6 +25,7 @@ const TextField = ({
   InputProps,
   sx,
   vertical,
+  labelWidth,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -34,14 +35,21 @@ const TextField = ({
       className={clsx(className, classes.root, {
         [classes.disabled]: disabled,
         [classes.vertical]: vertical,
-        [classes.horizontal]: !vertical,
+        [classes.horizontal]: !vertical && !!label,
         [classes.normal]: !error,
       })}
       fullWidth
       error={error}
       sx={sx}
     >
-      {label && <MuiFormLabel required={required}>{label} </MuiFormLabel>}
+      {label && (
+        <FormLabel
+          required={required}
+          sx={{ width: !vertical ? labelWidth : '' }}
+        >
+          {label}
+        </FormLabel>
+      )}
 
       <Box sx={{ flex: 1 }}>
         <OutlinedInput
@@ -70,6 +78,7 @@ TextField.defaultProps = {
   InputProps: {},
   sx: {},
   vertical: false,
+  labelWidth: 1 / 3,
 }
 
 TextField.propTypes = {
@@ -83,6 +92,7 @@ TextField.propTypes = {
   InputProps: PropTypes.shape(),
   sx: PropTypes.shape(),
   vertical: PropTypes.bool,
+  labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default TextField

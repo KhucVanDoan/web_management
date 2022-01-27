@@ -27,6 +27,7 @@ const DateRangePicker = ({
   helperText,
   vertical,
   required,
+  labelWidth,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -37,13 +38,19 @@ const DateRangePicker = ({
     <FormControl
       className={clsx(classes.formControl, {
         [classes.vertical]: vertical,
-        [classes.horizontal]: !vertical,
+        [classes.horizontal]: !vertical && !!label,
       })}
       fullWidth
       error={error}
     >
-      {label && <FormLabel required={required}>{label} </FormLabel>}
-
+      {label && (
+        <FormLabel
+          required={required}
+          sx={{ width: !vertical ? labelWidth : '' }}
+        >
+          {label}
+        </FormLabel>
+      )}
       <Box sx={{ flex: 1 }}>
         <MuiDateRangePicker
           open={open}
@@ -113,6 +120,7 @@ DateRangePicker.defaultProps = {
   helperText: '',
   vertical: false,
   required: false,
+  labelWidth: 1 / 3,
 }
 
 DateRangePicker.propTypes = {
@@ -124,6 +132,7 @@ DateRangePicker.propTypes = {
   helperText: PropTypes.string,
   vertical: PropTypes.bool,
   required: PropTypes.bool,
+  labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default DateRangePicker

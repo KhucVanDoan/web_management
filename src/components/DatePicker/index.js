@@ -27,6 +27,7 @@ const DatePicker = ({
   helperText,
   vertical,
   required,
+  labelWidth,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -35,12 +36,19 @@ const DatePicker = ({
     <FormControl
       className={clsx(classes.formControl, {
         [classes.vertical]: vertical,
-        [classes.horizontal]: !vertical,
+        [classes.horizontal]: !vertical && !!label,
       })}
       fullWidth
       error={error}
     >
-      {label && <FormLabel required={required}>{label} </FormLabel>}
+      {label && (
+        <FormLabel
+          required={required}
+          sx={{ width: !vertical ? labelWidth : '' }}
+        >
+          {label}
+        </FormLabel>
+      )}
 
       <Box sx={{ flex: 1 }}>
         <MuiDatePicker
@@ -110,6 +118,7 @@ DatePicker.defaultProps = {
   disabled: false,
   vertical: false,
   required: false,
+  labelWidth: 1 / 3,
 }
 
 DatePicker.propTypes = {
@@ -122,6 +131,7 @@ DatePicker.propTypes = {
   disabled: PropTypes.bool,
   vertical: PropTypes.bool,
   required: PropTypes.bool,
+  labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default DatePicker
