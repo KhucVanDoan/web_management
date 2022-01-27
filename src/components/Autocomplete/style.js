@@ -2,6 +2,8 @@ const style = (theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       padding: 0,
+      maxHeight: 118,
+      overflow: 'auto',
 
       '.MuiAutocomplete-input': {
         padding: '9px 16px',
