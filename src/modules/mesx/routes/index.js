@@ -14,6 +14,7 @@ import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
 import DetailSchedule from '~/modules/mesx/features/detail-schedule/list'
 import InventoryLimit from '~/modules/mesx/features/inventory-limit'
 import ItemGroupSetting from '~/modules/mesx/features/item-group-setting'
+import ItemGroupForm from '~/modules/mesx/features/item-group-setting/item-group-form'
 import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
 import ItemUnitSetting from '~/modules/mesx/features/item-unit-setting'
 import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
@@ -248,10 +249,32 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: 'itemGroupSetting',
-        path: '/item-group-setting',
+        name: ROUTE.ITEM_GROUP.LIST.TITLE,
+        path: ROUTE.ITEM_GROUP.LIST.PATH,
         component: ItemGroupSetting,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ITEM_GROUP.CREATE.TITLE,
+            path: ROUTE.ITEM_GROUP.CREATE.PATH,
+            component: ItemGroupForm,
+            pathActive: ROUTE.ITEM_GROUP.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_GROUP.DETAIL.TITLE,
+            path: ROUTE.ITEM_GROUP.DETAIL.PATH,
+            component: ItemGroupForm,
+            pathActive: ROUTE.ITEM_GROUP.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_GROUP.EDIT.TITLE,
+            path: ROUTE.ITEM_GROUP.EDIT.PATH,
+            component: ItemGroupForm,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: 'itemTypeSetting',

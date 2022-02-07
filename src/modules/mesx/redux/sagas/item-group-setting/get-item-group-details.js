@@ -4,7 +4,7 @@ import {
   getItemGroupDetailsByIdFailed,
   getItemGroupDetailsByIdSuccess,
   GET_ITEM_GROUP_DETAILS_START,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
+} from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
 
 /**

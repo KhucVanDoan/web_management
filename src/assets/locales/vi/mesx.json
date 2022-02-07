@@ -5,7 +5,10 @@
     "plan": "Kế hoạch",
     "import": "Nhập hàng",
     "database": "Cơ sở dữ liệu",
-    "itemGroupSetting": "Cài đặt nhóm sản phẩm",
+    "itemGroupDefine": "Định nghĩa nhóm sản phẩm",
+    "itemGroupCreate": "Tạo nhóm sản phẩm",
+    "itemGroupDetail": "Chi tiết nhóm sản phẩm",
+    "itemGroupEdit": "Sửa nhóm sản phẩm",
     "itemUnitSetting": "Cài đặt đơn vị sản phẩm",
     "itemTypeSetting": "Cài đặt kiểu sản phẩm",
     "itemDefine": "Định nghĩa sản phẩm",
@@ -93,10 +96,6 @@
     "btnClose": "Đóng"
   },
 
-  "dataTable": {
-    "search": "Tìm",
-    "noData": "Không có dữ liệu"
-  },
   "common": {
     "yes": "Có",
     "no": "Không",
@@ -293,7 +292,7 @@
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },
-  "itemGroupSetting": {
+  "itemGroupDefine": {
     "title": "Danh sách nhóm sản phẩm",
     "code": "Mã nhóm sản phẩm",
     "name": "Tên nhóm sản phẩm",
@@ -313,7 +312,8 @@
     "confirmDelete": "Bạn có muốn xóa nhóm sản phẩm không?",
     "deleteItemGroupSuccess": "Xóa nhóm sản phẩm thành công",
     "createItemGroupSuccess": "Tạo nhóm sản phẩm thành công",
-    "updateItemGroupSuccess": "Cập nhật nhóm sản phẩm thành công"
+    "updateItemGroupSuccess": "Cập nhật nhóm sản phẩm thành công",
+    "import": "Nhập/Xuất dữ liệu"
   },
   "itemTypeSetting": {
     "itemDetails": "Chi tiết sản phẩm",

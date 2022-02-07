@@ -2,18 +2,24 @@ import { Box } from '@mui/system'
 import { PropTypes } from 'prop-types'
 
 import { ReactComponent as Add } from '~/assets/images/icons/add.svg'
+import { ReactComponent as ArrowDown } from '~/assets/images/icons/arrowDown.svg'
 import { ReactComponent as ArrowLeft } from '~/assets/images/icons/arrowLeft.svg'
 import { ReactComponent as Back } from '~/assets/images/icons/back.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
-import { ReactComponent as Hide } from '~/assets/images/icons/hide.svg'
+import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
+import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
+import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
+import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
 import { ReactComponent as Setting } from '~/assets/images/icons/setting.svg'
 import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
+import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
+import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
 // menu
 import { ReactComponent as Drawer } from '~/assets/images/menu/drawer.svg'
 import { ReactComponent as Home } from '~/assets/images/menu/home.svg'
@@ -31,7 +37,13 @@ const icons = {
   tableFilter: <TableFilter />,
   check: <Check />,
   show: <Show />,
-  hide: <Hide />,
+  invisible: <Invisible />,
+  visible: <Visible />,
+  edit: <Edit />,
+  delete: <Delete />,
+  tick: <Tick />,
+  arrowDown: <ArrowDown />,
+  download: <Download />,
 
   // menu
   drawer: <Drawer />,

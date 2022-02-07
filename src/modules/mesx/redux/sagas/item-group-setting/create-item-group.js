@@ -3,10 +3,10 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  updateItemGroupFailed,
-  updateItemGroupSuccess,
-  UPDATE_ITEM_GROUP_START,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
+  createItemGroupFailed,
+  createItemGroupSuccess,
+  CREATE_ITEM_GROUP_START,
+} from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,29 +15,30 @@ import addNotification from '~/utils/toast'
  * @param {any} body Params will be sent to server
  * @returns {Promise}
  */
-const updateItemGroupApi = (body) => {
-  const uri = `/v1/items/item-group-settings/${body.id}`
-  return api.put(uri, body)
+const createItemGroupApi = (body) => {
+  const uri = `/v1/items/item-group-settings/create`
+  return api.post(uri, body)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateItemGroup(action) {
+function* doCreateItemGroup(action) {
   try {
-    const response = yield call(updateItemGroupApi, action?.payload)
+    const response = yield call(createItemGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateItemGroupSuccess(response.data))
+      yield put(createItemGroupSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
       yield put(getAppStore())
+
       addNotification(
-        'itemGroupSetting.updateItemGroupSuccess',
+        'itemGroupSetting.createItemGroupSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +46,7 @@ function* doUpdateItemGroup(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateItemGroupFailed())
+    yield put(createItemGroupFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,6 +57,6 @@ function* doUpdateItemGroup(action) {
 /**
  * Watch search users
  */
-export default function* watchUpdateItemGroup() {
-  yield takeLatest(UPDATE_ITEM_GROUP_START, doUpdateItemGroup)
+export default function* watchCreateItemGroup() {
+  yield takeLatest(CREATE_ITEM_GROUP_START, doCreateItemGroup)
 }
