@@ -4,7 +4,7 @@ import {
   getItemTypeDetailsByIdFailed,
   getItemTypeDetailsByIdSuccess,
   GET_ITEM_TYPE_DETAILS_START,
-} from '~/modules/mesx/redux/actions/item-type-setting.action'
+} from '~/modules/mesx/redux/actions/item-type-setting'
 import { api } from '~/services/api'
 
 /**

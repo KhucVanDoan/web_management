@@ -43,7 +43,7 @@ import {
   createPurchasedOrder,
 } from '~/modules/mesx/redux/actions/common.action'
 import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
-import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting'
 import {
   confirmMOById,
   createMO,
