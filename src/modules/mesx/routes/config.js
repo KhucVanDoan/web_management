@@ -3,6 +3,28 @@ export const ROUTE = {
     PATH: '/mesx',
     TITLE: 'dashboard',
   },
+  DATABASE: {
+    PATH: '/mesx/database',
+    TITLE: 'database'
+  },
+  ITEM_TYPE: {
+    LIST: {
+      PATH: '/mesx/item-type-setting',
+      TITLE: 'itemTypeSetting',
+    },
+    CREATE: {
+      PATH: '/mesx/item-type-setting/create',
+      TITLE: 'itemTypeCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/item-type-setting/:id/detail',
+      TITLE: 'itemTypeDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/item-type-setting/:id/edit',
+      TITLE: 'itemTypeEdit',
+    },
+  },
   ROUTING: {
     PATH: '/mesx/routings',
     TITLE: 'routingDefine',
