@@ -1,36 +1,35 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  createItemGroupFailed,
-  createItemGroupSuccess,
-  CREATE_ITEM_GROUP_START,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
+  deleteItemGroupFailed,
+  deleteItemGroupSuccess,
+  DELETE_ITEM_GROUP_START,
+} from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
  * Search user API
- * @param {any} body Params will be sent to server
+ * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const createItemGroupApi = (body) => {
-  const uri = `/v1/items/item-group-settings/create`
-  return api.post(uri, body)
+const deleteItemGroupApi = (params) => {
+  const uri = `/v1/items/item-group-settings/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreateItemGroup(action) {
+function* doDeleteItemGroup(action) {
   try {
-    const response = yield call(createItemGroupApi, action?.payload)
+    const response = yield call(deleteItemGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createItemGroupSuccess(response.data))
+      yield put(deleteItemGroupSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -39,7 +38,7 @@ function* doCreateItemGroup(action) {
       yield put(getAppStore())
 
       addNotification(
-        'itemGroupSetting.createItemGroupSuccess',
+        'itemGroupSetting.deleteItemGroupSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -47,7 +46,7 @@ function* doCreateItemGroup(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createItemGroupFailed())
+    yield put(deleteItemGroupFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -58,6 +57,6 @@ function* doCreateItemGroup(action) {
 /**
  * Watch search users
  */
-export default function* watchCreateItemGroup() {
-  yield takeLatest(CREATE_ITEM_GROUP_START, doCreateItemGroup)
+export default function* watchDeleteItemGroup() {
+  yield takeLatest(DELETE_ITEM_GROUP_START, doDeleteItemGroup)
 }

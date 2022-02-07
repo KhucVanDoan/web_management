@@ -231,7 +231,24 @@ export const ROUTE = {
       TITLE: 'bomWorkOrder',
     },
   },
-
+  ITEM_GROUP: {
+    LIST: {
+      PATH: '/mesx/item-group-setting',
+      TITLE: 'itemGroupDefine',
+    },
+    CREATE: {
+      PATH: '/mesx/item-group-setting/create',
+      TITLE: 'itemGroupCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/item-group-setting/:id/detail',
+      TITLE: 'itemGroupDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/item-group-setting/:id/edit',
+      TITLE: 'itemGroupEdit',
+    },
+  },
   QUALITY_REPORTS: {
     LIST: {
       PATH: '/mesx/quality-report',

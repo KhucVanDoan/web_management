@@ -92,7 +92,11 @@ const Login = () => {
                     size="small"
                     sx={{ mx: 0.5 }}
                   >
-                    {visible ? <Icon name="show" /> : <Icon name="hide" />}
+                    {visible ? (
+                      <Icon name="visible" />
+                    ) : (
+                      <Icon name="invisible" />
+                    )}
                   </IconButton>
                 }
                 sx={{ mt: 4 / 3 }}

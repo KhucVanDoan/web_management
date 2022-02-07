@@ -1,66 +1,156 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { FormHelperText } from '@mui/material'
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import { withStyles } from '@mui/styles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import clsx from 'clsx'
+import { Formik, Form } from 'formik'
+import { useTranslation } from 'react-i18next'
+import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import {
-  createItemGroup,
-  updateItemGroup,
-  getItemGroupDetailsById,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
-import { onChangeTextField, formatDateTimeUtc, formatInput } from '~/utils'
+import { MODAL_MODE } from '~/common/constants'
+import Button from '~/components/Button'
+import { Field } from '~/components/Formik'
+import Page from '~/components/Page'
+import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { useClasses } from '~/themes'
+import { formatDateTimeUtc } from '~/utils'
 
+import { itemGroupSchema } from './schema'
 import useStyles from './style'
 
-class ItemGroupForm extends Component {
-  /**
-   *
-   * @param {object} props
-   * @param {int} props.id
-   * @param {string} props.mode
-   */
-  constructor(props) {
-    super(props)
-    this.state = {
-      code: '',
-      name: '',
-      description: '',
-      createdAt: '',
-      updateAt: '',
-      isSubmitForm: false,
-    }
-    this.validator = new SimpleReactValidator()
+const ItemGroupForm = () => {
+  const classes = useClasses(useStyles)
+  const history = useHistory()
+  const routeMatch = useRouteMatch()
+  const params = useParams()
+  const {
+    data: { isLoading },
+    actions,
+  } = useItemGroup()
+  const [mode, setMode] = useState(MODAL_MODE.CREATE)
+  const [initialValues, setInitialValues] = useState({
+    code: '',
+    name: '',
+    decription: '',
+  })
+  const MODE_MAP = {
+    [ROUTE.ITEM_GROUP.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.ITEM_GROUP.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.ITEM_GROUP.DETAIL.PATH]: MODAL_MODE.DETAIL,
   }
-  /**
-   * componentDidMount
-   */
-  componentDidMount() {
-    //do nothing
+  const isView = mode === MODAL_MODE.DETAIL
+  const isUpdate = mode === MODAL_MODE.UPDATE
+  const { t } = useTranslation(['mesx'])
+
+  const getBreadcrumb = () => {
+    const breadcrumb = [
+      {
+        title: 'database',
+      },
+      {
+        route: ROUTE.ITEM_GROUP.LIST.PATH,
+        title: ROUTE.ITEM_GROUP.LIST.TITLE,
+      },
+    ]
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        breadcrumb.push({
+          route: ROUTE.ITEM_GROUP.CREATE.PATH,
+          title: ROUTE.ITEM_GROUP.CREATE.TITLE,
+        })
+        break
+      case MODAL_MODE.UPDATE:
+        breadcrumb.push({
+          route: ROUTE.ITEM_GROUP.EDIT.PATH,
+          title: ROUTE.ITEM_GROUP.EDIT.TITLE,
+        })
+        break
+      case MODAL_MODE.DETAIL:
+        breadcrumb.push({
+          route: ROUTE.ITEM_GROUP.DETAIL.PATH,
+          title: ROUTE.ITEM_GROUP.DETAIL.TITLE,
+        })
+        break
+      default:
+        break
+    }
+    return breadcrumb
   }
 
-  /**
-   *
-   * @param {*} prevProps
-   * @param {*} prevState
-   */
-  componentDidUpdate(prevProps, prevState) {
-    //item-group-change
-    if (
-      prevProps.id !== this.props.id &&
-      this.props.id &&
-      this.props.isOpenModal
-    ) {
-      this.props.getItemGroupDetailsById(this.props.id, (data) => {
+  const getTitle = () => {
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return ROUTE.ITEM_GROUP.CREATE.TITLE
+      case MODAL_MODE.DETAIL:
+        return ROUTE.ITEM_GROUP.DETAIL.TITLE
+      case MODAL_MODE.UPDATE:
+        return ROUTE.ITEM_GROUP.EDIT.TITLE
+      default:
+        break
+    }
+  }
+
+  const renderActionButtons = ({ handleReset }) => {
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return (
+          <Box mt={2} display="flex" justifyContent="flex-end">
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
+              {t('common.close')}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              color="subText"
+              sx={{ mr: 1 }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button type="submit">{t('common.create')}</Button>
+          </Box>
+        )
+      case MODAL_MODE.DETAIL:
+        return (
+          <Box display="flex" justifyContent="flex-end">
+            <Button variant="contained" onClick={backToList} color="grayF4">
+              {t('common.close')}
+            </Button>
+          </Box>
+        )
+      case MODAL_MODE.UPDATE:
+        return (
+          <Box mt={2} display="flex" justifyContent="flex-end">
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
+              {t('common.close')}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              color="subText"
+              sx={{ mr: 1 }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button type="submit">{t('common.save')}</Button>
+          </Box>
+        )
+      default:
+    }
+  }
+
+  const backToList = () => {
+    history.push(ROUTE.ITEM_GROUP.LIST.PATH)
+  }
+
+  useEffect(() => {
+    setMode(MODE_MAP[routeMatch.path])
+    if (mode !== MODAL_MODE.CREATE) {
+      const id = params?.id
+      actions.getItemGroupDetailsById(id, (data) => {
         const { code, name, description, createdAt, updatedAt } = data
-        this.setState({
+        setInitialValues({
           code,
           name,
           description,
@@ -69,248 +159,104 @@ class ItemGroupForm extends Component {
         })
       })
     }
-    if (prevProps.id !== this.props.id && !this.props.id) {
-      this.resetForm()
-    }
-  }
+  }, [routeMatch.path, mode])
 
-  onSubmit = () => {
-    this.setState({ isSubmitForm: true })
-    const { code, name, description } = this.state
-    const params = {
-      code: code.trim(),
-      name: name.trim(),
-      description: description.trim(),
-    }
-    if (this.validator.allValid()) {
-      if (this.props.modalMode === MODAL_MODE.CREATE) {
-        this.props.createItemGroup(params, () => {
-          this.onCloseModal()
-        })
-      } else {
-        params.id = this.props.id
-        this.props.updateItemGroup(params, () => {
-          this.onCloseModal()
-        })
+  const onSubmit = (values) => {
+    if (mode === MODAL_MODE.CREATE) {
+      actions.createItemGroup(values, () => backToList())
+    } else if (mode === MODAL_MODE.UPDATE) {
+      const id = Number(params?.id)
+      const { code, name, description } = values
+      const paramUpdate = {
+        id,
+        code,
+        name,
+        description,
       }
+      actions.updateItemGroup(paramUpdate, () => backToList())
     }
   }
 
-  onCloseModal = () => {
-    this.resetForm()
-
-    // callback action from parent
-    this.props.handleCloseModal(true)
-  }
-
-  onCancel = () => {
-    const { modalMode } = this.props
-    if (modalMode === MODAL_MODE.CREATE) {
-      this.resetForm()
-    }
-    if (modalMode === MODAL_MODE.UPDATE) {
-      const { code, name, description } =
-        this.props.itemGroupSetting.itemGroupDetails
-      const newState = JSON.parse(JSON.stringify({ code, name, description }))
-      this.setState(newState)
-    }
-  }
-
-  resetForm = () => {
-    this.setState({
-      code: '',
-      name: '',
-      description: '',
-      isSubmitForm: false,
-    })
-  }
-
-  render() {
-    const { code, name, description, createdAt, updatedAt } = this.state
-
-    const { title, isOpenModal, submitLabel, modalMode, t } = this.props
-    const isView = modalMode === MODAL_MODE.DETAIL
-    const isUpdate = modalMode === MODAL_MODE.UPDATE
-    return (
-      <Modal
-        title={title}
-        size={'sm'}
-        isOpen={isOpenModal}
-        submitLabel={submitLabel}
-        onClose={this.onCloseModal}
-        onCancel={this.onCancel}
-        onSubmit={this.onSubmit}
-        hideCancel={isView}
-        hideSubmit={isView}
+  return (
+    <Page
+      breadcrumbs={getBreadcrumb()}
+      title={t(`menu.${getTitle()}`)}
+      loading={isLoading}
+      onBack={backToList}
+    >
+      <Formik
+        initialValues={initialValues}
+        validationSchema={itemGroupSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
       >
-        <form>
-          <Box width={1} mt={2}>
-            <div>
-              <label className={this.props.classes.labelItem}>
-                {t('itemGroupSetting.code')}
-                <span className={this.props.classes.required}> *</span>
-              </label>
-            </div>
-            <FormControl fullWidth>
-              <TextField
-                name="code"
-                id="code"
-                margin="dense"
-                placeholder={t('itemGroupSetting.code')}
-                value={code}
-                onBlur={(event) => formatInput(this, event)}
-                variant="outlined"
-                size="small"
-                disabled={isView || isUpdate}
-                onChange={(event) => onChangeTextField(this, event)}
-              />
-              {/* add rule to validate */}
-              {this.validator.message(
-                'code',
-                code,
-                `required|alpha_num|max:${TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX}`,
-              )}
-              {/* check isValid to show messages */}
-              {this.state.isSubmitForm &&
-                !this.validator.check(code.trim(), 'required') && (
-                  <FormHelperText error>{t('form.required')}</FormHelperText>
-                )}
-
-              {this.state.isSubmitForm &&
-                !this.validator.check(code.trim(), 'alpha_num') && (
-                  <FormHelperText error>{t('form.validCode')}</FormHelperText>
-                )}
-
-              {this.state.isSubmitForm &&
-                !this.validator.check(
-                  code.trim(),
-                  `max:${TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX}`,
-                ) && (
-                  <FormHelperText error>
-                    {t('form.maxLength', {
-                      max: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
-                    })}
-                  </FormHelperText>
-                )}
-            </FormControl>
-          </Box>
-          <Box width={1} mt={2}>
-            <div>
-              <label className={this.props.classes.labelItem}>
-                {t('itemGroupSetting.name')}
-                <span className={this.props.classes.required}> *</span>
-              </label>
-            </div>
-            <FormControl fullWidth>
-              <TextField
-                name="name"
-                id="name"
-                margin="dense"
-                placeholder={t('itemGroupSetting.name')}
-                value={name}
-                onBlur={(event) => formatInput(this, event)}
-                variant="outlined"
-                size="small"
-                disabled={isView}
-                onChange={(event) => onChangeTextField(this, event)}
-              />
-              {/* add rule to validate */}
-              {this.validator.message(
-                'name',
-                name,
-                `required|max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-              )}
-              {/* check isValid to show messages */}
-              {this.state.isSubmitForm &&
-                !this.validator.check(name.trim(), 'required') && (
-                  <FormHelperText error>{t('form.required')}</FormHelperText>
-                )}
-              {this.state.isSubmitForm &&
-                !this.validator.check(
-                  name.trim(),
-                  `max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-                ) && (
-                  <FormHelperText error>
-                    {t('form.maxLength', {
-                      max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                    })}
-                  </FormHelperText>
-                )}
-            </FormControl>
-          </Box>
-          <Box width={1} mt={2}>
-            <div>
-              <label className={this.props.classes.labelItem}>
-                {t('itemGroupSetting.description')}
-              </label>
-            </div>
-            <FormControl fullWidth>
-              <TextField
-                name="description"
-                id="description"
-                margin="dense"
-                value={description}
-                variant="outlined"
-                size="small"
-                disabled={isView}
-                multiline
-                rows={5}
-                placeholder={t('itemGroupSetting.description')}
-                onChange={(event) => onChangeTextField(this, event)}
-              />
-            </FormControl>
-            {!this.validator.check(
-              description?.trim(),
-              `max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-            ) && (
-              <FormHelperText error>
-                {t('form.maxLength', {
-                  max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                })}
-              </FormHelperText>
+        {({ handleReset, values }) => (
+          <Form>
+            {/* @TODO: <linh.taquang> fix UI */}
+            <Grid container columnSpacing={4} rowSpacing={4 / 3}>
+              <Grid item xs={6}>
+                <Field.TextField
+                  label={t('itemGroupDefine.code')}
+                  name="code"
+                  placeholder={t('itemGroupDefine.code')}
+                  disabled={isView || isUpdate}
+                  labelWidth={180}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  name="name"
+                  label={t('itemGroupDefine.name')}
+                  placeholder={t('itemGroupDefine.name')}
+                  disabled={isView}
+                  labelWidth={180}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field.TextField
+                  name="description"
+                  label={t('itemGroupDefine.description')}
+                  disabled={isView}
+                  placeholder={t('itemGroupDefine.description')}
+                  multiline
+                  rows={3}
+                  labelWidth={180}
+                />
+              </Grid>
+            </Grid>
+            {isView && (
+              <Box
+                width={1}
+                mt={2}
+                flex={1}
+                display="flex"
+                justifyContent="space-between"
+              >
+                <div>
+                  <label>
+                    <Typography>
+                      {t('itemTypeSetting.createDate')}:{' '}
+                      {formatDateTimeUtc(values.createdAt)}
+                    </Typography>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <Typography>
+                      {t('itemTypeSetting.updateDate')}:{' '}
+                      {formatDateTimeUtc(values.updatedAt)}
+                    </Typography>
+                  </label>
+                </div>
+              </Box>
             )}
-          </Box>
-          {isView && (
-            <Box
-              width={1}
-              mt={2}
-              flex={1}
-              display="flex"
-              justifyContent="space-between"
-            >
-              <div>
-                <label>
-                  <strong>{t('itemTypeSetting.createDate')}: </strong>{' '}
-                  <span>{formatDateTimeUtc(createdAt)}</span>
-                </label>
-              </div>
-              <div>
-                <label>
-                  <strong>{t('itemTypeSetting.updateDate')}: </strong>{' '}
-                  <span>{formatDateTimeUtc(updatedAt)}</span>
-                </label>
-              </div>
+            <Box className={clsx(classes.marginAuto, classes.marginLabel)}>
+              {renderActionButtons({ handleReset })}
             </Box>
-          )}
-        </form>
-      </Modal>
-    )
-  }
+          </Form>
+        )}
+      </Formik>
+    </Page>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  itemGroupSetting: state.itemGroupSetting,
-})
-
-const mapDispatchToProps = {
-  createItemGroup,
-  updateItemGroup,
-  getItemGroupDetailsById,
-}
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(ItemGroupForm)),
-)
+export default ItemGroupForm
