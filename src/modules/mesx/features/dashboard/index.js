@@ -33,40 +33,44 @@ class Dashboard extends Component {
 
   render() {
     const { t, classes } = this.props
-    return (
-      <Page title={t('dashboard.title')} onSearch={() => {}}>
-        <Box container>
-          <Grid container xs={12} className={classes.summarySection}>
-            <ItemSummary />
-          </Grid>
-          <Divider />
-        </Box>
-        <Box container marginTop={'20px'}>
-          <Grid container xs={12} className={classes.summarySection}>
-            <Grid container className={classes.displayFlex} spacing={4}>
-              <Grid item xs={12} lg={6} md={6}>
-                <MoStatusReport />
-              </Grid>
-              <Grid item xs={12} lg={6} md={6}>
-                <FinishedProductProgress />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-        <Box container marginTop={'20px'}>
-          <Grid container xs={12} className={classes.summarySection}>
-            <Grid container className={classes.displayFlex} spacing={4}>
-              <Grid item xs={12} lg={6} md={6}>
-                <ProducingStepProgress />
-              </Grid>
-              <Grid item xs={12} lg={6} md={6}>
-                <QcProducingStepProgress />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Box>
-      </Page>
-    )
+
+    return <p>Dashboard</p>
+    // @TODO refactor
+
+    // return (
+    //   <Page title={t('dashboard.title')} onSearch={() => {}}>
+    //     <Box container>
+    //       <Grid container xs={12} className={classes.summarySection}>
+    //         <ItemSummary />
+    //       </Grid>
+    //       <Divider />
+    //     </Box>
+    //     <Box container marginTop={'20px'}>
+    //       <Grid container xs={12} className={classes.summarySection}>
+    //         <Grid container className={classes.displayFlex} spacing={4}>
+    //           <Grid item xs={12} lg={6} md={6}>
+    //             <MoStatusReport />
+    //           </Grid>
+    //           <Grid item xs={12} lg={6} md={6}>
+    //             <FinishedProductProgress />
+    //           </Grid>
+    //         </Grid>
+    //       </Grid>
+    //     </Box>
+    //     <Box container marginTop={'20px'}>
+    //       <Grid container xs={12} className={classes.summarySection}>
+    //         <Grid container className={classes.displayFlex} spacing={4}>
+    //           <Grid item xs={12} lg={6} md={6}>
+    //             <ProducingStepProgress />
+    //           </Grid>
+    //           <Grid item xs={12} lg={6} md={6}>
+    //             <QcProducingStepProgress />
+    //           </Grid>
+    //         </Grid>
+    //       </Grid>
+    //     </Box>
+    //   </Page>
+    // )
   }
 }
 
