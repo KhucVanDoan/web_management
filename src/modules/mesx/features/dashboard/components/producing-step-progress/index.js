@@ -31,16 +31,6 @@ import { bigNumberFormater } from '~/utils/number'
 import FilterModal from '../filter-modal/filter-modal'
 import useStyles from './style'
 
-function CustomizedLabel(data) {
-  const { x, y, stroke, value } = data
-
-  return (
-    <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
-      {value}
-    </text>
-  )
-}
-
 class ProducingStepProgressReport extends Component {
   constructor(props) {
     super(props)
@@ -153,7 +143,6 @@ class ProducingStepProgressReport extends Component {
                     dataKey="planQuantity"
                     stroke="#ff7300"
                     name={t('dashboard.plan')}
-                    // label={<CustomizedLabel />}
                   />
                 </ComposedChart>
               </ResponsiveContainer>
