@@ -84,7 +84,6 @@
     "bomProducingStepDetail": "Chi tiết BOM công đoạn",
     "bomProducingStepEdit": "Sửa BOM công đoạn"
   },
-
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
     "unknownError": "Có lỗi xảy ra vui lòng thử lại",
@@ -96,7 +95,6 @@
     "btnCancel": "Huỷ",
     "btnClose": "Đóng"
   },
-
   "common": {
     "yes": "Có",
     "no": "Không",
@@ -140,7 +138,6 @@
     "dayOfWeeks5": "Thứ 6",
     "dayOfWeeks6": "Thứ 7"
   },
-
   "userManagement": {
     "title": "Danh sách user",
     "searchPlaceHolder": "Tìm kiếm user theo tên đăng nhập hoặc tên nhân viên",
@@ -183,7 +180,6 @@
     "generateOTPSuccess": "Thành công ! Một mã OTP vừa được gửi về email của bạn",
     "verifyOTPSuccess": "Xác thực mã OTP thành công"
   },
-
   "defineItem": {
     "title": "Định nghĩa sản phẩm",
     "codeInput": "Nhập mã sản phẩm",
@@ -883,7 +879,6 @@
     "finished": "Hoàn thành",
     "late": "Trễ"
   },
-
   "workCenter": {
     "title": "Danh sách xưởng",
     "searchPlaceholder": "Tìm kiếm xưởng theo mã hoặc tên",

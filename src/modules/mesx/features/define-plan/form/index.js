@@ -43,7 +43,7 @@ import {
   updatePlan,
   confirmPlanById,
   getMoByPlanId,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeDate,

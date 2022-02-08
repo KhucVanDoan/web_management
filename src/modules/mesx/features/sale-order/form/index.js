@@ -28,7 +28,7 @@ import {
   getItems,
   getWarehouses,
 } from '~/modules/mesx/redux/actions/common.action'
-import { searchBOQ } from '~/modules/mesx/redux/actions/define-boq.action'
+import { searchBOQ } from '~/modules/mesx/redux/actions/define-boq'
 import {
   confirmSaleOrderById,
   createSaleOrder,

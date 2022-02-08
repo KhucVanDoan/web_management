@@ -4,7 +4,7 @@ import {
   searchPlansFailed,
   searchPlansSuccess,
   SEARCH_PLANS_START,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 import { api } from '~/services/api'
 
 /**

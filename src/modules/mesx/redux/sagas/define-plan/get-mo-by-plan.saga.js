@@ -4,7 +4,7 @@ import {
   getMoByPlanIdFailed,
   getMoByPlanIdSuccess,
   GET_MO_BY_PLAN_START,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 import { api } from '~/services/api'
 
 /**

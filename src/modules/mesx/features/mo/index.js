@@ -36,7 +36,7 @@ import {
   deleteMO,
   confirmMOById,
 } from '~/modules/mesx/redux/actions/mo.action'
-import { searchPlans } from '~/modules/mesx/redux/actions/plan.action'
+import { searchPlans } from '~/modules/mesx/redux/actions/plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { onChangeTextField, formatDateTimeUtc, redirectRouter } from '~/utils'
 

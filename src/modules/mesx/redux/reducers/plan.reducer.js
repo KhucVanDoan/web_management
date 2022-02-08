@@ -20,7 +20,7 @@ import {
   CONFIRM_PLAN_START,
   CONFIRM_PLAN_SUCCESS,
   CONFIRM_PLAN_FAILED,
-} from '~/modules/mesx/redux/actions/plan.action'
+} from '~/modules/mesx/redux/actions/plan'
 
 const initialState = {
   isLoading: false,

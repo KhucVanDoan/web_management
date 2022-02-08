@@ -20,6 +20,7 @@
     "eslint-config-react-app": "^6.0.0",
     "formik": "^2.2.9",
     "i18next": "^20.3.2",
+    "lint-staged": "^12.3.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "pre-commit": "^1.2.2",
@@ -51,7 +52,11 @@
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint \"./src/**/*.js\"",
-    "lint:file": "eslint"
+    "lint:file": "eslint",
+    "lint:commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": "eslint --max-warnings=0"
   },
   "eslintConfig": {
     "extends": [
@@ -95,6 +100,6 @@
     "redux-logger": "^3.0.6"
   },
   "pre-commit": [
-    "lint"
+    "lint:commit"
   ]
 }
