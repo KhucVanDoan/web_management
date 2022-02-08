@@ -51,7 +51,9 @@
   "dataTable": {
     "visibleColumns": "Hiển thị các mục đã chọn",
     "filter": "Lọc",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "title": "Danh sách",
+    "noData": "Không có dữ liệu"
   },
 
   "pagination": {

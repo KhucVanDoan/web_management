@@ -1,208 +1,170 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import SearchIcon from '@mui/icons-material/Search'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
-import { MODAL_MODE } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  searchItemGroups,
-  deleteItemGroup,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
-import { formatDateTimeUtc, onChangeTextField } from '~/utils'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
 
-import ItemGroupForm from './item-group-form'
-import useStyles from './style'
-
+import FilterForm from './filter-form'
 const breadcrumbs = [
   {
     title: 'database',
   },
   {
-    route: '/database/item-group-setting',
-    title: 'itemGroupSetting',
+    route: ROUTE.ITEM_GROUP.LIST.PATH,
+    title: ROUTE.ITEM_GROUP.LIST.TITLE,
   },
 ]
-class ItemGroupSetting extends Component {
-  constructor(props) {
-    super(props)
-    const { t } = props
-    this.state = {
-      id: null,
-      isOpenModal: false,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenConfirmDeleteModal: false,
-      keyword: '',
-      pageSize: 20,
-      page: 1,
-      filters: [],
-      sort: null,
-    }
-    this.MODAL_MAP_CONTENT = {
-      CREATE: {
-        title: t('itemGroupSetting.createTitle'),
-        submitLabel: t('common.create'),
-        cancelLabel: t('common.cancel'),
+const ItemGroupSetting = () => {
+  const { t } = useTranslation(['mesx'])
+  const history = useHistory()
+  const {
+    data: { isLoading, itemGroupList, total },
+    actions,
+  } = useItemGroup()
+  const [id, setId] = useState()
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [sort, setSort] = useState([])
+  const [keyword, setKeyword] = useState('')
+  const [filters, setfilters] = useState({})
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
+
+  const columns = useMemo(() => [
+    {
+      field: 'id',
+      headerName: '#',
+      width: 80,
+      sortable: false,
+      fixed: true,
+    },
+    {
+      field: 'code',
+      headerName: t('itemGroupDefine.groupCode'),
+      width: 100,
+      fixed: true,
+    },
+    {
+      field: 'name',
+      headerName: t('itemGroupDefine.groupName'),
+      width: 200,
+      fixed: true,
+    },
+    {
+      field: 'description',
+      headerName: t('itemGroupDefine.groupNote'),
+      width: 400,
+      sortable: false,
+    },
+    {
+      field: 'createdAt',
+      headerName: t('itemGroupDefine.createDate'),
+      width: 150,
+      renderCell: (params) => {
+        const createdAt = params.row.createdAt
+        return formatDateTimeUtc(createdAt)
       },
-      UPDATE: {
-        title: t('itemGroupSetting.updateTitle'),
-        submitLabel: t('common.save'),
-        cancelLabel: t('common.cancel'),
+    },
+    {
+      field: 'updatedAt',
+      headerName: t('itemGroupDefine.updateDate'),
+      width: 150,
+      renderCell: (params) => {
+        const updatedAt = params.row.updatedAt
+        return formatDateTimeUtc(updatedAt)
       },
-      DETAIL: {
-        title: t('itemGroupSetting.viewTitle'),
-        cancelLabel: t('common.cancel'),
+    },
+    {
+      field: 'action',
+      headerName: t('itemGroupDefine.action'),
+      width: 150,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        const { row } = params
+        const { id } = row
+        return (
+          <>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.ITEM_GROUP.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(ROUTE.ITEM_GROUP.EDIT.PATH.replace(':id', `${id}`))
+              }
+            >
+              <Icon name="edit" />
+            </IconButton>
+            <IconButton onClick={() => handleDeleteOpenModal(id)}>
+              <Icon name="delete" />
+            </IconButton>
+          </>
+        )
       },
-    }
-    this.columns = [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        sortable: false,
-      },
-      {
-        field: 'code',
-        headerName: t('itemGroupSetting.groupCode'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'name',
-        headerName: t('itemGroupSetting.groupName'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'description',
-        headerName: t('itemGroupSetting.groupNote'),
-        width: 400,
-        sortable: false,
-      },
-      {
-        field: 'createdAt',
-        headerName: t('itemGroupSetting.createDate'),
-        width: 200,
-        renderCell: (params) => {
-          const createdAt = params.row.createdAt
-          return formatDateTimeUtc(createdAt)
-        },
-      },
-      {
-        field: 'updatedAt',
-        headerName: t('itemGroupSetting.updateDate'),
-        width: 200,
-        renderCell: (params) => {
-          const updatedAt = params.row.updatedAt
-          return formatDateTimeUtc(updatedAt)
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('itemGroupSetting.action'),
-        disableClickEventBubbling: true,
-        width: 250,
-        sortable: false,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          return (
-            <div>
-              <IconButton
-                type="button"
-                onClick={() => this.handleDetailOpenModal(params.row.id)}
-                size="large"
-              >
-                <Visibility />
-              </IconButton>
-              <IconButton
-                type="button"
-                onClick={() => this.handleEditOpenModal(params.row.id)}
-                size="large"
-              >
-                <Edit />
-              </IconButton>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickDelete(params.row.id)}
-                size="large"
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          )
-        },
-      },
-    ]
+    },
+  ])
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, sort, filters, keyword])
+
+  const handleDeleteOpenModal = (id) => {
+    setId(id)
+    setDeleteModal(true)
   }
 
-  componentDidMount() {
-    this.refreshData()
+  const onSubmitDelete = () => {
+    actions.deleteItemGroup(
+      id,
+      () => {
+        setDeleteModal(false)
+      },
+      () => {
+        setDeleteModal(false)
+      },
+    )
   }
 
-  handleSearchItemGroups = () => {
-    this.refreshData()
-  }
-
-  handleSearchItemGroupsByEnter = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
-  }
-
-  handleCreateOpenModal = () => {
-    this.setState({ modalMode: MODAL_MODE.CREATE, isOpenModal: true })
-  }
-
-  handleEditOpenModal = (id) => {
-    this.setState({ id, modalMode: MODAL_MODE.UPDATE, isOpenModal: true })
-  }
-
-  handleDetailOpenModal = (id) => {
-    this.setState({ id, modalMode: MODAL_MODE.DETAIL, isOpenModal: true })
-  }
-
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenConfirmDeleteModal: true })
-  }
-
-  onSubmitDelete = () => {
-    this.props.deleteItemGroup(this.state.id, () => {
-      this.setState({ isOpenConfirmDeleteModal: false })
-      this.refreshData()
-    })
-  }
-
-  onCloseModalDelete = () => {
-    this.setState({ isOpenConfirmDeleteModal: false, id: null })
-  }
-
-  handleCloseModal = (refresh = false) => {
-    this.setState({ id: null, isOpenModal: false })
-    refresh && this.refreshData()
+  const renderHeaderRight = () => {
+    return (
+      <>
+        {/* @TODO: <linh.taquang> handle import/export */}
+        <Button
+          variant="outlined"
+          disabled
+          startIcon={<Icon name="download" />}
+        >
+          {t('itemGroupDefine.import')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.ITEM_GROUP.CREATE.PATH)}
+          startIcon={<Icon name="add" />}
+          sx={{ ml: '16px' }}
+        >
+          {t('common.create')}
+        </Button>
+      </>
+    )
   }
 
   /**
    * Refresh data
    */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
-
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
-
+  const refreshData = () => {
     const sortData = sort
       ? [
           {
@@ -214,158 +176,62 @@ class ItemGroupSetting extends Component {
 
     const params = {
       keyword: keyword.trim(),
-      page,
+      page: page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
+      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
       sort: JSON.stringify(sortData),
     }
-    this.props.searchItemGroups(params)
+    actions.searchItemGroups(params)
   }
 
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  render() {
-    const {
-      isOpenModal,
-      modalMode,
-      isOpenConfirmDeleteModal,
-      id,
-      pageSize,
-      page,
-    } = this.state
-    const { classes, itemGroupSetting, t } = this.props
-    const modalContent = this.MODAL_MAP_CONTENT[modalMode]
-    return (
-      <>
-        <div>
-          <h2>{t('itemGroupSetting.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('itemGroupSetting.searchPlaceholder')}
-            variant="outlined"
-            size="small"
-            name="keyword"
-            onKeyDown={this.handleSearchItemGroupsByEnter}
-            onChange={(event) => onChangeTextField(this, event)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.handleSearchItemGroups}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-        <div className={classes.createBox}>
-          {' '}
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreateOpenModal}
-            startIcon={<AddCircle />}
-          >
-            {t('common.create')}
-          </Button>
-        </div>
+  return (
+    <>
+      <Page
+        breadcrumbs={breadcrumbs}
+        title={t('itemGroupDefine.title')}
+        onSearch={setKeyword}
+        placeholder={t('itemGroupDefine.searchPlaceholder')}
+        renderHeaderRight={renderHeaderRight}
+        loading={isLoading}
+      >
         <DataTable
-          rows={itemGroupSetting.itemGroupList}
+          rows={itemGroupList}
           pageSize={pageSize}
           page={page}
-          columns={this.columns}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={itemGroupSetting.total}
+          columns={columns}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onChangeFilter={setfilters}
+          onChangeSort={setSort}
+          total={total}
+          title={t('general:dataTable.title')}
+          filters={{
+            form: <FilterForm />,
+            values: filters,
+            onApply: setfilters,
+          }}
+          sort={sort}
         />
-        <Loading open={itemGroupSetting?.isLoading} />
-        <ItemGroupForm
-          modalMode={modalMode}
-          id={id}
-          title={modalContent.title}
-          isOpenModal={isOpenModal}
-          submitLabel={modalContent.submitLabel}
-          handleCloseModal={this.handleCloseModal}
-          pageSize={pageSize}
-          page={page}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-        />
-        <Modal
-          isOpen={isOpenConfirmDeleteModal}
-          title={t('itemGroupSetting.deleteTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCloseModalDelete}
+        <Dialog
+          open={deleteModal}
+          title={t('itemGroupDefine.deleteTitle')}
+          onCancel={() => setDeleteModal(false)}
+          cancelLabel={t('common.no')}
+          cancelProps={{
+            variant: 'outlined',
+            color: 'subText',
+          }}
+          onSubmit={onSubmitDelete}
           submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+          submitProps={{
+            color: 'error',
+          }}
         >
-          {t('itemGroupSetting.confirmDelete')}
-        </Modal>
-      </>
-    )
-  }
+          {t('itemGroupDefine.confirmDelete')}
+        </Dialog>
+      </Page>
+    </>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  itemGroupSetting: state.itemGroupSetting,
-})
-
-const mapDispatchToProps = {
-  searchItemGroups,
-  deleteItemGroup,
-}
-
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(ItemGroupSetting)),
-  ),
-  breadcrumbs,
-)
+export default ItemGroupSetting

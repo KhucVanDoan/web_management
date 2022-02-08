@@ -4,7 +4,7 @@ import {
   searchItemGroupsFailed,
   searchItemGroupsSuccess,
   SEARCH_ITEM_GROUPS_START,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
+} from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
 
 /**

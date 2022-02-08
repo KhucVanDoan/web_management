@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +17,7 @@ import {
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
@@ -136,63 +135,51 @@ const DefineBOQ = (props) => {
           return (
             <Box sx={{ whiteSpace: 'nowrap' }}>
               <IconButton
-                type="button"
                 onClick={() =>
                   history.push(
                     ROUTE.DEFINE_BOQ.DETAIL.PATH.replace(':id', `${id}`),
                   )
                 }
-                size="large"
               >
-                <Visibility />
+                <Icon name="show" />
               </IconButton>
               {canEdit && (
                 <IconButton
-                  type="button"
                   onClick={() =>
                     history.push(
                       ROUTE.DEFINE_BOQ.EDIT.PATH.replace(':id', `${id}`),
                     )
                   }
-                  size="large"
                 >
-                  <Edit />
+                  <Icon name="edit" />
                 </IconButton>
               )}
               {canDelete && (
                 <IconButton
-                  type="button"
                   onClick={() => {
                     setId(id)
                     setIsOpenDeleteModal(true)
                   }}
-                  size="large"
                 >
-                  <Delete />
+                  <Icon name="delete" />
                 </IconButton>
               )}
               {canConfirm && (
                 <IconButton
-                  type="button"
                   onClick={() => {
                     setId(id)
                     setIsOpenConfirmModal(true)
                   }}
-                  size="large"
                 >
-                  <CheckBox style={{ color: 'green' }} />
+                  <Icon name="tick" />
                 </IconButton>
               )}
               {goDetail && (
                 <Link
-                  onClick={() => {
-                    history.push(
-                      ROUTE.PLAN.DETAILS.PATH.replace(
-                        ':id',
-                        `${boqHasPlan[0]}`,
-                      ),
-                    )
-                  }}
+                  to={ROUTE.PLAN.DETAILS.PATH.replace(
+                    ':id',
+                    `${boqHasPlan[0]}`,
+                  )}
                 >
                   {t('defineBOQ.planList')}
                 </Link>
@@ -251,11 +238,8 @@ const DefineBOQ = (props) => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          // onClick={this.handleImport}
-          variant="outlined"
-          disabled
-        >
+        {/* @TODO: handle import data */}
+        <Button variant="outlined" icon="download" disabled>
           {t('defineBOQ.import')}
         </Button>
         <Button
@@ -287,7 +271,7 @@ const DefineBOQ = (props) => {
         onPageSizeChange={setPageSize}
         onChangeSort={setSort}
         total={total}
-        title={t('dataTable.title')}
+        title={t('general:dataTable.title')}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />

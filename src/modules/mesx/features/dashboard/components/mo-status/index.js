@@ -118,8 +118,8 @@ class MoStatusReport extends Component {
 
     return (
       <text
-        x={x}
-        y={y}
+        x={+x}
+        y={+y}
         fill="white"
         textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"

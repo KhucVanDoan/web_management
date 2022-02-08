@@ -14,7 +14,9 @@ import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
 import DetailSchedule from '~/modules/mesx/features/detail-schedule/list'
 import InventoryLimit from '~/modules/mesx/features/inventory-limit'
 import ItemGroupSetting from '~/modules/mesx/features/item-group-setting'
+import ItemGroupForm from '~/modules/mesx/features/item-group-setting/item-group-form'
 import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
+import ItemTypeForm from '~/modules/mesx/features/item-type-setting/item-type-form'
 import ItemUnitSetting from '~/modules/mesx/features/item-unit-setting'
 import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
 import MaterialReport from '~/modules/mesx/features/material-report'
@@ -248,16 +250,61 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: 'itemGroupSetting',
-        path: '/item-group-setting',
+        name: ROUTE.ITEM_GROUP.LIST.TITLE,
+        path: ROUTE.ITEM_GROUP.LIST.PATH,
         component: ItemGroupSetting,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ITEM_GROUP.CREATE.TITLE,
+            path: ROUTE.ITEM_GROUP.CREATE.PATH,
+            component: ItemGroupForm,
+            pathActive: ROUTE.ITEM_GROUP.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_GROUP.DETAIL.TITLE,
+            path: ROUTE.ITEM_GROUP.DETAIL.PATH,
+            component: ItemGroupForm,
+            pathActive: ROUTE.ITEM_GROUP.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_GROUP.EDIT.TITLE,
+            path: ROUTE.ITEM_GROUP.EDIT.PATH,
+            component: ItemGroupForm,
+            isInSidebar: false,
+          },
+        ],
       },
       {
-        name: 'itemTypeSetting',
-        path: '/item-type-setting',
+        name: ROUTE.ITEM_TYPE.LIST.TITLE,
+        path: ROUTE.ITEM_TYPE.LIST.PATH,
         component: ItemTypeSetting,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ITEM_TYPE.CREATE.TITLE,
+            path: ROUTE.ITEM_TYPE.CREATE.PATH,
+            component: ItemTypeForm,
+            pathActive: ROUTE.ITEM_TYPE.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_TYPE.EDIT.TITLE,
+            path: ROUTE.ITEM_TYPE.EDIT.PATH,
+            component: ItemTypeForm,
+            pathActive: ROUTE.ITEM_TYPE.EDIT.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_TYPE.DETAIL.TITLE,
+            path: ROUTE.ITEM_TYPE.DETAIL.PATH,
+            component: ItemTypeForm,
+            pathActive: ROUTE.ITEM_TYPE.DETAIL.PATH,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: 'itemUnitSetting',

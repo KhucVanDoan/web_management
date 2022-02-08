@@ -62,7 +62,6 @@ const style = (theme) => ({
 
     '& .MuiFormLabel-root': {
       color: theme.palette.text.main,
-      flex: '0 0 33.333333%',
       marginTop: 10,
       marginRight: theme.spacing(2),
       paddingLeft: theme.spacing(2),

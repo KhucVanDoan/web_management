@@ -3,10 +3,10 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  updateItemGroupFailed,
-  updateItemGroupSuccess,
-  UPDATE_ITEM_GROUP_START,
-} from '~/modules/mesx/redux/actions/item-group-setting.action'
+  updateItemTypeFailed,
+  updateItemTypeSuccess,
+  UPDATE_ITEM_TYPE_START,
+} from '~/modules/mesx/redux/actions/item-type-setting'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,8 +15,8 @@ import addNotification from '~/utils/toast'
  * @param {any} body Params will be sent to server
  * @returns {Promise}
  */
-const updateItemGroupApi = (body) => {
-  const uri = `/v1/items/item-group-settings/${body.id}`
+const updateItemTypeApi = (body) => {
+  const uri = `/v1/items/item-type-settings/${body.id}`
   return api.put(uri, body)
 }
 
@@ -24,12 +24,12 @@ const updateItemGroupApi = (body) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateItemGroup(action) {
+function* doUpdateItemType(action) {
   try {
-    const response = yield call(updateItemGroupApi, action?.payload)
+    const response = yield call(updateItemTypeApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateItemGroupSuccess(response.data))
+      yield put(updateItemTypeSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +37,7 @@ function* doUpdateItemGroup(action) {
       }
       yield put(getAppStore())
       addNotification(
-        'itemGroupSetting.updateItemGroupSuccess',
+        'itemTypeSetting.updateItemTypeSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +45,7 @@ function* doUpdateItemGroup(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateItemGroupFailed())
+    yield put(updateItemTypeFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,6 +56,6 @@ function* doUpdateItemGroup(action) {
 /**
  * Watch search users
  */
-export default function* watchUpdateItemGroup() {
-  yield takeLatest(UPDATE_ITEM_GROUP_START, doUpdateItemGroup)
+export default function* watchUpdateItemType() {
+  yield takeLatest(UPDATE_ITEM_TYPE_START, doUpdateItemType)
 }

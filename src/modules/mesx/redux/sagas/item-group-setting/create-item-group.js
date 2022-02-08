@@ -1,36 +1,35 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  deleteItemTypeFailed,
-  deleteItemTypeSuccess,
-  DELETE_ITEM_TYPE_START,
-} from '~/modules/mesx/redux/actions/item-type-setting.action'
+  createItemGroupFailed,
+  createItemGroupSuccess,
+  CREATE_ITEM_GROUP_START,
+} from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
  * Search user API
- * @param {any} params Params will be sent to server
+ * @param {any} body Params will be sent to server
  * @returns {Promise}
  */
-const deleteItemTypeApi = (params) => {
-  const uri = `/v1/items/item-type-settings/${params}`
-  return api.delete(uri)
+const createItemGroupApi = (body) => {
+  const uri = `/v1/items/item-group-settings/create`
+  return api.post(uri, body)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteItemType(action) {
+function* doCreateItemGroup(action) {
   try {
-    const response = yield call(deleteItemTypeApi, action?.payload)
+    const response = yield call(createItemGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteItemTypeSuccess(response.results))
+      yield put(createItemGroupSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -39,7 +38,7 @@ function* doDeleteItemType(action) {
       yield put(getAppStore())
 
       addNotification(
-        'itemTypeSetting.deleteItemTypeSuccess',
+        'itemGroupSetting.createItemGroupSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -47,7 +46,7 @@ function* doDeleteItemType(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteItemTypeFailed())
+    yield put(createItemGroupFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -58,6 +57,6 @@ function* doDeleteItemType(action) {
 /**
  * Watch search users
  */
-export default function* watchDeleteItemType() {
-  yield takeLatest(DELETE_ITEM_TYPE_START, doDeleteItemType)
+export default function* watchCreateItemGroup() {
+  yield takeLatest(CREATE_ITEM_GROUP_START, doCreateItemGroup)
 }

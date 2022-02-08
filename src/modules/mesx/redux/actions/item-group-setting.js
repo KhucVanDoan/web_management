@@ -205,3 +205,21 @@ export function getItemGroupDetailsByIdFailed() {
     type: GET_ITEM_GROUP_DETAILS_FAILED,
   };
 }
+
+export default {
+  searchItemGroups,
+  searchItemGroupsSuccess,
+  searchItemGroupsFailed,
+  createItemGroup,
+  createItemGroupSuccess,
+  createItemGroupFailed,
+  updateItemGroup,
+  updateItemGroupSuccess,
+  updateItemGroupFailed,
+  deleteItemGroup,
+  deleteItemGroupSuccess,
+  deleteItemGroupFailed,
+  getItemGroupDetailsById,
+  getItemGroupDetailsByIdSuccess,
+  getItemGroupDetailsByIdFailed,
+}

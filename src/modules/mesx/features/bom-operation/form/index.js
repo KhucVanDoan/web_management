@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 
 import { Button, Divider, FormHelperText, Grid, MenuItem } from '@mui/material'
@@ -40,7 +41,7 @@ import {
   getBOMDetailsById,
 } from '~/modules/mesx/redux/actions/define-bom.action'
 import { getItemDetailsById } from '~/modules/mesx/redux/actions/define-item.action'
-import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting.action'
+import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { onChangeSelect, onChangeTextField, redirectRouter } from '~/utils'
 import addNotification from '~/utils/toast'

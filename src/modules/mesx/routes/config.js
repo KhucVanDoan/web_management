@@ -3,6 +3,28 @@ export const ROUTE = {
     PATH: '/mesx',
     TITLE: 'dashboard',
   },
+  DATABASE: {
+    PATH: '/mesx/database',
+    TITLE: 'database'
+  },
+  ITEM_TYPE: {
+    LIST: {
+      PATH: '/mesx/item-type-setting',
+      TITLE: 'itemTypeSetting',
+    },
+    CREATE: {
+      PATH: '/mesx/item-type-setting/create',
+      TITLE: 'itemTypeCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/item-type-setting/:id/detail',
+      TITLE: 'itemTypeDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/item-type-setting/:id/edit',
+      TITLE: 'itemTypeEdit',
+    },
+  },
   ROUTING: {
     PATH: '/mesx/routings',
     TITLE: 'routingDefine',
@@ -231,7 +253,24 @@ export const ROUTE = {
       TITLE: 'bomWorkOrder',
     },
   },
-
+  ITEM_GROUP: {
+    LIST: {
+      PATH: '/mesx/item-group-setting',
+      TITLE: 'itemGroupDefine',
+    },
+    CREATE: {
+      PATH: '/mesx/item-group-setting/create',
+      TITLE: 'itemGroupCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/item-group-setting/:id/detail',
+      TITLE: 'itemGroupDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/item-group-setting/:id/edit',
+      TITLE: 'itemGroupEdit',
+    },
+  },
   QUALITY_REPORTS: {
     LIST: {
       PATH: '/mesx/quality-report',

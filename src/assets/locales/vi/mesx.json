@@ -4,10 +4,14 @@
     "dashboard": "Dashboard",
     "plan": "Kế hoạch",
     "import": "Nhập hàng",
+    "importExportData": "Nhập/Xuất dữ liệu",
     "database": "Cơ sở dữ liệu",
-    "itemGroupSetting": "Cài đặt nhóm sản phẩm",
+    "itemGroupDefine": "Định nghĩa nhóm sản phẩm",
+    "itemGroupCreate": "Tạo nhóm sản phẩm",
+    "itemGroupDetail": "Chi tiết nhóm sản phẩm",
+    "itemGroupEdit": "Sửa nhóm sản phẩm",
     "itemUnitSetting": "Cài đặt đơn vị sản phẩm",
-    "itemTypeSetting": "Cài đặt kiểu sản phẩm",
+    "itemTypeSetting": "Định nghĩa kiểu sản phẩm",
     "itemDefine": "Định nghĩa sản phẩm",
     "definePlan": "Kế hoạch sản xuất",
     "definePlanCreate": "Tạo kế hoạch",
@@ -90,11 +94,6 @@
     "btnSubmit": "Xác nhận",
     "btnCancel": "Huỷ",
     "btnClose": "Đóng"
-  },
-  "dataTable": {
-    "search": "Tìm",
-    "noData": "Không có dữ liệu",
-    "title": "Danh sách"
   },
   "common": {
     "yes": "Có",
@@ -290,7 +289,7 @@
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },
-  "itemGroupSetting": {
+  "itemGroupDefine": {
     "title": "Danh sách nhóm sản phẩm",
     "code": "Mã nhóm sản phẩm",
     "name": "Tên nhóm sản phẩm",
@@ -310,7 +309,8 @@
     "confirmDelete": "Bạn có muốn xóa nhóm sản phẩm không?",
     "deleteItemGroupSuccess": "Xóa nhóm sản phẩm thành công",
     "createItemGroupSuccess": "Tạo nhóm sản phẩm thành công",
-    "updateItemGroupSuccess": "Cập nhật nhóm sản phẩm thành công"
+    "updateItemGroupSuccess": "Cập nhật nhóm sản phẩm thành công",
+    "import": "Nhập/Xuất dữ liệu"
   },
   "itemTypeSetting": {
     "itemDetails": "Chi tiết sản phẩm",
@@ -319,13 +319,18 @@
     "name": "Tên kiểu sản phẩm",
     "isItemTypeDetail": "Có chi tiết không",
     "description": "Mô tả về kiểu sản phẩm",
-    "createItemType": "Tạo kiểu sản phẩm",
+    "itemTypeCreate": "Tạo kiểu sản phẩm",
+    "itemTypeEdit": "Sửa kiểu sản phẩm",
+    "itemTypeDetail": "Chi tiết sản phẩm",
+    "itemTypeDelete": "Xóa kiểu sản phẩm",
     "searchPlaceholder": "Tìm kiếm kiểu sản phẩm theo mã hoặc tên",
     "typeCode": "Mã kiểu",
     "typeName": "Tên kiểu",
     "typeNote": "Mô tả kiểu sản phẩm",
+    "createTime": "Thời gian tạo",
     "createDate": "Ngày tạo",
     "updateDate": "Ngày sửa",
+    "user": "Người tạo",
     "action": "Hành động",
     "createTitle": "Tạo kiểu sản phẩm",
     "updateTitle": "Chỉnh sửa kiểu sản phẩm",

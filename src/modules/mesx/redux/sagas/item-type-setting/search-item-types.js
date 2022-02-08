@@ -4,7 +4,7 @@ import {
   searchItemTypesFailed,
   searchItemTypesSuccess,
   SEARCH_ITEM_TYPES_START,
-} from '~/modules/mesx/redux/actions/item-type-setting.action'
+} from '~/modules/mesx/redux/actions/item-type-setting'
 import { api } from '~/services/api'
 
 /**

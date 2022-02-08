@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Component } from 'react'
 
 import {
@@ -38,11 +40,10 @@ import useStyles from './style'
 
 function CustomizedLabel(data) {
   const { x, y, stroke, value } = data
-
   return (
     <text
-      x={x}
-      y={y}
+      x={x || 0}
+      y={y || 0}
       dy={-4}
       fill={stroke}
       fontSize={10}
