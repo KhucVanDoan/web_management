@@ -1,26 +1,26 @@
 import React, { Component } from 'react'
 
-import { Box, Divider, Grid } from '@mui/material'
+// import { Box, Divider, Grid } from '@mui/material'
 import withStyles from '@mui/styles/withStyles'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
-import Page from '~/components/Page'
+// import Page from '~/components/Page'
 import { getDashboardInProgressMos } from '~/modules/mesx/redux/actions/dashboard-store.action'
 
-import FinishedProductProgress from './components/finished-product-progress'
-import ItemSummary from './components/item-summary'
-import MoStatusReport from './components/mo-status'
-import ProducingStepProgress from './components/producing-step-progress'
-import QcProducingStepProgress from './components/qc-producing-step-progress'
+// import FinishedProductProgress from './components/finished-product-progress'
+// import ItemSummary from './components/item-summary'
+// import MoStatusReport from './components/mo-status'
+// import ProducingStepProgress from './components/producing-step-progress'
+// import QcProducingStepProgress from './components/qc-producing-step-progress'
 import useStyles from './style'
 
-const breadcrumbs = [
-  {
-    route: '/',
-    title: 'dashboard',
-  },
-]
+// const breadcrumbs = [
+//   {
+//     route: '/',
+//     title: 'dashboard',
+//   },
+// ]
 class Dashboard extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +32,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { t, classes } = this.props
+    // const { t, classes } = this.props
 
     return <p>Dashboard</p>
     // @TODO refactor
