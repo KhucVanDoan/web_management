@@ -14,6 +14,7 @@ import {
   UPDATE_ITEM_GROUP_FAILED,
   UPDATE_ITEM_GROUP_START,
   UPDATE_ITEM_GROUP_SUCCESS,
+  RESET_ITEM_GROUP_DETAILS_STATE,
 } from '~/modules/mesx/redux/actions/item-group-setting'
 
 const initialState = {
@@ -66,6 +67,12 @@ export default function itemGroupSetting(state = initialState, action) {
         ...state,
         itemGroupDetails: action.payload,
         isLoading: false,
+      }
+
+    case RESET_ITEM_GROUP_DETAILS_STATE:
+      return {
+        ...state,
+        itemGroupDetails: {},
       }
     default:
       return state

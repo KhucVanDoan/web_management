@@ -24,18 +24,15 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="description"
-          label={t('itemGroupDefine.groupNote')}
-          placeholder={t('itemGroupDefine.groupNote')}
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('itemGroupDefine.createDate')}
+          placeholder={t('itemGroupDefine.createDate')}
+          type="date"
         />
       </Grid>
     </Grid>
   )
 }
-
-FilterForm.defaultProps = {}
-
-FilterForm.propTypes = {}
 
 export default FilterForm
