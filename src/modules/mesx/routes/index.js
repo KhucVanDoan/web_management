@@ -14,6 +14,7 @@ import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
 import DetailSchedule from '~/modules/mesx/features/detail-schedule/list'
 import InventoryLimit from '~/modules/mesx/features/inventory-limit'
 import ItemGroupSetting from '~/modules/mesx/features/item-group-setting'
+import ItemGroupDetail from '~/modules/mesx/features/item-group-setting/item-group-detail'
 import ItemGroupForm from '~/modules/mesx/features/item-group-setting/item-group-form'
 import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
 import ItemTypeForm from '~/modules/mesx/features/item-type-setting/item-type-form'
@@ -265,7 +266,7 @@ const routes = [
           {
             name: ROUTE.ITEM_GROUP.DETAIL.TITLE,
             path: ROUTE.ITEM_GROUP.DETAIL.PATH,
-            component: ItemGroupForm,
+            component: ItemGroupDetail,
             pathActive: ROUTE.ITEM_GROUP.DETAIL.PATH,
             isInSidebar: false,
           },

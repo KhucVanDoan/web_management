@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import clsx from 'clsx'
 import { Formik, Form } from 'formik'
+import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -15,32 +15,34 @@ import Page from '~/components/Page'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
-import { formatDateTimeUtc } from '~/utils'
 
 import { itemGroupSchema } from './schema'
-import useStyles from './style'
+import style from './style'
 
 const ItemGroupForm = () => {
-  const classes = useClasses(useStyles)
+  const classes = useClasses(style)
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const params = useParams()
   const {
-    data: { isLoading },
+    data: { isLoading, itemGroupDetails },
     actions,
   } = useItemGroup()
-  const [mode, setMode] = useState(MODAL_MODE.CREATE)
-  const [initialValues, setInitialValues] = useState({
-    code: '',
-    name: '',
-    decription: '',
-  })
+
+  const initialValues = isEmpty(itemGroupDetails)
+    ? {
+        code: '',
+        name: '',
+        decription: '',
+      }
+    : pick(itemGroupDetails, ['code', 'name', 'decription'])
+
   const MODE_MAP = {
     [ROUTE.ITEM_GROUP.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.ITEM_GROUP.EDIT.PATH]: MODAL_MODE.UPDATE,
-    [ROUTE.ITEM_GROUP.DETAIL.PATH]: MODAL_MODE.DETAIL,
   }
-  const isView = mode === MODAL_MODE.DETAIL
+
+  const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const { t } = useTranslation(['mesx'])
 
@@ -67,12 +69,6 @@ const ItemGroupForm = () => {
           title: ROUTE.ITEM_GROUP.EDIT.TITLE,
         })
         break
-      case MODAL_MODE.DETAIL:
-        breadcrumb.push({
-          route: ROUTE.ITEM_GROUP.DETAIL.PATH,
-          title: ROUTE.ITEM_GROUP.DETAIL.TITLE,
-        })
-        break
       default:
         break
     }
@@ -83,8 +79,6 @@ const ItemGroupForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return ROUTE.ITEM_GROUP.CREATE.TITLE
-      case MODAL_MODE.DETAIL:
-        return ROUTE.ITEM_GROUP.DETAIL.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.ITEM_GROUP.EDIT.TITLE
       default:
@@ -101,22 +95,14 @@ const ItemGroupForm = () => {
               {t('common.close')}
             </Button>
             <Button
-              variant="outlined"
               onClick={handleReset}
+              variant="outlined"
               color="subText"
               sx={{ mr: 1 }}
             >
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.create')}</Button>
-          </Box>
-        )
-      case MODAL_MODE.DETAIL:
-        return (
-          <Box display="flex" justifyContent="flex-end">
-            <Button variant="contained" onClick={backToList} color="grayF4">
-              {t('common.close')}
-            </Button>
           </Box>
         )
       case MODAL_MODE.UPDATE:
@@ -126,8 +112,8 @@ const ItemGroupForm = () => {
               {t('common.close')}
             </Button>
             <Button
-              variant="outlined"
               onClick={handleReset}
+              variant="outlined"
               color="subText"
               sx={{ mr: 1 }}
             >
@@ -145,21 +131,15 @@ const ItemGroupForm = () => {
   }
 
   useEffect(() => {
-    setMode(MODE_MAP[routeMatch.path])
-    if (mode !== MODAL_MODE.CREATE) {
+    if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
-      actions.getItemGroupDetailsById(id, (data) => {
-        const { code, name, description, createdAt, updatedAt } = data
-        setInitialValues({
-          code,
-          name,
-          description,
-          createdAt,
-          updatedAt,
-        })
-      })
+      actions.getItemGroupDetailsById(id)
     }
-  }, [routeMatch.path, mode])
+
+    return () => {
+      if (isUpdate) actions.resetItemGroupDetailsState()
+    }
+  }, [params?.id])
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
@@ -190,16 +170,15 @@ const ItemGroupForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset }) => (
           <Form>
-            {/* @TODO: <linh.taquang> fix UI */}
             <Grid container columnSpacing={4} rowSpacing={4 / 3}>
               <Grid item xs={6}>
                 <Field.TextField
                   label={t('itemGroupDefine.code')}
                   name="code"
                   placeholder={t('itemGroupDefine.code')}
-                  disabled={isView || isUpdate}
+                  disabled={isUpdate}
                   labelWidth={180}
                 />
               </Grid>
@@ -208,7 +187,6 @@ const ItemGroupForm = () => {
                   name="name"
                   label={t('itemGroupDefine.name')}
                   placeholder={t('itemGroupDefine.name')}
-                  disabled={isView}
                   labelWidth={180}
                 />
               </Grid>
@@ -216,7 +194,6 @@ const ItemGroupForm = () => {
                 <Field.TextField
                   name="description"
                   label={t('itemGroupDefine.description')}
-                  disabled={isView}
                   placeholder={t('itemGroupDefine.description')}
                   multiline
                   rows={3}
@@ -224,32 +201,6 @@ const ItemGroupForm = () => {
                 />
               </Grid>
             </Grid>
-            {isView && (
-              <Box
-                width={1}
-                mt={2}
-                flex={1}
-                display="flex"
-                justifyContent="space-between"
-              >
-                <div>
-                  <label>
-                    <Typography>
-                      {t('itemTypeSetting.createDate')}:{' '}
-                      {formatDateTimeUtc(values.createdAt)}
-                    </Typography>
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <Typography>
-                      {t('itemTypeSetting.updateDate')}:{' '}
-                      {formatDateTimeUtc(values.updatedAt)}
-                    </Typography>
-                  </label>
-                </div>
-              </Box>
-            )}
             <Box className={clsx(classes.marginAuto, classes.marginLabel)}>
               {renderActionButtons({ handleReset })}
             </Box>

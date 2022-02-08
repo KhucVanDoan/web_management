@@ -1,22 +1,24 @@
-export const SEARCH_ITEM_GROUPS_START = 'SEARCH_ITEM_GROUPS_START';
-export const SEARCH_ITEM_GROUPS_SUCCESS = 'SEARCH_ITEM_GROUPS_SUCCESS';
-export const SEARCH_ITEM_GROUPS_FAILED = 'SEARCH_ITEM_GROUPS_FAILED';
+export const SEARCH_ITEM_GROUPS_START = 'SEARCH_ITEM_GROUPS_START'
+export const SEARCH_ITEM_GROUPS_SUCCESS = 'SEARCH_ITEM_GROUPS_SUCCESS'
+export const SEARCH_ITEM_GROUPS_FAILED = 'SEARCH_ITEM_GROUPS_FAILED'
 
-export const CREATE_ITEM_GROUP_START = 'CREATE_ITEM_GROUP_START';
-export const CREATE_ITEM_GROUP_SUCCESS = 'CREATE_ITEM_GROUP_SUCCESS';
-export const CREATE_ITEM_GROUP_FAILED = 'CREATE_ITEM_GROUP_FAILED';
+export const CREATE_ITEM_GROUP_START = 'CREATE_ITEM_GROUP_START'
+export const CREATE_ITEM_GROUP_SUCCESS = 'CREATE_ITEM_GROUP_SUCCESS'
+export const CREATE_ITEM_GROUP_FAILED = 'CREATE_ITEM_GROUP_FAILED'
 
-export const UPDATE_ITEM_GROUP_START = 'UPDATE_ITEM_GROUP_START';
-export const UPDATE_ITEM_GROUP_SUCCESS = 'UPDATE_ITEM_GROUP_SUCCESS';
-export const UPDATE_ITEM_GROUP_FAILED = 'UPDATE_ITEM_GROUP_FAILED';
+export const UPDATE_ITEM_GROUP_START = 'UPDATE_ITEM_GROUP_START'
+export const UPDATE_ITEM_GROUP_SUCCESS = 'UPDATE_ITEM_GROUP_SUCCESS'
+export const UPDATE_ITEM_GROUP_FAILED = 'UPDATE_ITEM_GROUP_FAILED'
 
-export const DELETE_ITEM_GROUP_START = 'DELETE_ITEM_GROUP_START';
-export const DELETE_ITEM_GROUP_SUCCESS = 'DELETE_ITEM_GROUP_SUCCESS';
-export const DELETE_ITEM_GROUP_FAILED = 'DELETE_ITEM_GROUP_FAILED';
+export const DELETE_ITEM_GROUP_START = 'DELETE_ITEM_GROUP_START'
+export const DELETE_ITEM_GROUP_SUCCESS = 'DELETE_ITEM_GROUP_SUCCESS'
+export const DELETE_ITEM_GROUP_FAILED = 'DELETE_ITEM_GROUP_FAILED'
 
-export const GET_ITEM_GROUP_DETAILS_START = 'GET_ITEM_GROUP_DETAILS_START';
-export const GET_ITEM_GROUP_DETAILS_SUCCESS = 'GET_ITEM_GROUP_DETAILS_SUCCESS';
-export const GET_ITEM_GROUP_DETAILS_FAILED = 'GET_ITEM_GROUP_DETAILS_FAILED';
+export const GET_ITEM_GROUP_DETAILS_START = 'GET_ITEM_GROUP_DETAILS_START'
+export const GET_ITEM_GROUP_DETAILS_SUCCESS = 'GET_ITEM_GROUP_DETAILS_SUCCESS'
+export const GET_ITEM_GROUP_DETAILS_FAILED = 'GET_ITEM_GROUP_DETAILS_FAILED'
+
+export const RESET_ITEM_GROUP_DETAILS_STATE = 'RESET_ITEM_GROUP_DETAILS_STATE'
 
 /**
  * Search user
@@ -31,7 +33,7 @@ export function searchItemGroups(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -43,7 +45,7 @@ export function searchItemGroupsSuccess(payload) {
   return {
     type: SEARCH_ITEM_GROUPS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -53,7 +55,7 @@ export function searchItemGroupsSuccess(payload) {
 export function searchItemGroupsFailed() {
   return {
     type: SEARCH_ITEM_GROUPS_FAILED,
-  };
+  }
 }
 
 /**
@@ -69,7 +71,7 @@ export function createItemGroup(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -81,7 +83,7 @@ export function createItemGroupSuccess(payload) {
   return {
     type: CREATE_ITEM_GROUP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -91,7 +93,7 @@ export function createItemGroupSuccess(payload) {
 export function createItemGroupFailed() {
   return {
     type: CREATE_ITEM_GROUP_FAILED,
-  };
+  }
 }
 
 /**
@@ -107,7 +109,7 @@ export function updateItemGroup(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update user success action
@@ -118,7 +120,7 @@ export function updateItemGroupSuccess(payload) {
   return {
     type: UPDATE_ITEM_GROUP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -128,7 +130,7 @@ export function updateItemGroupSuccess(payload) {
 export function updateItemGroupFailed() {
   return {
     type: UPDATE_ITEM_GROUP_FAILED,
-  };
+  }
 }
 /**
  * Delete user
@@ -143,7 +145,7 @@ export function deleteItemGroup(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -155,7 +157,7 @@ export function deleteItemGroupSuccess(payload) {
   return {
     type: DELETE_ITEM_GROUP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -165,7 +167,7 @@ export function deleteItemGroupSuccess(payload) {
 export function deleteItemGroupFailed() {
   return {
     type: DELETE_ITEM_GROUP_FAILED,
-  };
+  }
 }
 
 /**
@@ -181,7 +183,7 @@ export function getItemGroupDetailsById(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -193,7 +195,7 @@ export function getItemGroupDetailsByIdSuccess(payload) {
   return {
     type: GET_ITEM_GROUP_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -203,7 +205,13 @@ export function getItemGroupDetailsByIdSuccess(payload) {
 export function getItemGroupDetailsByIdFailed() {
   return {
     type: GET_ITEM_GROUP_DETAILS_FAILED,
-  };
+  }
+}
+
+export function resetItemGroupDetailsState() {
+  return {
+    type: RESET_ITEM_GROUP_DETAILS_STATE,
+  }
 }
 
 export default {
@@ -222,4 +230,5 @@ export default {
   getItemGroupDetailsById,
   getItemGroupDetailsByIdSuccess,
   getItemGroupDetailsByIdFailed,
+  resetItemGroupDetailsState,
 }

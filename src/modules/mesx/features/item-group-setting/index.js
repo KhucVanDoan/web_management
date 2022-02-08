@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
@@ -67,6 +67,7 @@ const ItemGroupSetting = () => {
     },
     {
       field: 'createdAt',
+      type: 'date',
       headerName: t('itemGroupDefine.createDate'),
       width: 150,
       renderCell: (params) => {
@@ -143,16 +144,12 @@ const ItemGroupSetting = () => {
     return (
       <>
         {/* @TODO: <linh.taquang> handle import/export */}
-        <Button
-          variant="outlined"
-          disabled
-          startIcon={<Icon name="download" />}
-        >
+        <Button variant="outlined" disabled icon="download">
           {t('itemGroupDefine.import')}
         </Button>
         <Button
           onClick={() => history.push(ROUTE.ITEM_GROUP.CREATE.PATH)}
-          startIcon={<Icon name="add" />}
+          icon="add"
           sx={{ ml: '16px' }}
         >
           {t('common.create')}
