@@ -20,8 +20,8 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
 import Modal from '~/UNSAFE_components/shared/modal'
-import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
+  NOTIFICATION_TYPE,
   MODAL_MODE,
   PLAN_STATUS,
   PLAN_STATUS_MAP,

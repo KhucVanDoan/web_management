@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
 import { Search } from '@mui/icons-material'
-import { Box, FormControl, Grid } from '@mui/material'
-import { Autocomplete } from '@mui/material'
+import { Box, FormControl, Grid, Autocomplete } from '@mui/material'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import withStyles from '@mui/styles/withStyles'

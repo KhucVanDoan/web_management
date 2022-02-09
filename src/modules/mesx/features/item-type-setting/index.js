@@ -11,12 +11,9 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { withClasses } from '~/themes'
-import { convertObjectToArrayFilter } from '~/utils'
-import { formatDateTimeUtc } from '~/utils'
+import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
 
 import FilterForm from './filter-form'
-import useStyles from './style'
 
 const breadcrumbs = [
   {
@@ -82,6 +79,7 @@ function ItemTypeSetting() {
     },
     {
       field: 'updatedAt',
+      type: 'date',
       headerName: t('itemTypeSetting.updateDate'),
       width: 150,
       renderCell: (params) => {
@@ -100,7 +98,6 @@ function ItemTypeSetting() {
         return (
           <div>
             <IconButton
-              type="button"
               onClick={() =>
                 history.push(
                   ROUTE.ITEM_TYPE.DETAIL.PATH.replace(':id', `${id}`),
@@ -110,14 +107,13 @@ function ItemTypeSetting() {
               <Icon name="show" />
             </IconButton>
             <IconButton
-              type="button"
               onClick={() =>
                 history.push(ROUTE.ITEM_TYPE.EDIT.PATH.replace(':id', `${id}`))
               }
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton type="button" onClick={() => handleOpenDeleteModal(id)}>
+            <IconButton onClick={() => handleOpenDeleteModal(id)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -229,4 +225,4 @@ function ItemTypeSetting() {
   )
 }
 
-export default withClasses(useStyles)(ItemTypeSetting)
+export default ItemTypeSetting

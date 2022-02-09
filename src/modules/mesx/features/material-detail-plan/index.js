@@ -10,8 +10,8 @@ import {
   Select,
   MenuItem,
   FormHelperText,
+  Autocomplete,
 } from '@mui/material'
-import { Autocomplete } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -30,8 +30,10 @@ import Loading from '~/components/Loading'
 import { getItems } from '~/modules/mesx/redux/actions/common.action'
 import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/index.action'
 import { searchMaterialDetailPlan } from '~/modules/mesx/redux/actions/material-detail-plan.action'
-import { searchMO } from '~/modules/mesx/redux/actions/mo.action'
-import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
+import {
+  searchMO,
+  getMODetailsById,
+} from '~/modules/mesx/redux/actions/mo.action'
 import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
 import { ROUTE } from '~/modules/mesx/routes/config'
 

@@ -18,6 +18,8 @@ export const GET_ITEM_TYPE_DETAILS_START = 'GET_ITEM_TYPE_DETAILS_START'
 export const GET_ITEM_TYPE_DETAILS_SUCCESS = 'GET_ITEM_TYPE_DETAILS_SUCCESS'
 export const GET_ITEM_TYPE_DETAILS_FAILED = 'GET_ITEM_TYPE_DETAILS_FAILED'
 
+export const RESET_ITEM_TYPE_DETAILS_STATE = 'RESET_ITEM_TYPE_DETAILS_STATE'
+
 /**
  * Search user
  * @param {object} payload
@@ -206,6 +208,12 @@ export function getItemTypeDetailsByIdFailed() {
   }
 }
 
+export function resetItemTypeDetailsState() {
+  return {
+    type: RESET_ITEM_TYPE_DETAILS_STATE,
+  }
+}
+
 export default {
   searchItemTypes,
   searchItemTypesSuccess,
@@ -222,4 +230,5 @@ export default {
   getItemTypeDetailsById,
   getItemTypeDetailsByIdSuccess,
   getItemTypeDetailsByIdFailed,
+  resetItemTypeDetailsState,
 }

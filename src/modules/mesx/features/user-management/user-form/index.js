@@ -1,5 +1,4 @@
-import React from 'react'
-import { Component } from 'react'
+import React, { Component } from 'react'
 
 // import DateFnsUtils from '@date-io/date-fns' // choose your lib
 
@@ -9,8 +8,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { Button, FormHelperText } from '@mui/material'
-import { Autocomplete } from '@mui/material'
+import { Button, FormHelperText, Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import CheckBox from '@mui/material/Checkbox'
 import FormControl from '@mui/material/FormControl'
@@ -30,8 +28,8 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
-import { getFactoriesByCompany } from '~/modules/mesx/redux/actions/common.action'
 import {
+  getFactoriesByCompany,
   getWarehouses,
   getWarehousesByFactories,
 } from '~/modules/mesx/redux/actions/common.action'
@@ -41,8 +39,7 @@ import {
   deleteUser,
   getUserDetailsById,
 } from '~/modules/mesx/redux/actions/user-management'
-import { formatDateTimeUtc } from '~/utils'
-import { onChangeTextField } from '~/utils'
+import { formatDateTimeUtc, onChangeTextField } from '~/utils'
 
 import useStyles from './style'
 

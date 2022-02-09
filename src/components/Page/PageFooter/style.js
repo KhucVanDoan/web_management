@@ -3,7 +3,8 @@ const style = (theme) => ({
     width: '100%',
     display: 'flex',
     textAlign: 'center',
-    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    marginTop: 'auto',
   },
 })
 

@@ -84,6 +84,7 @@
           "caseInsensitive": false
         }
       }
-    ]
+    ],
+    "import/no-duplicates": ["error", { "considerQueryString": true }]
   }
 }

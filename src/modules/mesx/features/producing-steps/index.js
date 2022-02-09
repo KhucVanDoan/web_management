@@ -17,8 +17,8 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { MODAL_MODE } from '~/common/constants'
 import {
+  MODAL_MODE,
   PRODUCING_STEP_OPTIONS,
   PRODUCING_STEP_STATUS_MAP,
   PRODUCING_STEP_STATUS_TO_CONFIRM,
