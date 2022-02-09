@@ -14,8 +14,8 @@ import {
   Select,
   Tab,
   TextField,
+  Autocomplete,
 } from '@mui/material'
-import { Autocomplete } from '@mui/material'
 import { withStyles } from '@mui/styles'
 import clsx from 'clsx'
 import { max, groupBy, uniq, isEmpty } from 'lodash'

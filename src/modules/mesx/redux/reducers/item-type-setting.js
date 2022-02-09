@@ -14,6 +14,7 @@ import {
   UPDATE_ITEM_TYPE_FAILED,
   UPDATE_ITEM_TYPE_START,
   UPDATE_ITEM_TYPE_SUCCESS,
+  RESET_ITEM_TYPE_DETAILS_STATE,
 } from '~/modules/mesx/redux/actions/item-type-setting'
 
 const initialState = {
@@ -66,7 +67,11 @@ export default function itemTypeSetting(state = initialState, action) {
         itemTypeDetails: action.payload,
         isLoading: false,
       }
-
+    case RESET_ITEM_TYPE_DETAILS_STATE:
+      return {
+        ...state,
+        itemTypeDetails: {},
+      }
     default:
       return state
   }

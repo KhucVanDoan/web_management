@@ -30,8 +30,9 @@ import {
   QR_CODE_TYPE,
   NUMBER_FIELD_REQUIRED_SIZE,
   DATE_FORMAT_2,
+  WORK_ORDER_STATUS,
+  WORK_ORDER_STATUS_MAP,
 } from '~/common/constants'
-import { WORK_ORDER_STATUS, WORK_ORDER_STATUS_MAP } from '~/common/constants'
 import withBreadcrumbs from '~/components/Breadcrumbs'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'

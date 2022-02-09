@@ -15,16 +15,15 @@ import {
   MODAL_MODE,
   ROUTING_VERSION_STATUS,
   ROUTING_VERSION_STATUS_MAP,
+  NOTIFICATION_TYPE,
 } from '~/common/constants'
-import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   createRoutingVersion,
   updateRoutingVersion,
   getRoutingVersionDetailsById,
   confirmRoutingVersionById,
 } from '~/modules/mesx/redux/actions/routing-version.action'
-import { onChangeTextField } from '~/utils'
-import { formatDateTimeUtc, formatInput } from '~/utils'
+import { onChangeTextField, formatDateTimeUtc, formatInput } from '~/utils'
 import addNotification from '~/utils/toast'
 
 import ProducingStepsTable from './producing-steps-table'

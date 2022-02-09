@@ -41,8 +41,7 @@ const Page = ({
           p: 2,
           display: 'flex',
           flexDirection: 'column',
-          flex: 1,
-          ...(fitScreen ? { overflow: 'auto' } : {}),
+          ...(fitScreen ? { overflow: 'auto', flex: 1 } : {}),
         }}
         {...PaperProps}
       >

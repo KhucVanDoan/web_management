@@ -2,8 +2,7 @@
 import React from 'react'
 
 import { RemoveCircleOutlined } from '@mui/icons-material'
-import { Button, FormHelperText, IconButton } from '@mui/material'
-import { Autocomplete } from '@mui/material'
+import { Button, FormHelperText, IconButton, Autocomplete } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'

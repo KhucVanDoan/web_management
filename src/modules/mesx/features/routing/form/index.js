@@ -12,8 +12,8 @@ import { generatePath } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
+  NOTIFICATION_TYPE,
   MODAL_MODE,
   ROUTING_STATUS,
   ROUTING_STATUS_MAP,

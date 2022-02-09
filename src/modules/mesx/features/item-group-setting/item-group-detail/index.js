@@ -13,7 +13,7 @@ import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
-function ItemGroupDetail() {
+const ItemGroupDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['mesx'])
   const {
@@ -35,7 +35,10 @@ function ItemGroupDetail() {
       title: 'database',
     },
     {
-      route: ROUTE.ITEM_GROUP.DETAIL.PATH,
+      route: ROUTE.ITEM_GROUP.LIST.PATH,
+      title: ROUTE.ITEM_GROUP.LIST.TITLE,
+    },
+    {
       title: ROUTE.ITEM_GROUP.DETAIL.TITLE,
     },
   ]
@@ -50,62 +53,66 @@ function ItemGroupDetail() {
         loading={isLoading}
         onBack={backToList}
       >
-        <Grid container columnSpacing={4} rowSpacing={4 / 3}>
-          <Grid item xs={6}>
-            <Box display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
-                {t('itemGroupDefine.code')}
-              </Typography>
-              <Typography>{itemGroupDetails.code}</Typography>
+        <Grid container justifyContent="center">
+          <Grid item xl={11} sx={12}>
+            <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+              <Grid item lg={6} xs={12}>
+                <Box display="flex">
+                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                    {t('itemGroupDefine.code')}
+                  </Typography>
+                  <Typography>{itemGroupDetails.code}</Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} xs={12}>
+                <Box display="flex">
+                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                    {t('itemGroupDefine.name')}
+                  </Typography>
+                  <Typography>{itemGroupDetails.name}</Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} xs={12}>
+                <Box display="flex">
+                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                    {t('itemGroupDefine.createDate')}
+                  </Typography>
+                  <Typography>
+                    {formatDateTimeUtc(itemGroupDetails.createdAt)}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item lg={6} xs={12}>
+                <Box display="flex">
+                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                    {t('itemGroupDefine.updateDate')}
+                  </Typography>
+                  <Typography>
+                    {formatDateTimeUtc(itemGroupDetails.updatedAt)}
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="description"
+                  label={t('itemGroupDefine.description')}
+                  multiline
+                  rows={3}
+                  labelWidth={180}
+                  value={itemGroupDetails.description}
+                  inputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+              <Button variant="contained" onClick={backToList} color="grayF4">
+                {t('common.close')}
+              </Button>
             </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
-                {t('itemGroupDefine.name')}
-              </Typography>
-              <Typography>{itemGroupDetails.name}</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
-                {t('itemGroupDefine.createDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(itemGroupDetails.createdAt)}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
-                {t('itemGroupDefine.updateDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(itemGroupDetails.updatedAt)}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              name="description"
-              label={t('itemGroupDefine.description')}
-              multiline
-              rows={3}
-              labelWidth={180}
-              value={itemGroupDetails.description}
-              inputProps={{
-                readOnly: true,
-              }}
-            />
           </Grid>
         </Grid>
-        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.close')}
-          </Button>
-        </Box>
       </Page>
     </>
   )

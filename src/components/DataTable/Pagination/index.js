@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import { Box, MenuItem, Select, Typography } from '@mui/material'
-import { Pagination as MuiPagination } from '@mui/material'
+import {
+  Box,
+  MenuItem,
+  Select,
+  Typography,
+  Pagination as MuiPagination,
+} from '@mui/material'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 

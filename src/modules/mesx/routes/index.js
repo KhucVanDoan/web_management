@@ -17,6 +17,7 @@ import ItemGroupSetting from '~/modules/mesx/features/item-group-setting'
 import ItemGroupDetail from '~/modules/mesx/features/item-group-setting/item-group-detail'
 import ItemGroupForm from '~/modules/mesx/features/item-group-setting/item-group-form'
 import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
+import ItemTypeDetail from '~/modules/mesx/features/item-type-setting/item-type-detail'
 import ItemTypeForm from '~/modules/mesx/features/item-type-setting/item-type-form'
 import ItemUnitSetting from '~/modules/mesx/features/item-unit-setting'
 import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
@@ -301,7 +302,7 @@ const routes = [
           {
             name: ROUTE.ITEM_TYPE.DETAIL.TITLE,
             path: ROUTE.ITEM_TYPE.DETAIL.PATH,
-            component: ItemTypeForm,
+            component: ItemTypeDetail,
             pathActive: ROUTE.ITEM_TYPE.DETAIL.PATH,
             isInSidebar: false,
           },

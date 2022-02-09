@@ -16,8 +16,7 @@ import {
   updateItemUnit,
   getItemUnitDetailsById,
 } from '~/modules/mesx/redux/actions/item-unit-setting.action'
-import { onChangeTextField } from '~/utils'
-import { formatDateTimeUtc, formatInput } from '~/utils'
+import { onChangeTextField, formatDateTimeUtc, formatInput } from '~/utils'
 
 import useStyles from './style'
 
