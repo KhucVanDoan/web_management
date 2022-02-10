@@ -4,7 +4,7 @@ import {
   searchItemUnitsFailed,
   searchItemUnitsSuccess,
   SEARCH_ITEM_UNITS_START,
-} from '~/modules/mesx/redux/actions/item-unit-setting.action'
+} from '~/modules/mesx/redux/actions/item-unit-setting'
 import { api } from '~/services/api'
 
 /**

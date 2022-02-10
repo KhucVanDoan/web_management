@@ -223,6 +223,7 @@ const ItemGroupSetting = () => {
           submitProps={{
             color: 'error',
           }}
+          noBorderBottom
         >
           {t('itemGroupDefine.confirmDelete')}
         </Dialog>

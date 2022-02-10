@@ -14,7 +14,8 @@ import {
   UPDATE_ITEM_UNIT_FAILED,
   UPDATE_ITEM_UNIT_START,
   UPDATE_ITEM_UNIT_SUCCESS,
-} from '~/modules/mesx/redux/actions/item-unit-setting.action'
+  RESET_ITEM_UNIT_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/item-unit-setting'
 
 const initialState = {
   isLoading: false,
@@ -47,13 +48,17 @@ export default function itemUnitSetting(state = initialState, action) {
         isLoading: false,
         total: action.payload.total,
       }
-
+    case DELETE_ITEM_UNIT_SUCCESS:
+      return {
+        ...state,
+        itemUnitList: itemUnitList.filter((item) => item.id !== action.payload),
+        isLoading: false,
+      }
     case SEARCH_ITEM_UNITS_FAILED:
     case CREATE_ITEM_UNIT_SUCCESS:
     case CREATE_ITEM_UNIT_FAILED:
     case UPDATE_ITEM_UNIT_SUCCESS:
     case UPDATE_ITEM_UNIT_FAILED:
-    case DELETE_ITEM_UNIT_SUCCESS:
     case DELETE_ITEM_UNIT_FAILED:
     case GET_ITEM_UNIT_DETAILS_FAILED:
       return {
@@ -67,7 +72,11 @@ export default function itemUnitSetting(state = initialState, action) {
         itemUnitDetails: action.payload,
         isLoading: false,
       }
-
+    case RESET_ITEM_UNIT_DETAILS_STATE:
+      return {
+        ...state,
+        itemUnitDetails: {},
+      }
     default:
       return state
   }
