@@ -29,9 +29,9 @@ const ItemGroupForm = () => {
     ? {
         code: '',
         name: '',
-        decription: '',
+        description: '',
       }
-    : pick(itemGroupDetails, ['code', 'name', 'decription'])
+    : pick(itemGroupDetails, ['code', 'name', 'description'])
 
   const MODE_MAP = {
     [ROUTE.ITEM_GROUP.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -82,11 +82,11 @@ const ItemGroupForm = () => {
     }
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionButtons = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
+          <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -99,11 +99,11 @@ const ItemGroupForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          </>
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
+          <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -116,7 +116,7 @@ const ItemGroupForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.save')}</Button>
-          </Box>
+          </>
         )
       default:
     }

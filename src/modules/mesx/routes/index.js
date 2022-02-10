@@ -20,6 +20,8 @@ import ItemTypeSetting from '~/modules/mesx/features/item-type-setting'
 import ItemTypeDetail from '~/modules/mesx/features/item-type-setting/item-type-detail'
 import ItemTypeForm from '~/modules/mesx/features/item-type-setting/item-type-form'
 import ItemUnitSetting from '~/modules/mesx/features/item-unit-setting'
+import ItemUnitDetail from '~/modules/mesx/features/item-unit-setting/item-unit-detail'
+import ItemUnitForm from '~/modules/mesx/features/item-unit-setting/item-unit-form'
 import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
 import MaterialReport from '~/modules/mesx/features/material-report'
 import Mo from '~/modules/mesx/features/mo'
@@ -309,10 +311,32 @@ const routes = [
         ],
       },
       {
-        name: 'itemUnitSetting',
-        path: '/item-unit-setting',
+        name: ROUTE.ITEM_UNIT.LIST.TITLE,
+        path: ROUTE.ITEM_UNIT.LIST.PATH,
         component: ItemUnitSetting,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ITEM_UNIT.CREATE.TITLE,
+            path: ROUTE.ITEM_UNIT.CREATE.PATH,
+            component: ItemUnitForm,
+            pathActive: ROUTE.ITEM_UNIT.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_UNIT.DETAIL.TITLE,
+            path: ROUTE.ITEM_UNIT.DETAIL.PATH,
+            component: ItemUnitDetail,
+            pathActive: ROUTE.DEFINE_BOQ.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ITEM_UNIT.EDIT.TITLE,
+            path: ROUTE.ITEM_UNIT.EDIT.PATH,
+            component: ItemUnitForm,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: 'itemDefine',

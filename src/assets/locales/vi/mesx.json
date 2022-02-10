@@ -10,7 +10,10 @@
     "itemGroupCreate": "Tạo nhóm sản phẩm",
     "itemGroupDetail": "Chi tiết nhóm sản phẩm",
     "itemGroupEdit": "Sửa nhóm sản phẩm",
-    "itemUnitSetting": "Cài đặt đơn vị sản phẩm",
+    "itemUnitDefine": "Định nghĩa đơn vị sản phẩm",
+    "itemUnitCreate": "Tạo đơn vị sản phẩm",
+    "itemUnitDetail": "Chi tiết đơn vị sản phẩm",
+    "itemUnitEdit": "Chỉnh sửa đơn vị sản phẩm",
     "itemTypeSetting": "Định nghĩa kiểu sản phẩm",
     "itemDefine": "Định nghĩa sản phẩm",
     "definePlan": "Kế hoạch sản xuất",
@@ -341,7 +344,7 @@
     "createItemTypeSuccess": "Tạo kiểu sản phẩm thành công",
     "updateItemTypeSuccess": "Cập nhật kiểu sản phẩm thành công"
   },
-  "itemUnitSetting": {
+  "itemUnitDefine": {
     "title": "Danh sách đơn vị sản phẩm",
     "code": "Mã đơn vị sản phẩm",
     "name": "Tên đơn vị sản phẩm",
@@ -362,7 +365,8 @@
     "confirmDelete": "Bạn có muốn xóa đơn vị sản phẩm không?",
     "deleteItemUnitSuccess": "Xóa đơn vị sản phẩm thành công",
     "createItemUnitSuccess": "Tạo đơn vị sản phẩm thành công",
-    "updateItemUnitSuccess": "Cập nhật đơn vị sản phẩm thành công"
+    "updateItemUnitSuccess": "Cập nhật đơn vị sản phẩm thành công",
+    "import": "Nhập/Xuất dữ liệu"
   },
   "saleOrder": {
     "title": "Danh sách đơn bán hàng",

@@ -290,13 +290,7 @@ const DefineBOQ = (props) => {
           variant: 'outlined',
           color: 'subText',
         }}
-        PaperProps={{
-          sx: {
-            '.MuiDialogContent-root': {
-              borderBottom: 0,
-            },
-          },
-        }}
+        noBorderBottom
       >
         {t('defineBOQ.deleteConfirm')}
       </Dialog>
@@ -308,13 +302,7 @@ const DefineBOQ = (props) => {
         onClose={() => setIsOpenConfirmModal(false)}
         submitLabel={t('common.yes')}
         closeLabel={t('common.no')}
-        PaperProps={{
-          sx: {
-            '.MuiDialogContent-root': {
-              borderBottom: 0,
-            },
-          },
-        }}
+        noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
       </Dialog>

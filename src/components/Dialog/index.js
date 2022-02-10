@@ -25,6 +25,7 @@ const Dialog = ({
   submitLabel,
   submitProps,
   disableBackdropClick,
+  noBorderBottom,
   ...props
 }) => {
   return (
@@ -46,7 +47,14 @@ const Dialog = ({
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent dividers>{children}</DialogContent>
+      <DialogContent
+        dividers
+        sx={{
+          ...(noBorderBottom ? { borderBottom: 'none' } : {}),
+        }}
+      >
+        {children}
+      </DialogContent>
       {(cancelLabel || submitLabel || typeof renderFooter === 'function') && (
         <DialogActions>
           {renderFooter ? (
@@ -90,6 +98,7 @@ Dialog.defaultProps = {
   onSubmit: null,
   submitLabel: '',
   submitProps: null,
+  noBorderBottom: false,
 }
 
 Dialog.propTypes = {
@@ -111,6 +120,7 @@ Dialog.propTypes = {
     PropTypes.string,
   ]),
   renderFooter: PropTypes.func,
+  noBorderBottom: PropTypes.bool,
 }
 
 export default Dialog

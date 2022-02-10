@@ -385,4 +385,22 @@ export const ROUTE = {
       TITLE: 'bomProducingStepEdit',
     },
   },
+  ITEM_UNIT: {
+    LIST: {
+      PATH: '/mesx/item-unit-define',
+      TITLE: 'itemUnitDefine',
+    },
+    CREATE: {
+      PATH: '/mesx/item-unit-define/create',
+      TITLE: 'itemUnitCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/item-unit-define/:id/detail',
+      TITLE: 'itemUnitDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/item-unit-define/:id/edit',
+      TITLE: 'itemUnitEdit',
+    },
+  }
 }

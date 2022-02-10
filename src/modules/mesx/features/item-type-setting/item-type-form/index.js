@@ -94,7 +94,7 @@ const ItemTypeForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
+          <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -107,11 +107,11 @@ const ItemTypeForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          </>
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
+          <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -124,7 +124,7 @@ const ItemTypeForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.save')}</Button>
-          </Box>
+          </>
         )
       default:
         break
@@ -183,7 +183,9 @@ const ItemTypeForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Box>{renderActionButtons({ handleReset })}</Box>
+                <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+                  {renderActionButtons({ handleReset })}
+                </Box>
               </Form>
             )}
           </Formik>

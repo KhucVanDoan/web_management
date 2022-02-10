@@ -1,22 +1,24 @@
-export const SEARCH_ITEM_UNITS_START = 'SEARCH_ITEM_UNITS_START';
-export const SEARCH_ITEM_UNITS_SUCCESS = 'SEARCH_ITEM_UNITS_SUCCESS';
-export const SEARCH_ITEM_UNITS_FAILED = 'SEARCH_ITEM_UNITS_FAILED';
+export const SEARCH_ITEM_UNITS_START = 'SEARCH_ITEM_UNITS_START'
+export const SEARCH_ITEM_UNITS_SUCCESS = 'SEARCH_ITEM_UNITS_SUCCESS'
+export const SEARCH_ITEM_UNITS_FAILED = 'SEARCH_ITEM_UNITS_FAILED'
 
-export const CREATE_ITEM_UNIT_START = 'CREATE_ITEM_UNIT_START';
-export const CREATE_ITEM_UNIT_SUCCESS = 'CREATE_ITEM_UNIT_SUCCESS';
-export const CREATE_ITEM_UNIT_FAILED = 'CREATE_ITEM_UNIT_FAILED';
+export const CREATE_ITEM_UNIT_START = 'CREATE_ITEM_UNIT_START'
+export const CREATE_ITEM_UNIT_SUCCESS = 'CREATE_ITEM_UNIT_SUCCESS'
+export const CREATE_ITEM_UNIT_FAILED = 'CREATE_ITEM_UNIT_FAILED'
 
-export const UPDATE_ITEM_UNIT_START = 'UPDATE_ITEM_UNIT_START';
-export const UPDATE_ITEM_UNIT_SUCCESS = 'UPDATE_ITEM_UNIT_SUCCESS';
-export const UPDATE_ITEM_UNIT_FAILED = 'UPDATE_ITEM_UNIT_FAILED';
+export const UPDATE_ITEM_UNIT_START = 'UPDATE_ITEM_UNIT_START'
+export const UPDATE_ITEM_UNIT_SUCCESS = 'UPDATE_ITEM_UNIT_SUCCESS'
+export const UPDATE_ITEM_UNIT_FAILED = 'UPDATE_ITEM_UNIT_FAILED'
 
-export const DELETE_ITEM_UNIT_START = 'DELETE_ITEM_UNIT_START';
-export const DELETE_ITEM_UNIT_SUCCESS = 'DELETE_ITEM_UNIT_SUCCESS';
-export const DELETE_ITEM_UNIT_FAILED = 'DELETE_ITEM_UNIT_FAILED';
+export const DELETE_ITEM_UNIT_START = 'DELETE_ITEM_UNIT_START'
+export const DELETE_ITEM_UNIT_SUCCESS = 'DELETE_ITEM_UNIT_SUCCESS'
+export const DELETE_ITEM_UNIT_FAILED = 'DELETE_ITEM_UNIT_FAILED'
 
-export const GET_ITEM_UNIT_DETAILS_START = 'GET_ITEM_UNIT_DETAILS_START';
-export const GET_ITEM_UNIT_DETAILS_SUCCESS = 'GET_ITEM_UNIT_DETAILS_SUCCESS';
-export const GET_ITEM_UNIT_DETAILS_FAILED = 'GET_ITEM_UNIT_DETAILS_FAILED';
+export const GET_ITEM_UNIT_DETAILS_START = 'GET_ITEM_UNIT_DETAILS_START'
+export const GET_ITEM_UNIT_DETAILS_SUCCESS = 'GET_ITEM_UNIT_DETAILS_SUCCESS'
+export const GET_ITEM_UNIT_DETAILS_FAILED = 'GET_ITEM_UNIT_DETAILS_FAILED'
+
+export const RESET_ITEM_UNIT_DETAILS_STATE = 'RESET_ITEM_UNIT_DETAILS_STATE'
 
 /**
  * Search user
@@ -31,7 +33,7 @@ export function searchItemUnits(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -43,7 +45,7 @@ export function searchItemUnitsSuccess(payload) {
   return {
     type: SEARCH_ITEM_UNITS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -53,7 +55,7 @@ export function searchItemUnitsSuccess(payload) {
 export function searchItemUnitsFailed() {
   return {
     type: SEARCH_ITEM_UNITS_FAILED,
-  };
+  }
 }
 
 /**
@@ -69,7 +71,7 @@ export function createItemUnit(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -81,7 +83,7 @@ export function createItemUnitSuccess(payload) {
   return {
     type: CREATE_ITEM_UNIT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -91,7 +93,7 @@ export function createItemUnitSuccess(payload) {
 export function createItemUnitFailed() {
   return {
     type: CREATE_ITEM_UNIT_FAILED,
-  };
+  }
 }
 
 /**
@@ -107,7 +109,7 @@ export function updateItemUnit(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update user success action
@@ -118,7 +120,7 @@ export function updateItemUnitSuccess(payload) {
   return {
     type: UPDATE_ITEM_UNIT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -128,7 +130,7 @@ export function updateItemUnitSuccess(payload) {
 export function updateItemUnitFailed() {
   return {
     type: UPDATE_ITEM_UNIT_FAILED,
-  };
+  }
 }
 /**
  * Delete user
@@ -143,7 +145,7 @@ export function deleteItemUnit(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -155,7 +157,7 @@ export function deleteItemUnitSuccess(payload) {
   return {
     type: DELETE_ITEM_UNIT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -165,7 +167,7 @@ export function deleteItemUnitSuccess(payload) {
 export function deleteItemUnitFailed() {
   return {
     type: DELETE_ITEM_UNIT_FAILED,
-  };
+  }
 }
 
 /**
@@ -181,7 +183,7 @@ export function getItemUnitDetailsById(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -193,7 +195,7 @@ export function getItemUnitDetailsByIdSuccess(payload) {
   return {
     type: GET_ITEM_UNIT_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -203,5 +205,30 @@ export function getItemUnitDetailsByIdSuccess(payload) {
 export function getItemUnitDetailsByIdFailed() {
   return {
     type: GET_ITEM_UNIT_DETAILS_FAILED,
-  };
+  }
+}
+
+export function resetItemUnitDetailsState() {
+  return {
+    type: RESET_ITEM_UNIT_DETAILS_STATE,
+  }
+}
+
+export default {
+  searchItemUnits,
+  searchItemUnitsFailed,
+  searchItemUnitsSuccess,
+  createItemUnit,
+  createItemUnitFailed,
+  createItemUnitSuccess,
+  updateItemUnit,
+  updateItemUnitFailed,
+  updateItemUnitSuccess,
+  deleteItemUnit,
+  deleteItemUnitFailed,
+  deleteItemUnitSuccess,
+  getItemUnitDetailsById,
+  getItemUnitDetailsByIdFailed,
+  getItemUnitDetailsByIdSuccess,
+  resetItemUnitDetailsState,
 }

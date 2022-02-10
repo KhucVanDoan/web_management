@@ -218,6 +218,7 @@ function ItemTypeSetting() {
         submitProps={{
           color: 'error',
         }}
+        noBorderBottom
       >
         {t('itemTypeSetting.confirmDelete')}
       </Dialog>
