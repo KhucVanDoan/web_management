@@ -30,7 +30,7 @@ import {
   getItems,
   getWarehouses,
   getItemQualityPoint,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
 import { normalizeDecimal, scrollToBottom } from '~/utils'
 

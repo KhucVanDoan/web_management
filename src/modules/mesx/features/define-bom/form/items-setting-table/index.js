@@ -19,7 +19,7 @@ import {
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import { getItems, getBoms } from '~/modules/mesx/redux/actions/common.action'
+import { getItems, getBoms } from '~/modules/mesx/redux/actions/common'
 import { searchItems } from '~/modules/mesx/redux/actions/define-item.action'
 import { getBomsByItemId } from '~/modules/mesx/redux/actions/work-order.action'
 import { ROUTE } from '~/modules/mesx/routes/config'

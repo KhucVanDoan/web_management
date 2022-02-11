@@ -4,7 +4,7 @@ import {
   GET_COMPANIES_START,
   GET_COMPANIES_SUCCESS,
   GET_COMPANIES_FAILED,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 
 /**
  * Search user API

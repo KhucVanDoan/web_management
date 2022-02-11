@@ -4,7 +4,7 @@ import {
   GET_ROLES_START,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILED,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

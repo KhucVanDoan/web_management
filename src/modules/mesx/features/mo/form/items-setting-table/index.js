@@ -20,7 +20,7 @@ import {
   DATE_FORMAT,
 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getItems } from '~/modules/mesx/redux/actions/common'
 import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
 import { normalizeDecimal, scrollToBottom, formatDateTimeUtc } from '~/utils'
 

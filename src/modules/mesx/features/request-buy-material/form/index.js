@@ -24,7 +24,7 @@ import {
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
-import { getItems, getUsers } from '~/modules/mesx/redux/actions/common.action'
+import { getItems, getUsers } from '~/modules/mesx/redux/actions/common'
 import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
 import {
   confirmRequestBuyMaterialById,

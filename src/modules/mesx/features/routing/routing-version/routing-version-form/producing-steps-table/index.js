@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 
 import { NUMBER_FIELD_REQUIRED_SIZE, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import { getProducingSteps } from '~/modules/mesx/redux/actions/common.action'
+import { getProducingSteps } from '~/modules/mesx/redux/actions/common'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { scrollToBottom, redirectRouter } from '~/utils'
 

@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getItems } from '~/modules/mesx/redux/actions/common'
 import { normalizeDecimal } from '~/utils'
 
 import useStyles from './style'

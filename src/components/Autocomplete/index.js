@@ -32,6 +32,11 @@ const Autocomplete = ({
   error,
   helperText,
   getOptionLabel,
+  placeholder,
+  labelWidth,
+  getOptionValue,
+  value: rawValue,
+  onChange: rawOnChange,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -121,6 +126,13 @@ const Autocomplete = ({
     )
   }
 
+  const [value, setValue] = useState(null)
+
+  useEffect(() => {
+    const selectedValue = options.find((o) => getOptionValue(o) === rawValue)
+    setValue(selectedValue)
+  }, [rawValue, options])
+
   return (
     <MuiAutocomplete
       classes={{
@@ -137,10 +149,20 @@ const Autocomplete = ({
           </Box>
         ),
       }}
+      {...(!multiple && getOptionValue()
+        ? {
+            value: value,
+            onChange: (_, newValue) => {
+              setValue(newValue)
+              rawOnChange(newValue)
+            },
+          }
+        : {})}
       options={options}
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
+      getOptionLabel={getOptionLabel}
       renderOption={(optionProps, option, { selected }) => {
         if (typeof renderOption === 'function')
           return renderOption(optionProps, option)
@@ -167,7 +189,9 @@ const Autocomplete = ({
           required={required}
           error={error}
           helperText={helperText}
+          placeholder={placeholder}
           label={label}
+          labelWidth={labelWidth}
           onChange={(e) => {
             setInputValue(e.target.value)
             if (isAsync && !loading) {
@@ -191,7 +215,9 @@ Autocomplete.defaultProps = {
   required: false,
   error: false,
   helperText: '',
-  getOptionLabel: (option) => option?.label,
+  placeholder: '',
+  getOptionLabel: (option) => option?.label || '',
+  getOptionValue: (option) => option?.id,
 }
 
 Autocomplete.propTypes = {
@@ -211,7 +237,11 @@ Autocomplete.propTypes = {
   required: PropTypes.bool,
   error: PropTypes.bool,
   helperText: PropTypes.string,
+  placeholder: PropTypes.string,
   getOptionLabel: PropTypes.func,
+  getOptionValue: PropTypes.func,
+  labelWidth: PropTypes.number,
+  onChange: PropTypes.func,
 }
 
 export default Autocomplete

@@ -32,7 +32,7 @@ import {
   getFactoriesByCompany,
   getWarehouses,
   getWarehousesByFactories,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import {
   createUser,
   updateUser,

@@ -13,6 +13,7 @@ import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
+import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
 import { ReactComponent as Setting } from '~/assets/images/icons/setting.svg'
 import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
@@ -44,6 +45,7 @@ const icons = {
   tick: <Tick />,
   arrowDown: <ArrowDown />,
   download: <Download />,
+  remove: <Remove />,
 
   // menu
   drawer: <Drawer />,

@@ -4,7 +4,7 @@ import {
   getItemGroupsFailed,
   getItemGroupsSuccess,
   GET_ITEM_GROUPS_START,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

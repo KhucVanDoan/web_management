@@ -20,7 +20,7 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import { MO_STATUS } from '~/common/constants'
 import withBreadcrumbs from '~/components/Breadcrumbs'
-import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getItems } from '~/modules/mesx/redux/actions/common'
 import {
   searchProducingSteps,
   getProducingStepDetailsById,

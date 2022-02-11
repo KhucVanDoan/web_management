@@ -4,7 +4,7 @@ import {
   GET_FACTORIES_BY_COMPANY_START,
   GET_FACTORIES_BY_COMPANY_SUCCESS,
   GET_FACTORIES_BY_COMPANY_FAILED,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

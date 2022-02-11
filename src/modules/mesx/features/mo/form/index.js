@@ -41,7 +41,7 @@ import {
   getItems,
   getUsers,
   createPurchasedOrder,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
 import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting'
 import {

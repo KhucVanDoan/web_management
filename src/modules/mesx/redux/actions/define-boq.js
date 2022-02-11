@@ -26,6 +26,8 @@ export const REJECT_BOQ_START = 'REJECT_BOQ_START'
 export const REJECT_BOQ_SUCCESS = 'REJECT_BOQ_SUCCESS'
 export const REJECT_BOQ_FAILED = 'REJECT_BOQ_FAILED'
 
+export const RESET_BOQ_DETAILS_STATE = 'RESET_BOQ_DETAILS_STATE'
+
 /**
  * Search BOQ
  * @param {object} payload
@@ -290,6 +292,17 @@ export function rejectBOQByIdFailed() {
   }
 }
 
+/**
+ * Update BOQ success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function resetBOQDetailState() {
+  return {
+    type: RESET_BOQ_DETAILS_STATE,
+  }
+}
+
 export default {
   searchBOQ,
   searchBOQSuccess,
@@ -312,4 +325,5 @@ export default {
   rejectBOQById,
   rejectBOQByIdSuccess,
   rejectBOQByIdFailed,
+  resetBOQDetailState,
 }
