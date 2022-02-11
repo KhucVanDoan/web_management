@@ -58,7 +58,7 @@ const ItemGroupDetail = () => {
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
               <Grid item lg={6} xs={12}>
                 <Box display="flex">
-                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                  <Typography variant="body2" width={180}>
                     {t('itemGroupDefine.code')}
                   </Typography>
                   <Typography>{itemGroupDetails.code}</Typography>
@@ -66,7 +66,7 @@ const ItemGroupDetail = () => {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <Box display="flex">
-                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                  <Typography variant="body2" width={180}>
                     {t('itemGroupDefine.name')}
                   </Typography>
                   <Typography>{itemGroupDetails.name}</Typography>
@@ -74,7 +74,7 @@ const ItemGroupDetail = () => {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <Box display="flex">
-                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                  <Typography variant="body2" width={180}>
                     {t('itemGroupDefine.createDate')}
                   </Typography>
                   <Typography>
@@ -84,7 +84,7 @@ const ItemGroupDetail = () => {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <Box display="flex">
-                  <Typography sx={{ color: 'subText.main' }} width={180}>
+                  <Typography variant="body2" width={180}>
                     {t('itemGroupDefine.updateDate')}
                   </Typography>
                   <Typography>
