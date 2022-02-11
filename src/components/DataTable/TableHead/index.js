@@ -132,7 +132,7 @@ const TableHead = (props) => {
               })}
               sx={{ minWidth: width }}
             >
-              {sortable === true || sortable === undefined ? (
+              {sortable ? (
                 <Box
                   onClick={() => onClickSort(field)}
                   className={classes.headerNameContainer}

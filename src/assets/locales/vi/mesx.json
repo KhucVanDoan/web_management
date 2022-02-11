@@ -620,6 +620,8 @@
     "boqCode": "Mã công trình",
     "boqName": "Tên công trình",
     "boqPlan": "Kế hoạch",
+    "boqPlanFrom": "Kế hoạch từ",
+    "boqPlanTo": "Kế hoạch đến",
     "status": "Trạng thái",
     "boqPm": "PM",
     "boqApm": "APM",

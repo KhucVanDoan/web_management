@@ -129,8 +129,10 @@ const Autocomplete = ({
   const [value, setValue] = useState(null)
 
   useEffect(() => {
-    const selectedValue = options.find((o) => getOptionValue(o) === rawValue)
-    setValue(selectedValue)
+    if (!multiple && typeof getOptionValue === 'function') {
+      const selectedValue = options.find((o) => getOptionValue(o) === rawValue)
+      setValue(selectedValue)
+    }
   }, [rawValue, options])
 
   return (
@@ -149,7 +151,7 @@ const Autocomplete = ({
           </Box>
         ),
       }}
-      {...(!multiple && getOptionValue()
+      {...(!multiple && typeof getOptionValue === 'function'
         ? {
             value: value,
             onChange: (_, newValue) => {
@@ -217,7 +219,6 @@ Autocomplete.defaultProps = {
   helperText: '',
   placeholder: '',
   getOptionLabel: (option) => option?.label || '',
-  getOptionValue: (option) => option?.id,
 }
 
 Autocomplete.propTypes = {

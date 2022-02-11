@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { BOQ_STATUS, BOQ_STATUS_MAP, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -20,7 +20,7 @@ import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
 
 const DEFAULT_ITEM = {
-  id: Math.random(),
+  id: new Date().getTime(),
   itemId: '',
   quantity: 1,
 }
@@ -43,9 +43,7 @@ const BOQForm = () => {
     [ROUTE.DEFINE_BOQ.DETAIL.PATH]: MODAL_MODE.DETAIL,
     [ROUTE.DEFINE_BOQ.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
-  const { status = -1 } = boqDetails
   const mode = MODE_MAP[routeMatch.path]
-  const isView = mode === MODAL_MODE.DETAIL
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -63,7 +61,7 @@ const BOQForm = () => {
   }
 
   const getBOQDetail = () => {
-    if (isView || isUpdate) {
+    if (isUpdate) {
       actions.getBOQDetailsById(id)
     }
   }
@@ -117,50 +115,6 @@ const BOQForm = () => {
             <Button type="submit">{t('common.save')}</Button>
           </>
         )
-      case MODAL_MODE.DETAIL:
-        switch (status) {
-          case BOQ_STATUS.PENDING:
-            return (
-              <>
-                <Button color="grayF4" onClick={backToList}>
-                  {t('common.close')}
-                </Button>
-                {/*@TODO ??? approvePermission
-                 {approvePermission && (
-                  <Button onClick={() => setIsOpenConfirmModal(true)}>
-                    {t('common.accept')}
-                  </Button>
-                )} */}
-              </>
-            )
-          case BOQ_STATUS.APPROVED:
-            return (
-              <Button color="grayF4" onClick={backToList}>
-                {t('common.close')}
-              </Button>
-            )
-          case BOQ_STATUS.REJECTED:
-            return (
-              <>
-                <Button color="grayF4" onClick={backToList}>
-                  {t('common.close')}
-                </Button>
-                <Button variant="outlined" color="subText" onClick={resetForm}>
-                  {t('common.cancel')}
-                </Button>
-                <Button type="submit">{t('common.save')}</Button>
-              </>
-            )
-          case BOQ_STATUS.CONFIRMED:
-          case BOQ_STATUS.IN_PROGRESS:
-          case BOQ_STATUS.COMPLETED:
-          default:
-            return (
-              <Button color="grayF4" onClick={backToList}>
-                {t('common.close')}
-              </Button>
-            )
-        }
       default:
         break
     }
@@ -184,12 +138,6 @@ const BOQForm = () => {
           title: ROUTE.DEFINE_BOQ.CREATE.TITLE,
         })
         break
-      case MODAL_MODE.DETAIL:
-        breadcrumb.push({
-          route: ROUTE.DEFINE_BOQ.DETAIL.PATH + `/${id}`,
-          title: ROUTE.DEFINE_BOQ.DETAIL.TITLE,
-        })
-        break
       case MODAL_MODE.UPDATE:
         breadcrumb.push({
           route: ROUTE.DEFINE_BOQ.EDIT.PATH + `/${id}`,
@@ -205,25 +153,9 @@ const BOQForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return ROUTE.DEFINE_BOQ.CREATE.TITLE
-      case MODAL_MODE.DETAIL:
-        return ROUTE.DEFINE_BOQ.DETAIL.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.DEFINE_BOQ.EDIT.TITLE
       default:
-    }
-  }
-
-  const genColorButton = () => {
-    switch (status) {
-      case BOQ_STATUS.PENDING:
-      case BOQ_STATUS.UPDATE:
-      case BOQ_STATUS.CREATE:
-      case BOQ_STATUS.COMPLETED:
-        return 'primary'
-      case BOQ_STATUS.REJECTED:
-        return 'error'
-      default:
-        return 'text'
     }
   }
 
@@ -240,7 +172,7 @@ const BOQForm = () => {
     : {
         ...boqDetails,
         planList: [boqDetails.planFrom, boqDetails.planTo],
-        items: boqDetails.boqDetails?.map((e) => ({
+        items: boqDetails.boqDetails?.map((e, index) => ({
           id: e.id,
           itemId: e.itemId,
           quantity: e.quantity,
@@ -254,39 +186,28 @@ const BOQForm = () => {
       loading={isLoading}
       onBack={backToList}
     >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema(t)}
-        onSubmit={handleSubmit}
-        enableReinitialize
-      >
-        {({ resetForm, values }) => (
-          <Form>
-            <Grid container justifyContent={'center'}>
-              <Grid item xl={11} xs={12}>
+      <Grid container justifyContent={'center'}>
+        <Grid item xl={11} xs={12}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema(t)}
+            onSubmit={handleSubmit}
+            enableReinitialize
+          >
+            {({ resetForm, values }) => (
+              <Form>
                 <Grid
                   container
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {status >= 0 && (
-                    <Grid item xs={12}>
-                      <Button
-                        variant="outlined"
-                        color={genColorButton()}
-                        sx={{ display: 'flex', marginLeft: 'auto' }}
-                      >
-                        {t(BOQ_STATUS_MAP[status])}
-                      </Button>
-                    </Grid>
-                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       name="code"
                       label={t('defineBOQ.boqCode')}
                       placeholder={t('defineBOQ.boqCode')}
                       inputProps={{ maxLength: 4 }}
-                      disabled={isUpdate || isView}
+                      disabled={isUpdate}
                       labelWidth={180}
                       required
                     />
@@ -294,7 +215,6 @@ const BOQForm = () => {
                   <Grid item xs={12} lg={6}>
                     <Field.Autocomplete
                       name="pmId"
-                      disabled={isView}
                       label={t('defineBOQ.boqPm')}
                       placeholder={t('defineBOQ.boqPm')}
                       options={userList}
@@ -311,7 +231,6 @@ const BOQForm = () => {
                       name="name"
                       label={t('defineBOQ.boqName')}
                       placeholder={t('defineBOQ.boqName')}
-                      disabled={isView}
                       labelWidth={180}
                       required
                     />
@@ -324,9 +243,8 @@ const BOQForm = () => {
                       options={userList}
                       getOptionValue={(option) => option?.id}
                       getOptionLabel={(option) =>
-                        option.fullName || option.username
+                        option.fullName ? option.fullName : option.username
                       }
-                      disabled={isView}
                       labelWidth={180}
                       required
                     />
@@ -336,7 +254,6 @@ const BOQForm = () => {
                       name="planList"
                       label={t('defineBOQ.planList')}
                       placeholder={t('defineBOQ.planList')}
-                      disabled={isView}
                       labelWidth={180}
                       required
                     />
@@ -357,43 +274,40 @@ const BOQForm = () => {
                       label={t('defineBOQ.descriptionInput')}
                       placeholder={t('defineBOQ.descriptionInput')}
                       multiline
-                      disabled={isView}
                       labelWidth={180}
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-              </Grid>
-            </Grid>
-
-            <Box sx={{ mt: 3 }}>
-              <FieldArray
-                name="items"
-                render={(arrayHelpers) => (
-                  <ItemsSettingTable
-                    items={values?.items || []}
-                    mode={mode}
-                    arrayHelpers={arrayHelpers}
+                <Box sx={{ mt: 2 }}>
+                  <FieldArray
+                    name="items"
+                    render={(arrayHelpers) => (
+                      <ItemsSettingTable
+                        items={values?.items || []}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
                   />
-                )}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  marginLeft: '16px',
-                },
-              }}
-            >
-              {renderActionButtons(resetForm)}
-            </Box>
-          </Form>
-        )}
-      </Formik>
-
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    mt: 2,
+                    '& button + button': {
+                      marginLeft: '16px',
+                    },
+                  }}
+                >
+                  {renderActionButtons(resetForm)}
+                </Box>
+              </Form>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
       <Dialog
         open={isOpenConfirmModal}
         title={t('common.notify')}
