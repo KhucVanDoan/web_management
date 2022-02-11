@@ -134,11 +134,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         align: 'center',
         hide: isView,
         renderCell: (params) => {
-          const { id } = params.row
+          const idx = items.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               type="button"
-              onClick={() => arrayHelpers.remove(id)}
+              onClick={() => {
+                arrayHelpers.remove(idx)
+              }}
               disabled={items?.length === 1}
             >
               <Icon name="remove" />
@@ -168,7 +170,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             <Button
               onClick={() => {
                 arrayHelpers.push({
-                  id: Math.random(),
+                  id: new Date().getTime(),
                   itemId: '',
                   quantity: 1,
                 })
@@ -188,7 +190,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         striped={false}
         hideSetting
         hideFooter
-        // height={400}
       />
     </>
   )

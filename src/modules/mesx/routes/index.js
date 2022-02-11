@@ -5,6 +5,7 @@ import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
 import Dashboard from '~/modules/mesx/features/dashboard'
 import BOMForm from '~/modules/mesx/features/define-bom/form'
 import DefineBOM from '~/modules/mesx/features/define-bom/list'
+import BOQDetail from '~/modules/mesx/features/define-boq/detail'
 import BOQForm from '~/modules/mesx/features/define-boq/form'
 import DefineBOQ from '~/modules/mesx/features/define-boq/list'
 import DefineCompany from '~/modules/mesx/features/define-company'
@@ -108,7 +109,7 @@ const routes = [
           {
             name: ROUTE.DEFINE_BOQ.DETAIL.TITLE,
             path: ROUTE.DEFINE_BOQ.DETAIL.PATH,
-            component: BOQForm,
+            component: BOQDetail,
             pathActive: ROUTE.DEFINE_BOQ.DETAIL.PATH,
             isInSidebar: false,
           },

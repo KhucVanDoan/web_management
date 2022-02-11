@@ -21,6 +21,7 @@ const FormikAutocomplete = ({
       getIn(form.touched, field.name) && getIn(form.errors, field.name)
     }
     onChange={(value) => form.setFieldValue(field.name, getOptionValue(value))}
+    getOptionValue={getOptionValue}
     {...props}
   />
 )
@@ -33,6 +34,7 @@ FormikAutocomplete.defaultProps = {
 FormikAutocomplete.propTypes = {
   field: PropTypes.shape(),
   form: PropTypes.shape(),
+  getOptionValue: PropTypes.func,
 }
 
 export default FormikAutocomplete
