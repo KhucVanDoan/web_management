@@ -5,37 +5,52 @@ import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
-import { itemTypeSchema } from './schema'
+import { defineCompanySchema } from './schema'
 
-const ItemTypeForm = () => {
+function DefineCompanyForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
   const {
-    data: { isLoading, itemTypeDetails },
+    data: { companyDetails, isLoading },
     actions,
-  } = useItemType()
-  const initialValues = isEmpty(itemTypeDetails)
+  } = useDefineCompany()
+
+  const initialValues = isEmpty(companyDetails)
     ? {
         code: '',
         name: '',
+        address: '',
+        phone: '',
+        taxNo: '',
+        email: '',
+        fax: '',
         description: '',
       }
-    : pick(itemTypeDetails, ['code', 'name', 'description'])
+    : pick(companyDetails, [
+        'code',
+        'name',
+        'description',
+        'address',
+        'phone',
+        'taxNo',
+        'fax',
+        'email',
+      ])
 
   const MODE_MAP = {
-    [ROUTE.ITEM_TYPE.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.ITEM_TYPE.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.DEFINE_COMPANY.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_COMPANY.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
@@ -46,21 +61,21 @@ const ItemTypeForm = () => {
         title: 'database',
       },
       {
-        route: ROUTE.ITEM_TYPE.LIST.PATH,
-        title: ROUTE.ITEM_TYPE.LIST.TITLE,
+        route: ROUTE.DEFINE_COMPANY.LIST.PATH,
+        title: ROUTE.DEFINE_COMPANY.LIST.TITLE,
       },
     ]
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumbs.push({
-          route: ROUTE.ITEM_TYPE.CREATE.PATH,
-          title: ROUTE.ITEM_TYPE.CREATE.TITLE,
+          route: ROUTE.DEFINE_COMPANY.CREATE.PATH,
+          title: ROUTE.DEFINE_COMPANY.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumbs.push({
-          route: ROUTE.ITEM_TYPE.EDIT.PATH,
-          title: ROUTE.ITEM_TYPE.EDIT.TITLE,
+          route: ROUTE.DEFINE_COMPANY.EDIT.PATH,
+          title: ROUTE.DEFINE_COMPANY.EDIT.TITLE,
         })
         break
       default:
@@ -72,41 +87,47 @@ const ItemTypeForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
-      actions.getItemTypeDetailsById(id)
+      actions.getCompanyDetailsById(id)
     }
     return () => {
-      if (isUpdate) actions.resetItemTypeDetailsState()
+      if (isUpdate) actions.resetCompanyDetailsState()
     }
   }, [params?.id])
 
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.ITEM_TYPE.CREATE.TITLE
+        return ROUTE.DEFINE_COMPANY.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.ITEM_TYPE.EDIT.TITLE
+        return ROUTE.DEFINE_COMPANY.EDIT.TITLE
       default:
         break
     }
   }
 
   const backToList = () => {
-    history.push(ROUTE.ITEM_TYPE.LIST.PATH)
+    history.push(ROUTE.DEFINE_COMPANY.LIST.PATH)
   }
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
-      actions.createItemType(values, () => backToList())
+      actions.createCompany(values, () => backToList())
     } else if (mode === MODAL_MODE.UPDATE) {
       const id = Number(params?.id)
-      const { code, name, description } = values
+      const { code, name, description, address, phone, taxNo, fax, email } =
+        values
       const paramUpdate = {
         id,
         code,
         name,
+        address,
+        phone,
         description,
+        taxNo,
+        fax,
+        email,
       }
-      actions.updateItemType(paramUpdate, () => backToList())
+      actions.updateCompany(paramUpdate, () => backToList())
     }
   }
 
@@ -114,7 +135,7 @@ const ItemTypeForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
+          <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -127,11 +148,11 @@ const ItemTypeForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.create')}</Button>
-          </>
+          </Box>
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
+          <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
               {t('common.close')}
             </Button>
@@ -144,7 +165,7 @@ const ItemTypeForm = () => {
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.save')}</Button>
-          </>
+          </Box>
         )
       default:
         break
@@ -162,7 +183,7 @@ const ItemTypeForm = () => {
         <Grid item xl={11} sx={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={itemTypeSchema(t)}
+            validationSchema={defineCompanySchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >
@@ -175,37 +196,75 @@ const ItemTypeForm = () => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('itemTypeSetting.code')}
+                      labelWidth={180}
+                      label={t('defineCompany.code')}
                       name="code"
-                      placeholder={t('itemTypeSetting.code')}
+                      placeholder={t('defineCompany.code')}
                       disabled={isUpdate}
                       required
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      name="name"
-                      label={t('itemTypeSetting.name')}
-                      placeholder={t('itemTypeSetting.name')}
-                      required
                       labelWidth={180}
+                      name="taxNo"
+                      label={t('defineCompany.tax')}
+                      placeholder={t('defineCompany.tax')}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      labelWidth={180}
+                      label={t('defineCompany.name')}
+                      name="name"
+                      placeholder={t('defineCompany.name')}
+                      required
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      labelWidth={180}
+                      name="email"
+                      label={t('defineCompany.email')}
+                      placeholder={t('defineCompany.email')}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      labelWidth={180}
+                      label={t('defineCompany.address')}
+                      name="address"
+                      placeholder={t('defineCompany.address')}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      labelWidth={180}
+                      name="fax"
+                      label={t('defineCompany.fax')}
+                      placeholder={t('defineCompany.fax')}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      labelWidth={180}
+                      name="phone"
+                      label={t('defineCompany.phone')}
+                      placeholder={t('defineCompany.phone')}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
-                      name="description"
-                      label={t('itemTypeSetting.description')}
-                      placeholder={t('itemTypeSetting.description')}
                       labelWidth={180}
+                      name="description"
+                      label={t('defineCompany.description')}
+                      placeholder={t('defineCompany.description')}
                       multiline
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-                <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  {renderActionButtons({ handleReset })}
-                </Box>
+                <Box>{renderActionButtons({ handleReset })}</Box>
               </Form>
             )}
           </Formik>
@@ -215,4 +274,4 @@ const ItemTypeForm = () => {
   )
 }
 
-export default ItemTypeForm
+export default DefineCompanyForm

@@ -19,6 +19,10 @@ const breadcrumbs = [
     route: ROUTE.ITEM_TYPE.LIST.PATH,
     title: ROUTE.ITEM_TYPE.LIST.TITLE,
   },
+  {
+    route: ROUTE.ITEM_TYPE.DETAIL.PATH,
+    title: ROUTE.ITEM_TYPE.DETAIL.TITLE,
+  },
 ]
 
 const ItemTypeDetail = () => {
@@ -44,7 +48,7 @@ const ItemTypeDetail = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('itemTypeSetting.itemTypeDetail')}
+      title={t('menu.itemTypeDetail')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -52,25 +56,25 @@ const ItemTypeDetail = () => {
         <Grid item xl={11} sx={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item lg={6} xs={12} display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
+              <Typography variant="body2" width={180}>
                 {t('itemTypeSetting.code')}
               </Typography>
               <Typography>{itemTypeDetails.code}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
+              <Typography variant="body2" width={180}>
                 {t('itemTypeSetting.name')}
               </Typography>
               <Typography>{itemTypeDetails.name}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
+              <Typography variant="body2" width={180}>
                 {t('itemTypeSetting.user')}
               </Typography>
               <Typography>{itemTypeDetails.user}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
-              <Typography sx={{ color: 'subText.main' }} width={180}>
+              <Typography variant="body2" width={180}>
                 {t('itemTypeSetting.createDate')}
               </Typography>
               <Typography>

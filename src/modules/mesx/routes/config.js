@@ -5,7 +5,7 @@ export const ROUTE = {
   },
   DATABASE: {
     PATH: '/mesx/database',
-    TITLE: 'database'
+    TITLE: 'database',
   },
   ITEM_TYPE: {
     LIST: {
@@ -207,6 +207,24 @@ export const ROUTE = {
     MOVEMENTS: {
       PATH: '/mesx/boq/movements',
       TITLE: 'boqMovement',
+    },
+  },
+  DEFINE_COMPANY: {
+    LIST: {
+      PATH: '/mesx/define-company',
+      TITLE: 'defineCompany',
+    },
+    CREATE: {
+      PATH: '/mesx/define-company/create',
+      TITLE: 'defineCompanyCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/define-company/:id/detail',
+      TITLE: 'defineCompanyDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/define-company/:id/edit',
+      TITLE: 'defineCompanyEdit',
     },
   },
   REQUEST_BUY_MATERIAL: {

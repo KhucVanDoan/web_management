@@ -5,6 +5,7 @@ import commonManagement from './common'
 import dashboard from './dashboard-store.reducer'
 import bom from './define-bom.reducer'
 import defineBOQ from './define-boq'
+import defineCompany from './define-company'
 import defineItem from './define-item.reducer'
 import detailSchedule from './detail-schedule.reducer'
 import Factory from './factory.reducer'
@@ -38,6 +39,7 @@ const reducers = {
   itemUnitSetting,
   itemTypeSetting,
   definePlan,
+  defineCompany,
   routing,
   routingVersion,
   producingStep,

@@ -50,6 +50,11 @@ import watchGetBOQDetails from './define-boq/get-boq-details.saga'
 import watchRejectBOQ from './define-boq/reject-boq.saga'
 import watchSearchBOQ from './define-boq/search-boq.saga'
 import watchUpdateBOQ from './define-boq/update-boq.saga'
+import watchCreateCompany from './define-company/create-company'
+import watchDeleteCompany from './define-company/delete-company'
+import watchGetCompanyDetails from './define-company/get-company-details'
+import watchSearchCompanies from './define-company/search-companies'
+import watchUpdateCompany from './define-company/update-company'
 import watchCreateItem from './define-item/create-item.saga'
 import watchDeleteItem from './define-item/delete-item.saga'
 import watchGetItemDetails from './define-item/get-item-details.saga'
@@ -245,6 +250,13 @@ export default function* sagas() {
     watchGetBOMStructure(),
     watchGetBomByItem(),
     watchGetBOMProducingStepStructure(),
+
+    //define-company
+    watchSearchCompanies(),
+    watchCreateCompany(),
+    watchUpdateCompany(),
+    watchGetCompanyDetails(),
+    watchDeleteCompany(),
 
     // common
     watchGetCompanies(),
