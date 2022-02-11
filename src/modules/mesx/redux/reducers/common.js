@@ -77,7 +77,7 @@ import {
   CREATE_PURCHASED_ORDER_FAILED,
   CREATE_PURCHASED_ORDER_START,
   CREATE_PURCHASED_ORDER_SUCCESS,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 
 const initialState = {
   isLoading: false,

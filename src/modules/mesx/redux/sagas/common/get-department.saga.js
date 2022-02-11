@@ -4,7 +4,7 @@ import {
   GET_DEPARTMENTS_START,
   GET_DEPARTMENTS_SUCCESS,
   GET_DEPARTMENTS_FAILED,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

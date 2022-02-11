@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import Box from '@mui/material/Box'
 import { withStyles } from '@mui/styles'
-import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getItems } from '~/modules/mesx/redux/actions/common'
 import { normalizeDecimal } from '~/utils'
 import useStyles from './style'
 

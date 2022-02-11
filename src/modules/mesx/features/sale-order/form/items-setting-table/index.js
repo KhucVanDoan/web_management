@@ -23,7 +23,7 @@ import {
   getItems,
   getWarehouses,
   getBoms,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { normalizeDecimal, scrollToBottom } from '~/utils'
 
 import useStyles from './style'

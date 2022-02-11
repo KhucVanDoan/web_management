@@ -200,7 +200,7 @@ const DataTable = (props) => {
                     {columns.map((column, i) => {
                       const { field, align, renderCell } = column
                       const cellValue = renderCell
-                        ? renderCell({ row })
+                        ? renderCell({ row }, index)
                         : row[field]
 
                       const canTruncated = typeof cellValue === 'string'

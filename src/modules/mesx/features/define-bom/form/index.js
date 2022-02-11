@@ -32,10 +32,7 @@ import {
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
 import TableCollapse from '~/components/TableCollapse'
-import {
-  getItems,
-  getRoutings,
-} from '~/modules/mesx/redux/actions/common.action'
+import { getItems, getRoutings } from '~/modules/mesx/redux/actions/common'
 import {
   confirmBOMById,
   createBOM,

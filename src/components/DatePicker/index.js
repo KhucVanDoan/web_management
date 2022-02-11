@@ -44,7 +44,7 @@ const DatePicker = ({
       {label && (
         <FormLabel
           required={required}
-          sx={{ width: !vertical ? labelWidth : '' }}
+          sx={{ ...(vertical ? {} : { width: labelWidth }) }}
         >
           {label}
         </FormLabel>

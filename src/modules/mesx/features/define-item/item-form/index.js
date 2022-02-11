@@ -33,7 +33,7 @@ import {
   getItemGroups,
   getItemTypes,
   getItemUnits,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import {
   createItem,
   getItemDetailsById,

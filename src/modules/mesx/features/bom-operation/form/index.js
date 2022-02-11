@@ -31,10 +31,7 @@ import {
   getBomProducingStepBomDetails,
   searchBomProducingStep,
 } from '~/modules/mesx/redux/actions/bom-producing-step.action'
-import {
-  getItems,
-  getRoutings,
-} from '~/modules/mesx/redux/actions/common.action'
+import { getItems, getRoutings } from '~/modules/mesx/redux/actions/common'
 import {
   getBomByItem,
   searchBOM,

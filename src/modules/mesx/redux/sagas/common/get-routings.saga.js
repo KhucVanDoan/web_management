@@ -4,7 +4,7 @@ import {
   getRoutingsFailed,
   getRoutingsSuccess,
   GET_ROUTINGS_START,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

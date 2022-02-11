@@ -4,7 +4,7 @@ import {
   getUsersFailed,
   getUsersSuccess,
   GET_USERS_START,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

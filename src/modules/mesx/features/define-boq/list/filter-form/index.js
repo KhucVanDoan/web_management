@@ -46,7 +46,7 @@ const FilterForm = () => {
           placeholder={t('defineBOQ.status')}
           options={BOQ_STATUS_OPTIONS.map((boq) => ({
             value: boq.id.toString(),
-            label: boq.text,
+            label: t(boq.text),
           }))}
         />
       </Grid>

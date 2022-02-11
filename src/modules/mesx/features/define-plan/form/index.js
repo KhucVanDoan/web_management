@@ -32,7 +32,7 @@ import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
 import TableCollapse from '~/components/TableCollapse'
 import producingSteps from '~/modules/mesx/features/producing-steps'
-import { getUsers } from '~/modules/mesx/redux/actions/common.action'
+import { getUsers } from '~/modules/mesx/redux/actions/common'
 import {
   searchMO,
   getMODetailsById,

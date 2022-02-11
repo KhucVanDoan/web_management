@@ -33,7 +33,7 @@ import {
 import withBreadcrumbs from '~/components/Breadcrumbs'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'
-import { getBoms } from '~/modules/mesx/redux/actions/common.action'
+import { getBoms } from '~/modules/mesx/redux/actions/common'
 import {
   deleteItem,
   printQRItems,

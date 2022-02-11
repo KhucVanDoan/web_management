@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { QMSX_URL } from '~/common/constants'
 import {
   getItemQualityPointFailed,
   getItemQualityPointSuccess,
   GET_ITEM_QUALITY_POINT_START,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 
 /**

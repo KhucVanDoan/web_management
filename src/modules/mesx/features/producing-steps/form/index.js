@@ -32,7 +32,7 @@ import {
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
-import { searchQualityPoints } from '~/modules/mesx/redux/actions/common.action'
+import { searchQualityPoints } from '~/modules/mesx/redux/actions/common'
 import {
   createProducingStep,
   updateProducingStep,

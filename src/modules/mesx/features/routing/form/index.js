@@ -21,10 +21,7 @@ import {
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
-import {
-  getItems,
-  getWarehouses,
-} from '~/modules/mesx/redux/actions/common.action'
+import { getItems, getWarehouses } from '~/modules/mesx/redux/actions/common'
 import {
   confirmRoutingById,
   createRouting,

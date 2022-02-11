@@ -20,6 +20,7 @@ import {
   UPDATE_BOQ_FAILED,
   UPDATE_BOQ_START,
   UPDATE_BOQ_SUCCESS,
+  RESET_BOQ_DETAILS_STATE,
 } from '~/modules/mesx/redux/actions/define-boq'
 
 const initialState = {
@@ -85,6 +86,11 @@ export default function defineBOQ(state = initialState, action) {
         ...state,
         boqDetails: {},
         isLoading: false,
+      }
+    case RESET_BOQ_DETAILS_STATE:
+      return {
+        ...state,
+        boqDetails: {},
       }
     default:
       return state

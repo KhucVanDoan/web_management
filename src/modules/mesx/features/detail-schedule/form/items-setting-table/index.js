@@ -23,7 +23,7 @@ import {
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import { getItems } from '~/modules/mesx/redux/actions/common.action'
+import { getItems } from '~/modules/mesx/redux/actions/common'
 import { normalizeDecimal, scrollToBottom } from '~/utils'
 
 import useStyles from './style'

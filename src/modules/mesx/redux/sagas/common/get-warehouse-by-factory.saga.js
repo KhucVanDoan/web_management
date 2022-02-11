@@ -4,7 +4,7 @@ import {
   GET_WAREHOUSES_BY_FACTORIES_START,
   GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
   GET_WAREHOUSES_BY_FACTORIES_FAILED,
-} from '~/modules/mesx/redux/actions/common.action'
+} from '~/modules/mesx/redux/actions/common'
 import { api } from '~/services/api'
 /**
  * Search user API
