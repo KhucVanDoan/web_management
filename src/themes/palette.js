@@ -109,6 +109,7 @@ const palette = {
   background: {
     main: '#F4F5F5',
   },
+  borderField: '#0761AD',
   // For special cases
   bgPrimaryOpacity: '#DAE7F3',
   bgSecondaryOpacity: '#F7D7C5',

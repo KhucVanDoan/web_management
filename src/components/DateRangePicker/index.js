@@ -69,6 +69,7 @@ const DateRangePicker = ({
                 className={clsx(classes.root, {
                   [classes.disabled]: disabled,
                   [classes.error]: error,
+                  [classes.focus]: open,
                 })}
                 sx={{ ...(disabled ? { pointerEvents: 'none' } : {}) }}
                 onClick={() => {

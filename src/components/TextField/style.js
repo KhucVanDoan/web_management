@@ -29,10 +29,10 @@ const style = (theme) => ({
         borderColor: 'transparent',
       },
       '&:hover fieldset': {
-        borderColor: 'transparent',
+        borderColor: theme.palette.borderField,
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'transparent',
+        borderColor: theme.palette.borderField,
       },
     },
   },

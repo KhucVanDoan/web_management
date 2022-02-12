@@ -9,9 +9,18 @@ const style = (theme) => ({
     '& span': {
       lineHeight: 20 / 14,
     },
+    '&: hover': {
+      borderColor: theme.palette.borderField,
+    },
   },
   error: {
     border: `1px solid ${theme.palette.error.main}`,
+  },
+  focus: {
+    borderColor: theme.palette.borderField,
+    '&: hover': {
+      borderColor: theme.palette.borderField,
+    },
   },
   textField: {
     display: 'flex',

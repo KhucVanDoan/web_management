@@ -8,6 +8,7 @@ import {
   FormHelperText,
   InputAdornment,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import clsx from 'clsx'
 import { PropTypes } from 'prop-types'
 
@@ -31,7 +32,9 @@ const DatePicker = ({
   ...props
 }) => {
   const classes = useClasses(style)
+  const theme = useTheme()
   const [open, setOpen] = useState(false)
+
   return (
     <FormControl
       className={clsx(classes.formControl, {
@@ -93,6 +96,18 @@ const DatePicker = ({
                     '& input': {
                       cursor: disabled ? 'unset' : 'pointer',
                     },
+                    '& fieldset': {
+                      borderColor: open
+                        ? `${theme.palette.borderField} !important`
+                        : 'transparent !important',
+                    },
+                    ...(open
+                      ? {}
+                      : {
+                          '&:hover fieldset': {
+                            borderColor: `${theme.palette.borderField} !important`,
+                          },
+                        }),
                   }}
                 />
               </Box>
