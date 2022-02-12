@@ -40,10 +40,12 @@ const Autocomplete = ({
   ...props
 }) => {
   const classes = useClasses(style)
-  const hasSubLabel = rawOptions.some((opt) => opt.subLabel)
+  const hasSubLabel = rawOptions?.some((opt) => opt.subLabel)
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState(rawOptions)
+  const [value, setValue] = useState(null)
+
   const isAsync = typeof asyncRequest === 'function'
   const { t } = useTranslation()
 
@@ -106,7 +108,7 @@ const Autocomplete = ({
     )
   }
 
-  const StickyHeader = ({ children, ...other }) => {
+  const PaperComponent = ({ children, ...other }) => {
     const header = () => {
       if (renderStickyHeader) {
         if (typeof renderStickyHeader === 'function')
@@ -126,8 +128,6 @@ const Autocomplete = ({
     )
   }
 
-  const [value, setValue] = useState(null)
-
   useEffect(() => {
     if (!multiple && typeof getOptionValue === 'function') {
       const selectedValue = options.find((o) => getOptionValue(o) === rawValue)
@@ -138,7 +138,7 @@ const Autocomplete = ({
   return (
     <MuiAutocomplete
       classes={{
-        root: classes.root,
+        root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
         listbox: classes.listbox,
       }}
@@ -153,7 +153,7 @@ const Autocomplete = ({
       }}
       {...(!multiple && typeof getOptionValue === 'function'
         ? {
-            value: value,
+            value: value || null,
             onChange: (_, newValue) => {
               setValue(newValue)
               rawOnChange(newValue)
@@ -165,7 +165,12 @@ const Autocomplete = ({
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
       getOptionLabel={getOptionLabel}
-      renderOption={(optionProps, option, { selected }) => {
+      renderOption={(optProps, option, { selected }) => {
+        const optionProps = {
+          ...optProps,
+          key: optProps?.key + optProps?.['data-option-index'],
+        }
+
         if (typeof renderOption === 'function')
           return renderOption(optionProps, option)
         if (multiple) return renderOptionMultiple(optionProps, option, selected)
@@ -183,7 +188,7 @@ const Autocomplete = ({
         : {})}
       {...(isAsync ? { filterOptions: (opts) => opts } : {})}
       {...(multiple ? { disableCloseOnSelect: true } : {})}
-      PaperComponent={StickyHeader}
+      PaperComponent={PaperComponent}
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
           {...params}

@@ -4,7 +4,7 @@ import {
   searchFactoriesFailed,
   searchFactoriesSuccess,
   SEARCH_FACTORIES_START,
-} from '~/modules/mesx/redux/actions/factory.action'
+} from '~/modules/mesx/redux/actions/factory'
 import { api } from '~/services/api'
 
 /**

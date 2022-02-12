@@ -2,11 +2,36 @@ const style = (theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       padding: 0,
-      maxHeight: 118,
-      overflow: 'auto',
 
       '.MuiAutocomplete-input': {
         padding: '9px 16px',
+      },
+    },
+  },
+  rootMultiple: {
+    '.MuiOutlinedInput-root': {
+      padding: 0,
+      maxHeight: 118,
+      overflow: 'auto',
+      border: '1px solid',
+      borderColor: theme.palette.grayF4.main,
+
+      '&:hover, &.Mui-focused': {
+        borderColor: theme.palette.borderField,
+      },
+      '&.Mui-disabled': {
+        borderColor: theme.palette.grayF4.main,
+      },
+      '&.Mui-error': {
+        borderColor: theme.palette.error.main,
+      },
+
+      '.MuiAutocomplete-input': {
+        padding: '9px 16px',
+      },
+
+      '.MuiOutlinedInput-notchedOutline': {
+        display: 'none !important',
       },
     },
   },

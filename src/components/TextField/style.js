@@ -1,4 +1,4 @@
-const style = (theme) => ({
+const style = (readOnly) => (theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       boxShadow: '0px 8px 8px rgba(102, 102, 102, 0.05)',
@@ -6,15 +6,14 @@ const style = (theme) => ({
       paddingRight: 0,
       boxSizing: 'border-box',
       color: theme.palette.text.main,
+      border: 'none',
       input: {
         padding: '9px 16px',
       },
-      '&:not(.Mui-error)': {
-        border: `1px solid ${theme.palette.grayF4.main}`,
-      },
     },
-    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderWidth: 1,
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderWidth: '1px !important',
+      borderColor: theme.palette.grayF4.main,
     },
     '& .MuiFormLabel-root': {
       wordBreak: 'break-word',
@@ -25,15 +24,12 @@ const style = (theme) => ({
   },
   normal: {
     '& .MuiOutlinedInput-root': {
-      fieldset: {
-        borderColor: 'transparent',
-      },
-      '&:hover fieldset': {
-        borderColor: theme.palette.borderField,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.borderField,
-      },
+      '&:hover .MuiOutlinedInput-notchedOutline, &.Mui-focused .MuiOutlinedInput-notchedOutline':
+        {
+          borderColor: readOnly
+            ? theme.palette.grayF4.main
+            : theme.palette.borderField,
+        },
     },
   },
   disabled: {

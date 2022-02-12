@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Typography, Grid, Hidden } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -8,47 +8,48 @@ import { useParams, useHistory } from 'react-router-dom'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
+
 const breadcrumbs = [
   {
     title: 'database',
   },
   {
-    route: ROUTE.ITEM_TYPE.LIST.PATH,
-    title: ROUTE.ITEM_TYPE.LIST.TITLE,
+    route: ROUTE.DEFINE_FACTORY.LIST.PATH,
+    title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
   },
   {
-    route: ROUTE.ITEM_TYPE.DETAIL.PATH,
-    title: ROUTE.ITEM_TYPE.DETAIL.TITLE,
+    route: ROUTE.DEFINE_FACTORY.DETAIL.PATH,
+    title: ROUTE.DEFINE_FACTORY.DETAIL.TITLE,
   },
 ]
 
-const ItemTypeDetail = () => {
+function DefineFactoryDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
   const {
-    data: { isLoading, itemTypeDetails },
+    data: { isLoading, factoryDetails },
     actions,
-  } = useItemType()
+  } = useDefineFactory()
 
   useEffect(() => {
-    actions.getItemTypeDetailsById(id)
+    actions.getFactoryDetailsById(id)
     return () => {
-      actions.resetItemTypeDetailsState()
+      actions.resetFactoryDetailsState()
     }
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.ITEM_TYPE.LIST.PATH)
+    history.push(ROUTE.DEFINE_FACTORY.LIST.PATH)
   }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.itemTypeDetail')}
+      title={t('menu.defineFactoryDetail')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -57,38 +58,59 @@ const ItemTypeDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item lg={6} xs={12} display="flex">
               <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.code')}
+                {t('defineFactory.code')}
               </Typography>
-              <Typography>{itemTypeDetails.code}</Typography>
+              <Typography>{factoryDetails.code}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
               <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.name')}
+                {t('defineFactory.location')}
               </Typography>
-              <Typography>{itemTypeDetails.name}</Typography>
+              <Typography>{factoryDetails.location}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
               <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.user')}
+                {t('defineFactory.name')}
               </Typography>
-              <Typography>{itemTypeDetails.user}</Typography>
+              <Typography>{factoryDetails.name}</Typography>
             </Grid>
             <Grid item lg={6} xs={12} display="flex">
               <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.createDate')}
+                {t('defineFactory.phone')}
+              </Typography>
+              <Typography>{factoryDetails.phone}</Typography>
+            </Grid>
+            <Grid item lg={6} xs={12} display="flex">
+              <Typography variant="body2" width={180}>
+                {t('defineFactory.companyName')}
+              </Typography>
+              <Typography>{factoryDetails.companyName}</Typography>
+            </Grid>
+            <Grid item lg={6} xs={12} display="flex">
+              <Typography variant="body2" width={180}>
+                {t('defineFactory.user')}
+              </Typography>
+              <Typography>{factoryDetails.user}</Typography>
+            </Grid>
+            <Hidden lgDown>
+              <Grid item lg={6} xs={12} display="flex"></Grid>
+            </Hidden>
+            <Grid item lg={6} xs={12} display="flex">
+              <Typography variant="body2" width={180}>
+                {t('defineFactory.createDate')}
               </Typography>
               <Typography>
-                {formatDateTimeUtc(itemTypeDetails.createdAt)}
+                {formatDateTimeUtc(factoryDetails.createdAt)}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
-                label={t('itemTypeSetting.description')}
+                label={t('defineFactory.description')}
                 multiline
                 rows={3}
                 labelWidth={180}
-                value={itemTypeDetails.description}
+                value={factoryDetails.description}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
@@ -109,4 +131,4 @@ const ItemTypeDetail = () => {
   )
 }
 
-export default ItemTypeDetail
+export default DefineFactoryDetail

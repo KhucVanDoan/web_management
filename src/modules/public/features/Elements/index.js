@@ -375,6 +375,7 @@ const Elements = () => {
           submitProps={{
             color: 'error',
           }}
+          noBorderBottom
         >
           Dialog content
         </Dialog>

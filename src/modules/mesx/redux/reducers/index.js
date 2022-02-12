@@ -8,7 +8,7 @@ import defineBOQ from './define-boq'
 import defineCompany from './define-company'
 import defineItem from './define-item.reducer'
 import detailSchedule from './detail-schedule.reducer'
-import Factory from './factory.reducer'
+import defineFactory from './factory'
 import producingStep from './index.reducer'
 import inventoryLimit from './inventory-limit.reducer'
 import itemGroupSetting from './item-group-setting'
@@ -53,7 +53,7 @@ const reducers = {
   Mo,
   saleOrder,
   soExport,
-  Factory,
+  defineFactory,
   workCenterPlan,
   requestBuyMaterial,
   inventoryLimit,
