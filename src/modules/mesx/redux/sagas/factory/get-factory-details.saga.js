@@ -4,7 +4,7 @@ import {
   getFactoryDetailsByIdFailed,
   getFactoryDetailsByIdSuccess,
   GET_FACTORY_DETAILS_START,
-} from '~/modules/mesx/redux/actions/factory.action'
+} from '~/modules/mesx/redux/actions/factory'
 import { api } from '~/services/api'
 
 /**

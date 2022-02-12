@@ -14,13 +14,18 @@ import {
   UPDATE_FACTORY_FAILED,
   UPDATE_FACTORY_START,
   UPDATE_FACTORY_SUCCESS,
-} from '~/modules/mesx/redux/actions/factory.action'
+  GET_FACTORIES_FAILED,
+  GET_FACTORIES_START,
+  GET_FACTORIES_SUCCESS,
+  RESET_FACTORY_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/factory'
 
 const initialState = {
   isLoading: false,
-  factoriesList: [],
+  factoryList: [],
   factoryDetails: {},
   total: null,
+  meta: {},
 }
 
 /**
@@ -29,21 +34,35 @@ const initialState = {
  * @param {object} action
  * @returns
  */
-export default function Factory(state = initialState, action) {
+export default function defineFactory(state = initialState, action) {
   switch (action.type) {
     case SEARCH_FACTORIES_START:
     case CREATE_FACTORY_START:
     case UPDATE_FACTORY_START:
     case DELETE_FACTORY_START:
     case GET_FACTORY_DETAILS_START:
+    case GET_FACTORIES_START:
       return {
         ...state,
         isLoading: true,
       }
+    case GET_FACTORIES_SUCCESS:
+      return {
+        ...state,
+        factoryList: action?.payload?.items,
+        isLoading: false,
+        meta: action?.payload?.meta,
+      }
+    case GET_FACTORIES_FAILED:
+      return {
+        ...state,
+        factoryList: [],
+        isLoading: false,
+      }
     case SEARCH_FACTORIES_SUCCESS:
       return {
         ...state,
-        factoriesList: action.payload.list,
+        factoryList: action.payload.list,
         isLoading: false,
         total: action.payload.total,
       }
@@ -51,7 +70,7 @@ export default function Factory(state = initialState, action) {
     case SEARCH_FACTORIES_FAILED:
       return {
         ...state,
-        factoriesList: [],
+        factoryList: [],
         isLoading: false,
         total: 0,
       }
@@ -77,6 +96,12 @@ export default function Factory(state = initialState, action) {
         factoryDetails: {},
         isLoading: false,
       }
+    case RESET_FACTORY_DETAILS_STATE:
+      return {
+        ...state,
+        factoryDetails: {},
+      }
+
     default:
       return state
   }

@@ -209,6 +209,24 @@ export const ROUTE = {
       TITLE: 'boqMovement',
     },
   },
+  DEFINE_FACTORY: {
+    LIST: {
+      PATH: '/mesx/define-factory',
+      TITLE: 'defineFactory',
+    },
+    CREATE: {
+      PATH: '/mesx/define-factory/create',
+      TITLE: 'defineFactoryCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/define-factory/:id/detail',
+      TITLE: 'defineFactoryDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/define-factory/:id/edit',
+      TITLE: 'defineFactoryEdit',
+    },
+  },
   DEFINE_COMPANY: {
     LIST: {
       PATH: '/mesx/define-company',
@@ -420,5 +438,5 @@ export const ROUTE = {
       PATH: '/mesx/item-unit-define/:id/edit',
       TITLE: 'itemUnitEdit',
     },
-  }
+  },
 }

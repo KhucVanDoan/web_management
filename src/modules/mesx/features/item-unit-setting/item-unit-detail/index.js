@@ -97,6 +97,12 @@ function ItemUnitDetail() {
                   value={itemUnitDetails.description}
                   rows={3}
                   labelWidth={180}
+                  readOnly
+                  sx={{
+                    'label.MuiFormLabel-root': {
+                      color: (theme) => theme.palette.subText.main,
+                    },
+                  }}
                 />
               </Box>
             </Grid>

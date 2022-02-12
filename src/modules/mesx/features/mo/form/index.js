@@ -16,7 +16,7 @@ import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
 import clsx from 'clsx'
-import { isAfter, isBefore, isSameDay } from 'date-fns'
+import { isBefore, isSameDay } from 'date-fns'
 import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -30,8 +30,6 @@ import {
   MO_STATUS_MAP,
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
-  DATE_FORMAT_2,
-  WMS_URL,
   DATE_FORMAT,
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
@@ -42,7 +40,7 @@ import {
   getUsers,
   createPurchasedOrder,
 } from '~/modules/mesx/redux/actions/common'
-import { searchFactories } from '~/modules/mesx/redux/actions/factory.action'
+import { searchFactories } from '~/modules/mesx/redux/actions/factory'
 import { searchItemTypes } from '~/modules/mesx/redux/actions/item-type-setting'
 import {
   confirmMOById,
@@ -358,7 +356,6 @@ class MOForm extends Component {
           status,
           factory,
           saleOrderId,
-          saleOrder,
           createdByUser,
         } = data
         if (mode === MODAL_MODE.UPDATE && status !== MO_STATUS.PENDING) {
@@ -430,17 +427,8 @@ class MOForm extends Component {
       (isBefore(moment(this.state.planTo)._d, this.state.soDeadline) ||
         isSameDay(moment(this.state.planTo)._d, this.state.soDeadline))
     ) {
-      const {
-        code,
-        name,
-        planFrom,
-        planTo,
-        description,
-        createdByUser,
-        items,
-        factoryId,
-        saleOrderId,
-      } = this.state
+      const { code, name, planFrom, planTo, description, items, saleOrderId } =
+        this.state
       const params = {
         code: code?.trim(),
         name,
@@ -502,7 +490,6 @@ class MOForm extends Component {
         factoryId,
         saleOrderId,
         factory,
-        saleOrder,
       } = this.props.Mo.moDetails
       const cloneMoItems = JSON.parse(JSON.stringify(manufacturingOrderDetails))
 
@@ -845,7 +832,6 @@ class MOForm extends Component {
       isOpenCreatePO,
       isOpenEnoughMaterial,
       soDeadline,
-      soOrderedAt,
     } = this.state
     const { t, classes, Mo, saleOrderList, factoriesList } = this.props
 

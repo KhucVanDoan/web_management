@@ -8,42 +8,39 @@ import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-
   const { appStore } = useAppStore()
-  //@TODO: <anh.nguyenthihai> selectbox in filters
-  // @TODO: <yen.nguyenhai> re-check how to get the options for the select box
-  const taxOptions = (appStore?.companies || []).filter((item) => !!item.taxNo)
 
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
           name="code"
-          label={t('defineCompany.code')}
-          placeholder={t('defineCompany.code')}
+          label={t('defineFactory.code')}
+          placeholder={t('defineFactory.code')}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
           name="name"
-          label={t('defineCompany.name')}
-          placeholder={t('defineCompany.name')}
+          label={t('defineFactory.name')}
+          placeholder={t('defineFactory.name')}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="taxNo"
-          label={t('defineCompany.tax')}
-          placeholder={t('defineCompany.tax')}
-          options={taxOptions}
-          getOptionValue={(opt) => opt?.taxNo}
-          getOptionLabel={(opt) => opt?.taxNo}
+          name="companyName"
+          label={t('defineFactory.companyName')}
+          placeholder={t('defineFactory.companyName')}
+          options={appStore?.companies}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionValue={(opt) => opt?.name}
+          // @TODO: <yen.nguyenhai> re-check how to get the options for the select box
         />
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('defineCompany.createTime')}
+          label={t('defineFactory.createTime')}
           type="date"
         />
       </Grid>

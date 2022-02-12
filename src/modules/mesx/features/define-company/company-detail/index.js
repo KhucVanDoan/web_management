@@ -121,8 +121,11 @@ function DefineCompanyDetail() {
                 rows={3}
                 labelWidth={180}
                 value={companyDetails.description}
-                inputProps={{
-                  readOnly: true,
+                readOnly
+                sx={{
+                  'label.MuiFormLabel-root': {
+                    color: (theme) => theme.palette.subText.main,
+                  },
                 }}
               />
             </Grid>

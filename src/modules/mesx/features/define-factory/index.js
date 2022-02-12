@@ -9,33 +9,34 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
+import { convertObjectToArrayFilter } from '~/utils'
 
 import FilterForm from './filter-form'
-
 const breadcrumbs = [
   {
     title: 'database',
   },
   {
-    route: ROUTE.ITEM_TYPE.LIST.PATH,
-    title: ROUTE.ITEM_TYPE.LIST.TITLE,
+    route: ROUTE.DEFINE_FACTORY.LIST.PATH,
+    title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
   },
 ]
-function ItemTypeSetting() {
+
+function DefineFactory() {
   const { t } = useTranslation('mesx')
   const history = useHistory()
-  const {
-    data: { itemTypeList, total, isLoading },
-    actions,
-  } = useItemType()
   const [keyword, setKeyword] = useState('')
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
+  const {
+    data: { factoryList, total, isLoading },
+    actions,
+  } = useDefineFactory()
+
   const [modal, setModal] = useState({
     id: null,
     isOpenDeleteModal: false,
@@ -47,60 +48,58 @@ function ItemTypeSetting() {
       headerName: '#',
       width: 80,
       sortable: false,
-      fixed: true,
     },
     {
       field: 'code',
-      headerName: t('itemTypeSetting.typeCode'),
+      headerName: t('defineFactory.code'),
       width: 100,
+      sortable: true,
       fixed: true,
     },
     {
       field: 'name',
-      headerName: t('itemTypeSetting.typeName'),
+      headerName: t('defineFactory.name'),
       width: 200,
+      sortable: true,
       fixed: true,
     },
     {
-      field: 'description',
-      headerName: t('itemTypeSetting.typeNote'),
-      width: 400,
+      field: 'companyName',
+      headerName: t('defineFactory.companyName'),
+      width: 200,
+    },
+    {
+      field: 'location',
+      headerName: t('defineFactory.location'),
+      width: 200,
       sortable: false,
     },
     {
-      field: 'createdAt',
-      type: 'date',
-      headerName: t('itemTypeSetting.createDate'),
+      field: 'phone',
+      headerName: t('defineFactory.phone'),
       width: 150,
-      renderCell: (params) => {
-        const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
-      },
+      sortable: false,
     },
     {
-      field: 'updatedAt',
-      type: 'date',
-      headerName: t('itemTypeSetting.updateDate'),
-      width: 150,
-      renderCell: (params) => {
-        const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
-      },
+      field: 'description',
+      headerName: t('defineFactory.description'),
+      width: 100,
+      sortable: false,
     },
     {
       field: 'action',
-      headerName: t('itemTypeSetting.action'),
+      headerName: t('common.action'),
       width: 150,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
-        const { id } = params.row
+        const { id } = params?.row
         return (
           <div>
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.ITEM_TYPE.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.DEFINE_FACTORY.DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -108,12 +107,14 @@ function ItemTypeSetting() {
             </IconButton>
             <IconButton
               onClick={() =>
-                history.push(ROUTE.ITEM_TYPE.EDIT.PATH.replace(':id', `${id}`))
+                history.push(
+                  ROUTE.DEFINE_FACTORY.EDIT.PATH.replace(':id', `${id}`),
+                )
               }
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(id)}>
+            <IconButton onClick={() => onClickDelete(params.row.id)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -139,32 +140,27 @@ function ItemTypeSetting() {
       filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
       sort: JSON.stringify(sortData),
     }
-    actions.searchItemTypes(params)
+
+    actions.searchFactories(params)
   }
 
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const handleOpenDeleteModal = (id) => {
-    setModal({
-      id: id,
-      isOpenDeleteModal: true,
-    })
+  const onClickDelete = (id) => {
+    setModal({ id, isOpenDeleteModal: true })
   }
 
-  const onSubmitDeleteModal = () => {
-    actions.deleteItemType(modal.id, () => {
+  const onSubmitDelete = () => {
+    actions.deleteFactory(modal.id, () => {
       setModal({ isOpenDeleteModal: false })
       refreshData()
     })
   }
 
   const onCloseDeleteModal = () => {
-    setModal({
-      id: null,
-      isOpenDeleteModal: false,
-    })
+    setModal({ isOpenDeleteModal: false, id: null })
   }
 
   const renderHeaderRight = () => {
@@ -174,7 +170,7 @@ function ItemTypeSetting() {
           {t('menu.importExportData')}
         </Button>
         <Button
-          onClick={() => history.push(ROUTE.ITEM_TYPE.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.DEFINE_FACTORY.CREATE.PATH)}
           sx={{ ml: '16px' }}
           icon="add"
         >
@@ -183,18 +179,19 @@ function ItemTypeSetting() {
       </>
     )
   }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.itemTypeSetting')}
+      title={t('menu.defineFactory')}
       onSearch={setKeyword}
-      placeholder={t('itemTypeSetting.searchPlaceholder')}
+      placeholder={t('defineFactory.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
-        title={t('itemTypeSetting.title')}
-        rows={itemTypeList}
+        title={t('defineFactory.factoryList')}
+        rows={factoryList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -205,27 +202,28 @@ function ItemTypeSetting() {
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        checkboxSelection
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('itemTypeSetting.itemTypeDelete')}
+        title={t('defineFactory.defineFactoryDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('common.no')}
         cancelProps={{
           variant: 'outlined',
           color: 'subText',
         }}
-        onSubmit={onSubmitDeleteModal}
+        onSubmit={onSubmitDelete}
         submitLabel={t('common.yes')}
         submitProps={{
           color: 'error',
         }}
         noBorderBottom
       >
-        {t('itemTypeSetting.confirmDelete')}
+        {t('defineFactory.deleteConfirm')}
       </Dialog>
     </Page>
   )
 }
 
-export default ItemTypeSetting
+export default DefineFactory

@@ -187,6 +187,11 @@ const BOQDetail = () => {
                 labelWidth={180}
                 rows={3}
                 value={boqDetails.description}
+                sx={{
+                  'label.MuiFormLabel-root': {
+                    color: (theme) => theme.palette.subText.main,
+                  },
+                }}
               />
             </Grid>
           </Grid>

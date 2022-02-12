@@ -219,10 +219,8 @@ const BOQForm = () => {
                       placeholder={t('defineBOQ.boqPm')}
                       options={userList}
                       labelWidth={180}
-                      getOptionValue={(option) => option?.id}
-                      getOptionLabel={(option) =>
-                        option.fullName ? option.fullName : option.username
-                      }
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       required
                     />
                   </Grid>
@@ -241,10 +239,8 @@ const BOQForm = () => {
                       label={t('defineBOQ.boqApm')}
                       placeholder={t('defineBOQ.boqApm')}
                       options={userList}
-                      getOptionValue={(option) => option?.id}
-                      getOptionLabel={(option) =>
-                        option.fullName ? option.fullName : option.username
-                      }
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       labelWidth={180}
                       required
                     />

@@ -26,9 +26,10 @@ const TextField = ({
   sx,
   vertical,
   labelWidth,
+  readOnly,
   ...props
 }) => {
-  const classes = useClasses(style)
+  const classes = useClasses(style(readOnly))
 
   return (
     <FormControl
@@ -55,6 +56,7 @@ const TextField = ({
         <OutlinedInput
           multiline={multiline}
           disabled={disabled}
+          readOnly={readOnly}
           fullWidth
           {...InputProps}
           {...props}
@@ -73,6 +75,7 @@ TextField.defaultProps = {
   label: '',
   helperText: '',
   error: false,
+  readOnly: false,
   required: false,
   multiline: false,
   disabled: false,
@@ -88,6 +91,7 @@ TextField.propTypes = {
   helperText: PropTypes.string,
   error: PropTypes.bool,
   required: PropTypes.bool,
+  readOnly: PropTypes.bool,
   multiline: PropTypes.bool,
   disabled: PropTypes.bool,
   InputProps: PropTypes.shape(),

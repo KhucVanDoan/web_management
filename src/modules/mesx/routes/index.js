@@ -11,6 +11,9 @@ import DefineBOQ from '~/modules/mesx/features/define-boq/list'
 import DefineCompany from '~/modules/mesx/features/define-company'
 import DefineCompanyDetail from '~/modules/mesx/features/define-company/company-detail'
 import DefineCompanyForm from '~/modules/mesx/features/define-company/company-form'
+import DefineFactory from '~/modules/mesx/features/define-factory'
+import DefineFactoryDetail from '~/modules/mesx/features/define-factory/factory-detail'
+import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-form'
 import DefineItem from '~/modules/mesx/features/define-item'
 import DefinePlan from '~/modules/mesx/features/define-plan'
 import DefinePlanForm from '~/modules/mesx/features/define-plan/form'
@@ -347,6 +350,34 @@ const routes = [
         path: '/item/create',
         component: DefineItem,
         isInSidebar: true,
+      },
+      {
+        name: ROUTE.DEFINE_FACTORY.LIST.TITLE,
+        path: ROUTE.DEFINE_FACTORY.LIST.PATH,
+        component: DefineFactory,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_FACTORY.CREATE.TITLE,
+            path: ROUTE.DEFINE_FACTORY.CREATE.PATH,
+            pathActive: ROUTE.DEFINE_FACTORY.CREATE.PATH,
+            component: DefineFactoryForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_FACTORY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_FACTORY.DETAIL.PATH,
+            pathActive: ROUTE.DEFINE_FACTORY.DETAIL.PATH,
+            component: DefineFactoryDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_FACTORY.EDIT.TITLE,
+            path: ROUTE.DEFINE_FACTORY.EDIT.PATH,
+            pathActive: ROUTE.DEFINE_FACTORY.EDIT.PATH,
+            component: DefineFactoryForm,
+          },
+        ],
       },
       {
         name: ROUTE.DEFINE_COMPANY.LIST.TITLE,
