@@ -42,14 +42,6 @@ function DefineCompany() {
     isOpenDeleteModal: false,
   })
 
-  const taxList = []
-  // eslint-disable-next-line array-callback-return
-  companyList.map((item) => {
-    if (!!item['taxNo']) {
-      return taxList.push(item['taxNo'])
-    }
-  })
-
   const columns = [
     {
       field: 'id',
@@ -87,11 +79,7 @@ function DefineCompany() {
       field: 'taxNo',
       headerName: t('defineCompany.tax'),
       width: 100,
-      type: 'categorical',
-      filterOptions: {
-        options: taxList,
-        getOptionValue: (option) => option?.toString(),
-      },
+      sortable: true,
     },
     {
       field: 'email',
@@ -189,7 +177,7 @@ function DefineCompany() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" sx={{ ml: '16px' }}>
+        <Button variant="outlined" icon="download" disabled>
           {t('menu.importExportData')}
         </Button>
         <Button
@@ -232,10 +220,6 @@ function DefineCompany() {
         title={t('defineCompany.defineCompanyDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('common.no')}
-        cancelProps={{
-          variant: 'outlined',
-          color: 'subText',
-        }}
         onSubmit={onSubmitDelete}
         submitLabel={t('common.yes')}
         submitProps={{

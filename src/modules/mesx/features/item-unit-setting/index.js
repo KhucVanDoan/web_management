@@ -215,10 +215,6 @@ function ItemUnitSetting() {
           title={t('itemUnitDefine.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
           cancelLabel={t('common.no')}
-          cancelProps={{
-            variant: 'outlined',
-            color: 'subText',
-          }}
           onSubmit={onSubmitDelete}
           submitLabel={t('common.yes')}
           submitProps={{

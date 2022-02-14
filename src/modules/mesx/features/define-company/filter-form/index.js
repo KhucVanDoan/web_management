@@ -8,11 +8,8 @@ import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-
   const { appStore } = useAppStore()
-  //@TODO: <anh.nguyenthihai> selectbox in filters
   // @TODO: <yen.nguyenhai> re-check how to get the options for the select box
-  const taxOptions = (appStore?.companies || []).filter((item) => !!item.taxNo)
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -35,7 +32,7 @@ const FilterForm = () => {
           name="taxNo"
           label={t('defineCompany.tax')}
           placeholder={t('defineCompany.tax')}
-          options={taxOptions}
+          options={appStore?.companies}
           getOptionValue={(opt) => opt?.taxNo}
           getOptionLabel={(opt) => opt?.taxNo}
         />

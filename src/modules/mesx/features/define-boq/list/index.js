@@ -286,10 +286,6 @@ const DefineBOQ = (props) => {
         }}
         cancelLabel={t('common.no')}
         onCancel={() => setIsOpenDeleteModal(false)}
-        cancelProps={{
-          variant: 'outlined',
-          color: 'subText',
-        }}
         noBorderBottom
       >
         {t('defineBOQ.deleteConfirm')}

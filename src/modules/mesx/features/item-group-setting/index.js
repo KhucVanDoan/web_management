@@ -214,10 +214,6 @@ const ItemGroupSetting = () => {
           title={t('itemGroupDefine.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
           cancelLabel={t('common.no')}
-          cancelProps={{
-            variant: 'outlined',
-            color: 'subText',
-          }}
           onSubmit={onSubmitDelete}
           submitLabel={t('common.yes')}
           submitProps={{

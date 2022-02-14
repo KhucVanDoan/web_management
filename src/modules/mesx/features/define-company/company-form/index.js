@@ -111,23 +111,14 @@ function DefineCompanyForm() {
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
-      actions.createCompany(values, () => backToList())
+      actions.createCompany(values, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const id = Number(params?.id)
-      const { code, name, description, address, phone, taxNo, fax, email } =
-        values
       const paramUpdate = {
+        ...values,
         id,
-        code,
-        name,
-        address,
-        phone,
-        description,
-        taxNo,
-        fax,
-        email,
       }
-      actions.updateCompany(paramUpdate, () => backToList())
+      actions.updateCompany(paramUpdate, backToList)
     }
   }
 
