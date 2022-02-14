@@ -4,7 +4,7 @@ import {
   getProducingStepDetailsByIdFailed,
   getProducingStepDetailsByIdSuccess,
   GET_PRODUCING_STEP_DETAILS_START,
-} from '~/modules/mesx/redux/actions/index.action'
+} from '~/modules/mesx/redux/actions/product-step'
 import { api } from '~/services/api'
 
 /**

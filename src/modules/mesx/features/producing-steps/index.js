@@ -1,247 +1,147 @@
-import React, { Component } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import {
-  AddCircle,
-  CheckBox,
-  Delete,
-  Edit,
-  Visibility,
-} from '@mui/icons-material'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
 import {
-  MODAL_MODE,
-  PRODUCING_STEP_OPTIONS,
   PRODUCING_STEP_STATUS_MAP,
   PRODUCING_STEP_STATUS_TO_CONFIRM,
   PRODUCING_STEP_STATUS_TO_EDIT,
   PRODUCING_STEP_STATUS_TO_DELETE,
+  ROWS_PER_PAGE_OPTIONS,
 } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  searchProducingSteps,
-  deleteProducingStep,
-  updateProducingStep,
-  getProducingStepDetailsById,
-  confirmProducingStep,
-} from '~/modules/mesx/redux/actions/index.action'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { onChangeTextField, redirectRouter } from '~/utils'
+import { convertObjectToArrayFilter } from '~/utils'
 
-import useStyles from './style'
+import FilterForm from './filter'
 
 const breadcrumbs = [
   {
-    title: 'ProducingStep',
+    title: 'producingInfo',
   },
   {
-    route: '/producing-step',
-    title: 'producingStep',
+    route: ROUTE.PRODUCING_STEP.LIST.PATH,
+    title: ROUTE.PRODUCING_STEP.LIST.TITLE,
   },
 ]
 
-class ProducingStep extends Component {
-  constructor(props) {
-    super(props)
-    const { t } = this.props
-    this.state = {
-      id: null,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenConfirmDeleteModal: false,
-      isOpenConfirmModal: false,
-      keyword: '',
-      pageSize: 20,
-      page: 1,
-      filters: [],
-      sort: null,
-    }
-    this.MODAL_MAP_CONTENT = {
-      CREATE: {
-        title: t('producingStep.createTitle'),
-        submitLabel: t('common.create'),
-        cancelLabel: t('common.cancel'),
+function ProducingStep() {
+  const { t } = useTranslation(['mesx'])
+  const history = useHistory()
+  const {
+    data: { list, isLoading, total },
+    actions,
+  } = useProducingStep()
+  const [id, setId] = useState()
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+  const [sort, setSort] = useState([])
+  const [keyword, setKeyword] = useState('')
+  const [filters, setfilters] = useState({})
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
+
+  const columns = useMemo(() => [
+    {
+      field: 'id',
+      headerName: '#',
+      width: 80,
+      sortable: false,
+      fixed: true,
+    },
+    {
+      field: 'code',
+      headerName: t('producingStep.code'),
+      width: 200,
+      fixed: true,
+      sortable: true,
+    },
+    {
+      field: 'name',
+      headerName: t('producingStep.name'),
+      width: 200,
+      fixed: true,
+      sortable: true,
+    },
+    {
+      field: 'status',
+      headerName: t('producingStep.status'),
+      width: 150,
+      renderCell: (params) => {
+        const { status } = params.row
+        return t(PRODUCING_STEP_STATUS_MAP[status])
       },
-      UPDATE: {
-        title: t('producingStep.updateTitle'),
-        submitLabel: t('common.save'),
-        cancelLabel: t('common.cancel'),
-      },
-      DETAIL: {
-        title: t('producingStep.viewTitle'),
-        cancelLabel: t('common.cancel'),
-      },
-    }
-    this.columns = [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        sortable: false,
-      },
-      {
-        field: 'code',
-        headerName: t('producingStep.code'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'name',
-        headerName: t('producingStep.name'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'status',
-        headerName: t('producingStep.status'),
-        width: 150,
-        type: 'categorical',
-        filterable: true,
-        filterOptions: {
-          options: PRODUCING_STEP_OPTIONS,
-          getOptionValue: (option) => option?.id?.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
-        renderCell: (params) => {
-          const { status } = params.row
-          const { t } = this.props
-          return t(PRODUCING_STEP_STATUS_MAP[status])
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('producingStep.action'),
-        disableClickEventBubbling: true,
-        width: 250,
-        sortable: false,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          const { status, id } = params.row
-          const canConfirm = PRODUCING_STEP_STATUS_TO_CONFIRM.includes(status)
-          const canEdit = PRODUCING_STEP_STATUS_TO_EDIT.includes(status)
-          const canDelete = PRODUCING_STEP_STATUS_TO_DELETE.includes(status)
-          return (
-            <div>
+    },
+    {
+      field: 'action',
+      headerName: t('producingStep.action'),
+      width: 250,
+      align: 'center',
+      renderCell: (params) => {
+        const { status, id } = params.row
+        const canConfirm = PRODUCING_STEP_STATUS_TO_CONFIRM.includes(status)
+        const canEdit = PRODUCING_STEP_STATUS_TO_EDIT.includes(status)
+        const canDelete = PRODUCING_STEP_STATUS_TO_DELETE.includes(status)
+        return (
+          <>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.PRODUCING_STEP.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            {canEdit && (
               <IconButton
-                type="button"
-                onClick={() => this.handleViewDetails(params.row.id)}
-                size="large"
+                onClick={() =>
+                  history.push(
+                    ROUTE.PRODUCING_STEP.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
               >
-                <Visibility />
+                <Icon name="edit" />
               </IconButton>
-              {canEdit && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.handleEdit(params.row.id)}
-                  size="large"
-                >
-                  <Edit />
-                </IconButton>
-              )}
-              {canDelete && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.onClickDelete(params.row.id)}
-                  size="large"
-                >
-                  <Delete />
-                </IconButton>
-              )}
-              {canConfirm && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.onClickConfirmed(id)}
-                  size="large"
-                >
-                  <CheckBox style={{ color: 'green' }} />
-                </IconButton>
-              )}
-            </div>
-          )
-        },
+            )}
+            {canDelete && (
+              <IconButton
+                onClick={() => {
+                  setId(id)
+                  setDeleteModal(true)
+                }}
+              >
+                <Icon name="delete" />
+              </IconButton>
+            )}
+            {canConfirm && (
+              <IconButton
+                onClick={() => {
+                  setId(id)
+                  setConfirmModal(true)
+                }}
+              >
+                <Icon name="tick" />
+              </IconButton>
+            )}
+          </>
+        )
       },
-    ]
-  }
+    },
+  ])
 
-  componentDidMount() {
-    this.refreshData()
-  }
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, sort, filters, keyword])
 
-  handleSearchItemGroups = () => {
-    this.refreshData()
-  }
-
-  handleSearchItemGroupsByEnter = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
-  }
-
-  handleCreate = () => {
-    redirectRouter(ROUTE.PRODUCING_STEP.CREATE.PATH)
-  }
-
-  handleEdit = (id) => {
-    redirectRouter(ROUTE.PRODUCING_STEP.EDIT.PATH, { id: id })
-  }
-
-  handleViewDetails = (id) => {
-    redirectRouter(ROUTE.PRODUCING_STEP.DETAIL.PATH, { id: id })
-  }
-
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenConfirmDeleteModal: true })
-  }
-  onClickConfirmed = (id) => {
-    this.setState({ id, isOpenConfirmModal: true })
-  }
-  /**
-   * Submit confirm producing step
-   */
-  submitConfirm = () => {
-    this.props.confirmProducingStep(this.state.id, this.refreshData)
-    this.setState({ isOpenConfirmModal: false, id: null })
-  }
-
-  /**
-   * Close confirm modal and back to list
-   */
-  onCloseConfirmModal = () => {
-    this.setState({ isOpenConfirmModal: false })
-  }
-
-  onSubmitDelete = () => {
-    this.props.deleteProducingStep(this.state.id, () => {
-      this.setState({ isOpenConfirmDeleteModal: false })
-      this.refreshData()
-    })
-  }
-
-  onCloseModalDelete = () => {
-    this.setState({ isOpenConfirmDeleteModal: false, id: null })
-  }
-
-  /**
-   * Refresh data
-   */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
-
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
-
+  const refreshData = () => {
     const sortData = sort
       ? [
           {
@@ -255,166 +155,112 @@ class ProducingStep extends Component {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
+      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
       sort: JSON.stringify(sortData),
     }
-    this.props.searchProducingSteps(params)
+    actions.searchProducingSteps(params)
   }
 
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  render() {
-    const {
-      modalMode,
-      isOpenConfirmDeleteModal,
-      pageSize,
-      page,
-      isOpenConfirmModal,
-    } = this.state
-    const { classes, producingStep, t } = this.props
-
+  const renderHeaderRight = () => {
     return (
       <>
-        <div>
-          <h2>{t('producingStep.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('producingStep.searchPlaceholder')}
-            variant="outlined"
-            size="small"
-            name="keyword"
-            onKeyDown={this.handleSearchItemGroupsByEnter}
-            onChange={(event) => onChangeTextField(this, event)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.handleSearchItemGroups}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-        <div className={classes.createBox}>
-          {' '}
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreate}
-            startIcon={<AddCircle />}
-          >
-            {t('common.create')}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            // onClick={this.handleImport}
-          >
-            {t('defineBOQ.import')}
-          </Button>
-        </div>
-        <DataTable
-          rows={producingStep.list}
-          pageSize={pageSize}
-          page={page}
-          columns={this.columns}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={producingStep.total}
-        />
-        <Loading open={producingStep?.isLoading} />
-        <Modal
-          isOpen={isOpenConfirmDeleteModal}
-          title={t('producingStep.deleteTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCloseModalDelete}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+        <Button variant="outlined" disabled icon="download">
+          {t('producingStep.import')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.PRODUCING_STEP.CREATE.PATH)}
+          icon="add"
+          sx={{ ml: '16px' }}
         >
-          {t('producingStep.confirmDelete')}
-        </Modal>
-        <Modal
-          isOpen={isOpenConfirmModal}
-          title={t('common.notify')}
-          size="sm"
-          onSubmit={this.submitConfirm}
-          onClose={this.onCloseConfirmModal}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
-        >
-          {t('common.confirmMessage.confirm')}
-        </Modal>
+          {t('common.create')}
+        </Button>
       </>
     )
   }
+
+  const onSubmitDelete = () => {
+    actions.deleteProducingStep(
+      id,
+      () => setDeleteModal(false),
+      () => setDeleteModal(false),
+    )
+  }
+
+  const onSubmitConfirm = () => {
+    actions.confirmProducingStep(
+      id,
+      () => setConfirmModal(false),
+      () => setConfirmModal(false),
+    )
+  }
+
+  return (
+    <>
+      <Page
+        breadcrumbs={breadcrumbs}
+        title={t('producingStep.title')}
+        onSearch={setKeyword}
+        placeholder={t('producingStep.searchPlaceholder')}
+        renderHeaderRight={renderHeaderRight}
+        loading={isLoading}
+      >
+        <DataTable
+          rows={list}
+          pageSize={pageSize}
+          page={page}
+          columns={columns}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onChangeFilter={setfilters}
+          onChangeSort={setSort}
+          total={total}
+          title={t('general:dataTable.title')}
+          filters={{
+            form: <FilterForm />,
+            values: filters,
+            onApply: setfilters,
+          }}
+          sort={sort}
+        />
+        <Dialog
+          open={deleteModal}
+          title={t('producingStep.deleteTitle')}
+          onCancel={() => setDeleteModal(false)}
+          cancelLabel={t('common.no')}
+          cancelProps={{
+            variant: 'outlined',
+            color: 'subText',
+          }}
+          onSubmit={onSubmitDelete}
+          submitLabel={t('common.yes')}
+          submitProps={{
+            color: 'error',
+          }}
+          noBorderBottom
+        >
+          {t('producingStep.confirmDelete')}
+        </Dialog>
+        <Dialog
+          open={confirmModal}
+          title={t('producingStep.deleteTitle')}
+          onCancel={() => setConfirmModal(false)}
+          cancelLabel={t('common.no')}
+          cancelProps={{
+            variant: 'outlined',
+            color: 'subText',
+          }}
+          onSubmit={onSubmitConfirm}
+          submitLabel={t('common.yes')}
+          submitProps={{
+            color: 'error',
+          }}
+          noBorderBottom
+        >
+          {t('producingStep.confirmDelete')}
+        </Dialog>
+      </Page>
+    </>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  producingStep: state.producingStep,
-})
-
-const mapDispatchToProps = {
-  searchProducingSteps,
-  deleteProducingStep,
-  updateProducingStep,
-  getProducingStepDetailsById,
-  confirmProducingStep,
-}
-
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(ProducingStep)),
-  ),
-  breadcrumbs,
-)
+export default ProducingStep

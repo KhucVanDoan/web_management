@@ -1,13 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  createProducingStepFailed,
-  createProducingStepSuccess,
-  CREATE_PRODUCING_STEP_START,
-} from '~/modules/mesx/redux/actions/index.action'
+  updateProducingStepFailed,
+  updateProducingStepSuccess,
+  UPDATE_PRODUCING_STEP_START,
+} from '~/modules/mesx/redux/actions/product-step'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -16,30 +15,29 @@ import addNotification from '~/utils/toast'
  * @param {any} body Params will be sent to server
  * @returns {Promise}
  */
-const createProducingStepApi = (body) => {
-  const uri = `/v1/produces/producing-steps/create`
-  return api.post(uri, body)
+const updateProducingStepApi = (body) => {
+  const uri = `/v1/produces/producing-steps/${body.id}`
+  return api.put(uri, body)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreateProducingStep(action) {
+function* doUpdateProducingStep(action) {
   try {
-    const response = yield call(createProducingStepApi, action?.payload)
+    const response = yield call(updateProducingStepApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createProducingStepSuccess(response.data))
+      yield put(updateProducingStepSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
       yield put(getAppStore())
-
       addNotification(
-        'producingStep.createProducingStepSuccess',
+        'producingStep.updateProducingStepSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -47,7 +45,7 @@ function* doCreateProducingStep(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createProducingStepFailed())
+    yield put(updateProducingStepFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,8 +54,8 @@ function* doCreateProducingStep(action) {
 }
 
 /**
- * Watch search users
+ * Watch search producing steps
  */
-export default function* watchCreateProducingStep() {
-  yield takeLatest(CREATE_PRODUCING_STEP_START, doCreateProducingStep)
+export default function* watchUpdateProducingStep() {
+  yield takeLatest(UPDATE_PRODUCING_STEP_START, doUpdateProducingStep)
 }

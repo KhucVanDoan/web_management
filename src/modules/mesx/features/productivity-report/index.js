@@ -22,13 +22,13 @@ import { MO_STATUS } from '~/common/constants'
 import withBreadcrumbs from '~/components/Breadcrumbs'
 import { getItems } from '~/modules/mesx/redux/actions/common'
 import {
-  searchProducingSteps,
-  getProducingStepDetailsById,
-} from '~/modules/mesx/redux/actions/index.action'
-import {
   searchMO,
   getMODetailsById,
 } from '~/modules/mesx/redux/actions/mo.action'
+import {
+  searchProducingSteps,
+  getProducingStepDetailsById,
+} from '~/modules/mesx/redux/actions/product-step'
 import { getDataProductivityReport } from '~/modules/mesx/redux/actions/productivity-report.action'
 import {
   searchWorkCenter,

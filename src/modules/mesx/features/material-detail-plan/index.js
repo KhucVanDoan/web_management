@@ -28,12 +28,12 @@ import withBreadcrumbs from '~/components/Breadcrumbs'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'
 import { getItems } from '~/modules/mesx/redux/actions/common'
-import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/index.action'
 import { searchMaterialDetailPlan } from '~/modules/mesx/redux/actions/material-detail-plan.action'
 import {
   searchMO,
   getMODetailsById,
 } from '~/modules/mesx/redux/actions/mo.action'
+import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/product-step'
 import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
 import { ROUTE } from '~/modules/mesx/routes/config'
 

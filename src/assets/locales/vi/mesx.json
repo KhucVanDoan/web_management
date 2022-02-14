@@ -31,7 +31,7 @@
     "definePlanCreate": "Tạo kế hoạch",
     "definePlanEdit": "Sửa kế hoạch",
     "definePlanDetail": "Chi tiết kế hoạch",
-    "ProducingStep": "Công đoạn sản xuất",
+    "producingInfo": "Thông tin sản xuất",
     "producingStep": "Định nghĩa công đoạn",
     "producingStepEdit": "Sửa công đoạn sản xuất",
     "producingStepDetail": "Chi tiết công đoạn",
@@ -290,7 +290,8 @@
       "random": "Ngẫu nhiên"
     },
     "status": "Trạng thái",
-    "confirmProducingStepSuccess": "Xác nhận công đoạn sản xuất thành công"
+    "confirmProducingStepSuccess": "Xác nhận công đoạn sản xuất thành công",
+    "import": "Nhập/Xuất dữ liệu"
   },
   "orderStatus": {
     "pending": "Chờ xác nhận",
