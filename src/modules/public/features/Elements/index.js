@@ -366,10 +366,6 @@ const Elements = () => {
           title="Open Dialog"
           onCancel={() => setOpenCustomizedColorDialog(false)}
           cancelLabel="Hủy"
-          cancelProps={{
-            variant: 'outlined',
-            color: 'subText',
-          }}
           onSubmit={() => {}}
           submitLabel="Xóa bỏ"
           submitProps={{

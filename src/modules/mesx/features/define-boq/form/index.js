@@ -318,17 +318,7 @@ const BOQForm = () => {
           setIsOpenConfirmModal(false)
           backToList()
         }}
-        cancelProps={{
-          variant: 'outlined',
-          color: 'subText',
-        }}
-        PaperProps={{
-          sx: {
-            '.MuiDialogContent-root': {
-              borderBottom: 0,
-            },
-          },
-        }}
+        noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
       </Dialog>

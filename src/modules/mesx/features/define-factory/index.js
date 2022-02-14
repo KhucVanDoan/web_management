@@ -67,6 +67,7 @@ function DefineFactory() {
       field: 'companyName',
       headerName: t('defineFactory.companyName'),
       width: 200,
+      sortable: true,
     },
     {
       field: 'location',
@@ -209,10 +210,6 @@ function DefineFactory() {
         title={t('defineFactory.defineFactoryDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('common.no')}
-        cancelProps={{
-          variant: 'outlined',
-          color: 'subText',
-        }}
         onSubmit={onSubmitDelete}
         submitLabel={t('common.yes')}
         submitProps={{

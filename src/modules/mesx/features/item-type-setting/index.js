@@ -211,10 +211,6 @@ function ItemTypeSetting() {
         title={t('itemTypeSetting.itemTypeDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('common.no')}
-        cancelProps={{
-          variant: 'outlined',
-          color: 'subText',
-        }}
         onSubmit={onSubmitDeleteModal}
         submitLabel={t('common.yes')}
         submitProps={{
