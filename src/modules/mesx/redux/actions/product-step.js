@@ -1,33 +1,33 @@
-export const SEARCH_PRODUCING_STEPS_START = 'SEARCH_PRODUCING_STEPS_START';
-export const SEARCH_PRODUCING_STEPS_SUCCESS = 'SEARCH_PRODUCING_STEPS_SUCCESS';
-export const SEARCH_PRODUCING_STEPS_FAILED = 'SEARCH_PRODUCING_STEPS_FAILED';
+export const SEARCH_PRODUCING_STEPS_START = 'SEARCH_PRODUCING_STEPS_START'
+export const SEARCH_PRODUCING_STEPS_SUCCESS = 'SEARCH_PRODUCING_STEPS_SUCCESS'
+export const SEARCH_PRODUCING_STEPS_FAILED = 'SEARCH_PRODUCING_STEPS_FAILED'
 
-export const CREATE_PRODUCING_STEP_START = 'CREATE_PRODUCING_STEP_START';
-export const CREATE_PRODUCING_STEP_SUCCESS = 'CREATE_PRODUCING_STEP_SUCCESS';
-export const CREATE_PRODUCING_STEP_FAILED = 'CREATE_PRODUCING_STEP_FAILED';
+export const CREATE_PRODUCING_STEP_START = 'CREATE_PRODUCING_STEP_START'
+export const CREATE_PRODUCING_STEP_SUCCESS = 'CREATE_PRODUCING_STEP_SUCCESS'
+export const CREATE_PRODUCING_STEP_FAILED = 'CREATE_PRODUCING_STEP_FAILED'
 
-export const UPDATE_PRODUCING_STEP_START = 'UPDATE_PRODUCING_STEP_START';
-export const UPDATE_PRODUCING_STEP_SUCCESS = 'UPDATE_PRODUCING_STEP_SUCCESS';
-export const UPDATE_PRODUCING_STEP_FAILED = 'UPDATE_PRODUCING_STEP_FAILED';
+export const UPDATE_PRODUCING_STEP_START = 'UPDATE_PRODUCING_STEP_START'
+export const UPDATE_PRODUCING_STEP_SUCCESS = 'UPDATE_PRODUCING_STEP_SUCCESS'
+export const UPDATE_PRODUCING_STEP_FAILED = 'UPDATE_PRODUCING_STEP_FAILED'
 
-export const DELETE_PRODUCING_STEP_START = 'DELETE_PRODUCING_STEP_START';
-export const DELETE_PRODUCING_STEP_SUCCESS = 'DELETE_PRODUCING_STEP_SUCCESS';
-export const DELETE_PRODUCING_STEP_FAILED = 'DELETE_PRODUCING_STEP_FAILED';
+export const DELETE_PRODUCING_STEP_START = 'DELETE_PRODUCING_STEP_START'
+export const DELETE_PRODUCING_STEP_SUCCESS = 'DELETE_PRODUCING_STEP_SUCCESS'
+export const DELETE_PRODUCING_STEP_FAILED = 'DELETE_PRODUCING_STEP_FAILED'
 
 export const GET_PRODUCING_STEP_DETAILS_START =
-  'GET_PRODUCING_STEP_DETAILS_START';
+  'GET_PRODUCING_STEP_DETAILS_START'
 export const GET_PRODUCING_STEP_DETAILS_SUCCESS =
-  'GET_PRODUCING_STEP_DETAILS_SUCCESS';
+  'GET_PRODUCING_STEP_DETAILS_SUCCESS'
 export const GET_PRODUCING_STEP_DETAILS_FAILED =
-  'GET_PRODUCING_STEP_DETAILS_FAILED';
+  'GET_PRODUCING_STEP_DETAILS_FAILED'
 
-export const GET_BY_ROUTING_VERSION_START = 'GET_BY_ROUTING_VERSION_START';
-export const GET_BY_ROUTING_VERSION_SUCCESS = 'GET_BY_ROUTING_VERSION_SUCCESS';
-export const GET_BY_ROUTING_VERSION_FAILED = 'GET_BY_ROUTING_VERSION_FAILED';
+export const GET_BY_ROUTING_VERSION_START = 'GET_BY_ROUTING_VERSION_START'
+export const GET_BY_ROUTING_VERSION_SUCCESS = 'GET_BY_ROUTING_VERSION_SUCCESS'
+export const GET_BY_ROUTING_VERSION_FAILED = 'GET_BY_ROUTING_VERSION_FAILED'
 
-export const CONFIRM_PRODUCING_STEP_START = 'CONFIRM_PRODUCING_STEP_START';
-export const CONFIRM_PRODUCING_STEP_SUCCESS = 'CONFIRM_PRODUCING_STEP_SUCCESS';
-export const CONFIRM_PRODUCING_STEP_FAILED = 'CONFIRM_PRODUCING_STEP_FAILED';
+export const CONFIRM_PRODUCING_STEP_START = 'CONFIRM_PRODUCING_STEP_START'
+export const CONFIRM_PRODUCING_STEP_SUCCESS = 'CONFIRM_PRODUCING_STEP_SUCCESS'
+export const CONFIRM_PRODUCING_STEP_FAILED = 'CONFIRM_PRODUCING_STEP_FAILED'
 /**
  * Search producing step
  * @param {object} payload
@@ -41,7 +41,7 @@ export function searchProducingSteps(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -53,7 +53,7 @@ export function searchProducingStepsSuccess(payload) {
   return {
     type: SEARCH_PRODUCING_STEPS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -63,7 +63,7 @@ export function searchProducingStepsSuccess(payload) {
 export function searchProducingStepsFailed() {
   return {
     type: SEARCH_PRODUCING_STEPS_FAILED,
-  };
+  }
 }
 
 /**
@@ -79,7 +79,7 @@ export function createProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -91,7 +91,7 @@ export function createProducingStepSuccess(payload) {
   return {
     type: CREATE_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -101,7 +101,7 @@ export function createProducingStepSuccess(payload) {
 export function createProducingStepFailed() {
   return {
     type: CREATE_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -117,7 +117,7 @@ export function updateProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update producing step success action
@@ -128,7 +128,7 @@ export function updateProducingStepSuccess(payload) {
   return {
     type: UPDATE_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -138,7 +138,7 @@ export function updateProducingStepSuccess(payload) {
 export function updateProducingStepFailed() {
   return {
     type: UPDATE_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 /**
  * Delete producing step
@@ -153,7 +153,7 @@ export function deleteProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -165,7 +165,7 @@ export function deleteProducingStepSuccess(payload) {
   return {
     type: DELETE_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -175,7 +175,7 @@ export function deleteProducingStepSuccess(payload) {
 export function deleteProducingStepFailed() {
   return {
     type: DELETE_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -191,7 +191,7 @@ export function getProducingStepDetailsById(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -203,7 +203,7 @@ export function getProducingStepDetailsByIdSuccess(payload) {
   return {
     type: GET_PRODUCING_STEP_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -213,7 +213,7 @@ export function getProducingStepDetailsByIdSuccess(payload) {
 export function getProducingStepDetailsByIdFailed() {
   return {
     type: GET_PRODUCING_STEP_DETAILS_FAILED,
-  };
+  }
 }
 export function getProducingSteps(payload, onSuccess, onError) {
   return {
@@ -221,7 +221,7 @@ export function getProducingSteps(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -233,7 +233,7 @@ export function getProducingStepsSuccess(payload) {
   return {
     type: GET_BY_ROUTING_VERSION_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -243,7 +243,7 @@ export function getProducingStepsSuccess(payload) {
 export function getProducingStepsFailed() {
   return {
     type: GET_BY_ROUTING_VERSION_FAILED,
-  };
+  }
 }
 /**
  * Confirm producing step
@@ -258,7 +258,7 @@ export function confirmProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -270,7 +270,7 @@ export function confirmProducingStepSuccess(payload) {
   return {
     type: CONFIRM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -280,5 +280,26 @@ export function confirmProducingStepSuccess(payload) {
 export function confirmProducingStepFailed() {
   return {
     type: CONFIRM_PRODUCING_STEP_FAILED,
-  };
+  }
+}
+
+export default {
+  searchProducingSteps,
+  searchProducingStepsSuccess,
+  searchProducingStepsFailed,
+  createProducingStep,
+  createProducingStepSuccess,
+  createProducingStepFailed,
+  updateProducingStep,
+  updateProducingStepSuccess,
+  updateProducingStepFailed,
+  getProducingStepDetailsById,
+  getProducingStepDetailsByIdSuccess,
+  getProducingStepDetailsByIdFailed,
+  deleteProducingStep,
+  deleteProducingStepSuccess,
+  deleteProducingStepFailed,
+  confirmProducingStep,
+  confirmProducingStepSuccess,
+  confirmProducingStepFailed,
 }

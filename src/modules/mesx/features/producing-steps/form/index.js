@@ -37,7 +37,7 @@ import {
   createProducingStep,
   updateProducingStep,
   getProducingStepDetailsById,
-} from '~/modules/mesx/redux/actions/index.action'
+} from '~/modules/mesx/redux/actions/product-step'
 import { searchWorkCenter } from '~/modules/mesx/redux/actions/work-center.action'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { onChangeTextField, redirectRouter, onChangeSelect } from '~/utils'

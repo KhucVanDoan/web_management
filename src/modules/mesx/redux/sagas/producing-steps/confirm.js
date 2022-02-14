@@ -1,45 +1,42 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
-import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
-  deleteProducingStepFailed,
-  deleteProducingStepSuccess,
-  DELETE_PRODUCING_STEP_START,
-} from '~/modules/mesx/redux/actions/index.action'
+  confirmProducingStepFailed,
+  confirmProducingStepSuccess,
+  CONFIRM_PRODUCING_STEP_START,
+} from '~/modules/mesx/redux/actions/product-step'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * delete producing step API
+ * Confirm producing steps
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteProducingStepApi = (params) => {
-  const uri = `/v1/produces/producing-steps/${params}`
-  return api.delete(uri)
+const confirmProducingStepApi = (params) => {
+  const uri = `/v1/produces/producing-steps/${params}/confirm`
+  return api.put(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteProducingStep(action) {
+function* doConfirmProducingStep(action) {
   try {
-    const response = yield call(deleteProducingStepApi, action?.payload)
+    const response = yield call(confirmProducingStepApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteProducingStepSuccess(response.results))
+      yield put(confirmProducingStepSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      yield put(getAppStore())
 
       addNotification(
-        'producingStep.deleteProducingStepSuccess',
+        'producingStep.confirmProducingStepSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -47,7 +44,7 @@ function* doDeleteProducingStep(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteProducingStepFailed())
+    yield put(confirmProducingStepFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,8 +53,8 @@ function* doDeleteProducingStep(action) {
 }
 
 /**
- * Watch delete producing steps
+ * Watch search users
  */
-export default function* watchDeleteProducingStep() {
-  yield takeLatest(DELETE_PRODUCING_STEP_START, doDeleteProducingStep)
+export default function* watchConfirmProducingStep() {
+  yield takeLatest(CONFIRM_PRODUCING_STEP_START, doConfirmProducingStep)
 }

@@ -33,7 +33,7 @@ import {
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
 import { getUsers, getFactories } from '~/modules/mesx/redux/actions/common'
-import { searchProducingSteps } from '~/modules/mesx/redux/actions/index.action'
+import { searchProducingSteps } from '~/modules/mesx/redux/actions/product-step'
 import {
   deleteWorkCenter,
   createWorkCenter,

@@ -20,7 +20,7 @@ import {
   CONFIRM_PRODUCING_STEP_FAILED,
   CONFIRM_PRODUCING_STEP_START,
   CONFIRM_PRODUCING_STEP_SUCCESS,
-} from '~/modules/mesx/redux/actions/index.action'
+} from '~/modules/mesx/redux/actions/product-step'
 
 const initialState = {
   isLoading: false,

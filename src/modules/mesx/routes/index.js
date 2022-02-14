@@ -35,6 +35,7 @@ import Mo from '~/modules/mesx/features/mo'
 import MoForm from '~/modules/mesx/features/mo/form'
 import PlanReport from '~/modules/mesx/features/plan-report'
 import ProducingStep from '~/modules/mesx/features/producing-steps'
+import ProducingStepDetail from '~/modules/mesx/features/producing-steps/detail'
 import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
 import ProductivityReport from '~/modules/mesx/features/productivity-report'
 import QualityReport from '~/modules/mesx/features/quality-report'
@@ -601,7 +602,7 @@ const routes = [
     ],
   },
   {
-    name: 'defineWorkCenter',
+    name: 'producingInfo',
     icon: 'home',
     isInSidebar: true,
     subMenu: [
@@ -623,7 +624,7 @@ const routes = [
             name: ROUTE.PRODUCING_STEP.DETAIL.TITLE,
             path: ROUTE.PRODUCING_STEP.DETAIL.PATH,
             pathActive: ROUTE.PRODUCING_STEP.DETAIL.PATH,
-            component: ProducingStepForm,
+            component: ProducingStepDetail,
             isInSidebar: false,
           },
           {
