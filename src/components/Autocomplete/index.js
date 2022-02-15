@@ -7,6 +7,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material'
+import { isEqual, uniqBy } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -32,22 +33,27 @@ const Autocomplete = ({
   error,
   helperText,
   getOptionLabel,
+  getOptionSubLabel,
+  getOptionValue,
   placeholder,
   labelWidth,
-  getOptionValue,
   value: rawValue,
   onChange: rawOnChange,
   ...props
 }) => {
   const classes = useClasses(style)
-  const hasSubLabel = rawOptions?.some((opt) => opt.subLabel)
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState(rawOptions)
-  const [value, setValue] = useState(null)
+  const [value, setValue] = useState(multiple ? [] : '')
 
   const isAsync = typeof asyncRequest === 'function'
   const { t } = useTranslation()
+  const debouncedInputValue = useDebounce(inputValue, 500)
+
+  const hasSubLabel =
+    rawOptions?.some((opt) => opt.subLabel) ||
+    typeof getOptionSubLabel === 'function'
 
   useEffect(() => {
     setOptions(rawOptions)
@@ -55,7 +61,18 @@ const Autocomplete = ({
 
   const getOptionsByKeyword = async (keyword) => {
     if (!keyword) {
-      setOptions(rawOptions)
+      if (multiple) {
+        setOptions(
+          uniqBy([...(rawOptions || []), ...(value || [])], getOptionValue),
+        )
+      } else {
+        setOptions(
+          uniqBy(
+            [...(rawOptions || []), ...(value ? [value] : [])],
+            getOptionValue,
+          ),
+        )
+      }
       setLoading(false)
       return
     }
@@ -70,8 +87,6 @@ const Autocomplete = ({
     }
   }
 
-  const debouncedInputValue = useDebounce(inputValue, 500)
-
   useEffect(() => {
     if (isAsync) {
       getOptionsByKeyword(debouncedInputValue)
@@ -85,13 +100,13 @@ const Autocomplete = ({
           {option.label}
         </Typography>
         <Typography sx={{ flex: '0 0 25%', ml: 2, textAlign: 'right' }}>
-          {option.subLabel}
+          {getOptionSubLabel ? getOptionSubLabel(option) : option.subLabel}
         </Typography>
       </ListItemButton>
     )
   }
 
-  const renderOptionMultiple = (optionProps, option, selected) => {
+  const renderOptionWithIconCheck = (optionProps, option, selected) => {
     return (
       <ListItemButton
         {...optionProps}
@@ -129,10 +144,16 @@ const Autocomplete = ({
   }
 
   useEffect(() => {
-    if (!multiple && typeof getOptionValue === 'function') {
-      const selectedValue = options.find((o) => getOptionValue(o) === rawValue)
-      setValue(selectedValue)
+    let selected
+    if (multiple) {
+      selected = options.filter((opt) =>
+        rawValue?.some((v) => isEqual(v, getOptionValue(opt))),
+      )
+    } else {
+      selected =
+        options.find((opt) => isEqual(getOptionValue(opt), rawValue)) || ''
     }
+    setValue(selected)
   }, [rawValue, options])
 
   return (
@@ -151,15 +172,16 @@ const Autocomplete = ({
           </Box>
         ),
       }}
-      {...(!multiple && typeof getOptionValue === 'function'
-        ? {
-            value: value || null,
-            onChange: (_, newValue) => {
-              setValue(newValue)
-              rawOnChange(newValue)
-            },
-          }
-        : {})}
+      value={value}
+      onChange={(_, newValue) => {
+        setValue(newValue)
+
+        if (multiple) {
+          rawOnChange(newValue?.map((v) => getOptionValue(v)))
+        } else {
+          rawOnChange(getOptionValue(newValue))
+        }
+      }}
       options={options}
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       loading={loading}
@@ -173,7 +195,8 @@ const Autocomplete = ({
 
         if (typeof renderOption === 'function')
           return renderOption(optionProps, option)
-        if (multiple) return renderOptionMultiple(optionProps, option, selected)
+        if (multiple)
+          return renderOptionWithIconCheck(optionProps, option, selected)
         if (hasSubLabel) return renderOptionWithSubLabel(optionProps, option)
         return (
           <ListItemButton component="li" {...optionProps}>
@@ -224,6 +247,8 @@ Autocomplete.defaultProps = {
   helperText: '',
   placeholder: '',
   getOptionLabel: (option) => option?.label || '',
+  getOptionValue: (option) => option,
+  onChange: () => {},
 }
 
 Autocomplete.propTypes = {
@@ -245,6 +270,7 @@ Autocomplete.propTypes = {
   helperText: PropTypes.string,
   placeholder: PropTypes.string,
   getOptionLabel: PropTypes.func,
+  getOptionSubLabel: PropTypes.func,
   getOptionValue: PropTypes.func,
   labelWidth: PropTypes.number,
   onChange: PropTypes.func,

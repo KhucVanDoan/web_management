@@ -5,13 +5,7 @@ import PropTypes from 'prop-types'
 
 import Autocomplete from '~/components/Autocomplete'
 
-const FormikAutocomplete = ({
-  field,
-  form,
-  meta,
-  getOptionValue,
-  ...props
-}) => (
+const FormikAutocomplete = ({ field, form, meta, ...props }) => (
   <Autocomplete
     {...field}
     error={
@@ -20,8 +14,7 @@ const FormikAutocomplete = ({
     helperText={
       getIn(form.touched, field.name) && getIn(form.errors, field.name)
     }
-    onChange={(value) => form.setFieldValue(field.name, getOptionValue(value))}
-    getOptionValue={getOptionValue}
+    onChange={(v) => form.setFieldValue(field.name, v)}
     {...props}
   />
 )
@@ -34,7 +27,6 @@ FormikAutocomplete.defaultProps = {
 FormikAutocomplete.propTypes = {
   field: PropTypes.shape(),
   form: PropTypes.shape(),
-  getOptionValue: PropTypes.func,
 }
 
 export default FormikAutocomplete
