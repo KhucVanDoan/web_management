@@ -265,6 +265,9 @@ const Elements = () => {
           <TextField label="Disabled" disabled value="Disabled" />
         </Grid>
         <Grid item xs={6}>
+          <TextField label="Number" placeholder="Number" type="number" />
+        </Grid>
+        <Grid item xs={6}>
           <TextField
             label="Textarea"
             placeholder="Enter somthing"

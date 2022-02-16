@@ -60,7 +60,6 @@ const TextField = ({
           fullWidth
           {...InputProps}
           {...props}
-          value={props.value ?? ''}
         />
         {error && !!helperText && (
           <FormHelperText error>{helperText}</FormHelperText>

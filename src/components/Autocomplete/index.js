@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material'
-import { isEqual, uniqBy } from 'lodash'
+import { isArray, isEqual, uniqBy } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -45,7 +45,7 @@ const Autocomplete = ({
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState(rawOptions)
-  const [value, setValue] = useState(multiple ? [] : '')
+  const [value, setValue] = useState(multiple ? [] : null)
 
   const isAsync = typeof asyncRequest === 'function'
   const { t } = useTranslation()
@@ -146,12 +146,15 @@ const Autocomplete = ({
   useEffect(() => {
     let selected
     if (multiple) {
-      selected = options.filter((opt) =>
-        rawValue?.some((v) => isEqual(v, getOptionValue(opt))),
-      )
+      selected = options.filter((opt) => {
+        if (isArray(rawValue)) {
+          return rawValue?.some((v) => isEqual(v, getOptionValue(opt)))
+        }
+        return false
+      })
     } else {
       selected =
-        options.find((opt) => isEqual(getOptionValue(opt), rawValue)) || ''
+        options.find((opt) => isEqual(getOptionValue(opt), rawValue)) || null
     }
     setValue(selected)
   }, [rawValue, options])

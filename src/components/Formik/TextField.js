@@ -14,6 +14,7 @@ const FormikTextField = ({ form, field, ...props }) => (
     helperText={
       getIn(form.touched, field.name) && getIn(form.errors, field.name)
     }
+    value={field.value ?? ''}
     {...props}
   />
 )
