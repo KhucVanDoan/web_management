@@ -4,6 +4,8 @@ import FormikDatePicker from './DatePicker'
 import FormikDateRangePicker from './DateRangePicker'
 import FastFieldWrapper from './FastField'
 import FieldWrapper from './Field'
+import FormikRadioGroup from './RadioGroup'
+import FormikSwitch from './Switch'
 import FormikTextField from './TextField'
 
 export const Field = {
@@ -12,6 +14,8 @@ export const Field = {
   DatePicker: FieldWrapper(FormikDatePicker),
   DateRangePicker: FieldWrapper(FormikDateRangePicker),
   Autocomplete: FieldWrapper(FormikAutocomplete),
+  RadioGroup: FieldWrapper(FormikRadioGroup),
+  Switch: FieldWrapper(FormikSwitch),
 }
 
 export const FastField = {
@@ -20,4 +24,6 @@ export const FastField = {
   DatePicker: FastFieldWrapper(FormikDatePicker),
   DateRangePicker: FastFieldWrapper(FormikDateRangePicker),
   Autocomplete: FastFieldWrapper(FormikAutocomplete),
+  RadioGroup: FastFieldWrapper(FormikRadioGroup),
+  Switch: FastFieldWrapper(FormikSwitch),
 }
