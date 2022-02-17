@@ -62,6 +62,7 @@ const style = (theme) => ({
   },
 
   originText: {
+    whiteSpace: 'pre-line',
     '&:not(:last-child)': {
       display: 'none !important',
     },
