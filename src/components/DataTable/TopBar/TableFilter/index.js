@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Box, Popover } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { isEqual } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -10,7 +11,9 @@ import { useClasses } from '~/themes'
 
 import style from './style'
 
-const TableFilter = ({ filters: { form, values, onApply, ...props } }) => {
+const TableFilter = ({
+  filters: { form, values, onApply, defaultValue, validationSchema },
+}) => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
@@ -47,20 +50,31 @@ const TableFilter = ({ filters: { form, values, onApply, ...props } }) => {
         <Box className={classes.formContainer}>
           <Formik
             initialValues={values}
-            onSubmit={(values) => {
-              onApply(values)
+            validationSchema={validationSchema}
+            onSubmit={(value) => {
+              onApply(value)
               handleClose()
             }}
+            enableReinitialize
           >
-            {({ resetForm }) => (
+            {({ handleReset, values: formikValues }) => (
               <Form>
-                {form}
+                <Box
+                  sx={{ maxHeight: '40vh', overflowY: 'auto', mr: -2, pr: 2 }}
+                >
+                  {form}
+                </Box>
                 <Box sx={{ display: 'flex', mt: '16px' }}>
                   <Button
                     color="grayF4"
-                    onClick={() => {
-                      resetForm()
-                      handleClose()
+                    onMouseDown={() => {
+                      if (isEqual(values, defaultValue)) {
+                        if (!isEqual(formikValues, defaultValue)) {
+                          handleReset()
+                        }
+                      } else {
+                        onApply(defaultValue)
+                      }
                     }}
                     sx={{ ml: 'auto', mr: '8px' }}
                   >
@@ -90,6 +104,8 @@ TableFilter.propTypes = {
     form: PropTypes.node,
     values: PropTypes.shape(),
     onApply: PropTypes.func,
+    defaultValue: PropTypes.shape(),
+    validationSchema: PropTypes.shape(),
   }),
 }
 

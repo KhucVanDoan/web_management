@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress'
  */
 const Loading = ({ open }) => {
   return (
-    <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 10 }}>
+    <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }}>
       <CircularProgress color="primary" />
     </Backdrop>
   )
