@@ -25,6 +25,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
@@ -52,9 +53,18 @@ const DefineBOQ = (props) => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const [keyword, setKeyword] = useState('')
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    pmName: '',
+    planForm: [],
+    status: '',
+  }
+
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
 
   const columns = useMemo(
     () => [
@@ -273,7 +283,13 @@ const DefineBOQ = (props) => {
         total={total}
         title={t('general:dataTable.title')}
         sort={sort}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
       />
       <Dialog
         open={isOpenDeleteModal}

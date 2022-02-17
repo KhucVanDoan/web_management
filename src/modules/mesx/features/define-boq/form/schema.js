@@ -15,7 +15,7 @@ export const validationSchema = (t) =>
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         t('general:form.maxLength', {
           max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         }),
