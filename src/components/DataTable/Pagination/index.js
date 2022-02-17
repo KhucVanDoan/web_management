@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
-const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 
 /**
  * Pagination component
@@ -22,6 +22,8 @@ class Pagination extends Component {
   render() {
     const { t, total, pageSizeOptions, pageSize, page } = this.props
     const numberOfPages = Math.ceil(total / pageSize)
+    const start = total ? pageSize * (page - 1) + 1 : 0
+    const end = total ? Math.min(pageSize * page, total) : 0
 
     if (total < 0) return null
     return (
@@ -86,6 +88,10 @@ class Pagination extends Component {
             ))}
           </Select>
         )}
+
+        <Box sx={{ mt: 1, mx: 1, ml: 'auto' }}>
+          {t('pagination.startEndRows', { start, end, rows: total ?? 0 })}
+        </Box>
 
         <MuiPagination
           count={numberOfPages}
