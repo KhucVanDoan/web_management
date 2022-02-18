@@ -6,6 +6,7 @@ import dashboard from './dashboard-store.reducer'
 import bom from './define-bom.reducer'
 import defineBOQ from './define-boq'
 import defineCompany from './define-company'
+import defineCustomer from './define-customer'
 import defineItem from './define-item.reducer'
 import detailSchedule from './detail-schedule.reducer'
 import defineFactory from './factory'
@@ -40,6 +41,7 @@ const reducers = {
   itemTypeSetting,
   definePlan,
   defineCompany,
+  defineCustomer,
   routing,
   routingVersion,
   producingStep,

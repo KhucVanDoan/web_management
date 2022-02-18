@@ -170,7 +170,7 @@ function ProducingStep() {
         <Button
           onClick={() => history.push(ROUTE.PRODUCING_STEP.CREATE.PATH)}
           icon="add"
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
         >
           {t('common.create')}
         </Button>
@@ -227,10 +227,6 @@ function ProducingStep() {
           title={t('producingStep.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
           cancelLabel={t('common.no')}
-          cancelProps={{
-            variant: 'outlined',
-            color: 'subText',
-          }}
           onSubmit={onSubmitDelete}
           submitLabel={t('common.yes')}
           submitProps={{
@@ -245,10 +241,6 @@ function ProducingStep() {
           title={t('producingStep.deleteTitle')}
           onCancel={() => setConfirmModal(false)}
           cancelLabel={t('common.no')}
-          cancelProps={{
-            variant: 'outlined',
-            color: 'subText',
-          }}
           onSubmit={onSubmitConfirm}
           submitLabel={t('common.yes')}
           submitProps={{

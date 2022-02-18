@@ -11,6 +11,9 @@ import DefineBOQ from '~/modules/mesx/features/define-boq/list'
 import DefineCompany from '~/modules/mesx/features/define-company'
 import DefineCompanyDetail from '~/modules/mesx/features/define-company/company-detail'
 import DefineCompanyForm from '~/modules/mesx/features/define-company/company-form'
+import DefineCustomer from '~/modules/mesx/features/define-customer'
+import DefineCustomerDetail from '~/modules/mesx/features/define-customer/customer-detail'
+import DefineCustomerForm from '~/modules/mesx/features/define-customer/customer-form'
 import DefineFactory from '~/modules/mesx/features/define-factory'
 import DefineFactoryDetail from '~/modules/mesx/features/define-factory/factory-detail'
 import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-form'
@@ -406,6 +409,35 @@ const routes = [
             path: ROUTE.DEFINE_COMPANY.EDIT.PATH,
             pathActive: ROUTE.DEFINE_COMPANY.EDIT.PATH,
             component: DefineCompanyForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CUSTOMER.LIST.TITLE,
+        path: ROUTE.DEFINE_CUSTOMER.LIST.PATH,
+        component: DefineCustomer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CUSTOMER.CREATE.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.CREATE.PATH,
+            pathActive: ROUTE.DEFINE_CUSTOMER.CREATE.PATH,
+            component: DefineCustomerForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.DETAIL.PATH,
+            pathActive: ROUTE.DEFINE_CUSTOMER.DETAIL.PATH,
+            component: DefineCustomerDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.EDIT.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.EDIT.PATH,
+            pathActive: ROUTE.DEFINE_CUSTOMER.EDIT.PATH,
+            component: DefineCustomerForm,
             isInSidebar: false,
           },
         ],

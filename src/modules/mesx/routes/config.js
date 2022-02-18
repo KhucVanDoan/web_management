@@ -245,6 +245,24 @@ export const ROUTE = {
       TITLE: 'defineCompanyEdit',
     },
   },
+  DEFINE_CUSTOMER: {
+    LIST: {
+      PATH: '/mesx/define-customer',
+      TITLE: 'defineCustomer',
+    },
+    CREATE: {
+      PATH: '/mesx/define-customer/create',
+      TITLE: 'defineCustomerCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/define-customer/:id/detail',
+      TITLE: 'defineCustomerDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/define-customer/:id/edit',
+      TITLE: 'defineCustomerEdit',
+    },
+  },
   REQUEST_BUY_MATERIAL: {
     LIST: {
       PATH: '/mesx/request-buy-material',

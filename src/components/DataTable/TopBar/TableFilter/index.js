@@ -64,7 +64,7 @@ const TableFilter = ({
                 >
                   {form}
                 </Box>
-                <Box sx={{ display: 'flex', mt: '16px' }}>
+                <Box sx={{ display: 'flex', mt: 4 / 3 }}>
                   <Button
                     color="grayF4"
                     onMouseDown={() => {
