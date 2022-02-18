@@ -972,6 +972,9 @@ export function createPurchasedOrderFailed() {
 }
 
 export default {
+  getCustomers,
+  getCustomersSuccess,
+  getCustomersFailed,
   getCompanies,
   getFactoriesByCompany,
   getDepartments,

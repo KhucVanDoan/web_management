@@ -637,7 +637,7 @@ class DefinePlan extends Component {
     return (
       <>
         <Button variant="outlined">{t('definePlan.export')}</Button>
-        <Button onClick={this.handleCreate} icon="add" sx={{ ml: '16px' }}>
+        <Button onClick={this.handleCreate} icon="add" sx={{ ml: 4 / 3 }}>
           {t('definePlan.createButton')}
         </Button>
       </>

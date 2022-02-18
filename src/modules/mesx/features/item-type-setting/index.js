@@ -175,7 +175,7 @@ function ItemTypeSetting() {
         </Button>
         <Button
           onClick={() => history.push(ROUTE.ITEM_TYPE.CREATE.PATH)}
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
           icon="add"
         >
           {t('common.create')}

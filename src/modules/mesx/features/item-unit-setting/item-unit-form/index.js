@@ -96,14 +96,14 @@ function ItemUnitForm() {
       case MODAL_MODE.CREATE:
         return (
           <>
-            <Button onClick={backToList} color="grayEE" sx={{ mr: 1 }}>
+            <Button onClick={backToList} color="grayEE" sx={{ mr: 4 / 3 }}>
               {t('common.close')}
             </Button>
             <Button
               variant="outlined"
               onClick={handleReset}
               color="subText"
-              sx={{ mr: 1 }}
+              sx={{ mr: 4 / 3 }}
             >
               {t('common.cancel')}
             </Button>
@@ -113,14 +113,14 @@ function ItemUnitForm() {
       case MODAL_MODE.UPDATE:
         return (
           <>
-            <Button onClick={backToList} color="grayEE" sx={{ mr: 1 }}>
+            <Button onClick={backToList} color="grayEE" sx={{ mr: 4 / 3 }}>
               {t('common.close')}
             </Button>
             <Button
               variant="outlined"
               onClick={handleReset}
               color="subText"
-              sx={{ mr: 1 }}
+              sx={{ mr: 4 / 3 }}
             >
               {t('common.cancel')}
             </Button>

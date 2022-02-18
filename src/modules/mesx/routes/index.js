@@ -54,6 +54,7 @@ import WorkCenter from '~/modules/mesx/features/work-center/list'
 import WorkOderForm from '~/modules/mesx/features/work-order/form'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
+import SaleOrderDetail from '../features/sale-order/detail'
 import { ROUTE } from './config'
 
 const routes = [
@@ -426,7 +427,7 @@ const routes = [
             name: ROUTE.SALE_ORDER.DETAILS.TITLE,
             path: ROUTE.SALE_ORDER.DETAILS.PATH,
             pathActive: ROUTE.SALE_ORDER.DETAILS.PATH,
-            component: SaleOrderForm,
+            component: SaleOrderDetail,
             isInSidebar: false,
           },
           {

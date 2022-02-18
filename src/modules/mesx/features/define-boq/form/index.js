@@ -293,7 +293,7 @@ const BOQForm = () => {
                     justifyContent: 'flex-end',
                     mt: 2,
                     '& button + button': {
-                      marginLeft: '16px',
+                      ml: 4 / 3,
                     },
                   }}
                 >

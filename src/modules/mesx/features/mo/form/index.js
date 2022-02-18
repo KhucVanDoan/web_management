@@ -51,7 +51,7 @@ import {
   getBOMProducingStepStructureById,
   checkMaterialPlanById,
 } from '~/modules/mesx/redux/actions/mo.action'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeDate,

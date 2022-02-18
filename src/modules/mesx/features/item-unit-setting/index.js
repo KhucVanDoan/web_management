@@ -174,7 +174,7 @@ function ItemUnitSetting() {
         <Button
           onClick={() => history.push(ROUTE.ITEM_UNIT.CREATE.PATH)}
           icon="add"
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
         >
           {t('common.create')}
         </Button>

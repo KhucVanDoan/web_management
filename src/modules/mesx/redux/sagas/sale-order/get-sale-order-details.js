@@ -4,7 +4,7 @@ import {
   getSaleOrderDetailsByIdFailed,
   getSaleOrderDetailsByIdSuccess,
   GET_SALE_ORDER_DETAILS_START,
-} from '~/modules/mesx/redux/actions/sale-order.action'
+} from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
 
 /**

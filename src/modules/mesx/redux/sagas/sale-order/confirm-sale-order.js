@@ -1,22 +1,21 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  rejectSaleOrderByIdFailed,
-  rejectSaleOrderByIdSuccess,
-  REJECT_SALE_ORDER_START,
-} from '~/modules/mesx/redux/actions/sale-order.action'
+  confirmSaleOrderByIdFailed,
+  confirmSaleOrderByIdSuccess,
+  CONFIRM_SALE_ORDER_START,
+} from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Reject sale order
+ * Confirm sale order
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const rejectSaleOrderApi = (params) => {
-  const uri = `/v1/sales/sale-orders/${params}/reject`
+const confirmSaleOrderApi = (params) => {
+  const uri = `/v1/sales/sale-orders/${params}/confirm`
   return api.put(uri)
 }
 
@@ -24,12 +23,12 @@ const rejectSaleOrderApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doRejectSaleOrder(action) {
+function* doConfirmSaleOrder(action) {
   try {
-    const response = yield call(rejectSaleOrderApi, action?.payload)
+    const response = yield call(confirmSaleOrderApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(rejectSaleOrderByIdSuccess(response.payload))
+      yield put(confirmSaleOrderByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +36,7 @@ function* doRejectSaleOrder(action) {
       }
 
       addNotification(
-        'saleOrder.rejectSaleOrderSuccess',
+        'saleOrder.confirmSaleOrderSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +44,7 @@ function* doRejectSaleOrder(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(rejectSaleOrderByIdFailed())
+    yield put(confirmSaleOrderByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,6 +55,6 @@ function* doRejectSaleOrder(action) {
 /**
  * Watch search users
  */
-export default function* watchRejectSaleOrder() {
-  yield takeLatest(REJECT_SALE_ORDER_START, doRejectSaleOrder)
+export default function* watchConfirmSaleOrder() {
+  yield takeLatest(CONFIRM_SALE_ORDER_START, doConfirmSaleOrder)
 }

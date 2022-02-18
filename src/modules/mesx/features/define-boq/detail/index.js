@@ -197,7 +197,7 @@ const BOQDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mt: '30px' }}>
+      <Box sx={{ mt: 2 }}>
         <ItemsSettingTable
           items={boqDetails?.boqDetails || []}
           mode={MODAL_MODE.DETAIL}
@@ -207,9 +207,9 @@ const BOQDetail = () => {
         sx={{
           display: 'flex',
           justifyContent: 'flex-end',
-          mt: '30px',
+          mt: 2,
           '& button + button': {
-            marginLeft: '16px',
+            ml: 4 / 3,
           },
         }}
       >

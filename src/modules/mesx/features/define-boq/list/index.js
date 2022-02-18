@@ -255,7 +255,7 @@ const DefineBOQ = (props) => {
         <Button
           onClick={() => history.push(ROUTE.DEFINE_BOQ.CREATE.PATH)}
           icon="add"
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
         >
           {t('common.create')}
         </Button>

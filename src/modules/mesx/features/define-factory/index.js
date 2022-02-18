@@ -172,7 +172,7 @@ function DefineFactory() {
         </Button>
         <Button
           onClick={() => history.push(ROUTE.DEFINE_FACTORY.CREATE.PATH)}
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
           icon="add"
         >
           {t('common.create')}

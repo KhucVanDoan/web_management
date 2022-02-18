@@ -1,43 +1,41 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmSaleOrderByIdFailed,
-  confirmSaleOrderByIdSuccess,
-  CONFIRM_SALE_ORDER_START,
-} from '~/modules/mesx/redux/actions/sale-order.action'
+  updateSaleOrderFailed,
+  updateSaleOrderSuccess,
+  UPDATE_SALE_ORDER_START,
+} from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Confirm sale order
+ * Update sale-order API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const confirmSaleOrderApi = (params) => {
-  const uri = `/v1/sales/sale-orders/${params}/confirm`
-  return api.put(uri)
+const updateSaleOrderApi = (params) => {
+  const uri = `/v1/sales/sale-orders/${params.id}`
+  return api.put(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doConfirmSaleOrder(action) {
+function* doUpdateSaleOrder(action) {
   try {
-    const response = yield call(confirmSaleOrderApi, action?.payload)
+    const response = yield call(updateSaleOrderApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmSaleOrderByIdSuccess(response.payload))
+      yield put(updateSaleOrderSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
       addNotification(
-        'saleOrder.confirmSaleOrderSuccess',
+        'saleOrder.updateSaleOrderSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +43,7 @@ function* doConfirmSaleOrder(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmSaleOrderByIdFailed())
+    yield put(updateSaleOrderFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -54,8 +52,8 @@ function* doConfirmSaleOrder(action) {
 }
 
 /**
- * Watch search users
+ * Watch search sale-orders
  */
-export default function* watchConfirmSaleOrder() {
-  yield takeLatest(CONFIRM_SALE_ORDER_START, doConfirmSaleOrder)
+export default function* watchUpdateSaleOrder() {
+  yield takeLatest(UPDATE_SALE_ORDER_START, doUpdateSaleOrder)
 }

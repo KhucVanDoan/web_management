@@ -111,14 +111,23 @@ function DefineCompanyForm() {
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
-      actions.createCompany(values, backToList)
+      actions.createCompany(values, () => backToList())
     } else if (mode === MODAL_MODE.UPDATE) {
       const id = Number(params?.id)
+      const { code, name, description, address, phone, taxNo, fax, email } =
+        values
       const paramUpdate = {
-        ...values,
         id,
+        code,
+        name,
+        address,
+        phone,
+        description,
+        taxNo,
+        fax,
+        email,
       }
-      actions.updateCompany(paramUpdate, backToList)
+      actions.updateCompany(paramUpdate, () => backToList())
     }
   }
 
@@ -170,97 +179,82 @@ function DefineCompanyForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={defineCompanySchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      label={t('defineCompany.code')}
-                      name="code"
-                      placeholder={t('defineCompany.code')}
-                      disabled={isUpdate}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      name="taxNo"
-                      label={t('defineCompany.tax')}
-                      placeholder={t('defineCompany.tax')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      label={t('defineCompany.name')}
-                      name="name"
-                      placeholder={t('defineCompany.name')}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      name="email"
-                      label={t('defineCompany.email')}
-                      placeholder={t('defineCompany.email')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      label={t('defineCompany.address')}
-                      name="address"
-                      placeholder={t('defineCompany.address')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      name="fax"
-                      label={t('defineCompany.fax')}
-                      placeholder={t('defineCompany.fax')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      name="phone"
-                      label={t('defineCompany.phone')}
-                      placeholder={t('defineCompany.phone')}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      labelWidth={180}
-                      name="description"
-                      label={t('defineCompany.description')}
-                      placeholder={t('defineCompany.description')}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
-                <Box>{renderActionButtons({ handleReset })}</Box>
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={defineCompanySchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset }) => (
+          <Form>
+            <Grid container rowSpacing={4 / 3} columnSpacing={4}>
+              <Grid item xs={6}>
+                <Field.TextField
+                  label={t('defineCompany.code')}
+                  name="code"
+                  placeholder={t('defineCompany.code')}
+                  disabled={isUpdate}
+                  required
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  name="taxNo"
+                  label={t('defineCompany.tax')}
+                  placeholder={t('defineCompany.tax')}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  label={t('defineCompany.name')}
+                  name="name"
+                  placeholder={t('defineCompany.name')}
+                  required
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  name="email"
+                  label={t('defineCompany.email')}
+                  placeholder={t('defineCompany.email')}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  label={t('defineCompany.address')}
+                  name="address"
+                  placeholder={t('defineCompany.address')}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  name="fax"
+                  label={t('defineCompany.fax')}
+                  placeholder={t('defineCompany.fax')}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Field.TextField
+                  name="phone"
+                  label={t('defineCompany.phone')}
+                  placeholder={t('defineCompany.phone')}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field.TextField
+                  name="description"
+                  label={t('defineCompany.description')}
+                  placeholder={t('defineCompany.description')}
+                  labelWidth={'calc(100%/6 - 4px)'}
+                  multiline
+                  rows={3}
+                />
+              </Grid>
+            </Grid>
+            <Box>{renderActionButtons({ handleReset })}</Box>
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

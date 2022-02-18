@@ -20,7 +20,7 @@ import {
   getQualityReports,
   exportQualityReports,
 } from '~/modules/mesx/redux/actions/quality-report.action'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { onChangeTextField } from '~/utils'
 

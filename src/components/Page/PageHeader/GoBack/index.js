@@ -16,7 +16,7 @@ const GoBack = ({ onBack }) => {
   return (
     <Box className={classes.root}>
       <Button icon="back" color="grayEE" onClick={onBack} />
-      <Typography variant="body1" sx={{ marginLeft: '16px' }}>
+      <Typography variant="body1" sx={{ ml: 4 / 3 }}>
         {t('page.goBack')}
       </Typography>
     </Box>

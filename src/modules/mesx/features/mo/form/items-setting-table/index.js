@@ -21,7 +21,7 @@ import {
 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { getItems } from '~/modules/mesx/redux/actions/common'
-import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
+import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order'
 import { normalizeDecimal, scrollToBottom, formatDateTimeUtc } from '~/utils'
 
 import useStyles from './style'
