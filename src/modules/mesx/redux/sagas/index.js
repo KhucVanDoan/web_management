@@ -55,6 +55,11 @@ import watchDeleteCompany from './define-company/delete-company'
 import watchGetCompanyDetails from './define-company/get-company-details'
 import watchSearchCompanies from './define-company/search-companies'
 import watchUpdateCompany from './define-company/update-company'
+import watchCreateCustomer from './define-customer/create-customer'
+import watchDeleteCustomer from './define-customer/delete-customer'
+import watchGetCustomerDetails from './define-customer/get-customer-details'
+import watchSearchCustomers from './define-customer/search-customers'
+import watchUpdateCustomer from './define-customer/update-customer'
 import watchCreateItem from './define-item/create-item.saga'
 import watchDeleteItem from './define-item/delete-item.saga'
 import watchGetItemDetails from './define-item/get-item-details.saga'
@@ -257,6 +262,13 @@ export default function* sagas() {
     watchUpdateCompany(),
     watchGetCompanyDetails(),
     watchDeleteCompany(),
+
+    //define-customer
+    watchSearchCustomers(),
+    watchCreateCustomer(),
+    watchUpdateCustomer(),
+    watchGetCustomerDetails(),
+    watchDeleteCustomer(),
 
     // common
     watchGetCompanies(),
