@@ -402,8 +402,10 @@
     "updateModalTitle": "Sửa đơn bán hàng",
     "detailsModalTitle": "Chi tiết đơn bán hàng",
     "detailsModalSubmitLabel": "Lưu",
-    "deleteModalTitle": "Thông báo",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
+    "deleteTitle": "Xóa đơn bán hàng",
+    "confirmDelete": "Hành động này không thể phục hồi! Bạn có chắc chắn muốn xoá đơn bán hàng này không?",
+    "confirmTitle": "Xác nhận đơn bán hàng",
+    "confirmBody": "Bạn có chắc chắn muốn xác nhận đơn bán hàng này?",
     "item": {
       "orderNumber": "#",
       "code": "Mã sản phẩm",
@@ -456,7 +458,10 @@
     "deleteSaleOrderSuccess": "Xoá đơn bán hàng thành công",
     "rejectSaleOrderSuccess": "Từ chối đơn bán hàng thành công",
     "description": "Mô tả",
-    "boqCode": "Mã công trình"
+    "boqCode": "Mã công trình",
+    "import": "Nhập/Xuất dữ liệu",
+    "createPlan": "Tạo kế hoạch sản xuất",
+    "groupName": "Tên nhóm sản phẩm"
   },
   "dashboard": {
     "title": "Dashboard",

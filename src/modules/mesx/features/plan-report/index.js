@@ -38,7 +38,7 @@ import {
   getPlanDetailsById,
 } from '~/modules/mesx/redux/actions/plan'
 import { exportPlanReport } from '~/modules/mesx/redux/actions/plan-report.action'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, onChangeDate } from '~/utils'
 

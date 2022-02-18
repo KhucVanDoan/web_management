@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteSaleOrderFailed,
-  deleteSaleOrderSuccess,
-  DELETE_SALE_ORDER_START,
-} from '~/modules/mesx/redux/actions/sale-order.action'
+  createSaleOrderFailed,
+  createSaleOrderSuccess,
+  CREATE_SALE_ORDER_START,
+} from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,33 +14,28 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteSaleOrderApi = (params) => {
-  const uri = `/v1/sales/sale-orders/${params}`
-  return api.delete(uri)
-  // return {
-  //   statusCode: 200,
-  //   results: { API: 'DELETE_USER', id: 0, name: 'abada' },
-  // };
+const createSaleOrdersApi = (params) => {
+  const uri = `/v1/sales/sale-orders/create`
+  return api.post(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteSaleOrder(action) {
+function* doCreateSaleOrder(action) {
   try {
-    const response = yield call(deleteSaleOrderApi, action?.payload)
+    const response = yield call(createSaleOrdersApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteSaleOrderSuccess(response.data))
+      yield put(createSaleOrderSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
       addNotification(
-        'saleOrder.deleteSaleOrderSuccess',
+        'saleOrder.createSaleOrderSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -49,7 +43,7 @@ function* doDeleteSaleOrder(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteSaleOrderFailed())
+    yield put(createSaleOrderFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -60,6 +54,6 @@ function* doDeleteSaleOrder(action) {
 /**
  * Watch search users
  */
-export default function* watchDeleteSaleOrder() {
-  yield takeLatest(DELETE_SALE_ORDER_START, doDeleteSaleOrder)
+export default function* watchCreateSaleOrder() {
+  yield takeLatest(CREATE_SALE_ORDER_START, doCreateSaleOrder)
 }

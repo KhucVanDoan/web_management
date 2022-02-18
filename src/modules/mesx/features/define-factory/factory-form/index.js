@@ -127,14 +127,14 @@ const DefineFactoryForm = () => {
       case MODAL_MODE.CREATE:
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
               {t('common.close')}
             </Button>
             <Button
               onClick={handleReset}
               variant="outlined"
               color="subText"
-              sx={{ mr: 1 }}
+              sx={{ mr: 4 / 3 }}
             >
               {t('common.cancel')}
             </Button>
@@ -144,14 +144,14 @@ const DefineFactoryForm = () => {
       case MODAL_MODE.UPDATE:
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 1 }}>
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
               {t('common.close')}
             </Button>
             <Button
               onClick={handleReset}
               variant="outlined"
               color="subText"
-              sx={{ mr: 1 }}
+              sx={{ mr: 4 / 3 }}
             >
               {t('common.cancel')}
             </Button>

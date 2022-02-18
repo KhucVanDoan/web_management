@@ -35,7 +35,7 @@ import {
   getSaleOrders,
   getCustomers,
 } from '~/modules/mesx/redux/actions/common'
-import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order.action'
+import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order'
 import {
   confirmSOExportById,
   createSOExport,

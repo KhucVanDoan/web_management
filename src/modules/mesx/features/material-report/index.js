@@ -3,19 +3,9 @@
 import React, { Component } from 'react'
 
 import { Search } from '@mui/icons-material'
-import ClearIcon from '@mui/icons-material/Clear'
-import {
-  Box,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Autocomplete,
-} from '@mui/material'
+import { Box, FormControl, Grid, TextField, Autocomplete } from '@mui/material'
 import Button from '@mui/material/Button'
 import withStyles from '@mui/styles/withStyles'
-import clsx from 'clsx'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
@@ -24,8 +14,6 @@ import {
   DATE_FORMAT_2,
   PLAN_STATUS_MAP,
   PLAN_STATUS_OPTIONS,
-  PRODUCING_STEP_OPTIONS,
-  PRODUCING_STEP_STATUS_MAP,
 } from '~/common/constants'
 import withBreadcrumbs from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
@@ -40,9 +28,9 @@ import {
   getPlanDetailsById,
 } from '~/modules/mesx/redux/actions/plan'
 import { exportPlanReport } from '~/modules/mesx/redux/actions/plan-report.action'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, onChangeDate, onChangeTextField } from '~/utils'
+import { formatDateTimeUtc, onChangeTextField } from '~/utils'
 
 import useStyles from './style'
 
@@ -498,7 +486,7 @@ class MaterialReport extends Component {
    * @returns {JSX.Element}
    */
   render() {
-    const { bomTree, page, pageSize, boqCode, proDate, itemName } = this.state
+    const { bomTree, page, pageSize, itemName } = this.state
     const { classes, t, moList, saleOrderList } = this.props
 
     return (

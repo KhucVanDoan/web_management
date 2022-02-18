@@ -4,7 +4,7 @@ import {
   searchSaleOrdersFailed,
   searchSaleOrdersSuccess,
   SEARCH_SALE_ORDERS_START,
-} from '~/modules/mesx/redux/actions/sale-order.action'
+} from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
 
 /**

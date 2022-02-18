@@ -32,7 +32,7 @@ import {
   rejectRequestBuyMaterialById,
   updateRequestBuyMaterial,
 } from '~/modules/mesx/redux/actions/request-by-materials.action'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order.action'
+import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeDate,
