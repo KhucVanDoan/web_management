@@ -20,6 +20,7 @@ import {
   CONFIRM_PRODUCING_STEP_FAILED,
   CONFIRM_PRODUCING_STEP_START,
   CONFIRM_PRODUCING_STEP_SUCCESS,
+  RESER_PRODUCING_STEP_STATE,
 } from '~/modules/mesx/redux/actions/product-step'
 
 const initialState = {
@@ -88,6 +89,11 @@ export default function operationSetting(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      }
+    case RESER_PRODUCING_STEP_STATE:
+      return {
+        ...state,
+        details: {},
       }
     default:
       return state

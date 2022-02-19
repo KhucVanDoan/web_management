@@ -295,7 +295,13 @@
     },
     "status": "Trạng thái",
     "confirmProducingStepSuccess": "Xác nhận công đoạn sản xuất thành công",
-    "import": "Nhập/Xuất dữ liệu"
+    "import": "Nhập/Xuất dữ liệu",
+    "inputQC": "QC đầu vào",
+    "outputQC": "QC đầu ra",
+    "timeQC": "Thời gian QC/1 sản phẩm",
+    "unit": {
+      "minutes": "phút"
+    }
   },
   "orderStatus": {
     "pending": "Chờ xác nhận",

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { BOQ_STATUS, BOQ_STATUS_MAP, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
@@ -133,49 +134,43 @@ const BOQDetail = () => {
                 </Button>
               </Grid>
             )}
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqCode')}
-              </Typography>
-              <Typography>{boqDetails.code}</Typography>
+            <Grid item xs={12} lg={6}>
+              <LV label={t('defineBOQ.boqCode')} value={boqDetails.code} />
             </Grid>
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqPm')}
-              </Typography>
-              <Typography>
-                {boqDetails?.pm?.fullName
-                  ? boqDetails?.pm?.fullName
-                  : boqDetails?.pm?.username}
-              </Typography>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.boqPm')}
+                value={
+                  boqDetails?.pm?.fullName
+                    ? boqDetails?.pm?.fullName
+                    : boqDetails?.pm?.username
+                }
+              />
             </Grid>
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqName')}
-              </Typography>
-              <Typography>{boqDetails.name}</Typography>
+            <Grid item xs={12} lg={6}>
+              <LV label={t('defineBOQ.boqName')} value={boqDetails.name} />
             </Grid>
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqApm')}
-              </Typography>
-              <Typography>
-                {boqDetails?.apm?.fullName
-                  ? boqDetails?.apm?.fullName
-                  : boqDetails?.apm?.username}
-              </Typography>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.boqApm')}
+                value={
+                  boqDetails?.apm?.fullName
+                    ? boqDetails?.apm?.fullName
+                    : boqDetails?.apm?.username
+                }
+              />
             </Grid>
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqPlanFrom')}
-              </Typography>
-              <Typography>{formatDateTimeUtc(boqDetails?.planFrom)}</Typography>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.boqPlanFrom')}
+                value={formatDateTimeUtc(boqDetails?.planFrom)}
+              />
             </Grid>
-            <Grid item xs={12} lg={6} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineBOQ.boqPlanTo')}
-              </Typography>
-              <Typography>{formatDateTimeUtc(boqDetails?.planTo)}</Typography>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.boqPlanTo')}
+                value={formatDateTimeUtc(boqDetails?.planTo)}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -184,7 +179,6 @@ const BOQDetail = () => {
                 placeholder={t('defineBOQ.descriptionInput')}
                 multiline
                 readOnly
-                labelWidth={180}
                 rows={3}
                 value={boqDetails.description}
                 sx={{

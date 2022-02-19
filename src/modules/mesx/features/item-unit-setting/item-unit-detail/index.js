@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
@@ -50,43 +50,31 @@ function ItemUnitDetail() {
       onBack={backToList}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item lg={6} xs={12}>
-              <Box display="flex">
-                <Typography sx={{ color: 'subText.main' }} width={180}>
-                  {t('itemUnitDefine.code')}
-                </Typography>
-                <Typography>{itemUnitDetails.code}</Typography>
-              </Box>
+              <LV
+                label={t('itemUnitDefine.code')}
+                value={itemUnitDetails?.code}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <Box display="flex">
-                <Typography sx={{ color: 'subText.main' }} width={180}>
-                  {t('itemUnitDefine.name')}
-                </Typography>
-                <Typography>{itemUnitDetails.name}</Typography>
-              </Box>
+              <LV
+                label={t('itemUnitDefine.name')}
+                value={itemUnitDetails?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <Box display="flex">
-                <Typography sx={{ color: 'subText.main' }} width={180}>
-                  {t('itemUnitDefine.createDate')}
-                </Typography>
-                <Typography>
-                  {formatDateTimeUtc(itemUnitDetails.createdAt)}
-                </Typography>
-              </Box>
+              <LV
+                label={t('itemUnitDefine.createDate')}
+                value={formatDateTimeUtc(itemUnitDetails.createdAt)}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <Box display="flex">
-                <Typography sx={{ color: 'subText.main' }} width={180}>
-                  {t('itemUnitDefine.updateDate')}
-                </Typography>
-                <Typography>
-                  {formatDateTimeUtc(itemUnitDetails.updatedAt)}
-                </Typography>
-              </Box>
+              <LV
+                label={t('itemUnitDefine.updateDate')}
+                value={formatDateTimeUtc(itemUnitDetails.updatedAt)}
+              />
             </Grid>
             <Grid item xs={12}>
               <Box display="flex">
@@ -96,7 +84,6 @@ function ItemUnitDetail() {
                   multiline
                   value={itemUnitDetails.description}
                   rows={3}
-                  labelWidth={180}
                   readOnly
                   sx={{
                     'label.MuiFormLabel-root': {

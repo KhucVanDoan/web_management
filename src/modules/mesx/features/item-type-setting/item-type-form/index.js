@@ -159,7 +159,7 @@ const ItemTypeForm = () => {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
             validationSchema={itemTypeSchema(t)}
@@ -180,7 +180,6 @@ const ItemTypeForm = () => {
                       placeholder={t('itemTypeSetting.code')}
                       disabled={isUpdate}
                       required
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -189,7 +188,6 @@ const ItemTypeForm = () => {
                       label={t('itemTypeSetting.name')}
                       placeholder={t('itemTypeSetting.name')}
                       required
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -197,7 +195,6 @@ const ItemTypeForm = () => {
                       name="description"
                       label={t('itemTypeSetting.description')}
                       placeholder={t('itemTypeSetting.description')}
-                      labelWidth={180}
                       multiline
                       rows={3}
                     />

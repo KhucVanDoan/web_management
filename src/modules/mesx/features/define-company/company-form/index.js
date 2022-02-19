@@ -171,7 +171,7 @@ function DefineCompanyForm() {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
             validationSchema={defineCompanySchema(t)}
@@ -187,7 +187,6 @@ function DefineCompanyForm() {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCompany.code')}
                       name="code"
                       placeholder={t('defineCompany.code')}
@@ -197,7 +196,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="taxNo"
                       label={t('defineCompany.tax')}
                       placeholder={t('defineCompany.tax')}
@@ -205,7 +203,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCompany.name')}
                       name="name"
                       placeholder={t('defineCompany.name')}
@@ -214,7 +211,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="email"
                       label={t('defineCompany.email')}
                       placeholder={t('defineCompany.email')}
@@ -222,7 +218,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCompany.address')}
                       name="address"
                       placeholder={t('defineCompany.address')}
@@ -230,7 +225,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="fax"
                       label={t('defineCompany.fax')}
                       placeholder={t('defineCompany.fax')}
@@ -238,7 +232,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="phone"
                       label={t('defineCompany.phone')}
                       placeholder={t('defineCompany.phone')}
@@ -246,7 +239,6 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="description"
                       label={t('defineCompany.description')}
                       placeholder={t('defineCompany.description')}

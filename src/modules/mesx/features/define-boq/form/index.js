@@ -207,7 +207,6 @@ const BOQForm = () => {
                       placeholder={t('defineBOQ.boqCode')}
                       inputProps={{ maxLength: 4 }}
                       disabled={isUpdate}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -217,7 +216,6 @@ const BOQForm = () => {
                       label={t('defineBOQ.boqPm')}
                       placeholder={t('defineBOQ.boqPm')}
                       options={userList}
-                      labelWidth={180}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       required
@@ -228,7 +226,6 @@ const BOQForm = () => {
                       name="name"
                       label={t('defineBOQ.boqName')}
                       placeholder={t('defineBOQ.boqName')}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -240,7 +237,6 @@ const BOQForm = () => {
                       options={userList}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -249,7 +245,6 @@ const BOQForm = () => {
                       name="planList"
                       label={t('defineBOQ.planList')}
                       placeholder={t('defineBOQ.planList')}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -259,7 +254,6 @@ const BOQForm = () => {
                       label={t('defineBOQ.boqUserPermission')}
                       placeholder={t('defineBOQ.boqUserPermission')}
                       disabled
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -269,7 +263,6 @@ const BOQForm = () => {
                       label={t('defineBOQ.descriptionInput')}
                       placeholder={t('defineBOQ.descriptionInput')}
                       multiline
-                      labelWidth={180}
                       rows={3}
                     />
                   </Grid>
