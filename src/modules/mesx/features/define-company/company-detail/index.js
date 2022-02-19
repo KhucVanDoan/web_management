@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Grid, Hidden } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
@@ -54,64 +55,49 @@ function DefineCompanyDetail() {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.code')}
-              </Typography>
-              <Typography>{companyDetails.code}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineCompany.code')} value={companyDetails.code} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.tax')}
-              </Typography>
-              <Typography>{companyDetails.taxNo}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineCompany.tax')} value={companyDetails.taxNo} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.name')}
-              </Typography>
-              <Typography>{companyDetails.name}</Typography>
+            <Grid item lg={6} xs={12} variant="detail">
+              <LV label={t('defineCompany.name')} value={companyDetails.name} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.email')}
-              </Typography>
-              <Typography>{companyDetails.email}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCompany.email')}
+                value={companyDetails.email}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.address')}
-              </Typography>
-              <Typography>{companyDetails.address}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCompany.address')}
+                value={companyDetails.address}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.fax')}
-              </Typography>
-              <Typography>{companyDetails.fax}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineCompany.fax')} value={companyDetails.fax} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.phone')}
-              </Typography>
-              <Typography>{companyDetails.phone}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCompany.phone')}
+                value={companyDetails.phone}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.user')}
-              </Typography>
-              <Typography>{companyDetails.user}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineCompany.user')} value={companyDetails.user} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex"></Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCompany.createDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(companyDetails.createdAt)}
-              </Typography>
+            <Hidden lgDown>
+              <Grid item lg={6} xs={12}></Grid>
+            </Hidden>{' '}
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCompany.createDate')}
+                value={formatDateTimeUtc(companyDetails.createdAt)}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -119,7 +105,6 @@ function DefineCompanyDetail() {
                 label={t('defineCompany.description')}
                 multiline
                 rows={3}
-                labelWidth={180}
                 value={companyDetails.description}
                 readOnly
                 sx={{

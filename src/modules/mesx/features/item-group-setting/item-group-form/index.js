@@ -161,7 +161,7 @@ const ItemGroupForm = () => {
       onBack={backToList}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
             validationSchema={itemGroupSchema(t)}
@@ -181,7 +181,6 @@ const ItemGroupForm = () => {
                       name="code"
                       placeholder={t('itemGroupDefine.code')}
                       disabled={isUpdate}
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -189,7 +188,6 @@ const ItemGroupForm = () => {
                       name="name"
                       label={t('itemGroupDefine.name')}
                       placeholder={t('itemGroupDefine.name')}
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -199,7 +197,6 @@ const ItemGroupForm = () => {
                       placeholder={t('itemGroupDefine.description')}
                       multiline
                       rows={3}
-                      labelWidth={180}
                     />
                   </Grid>
                 </Grid>

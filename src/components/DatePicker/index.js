@@ -136,7 +136,7 @@ DatePicker.defaultProps = {
   disabled: false,
   vertical: false,
   required: false,
-  labelWidth: 1 / 3,
+  labelWidth: 160,
 }
 
 DatePicker.propTypes = {

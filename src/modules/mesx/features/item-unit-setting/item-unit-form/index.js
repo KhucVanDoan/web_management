@@ -159,7 +159,7 @@ function ItemUnitForm() {
       onBack={backToList}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
             validationSchema={itemUnitSchema(t)}
@@ -179,7 +179,6 @@ function ItemUnitForm() {
                       name="code"
                       placeholder={t('itemUnitDefine.code')}
                       disabled={isUpdate}
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -187,7 +186,6 @@ function ItemUnitForm() {
                       name="name"
                       label={t('itemUnitDefine.name')}
                       placeholder={t('itemUnitDefine.name')}
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -197,7 +195,6 @@ function ItemUnitForm() {
                       placeholder={t('itemUnitDefine.description')}
                       multiline
                       rows={3}
-                      labelWidth={180}
                     />
                   </Grid>
                 </Grid>

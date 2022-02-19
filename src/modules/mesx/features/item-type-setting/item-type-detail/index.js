@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
+
 const breadcrumbs = [
   {
     title: 'database',
@@ -53,33 +55,31 @@ const ItemTypeDetail = () => {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.code')}
-              </Typography>
-              <Typography>{itemTypeDetails.code}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('itemTypeSetting.code')}
+                value={itemTypeDetails.code}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.name')}
-              </Typography>
-              <Typography>{itemTypeDetails.name}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('itemTypeSetting.name')}
+                value={itemTypeDetails.name}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.user')}
-              </Typography>
-              <Typography>{itemTypeDetails.user}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('itemTypeSetting.user')}
+                value={itemTypeDetails.user}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('itemTypeSetting.createDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(itemTypeDetails.createdAt)}
-              </Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('itemTypeSetting.createDate')}
+                value={formatDateTimeUtc(itemTypeDetails.createdAt)}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -87,7 +87,6 @@ const ItemTypeDetail = () => {
                 label={t('itemTypeSetting.description')}
                 multiline
                 rows={3}
-                labelWidth={180}
                 value={itemTypeDetails.description}
                 readOnly
                 sx={{

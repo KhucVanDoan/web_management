@@ -171,7 +171,7 @@ const DefineFactoryForm = () => {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
             validationSchema={defineFactorySchema(t)}
@@ -187,7 +187,6 @@ const DefineFactoryForm = () => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineFactory.code')}
                       name="code"
                       placeholder={t('defineFactory.code')}
@@ -197,7 +196,6 @@ const DefineFactoryForm = () => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="location"
                       label={t('defineFactory.location')}
                       placeholder={t('defineFactory.location')}
@@ -205,7 +203,6 @@ const DefineFactoryForm = () => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineFactory.name')}
                       name="name"
                       placeholder={t('defineFactory.name')}
@@ -214,7 +211,6 @@ const DefineFactoryForm = () => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="phone"
                       label={t('defineFactory.phone')}
                       placeholder={t('defineFactory.phone')}
@@ -222,7 +218,6 @@ const DefineFactoryForm = () => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      labelWidth={180}
                       name="companyId"
                       label={t('defineFactory.companyName')}
                       placeholder={t('defineFactory.companyName')}
@@ -235,7 +230,6 @@ const DefineFactoryForm = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="description"
                       label={t('defineFactory.description')}
                       placeholder={t('defineFactory.description')}

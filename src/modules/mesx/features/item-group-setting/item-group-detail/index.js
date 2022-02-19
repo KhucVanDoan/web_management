@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
@@ -54,43 +54,31 @@ const ItemGroupDetail = () => {
         onBack={backToList}
       >
         <Grid container justifyContent="center">
-          <Grid item xl={11} sx={12}>
+          <Grid item xl={11} xs={12}>
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
               <Grid item lg={6} xs={12}>
-                <Box display="flex">
-                  <Typography variant="body2" width={180}>
-                    {t('itemGroupDefine.code')}
-                  </Typography>
-                  <Typography>{itemGroupDetails.code}</Typography>
-                </Box>
+                <LV
+                  label={t('itemGroupDefine.code')}
+                  value={itemGroupDetails.code}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
-                <Box display="flex">
-                  <Typography variant="body2" width={180}>
-                    {t('itemGroupDefine.name')}
-                  </Typography>
-                  <Typography>{itemGroupDetails.name}</Typography>
-                </Box>
+                <LV
+                  label={t('itemGroupDefine.name')}
+                  value={itemGroupDetails.name}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
-                <Box display="flex">
-                  <Typography variant="body2" width={180}>
-                    {t('itemGroupDefine.createDate')}
-                  </Typography>
-                  <Typography>
-                    {formatDateTimeUtc(itemGroupDetails.createdAt)}
-                  </Typography>
-                </Box>
+                <LV
+                  label={t('itemGroupDefine.createDate')}
+                  value={formatDateTimeUtc(itemGroupDetails.createdAt)}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
-                <Box display="flex">
-                  <Typography variant="body2" width={180}>
-                    {t('itemGroupDefine.updateDate')}
-                  </Typography>
-                  <Typography>
-                    {formatDateTimeUtc(itemGroupDetails.updatedAt)}
-                  </Typography>
-                </Box>
+                <LV
+                  label={t('itemGroupDefine.updateDate')}
+                  value={formatDateTimeUtc(itemGroupDetails.updatedAt)}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -98,7 +86,6 @@ const ItemGroupDetail = () => {
                   label={t('itemGroupDefine.description')}
                   multiline
                   rows={3}
-                  labelWidth={180}
                   value={itemGroupDetails.description}
                   readOnly
                   sx={{

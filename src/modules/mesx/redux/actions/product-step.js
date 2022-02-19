@@ -28,6 +28,8 @@ export const GET_BY_ROUTING_VERSION_FAILED = 'GET_BY_ROUTING_VERSION_FAILED'
 export const CONFIRM_PRODUCING_STEP_START = 'CONFIRM_PRODUCING_STEP_START'
 export const CONFIRM_PRODUCING_STEP_SUCCESS = 'CONFIRM_PRODUCING_STEP_SUCCESS'
 export const CONFIRM_PRODUCING_STEP_FAILED = 'CONFIRM_PRODUCING_STEP_FAILED'
+
+export const RESER_PRODUCING_STEP_STATE = 'RESER_PRODUCING_STEP_STATE'
 /**
  * Search producing step
  * @param {object} payload
@@ -283,6 +285,12 @@ export function confirmProducingStepFailed() {
   }
 }
 
+export function resetProducingStepState() {
+  return {
+    type: RESER_PRODUCING_STEP_STATE,
+  }
+}
+
 export default {
   searchProducingSteps,
   searchProducingStepsSuccess,
@@ -302,4 +310,5 @@ export default {
   confirmProducingStep,
   confirmProducingStepSuccess,
   confirmProducingStepFailed,
+  resetProducingStepState,
 }

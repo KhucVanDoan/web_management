@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid, Hidden } from '@mui/material'
+import { Grid, Hidden } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
@@ -54,54 +55,43 @@ function DefineFactoryDetail() {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.code')}
-              </Typography>
-              <Typography>{factoryDetails.code}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineFactory.code')} value={factoryDetails.code} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.location')}
-              </Typography>
-              <Typography>{factoryDetails.location}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineFactory.location')}
+                value={factoryDetails.location}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.name')}
-              </Typography>
-              <Typography>{factoryDetails.name}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineFactory.name')} value={factoryDetails.name} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.phone')}
-              </Typography>
-              <Typography>{factoryDetails.phone}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineFactory.phone')}
+                value={factoryDetails.phone}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.companyName')}
-              </Typography>
-              <Typography>{factoryDetails.companyName}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineFactory.companyName')}
+                value={factoryDetails.companyName}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.user')}
-              </Typography>
-              <Typography>{factoryDetails.user}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineFactory.user')} value={factoryDetails.user} />
             </Grid>
             <Hidden lgDown>
-              <Grid item lg={6} xs={12} display="flex"></Grid>
+              <Grid item lg={6} xs={12}></Grid>
             </Hidden>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineFactory.createDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(factoryDetails.createdAt)}
-              </Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineFactory.createDate')}
+                value={formatDateTimeUtc(factoryDetails.createdAt)}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -109,7 +99,6 @@ function DefineFactoryDetail() {
                 label={t('defineFactory.description')}
                 multiline
                 rows={3}
-                labelWidth={180}
                 value={factoryDetails.description}
                 readOnly
                 sx={{

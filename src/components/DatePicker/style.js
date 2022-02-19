@@ -25,14 +25,11 @@ const style = (theme) => ({
   horizontal: {
     display: 'flex',
     flexDirection: 'row',
-    width: `calc(100% + ${theme.spacing(2)})`,
-    marginLeft: theme.spacing(-2),
 
     '& .MuiFormLabel-root': {
       color: theme.palette.text.main,
       marginTop: 10,
       marginRight: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
       boxSizing: 'border-box',
     },
   },

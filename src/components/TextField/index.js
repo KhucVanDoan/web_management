@@ -81,7 +81,7 @@ TextField.defaultProps = {
   InputProps: {},
   sx: {},
   vertical: false,
-  labelWidth: 1 / 3,
+  labelWidth: 160,
 }
 
 TextField.propTypes = {
