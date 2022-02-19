@@ -159,29 +159,28 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          mb: 2,
+          mb: 1,
         }}
       >
         <Typography variant="h4" component="span">
           {t('defineBOQ.itemsDetails')}
         </Typography>
-        <Box>
-          {!isView && (
-            <Button
-              onClick={() => {
-                arrayHelpers.push({
-                  id: new Date().getTime(),
-                  itemId: '',
-                  quantity: 1,
-                })
-                scrollToBottom()
-              }}
-              icon="add"
-            >
-              {t('defineBOQ.item.addItem')}
-            </Button>
-          )}
-        </Box>
+
+        {!isView && (
+          <Button
+            variant="outlined"
+            onClick={() => {
+              arrayHelpers.push({
+                id: new Date().getTime(),
+                itemId: '',
+                quantity: 1,
+              })
+              scrollToBottom()
+            }}
+          >
+            {t('defineBOQ.item.addItem')}
+          </Button>
+        )}
       </Box>
       <DataTable
         rows={items}

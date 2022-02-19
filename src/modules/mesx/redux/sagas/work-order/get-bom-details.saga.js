@@ -4,7 +4,7 @@ import {
   getBomDetailsByIdFailed,
   getBomDetailsByIdSuccess,
   GET_BOM_DETAILS_START,
-} from '~/modules/mesx/redux/actions/work-order.action'
+} from '~/modules/mesx/redux/actions/work-order'
 import { api } from '~/services/api'
 
 /**

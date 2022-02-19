@@ -197,7 +197,7 @@ const BOQDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 3 }}>
         <ItemsSettingTable
           items={boqDetails?.boqDetails || []}
           mode={MODAL_MODE.DETAIL}

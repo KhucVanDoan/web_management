@@ -29,7 +29,7 @@ import soExport from './so-export.reducer'
 import userManagement from './user-management'
 import workCenterPlan from './work-center-plan.reducer'
 import workCenter from './work-center.reducer'
-import workOrder from './work-order.reducer'
+import workOrder from './work-order'
 
 const reducers = {
   userManagement,

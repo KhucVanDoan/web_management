@@ -46,12 +46,14 @@ const DateRangePicker = ({
       {label && (
         <FormLabel
           required={required}
-          sx={{ ...(vertical ? {} : { width: labelWidth }) }}
+          sx={{
+            ...(vertical ? {} : { width: labelWidth }),
+          }}
         >
           {label}
         </FormLabel>
       )}
-      <Box sx={{ flex: 1 }}>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
         <MuiDateRangePicker
           open={open}
           onClose={() => setOpen(false)}
@@ -69,7 +71,7 @@ const DateRangePicker = ({
                 className={clsx(classes.root, {
                   [classes.disabled]: disabled,
                   [classes.error]: error,
-                  [classes.focus]: open,
+                  [classes.focus]: open && !error,
                 })}
                 sx={{ ...(disabled ? { pointerEvents: 'none' } : {}) }}
                 onClick={() => {

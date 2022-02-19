@@ -203,7 +203,6 @@ function SaleOrderForm() {
                   container
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
-                  sx={{ marginBottom: '24px' }}
                 >
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
@@ -299,7 +298,7 @@ function SaleOrderForm() {
               </Grid>
             </Grid>
 
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 3 }}>
               <FieldArray
                 name="items"
                 render={(arrayHelpers) => (

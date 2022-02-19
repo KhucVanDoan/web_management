@@ -4,7 +4,7 @@ import {
   getWorkOrderDetailsByIdFailed,
   getWorkOrderDetailsByIdSuccess,
   GET_WORK_ORDER_DETAILS_START,
-} from '~/modules/mesx/redux/actions/work-order.action'
+} from '~/modules/mesx/redux/actions/work-order'
 import { api } from '~/services/api'
 
 /**

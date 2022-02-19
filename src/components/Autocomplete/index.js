@@ -97,7 +97,7 @@ const Autocomplete = ({
     return (
       <ListItemButton {...optionProps} component="li">
         <Typography sx={{ flex: 1, wordBreak: 'break-word' }}>
-          {option.label}
+          {getOptionLabel(option)}
         </Typography>
         <Typography sx={{ flex: '0 0 25%', ml: 2, textAlign: 'right' }}>
           {getOptionSubLabel ? getOptionSubLabel(option) : option.subLabel}

@@ -5,6 +5,8 @@ import {
   DialogActions,
   IconButton,
 } from '@mui/material'
+import { Formik, Form } from 'formik'
+import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 
 import Button from '../Button'
@@ -26,27 +28,29 @@ const Dialog = ({
   submitProps,
   disableBackdropClick,
   noBorderBottom,
+  formikProps,
   ...props
 }) => {
-  return (
-    <MuiDialog
-      fullWidth={fullWidth}
-      maxWidth={maxWidth}
-      open={open}
-      onClose={(_, reason) => {
-        if (reason === 'backdropClick' && disableBackdropClick) return
-        onCancel()
-      }}
-      {...props}
-    >
-      <DialogTitle>
-        {title}
-        {onCancel && (
-          <IconButton onClick={onCancel}>
-            <Icon name="close" sx={{ width: 18, height: 18 }} />
-          </IconButton>
+  const DialogWrapper = ({ children }) =>
+    !isEmpty(formikProps) ? (
+      <Formik {...formikProps}>
+        {() => (
+          <Form
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              overflowY: 'auto',
+            }}
+          >
+            {children}
+          </Form>
         )}
-      </DialogTitle>
+      </Formik>
+    ) : (
+      children
+    )
+  const DialogInner = () => (
+    <>
       <DialogContent
         dividers
         sx={{
@@ -80,6 +84,31 @@ const Dialog = ({
           )}
         </DialogActions>
       )}
+    </>
+  )
+
+  return (
+    <MuiDialog
+      fullWidth={fullWidth}
+      maxWidth={maxWidth}
+      open={open}
+      onClose={(_, reason) => {
+        if (reason === 'backdropClick' && disableBackdropClick) return
+        onCancel()
+      }}
+      {...props}
+    >
+      <DialogTitle>
+        {title}
+        {onCancel && (
+          <IconButton onClick={onCancel}>
+            <Icon name="close" sx={{ width: 18, height: 18 }} />
+          </IconButton>
+        )}
+      </DialogTitle>
+      <DialogWrapper>
+        <DialogInner />
+      </DialogWrapper>
     </MuiDialog>
   )
 }
@@ -99,6 +128,7 @@ Dialog.defaultProps = {
   submitLabel: '',
   submitProps: null,
   noBorderBottom: false,
+  formikProps: {},
 }
 
 Dialog.propTypes = {
@@ -121,6 +151,7 @@ Dialog.propTypes = {
   ]),
   renderFooter: PropTypes.func,
   noBorderBottom: PropTypes.bool,
+  formikProps: PropTypes.shape(),
 }
 
 export default Dialog

@@ -35,7 +35,7 @@ import {
   createWorkOrder,
   getWorkOrderDetailsById,
   updateWorkOrder,
-} from '~/modules/mesx/redux/actions/work-order.action'
+} from '~/modules/mesx/redux/actions/work-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeTextField,

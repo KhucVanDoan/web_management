@@ -15,6 +15,9 @@ const style = (theme) => ({
   },
   error: {
     border: `1px solid ${theme.palette.error.main}`,
+    '&: hover': {
+      borderColor: theme.palette.error.main,
+    },
   },
   focus: {
     borderColor: theme.palette.borderField,
@@ -27,6 +30,7 @@ const style = (theme) => ({
     flex: 1,
     padding: '9px 16px',
     alignItems: 'center',
+    minWidth: 0,
   },
   iconCalendar: {
     display: 'flex',

@@ -1,34 +1,36 @@
-export const SEARCH_WORK_ORDERS_START = 'SEARCH_WORK_ORDERS_START';
-export const SEARCH_WORK_ORDERS_SUCCESS = 'SEARCH_WORK_ORDERS_SUCCESS';
-export const SEARCH_WORK_ORDERS_FAILED = 'SEARCH_WORK_ORDERS_FAILED';
+export const SEARCH_WORK_ORDERS_START = 'SEARCH_WORK_ORDERS_START'
+export const SEARCH_WORK_ORDERS_SUCCESS = 'SEARCH_WORK_ORDERS_SUCCESS'
+export const SEARCH_WORK_ORDERS_FAILED = 'SEARCH_WORK_ORDERS_FAILED'
 
-export const CREATE_WORK_ORDER_START = 'CREATE_WORK_ORDER_START';
-export const CREATE_WORK_ORDER_SUCCESS = 'CREATE_WORK_ORDER_SUCCESS';
-export const CREATE_WORK_ORDER_FAILED = 'CREATE_WORK_ORDER_FAILED';
+export const CREATE_WORK_ORDER_START = 'CREATE_WORK_ORDER_START'
+export const CREATE_WORK_ORDER_SUCCESS = 'CREATE_WORK_ORDER_SUCCESS'
+export const CREATE_WORK_ORDER_FAILED = 'CREATE_WORK_ORDER_FAILED'
 
-export const UPDATE_WORK_ORDER_START = 'UPDATE_WORK_ORDER_START';
-export const UPDATE_WORK_ORDER_SUCCESS = 'UPDATE_WORK_ORDER_SUCCESS';
-export const UPDATE_WORK_ORDER_FAILED = 'UPDATE_WORK_ORDER_FAILED';
+export const UPDATE_WORK_ORDER_START = 'UPDATE_WORK_ORDER_START'
+export const UPDATE_WORK_ORDER_SUCCESS = 'UPDATE_WORK_ORDER_SUCCESS'
+export const UPDATE_WORK_ORDER_FAILED = 'UPDATE_WORK_ORDER_FAILED'
 
-export const DELETE_WORK_ORDER_START = 'DELETE_WORK_ORDER_START';
-export const DELETE_WORK_ORDER_SUCCESS = 'DELETE_WORK_ORDER_SUCCESS';
-export const DELETE_WORK_ORDER_FAILED = 'DELETE_WORK_ORDER_FAILED';
+export const DELETE_WORK_ORDER_START = 'DELETE_WORK_ORDER_START'
+export const DELETE_WORK_ORDER_SUCCESS = 'DELETE_WORK_ORDER_SUCCESS'
+export const DELETE_WORK_ORDER_FAILED = 'DELETE_WORK_ORDER_FAILED'
 
-export const GET_WORK_ORDER_DETAILS_START = 'GET_WORK_ORDER_DETAILS_START';
-export const GET_WORK_ORDER_DETAILS_SUCCESS = 'GET_WORK_ORDER_DETAILS_SUCCESS';
-export const GET_WORK_ORDER_DETAILS_FAILED = 'GET_WORK_ORDER_DETAILS_FAILED';
+export const GET_WORK_ORDER_DETAILS_START = 'GET_WORK_ORDER_DETAILS_START'
+export const GET_WORK_ORDER_DETAILS_SUCCESS = 'GET_WORK_ORDER_DETAILS_SUCCESS'
+export const GET_WORK_ORDER_DETAILS_FAILED = 'GET_WORK_ORDER_DETAILS_FAILED'
 
-export const CONFIRM_WORK_ORDER_START = 'CONFIRM_WORK_ORDER_START';
-export const CONFIRM_WORK_ORDER_SUCCESS = 'CONFIRM_WORK_ORDER_SUCCESS';
-export const CONFIRM_WORK_ORDER_FAILED = 'CONFIRM_WORK_ORDER_FAILED';
+export const CONFIRM_WORK_ORDER_START = 'CONFIRM_WORK_ORDER_START'
+export const CONFIRM_WORK_ORDER_SUCCESS = 'CONFIRM_WORK_ORDER_SUCCESS'
+export const CONFIRM_WORK_ORDER_FAILED = 'CONFIRM_WORK_ORDER_FAILED'
 
-export const GET_BOM_DETAILS_START = 'GET_BOM_DETAILS_START';
-export const GET_BOM_DETAILS_SUCCESS = 'GET_BOM_DETAILS_SUCCESS';
-export const GET_BOM_DETAILS_FAILED = 'GET_BOM_DETAILS_FAILED';
+export const GET_BOM_DETAILS_START = 'GET_BOM_DETAILS_START'
+export const GET_BOM_DETAILS_SUCCESS = 'GET_BOM_DETAILS_SUCCESS'
+export const GET_BOM_DETAILS_FAILED = 'GET_BOM_DETAILS_FAILED'
 
-export const PRINT_QR_WORK_ORDER_START = 'PRINT_QR_WORK_ORDER_START';
-export const PRINT_QR_WORK_ORDER_SUCCESS = 'PRINT_QR_WORK_ORDER_SUCCESS';
-export const PRINT_QR_WORK_ORDER_FAILED = 'PRINT_QR_WORK_ORDER_FAILED';
+export const PRINT_QR_WORK_ORDER_START = 'PRINT_QR_WORK_ORDER_START'
+export const PRINT_QR_WORK_ORDER_SUCCESS = 'PRINT_QR_WORK_ORDER_SUCCESS'
+export const PRINT_QR_WORK_ORDER_FAILED = 'PRINT_QR_WORK_ORDER_FAILED'
+
+export const RESET_WORK_ORDER_DETAILS_STATE = 'RESET_WORK_ORDER_DETAILS_STATE'
 /**
  * Search workOrder
  * @param {object} payload
@@ -42,7 +44,7 @@ export function searchWorkOrders(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -54,7 +56,7 @@ export function searchWorkOrdersSuccess(payload) {
   return {
     type: SEARCH_WORK_ORDERS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -64,7 +66,7 @@ export function searchWorkOrdersSuccess(payload) {
 export function searchWorkOrdersFailed() {
   return {
     type: SEARCH_WORK_ORDERS_FAILED,
-  };
+  }
 }
 
 /**
@@ -80,7 +82,7 @@ export function createWorkOrder(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -92,7 +94,7 @@ export function createWorkOrderSuccess(payload) {
   return {
     type: CREATE_WORK_ORDER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -102,7 +104,7 @@ export function createWorkOrderSuccess(payload) {
 export function createWorkOrderFailed() {
   return {
     type: CREATE_WORK_ORDER_FAILED,
-  };
+  }
 }
 
 /**
@@ -118,7 +120,7 @@ export function updateWorkOrder(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update workOrder success action
@@ -129,7 +131,7 @@ export function updateWorkOrderSuccess(payload) {
   return {
     type: UPDATE_WORK_ORDER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -139,7 +141,7 @@ export function updateWorkOrderSuccess(payload) {
 export function updateWorkOrderFailed() {
   return {
     type: UPDATE_WORK_ORDER_FAILED,
-  };
+  }
 }
 /**
  * Delete workOrder
@@ -154,7 +156,7 @@ export function deleteWorkOrder(workOrderId, onSuccess, onError) {
     payload: workOrderId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -166,7 +168,7 @@ export function deleteWorkOrderSuccess(payload) {
   return {
     type: DELETE_WORK_ORDER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -176,7 +178,7 @@ export function deleteWorkOrderSuccess(payload) {
 export function deleteWorkOrderFailed() {
   return {
     type: DELETE_WORK_ORDER_FAILED,
-  };
+  }
 }
 
 /**
@@ -192,7 +194,7 @@ export function getWorkOrderDetailsById(workOrderId, onSuccess, onError) {
     payload: workOrderId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -204,7 +206,7 @@ export function getWorkOrderDetailsByIdSuccess(payload) {
   return {
     type: GET_WORK_ORDER_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -214,7 +216,7 @@ export function getWorkOrderDetailsByIdSuccess(payload) {
 export function getWorkOrderDetailsByIdFailed() {
   return {
     type: GET_WORK_ORDER_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -230,7 +232,7 @@ export function confirmWorkOrderById(workOrderId, onSuccess, onError) {
     payload: workOrderId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -242,7 +244,7 @@ export function confirmWorkOrderByIdSuccess(payload) {
   return {
     type: CONFIRM_WORK_ORDER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -252,7 +254,7 @@ export function confirmWorkOrderByIdSuccess(payload) {
 export function confirmWorkOrderByIdFailed() {
   return {
     type: CONFIRM_WORK_ORDER_FAILED,
-  };
+  }
 }
 export function getBomsByItemId(workOrderId, onSuccess, onError) {
   return {
@@ -260,7 +262,7 @@ export function getBomsByItemId(workOrderId, onSuccess, onError) {
     payload: workOrderId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -272,7 +274,7 @@ export function getBomDetailsByIdSuccess(payload) {
   return {
     type: GET_BOM_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -282,7 +284,7 @@ export function getBomDetailsByIdSuccess(payload) {
 export function getBomDetailsByIdFailed() {
   return {
     type: GET_BOM_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -298,7 +300,7 @@ export function printQRWorkOrder(itemId, onSuccess, onError) {
     payload: itemId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -310,7 +312,7 @@ export function printQRWorkOrderSuccess(payload) {
   return {
     type: PRINT_QR_WORK_ORDER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -320,5 +322,44 @@ export function printQRWorkOrderSuccess(payload) {
 export function printQRWorkOrderFailed() {
   return {
     type: PRINT_QR_WORK_ORDER_FAILED,
-  };
+  }
+}
+
+/**
+ * Update BOQ success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function resetWorkOrderDetailState() {
+  return {
+    type: RESET_WORK_ORDER_DETAILS_STATE,
+  }
+}
+
+export default {
+  searchWorkOrders,
+  searchWorkOrdersSuccess,
+  searchWorkOrdersFailed,
+  createWorkOrder,
+  createWorkOrderSuccess,
+  createWorkOrderFailed,
+  updateWorkOrder,
+  updateWorkOrderSuccess,
+  updateWorkOrderFailed,
+  deleteWorkOrder,
+  deleteWorkOrderSuccess,
+  deleteWorkOrderFailed,
+  getWorkOrderDetailsById,
+  getWorkOrderDetailsByIdSuccess,
+  getWorkOrderDetailsByIdFailed,
+  confirmWorkOrderById,
+  confirmWorkOrderByIdSuccess,
+  confirmWorkOrderByIdFailed,
+  getBomsByItemId,
+  getBomDetailsByIdSuccess,
+  getBomDetailsByIdFailed,
+  printQRWorkOrder,
+  printQRWorkOrderSuccess,
+  printQRWorkOrderFailed,
+  resetWorkOrderDetailState,
 }
