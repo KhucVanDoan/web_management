@@ -21,7 +21,7 @@ import {
 import DataTable from '~/components/DataTable'
 import { getItems, getBoms } from '~/modules/mesx/redux/actions/common'
 import { searchItems } from '~/modules/mesx/redux/actions/define-item.action'
-import { getBomsByItemId } from '~/modules/mesx/redux/actions/work-order.action'
+import { getBomsByItemId } from '~/modules/mesx/redux/actions/work-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { normalizeDecimal, redirectRouter, scrollToBottom } from '~/utils'
 

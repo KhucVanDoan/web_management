@@ -7,7 +7,6 @@ import { Link, useHistory } from 'react-router-dom'
 
 import {
   BOQ_STATUS_MAP,
-  BOQ_STATUS_OPTIONS,
   BOQ_STATUS_TO_EDIT,
   BOQ_STATUS_TO_CONFIRM,
   BOQ_STATUS_TO_DELETE,
@@ -72,24 +71,26 @@ const DefineBOQ = (props) => {
         field: 'id',
         headerName: '#',
         width: 80,
-        sortable: false,
         fixed: true,
       },
       {
         field: 'code',
         headerName: t('defineBOQ.boqCode'),
         width: 150,
+        sortable: true,
         fixed: true,
       },
       {
         field: 'name',
         headerName: t('defineBOQ.boqName'),
         width: 150,
+        sortable: true,
       },
       {
         field: 'pmName',
         headerName: t('defineBOQ.boqPm'),
         width: 80,
+        sortable: true,
         renderCell: (params) => {
           const { row } = params
           return row?.pm?.fullName
@@ -99,6 +100,7 @@ const DefineBOQ = (props) => {
         field: 'planFrom',
         headerName: t('defineBOQ.boqPlan'),
         width: 200,
+        sortable: true,
         type: 'date',
         renderCell: (params) => {
           return (
@@ -112,12 +114,8 @@ const DefineBOQ = (props) => {
         field: 'status',
         headerName: t('defineBOQ.status'),
         width: 200,
+        sortable: true,
         type: 'categorical',
-        filterOptions: {
-          options: BOQ_STATUS_OPTIONS,
-          getOptionValue: (option) => option?.id?.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
         renderCell: (params) => {
           const { status } = params.row
           return t(BOQ_STATUS_MAP[status])
@@ -126,11 +124,8 @@ const DefineBOQ = (props) => {
       {
         field: 'action',
         headerName: t('common.action'),
-        disableClickEventBubbling: true,
         width: 250,
-        sortable: false,
         align: 'center',
-        headerAlign: 'center',
         renderCell: (params) => {
           const { status, id } = params.row
           const canEdit = BOQ_STATUS_TO_EDIT.includes(status)
@@ -185,17 +180,29 @@ const DefineBOQ = (props) => {
                 </IconButton>
               )}
               {goDetail && (
-                <Link
+                <Button
+                  variant="text"
+                  size="small"
+                  bold={false}
+                  component={Link}
                   to={ROUTE.PLAN.DETAILS.PATH.replace(
                     ':id',
                     `${boqHasPlan[0]}`,
                   )}
                 >
                   {t('defineBOQ.planList')}
-                </Link>
+                </Button>
               )}
               {goList && (
-                <Link to={ROUTE.PLAN.LIST.PATH}>{t('defineBOQ.planList')}</Link>
+                <Button
+                  variant="text"
+                  size="small"
+                  bold={false}
+                  component={Link}
+                  to={ROUTE.PLAN.LIST.PATH}
+                >
+                  {t('defineBOQ.planList')}
+                </Button>
               )}
             </Box>
           )
@@ -311,9 +318,9 @@ const DefineBOQ = (props) => {
         title={t('common.notify')}
         maxWidth="sm"
         onSubmit={submitConfirm}
-        onClose={() => setIsOpenConfirmModal(false)}
+        onCancel={() => setIsOpenConfirmModal(false)}
         submitLabel={t('common.yes')}
-        closeLabel={t('common.no')}
+        cancelLabel={t('common.no')}
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}

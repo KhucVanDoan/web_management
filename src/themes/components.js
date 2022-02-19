@@ -15,6 +15,9 @@ const components = {
       outlined: {
         padding: '8px 23px',
       },
+      sizeSmall: {
+        padding: '6px 12px',
+      },
     },
   },
   MuiCheckbox: {

@@ -23,7 +23,8 @@ import {
   PRINT_QR_WORK_ORDER_FAILED,
   PRINT_QR_WORK_ORDER_START,
   PRINT_QR_WORK_ORDER_SUCCESS,
-} from '~/modules/mesx/redux/actions/work-order.action'
+  RESET_WORK_ORDER_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/work-order'
 
 const initialState = {
   isLoading: false,
@@ -111,6 +112,11 @@ export default function defineWorkOrder(state = initialState, action) {
         ...state,
         bomDetails: {},
         isLoading: false,
+      }
+    case RESET_WORK_ORDER_DETAILS_STATE:
+      return {
+        ...state,
+        workOrderDetails: {},
       }
     default:
       return state

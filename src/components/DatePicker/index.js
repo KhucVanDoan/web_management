@@ -97,17 +97,20 @@ const DatePicker = ({
                       cursor: disabled ? 'unset' : 'pointer',
                     },
                     '& fieldset': {
-                      borderColor: open
+                      borderColor: error
+                        ? `${theme.palette.error.main} !important`
+                        : open
                         ? `${theme.palette.borderField} !important`
-                        : 'transparent !important',
+                        : theme.palette.grayF4.main,
                     },
-                    ...(open
-                      ? {}
-                      : {
-                          '&:hover fieldset': {
-                            borderColor: `${theme.palette.borderField} !important`,
-                          },
-                        }),
+                    ...(!error &&
+                      (open
+                        ? {}
+                        : {
+                            '&:hover fieldset': {
+                              borderColor: `${theme.palette.borderField} !important`,
+                            },
+                          })),
                   }}
                 />
               </Box>

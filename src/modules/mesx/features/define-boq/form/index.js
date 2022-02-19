@@ -98,9 +98,7 @@ const BOQForm = () => {
             <Button variant="outlined" color="subText" onClick={resetForm}>
               {t('common.cancel')}
             </Button>
-            <Button icon="add" type="submit">
-              {t('common.create')}
-            </Button>
+            <Button type="submit">{t('common.create')}</Button>
           </>
         )
       case MODAL_MODE.UPDATE:
@@ -186,16 +184,17 @@ const BOQForm = () => {
       loading={isLoading}
       onBack={backToList}
     >
-      <Grid container justifyContent={'center'}>
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema(t)}
-            onSubmit={handleSubmit}
-            enableReinitialize
-          >
-            {({ resetForm, values }) => (
-              <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema(t)}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ resetForm, values, errors, touched }) => (
+          <Form>
+            {console.log('---', errors, touched)}
+            <Grid container justifyContent={'center'}>
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -275,35 +274,36 @@ const BOQForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Box sx={{ mt: 2 }}>
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemsSettingTable
-                        items={values?.items || []}
-                        mode={mode}
-                        arrayHelpers={arrayHelpers}
-                      />
-                    )}
+              </Grid>
+            </Grid>
+            <Box sx={{ mt: 3 }}>
+              <FieldArray
+                name="items"
+                render={(arrayHelpers) => (
+                  <ItemsSettingTable
+                    items={values?.items || []}
+                    mode={mode}
+                    arrayHelpers={arrayHelpers}
                   />
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    mt: 2,
-                    '& button + button': {
-                      ml: 4 / 3,
-                    },
-                  }}
-                >
-                  {renderActionButtons(resetForm)}
-                </Box>
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+                )}
+              />
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                mt: 2,
+                '& button + button': {
+                  ml: 4 / 3,
+                },
+              }}
+            >
+              {renderActionButtons(resetForm)}
+            </Box>
+          </Form>
+        )}
+      </Formik>
+
       <Dialog
         open={isOpenConfirmModal}
         title={t('common.notify')}
