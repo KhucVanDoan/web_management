@@ -197,8 +197,8 @@ function SaleOrderForm() {
       >
         {({ handleReset, values }) => (
           <Form>
-            <Grid container justifyContent={'center'}>
-              <Grid item xl={11} sx={12}>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   columnSpacing={{ xl: 8, xs: 4 }}
@@ -210,7 +210,6 @@ function SaleOrderForm() {
                       name="code"
                       placeholder={t('saleOrder.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -219,7 +218,6 @@ function SaleOrderForm() {
                       label={t('saleOrder.name')}
                       name="name"
                       placeholder={t('saleOrder.name')}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -228,7 +226,6 @@ function SaleOrderForm() {
                       name="orderedAt"
                       label={t('saleOrder.orderedAt')}
                       placeholder={t('saleOrder.orderedAt')}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -239,12 +236,36 @@ function SaleOrderForm() {
                       name="boqId"
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              sx={(theme) => ({
+                justifyContent: 'center',
+                bgcolor: 'grayF4.main',
+                borderRadius: 1,
+                my: 2,
+                pt: 1,
+                pb: 2,
+
+                [theme.breakpoints.down('xl')]: {
+                  px: 2,
+                },
+              })}
+            >
+              <Grid item xl={11} xs={12}>
+                <Grid
+                  container
+                  columnSpacing={{ xl: 8, xs: 4 }}
+                  rowSpacing={4 / 3}
+                >
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="h4" mt={1}>
+                    <Typography variant="body2" mt={1}>
                       {t('saleOrder.vendor.title')}
                     </Typography>
                     <Box mt={4 / 3}>
@@ -254,13 +275,12 @@ function SaleOrderForm() {
                         name="companyId"
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name || opt?.code}
-                        labelWidth={180}
                         required
                       />
                     </Box>
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Typography variant="h4" mt={1}>
+                    <Typography variant="body2" mt={1}>
                       {t('saleOrder.customer.title')}
                     </Typography>
                     <Box mt={4 / 3}>
@@ -270,7 +290,6 @@ function SaleOrderForm() {
                         label={t('saleOrder.customer.name')}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name || opt?.code}
-                        labelWidth={180}
                         required
                       />
                     </Box>
@@ -279,11 +298,21 @@ function SaleOrderForm() {
                         name="deadline"
                         label={t('saleOrder.deadline')}
                         placeholder={t('saleOrder.deadline')}
-                        labelWidth={180}
                         required
                       />
                     </Box>
                   </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
+                <Grid
+                  container
+                  columnSpacing={{ xl: 8, xs: 4 }}
+                  rowSpacing={4 / 3}
+                >
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
@@ -291,7 +320,6 @@ function SaleOrderForm() {
                       placeholder={t('saleOrder.description')}
                       multiline
                       rows={3}
-                      labelWidth={180}
                     />
                   </Grid>
                 </Grid>

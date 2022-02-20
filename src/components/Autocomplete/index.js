@@ -189,7 +189,7 @@ const Autocomplete = ({
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
-      getOptionLabel={getOptionLabel}
+      getOptionLabel={(opt) => getOptionLabel(opt) || ''}
       renderOption={(optProps, option, { selected }) => {
         const optionProps = {
           ...optProps,
@@ -212,8 +212,6 @@ const Autocomplete = ({
             ListboxComponent: VirtualList,
           }
         : {})}
-      {...(isAsync ? { filterOptions: (opts) => opts } : {})}
-      {...(multiple ? { disableCloseOnSelect: true } : {})}
       PaperComponent={PaperComponent}
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
@@ -234,6 +232,8 @@ const Autocomplete = ({
         />
       )}
       {...props}
+      {...(isAsync ? { filterOptions: (opts) => opts } : {})}
+      {...(multiple ? { disableCloseOnSelect: true } : {})}
     />
   )
 }

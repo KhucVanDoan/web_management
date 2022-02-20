@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import TextField from '~/components/TextField'
 
-const FormikTextField = ({ form, field, ...props }) => (
+const FormikTextField = ({ form, field, onChange, ...props }) => (
   <TextField
     {...field}
     error={
@@ -15,6 +15,10 @@ const FormikTextField = ({ form, field, ...props }) => (
       getIn(form.touched, field.name) && getIn(form.errors, field.name)
     }
     value={field.value ?? ''}
+    onChange={(e) => {
+      onChange(e.target.value)
+      form.setFieldValue(field.name, e.target.value)
+    }}
     {...props}
   />
 )
@@ -22,11 +26,13 @@ const FormikTextField = ({ form, field, ...props }) => (
 FormikTextField.defaultProps = {
   form: {},
   field: {},
+  onChange: () => {},
 }
 
 FormikTextField.propTypes = {
   form: PropTypes.shape(),
   field: PropTypes.shape(),
+  onChange: PropTypes.func,
 }
 
 export default FormikTextField

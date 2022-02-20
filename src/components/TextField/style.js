@@ -6,6 +6,7 @@ const style = (readOnly) => (theme) => ({
       paddingRight: 0,
       boxSizing: 'border-box',
       color: theme.palette.text.main,
+      background: '#fff',
       border: 'none',
       input: {
         padding: '9px 16px',

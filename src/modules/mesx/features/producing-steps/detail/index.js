@@ -96,7 +96,7 @@ const ProducingStepDetail = () => {
                       value="0"
                       control={<Radio />}
                       label={t('producingStep.allItemComplete')}
-                      sx={{ pointerEvents: 'none' }}
+                      sx={{ pointerEvents: 'none', mt: '-9px' }}
                     />
                     <FormControlLabel
                       value="1"
