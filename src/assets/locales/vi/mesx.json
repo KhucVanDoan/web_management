@@ -295,6 +295,7 @@
     },
     "status": "Trạng thái",
     "confirmProducingStepSuccess": "Xác nhận công đoạn sản xuất thành công",
+    "timeQc": "Thời gian QC/1 sản phẩm",
     "import": "Nhập/Xuất dữ liệu",
     "inputQC": "QC đầu vào",
     "outputQC": "QC đầu ra",

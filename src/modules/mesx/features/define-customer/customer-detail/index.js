@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
@@ -54,57 +55,52 @@ function DefineCustomerDetail() {
       loading={isLoading}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.code')}
-              </Typography>
-              <Typography>{customerDetails.code}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.code')}
+                value={customerDetails.code}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.phone')}
-              </Typography>
-              <Typography>{customerDetails.phone}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.phone')}
+                value={customerDetails.phone}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.name')}
-              </Typography>
-              <Typography>{customerDetails.name}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.name')}
+                value={customerDetails.name}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.email')}
-              </Typography>
-              <Typography>{customerDetails.email}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.email')}
+                value={customerDetails.email}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.address')}
-              </Typography>
-              <Typography>{customerDetails.address}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.address')}
+                value={customerDetails.address}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.fax')}
-              </Typography>
-              <Typography>{customerDetails.fax}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('defineCustomer.fax')} value={customerDetails.fax} />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.user')}
-              </Typography>
-              <Typography>{customerDetails.user}</Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.user')}
+                value={customerDetails.user}
+              />
             </Grid>
-            <Grid item lg={6} xs={12} display="flex">
-              <Typography variant="body2" width={180}>
-                {t('defineCustomer.createDate')}
-              </Typography>
-              <Typography>
-                {formatDateTimeUtc(customerDetails.createdAt)}
-              </Typography>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineCustomer.createDate')}
+                value={formatDateTimeUtc(customerDetails.createdAt)}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -112,7 +108,6 @@ function DefineCustomerDetail() {
                 label={t('defineCustomer.description')}
                 multiline
                 rows={3}
-                labelWidth={180}
                 value={customerDetails.description}
                 readOnly
                 sx={{

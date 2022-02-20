@@ -84,6 +84,7 @@ export default function operationSetting(state = initialState, action) {
         details: action.payload,
         isLoading: false,
       }
+
     case CONFIRM_PRODUCING_STEP_SUCCESS:
     case CONFIRM_PRODUCING_STEP_FAILED:
       return {

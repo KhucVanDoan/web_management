@@ -6,6 +6,7 @@ const style = (theme) => ({
     borderRadius: 3,
     border: `1px solid ${theme.palette.grayF4.main}`,
     cursor: 'pointer',
+    background: '#fff',
     '& span': {
       lineHeight: 20 / 14,
     },

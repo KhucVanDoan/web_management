@@ -120,7 +120,7 @@ const BOQDetail = () => {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent={'center'}>
+      <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             {status >= 0 && (

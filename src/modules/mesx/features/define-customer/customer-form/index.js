@@ -185,7 +185,6 @@ function DefineCustomerForm() {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCustomer.code')}
                       name="code"
                       placeholder={t('defineCustomer.code')}
@@ -195,7 +194,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="phone"
                       label={t('defineCustomer.phone')}
                       placeholder={t('defineCustomer.phone')}
@@ -203,7 +201,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCustomer.name')}
                       name="name"
                       placeholder={t('defineCustomer.name')}
@@ -212,7 +209,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="email"
                       label={t('defineCustomer.email')}
                       placeholder={t('defineCustomer.email')}
@@ -220,7 +216,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       label={t('defineCustomer.address')}
                       name="address"
                       placeholder={t('defineCustomer.address')}
@@ -228,7 +223,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="fax"
                       label={t('defineCustomer.fax')}
                       placeholder={t('defineCustomer.fax')}
@@ -236,7 +230,6 @@ function DefineCustomerForm() {
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
-                      labelWidth={180}
                       name="description"
                       label={t('defineCustomer.description')}
                       placeholder={t('defineCustomer.description')}

@@ -6,6 +6,7 @@ import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
@@ -52,75 +53,60 @@ function SaleOrderDetail() {
         loading={isLoading}
         onBack={backToList}
       >
-        <Grid container justifyContent={'center'}>
-          <Grid item xl={11} sx={12}>
+        <Grid container justifyContent="center">
+          <Grid item xl={11} xs={12}>
             <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
-              <Grid item lg={6} xs={12} display="flex">
-                <Typography variant="body2" width={180}>
-                  {t('saleOrder.code')}
-                </Typography>
-                <Typography>{saleOrder.code}</Typography>
+              <Grid item lg={6} xs={12}>
+                <LV label={t('saleOrder.code')} value={saleOrder.code} />
               </Grid>
-              <Grid item lg={6} xs={12} display="flex">
-                <Typography variant="body2" width={180}>
-                  {t('saleOrder.name')}
-                </Typography>
-                <Typography>{saleOrder.name}</Typography>
+              <Grid item lg={6} xs={12}>
+                <LV label={t('saleOrder.name')} value={saleOrder.name} />
               </Grid>
-              <Grid item lg={6} xs={12} display="flex">
-                <Typography variant="body2" width={180}>
-                  {t('saleOrder.orderedAt')}
-                </Typography>
-                <Typography>{saleOrder.orderedAt}</Typography>
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('saleOrder.orderedAt')}
+                  value={formatDateTimeUtc(saleOrder.orderedAt)}
+                />
               </Grid>
-              <Grid item lg={6} xs={12} display="flex">
-                <Typography variant="body2" width={180}>
-                  {t('saleOrder.boqCode')}
-                </Typography>
-                <Typography>{saleOrder.boqId}</Typography>
+              <Grid item lg={6} xs={12}>
+                <LV label={t('saleOrder.boqCode')} value={saleOrder.boqId} />
               </Grid>
-              <Grid item lg={6} xs={12} display="flex">
+              <Grid item lg={6} xs={12}>
                 <Box>
                   <Typography variant="h4" mt={1}>
                     {t('saleOrder.vendor.title')}
                   </Typography>
-                  <Box display="flex" mt={4 / 3}>
-                    <Typography variant="body2" width={180}>
-                      {t('saleOrder.vendor.name')}
-                    </Typography>
-                    <Typography>{saleOrder?.company?.name}</Typography>
-                  </Box>
+                  <LV
+                    label={t('saleOrder.vendor.name')}
+                    value={saleOrder?.company?.name}
+                    mt={4 / 3}
+                  />
                 </Box>
               </Grid>
-              <Grid item lg={6} xs={12} display="flex">
+              <Grid item lg={6} xs={12}>
                 <Box>
                   <Typography variant="h4" mt={1}>
                     {t('saleOrder.customer.title')}
                   </Typography>
-                  <Box sx={{ mt: 4 / 3 }} display="flex">
-                    <Typography variant="body2" width={180}>
-                      {t('saleOrder.customer.name')}
-                    </Typography>
-                    <Typography>{saleOrder?.customer?.name}</Typography>
-                  </Box>
-                  <Box sx={{ mt: 4 / 3 }} display="flex">
-                    <Typography variant="body2" width={180}>
-                      {t('saleOrder.deadline')}
-                    </Typography>
-                    <Typography>
-                      {formatDateTimeUtc(saleOrder.deadline)}
-                    </Typography>
-                  </Box>
+                  <LV
+                    label={t('saleOrder.customer.name')}
+                    value={saleOrder?.customer?.name}
+                    mt={4 / 3}
+                  />
+                  <LV
+                    label={t('saleOrder.deadline')}
+                    value={formatDateTimeUtc(saleOrder.deadline)}
+                    mt={4 / 3}
+                  />
                 </Box>
               </Grid>
 
-              <Grid item xs={12} display="flex">
+              <Grid item xs={12}>
                 <TextField
                   name="description"
                   label={t('saleOrder.description')}
                   multiline
                   rows={3}
-                  labelWidth={180}
                   readOnly
                   sx={{
                     'label.MuiFormLabel-root': {
