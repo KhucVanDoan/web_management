@@ -27,8 +27,8 @@ import routing from './routing.reducer'
 import saleOrder from './sale-order'
 import soExport from './so-export.reducer'
 import userManagement from './user-management'
+import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
-import workCenter from './work-center.reducer'
 import workOrder from './work-order'
 
 const reducers = {

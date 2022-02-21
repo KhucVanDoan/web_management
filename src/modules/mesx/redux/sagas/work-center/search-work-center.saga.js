@@ -4,7 +4,7 @@ import {
   searchWorkCenterFailed,
   searchWorkCenterSuccess,
   SEARCH_WORK_CENTER_START,
-} from '~/modules/mesx/redux/actions/work-center.action'
+} from '~/modules/mesx/redux/actions/work-center'
 import { api } from '~/services/api'
 
 /**

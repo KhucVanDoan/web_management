@@ -17,7 +17,8 @@ import {
   CONFIRM_WORK_CENTER_START,
   CONFIRM_WORK_CENTER_SUCCESS,
   CONFIRM_WORK_CENTER_FAILED,
-} from '~/modules/mesx/redux/actions/work-center.action'
+  RESET_WORK_CENTER_DETAIL_STATE,
+} from '~/modules/mesx/redux/actions/work-center'
 
 const initialState = {
   isLoading: false,
@@ -71,6 +72,12 @@ export default function workCenter(state = initialState, action) {
         isLoading: false,
       }
     case GET_WORK_CENTER_DETAILS_FAILED:
+      return {
+        ...state,
+        wcDetails: {},
+        isLoading: false,
+      }
+    case RESET_WORK_CENTER_DETAIL_STATE:
       return {
         ...state,
         wcDetails: {},

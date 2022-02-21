@@ -968,6 +968,7 @@
     "title": "Danh sách xưởng",
     "searchPlaceholder": "Tìm kiếm xưởng theo mã hoặc tên",
     "code": "Mã xưởng",
+    "action": "Hành động",
     "name": "Tên xưởng",
     "factoryName": "Tên nhà máy",
     "member": "Thành viên trong xưởng",
@@ -990,7 +991,10 @@
     "createWorkCenterSuccess": "Tạo xưởng thành công",
     "updateWorkCenterSuccess": "Cập nhật xưởng thành công",
     "confirmSOExportSuccess": "Xác nhận xưởng thành công",
-    "import": "Import",
+    "import": "nhập/xuất dữ liệu",
+    "dateCreate": "Ngày Tạo",
+    "dateUpdate": "Ngày sửa",
+    "to": "Đến",
     "workTime": {
       "standard": "Chuẩn (40h/week)",
       "other": "Khác (45h/week)"
@@ -1001,6 +1005,9 @@
       "hours": "giờ",
       "currency": "VNĐ"
     },
+    "shiftPreparationTime": "Thời gian chuẩn bị ca đầu",
+    "preparationTimeBetweenShifts": "Thời gian chuẩn bị ca giữa",
+    "endOfShiftPreparationTime": "Thời gian chuẩn bị ca cuối",
     "workCenterShift": "Ca làm việc",
     "addWorkCenterShift": "Thêm ca làm việc",
     "timeSetup": "Thiết lập thời gian làm việc",

@@ -1,28 +1,28 @@
-export const SEARCH_WORK_CENTER_START = 'SEARCH_WORK_CENTER_START';
-export const SEARCH_WORK_CENTER_SUCCESS = 'SEARCH_WORK_CENTER_SUCCESS';
-export const SEARCH_WORK_CENTER_FAILED = 'SEARCH_WORK_CENTER_FAILED';
+export const SEARCH_WORK_CENTER_START = 'SEARCH_WORK_CENTER_START'
+export const SEARCH_WORK_CENTER_SUCCESS = 'SEARCH_WORK_CENTER_SUCCESS'
+export const SEARCH_WORK_CENTER_FAILED = 'SEARCH_WORK_CENTER_FAILED'
 
-export const CREATE_WORK_CENTER_START = 'CREATE_WORK_CENTER_START';
-export const CREATE_WORK_CENTER_SUCCESS = 'CREATE_WORK_CENTER_SUCCESS';
-export const CREATE_WORK_CENTER_FAILED = 'CREATE_WORK_CENTER_FAILED';
+export const CREATE_WORK_CENTER_START = 'CREATE_WORK_CENTER_START'
+export const CREATE_WORK_CENTER_SUCCESS = 'CREATE_WORK_CENTER_SUCCESS'
+export const CREATE_WORK_CENTER_FAILED = 'CREATE_WORK_CENTER_FAILED'
 
-export const UPDATE_WORK_CENTER_START = 'UPDATE_WORK_CENTER_START';
-export const UPDATE_WORK_CENTER_SUCCESS = 'UPDATE_WORK_CENTER_SUCCESS';
-export const UPDATE_WORK_CENTER_FAILED = 'UPDATE_WORK_CENTER_FAILED';
+export const UPDATE_WORK_CENTER_START = 'UPDATE_WORK_CENTER_START'
+export const UPDATE_WORK_CENTER_SUCCESS = 'UPDATE_WORK_CENTER_SUCCESS'
+export const UPDATE_WORK_CENTER_FAILED = 'UPDATE_WORK_CENTER_FAILED'
 
-export const DELETE_WORK_CENTER_START = 'DELETE_WORK_CENTER_START';
-export const DELETE_WORK_CENTER_SUCCESS = 'DELETE_WORK_CENTER_SUCCESS';
-export const DELETE_WORK_CENTER_FAILED = 'DELETE_WORK_CENTER_FAILED';
+export const DELETE_WORK_CENTER_START = 'DELETE_WORK_CENTER_START'
+export const DELETE_WORK_CENTER_SUCCESS = 'DELETE_WORK_CENTER_SUCCESS'
+export const DELETE_WORK_CENTER_FAILED = 'DELETE_WORK_CENTER_FAILED'
 
 export const CONFIRM_WORK_CENTER_START = 'CONFIRM_WORK_CENTER_START'
 export const CONFIRM_WORK_CENTER_SUCCESS = 'CONFIRM_WORK_CENTER_SUCCESS'
 export const CONFIRM_WORK_CENTER_FAILED = 'CONFIRM_WORK_CENTER_FAILED'
 
-export const GET_WORK_CENTER_DETAILS_START = 'GET_WORK_CENTER_DETAILS_START';
-export const GET_WORK_CENTER_DETAILS_SUCCESS =
-  'GET_WORK_CENTER_DETAILS_SUCCESS';
-export const GET_WORK_CENTER_DETAILS_FAILED = 'GET_WORK_CENTER_DETAILS_FAILED';
+export const GET_WORK_CENTER_DETAILS_START = 'GET_WORK_CENTER_DETAILS_START'
+export const GET_WORK_CENTER_DETAILS_SUCCESS = 'GET_WORK_CENTER_DETAILS_SUCCESS'
+export const GET_WORK_CENTER_DETAILS_FAILED = 'GET_WORK_CENTER_DETAILS_FAILED'
 
+export const RESET_WORK_CENTER_DETAIL_STATE = 'RESET_WORK_CENTER_DETAIL_STATE'
 /**
  * Search work center
  * @param {object} payload
@@ -36,7 +36,7 @@ export function searchWorkCenter(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -48,7 +48,7 @@ export function searchWorkCenterSuccess(payload) {
   return {
     type: SEARCH_WORK_CENTER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -58,7 +58,7 @@ export function searchWorkCenterSuccess(payload) {
 export function searchWorkCenterFailed() {
   return {
     type: SEARCH_WORK_CENTER_FAILED,
-  };
+  }
 }
 
 /**
@@ -74,7 +74,7 @@ export function createWorkCenter(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -86,7 +86,7 @@ export function createWorkCenterSuccess(payload) {
   return {
     type: CREATE_WORK_CENTER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -96,7 +96,7 @@ export function createWorkCenterSuccess(payload) {
 export function createWorkCenterFailed() {
   return {
     type: CREATE_WORK_CENTER_FAILED,
-  };
+  }
 }
 
 /**
@@ -112,7 +112,7 @@ export function updateWorkCenter(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update WorkCenter success action
@@ -123,7 +123,7 @@ export function updateWorkCenterSuccess(payload) {
   return {
     type: UPDATE_WORK_CENTER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -133,7 +133,7 @@ export function updateWorkCenterSuccess(payload) {
 export function updateWorkCenterFailed() {
   return {
     type: UPDATE_WORK_CENTER_FAILED,
-  };
+  }
 }
 /**
  * Confirm WorkCenter
@@ -142,13 +142,13 @@ export function updateWorkCenterFailed() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function confirmWorkCenter(workCenterId, onSuccess, onError) {
+export function confirmWorkCenter(workCenterId, onSuccess, onError) {
   return {
     type: CONFIRM_WORK_CENTER_START,
     payload: workCenterId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Confirm WorkCenter success action
@@ -159,7 +159,7 @@ export function confirmWorkCenterSuccess(payload) {
   return {
     type: CONFIRM_WORK_CENTER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -169,7 +169,7 @@ export function confirmWorkCenterSuccess(payload) {
 export function confirmWorkCenterFailed() {
   return {
     type: CONFIRM_WORK_CENTER_FAILED,
-  };
+  }
 }
 /**
  * Delete WorkCenter
@@ -184,7 +184,7 @@ export function deleteWorkCenter(WorkCenterId, onSuccess, onError) {
     payload: WorkCenterId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -196,7 +196,7 @@ export function deleteWorkCenterSuccess(payload) {
   return {
     type: DELETE_WORK_CENTER_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -206,7 +206,7 @@ export function deleteWorkCenterSuccess(payload) {
 export function deleteWorkCenterFailed() {
   return {
     type: DELETE_WORK_CENTER_FAILED,
-  };
+  }
 }
 
 /**
@@ -222,7 +222,7 @@ export function getWorkCenterDetailsById(WorkCenterId, onSuccess, onError) {
     payload: WorkCenterId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -234,7 +234,7 @@ export function getWorkCenterDetailsByIdSuccess(payload) {
   return {
     type: GET_WORK_CENTER_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -244,5 +244,29 @@ export function getWorkCenterDetailsByIdSuccess(payload) {
 export function getWorkCenterDetailsByIdFailed() {
   return {
     type: GET_WORK_CENTER_DETAILS_FAILED,
-  };
+  }
+}
+
+export function resetWorkCenterDetailState() {
+  return {
+    type: RESET_WORK_CENTER_DETAIL_STATE,
+  }
+}
+export default {
+  searchWorkCenter,
+  searchWorkCenterFailed,
+  searchWorkCenterSuccess,
+  createWorkCenter,
+  createWorkCenterFailed,
+  createWorkCenterSuccess,
+  getWorkCenterDetailsById,
+  getWorkCenterDetailsByIdFailed,
+  getWorkCenterDetailsByIdSuccess,
+  deleteWorkCenter,
+  deleteWorkCenterSuccess,
+  deleteWorkCenterFailed,
+  confirmWorkCenter,
+  confirmWorkCenterSuccess,
+  confirmWorkCenterFailed,
+  resetWorkCenterDetailState,
 }
