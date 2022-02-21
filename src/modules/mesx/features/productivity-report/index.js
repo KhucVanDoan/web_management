@@ -33,7 +33,7 @@ import { getDataProductivityReport } from '~/modules/mesx/redux/actions/producti
 import {
   searchWorkCenter,
   getWorkCenterDetailsById,
-} from '~/modules/mesx/redux/actions/work-center.action'
+} from '~/modules/mesx/redux/actions/work-center'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ProductivityChart from './chart/detail-productivity'

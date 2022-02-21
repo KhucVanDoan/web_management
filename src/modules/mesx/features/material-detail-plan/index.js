@@ -5,12 +5,10 @@ import {
   Box,
   Grid,
   FormControl,
-  TextField,
   Button,
   Select,
   MenuItem,
   FormHelperText,
-  Autocomplete,
 } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -25,8 +23,6 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import { MO_STATUS } from '~/common/constants'
 import withBreadcrumbs from '~/components/Breadcrumbs'
-import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
 import { getItems } from '~/modules/mesx/redux/actions/common'
 import { searchMaterialDetailPlan } from '~/modules/mesx/redux/actions/material-detail-plan.action'
 import {
@@ -34,7 +30,7 @@ import {
   getMODetailsById,
 } from '~/modules/mesx/redux/actions/mo.action'
 import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/product-step'
-import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import useStyles from './style'

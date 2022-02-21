@@ -47,6 +47,7 @@ import RequestBuyMaterial from '~/modules/mesx/features/request-buy-material/lis
 import RoutingForm from '~/modules/mesx/features/routing/form'
 import Routing from '~/modules/mesx/features/routing/list'
 import RoutingVersion from '~/modules/mesx/features/routing/routing-version'
+import SaleOrderDetail from '~/modules/mesx/features/sale-order/detail'
 import SaleOrderForm from '~/modules/mesx/features/sale-order/form'
 import SaleOrder from '~/modules/mesx/features/sale-order/list'
 import SOExportForm from '~/modules/mesx/features/so-export/form'
@@ -57,7 +58,7 @@ import WorkCenter from '~/modules/mesx/features/work-center/list'
 import WorkOderForm from '~/modules/mesx/features/work-order/form'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
-import SaleOrderDetail from '../features/sale-order/detail'
+import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
 const routes = [
@@ -619,7 +620,7 @@ const routes = [
           {
             name: ROUTE.WORK_CENTER.DETAIL.TITLE,
             path: ROUTE.WORK_CENTER.DETAIL.PATH,
-            component: WorkCenterForm,
+            component: FormDetail,
             pathActive: ROUTE.WORK_CENTER.DETAIL.PATH,
             isInSidebar: false,
           },

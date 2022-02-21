@@ -13,11 +13,11 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
 import { MODAL_MODE } from '~/common/constants'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center'
 import {
   generateWorkCenterPlan,
   createWorkCenterPlan,
 } from '~/modules/mesx/redux/actions/work-center-plan.action'
-import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
 
 import CustomTable from '../table'
 import useStyles from './style'
@@ -103,8 +103,8 @@ class WorkCenterPlanForm extends Component {
   handleOnChange = (items) => {
     const { data } = this.state
     data.map((d) => {
-      d?.scheduleShiftDetails.map((shift, i) => {
-        shift['quantity'] = items[i * 3][d?.executionDay]
+      return d?.scheduleShiftDetails.map((shift, i) => {
+        return (shift['quantity'] = items[i * 3][d?.executionDay])
       })
     })
 
@@ -113,7 +113,7 @@ class WorkCenterPlanForm extends Component {
 
   render() {
     const { name, leader, member, performance, data } = this.state
-    const { isOpenModal, submitLabel, mode, t } = this.props
+    const { isOpenModal, mode, t } = this.props
     const isView = mode === MODAL_MODE.DETAIL
 
     return (

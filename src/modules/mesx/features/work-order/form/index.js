@@ -29,7 +29,7 @@ import {
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
 import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
-import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center.action'
+import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center'
 import {
   confirmWorkOrderById,
   createWorkOrder,
