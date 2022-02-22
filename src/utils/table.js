@@ -1,4 +1,4 @@
-import { isEmpty, isNull, isUndefined } from 'lodash'
+import { isEmpty, isNull, isUndefined, isNumber, isBoolean } from 'lodash'
 
 /**
  * Check table rendering page
@@ -14,9 +14,13 @@ export const convertObjectToArrayFilter = (filters = {}, columns = []) =>
     if (
       isNull(filters[cur]) ||
       isUndefined(filters[cur]) ||
-      isEmpty(filters[cur])
-    )
+      (isEmpty(filters[cur]) &&
+        !isNumber(filters[cur]) &&
+        !isBoolean(filters[cur]))
+    ) {
       return acc
+    }
+
     if (columns.find((col) => col.field === cur && col.type === 'date')) {
       const dates = filters[cur]
       dates[0] = new Date(dates[0].setHours(0, 0, 0, 0))

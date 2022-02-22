@@ -7,11 +7,12 @@ export const saleOrderSchema = (t) => {
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         }),
-      ),
+      )
+      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
@@ -28,6 +29,12 @@ export const saleOrderSchema = (t) => {
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),
+      }),
+    ),
+    description: Yup.string().max(
+      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      t('general:form.maxLength', {
+        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
   })
