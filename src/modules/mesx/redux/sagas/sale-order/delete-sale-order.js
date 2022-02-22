@@ -30,7 +30,6 @@ const deleteSaleOrderApi = (params) => {
 function* doDeleteSaleOrder(action) {
   try {
     const response = yield call(deleteSaleOrderApi, action?.payload)
-
     if (response?.statusCode === 200) {
       yield put(deleteSaleOrderSuccess(response.data))
 

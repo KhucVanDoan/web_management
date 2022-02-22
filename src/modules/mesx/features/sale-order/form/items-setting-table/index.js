@@ -5,7 +5,6 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
 
 import {
   BOM_STATUS,
@@ -18,13 +17,11 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { scrollToBottom } from '~/utils'
 
 function ItemSettingTable(props) {
   const { items, mode, arrayHelpers } = props
   const { t } = useTranslation(['mesx'])
-  const history = useHistory()
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { itemList, BOMList },
@@ -188,7 +185,7 @@ function ItemSettingTable(props) {
       >
         <Typography variant="h4">{t('saleOrder.itemsDetails')}</Typography>
         <Box>
-          {!isView ? (
+          {!isView && (
             <Button
               variant="outlined"
               onClick={() => {
@@ -202,13 +199,6 @@ function ItemSettingTable(props) {
               }}
             >
               {t('saleOrder.item.addItem')}
-            </Button>
-          ) : (
-            <Button
-              onClick={() => history.push(ROUTE.PLAN.CREATE.PATH)}
-              variant="outlined"
-            >
-              {t('saleOrder.createPlan')}
             </Button>
           )}
         </Box>

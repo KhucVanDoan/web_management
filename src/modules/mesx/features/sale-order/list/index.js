@@ -19,6 +19,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, convertObjectToArrayFilter } from '~/utils'
 
 import FilterForm from './filter'
+import { filterSchema } from './filter/schema'
 
 const breadcrumbs = [
   {
@@ -37,9 +38,17 @@ function SaleOrder() {
     data: { isLoading, saleOrderList, total },
     actions,
   } = useSaleOrder()
+
+  const DEFAULT_FILTER = {
+    code: '',
+    name: '',
+    status: '',
+    createdAt: '',
+  }
+
   const [sort, setSort] = useState([])
   const [keyword, setKeyword] = useState('')
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState(DEFAULT_FILTER)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
   const [deleteModal, setDeleteModal] = useState(false)
@@ -47,13 +56,13 @@ function SaleOrder() {
   const [id, setId] = useState()
 
   const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: t('saleOrder.orderNumber'),
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: t('saleOrder.orderNumber'),
+    //   width: 50,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('saleOrder.code'),
@@ -71,8 +80,7 @@ function SaleOrder() {
     {
       field: 'description',
       headerName: t('saleOrder.description'),
-      width: 200,
-      sortable: true,
+      width: 150,
       fixed: true,
     },
     {
@@ -80,6 +88,7 @@ function SaleOrder() {
       headerName: t('saleOrder.status'),
       width: 150,
       sortable: true,
+      type: 'categorical',
       renderCell: (params) => {
         const { status } = params.row
         return t(SALE_ORDER_STATUS_MAP[status])
@@ -189,14 +198,15 @@ function SaleOrder() {
   }, [sort, keyword, filters, page, pageSize])
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
+    const sortData =
+      sort && sort?.orderBy && sort?.order
+        ? [
+            {
+              column: sort?.orderBy,
+              order: sort?.order?.toUpperCase(),
+            },
+          ]
+        : []
 
     const params = {
       keyword: keyword.trim(),
@@ -211,12 +221,6 @@ function SaleOrder() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          variant="outlined"
-          onClick={() => history.push(ROUTE.PLAN.CREATE.PATH)}
-        >
-          {t('saleOrder.createPlan')}
-        </Button>
         {/* @TODO: <linh.taquang> handle import export */}
         <Button variant="outlined" disabled icon="download" sx={{ ml: 4 / 3 }}>
           {t('saleOrder.import')}
@@ -255,9 +259,12 @@ function SaleOrder() {
           filters={{
             form: <FilterForm />,
             values: filters,
+            defaultValue: DEFAULT_FILTER,
+            validationSchema: filterSchema(t),
             onApply: setFilters,
           }}
           sort={sort}
+          checkboxSelection
         />
         <Dialog
           open={deleteModal}

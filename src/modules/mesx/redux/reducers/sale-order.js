@@ -56,6 +56,14 @@ export default function defineSaleOrder(state = initialState, action) {
         total: action.payload.total,
         isLoading: false,
       }
+    case DELETE_SALE_ORDER_SUCCESS:
+      return {
+        ...state,
+        saleOrderList: state.saleOrderList.filter(
+          (item) => item?.id !== action.payload.id,
+        ),
+        isLoading: false,
+      }
     case CONFIRM_SALE_ORDER_FAILED:
     case CONFIRM_SALE_ORDER_SUCCESS:
     case REJECT_SALE_ORDER_FAILED:
@@ -65,7 +73,6 @@ export default function defineSaleOrder(state = initialState, action) {
     case CREATE_SALE_ORDER_FAILED:
     case UPDATE_SALE_ORDER_SUCCESS:
     case UPDATE_SALE_ORDER_FAILED:
-    case DELETE_SALE_ORDER_SUCCESS:
     case DELETE_SALE_ORDER_FAILED:
       return {
         ...state,
