@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
-import CheckBox from '@mui/icons-material/CheckBox'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import {
-  WORK_CENTER_STATUS_OPTIONS,
+  // WORK_CENTER_STATUS_OPTIONS,
   WORK_CENTER_STATUS_MAP,
 } from '~/common/constants'
 import Button from '~/components/Button'
@@ -96,7 +95,7 @@ const WorkCenter = () => {
       field: 'status',
       headerName: t('workCenter.status'),
       width: 200,
-      type: 'categorical',
+
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row

@@ -1,19 +1,18 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  searchBOMFailed,
-  searchBOMSuccess,
-  SEARCH_BOM_START,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+  getBomByItemFailed,
+  getBomByItemSuccess,
+  GET_BOM_BY_ITEM_START,
+} from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
 
 /**
- * Search BOM API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchBOMApi = (params) => {
-  const uri = `/v1/produces/boms/list`
+const getBomByItemApi = (params) => {
+  const uri = `/v1/produces/boms/get-by-item/${params}`
   return api.get(uri, params)
 }
 
@@ -21,17 +20,12 @@ const searchBOMApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doSearchBOM(action) {
+function* doGetBomByItem(action) {
   try {
-    const response = yield call(searchBOMApi, action?.payload)
+    const response = yield call(getBomByItemApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      const payload = {
-        list: response.data.items,
-        total: response.data.meta.total,
-      }
-
-      yield put(searchBOMSuccess(payload))
+      yield put(getBomByItemSuccess(response.data.items))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -41,7 +35,7 @@ function* doSearchBOM(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(searchBOMFailed())
+    yield put(getBomByItemFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -50,8 +44,8 @@ function* doSearchBOM(action) {
 }
 
 /**
- * Watch search BOM
+ * Watch search boms
  */
-export default function* watchSearchBOM() {
-  yield takeLatest(SEARCH_BOM_START, doSearchBOM)
+export default function* watchGetBomByItem() {
+  yield takeLatest(GET_BOM_BY_ITEM_START, doGetBomByItem)
 }

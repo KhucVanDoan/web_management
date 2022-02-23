@@ -1,9 +1,7 @@
-import React from 'react'
-
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { ORDER_STATUS_OPTIONS } from '~/common/constants'
+import { BOM_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 function FilterForm() {
@@ -13,32 +11,25 @@ function FilterForm() {
       <Grid item xs={12}>
         <Field.TextField
           name="code"
-          label={t('saleOrder.code')}
-          placeholder={t('saleOrder.code')}
+          label={t('defineBOM.bomCode')}
+          placeholder={t('defineBOM.bomCode')}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
           name="name"
-          label={t('saleOrder.name')}
-          placeholder={t('saleOrder.name')}
+          label={t('defineBOM.bomName')}
+          placeholder={t('defineBOM.bomName')}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
-          label={t('saleOrder.status')}
-          placeholder={t('saleOrder.status')}
-          options={ORDER_STATUS_OPTIONS}
+          label={t('defineBOM.status')}
+          placeholder={t('defineBOM.status')}
+          options={BOM_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('saleOrder.createdAt')}
-          placeholder={t('saleOrder.createdAt')}
         />
       </Grid>
     </Grid>

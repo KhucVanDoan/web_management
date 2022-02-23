@@ -2,13 +2,12 @@ import React, { useEffect, useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import {
   DEFAULT_ITEM_TYPE_ENUM,
-  MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
+  MODAL_MODE,
 } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -17,16 +16,17 @@ import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = (props) => {
+  const { items, mode, arrayHelpers } = props
+  const { t } = useTranslation(['mesx'])
   const {
     data: { itemList },
     actions,
   } = useCommonManagement()
-  const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
 
   useEffect(() => {
-    actions.getItems({})
+    actions.getItems()
   }, [])
 
   const getItemObject = (id) => {
@@ -37,7 +37,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
     () => [
       {
         field: 'id',
-        headerName: t('defineBOQ.item.orderNumber'),
+        headerName: t('defineBOM.item.orderNumber'),
         width: 50,
         align: 'center',
         renderCell: (_, index) => {
@@ -46,8 +46,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       },
       {
         field: 'code',
-        headerName: t('defineBOQ.item.code'),
-        width: 200,
+        headerName: t('defineBOM.item.code'),
+        width: 150,
         align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
@@ -56,7 +56,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
               i.isHasBom,
           )
-
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
           ) : (
@@ -64,16 +63,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               name={`items[${index}].itemId`}
               options={itemListFilter}
               disabled={isView}
-              getOptionLabel={(opt) => opt?.code || ''}
               getOptionValue={(opt) => opt?.id}
+              getOptionLabel={(opt) => opt?.code || ''}
             />
           )
         },
       },
       {
-        field: 'itemName',
-        headerName: t('defineBOQ.item.name'),
-        width: 200,
+        field: 'name',
+        headerName: t('defineBOM.item.name'),
+        width: 150,
         align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
@@ -90,8 +89,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       },
       {
         field: 'quantity',
-        headerName: t('defineBOQ.item.quantity'),
-        width: 200,
+        headerName: t('defineBOM.item.quantity'),
+        width: 150,
         align: 'center',
         renderCell: (params, index) => {
           const { quantity } = params.row
@@ -111,8 +110,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       },
       {
         field: 'unitType',
-        headerName: t('defineBOQ.item.unitType'),
-        width: 200,
+        headerName: t('defineBOM.item.unitType'),
+        width: 150,
         align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
@@ -125,6 +124,39 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               disabled={true}
             />
           )
+        },
+      },
+      {
+        field: 'itemType',
+        headerName: t('defineBOM.item.type'),
+        width: 150,
+        align: 'center',
+        renderCell: (params, index) => {
+          const { itemId } = params.row
+          return isView ? (
+            <>{getItemObject(itemId)?.itemType?.name || ''}</>
+          ) : (
+            <Field.TextField
+              name={`items[${index}].itemType`}
+              value={getItemObject(itemId)?.itemType?.name || ''}
+              disabled={true}
+            />
+          )
+        },
+      },
+      {
+        field: 'isProductionObject',
+        headerName: t('defineBOM.item.isProductionObject'),
+        width: 150,
+        align: 'center',
+        renderCell: (params) => {
+          const itemId = params.row?.itemId
+          const isProductionObject = getItemObject(itemId)?.isProductionObject
+          return isProductionObject ? (
+            <IconButton>
+              <Icon name="tick" />
+            </IconButton>
+          ) : null
         },
       },
       {
@@ -149,9 +181,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         },
       },
     ],
-    [itemList, items],
+    [],
   )
-
   return (
     <>
       <Box
@@ -163,9 +194,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         }}
       >
         <Typography variant="h4" component="span">
-          {t('defineBOQ.itemsDetails')}
+          {t('defineBOM.itemsDetails')}
         </Typography>
-
         {!isView && (
           <Button
             variant="outlined"
@@ -178,7 +208,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               scrollToBottom()
             }}
           >
-            {t('defineBOQ.item.addItem')}
+            {t('defineBOM.item.addItem')}
           </Button>
         )}
       </Box>
@@ -192,18 +222,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
-  mode: '',
-  arrayHelpers: {},
-}
-
-ItemSettingTable.propTypes = {
-  arrayHelpers: PropTypes.shape(),
-  items: PropTypes.array,
-  mode: PropTypes.string,
 }
 
 export default ItemSettingTable

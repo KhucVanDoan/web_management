@@ -1,460 +1,277 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
 import {
-  MODAL_MODE,
   BOM_STATUS_MAP,
-  BOM_STATUS_OPTIONS,
   BOM_STATUS_TO_EDIT,
   BOM_STATUS_TO_CONFIRM,
   BOM_STATUS_TO_DELETE,
+  ROWS_PER_PAGE_OPTIONS,
 } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  confirmBOMById,
-  deleteBOM,
-  searchBOM,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import { filterSchema } from '~/modules/mesx/features/define-bom/list/filter/schema'
+import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { onChangeTextField, redirectRouter } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
-import useStyles from './style'
+import FilterForm from './filter'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
-    route: '/database/bom-define',
-    title: 'defineBOM',
+    route: ROUTE.DEFINE_BOM.LIST.PATH,
+    title: ROUTE.DEFINE_BOM.LIST.TITLE,
   },
 ]
 
-class DefineBOM extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: null,
-      isOpenModal: false,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenDeleteModal: false,
-      isOpenConfirmModal: false,
-      pageSize: 20,
-      page: 1,
-      keyword: '',
-      filters: [],
-      sort: null,
-    }
+function DefineBOM() {
+  const { t } = useTranslation(['mesx'])
+  const history = useHistory()
+  const {
+    data: { isLoading, BOMList, total },
+    actions,
+  } = useBOM()
 
-    const { t } = props
+  const DEFAULT_FILTER = {
+    code: '',
+    name: '',
+    status: '',
+  }
 
-    this.columns = [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        sortable: false,
+  const [id, setId] = useState()
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [confirmModal, setConfirmModal] = useState(false)
+  const [sort, setSort] = useState([])
+  const [keyword, setKeyword] = useState('')
+  const [filters, setfilters] = useState(DEFAULT_FILTER)
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
+
+  const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   fixed: true,
+    // },
+    {
+      field: 'code',
+      headerName: t('defineBOM.bomCode'),
+      width: 150,
+      fixed: true,
+      sortable: true,
+    },
+    {
+      field: 'name',
+      headerName: t('defineBOM.bomName'),
+      width: 150,
+      fixed: true,
+      sortable: true,
+    },
+    {
+      field: 'itemCode',
+      headerName: t('defineBOM.itemCode'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const { row } = params
+        return row?.item?.code
       },
-      {
-        field: 'code',
-        headerName: t('defineBOM.bomCode'),
-        width: 150,
-        filterable: true,
+    },
+    {
+      field: 'itemName',
+      headerName: t('defineBOM.itemName'),
+      width: 200,
+      sortable: true,
+      renderCell: (params) => {
+        const { row } = params
+        return row?.item?.name
       },
-      {
-        field: 'name',
-        headerName: t('defineBOM.bomName'),
-        width: 150,
-        filterable: true,
+    },
+    {
+      field: 'status',
+      headerName: t('defineBOM.status'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const { status } = params.row
+        return t(BOM_STATUS_MAP[status])
       },
-      {
-        field: 'itemCode',
-        headerName: t('defineBOM.itemCode'),
-        width: 150,
-        filterable: true,
-        renderCell: (params) => {
-          const { row } = params
-          return row?.item?.code
-        },
-      },
-      {
-        field: 'itemName',
-        headerName: t('defineBOM.itemName'),
-        width: 200,
-        filterable: true,
-        renderCell: (params) => {
-          const { row } = params
-          return row?.item?.name
-        },
-      },
-      {
-        field: 'status',
-        headerName: t('defineBOM.status'),
-        width: 150,
-        type: 'categorical',
-        filterable: true,
-        filterOptions: {
-          options: BOM_STATUS_OPTIONS,
-          getOptionValue: (option) => option?.id?.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
-        renderCell: (params) => {
-          const { status } = params.row
-          const { t } = this.props
-          return t(BOM_STATUS_MAP[status])
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('common.action'),
-        disableClickEventBubbling: true,
-        width: 200,
-        sortable: false,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          const { status, id } = params.row
-          const canEdit = BOM_STATUS_TO_EDIT.includes(status)
-          const canConfirm = BOM_STATUS_TO_CONFIRM.includes(status)
-          const canDelete = BOM_STATUS_TO_DELETE.includes(status)
-          return (
-            <div>
+    },
+    {
+      field: 'action',
+      headerName: t('common.action'),
+      width: 200,
+      align: 'center',
+      renderCell: (params) => {
+        const { status, id } = params.row
+        const canEdit = BOM_STATUS_TO_EDIT.includes(status)
+        const canConfirm = BOM_STATUS_TO_CONFIRM.includes(status)
+        const canDelete = BOM_STATUS_TO_DELETE.includes(status)
+        return (
+          <>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            {canEdit && (
               <IconButton
-                type="button"
-                onClick={() => this.onClickViewDetails(id)}
-                size="large"
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_BOM.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
               >
-                <Visibility />
+                <Icon name="edit" />
               </IconButton>
-              {canEdit && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.onClickEdit(id)}
-                  size="large"
-                >
-                  <Edit />
-                </IconButton>
-              )}
-              {canDelete && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.onClickDelete(id)}
-                  size="large"
-                >
-                  <Delete />
-                </IconButton>
-              )}
-              {canConfirm && (
-                <IconButton
-                  type="button"
-                  onClick={() => this.onClickConfirmed(id)}
-                  size="large"
-                >
-                  <CheckBox style={{ color: 'green' }} />
-                </IconButton>
-              )}
-            </div>
-          )
-        },
+            )}
+            {canDelete && (
+              <IconButton
+                onClick={() => {
+                  setId(id)
+                  setDeleteModal(true)
+                }}
+              >
+                <Icon name="delete" />
+              </IconButton>
+            )}
+            {canConfirm && (
+              <IconButton
+                onClick={() => {
+                  setId(id)
+                  setConfirmModal(true)
+                }}
+              >
+                <Icon name="tick" />
+              </IconButton>
+            )}
+          </>
+        )
       },
-    ]
-    this.validator = new SimpleReactValidator()
-  }
-  /**
-   * componentDidMount
-   */
-  componentDidMount() {
-    this.refreshData()
-  }
+    },
+  ]
 
-  /**
-   * Refresh data
-   */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
+  useEffect(() => {
+    refreshData()
+  }, [keyword, page, filters, sort, pageSize])
 
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
-
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
+  const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
-    this.props.searchBOM(params)
+    actions.searchBOM(params)
   }
 
-  /**
-   * Handle key down event
-   * @param {*} e
-   */
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
-  }
-
-  /**
-   *
-   */
-  handleCreate = () => {
-    redirectRouter(ROUTE.DEFINE_BOM.CREATE.PATH)
-  }
-
-  /**
-   *
-   * @param {boolean} refresh
-   */
-  handleCloseModal = (refresh = false) => {
-    this.setState({ isOpenModal: false, id: null })
-    refresh && this.refreshData()
-  }
-
-  /**
-   * onClickViewDetails
-   * @param {int} id
-   */
-  onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.DEFINE_BOM.DETAIL.PATH, { id })
-  }
-
-  /**
-   * onClickEdit
-   * @param {int} id
-   */
-  onClickEdit = (id) => {
-    redirectRouter(ROUTE.DEFINE_BOM.EDIT.PATH, { id })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenDeleteModal: true })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickConfirmed = (id) => {
-    this.setState({ id, isOpenConfirmModal: true })
-  }
-
-  /**
-   * Submit confirm purchased order
-   */
-  submitConfirm = () => {
-    this.props.confirmBOMById(this.state.id, this.refreshData)
-    this.setState({ isOpenConfirmModal: false, id: null })
-  }
-
-  /**
-   * Close confirm modal and back to list
-   */
-  onCloseConfirmModal = () => {
-    this.setState({ isOpenConfirmModal: false })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickRejected = (id) => {
-    redirectRouter(ROUTE.DEFINE_BOM.DETAIL.PATH)
-  }
-
-  /**
-   * onSubmitDelete
-   */
-  onSubmitDelete = () => {
-    this.props.deleteBOM(this.state.id, () => {
-      this.setState({ isOpenDeleteModal: false })
-      this.refreshData()
-    })
-  }
-
-  /**
-   * onCancelDelete
-   */
-  onCancelDelete = () => {
-    this.setState({ isOpenDeleteModal: false })
-  }
-
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize })
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page })
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  render() {
-    const { isOpenDeleteModal, pageSize, page, isOpenConfirmModal } = this.state
-    const { classes, bom, t } = this.props
-
+  const renderHeaderRight = () => {
     return (
       <>
-        <div>
-          <h2>{t('defineBOM.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('defineBOM.searchPlaceholder')}
-            variant="outlined"
-            size="small"
-            onKeyDown={this.onKeyDown}
-            name="keyword"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.refreshData}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            onChange={(event) => onChangeTextField(this, event)}
-          />
-        </div>
-        <div className={classes.createBox}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreate}
-            startIcon={<AddCircle />}
-          >
-            {t('common.create')}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            // onClick={this.handleImport}
-          >
-            {t('defineBOM.import')}
-          </Button>
-        </div>
-        <DataTable
-          rows={bom.BOMList}
-          columns={this.columns}
-          pageSize={pageSize}
-          page={page}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={bom.total}
-        />
-        <Loading open={bom?.isLoading} />
-        <Modal
-          isOpen={isOpenDeleteModal}
-          title={t('defineBOM.deleteModalTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCancelDelete}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+        <Button variant="outlined" disabled icon="download">
+          {t('defineBOM.import')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.DEFINE_BOM.CREATE.PATH)}
+          icon="add"
+          sx={{ ml: 4 / 3 }}
         >
-          {t('defineBOM.deleteConfirm')}
-        </Modal>
-        <Modal
-          isOpen={isOpenConfirmModal}
-          title={t('common.notify')}
-          size="sm"
-          onSubmit={this.submitConfirm}
-          onClose={this.onCloseConfirmModal}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
-        >
-          {t('common.confirmMessage.confirm')}
-        </Modal>
+          {t('common.create')}
+        </Button>
       </>
     )
   }
-}
-const mapStateToProps = (state) => ({
-  bom: state.bom,
-})
 
-const mapDispatchToProps = {
-  confirmBOMById,
-  deleteBOM,
-  searchBOM,
+  const onSubmitDelete = () => {
+    actions.deleteBOM(
+      id,
+      () => setDeleteModal(false),
+      () => setDeleteModal(false),
+    )
+  }
+
+  const onSubmitConfirm = () => {
+    actions.confirmBOMById(
+      id,
+      () => setConfirmModal(false),
+      () => setConfirmModal(false),
+    )
+  }
+
+  return (
+    <>
+      <Page
+        breadcrumbs={breadcrumbs}
+        title={t('defineBOM.title')}
+        onSearch={setKeyword}
+        placeholder={t('defineBOM.searchPlaceholder')}
+        renderHeaderRight={renderHeaderRight}
+        loading={isLoading}
+      >
+        <DataTable
+          rows={BOMList}
+          pageSize={pageSize}
+          page={page}
+          columns={columns}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onChangeFilter={setfilters}
+          onChangeSort={setSort}
+          total={total}
+          title={t('defineBOM.title')}
+          filters={{
+            form: <FilterForm />,
+            values: filters,
+            defaultValue: DEFAULT_FILTER,
+            validationSchema: filterSchema(t),
+            onApply: setfilters,
+          }}
+          sort={sort}
+          checkboxSelection
+        />
+        <Dialog
+          open={deleteModal}
+          title={t('defineBOM.deleteModalTitle')}
+          onCancel={() => setDeleteModal(false)}
+          cancelLabel={t('common.no')}
+          onSubmit={onSubmitDelete}
+          submitLabel={t('common.yes')}
+          submitProps={{
+            color: 'error',
+          }}
+          noBorderBottom
+        >
+          {t('defineBOM.deleteConfirm')}
+        </Dialog>
+        <Dialog
+          open={confirmModal}
+          title={t('defineBOM.confirmTitle')}
+          onCancel={() => setConfirmModal(false)}
+          cancelLabel={t('common.no')}
+          onSubmit={onSubmitConfirm}
+          submitLabel={t('common.yes')}
+          noBorderBottom
+        >
+          {t('defineBOM.confirmBody')}
+        </Dialog>
+      </Page>
+    </>
+  )
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(DefineBOM)),
-  ),
-  breadcrumbs,
-)
+export default DefineBOM

@@ -104,7 +104,7 @@ class RequestBuyMaterial extends Component {
         field: 'status',
         headerName: t('requestBuyMaterial.status'),
         width: 250,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: ORDER_STATUS_OPTIONS,

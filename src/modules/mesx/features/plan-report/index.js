@@ -136,7 +136,7 @@ class PlanReport extends Component {
         headerName: t('planReport.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: PLAN_STATUS_OPTIONS,
@@ -225,7 +225,7 @@ class PlanReport extends Component {
         headerName: t('definePlan.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         renderCell: (params) => {
           const { status } = params.row
@@ -347,7 +347,7 @@ class PlanReport extends Component {
         headerName: t('definePlan.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         renderCell: (params) => {
           const { planBom } = params.row

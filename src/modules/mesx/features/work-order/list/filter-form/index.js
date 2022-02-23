@@ -93,10 +93,9 @@ const FilterForm = () => {
           name="status"
           label={t('workOrder.status')}
           placeholder={t('workOrder.status')}
-          options={WORK_ORDER_STATUS_OPTIONS.map((item) => ({
-            value: item.id.toString(),
-            label: t(item.name),
-          }))}
+          options={WORK_ORDER_STATUS_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.name)}
         />
       </Grid>
     </Grid>

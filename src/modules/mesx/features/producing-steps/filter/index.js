@@ -29,10 +29,9 @@ const FilterForm = () => {
           name="status"
           label={t('producingStep.status')}
           placeholder={t('producingStep.status')}
-          options={PRODUCING_STEP_OPTIONS.map((item) => ({
-            value: item.id.toString(),
-            label: t(item.text),
-          }))}
+          options={PRODUCING_STEP_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
       <Grid item xs={12}>

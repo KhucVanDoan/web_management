@@ -125,7 +125,7 @@ class MaterialReport extends Component {
         headerName: t('materialReport.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: PLAN_STATUS_OPTIONS,

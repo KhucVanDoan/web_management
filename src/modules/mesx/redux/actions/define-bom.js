@@ -1,38 +1,40 @@
-export const SEARCH_BOM_START = 'SEARCH_BOM_START';
-export const SEARCH_BOM_SUCCESS = 'SEARCH_BOM_SUCCESS';
-export const SEARCH_BOM_FAILED = 'SEARCH_BOM_SUCCESS';
+export const SEARCH_BOM_START = 'SEARCH_BOM_START'
+export const SEARCH_BOM_SUCCESS = 'SEARCH_BOM_SUCCESS'
+export const SEARCH_BOM_FAILED = 'SEARCH_BOM_SUCCESS'
 
-export const CREATE_BOM_START = 'CREATE_BOM_START';
-export const CREATE_BOM_SUCCESS = 'CREATE_BOM_SUCCESS';
-export const CREATE_BOM_FAILED = 'CREATE_BOM_FAILED';
+export const CREATE_BOM_START = 'CREATE_BOM_START'
+export const CREATE_BOM_SUCCESS = 'CREATE_BOM_SUCCESS'
+export const CREATE_BOM_FAILED = 'CREATE_BOM_FAILED'
 
-export const UPDATE_BOM_START = 'UPDATE_BOM_START';
-export const UPDATE_BOM_SUCCESS = 'UPDATE_BOM_SUCCESS';
-export const UPDATE_BOM_FAILED = 'UPDATE_BOM_FAILED';
+export const UPDATE_BOM_START = 'UPDATE_BOM_START'
+export const UPDATE_BOM_SUCCESS = 'UPDATE_BOM_SUCCESS'
+export const UPDATE_BOM_FAILED = 'UPDATE_BOM_FAILED'
 
-export const DELETE_BOM_START = 'DELETE_BOM_START';
-export const DELETE_BOM_SUCCESS = 'DELETE_BOM_SUCCESS';
-export const DELETE_BOM_FAILED = 'DELETE_BOM_FAILED';
+export const DELETE_BOM_START = 'DELETE_BOM_START'
+export const DELETE_BOM_SUCCESS = 'DELETE_BOM_SUCCESS'
+export const DELETE_BOM_FAILED = 'DELETE_BOM_FAILED'
 
-export const GET_BOM_DETAILS_START = 'GET_BOM_DETAILS_START';
-export const GET_BOM_DETAILS_SUCCESS = 'GET_BOM_DETAILS_SUCCESS';
-export const GET_BOM_DETAILS_FAILED = 'GET_BOM_DETAILS_FAILED';
+export const GET_BOM_DETAILS_START = 'GET_BOM_DETAILS_START'
+export const GET_BOM_DETAILS_SUCCESS = 'GET_BOM_DETAILS_SUCCESS'
+export const GET_BOM_DETAILS_FAILED = 'GET_BOM_DETAILS_FAILED'
 
-export const CONFIRM_BOM_START = 'CONFIRM_BOM_START';
-export const CONFIRM_BOM_SUCCESS = 'CONFIRM_BOM_SUCCESS';
-export const CONFIRM_BOM_FAILED = 'CONFIRM_BOM_FAILED';
+export const CONFIRM_BOM_START = 'CONFIRM_BOM_START'
+export const CONFIRM_BOM_SUCCESS = 'CONFIRM_BOM_SUCCESS'
+export const CONFIRM_BOM_FAILED = 'CONFIRM_BOM_FAILED'
 
-export const REJECT_BOM_START = 'REJECT_BOM_START';
-export const REJECT_BOM_SUCCESS = 'REJECT_BOM_SUCCESS';
-export const REJECT_BOM_FAILED = 'REJECT_BOM_FAILED';
+export const REJECT_BOM_START = 'REJECT_BOM_START'
+export const REJECT_BOM_SUCCESS = 'REJECT_BOM_SUCCESS'
+export const REJECT_BOM_FAILED = 'REJECT_BOM_FAILED'
 
-export const GET_BOM_STRUCTURE_START = 'GET_BOM_STRUCTURE_START';
-export const GET_BOM_STRUCTURE_SUCCESS = 'GET_BOM_STRUCTURE_SUCCESS';
-export const GET_BOM_STRUCTURE_FAILED = 'GET_BOM_STRUCTURE_FAILED';
+export const GET_BOM_STRUCTURE_START = 'GET_BOM_STRUCTURE_START'
+export const GET_BOM_STRUCTURE_SUCCESS = 'GET_BOM_STRUCTURE_SUCCESS'
+export const GET_BOM_STRUCTURE_FAILED = 'GET_BOM_STRUCTURE_FAILED'
 
-export const GET_BOM_BY_ITEM_START = 'GET_BOM_BY_ITEM_START';
-export const GET_BOM_BY_ITEM_SUCCESS = 'GET_BOM_BY_ITEM_SUCCESS';
-export const GET_BOM_BY_ITEM_FAILED = 'GET_BOM_BY_ITEM_FAILED';
+export const GET_BOM_BY_ITEM_START = 'GET_BOM_BY_ITEM_START'
+export const GET_BOM_BY_ITEM_SUCCESS = 'GET_BOM_BY_ITEM_SUCCESS'
+export const GET_BOM_BY_ITEM_FAILED = 'GET_BOM_BY_ITEM_FAILED'
+
+export const RESET_BOM_DETAIL_STATE = 'RESET_BOM_DETAIL_STATE'
 /**
  * Search BOM
  * @param {object} payload
@@ -46,7 +48,7 @@ export function searchBOM(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -58,7 +60,7 @@ export function searchBOMSuccess(payload) {
   return {
     type: SEARCH_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -68,7 +70,7 @@ export function searchBOMSuccess(payload) {
 export function searchBOMFailed() {
   return {
     type: SEARCH_BOM_FAILED,
-  };
+  }
 }
 
 /**
@@ -84,7 +86,7 @@ export function createBOM(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -96,7 +98,7 @@ export function createBOMSuccess(payload) {
   return {
     type: CREATE_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -106,7 +108,7 @@ export function createBOMSuccess(payload) {
 export function createBOMFailed() {
   return {
     type: CREATE_BOM_FAILED,
-  };
+  }
 }
 
 /**
@@ -122,7 +124,7 @@ export function updateBOM(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update BOM success action
@@ -133,7 +135,7 @@ export function updateBOMSuccess(payload) {
   return {
     type: UPDATE_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -143,7 +145,7 @@ export function updateBOMSuccess(payload) {
 export function updateBOMFailed() {
   return {
     type: UPDATE_BOM_FAILED,
-  };
+  }
 }
 /**
  * Delete BOM
@@ -158,7 +160,7 @@ export function deleteBOM(BOMId, onSuccess, onError) {
     payload: BOMId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -170,7 +172,7 @@ export function deleteBOMSuccess(payload) {
   return {
     type: DELETE_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -180,7 +182,7 @@ export function deleteBOMSuccess(payload) {
 export function deleteBOMFailed() {
   return {
     type: DELETE_BOM_FAILED,
-  };
+  }
 }
 
 /**
@@ -196,7 +198,7 @@ export function getBOMDetailsById(BOMId, onSuccess, onError) {
     payload: BOMId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -208,7 +210,7 @@ export function getBOMDetailsByIdSuccess(payload) {
   return {
     type: GET_BOM_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -218,7 +220,7 @@ export function getBOMDetailsByIdSuccess(payload) {
 export function getBOMDetailsByIdFailed() {
   return {
     type: GET_BOM_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -234,7 +236,7 @@ export function confirmBOMById(BOMId, onSuccess, onError) {
     payload: BOMId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -246,7 +248,7 @@ export function confirmBOMByIdSuccess(payload) {
   return {
     type: CONFIRM_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -256,7 +258,7 @@ export function confirmBOMByIdSuccess(payload) {
 export function confirmBOMByIdFailed() {
   return {
     type: CONFIRM_BOM_FAILED,
-  };
+  }
 }
 
 /**
@@ -272,7 +274,7 @@ export function rejectBOMById(BOMId, onSuccess, onError) {
     payload: BOMId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -284,7 +286,7 @@ export function rejectBOMByIdSuccess(payload) {
   return {
     type: REJECT_BOM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -294,7 +296,7 @@ export function rejectBOMByIdSuccess(payload) {
 export function rejectBOMByIdFailed() {
   return {
     type: REJECT_BOM_FAILED,
-  };
+  }
 }
 
 /**
@@ -310,7 +312,7 @@ export function getBOMStructureById(BOMId, onSuccess, onError) {
     payload: BOMId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -322,7 +324,7 @@ export function getBOMStructureByIdSuccess(payload) {
   return {
     type: GET_BOM_STRUCTURE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -332,7 +334,7 @@ export function getBOMStructureByIdSuccess(payload) {
 export function getBOMStructureByIdFailed() {
   return {
     type: GET_BOM_STRUCTURE_FAILED,
-  };
+  }
 }
 
 /**
@@ -348,7 +350,7 @@ export function getBomByItem(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -360,7 +362,7 @@ export function getBomByItemSuccess(payload) {
   return {
     type: GET_BOM_BY_ITEM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -370,5 +372,42 @@ export function getBomByItemSuccess(payload) {
 export function getBomByItemFailed() {
   return {
     type: GET_BOM_BY_ITEM_FAILED,
-  };
+  }
+}
+
+export function resetBomState() {
+  return {
+    type: RESET_BOM_DETAIL_STATE,
+  }
+}
+
+export default {
+  searchBOM,
+  searchBOMSuccess,
+  searchBOMFailed,
+  createBOM,
+  createBOMSuccess,
+  createBOMFailed,
+  deleteBOM,
+  deleteBOMSuccess,
+  deleteBOMFailed,
+  updateBOM,
+  updateBOMSuccess,
+  updateBOMFailed,
+  getBOMDetailsById,
+  getBOMDetailsByIdSuccess,
+  getBOMDetailsByIdFailed,
+  confirmBOMById,
+  confirmBOMByIdSuccess,
+  confirmBOMByIdFailed,
+  rejectBOMById,
+  rejectBOMByIdSuccess,
+  rejectBOMByIdFailed,
+  getBOMStructureById,
+  getBOMStructureByIdFailed,
+  getBOMStructureByIdSuccess,
+  getBomByItem,
+  getBomByItemSuccess,
+  getBomByItemFailed,
+  resetBomState,
 }

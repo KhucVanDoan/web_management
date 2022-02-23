@@ -100,7 +100,7 @@ class SOExport extends Component {
         width: 200,
         sortable: false,
         filterable: true,
-        type: 'categorical',
+
         filterOptions: {
           options: ORDER_STATUS_OPTIONS,
           getOptionValue: (option) => option?.id,

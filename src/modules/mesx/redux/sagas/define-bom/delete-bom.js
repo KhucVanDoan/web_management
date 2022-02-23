@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createBOMFailed,
-  createBOMSuccess,
-  CREATE_BOM_START,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+  deleteBOMFailed,
+  deleteBOMSuccess,
+  DELETE_BOM_START,
+} from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -15,33 +14,34 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const createBOMApi = (params) => {
-  const uri = `/v1/produces/boms/create`
-  return api.post(uri, params)
+const deleteBOMApi = (params) => {
+  const uri = `/v1/produces/boms/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreateBOM(action) {
+function* doDeleteBOM(action) {
   try {
-    const response = yield call(createBOMApi, action?.payload)
+    const response = yield call(deleteBOMApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createBOMSuccess(response.data))
+      yield put(deleteBOMSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification('defineBOM.createBOMSuccess', NOTIFICATION_TYPE.SUCCESS)
+
+      addNotification('defineBOM.deleteBOMSuccess', NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createBOMFailed())
+    yield put(deleteBOMFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -52,6 +52,6 @@ function* doCreateBOM(action) {
 /**
  * Watch search users
  */
-export default function* watchCreateBOM() {
-  yield takeLatest(CREATE_BOM_START, doCreateBOM)
+export default function* watchDeleteBOM() {
+  yield takeLatest(DELETE_BOM_START, doDeleteBOM)
 }
