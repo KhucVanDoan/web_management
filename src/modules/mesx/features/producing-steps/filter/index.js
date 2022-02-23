@@ -35,6 +35,13 @@ const FilterForm = () => {
           }))}
         />
       </Grid>
+      <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('producingStep.createdAt')}
+          placeholder={t('producingStep.createdAt')}
+        />
+      </Grid>
     </Grid>
   )
 }

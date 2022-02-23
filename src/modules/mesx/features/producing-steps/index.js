@@ -18,9 +18,14 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  formatDateTimeUtc,
+} from '~/utils'
 
 import FilterForm from './filter'
+import { filterSchema } from './filter/schema'
 
 const breadcrumbs = [
   {
@@ -39,41 +44,74 @@ function ProducingStep() {
     data: { list, isLoading, total },
     actions,
   } = useProducingStep()
+  const DEFAULT_FILTER = {
+    code: '',
+    name: '',
+    status: '',
+  }
   const [id, setId] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [sort, setSort] = useState([])
   const [keyword, setKeyword] = useState('')
-  const [filters, setfilters] = useState({})
+  const [filters, setfilters] = useState(DEFAULT_FILTER)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
 
   const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('producingStep.code'),
-      width: 200,
+      width: 80,
       fixed: true,
       sortable: true,
     },
     {
       field: 'name',
       headerName: t('producingStep.name'),
-      width: 200,
+      width: 150,
       fixed: true,
       sortable: true,
     },
     {
+      field: 'description',
+      headerName: t('producingStep.description'),
+      width: 150,
+      fixed: true,
+    },
+    {
+      field: 'createdAt',
+      headerName: t('producingStep.createdAt'),
+      width: 150,
+      sortable: true,
+      type: 'date',
+      renderCell: (params) => {
+        const createdAt = params.row.createdAt
+        return formatDateTimeUtc(createdAt)
+      },
+    },
+    {
+      field: 'updatedAt',
+      headerName: t('producingStep.updatedAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const updatedAt = params.row.updatedAt
+        return formatDateTimeUtc(updatedAt)
+      },
+    },
+    {
       field: 'status',
       headerName: t('producingStep.status'),
-      width: 150,
+      width: 100,
+      type: 'categorical',
       renderCell: (params) => {
         const { status } = params.row
         return t(PRODUCING_STEP_STATUS_MAP[status])
@@ -82,8 +120,9 @@ function ProducingStep() {
     {
       field: 'action',
       headerName: t('producingStep.action'),
-      width: 250,
+      width: 150,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const canConfirm = PRODUCING_STEP_STATUS_TO_CONFIRM.includes(status)
@@ -209,9 +248,12 @@ function ProducingStep() {
           filters={{
             form: <FilterForm />,
             values: filters,
+            defaultValue: DEFAULT_FILTER,
             onApply: setfilters,
+            validationSchema: filterSchema(t),
           }}
           sort={sort}
+          checkboxSelection
         />
         <Dialog
           open={deleteModal}

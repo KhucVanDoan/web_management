@@ -16,7 +16,7 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import {
   WORK_CENTER_STATUS_TO_CONFIRM,
@@ -158,21 +158,12 @@ const WorkCenter = () => {
   ])
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       keyword: keyword.trim(),
       page: page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchWorkCenter(params)
   }

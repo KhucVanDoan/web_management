@@ -27,9 +27,8 @@ const deleteProducingStepApi = (params) => {
 function* doDeleteProducingStep(action) {
   try {
     const response = yield call(deleteProducingStepApi, action?.payload)
-
     if (response?.statusCode === 200) {
-      yield put(deleteProducingStepSuccess(response.results))
+      yield put(deleteProducingStepSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
