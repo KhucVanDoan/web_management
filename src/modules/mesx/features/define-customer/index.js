@@ -11,7 +11,7 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
@@ -125,24 +125,14 @@ function DefineCustomer() {
   ]
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(
-        convertObjectToArrayFilter(filters, [
-          { field: 'createdAt', type: 'date' },
-        ]),
-      ),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', type: 'date' },
+      ]),
+      sort: convertSortParams(sort),
     }
     actions.searchCustomers(params)
   }

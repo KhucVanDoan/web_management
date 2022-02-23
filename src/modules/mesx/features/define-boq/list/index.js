@@ -21,7 +21,11 @@ import Page from '~/components/Page'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  formatDateTimeUtc,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
@@ -213,21 +217,12 @@ const DefineBOQ = (props) => {
   )
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     boqActions.searchBOQ(params)
     planActions.searchPlans({ page, limit: pageSize })

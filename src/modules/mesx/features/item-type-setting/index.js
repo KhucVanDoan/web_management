@@ -11,7 +11,11 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter, formatDateTimeUtc } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  formatDateTimeUtc,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -123,21 +127,12 @@ function ItemTypeSetting() {
   ]
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchItemTypes(params)
   }

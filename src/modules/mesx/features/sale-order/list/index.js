@@ -16,7 +16,11 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, convertObjectToArrayFilter } from '~/utils'
+import {
+  formatDateTimeUtc,
+  convertFilterParams,
+  convertSortParams,
+} from '~/utils'
 
 import FilterForm from './filter'
 import { filterSchema } from './filter/schema'
@@ -212,8 +216,8 @@ function SaleOrder() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchSaleOrders(params)
   }

@@ -12,7 +12,11 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, convertObjectToArrayFilter } from '~/utils'
+import {
+  formatDateTimeUtc,
+  convertFilterParams,
+  convertSortParams,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -127,21 +131,12 @@ function ItemUnitSetting() {
   ])
 
   useEffect(() => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       keyword: keyword.trim(),
       page: page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchItemUnits(params)
   }, [page, pageSize, sort, filters, keyword])

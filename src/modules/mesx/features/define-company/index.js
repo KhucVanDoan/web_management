@@ -11,7 +11,7 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertObjectToArrayFilter } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
@@ -147,20 +147,12 @@ function DefineCompany() {
   ]
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchCompanies(params)
   }
