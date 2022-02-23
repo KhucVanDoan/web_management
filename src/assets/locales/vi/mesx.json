@@ -279,6 +279,8 @@
     "userQcId": "Phân quyền QC",
     "documentUrl": "Tài liệu hướng dẫn",
     "description": "Mô tả về công đoạn",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
     "deleteTitle": "Thông báo",
     "confirmDelete": "Bạn có chắc chắn muốn xoá không?",
     "qcCheck": "Thực hiện QC",

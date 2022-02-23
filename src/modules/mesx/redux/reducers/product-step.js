@@ -79,13 +79,17 @@ export default function operationSetting(state = initialState, action) {
         isLoading: false,
         total: action.payload.total,
       }
-
+    case DELETE_PRODUCING_STEP_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter((item) => item.id !== action.payload.id),
+        isLoading: false,
+      }
     case SEARCH_PRODUCING_STEPS_FAILED:
     case CREATE_PRODUCING_STEP_SUCCESS:
     case CREATE_PRODUCING_STEP_FAILED:
     case UPDATE_PRODUCING_STEP_SUCCESS:
     case UPDATE_PRODUCING_STEP_FAILED:
-    case DELETE_PRODUCING_STEP_SUCCESS:
     case DELETE_PRODUCING_STEP_FAILED:
     case GET_PRODUCING_STEP_DETAILS_FAILED:
     case GET_BY_ROUTING_VERSION_FAILED:
