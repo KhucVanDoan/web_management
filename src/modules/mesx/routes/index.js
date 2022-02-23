@@ -3,6 +3,7 @@ import React from 'react'
 import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
 import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
 import Dashboard from '~/modules/mesx/features/dashboard'
+import detailBOM from '~/modules/mesx/features/define-bom/detail'
 import BOMForm from '~/modules/mesx/features/define-bom/form'
 import DefineBOM from '~/modules/mesx/features/define-bom/list'
 import BOQDetail from '~/modules/mesx/features/define-boq/detail'
@@ -510,36 +511,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.DEFINE_BOM.LIST.TITLE,
-        path: ROUTE.DEFINE_BOM.LIST.PATH,
-        component: DefineBOM,
-        isInSidebar: true,
-
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_BOM.CREATE.TITLE,
-            path: ROUTE.DEFINE_BOM.CREATE.PATH,
-            component: BOMForm,
-            pathActive: ROUTE.DEFINE_BOM.CREATE.PATH,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_BOM.DETAIL.TITLE,
-            path: ROUTE.DEFINE_BOM.DETAIL.PATH,
-            component: BOMForm,
-            pathActive: ROUTE.DEFINE_BOM.DETAIL.PATH,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_BOM.EDIT.TITLE,
-            path: ROUTE.DEFINE_BOM.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_BOM.EDIT.PATH,
-            component: BOMForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
         name: ROUTE.BOM_PRODUCING_STEP.LIST.TITLE,
         path: ROUTE.BOM_PRODUCING_STEP.LIST.PATH,
         component: BomProducingStep,
@@ -630,6 +601,36 @@ const routes = [
             path: ROUTE.PRODUCING_STEP.EDIT.PATH,
             pathActive: ROUTE.PRODUCING_STEP.EDIT.PATH,
             component: ProducingStepForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_BOM.LIST.TITLE,
+        path: ROUTE.DEFINE_BOM.LIST.PATH,
+        component: DefineBOM,
+        isInSidebar: true,
+
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BOM.CREATE.TITLE,
+            path: ROUTE.DEFINE_BOM.CREATE.PATH,
+            component: BOMForm,
+            pathActive: ROUTE.DEFINE_BOM.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BOM.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BOM.DETAIL.PATH,
+            component: detailBOM,
+            pathActive: ROUTE.DEFINE_BOM.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BOM.EDIT.TITLE,
+            path: ROUTE.DEFINE_BOM.EDIT.PATH,
+            pathActive: ROUTE.DEFINE_BOM.EDIT.PATH,
+            component: BOMForm,
             isInSidebar: false,
           },
         ],

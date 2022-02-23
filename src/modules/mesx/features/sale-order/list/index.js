@@ -92,7 +92,7 @@ function SaleOrder() {
       headerName: t('saleOrder.status'),
       width: 150,
       sortable: true,
-      type: 'categorical',
+
       renderCell: (params) => {
         const { status } = params.row
         return t(SALE_ORDER_STATUS_MAP[status])

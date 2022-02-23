@@ -84,7 +84,7 @@ class WarehouseMovementList extends Component {
         headerAlign: 'center',
         sortable: false,
         filterable: true,
-        type: 'categorical',
+
         filterOptions: {
           options: warehouseTypes,
           getOptionValue: (option) => option?.id,
@@ -117,7 +117,7 @@ class WarehouseMovementList extends Component {
         align: 'center',
         headerAlign: 'center',
         filterable: true,
-        type: 'categorical',
+
         filterOptions: {
           options: ROUTING_STATUS_OPTIONS?.filter(
             (item) => item.id === 2 || item.id === 4,
@@ -169,7 +169,7 @@ class WarehouseMovementList extends Component {
         headerAlign: 'center',
         sortable: false,
         filterable: true,
-        type: 'categorical',
+
         filterOptions: {
           options: ROUTING_STATUS_OPTIONS,
           getOptionValue: (option) => option?.id,

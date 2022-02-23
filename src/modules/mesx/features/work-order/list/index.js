@@ -203,7 +203,7 @@ const WorkOrder = () => {
       headerName: t('workOrder.status'),
       width: 200,
       align: 'center',
-      type: 'categorical',
+
       renderCell: (params) => {
         return t(WORK_ORDER_STATUS_MAP[params.row.status])
       },

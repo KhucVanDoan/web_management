@@ -105,7 +105,7 @@ class BomProducingStep extends Component {
         field: 'status',
         headerName: t('bomProducingStep.status'),
         width: 150,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: BOM_PRODUCING_STEP_STATUS,

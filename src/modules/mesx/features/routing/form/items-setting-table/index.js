@@ -143,7 +143,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          mb: 1,
+          mb: 2,
         }}
       >
         <Typography variant="h4" component="span">

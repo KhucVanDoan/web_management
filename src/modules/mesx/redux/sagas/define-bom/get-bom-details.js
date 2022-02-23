@@ -4,7 +4,7 @@ import {
   getBOMDetailsByIdFailed,
   getBOMDetailsByIdSuccess,
   GET_BOM_DETAILS_START,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+} from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
 
 /**

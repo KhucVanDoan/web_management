@@ -119,7 +119,7 @@ const DefineBOQ = (props) => {
         headerName: t('defineBOQ.status'),
         width: 200,
         sortable: true,
-        type: 'categorical',
+
         renderCell: (params) => {
           const { status } = params.row
           return t(BOQ_STATUS_MAP[status])

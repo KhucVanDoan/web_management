@@ -143,7 +143,7 @@ class DefinePlan extends Component {
         align: 'center',
         width: 100,
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: PLAN_STATUS_OPTIONS,
@@ -279,7 +279,7 @@ class DefinePlan extends Component {
         headerName: t('definePlan.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         renderCell: (params) => {
           const { status } = params.row
@@ -399,7 +399,7 @@ class DefinePlan extends Component {
         headerName: t('definePlan.status'),
         align: 'center',
         sortable: true,
-        type: 'categorical',
+
         filterable: true,
         renderCell: (params) => {
           const { planBom } = params.row

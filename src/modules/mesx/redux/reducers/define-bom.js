@@ -26,7 +26,8 @@ import {
   GET_BOM_BY_ITEM_FAILED,
   GET_BOM_BY_ITEM_START,
   GET_BOM_BY_ITEM_SUCCESS,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+  RESET_BOM_DETAIL_STATE,
+} from '~/modules/mesx/redux/actions/define-bom'
 
 const initialState = {
   isLoading: false,
@@ -65,6 +66,12 @@ export default function bom(state = initialState, action) {
         isLoading: false,
         total: 0,
       }
+    case DELETE_BOM_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        BOMList: state.BOMList.filter((item) => item.id !== action.payload.id),
+      }
     case CONFIRM_BOM_FAILED:
     case CONFIRM_BOM_SUCCESS:
     case REJECT_BOM_FAILED:
@@ -73,7 +80,6 @@ export default function bom(state = initialState, action) {
     case CREATE_BOM_SUCCESS:
     case UPDATE_BOM_SUCCESS:
     case UPDATE_BOM_FAILED:
-    case DELETE_BOM_SUCCESS:
     case DELETE_BOM_FAILED:
       return {
         ...state,
@@ -110,6 +116,12 @@ export default function bom(state = initialState, action) {
         ...state,
         BOMStructure: [],
         isLoading: false,
+      }
+    case RESET_BOM_DETAIL_STATE:
+      return {
+        ...state,
+        BOMDetails: {},
+        BOMStructure: [],
       }
     default:
       return state

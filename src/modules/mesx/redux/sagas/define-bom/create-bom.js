@@ -1,47 +1,46 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateBOMFailed,
-  updateBOMSuccess,
-  UPDATE_BOM_START,
-} from '~/modules/mesx/redux/actions/define-bom.action'
+  createBOMFailed,
+  createBOMSuccess,
+  CREATE_BOM_START,
+} from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Update BOM API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const updateBOMApi = (params) => {
-  const uri = `/v1/produces/boms/${params.id}`
-  return api.put(uri, params)
+const createBOMApi = (params) => {
+  const uri = `/v1/produces/boms/create`
+  return api.post(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateBOM(action) {
+function* doCreateBOM(action) {
   try {
-    const response = yield call(updateBOMApi, action?.payload)
+    const response = yield call(createBOMApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateBOMSuccess(response.data))
+      yield put(createBOMSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification('defineBOM.updateBOMSuccess', NOTIFICATION_TYPE.SUCCESS)
+      addNotification('defineBOM.createBOMSuccess', NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateBOMFailed())
+    yield put(createBOMFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -50,8 +49,8 @@ function* doUpdateBOM(action) {
 }
 
 /**
- * Watch search production-orders
+ * Watch search users
  */
-export default function* watchUpdateBOM() {
-  yield takeLatest(UPDATE_BOM_START, doUpdateBOM)
+export default function* watchCreateBOM() {
+  yield takeLatest(CREATE_BOM_START, doCreateBOM)
 }

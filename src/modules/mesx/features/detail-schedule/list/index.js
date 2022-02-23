@@ -140,7 +140,7 @@ class DetailSchedule extends Component {
         field: 'status',
         headerName: t('detailSchedule.status'),
         width: 150,
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: DETAIL_SCHEDULE_STATUS_OPTIONS,

@@ -33,17 +33,6 @@ export const convertFilterParams = (filters = {}, columns = []) => {
         },
       ]
     }
-    if (
-      columns.find((col) => col.field === cur && col.type === 'categorical')
-    ) {
-      return [
-        ...acc,
-        {
-          column: cur,
-          text: filters[cur]?.value || '',
-        },
-      ]
-    }
 
     return [
       ...acc,

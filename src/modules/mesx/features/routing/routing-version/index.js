@@ -102,7 +102,7 @@ class RoutingVersionSetting extends Component {
         width: 200,
         sortable: false,
         filterable: true,
-        type: 'categorical',
+
         filterOptions: {
           options: ROUTING_VERSION_STATUS_OPTIONS,
           getOptionValue: (option) => option?.id?.toString(),

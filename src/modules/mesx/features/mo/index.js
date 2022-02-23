@@ -128,7 +128,7 @@ class Mo extends Component {
         headerName: t('Mo.status'),
         width: 200,
         align: 'center',
-        type: 'categorical',
+
         filterable: true,
         filterOptions: {
           options: MO_STATUS_OPTIONS,

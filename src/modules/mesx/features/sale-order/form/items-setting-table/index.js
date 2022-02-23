@@ -180,7 +180,7 @@ function ItemSettingTable(props) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          mb: 1,
+          mb: 2,
         }}
       >
         <Typography variant="h4">{t('saleOrder.itemsDetails')}</Typography>
