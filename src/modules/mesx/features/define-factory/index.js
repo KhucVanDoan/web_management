@@ -14,6 +14,8 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertObjectToArrayFilter } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
+
 const breadcrumbs = [
   {
     title: 'database',
@@ -31,7 +33,15 @@ function DefineFactory() {
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    companyName: '',
+    createTime: [],
+  }
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
+
   const {
     data: { factoryList, total, isLoading },
     actions,
@@ -43,12 +53,12 @@ function DefineFactory() {
   })
 
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineFactory.code'),
@@ -202,7 +212,13 @@ function DefineFactory() {
         onChangeSort={setSort}
         total={total}
         sort={sort}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
         checkboxSelection
       />
       <Dialog
