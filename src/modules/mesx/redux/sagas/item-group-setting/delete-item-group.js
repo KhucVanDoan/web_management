@@ -29,7 +29,7 @@ function* doDeleteItemGroup(action) {
     const response = yield call(deleteItemGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteItemGroupSuccess(response.results))
+      yield put(deleteItemGroupSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {

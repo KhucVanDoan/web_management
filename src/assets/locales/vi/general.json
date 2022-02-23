@@ -31,7 +31,8 @@
     "integer": "Mục này phải là số nguyên",
     "numeric": "Mục này phải là số",
     "invalidTimeRange": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
-    "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước"
+    "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước",
+    "special": "Mục này không được chứa kí tự đặc biệt"
   },
 
   "toast": {
