@@ -9,8 +9,8 @@ export const checkPage = (total, pageSize, page, onChangePageOrPageSize) => {
   }
 }
 
-export const convertObjectToArrayFilter = (filters = {}, columns = []) =>
-  Object.keys(filters).reduce((acc, cur) => {
+export const convertFilterParams = (filters = {}, columns = []) => {
+  const filterData = Object.keys(filters).reduce((acc, cur) => {
     if (
       isNull(filters[cur]) ||
       isUndefined(filters[cur]) ||
@@ -53,3 +53,20 @@ export const convertObjectToArrayFilter = (filters = {}, columns = []) =>
       },
     ]
   }, [])
+
+  return JSON.stringify(filterData)
+}
+
+export const convertSortParams = (sort) => {
+  const sortData =
+    sort && sort?.orderBy && sort?.order
+      ? [
+          {
+            column: sort?.orderBy,
+            order: sort?.order?.toUpperCase(),
+          },
+        ]
+      : []
+
+  return JSON.stringify(sortData)
+}

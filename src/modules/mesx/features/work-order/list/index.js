@@ -22,7 +22,11 @@ import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, convertObjectToArrayFilter } from '~/utils'
+import {
+  formatDateTimeUtc,
+  convertFilterParams,
+  convertSortParams,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 import { validationSchema } from './schema'
@@ -305,8 +309,8 @@ const WorkOrder = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
     workOrderActions.searchWorkOrders(params)
   }
