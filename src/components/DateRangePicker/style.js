@@ -12,6 +12,9 @@ const style = (theme) => ({
     },
     '&: hover': {
       borderColor: theme.palette.borderField,
+      '& span': {
+        display: 'flex',
+      },
     },
   },
   error: {

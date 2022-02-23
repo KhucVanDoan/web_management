@@ -9,6 +9,7 @@ const TextField = ({ label, value, children, sx, ...props }) => {
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
+        wordBreak: 'break-word',
         ...sx,
       }}
       {...props}

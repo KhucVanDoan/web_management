@@ -81,16 +81,35 @@ const DatePicker = ({
                   vertical
                   placeholder={placeholder}
                   error={error}
+                  className={classes.textField}
                   endAdornment={
-                    <InputAdornment
-                      position="end"
-                      sx={{
-                        pr: '10px',
-                        cursor: disabled ? 'unset' : 'pointer',
-                      }}
-                    >
-                      <Icon name="calendar" />
-                    </InputAdornment>
+                    <>
+                      {value && (
+                        <InputAdornment
+                          position="end"
+                          sx={{
+                            display: 'none',
+                            pr: '5px',
+                            cursor: disabled ? 'unset' : 'pointer',
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onChange(null)
+                          }}
+                        >
+                          <Icon name="close" size={12} />
+                        </InputAdornment>
+                      )}
+                      <InputAdornment
+                        position="end"
+                        sx={{
+                          pr: '10px',
+                          cursor: disabled ? 'unset' : 'pointer',
+                        }}
+                      >
+                        <Icon name="calendar" />
+                      </InputAdornment>
+                    </>
                   }
                   sx={{
                     '& input': {
@@ -130,7 +149,7 @@ DatePicker.defaultProps = {
   placeholder: '',
   label: '',
   value: null,
-  onChange: null,
+  onChange: () => {},
   error: false,
   helperText: '',
   disabled: false,

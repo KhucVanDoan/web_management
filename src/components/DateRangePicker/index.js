@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { DateRangePicker as MuiDateRangePicker } from '@mui/lab'
@@ -28,11 +28,24 @@ const DateRangePicker = ({
   vertical,
   required,
   labelWidth,
+  onTouch,
   ...props
 }) => {
   const { t } = useTranslation()
   const classes = useClasses(style)
   const [open, setOpen] = useState(false)
+  const ref = useRef(false)
+  const isValue = useMemo(() => value.some((val) => val), [value])
+
+  useEffect(() => {
+    if (ref.current !== open) {
+      if (ref.current) {
+        onTouch(true)
+        return
+      }
+      ref.current = open
+    }
+  }, [open])
 
   return (
     <FormControl
@@ -99,6 +112,17 @@ const DateRangePicker = ({
                   </Typography>
                 </Box>
                 <Box className={classes.iconCalendar}>
+                  {isValue && (
+                    <Icon
+                      name="close"
+                      size={12}
+                      sx={{ display: 'none', pr: '10px' }}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onChange([null, null])
+                      }}
+                    />
+                  )}
                   <Icon name="calendar" />
                 </Box>
               </Box>
@@ -117,7 +141,8 @@ const DateRangePicker = ({
 DateRangePicker.defaultProps = {
   label: '',
   value: null,
-  onChange: null,
+  onChange: () => {},
+  onTouch: () => {},
   disabled: false,
   error: false,
   helperText: '',
@@ -136,6 +161,7 @@ DateRangePicker.propTypes = {
   vertical: PropTypes.bool,
   required: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onTouch: PropTypes.func,
 }
 
 export default DateRangePicker
