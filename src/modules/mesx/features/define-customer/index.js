@@ -14,6 +14,8 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
+
 const breadcrumbs = [
   {
     title: 'database',
@@ -31,7 +33,17 @@ function DefineCustomer() {
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    address: '',
+    phone: '',
+    email: '',
+    fax: '',
+    createTime: [],
+  }
+
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const {
     data: { customerList, total, isLoading },
     actions,
@@ -43,12 +55,12 @@ function DefineCustomer() {
   })
 
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineCustomer.code'),
@@ -194,7 +206,13 @@ function DefineCustomer() {
         onChangeSort={setSort}
         total={total}
         sort={sort}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
         checkboxSelection
       />
       <Dialog
