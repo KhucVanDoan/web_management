@@ -33,6 +33,13 @@ const style = (theme) => ({
       boxSizing: 'border-box',
     },
   },
+  textField: {
+    '&:hover': {
+      '& .MuiInputAdornment-root': {
+        display: 'flex',
+      },
+    },
+  },
 })
 
 export default style

@@ -13,6 +13,9 @@ const FormikDateRangePicker = ({ form, field, onChange, ...props }) => (
       onChange(v)
       form.setFieldValue(field.name, v)
     }}
+    onTouch={(touched) => {
+      form.setFieldTouched(field.name, touched)
+    }}
     error={
       !!getIn(form.touched, field.name) && !!getIn(form.errors, field.name)
     }

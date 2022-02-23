@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
@@ -21,6 +20,8 @@ import store from '~/store'
 import theme, { globalStyles } from '~/themes'
 import i18n from '~/utils/i18n'
 
+import { DateFns } from './utils/dateFns'
+
 function App() {
   return (
     <StyledEngineProvider injectFirst>
@@ -31,10 +32,7 @@ function App() {
           <ReactNotification />
           <ReduxProvider store={store}>
             <I18nextProvider i18n={i18n}>
-              <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                locale={viLocale}
-              >
+              <LocalizationProvider dateAdapter={DateFns} locale={viLocale}>
                 <Router history={history}>
                   <Switch>
                     {publicRoutes.map((route) => (

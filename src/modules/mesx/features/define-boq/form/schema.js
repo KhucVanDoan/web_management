@@ -28,7 +28,12 @@ export const validationSchema = (t) =>
     ),
     pmId: Yup.number().required(t('general:form.required')),
     apmId: Yup.number().required(t('general:form.required')),
-    planList: Yup.array().nullable().required(t('general:form.required')),
+    planList: Yup.array()
+      .nullable()
+      .test('planList', t('general:form.required'), (planList) => {
+        const isValue = planList?.some((val) => val) || false
+        return isValue
+      }),
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().required(t('general:form.required')),
