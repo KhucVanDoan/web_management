@@ -91,7 +91,7 @@ function ItemUnitForm() {
     }
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionButtons = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -179,6 +179,7 @@ function ItemUnitForm() {
                       name="code"
                       placeholder={t('itemUnitDefine.code')}
                       disabled={isUpdate}
+                      required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -186,6 +187,7 @@ function ItemUnitForm() {
                       name="name"
                       label={t('itemUnitDefine.name')}
                       placeholder={t('itemUnitDefine.name')}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -199,7 +201,7 @@ function ItemUnitForm() {
                   </Grid>
                 </Grid>
                 <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  {renderActionButtons({ handleReset })}
+                  {renderActionButtons(handleReset)}
                 </Box>
               </Form>
             )}

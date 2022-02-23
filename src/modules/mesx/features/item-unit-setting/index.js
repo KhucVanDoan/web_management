@@ -19,6 +19,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
@@ -36,22 +37,29 @@ function ItemUnitSetting() {
     data: { isLoading, itemUnitList, total },
     actions,
   } = useItemUnit()
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    createdAt: '',
+  }
+
   const [sort, setSort] = useState([])
   const [keyword, setKeyword] = useState('')
-  const [filters, setfilters] = useState({})
+  const [filters, setfilters] = useState(DEFAULT_FILTERS)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
   const [deleteModal, setDeleteModal] = useState(false)
   const [id, setId] = useState()
 
   const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('itemUnitDefine.unitCode'),
@@ -69,7 +77,7 @@ function ItemUnitSetting() {
     {
       field: 'description',
       headerName: t('itemUnitDefine.unitNote'),
-      width: 400,
+      width: 350,
       sortable: false,
     },
     {
@@ -88,6 +96,7 @@ function ItemUnitSetting() {
       headerName: t('itemUnitDefine.updateDate'),
       width: 150,
       type: 'date',
+      sortable: true,
       renderCell: (params) => {
         const updateAt = params.row.updatedAt
         return formatDateTimeUtc(updateAt)
@@ -96,7 +105,6 @@ function ItemUnitSetting() {
     {
       field: 'action',
       headerName: t('itemUnitDefine.action'),
-      disableClickEventBubbling: true,
       width: 150,
       sortable: false,
       align: 'center',
@@ -201,9 +209,12 @@ function ItemUnitSetting() {
           filters={{
             form: <FilterForm />,
             values: filters,
+            defaultValue: DEFAULT_FILTERS,
+            validationSchema: filterSchema(t),
             onApply: setfilters,
           }}
           sort={sort}
+          checkboxSelection
         />
         <Dialog
           open={deleteModal}

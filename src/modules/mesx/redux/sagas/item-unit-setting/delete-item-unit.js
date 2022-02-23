@@ -29,7 +29,7 @@ function* doDeleteItemUnit(action) {
     const response = yield call(deleteItemUnitApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteItemUnitSuccess(response.results))
+      yield put(deleteItemUnitSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
