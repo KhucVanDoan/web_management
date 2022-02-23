@@ -48,13 +48,19 @@ export default function itemGroupSetting(state = initialState, action) {
         isLoading: false,
         total: action.payload.total,
       }
-
+    case DELETE_ITEM_GROUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        itemGroupList: state.itemGroupList.filter(
+          (item) => item?.id !== action.payload.id,
+        ),
+      }
     case SEARCH_ITEM_GROUPS_FAILED:
     case CREATE_ITEM_GROUP_SUCCESS:
     case CREATE_ITEM_GROUP_FAILED:
     case UPDATE_ITEM_GROUP_SUCCESS:
     case UPDATE_ITEM_GROUP_FAILED:
-    case DELETE_ITEM_GROUP_SUCCESS:
     case DELETE_ITEM_GROUP_FAILED:
     case GET_ITEM_GROUP_DETAILS_FAILED:
       return {

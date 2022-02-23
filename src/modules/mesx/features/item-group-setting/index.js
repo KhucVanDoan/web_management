@@ -19,6 +19,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 const breadcrumbs = [
   {
     title: 'database',
@@ -39,41 +40,50 @@ const ItemGroupSetting = () => {
   const [deleteModal, setDeleteModal] = useState(false)
   const [sort, setSort] = useState([])
   const [keyword, setKeyword] = useState('')
-  const [filters, setfilters] = useState({})
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
 
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    createdAt: '',
+  }
+
+  const [filters, setfilters] = useState(DEFAULT_FILTERS)
+
   const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('itemGroupDefine.groupCode'),
       width: 100,
       fixed: true,
+      sortable: true,
     },
     {
       field: 'name',
       headerName: t('itemGroupDefine.groupName'),
       width: 200,
       fixed: true,
+      sortable: true,
     },
     {
       field: 'description',
       headerName: t('itemGroupDefine.groupNote'),
-      width: 400,
-      sortable: false,
+      width: 350,
     },
     {
       field: 'createdAt',
       type: 'date',
       headerName: t('itemGroupDefine.createDate'),
       width: 150,
+      sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return formatDateTimeUtc(createdAt)
@@ -83,6 +93,7 @@ const ItemGroupSetting = () => {
       field: 'updatedAt',
       headerName: t('itemGroupDefine.updateDate'),
       width: 150,
+      sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
         return formatDateTimeUtc(updatedAt)
@@ -199,10 +210,13 @@ const ItemGroupSetting = () => {
           title={t('general:dataTable.title')}
           filters={{
             form: <FilterForm />,
+            defaultValue: DEFAULT_FILTERS,
+            validationSchema: filterSchema(t),
             values: filters,
             onApply: setfilters,
           }}
           sort={sort}
+          checkboxSelection
         />
         <Dialog
           open={deleteModal}

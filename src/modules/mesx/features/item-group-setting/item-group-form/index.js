@@ -182,6 +182,7 @@ const ItemGroupForm = () => {
                       name="code"
                       placeholder={t('itemGroupDefine.code')}
                       disabled={isUpdate}
+                      required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -189,6 +190,7 @@ const ItemGroupForm = () => {
                       name="name"
                       label={t('itemGroupDefine.name')}
                       placeholder={t('itemGroupDefine.name')}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -202,7 +204,7 @@ const ItemGroupForm = () => {
                   </Grid>
                 </Grid>
                 <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  {renderActionButtons({ handleReset })}
+                  {renderActionButtons(handleReset)}
                 </Box>
               </Form>
             )}
