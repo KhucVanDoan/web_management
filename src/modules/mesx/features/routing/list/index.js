@@ -1,181 +1,135 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
-import {
-  MODAL_MODE,
-  ROUTING_STATUS,
-  ROUTING_STATUS_MAP,
-  ROUTING_STATUS_OPTIONS,
-} from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import { ROUTING_STATUS, ROUTING_STATUS_MAP } from '~/common/constants'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  confirmRoutingById,
-  deleteRouting,
-  searchRoutings,
-} from '~/modules/mesx/redux/actions/routing.action'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { onChangeTextField, redirectRouter } from '~/utils'
+import { convertObjectToArrayFilter } from '~/utils'
 
-import useStyles from './style'
+import FilterForm from './filter-form'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
-    route: ROUTE.ROUTING.PATH,
-    title: ROUTE.ROUTING.TITLE,
+    route: ROUTE.ROUTING.LIST.PATH,
+    title: ROUTE.ROUTING.LIST.TITLE,
   },
 ]
 
-class Routing extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: null,
-      isOpenModal: false,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenDeleteModal: false,
-      isOpenConfirmModal: false,
-      pageSize: 20,
-      page: 1,
+function Routing() {
+  const { t } = useTranslation('mesx')
+  const history = useHistory()
+  const [keyword, setKeyword] = useState('')
+  const [pageSize, setPageSize] = useState(20)
+  const [page, setPage] = useState(1)
+  const [sort, setSort] = useState(null)
+  const [filters, setFilters] = useState({})
+  const [id, setId] = useState(null)
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
-      keyword: '',
-      filters: [],
-      sort: null,
-    }
+  const {
+    data: { routingList, total, isLoading },
+    actions,
+  } = useRouting()
 
-    const { t } = props
-
-    this.columns = [
-      {
-        field: 'id',
-        headerName: t('routing.orderNumber'),
-        width: 80,
-        sortable: false,
+  const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: t('routing.orderNumber'),
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
+    {
+      field: 'code',
+      headerName: t('routing.code'),
+      width: 200,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'name',
+      headerName: t('routing.name'),
+      width: 200,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'status',
+      headerName: t('routing.status'),
+      width: 200,
+      sortable: true,
+      renderCell: (params) => {
+        const { status } = params.row
+        return t(ROUTING_STATUS_MAP[status])
       },
-      {
-        field: 'code',
-        headerName: t('routing.code'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'name',
-        headerName: t('routing.name'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'status',
-        headerName: t('routing.status'),
-        width: 200,
-        sortable: false,
-        filterable: true,
-        type: 'categorical',
-        filterOptions: {
-          options: ROUTING_STATUS_OPTIONS,
-          getOptionValue: (option) => option?.id?.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
-        renderCell: (params) => {
-          const { status } = params.row
-          const { t } = this.props
-          return t(ROUTING_STATUS_MAP[status])
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('common.action'),
-        disableClickEventBubbling: true,
-        width: 250,
-        sortable: false,
-        align: 'left',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          const { status, id } = params.row
-          const isEdit = status === ROUTING_STATUS.CREATED
-          const isConfirmed = status === ROUTING_STATUS.CREATED
-          const isDelete = status === ROUTING_STATUS.CREATED
-
-          return (
-            <div>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickViewDetails(id)}
-                size="large"
-              >
-                <Visibility />
-              </IconButton>
-              {isEdit && (
+    },
+    {
+      field: 'action',
+      headerName: t('common.action'),
+      width: 250,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        const { status, id } = params.row
+        const isConfirmed = status === ROUTING_STATUS.CREATED
+        return (
+          <Box sx={{ whiteSpace: 'nowrap' }}>
+            <IconButton
+              onClick={() =>
+                history.push(ROUTE.ROUTING.DETAIL.PATH.replace(':id', `${id}`))
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            {isConfirmed && (
+              <>
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickEdit(id)}
-                  size="large"
+                  onClick={() =>
+                    history.push(
+                      ROUTE.ROUTING.EDIT.PATH.replace(':id', `${id}`),
+                    )
+                  }
                 >
-                  <Edit />
+                  <Icon name="edit" />
                 </IconButton>
-              )}
-
-              {isDelete && (
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickDelete(id)}
-                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenDeleteModal(true)
+                  }}
                 >
-                  <Delete />
+                  <Icon name="delete" />
                 </IconButton>
-              )}
-
-              {isConfirmed && (
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickConfirmed(id)}
-                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenConfirmModal(true)
+                  }}
                 >
-                  <CheckBox style={{ color: 'green' }} />
+                  <Icon name="tick" />
                 </IconButton>
-              )}
-            </div>
-          )
-        },
+              </>
+            )}
+          </Box>
+        )
       },
-    ]
-    this.validator = new SimpleReactValidator()
-  }
+    },
+  ]
 
-  /**
-   * componentDidMount
-   */
-  componentDidMount() {
-    this.refreshData()
-  }
-
-  /**
-   * Refresh data
-   */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
-
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
-
+  const refreshData = () => {
     const sortData = sort
       ? [
           {
@@ -189,249 +143,101 @@ class Routing extends Component {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
+      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
       sort: JSON.stringify(sortData),
     }
-    this.props.searchRoutings(params)
+
+    actions.searchRoutings(params)
   }
 
-  /**
-   * Handle key down event
-   * @param {*} e
-   */
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
-  }
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, filters, sort, keyword])
 
-  /**
-   *
-   */
-  handleCreate = () => {
-    redirectRouter(ROUTE.ROUTING_CREATE.PATH)
-  }
-
-  /**
-   *
-   * @param {boolean} refresh
-   */
-  handleCloseModal = (refresh = false) => {
-    this.setState({ isOpenModal: false, id: null })
-    refresh && this.refreshData()
-  }
-
-  /**
-   * onClickViewDetails
-   * @param {int} id
-   */
-  onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.ROUTING_DETAILS.PATH, { id })
-  }
-
-  /**
-   * onClickEdit
-   * @param {int} id
-   */
-  onClickEdit = (id) => {
-    redirectRouter(ROUTE.ROUTING_EDIT.PATH, { id })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenDeleteModal: true })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickConfirmed = (id) => {
-    this.setState({ id, isOpenConfirmModal: true })
-  }
-
-  /**
-   * Submit confirm purchased order
-   */
-  submitConfirm = () => {
-    this.props.confirmRoutingById(this.state.id, this.refreshData)
-    this.setState({ isOpenConfirmModal: false, id: null })
-  }
-
-  /**
-   * Close confirm modal and back to list
-   */
-  onCloseConfirmModal = () => {
-    this.setState({ isOpenConfirmModal: false })
-  }
-
-  /**
-   * onSubmitDelete
-   */
-  onSubmitDelete = () => {
-    this.props.deleteRouting(this.state.id, () => {
-      this.setState({ isOpenDeleteModal: false })
-      this.refreshData()
+  const onSubmitDelete = () => {
+    actions.deleteRouting(id, () => {
+      setIsOpenDeleteModal(false)
+      refreshData()
     })
   }
 
-  /**
-   * onCancelDelete
-   */
-  onCancelDelete = () => {
-    this.setState({ isOpenDeleteModal: false })
+  const onSubmitConfirm = () => {
+    actions.confirmRoutingById(id, () => {
+      refreshData()
+      setIsOpenConfirmModal(false)
+      setId(null)
+    })
   }
 
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize })
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page })
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  /**
-   *
-   * @returns {JSX.Element}
-   */
-  render() {
-    const { isOpenDeleteModal, pageSize, page, isOpenConfirmModal } = this.state
-    const { classes, routing, t } = this.props
-
+  const renderHeaderRight = () => {
     return (
       <>
-        <div>
-          <h2>{t('routing.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('routing.searchPlaceholder')}
-            variant="outlined"
-            size="small"
-            onKeyDown={this.onKeyDown}
-            name="keyword"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.refreshData}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            onChange={(event) => onChangeTextField(this, event)}
-          />
-        </div>
-        <div className={classes.createBox}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreate}
-            startIcon={<AddCircle />}
-          >
-            {t('common.create')}
-          </Button>
-        </div>
-        <DataTable
-          rows={routing.routingList}
-          columns={this.columns}
-          pageSize={pageSize}
-          page={page}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={routing.total}
-          minWidth={1200}
-        />
-        <Loading open={routing?.isLoading} />
-        <Modal
-          isOpen={isOpenDeleteModal}
-          title={t('routing.deleteModalTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCancelDelete}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+        <Button variant="outlined" icon="download" disabled>
+          {t('menu.importExportData')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.ROUTING.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
         >
-          {t('routing.deleteConfirm')}
-        </Modal>
-        <Modal
-          isOpen={isOpenConfirmModal}
-          title={t('common.notify')}
-          size="sm"
-          onSubmit={this.submitConfirm}
-          onClose={this.onCloseConfirmModal}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
-        >
-          {t('common.confirmMessage.confirm')}
-        </Modal>
+          {t('common.create')}
+        </Button>
       </>
     )
   }
+
+  return (
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('menu.routing')}
+      onSearch={setKeyword}
+      placeholder={t('routing.searchPlaceholder')}
+      renderHeaderRight={renderHeaderRight}
+      loading={isLoading}
+    >
+      <DataTable
+        title={t('routing.title')}
+        rows={routingList}
+        columns={columns}
+        pageSize={pageSize}
+        page={page}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+        onChangeFilter={setFilters}
+        onChangeSort={setSort}
+        sort={sort}
+        total={total}
+        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        checkboxSelection
+      />
+      <Dialog
+        open={isOpenDeleteModal}
+        title={t('routing.routingDeleteTitle')}
+        onCancel={() => setIsOpenDeleteModal(false)}
+        onSubmit={onSubmitDelete}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('routing.deleteConfirm')}
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('common.notify')}
+        maxWidth="sm"
+        onCancel={() => setIsOpenConfirmModal(false)}
+        onSubmit={onSubmitConfirm}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        noBorderBottom
+      >
+        {t('common.confirmMessage.confirm')}
+      </Dialog>
+    </Page>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  routing: state.routing,
-  companies: state.appStore.companies,
-  factories: state.appStore.factories,
-  routingTypes: state.appStore.routingTypes,
-})
-
-const mapDispatchToProps = {
-  searchRoutings,
-  deleteRouting,
-  confirmRoutingById,
-}
-
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(Routing)),
-  ),
-  breadcrumbs,
-)
+export default Routing

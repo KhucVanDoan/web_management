@@ -26,20 +26,22 @@ export const ROUTE = {
     },
   },
   ROUTING: {
-    PATH: '/mesx/routings',
-    TITLE: 'routingDefine',
-  },
-  ROUTING_CREATE: {
-    PATH: '/mesx/routing/create',
-    TITLE: 'routingCreate',
-  },
-  ROUTING_DETAILS: {
-    PATH: '/mesx/routing/:id/detail',
-    TITLE: 'routingDetails',
-  },
-  ROUTING_EDIT: {
-    PATH: '/mesx/routing/:id/edit',
-    TITLE: 'routingEdit',
+    LIST: {
+      PATH: '/mesx/routing',
+      TITLE: 'routing',
+    },
+    CREATE: {
+      PATH: '/mesx/routing/create',
+      TITLE: 'routingCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/routing/:id/detail',
+      TITLE: 'routingDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/routing/:id/edit',
+      TITLE: 'routingEdit',
+    },
   },
   ROUTING_VERSION: {
     PATH: '/mesx/routings/:id/routing-version',

@@ -4,7 +4,7 @@ import {
   searchRoutingsFailed,
   searchRoutingsSuccess,
   SEARCH_ROUTINGS_START,
-} from '~/modules/mesx/redux/actions/routing.action'
+} from '~/modules/mesx/redux/actions/routing'
 import { api } from '~/services/api'
 
 /**

@@ -4,7 +4,7 @@ import {
   getRoutingDetailsByIdFailed,
   getRoutingDetailsByIdSuccess,
   GET_ROUTING_DETAILS_START,
-} from '~/modules/mesx/redux/actions/routing.action'
+} from '~/modules/mesx/redux/actions/routing'
 import { api } from '~/services/api'
 
 /**

@@ -12,7 +12,7 @@ import { useClasses } from '~/themes'
 import style from './style'
 
 const TableFilter = ({
-  filters: { form, values, onApply, defaultValue, validationSchema },
+  filters: { form, values, onApply, defaultValue = {}, validationSchema },
 }) => {
   const classes = useClasses(style)
   const { t } = useTranslation()
@@ -92,11 +92,7 @@ const TableFilter = ({
 }
 
 TableFilter.defaultProps = {
-  filters: {
-    form: null,
-    values: {},
-    onApply: () => {},
-  },
+  filters: {},
 }
 
 TableFilter.propTypes = {

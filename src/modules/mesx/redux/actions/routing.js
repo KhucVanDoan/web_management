@@ -1,26 +1,28 @@
-export const SEARCH_ROUTINGS_START = 'SEARCH_ROUTINGS_START';
-export const SEARCH_ROUTINGS_SUCCESS = 'SEARCH_ROUTINGS_SUCCESS';
-export const SEARCH_ROUTINGS_FAILED = 'SEARCH_ROUTINGS_FAILED';
+export const SEARCH_ROUTINGS_START = 'SEARCH_ROUTINGS_START'
+export const SEARCH_ROUTINGS_SUCCESS = 'SEARCH_ROUTINGS_SUCCESS'
+export const SEARCH_ROUTINGS_FAILED = 'SEARCH_ROUTINGS_FAILED'
 
-export const CREATE_ROUTING_START = 'CREATE_ROUTING_START';
-export const CREATE_ROUTING_SUCCESS = 'CREATE_ROUTING_SUCCESS';
-export const CREATE_ROUTING_FAILED = 'CREATE_ROUTING_FAILED';
+export const CREATE_ROUTING_START = 'CREATE_ROUTING_START'
+export const CREATE_ROUTING_SUCCESS = 'CREATE_ROUTING_SUCCESS'
+export const CREATE_ROUTING_FAILED = 'CREATE_ROUTING_FAILED'
 
-export const UPDATE_ROUTING_START = 'UPDATE_ROUTING_START';
-export const UPDATE_ROUTING_SUCCESS = 'UPDATE_ROUTING_SUCCESS';
-export const UPDATE_ROUTING_FAILED = 'UPDATE_ROUTING_FAILED';
+export const UPDATE_ROUTING_START = 'UPDATE_ROUTING_START'
+export const UPDATE_ROUTING_SUCCESS = 'UPDATE_ROUTING_SUCCESS'
+export const UPDATE_ROUTING_FAILED = 'UPDATE_ROUTING_FAILED'
 
-export const DELETE_ROUTING_START = 'DELETE_ROUTING_START';
-export const DELETE_ROUTING_SUCCESS = 'DELETE_ROUTING_SUCCESS';
-export const DELETE_ROUTING_FAILED = 'DELETE_ROUTING_FAILED';
+export const DELETE_ROUTING_START = 'DELETE_ROUTING_START'
+export const DELETE_ROUTING_SUCCESS = 'DELETE_ROUTING_SUCCESS'
+export const DELETE_ROUTING_FAILED = 'DELETE_ROUTING_FAILED'
 
-export const GET_ROUTING_DETAILS_START = 'GET_ROUTING_DETAILS_START';
-export const GET_ROUTING_DETAILS_SUCCESS = 'GET_ROUTING_DETAILS_SUCCESS';
-export const GET_ROUTING_DETAILS_FAILED = 'GET_ROUTING_DETAILS_FAILED';
+export const GET_ROUTING_DETAILS_START = 'GET_ROUTING_DETAILS_START'
+export const GET_ROUTING_DETAILS_SUCCESS = 'GET_ROUTING_DETAILS_SUCCESS'
+export const GET_ROUTING_DETAILS_FAILED = 'GET_ROUTING_DETAILS_FAILED'
 
-export const CONFIRM_ROUTING_START = 'CONFIRM_ROUTING_START';
-export const CONFIRM_ROUTING_SUCCESS = 'CONFIRM_ROUTING_SUCCESS';
-export const CONFIRM_ROUTING_FAILED = 'CONFIRM_ROUTING_FAILED';
+export const CONFIRM_ROUTING_START = 'CONFIRM_ROUTING_START'
+export const CONFIRM_ROUTING_SUCCESS = 'CONFIRM_ROUTING_SUCCESS'
+export const CONFIRM_ROUTING_FAILED = 'CONFIRM_ROUTING_FAILED'
+
+export const RESET_ROUTING_DETAILS_STATE = 'RESET_ROUTING_DETAILS_STATE'
 
 /**
  * Search routing
@@ -35,7 +37,7 @@ export function searchRoutings(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -47,7 +49,7 @@ export function searchRoutingsSuccess(payload) {
   return {
     type: SEARCH_ROUTINGS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -57,7 +59,7 @@ export function searchRoutingsSuccess(payload) {
 export function searchRoutingsFailed() {
   return {
     type: SEARCH_ROUTINGS_FAILED,
-  };
+  }
 }
 
 /**
@@ -73,7 +75,7 @@ export function createRouting(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -85,7 +87,7 @@ export function createRoutingSuccess(payload) {
   return {
     type: CREATE_ROUTING_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -95,7 +97,7 @@ export function createRoutingSuccess(payload) {
 export function createRoutingFailed() {
   return {
     type: CREATE_ROUTING_FAILED,
-  };
+  }
 }
 
 /**
@@ -111,7 +113,7 @@ export function updateRouting(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update routing success action
@@ -122,7 +124,7 @@ export function updateRoutingSuccess(payload) {
   return {
     type: UPDATE_ROUTING_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -132,7 +134,7 @@ export function updateRoutingSuccess(payload) {
 export function updateRoutingFailed() {
   return {
     type: UPDATE_ROUTING_FAILED,
-  };
+  }
 }
 /**
  * Delete routing
@@ -147,7 +149,7 @@ export function deleteRouting(routingId, onSuccess, onError) {
     payload: routingId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -159,7 +161,7 @@ export function deleteRoutingSuccess(payload) {
   return {
     type: DELETE_ROUTING_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -169,7 +171,7 @@ export function deleteRoutingSuccess(payload) {
 export function deleteRoutingFailed() {
   return {
     type: DELETE_ROUTING_FAILED,
-  };
+  }
 }
 
 /**
@@ -185,7 +187,7 @@ export function getRoutingDetailsById(routingId, onSuccess, onError) {
     payload: routingId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -197,7 +199,7 @@ export function getRoutingDetailsByIdSuccess(payload) {
   return {
     type: GET_ROUTING_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -207,7 +209,7 @@ export function getRoutingDetailsByIdSuccess(payload) {
 export function getRoutingDetailsByIdFailed() {
   return {
     type: GET_ROUTING_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -223,7 +225,7 @@ export function confirmRoutingById(routingId, onSuccess, onError) {
     payload: routingId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -235,7 +237,7 @@ export function confirmRoutingByIdSuccess(payload) {
   return {
     type: CONFIRM_ROUTING_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -245,5 +247,33 @@ export function confirmRoutingByIdSuccess(payload) {
 export function confirmRoutingByIdFailed() {
   return {
     type: CONFIRM_ROUTING_FAILED,
-  };
+  }
+}
+
+export function resetRoutingDetailState() {
+  return {
+    type: RESET_ROUTING_DETAILS_STATE,
+  }
+}
+
+export default {
+  searchRoutings,
+  searchRoutingsSuccess,
+  searchRoutingsFailed,
+  createRouting,
+  createRoutingSuccess,
+  createRoutingFailed,
+  updateRouting,
+  updateRoutingSuccess,
+  updateRoutingFailed,
+  deleteRouting,
+  deleteRoutingSuccess,
+  deleteRoutingFailed,
+  getRoutingDetailsById,
+  getRoutingDetailsByIdSuccess,
+  getRoutingDetailsByIdFailed,
+  confirmRoutingById,
+  confirmRoutingByIdSuccess,
+  confirmRoutingByIdFailed,
+  resetRoutingDetailState,
 }

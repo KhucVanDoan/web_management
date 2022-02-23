@@ -44,9 +44,9 @@ import ProductivityReport from '~/modules/mesx/features/productivity-report'
 import QualityReport from '~/modules/mesx/features/quality-report'
 import RequestBuyMaterialForm from '~/modules/mesx/features/request-buy-material/form'
 import RequestBuyMaterial from '~/modules/mesx/features/request-buy-material/list'
+import RoutingDetail from '~/modules/mesx/features/routing/detail'
 import RoutingForm from '~/modules/mesx/features/routing/form'
 import Routing from '~/modules/mesx/features/routing/list'
-import RoutingVersion from '~/modules/mesx/features/routing/routing-version'
 import SaleOrderDetail from '~/modules/mesx/features/sale-order/detail'
 import SaleOrderForm from '~/modules/mesx/features/sale-order/form'
 import SaleOrder from '~/modules/mesx/features/sale-order/list'
@@ -510,42 +510,6 @@ const routes = [
         ],
       },
       {
-        name: 'routingDefine',
-        path: ROUTE.ROUTING.PATH,
-        component: Routing,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.ROUTING_CREATE.TITLE,
-            path: ROUTE.ROUTING_CREATE.PATH,
-            pathActive: ROUTE.ROUTING_CREATE.PATH,
-            component: RoutingForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.ROUTING_DETAILS.TITLE,
-            path: ROUTE.ROUTING_DETAILS.PATH,
-            pathActive: ROUTE.ROUTING_DETAILS.PATH,
-            component: RoutingForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.ROUTING_EDIT.TITLE,
-            path: ROUTE.ROUTING_EDIT.PATH,
-            pathActive: ROUTE.ROUTING_EDIT.PATH,
-            component: RoutingForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.ROUTING_VERSION.TITLE,
-            path: ROUTE.ROUTING_VERSION.PATH,
-            pathActive: ROUTE.ROUTING_VERSION.PATH,
-            component: RoutingVersion,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
         name: ROUTE.DEFINE_BOM.LIST.TITLE,
         path: ROUTE.DEFINE_BOM.LIST.PATH,
         component: DefineBOM,
@@ -666,6 +630,36 @@ const routes = [
             path: ROUTE.PRODUCING_STEP.EDIT.PATH,
             pathActive: ROUTE.PRODUCING_STEP.EDIT.PATH,
             component: ProducingStepForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.ROUTING.LIST.TITLE,
+        path: ROUTE.ROUTING.LIST.PATH,
+        component: Routing,
+        isInSidebar: true,
+
+        subMenu: [
+          {
+            name: ROUTE.ROUTING.CREATE.TITLE,
+            path: ROUTE.ROUTING.CREATE.PATH,
+            pathActive: ROUTE.ROUTING.CREATE.PATH,
+            component: RoutingForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROUTING.DETAIL.TITLE,
+            path: ROUTE.ROUTING.DETAIL.PATH,
+            pathActive: ROUTE.ROUTING.DETAIL.PATH,
+            component: RoutingDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROUTING.EDIT.TITLE,
+            path: ROUTE.ROUTING.EDIT.PATH,
+            pathActive: ROUTE.ROUTING.EDIT.PATH,
+            component: RoutingForm,
             isInSidebar: false,
           },
         ],

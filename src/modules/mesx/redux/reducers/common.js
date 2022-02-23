@@ -96,7 +96,7 @@ const initialState = {
   customerList: [],
   vendorList: [],
   itemDetailList: [],
-  producingStepList: [],
+  lists: [],
   routingList: [],
   userList: [],
   BOMList: [],
