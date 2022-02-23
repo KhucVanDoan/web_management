@@ -51,7 +51,9 @@ export default function itemUnitSetting(state = initialState, action) {
     case DELETE_ITEM_UNIT_SUCCESS:
       return {
         ...state,
-        itemUnitList: itemUnitList.filter((item) => item.id !== action.payload),
+        itemUnitList: state.itemUnitList.filter(
+          (item) => item.id !== action.payload.id,
+        ),
         isLoading: false,
       }
     case SEARCH_ITEM_UNITS_FAILED:

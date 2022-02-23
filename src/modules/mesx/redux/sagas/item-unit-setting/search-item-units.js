@@ -24,7 +24,6 @@ const searchItemUnitsApi = (params) => {
 function* doSearchItemUnits(action) {
   try {
     const response = yield call(searchItemUnitsApi, action?.payload)
-
     if (response?.statusCode === 200) {
       const payload = {
         list: response.data.items,
