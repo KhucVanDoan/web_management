@@ -119,7 +119,7 @@ function SaleOrderDetail() {
             </Grid>
           </Grid>
         </Grid>
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 3 }}>
           <ItemsSettingTable items={saleOrderDetails} mode={mode} />
         </Box>
         <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>

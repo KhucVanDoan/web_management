@@ -247,7 +247,7 @@ const WorkCenterForm = () => {
         {({ resetForm, values }) => (
           <Form>
             <Grid container justifyContent="center">
-              <Grid item xl={11} sx={12}>
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -259,7 +259,6 @@ const WorkCenterForm = () => {
                       name="code"
                       placeholder={t('workCenter.code')}
                       disabled={isUpdate}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -268,7 +267,6 @@ const WorkCenterForm = () => {
                       name="name"
                       label={t('workCenter.name')}
                       placeholder={t('workCenter.name')}
-                      labelWidth={180}
                       required
                     />
                   </Grid>
@@ -279,7 +277,6 @@ const WorkCenterForm = () => {
                       name="members"
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
-                      labelWidth={180}
                       multiple
                       required
                     />
@@ -289,7 +286,6 @@ const WorkCenterForm = () => {
                       label={t('workCenter.factoryName')}
                       name="factoryId"
                       options={factoryList?.items}
-                      labelWidth={180}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       required
@@ -300,7 +296,6 @@ const WorkCenterForm = () => {
                       options={userList}
                       label={t('workCenter.leader')}
                       name="leaderId"
-                      labelWidth={180}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       required
@@ -311,7 +306,6 @@ const WorkCenterForm = () => {
                       options={producingStep?.list}
                       label={t('workCenter.producingStep')}
                       name="producingStepId"
-                      labelWidth={180}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       required
@@ -324,7 +318,6 @@ const WorkCenterForm = () => {
                       placeholder={t('workCenter.description')}
                       multiline
                       rows={3}
-                      labelWidth={180}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -345,7 +338,6 @@ const WorkCenterForm = () => {
                             <Field.TextField
                               label={t('workCenter.oeeGoal')}
                               placeholder={t('workCenter.oeeGoal')}
-                              labelWidth={180}
                               name="oeeTarget"
                             />
                           </Grid>
@@ -354,7 +346,6 @@ const WorkCenterForm = () => {
                             <Field.TextField
                               label={t('workCenter.workCapacity')}
                               name="workCapacity"
-                              labelWidth={180}
                               placeholder={t('workCenter.workCapacity')}
                             />
                           </Grid>

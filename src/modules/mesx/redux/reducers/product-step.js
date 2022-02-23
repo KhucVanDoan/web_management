@@ -20,6 +20,9 @@ import {
   CONFIRM_PRODUCING_STEP_FAILED,
   CONFIRM_PRODUCING_STEP_START,
   CONFIRM_PRODUCING_STEP_SUCCESS,
+  GET_PRODUCING_STEPS_START,
+  GET_PRODUCING_STEPS_SUCCESS,
+  GET_PRODUCING_STEPS_FAILED,
   RESER_PRODUCING_STEP_STATE,
 } from '~/modules/mesx/redux/actions/product-step'
 
@@ -45,9 +48,22 @@ export default function operationSetting(state = initialState, action) {
     case GET_PRODUCING_STEP_DETAILS_START:
     case GET_BY_ROUTING_VERSION_START:
     case CONFIRM_PRODUCING_STEP_START:
+    case GET_PRODUCING_STEPS_START:
       return {
         ...state,
         isLoading: true,
+      }
+    case GET_PRODUCING_STEPS_SUCCESS:
+      return {
+        ...state,
+        list: action.payload,
+        isLoading: false,
+      }
+    case GET_PRODUCING_STEPS_FAILED:
+      return {
+        ...state,
+        list: [],
+        isLoading: false,
       }
     case SEARCH_PRODUCING_STEPS_SUCCESS:
       return {

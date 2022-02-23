@@ -29,6 +29,10 @@ export const CONFIRM_PRODUCING_STEP_START = 'CONFIRM_PRODUCING_STEP_START'
 export const CONFIRM_PRODUCING_STEP_SUCCESS = 'CONFIRM_PRODUCING_STEP_SUCCESS'
 export const CONFIRM_PRODUCING_STEP_FAILED = 'CONFIRM_PRODUCING_STEP_FAILED'
 
+export const GET_PRODUCING_STEPS_START = 'GET_PRODUCING_STEPS_START'
+export const GET_PRODUCING_STEPS_SUCCESS = 'GET_PRODUCING_STEPS_SUCCESS'
+export const GET_PRODUCING_STEPS_FAILED = 'GET_PRODUCING_STEPS_FAILED'
+
 export const RESER_PRODUCING_STEP_STATE = 'RESER_PRODUCING_STEP_STATE'
 /**
  * Search producing step
@@ -217,7 +221,7 @@ export function getProducingStepDetailsByIdFailed() {
     type: GET_PRODUCING_STEP_DETAILS_FAILED,
   }
 }
-export function getProducingSteps(payload, onSuccess, onError) {
+export function getProducingStepsByRouting(payload, onSuccess, onError) {
   return {
     type: GET_BY_ROUTING_VERSION_START,
     payload: payload,
@@ -231,7 +235,7 @@ export function getProducingSteps(payload, onSuccess, onError) {
  * @param {*} payload
  * @returns {object}
  */
-export function getProducingStepsSuccess(payload) {
+export function getProducingStepsByRoutingSuccess(payload) {
   return {
     type: GET_BY_ROUTING_VERSION_SUCCESS,
     payload: payload,
@@ -242,7 +246,7 @@ export function getProducingStepsSuccess(payload) {
  * Search producing step failed action
  * @returns {object}
  */
-export function getProducingStepsFailed() {
+export function getProducingStepsByRoutingFailed() {
   return {
     type: GET_BY_ROUTING_VERSION_FAILED,
   }
@@ -285,6 +289,37 @@ export function confirmProducingStepFailed() {
   }
 }
 
+export function getProducingSteps(payload, onSuccess, onError) {
+  return {
+    type: GET_PRODUCING_STEPS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get producing steps success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getProducingStepsSuccess(payload) {
+  return {
+    type: GET_PRODUCING_STEPS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get producing steps failed action
+ * @returns {object}
+ */
+export function getProducingStepsFailed() {
+  return {
+    type: GET_PRODUCING_STEPS_FAILED,
+  }
+}
+
 export function resetProducingStepState() {
   return {
     type: RESER_PRODUCING_STEP_STATE,
@@ -310,5 +345,11 @@ export default {
   confirmProducingStep,
   confirmProducingStepSuccess,
   confirmProducingStepFailed,
+  getProducingStepsByRouting,
+  getProducingStepsByRoutingSuccess,
+  getProducingStepsByRoutingFailed,
+  getProducingSteps,
+  getProducingStepsSuccess,
+  getProducingStepsFailed,
   resetProducingStepState,
 }

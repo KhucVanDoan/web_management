@@ -24,12 +24,12 @@ import {
 import withBreadcrumbs from '~/components/Breadcrumbs'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'
+import { getRoutingDetailsById } from '~/modules/mesx/redux/actions/routing'
 import {
   searchRoutingVersions,
   deleteRoutingVersion,
   confirmRoutingVersionById,
 } from '~/modules/mesx/redux/actions/routing-version.action'
-import { getRoutingDetailsById } from '~/modules/mesx/redux/actions/routing.action'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
@@ -40,10 +40,10 @@ const breadcrumbs = [
   {
     title: 'database',
   },
-  {
-    route: ROUTE.ROUTING.PATH,
-    title: ROUTE.ROUTING.TITLE,
-  },
+  // {
+  //   route: ROUTE.ROUTING.PATH,
+  //   title: ROUTE.ROUTING.TITLE,
+  // },
   {
     route: ROUTE.ROUTING_VERSION.PATH,
     title: ROUTE.ROUTING_VERSION.TITLE,

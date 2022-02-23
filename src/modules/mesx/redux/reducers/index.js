@@ -22,8 +22,8 @@ import producingStep from './product-step'
 import productivityReport from './productivity-report.reducer'
 import qualityReport from './quality-report.reducer'
 import requestBuyMaterial from './request-buy-materials.reducer'
+import defineRouting from './routing'
 import routingVersion from './routing-version.reducer'
-import routing from './routing.reducer'
 import saleOrder from './sale-order'
 import soExport from './so-export.reducer'
 import userManagement from './user-management'
@@ -41,8 +41,8 @@ const reducers = {
   itemTypeSetting,
   definePlan,
   defineCompany,
+  defineRouting,
   defineCustomer,
-  routing,
   routingVersion,
   producingStep,
   defineBOQ,

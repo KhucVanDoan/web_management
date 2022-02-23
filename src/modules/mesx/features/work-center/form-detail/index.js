@@ -123,7 +123,7 @@ const FormDetail = () => {
       onBack={backToList}
     >
       <Grid container justifyContent="center">
-        <Grid item xl={11} sx={12}>
+        <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item lg={6} xs={12}>
               <LV label={t('workCenter.code')} value={wcDetails.code} />

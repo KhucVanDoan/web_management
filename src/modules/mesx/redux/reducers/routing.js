@@ -17,7 +17,8 @@ import {
   UPDATE_ROUTING_FAILED,
   UPDATE_ROUTING_START,
   UPDATE_ROUTING_SUCCESS,
-} from '~/modules/mesx/redux/actions/routing.action'
+  RESET_ROUTING_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/routing'
 
 const initialState = {
   isLoading: false,
@@ -60,9 +61,7 @@ export default function defineRouting(state = initialState, action) {
       }
     case CONFIRM_ROUTING_FAILED:
     case CONFIRM_ROUTING_SUCCESS:
-    case CREATE_ROUTING_SUCCESS:
     case CREATE_ROUTING_FAILED:
-    case UPDATE_ROUTING_SUCCESS:
     case UPDATE_ROUTING_FAILED:
     case DELETE_ROUTING_SUCCESS:
     case DELETE_ROUTING_FAILED:
@@ -70,6 +69,8 @@ export default function defineRouting(state = initialState, action) {
         ...state,
         isLoading: false,
       }
+    case UPDATE_ROUTING_SUCCESS:
+    case CREATE_ROUTING_SUCCESS:
     case GET_ROUTING_DETAILS_SUCCESS:
       return {
         ...state,
@@ -81,6 +82,11 @@ export default function defineRouting(state = initialState, action) {
         ...state,
         routingDetails: {},
         isLoading: false,
+      }
+    case RESET_ROUTING_DETAILS_STATE:
+      return {
+        ...state,
+        routingDetails: {},
       }
     default:
       return state
