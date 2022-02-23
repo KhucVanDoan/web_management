@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { phoneSchema } from '~/common/schemas'
 
 export const defineFactorySchema = (t) =>
   Yup.object().shape({
@@ -27,4 +28,11 @@ export const defineFactorySchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
+    location: Yup.string().max(
+      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      t('general:form.maxLength', {
+        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      }),
+    ),
+    phone: phoneSchema(t),
   })

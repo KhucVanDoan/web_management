@@ -214,6 +214,7 @@ function DefineCompanyForm() {
                       name="email"
                       label={t('defineCompany.email')}
                       placeholder={t('defineCompany.email')}
+                      required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

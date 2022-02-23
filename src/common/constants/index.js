@@ -24,10 +24,16 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   },
   EMAIL: {
     MIN: 5,
-    MAX: 255,
+    MAX: 50,
+  },
+  FAX: {
+    MAX: 50,
+  },
+  TAX: {
+    MAX: 13,
   },
   PHONE: {
-    MAX: 20,
+    MAX: 12,
   },
   CODE: {
     MAX: 9,
