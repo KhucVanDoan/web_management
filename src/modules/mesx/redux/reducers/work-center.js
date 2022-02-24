@@ -81,7 +81,6 @@ export default function workCenter(state = initialState, action) {
       return {
         ...state,
         wcDetails: {},
-        isLoading: false,
       }
     default:
       return state
