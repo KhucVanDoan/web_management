@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Box, Popover } from '@mui/material'
+import { Box, Popover, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEqual } from 'lodash'
 import { PropTypes } from 'prop-types'
@@ -48,6 +48,10 @@ const TableFilter = ({
         }}
       >
         <Box className={classes.formContainer}>
+          <Typography variant="h5" sx={{ mb: 4 / 3 }}>
+            {t('dataTable.filterTitle')}
+          </Typography>
+
           <Formik
             initialValues={values}
             validationSchema={validationSchema}
@@ -80,7 +84,7 @@ const TableFilter = ({
                   >
                     {t('dataTable.cancel')}
                   </Button>
-                  <Button type="submit">{t('dataTable.filter')}</Button>
+                  <Button type="submit">{t('dataTable.filterButton')}</Button>
                 </Box>
               </Form>
             )}

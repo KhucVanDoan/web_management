@@ -51,7 +51,8 @@
 
   "dataTable": {
     "visibleColumns": "Hiển thị các mục đã chọn",
-    "filter": "Lọc",
+    "filterTitle": "Tìm kiếm",
+    "filterButton": "Tìm kiếm",
     "cancel": "Hủy",
     "title": "Danh sách",
     "noData": "Không có dữ liệu"
