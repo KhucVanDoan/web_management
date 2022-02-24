@@ -16,6 +16,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
@@ -34,7 +35,15 @@ function Routing() {
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    name: '',
+    status: '',
+    createTime: [],
+  }
+
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [id, setId] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -198,7 +207,13 @@ function Routing() {
         onChangeSort={setSort}
         sort={sort}
         total={total}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
         checkboxSelection
       />
       <Dialog

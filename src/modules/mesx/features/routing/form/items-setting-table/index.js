@@ -4,7 +4,7 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import {
   // DEFAULT_ITEM_TYPE_ENUM,
@@ -17,11 +17,13 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
+import { ROUTE } from '~/modules/mesx/routes/config'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
   const params = useParams()
+  const history = useHistory()
 
   const { actions: routingActions } = useRouting()
   const {
@@ -150,19 +152,32 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
           {t('routing.detailInfo')}
         </Typography>
         {!isView && (
-          <Button
-            onClick={() => {
-              arrayHelpers.push({
-                id: new Date().getTime(),
-                itemId: '',
-                quantity: 1,
-              })
-              scrollToBottom()
+          <Box
+            sx={{
+              justifyContent: 'flex-end',
             }}
-            variant="outlined"
           >
-            {t('routing.addProducingStep')}
-          </Button>
+            <Button
+              sx={{ mr: 1 }}
+              onClick={() => {
+                arrayHelpers.push({
+                  id: new Date().getTime(),
+                  itemId: '',
+                  quantity: 1,
+                })
+                scrollToBottom()
+              }}
+              variant="outlined"
+            >
+              {t('routing.addProducingStep')}
+            </Button>
+            <Button
+              onClick={() => history.push(ROUTE.DEFINE_BOM.CREATE.PATH)}
+              variant="outlined"
+            >
+              {t('routing.createProducingStep')}
+            </Button>
+          </Box>
         )}
       </Box>
       <DataTable

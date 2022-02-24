@@ -15,7 +15,7 @@ export const validationSchema = (t) =>
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         t('general:form.maxLength', {
           max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         }),
@@ -24,6 +24,11 @@ export const validationSchema = (t) =>
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      }),
+    ),
+    items: Yup.array().of(
+      Yup.object().shape({
+        itemId: Yup.number().required(t('general:form.required')),
       }),
     ),
   })
