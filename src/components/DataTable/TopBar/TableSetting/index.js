@@ -63,7 +63,7 @@ const TableSetting = ({
         }}
       >
         <Box className={classes.formContainer}>
-          <Typography sx={{ mb: 1 }}>
+          <Typography variant="h5" sx={{ mb: 1 }}>
             {t('dataTable.visibleColumns')}
           </Typography>
           <FormControlLabel

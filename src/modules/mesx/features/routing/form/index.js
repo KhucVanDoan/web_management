@@ -184,16 +184,16 @@ function RoutingForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, values }) => (
-              <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, values }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -226,24 +226,24 @@ function RoutingForm() {
                     />
                   </Grid>
                 </Grid>
-                <Box sx={{ mt: 3 }}>
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemsSettingTable
-                        items={values?.items || []}
-                        mode={mode}
-                        arrayHelpers={arrayHelpers}
-                      />
-                    )}
+              </Grid>
+            </Grid>
+            <Box sx={{ mt: 3 }}>
+              <FieldArray
+                name="items"
+                render={(arrayHelpers) => (
+                  <ItemsSettingTable
+                    items={values?.items || []}
+                    mode={mode}
+                    arrayHelpers={arrayHelpers}
                   />
-                </Box>
-                <Box>{renderActionButtons({ handleReset })}</Box>
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+                )}
+              />
+            </Box>
+            <Box>{renderActionButtons({ handleReset })}</Box>
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

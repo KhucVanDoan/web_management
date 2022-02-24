@@ -158,7 +158,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             }}
           >
             <Button
-              sx={{ mr: 1 }}
+              sx={{ mr: 4 / 3 }}
               onClick={() => {
                 arrayHelpers.push({
                   id: new Date().getTime(),
