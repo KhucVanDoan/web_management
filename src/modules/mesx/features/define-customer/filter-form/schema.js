@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { phoneSchema } from '~/common/schemas'
 
 export const filterSchema = (t) =>
   Yup.object().shape({
