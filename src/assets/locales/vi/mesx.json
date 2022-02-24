@@ -618,7 +618,8 @@
     "versionManagement": "Quản lý phiên bản",
     "detailInfo": "Thông tin chi tiết",
     "order": "Thứ tự",
-    "addProducingStep": "Thêm công đoạn"
+    "addProducingStep": "Thêm công đoạn",
+    "createProducingStep": "Tạo mới công đoạn"
   },
   "routingVersion": {
     "title": "Danh sách phiên bản",
