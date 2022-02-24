@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Tab, Typography } from '@mui/material'
+import { Button, Grid, Tab } from '@mui/material'
 import { Box } from '@mui/system'
 import { cloneDeep, groupBy, isEmpty, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  WORK_CENTER_STATUS,
+  WORK_CENTER_STATUS_MAP,
+} from '~/common/constants'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
@@ -24,6 +28,7 @@ const FormDetail = () => {
   const { id } = useParams()
   const [tabValue, setTabValue] = useState('1')
   const mode = MODAL_MODE.DETAIL
+
   const [shifts, setShifts] = useState([
     {
       id: 0,
@@ -46,8 +51,11 @@ const FormDetail = () => {
     actions,
   } = useWorkCenter()
 
+  const { status = -1 } = wcDetails
+
   useEffect(() => {
     actions.getWorkCenterDetailsById(id)
+    return () => actions.resetWorkCenterDetailState()
   }, [id])
 
   useEffect(() => {
@@ -100,6 +108,20 @@ const FormDetail = () => {
     setBreakTime(breakTimes)
   }
 
+  const genColorButton = () => {
+    switch (status) {
+      case WORK_CENTER_STATUS.PENDING:
+      case WORK_CENTER_STATUS.UPDATE:
+      case WORK_CENTER_STATUS.CREATE:
+      case WORK_CENTER_STATUS.COMPLETED:
+        return 'primary'
+      case WORK_CENTER_STATUS.REJECTED:
+        return 'error'
+      default:
+        return 'text'
+    }
+  }
+
   const breadcrumbs = [
     {
       title: 'database',
@@ -125,6 +147,17 @@ const FormDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            {status >= 0 && (
+              <Grid item xs={12}>
+                <Button
+                  variant="outlined"
+                  color={genColorButton()}
+                  sx={{ display: 'flex', marginLeft: 'auto' }}
+                >
+                  {t(WORK_CENTER_STATUS_MAP[status])}
+                </Button>
+              </Grid>
+            )}
             <Grid item lg={6} xs={12}>
               <LV label={t('workCenter.code')} value={wcDetails.code} />
             </Grid>
@@ -135,7 +168,7 @@ const FormDetail = () => {
               <LV
                 label={t('workCenter.member')}
                 value={wcDetails?.members
-                  ?.map((member) => member.fullName)
+                  ?.map((member) => member.fullName || member.username)
                   .join(', ')}
               />
             </Grid>
@@ -212,8 +245,16 @@ const FormDetail = () => {
         </TabPanel>
 
         <TabPanel value="2" sx={{ px: 0 }}>
-          <ShiftTable shifts={shifts} mode={mode} />
-          <BreakTimeTable shifts={shifts} mode={mode} breakTimes={breakTime} />
+          <Box sx={{ mt: 1 }}>
+            <ShiftTable shifts={shifts} mode={mode} />
+          </Box>
+          <Box sx={{ mt: 3 }}>
+            <BreakTimeTable
+              shifts={shifts}
+              mode={mode}
+              breakTimes={breakTime}
+            />
+          </Box>
         </TabPanel>
       </TabContext>
 

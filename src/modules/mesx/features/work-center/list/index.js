@@ -4,24 +4,21 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  // WORK_CENTER_STATUS_OPTIONS,
-  WORK_CENTER_STATUS_MAP,
-} from '~/common/constants'
+import { WORK_CENTER_STATUS_MAP } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import {
+  WORK_CENTER_STATUS_TO_CONFIRM,
+  WORK_CENTER_STATUS_TO_DELETE,
+  WORK_CENTER_STATUS_TO_EDIT,
+} from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
-import {
-  WORK_CENTER_STATUS_TO_CONFIRM,
-  WORK_CENTER_STATUS_TO_DELETE,
-  //WORK_CENTER_STATUS_TO_EDIT,
-} from '../../../constants'
 import FilterForm from '../form-fillter'
 import { filterSchema } from '../form-fillter/schema'
 
@@ -37,7 +34,7 @@ const breadcrumbs = [
 const DEFAULT_FILTER = {
   code: '',
   name: '',
-  factoryName: '',
+  factory: '',
   status: '',
 }
 const WorkCenter = () => {
@@ -61,13 +58,13 @@ const WorkCenter = () => {
   }, [keyword, page, pageSize, filters, sort])
 
   const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('workCenter.code'),
@@ -80,9 +77,10 @@ const WorkCenter = () => {
       headerName: t('workCenter.name'),
       width: 200,
       sortable: true,
+      fixed: true,
     },
     {
-      field: 'factoryName',
+      field: 'factory',
       headerName: t('workCenter.factoryName'),
       width: 200,
       sortable: true,
@@ -111,7 +109,7 @@ const WorkCenter = () => {
       renderCell: (params) => {
         const { id, status } = params.row
         const canConfirm = WORK_CENTER_STATUS_TO_CONFIRM.includes(status)
-        // const canEdit = WORK_CENTER_STATUS_TO_EDIT.includes(status)
+        const canEdit = WORK_CENTER_STATUS_TO_EDIT.includes(status)
         const canDelete = WORK_CENTER_STATUS_TO_DELETE.includes(status)
         return (
           <div>
@@ -126,8 +124,7 @@ const WorkCenter = () => {
             </IconButton>
 
             <>
-              {
-                //canEdit &&
+              {canEdit && (
                 <IconButton
                   onClick={() =>
                     history.push(
@@ -137,7 +134,7 @@ const WorkCenter = () => {
                 >
                   <Icon name="edit" />
                 </IconButton>
-              }
+              )}
 
               {canDelete && (
                 <IconButton onClick={() => onClickDelete(id)}>

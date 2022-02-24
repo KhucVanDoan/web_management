@@ -4,7 +4,7 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const phoneSchema = (t) =>
   Yup.string()
-    .matches(/([0-9])\b/, {
+    .matches(/^[0-9]+$/, {
       message: t('general:form.validPhone'),
       excludeEmptyString: true,
     })
