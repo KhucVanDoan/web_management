@@ -1,37 +1,38 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  searchBomProducingStepFailed,
-  searchBomProducingStepSuccess,
-  SEARCH_BOM_PRODUCING_STEP_START,
+  getBomProducingStepFailed,
+  getBomProducingStepSuccess,
+  GET_BOM_PRODUCING_STEP_START,
 } from '~/modules/mesx/redux/actions/bom-producing-step'
 import { api } from '~/services/api'
 
 /**
- * Search BomProducingStep API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchBomProducingStepApi = (params) => {
+const getBomProducingStepApi = (params) => {
   const uri = `/v1/produces/boms/bom-producing-steps/list`
-  return api.get(uri, params)
+  return api.get(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doSearchBomProducingStep(action) {
+function* doGetBomProducingStep(action) {
   try {
-    const response = yield call(searchBomProducingStepApi, action?.payload)
+    const payload = {
+      keyword: '',
+      filter: [],
+      sort: [],
+      isGetAll: 1,
+    }
+    const response = yield call(getBomProducingStepApi, payload)
 
     if (response?.statusCode === 200) {
-      const payload = {
-        list: response.data.items,
-        total: response.data.meta.total,
-      }
-
-      yield put(searchBomProducingStepSuccess(payload))
+      yield put(getBomProducingStepSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -41,7 +42,7 @@ function* doSearchBomProducingStep(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(searchBomProducingStepFailed())
+    yield put(getBomProducingStepFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -50,8 +51,8 @@ function* doSearchBomProducingStep(action) {
 }
 
 /**
- * Watch search BomProducingStep
+ * Watch search users
  */
-export default function* watchSearchBomProducingStep() {
-  yield takeLatest(SEARCH_BOM_PRODUCING_STEP_START, doSearchBomProducingStep)
+export default function* watchGetBomProducingStep() {
+  yield takeLatest(GET_BOM_PRODUCING_STEP_START, doGetBomProducingStep)
 }

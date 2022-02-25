@@ -1,5 +1,6 @@
 import React from 'react'
 
+import BomProducingStepDetail from '~/modules/mesx/features/bom-operation/detail'
 import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
 import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
 import Dashboard from '~/modules/mesx/features/dashboard'
@@ -511,35 +512,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.BOM_PRODUCING_STEP.LIST.TITLE,
-        path: ROUTE.BOM_PRODUCING_STEP.LIST.PATH,
-        component: BomProducingStep,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.BOM_PRODUCING_STEP.CREATE.TITLE,
-            path: ROUTE.BOM_PRODUCING_STEP.CREATE.PATH,
-            component: BomProducingStepForm,
-            pathActive: ROUTE.BOM_PRODUCING_STEP.CREATE.PATH,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.BOM_PRODUCING_STEP.DETAIL.TITLE,
-            path: ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH,
-            component: BomProducingStepForm,
-            pathActive: ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.BOM_PRODUCING_STEP.EDIT.TITLE,
-            path: ROUTE.BOM_PRODUCING_STEP.EDIT.PATH,
-            pathActive: ROUTE.BOM_PRODUCING_STEP.EDIT.PATH,
-            component: BomProducingStepForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
         name: ROUTE.WORK_CENTER.LIST.TITLE,
         path: ROUTE.WORK_CENTER.LIST.PATH,
         component: WorkCenter,
@@ -606,11 +578,39 @@ const routes = [
         ],
       },
       {
+        name: ROUTE.BOM_PRODUCING_STEP.LIST.TITLE,
+        path: ROUTE.BOM_PRODUCING_STEP.LIST.PATH,
+        component: BomProducingStep,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.BOM_PRODUCING_STEP.CREATE.TITLE,
+            path: ROUTE.BOM_PRODUCING_STEP.CREATE.PATH,
+            component: BomProducingStepForm,
+            pathActive: ROUTE.BOM_PRODUCING_STEP.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BOM_PRODUCING_STEP.DETAIL.TITLE,
+            path: ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH,
+            component: BomProducingStepDetail,
+            pathActive: ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BOM_PRODUCING_STEP.EDIT.TITLE,
+            path: ROUTE.BOM_PRODUCING_STEP.EDIT.PATH,
+            component: BomProducingStepForm,
+            pathActive: ROUTE.BOM_PRODUCING_STEP.EDIT.PATH,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
         name: ROUTE.DEFINE_BOM.LIST.TITLE,
         path: ROUTE.DEFINE_BOM.LIST.PATH,
         component: DefineBOM,
         isInSidebar: true,
-
         subMenu: [
           {
             name: ROUTE.DEFINE_BOM.CREATE.TITLE,

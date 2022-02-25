@@ -4,7 +4,7 @@ import {
   getBomProducingStepBomDetailsFailed,
   getBomProducingStepBomDetailsSuccess,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_START,
-} from '~/modules/mesx/redux/actions/bom-producing-step.action'
+} from '~/modules/mesx/redux/actions/bom-producing-step'
 import { api } from '~/services/api'
 
 /**

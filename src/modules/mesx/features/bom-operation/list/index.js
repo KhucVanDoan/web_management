@@ -1,40 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
 import {
-  MODAL_MODE,
   BOM_PRODUCING_STEP_STATUS,
   BOM_PRODUCING_STEP_STATUS_MAP,
-  BOM_PRODUCING_STEP_STATUS_OPTIONS,
-  BOM_PRODUCING_STEP_STATUS_TO_CONFIRM,
-  BOM_PRODUCING_STEP_STATUS_TO_DELETE,
-  BOM_PRODUCING_STEP_STATUS_TO_EDIT,
-  PRODUCING_STEP_STATUS,
 } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  confirmBomProducingStepById,
-  deleteBomProducingStep,
-  searchBomProducingStep,
-} from '~/modules/mesx/redux/actions/bom-producing-step.action'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { onChangeTextField, redirectRouter } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
-import useStyles from './style'
+import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
+
+const DEFAULT_FILTERS = {
+  code: '',
+  name: '',
+  routingName: '',
+  status: '',
+  createTime: [],
+}
 
 const breadcrumbs = [
   {
@@ -46,420 +39,235 @@ const breadcrumbs = [
   },
 ]
 
-class BomProducingStep extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: null,
-      isOpenModal: false,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenDeleteModal: false,
-      isOpenConfirmModal: false,
-      pageSize: 20,
-      page: 1,
-      keyword: '',
-      filters: [],
-      sort: null,
-    }
+function BomProducingStep() {
+  const { t } = useTranslation('mesx')
+  const history = useHistory()
+  const [keyword, setKeyword] = useState('')
+  const [pageSize, setPageSize] = useState(20)
+  const [page, setPage] = useState(1)
+  const [sort, setSort] = useState(null)
+  const [filters, setFilters] = useState({})
+  const [id, setId] = useState(null)
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
-    const { t } = props
+  const {
+    data: { bomProducingStepList, total, isLoading },
+    actions,
+  } = useBomProducingStep()
 
-    this.columns = [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        sortable: false,
+  const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    // },
+    {
+      field: 'bomCode',
+      headerName: t('bomProducingStep.code'),
+      width: 80,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'bomName',
+      headerName: t('bomProducingStep.name'),
+      width: 120,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'itemCode',
+      headerName: t('bomProducingStep.itemCode'),
+      width: 120,
+      sortable: true,
+    },
+    {
+      field: 'itemName',
+      headerName: t('bomProducingStep.itemName'),
+      width: 120,
+      sortable: true,
+    },
+    {
+      field: 'routingName',
+      headerName: t('bomProducingStep.routingName'),
+      width: 120,
+      sortable: true,
+    },
+    {
+      field: 'status',
+      headerName: t('bomProducingStep.status'),
+      width: 80,
+      renderCell: (params) => {
+        const { status } = params.row
+        return t(BOM_PRODUCING_STEP_STATUS_MAP[status])
       },
-      {
-        field: 'bomCode',
-        headerName: t('bomProducingStep.code'),
-        width: 150,
-        filterable: true,
-      },
-      {
-        field: 'bomName',
-        headerName: t('bomProducingStep.name'),
-        width: 150,
-        filterable: true,
-      },
-      {
-        field: 'itemCode',
-        headerName: t('bomProducingStep.itemCode'),
-        width: 150,
-        filterable: true,
-      },
-      {
-        field: 'itemName',
-        headerName: t('bomProducingStep.itemName'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'routingName',
-        headerName: t('bomProducingStep.routingName'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'status',
-        headerName: t('bomProducingStep.status'),
-        width: 150,
-
-        filterable: true,
-        filterOptions: {
-          options: BOM_PRODUCING_STEP_STATUS,
-          getOptionValue: (option) => option?.id?.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
-        renderCell: (params) => {
-          const { status } = params.row
-          const { t } = this.props
-          return t(BOM_PRODUCING_STEP_STATUS_MAP[status])
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('common.action'),
-        disableClickEventBubbling: true,
-        width: 200,
-        sortable: false,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          const { status, bom, id } = params.row
-          const canEdit = BOM_PRODUCING_STEP_STATUS_TO_EDIT.includes(status)
-          const canConfirm =
-            BOM_PRODUCING_STEP_STATUS_TO_CONFIRM.includes(status)
-          const canDelete = BOM_PRODUCING_STEP_STATUS_TO_DELETE.includes(status)
-          const bomId = bom?.id
-          return (
-            <div>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickViewDetails(id)}
-                size="large"
-              >
-                <Visibility />
-              </IconButton>
-              {canEdit && (
+    },
+    {
+      field: 'action',
+      headerName: t('common.action'),
+      width: 150,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        const { status, id } = params.row
+        const isConfirmed = status === BOM_PRODUCING_STEP_STATUS.PENDING
+        return (
+          <Box sx={{ whiteSpace: 'nowrap' }}>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            {isConfirmed && (
+              <>
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickEdit(id)}
-                  size="large"
+                  onClick={() =>
+                    history.push(
+                      ROUTE.BOM_PRODUCING_STEP.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
                 >
-                  <Edit />
+                  <Icon name="edit" />
                 </IconButton>
-              )}
-              {canDelete && (
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickDelete(id)}
-                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenDeleteModal(true)
+                  }}
                 >
-                  <Delete />
+                  <Icon name="delete" />
                 </IconButton>
-              )}
-              {canConfirm && (
                 <IconButton
-                  type="button"
-                  onClick={() => this.onClickConfirmed(id)}
-                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenConfirmModal(true)
+                  }}
                 >
-                  <CheckBox style={{ color: 'green' }} />
+                  <Icon name="tick" />
                 </IconButton>
-              )}
-            </div>
-          )
-        },
+              </>
+            )}
+          </Box>
+        )
       },
-    ]
-    this.validator = new SimpleReactValidator()
-  }
-  /**
-   * componentDidMount
-   */
-  componentDidMount() {
-    this.refreshData()
-  }
+    },
+  ]
 
-  /**
-   * Refresh data
-   */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
-
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
-
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
+  const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
-    this.props.searchBomProducingStep(params)
+
+    actions.searchBomProducingStep(params)
   }
 
-  /**
-   * Handle key down event
-   * @param {*} e
-   */
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
-  }
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, filters, sort, keyword])
 
-  /**
-   *
-   */
-  handleCreate = () => {
-    redirectRouter(ROUTE.BOM_PRODUCING_STEP.CREATE.PATH)
-  }
-
-  /**
-   *
-   * @param {boolean} refresh
-   */
-  handleCloseModal = (refresh = false) => {
-    this.setState({ isOpenModal: false, id: null })
-    refresh && this.refreshData()
-  }
-
-  /**
-   * onClickViewDetails
-   * @param {int} id
-   */
-  onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH, { id })
-  }
-
-  /**
-   * onClickEdit
-   * @param {int} id
-   */
-  onClickEdit = (id) => {
-    redirectRouter(ROUTE.BOM_PRODUCING_STEP.EDIT.PATH, { id })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenDeleteModal: true })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickConfirmed = (id) => {
-    this.setState({ id, isOpenConfirmModal: true })
-  }
-
-  /**
-   * Submit confirm purchased order
-   */
-  submitConfirm = () => {
-    this.props.confirmBomProducingStepById(
-      { id: this.state.id, status: PRODUCING_STEP_STATUS.CONFIRMED },
-      this.refreshData,
-    )
-    this.setState({ isOpenConfirmModal: false, id: null })
-  }
-
-  /**
-   * Close confirm modal and back to list
-   */
-  onCloseConfirmModal = () => {
-    this.setState({ isOpenConfirmModal: false })
-  }
-
-  /**
-   *
-   * @param {int} id
-   */
-  onClickRejected = (id) => {
-    redirectRouter(ROUTE.BOM_PRODUCING_STEP.DETAIL.PATH)
-  }
-
-  /**
-   * onSubmitDelete
-   */
-  onSubmitDelete = () => {
-    this.props.deleteBomProducingStep(this.state.id, () => {
-      this.setState({ isOpenDeleteModal: false })
-      this.refreshData()
+  const onSubmitDelete = () => {
+    actions.deleteBomProducingStep(id, () => {
+      setIsOpenDeleteModal(false)
+      refreshData()
     })
   }
 
-  /**
-   * onCancelDelete
-   */
-  onCancelDelete = () => {
-    this.setState({ isOpenDeleteModal: false })
+  const onSubmitConfirm = () => {
+    actions.confirmBomProducingStepById(id, () => {
+      refreshData()
+      setIsOpenConfirmModal(false)
+      setId(null)
+    })
   }
 
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize })
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page })
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  render() {
-    const { isOpenDeleteModal, pageSize, page, isOpenConfirmModal } = this.state
-    const { classes, bomProducingStep, t } = this.props
-
+  const renderHeaderRight = () => {
     return (
       <>
-        <div>
-          <h2>{t('bomProducingStep.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('bomProducingStep.searchPlaceholder')}
-            variant="outlined"
-            size="small"
-            onKeyDown={this.onKeyDown}
-            name="keyword"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.refreshData}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            onChange={(event) => onChangeTextField(this, event)}
-          />
-        </div>
-        <div className={classes.createBox}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreate}
-            startIcon={<AddCircle />}
-          >
-            {t('common.create')}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            // onClick={this.handleImport}
-          >
-            {t('bomProducingStep.import')}
-          </Button>
-        </div>
-        <DataTable
-          rows={bomProducingStep.bomProducingStepList}
-          columns={this.columns}
-          pageSize={pageSize}
-          page={page}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={bomProducingStep.total}
-        />
-        <Loading open={bomProducingStep?.isLoading} />
-        <Modal
-          isOpen={isOpenDeleteModal}
-          title={t('bomProducingStep.deleteModalTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCancelDelete}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+        <Button variant="outlined" icon="download" disabled>
+          {t('menu.importExportData')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.BOM_PRODUCING_STEP.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
         >
-          {t('bomProducingStep.deleteConfirm')}
-        </Modal>
-        <Modal
-          isOpen={isOpenConfirmModal}
-          title={t('common.notify')}
-          size="sm"
-          onSubmit={this.submitConfirm}
-          onClose={this.onCloseConfirmModal}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
-        >
-          {t('common.confirmMessage.confirm')}
-        </Modal>
+          {t('common.create')}
+        </Button>
       </>
     )
   }
-}
-const mapStateToProps = (state) => ({
-  bomProducingStep: state.bomProducingStep,
-})
 
-const mapDispatchToProps = {
-  confirmBomProducingStepById,
-  deleteBomProducingStep,
-  searchBomProducingStep,
+  return (
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('menu.bomProducingStep')}
+      onSearch={setKeyword}
+      placeholder={t('bomProducingStep.searchPlaceholder')}
+      renderHeaderRight={renderHeaderRight}
+      loading={isLoading}
+    >
+      <DataTable
+        title={t('bomProducingStep.title')}
+        rows={bomProducingStepList}
+        columns={columns}
+        pageSize={pageSize}
+        page={page}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+        onChangeFilter={setFilters}
+        onChangeSort={setSort}
+        sort={sort}
+        total={total}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
+        checkboxSelection
+      />
+      <Dialog
+        open={isOpenDeleteModal}
+        title={t('bomProducingStep.deleteModalTitle')}
+        onCancel={() => setIsOpenDeleteModal(false)}
+        onSubmit={onSubmitDelete}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('bomProducingStep.deleteConfirm')}
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('common.notify')}
+        maxWidth="sm"
+        onCancel={() => setIsOpenConfirmModal(false)}
+        onSubmit={onSubmitConfirm}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        noBorderBottom
+      >
+        {t('common.confirmMessage.confirm')}
+      </Dialog>
+    </Page>
+  )
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(BomProducingStep)),
-  ),
-  breadcrumbs,
-)
+export default BomProducingStep
