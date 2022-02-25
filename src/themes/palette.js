@@ -109,6 +109,36 @@ const palette = {
   background: {
     main: '#F4F5F5',
   },
+  status: {
+    created: {
+      main: '#8D8886',
+      contrast: '#FFF',
+    },
+    pending: {
+      main: '#8D8886',
+      contrast: '#FFF',
+    },
+    confirmed: {
+      main: '#0FA44A',
+      contrast: '#FFF',
+    },
+    rejected: {
+      main: '#FF0909',
+      contrast: '#FFF',
+    },
+    inprogress: {
+      main: '#FF9054',
+      contrast: '#FFF',
+    },
+    completed: {
+      main: '#0FA44A',
+      contrast: '#FFF',
+    },
+    approved: {
+      main: '#0761AD',
+      contrast: '#FFF',
+    },
+  },
   borderField: '#0761AD',
   // For special cases
   bgPrimaryOpacity: '#DAE7F3',

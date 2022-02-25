@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
 import {
-  BOQ_STATUS_MAP,
+  BOQ_STATUS_OPTIONS,
   BOQ_STATUS_TO_EDIT,
   BOQ_STATUS_TO_CONFIRM,
   BOQ_STATUS_TO_DELETE,
@@ -14,6 +14,7 @@ import {
   DATE_FORMAT_2,
 } from '~/common/constants'
 import Button from '~/components/Button'
+import ColorStatus from '~/components/ColorStatus'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
@@ -122,7 +123,7 @@ const DefineBOQ = (props) => {
 
         renderCell: (params) => {
           const { status } = params.row
-          return t(BOQ_STATUS_MAP[status])
+          return <ColorStatus value={status} options={BOQ_STATUS_OPTIONS} />
         },
       },
       {

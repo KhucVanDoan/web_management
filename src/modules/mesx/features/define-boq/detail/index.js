@@ -5,8 +5,9 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { BOQ_STATUS, BOQ_STATUS_MAP, MODAL_MODE } from '~/common/constants'
+import { BOQ_STATUS, MODAL_MODE, BOQ_STATUS_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
+import ColorStatus from '~/components/ColorStatus'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
@@ -51,20 +52,6 @@ const BOQDetail = () => {
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_BOQ.LIST.PATH)
-  }
-
-  const genColorButton = () => {
-    switch (status) {
-      case BOQ_STATUS.PENDING:
-      case BOQ_STATUS.UPDATE:
-      case BOQ_STATUS.CREATE:
-      case BOQ_STATUS.COMPLETED:
-        return 'primary'
-      case BOQ_STATUS.REJECTED:
-        return 'error'
-      default:
-        return 'text'
-    }
   }
 
   const renderActionButtons = () => {
@@ -125,13 +112,16 @@ const BOQDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             {status >= 0 && (
               <Grid item xs={12}>
-                <Button
-                  variant="outlined"
-                  color={genColorButton()}
-                  sx={{ display: 'flex', marginLeft: 'auto' }}
-                >
-                  {t(BOQ_STATUS_MAP[status])}
-                </Button>
+                <LV
+                  label={t('defineBOQ.status')}
+                  value={
+                    <ColorStatus
+                      isContain
+                      options={BOQ_STATUS_OPTIONS}
+                      value={status}
+                    />
+                  }
+                />
               </Grid>
             )}
             <Grid item xs={12} lg={6}>
