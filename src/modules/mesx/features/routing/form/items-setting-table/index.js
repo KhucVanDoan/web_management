@@ -47,15 +47,15 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
 
   const columns = useMemo(
     () => [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 50,
-        align: 'center',
-        renderCell: (_, index) => {
-          return index + 1
-        },
-      },
+      // {
+      //   field: 'id',
+      //   headerName: '#',
+      //   width: 50,
+      //   align: 'center',
+      //   renderCell: (_, index) => {
+      //     return index + 1
+      //   },
+      // },
       {
         field: 'code',
         headerName: t('producingStep.code'),
@@ -108,6 +108,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               inputProps={{
                 min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
               }}
+              value={index + 1}
               type="number"
               disabled={isView}
             />
