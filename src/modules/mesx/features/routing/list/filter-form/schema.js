@@ -11,9 +11,9 @@ export const filterSchema = (t) =>
       }),
     ),
     name: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
   })
