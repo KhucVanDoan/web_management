@@ -1,65 +1,98 @@
-export const SEARCH_BOM_PRODUCING_STEP_START =
-  'SEARCH_BOM_PRODUCING_STEP_START';
+export const GET_BOM_PRODUCING_STEP_START = 'GET_BOM_PRODUCING_STEP_START'
+export const GET_BOM_PRODUCING_STEP_SUCCESS = 'GET_BOM_PRODUCING_STEP_SUCCESS'
+export const GET_BOM_PRODUCING_STEP_FAILED = 'GET_BOM_PRODUCING_STEP_SUCCESS'
+
+export const SEARCH_BOM_PRODUCING_STEP_START = 'SEARCH_BOM_PRODUCING_STEP_START'
 export const SEARCH_BOM_PRODUCING_STEP_SUCCESS =
-  'SEARCH_BOM_PRODUCING_STEP_SUCCESS';
+  'SEARCH_BOM_PRODUCING_STEP_SUCCESS'
 export const SEARCH_BOM_PRODUCING_STEP_FAILED =
-  'SEARCH_BOM_PRODUCING_STEP_SUCCESS';
+  'SEARCH_BOM_PRODUCING_STEP_SUCCESS'
 
-export const CREATE_BOM_PRODUCING_STEP_START =
-  'CREATE_BOM_PRODUCING_STEP_START';
+export const CREATE_BOM_PRODUCING_STEP_START = 'CREATE_BOM_PRODUCING_STEP_START'
 export const CREATE_BOM_PRODUCING_STEP_SUCCESS =
-  'CREATE_BOM_PRODUCING_STEP_SUCCESS';
+  'CREATE_BOM_PRODUCING_STEP_SUCCESS'
 export const CREATE_BOM_PRODUCING_STEP_FAILED =
-  'CREATE_BOM_PRODUCING_STEP_FAILED';
+  'CREATE_BOM_PRODUCING_STEP_FAILED'
 
-export const UPDATE_BOM_PRODUCING_STEP_START =
-  'UPDATE_BOM_PRODUCING_STEP_START';
+export const UPDATE_BOM_PRODUCING_STEP_START = 'UPDATE_BOM_PRODUCING_STEP_START'
 export const UPDATE_BOM_PRODUCING_STEP_SUCCESS =
-  'UPDATE_BOM_PRODUCING_STEP_SUCCESS';
+  'UPDATE_BOM_PRODUCING_STEP_SUCCESS'
 export const UPDATE_BOM_PRODUCING_STEP_FAILED =
-  'UPDATE_BOM_PRODUCING_STEP_FAILED';
+  'UPDATE_BOM_PRODUCING_STEP_FAILED'
 
-export const DELETE_BOM_PRODUCING_STEP_START =
-  'DELETE_BOM_PRODUCING_STEP_START';
+export const DELETE_BOM_PRODUCING_STEP_START = 'DELETE_BOM_PRODUCING_STEP_START'
 export const DELETE_BOM_PRODUCING_STEP_SUCCESS =
-  'DELETE_BOM_PRODUCING_STEP_SUCCESS';
+  'DELETE_BOM_PRODUCING_STEP_SUCCESS'
 export const DELETE_BOM_PRODUCING_STEP_FAILED =
-  'DELETE_BOM_PRODUCING_STEP_FAILED';
+  'DELETE_BOM_PRODUCING_STEP_FAILED'
 
 export const GET_BOM_PRODUCING_STEP_DETAILS_START =
-  'GET_BOM_PRODUCING_STEP_DETAILS_START';
+  'GET_BOM_PRODUCING_STEP_DETAILS_START'
 export const GET_BOM_PRODUCING_STEP_DETAILS_SUCCESS =
-  'GET_BOM_PRODUCING_STEP_DETAILS_SUCCESS';
+  'GET_BOM_PRODUCING_STEP_DETAILS_SUCCESS'
 export const GET_BOM_PRODUCING_STEP_DETAILS_FAILED =
-  'GET_BOM_PRODUCING_STEP_DETAILS_FAILED';
+  'GET_BOM_PRODUCING_STEP_DETAILS_FAILED'
 
 export const CONFIRM_BOM_PRODUCING_STEP_START =
-  'CONFIRM_BOM_PRODUCING_STEP_START';
+  'CONFIRM_BOM_PRODUCING_STEP_START'
 export const CONFIRM_BOM_PRODUCING_STEP_SUCCESS =
-  'CONFIRM_BOM_PRODUCING_STEP_SUCCESS';
+  'CONFIRM_BOM_PRODUCING_STEP_SUCCESS'
 export const CONFIRM_BOM_PRODUCING_STEP_FAILED =
-  'CONFIRM_BOM_PRODUCING_STEP_FAILED';
+  'CONFIRM_BOM_PRODUCING_STEP_FAILED'
 
-export const REJECT_BOM_PRODUCING_STEP_START =
-  'REJECT_BOM_PRODUCING_STEP_START';
+export const REJECT_BOM_PRODUCING_STEP_START = 'REJECT_BOM_PRODUCING_STEP_START'
 export const REJECT_BOM_PRODUCING_STEP_SUCCESS =
-  'REJECT_BOM_PRODUCING_STEP_SUCCESS';
+  'REJECT_BOM_PRODUCING_STEP_SUCCESS'
 export const REJECT_BOM_PRODUCING_STEP_FAILED =
-  'REJECT_BOM_PRODUCING_STEP_FAILED';
+  'REJECT_BOM_PRODUCING_STEP_FAILED'
 
 export const GET_BOM_PRODUCING_STEP_STRUCTURE_START =
-  'GET_BOM_PRODUCING_STEP_STRUCTURE_START';
+  'GET_BOM_PRODUCING_STEP_STRUCTURE_START'
 export const GET_BOM_PRODUCING_STEP_STRUCTURE_SUCCESS =
-  'GET_BOM_PRODUCING_STEP_STRUCTURE_SUCCESS';
+  'GET_BOM_PRODUCING_STEP_STRUCTURE_SUCCESS'
 export const GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED =
-  'GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED';
+  'GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED'
 
 export const GET_BOM_PRODUCING_STEP_BOM_DETAILS_START =
-  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_START';
+  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_START'
 export const GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS =
-  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS';
+  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS'
 export const GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED =
-  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED';
+  'GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED'
+
+export const RESET_BOM_PRODUCING_STEP_DETAILS_STATE =
+  'RESET_BOM_PRODUCING_STEP_DETAILS_STATE'
+
+export function getBomProducingStep(payload, onSuccess, onError) {
+  return {
+    type: GET_BOM_PRODUCING_STEP_START,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/**
+ * Get factories success
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getBomProducingStepSuccess(payload) {
+  return {
+    type: GET_BOM_PRODUCING_STEP_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get factories failed
+ * @returns {object}
+ */
+export function getBomProducingStepFailed() {
+  return {
+    type: GET_BOM_PRODUCING_STEP_FAILED,
+  }
+}
 
 /**
  * Search BomProducingStep
@@ -74,7 +107,7 @@ export function searchBomProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -86,7 +119,7 @@ export function searchBomProducingStepSuccess(payload) {
   return {
     type: SEARCH_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -96,7 +129,7 @@ export function searchBomProducingStepSuccess(payload) {
 export function searchBomProducingStepFailed() {
   return {
     type: SEARCH_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -112,7 +145,7 @@ export function createBomProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -124,7 +157,7 @@ export function createBomProducingStepSuccess(payload) {
   return {
     type: CREATE_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -134,7 +167,7 @@ export function createBomProducingStepSuccess(payload) {
 export function createBomProducingStepFailed() {
   return {
     type: CREATE_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -150,7 +183,7 @@ export function updateBomProducingStep(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update BomProducingStep success action
@@ -161,7 +194,7 @@ export function updateBomProducingStepSuccess(payload) {
   return {
     type: UPDATE_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -171,7 +204,7 @@ export function updateBomProducingStepSuccess(payload) {
 export function updateBomProducingStepFailed() {
   return {
     type: UPDATE_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 /**
  * Delete BomProducingStep
@@ -186,7 +219,7 @@ export function deleteBomProducingStep(BomProducingStepId, onSuccess, onError) {
     payload: BomProducingStepId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -198,7 +231,7 @@ export function deleteBomProducingStepSuccess(payload) {
   return {
     type: DELETE_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -208,7 +241,7 @@ export function deleteBomProducingStepSuccess(payload) {
 export function deleteBomProducingStepFailed() {
   return {
     type: DELETE_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -228,7 +261,7 @@ export function getBomProducingStepDetailsById(
     payload: BomProducingStepId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -240,7 +273,7 @@ export function getBomProducingStepDetailsByIdSuccess(payload) {
   return {
     type: GET_BOM_PRODUCING_STEP_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -250,7 +283,7 @@ export function getBomProducingStepDetailsByIdSuccess(payload) {
 export function getBomProducingStepDetailsByIdFailed() {
   return {
     type: GET_BOM_PRODUCING_STEP_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -270,7 +303,7 @@ export function confirmBomProducingStepById(
     payload: BomProducingStepId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -282,7 +315,7 @@ export function confirmBomProducingStepByIdSuccess(payload) {
   return {
     type: CONFIRM_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -292,7 +325,7 @@ export function confirmBomProducingStepByIdSuccess(payload) {
 export function confirmBomProducingStepByIdFailed() {
   return {
     type: CONFIRM_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -312,7 +345,7 @@ export function rejectBomProducingStepById(
     payload: BomProducingStepId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -324,7 +357,7 @@ export function rejectBomProducingStepByIdSuccess(payload) {
   return {
     type: REJECT_BOM_PRODUCING_STEP_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -334,7 +367,7 @@ export function rejectBomProducingStepByIdSuccess(payload) {
 export function rejectBomProducingStepByIdFailed() {
   return {
     type: REJECT_BOM_PRODUCING_STEP_FAILED,
-  };
+  }
 }
 
 /**
@@ -344,17 +377,13 @@ export function rejectBomProducingStepByIdFailed() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
-export function getBomProducingStepBomDetails(
-  params,
-  onSuccess,
-  onError,
-) {
+export function getBomProducingStepBomDetails(params, onSuccess, onError) {
   return {
     type: GET_BOM_PRODUCING_STEP_BOM_DETAILS_START,
     payload: params,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -366,7 +395,7 @@ export function getBomProducingStepBomDetailsSuccess(payload) {
   return {
     type: GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -376,5 +405,42 @@ export function getBomProducingStepBomDetailsSuccess(payload) {
 export function getBomProducingStepBomDetailsFailed() {
   return {
     type: GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED,
-  };
+  }
+}
+
+export function resetBomProducingStepDetailsState() {
+  return {
+    type: RESET_BOM_PRODUCING_STEP_DETAILS_STATE,
+  }
+}
+
+export default {
+  getBomProducingStep,
+  getBomProducingStepSuccess,
+  getBomProducingStepFailed,
+  searchBomProducingStep,
+  searchBomProducingStepSuccess,
+  searchBomProducingStepFailed,
+  createBomProducingStep,
+  createBomProducingStepSuccess,
+  createBomProducingStepFailed,
+  updateBomProducingStep,
+  updateBomProducingStepSuccess,
+  updateBomProducingStepFailed,
+  deleteBomProducingStep,
+  deleteBomProducingStepSuccess,
+  deleteBomProducingStepFailed,
+  getBomProducingStepDetailsById,
+  getBomProducingStepDetailsByIdSuccess,
+  getBomProducingStepDetailsByIdFailed,
+  confirmBomProducingStepById,
+  confirmBomProducingStepByIdSuccess,
+  confirmBomProducingStepByIdFailed,
+  rejectBomProducingStepById,
+  rejectBomProducingStepByIdSuccess,
+  rejectBomProducingStepByIdFailed,
+  getBomProducingStepBomDetails,
+  getBomProducingStepBomDetailsSuccess,
+  getBomProducingStepBomDetailsFailed,
+  resetBomProducingStepDetailsState,
 }

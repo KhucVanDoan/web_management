@@ -17,13 +17,17 @@ import {
   SEARCH_BOM_PRODUCING_STEP_FAILED,
   SEARCH_BOM_PRODUCING_STEP_START,
   SEARCH_BOM_PRODUCING_STEP_SUCCESS,
+  GET_BOM_PRODUCING_STEP_FAILED,
+  GET_BOM_PRODUCING_STEP_START,
+  GET_BOM_PRODUCING_STEP_SUCCESS,
   UPDATE_BOM_PRODUCING_STEP_FAILED,
   UPDATE_BOM_PRODUCING_STEP_START,
   UPDATE_BOM_PRODUCING_STEP_SUCCESS,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_START,
   GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS,
-} from '~/modules/mesx/redux/actions/bom-producing-step.action'
+  RESET_BOM_PRODUCING_STEP_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/bom-producing-step'
 
 const initialState = {
   isLoading: false,
@@ -34,6 +38,7 @@ const initialState = {
 
 export default function bomProducingStep(state = initialState, action) {
   switch (action.type) {
+    case GET_BOM_PRODUCING_STEP_START:
     case SEARCH_BOM_PRODUCING_STEP_START:
     case CREATE_BOM_PRODUCING_STEP_START:
     case UPDATE_BOM_PRODUCING_STEP_START:
@@ -44,6 +49,18 @@ export default function bomProducingStep(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+      }
+    case GET_BOM_PRODUCING_STEP_SUCCESS:
+      return {
+        ...state,
+        bomProducingStepList: action.payload.items,
+        isLoading: false,
+      }
+    case GET_BOM_PRODUCING_STEP_FAILED:
+      return {
+        ...state,
+        bomProducingStepList: [],
+        isLoading: false,
       }
     case SEARCH_BOM_PRODUCING_STEP_SUCCESS:
       return {
@@ -89,6 +106,12 @@ export default function bomProducingStep(state = initialState, action) {
     case GET_BOM_PRODUCING_STEP_BOM_DETAILS_START:
     case GET_BOM_PRODUCING_STEP_BOM_DETAILS_SUCCESS:
     case GET_BOM_PRODUCING_STEP_BOM_DETAILS_FAILED:
+      return {}
+    case RESET_BOM_PRODUCING_STEP_DETAILS_STATE:
+      return {
+        ...state,
+        bomProducingStepDetails: {},
+      }
     default:
       return state
   }

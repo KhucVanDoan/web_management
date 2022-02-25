@@ -1,6 +1,6 @@
 // @TODO: rename all reducers files
 import auth from '../../../auth/redux/reducers/auth'
-import bomProducingStep from './bom-producing-step.reducer'
+import bomProducingStep from './bom-producing-step'
 import commonManagement from './common'
 import dashboard from './dashboard-store.reducer'
 import bom from './define-bom'
