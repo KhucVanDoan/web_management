@@ -11,7 +11,6 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { useClasses } from '~/themes'
 
 import style from './style'
@@ -23,9 +22,7 @@ const TableSetting = ({
 }) => {
   const classes = useClasses(style)
   const { t } = useTranslation()
-  const { updateTableSetting } = useTableSetting()
   const [anchorEl, setAnchorEl] = useState(null)
-  const [showColumns, setShowColumns] = useState(visibleColumns)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -33,12 +30,6 @@ const TableSetting = ({
 
   const handleClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleUpdateColumns = (newCols) => {
-    setShowColumns(newCols)
-    updateTableSetting(newCols)
-    onApplySetting(newCols)
   }
 
   const open = Boolean(anchorEl)
@@ -69,16 +60,17 @@ const TableSetting = ({
           <FormControlLabel
             control={
               <Checkbox
-                checked={showColumns.length === columns.length}
+                checked={visibleColumns.length === columns.length}
                 indeterminate={
-                  showColumns.length !== columns.length &&
-                  showColumns.length > columns.filter((col) => col.fixed).length
+                  visibleColumns.length !== columns.length &&
+                  visibleColumns.length >
+                    columns.filter((col) => col.fixed).length
                 }
                 onChange={(e) => {
                   if (e.target.checked)
-                    handleUpdateColumns(columns.map((col) => col.field))
+                    onApplySetting(columns.map((col) => col.field))
                   else
-                    handleUpdateColumns(
+                    onApplySetting(
                       columns.reduce((acc, val) => {
                         if (val.fixed) return [...acc, val.field]
                         return acc
@@ -95,13 +87,15 @@ const TableSetting = ({
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={showColumns.includes(column.field)}
+                      checked={visibleColumns.includes(column.field)}
                       onChange={(e) => {
                         if (e.target.checked)
-                          handleUpdateColumns([...showColumns, column.field])
+                          onApplySetting([...visibleColumns, column.field])
                         else
-                          handleUpdateColumns(
-                            showColumns.filter((col) => col !== column.field),
+                          onApplySetting(
+                            visibleColumns.filter(
+                              (col) => col !== column.field,
+                            ),
                           )
                       }}
                       {...(column.fixed

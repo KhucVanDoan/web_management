@@ -38,7 +38,6 @@ function* doGetMoByPlan(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    console.log(error)
     yield put(getMoByPlanIdFailed())
     // Call callback action if provided
     if (action.onError) {

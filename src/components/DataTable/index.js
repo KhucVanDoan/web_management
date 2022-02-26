@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import { Box } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
@@ -49,20 +49,9 @@ const DataTable = (props) => {
     onChangeSelectedRows,
   } = props
 
+  const [visibleColumns, setVisibleColumns] = useState([])
+  const { tableSetting, updateTableSetting } = useTableSetting()
   const indexCol = props.indexCol || 'id'
-  const { tableSetting } = useTableSetting()
-  const initVisibleColumns = (rawColumns || []).reduce(
-    (accumulator, currentValue) => {
-      if (!currentValue.hide) return [...accumulator, currentValue.field]
-      return accumulator
-    },
-    [],
-  )
-  const [visibleColumns, setVisibleColumns] = useState(
-    tableSetting || initVisibleColumns,
-  )
-
-  const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
 
   /**
    * Handle select all
@@ -125,6 +114,24 @@ const DataTable = (props) => {
     return selected.findIndex((item) => item[indexCol] === indexColValue) !== -1
   }
 
+  const handleApplySetting = useCallback((cols = []) => {
+    setVisibleColumns(cols)
+    updateTableSetting(cols)
+  }, [])
+
+  useEffect(() => {
+    const initVisibleColumns =
+      (hideSetting ? null : tableSetting) ||
+      (rawColumns || []).reduce((acc, cur) => {
+        if (!cur.hide) return [...acc, cur.field]
+        return acc
+      }, [])
+
+    handleApplySetting(initVisibleColumns)
+  }, [rawColumns, handleApplySetting])
+
+  const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
+
   return (
     <>
       {(title || filters || !hideSetting) && (
@@ -132,7 +139,7 @@ const DataTable = (props) => {
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
-          onApplySetting={(cols) => setVisibleColumns(cols)}
+          onApplySetting={handleApplySetting}
           filters={filters}
         />
       )}
@@ -255,7 +262,10 @@ const DataTable = (props) => {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  sx={{ textAlign: 'center', color: 'subText' }}
+                  sx={(theme) => ({
+                    textAlign: 'center',
+                    color: theme.palette.subText.main,
+                  })}
                 >
                   {t('dataTable.noData')}
                 </TableCell>

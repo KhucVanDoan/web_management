@@ -36,7 +36,6 @@ function* doGetWorkOrderDetails(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    console.log(error)
     yield put(getWorkOrderDetailsByIdFailed())
     // Call callback action if provided
     if (action.onError) {

@@ -12,7 +12,6 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from '../form/items-setting-table'
@@ -46,12 +45,12 @@ function BomProducingStepDetail() {
     actions: bomActions,
   } = useBOM()
 
-  const { actions: actionCommon } = useCommonManagement()
-
   useEffect(() => {
-    actions.getBomProducingStepDetailsById(id)
-    bomActions.getBOMDetailsById(id)
-    actionCommon.getItems()
+    if (id) {
+      actions.getBomProducingStepDetailsById(id)
+      bomActions.getBOMDetailsById(id)
+    }
+
     return () => {
       actions.resetBomProducingStepDetailsState()
     }
@@ -129,7 +128,7 @@ function BomProducingStepDetail() {
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mt: '30px' }}>
+      <Box sx={{ mt: 3 }}>
         <ItemsSettingTable
           items={bomProducingStepDetails?.materialDetails || []}
           mode={MODAL_MODE.DETAIL}
