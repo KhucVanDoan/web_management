@@ -165,16 +165,16 @@ const ShiftTable = ({
               arrayHelpers.push({
                 id: new Date().getTime(),
                 name: null,
-                startAt: null,
-                endAt: null,
+                startAt: '',
+                endAt: '',
                 pricePerHour: '',
                 priceUnit: '',
                 breakTimes: [
                   {
                     id: new Date().getTime(),
                     name: t('workCenter.shiftPreparationTime'),
-                    from: null,
-                    to: null,
+                    from: '',
+                    to: '',
                   },
                 ],
               })
