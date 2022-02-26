@@ -190,9 +190,8 @@ const BOQForm = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, errors, touched }) => (
+        {({ resetForm, values }) => (
           <Form>
-            {/* {console.log('---', errors, touched)} */}
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
                 <Grid

@@ -39,7 +39,6 @@ function* doGetRequestBuyMaterialDetails(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    console.log('Error :', error)
     yield put(getRequestBuyMaterialDetailsByIdFailed())
     // Call callback action if provided
     if (action.onError) {

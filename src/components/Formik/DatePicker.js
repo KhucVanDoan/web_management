@@ -16,9 +16,7 @@ const FormikDatePicker = ({ form, field, onChange, ...props }) => (
     error={
       !!getIn(form.touched, field.name) && !!getIn(form.errors, field.name)
     }
-    helperText={
-      getIn(form.touched, field.name) && getIn(form.errors, field.name)
-    }
+    helperText={getIn(form.errors, field.name)}
     {...props}
   />
 )

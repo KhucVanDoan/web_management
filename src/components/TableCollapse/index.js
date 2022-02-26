@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -66,18 +66,25 @@ const TableCollapse = (props) => {
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState(props.filters || [])
+  const [visibleColumns, setVisibleColumns] = useState([])
+  const { tableSetting, updateTableSetting } = useTableSetting()
   const indexCol = props.indexCol || 'id'
-  const { tableSetting } = useTableSetting()
-  const initVisibleColumns = (rawColumns || []).reduce(
-    (accumulator, currentValue) => {
-      if (!currentValue.hide) return [...accumulator, currentValue.field]
-      return accumulator
-    },
-    [],
-  )
-  const [visibleColumns, setVisibleColumns] = useState(
-    tableSetting || initVisibleColumns,
-  )
+
+  const handleApplySetting = useCallback((cols = []) => {
+    setVisibleColumns(cols)
+    updateTableSetting(cols)
+  }, [])
+
+  useEffect(() => {
+    const initVisibleColumns =
+      (hideSetting ? null : tableSetting) ||
+      (rawColumns || []).reduce((acc, cur) => {
+        if (!cur.hide) return [...acc, cur.field]
+        return acc
+      }, [])
+
+    handleApplySetting(initVisibleColumns)
+  }, [rawColumns, handleApplySetting])
 
   let columns = []
   if (isRoot) {
@@ -344,7 +351,7 @@ const TableCollapse = (props) => {
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
-          onApplySetting={(cols) => setVisibleColumns(cols)}
+          onApplySetting={handleApplySetting}
         />
       )}
       <TableContainer style={{ height: height ? height : '100%' }}>
@@ -601,7 +608,10 @@ const TableCollapse = (props) => {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  sx={{ textAlign: 'center', color: 'subText' }}
+                  sx={(theme) => ({
+                    textAlign: 'center',
+                    color: theme.palette.subText.main,
+                  })}
                 >
                   {t('dataTable.noData')}
                 </TableCell>

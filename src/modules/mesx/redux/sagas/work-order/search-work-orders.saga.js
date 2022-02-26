@@ -40,7 +40,6 @@ function* doSearchWorkOrders(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    console.log(error)
     yield put(searchWorkOrdersFailed())
     // Call callback action if provided
     if (action.onError) {
