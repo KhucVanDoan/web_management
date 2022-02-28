@@ -12,6 +12,7 @@ import Page from '~/components/Page'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { redirectRouter } from '~/utils'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -61,8 +62,15 @@ const DefineMasterPlanForm = () => {
       dateTo: values?.planDate ? values?.planDate[1] : '',
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createMasterPlan(convertValues, backToList)
+      actions.createMasterPlan(convertValues, () => redirectToModeration(masterPlanDetails.id))
     }
+    if (mode === MODAL_MODE.UPDATE) {
+      redirectToModeration(id)
+    }
+  }
+
+  const redirectToModeration = (id) => {
+    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
   }
 
   const backToList = () => {
@@ -185,7 +193,7 @@ const DefineMasterPlanForm = () => {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema(t)}
+            validationSchema={isUpdate ? null : validationSchema(t)}
             onSubmit={handleSubmit}
             enableReinitialize
           >

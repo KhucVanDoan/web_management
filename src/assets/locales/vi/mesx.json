@@ -106,7 +106,10 @@
     "masterPlanDefine": "Kế hoạch cơ sở",
     "masterPlanCreate": "Tạo kế hoạch cơ sở",
     "masterPlanDetail": "Chi tiết kế hoạch cơ sở",
-    "masterPlanEdit": "Cập nhật kế hoạch cơ sở"
+    "masterPlanEdit": "Cập nhật kế hoạch cơ sở",
+    "autoModeration": "Chi tiết công việc",
+    "extendDeadline": "Giãn ngày kết thúc",
+    "inputModeration": "Điều độ công việc"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
@@ -609,7 +612,27 @@
     "workOrder": "Lệnh làm việc",
     "createdAt": "Thời gian tạo",
     "executionDate": "Ngày bắt đầu thực hiện",
-    "completionTime": "Thời gian hoàn thành trước ngày giao"
+    "completionTime": "Thời gian hoàn thành trước ngày giao",
+    "autoModeration": {
+      "autoModeration": "Điều độ công việc",
+      "title": "Chi tiết công việc",
+      "selectModerationType": "Chọn loại điều độ",
+      "goToModerationType": "Điều độ công việc",
+      "extendDeadline": "Giãn ngày kết thúc",
+      "spreadProductEvenly": "Giãn đều sản phẩm",
+      "customProduct": "Tuỳ chỉnh sản phẩm",
+      "saleOrder": "Đơn hàng"
+    },
+    "extendDeadline": {
+      "title": "Điều độ công việc",
+      "saleOrder": "Đơn hàng"
+    },
+    "inputModeration": {
+      "title": "Điều độ công việc",
+      "workCenterName": "Tên xưởng",
+      "total": "Tổng"
+    },
+    "submitModerationInputSuccess": "Lưu điều độ thành công"
   },
   "definePlan": {
     "name": "Tên sản phẩm",

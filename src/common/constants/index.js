@@ -985,3 +985,18 @@ export const WORK_CENTER_STATUS_OPTIONS = [
     text: 'workCenterStatus.rejected',
   },
 ]
+
+export const MODERATION_TYPE = [
+  {
+    id: 1,
+    text: 'defineMasterPlan.autoModeration.extendDeadline'
+  },
+  {
+    id: 2,
+    text: 'defineMasterPlan.autoModeration.spreadProductEvenly'
+  },
+  {
+    id: 3,
+    text: 'defineMasterPlan.autoModeration.customProduct'
+  }
+]

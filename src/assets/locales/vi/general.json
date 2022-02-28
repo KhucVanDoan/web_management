@@ -61,5 +61,57 @@
   "pagination": {
     "rowsPerPage": "Số dòng mỗi trang",
     "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
+  },
+  "month": {
+    "jan": "Tháng 1",
+    "feb": "Tháng 2",
+    "mar": "Tháng 3",
+    "apr": "Tháng 4",
+    "may": "Tháng 5",
+    "jun": "Tháng 6",
+    "jul": "Tháng 7",
+    "aug": "Tháng 8",
+    "sep": "Tháng 9",
+    "oct": "Tháng 10",
+    "nov": "Tháng 11",
+    "dec": "Tháng 12",
+    "s_jan": "T1",
+    "s_feb": "T2",
+    "s_mar": "T3",
+    "s_apr": "T4",
+    "s_may": "T5",
+    "s_jun": "T6",
+    "s_jul": "T7",
+    "s_aug": "T8",
+    "s_sep": "T9",
+    "s_obt": "T10",
+    "s_nov": "T11",
+    "s_dec": "T12"
+  },
+  "day": {
+    "monday": "Thứ 2",
+    "tueday": "Thứ 3",
+    "wenesday": "Thứ 4",
+    "thurday": "Thứ 5",
+    "friday": "Thứ 6",
+    "saturday": "Thứ 7",
+    "sunday": "Chủ nhật",
+    "s_monday": "T2",
+    "s_tueday": "T3",
+    "s_wenesday": "T4",
+    "s_thurday": "5",
+    "s_friday": "T6",
+    "s_saturday": "T7",
+    "s_sunday": "CN"
+  },
+  "minutes": "Phút",
+  "hours": "Giờ",
+  "days": "Ngày",
+  "weeks": "Tuần",
+  "months": "Tháng",
+  "years": "Năm",
+  "ganttChart": {
+    "taskName": "Công việc",
+    "completed": "Tiến độ"
   }
 }
