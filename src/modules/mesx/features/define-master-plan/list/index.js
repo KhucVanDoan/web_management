@@ -19,7 +19,7 @@ import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, formatDateTimeUtc, convertObjectToArrayFilter } from '~/utils'
+import { redirectRouter, formatDateTimeUtc, convertFilterParams } from '~/utils'
 
 import FilterForm from './filter-form'
 import { validationSchema } from './filter-form/schema'
@@ -399,7 +399,7 @@ const DefineMasterPlan = (props) => {
     const params = {
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertObjectToArrayFilter(filters, columns)),
+      filter: JSON.stringify(convertFilterParams(filters, columns)),
       sort: JSON.stringify(sortData),
     }
 
