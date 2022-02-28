@@ -72,6 +72,9 @@ import watchGetItemDetails from './define-item/get-item-details.saga'
 import watchPrintQRItems from './define-item/print-qr-items'
 import watchSearchItems from './define-item/search-items.saga'
 import watchUpdateItem from './define-item/update-item.saga'
+import watchCreateMasterPlan from './define-master-plan/create-master-plan.saga'
+import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details.saga'
+import watchSearchMasterPlans from './define-master-plan/search-master-plans.saga'
 import watchConfirmPlan from './define-plan/confirm-plan.saga'
 import watchCreatePlan from './define-plan/create-plan.saga'
 import watchDeletePlan from './define-plan/delete-plan.saga'
@@ -326,6 +329,11 @@ export default function* sagas() {
     watchConfirmPlan(),
     watchDeletePlan(),
     watchExportPlanReport(),
+
+    // define master plan
+    watchSearchMasterPlans(),
+    watchGetMasterPlanDetails(),
+    watchCreateMasterPlan(),
 
     // producing step
     watchSearchProducingSteps(),

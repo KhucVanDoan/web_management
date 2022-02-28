@@ -15,6 +15,7 @@ import inventoryLimit from './inventory-limit.reducer'
 import itemGroupSetting from './item-group-setting'
 import itemTypeSetting from './item-type-setting'
 import itemUnitSetting from './item-unit-setting'
+import defineMasterPlan from './master-plan.reducer'
 import materialDetailPlan from './material-detail-plan.reducer'
 import Mo from './mo.reducer'
 import planReport from './plan-report.reducer'
@@ -41,6 +42,7 @@ const reducers = {
   itemUnitSetting,
   itemTypeSetting,
   definePlan,
+  defineMasterPlan,
   defineCompany,
   defineRouting,
   defineCustomer,
