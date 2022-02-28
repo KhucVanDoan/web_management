@@ -15,6 +15,7 @@ import {
   CREATE_MASTER_PLAN_START,
   CREATE_MASTER_PLAN_SUCCESS,
   RESET_MODERATION_SUGGEST_SPREAD,
+  RESET_MASTER_PLAN_DETAIL,
 } from '~/modules/mesx/redux/actions/master-plan.action'
 
 const initialState = {
@@ -87,6 +88,11 @@ export default function defineMasterPlan(state = initialState, action) {
       return {
         ...state,
         moderationSuggestSpread: []
+      }
+    case RESET_MASTER_PLAN_DETAIL:
+      return {
+        ...state,
+        masterPlanDetails: {}
       }
     default:
       return state

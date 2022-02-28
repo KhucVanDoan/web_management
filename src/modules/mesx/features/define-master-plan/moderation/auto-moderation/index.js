@@ -70,7 +70,7 @@ const AutoModeration = (props) => {
   }
   
   const getTasksInSaleOrder = (items, saleOrderId) => {
-    return items.map(item => {
+    return items?.map(item => {
       const itemSchedule = {
         text: item.itemName,
         id: item.itemId,
@@ -80,7 +80,7 @@ const AutoModeration = (props) => {
         parent: saleOrderId,
         isOverQuantity: item.isOverQuantity
       }
-      const producingSteps = item.producingSteps.map(step => ({
+      const producingSteps = item.producingSteps?.map(step => ({
         text: step.producingStepName,
         id: step.id,
         end_date: step.dateFrom,
@@ -89,10 +89,10 @@ const AutoModeration = (props) => {
         parent: item.itemId,
         type: 'producingStep',
         isOverQuantity: step.isOverQuantity
-      }))
-      const a = getTasksInSaleOrder(item.subBom, item.itemId)
+      })) || []
+      const subBom = getTasksInSaleOrder(item.subBom, item.itemId) || []
   
-      return [itemSchedule, ...producingSteps, ...a]
+      return [itemSchedule, ...producingSteps, ...subBom]
     }).flat()
   }
 
