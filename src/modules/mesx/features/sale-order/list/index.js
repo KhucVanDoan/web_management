@@ -86,6 +86,7 @@ function SaleOrder() {
       headerName: t('saleOrder.description'),
       width: 150,
       fixed: true,
+      sortable: true,
     },
     {
       field: 'status',
@@ -202,16 +203,6 @@ function SaleOrder() {
   }, [sort, keyword, filters, page, pageSize])
 
   const refreshData = () => {
-    const sortData =
-      sort && sort?.orderBy && sort?.order
-        ? [
-            {
-              column: sort?.orderBy,
-              order: sort?.order?.toUpperCase(),
-            },
-          ]
-        : []
-
     const params = {
       keyword: keyword.trim(),
       page,
@@ -244,7 +235,7 @@ function SaleOrder() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('saleOrder.title')}
+        title={t('menu.saleOrderDefine')}
         onSearch={setKeyword}
         placeholder={t('saleOrder.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
@@ -259,6 +250,7 @@ function SaleOrder() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onChangeSort={setSort}
+          onChangeFilter={setFilters}
           total={total}
           filters={{
             form: <FilterForm />,

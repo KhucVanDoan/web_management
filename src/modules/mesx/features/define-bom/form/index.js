@@ -14,6 +14,7 @@ import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from '../item-setting-table'
@@ -46,9 +47,10 @@ function BOMForm() {
     actions: actionCommon,
   } = useCommonManagement()
 
-  const handleChangeTabValue = (_, value) => {
-    setTabValue(value)
-  }
+  const {
+    data: { itemTypeList },
+    actions: actionsItemType,
+  } = useItemType()
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_BOM.LIST.PATH)
@@ -60,8 +62,9 @@ function BOMForm() {
         headerName: t('defineBOM.item.orderNumber'),
         width: 50,
         align: 'center',
-        renderCell: (_, index) => {
-          return index + 1
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.id
         },
       },
       {
@@ -69,12 +72,20 @@ function BOMForm() {
         headerName: t('defineBOM.item.code'),
         width: 150,
         align: 'center',
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.code
+        },
       },
       {
         field: 'name',
         headerName: t('defineBOM.item.name'),
         width: 150,
         align: 'center',
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.name
+        },
       },
       {
         field: 'quantity',
@@ -87,9 +98,9 @@ function BOMForm() {
         headerName: t('defineBOM.item.unitType'),
         width: 150,
         align: 'center',
-        renderCell: (params, index) => {
-          const itemId = params.row?.itemId
-          return <>{getItemObject(itemId)?.itemUnit?.name}</>
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.itemUnitName
         },
       },
       {
@@ -97,9 +108,9 @@ function BOMForm() {
         headerName: t('defineBOM.item.type'),
         width: 150,
         align: 'center',
-        renderCell: (params, index) => {
-          const itemId = params.row?.itemId
-          return <>{getItemObject(itemId)?.itemType?.name}</>
+        renderCell: (params) => {
+          const { item } = params.row
+          return itemTypeList.find((i) => i.id === item?.itemTypeId)?.name
         },
       },
       {
@@ -108,9 +119,8 @@ function BOMForm() {
         width: 150,
         align: 'center',
         renderCell: (params) => {
-          const itemId = params.row?.itemId
-          const isProductionObject = getItemObject(itemId)?.isProductionObject
-          return isProductionObject ? (
+          const { item } = params.row
+          return item?.isProductionObject ? (
             <IconButton>
               <Icon name="tick" />
             </IconButton>
@@ -221,6 +231,7 @@ function BOMForm() {
     }
     actionCommon.getRoutings()
     actionCommon.getItems()
+    actionsItemType.searchItemTypes({ isGetAll: 1 })
     return () => actions.resetBomState()
   }, [mode])
 
@@ -239,9 +250,15 @@ function BOMForm() {
     tabValue: '1',
   }
 
-  const itemListBOM = itemList.filter(
-    (i) => i.isProductionObject === true && !i.isHasBom,
-  )
+  const itemListBOM = itemList.filter((i) => {
+    if (mode === MODAL_MODE.UPDATE) {
+      return (
+        (i.isProductionObject === true && !i.isHasBom) ||
+        i.id === BOMDetails?.itemId
+      )
+    }
+    return i.isProductionObject === true && !i.isHasBom
+  })
 
   return (
     <Page

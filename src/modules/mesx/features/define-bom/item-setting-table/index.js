@@ -4,11 +4,7 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
-import {
-  DEFAULT_ITEM_TYPE_ENUM,
-  NUMBER_FIELD_REQUIRED_SIZE,
-  MODAL_MODE,
-} from '~/common/constants'
+import { DEFAULT_ITEM_TYPE_ENUM, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -99,9 +95,6 @@ const ItemSettingTable = (props) => {
           ) : (
             <Field.TextField
               name={`items[${index}].quantity`}
-              inputProps={{
-                min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-              }}
               type="number"
               disabled={isView}
             />
@@ -169,7 +162,6 @@ const ItemSettingTable = (props) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
-              type="button"
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
@@ -181,8 +173,9 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [],
+    [itemList, items],
   )
+
   return (
     <>
       <Box

@@ -195,7 +195,7 @@ function SaleOrderForm() {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, values, errors, touched }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -299,6 +299,7 @@ function SaleOrderForm() {
                         label={t('saleOrder.deadline')}
                         placeholder={t('saleOrder.deadline')}
                         required
+                        // minDate={startOfToday()}
                       />
                     </Box>
                   </Grid>

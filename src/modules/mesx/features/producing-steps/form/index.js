@@ -158,7 +158,9 @@ function ProducingStepForm() {
     description: details?.description || '',
     qcQuantityRule:
       details?.qcQuantityRule || NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-    productionTimePerItem: Number(details?.productionTimePerItem) || '',
+    productionTimePerItem:
+      Number(details?.productionTimePerItem) ||
+      NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
     switchMode: details?.switchMode?.toString() || null,
     workCenterId: details?.workCenterId || null,
     processQc: false,
@@ -222,10 +224,6 @@ function ProducingStepForm() {
                       name="qcQuantityRule"
                       label={t('producingStep.completeItems')}
                       placeholder={t('producingStep.completeItems')}
-                      // inputProps={{
-                      //   min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-                      // }}
-                      // @TODO: <linh.taquang> update this validation rule in the schema.js
                       type="number"
                       required
                     />
@@ -235,8 +233,8 @@ function ProducingStepForm() {
                       name="productionTimePerItem"
                       label={t('producingStep.timePerProduct')}
                       placeholder={t('producingStep.timePerProduct')}
-                      inputProps={{
-                        min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+                      InputProps={{
+                        endAdornment: <>{t('producingStep.unit.minutes')}</>,
                       }}
                       type="number"
                       required
@@ -326,8 +324,8 @@ function ProducingStepForm() {
                         label={t('producingStep.timeQC')}
                         placeholder={t('producingStep.timeQc')}
                         disabled={!values.inputQc}
-                        inputProps={{
-                          min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+                        InputProps={{
+                          endAdornment: <>{t('producingStep.unit.minutes')}</>,
                         }}
                         type="number"
                       />
@@ -367,8 +365,8 @@ function ProducingStepForm() {
                         label={t('producingStep.timeQC')}
                         placeholder={t('producingStep.timeQc')}
                         disabled={!values.outputQc}
-                        inputProps={{
-                          min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+                        InputProps={{
+                          endAdornment: <>{t('producingStep.unit.minutes')}</>,
                         }}
                         type="number"
                       />

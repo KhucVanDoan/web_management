@@ -74,9 +74,6 @@ function detailBOM() {
         headerName: t('defineBOM.item.orderNumber'),
         width: 50,
         align: 'center',
-        renderCell: (_, index) => {
-          return index + 1
-        },
       },
       {
         field: 'code',

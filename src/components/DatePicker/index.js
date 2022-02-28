@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import { DatePicker as MuiDatePicker } from '@mui/lab'
 import {
@@ -23,6 +23,7 @@ const DatePicker = ({
   placeholder,
   value,
   onChange,
+  onTouch,
   error,
   disabled,
   helperText,
@@ -34,6 +35,17 @@ const DatePicker = ({
   const classes = useClasses(style)
   const theme = useTheme()
   const [open, setOpen] = useState(false)
+  const ref = useRef(false)
+
+  useEffect(() => {
+    if (ref.current !== open) {
+      if (ref.current) {
+        onTouch(true)
+        return
+      }
+      ref.current = open
+    }
+  }, [open])
 
   return (
     <FormControl
@@ -150,6 +162,7 @@ DatePicker.defaultProps = {
   label: '',
   value: null,
   onChange: () => {},
+  onTouch: () => {},
   error: false,
   helperText: '',
   disabled: false,
@@ -163,6 +176,7 @@ DatePicker.propTypes = {
   label: PropTypes.string,
   value: PropTypes.shape(),
   onChange: PropTypes.func,
+  onTouch: PropTypes.func,
   error: PropTypes.bool,
   helperText: PropTypes.string,
   disabled: PropTypes.bool,
