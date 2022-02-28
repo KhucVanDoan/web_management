@@ -19,7 +19,12 @@ import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, formatDateTimeUtc, convertFilterParams } from '~/utils'
+import {
+  redirectRouter,
+  formatDateTimeUtc,
+  convertFilterParams,
+  convertSortParams
+} from '~/utils'
 
 import FilterForm from './filter-form'
 import { validationSchema } from './filter-form/schema'
@@ -387,20 +392,11 @@ const DefineMasterPlan = (props) => {
    * Refresh data
    */
   const refreshData = (keyword = '') => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       page,
       limit: pageSize,
-      filter: JSON.stringify(convertFilterParams(filters, columns)),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
     }
 
     masterPlanActions.searchMasterPlans(params)
@@ -418,7 +414,7 @@ const DefineMasterPlan = (props) => {
    * @param {int} id
    */
   const onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.DETAILS.PATH, { id: id })
+    redirectRouter(ROUTE.MASTER_PLAN.DETAIL.PATH, { id: id })
   }
 
   /**
