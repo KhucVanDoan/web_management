@@ -94,7 +94,7 @@ const Dialog = ({
       open={open}
       onClose={(_, reason) => {
         if (reason === 'backdropClick' && disableBackdropClick) return
-        onCancel()
+        onCancel && onCancel()
       }}
       {...props}
     >

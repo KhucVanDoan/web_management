@@ -31,7 +31,7 @@ function* doLogin(action) {
       localStorage.setItem('refreshToken', 'Bearer ' + data.refreshToken.token)
 
       // Save user infomation to local storage
-      localStorage.setItem('userInfo', data.userInfo)
+      localStorage.setItem('userInfo', JSON.stringify(data.userInfo))
       yield put(getAppStore())
       yield put(loginSuccess(response.data.userInfo))
 

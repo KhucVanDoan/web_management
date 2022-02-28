@@ -170,6 +170,14 @@ export const ROUTE = {
       PATH: '/mesx/plan/:id/detail',
       TITLE: 'definePlanDetail',
     },
+    CALENDAR: {
+      PATH: '/mesx/plan-calendar',
+      TITLE: 'planCalendar',
+      CREATE: {
+        PATH: '/mesx/plan-calendar/create',
+        TITLE: 'definedPlanCalendar',
+      },
+    },
   },
   PRODUCING_STEP: {
     LIST: {

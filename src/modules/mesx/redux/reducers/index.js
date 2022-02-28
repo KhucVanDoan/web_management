@@ -1,5 +1,6 @@
 // @TODO: rename all reducers files
 import auth from '../../../auth/redux/reducers/auth'
+import calendar from './calendar'
 import bomProducingStep from './bom-producing-step'
 import commonManagement from './common'
 import dashboard from './dashboard-store.reducer'
@@ -63,6 +64,7 @@ const reducers = {
   materialDetailPlan,
   productivityReport,
   bomProducingStep,
+  calendar,
 }
 
 export default reducers

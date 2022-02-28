@@ -3,6 +3,8 @@ import React from 'react'
 import BomProducingStepDetail from '~/modules/mesx/features/bom-operation/detail'
 import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
 import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
+import Calendar from '~/modules/mesx/features/calendar'
+import CalendarCreate from '~/modules/mesx/features/calendar/createCalendar'
 import Dashboard from '~/modules/mesx/features/dashboard'
 import detailBOM from '~/modules/mesx/features/define-bom/detail'
 import BOMForm from '~/modules/mesx/features/define-bom/form'
@@ -720,6 +722,21 @@ const routes = [
         path: '/inventory-limit',
         component: InventoryLimit,
         isInSidebar: true,
+      },
+      {
+        name: ROUTE.PLAN.CALENDAR.TITLE,
+        path: ROUTE.PLAN.CALENDAR.PATH,
+        component: Calendar,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.PLAN.CALENDAR.CREATE.TITLE,
+            path: ROUTE.PLAN.CALENDAR.CREATE.PATH,
+            component: CalendarCreate,
+            pathActive: ROUTE.PLAN.CALENDAR.CREATE.PATH,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },
