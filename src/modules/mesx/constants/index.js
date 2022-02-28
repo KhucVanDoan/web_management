@@ -909,3 +909,7 @@ export const WORK_CENTER_STATUS_TO_DELETE = [
   WORK_CENTER_STATUS.PENDING,
   WORK_CENTER_STATUS.REJECTED,
 ]
+export const EVENT_TYPE_OPTIONS = [
+  { id: 0, name: 'planCalendar.holiday' },
+  { id: 1, name: 'planCalendar.workingDay' },
+]

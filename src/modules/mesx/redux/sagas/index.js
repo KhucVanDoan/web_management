@@ -7,6 +7,12 @@ import watchDeleteBomProducingStep from './bom-producing-step/delete-bom-produci
 import watchGetBomProducingStepDetails from './bom-producing-step/get-bom-producing-step-details'
 import watchSearchBomProducingStep from './bom-producing-step/search-bom-producing-step.saga'
 import watchUpdateBomProducingStep from './bom-producing-step/update-bom-producing-step.saga'
+import {
+  watchGetDetailFactoryCalendar,
+  watchGetListFactoryCalendar,
+  watchUpdateFactoryCalendar,
+  watchCreateFactoryCalendar,
+} from './calendar'
 import watchCreatePurchasedOrder from './common/create-purchased-order.saga'
 import watchGetAllItemDetails from './common/get-all-item-details.saga'
 import watchGetQualityPoints from './common/get-all-quality-points.saga'
@@ -441,5 +447,11 @@ export default function* sagas() {
 
     //create purchased order
     watchCreatePurchasedOrder(),
+
+    //calendar
+    watchGetListFactoryCalendar(),
+    watchUpdateFactoryCalendar(),
+    watchGetDetailFactoryCalendar(),
+    watchCreateFactoryCalendar(),
   ])
 }

@@ -14,7 +14,7 @@ import { api } from '~/services/api'
  */
 const getFactoriesApi = (params) => {
   const uri = `/v1/users/factories/list`
-  return api.get(uri)
+  return api.get(uri, params)
 }
 
 /**
@@ -23,13 +23,7 @@ const getFactoriesApi = (params) => {
  */
 function* doGetFactories(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getFactoriesApi, payload)
+    const response = yield call(getFactoriesApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getFactoriesSuccess(response.data))
