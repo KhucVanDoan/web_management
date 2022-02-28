@@ -1,25 +1,22 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import { phoneSchema } from '~/common/schemas'
+import { phoneSchema, codeSchema } from '~/common/schemas'
 
 export const defineCustomerSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
+    code: codeSchema(t).max(
+      TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+      t('general:form.maxLength', {
+        max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+      }),
+    ),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
     description: Yup.string().max(
@@ -29,9 +26,9 @@ export const defineCustomerSchema = (t) =>
       }),
     ),
     address: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
     phone: phoneSchema(t),

@@ -15,7 +15,7 @@
     "validUserName": "Tên đăng nhập chỉ gồm chữ và số",
     "validPassword": "Mật khẩu chỉ gồm chữ và số",
     "validPhone": "Số điện thoại không hợp lệ",
-    "validCode": "Mã chỉ gồm chữ và số",
+    "validCode": "Mã chỉ gồm chữ và số, ít nhất 1 chữ và 1 số",
     "minNumber": "Giá trị tối thiểu là {{min}}",
     "maxNumber": "Không được nhập quá {{max}}",
     "duplicates": "Mục này không được trùng lặp",
