@@ -62,6 +62,10 @@
     "rowsPerPage": "Số dòng mỗi trang",
     "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
   },
+
+  "date": {
+    "minToday": "Không được chọn trước ngày hiện tại"
+  },
   "month": {
     "jan": "Tháng 1",
     "feb": "Tháng 2",

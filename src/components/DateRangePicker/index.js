@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { DateRangePicker as MuiDateRangePicker } from '@mui/lab'
@@ -22,20 +22,19 @@ const DateRangePicker = ({
   label,
   value,
   onChange,
+  onTouch,
   disabled,
   error,
   helperText,
   vertical,
   required,
   labelWidth,
-  onTouch,
   ...props
 }) => {
   const { t } = useTranslation()
   const classes = useClasses(style)
   const [open, setOpen] = useState(false)
   const ref = useRef(false)
-  const isValue = useMemo(() => value.some((val) => val), [value])
 
   useEffect(() => {
     if (ref.current !== open) {
@@ -112,7 +111,7 @@ const DateRangePicker = ({
                   </Typography>
                 </Box>
                 <Box className={classes.iconCalendar}>
-                  {isValue && (
+                  {value?.some((val) => !!val) && (
                     <Icon
                       name="close"
                       size={12}
@@ -155,13 +154,13 @@ DateRangePicker.propTypes = {
   label: PropTypes.string,
   value: PropTypes.array,
   onChange: PropTypes.func,
+  onTouch: PropTypes.func,
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   helperText: PropTypes.string,
   vertical: PropTypes.bool,
   required: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  onTouch: PropTypes.func,
 }
 
 export default DateRangePicker

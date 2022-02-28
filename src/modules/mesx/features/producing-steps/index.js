@@ -112,6 +112,7 @@ function ProducingStep() {
       headerName: t('producingStep.status'),
       width: 100,
       type: 'categorical',
+      sortable: true,
       renderCell: (params) => {
         const { status } = params.row
         return t(PRODUCING_STEP_STATUS_MAP[status])
@@ -228,7 +229,7 @@ function ProducingStep() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('producingStep.title')}
+        title={t('menu.producingStep')}
         onSearch={setKeyword}
         placeholder={t('producingStep.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
@@ -244,7 +245,7 @@ function ProducingStep() {
           onChangeFilter={setfilters}
           onChangeSort={setSort}
           total={total}
-          title={t('general:dataTable.title')}
+          title={t('producingStep.title')}
           filters={{
             form: <FilterForm />,
             values: filters,
