@@ -32,7 +32,7 @@ function* doCreateMasterPlan(action) {
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data?.id)
       }
       addNotification('definePlan.createPlanSuccess', NOTIFICATION_TYPE.SUCCESS)
     } else {

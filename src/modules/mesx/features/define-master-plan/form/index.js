@@ -43,6 +43,10 @@ const DefineMasterPlanForm = () => {
   useEffect(() => {
     commonManagementActions.getSaleOrders()
     commonManagementActions.getFactories()
+
+    return () => {
+      actions.resetMasterPlanDetails()
+    }
   }, [])
 
   useEffect(() => {
@@ -62,11 +66,14 @@ const DefineMasterPlanForm = () => {
       dateTo: values?.planDate ? values?.planDate[1] : '',
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createMasterPlan(convertValues, () => redirectToModeration(masterPlanDetails.id))
+      actions.createMasterPlan(convertValues, (id) => {
+        redirectToModeration(id)
+      })
     }
     if (mode === MODAL_MODE.UPDATE) {
       redirectToModeration(id)
     }
+    return
   }
 
   const redirectToModeration = (id) => {
@@ -166,8 +173,12 @@ const DefineMasterPlanForm = () => {
     setFieldValue('planDate', [null, saleOderDeadline])
   }
 
-  const initialValues = isEmpty(masterPlanDetails)
+  const initialValues = (isUpdate || isDetail) && !isEmpty(masterPlanDetails)
     ? {
+        ...masterPlanDetails,
+        planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo]
+      }
+    : {
         code: '',
         name: '',
         soId: null,
@@ -176,10 +187,6 @@ const DefineMasterPlanForm = () => {
         planDate: null,
         dateFromSo: new Date().toISOString(),
         dateCompletion: 0
-      }
-    : {
-        ...masterPlanDetails,
-        planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo]
       }
 
   return (
@@ -231,7 +238,7 @@ const DefineMasterPlanForm = () => {
                       name="name"
                       label={t('defineMasterPlan.planName')}
                       placeholder={t('defineMasterPlan.planName')}
-                      readonly={isDetail}
+                      readOnly={isDetail}
                       required
                     />
                   </Grid>
@@ -252,7 +259,7 @@ const DefineMasterPlanForm = () => {
                       name="planDate"
                       label={t('defineMasterPlan.planDate')}
                       placeholder={t('defineMasterPlan.planDate')}
-                      readonly={isDetail}
+                      readOnly={isDetail}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -260,7 +267,7 @@ const DefineMasterPlanForm = () => {
                       name="description"
                       label={t('defineMasterPlan.descriptionInput')}
                       placeholder={t('defineMasterPlan.descriptionInput')}
-                      readonly={isDetail}
+                      readOnly={isDetail}
                       multiline
                       rows={3}
                     />

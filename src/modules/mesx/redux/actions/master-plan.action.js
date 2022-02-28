@@ -19,6 +19,7 @@ export const SUBMIT_MODERATION_INPUT_SUCCESS = 'SUBMIT_MODERATION_INPUT_SUCCESS'
 export const SUBMIT_MODERATION_INPUT_FAILED = 'SUBMIT_MODERATION_INPUT_FAILED'
 
 export const RESET_MODERATION_SUGGEST_SPREAD = 'RESET_MODERATION_SUGGEST_SPREAD'
+export const RESET_MASTER_PLAN_DETAIL = 'RESET_MASTER_PLAN_DETAIL'
 
 /**
  * Search master plans
@@ -216,6 +217,12 @@ export function resetModerationSuggestSpread() {
   }
 }
 
+export function resetMasterPlanDetails() {
+  return {
+    type: RESET_MASTER_PLAN_DETAIL
+  }
+}
+
 export default {
   searchMasterPlans,
   searchMasterPlansSuccess,
@@ -233,4 +240,5 @@ export default {
   createMasterPlanSuccess,
   createMasterPlanFailed,
   resetModerationSuggestSpread,
+  resetMasterPlanDetails,
 }
