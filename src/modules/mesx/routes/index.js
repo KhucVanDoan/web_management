@@ -22,6 +22,8 @@ import DefineFactory from '~/modules/mesx/features/define-factory'
 import DefineFactoryDetail from '~/modules/mesx/features/define-factory/factory-detail'
 import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-form'
 import DefineItem from '~/modules/mesx/features/define-item'
+import DefineMasterPlanForm from '~/modules/mesx/features/define-master-plan/form'
+import DefineMasterPlan from '~/modules/mesx/features/define-master-plan/list'
 import DefinePlan from '~/modules/mesx/features/define-plan'
 import DefinePlanForm from '~/modules/mesx/features/define-plan/form'
 import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
@@ -78,6 +80,35 @@ const routes = [
     icon: 'home',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.MASTER_PLAN.LIST.TITLE,
+        path: ROUTE.MASTER_PLAN.LIST.PATH,
+        component: DefineMasterPlan,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.MASTER_PLAN.CREATE.TITLE,
+            path: ROUTE.MASTER_PLAN.CREATE.PATH,
+            component: DefineMasterPlanForm,
+            pathActive: ROUTE.MASTER_PLAN.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MASTER_PLAN.DETAIL.TITLE,
+            path: ROUTE.MASTER_PLAN.DETAIL.PATH,
+            component: DefineMasterPlanForm,
+            pathActive: ROUTE.MASTER_PLAN.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MASTER_PLAN.EDIT.TITLE,
+            path: ROUTE.MASTER_PLAN.EDIT.PATH,
+            component: DefineMasterPlanForm,
+            pathActive: ROUTE.MASTER_PLAN.EDIT.PATH,
+            isInSidebar: false,
+          },
+        ],
+      },
       {
         name: ROUTE.PLAN.LIST.TITLE,
         path: ROUTE.PLAN.LIST.PATH,

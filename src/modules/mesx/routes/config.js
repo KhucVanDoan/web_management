@@ -467,4 +467,22 @@ export const ROUTE = {
       TITLE: 'itemUnitEdit',
     },
   },
+  MASTER_PLAN: {
+    LIST: {
+      PATH: '/mesx/master-plan',
+      TITLE: 'masterPlanDefine'
+    },
+    CREATE: {
+      PATH: '/mesx/master-plan/create',
+      TITLE: 'masterPlanCreate'
+    },
+    DETAIL: {
+      PATH: '/mesx/master-plan/:id/detail',
+      TITLE: 'masterPlanDetail'
+    },
+    EDIT: {
+      PATH: '/mesx/master-plan/:id/edit',
+      TITLE: 'masterPlanEdit'
+    }
+  }
 }

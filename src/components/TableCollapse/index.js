@@ -346,12 +346,13 @@ const TableCollapse = (props) => {
 
   return (
     <>
-      {(title || !hideSetting) && (
+      {(title || (filters && filters.length > 0) || !hideSetting) && (
         <TopBar
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
           onApplySetting={handleApplySetting}
+          filters={filters}
         />
       )}
       <TableContainer style={{ height: height ? height : '100%' }}>
