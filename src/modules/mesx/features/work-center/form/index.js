@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Button, Grid, Tab } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -67,7 +68,7 @@ const WorkCenterForm = () => {
     producingStepId: wcDetails?.producingStep?.id || '',
     tabValue: '1',
     shifts: wcDetails?.workCenterShifts?.map((e, index) => ({
-      id: index,
+      id: e.id,
       shiftName: e.name,
       pricePerHour: e.pricePerHour,
       priceUnit: e.priceUnit,
@@ -99,8 +100,27 @@ const WorkCenterForm = () => {
         ],
       },
     ],
-    breakTimes: [{ id: new Date().getTime() }],
+    breakTimes: Object.values(
+      groupBy(wcDetails?.workCenterShiftRelaxTimes, 'name'),
+    )?.map((item) => {
+      if (item && item.length) {
+        return {
+          id: item.id,
+          breakTimeName: item[0]?.name,
+          shifts: item.map((shift) => ({
+            shiftName: wcDetails?.workCenterShifts.find(
+              (wcShift) => wcShift.id === shift.workCenterShiftId,
+            )?.name,
+            shiftId: shift.workCenterShiftId,
+            from: shift.startAt,
+            to: shift.endAt,
+          })),
+        }
+      }
+      return null
+    }) || [{ id: `breakTimes-${new Date().getTime()}` }],
   }
+
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
@@ -217,10 +237,11 @@ const WorkCenterForm = () => {
         description,
         members,
         factoryId,
-        oeeTarget,
+        oeeTarget: +oeeTarget,
         leaderId,
-        workCapacity,
+        workCapacity: +workCapacity,
         workCenterShifts: values?.shifts,
+        id: +id,
       }
       actions.updateWorkCenter(paramUpdate, () => backToList())
     }
@@ -239,7 +260,7 @@ const WorkCenterForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, setFieldValue, handleChange }) => (
+        {({ resetForm, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -374,6 +395,7 @@ const WorkCenterForm = () => {
                           mode={mode}
                           breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
+                          setFieldValue={setFieldValue}
                         />
                       )}
                     />

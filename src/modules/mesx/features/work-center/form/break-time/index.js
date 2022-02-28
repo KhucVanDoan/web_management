@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -15,9 +15,17 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { scrollToBottom } from '~/utils'
 
-const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
+const BreakTimeTable = ({
+  breakTimes,
+  shifts,
+  mode,
+  arrayHelpers,
+  setFieldValue,
+}) => {
   const { t } = useTranslation(['mesx'])
-  const getColumns = () => {
+  const isView = mode === MODAL_MODE.DETAIL
+
+  const getColumns = useCallback(() => {
     const columns = [
       {
         field: 'breakTimeName',
@@ -26,7 +34,6 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
         align: 'center',
         renderCell: (params, index) => {
           const { id } = params.row
-          const isView = mode === MODAL_MODE.DETAIL
           const relaxTimes = uniqBy(flatMap(shifts, 'breakTimes'), 'id')
           const name = relaxTimes[id]?.name
           return isView ? (
@@ -41,6 +48,7 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
         },
       },
     ]
+
     if (shifts) {
       shifts?.map((shift, shiftIndex) => {
         columns.push({
@@ -50,7 +58,6 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
           align: 'center',
           renderCell: (params, index) => {
             const { id } = params.row
-            const isView = mode === MODAL_MODE.DETAIL
             const content =
               shift?.breakTimes[id]?.from && shift?.breakTimes[id]?.to
                 ? `${shift.breakTimes[id]?.from} - ${shift.breakTimes[id]?.to}`
@@ -66,14 +73,14 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
                   flex={1}
                 >
                   <Field.TextField
-                    name={`breakTimes[${shiftIndex}].from`}
+                    name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
                     type="time"
                   />
                   <Box mx={1} display="flex" alignItems="center">
                     {t('workCenter.to')}
                   </Box>
                   <Field.TextField
-                    name={`breakTimes[${shiftIndex}].to`}
+                    name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
                     type="time"
                   />
                 </Box>
@@ -90,11 +97,10 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
         headerName: '',
         width: 50,
         align: 'center',
-        hide: mode === MODAL_MODE.DETAIL,
+        hide: isView,
         renderCell: (params) => {
           const idx = breakTimes.findIndex((item) => item.id === params.row.id)
-          const hide = mode === MODAL_MODE.DETAIL
-          return hide ? null : (
+          return isView ? null : (
             <IconButton
               onClick={() => {
                 arrayHelpers.remove(idx)
@@ -108,9 +114,31 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
       },
     ]
     return columns.concat(removeColumns)
-  }
+  }, [shifts])
 
-  const isView = mode === MODAL_MODE.DETAIL
+  useEffect(() => {
+    const newBreakTimes = breakTimes.map((item) => {
+      const newShifts = shifts.map((shift) => {
+        const currentShift = item.shifts.find(
+          (itemShift) => itemShift.shiftId === shift.id,
+        )
+        if (currentShift) {
+          return currentShift
+        }
+        return {
+          shiftId: shift.id,
+          from: '',
+          to: '',
+        }
+      })
+      return {
+        ...item,
+        shifts: newShifts,
+      }
+    })
+    setFieldValue('breakTimes', newBreakTimes)
+  }, [shifts?.length])
+
   return (
     <>
       <Box
@@ -130,7 +158,12 @@ const BreakTimeTable = ({ breakTimes, shifts, mode, arrayHelpers }) => {
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: new Date().getTime(),
+                id: `breakTimes-${new Date().getTime()}`,
+                shifts: shifts.map((shift) => ({
+                  ...shift,
+                  from: '',
+                  to: '',
+                })),
               })
               scrollToBottom()
             }}
@@ -162,5 +195,6 @@ BreakTimeTable.propTypes = {
   shifts: PropTypes.array,
   breakTimes: PropTypes.array,
   mode: PropTypes.string,
+  setFieldValue: PropTypes.func,
 }
 export default BreakTimeTable

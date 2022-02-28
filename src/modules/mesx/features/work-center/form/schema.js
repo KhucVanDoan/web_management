@@ -51,5 +51,15 @@ export const WorkCenterSchema = (t) => {
         endAt: Yup.string().required(t('general:form.required')),
       }),
     ),
+    breakTimes: Yup.array().of(
+      Yup.object().shape({
+        shifts: Yup.array().of(
+          Yup.object().shape({
+            from: Yup.string().required(t('general:form.required')),
+            to: Yup.string().required(t('general:form.required')),
+          }),
+        ),
+      }),
+    ),
   })
 }
