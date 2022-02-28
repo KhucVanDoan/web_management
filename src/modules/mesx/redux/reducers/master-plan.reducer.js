@@ -5,9 +5,16 @@ import {
   GET_MASTER_PLAN_DETAILS_START,
   GET_MASTER_PLAN_DETAILS_SUCCESS,
   GET_MASTER_PLAN_DETAILS_FAILED,
+  GET_MODERATION_SUGGEST_SPREAD_START,
+  GET_MODERATION_SUGGEST_SPREAD_SUCCESS,
+  GET_MODERATION_SUGGEST_SPREAD_FAILED,
+  SUBMIT_MODERATION_INPUT_START,
+  SUBMIT_MODERATION_INPUT_SUCCESS,
+  SUBMIT_MODERATION_INPUT_FAILED,
   CREATE_MASTER_PLAN_FAILED,
   CREATE_MASTER_PLAN_START,
   CREATE_MASTER_PLAN_SUCCESS,
+  RESET_MODERATION_SUGGEST_SPREAD,
 } from '~/modules/mesx/redux/actions/master-plan.action'
 
 const initialState = {
@@ -15,6 +22,8 @@ const initialState = {
   masterPlanList: [],
   masterPlanDetails: {},
   total: null,
+  moderationSuggestSpread: [],
+  moderationInput: {}
 }
 
 /**
@@ -26,8 +35,10 @@ const initialState = {
 export default function defineMasterPlan(state = initialState, action) {
   switch (action.type) {
     case SEARCH_MASTER_PLANS_START:
-    case CREATE_MASTER_PLAN_START:
     case GET_MASTER_PLAN_DETAILS_START:
+    case CREATE_MASTER_PLAN_START:
+    case GET_MODERATION_SUGGEST_SPREAD_START:
+    case SUBMIT_MODERATION_INPUT_START:
       return {
         ...state,
         isLoading: true,
@@ -39,24 +50,43 @@ export default function defineMasterPlan(state = initialState, action) {
         isLoading: false,
         total: action.payload.total,
       }
-    case SEARCH_MASTER_PLANS_FAILED:
-      return {
-        ...state,
-        isLoading: false,
-      }
     case GET_MASTER_PLAN_DETAILS_SUCCESS:
       return {
         ...state,
         masterPlanDetails: action.payload,
         isLoading: false,
       }
+    case GET_MODERATION_SUGGEST_SPREAD_SUCCESS:
+      return {
+        ...state,
+        moderationSuggestSpread: state.moderationSuggestSpread.concat(action.payload),
+        isLoading: false,
+      }
+    case SUBMIT_MODERATION_INPUT_SUCCESS:
+      return {
+        ...state,
+        moderationInput: action.payload,
+        isLoading: false,
+      }
+    case SEARCH_MASTER_PLANS_FAILED:
+    case GET_MODERATION_SUGGEST_SPREAD_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
     case CREATE_MASTER_PLAN_SUCCESS:
-    case CREATE_MASTER_PLAN_FAILED:
     case GET_MASTER_PLAN_DETAILS_FAILED:
+    case CREATE_MASTER_PLAN_FAILED:
+    case SUBMIT_MODERATION_INPUT_FAILED:
       return {
         ...state,
         masterPlanDetails: action.payload,
         isLoading: false,
+      }
+    case RESET_MODERATION_SUGGEST_SPREAD:
+      return {
+        ...state,
+        moderationSuggestSpread: []
       }
     default:
       return state

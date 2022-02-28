@@ -483,6 +483,14 @@ export const ROUTE = {
     EDIT: {
       PATH: '/mesx/master-plan/:id/edit',
       TITLE: 'masterPlanEdit'
+    },
+    AUTO_MODERATION: {
+      PATH: '/mesx/master-plan/:id/auto-moderation',
+      TITLE: 'autoModeration'
+    },
+    INPUT_MODERATION: {
+      PATH: '/mesx/master-plan/input-moderation',
+      TITLE: 'inputModeration'
     }
-  }
+  },
 }

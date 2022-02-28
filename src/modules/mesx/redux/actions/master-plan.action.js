@@ -10,6 +10,16 @@ export const CREATE_MASTER_PLAN_START = 'CREATE_MASTER_PLAN_START'
 export const CREATE_MASTER_PLAN_SUCCESS = 'CREATE_MASTER_PLAN_SUCCESS'
 export const CREATE_MASTER_PLAN_FAILED = 'CREATE_MASTER_PLAN_FAILED'
 
+export const GET_MODERATION_SUGGEST_SPREAD_START = 'GET_MODERATION_SUGGEST_SPREAD_START'
+export const GET_MODERATION_SUGGEST_SPREAD_SUCCESS = 'GET_MODERATION_SUGGEST_SPREAD_SUCCESS'
+export const GET_MODERATION_SUGGEST_SPREAD_FAILED = 'GET_MODERATION_SUGGEST_SPREAD_FAILED'
+
+export const SUBMIT_MODERATION_INPUT_START = 'SUBMIT_MODERATION_INPUT_START'
+export const SUBMIT_MODERATION_INPUT_SUCCESS = 'SUBMIT_MODERATION_INPUT_SUCCESS'
+export const SUBMIT_MODERATION_INPUT_FAILED = 'SUBMIT_MODERATION_INPUT_FAILED'
+
+export const RESET_MODERATION_SUGGEST_SPREAD = 'RESET_MODERATION_SUGGEST_SPREAD'
+
 /**
  * Search master plans
  * @param {object} payload
@@ -87,6 +97,82 @@ export function getMasterPlanDetailsByIdFailed() {
 }
 
 /**
+ * Get moderation suggest spread
+ * @param {int} masterPlanId
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+ export function getModerationSuggestSpread(masterPlanId, onSuccess, onError) {
+  return {
+    type: GET_MODERATION_SUGGEST_SPREAD_START,
+    payload: masterPlanId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get moderation suggest spread success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getModerationSuggestSpreadSuccess(payload) {
+  return {
+    type: GET_MODERATION_SUGGEST_SPREAD_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get moderation suggest spread failed action
+ * @returns {object}
+ */
+export function getModerationSuggestSpreadFailed() {
+  return {
+    type: GET_MODERATION_SUGGEST_SPREAD_FAILED,
+  }
+}
+
+/**
+ * Submit moderation input
+ * @param {object} payload
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+ export function submitModerationInput(payload, onSuccess, onError) {
+  return {
+    type: SUBMIT_MODERATION_INPUT_START,
+    payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Submit moderation input success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function submitModerationInputSuccess(payload) {
+  return {
+    type: SUBMIT_MODERATION_INPUT_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Submit moderation input failed action
+ * @returns {object}
+ */
+export function submitModerationInputFailed() {
+  return {
+    type: SUBMIT_MODERATION_INPUT_FAILED,
+  }
+}
+
+/**
  * Create plan
  * @param {object} payload
  * @param {function=} onSuccess Callback function on success
@@ -124,6 +210,12 @@ export function createMasterPlanFailed() {
   }
 }
 
+export function resetModerationSuggestSpread() {
+  return {
+    type: RESET_MODERATION_SUGGEST_SPREAD
+  }
+}
+
 export default {
   searchMasterPlans,
   searchMasterPlansSuccess,
@@ -131,7 +223,14 @@ export default {
   getMasterPlanDetailsById,
   getMasterPlanDetailsByIdSuccess,
   getMasterPlanDetailsByIdFailed,
+  getModerationSuggestSpread,
+  getModerationSuggestSpreadSuccess,
+  getModerationSuggestSpreadFailed,
+  submitModerationInput,
+  submitModerationInputSuccess,
+  submitModerationInputFailed,
   createMasterPlan,
   createMasterPlanSuccess,
   createMasterPlanFailed,
+  resetModerationSuggestSpread,
 }

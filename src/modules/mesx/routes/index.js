@@ -24,6 +24,8 @@ import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-fo
 import DefineItem from '~/modules/mesx/features/define-item'
 import DefineMasterPlanForm from '~/modules/mesx/features/define-master-plan/form'
 import DefineMasterPlan from '~/modules/mesx/features/define-master-plan/list'
+import AutoModeration from '~/modules/mesx/features/define-master-plan/moderation/auto-moderation'
+import InputModeration from '~/modules/mesx/features/define-master-plan/moderation/input-moderation'
 import DefinePlan from '~/modules/mesx/features/define-plan'
 import DefinePlanForm from '~/modules/mesx/features/define-plan/form'
 import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
@@ -106,6 +108,20 @@ const routes = [
             component: DefineMasterPlanForm,
             pathActive: ROUTE.MASTER_PLAN.EDIT.PATH,
             isInSidebar: false,
+          },
+          {
+            name: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
+            path: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH,
+            component: AutoModeration,
+            isInSidebar: false,
+            subMenu: [],
+          },
+          {
+            name: ROUTE.MASTER_PLAN.INPUT_MODERATION.TITLE,
+            path: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH,
+            component: InputModeration,
+            isInSidebar: false,
+            subMenu: [],
           },
         ],
       },
