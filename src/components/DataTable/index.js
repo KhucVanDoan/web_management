@@ -145,7 +145,7 @@ const DataTable = (props) => {
       )}
       <TableContainer
         sx={{
-          ...(height ? { height: height } : { flex: 1, overflow: 'auto' }),
+          ...(height ? { maxHeight: height } : { flex: 1, overflow: 'auto' }),
         }}
       >
         <Table className={classes.table} stickyHeader>

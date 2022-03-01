@@ -66,6 +66,7 @@ import WorkCenter from '~/modules/mesx/features/work-center/list'
 import WorkOderForm from '~/modules/mesx/features/work-order/form'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
+import detailSchedule from '../features/detail-schedule/detail'
 import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
@@ -271,7 +272,7 @@ const routes = [
             name: ROUTE.DETAIL_SCHEDULE.DETAIL.TITLE,
             path: ROUTE.DETAIL_SCHEDULE.DETAIL.PATH,
             pathActive: ROUTE.DETAIL_SCHEDULE.DETAIL.PATH,
-            component: DetailScheduleForm,
+            component: detailSchedule,
             isInSidebar: false,
           },
         ],

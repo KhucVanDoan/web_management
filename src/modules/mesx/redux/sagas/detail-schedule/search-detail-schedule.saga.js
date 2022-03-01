@@ -4,7 +4,7 @@ import {
   searchDetailScheduleFailed,
   searchDetailScheduleSuccess,
   SEARCH_DETAIL_SCHEDULE_START,
-} from '~/modules/mesx/redux/actions/detail-schedule.action'
+} from '~/modules/mesx/redux/actions/detail-schedule'
 import { api } from '~/services/api'
 
 /**

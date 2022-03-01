@@ -1,40 +1,38 @@
-export const SEARCH_DETAIL_SCHEDULE_START = 'SEARCH_DETAIL_SCHEDULE_START';
-export const SEARCH_DETAIL_SCHEDULE_SUCCESS = 'SEARCH_DETAIL_SCHEDULE_SUCCESS';
-export const SEARCH_DETAIL_SCHEDULE_FAILED = 'SEARCH_DETAIL_SCHEDULE_FAILED';
+export const SEARCH_DETAIL_SCHEDULE_START = 'SEARCH_DETAIL_SCHEDULE_START'
+export const SEARCH_DETAIL_SCHEDULE_SUCCESS = 'SEARCH_DETAIL_SCHEDULE_SUCCESS'
+export const SEARCH_DETAIL_SCHEDULE_FAILED = 'SEARCH_DETAIL_SCHEDULE_FAILED'
 
-export const CREATE_DETAIL_SCHEDULE_START = 'CREATE_DETAIL_SCHEDULE_START';
-export const CREATE_DETAIL_SCHEDULE_SUCCESS = 'CREATE_DETAIL_SCHEDULE_SUCCESS';
-export const CREATE_DETAIL_SCHEDULE_FAILED = 'CREATE_DETAIL_SCHEDULE_FAILED';
+export const CREATE_DETAIL_SCHEDULE_START = 'CREATE_DETAIL_SCHEDULE_START'
+export const CREATE_DETAIL_SCHEDULE_SUCCESS = 'CREATE_DETAIL_SCHEDULE_SUCCESS'
+export const CREATE_DETAIL_SCHEDULE_FAILED = 'CREATE_DETAIL_SCHEDULE_FAILED'
 
-export const UPDATE_DETAIL_SCHEDULE_START = 'UPDATE_DETAIL_SCHEDULE_START';
-export const UPDATE_DETAIL_SCHEDULE_SUCCESS = 'UPDATE_DETAIL_SCHEDULE_SUCCESS';
-export const UPDATE_DETAIL_SCHEDULE_FAILED = 'UPDATE_DETAIL_SCHEDULE_FAILED';
+export const UPDATE_DETAIL_SCHEDULE_START = 'UPDATE_DETAIL_SCHEDULE_START'
+export const UPDATE_DETAIL_SCHEDULE_SUCCESS = 'UPDATE_DETAIL_SCHEDULE_SUCCESS'
+export const UPDATE_DETAIL_SCHEDULE_FAILED = 'UPDATE_DETAIL_SCHEDULE_FAILED'
 
-export const DELETE_DETAIL_SCHEDULE_START = 'DELETE_DETAIL_SCHEDULE_START';
-export const DELETE_DETAIL_SCHEDULE_SUCCESS = 'DELETE_DETAIL_SCHEDULE_SUCCESS';
-export const DELETE_DETAIL_SCHEDULE_FAILED = 'DELETE_DETAIL_SCHEDULE_FAILED';
+export const DELETE_DETAIL_SCHEDULE_START = 'DELETE_DETAIL_SCHEDULE_START'
+export const DELETE_DETAIL_SCHEDULE_SUCCESS = 'DELETE_DETAIL_SCHEDULE_SUCCESS'
+export const DELETE_DETAIL_SCHEDULE_FAILED = 'DELETE_DETAIL_SCHEDULE_FAILED'
 
 export const GET_DETAIL_SCHEDULE_DETAILS_START =
-  'GET_DETAIL_SCHEDULE_DETAILS_START';
+  'GET_DETAIL_SCHEDULE_DETAILS_START'
 export const GET_DETAIL_SCHEDULE_DETAILS_SUCCESS =
-  'GET_DETAIL_SCHEDULE_DETAILS_SUCCESS';
+  'GET_DETAIL_SCHEDULE_DETAILS_SUCCESS'
 export const GET_DETAIL_SCHEDULE_DETAILS_FAILED =
-  'GET_DETAIL_SCHEDULE_DETAILS_FAILED';
+  'GET_DETAIL_SCHEDULE_DETAILS_FAILED'
 
-export const APPROVE_DETAIL_SCHEDULE_START = 'APPROVE_DETAIL_SCHEDULE_START';
-export const APPROVE_DETAIL_SCHEDULE_SUCCESS =
-  'APPROVE_DETAIL_SCHEDULE_SUCCESS';
-export const APPROVE_DETAIL_SCHEDULE_FAILED = 'APPROVE_DETAIL_SCHEDULE_FAILED';
+export const APPROVE_DETAIL_SCHEDULE_START = 'APPROVE_DETAIL_SCHEDULE_START'
+export const APPROVE_DETAIL_SCHEDULE_SUCCESS = 'APPROVE_DETAIL_SCHEDULE_SUCCESS'
+export const APPROVE_DETAIL_SCHEDULE_FAILED = 'APPROVE_DETAIL_SCHEDULE_FAILED'
 
-export const GENERATE_DETAIL_SCHEDULE_START = 'GENERATE_DETAIL_SCHEDULE_START';
+export const GENERATE_DETAIL_SCHEDULE_START = 'GENERATE_DETAIL_SCHEDULE_START'
 export const GENERATE_DETAIL_SCHEDULE_SUCCESS =
-  'GENERATE_DETAIL_SCHEDULE_SUCCESS';
-export const GENERATE_DETAIL_SCHEDULE_FAILED =
-  'GENERATE_DETAIL_SCHEDULE_FAILED';
+  'GENERATE_DETAIL_SCHEDULE_SUCCESS'
+export const GENERATE_DETAIL_SCHEDULE_FAILED = 'GENERATE_DETAIL_SCHEDULE_FAILED'
 
-export const REJECT_DETAIL_SCHEDULE_START = 'REJECT_DETAIL_SCHEDULE_START';
-export const REJECT_DETAIL_SCHEDULE_SUCCESS = 'REJECT_DETAIL_SCHEDULE_SUCCESS';
-export const REJECT_DETAIL_SCHEDULE_FAILED = 'REJECT_DETAIL_SCHEDULE_FAILED';
+export const REJECT_DETAIL_SCHEDULE_START = 'REJECT_DETAIL_SCHEDULE_START'
+export const REJECT_DETAIL_SCHEDULE_SUCCESS = 'REJECT_DETAIL_SCHEDULE_SUCCESS'
+export const REJECT_DETAIL_SCHEDULE_FAILED = 'REJECT_DETAIL_SCHEDULE_FAILED'
 
 /**
  * Search Detail Schedule
@@ -49,7 +47,7 @@ export function searchDetailSchedule(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -61,7 +59,7 @@ export function searchDetailScheduleSuccess(payload) {
   return {
     type: SEARCH_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -71,7 +69,7 @@ export function searchDetailScheduleSuccess(payload) {
 export function searchDetailScheduleFailed() {
   return {
     type: SEARCH_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 
 /**
@@ -87,7 +85,7 @@ export function createDetailSchedule(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -99,7 +97,7 @@ export function createDetailScheduleSuccess(payload) {
   return {
     type: CREATE_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -109,7 +107,7 @@ export function createDetailScheduleSuccess(payload) {
 export function createDetailScheduleFailed() {
   return {
     type: CREATE_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 
 /**
@@ -125,7 +123,7 @@ export function updateDetailSchedule(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update detail schedule success action
@@ -136,7 +134,7 @@ export function updateDetailScheduleSuccess(payload) {
   return {
     type: UPDATE_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -146,7 +144,7 @@ export function updateDetailScheduleSuccess(payload) {
 export function updateDetailScheduleFailed() {
   return {
     type: UPDATE_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 /**
  * Delete detail schedule
@@ -161,7 +159,7 @@ export function deleteDetailSchedule(DetailScheduleId, onSuccess, onError) {
     payload: DetailScheduleId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -173,7 +171,7 @@ export function deleteDetailScheduleSuccess(payload) {
   return {
     type: DELETE_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -183,7 +181,7 @@ export function deleteDetailScheduleSuccess(payload) {
 export function deleteDetailScheduleFailed() {
   return {
     type: DELETE_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 
 /**
@@ -203,7 +201,7 @@ export function getDetailScheduleDetailsById(
     payload: DetailScheduleId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -215,7 +213,7 @@ export function getDetailScheduleDetailsByIdSuccess(payload) {
   return {
     type: GET_DETAIL_SCHEDULE_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -225,7 +223,7 @@ export function getDetailScheduleDetailsByIdSuccess(payload) {
 export function getDetailScheduleDetailsByIdFailed() {
   return {
     type: GET_DETAIL_SCHEDULE_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -245,7 +243,7 @@ export function approveDetailScheduleById(
     payload: DetailScheduleId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -257,7 +255,7 @@ export function approveDetailScheduleByIdSuccess(payload) {
   return {
     type: APPROVE_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -267,7 +265,7 @@ export function approveDetailScheduleByIdSuccess(payload) {
 export function approveDetailScheduleByIdFailed() {
   return {
     type: APPROVE_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 /**
  * generate detail schedule
@@ -282,7 +280,7 @@ export function generateDetailSchedule(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -294,7 +292,7 @@ export function generateDetailScheduleSuccess(payload) {
   return {
     type: GENERATE_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -304,7 +302,7 @@ export function generateDetailScheduleSuccess(payload) {
 export function generateDetailScheduleFailed() {
   return {
     type: GENERATE_DETAIL_SCHEDULE_FAILED,
-  };
+  }
 }
 
 /**
@@ -320,7 +318,7 @@ export function rejectDetailScheduleById(DetailScheduleId, onSuccess, onError) {
     payload: DetailScheduleId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -332,7 +330,7 @@ export function rejectDetailScheduleByIdSuccess(payload) {
   return {
     type: REJECT_DETAIL_SCHEDULE_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -342,5 +340,31 @@ export function rejectDetailScheduleByIdSuccess(payload) {
 export function rejectDetailScheduleByIdFailed() {
   return {
     type: REJECT_DETAIL_SCHEDULE_FAILED,
-  };
+  }
+}
+export default {
+  searchDetailSchedule,
+  searchDetailScheduleSuccess,
+  searchDetailScheduleFailed,
+  createDetailSchedule,
+  createDetailScheduleSuccess,
+  createDetailScheduleFailed,
+  updateDetailSchedule,
+  updateDetailScheduleSuccess,
+  updateDetailScheduleFailed,
+  deleteDetailSchedule,
+  deleteDetailScheduleSuccess,
+  deleteDetailScheduleFailed,
+  getDetailScheduleDetailsById,
+  getDetailScheduleDetailsByIdSuccess,
+  getDetailScheduleDetailsByIdFailed,
+  approveDetailScheduleById,
+  approveDetailScheduleByIdSuccess,
+  approveDetailScheduleByIdFailed,
+  generateDetailSchedule,
+  generateDetailScheduleSuccess,
+  generateDetailScheduleFailed,
+  rejectDetailScheduleById,
+  rejectDetailScheduleByIdSuccess,
+  rejectDetailScheduleByIdFailed,
 }
