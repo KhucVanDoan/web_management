@@ -21,6 +21,14 @@ export const SUBMIT_MODERATION_INPUT_FAILED = 'SUBMIT_MODERATION_INPUT_FAILED'
 export const RESET_MODERATION_SUGGEST_SPREAD = 'RESET_MODERATION_SUGGEST_SPREAD'
 export const RESET_MASTER_PLAN_DETAIL = 'RESET_MASTER_PLAN_DETAIL'
 
+export const EXTEND_DEADLINE_START = 'EXTEND_DEADLINE_START'
+export const EXTEND_DEADLINE_SUCCESS = 'EXTEND_DEADLINE_SUCCESS'
+export const EXTEND_DEADLINE_FAILED = 'EXTEND_DEADLINE_FAILED'
+
+export const GET_PRODUCING_STEP_DETAIL_START = 'GET_PRODUCING_STEP_DETAIL_START'
+export const GET_PRODUCING_STEP_DETAIL_SUCCESS = 'GET_PRODUCING_STEP_DETAIL_SUCCESS'
+export const GET_PRODUCING_STEP_DETAIL_FAILED = 'GET_PRODUCING_STEP_DETAIL_FAILED'
+
 /**
  * Search master plans
  * @param {object} payload
@@ -211,6 +219,44 @@ export function createMasterPlanFailed() {
   }
 }
 
+/**
+ * Extend deadline
+ * @param {object} payload
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+export function extendDeadline(payload, onSuccess, onError) {
+  return {
+    type: EXTEND_DEADLINE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Extend deadline success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function extendDeadlineSuccess(payload) {
+  return {
+    type: EXTEND_DEADLINE_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Extend deadline failed action
+ * @returns {object}
+ */
+export function extendDeadlineFailed() {
+  return {
+    type: EXTEND_DEADLINE_FAILED,
+  }
+}
+
 export function resetModerationSuggestSpread() {
   return {
     type: RESET_MODERATION_SUGGEST_SPREAD
@@ -220,6 +266,44 @@ export function resetModerationSuggestSpread() {
 export function resetMasterPlanDetails() {
   return {
     type: RESET_MASTER_PLAN_DETAIL
+  }
+}
+
+/**
+ * Get producing step detail
+ * @param {string} itemProducingStepIds
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+ export function getProducingStepDetail(itemProducingStepIds, onSuccess, onError) {
+  return {
+    type: GET_PRODUCING_STEP_DETAIL_START,
+    payload: itemProducingStepIds,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get producing step detail success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getProducingStepDetailSuccess(payload) {
+  return {
+    type: GET_PRODUCING_STEP_DETAIL_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get producing step detail failed action
+ * @returns {object}
+ */
+export function getProducingStepDetailFailed() {
+  return {
+    type: GET_PRODUCING_STEP_DETAIL_FAILED,
   }
 }
 
@@ -241,4 +325,10 @@ export default {
   createMasterPlanFailed,
   resetModerationSuggestSpread,
   resetMasterPlanDetails,
+  extendDeadline,
+  extendDeadlineSuccess,
+  extendDeadlineFailed,
+  getProducingStepDetail,
+  getProducingStepDetailSuccess,
+  getProducingStepDetailFailed,
 }

@@ -991,17 +991,24 @@ export const WORK_CENTER_STATUS_OPTIONS = [
   },
 ]
 
-export const MODERATION_TYPE = [
+
+export const MODERATION_TYPE = {
+  EXTEND_DEADLINE: 1,
+  SPREAD_EVENLY: 2,
+  INPUT_MODERATION: 3
+}
+
+export const MODERATION_TYPE_OPTIONS = [
   {
-    id: 1,
+    id: MODERATION_TYPE.EXTEND_DEADLINE,
     text: 'defineMasterPlan.autoModeration.extendDeadline'
   },
   {
-    id: 2,
+    id: MODERATION_TYPE.SPREAD_EVENLY,
     text: 'defineMasterPlan.autoModeration.spreadProductEvenly'
   },
   {
-    id: 3,
+    id: MODERATION_TYPE.INPUT_MODERATION,
     text: 'defineMasterPlan.autoModeration.customProduct'
   }
 ]
