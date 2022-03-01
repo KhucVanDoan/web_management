@@ -93,12 +93,13 @@ function BomProducingStep() {
       field: 'routingName',
       headerName: t('bomProducingStep.routingName'),
       width: 120,
-      sortable: true,
+      sortable: false,
     },
     {
       field: 'status',
       headerName: t('bomProducingStep.status'),
       width: 80,
+      sortable: true,
       renderCell: (params) => {
         const { status } = params.row
         return t(BOM_PRODUCING_STEP_STATUS_MAP[status])
@@ -167,7 +168,9 @@ function BomProducingStep() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', type: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
 

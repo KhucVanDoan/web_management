@@ -225,7 +225,6 @@ const DefineFactoryForm = () => {
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
-                      // @TODO: <yen.nguyenhai> re-check how to get the options for the select box
                     />
                   </Grid>
                   <Grid item xs={12}>

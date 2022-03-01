@@ -34,14 +34,12 @@ const FilterForm = () => {
           options={appStore?.companies}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
-          // @TODO: <yen.nguyenhai> re-check how to get the options for the select box
         />
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
           label={t('defineFactory.createTime')}
-          type="date"
         />
       </Grid>
     </Grid>

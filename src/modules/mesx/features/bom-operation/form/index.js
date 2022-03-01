@@ -12,6 +12,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { getBomProducingStepDetailsApi } from '~/modules/mesx/redux/sagas/bom-producing-step/get-bom-producing-step-details'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -25,7 +26,7 @@ function BomProducingStepForm() {
   const { id } = useParams()
 
   const {
-    data: { bomProducingStepList, bomProducingStepDetails, isLoading },
+    data: { bomProducingStepDetails, isLoading },
     actions,
   } = useBomProducingStep()
 
@@ -33,6 +34,11 @@ function BomProducingStepForm() {
     data: { BOMDetails },
     actions: bomActions,
   } = useBOM()
+
+  const {
+    data: { BOMList },
+    actions: commonActions,
+  } = useCommonManagement()
 
   const initialValues = !id
     ? {
@@ -42,11 +48,15 @@ function BomProducingStepForm() {
       }
     : {
         product: {
-          bomCode: BOMDetails?.code,
-          itemCode: BOMDetails?.item?.itemId,
-          itemName: BOMDetails?.name,
-          bomName: BOMDetails?.item?.name,
-          routingName: BOMDetails?.routing?.name,
+          id: BOMDetails?.id,
+          itemId: BOMDetails?.itemId,
+          code: BOMDetails?.code,
+          item: {
+            code: BOMDetails?.item?.itemId,
+            name: BOMDetails?.item?.name,
+          },
+          name: BOMDetails?.name,
+          routingId: BOMDetails?.routing?.id,
         },
         description: BOMDetails?.description,
         items: bomProducingStepDetails?.materialDetails || [],
@@ -60,6 +70,10 @@ function BomProducingStepForm() {
   const mode = MODE_MAP[routeMatch.path]
 
   useEffect(() => {
+    commonActions.getBoms()
+  }, [])
+
+  useEffect(() => {
     if (id) {
       actions.getBomProducingStepDetailsById(id)
       bomActions.getBOMDetailsById(id)
@@ -67,44 +81,34 @@ function BomProducingStepForm() {
 
     return () => {
       actions.resetBomProducingStepDetailsState()
+      bomActions.resetBomState()
     }
   }, [id])
 
   const handleProductChange = async (productId, setFieldValue) => {
     if (!productId) return
     const res = await getBomProducingStepDetailsApi(productId)
-
     if (!res?.data?.materialDetails) return
     setFieldValue('items', res?.data?.materialDetails || [])
   }
 
   const onSubmit = (values) => {
-    // const convertValues = {
-    //   ...values,
-    //   code: product.bomCode,
-    //   name: product.bomName,
-    //   itemCode: product.itemCode,
-    //   itemName: product.name,
-    //   routingName: product.routingName,
-    //   items: {
-    //     index: index,
-    //     materialId: material.bomDetail.id,
-    //     materialCode: item.code,
-    //     materialName: item.name,
-    //     total: material.bomDetail.quantity,
-    //     unit: item.itemUnit.name,
-    //   },
-    // }
-
-    // @TODO: cái convertValues trên em lấy cấu trúc này ở đâu thế?
-
-    // Anh thấy con cũ nó truyền 3 cái như bên dưới, em tự mapping lại
-    // Tất cả thông tin của form đều có trong values rồi
+    const detail = []
+    values.items?.forEach((item) =>
+      item.producingStepData?.forEach((producingItem) =>
+        detail.push({
+          itemId: item.bomDetail?.itemId,
+          bomDetailId: item.bomDetail?.id,
+          producingStepId: producingItem.producingStep.id,
+          quantity: Number(producingItem.quantity),
+        }),
+      ),
+    )
 
     const params = {
-      // itemId: '',
-      // bomId: '',
-      // detail: {},
+      itemId: values.product?.itemId,
+      bomId: values.product?.id,
+      detail: detail,
     }
 
     if (mode === MODAL_MODE.CREATE) {
@@ -224,7 +228,7 @@ function BomProducingStepForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('bomProducingStep.code')}
-                      name="product.bomCode"
+                      name="product.code"
                       disabled
                       required
                     />
@@ -235,17 +239,17 @@ function BomProducingStepForm() {
                         name="product"
                         label={t('bomProducingStep.itemCode')}
                         placeholder={t('bomProducingStep.itemCode')}
-                        options={bomProducingStepList}
-                        getOptionLabel={(opt) => opt?.itemCode}
+                        options={BOMList}
+                        getOptionLabel={(opt) => opt?.item?.code}
                         onChange={(val) =>
                           handleProductChange(val?.id, setFieldValue)
                         }
                         required
-                        helperText={errors?.product?.itemCode}
+                        helperText={errors?.product?.item?.code}
                       />
                     ) : (
                       <Field.TextField
-                        name="product.itemCode"
+                        name="product.item.code"
                         label={t('bomProducingStep.itemCode')}
                         disabled
                       />
@@ -254,7 +258,7 @@ function BomProducingStepForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('bomProducingStep.itemName')}
-                      name="product.itemName"
+                      name="product.item.name"
                       required
                       disabled
                     />
@@ -262,7 +266,7 @@ function BomProducingStepForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('bomProducingStep.name')}
-                      name="product.bomName"
+                      name="product.name"
                       required
                       disabled
                     />
@@ -270,7 +274,7 @@ function BomProducingStepForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('bomProducingStep.routingId')}
-                      name="product.routingName"
+                      name="product.routingId"
                       required
                       disabled
                     />

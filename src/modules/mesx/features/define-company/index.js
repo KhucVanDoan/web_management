@@ -151,7 +151,9 @@ function DefineCompany() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', type: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchCompanies(params)

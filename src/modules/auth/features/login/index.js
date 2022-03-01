@@ -42,7 +42,6 @@ const Login = () => {
       params,
       () => history.push(callbackUrl || '/'),
       (e) => {
-        // @TODO: <yen.nguyenhai> need to return an error code or message key insteadof message.
         setError(e)
       },
     )

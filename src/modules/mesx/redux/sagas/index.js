@@ -4,6 +4,7 @@ import { all } from 'redux-saga/effects'
 import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step.saga'
 import watchCreateBomProducingStep from './bom-producing-step/create-bom-producing-step.saga'
 import watchDeleteBomProducingStep from './bom-producing-step/delete-bom-producing-step.saga'
+import watchGetBomProducingStep from './bom-producing-step/get-bom-producing-step'
 import watchGetBomProducingStepDetails from './bom-producing-step/get-bom-producing-step-details'
 import watchSearchBomProducingStep from './bom-producing-step/search-bom-producing-step.saga'
 import watchUpdateBomProducingStep from './bom-producing-step/update-bom-producing-step.saga'
@@ -455,6 +456,7 @@ export default function* sagas() {
     watchConfirmBomProducingStep(),
     watchDeleteBomProducingStep(),
     watchCreateBomProducingStep(),
+    watchGetBomProducingStep(),
     watchGetBomProducingStepDetails(),
     watchUpdateBomProducingStep(),
 

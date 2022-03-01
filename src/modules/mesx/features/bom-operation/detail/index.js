@@ -53,6 +53,7 @@ function BomProducingStepDetail() {
 
     return () => {
       actions.resetBomProducingStepDetailsState()
+      bomActions.resetBomState()
     }
   }, [id])
 
