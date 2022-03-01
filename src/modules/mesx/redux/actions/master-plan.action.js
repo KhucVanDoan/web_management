@@ -99,15 +99,15 @@ export function getMasterPlanDetailsByIdFailed() {
 
 /**
  * Get moderation suggest spread
- * @param {int} masterPlanId
+ * @param {object} payload
  * @param {function=} onSuccess Callback function on success
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function getModerationSuggestSpread(masterPlanId, onSuccess, onError) {
+ export function getModerationSuggestSpread(payload, onSuccess, onError) {
   return {
     type: GET_MODERATION_SUGGEST_SPREAD_START,
-    payload: masterPlanId,
+    payload,
     onSuccess: onSuccess,
     onError: onError,
   }

@@ -245,7 +245,6 @@ class GanttChart extends Component {
 
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
-
     gantt.parse(tasks);
 
     gantt.attachEvent('onBeforeTaskDrag', function (id, mode, e) {

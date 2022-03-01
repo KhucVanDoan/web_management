@@ -13,8 +13,8 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getModerationSuggestSpreadApi = (params) => {
-  const uri = `/v1/plans/moderations/${params}/suggest-spread`
-  return api.get(uri)
+  const uri = `/v1/plans/moderations/suggest-spread`
+  return api.get(uri, params)
 }
 
 /**
