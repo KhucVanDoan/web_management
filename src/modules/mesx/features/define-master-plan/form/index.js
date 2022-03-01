@@ -6,13 +6,13 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
-import { MODAL_MODE, } from '~/common/constants'
+import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter } from '~/utils'
+import { redirectRouter, formatDateTimeUtc } from '~/utils'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -62,8 +62,8 @@ const DefineMasterPlanForm = () => {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
-      dateFrom: values?.planDate ? values?.planDate[0] : '',
-      dateTo: values?.planDate ? values?.planDate[1] : '',
+      dateFrom: values?.planDate ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT) : '',
+      dateTo: values?.planDate ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT) : '',
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
