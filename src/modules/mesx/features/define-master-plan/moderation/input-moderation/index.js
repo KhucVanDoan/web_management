@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 import { Box, Button } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { groupBy } from 'lodash'
+import { groupBy, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
+import { MODERATION_TYPE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -52,15 +53,21 @@ const InputModeration = (props) => {
 
   useEffect(() => {
     const producingStepIds = params?.get('producingStep')
-    actions.getModerationSuggestSpread({ itemProducingStepIds: producingStepIds })
+    const moderationType = params?.get('moderationType')
+    if (Number(moderationType) === MODERATION_TYPE.SPREAD_EVENLY) {
+      actions.getModerationSuggestSpread({ itemProducingStepIds: producingStepIds })
+    } else if (Number(moderationType) === MODERATION_TYPE.INPUT_MODERATION) {
+      actions.getProducingStepDetail({ itemProducingStepIds: producingStepIds })
+    }
+      
     return () => {
       actions.resetModerationSuggestSpread()
     }
   }, [])
 
   useEffect(() => {
-    const data = moderationSuggestSpread
-      ?.map(producingStep => ({
+    if (moderationSuggestSpread?.length) {
+      const data = moderationSuggestSpread?.map(producingStep => ({
         [producingStep.id.toString()]: {
           producingStepName: producingStep.producingStepName,
           itemId: producingStep.itemId,
@@ -68,7 +75,8 @@ const InputModeration = (props) => {
         }
       }))
       .reduce((prev, cur) => ({ ...prev, ...cur }), {})
-    setTableData(data)
+      setTableData(data)
+    }
   }, [moderationSuggestSpread])
 
   const groupWorkCenterSchedule = (workCenterSchedules, totalQuantity) => {
@@ -109,8 +117,9 @@ const InputModeration = (props) => {
           ...currentProducingStepInitialValues,
         }
 
-        const executionDates = Object.keys(workCenterSchedule[0])
-          .filter(key => !excludeInputInColumns.includes(key))
+        const executionDates = uniq(workCenterSchedule.map(schedule => (
+          Object.keys(schedule).filter(key => !excludeInputInColumns.includes(key))
+        )).flat()).sort()
         
         tableDataColumns = {
           ...tableDataColumns,

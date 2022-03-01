@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 import GanttChart from '~/UNSAFE_components/shared/gantt-chart'
-import { MODERATION_TYPE } from '~/common/constants'
+import { MODERATION_TYPE_OPTIONS, MODERATION_TYPE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -97,12 +97,16 @@ const AutoModeration = (props) => {
   }
 
   const goToModerationType = (values) => {
-    switch (values.moderationType?.value) {
-      case '2':
-      case '3':
+    switch (Number(values.moderationType?.value)) {
+      case MODERATION_TYPE.EXTEND_DEADLINE:
+        extendDeadline()
+        break
+      case MODERATION_TYPE.SPREAD_EVENLY:
+      case MODERATION_TYPE.INPUT_MODERATION:
         const query = new URLSearchParams({
           producingStep: selectedProducingStep.join(','),
-          masterPlanId: id
+          masterPlanId: id,
+          moderationType: values.moderationType?.value,
         }).toString()
         redirectRouter(`${ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH}?${query}`)
         break
@@ -143,12 +147,12 @@ const AutoModeration = (props) => {
                 style={{ width: 200 }}
                 name="moderationType"
                 placeholder={t('defineMasterPlan.autoModeration.selectModerationType')}
-                options={MODERATION_TYPE.map((status) => ({
+                options={MODERATION_TYPE_OPTIONS.map((status) => ({
                   value: status.id.toString(),
                   label: t(status.text),
                 }))}
               />
-              <Button type="submit">
+              <Button type="submit" disabled={!selectedProducingStep?.length}>
                 {t('defineMasterPlan.autoModeration.selectModerationType')}
               </Button>
             </Box>
@@ -167,6 +171,19 @@ const AutoModeration = (props) => {
         type: 1,
       }));
     return links;
+  }
+
+  const extendDeadline = async () => {
+    if (selectedProducingStep?.length) {
+      await Promise.all(
+        selectedProducingStep.map(producingStep => (
+          masterPlanActions.extendDeadline({ itemProducingStepId: Number(producingStep) })
+        ))
+      )
+      masterPlanActions.getMasterPlanDetailsById({
+        masterPlanId: Number(id),
+      })
+    }
   }
   
   return (
