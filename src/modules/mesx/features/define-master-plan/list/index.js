@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
-import { Delete, Edit, Visibility } from '@mui/icons-material'
+import { Delete, Edit, Visibility, CalendarToday } from '@mui/icons-material'
 import CheckBox from '@mui/icons-material/CheckBox'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -175,6 +175,13 @@ const DefineMasterPlan = (props) => {
               onClick={() => onClickViewDetails(id)}
             >
               <Visibility />
+            </IconButton>
+            <IconButton
+              type="button"
+              size="large"
+              onClick={() => onClickViewModeration(id)}
+            >
+              <CalendarToday />
             </IconButton>
             {canEdit && (
               <IconButton
@@ -407,6 +414,10 @@ const DefineMasterPlan = (props) => {
    */
   const handleCreate = () => {
     redirectRouter(ROUTE.MASTER_PLAN.CREATE.PATH)
+  }
+
+  const onClickViewModeration = (id) => {
+    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
   }
 
   /**

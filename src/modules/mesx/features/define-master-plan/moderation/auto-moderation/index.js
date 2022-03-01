@@ -140,6 +140,7 @@ const AutoModeration = (props) => {
               }}
             >
               <Field.Autocomplete
+                style={{ width: 200 }}
                 name="moderationType"
                 placeholder={t('defineMasterPlan.autoModeration.selectModerationType')}
                 options={MODERATION_TYPE.map((status) => ({
