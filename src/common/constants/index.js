@@ -74,6 +74,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 100,
   },
+  QUANTITY: {
+    MIN: 0,
+    MAX: 99999999999,
+  },
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
@@ -991,24 +995,23 @@ export const WORK_CENTER_STATUS_OPTIONS = [
   },
 ]
 
-
 export const MODERATION_TYPE = {
   EXTEND_DEADLINE: 1,
   SPREAD_EVENLY: 2,
-  INPUT_MODERATION: 3
+  INPUT_MODERATION: 3,
 }
 
 export const MODERATION_TYPE_OPTIONS = [
   {
     id: MODERATION_TYPE.EXTEND_DEADLINE,
-    text: 'defineMasterPlan.autoModeration.extendDeadline'
+    text: 'defineMasterPlan.autoModeration.extendDeadline',
   },
   {
     id: MODERATION_TYPE.SPREAD_EVENLY,
-    text: 'defineMasterPlan.autoModeration.spreadProductEvenly'
+    text: 'defineMasterPlan.autoModeration.spreadProductEvenly',
   },
   {
     id: MODERATION_TYPE.INPUT_MODERATION,
-    text: 'defineMasterPlan.autoModeration.customProduct'
-  }
+    text: 'defineMasterPlan.autoModeration.customProduct',
+  },
 ]

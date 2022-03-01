@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -16,12 +16,16 @@ const ItemSettingTable = ({ items, mode }) => {
 
   const {
     data: { itemList },
-    // actions: actionCommon,
+    actions,
   } = useCommonManagement()
 
   const getItemObject = (id) => {
     return itemList.find((item) => item?.id === id)
   }
+
+  useEffect(() => {
+    actions.getItems()
+  }, [])
 
   const extendedColumns = items?.[0]?.producingStepData || []
 
@@ -83,10 +87,15 @@ const ItemSettingTable = ({ items, mode }) => {
           const { producingStepData } = params.row
           if (!producingStepData) return 0
 
+          const quantity = Number(
+            items[index]?.producingStepData[stepIndex]?.quantity,
+          )
+
           return isView ? (
-            <>{producingStepData?.[stepIndex]?.quantity}</>
+            <>{Number(producingStepData?.[stepIndex]?.quantity)}</>
           ) : (
             <Field.TextField
+              value={quantity}
               name={`items[${index}].producingStepData[${stepIndex}].quantity`}
               type="number"
             />

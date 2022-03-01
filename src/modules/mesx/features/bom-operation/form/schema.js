@@ -9,7 +9,9 @@ export const validationSchema = (t) =>
   Yup.object().shape({
     product: Yup.object()
       .shape({
-        itemCode: Yup.string().required(t('general:form.required')),
+        item: Yup.object().shape({
+          code: Yup.string().required(t('general:form.required')),
+        }),
       })
       .nullable()
       .required(t('general:form.required')),
@@ -26,9 +28,9 @@ export const validationSchema = (t) =>
             quantity: Yup.number()
               .required(t('general:form.required'))
               .min(
-                NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+                NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
                 t('general:form.minNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+                  min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
                 }),
               ),
           }),
