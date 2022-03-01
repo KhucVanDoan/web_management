@@ -60,8 +60,8 @@ const AutoModeration = (props) => {
       const saleOrderSchedule = {
         text: saleOrder.saleOrderName,
         id: saleOrder.saleOrderId,
-        end_date: saleOrder.dateFrom,
-        start_date: saleOrder.dateTo,
+        end_date: saleOrder.dateTo,
+        start_date: saleOrder.dateFrom,
         progress: 0,
         isOverQuantity: saleOrder.isOverQuantity
       }
@@ -74,8 +74,8 @@ const AutoModeration = (props) => {
       const itemSchedule = {
         text: item.itemName,
         id: item.itemId,
-        end_date: item.dateFrom,
-        start_date: item.dateTo,
+        end_date: item.dateTo,
+        start_date: item.dateFrom,
         progress: 0,
         parent: saleOrderId,
         isOverQuantity: item.isOverQuantity
@@ -83,8 +83,8 @@ const AutoModeration = (props) => {
       const producingSteps = item.producingSteps?.map(step => ({
         text: step.producingStepName,
         id: step.id,
-        end_date: step.dateFrom,
-        start_date: step.dateTo,
+        end_date: step.dateTo,
+        start_date: step.dateFrom,
         progress: 0,
         parent: item.itemId,
         type: 'producingStep',
@@ -178,7 +178,7 @@ const AutoModeration = (props) => {
     >
       <Grid container>
         <Grid item xs={12}>
-          <GanttChart
+          {tasks?.length && (<GanttChart
             config={{
               columns: [
                 {
@@ -212,7 +212,7 @@ const AutoModeration = (props) => {
               links: linkRelateList(tasks),
             }}
             onTaskSelected={handleSelectProducingStep}
-          />
+          />)}
         </Grid>
         <Grid item xs={12}>
           <Box

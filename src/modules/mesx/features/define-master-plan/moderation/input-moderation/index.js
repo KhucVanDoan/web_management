@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 
 import { Box, Button } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import { DATE_FORMAT_2 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, formatDateTimeUtc } from '~/utils'
+import { redirectRouter } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -35,6 +35,8 @@ const breadcrumbs = [
   },
 ]
 
+const excludeInputInColumns = ['workCenterId', 'workCenterName', 'totalQuantity']
+
 let initialValues = {}
 
 const InputModeration = (props) => {
@@ -45,51 +47,73 @@ const InputModeration = (props) => {
     data: { isLoading, moderationSuggestSpread },
     actions,
   } = useDefineMasterPlan()
-  const [moderationSuggestByProducingStepId, setModerationSuggestByProducingStepId] = useState({})
+  const [tableData, setTableData] = useState({})
   const [columns, setColumns] = useState({})
 
   useEffect(() => {
-    const producingStepIds = params?.get('producingStep').split(',') || []
-    Promise.all(
-      producingStepIds.map(stepId => actions.getModerationSuggestSpread(stepId))
-    )
+    const producingStepIds = params?.get('producingStep')
+    actions.getModerationSuggestSpread({ itemProducingStepIds: producingStepIds })
     return () => {
       actions.resetModerationSuggestSpread()
     }
   }, [])
 
   useEffect(() => {
-    setModerationSuggestByProducingStepId(
-      moderationSuggestSpread
-        ?.map(producingStep => ({
-          [producingStep.id.toString()]: producingStep
-        }))
-        .reduce((prev, cur) => ({ ...prev, ...cur }), {})
-    )
+    const data = moderationSuggestSpread
+      ?.map(producingStep => ({
+        [producingStep.id.toString()]: {
+          producingStepName: producingStep.producingStepName,
+          itemId: producingStep.itemId,
+          workCenterSchedule: groupWorkCenterSchedule(producingStep.workCenterSchedules, producingStep.quantity)
+        }
+      }))
+      .reduce((prev, cur) => ({ ...prev, ...cur }), {})
+    setTableData(data)
   }, [moderationSuggestSpread])
 
-  useEffect(() => {
-    Object.keys(moderationSuggestByProducingStepId).forEach(producingStepId => {
-      const workCenterSchedule = moderationSuggestByProducingStepId[producingStepId]?.workCenterSchedules
-      if (workCenterSchedule?.length) {
-        const workCenterDetailSchedules = workCenterSchedule[0]?.workCenterDetailSchedules?.map(schedule => (
-          formatDateTimeUtc(schedule.createdAt, DATE_FORMAT_2)
-        ))
+  const groupWorkCenterSchedule = (workCenterSchedules, totalQuantity) => {
+    const groupWorkCenter = groupBy(
+      workCenterSchedules.map(workCenterSchedule => ({
+        workCenterId: workCenterSchedule.workCenterId,
+        workCenterName: workCenterSchedule.workCenterName,
+        [workCenterSchedule.excutionDate]: {
+          id: workCenterSchedule.id,
+          quantity: workCenterSchedule.quantity,
+        }
+      })),
+      'workCenterId'
+    )
 
-        const currentProducingStepInitialValues = workCenterSchedule.map(workCenter => {
-          return workCenter.workCenterDetailSchedules.reduce((prev, cur) => ({
-            ...prev,
-            [`${producingStepId}_${cur.id}`]: cur.quantity
-          }), {})
-        }).reduce((prev, cur) => ({ ...prev, ...cur }), {})
+    return Object.keys(groupWorkCenter).map(key => ({
+      ...groupWorkCenter[key].reduce((prev, cur) => ({ ...prev, ...cur }), {}),
+      totalQuantity
+    }))
+  }
+
+  useEffect(() => {
+    let tableDataColumns = {}
+    Object.keys(tableData).forEach(producingStepId => {
+      const workCenterSchedule = tableData[producingStepId]?.workCenterSchedule
+      if (workCenterSchedule?.length) {
+        const currentProducingStepInitialValues = workCenterSchedule.map(workCenter => (
+          Object.keys(workCenter)
+            .filter(key => !excludeInputInColumns.includes(key))
+            .map(key => ({
+              [`${producingStepId}_${workCenter[key]?.id}_${key}`]: workCenter[key]?.quantity
+            }))
+            .reduce((prev, cur) => ({ ...prev, ...cur }), {})
+        )).reduce((prev, cur) => ({ ...prev, ...cur }), {})
   
         initialValues = {
           ...initialValues,
           ...currentProducingStepInitialValues,
         }
+
+        const executionDates = Object.keys(workCenterSchedule[0])
+          .filter(key => !excludeInputInColumns.includes(key))
         
-        setColumns({
-          ...columns,
+        tableDataColumns = {
+          ...tableDataColumns,
           [producingStepId]: [
             {
               field: 'workCenterName',
@@ -98,37 +122,34 @@ const InputModeration = (props) => {
               align: 'left',
               sortable: false,
             },
-            ...workCenterDetailSchedules.map(date => ({
+            ...executionDates.map(date => ({
               field: date,
               headerName: date,
               width: 150,
               align: 'left',
               sortable: false,
               renderCell: (params) => {
-                const detailSchedule = params.row.workCenterDetailSchedules.find(detailSchedule => (
-                  formatDateTimeUtc(detailSchedule.createdAt, DATE_FORMAT_2) === date
-                )) || {}
                 return (
                   <Field.TextField
                     style={{ width: 140 }}
-                    name={`${producingStepId}_${detailSchedule.id}`}
+                    name={`${producingStepId}_${params.row[date]?.id}_${date}`}
                     type="number"
                   />
                 )
               },
             })),
             {
-              field: 'quantity',
+              field: 'totalQuantity',
               headerName: t('defineMasterPlan.inputModeration.total'),
               align: 'center',
               sortable: false,
             },
           ]
-        })
+        }
       }
     })
-    
-  }, [moderationSuggestByProducingStepId])
+    setColumns(tableDataColumns)
+  }, [tableData])
 
   const backToAutoModeration = () => {
     redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', params?.get('masterPlanId')))
@@ -137,8 +158,8 @@ const InputModeration = (props) => {
   const handleSubmit = async (values) => {
     const payload = {
       soId: moderationSuggestSpread[0]?.saleOrderId,
-      items: Object.keys(moderationSuggestByProducingStepId).map(producingStepId => ({
-        itemId: moderationSuggestByProducingStepId[producingStepId]?.itemId,
+      items: Object.keys(tableData).map(producingStepId => ({
+        itemId: tableData[producingStepId]?.itemId,
         workCenterDetailSchedules: Object.keys(values)
           .filter(key => (
             key.split('_')[0] === producingStepId
@@ -167,17 +188,17 @@ const InputModeration = (props) => {
       >
         {({ resetForm, values, setFieldValue }) => (
           <Form>
-            {Object.keys(moderationSuggestByProducingStepId).map(producingStepId => (
+            {Object.keys(tableData).map(producingStepId => (
               columns[producingStepId]?.length && (
-                <>
-                  <h4>{moderationSuggestByProducingStepId[producingStepId].producingStepName}</h4>
+                <div key={producingStepId}>
+                  <h4>{tableData[producingStepId].producingStepName}</h4>
                   <DataTable
-                    rows={moderationSuggestByProducingStepId[producingStepId].workCenterSchedules}
+                    rows={tableData[producingStepId].workCenterSchedule}
                     columns={columns[producingStepId]}
                     hideSetting={true}
                     hideFooter={true}
                   />
-                </>
+                </div>
               )
             ))}
             <Box
@@ -196,7 +217,7 @@ const InputModeration = (props) => {
               <Button variant="outlined" color="subText" onClick={resetForm}>
                 {t('common.cancel')}
               </Button>
-              <Button type="submit">{t('common.create')}</Button>
+              <Button type="submit">{t('common.save')}</Button>
             </Box>
           </Form>
         )}

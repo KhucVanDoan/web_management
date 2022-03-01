@@ -60,7 +60,7 @@ export default function defineMasterPlan(state = initialState, action) {
     case GET_MODERATION_SUGGEST_SPREAD_SUCCESS:
       return {
         ...state,
-        moderationSuggestSpread: state.moderationSuggestSpread.concat(action.payload),
+        moderationSuggestSpread: action.payload,
         isLoading: false,
       }
     case SUBMIT_MODERATION_INPUT_SUCCESS:
@@ -70,12 +70,12 @@ export default function defineMasterPlan(state = initialState, action) {
         isLoading: false,
       }
     case SEARCH_MASTER_PLANS_FAILED:
+    case CREATE_MASTER_PLAN_SUCCESS:
     case GET_MODERATION_SUGGEST_SPREAD_FAILED:
       return {
         ...state,
         isLoading: false,
       }
-    case CREATE_MASTER_PLAN_SUCCESS:
     case GET_MASTER_PLAN_DETAILS_FAILED:
     case CREATE_MASTER_PLAN_FAILED:
     case SUBMIT_MODERATION_INPUT_FAILED:
