@@ -88,6 +88,8 @@ export const DATE_TIME_12_HOURS_FORMAT = "yyy-MM-dd hh:mm aaaaa'm'"
 
 export const DATE_FORMAT_2 = 'MM/dd/yyyy'
 
+export const DATE_FORMAT_3 = 'yyyy-MM-dd'
+
 export const ORDER_TYPE = [
   {
     id: 0,
