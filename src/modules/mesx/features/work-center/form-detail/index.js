@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
 
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Tab } from '@mui/material'
+import { Button, Grid, Tab, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { cloneDeep, groupBy, isEmpty, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import {
-  MODAL_MODE,
-  WORK_CENTER_STATUS,
-  WORK_CENTER_STATUS_MAP,
-} from '~/common/constants'
 import LV from '~/components/LabelValue'
-import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
+import { MODAL_MODE } from '../../../../../common/constants'
+import Page from '../../../../../components/Page'
 import BreakTimeTable from '../form/break-time'
 import ShiftTable from '../form/work-center-shifts'
 

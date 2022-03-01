@@ -1306,6 +1306,7 @@
     "workPlan": "Kế hoạch công việc",
     "workCenterPlanDetail": "Kế hoạch cho xưởng",
     "createWorkCenterPlan": "Tạo kế hoạch cho xưởng",
+    "import": "Nhập/Xuất dữ liệu",
     "item": {
       "plan": "Kế hoạch",
       "totalPlanQuantity": "Tổng kế hoạch",

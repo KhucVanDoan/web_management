@@ -9,7 +9,7 @@ const style = (theme) => ({
     },
   },
   rootMultiple: {
-    '.MuiOutlinedInput-root': {
+    'div.MuiOutlinedInput-root': {
       padding: 0,
       maxHeight: 118,
       overflow: 'auto',
