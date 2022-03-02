@@ -16,7 +16,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createMOApi = (params) => {
-  const uri = `v1/produces/manufacturing-orders/create`
+  const uri = `v1/produces/manufacturing-orders/create-by-plan`
   return api.post(uri, params)
 }
 
