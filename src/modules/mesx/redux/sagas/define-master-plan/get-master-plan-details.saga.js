@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getMasterPlanDetailsApi = (params) => {
-  const uri = `/v1/plans/master-plans`
+  const uri = `/v1/plans/master-plans/${params}`
   return api.get(uri, params)
 }
 
@@ -25,7 +25,7 @@ function* doGetMasterPlanDetails(action) {
   try {
     const response = yield call(getMasterPlanDetailsApi, action?.payload)
     if (response?.data) {
-      yield put(getMasterPlanDetailsByIdSuccess(response.data?.masterPlans[0]))
+      yield put(getMasterPlanDetailsByIdSuccess(response.data))
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess(response.data)

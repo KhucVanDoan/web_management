@@ -43,9 +43,7 @@ const AutoModeration = (props) => {
   } = useDefineMasterPlan()
 
   useEffect(() => {
-    masterPlanActions.getMasterPlanDetailsById({
-      masterPlanId: Number(id),
-    })
+    masterPlanActions.getMasterPlanDetailsById(id)
   }, [])
 
   useEffect(() => {
@@ -180,9 +178,7 @@ const AutoModeration = (props) => {
           masterPlanActions.extendDeadline({ itemProducingStepId: Number(producingStep) })
         ))
       )
-      masterPlanActions.getMasterPlanDetailsById({
-        masterPlanId: Number(id),
-      })
+      masterPlanActions.getMasterPlanDetailsById(id)
     }
   }
   

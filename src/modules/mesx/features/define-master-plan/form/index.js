@@ -55,7 +55,7 @@ const DefineMasterPlanForm = () => {
 
   const getMasterPlanDetail = () => {
     if (isUpdate || isDetail) {
-      actions.getMasterPlanDetailsById({ masterPlanId: id })
+      actions.getMasterPlanDetailsById(id)
     }
   }
 
