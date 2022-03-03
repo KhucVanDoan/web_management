@@ -9,7 +9,7 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { ROUTE } from '~/modules/auth/routes/config'
-import { useUserManagement } from '~/modules/mesx/redux/hooks/useUserManagement'
+import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { useClasses } from '~/themes'
 
 import { forgotPasswordSchema } from './schema'
