@@ -1,1036 +1,662 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { AddCircle, RemoveCircleOutlined } from '@mui/icons-material'
-import {
-  Button,
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  FormHelperText,
-  Autocomplete,
-} from '@mui/material'
+import { TabContext, TabPanel, TabList } from '@mui/lab'
+import { Checkbox, FormControlLabel, Grid, Tab } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import IconButton from '@mui/material/IconButton'
-import TextField from '@mui/material/TextField'
-import { withStyles } from '@mui/styles'
-import clsx from 'clsx'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import SimpleReactValidator from 'simple-react-validator'
+import { Formik, Form, FieldArray } from 'formik'
+import { useTranslation } from 'react-i18next'
+import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
-import {
-  CODE_SETTINGS,
-  DATE_TIME_12_HOURS_FORMAT,
-  MODAL_MODE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from '~/common/constants'
-import DataTable from '~/components/DataTable'
-import {
-  getDetails,
-  getItemGroups,
-  getItemTypes,
-  getItemUnits,
-} from '~/modules/mesx/redux/actions/common'
-import {
-  createItem,
-  getItemDetailsById,
-  updateItem,
-} from '~/modules/mesx/redux/actions/define-item.action'
-import {
-  formatDateTimeUtc,
-  initCode,
-  onChangeCodeField,
-  onChangeTextField,
-} from '~/utils'
+import { MODAL_MODE } from '~/common/constants'
+import Button from '~/components/Button'
+import { Field } from '~/components/Formik'
+import Page from '~/components/Page'
+import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants/index'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import { ROUTE } from '~/modules/mesx/routes/config'
 
-import useStyles from './style'
+import ItemsSettingTable from './items-setting-table'
+import { itemSchema } from './schema'
 
-const DEFAULT_DETAIL = {
-  detailInfo: {
-    id: '',
-    name: '',
-  },
-  amount: 1,
-}
+function DefineItemForm() {
+  const { t } = useTranslation(['mesx'])
+  const routeMatch = useRouteMatch()
+  const history = useHistory()
+  const params = useParams()
+  const [tabValue, setTabValue] = useState('1')
+  const [warehouseId, setWarehouseId] = useState('')
+  const [warehouseSectorId, setWarehouseSectorId] = useState('')
 
-class ItemForm extends Component {
-  constructor(props) {
-    super(props)
+  const {
+    data: { itemDetails, isLoading },
+    actions,
+  } = useDefineItem()
 
-    this.codeSettings = CODE_SETTINGS.ITEM
+  const {
+    data: { warehouseList, warehouseSectorList, warehouseShelfList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
 
-    this.initialCode = initCode(this.codeSettings.DOMAIN)
+  const { appStore } = useAppStore()
 
-    this.state = {
-      code: this.initialCode,
-      name: '',
-      description: '',
-      itemUnit: null,
-      itemType: null,
-      itemGroup: null,
-      price: '',
-      itemDetails: [{ ...DEFAULT_DETAIL }],
-      createdAt: '',
-      updatedAt: '',
-      isDetailed: false,
-      disableIsDetailed: false,
-      isProductionObject: false,
-      isHasBom: false,
-      isSubmitForm: false,
+  const initialValues = {
+    name: itemDetails?.name || '',
+    code: itemDetails?.code || '',
+    description: itemDetails?.description || '',
+    itemType: {
+      id: itemDetails?.itemType?.id || '',
+      name: itemDetails?.itemType?.name || '',
+      code: itemDetails?.itemType?.code || '',
+      hasItemDetail: itemDetails?.itemType?.hasItemDetail || false,
+    },
+    itemGroup: {
+      id: itemDetails?.itemGroup?.id || '',
+      name: itemDetails?.itemGroup?.name || '',
+      code: itemDetails?.itemGroup?.code || '',
+    },
+    itemUnit: {
+      id: itemDetails?.itemUnit?.id || '',
+      name: itemDetails?.itemUnit?.name || '',
+      code: itemDetails?.itemUnit?.code || '',
+    },
+    price: itemDetails?.price || '',
+    dayExpire: itemDetails?.dayExpire || '',
+    isProductionObject: itemDetails?.isProductionObject || false,
+    hasStorageSpace: itemDetails?.hasStorageSpace || false,
+    ...(itemDetails?.hasStorageSpace
+      ? {
+          long: {
+            value: itemDetails?.long?.value,
+            unit: itemDetails?.long?.unit,
+          },
+          width: {
+            value: itemDetails?.width?.value,
+            unit: itemDetails?.width?.unit,
+          },
+          height: {
+            value: itemDetails?.height?.value,
+            unit: itemDetails?.height?.unit,
+          },
+          weight: {
+            value: itemDetails?.weight?.value,
+            unit: itemDetails?.weight?.unit,
+          },
+        }
+      : {}),
+    isLocation: !!itemDetails?.itemWarehouseLocation || false,
+    ...(itemDetails?.itemWarehouseLocation
+      ? {
+          itemWarehouseLocation: {
+            warehouseId: itemDetails?.itemWarehouseLocation?.warehouseId || '',
+            warehouseSectorId:
+              itemDetails?.itemWarehouseLocation?.warehouseSectorId || '',
+            warehouseShelfId:
+              itemDetails?.itemWarehouseLocation?.warehouseShelfId || '',
+          },
+        }
+      : {}),
+    hasItemDetail: !!itemDetails?.itemDetails || false,
+    itemDetails:
+      itemDetails?.itemDetails?.map((item) => ({
+        detailId: item.itemDetailId,
+        quantity: Number(item.quantity),
+      })) || [],
+  }
+
+  const [isProductionObject, setIsProductionObject] = useState(
+    initialValues.isProductionObject,
+  )
+  const [isLocation, setIsLocation] = useState(initialValues.isLocation)
+  const [storage, setStorage] = useState(initialValues.hasStorageSpace)
+  const [isDetailed, setIsDetailed] = useState(initialValues.hasItemDetail)
+
+  const MODE_MAP = {
+    [ROUTE.DEFINE_ITEM.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_ITEM.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
+
+  const handleChangeTabValue = (event, value) => {
+    setTabValue(value)
+  }
+
+  const backToList = () => {
+    history.push(ROUTE.DEFINE_ITEM.LIST.PATH)
+  }
+
+  const getTitle = () => {
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return ROUTE.DEFINE_ITEM.CREATE.TITLE
+      case MODAL_MODE.UPDATE:
+        return ROUTE.DEFINE_ITEM.EDIT.TITLE
+      default:
+        break
     }
+  }
 
-    const { t } = this.props
-
-    this.MODAL_MAP_CONTENT = {
-      CREATE: {
-        title: t('defineItem.createModalTitle'),
-        submitLabel: t('defineItem.createModalSubmitLabel'),
-      },
-      UPDATE: {
-        title: t('defineItem.updateModalTitle'),
-        submitLabel: t('defineItem.updateModalSubmitLabel'),
-      },
-      DETAIL: {
-        title: t('defineItem.detailsModalTitle'),
-        submitLabel: t('defineItem.detailsModalSubmitLabel'),
-      },
-    }
-
-    this.detailColumns = [
+  const getBreadcrumb = () => {
+    const breadcrumbs = [
       {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        sortable: false,
+        title: 'database',
       },
       {
-        field: 'name',
-        headerName: t('defineItem.detailName'),
-        width: 200,
-        sortable: false,
-      },
-      {
-        field: 'amount',
-        headerName: t('common.amount'),
-        width: 200,
-        sortable: false,
+        route: ROUTE.DEFINE_ITEM.LIST.PATH,
+        title: ROUTE.DEFINE_ITEM.LIST.TITLE,
       },
     ]
-
-    this.validator = new SimpleReactValidator()
-  }
-
-  componentDidMount() {
-    this.refreshData()
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    // on modal open
-    if (
-      prevProps.isOpenModal !== this.props.isOpenModal &&
-      this.props.isOpenModal
-    ) {
-      this.refreshData()
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        breadcrumbs.push({
+          route: ROUTE.DEFINE_ITEM.CREATE.PATH,
+          title: ROUTE.DEFINE_ITEM.CREATE.TITLE,
+        })
+        break
+      case MODAL_MODE.UPDATE:
+        breadcrumbs.push({
+          route: ROUTE.DEFINE_ITEM.EDIT.PATH,
+          title: ROUTE.DEFINE_ITEM.EDIT.TITLE,
+        })
+        break
+      default:
+        break
     }
-    // on user id change
-    if (
-      prevProps.id !== this.props.id &&
-      this.props.id &&
-      this.props.isOpenModal
-    ) {
-      this.props.getItemDetailsById(this.props.id, (data) => {
-        const {
-          code,
-          name,
-          itemDetails,
-          description,
-          createdAt,
-          updatedAt,
-          itemGroup,
-          itemType,
-          itemUnit,
-          isProductionObject,
-          isHasBom,
-          price,
-        } = data
-        const { detailList } = this.props.commonManagement
-        const draftItemDetails = JSON.parse(JSON.stringify(itemDetails))
-        const itemDetailsCopy = draftItemDetails.map((itemDetail) => {
-          const detailId = itemDetail?.itemDetailId
-          const findDetailList = detailList?.find(
-            (detail) => detail?.id === detailId,
-          )
-          const originDetail = findDetailList ? findDetailList : null
-          return {
-            detailInfo: { id: originDetail?.id, name: originDetail?.name },
-            amount: +itemDetail?.quantity,
+    return breadcrumbs
+  }
+
+  const onToggleIsProductionObject = () => {
+    setIsProductionObject(!isProductionObject)
+  }
+
+  const onToggleStorage = () => {
+    setStorage(!storage)
+  }
+
+  const onToggleStorageLocation = () => {
+    setIsLocation(!isLocation)
+  }
+
+  const onToggleIsDetailed = (checked) => {
+    setIsDetailed(!isDetailed)
+  }
+
+  useEffect(() => {
+    const id = params?.id
+    actions.getItemDetailsById(id)
+    commonManagementActions.getWarehouses()
+    commonManagementActions.getWarehousesSector()
+    commonManagementActions.getWarehousesShelf()
+    return () => {
+      actions.resetItemDetailsState()
+    }
+  }, [params?.id])
+
+  const onSubmit = (values) => {
+    const id = Number(params?.id)
+
+    const convertValues = {
+      ...values,
+      id,
+      itemTypeId: values?.itemType?.id,
+      itemGroupId: values?.itemGroup?.id,
+      itemUnitId: values?.itemUnit?.id,
+      price: Number(values.price),
+      dayExpire: values?.dayExpire ? Number(values.dayExpire) : null,
+      isProductionObject: isProductionObject ? '1' : '0',
+      hasStorageSpace: storage ? 1 : 0,
+      ...(storage
+        ? {
+            long: {
+              value: Number(values?.long?.value),
+              unit: values?.long?.unit,
+            },
+            width: {
+              value: Number(values.width?.value),
+              unit: values.width?.unit,
+            },
+            height: {
+              value: Number(values.height?.value),
+              unit: values.height?.unit,
+            },
+            weight: {
+              value: Number(values.weight?.value),
+              unit: values.weight?.unit,
+            },
           }
-        })
-        const isDetailed = draftItemDetails?.length > 0
-        this.setState({
-          code,
-          name,
-          itemDetails: itemDetailsCopy,
-          description,
-          createdAt,
-          updatedAt,
-          itemGroup,
-          itemType,
-          itemUnit,
-          price,
-          isDetailed,
-          isProductionObject: isProductionObject,
-          isHasBom,
-          disableIsDetailed: !itemType?.hasItemDetail,
-        })
-      })
-    }
-    if (prevProps.id !== this.props.id && !this.props.id) {
-      this.resetForm()
-    }
-  }
-
-  refreshData = () => {
-    this.props.getDetails({})
-    this.props.getItemGroups()
-    this.props.getItemTypes()
-    this.props.getItemUnits()
-  }
-
-  onSubmit = () => {
-    this.setState({ isSubmitForm: true })
-    if (this.validator.allValid() && this.state.code !== this.initialCode) {
-      const { name, code, description, price } = this.state
-      const itemUnitId = this.state.itemUnit.id
-      const itemTypeId = this.state.itemType.id
-      const itemGroupId = this.state.itemGroup.id
-      const itemDetails = this.state.itemDetails
-        .filter((detail) => detail.detailInfo.id)
-        .map((detail) => {
-          return {
-            detailId: detail.detailInfo.id,
-            quantity: detail.amount,
+        : {}),
+      isLocation: isLocation,
+      ...(isLocation
+        ? {
+            itemWarehouseLocation: {
+              warehouseId: values?.warehouse?.id,
+              warehouseSectorId: values?.warehouseSector?.id,
+              warehouseShelfId: values?.warehouseShelf?.id,
+            },
           }
-        })
-      const params = {
-        name,
-        code,
-        description,
-        itemUnitId,
-        itemTypeId,
-        itemGroupId,
-        itemDetails,
-        isProductionObject: this.state.isProductionObject ? '1' : '0',
-        price: +price,
-      }
-      if (this.props.modalMode === MODAL_MODE.CREATE) {
-        this.props.createItem(params, () => {
-          this.onCloseModal()
-        })
-      } else {
-        params.id = this.props.id
-        this.props.updateItem(params, () => {
-          this.onCloseModal()
-        })
-      }
+        : {}),
+      ...(isDetailed
+        ? {
+            itemDetails: values.items?.map((item) => ({
+              detailId: item.detailId,
+              quantity: Number(item.quantity),
+            })),
+          }
+        : {}),
+    }
+
+    if (mode === MODAL_MODE.CREATE) {
+      actions.createItem(convertValues, backToList)
+    } else if (mode === MODAL_MODE.UPDATE) {
+      actions.updateItem(convertValues, backToList)
     }
   }
 
-  onCloseModal = () => {
-    // callback action from parent
-    this.resetForm()
-    this.props.handleCloseModal(true)
-  }
-
-  onCancelModal = () => {
-    const { modalMode } = this.props
-    if (modalMode === MODAL_MODE.CREATE) {
-      this.resetForm()
-    }
-    if (modalMode === MODAL_MODE.UPDATE) {
-      const {
-        code,
-        name,
-        itemDetails,
-        description,
-        createdAt,
-        updatedAt,
-        itemGroup,
-        itemType,
-        itemUnit,
-        price,
-      } = this.props.defineItem.itemDetails
-      const { detailList } = this.props.commonManagement
-      const itemDetailsCopy0 = JSON.parse(JSON.stringify(itemDetails))
-      const itemDetailsCopy = itemDetailsCopy0?.map((itemDetail) => {
-        const detailId = itemDetail?.itemDetailId
-        const findDetailList = detailList?.find(
-          (detail) => detail?.id === detailId,
+  const renderActionButtons = (handleReset) => {
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return (
+          <>
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
+              {t('common.close')}
+            </Button>
+            <Button
+              onClick={handleReset}
+              variant="outlined"
+              color="subText"
+              sx={{ mr: 4 / 3 }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button type="submit">{t('common.create')}</Button>
+          </>
         )
-        const originDetail = findDetailList ? findDetailList : null
-        return {
-          detailInfo: { id: originDetail?.id, name: originDetail?.name },
-          amount: +itemDetail?.quantity,
-        }
-      })
-      const isDetailed = itemDetailsCopy0?.length > 0
-      this.setState({
-        code,
-        name,
-        itemDetails: itemDetailsCopy,
-        description,
-        createdAt,
-        updatedAt,
-        itemGroup,
-        itemType,
-        itemUnit,
-        price,
-        isDetailed,
-      })
+      case MODAL_MODE.UPDATE:
+        return (
+          <>
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
+              {t('common.close')}
+            </Button>
+            <Button
+              onClick={handleReset}
+              variant="outlined"
+              color="subText"
+              sx={{ mr: 4 / 3 }}
+            >
+              {t('common.cancel')}
+            </Button>
+            <Button type="submit">{t('common.save')}</Button>
+          </>
+        )
+      default:
     }
   }
 
-  /**
-   * Add product
-   */
-  onAddProduct = () => {
-    this.setState({
-      itemDetails: [...this.state.itemDetails, { ...DEFAULT_DETAIL }],
-    })
-  }
-  resetForm = () => {
-    this.setState({
-      code: this.initialCode,
-      name: '',
-      description: '',
-      itemUnit: null,
-      itemType: null,
-      itemGroup: null,
-      price: '',
-      itemDetails: [{ ...DEFAULT_DETAIL }],
-      createdAt: '',
-      updatedAt: '',
-      isDetailed: false,
-      disableIsDetailed: false,
-      isProductionObject: false,
-      isSubmitForm: false,
-    })
-  }
-
-  onChangeItemAttribute = (key, value) => {
-    this.setState({ [key]: value })
-    if (key === 'itemType') {
-      const disableIsDetailed = !value?.hasItemDetail
-
-      this.setState({ disableIsDetailed })
-      disableIsDetailed &&
-        this.setState({
-          isDetailed: false,
-          itemDetails: [{ ...DEFAULT_DETAIL }],
-        })
-    }
-  }
-  /**
-   * Remove product
-   * @param {int} index
-   */
-  onRemoveProduct = (index) => {
-    const itemDetails = [...this.state.itemDetails]
-    itemDetails.splice(index, 1)
-    this.setState({ itemDetails })
-  }
-  onChangeItemDetail = (index, key, value) => {
-    const itemDetails = [...this.state.itemDetails]
-
-    const itemToChange = itemDetails[index]
-    itemToChange[key] = value
-    itemDetails[index] = itemToChange
-    this.setState({ itemDetails })
-  }
-
-  getProductRows = () => {
-    return this.state.itemDetails.map((itemDetail) => {
-      return { ...itemDetail.detailInfo, amount: itemDetail.amount }
-    })
-  }
-
-  /**
-   *
-   * @param {*} event
-   * @param {boolean} checked
-   */
-  onToggleIsDetailed = (event, checked) => {
-    this.setState({ isDetailed: checked })
-    !checked && this.setState({ itemDetails: [{ ...DEFAULT_DETAIL }] })
-  }
-  /**
-   *
-   * @param {*} event
-   */
-  onToggleIsProductionObject = (event) => {
-    this.setState({ isProductionObject: !!event.target.checked })
-  }
-
-  render() {
-    const {
-      code,
-      name,
-      description,
-      itemUnit,
-      itemType,
-      itemGroup,
-      itemDetails,
-      price,
-      createdAt,
-      updatedAt,
-      isDetailed,
-      isSubmitForm,
-      disableIsDetailed,
-      isProductionObject,
-      isHasBom,
-    } = this.state
-
-    const { isOpenModal, modalMode, t, classes } = this.props
-
-    const isView = modalMode === MODAL_MODE.DETAIL
-    const isCreate = modalMode === MODAL_MODE.CREATE
-    const isUpdate = modalMode === MODAL_MODE.UPDATE
-
-    const modalContent = this.MODAL_MAP_CONTENT[modalMode]
-
-    const { itemGroups, itemTypes, itemUnits } = this.props
-
-    const { detailList } = this.props.commonManagement
-
-    this.validator.purgeFields()
-    return (
-      <Modal
-        size={'lg'}
-        isOpen={isOpenModal}
-        onClose={this.onCloseModal}
-        onCancel={this.onCancelModal}
-        onSubmit={this.onSubmit}
-        title={modalContent.title}
-        isOpenModal={isOpenModal}
-        submitLabel={modalContent.submitLabel}
-        hideCancel={isView}
-        hideSubmit={isView}
-      >
-        <form>
-          <Box className={clsx(classes.marginAuto)} width={6 / 7}>
-            <div className={clsx(classes.boxItem, classes.marginLabel)}>
-              <Box width={1 / 2} className={classes.boxItem}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.code')}
-                  <span className={this.props.classes.required}> *</span>
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <TextField
-                      name="code"
-                      id="code"
-                      value={code}
-                      margin="dense"
-                      placeholder={t('defineItem.code')}
-                      variant="outlined"
-                      onChange={(event) => {
-                        onChangeCodeField(
-                          this,
-                          event,
-                          this.codeSettings.MAX_LENGTH,
-                          this.codeSettings.PREFIX,
-                          this.codeSettings.FILLED_CHARACTER,
-                        )
-                      }}
-                      disabled={isView || isUpdate}
-                    />
-                    {/* add rule to validate */}
-                    {/* check isValid to show messages */}
-                    {this.state.isSubmitForm && code === this.initialCode && (
-                      <FormHelperText error>
-                        {t('form.required')}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Box>
-              </Box>
-              <Box width={1 / 2} className={clsx(classes.boxItem)} ml={5}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.name')}
-                  <span className={this.props.classes.required}> *</span>
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <TextField
-                      name="name"
-                      id="name"
-                      value={name}
-                      margin="dense"
-                      placeholder={t('defineItem.name')}
-                      variant="outlined"
-                      onChange={(event) => onChangeTextField(this, event)}
-                      disabled={isView}
-                    />
-                    {/* add rule to validate */}
-                    {this.validator.message(
-                      'name',
-                      name,
-                      `required|max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-                    )}
-                    {/* check isValid to show messages */}
-                    {this.state.isSubmitForm &&
-                      !this.validator.check(name, `required`) && (
-                        <FormHelperText error>
-                          {t('form.required')}
-                        </FormHelperText>
-                      )}
-
-                    {this.state.isSubmitForm &&
-                      !this.validator.check(
-                        name,
-                        `max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-                      ) && (
-                        <FormHelperText error>
-                          {t('form.maxLength', {
-                            max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                          })}
-                        </FormHelperText>
-                      )}
-                  </FormControl>
-                </Box>
-              </Box>
-            </div>
-            <div className={clsx(classes.boxItem, classes.marginLabel)}>
-              <Box width={1 / 2} className={classes.boxItem}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.typeCode')}
-                  <span className={this.props.classes.required}> *</span>
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <Autocomplete
-                      size="small"
-                      name="itemType"
-                      id="checkboxes-tags-demo"
-                      value={itemType}
-                      margin="dense"
-                      variant="outlined"
-                      options={itemTypes}
-                      getOptionLabel={(option) => option.code}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      renderOption={(option, { selected }) => (
-                        <React.Fragment>{option.code}</React.Fragment>
-                      )}
-                      renderInput={(params) => (
-                        <TextField {...params} variant="outlined" />
-                      )}
-                      onChange={(event, value) => {
-                        if (value) {
-                          this.onChangeItemAttribute('itemType', value)
-                        }
-                      }}
-                      disabled={isView}
-                    />
-                    {/* add rule to validate */}
-                    {this.validator.message(
-                      `itemType`,
-                      itemType?.id,
-                      `required`,
-                    )}
-                    {/* check isValid to show messages */}
-                    {isSubmitForm &&
-                      !this.validator.check(itemType?.id, `required`) && (
-                        <FormHelperText error>
-                          {t('form.required')}
-                        </FormHelperText>
-                      )}
-                  </FormControl>
-                </Box>
-              </Box>
-              <Box width={1 / 2} className={clsx(classes.boxItem)} ml={5}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.typeName')}
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <TextField
-                      name="itemType"
-                      id="itemType"
-                      value={itemType?.name}
-                      margin="dense"
-                      placeholder={t('defineItem.typeName')}
-                      variant="outlined"
-                      disabled={true}
-                    ></TextField>
-                  </FormControl>
-                </Box>
-              </Box>
-            </div>
-            <div className={clsx(classes.boxItem, classes.marginLabel)}>
-              <Box width={1 / 2} className={classes.boxItem}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.groupCode')}
-                  <span className={this.props.classes.required}> *</span>
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <Autocomplete
-                      size="small"
-                      name="itemGroup"
-                      id="checkboxes-tags-demo"
-                      value={itemGroup}
-                      margin="dense"
-                      variant="outlined"
-                      options={itemGroups}
-                      getOptionLabel={(option) => option.code}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      renderOption={(option, { selected }) => (
-                        <React.Fragment>{option.code}</React.Fragment>
-                      )}
-                      renderInput={(params) => (
-                        <TextField {...params} variant="outlined" />
-                      )}
-                      onChange={(event, value) => {
-                        if (value) {
-                          this.onChangeItemAttribute('itemGroup', value)
-                        }
-                      }}
-                      disabled={isView}
-                    />
-                    {/* add rule to validate */}
-                    {this.validator.message(
-                      `itemGroup`,
-                      itemGroup?.id,
-                      `required`,
-                    )}
-                    {/* check isValid to show messages */}
-                    {isSubmitForm &&
-                      !this.validator.check(itemGroup?.id, `required`) && (
-                        <FormHelperText error>
-                          {t('form.required')}
-                        </FormHelperText>
-                      )}
-                  </FormControl>
-                </Box>
-              </Box>
-              <Box width={1 / 2} className={clsx(classes.boxItem)} ml={5}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.groupName')}
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <TextField
-                      name="itemGroup"
-                      id="itemGroup"
-                      value={itemGroup?.name}
-                      margin="dense"
-                      placeholder={t('defineItem.groupName')}
-                      variant="outlined"
-                      disabled={true}
-                    ></TextField>
-                  </FormControl>
-                </Box>
-              </Box>
-            </div>
-            <div className={clsx(classes.boxItem, classes.marginLabel)}>
-              <Box width={1 / 2} className={classes.boxItem}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.unit')}
-                  <span className={this.props.classes.required}> *</span>
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <Autocomplete
-                      size="small"
-                      name="itemUnit"
-                      id="checkboxes-tags-demo"
-                      value={itemUnit}
-                      margin="dense"
-                      variant="outlined"
-                      options={itemUnits}
-                      getOptionLabel={(option) => option.name}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      renderOption={(option, { selected }) => (
-                        <React.Fragment>{option.name}</React.Fragment>
-                      )}
-                      renderInput={(params) => (
-                        <TextField {...params} variant="outlined" />
-                      )}
-                      onChange={(event, value) => {
-                        if (value) {
-                          this.onChangeItemAttribute('itemUnit', value)
-                        }
-                      }}
-                      disabled={isView}
-                    />
-                    {/* add rule to validate */}
-                    {this.validator.message(
-                      `itemUnit`,
-                      itemUnit?.id,
-                      `required`,
-                    )}
-                    {/* check isValid to show messages */}
-                    {isSubmitForm &&
-                      !this.validator.check(itemUnit?.id, `required`) && (
-                        <FormHelperText error>
-                          {t('form.required')}
-                        </FormHelperText>
-                      )}
-                  </FormControl>
-                </Box>
-              </Box>
-              <Box width={1 / 2} className={clsx(classes.boxItem)} ml={5}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.price')}
-                </label>
-                <Box width={2 / 3}>
-                  <FormControl fullWidth>
-                    <TextField
-                      name="price"
-                      id="price"
-                      value={price}
-                      margin="dense"
-                      placeholder={t('defineItem.price')}
-                      variant="outlined"
-                      size="small"
-                      onChange={(event) => onChangeTextField(this, event)}
-                      disabled={isView}
-                    />
-                  </FormControl>
-                </Box>
-              </Box>
-            </div>
-            {/** Product list*/}
-            <div className={clsx(classes.boxItem, classes.marginLabel)}>
-              <Box width={1 / 2} className={classes.boxItem}>
-                {!isView && (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={isDetailed}
-                        onChange={this.onToggleIsDetailed}
-                        name="isDetailed"
-                        color="primary"
-                        disabled={disableIsDetailed}
-                      />
-                    }
-                    label={t('defineItem.isDetailed') + '?'}
-                  />
-                )}
-                {isView && (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={isHasBom}
-                        name="isHasBom"
-                        color="primary"
-                        disabled={isView}
-                      />
-                    }
-                    label={t('defineItem.isHasBom') + '?'}
-                  />
-                )}
-              </Box>
-              <Box width={1 / 2} className={classes.boxItem} ml={5}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isProductionObject}
-                      onChange={(event) =>
-                        this.onToggleIsProductionObject(event)
-                      }
-                      name="isProductionObject"
-                      color="primary"
-                      disabled={isView}
-                    />
-                  }
-                  label={t('defineItem.isProductionObject') + '?'}
-                />
-              </Box>
-            </div>
-            {isDetailed && (
-              <>
-                <Divider />
-                <Box mb={2}>
-                  <div className={clsx(classes.marginLabel)}>
-                    <label className={classes.labelItem}>
-                      {t('defineItem.detailList')}
-                    </label>
-                  </div>
-                  {/* Product item  in CREATE and UPDATE*/}
-                  {(isCreate || isUpdate) &&
-                    itemDetails.map((detail, i) => (
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        key={i}
-                        mb={1}
-                      >
-                        <Box className={classes.boxItem} mr={2} flex={1}>
-                          <label className={classes.labelItem}>
-                            {t('defineItem.detailName')}
-                            <span className={this.props.classes.required}>
-                              {' '}
-                              *
-                            </span>
-                          </label>
-                          <Box flex={1}>
-                            <FormControl fullWidth>
-                              <Autocomplete
-                                size="small"
-                                id="checkboxes-tags-demo"
-                                variant="outlined"
-                                options={detailList || []}
-                                value={detail.detailInfo || {}}
-                                getOptionLabel={(option) => option?.name}
-                                isOptionEqualToValue={(option, value) =>
-                                  option.id === value.id
-                                }
-                                renderOption={(option, { selected }) => (
-                                  <React.Fragment>
-                                    {option?.name}
-                                  </React.Fragment>
-                                )}
-                                renderInput={(params) => (
-                                  <TextField {...params} variant="outlined" />
-                                )}
-                                onChange={(event, value) =>
-                                  this.onChangeItemDetail(
-                                    i,
-                                    'detailInfo',
-                                    value,
-                                  )
-                                }
-                                getOptionDisabled={(option) => {
-                                  return itemDetails
-                                    .map((item) => item?.detailInfo?.id)
-                                    .includes(option.id)
-                                }}
-                              />
-                              {/* add rule to validate */}
-                              {isDetailed &&
-                                this.validator.message(
-                                  `name${i}`,
-                                  detail?.detailInfo?.id,
-                                  `required`,
-                                )}
-                              {/* check isValid to show messages */}
-                              {isDetailed &&
-                                isSubmitForm &&
-                                !this.validator.check(
-                                  detail?.detailInfo?.id,
-                                  `required`,
-                                ) && (
-                                  <FormHelperText error>
-                                    {t('form.required')}
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
-                          </Box>
-                        </Box>
-                        <Box className={classes.boxItem} mr={2} flex={1}>
-                          <label className={classes.labelItem}>
-                            {t('defineItem.detailAmount')}
-                          </label>
-                          <Box flex={1}>
-                            <FormControl fullWidth>
-                              <TextField
-                                name="amount"
-                                id="amount"
-                                value={detail.amount}
-                                margin="dense"
-                                variant="outlined"
-                                size="small"
-                                onChange={(event) =>
-                                  this.onChangeItemDetail(
-                                    i,
-                                    'amount',
-                                    +event.target.value,
-                                  )
-                                }
-                                inputProps={{
-                                  min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER
-                                    .MIN,
-                                }}
-                                disabled={isView}
-                                type="number"
-                              />
-                              {/* add rule to validate */}
-                              {this.validator.message(
-                                `amount${i}`,
-                                detail.amount,
-                                `numeric|integer|min:${NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN},num|max:${NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX},num`,
-                              )}
-                              {/* check isValid to show messages */}
-                              {isSubmitForm &&
-                                !this.validator.check(
-                                  detail?.amount,
-                                  `min:${NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN},num`,
-                                ) && (
-                                  <FormHelperText error>
-                                    {t('form.minNumber', {
-                                      min: NUMBER_FIELD_REQUIRED_SIZE
-                                        .AMOUNT_INTEGER.MIN,
-                                    })}
-                                  </FormHelperText>
-                                )}
-
-                              {isSubmitForm &&
-                                !this.validator.check(
-                                  detail?.amount,
-                                  `max:${NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX},num`,
-                                ) && (
-                                  <FormHelperText error>
-                                    {t('form.maxNumber', {
-                                      max: NUMBER_FIELD_REQUIRED_SIZE
-                                        .AMOUNT_INTEGER.MAX,
-                                    })}
-                                  </FormHelperText>
-                                )}
-
-                              {isSubmitForm &&
-                                !this.validator.check(
-                                  detail?.amount,
-                                  `numeric|integer`,
-                                ) && (
-                                  <FormHelperText error>
-                                    {t('form.integer')}
-                                  </FormHelperText>
-                                )}
-                            </FormControl>
-                          </Box>
-                        </Box>
-                        <IconButton
-                          type="button"
-                          className={classes.iconButton}
-                          onClick={() => this.onRemoveProduct(i)}
-                          disabled={i === 0}
-                          size="large"
-                        >
-                          <RemoveCircleOutlined />
-                        </IconButton>
-                      </Box>
-                    ))}
-                  {(isCreate || isUpdate) && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      onClick={this.onAddProduct}
-                      startIcon={<AddCircle />}
+  return (
+    <Page
+      breadcrumbs={getBreadcrumb()}
+      title={t('menu.' + getTitle())}
+      onBack={backToList}
+      loading={isLoading}
+    >
+      <Grid container justifyContent="center">
+        <Grid item xl={11} xs={12}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={itemSchema(t)}
+            onSubmit={onSubmit}
+            enableReinitialize
+          >
+            {({ handleReset, values }) => (
+              <Form>
+                <TabContext value={tabValue}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList onChange={handleChangeTabValue}>
+                      <Tab label={t('defineItem.commonInfo')} value="1" />
+                      <Tab label={t('defineItem.storage')} value="2" />
+                      <Tab label={t('defineItem.storageInfo')} value="3" />
+                      <Tab label={t('defineItem.detail')} value="4" />
+                    </TabList>
+                  </Box>
+                  <TabPanel sx={{ px: 0 }} value="1">
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
                     >
-                      {t('defineItem.addDetailButton')}
-                    </Button>
-                  )}
-                  {/* Product item  in VIEW*/}
-                  {isView && (
-                    <DataTable
-                      rows={this.getProductRows()}
-                      columns={this.detailColumns}
-                      hideFooter
-                      minWidth={1000}
-                    />
-                  )}
-                </Box>
-              </>
-            )}
-            <Divider />
-            {/** Block description */}
-            <Box mt={2}>
-              <div className={clsx(classes.marginLabel)}>
-                <label className={classes.labelItem}>
-                  {t('defineItem.descriptionInput')}
-                </label>
-              </div>
-              <FormControl fullWidth>
-                <TextField
-                  name="description"
-                  id="description"
-                  value={description}
-                  margin="dense"
-                  variant="outlined"
-                  placeholder={t('defineItem.descriptionInput')}
-                  size="small"
-                  onChange={(event) => onChangeTextField(this, event)}
-                  disabled={isView}
-                  multiline
-                  rows={5}
-                />
-                {/* add rule to validate */}
-                {this.validator.message(
-                  'description',
-                  description,
-                  `max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-                )}
-                {/* check isValid to show messages */}
-                {this.state.isSubmitForm &&
-                  !this.validator.check(
-                    description,
-                    `max:${TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}`,
-                  ) && (
-                    <FormHelperText error>
-                      {t('form.maxLength', {
-                        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      })}
-                    </FormHelperText>
-                  )}
-              </FormControl>
-            </Box>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          label={t('defineItem.code')}
+                          name="code"
+                          placeholder={t('defineItem.code')}
+                          disabled={isUpdate}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="name"
+                          label={t('defineItem.name')}
+                          placeholder={t('defineItem.name')}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="itemType"
+                          label={t('defineItem.typeCode')}
+                          placeholder={t('defineItem.typeCode')}
+                          options={appStore?.itemTypes}
+                          getOptionLabel={(opt) => opt?.code}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="itemType.name"
+                          label={t('defineItem.typeName')}
+                          placeholder={t('defineItem.typeName')}
+                          disabled
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="itemGroup"
+                          label={t('defineItem.groupCode')}
+                          placeholder={t('defineItem.groupCode')}
+                          options={appStore?.itemGroups}
+                          getOptionLabel={(opt) => opt?.code}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="itemGroup.name"
+                          label={t('defineItem.groupName')}
+                          placeholder={t('defineItem.groupName')}
+                          disabled
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="itemUnit"
+                          label={t('defineItem.unit')}
+                          placeholder={t('defineItem.unit')}
+                          options={appStore?.itemUnits}
+                          getOptionLabel={(opt) => opt?.name}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="price"
+                          label={t('defineItem.price')}
+                          placeholder={t('defineItem.price')}
+                          type="number"
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="dayExpire"
+                          label={t('defineItem.expiry')}
+                          placeholder={t('defineItem.expiry')}
+                          type="number"
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={isProductionObject}
+                              onChange={onToggleIsProductionObject}
+                              name="isProductionObject"
+                            />
+                          }
+                          label={t('defineItem.isProductionObject') + '?'}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Field.TextField
+                          name="description"
+                          label={t('defineItem.description')}
+                          placeholder={t('defineItem.description')}
+                          multiline
+                          rows={3}
+                        />
+                      </Grid>
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel sx={{ px: 0 }} value="2">
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      <Grid item xs={12}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={storage}
+                              onChange={onToggleStorage}
+                              name="storage"
+                            />
+                          }
+                          label={t('defineItem.storage')}
+                        />
+                      </Grid>
 
-            {isView && (
-              <Box display="flex">
-                <Box fontWeight="bold" mr={2}>
-                  {t('common.createdAt')}
+                      <Grid item lg={6} xs={12}>
+                        <Grid container spacing={1} mb={4 / 3}>
+                          <Grid item xs={8}>
+                            <Field.TextField
+                              name="long.value"
+                              label={t('defineItem.long')}
+                              labelWidth={100}
+                              placeholder={t('defineItem.long')}
+                              type="number"
+                              disabled={!storage}
+                              required={storage}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <FormControl fullWidth size="small">
+                              <Field.Autocomplete
+                                name="long.unit"
+                                options={DEFAULT_UNITS}
+                                getOptionLabel={(opt) => opt?.name}
+                                getOptionValue={(opt) => opt?.id}
+                                disabled={!storage}
+                              ></Field.Autocomplete>
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+
+                        <Grid container spacing={1}>
+                          <Grid item xs={8}>
+                            <Field.TextField
+                              name="width.value"
+                              label={t('defineItem.width')}
+                              labelWidth={100}
+                              placeholder={t('defineItem.width')}
+                              type="number"
+                              disabled={!storage}
+                              required={storage}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <FormControl fullWidth size="small">
+                              <Field.Autocomplete
+                                name="width.unit"
+                                options={DEFAULT_UNITS}
+                                getOptionLabel={(opt) => opt?.name}
+                                getOptionValue={(opt) => opt?.id}
+                                disabled={!storage}
+                              ></Field.Autocomplete>
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+
+                      <Grid item lg={6} xs={12}>
+                        <Grid container spacing={1} mb={4 / 3}>
+                          <Grid item xs={8}>
+                            <Field.TextField
+                              name="height.value"
+                              label={t('defineItem.height')}
+                              labelWidth={100}
+                              placeholder={t('defineItem.height')}
+                              type="number"
+                              disabled={!storage}
+                              required={storage}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <FormControl fullWidth size="small">
+                              <Field.Autocomplete
+                                name="height.unit"
+                                options={DEFAULT_UNITS}
+                                getOptionLabel={(opt) => opt?.name}
+                                getOptionValue={(opt) => opt?.id}
+                                disabled={!storage}
+                              ></Field.Autocomplete>
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+
+                        <Grid container spacing={1}>
+                          <Grid item xs={8}>
+                            <Field.TextField
+                              name="weight.value"
+                              label={t('defineItem.weight')}
+                              labelWidth={100}
+                              placeholder={t('defineItem.weight')}
+                              type="number"
+                              disabled={!storage}
+                            />
+                          </Grid>
+                          <Grid item xs={4}>
+                            <FormControl fullWidth size="small">
+                              <Field.Autocomplete
+                                name="weight.unit"
+                                options={WEIGHT_UNITS}
+                                getOptionLabel={(opt) => opt?.name}
+                                getOptionValue={(opt) => opt?.id}
+                                disabled={!storage}
+                              ></Field.Autocomplete>
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel sx={{ px: 0 }} value="3">
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      <Grid item xs={12}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={isLocation}
+                              onChange={onToggleStorageLocation}
+                              name="isLocation"
+                            />
+                          }
+                          label={t('defineItem.storageLocation')}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="warehouse"
+                          label={t('defineItem.warehouseName')}
+                          placeholder={t('defineItem.warehouseName')}
+                          options={warehouseList}
+                          getOptionLabel={(option) => option?.name}
+                          onChange={(val) => setWarehouseId(val.id)}
+                          disabled={!isLocation}
+                          required={isLocation}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="warehouseSector"
+                          label={t('defineItem.locationName')}
+                          placeholder={t('defineItem.locationName')}
+                          options={warehouseSectorList.filter(
+                            (item) => item.warehouseId === warehouseId,
+                          )}
+                          getOptionLabel={(option) => option?.name}
+                          onChange={(val) => setWarehouseSectorId(val.id)}
+                          disabled={!isLocation}
+                          required={isLocation}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="warehouseShelf"
+                          label={t('defineItem.shelfName')}
+                          placeholder={t('defineItem.shelfName')}
+                          options={warehouseShelfList.filter(
+                            (item) =>
+                              item.warehouseSector.id === warehouseSectorId,
+                          )}
+                          getOptionLabel={(option) => option?.name}
+                          disabled={!isLocation}
+                          required={isLocation}
+                        />
+                      </Grid>
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel sx={{ px: 0 }} value="4">
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      <Grid item xs={12}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={isDetailed}
+                              onChange={onToggleIsDetailed}
+                              name="isDetailed"
+                            />
+                          }
+                          label={t('defineItem.isDetailed') + '?'}
+                        />
+                      </Grid>
+                      {isDetailed && (
+                        <Grid item xs={12}>
+                          <FieldArray
+                            name="itemDetails"
+                            render={(arrayHelpers) => (
+                              <ItemsSettingTable
+                                items={values?.itemDetails || []}
+                                mode={mode}
+                                arrayHelpers={arrayHelpers}
+                              />
+                            )}
+                          />
+                        </Grid>
+                      )}
+                    </Grid>
+                  </TabPanel>
+                </TabContext>
+                <Box mt={3} display="flex" justifyContent="flex-end">
+                  {renderActionButtons(handleReset)}
                 </Box>
-                <Box
-                  fontStyle="italic"
-                  className={classes.textUppercase}
-                  mr={4}
-                >
-                  {formatDateTimeUtc(createdAt, DATE_TIME_12_HOURS_FORMAT)}
-                </Box>
-                <Box fontWeight="bold" mr={2}>
-                  {t('common.updatedAt')}
-                </Box>
-                <Box fontStyle="italic" className={classes.textUppercase}>
-                  {formatDateTimeUtc(updatedAt, DATE_TIME_12_HOURS_FORMAT)}
-                </Box>
-              </Box>
+              </Form>
             )}
-          </Box>
-        </form>
-      </Modal>
-    )
-  }
+          </Formik>
+        </Grid>
+      </Grid>
+    </Page>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  commonManagement: state.commonManagement,
-  defineItem: state.defineItem,
-  itemGroups: state.appStore.itemGroups,
-  itemTypes: state.appStore.itemTypes,
-  itemUnits: state.appStore.itemUnits,
-})
-
-const mapDispatchToProps = {
-  createItem,
-  updateItem,
-  getItemDetailsById,
-  getItemGroups,
-  getItemTypes,
-  getItemUnits,
-  getDetails,
-}
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(ItemForm)),
-)
+export default DefineItemForm

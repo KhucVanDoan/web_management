@@ -1,6 +1,9 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  TEXTFIELD_REQUIRED_LENGTH,
+  NUMBER_FIELD_REQUIRED_SIZE,
+} from '~/common/constants'
 
 export const phoneSchema = (t) =>
   Yup.string()
@@ -21,3 +24,11 @@ export const codeSchema = (t) =>
     .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, {
       message: t('general:form.validCode'),
     })
+
+export const numberSchema = (t) =>
+  Yup.number().min(
+    NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+    t('general:form.minNumber', {
+      min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+    }),
+  )

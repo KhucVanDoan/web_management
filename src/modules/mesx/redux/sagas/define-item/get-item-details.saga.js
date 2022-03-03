@@ -4,7 +4,7 @@ import {
   getItemDetailsByIdFailed,
   getItemDetailsByIdSuccess,
   GET_ITEM_DETAILS_START,
-} from '~/modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/define-item'
 import { api } from '~/services/api'
 
 /**

@@ -1,26 +1,24 @@
-export const SEARCH_ITEMS_START = 'SEARCH_ITEMS_START';
-export const SEARCH_ITEMS_SUCCESS = 'SEARCH_ITEMS_SUCCESS';
-export const SEARCH_ITEMS_FAILED = 'SEARCH_ITEMS_FAILED';
+export const SEARCH_ITEMS_START = 'SEARCH_ITEMS_START'
+export const SEARCH_ITEMS_SUCCESS = 'SEARCH_ITEMS_SUCCESS'
+export const SEARCH_ITEMS_FAILED = 'SEARCH_ITEMS_FAILED'
 
-export const CREATE_ITEM_START = 'CREATE_ITEM_START';
-export const CREATE_ITEM_SUCCESS = 'CREATE_ITEM_SUCCESS';
-export const CREATE_ITEM_FAILED = 'CREATE_ITEM_FAILED';
+export const CREATE_ITEM_START = 'CREATE_ITEM_START'
+export const CREATE_ITEM_SUCCESS = 'CREATE_ITEM_SUCCESS'
+export const CREATE_ITEM_FAILED = 'CREATE_ITEM_FAILED'
 
-export const UPDATE_ITEM_START = 'UPDATE_ITEM_START';
-export const UPDATE_ITEM_SUCCESS = 'UPDATE_ITEM_SUCCESS';
-export const UPDATE_ITEM_FAILED = 'UPDATE_ITEM_FAILED';
+export const UPDATE_ITEM_START = 'UPDATE_ITEM_START'
+export const UPDATE_ITEM_SUCCESS = 'UPDATE_ITEM_SUCCESS'
+export const UPDATE_ITEM_FAILED = 'UPDATE_ITEM_FAILED'
 
-export const DELETE_ITEM_START = 'DELETE_ITEM_START';
-export const DELETE_ITEM_SUCCESS = 'DELETE_ITEM_SUCCESS';
-export const DELETE_ITEM_FAILED = 'DELETE_ITEM_FAILED';
+export const DELETE_ITEM_START = 'DELETE_ITEM_START'
+export const DELETE_ITEM_SUCCESS = 'DELETE_ITEM_SUCCESS'
+export const DELETE_ITEM_FAILED = 'DELETE_ITEM_FAILED'
 
-export const GET_ITEM_DETAILS_START = 'GET_ITEM_DETAILS_START';
-export const GET_ITEM_DETAILS_SUCCESS = 'GET_ITEM_DETAILS_SUCCESS';
-export const GET_ITEM_DETAILS_FAILED = 'GET_ITEM_DETAILS_FAILED';
+export const GET_ITEM_DETAILS_START = 'GET_ITEM_DETAILS_START'
+export const GET_ITEM_DETAILS_SUCCESS = 'GET_ITEM_DETAILS_SUCCESS'
+export const GET_ITEM_DETAILS_FAILED = 'GET_ITEM_DETAILS_FAILED'
 
-export const PRINT_QR_ITEMS_START = 'PRINT_QR_ITEMS_START';
-export const PRINT_QR_ITEMS_SUCCESS = 'PRINT_QR_ITEMS_SUCCESS';
-export const PRINT_QR_ITEMS_FAILED = 'PRINT_QR_ITEMS_FAILED';
+export const RESET_ITEM_DETAILS_STATE = 'RESET_ITEM_DETAILS_STATE'
 
 /**
  * Search item
@@ -35,7 +33,7 @@ export function searchItems(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -47,7 +45,7 @@ export function searchItemsSuccess(payload) {
   return {
     type: SEARCH_ITEMS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -57,7 +55,7 @@ export function searchItemsSuccess(payload) {
 export function searchItemsFailed() {
   return {
     type: SEARCH_ITEMS_FAILED,
-  };
+  }
 }
 
 /**
@@ -73,7 +71,7 @@ export function createItem(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -85,7 +83,7 @@ export function createItemSuccess(payload) {
   return {
     type: CREATE_ITEM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -95,7 +93,7 @@ export function createItemSuccess(payload) {
 export function createItemFailed() {
   return {
     type: CREATE_ITEM_FAILED,
-  };
+  }
 }
 
 /**
@@ -111,7 +109,7 @@ export function updateItem(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update item success action
@@ -122,7 +120,7 @@ export function updateItemSuccess(payload) {
   return {
     type: UPDATE_ITEM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -132,7 +130,7 @@ export function updateItemSuccess(payload) {
 export function updateItemFailed() {
   return {
     type: UPDATE_ITEM_FAILED,
-  };
+  }
 }
 /**
  * Delete item
@@ -147,7 +145,7 @@ export function deleteItem(itemId, onSuccess, onError) {
     payload: itemId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -159,7 +157,7 @@ export function deleteItemSuccess(payload) {
   return {
     type: DELETE_ITEM_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -169,7 +167,7 @@ export function deleteItemSuccess(payload) {
 export function deleteItemFailed() {
   return {
     type: DELETE_ITEM_FAILED,
-  };
+  }
 }
 
 /**
@@ -185,7 +183,7 @@ export function getItemDetailsById(itemId, onSuccess, onError) {
     payload: itemId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -197,7 +195,7 @@ export function getItemDetailsByIdSuccess(payload) {
   return {
     type: GET_ITEM_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -207,43 +205,30 @@ export function getItemDetailsByIdSuccess(payload) {
 export function getItemDetailsByIdFailed() {
   return {
     type: GET_ITEM_DETAILS_FAILED,
-  };
+  }
 }
 
-/**
- * Print QR items
- * @param {int} itemId
- * @param {function=} onSuccess Callback function on success
- * @param {function=} onError Callback function on error
- * @returns {object}
- */
-export function printQRItems(itemId, onSuccess, onError) {
+export function resetItemDetailsState() {
   return {
-    type: PRINT_QR_ITEMS_START,
-    payload: itemId,
-    onSuccess: onSuccess,
-    onError: onError,
-  };
+    type: RESET_ITEM_DETAILS_STATE,
+  }
 }
 
-/**
- * Print QR items by id success action
- * @param {*} payload
- * @returns {object}
- */
-export function printQRItemsSuccess(payload) {
-  return {
-    type: PRINT_QR_ITEMS_SUCCESS,
-    payload: payload,
-  };
-}
-
-/**
- * Print QR items by id failed action
- * @returns {object}
- */
-export function printQRItemsFailed() {
-  return {
-    type: PRINT_QR_ITEMS_FAILED,
-  };
+export default {
+  searchItems,
+  searchItemsSuccess,
+  searchItemsFailed,
+  createItem,
+  createItemSuccess,
+  createItemFailed,
+  updateItem,
+  updateItemSuccess,
+  updateItemFailed,
+  deleteItem,
+  deleteItemSuccess,
+  deleteItemFailed,
+  getItemDetailsById,
+  getItemDetailsByIdSuccess,
+  getItemDetailsByIdFailed,
+  resetItemDetailsState,
 }

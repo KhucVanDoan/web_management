@@ -51,6 +51,14 @@ export const GET_WAREHOUSES_START = 'GET_WAREHOUSES_START'
 export const GET_WAREHOUSES_SUCCESS = 'GET_WAREHOUSES_SUCCESS'
 export const GET_WAREHOUSES_FAILED = 'GET_WAREHOUSES_FAILED'
 
+export const GET_WAREHOUSES_SECTOR_START = 'GET_WAREHOUSES_SECTOR_START'
+export const GET_WAREHOUSES_SECTOR_SUCCESS = 'GET_WAREHOUSES_SECTOR_SUCCESS'
+export const GET_WAREHOUSES_SECTOR_FAILED = 'GET_WAREHOUSES_SECTOR_FAILED'
+
+export const GET_WAREHOUSES_SHELF_START = 'GET_WAREHOUSES_SHELF_START'
+export const GET_WAREHOUSES_SHELF_SUCCESS = 'GET_WAREHOUSES_SHELF_SUCCESS'
+export const GET_WAREHOUSES_SHELF_FAILED = 'GET_WAREHOUSES_SHELF_FAILED'
+
 export const GET_CUSTOMERS_START = 'GET_CUSTOMERS_START'
 export const GET_CUSTOMERS_SUCCESS = 'GET_CUSTOMERS_SUCCESS'
 export const GET_CUSTOMERS_FAILED = 'GET_CUSTOMERS_FAILED'
@@ -454,6 +462,67 @@ export function getWarehousesFailed() {
   }
 }
 
+export function getWarehousesSector(payload, onSuccess, onError) {
+  return {
+    type: GET_WAREHOUSES_SECTOR_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get warehouses success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getWarehousesSectorSuccess(payload) {
+  return {
+    type: GET_WAREHOUSES_SECTOR_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get warehouses failed action
+ * @returns {object}
+ */
+export function getWarehousesSectorFailed() {
+  return {
+    type: GET_WAREHOUSES_SECTOR_FAILED,
+  }
+}
+
+export function getWarehousesShelf(payload, onSuccess, onError) {
+  return {
+    type: GET_WAREHOUSES_SHELF_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get warehouses success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getWarehousesShelfSuccess(payload) {
+  return {
+    type: GET_WAREHOUSES_SHELF_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get warehouses failed action
+ * @returns {object}
+ */
+export function getWarehousesShelfFailed() {
+  return {
+    type: GET_WAREHOUSES_SHELF_FAILED,
+  }
+}
 /**
  * Get customers
  * @param {object} payload
@@ -1008,6 +1077,12 @@ export default {
   getWarehouses,
   getWarehousesSuccess,
   getWarehousesFailed,
+  getWarehousesSector,
+  getWarehousesSectorSuccess,
+  getWarehousesSectorFailed,
+  getWarehousesShelf,
+  getWarehousesShelfSuccess,
+  getWarehousesShelfFailed,
   getVendors,
   getVendorsSuccess,
   getVendorsFailed,

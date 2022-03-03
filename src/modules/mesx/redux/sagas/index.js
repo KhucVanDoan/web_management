@@ -38,6 +38,8 @@ import watchGetSaleOrders from './common/get-sale-orders.saga'
 import watchGetUsers from './common/get-users.saga'
 import watchGetVendors from './common/get-vendors.saga'
 import watchGetWarehousesByFactories from './common/get-warehouse-by-factory.saga'
+import watchGetWarehousesSector from './common/get-warehouses-sector.saga'
+import watchGetWarehousesShelf from './common/get-warehouses-shelf.saga'
 import watchGetWarehouses from './common/get-warehouses.saga'
 import watchSearchQualityPoints from './common/search-quality-points.saga'
 import watchDashboard from './dashboard/dashboard.saga'
@@ -70,7 +72,6 @@ import watchUpdateCustomer from './define-customer/update-customer'
 import watchCreateItem from './define-item/create-item.saga'
 import watchDeleteItem from './define-item/delete-item.saga'
 import watchGetItemDetails from './define-item/get-item-details.saga'
-import watchPrintQRItems from './define-item/print-qr-items'
 import watchSearchItems from './define-item/search-items.saga'
 import watchUpdateItem from './define-item/update-item.saga'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan.saga'
@@ -247,7 +248,6 @@ export default function* sagas() {
     watchUpdateItem(),
     watchDeleteItem(),
     watchGetItemDetails(),
-    watchPrintQRItems(),
 
     //define-boq
     watchSearchBOQ(),
@@ -296,6 +296,8 @@ export default function* sagas() {
     watchGetItemUnits(),
     watchGetItems(),
     watchGetWarehouses(),
+    watchGetWarehousesSector(),
+    watchGetWarehousesShelf(),
     watchGetCustomers(),
     watchGetVendors(),
     watchGetAllItemDetails(),

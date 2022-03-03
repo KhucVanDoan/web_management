@@ -270,6 +270,48 @@ export const DEFAULT_ITEM_TYPES = [
   },
 ]
 
+export const DEFAULT_UNITS = [
+  {
+    id: 1,
+    name: 'cm',
+  },
+  {
+    id: 2,
+    name: 'dm',
+  },
+  {
+    id: 3,
+    name: 'm',
+  },
+]
+
+export const DEFAULT_UNITS_MAP = {
+  1: 'cm',
+  2: 'dm',
+  3: 'm',
+}
+
+export const WEIGHT_UNITS = [
+  {
+    id: 1,
+    name: 'g',
+  },
+  {
+    id: 2,
+    name: 'kg',
+  },
+  {
+    id: 3,
+    name: 'tấn',
+  },
+]
+
+export const WEIGHT_UNITS_MAP = {
+  1: 'g',
+  2: 'kg',
+  3: 'tấn',
+}
+
 export const CODE_SETTINGS = {
   ITEM: {
     DOMAIN: 'ITEM',
