@@ -64,6 +64,8 @@ import SaleOrder from '~/modules/mesx/features/sale-order/list'
 import SOExportForm from '~/modules/mesx/features/so-export/form'
 import SOExport from '~/modules/mesx/features/so-export/list'
 import UserManagement from '~/modules/mesx/features/user-management'
+import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
+import UserForm from '~/modules/mesx/features/user-management/user-form'
 import WorkCenterForm from '~/modules/mesx/features/work-center/form'
 import WorkCenter from '~/modules/mesx/features/work-center/list'
 import WorkOderForm from '~/modules/mesx/features/work-order/form'
@@ -780,10 +782,32 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: 'userManagement',
-        path: '/user-management',
+        name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.USER_MANAGEMENT.LIST.PATH,
         component: UserManagement,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
+            component: UserForm,
+            pathActive: ROUTE.USER_MANAGEMENT.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
+            component: UserManagementDetail,
+            pathActive: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
+            component: UserForm,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: 'permission',

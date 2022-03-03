@@ -1,397 +1,252 @@
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
-import SearchIcon from '@mui/icons-material/Search'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
-import { MODAL_MODE } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
-import {
-  deleteUser,
-  searchUsers,
-} from '~/modules/mesx/redux/actions/user-management'
-import { onChangeTextField } from '~/utils'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
-import useStyles from './style'
-import UserForm from './user-form'
+import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
     title: 'setting',
   },
   {
-    route: '/user-management',
-    title: 'userManagement',
+    route: ROUTE.USER_MANAGEMENT.LIST.PATH,
+    title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
   },
 ]
 
-class UserManagement extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: null,
-      isOpenModal: false,
-      modalMode: MODAL_MODE.CREATE,
-      isOpenConfirmDeleteModal: false,
-      keyword: '',
-      pageSize: 20,
-      page: 1,
-      filters: [],
-      sort: null,
-    }
-    const { t } = props
-    this.MODAL_MAP_CONTENT = {
-      CREATE: {
-        title: t('userManagement.createModalTitle'),
-        submitLabel: t('userManagement.submitCreateModalLabel'),
-        cancelLabel: t('userManagement.cancelCreateModalLabel'),
-      },
-      UPDATE: {
-        title: t('userManagement.updateModalTitle'),
-        submitLabel: t('userManagement.submitUpdateModalLabel'),
-        cancelLabel: t('userManagement.cancelUpdateModalLabel'),
-      },
-      DETAIL: {
-        title: t('userManagement.viewModalTitle'),
-        cancelLabel: t('userManagement.cancelViewModalLabel'),
-      },
-    }
-
-    this.columns = [
-      {
-        field: 'id',
-        headerName: t('userManagement.orderIdColumn'),
-        width: 80,
-        sortable: false,
-      },
-      {
-        field: 'username',
-        headerName: t('userManagement.usernameColumn'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'fullName',
-        headerName: t('userManagement.fullNameColumn'),
-        width: 200,
-        filterable: true,
-      },
-      {
-        field: 'email',
-        headerName: t('userManagement.emailColumn'),
-        width: 250,
-        sortable: false,
-      },
-      {
-        field: 'departmentName',
-        headerName: t('userManagement.departmentColumn'),
-        width: 250,
-        sortable: false,
-        filterable: true,
-        renderCell: (params) => {
-          const deparmentNames = params.row?.departmentSettings
-            ?.map((department) => department?.name)
-            .join('; ')
-          return deparmentNames
-        },
-      },
-      {
-        field: 'roleName',
-        headerName: t('userManagement.roleColumn'),
-        width: 120,
-        sortable: false,
-        filterable: true,
-        renderCell: (params) => {
-          const roleNames = params.row?.userRoleSettings
-            ?.map((role) => role?.name)
-            .join('; ')
-          return roleNames
-        },
-      },
-      {
-        field: 'warehouseName',
-        headerName: t('userManagement.warehouseColumn'),
-        width: 250,
-        sortable: false,
-        filterable: true,
-        renderCell: (params) => {
-          const warehousesName = params.row.userWarehouses
-            ?.map((warehouse) => warehouse?.name)
-            ?.join('; ')
-          return warehousesName
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('userManagement.actionColumn'),
-        disableClickEventBubbling: true,
-        width: 250,
-        sortable: false,
-        align: 'center',
-        headerAlign: 'center',
-        renderCell: (params) => {
-          return (
-            <div>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickViewDetails(params.row.id)}
-                size="large"
-              >
-                <Visibility />
-              </IconButton>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickEdit(params.row.id)}
-                size="large"
-              >
-                <Edit />
-              </IconButton>
-              <IconButton
-                type="button"
-                onClick={() => this.onClickDelete(params.row.id)}
-                size="large"
-              >
-                <Delete />
-              </IconButton>
-            </div>
-          )
-        },
-      },
-    ]
+function UserManagement() {
+  const { t } = useTranslation('mesx')
+  const history = useHistory()
+  const [keyword, setKeyword] = useState('')
+  const [pageSize, setPageSize] = useState(20)
+  const [page, setPage] = useState(1)
+  const [sort, setSort] = useState(null)
+  const DEFAULT_FILTERS = {
+    username: '',
+    fullName: '',
+    department: '',
+    status: '',
+    createTime: [],
   }
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
 
-  componentDidMount() {
-    this.refreshData()
-  }
+  const {
+    data: { userList, total, isLoading },
+    actions,
+  } = useUserManagement()
 
-  /**
-   * Refresh data
-   */
-  refreshData = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
+  const [modal, setModal] = useState({
+    id: null,
+    isOpenDeleteModal: false,
+  })
 
-    const filterData = filters?.map((item) => ({
-      column: item.field,
-      text: '' + item?.value?.trim(),
-    }))
+  const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
+    {
+      field: 'username',
+      headerName: t('userManagement.username'),
+      width: 100,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'fullName',
+      headerName: t('userManagement.fullName'),
+      width: 150,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'email',
+      headerName: t('userManagement.email'),
+      width: 150,
+      sortable: false,
+    },
+    {
+      field: 'departmentName',
+      headerName: t('userManagement.department'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const deparmentName = params.row?.departmentSettings
+          ?.map((department) => department?.name)
+          .join('; ')
+        return deparmentName
+      },
+    },
+    {
+      field: 'roleName',
+      headerName: t('userManagement.role'),
+      width: 100,
+      sortable: true,
+      renderCell: (params) => {
+        const roleName = params.row?.userRoleSettings
+          ?.map((role) => role?.name)
+          .join('; ')
+        return roleName
+      },
+    },
+    {
+      field: 'warehouseName',
+      headerName: t('userManagement.warehouse'),
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        const warehousesName = params.row.userWarehouses
+          ?.map((warehouse) => warehouse?.name)
+          ?.join('; ')
+        return warehousesName
+      },
+    },
+    {
+      field: 'action',
+      headerName: t('userManagement.action'),
+      width: 150,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        const { id } = params?.row
+        return (
+          <div>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.USER_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.USER_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="edit" />
+            </IconButton>
+            <IconButton onClick={() => onClickDelete(params.row.id)}>
+              <Icon name="delete" />
+            </IconButton>
+          </div>
+        )
+      },
+    },
+  ]
 
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
+  const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify(filterData),
-      sort: JSON.stringify(sortData),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', type: 'date' },
+      ]),
+      sort: convertSortParams(sort),
     }
-    this.props.searchUsers(params)
+    actions.searchUsers(params)
   }
 
-  /**
-   * Handle key down event
-   * @param {*} e
-   */
-  onKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      this.refreshData()
-    }
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, filters, sort, keyword])
+
+  const onClickDelete = (id) => {
+    setModal({ id, isOpenDeleteModal: true })
   }
 
-  handleCreateOpenModal = () => {
-    this.refreshData()
-    this.setState({ isOpenModal: true, modalMode: MODAL_MODE.CREATE })
-  }
-
-  handleCloseModal = (refresh = false) => {
-    this.setState({ isOpenModal: false, id: null })
-    refresh && this.refreshData()
-  }
-
-  onClickViewDetails = (id) => {
-    this.setState({ id, modalMode: MODAL_MODE.DETAIL, isOpenModal: true })
-  }
-
-  onClickEdit = (id) => {
-    this.setState({ id, modalMode: MODAL_MODE.UPDATE, isOpenModal: true })
-  }
-
-  onClickDelete = (id) => {
-    this.setState({ id, isOpenConfirmDeleteModal: true })
-  }
-
-  onSubmitDelete = () => {
-    this.props.deleteUser(this.state.id, () => {
-      this.setState({ isOpenConfirmDeleteModal: false })
-      this.refreshData()
+  const onSubmitDelete = () => {
+    actions.deleteUser(modal.id, () => {
+      setModal({ isOpenDeleteModal: false })
+      refreshData()
     })
-    this.setState({ id: null })
   }
 
-  onCancelDelete = () => {
-    this.setState({ isOpenConfirmDeleteModal: false, id: null })
+  const onCloseDeleteModal = () => {
+    setModal({ isOpenDeleteModal: false, id: null })
   }
 
-  /**
-   *
-   * @param {int} pageSize
-   */
-  onPageSizeChange = ({ pageSize }) => {
-    this.setState({ pageSize }, this.refreshData)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  onPageChange = ({ page }) => {
-    this.setState({ page }, this.refreshData)
-  }
-
-  /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  onChangeFilter = (filters) => {
-    this.setState({ filters }, this.refreshData)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  onChangeSort = (sort) => {
-    this.setState({ sort }, this.refreshData)
-  }
-
-  render() {
-    const {
-      isOpenModal,
-      modalMode,
-      id,
-      isOpenConfirmDeleteModal,
-      page,
-      pageSize,
-    } = this.state
-    const { classes, userManagement, t } = this.props
-
-    const modalContent = this.MODAL_MAP_CONTENT[modalMode]
-
+  const renderHeaderRight = () => {
     return (
       <>
-        <div>
-          <h2>{t('userManagement.title')}</h2>
-        </div>
-        <div className={classes.searchBox}>
-          <TextField
-            id="outlined-margin-dense"
-            className={classes.textField}
-            margin="dense"
-            placeholder={t('userManagement.searchPlaceHolder')}
-            variant="outlined"
-            size="small"
-            onKeyDown={this.onKeyDown}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    className={classes.iconButton}
-                    aria-label="search"
-                    onClick={this.refreshData}
-                    size="large"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            name="keyword"
-            onChange={(event) => onChangeTextField(this, event)}
-          />
-        </div>
-        <div className={classes.createBox}>
-          {' '}
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={this.handleCreateOpenModal}
-            startIcon={<AddCircle />}
-          >
-            {t('userManagement.createButton')}
-          </Button>
-        </div>
-        <DataTable
-          rows={userManagement.userList}
-          pageSize={pageSize}
-          page={page}
-          columns={this.columns}
-          onPageChange={this.onPageChange}
-          onPageSizeChange={this.onPageSizeChange}
-          onChangeFilter={this.onChangeFilter}
-          onChangeSort={this.onChangeSort}
-          total={userManagement.total}
-        />
-        <Loading open={userManagement?.isLoading} />
-        <UserForm
-          modalMode={modalMode}
-          id={id}
-          title={modalContent.title}
-          isOpenModal={isOpenModal}
-          submitLabel={modalContent.submitLabel}
-          cancelLabel={modalContent.cancelLabel}
-          handleCloseModal={this.handleCloseModal}
-        />
-        <Modal
-          isOpen={isOpenConfirmDeleteModal}
-          title={t('userManagement.deleteModalTitle')}
-          size="sm"
-          onSubmit={this.onSubmitDelete}
-          onClose={this.onCancelDelete}
-          submitLabel={t('common.yes')}
-          closeLabel={t('common.no')}
-          hideCancel
+        <Button variant="outlined" icon="download" disabled>
+          {t('menu.importExportData')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
         >
-          {t('userManagement.confirmDelete')}
-        </Modal>
+          {t('common.create')}
+        </Button>
       </>
     )
   }
+
+  return (
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('menu.userManagement')}
+      onSearch={setKeyword}
+      placeholder={t('userManagement.searchPlaceholder')}
+      renderHeaderRight={renderHeaderRight}
+      loading={isLoading}
+    >
+      <DataTable
+        title={t('userManagement.title')}
+        rows={userList}
+        pageSize={pageSize}
+        page={page}
+        columns={columns}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+        onChangeFilter={setFilters}
+        onChangeSort={setSort}
+        total={total}
+        sort={sort}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+          validationSchema: filterSchema(t),
+        }}
+        checkboxSelection
+      />
+      <Dialog
+        open={modal.isOpenDeleteModal}
+        title={t('userManagement.userManagementDelete')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('userManagement.deleteConfirm')}
+      </Dialog>
+    </Page>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  userManagement: state.userManagement,
-  roles: state.appStore.roles,
-  deparments: state.appStore.deparments,
-})
-
-const mapDispatchToProps = {
-  searchUsers,
-  deleteUser,
-}
-
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(UserManagement)),
-  ),
-  breadcrumbs,
-)
+export default UserManagement

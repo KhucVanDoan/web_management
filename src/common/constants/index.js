@@ -607,6 +607,31 @@ export const IS_PRODUCT_OBJECT = {
   FALSE: false,
 }
 
+export const USER_MANAGEMENT_STATUS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+  DELETED: 2,
+}
+export const USER_MANAGEMENT_STATUS_MAP = {
+  [USER_MANAGEMENT_STATUS.INACTIVE]: 'userStatus.inactive',
+  [USER_MANAGEMENT_STATUS.ACTIVE]: 'userStatus.active',
+  [USER_MANAGEMENT_STATUS.DELETED]: 'userStatus.deleted',
+}
+export const USER_MANAGEMENT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'userStatus.inactive',
+  },
+  {
+    id: 1,
+    text: 'userStatus.active',
+  },
+  {
+    id: 2,
+    text: 'userStatus.deleted',
+  },
+]
+
 export const USER_ROLE = {
   PROJECT_MANAGER: {
     code: '03',
