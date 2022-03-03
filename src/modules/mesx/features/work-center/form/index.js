@@ -10,8 +10,8 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { MODAL_MODE } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { searchProducingSteps } from '~/modules/mesx/redux/actions/product-step'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -52,14 +52,14 @@ const WorkCenterForm = () => {
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
     commonManagementActions.getFactories()
-    producingStepActions.searchProducingSteps({ isGetAll: 1 })
+    dispatch(searchProducingSteps({ isGetAll: 1 }))
 
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
   const initialValues = {
     code: wcDetails?.code || '',
     name: wcDetails?.name || '',
-    description: wcDetails?.description || '',
+    decription: wcDetails?.decription || '',
     members: wcDetails?.members?.map((e) => e.id) || [],
     factoryId: wcDetails?.factoryId || '',
     leaderId: wcDetails?.leader?.id || '',
@@ -260,7 +260,7 @@ const WorkCenterForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, setFieldValue }) => (
+        {({ resetForm, values, setFieldValue, handleChange }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -324,7 +324,7 @@ const WorkCenterForm = () => {
                       name="producingStepId"
                       label={t('workCenter.producingStep')}
                       placeholder={t('workCenter.producingStep')}
-                      options={producingStepList}
+                      options={producingStep?.list}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       required
@@ -352,7 +352,7 @@ const WorkCenterForm = () => {
                     <Tab label={t('workCenter.timeSetup')} value="2" />
                   </TabList>
                 </Box>
-                <TabPanel value="1" sx={{ px: 0 }}>
+                <TabPanel value="1">
                   <Grid
                     container
                     columnSpacing={{ xl: 8, xs: 4 }}
@@ -395,7 +395,6 @@ const WorkCenterForm = () => {
                           mode={mode}
                           breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
-                          setFieldValue={setFieldValue}
                         />
                       )}
                     />
@@ -403,7 +402,16 @@ const WorkCenterForm = () => {
                 </TabPanel>
               </TabContext>
             </Box>
-            <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                mt: 2,
+                '& button + button': {
+                  ml: 4 / 3,
+                },
+              }}
+            >
               {renderActionButtons(resetForm)}
             </Box>
           </Form>

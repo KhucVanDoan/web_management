@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import {
   GET_QUALITY_REPORTS,
   getQualityReportsSuccess,
-} from '~/modules/mesx/redux/actions/quality-report.action'
+} from '~/modules/mesx/redux/actions/quality-report'
 import { api } from '~/services/api'
 
 /**

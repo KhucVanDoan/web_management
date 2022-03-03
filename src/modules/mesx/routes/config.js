@@ -485,30 +485,36 @@ export const ROUTE = {
       TITLE: 'itemUnitEdit',
     },
   },
+  QUALITY_REPORT: {
+    LIST: {
+      PATH: '/mesx/qualityreport',
+      TITLE: 'qualityReport',
+    },
+  },
   MASTER_PLAN: {
     LIST: {
       PATH: '/mesx/master-plan',
-      TITLE: 'masterPlanDefine'
+      TITLE: 'masterPlanDefine',
     },
     CREATE: {
       PATH: '/mesx/master-plan/create',
-      TITLE: 'masterPlanCreate'
+      TITLE: 'masterPlanCreate',
     },
     DETAIL: {
       PATH: '/mesx/master-plan/:id/detail',
-      TITLE: 'masterPlanDetail'
+      TITLE: 'masterPlanDetail',
     },
     EDIT: {
       PATH: '/mesx/master-plan/:id/edit',
-      TITLE: 'masterPlanEdit'
+      TITLE: 'masterPlanEdit',
     },
     AUTO_MODERATION: {
       PATH: '/mesx/master-plan/:id/auto-moderation',
-      TITLE: 'autoModeration'
+      TITLE: 'autoModeration',
     },
     INPUT_MODERATION: {
       PATH: '/mesx/master-plan/input-moderation',
-      TITLE: 'inputModeration'
-    }
+      TITLE: 'inputModeration',
+    },
   },
 }

@@ -895,7 +895,8 @@
     "quantityErrs": "SL lỗi còn lại",
     "why": "Lý do",
     "productName": "Tên sản phẩm",
-    "routingName": "Tên quy trình"
+    "routingName": "Tên quy trình",
+    "searchPlacehoder": "Tìm kiếm thông tin"
   },
   "planReport": {
     "title": "Báo cáo về sản xuất",

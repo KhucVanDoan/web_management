@@ -234,12 +234,12 @@ function DefineItem() {
         >
           {t('defineItem.createBOM')}
         </Button>
-        <Button variant="outlined" sx={{ ml: '16px' }} disabled>
+        <Button variant="outlined" sx={{ ml: 4 / 3 }} disabled>
           {t('menu.importExportData')}
         </Button>
         <Button
           onClick={() => history.push(ROUTE.DEFINE_ITEM.CREATE.PATH)}
-          sx={{ ml: '16px' }}
+          sx={{ ml: 4 / 3 }}
           icon="add"
         >
           {t('common.create')}

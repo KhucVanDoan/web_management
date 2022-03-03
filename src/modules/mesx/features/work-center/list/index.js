@@ -254,6 +254,7 @@ const WorkCenter = () => {
         cancelLabel={t('common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('common.yes')}
+        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -267,6 +268,7 @@ const WorkCenter = () => {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('common.no')}
         onSubmit={submitConfirm}
+        noBorderBotttom
         submitLabel={t('common.yes')}
         noBorderBottom
       >
