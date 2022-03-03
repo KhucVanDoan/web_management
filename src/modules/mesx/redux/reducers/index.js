@@ -1,5 +1,3 @@
-// @TODO: rename all reducers files
-import auth from '../../../auth/redux/reducers/auth'
 import bomProducingStep from './bom-producing-step'
 import calendar from './calendar'
 import commonManagement from './common'
@@ -18,7 +16,7 @@ import itemUnitSetting from './item-unit-setting'
 import defineMasterPlan from './master-plan.reducer'
 import materialDetailPlan from './material-detail-plan.reducer'
 import Mo from './mo.reducer'
-import planReport from './plan-report.reducer'
+import planReport from './plan-report'
 import definePlan from './plan.reducer'
 import producingStep from './product-step'
 import productivityReport from './productivity-report.reducer'
@@ -36,7 +34,6 @@ import workOrder from './work-order'
 const reducers = {
   userManagement,
   commonManagement,
-  auth,
   defineItem,
   itemGroupSetting,
   itemUnitSetting,

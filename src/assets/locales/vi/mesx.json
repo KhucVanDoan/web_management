@@ -839,7 +839,7 @@
     "deleteModalTitle": "Thông báo",
     "confirmTitle": "Xác nhận",
     "confirmBody": "Bạn có chắc chắn xác nhận BOM này?",
-    "import": "Import",
+    "import": "Nhập xuất dữ liệu",
     "formTitle": "Tạo BOM",
     "descriptionInput": "Mô tả BOM",
     "itemsDetails": "Thông tin thành phần",
@@ -900,6 +900,7 @@
   },
   "planReport": {
     "title": "Báo cáo về sản xuất",
+    "tableTitle": "Danh sách báo cáo về sản xuất",
     "codeCT": "Mã công trình",
     "codeTP": "Mã thành phẩm",
     "labledateSX": "Ngày sản xuất",
