@@ -26,6 +26,8 @@ export const CONFIRM_PLAN_START = 'CONFIRM_PLAN_START'
 export const CONFIRM_PLAN_SUCCESS = 'CONFIRM_PLAN_SUCCESS'
 export const CONFIRM_PLAN_FAILED = 'CONFIRM_PLAN_FAILED'
 
+export const RESET_PLAN_LIST_STATE = 'RESET_PLAN_LIST_STATE'
+
 /**
  * Search plan
  * @param {object} payload
@@ -286,6 +288,12 @@ export function confirmPlanByIdFailed() {
   }
 }
 
+export function resetPlanListState() {
+  return {
+    type: RESET_PLAN_LIST_STATE,
+  }
+}
+
 export default {
   searchPlans,
   searchPlansSuccess,
@@ -308,4 +316,5 @@ export default {
   confirmPlanById,
   confirmPlanByIdSuccess,
   confirmPlanByIdFailed,
+  resetPlanListState,
 }

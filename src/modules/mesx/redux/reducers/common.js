@@ -77,6 +77,7 @@ import {
   CREATE_PURCHASED_ORDER_FAILED,
   CREATE_PURCHASED_ORDER_START,
   CREATE_PURCHASED_ORDER_SUCCESS,
+  RESET_ITEMS,
 } from '~/modules/mesx/redux/actions/common'
 
 const initialState = {
@@ -246,6 +247,11 @@ export default function commonManagement(state = initialState, action) {
         ...state,
         itemList: action.payload,
         isLoading: false,
+      }
+    case RESET_ITEMS:
+      return {
+        ...state,
+        itemList: [],
       }
     case GET_ITEMS_FAILED:
       return {

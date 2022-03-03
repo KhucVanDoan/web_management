@@ -1,48 +1,57 @@
 export const SEARCH_REQUEST_BUY_MATERIALS_START =
-  'SEARCH_REQUEST_BUY_MATERIALS_START';
+  'SEARCH_REQUEST_BUY_MATERIALS_START'
 export const SEARCH_REQUEST_BUY_MATERIALS_SUCCESS =
-  'SEARCH_REQUEST_BUY_MATERIALS_SUCCESS';
+  'SEARCH_REQUEST_BUY_MATERIALS_SUCCESS'
 export const SEARCH_REQUEST_BUY_MATERIALS_FAILED =
-  'SEARCH_REQUEST_BUY_MATERIALS_FAILED';
+  'SEARCH_REQUEST_BUY_MATERIALS_FAILED'
 
 export const UPDATE_REQUEST_BUY_MATERIAL_START =
-  'UPDATE_REQUEST_BUY_MATERIAL_START';
+  'UPDATE_REQUEST_BUY_MATERIAL_START'
 export const UPDATE_REQUEST_BUY_MATERIAL_SUCCESS =
-  'UPDATE_REQUEST_BUY_MATERIAL_SUCCESS';
+  'UPDATE_REQUEST_BUY_MATERIAL_SUCCESS'
 export const UPDATE_REQUEST_BUY_MATERIAL_FAILED =
-  'UPDATE_REQUEST_BUY_MATERIAL_FAILED';
+  'UPDATE_REQUEST_BUY_MATERIAL_FAILED'
 
 export const DELETE_REQUEST_BUY_MATERIAL_START =
-  'DELETE_REQUEST_BUY_MATERIAL_START';
+  'DELETE_REQUEST_BUY_MATERIAL_START'
 export const DELETE_REQUEST_BUY_MATERIAL_SUCCESS =
-  'DELETE_REQUEST_BUY_MATERIAL_SUCCESS';
+  'DELETE_REQUEST_BUY_MATERIAL_SUCCESS'
 export const DELETE_REQUEST_BUY_MATERIAL_FAILED =
-  'DELETE_REQUEST_BUY_MATERIAL_FAILED';
+  'DELETE_REQUEST_BUY_MATERIAL_FAILED'
 
 export const GET_REQUEST_BUY_MATERIAL_DETAILS_START =
-  'GET_REQUEST_BUY_MATERIAL_DETAILS_START';
+  'GET_REQUEST_BUY_MATERIAL_DETAILS_START'
 export const GET_REQUEST_BUY_MATERIAL_DETAILS_SUCCESS =
-  'GET_REQUEST_BUY_MATERIAL_DETAILS_SUCCESS';
+  'GET_REQUEST_BUY_MATERIAL_DETAILS_SUCCESS'
 export const GET_REQUEST_BUY_MATERIAL_DETAILS_FAILED =
-  'GET_REQUEST_BUY_MATERIAL_DETAILS_FAILED';
+  'GET_REQUEST_BUY_MATERIAL_DETAILS_FAILED'
 
 export const CONFIRM_REQUEST_BUY_MATERIAL_START =
-  'CONFIRM_REQUEST_BUY_MATERIAL_START';
+  'CONFIRM_REQUEST_BUY_MATERIAL_START'
 export const CONFIRM_REQUEST_BUY_MATERIAL_SUCCESS =
-  'CONFIRM_REQUEST_BUY_MATERIAL_SUCCESS';
+  'CONFIRM_REQUEST_BUY_MATERIAL_SUCCESS'
 export const CONFIRM_REQUEST_BUY_MATERIAL_FAILED =
-  'CONFIRM_REQUEST_BUY_MATERIAL_FAILED';
+  'CONFIRM_REQUEST_BUY_MATERIAL_FAILED'
 
 export const PRINT_QR_REQUEST_BUY_MATERIAL_START =
-  'PRINT_QR_REQUEST_BUY_MATERIAL_START';
+  'PRINT_QR_REQUEST_BUY_MATERIAL_START'
 export const PRINT_QR_REQUEST_BUY_MATERIAL_SUCCESS =
-  'PRINT_QR_REQUEST_BUY_MATERIAL_SUCCESS';
+  'PRINT_QR_REQUEST_BUY_MATERIAL_SUCCESS'
 export const PRINT_QR_REQUEST_BUY_MATERIAL_FAILED =
-  'PRINT_QR_REQUEST_BUY_MATERIAL_FAILED';
+  'PRINT_QR_REQUEST_BUY_MATERIAL_FAILED'
 
-export const REJECT_REQUEST_BUY_MATERIAL_START = 'REJECT_REQUEST_BUY_MATERIAL_START';
-export const REJECT_REQUEST_BUY_MATERIAL_SUCCESS = 'REJECT_REQUEST_BUY_MATERIAL_SUCCESS';
-export const REJECT_REQUEST_BUY_MATERIAL_FAILED = 'REJECT_REQUEST_BUY_MATERIAL_FAILED';
+export const REJECT_REQUEST_BUY_MATERIAL_START =
+  'REJECT_REQUEST_BUY_MATERIAL_START'
+export const REJECT_REQUEST_BUY_MATERIAL_SUCCESS =
+  'REJECT_REQUEST_BUY_MATERIAL_SUCCESS'
+export const REJECT_REQUEST_BUY_MATERIAL_FAILED =
+  'REJECT_REQUEST_BUY_MATERIAL_FAILED'
+
+export const RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE =
+  'RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE'
+
+export const RESET_REQUEST_BUY_MATERIAL_LIST_STATE =
+  'RESET_REQUEST_BUY_MATERIAL_LIST_STATE'
 
 /**
  * Search requestBuyMaterial
@@ -57,7 +66,7 @@ export function searchRequestBuyMaterials(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -69,7 +78,7 @@ export function searchRequestBuyMaterialsSuccess(payload) {
   return {
     type: SEARCH_REQUEST_BUY_MATERIALS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -79,7 +88,7 @@ export function searchRequestBuyMaterialsSuccess(payload) {
 export function searchRequestBuyMaterialsFailed() {
   return {
     type: SEARCH_REQUEST_BUY_MATERIALS_FAILED,
-  };
+  }
 }
 
 /**
@@ -95,7 +104,7 @@ export function updateRequestBuyMaterial(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 /**
  * Update requestBuyMaterial success action
@@ -106,7 +115,7 @@ export function updateRequestBuyMaterialSuccess(payload) {
   return {
     type: UPDATE_REQUEST_BUY_MATERIAL_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -116,7 +125,7 @@ export function updateRequestBuyMaterialSuccess(payload) {
 export function updateRequestBuyMaterialFailed() {
   return {
     type: UPDATE_REQUEST_BUY_MATERIAL_FAILED,
-  };
+  }
 }
 /**
  * Delete requestBuyMaterial
@@ -135,7 +144,7 @@ export function deleteRequestBuyMaterial(
     payload: requestBuyMaterialId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -147,7 +156,7 @@ export function deleteRequestBuyMaterialSuccess(payload) {
   return {
     type: DELETE_REQUEST_BUY_MATERIAL_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -157,7 +166,7 @@ export function deleteRequestBuyMaterialSuccess(payload) {
 export function deleteRequestBuyMaterialFailed() {
   return {
     type: DELETE_REQUEST_BUY_MATERIAL_FAILED,
-  };
+  }
 }
 
 /**
@@ -177,7 +186,7 @@ export function getRequestBuyMaterialDetailsById(
     payload: requestBuyMaterialId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -189,7 +198,7 @@ export function getRequestBuyMaterialDetailsByIdSuccess(payload) {
   return {
     type: GET_REQUEST_BUY_MATERIAL_DETAILS_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -199,7 +208,7 @@ export function getRequestBuyMaterialDetailsByIdSuccess(payload) {
 export function getRequestBuyMaterialDetailsByIdFailed() {
   return {
     type: GET_REQUEST_BUY_MATERIAL_DETAILS_FAILED,
-  };
+  }
 }
 
 /**
@@ -219,7 +228,7 @@ export function confirmRequestBuyMaterialById(
     payload: requestBuyMaterialId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -231,7 +240,7 @@ export function confirmRequestBuyMaterialByIdSuccess(payload) {
   return {
     type: CONFIRM_REQUEST_BUY_MATERIAL_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -241,7 +250,7 @@ export function confirmRequestBuyMaterialByIdSuccess(payload) {
 export function confirmRequestBuyMaterialByIdFailed() {
   return {
     type: CONFIRM_REQUEST_BUY_MATERIAL_FAILED,
-  };
+  }
 }
 
 /**
@@ -257,7 +266,7 @@ export function printQRRequestBuyMaterial(itemId, onSuccess, onError) {
     payload: itemId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -269,7 +278,7 @@ export function printQRRequestBuyMaterialSuccess(payload) {
   return {
     type: PRINT_QR_REQUEST_BUY_MATERIAL_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -279,7 +288,7 @@ export function printQRRequestBuyMaterialSuccess(payload) {
 export function printQRRequestBuyMaterialFailed() {
   return {
     type: PRINT_QR_REQUEST_BUY_MATERIAL_FAILED,
-  };
+  }
 }
 export function rejectRequestBuyMaterialById(
   purchasedOrderId,
@@ -291,7 +300,7 @@ export function rejectRequestBuyMaterialById(
     payload: purchasedOrderId,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -303,7 +312,7 @@ export function rejectRequestBuyMaterialByIdSuccess(payload) {
   return {
     type: REJECT_REQUEST_BUY_MATERIAL_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -313,5 +322,43 @@ export function rejectRequestBuyMaterialByIdSuccess(payload) {
 export function rejectRequestBuyMaterialByIdFailed() {
   return {
     type: REJECT_REQUEST_BUY_MATERIAL_FAILED,
-  };
+  }
+}
+
+export function resetRequestBuyMaterialState() {
+  return {
+    type: RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE,
+  }
+}
+
+export function resetRequestBuyMaterialListState() {
+  return {
+    type: RESET_REQUEST_BUY_MATERIAL_LIST_STATE,
+  }
+}
+
+export default {
+  searchRequestBuyMaterials,
+  searchRequestBuyMaterialsSuccess,
+  searchRequestBuyMaterialsFailed,
+  updateRequestBuyMaterial,
+  updateRequestBuyMaterialSuccess,
+  updateRequestBuyMaterialFailed,
+  deleteRequestBuyMaterial,
+  deleteRequestBuyMaterialSuccess,
+  deleteRequestBuyMaterialFailed,
+  getRequestBuyMaterialDetailsById,
+  getRequestBuyMaterialDetailsByIdSuccess,
+  getRequestBuyMaterialDetailsByIdFailed,
+  confirmRequestBuyMaterialById,
+  confirmRequestBuyMaterialByIdSuccess,
+  confirmRequestBuyMaterialByIdFailed,
+  printQRRequestBuyMaterial,
+  printQRRequestBuyMaterialSuccess,
+  printQRRequestBuyMaterialFailed,
+  rejectRequestBuyMaterialById,
+  rejectRequestBuyMaterialByIdSuccess,
+  rejectRequestBuyMaterialByIdFailed,
+  resetRequestBuyMaterialState,
+  resetRequestBuyMaterialListState,
 }

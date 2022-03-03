@@ -313,7 +313,9 @@
     "timeQC": "Thời gian QC/1 sản phẩm",
     "unit": {
       "minutes": "phút"
-    }
+    },
+    "confirmTitle": "Xác nhận",
+    "confirmBody": "Bạn có chắc chắn xác nhận công đoạn này?"
   },
   "orderStatus": {
     "pending": "Chờ xác nhận",
@@ -1343,11 +1345,17 @@
     "moName": "Tên lệnh sản xuất",
     "moCode": "Mã lệnh sản xuất",
     "planMo": "Kế hoạch lệnh sản xuất",
+    "planName": "Tên kế hoạch sản xuất",
+    "planCode": "Mã kế hoạch sản xuất",
+    "plan": "Kế hoạch sản xuất",
     "factory": "Nhà máy",
     "deadline": "Kỳ hạn",
-    "soCode": "Mã Đơn hàng",
+    "soCode": "Mã đơn hàng",
     "soName": "Đơn hàng",
     "status": "Trạng thái",
+    "userCreate": "Người tạo",
+    "createAt": "Thời gian tạo",
+    "updateAt": "Thời gian sửa",
     "action": "Hành động",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
@@ -1365,7 +1373,12 @@
     "confirmRequestBuyMaterialSuccess": "Xác nhận cảnh báo thành công",
     "deleteRequestBuyMaterialSuccess": "Xóa cảnh báo thành công ",
     "createRequestBuyMaterialSuccess": "Tạo cảnh báo thành công",
-    "updateRequestBuyMaterialSuccess": "Cập nhật cảnh báo thành công"
+    "updateRequestBuyMaterialSuccess": "Cập nhật cảnh báo thành công",
+    "deleteTitle": "Xác nhận xóa",
+    "confirmDelete": "Hành động này không thể phục hồi! Bạn có chắc chắn muốn xoá không?",
+    "confirmTitle": "Xác nhận",
+    "confirmBody": "Bạn có chắc chắn xác nhận cảnh báo này?",
+    "export": "Xuất dữ liệu"
   },
   "inventoryLimit": {
     "title": "Thiết lập giới hạn tồn kho",

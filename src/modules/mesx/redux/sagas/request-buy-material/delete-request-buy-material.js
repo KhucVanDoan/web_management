@@ -1,35 +1,34 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmRequestBuyMaterialByIdFailed,
-  confirmRequestBuyMaterialByIdSuccess,
-  CONFIRM_REQUEST_BUY_MATERIAL_START,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+  deleteRequestBuyMaterialFailed,
+  deleteRequestBuyMaterialSuccess,
+  DELETE_REQUEST_BUY_MATERIAL_START,
+} from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Confirm production order
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const confirmRequestBuyMaterialApi = (params) => {
-  const uri = `/v1/sales/purchased-orders/${params}/confirm`
-  return api.put(uri)
+const deleteRequestBuyMaterialApi = (params) => {
+  const url = `v1/produces/material-request-warnings/${params}`
+  return api.delete(url)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doConfirmRequestBuyMaterial(action) {
+function* doDeleteRequestBuyMaterial(action) {
   try {
-    const response = yield call(confirmRequestBuyMaterialApi, action?.payload)
+    const response = yield call(deleteRequestBuyMaterialApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmRequestBuyMaterialByIdSuccess(response.payload))
+      yield put(deleteRequestBuyMaterialSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +36,7 @@ function* doConfirmRequestBuyMaterial(action) {
       }
 
       addNotification(
-        'requestBuyMaterial.confirmRequestBuyMaterialSuccess',
+        'requestBuyMaterial.deleteRequestBuyMaterialSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +44,7 @@ function* doConfirmRequestBuyMaterial(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmRequestBuyMaterialByIdFailed())
+    yield put(deleteRequestBuyMaterialFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,9 +55,9 @@ function* doConfirmRequestBuyMaterial(action) {
 /**
  * Watch search users
  */
-export default function* watchConfirmRequestBuyMaterial() {
+export default function* watchDeleteRequestBuyMaterial() {
   yield takeLatest(
-    CONFIRM_REQUEST_BUY_MATERIAL_START,
-    doConfirmRequestBuyMaterial,
+    DELETE_REQUEST_BUY_MATERIAL_START,
+    doDeleteRequestBuyMaterial,
   )
 }

@@ -20,7 +20,9 @@ import {
   REJECT_REQUEST_BUY_MATERIAL_FAILED,
   REJECT_REQUEST_BUY_MATERIAL_START,
   REJECT_REQUEST_BUY_MATERIAL_SUCCESS,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+  RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE,
+  RESET_REQUEST_BUY_MATERIAL_LIST_STATE,
+} from '~/modules/mesx/redux/actions/request-by-materials'
 
 const initialState = {
   isLoading: false,
@@ -75,6 +77,13 @@ export default function defineRequestBuyMaterial(state = initialState, action) {
         isLoading: false,
       }
     case DELETE_REQUEST_BUY_MATERIAL_SUCCESS:
+      return {
+        ...state,
+        requestBuyMaterialList: state.requestBuyMaterialList.filter(
+          (item) => item?.id !== action.payload.id,
+        ),
+        isLoading: false,
+      }
     case DELETE_REQUEST_BUY_MATERIAL_FAILED:
       return {
         ...state,
@@ -91,6 +100,16 @@ export default function defineRequestBuyMaterial(state = initialState, action) {
         ...state,
         requestBuyMaterialDetails: {},
         isLoading: false,
+      }
+    case RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE:
+      return {
+        ...state,
+        requestBuyMaterialDetails: {},
+      }
+    case RESET_REQUEST_BUY_MATERIAL_LIST_STATE:
+      return {
+        ...state,
+        requestBuyMaterialList: [],
       }
     default:
       return state

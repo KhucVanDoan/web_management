@@ -45,6 +45,7 @@ export const GET_ITEM_UNITS_FAILED = 'GET_ITEM_UNITS_FAILED'
 export const GET_ITEMS_START = 'GET_ITEMS_START'
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS'
 export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED'
+export const RESET_ITEMS = 'RESET_ITEMS'
 
 export const GET_WAREHOUSES_START = 'GET_WAREHOUSES_START'
 export const GET_WAREHOUSES_SUCCESS = 'GET_WAREHOUSES_SUCCESS'
@@ -971,6 +972,12 @@ export function createPurchasedOrderFailed() {
   }
 }
 
+export function resetItems() {
+  return {
+    type: RESET_ITEMS,
+  }
+}
+
 export default {
   getCustomers,
   getCustomersSuccess,
@@ -1001,9 +1008,6 @@ export default {
   getWarehouses,
   getWarehousesSuccess,
   getWarehousesFailed,
-  getCustomers,
-  getCustomersSuccess,
-  getCustomersFailed,
   getVendors,
   getVendorsSuccess,
   getVendorsFailed,
@@ -1042,4 +1046,5 @@ export default {
   createPurchasedOrder,
   createPurchasedOrderSuccess,
   createPurchasedOrderFailed,
+  resetItems,
 }

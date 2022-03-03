@@ -4,7 +4,7 @@ import {
   getRequestBuyMaterialDetailsByIdFailed,
   getRequestBuyMaterialDetailsByIdSuccess,
   GET_REQUEST_BUY_MATERIAL_DETAILS_START,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+} from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
 
 /**
@@ -13,8 +13,8 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getRequestBuyMaterialDetailsApi = (params) => {
-  const uri = `/v1/sales/purchased-orders/${params}`
-  return api.get(uri)
+  const url = `v1/produces/material-request-warnings/${params}`
+  return api.get(url)
 }
 
 /**
