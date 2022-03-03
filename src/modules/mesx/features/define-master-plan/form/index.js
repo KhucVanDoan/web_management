@@ -64,6 +64,7 @@ const DefineMasterPlanForm = () => {
       ...values,
       dateFrom: values?.planDate ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3) : '',
       dateTo: values?.planDate ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3) : '',
+      dateFromSo: new Date().toISOString()
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
@@ -185,7 +186,7 @@ const DefineMasterPlanForm = () => {
         factoryId: null,
         description: '',
         planDate: null,
-        dateFromSo: new Date().toISOString(),
+        dateFromSo: null,
         dateCompletion: 0
       }
 
