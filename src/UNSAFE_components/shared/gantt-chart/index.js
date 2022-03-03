@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import { gantt } from 'dhtmlx-gantt';
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
-import { isEmpty } from 'lodash';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import { gantt } from 'dhtmlx-gantt'
+import 'dhtmlx-gantt/codebase/dhtmlxgantt.css'
+import { isEmpty } from 'lodash'
+import moment from 'moment'
+import { withTranslation } from 'react-i18next'
 
-import { NOTIFICATION_TYPE } from '~/common/constants';
-import addNotification from '~/utils/toast';
+import { NOTIFICATION_TYPE } from '~/common/constants'
+import addNotification from '~/utils/toast'
 
 import Toolbar from './toolbar'
-import './style.css';
+import './style.css'
 
 class GanttChart extends Component {
   constructor(props) {
-    super(props);
-    const { t } = this.props;
-    this.initZoom();
+    super(props)
+    const { t } = this.props
+    this.initZoom()
     this.LOCALE = {
       date: {
         month_full: [
@@ -75,16 +75,16 @@ class GanttChart extends Component {
         months: t('dateLabel.months'),
         years: t('dateLabel.minyearsutes'),
       },
-    };
+    }
     this.state = {
-      zoom: t('general.months')
+      zoom: t('general.months'),
     }
   }
 
-  dataProcessor = null;
+  dataProcessor = null
 
   initZoom() {
-    const { t } = this.props;
+    const { t } = this.props
     gantt.ext.zoom.init({
       levels: [
         {
@@ -115,40 +115,40 @@ class GanttChart extends Component {
           ],
         },
       ],
-    });
+    })
   }
 
   setZoom(value) {
-    gantt.ext.zoom.setLevel(value);
+    gantt.ext.zoom.setLevel(value)
   }
 
   initGanttDataProcessor() {
-    const onDataUpdated = this.props.onDataUpdated;
+    const onDataUpdated = this.props.onDataUpdated
     this.dataProcessor = gantt.createDataProcessor((type, action, item, id) => {
       return new Promise((resolve, reject) => {
         if (onDataUpdated) {
-          onDataUpdated(type, action, item, id);
+          onDataUpdated(type, action, item, id)
         }
-        return resolve();
-      });
-    });
+        return resolve()
+      })
+    })
   }
 
   onTaskDblClick() {
-    const viewDetailTask = this.props.viewDetailTask;
+    const viewDetailTask = this.props.viewDetailTask
     gantt.attachEvent('onTaskDblClick', function (id, e) {
       if (viewDetailTask) {
-        viewDetailTask(id);
-        return true;
+        viewDetailTask(id)
+        return true
       } else {
-        return false;
+        return false
       }
-    });
+    })
   }
 
   handleChangeZoom = (value) => {
     this.setState({
-      zoom: value
+      zoom: value,
     })
   }
 
@@ -157,11 +157,11 @@ class GanttChart extends Component {
   }
 
   componentDidUpdate() {
-    const { tasks, t } = this.props;
+    const { tasks, t } = this.props
     if (tasks.data.length > 0) {
       // prevent change task to past
       gantt.attachEvent('onBeforeTaskChanged', function (id, mode, task) {
-        const newTask = tasks.data.find((item) => item.rId === task.rId);
+        const newTask = tasks.data.find((item) => item.rId === task.rId)
         if (
           // moment(parentMaxDate).isBefore(moment(newTask.end_date), 'days') ||
           // moment(newTask.start_date).isBefore(moment(parentMinDate), 'days') ||
@@ -171,44 +171,44 @@ class GanttChart extends Component {
           ) ||
           moment(newTask.end_date).isBefore(moment(task.end_date), 'days')
         ) {
-          addNotification(t('inputTimeInvalid'), NOTIFICATION_TYPE.ERROR);
-          return false;
+          addNotification(t('inputTimeInvalid'), NOTIFICATION_TYPE.ERROR)
+          return false
         } else {
-          return true;
+          return true
         }
-      });
+      })
     }
-    gantt.clearAll();
-    gantt.parse(tasks);
-    gantt.render();
+    gantt.clearAll()
+    gantt.parse(tasks)
+    gantt.render()
   }
 
   componentDidMount() {
-    const { config, excludeResizeTask, tasks, t } = this.props;
-    gantt.config.xml_date = '%Y-%m-%d %H:%i';
+    const { config, excludeResizeTask, tasks, t } = this.props
+    gantt.config.xml_date = '%Y-%m-%d %H:%i'
 
     if (!isEmpty(config)) {
-      gantt.config = Object.assign(gantt.config, config);
+      gantt.config = Object.assign(gantt.config, config)
     }
 
     gantt.templates.task_class = function (start, end, task) {
       if (task.isOverQuantity) {
-        return 'back-ground-over-quantity';
+        return 'back-ground-over-quantity'
       }
       if (task.progress === 0) {
-        return 'back-ground-white';
+        return 'back-ground-white'
       }
       if (task.progress === 1) {
-        return 'back-ground-success';
+        return 'back-ground-success'
       }
       if (task.progress > 0 && task.progress < 1) {
         if (new Date(end) < new Date()) {
-          return 'back-ground-delay';
+          return 'back-ground-delay'
         } else {
-          return 'back-ground-progress';
+          return 'back-ground-progress'
         }
       }
-    };
+    }
 
     gantt.templates.tooltip_text = function (start, end, task) {
       return (
@@ -221,31 +221,31 @@ class GanttChart extends Component {
         ':</b> ' +
         Math.floor(task.progress * 100, -1) +
         '%<br/>'
-      );
-    };
+      )
+    }
 
     gantt.templates.task_text = function (start, end, task) {
-      return Math.floor(task.progress * 100, -1) + '%';
-    };
+      return Math.floor(task.progress * 100, -1) + '%'
+    }
 
-    gantt.locale = this.LOCALE;
+    gantt.locale = this.LOCALE
     gantt.attachEvent('onBeforeLightbox', function (id) {
-      gantt.resetLightbox(); // clear all changes, new lightbox element will be generated after that
-    });
+      gantt.resetLightbox() // clear all changes, new lightbox element will be generated after that
+    })
     gantt.attachEvent('onLinkDblClick', function (id, e) {
-      let modal;
-      modal = gantt.modalbox();
-      gantt.modalbox.hide(modal);
-      return false;
-    });
+      let modal
+      modal = gantt.modalbox()
+      gantt.modalbox.hide(modal)
+      return false
+    })
 
     gantt.plugins({
       tooltip: true,
-    });
+    })
 
-    gantt.init(this.ganttContainer);
-    this.initGanttDataProcessor();
-    gantt.parse(tasks);
+    gantt.init(this.ganttContainer)
+    this.initGanttDataProcessor()
+    gantt.parse(tasks)
 
     gantt.attachEvent('onBeforeTaskDrag', function (id, mode, e) {
       if (
@@ -253,50 +253,53 @@ class GanttChart extends Component {
         excludeResizeTask.prefix.filter((prefix) => id.includes(prefix))
           .length > 0
       ) {
-        return false;
+        return false
       }
-      return true;
-    });
+      return true
+    })
 
-    gantt.attachEvent("onTaskClick", (id, e) => {
-      const checkbox = gantt.utils.dom.closest(e.target, ".gantt-checkbox-column");
-     
+    gantt.attachEvent('onTaskClick', (id, e) => {
+      const checkbox = gantt.utils.dom.closest(
+        e.target,
+        '.gantt-checkbox-column',
+      )
+
       if (checkbox) {
-        checkbox.checked = !!checkbox.checked;
-        gantt.getTask(id).checked = checkbox.checked;
+        checkbox.checked = !!checkbox.checked
+        gantt.getTask(id).checked = checkbox.checked
         this.handleSelectTask(id, checkbox.checked)
-        return false;
+        return false
       } else {
-        return true; 
+        return true
       }
-   });
+    })
   }
 
   componentWillUnmount() {
     if (this.dataProcessor) {
-      this.dataProcessor.destructor();
-      this.dataProcessor = null;
+      this.dataProcessor.destructor()
+      this.dataProcessor = null
     }
-    gantt.clearAll();
+    gantt.clearAll()
   }
 
   render() {
     // const { zoom } = this.props;
-    this.setZoom(this.state.zoom);
+    this.setZoom(this.state.zoom)
     return (
       <>
         <Toolbar onChangeZoom={this.handleChangeZoom} />
         <div className="gantt-container">
           <div
             ref={(input) => {
-              this.ganttContainer = input;
+              this.ganttContainer = input
             }}
             style={{ width: '100%', height: '100%' }}
           ></div>
         </div>
       </>
-    );
+    )
   }
 }
 
-export default withTranslation()(GanttChart);
+export default withTranslation()(GanttChart)
