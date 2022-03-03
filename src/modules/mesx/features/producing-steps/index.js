@@ -111,7 +111,6 @@ function ProducingStep() {
       field: 'status',
       headerName: t('producingStep.status'),
       width: 100,
-      type: 'categorical',
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
@@ -272,17 +271,14 @@ function ProducingStep() {
         </Dialog>
         <Dialog
           open={confirmModal}
-          title={t('producingStep.deleteTitle')}
+          title={t('producingStep.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
           cancelLabel={t('common.no')}
           onSubmit={onSubmitConfirm}
           submitLabel={t('common.yes')}
-          submitProps={{
-            color: 'error',
-          }}
           noBorderBottom
         >
-          {t('producingStep.confirmDelete')}
+          {t('producingStep.confirmBody')}
         </Dialog>
       </Page>
     </>

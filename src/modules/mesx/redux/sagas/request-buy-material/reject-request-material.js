@@ -1,42 +1,42 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateRequestBuyMaterialFailed,
-  updateRequestBuyMaterialSuccess,
-  UPDATE_REQUEST_BUY_MATERIAL_START,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+  rejectRequestBuyMaterialByIdFailed,
+  rejectRequestBuyMaterialByIdSuccess,
+  REJECT_REQUEST_BUY_MATERIAL_START,
+} from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Update inventory-calendar API
+ * Reject purchased order
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const updateRequestBuyMaterialApi = (params) => {
-  const uri = `/v1/sales/purchased-orders/${params.id}`
-  return api.put(uri, params)
+const rejectRequestBuyMaterialApi = (params) => {
+  const uri = `/v1/sales/purchased-orders/${params}/reject`
+  return api.put(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateRequestBuyMaterial(action) {
+function* doRejectRequestBuyMaterial(action) {
   try {
-    const response = yield call(updateRequestBuyMaterialApi, action?.payload)
+    const response = yield call(rejectRequestBuyMaterialApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateRequestBuyMaterialSuccess(response.data))
+      yield put(rejectRequestBuyMaterialByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(
-        'requestBuyMaterial.updateRequestBuyMaterialSuccess',
+        'purchasedOrder.rejectRequestBuyMaterialSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -44,7 +44,7 @@ function* doUpdateRequestBuyMaterial(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateRequestBuyMaterialFailed())
+    yield put(rejectRequestBuyMaterialByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -53,11 +53,11 @@ function* doUpdateRequestBuyMaterial(action) {
 }
 
 /**
- * Watch search inventory-calendars
+ * Watch search users
  */
-export default function* watchUpdateRequestBuyMaterial() {
+export default function* watchRejectRequestBuyMaterial() {
   yield takeLatest(
-    UPDATE_REQUEST_BUY_MATERIAL_START,
-    doUpdateRequestBuyMaterial,
+    REJECT_REQUEST_BUY_MATERIAL_START,
+    doRejectRequestBuyMaterial,
   )
 }

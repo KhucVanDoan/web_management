@@ -21,6 +21,7 @@ import {
   UPDATE_SALE_ORDER_START,
   UPDATE_SALE_ORDER_SUCCESS,
   RESET_SALE_ORDER_STATE,
+  RESET_SALE_ORDER_LIST_STATE,
 } from '~/modules/mesx/redux/actions/sale-order'
 
 const initialState = {
@@ -94,6 +95,11 @@ export default function defineSaleOrder(state = initialState, action) {
       return {
         ...state,
         saleOrderDetails: {},
+      }
+    case RESET_SALE_ORDER_LIST_STATE:
+      return {
+        ...state,
+        saleOrderList: [],
       }
     default:
       return state

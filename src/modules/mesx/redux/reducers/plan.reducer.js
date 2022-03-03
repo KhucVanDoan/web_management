@@ -20,6 +20,7 @@ import {
   CONFIRM_PLAN_START,
   CONFIRM_PLAN_SUCCESS,
   CONFIRM_PLAN_FAILED,
+  RESET_PLAN_LIST_STATE,
 } from '~/modules/mesx/redux/actions/plan'
 
 const initialState = {
@@ -101,6 +102,12 @@ export default function defineplan(state = initialState, action) {
         ...state,
         moList: [],
         isLoading: false,
+      }
+
+    case RESET_PLAN_LIST_STATE:
+      return {
+        ...state,
+        planList: [],
       }
     default:
       return state

@@ -64,7 +64,6 @@ const PlanCalendar = () => {
         <Button
           onClick={() => history.push(ROUTE.PLAN.CALENDAR.CREATE.PATH)}
           icon="add"
-          sx={{ ml: '16px' }}
         >
           {t('common.create')}
         </Button>

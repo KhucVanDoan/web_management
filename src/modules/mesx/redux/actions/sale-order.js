@@ -27,6 +27,7 @@ export const REJECT_SALE_ORDER_SUCCESS = 'REJECT_SALE_ORDER_SUCCESS'
 export const REJECT_SALE_ORDER_FAILED = 'REJECT_SALE_ORDER_FAILED'
 
 export const RESET_SALE_ORDER_STATE = 'RESET_SALE_ORDER_STATE'
+export const RESET_SALE_ORDER_LIST_STATE = 'RESET_SALE_ORDER_LIST_STATE'
 
 /**
  * Search SaleOrder
@@ -298,6 +299,12 @@ export function resetSaleOrderState() {
   }
 }
 
+export function resetSaleOrderListState() {
+  return {
+    type: RESET_SALE_ORDER_LIST_STATE,
+  }
+}
+
 export default {
   searchSaleOrders,
   searchSaleOrdersFailed,
@@ -321,4 +328,5 @@ export default {
   rejectSaleOrderByIdFailed,
   rejectSaleOrderByIdSuccess,
   resetSaleOrderState,
+  resetSaleOrderListState,
 }

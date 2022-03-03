@@ -1,43 +1,41 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteRequestBuyMaterialFailed,
-  deleteRequestBuyMaterialSuccess,
-  DELETE_REQUEST_BUY_MATERIAL_START,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+  updateRequestBuyMaterialFailed,
+  updateRequestBuyMaterialSuccess,
+  UPDATE_REQUEST_BUY_MATERIAL_START,
+} from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Search user API
+ * Update inventory-calendar API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteRequestBuyMaterialApi = (params) => {
-  const uri = `/v1/produces/work-orders/${params}`
-  return api.delete(uri)
+const updateRequestBuyMaterialApi = (params) => {
+  const url = `v1/produces/material-request-warnings/${params.id}`
+  return api.put(url, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteRequestBuyMaterial(action) {
+function* doUpdateRequestBuyMaterial(action) {
   try {
-    const response = yield call(deleteRequestBuyMaterialApi, action?.payload)
+    const response = yield call(updateRequestBuyMaterialApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteRequestBuyMaterialSuccess(response.data))
+      yield put(updateRequestBuyMaterialSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
       addNotification(
-        'requestBuyMaterial.deleteRequestBuyMaterialSuccess',
+        'requestBuyMaterial.updateRequestBuyMaterialSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
     } else {
@@ -45,7 +43,7 @@ function* doDeleteRequestBuyMaterial(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteRequestBuyMaterialFailed())
+    yield put(updateRequestBuyMaterialFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -54,11 +52,11 @@ function* doDeleteRequestBuyMaterial(action) {
 }
 
 /**
- * Watch search users
+ * Watch search inventory-calendars
  */
-export default function* watchDeleteRequestBuyMaterial() {
+export default function* watchUpdateRequestBuyMaterial() {
   yield takeLatest(
-    DELETE_REQUEST_BUY_MATERIAL_START,
-    doDeleteRequestBuyMaterial,
+    UPDATE_REQUEST_BUY_MATERIAL_START,
+    doUpdateRequestBuyMaterial,
   )
 }

@@ -4,7 +4,7 @@ import {
   searchRequestBuyMaterialsFailed,
   searchRequestBuyMaterialsSuccess,
   SEARCH_REQUEST_BUY_MATERIALS_START,
-} from '~/modules/mesx/redux/actions/request-by-materials.action'
+} from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
 
 /**
@@ -13,8 +13,8 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const searchRequestBuyMaterialsApi = (params) => {
-  const uri = `/v1/sales/purchased-orders/list?onlyCreatedFromMo=1`
-  return api.get(uri, params)
+  const url = '/v1/produces/material-request-warnings/list'
+  return api.get(url, params)
 }
 
 /**

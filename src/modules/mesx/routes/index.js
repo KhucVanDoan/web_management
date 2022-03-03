@@ -50,6 +50,7 @@ import ProducingStepDetail from '~/modules/mesx/features/producing-steps/detail'
 import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
 import ProductivityReport from '~/modules/mesx/features/productivity-report'
 import QualityReport from '~/modules/mesx/features/quality-report'
+import RequestBuyMaterialDetail from '~/modules/mesx/features/request-buy-material/detail'
 import RequestBuyMaterialForm from '~/modules/mesx/features/request-buy-material/form'
 import RequestBuyMaterial from '~/modules/mesx/features/request-buy-material/list'
 import RoutingDetail from '~/modules/mesx/features/routing/detail'
@@ -299,7 +300,7 @@ const routes = [
           {
             name: ROUTE.REQUEST_BUY_MATERIAL.DETAIL.TITLE,
             path: ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH,
-            component: RequestBuyMaterialForm,
+            component: RequestBuyMaterialDetail,
             pathActive: ROUTE.DEFINE_BOQ.DETAIL.PATH,
             isInSidebar: false,
           },
