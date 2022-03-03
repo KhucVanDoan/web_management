@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import {
   EXPORT_PLAN_REPORT,
   exportPlanReportSuccess,
-} from '~/modules/mesx/redux/actions/plan-report.action'
+} from '~/modules/mesx/redux/actions/plan-report'
 import { api } from '~/services/api'
 
 /**

@@ -27,7 +27,7 @@ import {
   searchPlans,
   getPlanDetailsById,
 } from '~/modules/mesx/redux/actions/plan'
-import { exportPlanReport } from '~/modules/mesx/redux/actions/plan-report.action'
+import { exportPlanReport } from '~/modules/mesx/redux/actions/plan-report'
 import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, onChangeTextField } from '~/utils'
@@ -469,6 +469,7 @@ class MaterialReport extends Component {
         if (bom?.id === id) {
           bom['subBoms'] = res
         }
+        return bom
       })
       this.setState(bomTree)
     })
