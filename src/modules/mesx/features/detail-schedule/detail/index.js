@@ -186,7 +186,6 @@ const detailSchedule = () => {
                 placeholder={t('detailSchedule.descriptionInput')}
                 multiline
                 readOnly
-                labelWidth={180}
                 rows={3}
                 value={workOrderDetails.description}
                 sx={{

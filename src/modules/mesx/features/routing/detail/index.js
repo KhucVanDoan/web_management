@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Typography, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'

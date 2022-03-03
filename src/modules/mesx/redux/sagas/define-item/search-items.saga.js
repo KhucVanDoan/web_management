@@ -4,7 +4,7 @@ import {
   searchItemsFailed,
   searchItemsSuccess,
   SEARCH_ITEMS_START,
-} from '~/modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/define-item'
 import { api } from '~/services/api'
 
 /**

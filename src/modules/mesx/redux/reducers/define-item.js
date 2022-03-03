@@ -8,16 +8,14 @@ import {
   GET_ITEM_DETAILS_FAILED,
   GET_ITEM_DETAILS_START,
   GET_ITEM_DETAILS_SUCCESS,
-  PRINT_QR_ITEMS_FAILED,
-  PRINT_QR_ITEMS_START,
-  PRINT_QR_ITEMS_SUCCESS,
   SEARCH_ITEMS_FAILED,
   SEARCH_ITEMS_START,
   SEARCH_ITEMS_SUCCESS,
   UPDATE_ITEM_FAILED,
   UPDATE_ITEM_START,
   UPDATE_ITEM_SUCCESS,
-} from '~/modules/mesx/redux/actions/define-item.action'
+  RESET_ITEM_DETAILS_STATE,
+} from '~/modules/mesx/redux/actions/define-item'
 
 const initialState = {
   isLoading: false,
@@ -39,7 +37,6 @@ export default function defineItem(state = initialState, action) {
     case UPDATE_ITEM_START:
     case DELETE_ITEM_START:
     case GET_ITEM_DETAILS_START:
-    case PRINT_QR_ITEMS_START:
       return {
         ...state,
         isLoading: true,
@@ -63,8 +60,6 @@ export default function defineItem(state = initialState, action) {
     case UPDATE_ITEM_FAILED:
     case DELETE_ITEM_SUCCESS:
     case DELETE_ITEM_FAILED:
-    case PRINT_QR_ITEMS_SUCCESS:
-    case PRINT_QR_ITEMS_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -80,6 +75,11 @@ export default function defineItem(state = initialState, action) {
         ...state,
         itemDetails: {},
         isLoading: false,
+      }
+    case RESET_ITEM_DETAILS_STATE:
+      return {
+        ...state,
+        itemGroupDetails: {},
       }
     default:
       return state

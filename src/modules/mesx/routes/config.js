@@ -25,6 +25,24 @@ export const ROUTE = {
       TITLE: 'itemTypeEdit',
     },
   },
+  DEFINE_ITEM: {
+    LIST: {
+      PATH: '/mesx/define-item',
+      TITLE: 'defineItem',
+    },
+    CREATE: {
+      PATH: '/mesx/define-item/create',
+      TITLE: 'defineItemCreate',
+    },
+    DETAIL: {
+      PATH: '/mesx/define-item/:id/detail',
+      TITLE: 'defineItemDetail',
+    },
+    EDIT: {
+      PATH: '/mesx/define-item/:id/edit',
+      TITLE: 'defineItemEdit',
+    },
+  },
   ROUTING: {
     LIST: {
       PATH: '/mesx/routing',

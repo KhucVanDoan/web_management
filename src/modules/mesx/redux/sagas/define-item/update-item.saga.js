@@ -1,12 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   updateItemFailed,
   updateItemSuccess,
   UPDATE_ITEM_START,
-} from '~/modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/define-item'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

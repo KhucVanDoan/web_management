@@ -22,6 +22,8 @@ import DefineFactory from '~/modules/mesx/features/define-factory'
 import DefineFactoryDetail from '~/modules/mesx/features/define-factory/factory-detail'
 import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-form'
 import DefineItem from '~/modules/mesx/features/define-item'
+import DefineItemDetail from '~/modules/mesx/features/define-item/item-detail'
+import DefineItemForm from '~/modules/mesx/features/define-item/item-form'
 import DefineMasterPlanForm from '~/modules/mesx/features/define-master-plan/form'
 import DefineMasterPlan from '~/modules/mesx/features/define-master-plan/list'
 import AutoModeration from '~/modules/mesx/features/define-master-plan/moderation/auto-moderation'
@@ -405,10 +407,33 @@ const routes = [
         ],
       },
       {
-        name: 'itemDefine',
-        path: '/item/create',
+        name: ROUTE.DEFINE_ITEM.LIST.TITLE,
+        path: ROUTE.DEFINE_ITEM.LIST.PATH,
         component: DefineItem,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_ITEM.CREATE.TITLE,
+            path: ROUTE.DEFINE_ITEM.CREATE.PATH,
+            component: DefineItemForm,
+            pathActive: ROUTE.DEFINE_ITEM.CREATE.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_ITEM.EDIT.TITLE,
+            path: ROUTE.DEFINE_ITEM.EDIT.PATH,
+            component: DefineItemForm,
+            pathActive: ROUTE.DEFINE_ITEM.EDIT.PATH,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_ITEM.DETAIL.TITLE,
+            path: ROUTE.DEFINE_ITEM.DETAIL.PATH,
+            component: DefineItemDetail,
+            pathActive: ROUTE.DEFINE_ITEM.DETAIL.PATH,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: ROUTE.DEFINE_FACTORY.LIST.TITLE,

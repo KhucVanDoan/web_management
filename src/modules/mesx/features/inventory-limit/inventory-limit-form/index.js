@@ -10,15 +10,11 @@ import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import {
-  MODAL_MODE,
-  NOTIFICATION_TYPE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-} from '~/common/constants'
+import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import {
   searchItems,
   getItemDetailsById,
-} from '~/modules/mesx/redux/actions/define-item.action'
+} from '~/modules/mesx/redux/actions/define-item'
 import {
   createInventoryLimit,
   updateInventoryLimit,
@@ -114,7 +110,7 @@ class InventoryLimitForm extends Component {
     }
   }
   getListItem = () => {
-    const { keyword, page, pageSize, filters, sort } = this.state
+    const { page, pageSize, filters, sort } = this.state
 
     const filterData = filters?.map((item) => ({
       column: item.field,

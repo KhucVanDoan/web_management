@@ -100,7 +100,7 @@ function CalendarCreate() {
         loading={false}
       >
         <Grid container justifyContent="center">
-          <Grid item xl={11} sx={12}>
+          <Grid item xl={11} xs={12}>
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
@@ -118,7 +118,6 @@ function CalendarCreate() {
                         name="time"
                         label={t('planCalendar.setupYearCalendar.plan')}
                         placeholder={t('planCalendar.setupYearCalendar.plan')}
-                        labelWidth={180}
                         required
                       />
                     </Grid>
@@ -128,7 +127,6 @@ function CalendarCreate() {
                         label="Nhà máy"
                         placeholder="Nhà máy"
                         options={[]}
-                        labelWidth={180}
                         required
                       />
                     </Grid>
@@ -139,7 +137,6 @@ function CalendarCreate() {
                         placeholder="Mô tả"
                         multiline
                         rows={3}
-                        labelWidth={180}
                       />
                     </Grid>
                     <Grid item xs={12}>
