@@ -12,7 +12,7 @@ import {
   PLAN_STATUS_TO_EDIT,
   PLAN_STATUS_TO_CONFIRM,
   PLAN_STATUS_TO_DELETE,
-  PLAN_STATUS
+  PLAN_STATUS,
 } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
@@ -23,7 +23,7 @@ import {
   redirectRouter,
   formatDateTimeUtc,
   convertFilterParams,
-  convertSortParams
+  convertSortParams,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -56,163 +56,160 @@ const DefineMasterPlan = (props) => {
   const [sort, setSort] = useState(null)
   const {
     data: { masterPlanList, isLoading, total },
-    actions: masterPlanActions
+    actions: masterPlanActions,
   } = useDefineMasterPlan()
 
-  const columns = useMemo(() => [
-    {
-      field: 'id',
-      headerName: t('defineMasterPlan.id'),
-      align: 'center',
-      width: 100,
-      sortable: false,
-      fixed: true,
-    },
-    {
-      field: 'code',
-      headerName: t('defineMasterPlan.code'),
-      align: 'center',
-      width: 100,
-      filterable: true,
-      sortable: true,
-      fixed: true,
-    },
-    {
-      field: 'name',
-      headerName: t('defineMasterPlan.planName'),
-      align: 'center',
-      width: 150,
-      filterable: true,
-      sortable: true,
-      fixed: true,
-    },
-    {
-      field: 'soName',
-      headerName: t('defineMasterPlan.saleOrderName'),
-      width: 200,
-      align: 'center',
-      filterable: true,
-      sortable: true,
-      renderCell: (params) => {
-        return (
-          params.row.saleOrderSchedules?.map(saleOrderSchedule => saleOrderSchedule.saleOrderName).join(', ')
-        )
+  const columns = useMemo(
+    () => [
+      {
+        field: 'id',
+        headerName: t('defineMasterPlan.id'),
+        align: 'center',
+        width: 100,
+        sortable: false,
+        fixed: true,
       },
-    },
-    {
-      field: 'plan',
-      headerName: t('defineMasterPlan.planDate'),
-      width: 200,
-      align: 'center',
-      type: 'date',
-      filterable: true,
-      sortable: true,
-      renderCell: (params) => {
-        return (
-          formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT_2) +
-          ' - ' +
-          formatDateTimeUtc(params.row.dateTo, DATE_FORMAT_2)
-        )
+      {
+        field: 'code',
+        headerName: t('defineMasterPlan.code'),
+        align: 'center',
+        width: 100,
+        filterable: true,
+        sortable: true,
+        fixed: true,
       },
-    },
-    {
-      field: 'status',
-      headerName: t('defineMasterPlan.status'),
-      align: 'center',
-      width: 100,
-      sortable: true,
-      type: 'categorical',
-      filterable: true,
-      filterOptions: {
-        options: PLAN_STATUS_OPTIONS,
-        getOptionValue: (option) => option?.id.toString(),
-        getOptionLabel: (option) => t(option?.text),
+      {
+        field: 'name',
+        headerName: t('defineMasterPlan.planName'),
+        align: 'center',
+        width: 150,
+        filterable: true,
+        sortable: true,
+        fixed: true,
       },
-      renderCell: (params) => {
-        const { status } = params.row
-        return t(PLAN_STATUS_MAP[status || PLAN_STATUS.CREATED])
+      {
+        field: 'soName',
+        headerName: t('defineMasterPlan.saleOrderName'),
+        width: 200,
+        align: 'center',
+        filterable: true,
+        sortable: true,
+        renderCell: (params) => {
+          return params.row.saleOrderSchedules
+            ?.map((saleOrderSchedule) => saleOrderSchedule.saleOrderName)
+            .join(', ')
+        },
       },
-    },
-    {
-      field: 'moName',
-      headerName: t('defineMasterPlan.moName'),
-      sortable: true,
-      align: 'center',
-      width: 150,
-      filterable: true,
-      paddingRight: 20,
-      renderCell: (params) => {
-        return (
-          <Button
-            variant="text"
-            size="small"
-            sx={{ marginBottom: 0 }}
-            onClick={() => redirectRouter(ROUTE.MO.CREATE.PATH)}
-          >
-            {t('defineMasterPlan.createMo')}
-          </Button>
-        )
+      {
+        field: 'plan',
+        headerName: t('defineMasterPlan.planDate'),
+        width: 200,
+        align: 'center',
+        type: 'date',
+        filterable: true,
+        sortable: true,
+        renderCell: (params) => {
+          return (
+            formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT_2) +
+            ' - ' +
+            formatDateTimeUtc(params.row.dateTo, DATE_FORMAT_2)
+          )
+        },
       },
-    },
-    {
-      field: 'action',
-      headerName: t('defineMasterPlan.action'),
-      disableClickEventBubbling: true,
-      width: 250,
-      sortable: false,
-      align: 'center',
-      headerAlign: 'center',
-      renderCell: (params) => {
-        const { id, status } = params.row
-        const canEdit = PLAN_STATUS_TO_EDIT.includes(status)
-        const canConfirm = PLAN_STATUS_TO_CONFIRM.includes(status)
-        const canDelete = PLAN_STATUS_TO_DELETE.includes(status)
-        return (
-          <div>
-            <IconButton
-              type="button"
-              size="large"
-              onClick={() => onClickViewDetails(id)}
+      {
+        field: 'status',
+        headerName: t('defineMasterPlan.status'),
+        align: 'center',
+        width: 100,
+        sortable: true,
+        type: 'categorical',
+        filterable: true,
+        filterOptions: {
+          options: PLAN_STATUS_OPTIONS,
+          getOptionValue: (option) => option?.id.toString(),
+          getOptionLabel: (option) => t(option?.text),
+        },
+        renderCell: (params) => {
+          const { status } = params.row
+          return t(PLAN_STATUS_MAP[status || PLAN_STATUS.CREATED])
+        },
+      },
+      {
+        field: 'moName',
+        headerName: t('defineMasterPlan.moName'),
+        sortable: true,
+        align: 'center',
+        width: 150,
+        filterable: true,
+        paddingRight: 20,
+        renderCell: (params) => {
+          return (
+            <Button
+              variant="text"
+              size="small"
+              sx={{ marginBottom: 0 }}
+              onClick={() => redirectRouter(ROUTE.MO.CREATE.PATH)}
             >
-              <Visibility />
-            </IconButton>
-            <IconButton
-              type="button"
-              size="large"
-              onClick={() => onClickViewModeration(id)}
-            >
-              <CalendarToday />
-            </IconButton>
-            {canEdit && (
-              <IconButton
-                type="button"
-                size="large"
-                onClick={() => onClickEdit(id)}
-              >
-                <Edit />
-              </IconButton>
-            )}
-            {canDelete && (
-              <IconButton
-                type="button"
-                size="large"
-              >
-                <Delete />
-              </IconButton>
-            )}
-            {canConfirm && (
-              <IconButton
-                type="button"
-                size="large"
-              >
-                <CheckBox style={{ color: 'green' }} />
-              </IconButton>
-            )}
-          </div>
-        )
+              {t('defineMasterPlan.createMo')}
+            </Button>
+          )
+        },
       },
-    },
-  ], [])
+      {
+        field: 'action',
+        headerName: t('defineMasterPlan.action'),
+        disableClickEventBubbling: true,
+        width: 250,
+        sortable: false,
+        align: 'center',
+        headerAlign: 'center',
+        renderCell: (params) => {
+          const { id, status } = params.row
+          const canEdit = PLAN_STATUS_TO_EDIT.includes(status)
+          const canConfirm = PLAN_STATUS_TO_CONFIRM.includes(status)
+          const canDelete = PLAN_STATUS_TO_DELETE.includes(status)
+          return (
+            <div>
+              <IconButton
+                type="button"
+                size="large"
+                onClick={() => onClickViewDetails(id)}
+              >
+                <Visibility />
+              </IconButton>
+              <IconButton
+                type="button"
+                size="large"
+                onClick={() => onClickViewModeration(id)}
+              >
+                <CalendarToday />
+              </IconButton>
+              {canEdit && (
+                <IconButton
+                  type="button"
+                  size="large"
+                  onClick={() => onClickEdit(id)}
+                >
+                  <Edit />
+                </IconButton>
+              )}
+              {canDelete && (
+                <IconButton type="button" size="large">
+                  <Delete />
+                </IconButton>
+              )}
+              {canConfirm && (
+                <IconButton type="button" size="large">
+                  <CheckBox style={{ color: 'green' }} />
+                </IconButton>
+              )}
+            </div>
+          )
+        },
+      },
+    ],
+    [],
+  )
 
   const producingStepColumns = [
     {
@@ -386,7 +383,7 @@ const DefineMasterPlan = (props) => {
       },
     },
   ]
-  
+
   useEffect(() => {
     refreshData()
   }, [pageSize, page, sort, filters])
@@ -477,28 +474,32 @@ const DefineMasterPlan = (props) => {
       if (bom?.id === id) {
         const newBom = { ...bom }
         if (!bom.subBom) {
-          const itemSchedules = bom.saleOrderSchedules.map(saleOrder => saleOrder.itemSchedules).flat()
-          newBom.subBom = changeToObjectCollapse(itemSchedules).map(item => {
+          const itemSchedules = bom.saleOrderSchedules
+            .map((saleOrder) => saleOrder.itemSchedules)
+            .flat()
+          newBom.subBom = changeToObjectCollapse(itemSchedules).map((item) => {
             const newItem = { ...item }
             delete newItem.itemSchedules
             return newItem
           })
-          newBom.saleOrderSchedules = bom.saleOrderSchedules.map(saleOrder => {
-            const newSaleOrder = { ...saleOrder }
-            delete newSaleOrder.itemSchedules
-            return newSaleOrder
-          })
+          newBom.saleOrderSchedules = bom.saleOrderSchedules.map(
+            (saleOrder) => {
+              const newSaleOrder = { ...saleOrder }
+              delete newSaleOrder.itemSchedules
+              return newSaleOrder
+            },
+          )
         }
         return newBom
       } else {
-        return bom 
+        return bom
       }
     })
     setBomTree(newBomTree)
   }
 
   const changeToObjectCollapse = (data) => {
-    return data.map(item => {
+    return data.map((item) => {
       let newItem = { ...item }
       if (item.itemChildrens) {
         newItem.subBom = [...changeToObjectCollapse(item.itemChildrens)]

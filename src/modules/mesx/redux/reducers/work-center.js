@@ -59,8 +59,12 @@ export default function workCenter(state = initialState, action) {
     case CONFIRM_WORK_CENTER_FAILED:
     case DELETE_WORK_CENTER_FAILED:
     case DELETE_WORK_CENTER_SUCCESS:
-    case UPDATE_WORK_CENTER_FAILED:
     case UPDATE_WORK_CENTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case UPDATE_WORK_CENTER_FAILED:
       return {
         ...state,
         isLoading: false,

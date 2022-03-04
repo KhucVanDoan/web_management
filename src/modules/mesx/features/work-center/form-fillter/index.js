@@ -31,8 +31,8 @@ const FilterForm = () => {
           placeholder={t('workCenter.factoryName')}
           name="factory"
           options={appStore?.factories}
-          getOptionLabel={(option) => t(option?.name)}
-          getOptionValue={(option) => (option?.id || '').toString()}
+          getOptionValue={(opt) => opt?.id.toString()}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
     </Grid>

@@ -117,10 +117,10 @@ const BreakTimeTable = ({
   }, [shifts])
 
   useEffect(() => {
-    const newBreakTimes = breakTimes.map((item) => {
-      const newShifts = shifts.map((shift) => {
-        const currentShift = item.shifts.find(
-          (itemShift) => itemShift.shiftId === shift.id,
+    const newBreakTimes = breakTimes?.map((item) => {
+      const newShifts = shifts?.map((shift) => {
+        const currentShift = item?.shifts?.find(
+          (itemShift) => itemShift?.shiftId === shift?.id,
         )
         if (currentShift) {
           return currentShift
@@ -188,6 +188,7 @@ BreakTimeTable.defaultProps = {
   mode: '',
   arrayHelpers: {},
   breakTimes: [],
+  setFieldValue: () => {},
 }
 
 BreakTimeTable.propTypes = {

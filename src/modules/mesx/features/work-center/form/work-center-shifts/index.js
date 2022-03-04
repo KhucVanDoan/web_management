@@ -86,7 +86,7 @@ const ShiftTable = ({
         },
       },
       {
-        field: 'price',
+        field: 'pricePerHour',
         headerName: t('workCenter.pricePerHour'),
         width: 200,
         align: 'center',
