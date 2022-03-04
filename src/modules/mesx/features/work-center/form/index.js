@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Button, Grid, Tab } from '@mui/material'
@@ -10,15 +10,14 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { MODAL_MODE } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { searchProducingSteps } from '~/modules/mesx/redux/actions/product-step'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import BreakTimeTable from './break-time'
 import { WorkCenterSchema } from './schema'
 import ShiftTable from './work-center-shifts'
-
 const WorkCenterForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
@@ -52,74 +51,91 @@ const WorkCenterForm = () => {
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
     commonManagementActions.getFactories()
-    dispatch(searchProducingSteps({ isGetAll: 1 }))
+    producingStepActions.searchProducingSteps({ isGetAll: 1 })
 
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
-  const initialValues = {
-    code: wcDetails?.code || '',
-    name: wcDetails?.name || '',
-    decription: wcDetails?.decription || '',
-    members: wcDetails?.members?.map((e) => e.id) || [],
-    factoryId: wcDetails?.factoryId || '',
-    leaderId: wcDetails?.leader?.id || '',
-    oeeTarget: wcDetails?.oeeIndex || '',
-    workCapacity: wcDetails?.productivityIndex || '',
-    producingStepId: wcDetails?.producingStep?.id || '',
-    tabValue: '1',
-    shifts: wcDetails?.workCenterShifts?.map((e, index) => ({
-      id: e.id,
-      shiftName: e.name,
-      pricePerHour: e.pricePerHour,
-      priceUnit: e.priceUnit,
-      startAt: e.startAt,
-      endAt: e.endAt,
-      breakTimes: wcDetails?.workCenterShiftRelaxTimes
-        .filter((b) => b.workCenterShiftId === e.id)
-        .map((a, ind) => ({
-          id: ind,
-          name: a.name,
-          from: a.startAt,
-          to: a.endAt,
-        })),
-    })) || [
-      {
-        id: new Date().getTime(),
-        name: null,
-        startAt: null,
-        endAt: null,
-        pricePerHour: '',
-        priceUnit: '',
-        breakTimes: [
-          {
-            id: 0,
-            name: t('workCenter.shiftPreparationTime'),
-            from: null,
-            to: null,
-          },
-        ],
-      },
-    ],
-    breakTimes: Object.values(
-      groupBy(wcDetails?.workCenterShiftRelaxTimes, 'name'),
-    )?.map((item) => {
-      if (item && item.length) {
-        return {
-          id: item.id,
-          breakTimeName: item[0]?.name,
-          shifts: item.map((shift) => ({
-            shiftName: wcDetails?.workCenterShifts.find(
-              (wcShift) => wcShift.id === shift.workCenterShiftId,
-            )?.name,
-            shiftId: shift.workCenterShiftId,
-            from: shift.startAt,
-            to: shift.endAt,
+
+  const initialValues = useMemo(
+    () => ({
+      code: wcDetails?.code || '',
+      name: wcDetails?.name || '',
+      description: wcDetails?.description || '',
+      members: wcDetails?.members?.map((e) => e.id) || [],
+      factoryId: wcDetails?.factoryId || '',
+      leaderId: wcDetails?.leader?.id || '',
+      oeeTarget: wcDetails?.oeeIndex || '',
+      workCapacity: wcDetails?.productivityIndex || '',
+      producingStepId: wcDetails?.producingStep?.id || '',
+      tabValue: '1',
+      shifts: wcDetails?.workCenterShifts?.map((e, index) => ({
+        id: e.id,
+        shiftName: e.name,
+        pricePerHour: e.pricePerHour,
+        priceUnit: e.priceUnit,
+        startAt: e.startAt,
+        endAt: e.endAt,
+        breakTimes: wcDetails?.workCenterShiftRelaxTimes
+          .filter((b) => b.workCenterShiftId === e.id)
+          .map((a, ind) => ({
+            id: ind,
+            name: a.name,
+            from: a.startAt,
+            to: a.endAt,
           })),
-        }
-      }
-      return null
-    }) || [{ id: `breakTimes-${new Date().getTime()}` }],
-  }
+      })) || [
+        {
+          id: new Date().getTime(),
+          shiftName: '',
+          startAt: '06:00',
+          endAt: '23:59',
+          pricePerHour: '',
+          priceUnit: '',
+          breakTimes: [
+            {
+              id: 0,
+              name: t('workCenter.shiftPreparationTime'),
+              from: '',
+              to: '',
+            },
+          ],
+        },
+      ],
+      breakTimes: wcDetails?.workCenterShiftRelaxTimes
+        ? Object.values(
+            groupBy(wcDetails?.workCenterShiftRelaxTimes, 'name'),
+          )?.map((item) => {
+            if (item && item.length) {
+              return {
+                id: item.id,
+                breakTimeName: item[0]?.name,
+                shifts: item.map((shift) => ({
+                  shiftName: wcDetails?.workCenterShifts.find(
+                    (wcShift) => wcShift.id === shift.workCenterShiftId,
+                  )?.name,
+                  shiftId: shift.workCenterShiftId,
+                  from: shift.startAt,
+                  to: shift.endAt,
+                })),
+              }
+            }
+            return null
+          })
+        : [
+            {
+              id: `breakTimes-${new Date().getTime()}`,
+              breakTimeName: t('workCenter.shiftPreparationTime'),
+              shifts: [
+                {
+                  from: '',
+                  to: '',
+                },
+              ],
+            },
+          ],
+    }),
+    [wcDetails],
+  )
 
   const getBreadcrumb = () => {
     const breadcrumb = [
@@ -205,45 +221,55 @@ const WorkCenterForm = () => {
     history.push(ROUTE.WORK_CENTER.LIST.PATH)
   }
 
+  const formatTime = (data = '') => {
+    if (data) {
+      const times = data.split(':')
+      return `${times[0]}:${times[1]}`
+    }
+  }
+
   const onSubmit = (values) => {
-    const param = {
+    const params = {
       code: values.code,
       name: values.name,
       factoryId: values.factoryId,
       leaderId: values.leaderId,
       description: values.description,
-      workingCapacity: Number(values.workCapacity),
-      oeeTarget: Number(values.oeeTarget),
+      performance: 0,
+      workingCapacity: +values.workCapacity,
+      oeeTarget: +values.oeeTarget,
+      cost: 0,
+      preProductionTime: '',
+      postProductionTime: '',
+      workingHours: '',
+      members: values.members?.map((member) => ({ id: member })),
       producingStepId: values.producingStepId,
-      workCenterShifts: values.shifts,
-      members: values.members,
+      workCenterShifts: values?.shifts?.map((shift) => ({
+        startAt: formatTime(shift.startAt),
+        endAt: formatTime(shift.endAt),
+        name: shift.shiftName,
+        pricePerHour: +shift.pricePerHour,
+        priceUnit: shift.priceUnit,
+        relaxTimes: values.breakTimes?.map((breakTime) => {
+          const shiftRelax = breakTime?.shifts?.find(
+            (itemShift) => itemShift.shiftId === shift.id,
+          )
+
+          if (shiftRelax) {
+            return {
+              name: breakTime.breakTimeName,
+              endAt: formatTime(shiftRelax.to),
+              startAt: formatTime(shiftRelax.from),
+            }
+          }
+          return null
+        }),
+      })),
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createWorkCenter(param, () => backToList())
+      actions.createWorkCenter(params, () => backToList())
     } else if (mode === MODAL_MODE.UPDATE) {
-      const {
-        code,
-        name,
-        description,
-        members,
-        leaderId,
-        factoryId,
-        oeeTarget,
-        workCapacity,
-      } = values
-      const paramUpdate = {
-        code,
-        name,
-        description,
-        members,
-        factoryId,
-        oeeTarget: +oeeTarget,
-        leaderId,
-        workCapacity: +workCapacity,
-        workCenterShifts: values?.shifts,
-        id: +id,
-      }
-      actions.updateWorkCenter(paramUpdate, () => backToList())
+      actions.updateWorkCenter({ ...params, id: +id }, () => backToList())
     }
   }
 
@@ -260,162 +286,160 @@ const WorkCenterForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, setFieldValue, handleChange }) => (
-          <Form>
-            <Grid container justifyContent="center">
-              <Grid item xl={11} xs={12}>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="code"
-                      label={t('workCenter.code')}
-                      placeholder={t('workCenter.code')}
-                      disabled={isUpdate}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="name"
-                      label={t('workCenter.name')}
-                      placeholder={t('workCenter.name')}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="members"
-                      label={t('workCenter.member')}
-                      options={userList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.fullName || opt?.username}
-                      multiple
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="factoryId"
-                      label={t('workCenter.factoryName')}
-                      placeholder={t('workCenter.factoryName')}
-                      options={factoryList?.items}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.name}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="leaderId"
-                      label={t('workCenter.leader')}
-                      placeholder={t('workCenter.leader')}
-                      options={userList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.fullName || opt?.username}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="producingStepId"
-                      label={t('workCenter.producingStep')}
-                      placeholder={t('workCenter.producingStep')}
-                      options={producingStep?.list}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.name}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="description"
-                      label={t('workCenter.description')}
-                      placeholder={t('workCenter.description')}
-                      multiline
-                      rows={3}
-                    />
+        {({ resetForm, values, setFieldValue }) => {
+          const leaderOptions =
+            userList?.filter((leader) =>
+              values.members.some((member) => leader.id === member),
+            ) || []
+          return (
+            <Form>
+              <Grid container justifyContent="center">
+                <Grid item xl={11} xs={12}>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="code"
+                        label={t('workCenter.code')}
+                        placeholder={t('workCenter.code')}
+                        disabled={isUpdate}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="name"
+                        label={t('workCenter.name')}
+                        placeholder={t('workCenter.name')}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="members"
+                        label={t('workCenter.member')}
+                        options={userList}
+                        getOptionValue={(opt) => opt?.id}
+                        getOptionLabel={(opt) => opt?.fullName || opt?.username}
+                        multiple
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="factoryId"
+                        label={t('workCenter.factoryName')}
+                        placeholder={t('workCenter.factoryName')}
+                        options={factoryList?.items}
+                        getOptionValue={(opt) => opt?.id}
+                        getOptionLabel={(opt) => opt?.name}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="leaderId"
+                        label={t('workCenter.leader')}
+                        placeholder={t('workCenter.leader')}
+                        options={leaderOptions}
+                        getOptionValue={(opt) => opt?.id}
+                        getOptionLabel={(opt) => opt?.fullName || opt?.username}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="producingStepId"
+                        label={t('workCenter.producingStep')}
+                        placeholder={t('workCenter.producingStep')}
+                        options={producingStepList}
+                        getOptionValue={(opt) => opt?.id}
+                        getOptionLabel={(opt) => opt?.name}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="description"
+                        label={t('workCenter.description')}
+                        placeholder={t('workCenter.description')}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Box sx={{ mt: 3 }}>
-              <TabContext value={values.tabValue}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <TabList
-                    onChange={(_, val) => setFieldValue('tabValue', val)}
-                  >
-                    <Tab label={t('workCenter.detailInfo')} value="1" />
-                    <Tab label={t('workCenter.timeSetup')} value="2" />
-                  </TabList>
-                </Box>
-                <TabPanel value="1">
-                  <Grid
-                    container
-                    columnSpacing={{ xl: 8, xs: 4 }}
-                    rowSpacing={4 / 3}
-                  >
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        label={t('workCenter.oeeGoal')}
-                        placeholder={t('workCenter.oeeGoal')}
-                        name="oeeTarget"
-                      />
-                    </Grid>
+              <Box sx={{ mt: 3 }}>
+                <TabContext value={values.tabValue}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList
+                      onChange={(_, val) => setFieldValue('tabValue', val)}
+                    >
+                      <Tab label={t('workCenter.detailInfo')} value="1" />
+                      <Tab label={t('workCenter.timeSetup')} value="2" />
+                    </TabList>
+                  </Box>
+                  <TabPanel value="1" sx={{ px: 0 }}>
+                    <Grid
+                      container
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                      rowSpacing={4 / 3}
+                    >
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          label={t('workCenter.oeeGoal')}
+                          placeholder={t('workCenter.oeeGoal')}
+                          name="oeeTarget"
+                        />
+                      </Grid>
 
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        label={t('workCenter.workCapacity')}
-                        name="workCapacity"
-                        placeholder={t('workCenter.workCapacity')}
-                      />
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          label={t('workCenter.workCapacity')}
+                          name="workCapacity"
+                          placeholder={t('workCenter.workCapacity')}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </TabPanel>
-                <TabPanel value="2" sx={{ px: 0 }}>
-                  <FieldArray
-                    name="shifts"
-                    render={(arrayHelpers) => (
-                      <ShiftTable
-                        shifts={values.shifts || []}
-                        mode={mode}
-                        arrayHelpers={arrayHelpers}
-                      />
-                    )}
-                  />
-                  <Box sx={{ mt: 3 }}>
+                  </TabPanel>
+                  <TabPanel value="2" sx={{ px: 0 }}>
                     <FieldArray
-                      name="breakTimes"
+                      name="shifts"
                       render={(arrayHelpers) => (
-                        <BreakTimeTable
+                        <ShiftTable
                           shifts={values.shifts || []}
                           mode={mode}
-                          breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
                         />
                       )}
                     />
-                  </Box>
-                </TabPanel>
-              </TabContext>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
-            >
-              {renderActionButtons(resetForm)}
-            </Box>
-          </Form>
-        )}
+                    <Box sx={{ mt: 3 }}>
+                      <FieldArray
+                        name="breakTimes"
+                        render={(arrayHelpers) => (
+                          <BreakTimeTable
+                            shifts={values.shifts || []}
+                            mode={mode}
+                            breakTimes={values.breakTimes || []}
+                            arrayHelpers={arrayHelpers}
+                            setFieldValue={setFieldValue}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </TabPanel>
+                </TabContext>
+              </Box>
+              <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+                {renderActionButtons(resetForm)}
+              </Box>
+            </Form>
+          )
+        }}
       </Formik>
     </Page>
   )

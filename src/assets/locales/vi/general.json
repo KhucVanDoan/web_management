@@ -5,7 +5,6 @@
     "goBack": "Quay lại trang trước",
     "copyright": "Một sản phẩm của VTI - Solution ©2021"
   },
-
   "form": {
     "required": "Mục này bắt buộc phải nhập",
     "mappingPassword": "* Mật khẩu không mapping",
@@ -32,23 +31,20 @@
     "numeric": "Mục này phải là số",
     "invalidTimeRange": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
     "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước",
-    "special": "Mục này không được chứa kí tự đặc biệt"
+    "special": "Mục này không được chứa kí tự đặc biệt",
+    "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca"
   },
-
   "toast": {
     "notificationTitle": "Thông báo"
   },
-
   "autocomplete": {
     "noOptionsText": "Không có dữ liệu",
     "loadingText": "Đang tải dữ liệu..."
   },
-
   "dateRangePicker": {
     "from": "Từ ngày",
     "to": "Đến ngày"
   },
-
   "dataTable": {
     "visibleColumns": "Hiển thị các mục đã chọn",
     "filterTitle": "Tìm kiếm",
@@ -57,12 +53,10 @@
     "title": "Danh sách",
     "noData": "Không có dữ liệu"
   },
-
   "pagination": {
     "rowsPerPage": "Số dòng mỗi trang",
     "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
   },
-
   "date": {
     "minToday": "Không được chọn trước ngày hiện tại"
   },

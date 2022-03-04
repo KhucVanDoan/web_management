@@ -175,29 +175,18 @@ const WorkCenter = () => {
   }
 
   const submitConfirm = () => {
-    actions.confirmWorkCenter(
-      id,
-      () => {
-        setId(null)
-        setIsOpenConfirmModal(false)
-      },
-      () => {
-        setId(null)
-        setIsOpenConfirmModal(false)
-      },
-    )
+    actions.confirmWorkCenter(id, () => {
+      setId(null)
+      setIsOpenConfirmModal(false)
+      refreshData()
+    })
   }
 
   const onSubmitDelete = () => {
-    actions.deleteWorkCenter(
-      id,
-      () => {
-        setIsOpenDeleteModal(false)
-      },
-      () => {
-        setIsOpenDeleteModal(false)
-      },
-    )
+    actions.deleteWorkCenter(id, () => {
+      setIsOpenDeleteModal(false)
+      refreshData()
+    })
   }
 
   const renderHeaderRight = () => {
