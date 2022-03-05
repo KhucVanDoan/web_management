@@ -115,7 +115,7 @@ const DateRangePicker = ({
                     <Icon
                       name="close"
                       size={12}
-                      sx={{ display: 'none', pr: '10px' }}
+                      sx={{ display: 'flex', opacity: 0, pr: '10px' }}
                       onClick={(e) => {
                         e.stopPropagation()
                         onChange([null, null])
