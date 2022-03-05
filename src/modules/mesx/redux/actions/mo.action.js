@@ -37,6 +37,13 @@ export const CHECK_MATERIAL_PLAN_START = 'CHECK_MATERIAL_PLAN_START'
 export const CHECK_MATERIAL_PLAN_SUCCESS = 'CHECK_MATERIAL_PLAN_SUCCESS'
 export const CHECK_MATERIAL_PLAN_FAILED = 'CHECK_MATERIAL_PLAN_FAILED'
 
+export const GET_LIST_MO_PRODUCING_STEP_BY_ID =
+  'GET_LIST_MO_PRODUCING_STEP_BY_ID'
+export const GET_LIST_MO_PRODUCING_STEP_BY_ID_SUCCESS =
+  'GET_LIST_MO_PRODUCING_STEP_BY_ID_SUCCESS'
+export const GET_LIST_MO_PRODUCING_STEP_BY_ID_FAILED =
+  'GET_LIST_MO_PRODUCING_STEP_BY_ID_FAILED'
+
 export const GET_MO_ITEMS_START = 'GET_MO_ITEMS_START'
 export const GET_MO_ITEMS_SUCCESS = 'GET_MO_ITEMS_SUCCESS'
 export const GET_MO_ITEMS_FAILED = 'GET_MO_ITEMS_FAILED'
@@ -44,6 +51,7 @@ export const GET_MO_ITEMS_FAILED = 'GET_MO_ITEMS_FAILED'
 export const GET_PRICE_STRUCTURE_START = 'GET_PRICE_STRUCTURE_START'
 export const GET_PRICE_STRUCTURE_SUCCESS = 'GET_PRICE_STRUCTURE_SUCCESS'
 export const GET_PRICE_STRUCTURE_FAILED = 'GET_PRICE_STRUCTURE_FAILED'
+
 export function searchMO(payload, onSuccess, onError) {
   return {
     type: SEARCH_MO_START,
@@ -374,6 +382,28 @@ export function checkMaterialPlanByIdSuccess(payload) {
 export function checkMaterialPlanByIdFailed() {
   return {
     type: CHECK_MATERIAL_PLAN_FAILED,
+  }
+}
+
+export function getListMoProducingStepById(MOId, onSuccess, onError) {
+  return {
+    type: GET_LIST_MO_PRODUCING_STEP_BY_ID,
+    payload: MOId,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getListMoProducingStepByIdSuccess(payload) {
+  return {
+    type: GET_LIST_MO_PRODUCING_STEP_BY_ID_SUCCESS,
+    payload,
+  }
+}
+
+export function getListMoProducingStepByIdFailed() {
+  return {
+    type: GET_LIST_MO_PRODUCING_STEP_BY_ID_FAILED,
   }
 }
 

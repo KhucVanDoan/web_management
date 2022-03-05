@@ -1,9 +1,9 @@
 export const GET_DATA_PRODUCTIVITY_REPORT_START =
-  'GET_DATA_PRODUCTIVITY_REPORT_START';
+  'GET_DATA_PRODUCTIVITY_REPORT_START'
 export const GET_DATA_PRODUCTIVITY_REPORT_SUCCESS =
-  'GET_DATA_PRODUCTIVITY_REPORT_SUCCESS';
+  'GET_DATA_PRODUCTIVITY_REPORT_SUCCESS'
 export const GET_DATA_PRODUCTIVITY_REPORT_FAILED =
-  'GET_DATA_PRODUCTIVITY_REPORT_FAILED';
+  'GET_DATA_PRODUCTIVITY_REPORT_FAILED'
 
 /**
  * get data
@@ -18,7 +18,7 @@ export function getDataProductivityReport(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -30,7 +30,7 @@ export function getDataProductivityReportSuccess(payload) {
   return {
     type: GET_DATA_PRODUCTIVITY_REPORT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -40,5 +40,11 @@ export function getDataProductivityReportSuccess(payload) {
 export function getDataProductivityReportFailed() {
   return {
     type: GET_DATA_PRODUCTIVITY_REPORT_FAILED,
-  };
+  }
+}
+
+export default {
+  getDataProductivityReport,
+  getDataProductivityReportSuccess,
+  getDataProductivityReportFailed,
 }

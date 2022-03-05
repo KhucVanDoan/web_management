@@ -1345,7 +1345,8 @@
     "availability": "Availability",
     "quality": "Quality",
     "performance": "Performance",
-    "plan": "Kế hoạch"
+    "plan": "Kế hoạch",
+    "export": "Xuất dữ liệu"
   },
   "detailScheduleStatus": {
     "pending": "Chờ xác nhận",
