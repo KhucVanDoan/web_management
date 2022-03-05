@@ -76,6 +76,8 @@ const TableCollapse = (props) => {
   }, [])
 
   useEffect(() => {
+    if (!isRoot) return
+
     const initVisibleColumns =
       (hideSetting ? null : tableSetting) ||
       (rawColumns || []).reduce((acc, cur) => {

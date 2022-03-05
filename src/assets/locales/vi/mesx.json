@@ -931,6 +931,7 @@
       "startDate": "Ngày thực hiện",
       "endDate": "Ngày kết thúc",
       "status": "Trạng thái",
+      "export": "Xuất dữ liệu",
       "banThanhPham": {
         "name": "Tên bán TP",
         "BomCode": "Mã BOM",
