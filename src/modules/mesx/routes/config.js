@@ -423,6 +423,16 @@ export const ROUTE = {
     PATH: '/mesx/material-report',
     TITLE: 'materialReport',
   },
+  PRICE_REPORT: {
+    LIST: {
+      PATH: '/mesx/price-report',
+      TITLE: 'priceReport',
+    },
+    DETAIL: {
+      PATH: '/mesx/price-report/:id/detail',
+      TITLE: 'priceDetail',
+    },
+  },
   PRODUCTIVITY_REPORT: {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',

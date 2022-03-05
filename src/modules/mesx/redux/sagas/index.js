@@ -128,9 +128,12 @@ import watchCreateMO from './mo/create-mo.saga'
 import watchDeleteMO from './mo/delete-mo.saga'
 import watchGetBOMProducingStepStructure from './mo/get-bom-producing-step-structure'
 import watchGetMODetails from './mo/get-mo-details.saga'
+import watchGetMOItems from './mo/get-mo-items.saga'
+import watchGetPriceStructure from './mo/get-price-structure.saga'
 import watchRejectMO from './mo/reject-mo.saga'
 import watchSearchMO from './mo/search-mo.saga'
 import watchUpdateMO from './mo/update-mo.saga'
+import watchGetPriceReport from './price-report/get-price-report.saga'
 import watchConfirmProducingStep from './producing-steps/confirm'
 import watchCreateProducingStep from './producing-steps/create'
 import watchDeleteProducingStep from './producing-steps/delete'
@@ -203,7 +206,6 @@ import watchGetWorkOrderDetails from './work-order/get-work-order-details.saga'
 import watchPrintQRWorkOrder from './work-order/print-qr-work-order'
 import watchSearchWorkOrders from './work-order/search-work-orders.saga'
 import watchUpdateWorkOrder from './work-order/update-work-order.saga'
-
 /**
  * Root saga
  */
@@ -386,6 +388,8 @@ export default function* sagas() {
     watchGetMODetails(),
     watchRejectMO(),
     watchUpdateMO(),
+    watchGetPriceStructure(),
+    watchGetMOItems(),
 
     // sale-order
     watchSearchSaleOrders(),
@@ -409,6 +413,8 @@ export default function* sagas() {
     watchSearchQualityPoints(),
     watchGetQualityPointDetails(),
 
+    //price-report
+    watchGetPriceReport(),
     // factory
     watchSearchFactories(),
     watchCreateFactory(),

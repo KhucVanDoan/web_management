@@ -72,6 +72,8 @@ import WorkOderForm from '~/modules/mesx/features/work-order/form'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
 import detailSchedule from '../features/detail-schedule/detail'
+import PriceReport from '../features/price-report'
+import PriceDetail from '../features/price-report/price-detail'
 import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
@@ -768,6 +770,21 @@ const routes = [
         component: MaterialReport,
         isInSidebar: true,
       },
+      {
+        name: ROUTE.PRICE_REPORT.LIST.TITLE,
+        path: ROUTE.PRICE_REPORT.LIST.PATH,
+        component: PriceReport,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.PRICE_REPORT.DETAIL.TITLE,
+            path: ROUTE.PRICE_REPORT.DETAIL.PATH,
+            component: PriceDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+
       {
         name: ROUTE.PRODUCTIVITY_REPORT.TITLE,
         path: ROUTE.PRODUCTIVITY_REPORT.PATH,
