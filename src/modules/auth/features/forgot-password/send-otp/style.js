@@ -1,57 +1,22 @@
-const useStyles = (theme) => ({
-  rightBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alightItems: 'center',
-  },
-  divRight: {
-    display: 'flex',
-    justifyContent: 'center',
-    // marginTop: theme.spacing(5),
-  },
-  itemRightBox: {
-    display: 'flex',
-    maxWidth: 600,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    margin: 'auto',
-  },
-  boxForgot: {
-    // padding: theme.spacing(3),
-    minWidth: 600,
-    margin: 'auto',
-  },
-  // margin: theme.spacing(1),
-  submitForm: {
-    // padding: theme.spacing(2),
-  },
-  decorImage: {
-    display: 'inherit',
-    width: '100%',
-    height: '100%',
-  },
-  inputText: {
-    fontSize: '18px',
-    letterSpacing: '10px',
-    textAlign: 'center',
-    fontWeight: 'bold',
+const style = (theme) => ({
+  paper: {
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(2.5, 4, 4),
   },
   resendOTP: {
     display: 'flex',
     justifyContent: 'center',
+    marginTop: theme.spacing(2),
   },
-  footerLogin: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  subText: {
-    color: '#666666',
-  },
-  linkResend: {
+  linkOTP: {
     textDecoration: 'none',
-    color: '#0761ad',
+  },
+  inputText: {
+    fontSize: 18,
+    letterSpacing: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 })
 
-export default useStyles
+export default style
