@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import workCenterActions from '../actions/work-center'
 
-const useItemGroup = () => {
+const useWorkCenter = () => {
   const data = useSelector((state) => state.workCenter)
 
   const dispatch = useDispatch()
@@ -20,4 +20,4 @@ const useItemGroup = () => {
   }
 }
 
-export default useItemGroup
+export default useWorkCenter

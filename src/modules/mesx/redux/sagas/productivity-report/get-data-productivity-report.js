@@ -4,7 +4,7 @@ import {
   getDataProductivityReportFailed,
   getDataProductivityReportSuccess,
   GET_DATA_PRODUCTIVITY_REPORT_START,
-} from '~/modules/mesx/redux/actions/productivity-report.action'
+} from '~/modules/mesx/redux/actions/productivity-report'
 import { api } from '~/services/api'
 
 /**

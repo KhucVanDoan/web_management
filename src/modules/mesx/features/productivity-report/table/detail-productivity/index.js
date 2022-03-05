@@ -1,131 +1,69 @@
-import { Component } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import {
-  Box,
-  Card,
-  CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from '@mui/material'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import DataTable from '~/components/DataTable'
 
-import useStyles from './style'
+function ProductivityTable(props) {
+  const { data } = props
+  const { t } = useTranslation(['mesx'])
 
-class ProductivityTable extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
+  const getColumns = () => {
+    const columns = [
+      {
+        field: 'plan',
+        headerName: t('productivityReport.plan'),
+      },
+    ]
+    const dataColumn = data.map((i) => ({
+      field: i.executionDay,
+      headerName: i.executionDay,
+    }))
+    columns.push(...dataColumn)
+    return columns
   }
 
-  componentDidMount() {}
-
-  handleOpenModal = () => this.setState({ isOpenModal: true })
-  onCloseModal = () => this.setState({ isOpenModal: false })
-
-  render() {
-    const { t, classes, data } = this.props
-    return (
-      <>
-        <Box xs={12} lg={12} md={12}>
-          <Card className={classes.card}>
-            <CardContent className={classes.cardContent}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.header}>
-                      {t('productivityReport.plan')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell className={classes.header}>
-                        {i.executionDay}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.planItemExecutionTime')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>{i.planExecutionTime}</TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.actualItemExecutionTime')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>{i.actualExecutionTime}</TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.planProductivity')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>
-                        {i.planProductivity !== undefined
-                          ? i.planProductivity + '%'
-                          : i.planProductivity}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.actualProductivity')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>
-                        {i.actualProductivity !== undefined
-                          ? i.actualProductivity + '%'
-                          : i.actualProductivity}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.cummulativePlanProductivity')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>
-                        {i.cumulativePlanProductivity !== undefined
-                          ? i.cumulativePlanProductivity + '%'
-                          : i.cumulativePlanProductivity}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell variant="head" className={classes.textBold}>
-                      {t('productivityReport.cummulativeActualProductivity')}
-                    </TableCell>
-                    {data?.map((i) => (
-                      <TableCell>
-                        {i.cumulativeActualProductivity !== undefined
-                          ? i.cumulativeActualProductivity + '%'
-                          : i.cumulativeActualProductivity}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </Box>
-      </>
-    )
+  const getRows = () => {
+    const rows = [
+      {
+        plan: t('productivityReport.planItemExecutionTime'),
+      },
+      {
+        plan: t('productivityReport.actualItemExecutionTime'),
+      },
+      {
+        plan: t('productivityReport.planProductivity'),
+      },
+      {
+        plan: t('productivityReport.actualProductivity'),
+      },
+      {
+        plan: t('productivityReport.cummulativePlanProductivity'),
+      },
+      {
+        plan: t('productivityReport.cummulativeActualProductivity'),
+      },
+    ]
+    data.map((i) => {
+      rows[0][i.executionDay] = i.planExecutionTime
+      rows[1][i.executionDay] = i.actualExecutionTime
+      rows[2][i.executionDay] = i.planProductivity
+      rows[3][i.executionDay] = i.actualProductivity
+      rows[4][i.executionDay] = i.cumulativePlanProductivity
+      rows[5][i.executionDay] = i.cumulativeActualProductivity
+      return rows
+    })
+    return rows
   }
+
+  return (
+    <>
+      <DataTable
+        rows={getRows()}
+        columns={getColumns()}
+        hideSetting
+        hideFooter
+      />
+    </>
+  )
 }
 
-const mapStateToProps = (state) => ({})
-
-const mapDispatchToProps = {}
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(ProductivityTable)),
-)
+export default ProductivityTable

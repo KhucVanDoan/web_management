@@ -127,6 +127,7 @@ import watchConfirmMO from './mo/confirm-mo.saga'
 import watchCreateMO from './mo/create-mo.saga'
 import watchDeleteMO from './mo/delete-mo.saga'
 import watchGetBOMProducingStepStructure from './mo/get-bom-producing-step-structure'
+import watchGetListMoProducingStepById from './mo/get-list-mo-producing-step-by-id'
 import watchGetMODetails from './mo/get-mo-details.saga'
 import watchGetMOItems from './mo/get-mo-items.saga'
 import watchGetPriceStructure from './mo/get-price-structure.saga'
@@ -141,7 +142,7 @@ import watchGetProducingStepsByRoutingVersion from './producing-steps/get-by-rou
 import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
-import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report.saga'
+import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
@@ -388,6 +389,7 @@ export default function* sagas() {
     watchGetMODetails(),
     watchRejectMO(),
     watchUpdateMO(),
+    watchGetListMoProducingStepById(),
     watchGetPriceStructure(),
     watchGetMOItems(),
 
