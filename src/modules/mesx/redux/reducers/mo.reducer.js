@@ -26,6 +26,12 @@ import {
   CHECK_MATERIAL_PLAN_START,
   CHECK_MATERIAL_PLAN_SUCCESS,
   CHECK_MATERIAL_PLAN_FAILED,
+  GET_MO_ITEMS_START,
+  GET_MO_ITEMS_SUCCESS,
+  GET_MO_ITEMS_FAILED,
+  GET_PRICE_STRUCTURE_START,
+  GET_PRICE_STRUCTURE_SUCCESS,
+  GET_PRICE_STRUCTURE_FAILED,
 } from '~/modules/mesx/redux/actions/mo.action'
 
 const initialState = {
@@ -47,6 +53,7 @@ export default function Mo(state = initialState, action) {
     case CONFIRM_MO_START:
     case REJECT_MO_START:
     case GET_BOM_PRODUCING_STEP_STRUCTURE_START:
+    case GET_PRICE_STRUCTURE_START:
       return {
         ...state,
         isLoading: true,
@@ -76,6 +83,8 @@ export default function Mo(state = initialState, action) {
     case REJECT_MO_FAILED:
     case REJECT_MO_SUCCESS:
     case CREATE_MO_FAILED:
+    case GET_PRICE_STRUCTURE_FAILED:
+    case GET_MO_ITEMS_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -118,6 +127,20 @@ export default function Mo(state = initialState, action) {
       return {
         ...state,
         materialCheck: {},
+        isLoading: false,
+      }
+    case GET_MO_ITEMS_START:
+    case GET_MO_ITEMS_SUCCESS:
+      return {
+        ...state,
+        moItems: action.payload,
+        isLoading: false,
+      }
+
+    case GET_PRICE_STRUCTURE_SUCCESS:
+      return {
+        ...state,
+        PriceStructure: action.payload,
         isLoading: false,
       }
     default:

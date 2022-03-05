@@ -18,6 +18,7 @@ import materialDetailPlan from './material-detail-plan.reducer'
 import Mo from './mo.reducer'
 import planReport from './plan-report'
 import definePlan from './plan.reducer'
+import PriceReport from './price-report'
 import producingStep from './product-step'
 import productivityReport from './productivity-report.reducer'
 import qualityReport from './quality-report'
@@ -30,7 +31,6 @@ import userManagement from './user-management'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
 import workOrder from './work-order'
-
 const reducers = {
   userManagement,
   commonManagement,
@@ -64,6 +64,7 @@ const reducers = {
   productivityReport,
   bomProducingStep,
   calendar,
+  PriceReport,
 }
 
 export default reducers

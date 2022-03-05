@@ -135,7 +135,6 @@ const WorkCenter = () => {
                   <Icon name="edit" />
                 </IconButton>
               )}
-
               {canDelete && (
                 <IconButton onClick={() => onClickDelete(id)}>
                   <Icon name="delete" />
