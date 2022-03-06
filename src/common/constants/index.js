@@ -176,26 +176,32 @@ export const ORDER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'orderStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'orderStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'orderStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'orderStatus.rejected',
+    color: 'rejected',
   },
 ]
 
@@ -225,18 +231,22 @@ export const TRANSFER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'warehouseTransfer.transferStatus.created',
+    color: 'created',
   },
   {
     id: 1,
     text: 'warehouseTransfer.transferStatus.pending',
+    color: 'pending',
   },
   {
     id: 2,
     text: 'warehouseTransfer.transferStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'warehouseTransfer.transferStatus.rejected',
+    color: 'rejected',
   },
 ]
 
@@ -249,11 +259,11 @@ export const INVENTORY_STATUS_MAP = {
 }
 
 export const INVENTORY_STATUS_OPTIONS = [
-  { id: 1, name: 'inventoryStatus.pending' },
-  { id: 2, name: 'inventoryStatus.confirmed' },
-  { id: 3, name: 'inventoryStatus.reject' },
-  { id: 5, name: 'inventoryStatus.inProgress' },
-  { id: 4, name: 'inventoryStatus.complete' },
+  { id: 1, name: 'inventoryStatus.pending', color: 'pending' },
+  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
+  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
+  { id: 5, name: 'inventoryStatus.inProgress', color: 'inprogress' },
+  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const WORK_ORDER_STATUS = {
   REJECTED: 2,
@@ -271,11 +281,11 @@ export const WORK_ORDER_STATUS_MAP = {
 }
 
 export const WORK_ORDER_STATUS_OPTIONS = [
-  { id: 0, name: 'workOrder.pending' },
-  { id: 1, name: 'workOrder.confirmed' },
-  { id: 3, name: 'workOrder.inProgress' },
-  { id: 2, name: 'workOrder.inPlam' },
-  { id: 4, name: 'workOrder.complete' },
+  { id: 0, name: 'workOrder.pending', color: 'pending' },
+  { id: 1, name: 'workOrder.confirmed', color: 'confirmed' },
+  { id: 3, name: 'workOrder.inProgress', color: 'inprogress' },
+  { id: 2, name: 'workOrder.rejected', color: 'rejected' },
+  { id: 4, name: 'workOrder.complete', color: 'completed' },
 ]
 export const MOVEMENT_TYPE = {
   PO_IMPORT: 0,
@@ -437,26 +447,32 @@ export const BOM_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'bomStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'bomStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'bomStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'bomStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'bomStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'bomStatus.rejected',
+    color: 'rejected',
   },
 ]
 export const ROUTING_STATUS = {
@@ -473,10 +489,12 @@ export const ROUTING_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
 ]
 
@@ -494,10 +512,12 @@ export const ROUTING_VERSION_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
 ]
 export const QUALITY_REPORT_SCREEN_TYPE = {
@@ -532,22 +552,27 @@ export const BOQ_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'boqStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'boqStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'boqStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'boqStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'boqStatus.inProgress',
+    color: 'inprogress',
   },
 ]
 
@@ -576,22 +601,27 @@ export const PLAN_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'planStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 1,
     text: 'planStatus.created',
+    color: 'created',
   },
   {
     id: 2,
     text: 'planStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 3,
     text: 'planStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 4,
     text: 'planStatus.completed',
+    color: 'completed',
   },
 ]
 export const PLAN_STATUS_TO_DELETE = [PLAN_STATUS.CREATED, PLAN_STATUS.REJECTED]
@@ -693,26 +723,32 @@ export const PRODUCING_STEP_OPTIONS = [
   {
     id: 0,
     text: 'producingStepStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'producingStepStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'producingStepStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 3,
     text: 'producingStepStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 4,
     text: 'producingStepStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'producingStepStatus.approved',
+    color: 'approved',
   },
 ]
 export const PRODUCING_STEP_STATUS_TO_CONFIRM = [
@@ -760,22 +796,27 @@ export const MO_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'moStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'moStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'moStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 3,
     text: 'moStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 4,
     text: 'moStatus.completed',
+    color: 'completed',
   },
 ]
 export const MO_STATUS_TO_DELETE = [MO_STATUS.PENDING, MO_STATUS.REJECTED]
@@ -797,10 +838,12 @@ export const SALE_ORDER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
 ]
 
@@ -833,22 +876,27 @@ export const DETAIL_SCHEDULE_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'detailScheduleStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'detailScheduleStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'detailScheduleStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'detailScheduleStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'detailScheduleStatus.inProgress',
+    color: 'inprogress',
   },
 ]
 export const DETAIL_SCHEDULE_STATUS_TO_DELETE = [
@@ -885,26 +933,32 @@ export const BOM_PRODUCING_STEP_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'bomProducingStepStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'bomProducingStepStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'bomProducingStepStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'bomProducingStepStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'bomProducingStepStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'bomProducingStepStatus.rejected',
+    color: 'rejected',
   },
 ]
 export const BOM_PRODUCING_STEP_STATUS_TO_DELETE = [
@@ -940,22 +994,27 @@ export const WORK_CENTER_PLAN_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'workCenterPlanStatus.created',
+    color: 'created',
   },
   {
     id: 1,
     text: 'workCenterPlanStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'workCenterPlanStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'workCenterPlanStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'workCenterPlanStatus.inProgress',
+    color: 'inprogress',
   },
 ]
 export const WORK_CENTER_PLAN_STATUS_TO_DELETE = [
@@ -1000,26 +1059,32 @@ export const WORK_CENTER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'workCenterStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'workCenterStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'workCenterStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'workCenterStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'workCenterStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'workCenterStatus.rejected',
+    color: 'rejected',
   },
 ]
 
