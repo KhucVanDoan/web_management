@@ -13,11 +13,12 @@ import { connect } from 'react-redux'
 import { getMovementsDetailsById } from 'stores/movements/movements.action'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { DATE_FORMAT } from '~/common/constants'
 import {
-  DATE_FORMAT,
   MOVEMENT_ORDER_TYPE_MAP_TEXT,
   MOVEMENT_TYPE_MAP_TEXT,
-} from '~/common/constants'
+} from '~/modules/mesx/constants'
+
 import DataTable from '~/components/DataTable'
 import { formatDateTimeUtc } from '~/utils'
 

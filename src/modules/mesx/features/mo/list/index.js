@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from 'react'
 
-import {
-  Delete,
-  Edit,
-  Visibility,
-  CheckBox,
-} from '@mui/icons-material'
+import { Delete, Edit, Visibility, CheckBox } from '@mui/icons-material'
 import { Button, IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { DATE_FORMAT_2 } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import Page from '~/components/Page'
 import {
-  DATE_FORMAT_2,
   MO_STATUS_MAP,
   MO_STATUS_OPTIONS,
   MO_STATUS_TO_CONFIRM,
   MO_STATUS_TO_EDIT,
   MO_STATUS_TO_DELETE,
   MO_STATUS_PLAN,
-} from '~/common/constants'
-import DataTable from '~/components/DataTable'
-import Page from '~/components/Page'
+} from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -29,10 +24,10 @@ import {
   redirectRouter,
   formatDateTimeUtc,
   convertFilterParams,
-  convertSortParams
+  convertSortParams,
 } from '~/utils'
 
-import FilterForm from './filter-form';
+import FilterForm from './filter-form'
 
 const breadcrumbs = [
   {
@@ -44,7 +39,7 @@ const breadcrumbs = [
   },
 ]
 
-const Mo = (props) => {
+const Mo = () => {
   const { t } = useTranslation(['mesx'])
   const [id, setId] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
@@ -56,11 +51,11 @@ const Mo = (props) => {
   const [sort, setSort] = useState(null)
   const {
     data: { isLoading, moList, total },
-    actions
+    actions,
   } = useMo()
   const {
     data: { planList },
-    actions: planActions
+    actions: planActions,
   } = useDefinePlan()
 
   const columns = [
@@ -147,9 +142,7 @@ const Mo = (props) => {
         const canConfirm = MO_STATUS_TO_CONFIRM.includes(status)
         const canDelete = MO_STATUS_TO_DELETE.includes(status)
         const hasPlan = MO_STATUS_PLAN.includes(status)
-        const moHasPlan = planList
-          .filter((i) => i.moId === id)
-          .map((m) => m.id)
+        const moHasPlan = planList.filter((i) => i.moId === id).map((m) => m.id)
         const goDetail = hasPlan && moHasPlan.length === 1
         const goList = hasPlan && moHasPlan.length > 1
         return (

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 import React, { Component } from 'react'
 
 import { Button, Divider, FormHelperText, Grid, MenuItem } from '@mui/material'
@@ -10,28 +10,22 @@ import { withStyles } from '@mui/styles'
 import clsx from 'clsx'
 import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
-import isEqual from 'date-fns/isEqual'
-import { assign, isEmpty } from 'lodash'
 import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 
 import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
 import Modal from '~/UNSAFE_components/shared/modal'
 import {
-  NOTIFICATION_TYPE,
   MODAL_MODE,
-  PLAN_STATUS,
-  PLAN_STATUS_MAP,
   TEXTFIELD_REQUIRED_LENGTH,
   DATE_FORMAT_2,
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
 import TableCollapse from '~/components/TableCollapse'
-import producingSteps from '~/modules/mesx/features/producing-steps'
+import { PLAN_STATUS, PLAN_STATUS_MAP } from '~/modules/mesx/constants'
 import { getUsers } from '~/modules/mesx/redux/actions/common'
 import {
   searchMO,
@@ -48,11 +42,9 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   onChangeDate,
   onChangeTextField,
-  onChangeSelect,
   redirectRouter,
   formatDateTimeUtc,
 } from '~/utils'
-import addNotification from '~/utils/toast'
 
 import useStyles from './style'
 

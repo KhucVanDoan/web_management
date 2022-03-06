@@ -6,10 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 import GanttChart from '~/UNSAFE_components/shared/gantt-chart'
-import { MODERATION_TYPE_OPTIONS, MODERATION_TYPE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import {
+  MODERATION_TYPE_OPTIONS,
+  MODERATION_TYPE,
+} from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { redirectRouter } from '~/utils'
@@ -32,14 +35,14 @@ const breadcrumbs = [
   },
 ]
 
-const AutoModeration = (props) => {
+const AutoModeration = () => {
   const { t } = useTranslation(['mesx'])
   const [tasks, setTasks] = useState([])
   const [selectedProducingStep, setSelectedProducingStep] = useState([])
   const { id } = useParams()
   const {
     data: { masterPlanDetails, isLoading },
-    actions: masterPlanActions
+    actions: masterPlanActions,
   } = useDefineMasterPlan()
 
   useEffect(() => {
@@ -53,45 +56,53 @@ const AutoModeration = (props) => {
   }, [masterPlanDetails])
 
   const getTasks = (data) => {
-    return data?.map(saleOrder => {
-      const itemSchedules = getTasksInSaleOrder(saleOrder.itemSchedules, saleOrder.saleOrderId)
-      const saleOrderSchedule = {
-        text: saleOrder.saleOrderName,
-        id: saleOrder.saleOrderId,
-        end_date: saleOrder.dateTo,
-        start_date: saleOrder.dateFrom,
-        progress: 0,
-        isOverQuantity: saleOrder.isOverQuantity
-      }
-      return [saleOrderSchedule, ...itemSchedules]
-    }).flat()
+    return data
+      ?.map((saleOrder) => {
+        const itemSchedules = getTasksInSaleOrder(
+          saleOrder.itemSchedules,
+          saleOrder.saleOrderId,
+        )
+        const saleOrderSchedule = {
+          text: saleOrder.saleOrderName,
+          id: saleOrder.saleOrderId,
+          end_date: saleOrder.dateTo,
+          start_date: saleOrder.dateFrom,
+          progress: 0,
+          isOverQuantity: saleOrder.isOverQuantity,
+        }
+        return [saleOrderSchedule, ...itemSchedules]
+      })
+      .flat()
   }
-  
+
   const getTasksInSaleOrder = (items, saleOrderId) => {
-    return items?.map(item => {
-      const itemSchedule = {
-        text: item.itemName,
-        id: item.itemId,
-        end_date: item.dateTo,
-        start_date: item.dateFrom,
-        progress: 0,
-        parent: saleOrderId,
-        isOverQuantity: item.isOverQuantity
-      }
-      const producingSteps = item.producingSteps?.map(step => ({
-        text: step.producingStepName,
-        id: step.id,
-        end_date: step.dateTo,
-        start_date: step.dateFrom,
-        progress: 0,
-        parent: item.itemId,
-        type: 'producingStep',
-        isOverQuantity: step.isOverQuantity
-      })) || []
-      const subBom = getTasksInSaleOrder(item.subBom, item.itemId) || []
-  
-      return [itemSchedule, ...producingSteps, ...subBom]
-    }).flat()
+    return items
+      ?.map((item) => {
+        const itemSchedule = {
+          text: item.itemName,
+          id: item.itemId,
+          end_date: item.dateTo,
+          start_date: item.dateFrom,
+          progress: 0,
+          parent: saleOrderId,
+          isOverQuantity: item.isOverQuantity,
+        }
+        const producingSteps =
+          item.producingSteps?.map((step) => ({
+            text: step.producingStepName,
+            id: step.id,
+            end_date: step.dateTo,
+            start_date: step.dateFrom,
+            progress: 0,
+            parent: item.itemId,
+            type: 'producingStep',
+            isOverQuantity: step.isOverQuantity,
+          })) || []
+        const subBom = getTasksInSaleOrder(item.subBom, item.itemId) || []
+
+        return [itemSchedule, ...producingSteps, ...subBom]
+      })
+      .flat()
   }
 
   const goToModerationType = (values) => {
@@ -121,7 +132,9 @@ const AutoModeration = (props) => {
     if (checked) {
       setSelectedProducingStep([...selectedProducingStep, id])
     } else {
-      setSelectedProducingStep(selectedProducingStep.filter(producingStep => producingStep !== id))
+      setSelectedProducingStep(
+        selectedProducingStep.filter((producingStep) => producingStep !== id),
+      )
     }
   }
 
@@ -138,13 +151,15 @@ const AutoModeration = (props) => {
               sx={{
                 display: 'flex',
                 justifyContent: 'flex-end',
-                gap: '10px'
+                gap: '10px',
               }}
             >
               <Field.Autocomplete
                 style={{ width: 200 }}
                 name="moderationType"
-                placeholder={t('defineMasterPlan.autoModeration.selectModerationType')}
+                placeholder={t(
+                  'defineMasterPlan.autoModeration.selectModerationType',
+                )}
                 options={MODERATION_TYPE_OPTIONS.map((status) => ({
                   value: status.id.toString(),
                   label: t(status.text),
@@ -167,21 +182,23 @@ const AutoModeration = (props) => {
         source: item.id,
         target: item.parent,
         type: 1,
-      }));
-    return links;
+      }))
+    return links
   }
 
   const extendDeadline = async () => {
     if (selectedProducingStep?.length) {
       await Promise.all(
-        selectedProducingStep.map(producingStep => (
-          masterPlanActions.extendDeadline({ itemProducingStepId: Number(producingStep) })
-        ))
+        selectedProducingStep.map((producingStep) =>
+          masterPlanActions.extendDeadline({
+            itemProducingStepId: Number(producingStep),
+          }),
+        ),
       )
       masterPlanActions.getMasterPlanDetailsById(id)
     }
   }
-  
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -192,19 +209,20 @@ const AutoModeration = (props) => {
     >
       <Grid container>
         <Grid item xs={12}>
-          {tasks?.length && (<GanttChart
-            config={{
-              columns: [
-                {
-                  name: 'text',
-                  label: t('defineMasterPlan.autoModeration.saleOrder'),
-                  tree: true,
-                  width: '*',
-                  min_width: 200,
-                  template: (task) => {
-                    if (task.type === 'producingStep') {
-                      const checked = !!task.checked ? " checked" : "";
-                      return `
+          {tasks?.length && (
+            <GanttChart
+              config={{
+                columns: [
+                  {
+                    name: 'text',
+                    label: t('defineMasterPlan.autoModeration.saleOrder'),
+                    tree: true,
+                    width: '*',
+                    min_width: 200,
+                    template: (task) => {
+                      if (task.type === 'producingStep') {
+                        const checked = !!task.checked ? ' checked' : ''
+                        return `
                         <input
                           class="gantt-checkbox-column"
                           type="checkbox"
@@ -213,20 +231,21 @@ const AutoModeration = (props) => {
                           value="${task.id}"
                           ${checked}
                         /> ${task.text}`
-                    }
-                    return task.text
-                  }
-                },
-              ],
-              grid_resize: true,
-              drag_progress: false,
-            }}
-            tasks={{
-              data: tasks,
-              links: linkRelateList(tasks),
-            }}
-            onTaskSelected={handleSelectProducingStep}
-          />)}
+                      }
+                      return task.text
+                    },
+                  },
+                ],
+                grid_resize: true,
+                drag_progress: false,
+              }}
+              tasks={{
+                data: tasks,
+                links: linkRelateList(tasks),
+              }}
+              onTaskSelected={handleSelectProducingStep}
+            />
+          )}
         </Grid>
         <Grid item xs={12}>
           <Box

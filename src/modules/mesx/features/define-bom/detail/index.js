@@ -3,16 +3,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Grid, IconButton, Tab, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { BOM_STATUS_MAP, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import TextField from '~/components/TextField'
+import { BOM_STATUS_MAP } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -48,7 +50,6 @@ function detailBOM() {
   }
 
   const history = useHistory()
-  const { status = -1 } = BOMDetails
   const breadcrumbs = [
     {
       title: 'producingInfo',
@@ -98,7 +99,7 @@ function detailBOM() {
         headerName: t('defineBOM.item.unitType'),
         width: 150,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (params) => {
           const itemId = params.row?.itemId
           return <>{getItemObject(itemId)?.itemUnit?.name}</>
         },
@@ -109,7 +110,7 @@ function detailBOM() {
         width: 150,
         sortable: false,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (params) => {
           const itemId = params.row?.itemId
           return <>{getItemObject(itemId)?.itemType?.name}</>
         },
@@ -158,17 +159,20 @@ function detailBOM() {
                 <LV
                   label={t('defineBOM.bomName')}
                   value={BOMDetails?.name}
-                  mt={2}
+                  mt={4 / 3}
                 />
                 <LV
                   label={t('defineBOM.routingCode')}
                   value={BOMDetails?.routingId}
-                  mt={2}
+                  mt={4 / 3}
                 />
                 <LV
                   label={t('defineBOM.status')}
-                  value={status >= 0 && t(BOM_STATUS_MAP[status])}
-                  mt={2}
+                  value={
+                    !isNil(BOMDetails?.status) &&
+                    t(BOM_STATUS_MAP[BOMDetails?.status])
+                  }
+                  mt={4 / 3}
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
@@ -179,12 +183,12 @@ function detailBOM() {
                 <LV
                   label={t('defineBOM.item.name')}
                   value={BOMDetails?.item?.name}
-                  mt={2}
+                  mt={4 / 3}
                 />
                 <LV
                   label={t('defineBOM.item.quantity')}
                   value={BOMDetails?.item?.remainingQuantity}
-                  mt={2}
+                  mt={4 / 3}
                 />
               </Grid>
               <Grid item xs={12}>

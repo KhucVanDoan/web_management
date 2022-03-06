@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { BOQ_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'

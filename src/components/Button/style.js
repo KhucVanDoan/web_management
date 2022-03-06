@@ -1,4 +1,4 @@
-const style = (theme) => ({
+const style = () => ({
   disabled: {
     opacity: 0.3,
     pointerEvents: 'none',

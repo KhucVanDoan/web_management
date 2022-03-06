@@ -9,13 +9,16 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { PRODUCING_STEP_OPTIONS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -64,6 +67,19 @@ const ProducingStepDetail = () => {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+              {!isNil(details?.status) && (
+                <Grid item xs={12}>
+                  <LV
+                    label={t('producingStep.status')}
+                    value={
+                      <Status
+                        options={PRODUCING_STEP_OPTIONS}
+                        value={details?.status}
+                      />
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item lg={6} xs={12}>
                 <LV label={t('producingStep.code')} value={details?.code} />
               </Grid>

@@ -22,6 +22,8 @@ export const CREATE_FACTORY_CALENDAR_FAILED = 'CREATE_FACTORY_CALENDAR_FAILED'
 export const getListFactoryCalendar = (payload, onSuccess, onError) => ({
   type: GET_LIST_FACTORY_CALENDAR,
   payload,
+  onSuccess,
+  onError,
 })
 
 export const getListFactoryCalendarSuccess = (payload, onSuccess, onError) => ({

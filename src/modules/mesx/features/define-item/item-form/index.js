@@ -180,7 +180,7 @@ function DefineItemForm() {
     setIsLocation(!isLocation)
   }
 
-  const onToggleIsDetailed = (checked) => {
+  const onToggleIsDetailed = () => {
     setIsDetailed(!isDetailed)
   }
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { Typography, Box } from '@mui/material'
 import { PropTypes } from 'prop-types'
 
-const TextField = ({ label, value, children, sx, ...props }) => {
+const LabelValue = ({ label, value, children, sx, ...props }) => {
   return (
     <Box
       sx={{
@@ -34,18 +34,18 @@ const TextField = ({ label, value, children, sx, ...props }) => {
   )
 }
 
-TextField.defaultProps = {
+LabelValue.defaultProps = {
   label: null,
   value: null,
   children: null,
   sx: {},
 }
 
-TextField.propTypes = {
+LabelValue.propTypes = {
   label: PropTypes.node,
   value: PropTypes.node,
   children: PropTypes.node,
   sx: PropTypes.shape(),
 }
 
-export default TextField
+export default LabelValue

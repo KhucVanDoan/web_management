@@ -213,6 +213,7 @@ const Autocomplete = ({
           }
         : {})}
       PaperComponent={PaperComponent}
+      // eslint-disable-next-line no-unused-vars
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
           {...params}

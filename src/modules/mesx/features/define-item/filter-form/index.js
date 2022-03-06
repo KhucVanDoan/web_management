@@ -16,6 +16,7 @@ const FilterForm = () => {
   } = useDefineItem()
 
   const itemTypeList = []
+  // @TODO: <anh.nth> Don't disable, refactor this code please.
   // eslint-disable-next-line array-callback-return
   itemList.map((item) => {
     if (!itemTypeList.includes(item.itemType.name))
@@ -23,6 +24,7 @@ const FilterForm = () => {
   })
 
   const itemGroupList = []
+  // @TODO: <anh.nth> Don't disable, refactor this code please.
   // eslint-disable-next-line array-callback-return
   itemList.map((item) => {
     if (!itemGroupList.includes(item.itemGroup.name))

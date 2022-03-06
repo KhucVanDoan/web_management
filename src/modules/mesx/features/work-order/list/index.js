@@ -1,18 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import CheckBox from '@mui/icons-material/CheckBox'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  QR_CODE_TYPE,
-  DATE_FORMAT_2,
-  WORK_ORDER_STATUS,
-  WORK_ORDER_STATUS_MAP,
-} from '~/common/constants'
+import { QR_CODE_TYPE, DATE_FORMAT_2 } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -20,6 +14,10 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import {
+  WORK_ORDER_STATUS,
+  WORK_ORDER_STATUS_MAP,
+} from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -296,15 +294,6 @@ const WorkOrder = () => {
   ])
 
   const refreshData = () => {
-    const sortData = sort
-      ? [
-          {
-            column: sort?.orderBy,
-            order: sort?.order?.toUpperCase(),
-          },
-        ]
-      : []
-
     const params = {
       keyword: keyword.trim(),
       page,

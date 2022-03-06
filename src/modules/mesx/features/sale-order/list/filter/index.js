@@ -3,8 +3,8 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { ORDER_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])

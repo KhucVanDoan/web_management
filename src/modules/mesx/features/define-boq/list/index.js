@@ -5,20 +5,20 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
+import { DATE_FORMAT_2 } from '~/common/constants'
+import Button from '~/components/Button'
+import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
   BOQ_STATUS_OPTIONS,
   BOQ_STATUS_TO_EDIT,
   BOQ_STATUS_TO_CONFIRM,
   BOQ_STATUS_TO_DELETE,
   BOQ_STATUS_PLAN,
-  DATE_FORMAT_2,
-} from '~/common/constants'
-import Button from '~/components/Button'
-import ColorStatus from '~/components/ColorStatus'
-import DataTable from '~/components/DataTable'
-import Dialog from '~/components/Dialog'
-import Icon from '~/components/Icon'
-import Page from '~/components/Page'
+} from '~/modules/mesx/constants'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -41,7 +41,7 @@ const breadcrumbs = [
   },
 ]
 
-const DefineBOQ = (props) => {
+const DefineBOQ = () => {
   const {
     data: { isLoading, boqList, total },
     actions: boqActions,
@@ -123,7 +123,13 @@ const DefineBOQ = (props) => {
 
         renderCell: (params) => {
           const { status } = params.row
-          return <ColorStatus value={status} options={BOQ_STATUS_OPTIONS} />
+          return (
+            <Status
+              options={BOQ_STATUS_OPTIONS}
+              value={status}
+              variant="text"
+            />
+          )
         },
       },
       {

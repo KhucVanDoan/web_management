@@ -6,10 +6,10 @@ import { Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MO_STATUS } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { MO_STATUS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { useMo } from '../../redux/hooks/useMo'

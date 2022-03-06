@@ -6,11 +6,7 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import {
-  // DEFAULT_ITEM_TYPE_ENUM,
-  MODAL_MODE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-} from '~/common/constants'
+import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -22,7 +18,7 @@ import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
-  const params = useParams()
+  const { id } = useParams()
   const history = useHistory()
 
   const { actions: routingActions } = useRouting()
@@ -31,13 +27,14 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
     actions: producingStepActions,
   } = useProducingStep()
 
-  useEffect((id) => {
-    if (mode === MODAL_MODE.UPDATE) {
-      const id = params?.id
-      routingActions.getRoutingDetailsById(id)
+  useEffect(() => {
+    if (id) {
+      if (mode === MODAL_MODE.UPDATE) {
+        routingActions.getRoutingDetailsById(id)
+      }
+      producingStepActions.getProducingSteps()
     }
-    producingStepActions.getProducingSteps()
-  }, [])
+  }, [id])
 
   const isView = mode === MODAL_MODE.DETAIL
 

@@ -5,15 +5,15 @@ import { Box } from '@mui/system'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import {
-  DETAIL_SCHEDULE_STATUS,
-  DETAIL_SCHEDULE_STATUS_MAP,
-  MODAL_MODE,
-} from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import {
+  DETAIL_SCHEDULE_STATUS,
+  DETAIL_SCHEDULE_STATUS_MAP,
+} from '~/modules/mesx/constants'
 import { useDetailSchedule } from '~/modules/mesx/redux/hooks/useDetailSchedule'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'

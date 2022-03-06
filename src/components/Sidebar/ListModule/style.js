@@ -1,7 +1,7 @@
 import { ListItemButton } from '@mui/material'
 import { styled } from '@mui/system'
 
-const ListModuleStyled = styled(ListItemButton)((themes) => {
+const ListModuleStyled = styled(ListItemButton)(() => {
   return {
     display: 'flex',
     flexDirection: 'column',

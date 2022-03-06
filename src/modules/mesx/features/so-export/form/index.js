@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 import React, { Component } from 'react'
 
 import {
@@ -20,15 +20,17 @@ import SimpleReactValidator from 'simple-react-validator'
 import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
-  ORDER_STATUS,
-  ORDER_STATUS_MAP,
-  ORDER_TYPE,
-  SALE_ORDER_STATUS,
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_MAP,
+  ORDER_TYPE,
+  SALE_ORDER_STATUS,
+} from '~/modules/mesx/constants'
 import ItemsSettingTable from '~/modules/mesx/features/so-export/form/items-setting-table'
 import {
   getItems,

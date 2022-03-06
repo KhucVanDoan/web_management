@@ -4,13 +4,13 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { WORK_CENTER_STATUS_MAP } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import {
+  WORK_CENTER_STATUS_MAP,
   WORK_CENTER_STATUS_TO_CONFIRM,
   WORK_CENTER_STATUS_TO_DELETE,
   WORK_CENTER_STATUS_TO_EDIT,

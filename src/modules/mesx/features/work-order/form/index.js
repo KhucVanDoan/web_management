@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import { withStyles } from '@mui/styles'
 import clsx from 'clsx'
-import { isAfter, isBefore, isSameDay } from 'date-fns'
+import { isBefore, isSameDay } from 'date-fns'
 import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -20,14 +20,13 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
 import Modal from '~/UNSAFE_components/shared/modal'
-import {
-  MODAL_MODE,
-  WORK_ORDER_STATUS,
-  WORK_ORDER_STATUS_MAP,
-  DATE_FORMAT,
-} from '~/common/constants'
+import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
+import {
+  WORK_ORDER_STATUS,
+  WORK_ORDER_STATUS_MAP,
+} from '~/modules/mesx/constants'
 import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
 import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center'
 import {
@@ -46,8 +45,6 @@ import {
 } from '~/utils'
 
 import useStyles from './style'
-
-// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 
 const MODAL_CONFIRM_TYPE = {
   APPROVE: 'APPROVE',
@@ -138,7 +135,6 @@ class WorkOrderForm extends Component {
         producingStep,
         sumQuantity,
         routing,
-        routingVersionId,
       } = createParams?.woParams
       this.onFillBoqPlan(id)
       if (rootItemId !== itemId) {
@@ -685,7 +681,6 @@ class WorkOrderForm extends Component {
       confirmMessage,
       modalAction,
       soName,
-      members,
       itemName,
       factoryName,
       bomName,
@@ -695,7 +690,6 @@ class WorkOrderForm extends Component {
     } = this.state
     const { t, classes, workOrder, workCenter } = this.props
     const isView = mode === MODAL_MODE.DETAIL
-    const isUpdate = mode === MODAL_MODE.UPDATE
     return (
       <Box>
         <Loading open={workOrder?.isLoading} />

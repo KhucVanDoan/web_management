@@ -31,7 +31,6 @@ instance.interceptors.request.use(
   function (config) {
     if (config.url !== REFRESH_TOKEN_URL && localStorage.getItem('token')) {
       config.headers['Authorization'] = localStorage.getItem('token')
-      // eslint-disable-next-line no-param-reassign
       config.headers['x-auth-token'] = localStorage.getItem('token')
     }
     return config
@@ -86,7 +85,7 @@ instance.interceptors.response.use(
             startLogout()
           }
         })
-        .catch((err) => {
+        .catch(() => {
           startLogout()
         })
     } else if (response.status === 401) {

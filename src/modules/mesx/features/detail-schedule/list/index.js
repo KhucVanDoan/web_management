@@ -5,17 +5,17 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
+import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import Page from '~/components/Page'
 import {
   DETAIL_SCHEDULE_STATUS_TO_EDIT,
   DETAIL_SCHEDULE_STATUS_TO_CONFIRM,
   DETAIL_SCHEDULE_STATUS_OPTIONS,
   DETAIL_SCHEDULE_STATUS_MAP,
   DETAIL_SCHEDULE_STATUS,
-} from '~/common/constants'
-import DataTable from '~/components/DataTable'
-import Dialog from '~/components/Dialog'
-import Icon from '~/components/Icon'
-import Page from '~/components/Page'
+} from '~/modules/mesx/constants'
 import { useDetailSchedule } from '~/modules/mesx/redux/hooks/useDetailSchedule'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'

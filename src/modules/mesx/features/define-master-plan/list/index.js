@@ -5,18 +5,18 @@ import CheckBox from '@mui/icons-material/CheckBox'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 
+import { DATE_FORMAT_2 } from '~/common/constants'
+import Button from '~/components/Button'
+import Page from '~/components/Page'
+import TableCollapse from '~/components/TableCollapse'
 import {
-  DATE_FORMAT_2,
   PLAN_STATUS_MAP,
   PLAN_STATUS_OPTIONS,
   PLAN_STATUS_TO_EDIT,
   PLAN_STATUS_TO_CONFIRM,
   PLAN_STATUS_TO_DELETE,
   PLAN_STATUS,
-} from '~/common/constants'
-import Button from '~/components/Button'
-import Page from '~/components/Page'
-import TableCollapse from '~/components/TableCollapse'
+} from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -47,7 +47,7 @@ const DEFAULT_FILTERS = {
   createdAt: null,
 }
 
-const DefineMasterPlan = (props) => {
+const DefineMasterPlan = () => {
   const { t } = useTranslation(['mesx'])
   const [bomTree, setBomTree] = useState([])
   const [pageSize, setPageSize] = useState(20)
@@ -142,7 +142,7 @@ const DefineMasterPlan = (props) => {
         width: 150,
         filterable: true,
         paddingRight: 20,
-        renderCell: (params) => {
+        renderCell: () => {
           return (
             <Button
               variant="text"
@@ -395,7 +395,7 @@ const DefineMasterPlan = (props) => {
   /**
    * Refresh data
    */
-  const refreshData = (keyword = '') => {
+  const refreshData = () => {
     const params = {
       page,
       limit: pageSize,

@@ -68,7 +68,7 @@ const WorkCenterForm = () => {
       workCapacity: wcDetails?.productivityIndex || '',
       producingStepId: wcDetails?.producingStep?.id || '',
       tabValue: '1',
-      shifts: wcDetails?.workCenterShifts?.map((e, index) => ({
+      shifts: wcDetails?.workCenterShifts?.map((e) => ({
         id: e.id,
         shiftName: e.name,
         pricePerHour: e.pricePerHour,

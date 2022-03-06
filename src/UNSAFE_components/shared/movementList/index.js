@@ -8,6 +8,8 @@ import SimpleReactValidator from 'simple-react-validator'
 
 import DateRangePicker from '~/UNSAFE_components/shared/date-range-picker'
 import MovementDetailsForm from '~/UNSAFE_components/shared/movement/movement-details-form'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   ROUTING_STATUS_MAP,
   MOVEMENT_STATUS,
@@ -15,9 +17,7 @@ import {
   MOVEMENT_TYPE,
   ORDER_TYPE_ENUM,
   ROUTING_STATUS_OPTIONS,
-} from '~/common/constants'
-import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
+} from '~/modules/mesx/constants'
 import { onChangeDate, onChangeSelect, formatDateTimeUtc } from '~/utils'
 
 const { Component } = require('react')

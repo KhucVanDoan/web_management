@@ -1,27 +1,29 @@
-/* eslint-disable import/order */
 import React, { useState, useEffect } from 'react'
 
+// eslint-disable-next-line import/order
 import FullCalendar from '@fullcalendar/react' // must go before plugins
+import vi from '@fullcalendar/core/locales/vi'
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
-import Button from '~/components/Button'
-import { useTranslation } from 'react-i18next'
-import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
-import { startOfMonth, endOfMonth, formatISO } from 'date-fns'
-import Page from '~/components/Page'
-import vi from '@fullcalendar/core/locales/vi'
-import Dialog from '~/components/Dialog'
-import { useHistory } from 'react-router-dom'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { Grid } from '@mui/material'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import Box from '@mui/material/Box'
+import { startOfMonth, endOfMonth, formatISO } from 'date-fns'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
+
+import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
+import Page from '~/components/Page'
 import { EVENT_TYPE_OPTIONS } from '~/modules/mesx/constants'
-import { modalSchema } from './modalSchema'
+import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
-import style from './style'
 import { formatDateTimeUtc } from '~/utils'
+
+import { modalSchema } from './modalSchema'
+import style from './style'
 
 const PlanCalendar = () => {
   const { t } = useTranslation(['mesx'])

@@ -45,9 +45,9 @@ import useStyles from './style'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
-const MAX_DATE_OF_BIRTHDAY = new Date().setFullYear(
-  new Date().getFullYear() - 18,
-)
+// const MAX_DATE_OF_BIRTHDAY = new Date().setFullYear(
+//   new Date().getFullYear() - 18,
+// )
 class UserForm extends Component {
   /**
    *
@@ -94,7 +94,7 @@ class UserForm extends Component {
    * @param {*} prevProps
    * @param {*} prevState
    */
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // on user id change
     if (
       prevProps.id !== this.props.id &&
@@ -352,7 +352,7 @@ class UserForm extends Component {
     const {
       code,
       username,
-      dateOfBirth,
+      // dateOfBirth,
       password,
       confirmPassword,
       showPassword,
@@ -362,7 +362,7 @@ class UserForm extends Component {
       phone,
       companyId,
       factoryIds,
-      userRoleId,
+      // userRoleId,
       departmentIds,
       createdAt,
       updatedAt,
@@ -979,7 +979,7 @@ class UserForm extends Component {
                         return option?.id === value?.id
                       }}
                       getOptionLabel={(option) => option?.name}
-                      renderOption={(option, { selected }) => (
+                      renderOption={(option) => (
                         <React.Fragment>{option.name}</React.Fragment>
                       )}
                       renderInput={(params) => (

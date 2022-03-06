@@ -86,7 +86,7 @@ function RequestBuyMaterialDetail() {
       headerName: t('requestBuyMaterial.item.type'),
       width: 180,
       align: 'center',
-      renderCell: (params, index) => {
+      renderCell: (params) => {
         const { id } = params.row
         return <>{getItemObject(id)?.itemType?.name || ''}</>
       },
@@ -102,7 +102,7 @@ function RequestBuyMaterialDetail() {
       headerName: t('requestBuyMaterial.item.unitType'),
       width: 180,
       align: 'center',
-      renderCell: (params, index) => {
+      renderCell: (params) => {
         const { id } = params.row
         return <>{getItemObject(id)?.itemUnit?.name || ''}</>
       },

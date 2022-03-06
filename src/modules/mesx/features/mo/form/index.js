@@ -41,11 +41,11 @@ const MOForm = () => {
 
   const {
     data: { masterPlanList },
-    actions: masterPlanActions
+    actions: masterPlanActions,
   } = useDefineMasterPlan()
   const {
     data: { isLoading },
-    actions
+    actions,
   } = useMo()
 
   useEffect(() => {
@@ -86,10 +86,7 @@ const MOForm = () => {
       case MODAL_MODE.DETAIL:
         return (
           <>
-            <Button
-              variant="contained"
-              color="primary"
-            >
+            <Button variant="contained" color="primary">
               {t('Mo.materialRequest')}
             </Button>
             <Button variant="contained" onClick={backToList}>
@@ -150,7 +147,9 @@ const MOForm = () => {
   }
 
   const handleChangePlan = (value) => {
-    const saleOrdersOfPlan = masterPlanList.find(masterPlan => masterPlan.id === value)?.saleOrderSchedules || []
+    const saleOrdersOfPlan =
+      masterPlanList.find((masterPlan) => masterPlan.id === value)
+        ?.saleOrderSchedules || []
     setSaleOrders([...saleOrdersOfPlan])
   }
 
@@ -180,7 +179,7 @@ const MOForm = () => {
             validationSchema={validationSchema(t)}
             onSubmit={handleSubmit}
           >
-            {({ resetForm, values, setFieldValue }) => (
+            {({ resetForm, setFieldValue }) => (
               <Form>
                 <Grid
                   container
@@ -255,7 +254,9 @@ const MOForm = () => {
                   <ItemsSettingTable
                     saleOrders={saleOrders}
                     isSubmitForm={isSubmitForm}
-                    updateSelectedItems={(itemIds) => setFieldValue('itemIds', itemIds)}
+                    updateSelectedItems={(itemIds) =>
+                      setFieldValue('itemIds', itemIds)
+                    }
                   >
                     {t('Mo.itemDetails')}
                   </ItemsSettingTable>

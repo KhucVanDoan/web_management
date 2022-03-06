@@ -7,18 +7,6 @@ import {
 } from '~/modules/mesx/redux/actions/material-detail-plan.action'
 import { api } from '~/services/api'
 
-const res = {
-  statusCode: 200,
-  data: {
-    items: [
-      {
-        id: 1,
-        name: 'test',
-      },
-    ],
-  },
-}
-
 /**
  * Search material detail plan
  * @param {any} params Params will be sent to server

@@ -10,13 +10,7 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { scrollToBottom } from '~/utils'
 
-const ShiftTable = ({
-  mode,
-  shifts,
-  setShifts,
-  isSubmitForm,
-  arrayHelpers,
-}) => {
+const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
 
   const getColumns = () => {
@@ -126,7 +120,7 @@ const ShiftTable = ({
         width: 50,
         align: 'center',
         hide: mode === MODAL_MODE.DETAIL,
-        renderCell: (params, index) => {
+        renderCell: (params) => {
           const idx = shifts.findIndex((shift) => shift.id === params.row.id)
           const hide = mode === MODAL_MODE.DETAIL
           return hide ? null : (
