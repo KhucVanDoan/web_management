@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable  */
 
 import React from 'react'
 
@@ -19,13 +19,9 @@ import clsx from 'clsx'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 
-import {
-  MODAL_MODE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-  ORDER_STATUS,
-  STAGES_OPTION,
-} from '~/common/constants'
+import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
+import { ORDER_STATUS, STAGES_OPTION } from '~/modules/mesx/constants'
 import {
   getItems,
   getWarehouses,

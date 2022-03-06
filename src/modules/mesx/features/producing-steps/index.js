@@ -4,18 +4,19 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  PRODUCING_STEP_STATUS_MAP,
-  PRODUCING_STEP_STATUS_TO_CONFIRM,
-  PRODUCING_STEP_STATUS_TO_EDIT,
-  PRODUCING_STEP_STATUS_TO_DELETE,
-  ROWS_PER_PAGE_OPTIONS,
-} from '~/common/constants'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import {
+  PRODUCING_STEP_STATUS_TO_CONFIRM,
+  PRODUCING_STEP_STATUS_TO_EDIT,
+  PRODUCING_STEP_STATUS_TO_DELETE,
+  PRODUCING_STEP_OPTIONS,
+} from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -110,11 +111,17 @@ function ProducingStep() {
     {
       field: 'status',
       headerName: t('producingStep.status'),
-      width: 100,
+      width: 150,
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(PRODUCING_STEP_STATUS_MAP[status])
+        return (
+          <Status
+            options={PRODUCING_STEP_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {

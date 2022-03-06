@@ -12,27 +12,26 @@ import { connect } from 'react-redux'
 
 import Modal from '~/UNSAFE_components/shared/modal'
 import { MODAL_MODE } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'
 import {
   searchInventoryLimits,
   deleteInventoryLimit,
 } from '~/modules/mesx/redux/actions/inventory-limit.action'
-import { formatDateTimeUtc, onChangeTextField } from '~/utils'
+import { onChangeTextField } from '~/utils'
 
 import ItemGroupForm from './inventory-limit-form'
 import useStyles from './style'
 
-const breadcrumbs = [
-  {
-    title: 'setting',
-  },
-  {
-    route: '/inventory-limit',
-    title: 'inventoryLimit',
-  },
-]
+// const breadcrumbs = [
+//   {
+//     title: 'setting',
+//   },
+//   {
+//     route: '/inventory-limit',
+//     title: 'inventoryLimit',
+//   },
+// ]
 class InventoryLimit extends Component {
   constructor(props) {
     super(props)
@@ -360,12 +359,9 @@ const mapDispatchToProps = {
   deleteInventoryLimit,
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(InventoryLimit)),
-  ),
-  breadcrumbs,
+export default withTranslation()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(withStyles(useStyles)(InventoryLimit)),
 )

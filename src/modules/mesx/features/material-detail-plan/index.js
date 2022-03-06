@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { Component } from 'react'
 
 import Search from '@mui/icons-material/Search'
@@ -21,8 +22,7 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
-import { MO_STATUS } from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
+import { MO_STATUS } from '~/modules/mesx/constants'
 import { getItems } from '~/modules/mesx/redux/actions/common'
 import { searchMaterialDetailPlan } from '~/modules/mesx/redux/actions/material-detail-plan.action'
 import {
@@ -31,19 +31,19 @@ import {
 } from '~/modules/mesx/redux/actions/mo.action'
 import { getProducingStepDetailsById } from '~/modules/mesx/redux/actions/product-step'
 import { getWorkCenterDetailsById } from '~/modules/mesx/redux/actions/work-center'
-import { ROUTE } from '~/modules/mesx/routes/config'
+// import { ROUTE } from '~/modules/mesx/routes/config'
 
 import useStyles from './style'
 
-const breadcrumbs = [
-  {
-    title: 'plan',
-  },
-  {
-    route: ROUTE.MATERIAL_DETAIL_PLAN.PATH,
-    title: ROUTE.MATERIAL_DETAIL_PLAN.TITLE,
-  },
-]
+// const breadcrumbs = [
+//   {
+//     title: 'plan',
+//   },
+//   {
+//     route: ROUTE.MATERIAL_DETAIL_PLAN.PATH,
+//     title: ROUTE.MATERIAL_DETAIL_PLAN.TITLE,
+//   },
+// ]
 
 class MaterialDetailPlan extends Component {
   constructor(props) {
@@ -165,7 +165,7 @@ class MaterialDetailPlan extends Component {
         workCenterId,
       }
 
-      this.props.searchMaterialDetailPlan(params, (res) => {
+      this.props.searchMaterialDetailPlan(params, () => {
         const { materialReport, manufacturingOrderPlan } = this.props.mdpDetails
 
         const executionDay = manufacturingOrderPlan.map((i) =>
@@ -689,12 +689,9 @@ const mapDispatchToProps = {
   getItems,
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(MaterialDetailPlan)),
-  ),
-  breadcrumbs,
+export default withTranslation()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(withStyles(useStyles)(MaterialDetailPlan)),
 )

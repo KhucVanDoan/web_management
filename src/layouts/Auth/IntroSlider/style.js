@@ -1,4 +1,4 @@
-const style = (theme) => ({
+const style = () => ({
   sliderItem: {
     display: 'flex',
     justifyContent: 'center',

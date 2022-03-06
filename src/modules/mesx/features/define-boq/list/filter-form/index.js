@@ -3,8 +3,8 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { BOQ_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
@@ -44,10 +44,9 @@ const FilterForm = () => {
           name="status"
           label={t('defineBOQ.status')}
           placeholder={t('defineBOQ.status')}
-          options={BOQ_STATUS_OPTIONS.map((boq) => ({
-            value: boq.id.toString(),
-            label: t(boq.text),
-          }))}
+          options={BOQ_STATUS_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
     </Grid>

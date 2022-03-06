@@ -2,15 +2,17 @@ import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { BOQ_STATUS, MODAL_MODE, BOQ_STATUS_OPTIONS } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
-import ColorStatus from '~/components/ColorStatus'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { BOQ_STATUS, BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -41,8 +43,6 @@ const BOQDetail = () => {
     actions,
   } = useDefineBOQ()
 
-  const { status = -1 } = boqDetails
-
   useEffect(() => {
     actions.getBOQDetailsById(id)
     return () => {
@@ -55,7 +55,7 @@ const BOQDetail = () => {
   }
 
   const renderActionButtons = () => {
-    switch (status) {
+    switch (boqDetails?.status) {
       case BOQ_STATUS.PENDING:
         return (
           <>
@@ -110,15 +110,14 @@ const BOQDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {status >= 0 && (
+            {!isNil(boqDetails?.status) && (
               <Grid item xs={12}>
                 <LV
                   label={t('defineBOQ.status')}
                   value={
-                    <ColorStatus
-                      isContain
+                    <Status
                       options={BOQ_STATUS_OPTIONS}
-                      value={status}
+                      value={boqDetails?.status}
                     />
                   }
                 />

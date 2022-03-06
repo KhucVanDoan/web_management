@@ -11,12 +11,11 @@ import { withRouter } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  MODAL_MODE,
   ROUTING_VERSION_STATUS,
   ROUTING_VERSION_STATUS_MAP,
-  NOTIFICATION_TYPE,
-} from '~/common/constants'
+} from '~/modules/mesx/constants'
 import {
   createRoutingVersion,
   updateRoutingVersion,
@@ -70,7 +69,7 @@ class RoutingVersionForm extends Component {
    * @param {*} prevProps
    * @param {*} prevState
    */
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     //routing-version-change
     if (
       prevProps.id !== this.props.id &&

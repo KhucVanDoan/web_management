@@ -26,7 +26,7 @@ const breadcrumbs = [
   },
 ]
 
-const PriceDetail = ({ data }) => {
+const PriceDetail = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()

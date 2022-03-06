@@ -21,7 +21,7 @@ const closedMixin = (theme) => ({
   width: 75,
 })
 
-export const DrawerHeader = styled('div')(({ theme }) => ({
+export const DrawerHeader = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',

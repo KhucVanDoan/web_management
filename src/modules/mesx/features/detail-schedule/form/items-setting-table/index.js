@@ -26,7 +26,7 @@ const ItemSettingTable = ({ mode, plans, woQuantity }) => {
         width: 100,
         sortable: false,
         align: 'center',
-        renderCell: (params) => {
+        renderCell: () => {
           return woQuantity
         },
       },

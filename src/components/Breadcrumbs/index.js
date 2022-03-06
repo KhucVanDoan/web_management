@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { Breadcrumbs as MuiBreadcrumbs, Typography } from '@mui/material'
 import { PropTypes } from 'prop-types'
@@ -77,35 +77,4 @@ Breadcrumbs.defaultProps = {
 
 Breadcrumbs.propTypes = {
   breadcrumbs: PropTypes.array.isRequired,
-}
-
-/**
- *
- * @param {*} WrappedComponent
- * @param {*} breadcrumbs
- * @returns
- */
-export default function withBreadcrumbs(WrappedComponent, breadcrumbs = []) {
-  // eslint-disable-next-line react/display-name
-  return class extends Component {
-    /**
-     * @param {any} props
-     */
-    constructor(props) {
-      super(props)
-      this.state = {
-        breadcrumbs: breadcrumbs,
-      }
-    }
-
-    render() {
-      const { breadcrumbs } = this.state
-      return (
-        <>
-          <Breadcrumbs breadcrumbs={breadcrumbs} />
-          <WrappedComponent />
-        </>
-      )
-    }
-  }
 }

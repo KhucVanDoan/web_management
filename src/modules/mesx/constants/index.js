@@ -312,27 +312,6 @@ export const WEIGHT_UNITS_MAP = {
   3: 'tấn',
 }
 
-export const CODE_SETTINGS = {
-  ITEM: {
-    DOMAIN: 'ITEM',
-    PREFIX: '02',
-    MAX_LENGTH: 7,
-    FILLED_CHARACTER: '0',
-  },
-  BLOCK: {
-    DOMAIN: 'BLOCK',
-    PREFIX: '03',
-    MAX_LENGTH: 12,
-    FILLED_CHARACTER: '0',
-  },
-  PACKAGE: {
-    DOMAIN: 'PACKAGE',
-    PREFIX: '04',
-    MAX_LENGTH: 12,
-    FILLED_CHARACTER: '0',
-  },
-}
-
 export const WAREHOUSE_TRANSFERS_TYPE = [
   {
     id: 0,
@@ -342,22 +321,6 @@ export const WAREHOUSE_TRANSFERS_TYPE = [
     id: 1,
     name: 'warehouseTransfer.2step',
   },
-]
-export const QR_CODE_TYPE = {
-  ITEM: '02',
-  BLOCK: '03',
-  PACKAGE: '04',
-}
-
-export const PIE_CHART_COLORS = [
-  '#0088FE',
-  '#003f5c',
-  '#bc5090',
-  '#ff6361',
-  '#58508d',
-  '#00C49F',
-  '#FFBB28',
-  '#FF8042',
 ]
 
 export const BOM_STATUS = {
@@ -475,22 +438,27 @@ export const BOQ_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'boqStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'boqStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'boqStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'boqStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'boqStatus.inProgress',
+    color: 'inProgress',
   },
 ]
 export const BOQ_STATUS_TO_DELETE = [BOQ_STATUS.PENDING, BOQ_STATUS.REJECTED]
@@ -610,26 +578,32 @@ export const PRODUCING_STEP_OPTIONS = [
   {
     id: 0,
     text: 'producingStepStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'producingStepStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'producingStepStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 3,
     text: 'producingStepStatus.inProgress',
+    color: 'inProgress',
   },
   {
     id: 4,
     text: 'producingStepStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'producingStepStatus.approved',
+    color: 'approved',
   },
 ]
 export const PRODUCING_STEP_STATUS_TO_CONFIRM = [
@@ -954,4 +928,52 @@ export const WORK_CENTER_STATUS_TO_DELETE = [
 export const EVENT_TYPE_OPTIONS = [
   { id: 0, name: 'planCalendar.holiday' },
   { id: 1, name: 'planCalendar.workingDay' },
+]
+
+export const MODERATION_TYPE = {
+  EXTEND_DEADLINE: 1,
+  SPREAD_EVENLY: 2,
+  INPUT_MODERATION: 3,
+}
+
+export const MODERATION_TYPE_OPTIONS = [
+  {
+    id: MODERATION_TYPE.EXTEND_DEADLINE,
+    text: 'defineMasterPlan.autoModeration.extendDeadline',
+  },
+  {
+    id: MODERATION_TYPE.SPREAD_EVENLY,
+    text: 'defineMasterPlan.autoModeration.spreadProductEvenly',
+  },
+  {
+    id: MODERATION_TYPE.INPUT_MODERATION,
+    text: 'defineMasterPlan.autoModeration.customProduct',
+  },
+]
+
+export const USER_MANAGEMENT_STATUS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+  DELETED: 2,
+}
+
+export const USER_MANAGEMENT_STATUS_MAP = {
+  [USER_MANAGEMENT_STATUS.INACTIVE]: 'userStatus.inactive',
+  [USER_MANAGEMENT_STATUS.ACTIVE]: 'userStatus.active',
+  [USER_MANAGEMENT_STATUS.DELETED]: 'userStatus.deleted',
+}
+
+export const USER_MANAGEMENT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'userStatus.inactive',
+  },
+  {
+    id: 1,
+    text: 'userStatus.active',
+  },
+  {
+    id: 2,
+    text: 'userStatus.deleted',
+  },
 ]

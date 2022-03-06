@@ -4,18 +4,18 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  BOM_STATUS_MAP,
-  BOM_STATUS_TO_EDIT,
-  BOM_STATUS_TO_CONFIRM,
-  BOM_STATUS_TO_DELETE,
-  ROWS_PER_PAGE_OPTIONS,
-} from '~/common/constants'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import {
+  BOM_STATUS_MAP,
+  BOM_STATUS_TO_EDIT,
+  BOM_STATUS_TO_CONFIRM,
+  BOM_STATUS_TO_DELETE,
+} from '~/modules/mesx/constants'
 import { filterSchema } from '~/modules/mesx/features/define-bom/list/filter/schema'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { ROUTE } from '~/modules/mesx/routes/config'

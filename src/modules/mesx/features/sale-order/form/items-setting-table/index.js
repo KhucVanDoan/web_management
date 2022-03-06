@@ -6,16 +6,12 @@ import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import {
-  BOM_STATUS,
-  DEFAULT_ITEM_TYPE_ENUM,
-  MODAL_MODE,
-  NUMBER_FIELD_REQUIRED_SIZE,
-} from '~/common/constants'
+import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { BOM_STATUS, DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 

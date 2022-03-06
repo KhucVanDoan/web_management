@@ -6,10 +6,10 @@ import { groupBy, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import { MODERATION_TYPE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { MODERATION_TYPE } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { redirectRouter } from '~/utils'
@@ -36,11 +36,15 @@ const breadcrumbs = [
   },
 ]
 
-const excludeInputInColumns = ['workCenterId', 'workCenterName', 'totalQuantity']
+const excludeInputInColumns = [
+  'workCenterId',
+  'workCenterName',
+  'totalQuantity',
+]
 
 let initialValues = {}
 
-const InputModeration = (props) => {
+const InputModeration = () => {
   const { t } = useTranslation(['mesx'])
   const location = useLocation()
   const params = new URLSearchParams(location.search)
@@ -55,11 +59,13 @@ const InputModeration = (props) => {
     const producingStepIds = params?.get('producingStep')
     const moderationType = params?.get('moderationType')
     if (Number(moderationType) === MODERATION_TYPE.SPREAD_EVENLY) {
-      actions.getModerationSuggestSpread({ itemProducingStepIds: producingStepIds })
+      actions.getModerationSuggestSpread({
+        itemProducingStepIds: producingStepIds,
+      })
     } else if (Number(moderationType) === MODERATION_TYPE.INPUT_MODERATION) {
       actions.getProducingStepDetail({ itemProducingStepIds: producingStepIds })
     }
-      
+
     return () => {
       actions.resetModerationSuggestSpread()
     }
@@ -67,60 +73,73 @@ const InputModeration = (props) => {
 
   useEffect(() => {
     if (moderationSuggestSpread?.length) {
-      const data = moderationSuggestSpread?.map(producingStep => ({
-        [producingStep.id.toString()]: {
-          producingStepName: producingStep.producingStepName,
-          itemId: producingStep.itemId,
-          workCenterSchedule: groupWorkCenterSchedule(producingStep.workCenterSchedules, producingStep.quantity)
-        }
-      }))
-      .reduce((prev, cur) => ({ ...prev, ...cur }), {})
+      const data = moderationSuggestSpread
+        ?.map((producingStep) => ({
+          [producingStep.id.toString()]: {
+            producingStepName: producingStep.producingStepName,
+            itemId: producingStep.itemId,
+            workCenterSchedule: groupWorkCenterSchedule(
+              producingStep.workCenterSchedules,
+              producingStep.quantity,
+            ),
+          },
+        }))
+        .reduce((prev, cur) => ({ ...prev, ...cur }), {})
       setTableData(data)
     }
   }, [moderationSuggestSpread])
 
   const groupWorkCenterSchedule = (workCenterSchedules, totalQuantity) => {
     const groupWorkCenter = groupBy(
-      workCenterSchedules.map(workCenterSchedule => ({
+      workCenterSchedules.map((workCenterSchedule) => ({
         workCenterId: workCenterSchedule.workCenterId,
         workCenterName: workCenterSchedule.workCenterName,
         [workCenterSchedule.excutionDate]: {
           id: workCenterSchedule.id,
           quantity: workCenterSchedule.quantity,
-        }
+        },
       })),
-      'workCenterId'
+      'workCenterId',
     )
 
-    return Object.keys(groupWorkCenter).map(key => ({
+    return Object.keys(groupWorkCenter).map((key) => ({
       ...groupWorkCenter[key].reduce((prev, cur) => ({ ...prev, ...cur }), {}),
-      totalQuantity
+      totalQuantity,
     }))
   }
 
   useEffect(() => {
     let tableDataColumns = {}
-    Object.keys(tableData).forEach(producingStepId => {
+    Object.keys(tableData).forEach((producingStepId) => {
       const workCenterSchedule = tableData[producingStepId]?.workCenterSchedule
       if (workCenterSchedule?.length) {
-        const currentProducingStepInitialValues = workCenterSchedule.map(workCenter => (
-          Object.keys(workCenter)
-            .filter(key => !excludeInputInColumns.includes(key))
-            .map(key => ({
-              [`${producingStepId}_${workCenter[key]?.id}_${key}`]: workCenter[key]?.quantity
-            }))
-            .reduce((prev, cur) => ({ ...prev, ...cur }), {})
-        )).reduce((prev, cur) => ({ ...prev, ...cur }), {})
-  
+        const currentProducingStepInitialValues = workCenterSchedule
+          .map((workCenter) =>
+            Object.keys(workCenter)
+              .filter((key) => !excludeInputInColumns.includes(key))
+              .map((key) => ({
+                [`${producingStepId}_${workCenter[key]?.id}_${key}`]:
+                  workCenter[key]?.quantity,
+              }))
+              .reduce((prev, cur) => ({ ...prev, ...cur }), {}),
+          )
+          .reduce((prev, cur) => ({ ...prev, ...cur }), {})
+
         initialValues = {
           ...initialValues,
           ...currentProducingStepInitialValues,
         }
 
-        const executionDates = uniq(workCenterSchedule.map(schedule => (
-          Object.keys(schedule).filter(key => !excludeInputInColumns.includes(key))
-        )).flat()).sort()
-        
+        const executionDates = uniq(
+          workCenterSchedule
+            .map((schedule) =>
+              Object.keys(schedule).filter(
+                (key) => !excludeInputInColumns.includes(key),
+              ),
+            )
+            .flat(),
+        ).sort()
+
         tableDataColumns = {
           ...tableDataColumns,
           [producingStepId]: [
@@ -131,7 +150,7 @@ const InputModeration = (props) => {
               align: 'left',
               sortable: false,
             },
-            ...executionDates.map(date => ({
+            ...executionDates.map((date) => ({
               field: date,
               headerName: date,
               width: 150,
@@ -153,7 +172,7 @@ const InputModeration = (props) => {
               align: 'center',
               sortable: false,
             },
-          ]
+          ],
         }
       }
     })
@@ -161,24 +180,27 @@ const InputModeration = (props) => {
   }, [tableData])
 
   const backToAutoModeration = () => {
-    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', params?.get('masterPlanId')))
+    redirectRouter(
+      ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(
+        ':id',
+        params?.get('masterPlanId'),
+      ),
+    )
   }
 
   const handleSubmit = async (values) => {
     const payload = {
       soId: moderationSuggestSpread[0]?.saleOrderId,
-      items: Object.keys(tableData).map(producingStepId => ({
+      items: Object.keys(tableData).map((producingStepId) => ({
         itemId: tableData[producingStepId]?.itemId,
         workCenterDetailSchedules: Object.keys(values)
-          .filter(key => (
-            key.split('_')[0] === producingStepId
-          ))
-          .map(key => ({
+          .filter((key) => key.split('_')[0] === producingStepId)
+          .map((key) => ({
             id: Number(key.split('_')[1]),
-            quantity: Number(values[key])
-          }))
+            quantity: Number(values[key]),
+          })),
       })),
-      modeType: 3
+      modeType: 3,
     }
     await actions.submitModerationInput(payload)
   }
@@ -195,21 +217,22 @@ const InputModeration = (props) => {
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ resetForm, values, setFieldValue }) => (
+        {({ resetForm }) => (
           <Form>
-            {Object.keys(tableData).map(producingStepId => (
-              columns[producingStepId]?.length && (
-                <div key={producingStepId}>
-                  <h4>{tableData[producingStepId].producingStepName}</h4>
-                  <DataTable
-                    rows={tableData[producingStepId].workCenterSchedule}
-                    columns={columns[producingStepId]}
-                    hideSetting={true}
-                    hideFooter={true}
-                  />
-                </div>
-              )
-            ))}
+            {Object.keys(tableData).map(
+              (producingStepId) =>
+                columns[producingStepId]?.length && (
+                  <div key={producingStepId}>
+                    <h4>{tableData[producingStepId].producingStepName}</h4>
+                    <DataTable
+                      rows={tableData[producingStepId].workCenterSchedule}
+                      columns={columns[producingStepId]}
+                      hideSetting={true}
+                      hideFooter={true}
+                    />
+                  </div>
+                ),
+            )}
             <Box
               sx={{
                 display: 'flex',
@@ -235,4 +258,4 @@ const InputModeration = (props) => {
   )
 }
 
-export default InputModeration;
+export default InputModeration

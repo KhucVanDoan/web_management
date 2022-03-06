@@ -20,15 +20,14 @@ import { Link } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
 import {
-  MODAL_MODE,
   ORDER_STATUS,
   ORDER_STATUS_MAP,
   ORDER_STATUS_OPTIONS,
   WMS_URL,
-} from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
-import DataTable from '~/components/DataTable'
+} from '~/modules/mesx/constants'
 import {
   searchSOExport,
   confirmSOExportById,
@@ -39,15 +38,15 @@ import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
 import useStyles from './style'
 
-const breadcrumbs = [
-  {
-    title: 'productionInformationManagement',
-  },
-  {
-    route: '/so-export',
-    title: 'saleOrderExport',
-  },
-]
+// const breadcrumbs = [
+//   {
+//     title: 'productionInformationManagement',
+//   },
+//   {
+//     route: '/so-export',
+//     title: 'saleOrderExport',
+//   },
+// ]
 
 class SOExport extends Component {
   constructor(props) {
@@ -476,12 +475,6 @@ const mapDispatchToProps = {
   confirmSOExportById,
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(SOExport)),
-  ),
-  breadcrumbs,
+export default withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(SOExport)),
 )

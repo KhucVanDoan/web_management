@@ -1,39 +1,27 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable  */
 
 import React, { Component } from 'react'
 
-import { AddCircle, Delete, Edit, Visibility } from '@mui/icons-material'
+import { Delete, Edit, Visibility } from '@mui/icons-material'
 import CheckBox from '@mui/icons-material/CheckBox'
-import SearchIcon from '@mui/icons-material/Search'
-import { Box, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import TextField from '@mui/material/TextField'
 import withStyles from '@mui/styles/withStyles'
-import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE, DATE_FORMAT_2 } from '~/common/constants'
+import Button from '~/components/Button'
+import Page from '~/components/Page'
+import TableCollapse from '~/components/TableCollapse'
 import {
-  MODAL_MODE,
-  DATE_FORMAT_2,
-  PROGRESS_STATUS_MAP,
-  PROGRESS_STATUS_OPTIONS,
   PLAN_STATUS_MAP,
   PLAN_STATUS_OPTIONS,
   PLAN_STATUS_TO_EDIT,
   PLAN_STATUS_TO_CONFIRM,
   PLAN_STATUS_TO_DELETE,
-  PRODUCING_STEP_STATUS_MAP,
-  PRODUCING_STEP_OPTIONS,
-} from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
-import Button from '~/components/Button'
-import Loading from '~/components/Loading'
-import Page from '~/components/Page'
-import TableCollapse from '~/components/TableCollapse'
+} from '~/modules/mesx/constants'
 import {
   searchPlans,
   getPlanDetailsById,
@@ -41,7 +29,7 @@ import {
   confirmPlanById,
 } from '~/modules/mesx/redux/actions/plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { onChangeTextField, redirectRouter, formatDateTimeUtc } from '~/utils'
+import { redirectRouter, formatDateTimeUtc } from '~/utils'
 
 import useStyles from './style'
 

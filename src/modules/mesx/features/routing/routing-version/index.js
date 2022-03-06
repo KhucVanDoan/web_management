@@ -14,16 +14,14 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { DATE_FORMAT_2, MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
-  DATE_FORMAT_2,
-  MODAL_MODE,
   ROUTING_VERSION_STATUS,
   ROUTING_VERSION_STATUS_MAP,
   ROUTING_VERSION_STATUS_OPTIONS,
-} from '~/common/constants'
-import withBreadcrumbs from '~/components/Breadcrumbs'
-import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
+} from '~/modules/mesx/constants'
 import { getRoutingDetailsById } from '~/modules/mesx/redux/actions/routing'
 import {
   searchRoutingVersions,
@@ -36,19 +34,19 @@ import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 import RoutingVersionForm from './routing-version-form'
 import useStyles from './style'
 
-const breadcrumbs = [
-  {
-    title: 'database',
-  },
-  // {
-  //   route: ROUTE.ROUTING.PATH,
-  //   title: ROUTE.ROUTING.TITLE,
-  // },
-  {
-    route: ROUTE.ROUTING_VERSION.PATH,
-    title: ROUTE.ROUTING_VERSION.TITLE,
-  },
-]
+// const breadcrumbs = [
+//   {
+//     title: 'database',
+//   },
+//   // {
+//   //   route: ROUTE.ROUTING.PATH,
+//   //   title: ROUTE.ROUTING.TITLE,
+//   // },
+//   {
+//     route: ROUTE.ROUTING_VERSION.PATH,
+//     title: ROUTE.ROUTING_VERSION.TITLE,
+//   },
+// ]
 class RoutingVersionSetting extends Component {
   constructor(props) {
     super(props)
@@ -465,12 +463,9 @@ const mapDispatchToProps = {
   getRoutingDetailsById,
 }
 
-export default withBreadcrumbs(
-  withTranslation()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps,
-    )(withStyles(useStyles)(withRouter(RoutingVersionSetting))),
-  ),
-  breadcrumbs,
+export default withTranslation()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(withStyles(useStyles)(withRouter(RoutingVersionSetting))),
 )

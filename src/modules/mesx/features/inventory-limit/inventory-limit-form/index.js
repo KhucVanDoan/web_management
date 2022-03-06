@@ -55,7 +55,7 @@ class InventoryLimitForm extends Component {
    * @param {*} prevProps
    * @param {*} prevState
    */
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     //item-group-change
     if (
       prevProps.id !== this.props.id &&
@@ -195,7 +195,7 @@ class InventoryLimitForm extends Component {
     }
     return false
   }
-  checkMinLimit = (limit: number) => {
+  checkMinLimit = (limit) => {
     const { t } = this.props
     const { minLimit } = this.state
     if (+minLimit > +limit) {
@@ -207,7 +207,7 @@ class InventoryLimitForm extends Component {
     }
     return false
   }
-  checkLimit = (limit: number) => {
+  checkLimit = (limit) => {
     const { t } = this.props
     const { minLimit, maxLimit } = this.state
     if (+minLimit > +limit) {

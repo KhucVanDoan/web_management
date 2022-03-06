@@ -5,15 +5,15 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  BOM_PRODUCING_STEP_STATUS,
-  BOM_PRODUCING_STEP_STATUS_MAP,
-} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import {
+  BOM_PRODUCING_STEP_STATUS,
+  BOM_PRODUCING_STEP_STATUS_MAP,
+} from '~/modules/mesx/constants'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'

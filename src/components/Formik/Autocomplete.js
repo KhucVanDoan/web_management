@@ -8,7 +8,6 @@ import Autocomplete from '~/components/Autocomplete'
 const FormikAutocomplete = ({
   field,
   form,
-  meta,
   onChange,
   error,
   helperText,

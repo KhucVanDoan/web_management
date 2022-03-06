@@ -3,15 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import {
-  DATE_FORMAT_2,
-  PLAN_STATUS_MAP,
-  ROWS_PER_PAGE_OPTIONS,
-  SALE_ORDER_STATUS,
-} from '~/common/constants'
+import { DATE_FORMAT_2, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
+import { PLAN_STATUS_MAP, SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { searchMO } from '~/modules/mesx/redux/actions/mo.action'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
@@ -351,7 +347,7 @@ function PlanReport() {
 
   // @TODO <linh.taquang> refactor the bellow function (remove reasign)
   const handleGetData = (id) => {
-    actionPlan.getPlanDetailsById(id, (res) => {
+    actionPlan.getPlanDetailsById(id, () => {
       bomTree.map((bom) => {
         if (bom?.id === id) {
           // eslint-disable-next-line no-param-reassign

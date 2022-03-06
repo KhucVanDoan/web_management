@@ -108,8 +108,8 @@ class MoStatusReport extends Component {
     midAngle,
     innerRadius,
     outerRadius,
-    percent,
-    index,
+    // percent,
+    // index,
     value,
   }) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5

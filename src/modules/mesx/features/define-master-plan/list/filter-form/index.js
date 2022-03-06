@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { PLAN_STATUS_OPTIONS } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {

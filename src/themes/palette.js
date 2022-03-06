@@ -111,36 +111,42 @@ const palette = {
   },
   status: {
     created: {
-      main: '#8D8886',
-      contrast: '#FFF',
+      text: '#555',
+      background: '#999',
+      contrastText: '#FFF',
     },
     pending: {
-      main: '#8D8886',
-      contrast: '#FFF',
+      text: '#222',
+      background: '#666',
+      contrastText: '#FFF',
+    },
+    inProgress: {
+      text: '#FF9054',
+      background: '#FF9054',
+      contrastText: '#FFF',
     },
     confirmed: {
-      main: '#0FA44A',
-      contrast: '#FFF',
-    },
-    rejected: {
-      main: '#FF0909',
-      contrast: '#FFF',
-    },
-    inprogress: {
-      main: '#FF9054',
-      contrast: '#FFF',
-    },
-    completed: {
-      main: '#0FA44A',
-      contrast: '#FFF',
+      text: '#0FA44A',
+      background: '#0FA44A',
+      contrastText: '#FFF',
     },
     approved: {
-      main: '#0761AD',
-      contrast: '#FFF',
+      text: '#0761AD',
+      background: '#0761AD',
+      contrastText: '#FFF',
+    },
+    completed: {
+      text: '#0B4D8A',
+      background: '#0B4D8A',
+      contrastText: '#FFF',
+    },
+    rejected: {
+      text: '#FF0909',
+      background: '#FF0909',
+      contrastText: '#FFF',
     },
   },
   borderField: '#0761AD',
-  // For special cases
   bgPrimaryOpacity: '#DAE7F3',
   bgSecondaryOpacity: '#F7D7C5',
 }

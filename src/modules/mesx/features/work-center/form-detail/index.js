@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Button, Grid, Tab } from '@mui/material'
 import { Box } from '@mui/system'
-import { cloneDeep, groupBy, isEmpty, max, uniq } from 'lodash'
+import { cloneDeep, groupBy, isEmpty, isNil, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import {
-  MODAL_MODE,
-  WORK_CENTER_STATUS,
-  WORK_CENTER_STATUS_MAP,
-} from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import {
+  WORK_CENTER_STATUS,
+  WORK_CENTER_STATUS_MAP,
+} from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -52,8 +52,6 @@ const FormDetail = () => {
     data: { isLoading, wcDetails },
     actions,
   } = useWorkCenter()
-
-  const { status = -1 } = wcDetails
 
   useEffect(() => {
     actions.getWorkCenterDetailsById(id)
@@ -111,7 +109,7 @@ const FormDetail = () => {
   }
 
   const genColorButton = () => {
-    switch (status) {
+    switch (wcDetails?.status) {
       case WORK_CENTER_STATUS.PENDING:
       case WORK_CENTER_STATUS.UPDATE:
       case WORK_CENTER_STATUS.CREATE:
@@ -149,14 +147,14 @@ const FormDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {status >= 0 && (
+            {!isNil(wcDetails?.status) && (
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
                   color={genColorButton()}
                   sx={{ display: 'flex', marginLeft: 'auto' }}
                 >
-                  {t(WORK_CENTER_STATUS_MAP[status])}
+                  {t(WORK_CENTER_STATUS_MAP[wcDetails?.status])}
                 </Button>
               </Grid>
             )}

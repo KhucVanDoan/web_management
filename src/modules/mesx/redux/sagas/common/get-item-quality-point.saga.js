@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { QMSX_URL } from '~/common/constants'
 import {
   getItemQualityPointFailed,
   getItemQualityPointSuccess,

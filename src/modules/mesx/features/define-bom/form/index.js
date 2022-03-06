@@ -241,7 +241,7 @@ function BOMForm() {
     routingId: BOMDetails?.routingId || '',
     description: BOMDetails?.description || '',
     itemId: BOMDetails?.itemId || '',
-    items: BOMDetails?.bomDetails?.map((e, index) => ({
+    items: BOMDetails?.bomDetails?.map((e) => ({
       id: e.id,
       itemId: e.itemId,
       quantity: e.quantity,

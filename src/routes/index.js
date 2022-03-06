@@ -1,3 +1,5 @@
+import { omit } from 'lodash'
+
 import authRoutes from '~/modules/auth/routes'
 import mesxRoutes from '~/modules/mesx/routes'
 import publicRoutes from '~/modules/public/routes'
@@ -6,10 +8,14 @@ import welcomeRoute from '~/modules/welcome/routes'
 const flatten = (arr) => {
   if (!arr) return []
 
-  return arr.reduce((acc, cur) => {
-    const { subMenu, ...rest } = cur
-    return [...acc, ...(cur.path ? [rest] : []), ...flatten(cur.subMenu)]
-  }, [])
+  return arr.reduce(
+    (acc, cur) => [
+      ...acc,
+      ...(cur.path ? [omit(cur, 'subMenu')] : []),
+      ...flatten(cur.subMenu),
+    ],
+    [],
+  )
 }
 
 export const privateRoutes = [...mesxRoutes, welcomeRoute]

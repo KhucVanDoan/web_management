@@ -170,7 +170,7 @@ const BOQForm = () => {
     : {
         ...boqDetails,
         planList: [boqDetails.planFrom, boqDetails.planTo],
-        items: boqDetails.boqDetails?.map((e, index) => ({
+        items: boqDetails.boqDetails?.map((e) => ({
           id: e.id,
           itemId: e.itemId,
           quantity: e.quantity,

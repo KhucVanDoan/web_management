@@ -12,16 +12,16 @@ import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
+import { MODAL_MODE } from '~/common/constants'
+import DataTable from '~/components/DataTable'
+import Loading from '~/components/Loading'
 import {
   WORK_CENTER_PLAN_STATUS_TO_EDIT,
   WORK_CENTER_PLAN_STATUS_TO_CONFIRM,
   WORK_CENTER_PLAN_STATUS_TO_DELETE,
   WORK_CENTER_PLAN_STATUS_MAP,
   WORK_CENTER_PLAN_STATUS_TO_VIEW,
-  MODAL_MODE,
-} from '~/common/constants'
-import DataTable from '~/components/DataTable'
-import Loading from '~/components/Loading'
+} from '~/modules/mesx/constants'
 import {
   searchWorkCenterPlan,
   deleteWorkCenterPlan,
