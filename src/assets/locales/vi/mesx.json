@@ -199,6 +199,7 @@
     "companyName": "Tên công ty",
     "roleAssign": "Chọn quyền",
     "changePasswordLabel": "Thay đổi mật khẩu",
+    "resetPassword": "Lấy lại mật khẩu",
     "userManagementDelete": "Xóa người dùng",
     "createUserSuccess": "Tạo người dùng thành công",
     "deleteUserSuccess": "Xóa người dùng thành công",

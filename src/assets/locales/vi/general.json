@@ -13,6 +13,7 @@
     "validEmail": "* Bạn hãy nhập đúng email",
     "validUserName": "Tên đăng nhập chỉ gồm chữ và số",
     "validPassword": "Mật khẩu chỉ gồm chữ và số",
+    "validatePassword": "Mật khẩu phải bao gồm ít nhất 1 ký tự chữ hoa, chữ thường, số và ký tự đặc biệt",
     "validPhone": "Số điện thoại không hợp lệ",
     "validCode": "Mã chỉ gồm chữ và số, ít nhất 1 chữ và 1 số",
     "minNumber": "Giá trị tối thiểu là {{min}}",
@@ -58,7 +59,8 @@
     "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
   },
   "date": {
-    "minToday": "Không được chọn trước ngày hiện tại"
+    "minToday": "Không được chọn trước ngày hiện tại",
+    "maxToday": "Ngày sinh phải nhỏ hơn ngày hiện tại"
   },
   "month": {
     "jan": "Tháng 1",
