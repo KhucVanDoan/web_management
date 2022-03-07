@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Button, Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { withStyles } from '@mui/styles'
 import { Form, Formik } from 'formik'
 import { useTranslation, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -331,8 +330,5 @@ const mapDispatchToProps = {
 }
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles()(RequestBuyMaterialForm)),
+  connect(mapStateToProps, mapDispatchToProps)(RequestBuyMaterialForm),
 )

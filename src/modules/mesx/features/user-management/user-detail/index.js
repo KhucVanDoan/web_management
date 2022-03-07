@@ -43,8 +43,7 @@ function UserManagementDetail() {
   useEffect(() => {
     actions.getUserDetailsById(id)
     return () => {
-      // actions.resetUserDetailsState()
-      // @TODO <anh.nth> reset state
+      actions.resetUserDetailsState()
     }
   }, [id])
 

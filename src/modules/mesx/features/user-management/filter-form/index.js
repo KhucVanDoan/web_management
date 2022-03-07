@@ -29,7 +29,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="department"
+          name="departmentName"
           label={t('userManagement.department')}
           placeholder={t('userManagement.department')}
           options={appStore?.deparments} //TODO: fix department

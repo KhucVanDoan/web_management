@@ -23,6 +23,7 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_START,
   RESET_PASSWORD_SUCCESS,
+  RESET_USER_DETAILS_STATE,
 } from '~/modules/mesx/redux/actions/user-management'
 
 const initialState = {
@@ -95,6 +96,11 @@ export default function userManagement(state = initialState, action) {
         ...state,
         userDetails: {},
         isLoading: false,
+      }
+    case RESET_USER_DETAILS_STATE:
+      return {
+        ...state,
+        userDetails: {},
       }
     default:
       return state

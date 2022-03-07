@@ -30,6 +30,7 @@ export const RESET_PASSWORD_START = 'RESET_PASSWORD_START'
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED'
 
+export const RESET_USER_DETAILS_STATE = 'RESET_USER_DETAILS_STATE'
 /**
  * Search user
  * @param {object} payload
@@ -329,6 +330,12 @@ export function resetPasswordFailed() {
   }
 }
 
+export function resetUserDetailsState() {
+  return {
+    type: RESET_USER_DETAILS_STATE,
+  }
+}
+
 export default {
   searchUsers,
   searchUsersSuccess,
@@ -354,4 +361,5 @@ export default {
   resetPassword,
   resetPasswordSuccess,
   resetPasswordFailed,
+  resetUserDetailsState,
 }

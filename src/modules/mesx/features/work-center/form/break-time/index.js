@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import React, { useCallback, useEffect } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
