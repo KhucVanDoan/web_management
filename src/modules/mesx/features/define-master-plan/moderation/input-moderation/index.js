@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { groupBy, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -223,7 +223,9 @@ const InputModeration = () => {
               (producingStepId) =>
                 columns[producingStepId]?.length && (
                   <div key={producingStepId}>
-                    <h4>{tableData[producingStepId].producingStepName}</h4>
+                    <Typography variant="h4" mb={1}>
+                      {tableData[producingStepId].producingStepName}
+                    </Typography>
                     <DataTable
                       rows={tableData[producingStepId].workCenterSchedule}
                       columns={columns[producingStepId]}

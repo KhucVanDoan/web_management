@@ -81,9 +81,9 @@ const TableSetting = ({
             }
             label="Tất cả"
           />
-          {columns.map((column) => {
+          {columns.map((column, idx) => {
             return (
-              <Box key={column.field}>
+              <Box key={column.field || idx}>
                 <FormControlLabel
                   control={
                     <Checkbox
