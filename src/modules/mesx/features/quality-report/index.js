@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
-import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useQualityReport from '~/modules/mesx/redux/hooks/useQualityReport'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
-import { searchMO } from '../../redux/actions/mo.action'
-import useSaleOrder from '../../redux/hooks/useSaleOrder'
 import FilterForm from './filter-form'
 
 const breadcrumbs = [
@@ -26,8 +21,8 @@ const breadcrumbs = [
 ]
 
 const DEFAULT_FILTERS = {
-  moName: '',
-  soName: '',
+  moId: '',
+  soId: '',
   itemName: '',
 }
 const QualityReports = () => {
@@ -38,23 +33,10 @@ const QualityReports = () => {
   const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
 
-  const dispatch = useDispatch() //@TODO: <doan.khucvan> wait hook useMo
-  const moList = useSelector((state) => state.Mo.moList)
-
   const {
     data: { isLoading, transactions, total },
     actions,
   } = useQualityReport()
-
-  const {
-    data: { saleOrderList },
-    actions: saleOder,
-  } = useSaleOrder()
-
-  const {
-    data: { itemList },
-    actions: item,
-  } = useCommonManagement()
 
   const columns = [
     // {
@@ -201,14 +183,6 @@ const QualityReports = () => {
       sort: convertSortParams(sort),
     }
     actions.getQualityReports(params)
-    item.getItems({ isGetAll: 1 })
-    saleOder.searchSaleOrders({
-      isGetAll: 1,
-      filter: JSON.stringify([
-        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
-      ]),
-    })
-    dispatch(searchMO({ isGetAll: 1 }))
   }
 
   return (
@@ -231,13 +205,7 @@ const QualityReports = () => {
         total={total}
         sort={sort}
         filters={{
-          form: (
-            <FilterForm
-              moList={moList}
-              saleOrderList={saleOrderList}
-              itemList={itemList}
-            />
-          ),
+          form: <FilterForm />,
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
