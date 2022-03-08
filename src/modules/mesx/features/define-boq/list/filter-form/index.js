@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
 import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
+  const {
+    data: { userList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    commonManagementActions.getUsers()
+  }, [])
+
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -25,10 +35,13 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
+        <Field.Autocomplete
           name="pmName"
           label={t('defineBOQ.boqPm')}
           placeholder={t('defineBOQ.boqPm')}
+          options={userList}
+          getOptionValue={(opt) => opt?.id}
+          getOptionLabel={(opt) => opt?.fullName || opt?.username}
         />
       </Grid>
       <Grid item xs={12}>
