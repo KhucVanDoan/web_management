@@ -205,7 +205,7 @@ const DataTable = (props) => {
                       </TableCell>
                     )}
                     {columns.map((column, i) => {
-                      const { field, align, renderCell } = column
+                      const { field, align, renderCell, width } = column
                       const cellValue = renderCell
                         ? renderCell({ row }, index)
                         : row[field]
@@ -219,6 +219,7 @@ const DataTable = (props) => {
                           })}
                           key={`data-table-${field}-${i}`}
                           id={`data-table-${field}-${i}`}
+                          sx={{ minWidth: width }}
                         >
                           {canTruncated ? (
                             <TruncateMarkup

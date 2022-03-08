@@ -30,7 +30,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const columns = useMemo(
     () => [
       {
-        field: 'detailName',
+        field: 'detailId',
         width: 400,
         align: 'center',
         renderCell: (params, index) => {
@@ -39,7 +39,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               name={`items[${index}].detailId`}
               label={t('defineItem.detailName')}
               options={detailList}
-              getOptionLabel={(option) => option.name}
+              getOptionLabel={(option) => option?.name}
               getOptionValue={(option) => option?.id}
               required
             />
