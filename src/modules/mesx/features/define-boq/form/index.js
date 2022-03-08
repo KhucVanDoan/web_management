@@ -98,7 +98,9 @@ const BOQForm = () => {
             <Button variant="outlined" color="subText" onClick={resetForm}>
               {t('common.cancel')}
             </Button>
-            <Button type="submit">{t('common.create')}</Button>
+            <Button type="submit" icon="add">
+              {t('common.create')}
+            </Button>
           </>
         )
       case MODAL_MODE.UPDATE:

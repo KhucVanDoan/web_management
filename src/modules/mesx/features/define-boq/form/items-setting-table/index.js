@@ -53,7 +53,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
               i.isHasBom,
           )
-
+          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
           ) : (
@@ -63,6 +63,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               disabled={isView}
               getOptionLabel={(opt) => opt?.code || ''}
               getOptionValue={(opt) => opt?.id}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
             />
           )
         },

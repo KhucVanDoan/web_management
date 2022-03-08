@@ -68,8 +68,6 @@ import UserManagementDetail from '~/modules/mesx/features/user-management/user-d
 import UserForm from '~/modules/mesx/features/user-management/user-form'
 import WorkCenterForm from '~/modules/mesx/features/work-center/form'
 import WorkCenter from '~/modules/mesx/features/work-center/list'
-import WorkOderForm from '~/modules/mesx/features/work-order/form'
-import WorkOrder from '~/modules/mesx/features/work-order/list'
 
 import detailSchedule from '../features/detail-schedule/detail'
 import PriceReport from '../features/price-report'
@@ -190,35 +188,35 @@ const routes = [
           },
         ],
       },
-      {
-        name: ROUTE.WORK_ORDER.TITLE,
-        path: ROUTE.WORK_ORDER.PATH,
-        component: WorkOrder,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.WORK_ORDER_CREATE.TITLE,
-            path: ROUTE.WORK_ORDER_CREATE.PATH,
-            pathActive: ROUTE.WORK_ORDER_CREATE.PATH,
-            component: WorkOderForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.WORK_ORDER_DETAIL.TITLE,
-            path: ROUTE.WORK_ORDER_DETAIL.PATH,
-            pathActive: ROUTE.WORK_ORDER_DETAIL.PATH,
-            component: WorkOderForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.WORK_ORDER_EDIT.TITLE,
-            path: ROUTE.WORK_ORDER_EDIT.PATH,
-            pathActive: ROUTE.WORK_ORDER_EDIT.PATH,
-            component: WorkOderForm,
-            isInSidebar: false,
-          },
-        ],
-      },
+      // {
+      //   name: ROUTE.WORK_ORDER.TITLE,
+      //   path: ROUTE.WORK_ORDER.PATH,
+      //   component: WorkOrder,
+      //   isInSidebar: true,
+      //   subMenu: [
+      //     {
+      //       name: ROUTE.WORK_ORDER_CREATE.TITLE,
+      //       path: ROUTE.WORK_ORDER_CREATE.PATH,
+      //       pathActive: ROUTE.WORK_ORDER_CREATE.PATH,
+      //       component: WorkOderForm,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.WORK_ORDER_DETAIL.TITLE,
+      //       path: ROUTE.WORK_ORDER_DETAIL.PATH,
+      //       pathActive: ROUTE.WORK_ORDER_DETAIL.PATH,
+      //       component: WorkOderForm,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.WORK_ORDER_EDIT.TITLE,
+      //       path: ROUTE.WORK_ORDER_EDIT.PATH,
+      //       pathActive: ROUTE.WORK_ORDER_EDIT.PATH,
+      //       component: WorkOderForm,
+      //       isInSidebar: false,
+      //     },
+      //   ],
+      // },
       {
         name: ROUTE.MO.LIST.TITLE,
         path: ROUTE.MO.LIST.PATH,

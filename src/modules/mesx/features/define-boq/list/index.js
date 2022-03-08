@@ -57,7 +57,10 @@ const DefineBOQ = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
+  const [sort, setSort] = useState({
+    orderBy: 'status',
+    order: 'asc',
+  })
   const [keyword, setKeyword] = useState('')
 
   const DEFAULT_FILTERS = {
@@ -72,12 +75,12 @@ const DefineBOQ = () => {
 
   const columns = useMemo(
     () => [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 80,
-        fixed: true,
-      },
+      // {
+      //   field: 'id',
+      //   headerName: '#',
+      //   width: 80,
+      //   fixed: true,
+      // },
       {
         field: 'code',
         headerName: t('defineBOQ.boqCode'),
@@ -292,6 +295,7 @@ const DefineBOQ = () => {
         total={total}
         title={t('general:dataTable.title')}
         sort={sort}
+        checkboxSelection
         filters={{
           form: <FilterForm />,
           values: filters,
