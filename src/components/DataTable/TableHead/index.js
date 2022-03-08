@@ -101,6 +101,8 @@ const TableHead = (props) => {
     )
   }
 
+  if (columns.every((col) => !col.headerName)) return null
+
   return (
     <MuiTableHead>
       <TableRow>

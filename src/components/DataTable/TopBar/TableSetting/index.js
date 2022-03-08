@@ -106,7 +106,7 @@ const TableSetting = ({
                         : {})}
                     />
                   }
-                  label={column.headerName}
+                  label={column.headerName || ''}
                 />
               </Box>
             )

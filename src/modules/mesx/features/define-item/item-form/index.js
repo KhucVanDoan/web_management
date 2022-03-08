@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { TabContext, TabPanel, TabList } from '@mui/lab'
 import { Checkbox, FormControlLabel, Grid, Tab } from '@mui/material'
@@ -27,8 +27,6 @@ function DefineItemForm() {
   const history = useHistory()
   const params = useParams()
   const [tabValue, setTabValue] = useState('1')
-  const [warehouseId, setWarehouseId] = useState('')
-  const [warehouseSectorId, setWarehouseSectorId] = useState('')
 
   const {
     data: { itemDetails, isLoading },
@@ -42,69 +40,63 @@ function DefineItemForm() {
 
   const { appStore } = useAppStore()
 
-  const initialValues = {
-    name: itemDetails?.name || '',
-    code: itemDetails?.code || '',
-    description: itemDetails?.description || '',
-    itemType: {
-      id: itemDetails?.itemType?.id || '',
-      name: itemDetails?.itemType?.name || '',
-      code: itemDetails?.itemType?.code || '',
-      hasItemDetail: itemDetails?.itemType?.hasItemDetail || false,
-    },
-    itemGroup: {
-      id: itemDetails?.itemGroup?.id || '',
-      name: itemDetails?.itemGroup?.name || '',
-      code: itemDetails?.itemGroup?.code || '',
-    },
-    itemUnit: {
-      id: itemDetails?.itemUnit?.id || '',
-      name: itemDetails?.itemUnit?.name || '',
-      code: itemDetails?.itemUnit?.code || '',
-    },
-    price: itemDetails?.price || '',
-    dayExpire: itemDetails?.dayExpire || '',
-    isProductionObject: itemDetails?.isProductionObject || false,
-    hasStorageSpace: itemDetails?.hasStorageSpace || false,
-    ...(itemDetails?.hasStorageSpace
-      ? {
-          long: {
-            value: itemDetails?.long?.value,
-            unit: itemDetails?.long?.unit,
-          },
-          width: {
-            value: itemDetails?.width?.value,
-            unit: itemDetails?.width?.unit,
-          },
-          height: {
-            value: itemDetails?.height?.value,
-            unit: itemDetails?.height?.unit,
-          },
-          weight: {
-            value: itemDetails?.weight?.value,
-            unit: itemDetails?.weight?.unit,
-          },
-        }
-      : {}),
-    isLocation: !!itemDetails?.itemWarehouseLocation || false,
-    ...(itemDetails?.itemWarehouseLocation
-      ? {
-          itemWarehouseLocation: {
-            warehouseId: itemDetails?.itemWarehouseLocation?.warehouseId || '',
-            warehouseSectorId:
-              itemDetails?.itemWarehouseLocation?.warehouseSectorId || '',
-            warehouseShelfId:
-              itemDetails?.itemWarehouseLocation?.warehouseShelfId || '',
-          },
-        }
-      : {}),
-    hasItemDetail: !!itemDetails?.itemDetails || false,
-    itemDetails:
-      itemDetails?.itemDetails?.map((item) => ({
+  const initialValues = useMemo(
+    () => ({
+      name: itemDetails?.name || '',
+      code: itemDetails?.code || '',
+      description: itemDetails?.description || '',
+      itemType: itemDetails?.itemType || '',
+      itemGroup: itemDetails?.itemGroup || '',
+      itemUnit: itemDetails?.itemUnit || '',
+      price: itemDetails?.price || '',
+      dayExpire: itemDetails?.dayExpire || '',
+      isProductionObject: itemDetails?.isProductionObject || false,
+      hasStorageSpace: itemDetails?.hasStorageSpace || false,
+      ...(itemDetails?.hasStorageSpace
+        ? {
+            long: {
+              value: itemDetails?.long?.value,
+              unit: itemDetails?.long?.unit,
+            },
+            width: {
+              value: itemDetails?.width?.value,
+              unit: itemDetails?.width?.unit,
+            },
+            height: {
+              value: itemDetails?.height?.value,
+              unit: itemDetails?.height?.unit,
+            },
+            weight: {
+              value: itemDetails?.weight?.value,
+              unit: itemDetails?.weight?.unit,
+            },
+          }
+        : {}),
+      isLocation: !!itemDetails?.itemWarehouseLocation || false,
+      ...(itemDetails?.itemWarehouseLocation
+        ? {
+            itemWarehouseLocation: {
+              warehouseId:
+                itemDetails?.itemWarehouseLocation?.warehouseId || '',
+              warehouseSectorId:
+                itemDetails?.itemWarehouseLocation?.warehouseSectorId || '',
+              warehouseShelfId:
+                itemDetails?.itemWarehouseLocation?.warehouseShelfId || '',
+            },
+          }
+        : {}),
+      hasItemDetail: !!itemDetails?.itemDetails || false,
+      itemDetails: [],
+      warehouseId: itemDetails?.itemWarehouseLocation?.warehouseId,
+      warehouseSectorId: itemDetails?.itemWarehouseLocation?.warehouseSectorId,
+      warehouseShelfId: itemDetails?.itemWarehouseLocation?.warehouseShelfId,
+      items: itemDetails?.itemDetails?.map((item) => ({
         detailId: item.itemDetailId,
         quantity: Number(item.quantity),
-      })) || [],
-  }
+      })),
+    }),
+    [itemDetails],
+  )
 
   const [isProductionObject, setIsProductionObject] = useState(
     initialValues.isProductionObject,
@@ -232,9 +224,9 @@ function DefineItemForm() {
       ...(isLocation
         ? {
             itemWarehouseLocation: {
-              warehouseId: values?.warehouse?.id,
-              warehouseSectorId: values?.warehouseSector?.id,
-              warehouseShelfId: values?.warehouseShelf?.id,
+              warehouseId: values?.warehouseId,
+              warehouseSectorId: values?.warehouseSectorId,
+              warehouseShelfId: values?.warehouseShelfId,
             },
           }
         : {}),
@@ -310,348 +302,354 @@ function DefineItemForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
-              <Form>
-                <TabContext value={tabValue}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChangeTabValue}>
-                      <Tab label={t('defineItem.commonInfo')} value="1" />
-                      <Tab label={t('defineItem.storage')} value="2" />
-                      <Tab label={t('defineItem.storageInfo')} value="3" />
-                      <Tab label={t('defineItem.detail')} value="4" />
-                    </TabList>
-                  </Box>
-                  <TabPanel sx={{ px: 0 }} value="1">
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          label={t('defineItem.code')}
-                          name="code"
-                          placeholder={t('defineItem.code')}
-                          disabled={isUpdate}
-                          required
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          name="name"
-                          label={t('defineItem.name')}
-                          placeholder={t('defineItem.name')}
-                          required
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="itemType"
-                          label={t('defineItem.typeCode')}
-                          placeholder={t('defineItem.typeCode')}
-                          options={appStore?.itemTypes}
-                          getOptionLabel={(opt) => opt?.code}
-                          required
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          name="itemType.name"
-                          label={t('defineItem.typeName')}
-                          placeholder={t('defineItem.typeName')}
-                          disabled
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="itemGroup"
-                          label={t('defineItem.groupCode')}
-                          placeholder={t('defineItem.groupCode')}
-                          options={appStore?.itemGroups}
-                          getOptionLabel={(opt) => opt?.code}
-                          required
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          name="itemGroup.name"
-                          label={t('defineItem.groupName')}
-                          placeholder={t('defineItem.groupName')}
-                          disabled
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="itemUnit"
-                          label={t('defineItem.unit')}
-                          placeholder={t('defineItem.unit')}
-                          options={appStore?.itemUnits}
-                          getOptionLabel={(opt) => opt?.name}
-                          required
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          name="price"
-                          label={t('defineItem.price')}
-                          placeholder={t('defineItem.price')}
-                          type="number"
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          name="dayExpire"
-                          label={t('defineItem.expiry')}
-                          placeholder={t('defineItem.expiry')}
-                          type="number"
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={isProductionObject}
-                              onChange={onToggleIsProductionObject}
-                              name="isProductionObject"
-                            />
-                          }
-                          label={t('defineItem.isProductionObject') + '?'}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Field.TextField
-                          name="description"
-                          label={t('defineItem.description')}
-                          placeholder={t('defineItem.description')}
-                          multiline
-                          rows={3}
-                        />
-                      </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel sx={{ px: 0 }} value="2">
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item xs={12}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={storage}
-                              onChange={onToggleStorage}
-                              name="storage"
-                            />
-                          }
-                          label={t('defineItem.storage')}
-                        />
-                      </Grid>
-
-                      <Grid item lg={6} xs={12}>
-                        <Grid container spacing={1} mb={4 / 3}>
-                          <Grid item xs={8}>
-                            <Field.TextField
-                              name="long.value"
-                              label={t('defineItem.long')}
-                              labelWidth={100}
-                              placeholder={t('defineItem.long')}
-                              type="number"
-                              disabled={!storage}
-                              required={storage}
-                            />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <FormControl fullWidth size="small">
-                              <Field.Autocomplete
-                                name="long.unit"
-                                options={DEFAULT_UNITS}
-                                getOptionLabel={(opt) => opt?.name}
-                                getOptionValue={(opt) => opt?.id}
-                                disabled={!storage}
-                              ></Field.Autocomplete>
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={1}>
-                          <Grid item xs={8}>
-                            <Field.TextField
-                              name="width.value"
-                              label={t('defineItem.width')}
-                              labelWidth={100}
-                              placeholder={t('defineItem.width')}
-                              type="number"
-                              disabled={!storage}
-                              required={storage}
-                            />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <FormControl fullWidth size="small">
-                              <Field.Autocomplete
-                                name="width.unit"
-                                options={DEFAULT_UNITS}
-                                getOptionLabel={(opt) => opt?.name}
-                                getOptionValue={(opt) => opt?.id}
-                                disabled={!storage}
-                              ></Field.Autocomplete>
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-
-                      <Grid item lg={6} xs={12}>
-                        <Grid container spacing={1} mb={4 / 3}>
-                          <Grid item xs={8}>
-                            <Field.TextField
-                              name="height.value"
-                              label={t('defineItem.height')}
-                              labelWidth={100}
-                              placeholder={t('defineItem.height')}
-                              type="number"
-                              disabled={!storage}
-                              required={storage}
-                            />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <FormControl fullWidth size="small">
-                              <Field.Autocomplete
-                                name="height.unit"
-                                options={DEFAULT_UNITS}
-                                getOptionLabel={(opt) => opt?.name}
-                                getOptionValue={(opt) => opt?.id}
-                                disabled={!storage}
-                              ></Field.Autocomplete>
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-
-                        <Grid container spacing={1}>
-                          <Grid item xs={8}>
-                            <Field.TextField
-                              name="weight.value"
-                              label={t('defineItem.weight')}
-                              labelWidth={100}
-                              placeholder={t('defineItem.weight')}
-                              type="number"
-                              disabled={!storage}
-                            />
-                          </Grid>
-                          <Grid item xs={4}>
-                            <FormControl fullWidth size="small">
-                              <Field.Autocomplete
-                                name="weight.unit"
-                                options={WEIGHT_UNITS}
-                                getOptionLabel={(opt) => opt?.name}
-                                getOptionValue={(opt) => opt?.id}
-                                disabled={!storage}
-                              ></Field.Autocomplete>
-                            </FormControl>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel sx={{ px: 0 }} value="3">
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item xs={12}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={isLocation}
-                              onChange={onToggleStorageLocation}
-                              name="isLocation"
-                            />
-                          }
-                          label={t('defineItem.storageLocation')}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="warehouse"
-                          label={t('defineItem.warehouseName')}
-                          placeholder={t('defineItem.warehouseName')}
-                          options={warehouseList}
-                          getOptionLabel={(option) => option?.name}
-                          onChange={(val) => setWarehouseId(val.id)}
-                          disabled={!isLocation}
-                          required={isLocation}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="warehouseSector"
-                          label={t('defineItem.locationName')}
-                          placeholder={t('defineItem.locationName')}
-                          options={warehouseSectorList.filter(
-                            (item) => item.warehouseId === warehouseId,
-                          )}
-                          getOptionLabel={(option) => option?.name}
-                          onChange={(val) => setWarehouseSectorId(val.id)}
-                          disabled={!isLocation}
-                          required={isLocation}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <Field.Autocomplete
-                          name="warehouseShelf"
-                          label={t('defineItem.shelfName')}
-                          placeholder={t('defineItem.shelfName')}
-                          options={warehouseShelfList.filter(
-                            (item) =>
-                              item.warehouseSector.id === warehouseSectorId,
-                          )}
-                          getOptionLabel={(option) => option?.name}
-                          disabled={!isLocation}
-                          required={isLocation}
-                        />
-                      </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel sx={{ px: 0 }} value="4">
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item xs={12}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={isDetailed}
-                              onChange={onToggleIsDetailed}
-                              name="isDetailed"
-                            />
-                          }
-                          label={t('defineItem.isDetailed') + '?'}
-                        />
-                      </Grid>
-                      {isDetailed && (
-                        <Grid item xs={12}>
-                          <FieldArray
-                            name="itemDetails"
-                            render={(arrayHelpers) => (
-                              <ItemsSettingTable
-                                items={values?.itemDetails || []}
-                                mode={mode}
-                                arrayHelpers={arrayHelpers}
-                              />
-                            )}
+            {({ handleReset, values }) => {
+              return (
+                <Form>
+                  <TabContext value={tabValue}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                      <TabList onChange={handleChangeTabValue}>
+                        <Tab label={t('defineItem.commonInfo')} value="1" />
+                        <Tab label={t('defineItem.storage')} value="2" />
+                        <Tab label={t('defineItem.storageInfo')} value="3" />
+                        <Tab label={t('defineItem.detail')} value="4" />
+                      </TabList>
+                    </Box>
+                    <TabPanel sx={{ px: 0 }} value="1">
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            label={t('defineItem.code')}
+                            name="code"
+                            placeholder={t('defineItem.code')}
+                            disabled={isUpdate}
+                            required
                           />
                         </Grid>
-                      )}
-                    </Grid>
-                  </TabPanel>
-                </TabContext>
-                <Box mt={3} display="flex" justifyContent="flex-end">
-                  {renderActionButtons(handleReset)}
-                </Box>
-              </Form>
-            )}
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="name"
+                            label={t('defineItem.name')}
+                            placeholder={t('defineItem.name')}
+                            required
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="itemType"
+                            label={t('defineItem.typeCode')}
+                            placeholder={t('defineItem.typeCode')}
+                            options={appStore?.itemTypes}
+                            getOptionLabel={(opt) => opt?.code}
+                            getOptionValue={(opt) => opt}
+                            required
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="itemType.name"
+                            label={t('defineItem.typeName')}
+                            placeholder={t('defineItem.typeName')}
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="itemGroup"
+                            label={t('defineItem.groupCode')}
+                            placeholder={t('defineItem.groupCode')}
+                            options={appStore?.itemGroups}
+                            getOptionLabel={(opt) => opt?.code}
+                            getOptionValue={(opt) => opt}
+                            required
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="itemGroup.name"
+                            label={t('defineItem.groupName')}
+                            placeholder={t('defineItem.groupName')}
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="itemUnit"
+                            label={t('defineItem.unit')}
+                            placeholder={t('defineItem.unit')}
+                            options={appStore?.itemUnits}
+                            getOptionLabel={(opt) => opt?.name}
+                            required
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="price"
+                            label={t('defineItem.price')}
+                            placeholder={t('defineItem.price')}
+                            type="number"
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="dayExpire"
+                            label={t('defineItem.expiry')}
+                            placeholder={t('defineItem.expiry')}
+                            type="number"
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={isProductionObject}
+                                onChange={onToggleIsProductionObject}
+                                name="isProductionObject"
+                              />
+                            }
+                            label={t('defineItem.isProductionObject') + '?'}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Field.TextField
+                            name="description"
+                            label={t('defineItem.description')}
+                            placeholder={t('defineItem.description')}
+                            multiline
+                            rows={3}
+                          />
+                        </Grid>
+                      </Grid>
+                    </TabPanel>
+                    <TabPanel sx={{ px: 0 }} value="2">
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={storage}
+                                onChange={onToggleStorage}
+                                name="storage"
+                              />
+                            }
+                            label={t('defineItem.storage')}
+                          />
+                        </Grid>
+
+                        <Grid item lg={6} xs={12}>
+                          <Grid container spacing={1} mb={4 / 3}>
+                            <Grid item xs={8}>
+                              <Field.TextField
+                                name="long.value"
+                                label={t('defineItem.long')}
+                                labelWidth={100}
+                                placeholder={t('defineItem.long')}
+                                type="number"
+                                disabled={!storage}
+                                required={storage}
+                              />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth size="small">
+                                <Field.Autocomplete
+                                  name="long.unit"
+                                  options={DEFAULT_UNITS}
+                                  getOptionLabel={(opt) => opt?.name}
+                                  getOptionValue={(opt) => opt?.id}
+                                  disabled={!storage}
+                                ></Field.Autocomplete>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+
+                          <Grid container spacing={1}>
+                            <Grid item xs={8}>
+                              <Field.TextField
+                                name="width.value"
+                                label={t('defineItem.width')}
+                                labelWidth={100}
+                                placeholder={t('defineItem.width')}
+                                type="number"
+                                disabled={!storage}
+                                required={storage}
+                              />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth size="small">
+                                <Field.Autocomplete
+                                  name="width.unit"
+                                  options={DEFAULT_UNITS}
+                                  getOptionLabel={(opt) => opt?.name}
+                                  getOptionValue={(opt) => opt?.id}
+                                  disabled={!storage}
+                                ></Field.Autocomplete>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+
+                        <Grid item lg={6} xs={12}>
+                          <Grid container spacing={1} mb={4 / 3}>
+                            <Grid item xs={8}>
+                              <Field.TextField
+                                name="height.value"
+                                label={t('defineItem.height')}
+                                labelWidth={100}
+                                placeholder={t('defineItem.height')}
+                                type="number"
+                                disabled={!storage}
+                                required={storage}
+                              />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth size="small">
+                                <Field.Autocomplete
+                                  name="height.unit"
+                                  options={DEFAULT_UNITS}
+                                  getOptionLabel={(opt) => opt?.name}
+                                  getOptionValue={(opt) => opt?.id}
+                                  disabled={!storage}
+                                ></Field.Autocomplete>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+
+                          <Grid container spacing={1}>
+                            <Grid item xs={8}>
+                              <Field.TextField
+                                name="weight.value"
+                                label={t('defineItem.weight')}
+                                labelWidth={100}
+                                placeholder={t('defineItem.weight')}
+                                type="number"
+                                disabled={!storage}
+                              />
+                            </Grid>
+                            <Grid item xs={4}>
+                              <FormControl fullWidth size="small">
+                                <Field.Autocomplete
+                                  name="weight.unit"
+                                  options={WEIGHT_UNITS}
+                                  getOptionLabel={(opt) => opt?.name}
+                                  getOptionValue={(opt) => opt?.id}
+                                  disabled={!storage}
+                                ></Field.Autocomplete>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </TabPanel>
+                    <TabPanel sx={{ px: 0 }} value="3">
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={isLocation}
+                                onChange={onToggleStorageLocation}
+                                name="isLocation"
+                              />
+                            }
+                            label={t('defineItem.storageLocation')}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="warehouseId"
+                            label={t('defineItem.warehouseName')}
+                            placeholder={t('defineItem.warehouseName')}
+                            options={warehouseList}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disabled={!isLocation}
+                            required={isLocation}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="warehouseSectorId"
+                            label={t('defineItem.locationName')}
+                            placeholder={t('defineItem.locationName')}
+                            options={warehouseSectorList.filter(
+                              (item) => item.warehouseId === values.warehouseId,
+                            )}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disabled={!isLocation}
+                            required={isLocation}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <Field.Autocomplete
+                            name="warehouseShelfId"
+                            label={t('defineItem.shelfName')}
+                            placeholder={t('defineItem.shelfName')}
+                            options={warehouseShelfList.filter(
+                              (item) =>
+                                item.warehouseSector.id ===
+                                values.warehouseSectorId,
+                            )}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disabled={!isLocation}
+                            required={isLocation}
+                          />
+                        </Grid>
+                      </Grid>
+                    </TabPanel>
+                    <TabPanel sx={{ px: 0 }} value="4">
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={isDetailed}
+                                onChange={onToggleIsDetailed}
+                                name="isDetailed"
+                              />
+                            }
+                            label={t('defineItem.isDetailed') + '?'}
+                          />
+                        </Grid>
+                        {isDetailed && (
+                          <Grid item xs={12}>
+                            <FieldArray
+                              name="items"
+                              render={(arrayHelpers) => (
+                                <ItemsSettingTable
+                                  items={values?.items || []}
+                                  mode={mode}
+                                  arrayHelpers={arrayHelpers}
+                                />
+                              )}
+                            />
+                          </Grid>
+                        )}
+                      </Grid>
+                    </TabPanel>
+                  </TabContext>
+                  <Box mt={3} display="flex" justifyContent="flex-end">
+                    {renderActionButtons(handleReset)}
+                  </Box>
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>
