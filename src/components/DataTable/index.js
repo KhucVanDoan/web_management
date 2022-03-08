@@ -173,7 +173,7 @@ const DataTable = (props) => {
                 const labelId = `enhanced-table-checkbox-${index}`
                 return (
                   <TableRow
-                    key={row[indexCol]?.toString()}
+                    key={row[indexCol] || index}
                     draggableId={row[indexCol]?.toString()}
                     index={index}
                     reorderable={reorderable}

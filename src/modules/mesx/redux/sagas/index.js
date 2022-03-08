@@ -142,6 +142,7 @@ import watchGetProducingStepsByRoutingVersion from './producing-steps/get-by-rou
 import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
+import watchGetProductivityCompareList from './productivity-compare-report/get-list-productivity-compare-report'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
@@ -481,5 +482,8 @@ export default function* sagas() {
     watchUpdateFactoryCalendar(),
     watchGetDetailFactoryCalendar(),
     watchCreateFactoryCalendar(),
+
+    // productivity compare
+    watchGetProductivityCompareList(),
   ])
 }

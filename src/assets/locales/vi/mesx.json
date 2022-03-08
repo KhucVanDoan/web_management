@@ -98,6 +98,7 @@
     "saleOrderExportEdit": "Sửa lệnh xuất theo đơn bán hàng",
     "saleOrderExportDetail": "Chi tiết lệnh xuất theo đơn bán hàng",
     "productivityReport": "Báo cáo năng suất",
+    "productivityCompareReport": "Báo cáo đánh giá năng suất",
     "detailSchedule": "Lịch làm việc theo ngày",
     "detailScheduleCreate": "Tạo lịch làm việc theo ngày",
     "detailScheduleDetail": "Chi tiết lịch làm việc theo ngày",
@@ -1348,6 +1349,13 @@
     "performance": "Performance",
     "plan": "Kế hoạch",
     "export": "Xuất dữ liệu"
+  },
+  "productivityCompareReport": {
+    "title": "Báo cáo đánh giá năng suất",
+    "export": "Xuất dữ liệu",
+    "productivityWorkCenter": "Năng suất giữa các xưởng",
+    "oeeWorkCenter": "OEE giữa các xưởng",
+    "workCenterName": "Tên xưởng"
   },
   "detailScheduleStatus": {
     "pending": "Chờ xác nhận",

@@ -437,6 +437,10 @@ export const ROUTE = {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',
   },
+  PRODUCTIVITY_COMPARE_REPORT: {
+    PATH: '/mesx/productivity-compare-report',
+    TITLE: 'productivityCompareReport',
+  },
   DETAIL_SCHEDULE: {
     LIST: {
       PATH: '/mesx/detail-schedule',

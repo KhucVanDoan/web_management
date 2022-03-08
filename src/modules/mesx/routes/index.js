@@ -74,6 +74,7 @@ import WorkOrder from '~/modules/mesx/features/work-order/list'
 import detailSchedule from '../features/detail-schedule/detail'
 import PriceReport from '../features/price-report'
 import PriceDetail from '../features/price-report/price-detail'
+import ProductivityCompareReport from '../features/productivity-compare-report'
 import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
@@ -789,6 +790,12 @@ const routes = [
         name: ROUTE.PRODUCTIVITY_REPORT.TITLE,
         path: ROUTE.PRODUCTIVITY_REPORT.PATH,
         component: ProductivityReport,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.PRODUCTIVITY_COMPARE_REPORT.TITLE,
+        path: ROUTE.PRODUCTIVITY_COMPARE_REPORT.PATH,
+        component: ProductivityCompareReport,
         isInSidebar: true,
       },
     ],
