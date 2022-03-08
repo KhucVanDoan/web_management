@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { getPriceStructureById } from '~/modules/mesx/redux/actions/mo.action'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 const breadcrumbs = [
@@ -31,19 +30,18 @@ const PriceDetail = () => {
   const history = useHistory()
   const { id } = useParams()
   const [priceReport, setPriceReport] = useState([])
-  const dispatch = useDispatch() //@TODO: <doan.khucvan> wait hook useMo
+
   const {
     appStore: { itemTypes },
     actions,
   } = useAppStore()
-
+  const { actions: actionMo } = useMo()
   useEffect(() => {
     actions.getAppStore()
-    dispatch(
-      getPriceStructureById({ id: id }, (res) => {
-        setPriceReport(res)
-      }),
-    )
+
+    actionMo.getPriceStructureById({ id: id }, (res) => {
+      setPriceReport(res)
+    })
   }, [id])
 
   const backToList = () => {

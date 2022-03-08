@@ -2,32 +2,29 @@ import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { Field } from '~/components/Formik'
-import { getMODetailsById } from '~/modules/mesx/redux/actions/mo.action'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-
-import { searchMO } from '../../../redux/actions/mo.action'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const moList = useSelector((state) => state.Mo.moList) //@TODO: <doan.khucvan> wait hook useMo
-  const moDetails = useSelector((state) => state.Mo.moDetails)
-  const dispatch = useDispatch()
+
   const [itemList, setItemList] = useState([])
   const [saleOder, setSaleOder] = useState([])
   const { actions: actionSaleOrder } = useSaleOrder()
 
+  const {
+    data: { moList, moDetails },
+    actions,
+  } = useMo()
   useEffect(() => {
-    dispatch(searchMO({ isGetAll: 1 }))
+    actions.searchMO({ isGetAll: 1 })
   }, [])
   const handleChange = (id) => {
-    dispatch(
-      getMODetailsById(id, (res) => {
-        setSaleOder([res?.saleOrder])
-      }),
-    )
+    actions.getMODetailsById(id, (res) => {
+      setSaleOder([res?.saleOrder])
+    })
   }
   const onchange = (id) => {
     actionSaleOrder.getSaleOrderDetailsById(id, (res) => {

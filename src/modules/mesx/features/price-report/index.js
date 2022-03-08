@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import DataTable from '~/components/DataTable'
@@ -11,7 +10,7 @@ import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
-import { getPriceStructureById } from '../../redux/actions/mo.action'
+import { useMo } from '../../redux/hooks/useMo'
 import FilterForm from './form-filter'
 import { filterSchema } from './form-filter/schema'
 
@@ -40,8 +39,9 @@ const PriceReport = () => {
   const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
   const [priceReport, setPriceReport] = useState([])
-  const dispatch = useDispatch() //@TODO: <doan.khucvan> wait hook useMo
   const history = useHistory()
+
+  const { actions } = useMo()
   const columns = [
     // {
     //   field: 'id',
@@ -166,10 +166,12 @@ const PriceReport = () => {
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
-    dispatch(
-      getPriceStructureById({ id: filters.moCode, search: params }, (res) => {
+
+    actions.getPriceStructureById(
+      { id: filters.moCode, search: params },
+      (res) => {
         setPriceReport(res)
-      }),
+      },
     )
   }
 
@@ -198,6 +200,7 @@ const PriceReport = () => {
           values: filters,
           onApply: setFilters,
         }}
+        hideFooter
       />
     </Page>
   )
