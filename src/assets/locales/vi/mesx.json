@@ -1410,6 +1410,7 @@
     "productionQuantity": "Số lượng sản xuất",
     "additionQuantity": "Số lượng còn lại",
     "targetName": "Tên đối tượng",
+    "SuppliePlan": "Kế hoạch vật tư",
     "plan": "Kế hoạch",
     "total": "Tổng"
   },

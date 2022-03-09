@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Grid, Typography, Input } from '@mui/material'
+import { Button, Grid, Typography, Input, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
@@ -234,7 +234,11 @@ function ProducingStepForm() {
                       label={t('producingStep.timePerProduct')}
                       placeholder={t('producingStep.timePerProduct')}
                       InputProps={{
-                        endAdornment: <>{t('producingStep.unit.minutes')}</>,
+                        endAdornment: (
+                          <InputAdornment sx={{ pr: 1 }}>
+                            {t('producingStep.unit.minutes')}
+                          </InputAdornment>
+                        ),
                       }}
                       type="number"
                       required
@@ -325,7 +329,11 @@ function ProducingStepForm() {
                         placeholder={t('producingStep.timeQc')}
                         disabled={!values.inputQc}
                         InputProps={{
-                          endAdornment: <>{t('producingStep.unit.minutes')}</>,
+                          endAdornment: (
+                            <InputAdornment sx={{ pr: 1 }}>
+                              {t('producingStep.unit.minutes')}
+                            </InputAdornment>
+                          ),
                         }}
                         type="number"
                       />
@@ -366,7 +374,11 @@ function ProducingStepForm() {
                         placeholder={t('producingStep.timeQc')}
                         disabled={!values.outputQc}
                         InputProps={{
-                          endAdornment: <>{t('producingStep.unit.minutes')}</>,
+                          endAdornment: (
+                            <InputAdornment sx={{ pr: 1 }}>
+                              {t('producingStep.unit.minutes')}
+                            </InputAdornment>
+                          ),
                         }}
                         type="number"
                       />
