@@ -4,7 +4,7 @@ import {
   searchMaterialDetailPlanFailed,
   searchMaterialDetailPlanSuccess,
   SEARCH_MATERIAL_DETAIL_PLAN_START,
-} from '~/modules/mesx/redux/actions/material-detail-plan.action'
+} from '~/modules/mesx/redux/actions/material-detail-plan'
 import { api } from '~/services/api'
 
 /**
