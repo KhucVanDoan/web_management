@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -18,6 +19,7 @@ import Button from '~/components/Button'
 import DatePicker from '~/components/DatePicker'
 import DateRangePicker from '~/components/DateRangePicker'
 import Dialog from '~/components/Dialog'
+import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import TextField from '~/components/TextField'
 
@@ -44,6 +46,10 @@ const Elements = () => {
     value: index,
     label: `Option ${index + 1}`,
     subLabel: 'abc',
+  }))
+  const mockOptionsDropDown = new Array(3).fill({}).map((_, index) => ({
+    value: index,
+    text: `Option dropdown ${index + 1}`,
   }))
 
   return (
@@ -341,6 +347,23 @@ const Elements = () => {
           <MenuItem onClick={hideDropdown}>My account</MenuItem>
           <MenuItem onClick={hideDropdown}>Logout</MenuItem>
         </Menu>
+      </Box>
+      <Box sx={{ display: 'flex', mt: 1, button: { mr: 1 } }}>
+        <Dropdown
+          options={mockOptionsDropDown}
+          title="Create"
+          icon="add"
+          handleMenuItemClick={() => {}}
+          getOptionLabel={(opt) => opt.text}
+        />
+
+        <Dropdown options={mockOptionsDropDown} title="Disable" disabled />
+
+        <Dropdown
+          options={mockOptionsDropDown}
+          title="Icon drop"
+          endIcon={<KeyboardArrowDownIcon />}
+        />
       </Box>
 
       <Typography variant="h2" sx={{ mt: 3, mb: 1 }}>
