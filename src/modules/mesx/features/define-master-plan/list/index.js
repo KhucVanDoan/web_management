@@ -142,7 +142,7 @@ const DefineMasterPlan = () => {
         width: 150,
         filterable: true,
         paddingRight: 20,
-        renderCell: () => {
+        renderCell: (params) => {
           return (
             <Button
               variant="text"
@@ -176,13 +176,6 @@ const DefineMasterPlan = () => {
                 onClick={() => onClickViewDetails(id)}
               >
                 <Visibility />
-              </IconButton>
-              <IconButton
-                type="button"
-                size="large"
-                onClick={() => onClickViewModeration(id)}
-              >
-                <CalendarToday />
               </IconButton>
               {canEdit && (
                 <IconButton

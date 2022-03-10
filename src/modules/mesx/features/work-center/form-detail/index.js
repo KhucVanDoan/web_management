@@ -10,11 +10,9 @@ import { useHistory, useParams } from 'react-router-dom'
 import { MODAL_MODE } from '~/common/constants'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import {
-  WORK_CENTER_STATUS,
-  WORK_CENTER_STATUS_MAP,
-} from '~/modules/mesx/constants'
+import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -108,20 +106,6 @@ const FormDetail = () => {
     setBreakTime(breakTimes)
   }
 
-  const genColorButton = () => {
-    switch (wcDetails?.status) {
-      case WORK_CENTER_STATUS.PENDING:
-      case WORK_CENTER_STATUS.UPDATE:
-      case WORK_CENTER_STATUS.CREATE:
-      case WORK_CENTER_STATUS.COMPLETED:
-        return 'primary'
-      case WORK_CENTER_STATUS.REJECTED:
-        return 'error'
-      default:
-        return 'text'
-    }
-  }
-
   const breadcrumbs = [
     {
       title: 'database',
@@ -149,13 +133,15 @@ const FormDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             {!isNil(wcDetails?.status) && (
               <Grid item xs={12}>
-                <Button
-                  variant="outlined"
-                  color={genColorButton()}
-                  sx={{ display: 'flex', marginLeft: 'auto' }}
-                >
-                  {t(WORK_CENTER_STATUS_MAP[wcDetails?.status])}
-                </Button>
+                <LV
+                  label={t('producingStep.status')}
+                  value={
+                    <Status
+                      options={WORK_CENTER_STATUS_OPTIONS}
+                      value={wcDetails?.status}
+                    />
+                  }
+                />
               </Grid>
             )}
             <Grid item lg={6} xs={12}>
@@ -190,6 +176,20 @@ const FormDetail = () => {
                 value={wcDetails?.producingStep?.name}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('workCenter.serialDevice')} value={''} />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('workCenter.creator')} value={''} />
+            </Grid>
+            <Grid item lg={6} xs={12}></Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('workCenter.dateCreate')}
+                value={formatDateTimeUtc(wcDetails?.createdAt)}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 name="description"
@@ -229,18 +229,6 @@ const FormDetail = () => {
               <LV
                 label={t('workCenter.workCapacity')}
                 value={wcDetails?.productivityIndex}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('workCenter.dateCreate')}
-                value={formatDateTimeUtc(wcDetails?.createdAt)}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('workCenter.dateUpdate')}
-                value={formatDateTimeUtc(wcDetails?.updatedAt)}
               />
             </Grid>
           </Grid>
