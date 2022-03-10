@@ -1179,6 +1179,8 @@
     "import": "nhập/xuất dữ liệu",
     "dateCreate": "Ngày Tạo",
     "dateUpdate": "Ngày sửa",
+    "serialDevice": "Serial thiết bị",
+    "creator": "Người tạo",
     "to": "Đến",
     "workTime": {
       "standard": "Chuẩn (40h/week)",
