@@ -15,7 +15,7 @@ import {
 } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter } from '~/utils'
+import { redirectRouter, formatDateTimeUtc } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -65,8 +65,8 @@ const AutoModeration = () => {
         const saleOrderSchedule = {
           text: saleOrder.saleOrderName,
           id: saleOrder.saleOrderId,
-          end_date: saleOrder.dateTo,
-          start_date: saleOrder.dateFrom,
+          end_date: formatDateTimeUtc(saleOrder.dateTo),
+          start_date: formatDateTimeUtc(saleOrder.dateFrom),
           progress: 0,
           isOverQuantity: saleOrder.isOverQuantity,
         }
@@ -81,8 +81,8 @@ const AutoModeration = () => {
         const itemSchedule = {
           text: item.itemName,
           id: item.itemId,
-          end_date: item.dateTo,
-          start_date: item.dateFrom,
+          end_date: formatDateTimeUtc(item.dateTo),
+          start_date: formatDateTimeUtc(item.dateFrom),
           progress: 0,
           parent: saleOrderId,
           isOverQuantity: item.isOverQuantity,
@@ -91,8 +91,8 @@ const AutoModeration = () => {
           item.producingSteps?.map((step) => ({
             text: step.producingStepName,
             id: step.id,
-            end_date: step.dateTo,
-            start_date: step.dateFrom,
+            end_date: formatDateTimeUtc(step.dateTo),
+            start_date: formatDateTimeUtc(step.dateFrom),
             progress: 0,
             parent: item.itemId,
             type: 'producingStep',
