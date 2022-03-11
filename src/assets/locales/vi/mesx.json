@@ -616,6 +616,8 @@
     "itemDetailTabTitle": "Chi tiết sản phẩm",
     "planDetailTabTitle": "Kế hoạch chi tiết",
     "createPlanSuccess": "Tạo kế hoạch thành công",
+    "approveMasterPlanSuccess": "Đã xác nhận kế hoạch cơ sở",
+    "rejectMasterPlanSuccess": "Đã từ chối kế hoạch cơ sở",
     "updatePlanSuccess": "Cập nhật kế hoạch thành công",
     "confirmPlanSuccess": "Xác nhận kế hoạch thành công",
     "deletePlanSuccess": "Xoá kế hoạch thành công",
@@ -1591,5 +1593,12 @@
       "friday": "Thứ 6",
       "saturday": "Thứ 7"
     }
+  },
+  "masterPlanStatus": {
+    "created": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
   }
 }

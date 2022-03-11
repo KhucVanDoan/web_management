@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createMasterPlansApi = (params) => {
-  const uri = `/v1/sales/master-plans`
+  const uri = `/v1/plans/master-plans/create`
   return api.post(uri, params)
 }
 

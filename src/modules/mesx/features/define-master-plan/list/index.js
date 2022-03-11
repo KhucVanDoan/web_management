@@ -1,21 +1,20 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
-import { Delete, Edit, Visibility, CalendarToday } from '@mui/icons-material'
+import { Delete, Visibility } from '@mui/icons-material'
 import CheckBox from '@mui/icons-material/CheckBox'
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT_2 } from '~/common/constants'
+import { DATE_FORMAT_2, MASTER_PLAN_STATUS } from '~/common/constants'
 import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import {
   PLAN_STATUS_MAP,
-  PLAN_STATUS_OPTIONS,
-  PLAN_STATUS_TO_EDIT,
-  PLAN_STATUS_TO_CONFIRM,
-  PLAN_STATUS_TO_DELETE,
   PLAN_STATUS,
+  MASTER_PLAN_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -54,6 +53,9 @@ const DefineMasterPlan = () => {
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
+  const [id, setId] = useState(null)
+  const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
+  const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const {
     data: { masterPlanList, isLoading, total },
     actions: masterPlanActions,
@@ -125,13 +127,16 @@ const DefineMasterPlan = () => {
         type: 'categorical',
         filterable: true,
         filterOptions: {
-          options: PLAN_STATUS_OPTIONS,
+          options: MASTER_PLAN_STATUS_OPTIONS,
           getOptionValue: (option) => option?.id.toString(),
           getOptionLabel: (option) => t(option?.text),
         },
         renderCell: (params) => {
           const { status } = params.row
-          return t(PLAN_STATUS_MAP[status || PLAN_STATUS.CREATED])
+          const statusValue = MASTER_PLAN_STATUS_OPTIONS.find(
+            (masterPlanStatus) => masterPlanStatus.id === status,
+          )
+          return t(statusValue.text)
         },
       },
       {
@@ -142,7 +147,7 @@ const DefineMasterPlan = () => {
         width: 150,
         filterable: true,
         paddingRight: 20,
-        renderCell: (params) => {
+        renderCell: () => {
           return (
             <Button
               variant="text"
@@ -165,9 +170,11 @@ const DefineMasterPlan = () => {
         headerAlign: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
-          const canEdit = PLAN_STATUS_TO_EDIT.includes(status)
-          const canConfirm = PLAN_STATUS_TO_CONFIRM.includes(status)
-          const canDelete = PLAN_STATUS_TO_DELETE.includes(status)
+          // const canEdit = status === MASTER_PLAN_STATUS.CREATED
+          const canDelete = status === MASTER_PLAN_STATUS.CREATED
+          const canApprove = status === MASTER_PLAN_STATUS.CREATED
+          const canReject = status === MASTER_PLAN_STATUS.CREATED
+
           return (
             <div>
               <IconButton
@@ -177,7 +184,7 @@ const DefineMasterPlan = () => {
               >
                 <Visibility />
               </IconButton>
-              {canEdit && (
+              {/* {canEdit && (
                 <IconButton
                   type="button"
                   size="large"
@@ -185,15 +192,34 @@ const DefineMasterPlan = () => {
                 >
                   <Edit />
                 </IconButton>
-              )}
+              )} */}
               {canDelete && (
                 <IconButton type="button" size="large">
                   <Delete />
                 </IconButton>
               )}
-              {canConfirm && (
-                <IconButton type="button" size="large">
+              {canApprove && (
+                <IconButton
+                  type="button"
+                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenApproveModal(true)
+                  }}
+                >
                   <CheckBox style={{ color: 'green' }} />
+                </IconButton>
+              )}
+              {canReject && (
+                <IconButton
+                  type="button"
+                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setIsOpenRejectModal(true)
+                  }}
+                >
+                  <DoDisturbOnIcon style={{ color: 'red' }} />
                 </IconButton>
               )}
             </div>
@@ -406,9 +432,9 @@ const DefineMasterPlan = () => {
     redirectRouter(ROUTE.MASTER_PLAN.CREATE.PATH)
   }
 
-  const onClickViewModeration = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
-  }
+  // const onClickViewModeration = (id) => {
+  //   redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
+  // }
 
   /**
    * onClickViewDetails
@@ -422,9 +448,9 @@ const DefineMasterPlan = () => {
    * onClickEdit
    * @param {int} id
    */
-  const onClickEdit = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.EDIT.PATH, { id: id })
-  }
+  // const onClickEdit = (id) => {
+  //   redirectRouter(ROUTE.MASTER_PLAN.EDIT.PATH, { id: id })
+  // }
 
   /**
    *
@@ -515,6 +541,16 @@ const DefineMasterPlan = () => {
     )
   }
 
+  const onSubmitApprove = () => {
+    masterPlanActions.approveMasterPlan(id, refreshData)
+    setIsOpenApproveModal(false)
+  }
+
+  const onSubmitReject = () => {
+    masterPlanActions.rejectMasterPlan(id, refreshData)
+    setIsOpenRejectModal(false)
+  }
+
   /**
    *
    * @returns {JSX.Element}
@@ -554,6 +590,30 @@ const DefineMasterPlan = () => {
           onApply: onChangeFilter,
         }}
       />
+      <Dialog
+        open={isOpenApproveModal}
+        title={t('common.notify')}
+        maxWidth="sm"
+        onCancel={() => setIsOpenApproveModal(false)}
+        onSubmit={onSubmitApprove}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        noBorderBottom
+      >
+        {t('common.confirmMessage.confirm')}
+      </Dialog>
+      <Dialog
+        open={isOpenRejectModal}
+        title={t('common.notify')}
+        maxWidth="sm"
+        onCancel={() => setIsOpenRejectModal(false)}
+        onSubmit={onSubmitReject}
+        cancelLabel={t('common.no')}
+        submitLabel={t('common.yes')}
+        noBorderBottom
+      >
+        {t('common.confirmMessage.reject')}
+      </Dialog>
     </Page>
   )
 }

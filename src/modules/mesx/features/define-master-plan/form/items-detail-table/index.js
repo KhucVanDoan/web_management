@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
+import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-import { formatDateTimeUtc } from '~/utils/date-time';
 
 const ItemsDetailTable = (props) => {
+  const { soId = [], planDate } = props
   const { t } = useTranslation(['mesx'])
   const {
-    data: { saleOrderDetails },
+    data: { saleOrderDetailList },
     actions,
   } = useSaleOrder()
   const [itemsDetail, setItemsDetail] = useState()
-
   const columns = [
     {
       field: 'itemName',
@@ -58,42 +58,45 @@ const ItemsDetailTable = (props) => {
       align: 'center',
       sortable: false,
     },
-    {
-      field: 'planDate',
-      headerName: t('defineMasterPlan.itemDetail.planDate'),
-      align: 'center',
-      sortable: false,
-    },
+    // {
+    //   field: 'planDate',
+    //   headerName: t('defineMasterPlan.itemDetail.planDate'),
+    //   align: 'center',
+    //   sortable: false,
+    // },
   ]
 
   useEffect(() => {
-    actions.getSaleOrderDetailsById(props.soId)
-  }, [props.soId])
+    if (!isEmpty(soId)) {
+      actions.getSaleOrderDetailsByIds({ ids: soId.join(',') })
+    }
+  }, [soId])
 
   useEffect(() => {
-    getItemsInSo()
-  }, [saleOrderDetails, props.planDate])
+    getItemsInSo(saleOrderDetailList)
+  }, [saleOrderDetailList, planDate])
 
-  const getItemsInSo = () => {
-    const itemsInSo = saleOrderDetails?.saleOrderDetails?.map((saleOrder) => ({
-      saleOrder: saleOrderDetails.name,
-      itemName: saleOrder?.item?.name,
-      unit: saleOrder?.item?.itemUnit,
-      quantityPlan: saleOrder.quantity,
-      quantityActual: saleOrder.actualQuantity,
-      bomName: saleOrder?.item?.bom?.name,
-      routingName: saleOrder?.item?.bom?.code,
-      planDate: props.planDate?.map(date => formatDateTimeUtc(date, 'dd/MM/yyyy'))?.join(' - ')
-    }))
+  const getItemsInSo = (saleOrders = []) => {
+    const itemsInSo = (flatMap(saleOrders, 'saleOrderDetails') || []).map(
+      (detail) => {
+        const { item, quantity, actualQuantity } = detail
+        return {
+          itemName: item?.name,
+          unit: item?.itemUnit,
+          quantityPlan: quantity,
+          quantityActual: actualQuantity,
+          bomName: item?.bom?.name,
+          routingName: item?.bom?.code,
+          // planDate: planDate
+          //   ?.map((date) => formatDateTimeUtc(date, 'dd/MM/yyyy'))
+          //   ?.join(' - '),
+        }
+      },
+    )
     setItemsDetail(itemsInSo)
   }
 
-  return (
-    <DataTable
-      rows={itemsDetail}
-      columns={columns}
-    />
-  )
+  return <DataTable rows={itemsDetail} columns={columns} />
 }
 
-export default ItemsDetailTable;
+export default ItemsDetailTable
