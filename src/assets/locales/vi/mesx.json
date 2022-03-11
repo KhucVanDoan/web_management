@@ -52,7 +52,7 @@
     "userManagementCreate": "Tạo người dùng",
     "userManagementEdit": "Sửa người dùng",
     "userManagementDetail": "Chi tiết người dùng",
-    "permission": "Quản lý quyền",
+    "userPermission": "Phân quyền",
     "routing": "Định nghĩa quy trình",
     "routingCreate": "Tạo quy trình",
     "routingDetail": "Chi tiết quy trình",
@@ -214,6 +214,16 @@
     "inactive": "Ngừng hoạt động",
     "active": "Đang hoạt động",
     "deleted": "Đã xóa"
+  },
+  "userPermission": {
+    "department": "Chọn bộ phận",
+    "role": "Chọn chức vụ",
+    "screen": "Chọn màn",
+    "system": "Chọn hệ thống",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "id": "ID",
+    "permission": "Quyền",
+    "status": "Trạng thái"
   },
   "defineItem": {
     "title": "Danh sách sản phẩm",

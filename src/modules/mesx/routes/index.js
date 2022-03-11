@@ -1,5 +1,3 @@
-import React from 'react'
-
 import BomProducingStepDetail from '~/modules/mesx/features/bom-operation/detail'
 import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
 import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
@@ -65,7 +63,8 @@ import SOExportForm from '~/modules/mesx/features/so-export/form'
 import SOExport from '~/modules/mesx/features/so-export/list'
 import UserManagement from '~/modules/mesx/features/user-management'
 import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
-import UserForm from '~/modules/mesx/features/user-management/user-form'
+import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
+import UserPermission from '~/modules/mesx/features/user-permission'
 import WorkCenterForm from '~/modules/mesx/features/work-center/form'
 import WorkCenter from '~/modules/mesx/features/work-center/list'
 
@@ -812,7 +811,7 @@ const routes = [
           {
             name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
-            component: UserForm,
+            component: UserManagementForm,
             pathActive: ROUTE.USER_MANAGEMENT.CREATE.PATH,
             isInSidebar: false,
           },
@@ -826,15 +825,15 @@ const routes = [
           {
             name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
-            component: UserForm,
+            component: UserManagementForm,
             isInSidebar: false,
           },
         ],
       },
       {
-        name: 'permission',
-        path: '/user-permission',
-        component: () => <h1>permission</h1>,
+        name: ROUTE.USER_PERMISSION.TITLE,
+        path: ROUTE.USER_PERMISSION.PATH,
+        component: UserPermission,
         isInSidebar: true,
       },
       {

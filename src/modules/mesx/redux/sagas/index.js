@@ -187,6 +187,8 @@ import watchResetPassword from './user-management/reset-password'
 import watchSearchUsers from './user-management/search-users'
 import watchUpdateUser from './user-management/update-user'
 import watchVerifyOTP from './user-management/verify-otp-code'
+import watchGetUserPermission from './user-permission/get-user-permission'
+import watchUpdateUserPermission from './user-permission/update-user-permission'
 import watchConfirmWorkCenterPlan from './work-center-plan/confirm-work-center-plan.saga'
 import watchCreateWorkCenterPlan from './work-center-plan/create-work-center-plan.saga'
 import watchDeleteWorkCenterPlan from './work-center-plan/delete-work-center-plan.saga'
@@ -485,5 +487,8 @@ export default function* sagas() {
 
     // productivity compare
     watchGetProductivityCompareList(),
+    //user-permission
+    watchGetUserPermission(),
+    watchUpdateUserPermission(),
   ])
 }
