@@ -10,9 +10,12 @@ export const CREATE_MASTER_PLAN_START = 'CREATE_MASTER_PLAN_START'
 export const CREATE_MASTER_PLAN_SUCCESS = 'CREATE_MASTER_PLAN_SUCCESS'
 export const CREATE_MASTER_PLAN_FAILED = 'CREATE_MASTER_PLAN_FAILED'
 
-export const GET_MODERATION_SUGGEST_SPREAD_START = 'GET_MODERATION_SUGGEST_SPREAD_START'
-export const GET_MODERATION_SUGGEST_SPREAD_SUCCESS = 'GET_MODERATION_SUGGEST_SPREAD_SUCCESS'
-export const GET_MODERATION_SUGGEST_SPREAD_FAILED = 'GET_MODERATION_SUGGEST_SPREAD_FAILED'
+export const GET_MODERATION_SUGGEST_SPREAD_START =
+  'GET_MODERATION_SUGGEST_SPREAD_START'
+export const GET_MODERATION_SUGGEST_SPREAD_SUCCESS =
+  'GET_MODERATION_SUGGEST_SPREAD_SUCCESS'
+export const GET_MODERATION_SUGGEST_SPREAD_FAILED =
+  'GET_MODERATION_SUGGEST_SPREAD_FAILED'
 
 export const SUBMIT_MODERATION_INPUT_START = 'SUBMIT_MODERATION_INPUT_START'
 export const SUBMIT_MODERATION_INPUT_SUCCESS = 'SUBMIT_MODERATION_INPUT_SUCCESS'
@@ -26,8 +29,18 @@ export const EXTEND_DEADLINE_SUCCESS = 'EXTEND_DEADLINE_SUCCESS'
 export const EXTEND_DEADLINE_FAILED = 'EXTEND_DEADLINE_FAILED'
 
 export const GET_PRODUCING_STEP_DETAIL_START = 'GET_PRODUCING_STEP_DETAIL_START'
-export const GET_PRODUCING_STEP_DETAIL_SUCCESS = 'GET_PRODUCING_STEP_DETAIL_SUCCESS'
-export const GET_PRODUCING_STEP_DETAIL_FAILED = 'GET_PRODUCING_STEP_DETAIL_FAILED'
+export const GET_PRODUCING_STEP_DETAIL_SUCCESS =
+  'GET_PRODUCING_STEP_DETAIL_SUCCESS'
+export const GET_PRODUCING_STEP_DETAIL_FAILED =
+  'GET_PRODUCING_STEP_DETAIL_FAILED'
+
+export const APPROVE_MASTER_PLAN = 'APPROVE_MASTER_PLAN'
+export const APPROVE_MASTER_PLAN_SUCCESS = 'APPROVE_MASTER_PLAN_SUCCESS'
+export const APPROVE_MASTER_PLAN_FAILED = 'APPROVE_MASTER_PLAN_FAILED'
+
+export const REJECT_MASTER_PLAN = 'REJECT_MASTER_PLAN'
+export const REJECT_MASTER_PLAN_SUCCESS = 'REJECT_MASTER_PLAN_SUCCESS'
+export const REJECT_MASTER_PLAN_FAILED = 'REJECT_MASTER_PLAN_FAILED'
 
 /**
  * Search master plans
@@ -36,7 +49,7 @@ export const GET_PRODUCING_STEP_DETAIL_FAILED = 'GET_PRODUCING_STEP_DETAIL_FAILE
  * @param {function} onError Callback function on error
  * @returns {object}
  */
- export function searchMasterPlans(payload, onSuccess, onError) {
+export function searchMasterPlans(payload, onSuccess, onError) {
   return {
     type: SEARCH_MASTER_PLANS_START,
     payload: payload,
@@ -74,7 +87,7 @@ export function searchMasterPlansFailed() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function getMasterPlanDetailsById(masterPlanId, onSuccess, onError) {
+export function getMasterPlanDetailsById(masterPlanId, onSuccess, onError) {
   return {
     type: GET_MASTER_PLAN_DETAILS_START,
     payload: masterPlanId,
@@ -112,7 +125,7 @@ export function getMasterPlanDetailsByIdFailed() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function getModerationSuggestSpread(payload, onSuccess, onError) {
+export function getModerationSuggestSpread(payload, onSuccess, onError) {
   return {
     type: GET_MODERATION_SUGGEST_SPREAD_START,
     payload,
@@ -150,7 +163,7 @@ export function getModerationSuggestSpreadFailed() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function submitModerationInput(payload, onSuccess, onError) {
+export function submitModerationInput(payload, onSuccess, onError) {
   return {
     type: SUBMIT_MODERATION_INPUT_START,
     payload,
@@ -259,13 +272,13 @@ export function extendDeadlineFailed() {
 
 export function resetModerationSuggestSpread() {
   return {
-    type: RESET_MODERATION_SUGGEST_SPREAD
+    type: RESET_MODERATION_SUGGEST_SPREAD,
   }
 }
 
 export function resetMasterPlanDetails() {
   return {
-    type: RESET_MASTER_PLAN_DETAIL
+    type: RESET_MASTER_PLAN_DETAIL,
   }
 }
 
@@ -276,7 +289,11 @@ export function resetMasterPlanDetails() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
- export function getProducingStepDetail(itemProducingStepIds, onSuccess, onError) {
+export function getProducingStepDetail(
+  itemProducingStepIds,
+  onSuccess,
+  onError,
+) {
   return {
     type: GET_PRODUCING_STEP_DETAIL_START,
     payload: itemProducingStepIds,
@@ -307,7 +324,57 @@ export function getProducingStepDetailFailed() {
   }
 }
 
+export function approveMasterPlan(payload, onSuccess, onError) {
+  return {
+    type: APPROVE_MASTER_PLAN,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function approveMasterPlanSuccess(payload) {
+  return {
+    type: APPROVE_MASTER_PLAN_SUCCESS,
+    payload,
+  }
+}
+
+export function approveMasterPlanFailed() {
+  return {
+    type: APPROVE_MASTER_PLAN_FAILED,
+  }
+}
+
+export function rejectMasterPlan(payload, onSuccess, onError) {
+  return {
+    type: REJECT_MASTER_PLAN,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function rejectMasterPlanSuccess(payload) {
+  return {
+    type: REJECT_MASTER_PLAN_SUCCESS,
+    payload,
+  }
+}
+
+export function rejectMasterPlanFailed() {
+  return {
+    type: REJECT_MASTER_PLAN_FAILED,
+  }
+}
+
 export default {
+  approveMasterPlan,
+  approveMasterPlanSuccess,
+  approveMasterPlanFailed,
+  rejectMasterPlan,
+  rejectMasterPlanSuccess,
+  rejectMasterPlanFailed,
   searchMasterPlans,
   searchMasterPlansSuccess,
   searchMasterPlansFailed,

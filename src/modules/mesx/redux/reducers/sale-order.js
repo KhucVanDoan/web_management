@@ -22,12 +22,16 @@ import {
   UPDATE_SALE_ORDER_SUCCESS,
   RESET_SALE_ORDER_STATE,
   RESET_SALE_ORDER_LIST_STATE,
+  GET_SALE_ORDER_DETAIL_BY_IDS_FAILED,
+  GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS,
+  GET_SALE_ORDER_DETAIL_BY_IDS_START,
 } from '~/modules/mesx/redux/actions/sale-order'
 
 const initialState = {
   isLoading: false,
   saleOrderList: [],
   saleOrderDetails: {},
+  saleOrderDetailList: [],
   total: 0,
 }
 
@@ -46,6 +50,7 @@ export default function defineSaleOrder(state = initialState, action) {
     case GET_SALE_ORDER_DETAILS_START:
     case CONFIRM_SALE_ORDER_START:
     case REJECT_SALE_ORDER_START:
+    case GET_SALE_ORDER_DETAIL_BY_IDS_START:
       return {
         ...state,
         isLoading: true,
@@ -65,6 +70,13 @@ export default function defineSaleOrder(state = initialState, action) {
         ),
         isLoading: false,
       }
+    case GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS:
+      return {
+        ...state,
+        saleOrderDetailList: action.payload,
+        isLoading: false,
+      }
+    case GET_SALE_ORDER_DETAIL_BY_IDS_FAILED:
     case CONFIRM_SALE_ORDER_FAILED:
     case CONFIRM_SALE_ORDER_SUCCESS:
     case REJECT_SALE_ORDER_FAILED:

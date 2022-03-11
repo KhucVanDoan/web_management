@@ -24,13 +24,13 @@ const DefineMasterPlanForm = () => {
   const routeMatch = useRouteMatch()
   const {
     data: { isLoading, masterPlanDetails },
-    actions
+    actions,
   } = useDefineMasterPlan()
   const {
     data: { soList, factoryList },
     actions: commonManagementActions,
   } = useCommonManagement()
-  
+
   const MODE_MAP = {
     [ROUTE.MASTER_PLAN.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.MASTER_PLAN.DETAIL.PATH]: MODAL_MODE.DETAIL,
@@ -62,10 +62,17 @@ const DefineMasterPlanForm = () => {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
-      dateFrom: values?.planDate ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3) : '',
-      dateTo: values?.planDate ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3) : '',
-      dateFromSo: new Date().toISOString()
+      dateCompletion: +values.dateCompletion,
+      dateFrom: values?.planDate
+        ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3)
+        : '',
+      dateTo: values?.planDate
+        ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3)
+        : '',
+      dateFromSo: new Date().toISOString(),
+      saleOrders: values.soId.map((id) => ({ id })),
     }
+    delete convertValues.soId
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
         redirectToModeration(id)
@@ -169,26 +176,27 @@ const DefineMasterPlanForm = () => {
     }
   }
 
-  const handleChangeSaleOrder = (value, setFieldValue) => {
-    const saleOderDeadline = soList.find(so => so.id === value)?.deadline;
-    setFieldValue('planDate', [null, saleOderDeadline])
-  }
+  // const handleChangeSaleOrder = (value, setFieldValue) => {
+  //   const saleOderDeadline = soList.find((so) => so.id === value)?.deadline
+  //   // setFieldValue('planDate', [null, saleOderDeadline])
+  // }
 
-  const initialValues = (isUpdate || isDetail) && !isEmpty(masterPlanDetails)
-    ? {
-        ...masterPlanDetails,
-        planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo]
-      }
-    : {
-        code: '',
-        name: '',
-        soId: null,
-        factoryId: null,
-        description: '',
-        planDate: null,
-        dateFromSo: null,
-        dateCompletion: 0
-      }
+  const initialValues =
+    (isUpdate || isDetail) && !isEmpty(masterPlanDetails)
+      ? {
+          ...masterPlanDetails,
+          planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo],
+        }
+      : {
+          code: '',
+          name: '',
+          soId: null,
+          factoryId: null,
+          description: '',
+          planDate: null,
+          dateFromSo: null,
+          dateCompletion: 0,
+        }
 
   return (
     <Page
@@ -205,7 +213,7 @@ const DefineMasterPlanForm = () => {
             onSubmit={handleSubmit}
             enableReinitialize
           >
-            {({ resetForm, values, setFieldValue }) => (
+            {({ resetForm, values }) => (
               <Form>
                 <Grid
                   container
@@ -231,7 +239,10 @@ const DefineMasterPlanForm = () => {
                       options={soList}
                       getOptionLabel={(option) => option?.name || ''}
                       getOptionValue={(option) => option?.id}
-                      onChange={(id) => handleChangeSaleOrder(id, setFieldValue)}
+                      // onChange={(id) =>
+                      //   handleChangeSaleOrder(id, setFieldValue)
+                      // }
+                      multiple
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

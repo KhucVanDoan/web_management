@@ -14,7 +14,7 @@ import { api } from '~/services/api'
  */
 const getMasterPlanDetailsApi = (params) => {
   const uri = `/v1/plans/master-plans/${params}`
-  return api.get(uri, params)
+  return api.get(uri)
 }
 
 /**

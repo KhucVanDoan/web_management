@@ -29,6 +29,13 @@ export const REJECT_SALE_ORDER_FAILED = 'REJECT_SALE_ORDER_FAILED'
 export const RESET_SALE_ORDER_STATE = 'RESET_SALE_ORDER_STATE'
 export const RESET_SALE_ORDER_LIST_STATE = 'RESET_SALE_ORDER_LIST_STATE'
 
+export const GET_SALE_ORDER_DETAIL_BY_IDS_START =
+  'GET_SALE_ORDER_DETAIL_BY_IDS_START'
+export const GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS =
+  'GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS'
+export const GET_SALE_ORDER_DETAIL_BY_IDS_FAILED =
+  'GET_SALE_ORDER_DETAIL_BY_IDS_FAILED'
+
 /**
  * Search SaleOrder
  * @param {object} payload
@@ -305,6 +312,28 @@ export function resetSaleOrderListState() {
   }
 }
 
+export function getSaleOrderDetailsByIds(SaleOrderIds, onSuccess, onError) {
+  return {
+    type: GET_SALE_ORDER_DETAIL_BY_IDS_START,
+    payload: SaleOrderIds,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getSaleOrderDetailsByIdsSuccess(payload) {
+  return {
+    type: GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getSaleOrderDetailsByIdsFailed() {
+  return {
+    type: GET_SALE_ORDER_DETAIL_BY_IDS_FAILED,
+  }
+}
+
 export default {
   searchSaleOrders,
   searchSaleOrdersFailed,
@@ -329,4 +358,7 @@ export default {
   rejectSaleOrderByIdSuccess,
   resetSaleOrderState,
   resetSaleOrderListState,
+  getSaleOrderDetailsByIds,
+  getSaleOrderDetailsByIdsSuccess,
+  getSaleOrderDetailsByIdsFailed,
 }

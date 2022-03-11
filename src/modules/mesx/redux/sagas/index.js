@@ -74,11 +74,13 @@ import watchDeleteItem from './define-item/delete-item.saga'
 import watchGetItemDetails from './define-item/get-item-details.saga'
 import watchSearchItems from './define-item/search-items.saga'
 import watchUpdateItem from './define-item/update-item.saga'
+import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan.saga'
 import watchExtendDeadline from './define-master-plan/extend-deadline.saga'
 import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details.saga'
 import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread.saga'
 import watchGetProducingStepDetail from './define-master-plan/get-producing-step-detail.saga'
+import watchRejectMasterPlan from './define-master-plan/reject-master-plan'
 import watchSearchMasterPlans from './define-master-plan/search-master-plans.saga'
 import watchSubmitModerationInput from './define-master-plan/submit-moderation-input.saga'
 import watchConfirmPlan from './define-plan/confirm-plan.saga'
@@ -168,7 +170,8 @@ import watchUpdateRouting from './routing/update-routing'
 import watchConfirmSaleOrder from './sale-order/confirm-sale-order'
 import watchCreateSaleOrder from './sale-order/create-sale-order'
 import watchDeleteSaleOrder from './sale-order/delete-sale-order'
-import watchGetSaleOrderDetails from './sale-order/get-sale-order-details'
+import watchGetSaleOrderDetails from './sale-order/get-sale-order-detail_by_ids'
+import watchGetSaleOrderDetailByIds from './sale-order/get-sale-order-details'
 import watchRejectSaleOrder from './sale-order/reject-sale-order'
 import watchSearchSaleOrders from './sale-order/search-sale-orders'
 import watchUpdateSaleOrder from './sale-order/update-sale-order'
@@ -314,6 +317,7 @@ export default function* sagas() {
     watchGetSaleOrders(),
     watchGetQualityPoints(),
     watchGetItemQualityPoint(),
+    watchGetSaleOrderDetailByIds(),
 
     //routing
     watchConfirmRouting(),
@@ -349,7 +353,8 @@ export default function* sagas() {
     watchSubmitModerationInput(),
     watchExtendDeadline(),
     watchGetProducingStepDetail(),
-
+    watchApproveMasterPlan(),
+    watchRejectMasterPlan(),
     // producing step
     watchSearchProducingSteps(),
     watchUpdateProducingStep(),

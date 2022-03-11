@@ -977,3 +977,34 @@ export const USER_MANAGEMENT_STATUS_OPTIONS = [
     text: 'userStatus.deleted',
   },
 ]
+
+export const MASTER_PLAN_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'masterPlanStatus.created',
+  },
+  {
+    id: 1,
+    text: 'masterPlanStatus.confirmed',
+  },
+  {
+    id: 2,
+    text: 'masterPlanStatus.rejected',
+  },
+  {
+    id: 3,
+    text: 'masterPlanStatus.inProgress',
+  },
+  {
+    id: 4,
+    text: 'masterPlanStatus.completed',
+  },
+]
+
+export const MASTER_PLAN_STATUS = {
+  REJECTED: 0,
+  CREATED: 1,
+  CONFIRMED: 2,
+  IN_PROGRESS: 3,
+  COMPLETED: 4,
+}
