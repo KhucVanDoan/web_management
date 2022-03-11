@@ -29,10 +29,12 @@ import routingVersion from './routing-version.reducer'
 import saleOrder from './sale-order'
 import soExport from './so-export.reducer'
 import userManagement from './user-management'
+import userPermission from './user-permission'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
 import workOrder from './work-order'
 const reducers = {
+  userPermission,
   userManagement,
   commonManagement,
   defineItem,

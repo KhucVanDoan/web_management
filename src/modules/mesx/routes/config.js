@@ -499,6 +499,10 @@ export const ROUTE = {
       TITLE: 'userManagementEdit',
     },
   },
+  USER_PERMISSION: {
+    PATH: '/mesx/user-permission',
+    TITLE: 'userPermission',
+  },
   ITEM_UNIT: {
     LIST: {
       PATH: '/mesx/item-unit-define',
