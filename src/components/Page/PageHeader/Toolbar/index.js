@@ -11,13 +11,12 @@ const Toolbar = () => {
   const classes = useClasses(style)
   return (
     <Box className={classes.root}>
-      <Button icon="setting" color="grayEE" />
+      <Button className={classes.btn} icon="setting" color="grayEE" />
       <Button
+        className={classes.btn}
         icon="notification"
         color="grayEE"
         sx={{
-          width: '40px',
-          minWidth: '40px',
           padding: '9px 21px',
           '.MuiButton-startIcon': {
             margin: 0,
@@ -27,10 +26,9 @@ const Toolbar = () => {
         <Box className={classes.badge}>{2}</Box>
       </Button>
       <Button
+        className={classes.btn}
         color="grayEE"
         sx={{
-          width: 40,
-          minWidth: 40,
           padding: 0,
           backgroundImage: `url(https://loremflickr.com/320/240), url('add default avatar here')`,
           backgroundSize: 'cover',

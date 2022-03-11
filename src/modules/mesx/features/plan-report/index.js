@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 
 import { DATE_FORMAT_2, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import { PLAN_STATUS_MAP, SALE_ORDER_STATUS } from '~/modules/mesx/constants'
-import { searchMO } from '~/modules/mesx/redux/actions/mo.action'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -39,7 +38,7 @@ function PlanReport() {
     actions: actionPlan,
   } = useDefinePlan()
 
-  const dispatch = useDispatch() //@TODO: <linh.taquang> wait hook useMo
+  const { actions: actionMo } = useMo()
 
   const { actions: actionSaleOrder } = useSaleOrder()
 
@@ -320,7 +319,7 @@ function PlanReport() {
 
   useEffect(() => {
     refreshData()
-    dispatch(searchMO({ isGetAll: 1 }))
+    actionMo.searchMO({ isGetAll: 1 })
     actionSaleOrder.searchSaleOrders({
       isGetAll: 1,
       filter: JSON.stringify([
@@ -345,17 +344,20 @@ function PlanReport() {
     actionPlan.searchPlans(params)
   }
 
-  // @TODO <linh.taquang> refactor the bellow function (remove reasign)
   const handleGetData = (id) => {
     actionPlan.getPlanDetailsById(id, () => {
-      bomTree.map((bom) => {
+      const newBomTree = bomTree.map((bom) => {
         if (bom?.id === id) {
-          // eslint-disable-next-line no-param-reassign
-          bom['subBom'] = planDetails?.planBoms
+          const newBom = { ...bom }
+          if (!bom.subBom) {
+            newBom['subBom'] = planDetails?.planBoms
+          }
+          return newBom
+        } else {
+          return bom
         }
-        return bom
       })
-      setBomTree(bomTree)
+      setBomTree(newBomTree)
     })
   }
 

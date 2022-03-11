@@ -29,7 +29,7 @@ import {
 } from '~/modules/mesx/redux/actions/work-center-plan.action'
 import { onChangeTextField } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 class WorkCenterPlanList extends Component {
   /**
@@ -353,5 +353,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(WorkCenterPlanList)),
+  )(withStyles(style)(WorkCenterPlanList)),
 )

@@ -22,6 +22,7 @@ const Page = ({
   loading,
   sx,
   fitScreen,
+  freeSolo,
 }) => {
   const classes = useClasses(style)
 
@@ -36,17 +37,22 @@ const Page = ({
         breadcrumbs={breadcrumbs}
       />
 
-      <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          ...(fitScreen ? { overflow: 'auto', flex: 1 } : {}),
-        }}
-        {...PaperProps}
-      >
-        {children}
-      </Paper>
+      {freeSolo ? (
+        children
+      ) : (
+        <Paper
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            ...(fitScreen ? { overflow: 'auto', flex: 1 } : {}),
+          }}
+          {...PaperProps}
+        >
+          {children}
+        </Paper>
+      )}
+
       <PageFooter />
 
       <Loading open={loading}></Loading>
@@ -60,6 +66,7 @@ Page.defaultProps = {
   loading: false,
   sx: {},
   fitScreen: false,
+  freeSolo: false,
 }
 
 Page.propTypes = {
@@ -73,6 +80,7 @@ Page.propTypes = {
   loading: PropTypes.bool,
   sx: PropTypes.shape(),
   fitScreen: PropTypes.bool,
+  freeSolo: PropTypes.bool,
 }
 
 export default Page

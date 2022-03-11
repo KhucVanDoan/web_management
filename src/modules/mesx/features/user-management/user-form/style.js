@@ -1,6 +1,6 @@
 const style = {
   textField: {
-    width: '100%',
+    width: '70%',
   },
   widthBoxSelect: {
     width: '100%',
@@ -17,6 +17,9 @@ const style = {
   },
   marginLabel: {
     margin: '20px 0px',
+  },
+  marginAuto: {
+    margin: 'auto',
   },
   boxItem: {
     display: 'flex',

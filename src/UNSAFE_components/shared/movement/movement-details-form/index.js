@@ -22,7 +22,7 @@ import {
 import DataTable from '~/components/DataTable'
 import { formatDateTimeUtc } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 class MovementsForm extends Component {
   /**
@@ -359,5 +359,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(MovementsForm)),
+  )(withStyles(style)(MovementsForm)),
 )

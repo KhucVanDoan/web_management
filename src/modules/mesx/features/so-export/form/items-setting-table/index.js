@@ -30,7 +30,7 @@ import {
 import { getSaleOrderDetailsById } from '~/modules/mesx/redux/actions/sale-order'
 import { normalizeDecimal, scrollToBottom } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 class ItemSettingTable extends React.Component {
   constructor(props) {
@@ -725,5 +725,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(ItemSettingTable)),
+  )(withStyles(style)(ItemSettingTable)),
 )

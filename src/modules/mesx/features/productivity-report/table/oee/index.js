@@ -41,12 +41,14 @@ function OEETable(props) {
       },
     ]
     data.map((i) => {
-      rows[0][i.executionDay] = i.oeeActual
-      rows[1][i.executionDay] = i.oeePlan
-      rows[2][i.executionDay] = i.oeeAvailablility
-      rows[3][i.executionDay] = i.oeeQuality
-      rows[4][i.executionDay] = i.oeePerformance
-      rows[5][i.executionDay] = i.cumulativeActualOee
+      rows[0][i.executionDay] = Math.round(Number(i.oeeActual) * 100) / 100
+      rows[1][i.executionDay] = Math.round(Number(i.oeePlan) * 100) / 100
+      rows[2][i.executionDay] =
+        Math.round(Number(i.oeeAvailablility) * 100) / 100
+      rows[3][i.executionDay] = Math.round(Number(i.oeeQuality) * 100) / 100
+      rows[4][i.executionDay] = Math.round(Number(i.oeePerformance) * 100) / 100
+      rows[5][i.executionDay] =
+        Math.round(Number(i.cumulativeActualOee) * 100) / 100
       return rows
     })
     return rows

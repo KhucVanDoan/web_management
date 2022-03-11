@@ -52,7 +52,7 @@ const TextField = ({
         </FormLabel>
       )}
 
-      <Box sx={{ flex: 1, overflow: 'hidden' }}>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
         <OutlinedInput
           multiline={multiline}
           disabled={disabled}

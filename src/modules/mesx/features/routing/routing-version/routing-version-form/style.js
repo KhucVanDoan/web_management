@@ -1,4 +1,4 @@
-const useStyles = {
+const style = {
   textField: {
     width: '100%',
   },
@@ -26,5 +26,5 @@ const useStyles = {
   marginLeftItem: {
     marginLeft: '35px',
   },
-};
-export default useStyles;
+}
+export default style

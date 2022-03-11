@@ -2,10 +2,13 @@ import { Box } from '@mui/system'
 import { PropTypes } from 'prop-types'
 
 import { ReactComponent as Add } from '~/assets/images/icons/add.svg'
+import { ReactComponent as ArrowBottom } from '~/assets/images/icons/arrowBottom.svg'
 import { ReactComponent as ArrowDown } from '~/assets/images/icons/arrowDown.svg'
 import { ReactComponent as ArrowLeft } from '~/assets/images/icons/arrowLeft.svg'
 import { ReactComponent as Back } from '~/assets/images/icons/back.svg'
+import { ReactComponent as Bag } from '~/assets/images/icons/bag.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
+import { ReactComponent as Cart } from '~/assets/images/icons/cart.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
 import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
@@ -14,6 +17,7 @@ import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
+import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
 import { ReactComponent as Setting } from '~/assets/images/icons/setting.svg'
 import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
@@ -46,6 +50,10 @@ const icons = {
   arrowDown: <ArrowDown />,
   download: <Download />,
   remove: <Remove />,
+  arrowBottom: <ArrowBottom />,
+  bag: <Bag />,
+  cart: <Cart />,
+  rhombus: <Rhombus />,
 
   // menu
   drawer: <Drawer />,

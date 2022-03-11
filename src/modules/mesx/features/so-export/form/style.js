@@ -1,4 +1,4 @@
-const useStyles = {
+const style = {
   lineHeight: 'inherit',
   statusBox: {
     borderWidth: '1px',
@@ -12,6 +12,6 @@ const useStyles = {
   redText: {
     color: '#f44336',
   },
-};
+}
 
-export default useStyles;
+export default style

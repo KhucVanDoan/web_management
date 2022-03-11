@@ -4,6 +4,13 @@ const style = {
     overflowX: 'auto',
     position: 'relative',
   },
+  table: {
+    minWidth: 1800,
+    '& * .MuiTableCell-root': {
+      border: '1px solid #00000014',
+      padding: '10px 24px 10px 24px',
+    },
+  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',
@@ -27,9 +34,11 @@ const style = {
     },
     backgroundColor: '#00000007',
   },
+  selected: {},
   headerCell: {
     backgroundColor: '#bad9eb',
     fontWeight: 'bold',
+    height: '50px',
   },
   emptyTableMessage: {
     position: 'absolute',
@@ -49,7 +58,7 @@ const style = {
   headerRemoveCell: {
     backgroundColor: 'white',
     border: 'none !important',
-    height: '48px',
+    height: '70px',
   },
 }
 export default style

@@ -43,12 +43,18 @@ function ProductivityTable(props) {
       },
     ]
     data.map((i) => {
-      rows[0][i.executionDay] = i.planExecutionTime
-      rows[1][i.executionDay] = i.actualExecutionTime
-      rows[2][i.executionDay] = i.planProductivity
-      rows[3][i.executionDay] = i.actualProductivity
-      rows[4][i.executionDay] = i.cumulativePlanProductivity
-      rows[5][i.executionDay] = i.cumulativeActualProductivity
+      rows[0][i.executionDay] =
+        Math.round(Number(i.planExecutionTime) * 100) / 100
+      rows[1][i.executionDay] =
+        Math.round(Number(i.actualExecutionTime) * 100) / 100
+      rows[2][i.executionDay] =
+        Math.round(Number(i.planProductivity) * 100) / 100
+      rows[3][i.executionDay] =
+        Math.round(Number(i.actualProductivity) * 100) / 100
+      rows[4][i.executionDay] =
+        Math.round(Number(i.cumulativePlanProductivity) * 100) / 100
+      rows[5][i.executionDay] =
+        Math.round(Number(i.cumulativeActualProductivity) * 100) / 100
       return rows
     })
     return rows

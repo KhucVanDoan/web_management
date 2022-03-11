@@ -17,6 +17,21 @@ const PageHeader = ({
   renderHeaderRight,
   breadcrumbs,
 }) => {
+  if (!onSearch && !onBack) {
+    return (
+      <Box sx={{ display: 'flex', mb: 2 }}>
+        <Box sx={{ mr: 1 }}>
+          <Typography variant="h1">{title}</Typography>
+          {breadcrumbs && (
+            <Breadcrumbs breadcrumbs={breadcrumbs} sx={{ mt: '8px' }} />
+          )}
+        </Box>
+
+        <Toolbar />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Box sx={{ display: 'flex', mb: 2 }}>

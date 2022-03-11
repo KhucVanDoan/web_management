@@ -21,7 +21,7 @@ import {
 import { onChangeTextField } from '~/utils'
 
 import ItemGroupForm from './inventory-limit-form'
-import useStyles from './style'
+import style from './style'
 
 // const breadcrumbs = [
 //   {
@@ -363,5 +363,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(InventoryLimit)),
+  )(withStyles(style)(InventoryLimit)),
 )

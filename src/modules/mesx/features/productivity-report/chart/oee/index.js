@@ -8,18 +8,18 @@ function OEEChart(props) {
   const actualOEEData = data.map((i) => ({
     time: i?.executionDay,
     type: t('productivityReport.actualOEE'),
-    value: Number(i?.oeeActual),
+    value: Math.round(Number(i?.oeeActual) * 100) / 100,
   }))
 
   const planOEEData = data.map((i) => ({
     time: i?.executionDay,
-    count: Number(i?.oeePlan),
+    count: Math.round(Number(i?.oeePlan) * 100) / 100,
     name: t('productivityReport.planOEE'),
   }))
 
   const cumulativeActualOEEData = data.map((i) => ({
     time: i?.executionDay,
-    count: Number(i?.cumulativeActualOee),
+    count: Math.round(Number(i?.cumulativeActualOee) * 100) / 100,
     name: t('productivityReport.cumulativeActualOEE'),
   }))
 

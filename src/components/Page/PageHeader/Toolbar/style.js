@@ -6,6 +6,11 @@ const style = (theme) => ({
       marginLeft: 16,
     },
   },
+  btn: {
+    width: 40,
+    minWidth: 40,
+    height: 40,
+  },
   badge: {
     position: 'absolute',
     top: 7,

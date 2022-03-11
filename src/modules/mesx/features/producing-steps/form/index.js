@@ -6,16 +6,15 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { searchWorkCenter } from '~/modules/mesx/redux/actions/work-center'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
+import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { validationSchema } from './schema'
@@ -25,13 +24,16 @@ function ProducingStepForm() {
   const { id } = useParams()
   const history = useHistory()
   const routeMatch = useRouteMatch()
-  const dispatch = useDispatch()
-  const wcList = useSelector((state) => state.workCenter.wcList) // waitting hook workCenter from feature/mesx-work-center
 
   const {
     data: { qcList },
     actions: actionCommon,
   } = useCommonManagement()
+
+  const {
+    data: { wcList },
+    actions: actionWorkCenter,
+  } = useWorkCenter()
 
   const {
     data: { isLoading, details },
@@ -177,7 +179,7 @@ function ProducingStepForm() {
       actions.getProducingStepDetailsById(id)
     }
     actionCommon.searchQualityPoints()
-    dispatch(searchWorkCenter()) // @TODO <linh.taquang> waitting hook workCenter from feature/mesx-work-center
+    actionWorkCenter.searchWorkCenter()
     return () => actions.resetProducingStepState()
   }, [id])
 

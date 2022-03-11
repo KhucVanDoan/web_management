@@ -26,7 +26,7 @@ import { onChangeTextField, formatDateTimeUtc, formatInput } from '~/utils'
 import addNotification from '~/utils/toast'
 
 import ProducingStepsTable from './producing-steps-table'
-import useStyles from './style'
+import style from './style'
 
 const DEFAULT_PRODUCING_STEP = {
   id: 1,
@@ -385,5 +385,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(withRouter(RoutingVersionForm))),
+  )(withStyles(style)(withRouter(RoutingVersionForm))),
 )

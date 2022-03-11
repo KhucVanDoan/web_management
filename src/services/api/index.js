@@ -23,6 +23,7 @@ const instance = axios.create({
     contentType: 'application/json',
     accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
+    lang: i18n?.language || 'vi',
   },
 })
 
