@@ -41,7 +41,7 @@ const DefineMasterPlanForm = () => {
   const isDetail = mode === MODAL_MODE.DETAIL
 
   useEffect(() => {
-    commonManagementActions.getSaleOrders()
+    commonManagementActions.getSaleOrders({ isGetAll: 1 })
     commonManagementActions.getFactories()
 
     return () => {
@@ -186,6 +186,7 @@ const DefineMasterPlanForm = () => {
       ? {
           ...masterPlanDetails,
           planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo],
+          soId: masterPlanDetails.saleOrderSchedules?.map(saleOrderSchedule => saleOrderSchedule.id)
         }
       : {
           code: '',
