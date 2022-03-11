@@ -1,8 +1,8 @@
-const useStyles = {
+const style = {
   boxItem: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-};
-export default useStyles;
+}
+export default style

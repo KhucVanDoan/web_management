@@ -1,178 +1,96 @@
-import { Component } from 'react'
+import { useEffect } from 'react'
 
-import { FilterList } from '@mui/icons-material'
-import {
-  Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Divider,
-  IconButton,
-} from '@mui/material'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import {
-  Line,
-  ResponsiveContainer,
-  Bar,
-  Legend,
-  ComposedChart,
-  Tooltip,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { DualAxes } from '@ant-design/plots'
+import { Box, Typography, Card } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
-import { getDashboardProducingStepProgress } from '~/modules/mesx/redux/actions/dashboard-store.action'
-import { bigNumberFormater } from '~/utils/number'
+import { useDashboardProducingStepProgress } from '~/modules/mesx/redux/hooks/useDashboard'
 
-import FilterModal from '../filter-modal/filter-modal'
-import useStyles from './style'
+import Filter from './filter'
 
-class ProducingStepProgressReport extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      moId: 0,
-      itemId: 0,
-      isOpenModal: false,
-      items: [],
-      routingId: 0,
-      producingStepId: 0,
-      routing: {},
-      producingSteps: [],
-    }
-  }
+function ProducingStepProgressReport() {
+  const { t } = useTranslation(['mesx'])
 
-  componentDidMount() {
-    this.getData()
-  }
+  const {
+    data: { producingStepProgress },
+    actions,
+  } = useDashboardProducingStepProgress()
 
-  getData = () => {
-    const { moId, itemId, producingStepId, routingId } = this.state
-    const payload = {}
-    if (moId) payload.boqId = moId
-    if (itemId) payload.itemId = itemId
-    if (producingStepId) payload.producingStepId = producingStepId
-    if (routingId) payload.routingId = routingId
-    this.props.getDashboardProducingStepProgress(payload)
-  }
+  const columnData = []
+  const lineData = []
 
-  handleFilter = (data) => {
-    this.setState(
+  useEffect(() => {
+    actions.getDashboardProducingStepProgress()
+  }, [])
+
+  const producedQuantityData = producingStepProgress.map((i) => ({
+    type: t('dashboard.producedQuantity'),
+    time: i?.date,
+    value: i?.producedQuantity,
+  }))
+
+  const planQuantity = producingStepProgress.map((i) => ({
+    name: t('dashboard.planQuantity'),
+    time: i?.date,
+    value: i?.planQuantity,
+  }))
+
+  const todoQuantityData = producingStepProgress.map((i) => ({
+    name: t('dashboard.toDoQuantity'),
+    time: i?.date,
+    value: i?.todoQuantity,
+  }))
+
+  columnData.push(...producedQuantityData)
+  lineData.push(...planQuantity, ...todoQuantityData)
+
+  const config = {
+    data: [columnData, lineData],
+    xField: 'time',
+    yField: ['value', 'count'],
+    geometryOptions: [
       {
-        ...data,
-        isOpenModal: false,
+        geometry: 'column',
+        isGroup: true,
+        seriesField: 'type',
+        columnWidthRatio: 0.4,
       },
-      this.getData,
-    )
+      {
+        geometry: 'line',
+        seriesField: 'name',
+        lineStyle: ({ name }) => {
+          if (name === 'a') {
+            return {
+              lineDash: [1, 4],
+              opacity: 1,
+            }
+          }
+
+          return {
+            opacity: 0.5,
+          }
+        },
+      },
+    ],
+    legend: {
+      layout: 'vertical',
+      position: 'bottom',
+    },
   }
 
-  handleOpenModal = () => this.setState({ isOpenModal: true })
-  onCloseModal = () => this.setState({ isOpenModal: false })
-
-  render() {
-    const { t, classes, data } = this.props
-    const { isOpenModal } = this.state
-    return (
-      <>
-        <Box xs={12} lg={12} md={12}>
-          <Card className={classes.card}>
-            <CardContent className={classes.cardContent}>
-              <Grid
-                container
-                spacing={1}
-                justifyContent="flex-end"
-                alignItems="flex-end"
-                alignContent="flex-end"
-              >
-                <Box>
-                  <IconButton
-                    aria-label="settings"
-                    onClick={this.handleOpenModal}
-                    size="large"
-                  >
-                    <FilterList />
-                  </IconButton>
-                </Box>
-                <Divider />
-              </Grid>
-              <Typography
-                variant="h6"
-                className={classes.reportTitle}
-                color="primary"
-              >
-                {t('dashboard.producingStepProgress')}
-              </Typography>
-              <ResponsiveContainer width="100%" height={280}>
-                <ComposedChart
-                  width={500}
-                  height={400}
-                  data={data}
-                  margin={{
-                    top: 20,
-                    right: 20,
-                    bottom: 20,
-                    left: 20,
-                  }}
-                >
-                  <CartesianGrid stroke="#f5f5f5" />
-                  <XAxis dataKey="date" scale="band" />
-                  <YAxis tickFormatter={bigNumberFormater} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    dataKey="producedQuantity"
-                    barSize={20}
-                    fill="#413ea0"
-                    stackId="quantity"
-                    name={t('dashboard.producedQuantity')}
-                    // label={{ position: 'top' }}
-                  />
-                  <Bar
-                    dataKey="todoQuantity"
-                    barSize={20}
-                    fill="#A5A5A5"
-                    stackId="quantity"
-                    name={t('dashboard.toDoQuantity')}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="planQuantity"
-                    stroke="#ff7300"
-                    name={t('dashboard.plan')}
-                  />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </Box>
-
-        <FilterModal
-          handleSubmit={this.handleFilter}
-          onCloseModal={this.onCloseModal}
-          isOpenModal={isOpenModal}
-          {...this.state}
-        />
-      </>
-    )
-  }
+  return (
+    <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <Typography variant="h2">
+          {t('dashboard.producingStepProgress')}
+        </Typography>
+        <Filter />
+      </Box>
+      <Box sx={{ height: 400 }}>
+        <DualAxes {...config} />
+      </Box>
+    </Card>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  mos: state.dashboard.inProgressMos,
-  data: state.dashboard.producingStepProgress,
-})
-
-const mapDispatchToProps = {
-  getDashboardProducingStepProgress,
-}
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(ProducingStepProgressReport)),
-)
+export default ProducingStepProgressReport

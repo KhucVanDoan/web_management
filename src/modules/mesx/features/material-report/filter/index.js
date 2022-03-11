@@ -2,14 +2,17 @@ import { useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 
 import { Field } from '~/components/Formik'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
-  const moList = useSelector((state) => state.Mo.moList) //@TODO: <linh.taquang> wait hook useMo
+
+  const {
+    data: { moList },
+  } = useMo()
 
   const [itemList, setItemList] = useState([])
   const {

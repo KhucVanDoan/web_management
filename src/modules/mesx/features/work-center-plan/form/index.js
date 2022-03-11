@@ -20,7 +20,7 @@ import {
 } from '~/modules/mesx/redux/actions/work-center-plan.action'
 
 import CustomTable from '../table'
-import useStyles from './style'
+import style from './style'
 
 class WorkCenterPlanForm extends Component {
   /**
@@ -243,5 +243,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(WorkCenterPlanForm)),
+  )(withStyles(style)(WorkCenterPlanForm)),
 )

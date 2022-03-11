@@ -22,7 +22,7 @@ import {
 } from '~/modules/mesx/redux/actions/inventory-limit.action'
 import { onChangeTextField, onChangeSelect, formatInput } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 class InventoryLimitForm extends Component {
   /**
@@ -513,5 +513,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(InventoryLimitForm)),
+  )(withStyles(style)(InventoryLimitForm)),
 )

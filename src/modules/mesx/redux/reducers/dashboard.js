@@ -6,7 +6,8 @@ import {
   GET_DASHBOARD_PRODUCING_STEP_PROGRESS_START_SUCCESS,
   GET_DASHBOARD_SUMMARY_START,
   GET_DASHBOARD_SUMMARY_SUCCESS,
-} from '~/modules/mesx/redux/actions/dashboard-store.action'
+  GET_DASHBOARD_FINISHED_ITEM_PROGRESS_START,
+} from '~/modules/mesx/redux/actions/dashboard'
 
 const initialState = {
   summary: {},
@@ -25,6 +26,7 @@ const initialState = {
 export default function dashboard(state = initialState, action) {
   switch (action.type) {
     case GET_DASHBOARD_SUMMARY_START:
+    case GET_DASHBOARD_FINISHED_ITEM_PROGRESS_START:
       return {
         ...state,
         isLoading: true,

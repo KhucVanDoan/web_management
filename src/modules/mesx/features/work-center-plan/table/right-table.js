@@ -15,7 +15,7 @@ import { withTranslation } from 'react-i18next'
 import { MODAL_MODE } from '~/common/constants'
 import TableHead from '~/components/DataTable/TableHead'
 
-import useStyles from './style'
+import style from './style'
 /**
  * Data Table
  */
@@ -153,4 +153,4 @@ NewTable.propsTypes = {
   reorderable: PropTypes.bool, // default false
 }
 
-export default withTranslation()(withStyles(useStyles)(NewTable))
+export default withTranslation()(withStyles(style)(NewTable))

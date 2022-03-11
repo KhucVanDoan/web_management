@@ -1,2 +1,2 @@
-const useStyles = {};
-export default useStyles;
+const style = {}
+export default style

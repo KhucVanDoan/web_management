@@ -2,6 +2,7 @@ const style = (theme) => ({
   root: {
     '& .MuiOutlinedInput-root': {
       padding: 0,
+      boxShadow: '0px 8px 8px rgba(102, 102, 102, 0.05)',
 
       '.MuiAutocomplete-input': {
         padding: '9px 16px',

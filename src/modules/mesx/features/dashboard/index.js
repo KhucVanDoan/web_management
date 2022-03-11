@@ -1,87 +1,65 @@
-/* eslint-disable */
+import React, { useEffect } from 'react'
 
-import React, { Component } from 'react'
-
-import { Box, Divider, Grid } from '@mui/material'
-import withStyles from '@mui/styles/withStyles'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { Grid } from '@mui/material'
+import { isEmpty } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 import Page from '~/components/Page'
-import { getDashboardInProgressMos } from '~/modules/mesx/redux/actions/dashboard-store.action'
+import { useDashboard } from '~/modules/mesx/redux/hooks/useDashboard'
+import { ROUTE } from '~/modules/mesx/routes/config'
 
 import FinishedProductProgress from './components/finished-product-progress'
 import ItemSummary from './components/item-summary'
 import MoStatusReport from './components/mo-status'
 import ProducingStepProgress from './components/producing-step-progress'
 import QcProducingStepProgress from './components/qc-producing-step-progress'
-import useStyles from './style'
 
 const breadcrumbs = [
   {
-    route: '/',
-    title: 'dashboard',
+    route: ROUTE.DASHBOARD.PATH,
+    title: ROUTE.DASHBOARD.TITLE,
   },
 ]
-class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+function Dashboard() {
+  const { t } = useTranslation(['mesx'])
+  const {
+    actions,
+    data: { inProgressMos, finishedItemProgress },
+  } = useDashboard()
 
-  componentDidMount() {
-    this.props.getDashboardInProgressMos()
-  }
+  useEffect(() => {
+    if (isEmpty(inProgressMos)) {
+      actions.getDashboardInProgressMos()
+    }
+  }, [inProgressMos])
 
-  render() {
-    const { t, classes } = this.props
-    return <p>Dashboard</p>
-    // return (
-    //   <Page title={t('dashboard.title')} onSearch={() => {}}>
-    //     <Box container>
-    //       <Grid container xs={12} className={classes.summarySection}>
-    //         <ItemSummary />
-    //       </Grid>
-    //       <Divider />
-    //     </Box>
-    //     <Box container marginTop={'20px'}>
-    //       <Grid container xs={12} className={classes.summarySection}>
-    //         <Grid container className={classes.displayFlex} spacing={4}>
-    //           <Grid item xs={12} lg={6} md={6}>
-    //             <MoStatusReport />
-    //           </Grid>
-    //           <Grid item xs={12} lg={6} md={6}>
-    //             <FinishedProductProgress />
-    //           </Grid>
-    //         </Grid>
-    //       </Grid>
-    //     </Box>
-    //     <Box container marginTop={'20px'}>
-    //       <Grid container xs={12} className={classes.summarySection}>
-    //         <Grid container className={classes.displayFlex} spacing={4}>
-    //           <Grid item xs={12} lg={6} md={6}>
-    //             <ProducingStepProgress />
-    //           </Grid>
-    //           <Grid item xs={12} lg={6} md={6}>
-    //             <QcProducingStepProgress />
-    //           </Grid>
-    //         </Grid>
-    //       </Grid>
-    //     </Box>
-    //   </Page>
-    // )
-  }
+  useEffect(() => {
+    if (isEmpty(finishedItemProgress)) {
+      actions.getDashboardFinishedItemProgress()
+    }
+  }, [finishedItemProgress])
+
+  return (
+    <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <ItemSummary />
+        </Grid>
+        <Grid item xs={12} lg={6} md={6}>
+          <MoStatusReport />
+        </Grid>
+        <Grid item xs={12} lg={6} md={6}>
+          <FinishedProductProgress />
+        </Grid>
+        <Grid item xs={12} lg={6} md={6}>
+          <ProducingStepProgress />
+        </Grid>
+        <Grid item xs={12} lg={6} md={6}>
+          <QcProducingStepProgress />
+        </Grid>
+      </Grid>
+    </Page>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  itemTypes: state.appStore.itemTypes,
-})
-
-const mapDispatchToProps = { getDashboardInProgressMos }
-
-export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(Dashboard)),
-)
+export default Dashboard

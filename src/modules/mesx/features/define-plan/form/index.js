@@ -46,7 +46,7 @@ import {
   formatDateTimeUtc,
 } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 const MODAL_CONFIRM_TYPE = {
   APPROVE: 'APPROVE',
@@ -1413,5 +1413,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(DefinePlanForm)),
+  )(withStyles(style)(DefinePlanForm)),
 )

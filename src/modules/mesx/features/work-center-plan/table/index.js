@@ -16,7 +16,7 @@ import { DATE_FORMAT_2 } from '~/common/constants'
 import { formatDateTimeUtc } from '~/utils'
 
 import NewTable from './right-table'
-import useStyles from './style'
+import style from './style'
 
 const rows = (data) => {
   const shift = data[0]?.scheduleShiftDetails?.length
@@ -155,4 +155,4 @@ class CustomTable extends Component {
   }
 }
 
-export default withTranslation()(withStyles(useStyles)(CustomTable))
+export default withTranslation()(withStyles(style)(CustomTable))

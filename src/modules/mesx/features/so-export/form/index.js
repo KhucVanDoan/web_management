@@ -49,7 +49,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 // import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 import { onChangeTextField, redirectRouter } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 const DEFAULT_ITEM = {
   id: 0,
@@ -1487,8 +1487,5 @@ const mapDispatchToProps = {
 }
 
 export default withTranslation()(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(withStyles(useStyles)(SOExportForm)),
+  connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(SOExportForm)),
 )

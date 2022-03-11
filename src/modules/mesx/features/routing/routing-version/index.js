@@ -32,7 +32,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, onChangeTextField, redirectRouter } from '~/utils'
 
 import RoutingVersionForm from './routing-version-form'
-import useStyles from './style'
+import style from './style'
 
 // const breadcrumbs = [
 //   {
@@ -467,5 +467,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(withRouter(RoutingVersionSetting))),
+  )(withStyles(style)(withRouter(RoutingVersionSetting))),
 )

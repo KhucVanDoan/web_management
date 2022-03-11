@@ -8,37 +8,37 @@ function ProductivityChart(props) {
   const planExecutionTimeData = data.map((i) => ({
     time: i?.executionDay,
     type: t('productivityReport.planItemExecutionTime'),
-    value: Number(i?.planExecutionTime),
+    value: Math.round(Number(i?.planExecutionTime) * 100) / 100,
   }))
 
   const actualExecutionTimeData = data.map((i) => ({
     time: i?.executionDay,
     type: t('productivityReport.actualItemExecutionTime'),
-    value: Number(i?.actualExecutionTime),
+    value: Math.round(Number(i?.actualExecutionTime) * 100) / 100,
   }))
 
   const planProductivityData = data.map((i) => ({
     time: i?.executionDay,
     type: t('productivityReport.planProductivity'),
-    value: Number(i?.planProductivity),
+    value: Math.round(Number(i?.planProductivity) * 100) / 100,
   }))
 
   const actualProductivityData = data.map((i) => ({
     time: i?.executionDay,
     type: t('productivityReport.actualProductivity'),
-    value: Number(i?.actualProductivity),
+    value: Math.round(Number(i?.actualProductivity) * 100) / 100,
   }))
 
   const cummulativePlanProductivityData = data.map((i) => ({
     time: i?.executionDay,
     name: t('productivityReport.cummulativePlanProductivity'),
-    count: Number(i?.cumulativePlanProductivity),
+    count: Math.round(Number(i?.cumulativePlanProductivity) * 100) / 100,
   }))
 
   const cummulativeActualProductivityData = data.map((i) => ({
     time: i?.executionDay,
     name: t('productivityReport.cummulativeActualProductivity'),
-    count: Number(i?.cumulativeActualProductivity),
+    count: Math.round(Number(i?.cumulativeActualProductivity) * 100) / 100,
   }))
 
   columnData.push(

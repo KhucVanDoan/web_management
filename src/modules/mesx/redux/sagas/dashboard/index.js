@@ -17,7 +17,7 @@ import {
   getDashboardQCProducingStepProgressSuccess,
   getDashboardProducingStepProgressSuccess,
   getDashboardInProgressMosSuccess,
-} from '~/modules/mesx/redux/actions/dashboard-store.action'
+} from '~/modules/mesx/redux/actions/dashboard'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -41,19 +41,19 @@ const getInProgressMosApi = (query) => {
   return api.get(uri, query)
 }
 
-const getFinishedItemProgressApi = (query) => {
+export const getFinishedItemProgressApi = (query) => {
   const uri = `/v1/produces/dashboards/finished-items/progress`
   return api.get(uri, query)
 }
 
-const getFinishedItemByMoApi = (query) => {
-  const uri = `/v1/produces/manufacturing-orders/${query.moId}/items/list`
-  return api.get(uri, query)
+export const getFinishedItemByMoApi = (query) => {
+  const uri = `/v1/produces/manufacturing-orders/${query}/items/list`
+  return api.get(uri)
 }
 
 const getAllItemByMoApi = (query) => {
-  const uri = `/v1/produces/manufacturing-orders/${query.moId}/bom-items/list`
-  return api.get(uri, query)
+  const uri = `/v1/produces/manufacturing-orders/${query}/bom-items/list`
+  return api.get(uri)
 }
 
 const getBomItemRoutingByMoApi = (query) => {

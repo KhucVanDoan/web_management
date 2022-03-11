@@ -18,7 +18,7 @@ import { getProducingSteps } from '~/modules/mesx/redux/actions/common'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { scrollToBottom, redirectRouter } from '~/utils'
 
-import useStyles from './style'
+import style from './style'
 
 class ProducingStepsTable extends React.Component {
   constructor(props) {
@@ -454,5 +454,5 @@ export default withTranslation()(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(withStyles(useStyles)(ProducingStepsTable)),
+  )(withStyles(style)(ProducingStepsTable)),
 )

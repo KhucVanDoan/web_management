@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { DATE_FORMAT_2, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
@@ -9,10 +8,7 @@ import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { PLAN_STATUS_MAP } from '~/modules/mesx/constants'
-import {
-  searchMO,
-  getBOMProducingStepStructureById,
-} from '~/modules/mesx/redux/actions/mo.action'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -23,7 +19,6 @@ import {
 
 import FilterForm from './filter'
 
-// import { DatePicker } from '@material-ui/pickers' // @TODO: use mui v5 instead
 const breadcrumbs = [
   {
     title: 'report',
@@ -44,16 +39,15 @@ function MaterialReport() {
     moFrom: '',
   }
 
-  //@TODO: <linh.taquang> wait hook useMo
-  const dispatch = useDispatch()
-  const isLoading = useSelector((state) => state.Mo.isLoading)
-  const total = useSelector((state) => state.Mo.total)
-  const moList = useSelector((state) => state.Mo.moList)
-
   const {
     appStore: { itemTypes },
     actions: actionAppstore,
   } = useAppStore()
+
+  const {
+    data: { isLoading, total, moList },
+    actions,
+  } = useMo()
 
   const {
     data: { saleOrderList },
@@ -327,23 +321,24 @@ function MaterialReport() {
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
-    dispatch(searchMO(params))
+    actions.searchMO(params)
   }
 
-  //@TODO: <linh.taquang> update the bellow code without param-reassign
   const handleGetData = (id) => {
-    dispatch(
-      getBOMProducingStepStructureById(id, (res) => {
-        bomTree.map((bom) => {
-          if (bom?.id === id) {
-            // eslint-disable-next-line no-param-reassign
-            bom['subBoms'] = res
+    actions.getBOMProducingStepStructureById(id, (res) => {
+      const newBomTree = bomTree.map((bom) => {
+        if (bom?.id === id) {
+          const newBom = { ...bom }
+          if (!bom.subBom) {
+            newBom['subBoms'] = res
           }
+          return newBom
+        } else {
           return bom
-        })
-        setBomTree(bomTree)
-      }),
-    )
+        }
+      })
+      setBomTree(newBomTree)
+    })
   }
   /**
    * Handle export file

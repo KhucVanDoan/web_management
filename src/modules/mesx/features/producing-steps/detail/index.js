@@ -219,10 +219,6 @@ const ProducingStepDetail = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                {/* <Input type="file" /> */}
-                {/* @TODO: has Input in detail ??? */}
-              </Grid>
             </Grid>
           </Grid>
         </Grid>
