@@ -53,7 +53,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
             <>{shiftObject?.startAt}</>
           ) : (
             <Box flex={1} alignItems="center" key={`startAt${id}`}>
-              <Field.TextField name={`shifts[${index}].startAt`} type="time" />
+              <Field.TimePicker name={`shifts[${index}].startAt`} />
               {startAt && endAt && isAfter(startAt, endAt) && (
                 <FormHelperText error>
                   {t('form.invalidTimeRange')}
@@ -75,7 +75,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           return isView ? (
             <>{shiftObject?.endAt}</>
           ) : (
-            <Field.TextField name={`shifts[${index}].endAt`} type="time" />
+            <Field.TimePicker name={`shifts[${index}].endAt`} />
           )
         },
       },

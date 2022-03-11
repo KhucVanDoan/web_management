@@ -70,16 +70,14 @@ const BreakTimeTable = ({
                   alignItems="center"
                   flex={1}
                 >
-                  <Field.TextField
+                  <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
-                    type="time"
                   />
                   <Box mx={1} display="flex" alignItems="center">
                     {t('workCenter.to')}
                   </Box>
-                  <Field.TextField
+                  <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
-                    type="time"
                   />
                 </Box>
               </Box>
