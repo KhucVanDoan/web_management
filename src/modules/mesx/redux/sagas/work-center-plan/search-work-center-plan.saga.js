@@ -13,8 +13,8 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const searchWorkCenterPlanApi = (data) => {
-  const { id, params } = data
-  const uri = `v1/produces/work-orders/${id}/schedules`
+  const { params } = data
+  const uri = `v1/produces/work-orders/schedule-details/list`
   return api.get(uri, params)
 }
 

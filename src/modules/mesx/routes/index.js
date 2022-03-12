@@ -72,6 +72,8 @@ import detailSchedule from '../features/detail-schedule/detail'
 import PriceReport from '../features/price-report'
 import PriceDetail from '../features/price-report/price-detail'
 import ProductivityCompareReport from '../features/productivity-compare-report'
+import DetailWorkCenterPlan from '../features/work-center-plan/form-detail'
+import WorkCenterPlanList from '../features/work-center-plan/list'
 import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
@@ -312,6 +314,21 @@ const routes = [
             name: ROUTE.REQUEST_BUY_MATERIAL.EDIT.TITLE,
             path: ROUTE.REQUEST_BUY_MATERIAL.EDIT.PATH,
             component: RequestBuyMaterialForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WORK_CENTER_PLAN.LIST.TITLE,
+        path: ROUTE.WORK_CENTER_PLAN.LIST.PATH,
+        component: WorkCenterPlanList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WORK_CENTER_PLAN.DETAIL.TITLE,
+            path: ROUTE.WORK_CENTER_PLAN.DETAIL.PATH,
+            component: DetailWorkCenterPlan,
+            pathActive: ROUTE.WORK_CENTER_PLAN.DETAIL.PATH,
             isInSidebar: false,
           },
         ],

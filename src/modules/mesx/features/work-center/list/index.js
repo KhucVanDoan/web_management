@@ -84,7 +84,6 @@ const WorkCenter = () => {
       headerName: t('workCenter.factoryName'),
       width: 200,
       sortable: true,
-      type: 'categorical',
       renderCell: (params) => {
         const { row } = params
         return row?.factory?.name

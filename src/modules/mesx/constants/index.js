@@ -831,22 +831,27 @@ export const WORK_CENTER_PLAN_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'workCenterPlanStatus.created',
+    color: 'created',
   },
   {
     id: 1,
     text: 'workCenterPlanStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'workCenterPlanStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'workCenterPlanStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'workCenterPlanStatus.inProgress',
+    color: 'inProgress',
   },
 ]
 export const WORK_CENTER_PLAN_STATUS_TO_DELETE = [

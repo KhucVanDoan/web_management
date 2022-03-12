@@ -80,6 +80,7 @@
     "workOrderEdit": "Sửa lệnh làm việc",
     "login": "Đăng nhập hệ thống",
     "workCenter": "Định nghĩa xưởng",
+    "workCenterPlan": "Danh sách kế hoạch xưởng",
     "workCenterCreate": "Tạo xưởng sản xuất",
     "workCenterDetail": "Chi tiết xưởng sản xuất",
     "workCenterEdit": "Sửa xưởng sản xuất",
@@ -119,7 +120,8 @@
     "masterPlanEdit": "Cập nhật kế hoạch cơ sở",
     "autoModeration": "Chi tiết công việc",
     "extendDeadline": "Giãn ngày kết thúc",
-    "inputModeration": "Điều độ công việc"
+    "inputModeration": "Điều độ công việc",
+    "detailWorkCenterPlan": "Chi tiết kế hoạch cho xưởng"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
@@ -1538,10 +1540,12 @@
   },
   "workCenterPlan": {
     "title": "Danh sách kế hoạch xưởng",
-    "searchPlaceHolder": "Tìm kiếm theo mã hoặc tên",
+    "searchPlaceHolder": "Tìm kiếm thông tin",
     "id": "#",
     "planCode": "Mã kế hoạch",
     "woCode": "Mã lệnh làm việc",
+    "moCode": "Mã lệnh sản xuất",
+    "itemName": "Tên sản phẩm",
     "code": "Mã xưởng",
     "name": "Tên xưởng",
     "status": "Trạng thái",
@@ -1551,6 +1555,7 @@
     "action": "Hành động",
     "sum": "Tổng",
     "plan": "Kế hoạch",
+    "producingStepName": "Tên công đoạn",
     "planingAmount": "Số lượng kế hoạch",
     "planModeration": "Điều độ kế hoạch",
     "productAmount": "Số lượng sản xuất",
@@ -1562,7 +1567,10 @@
     "editWorkCenterPlan": "Sửa kế hoạch cho xưởng",
     "detailWorkCenterPlan": "Chi tiết kế hoạch cho xưởng",
     "createWorkCenterPlanSuccess": "Tạo kế hoạch xưởng thành công",
-    "updateWorkCenterPlanSuccess": "Cập nhật kế hoạch xưởng thành công"
+    "updateWorkCenterPlanSuccess": "Cập nhật kế hoạch xưởng thành công",
+    "workCenterScheduleDetails": "Kế hoạch sản xuất",
+    "defaultScheduleQcDetails": "Kế hoạch QC",
+    "workCenterRepairScheduleDetails": "Kế hoạch sửa lại"
   },
   "workCenterPlanStatus": {
     "created": "Chờ xác nhận",
