@@ -24,6 +24,7 @@ import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
+import { ReactComponent as User } from '~/assets/images/icons/user.svg'
 import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
 // menu
 import { ReactComponent as Drawer } from '~/assets/images/menu/drawer.svg'
@@ -50,6 +51,7 @@ const icons = {
   arrowDown: <ArrowDown />,
   download: <Download />,
   remove: <Remove />,
+  user: <User />,
   arrowBottom: <ArrowBottom />,
   bag: <Bag />,
   cart: <Cart />,

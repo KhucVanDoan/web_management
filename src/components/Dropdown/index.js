@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { PropTypes } from 'prop-types'
@@ -44,6 +45,9 @@ const Dropdown = ({
             key={index}
             onClick={(event) => handleMenuItemClick(option, event, index)}
           >
+            {option?.icon && (
+              <Box sx={{ display: 'inline-flex', mr: 1 }}>{option?.icon}</Box>
+            )}
             {getOptionLabel(option)}
           </MenuItem>
         ))}

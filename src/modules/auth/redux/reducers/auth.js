@@ -29,6 +29,7 @@ export default function auth(state = initialState, action) {
     case LOGOUT_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         userInfo: {},
       }
     case LOGIN_SUCCESS:
