@@ -7,9 +7,9 @@ export const validationSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
         }),
       ),
     name: Yup.string()
@@ -26,7 +26,11 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    soId: Yup.number().typeError(t('general:form.numeric')).required(t('general:form.required')),
-    factoryId: Yup.number().typeError(t('general:form.numeric')).required(t('general:form.required')),
+    soId: Yup.number()
+      .typeError(t('general:form.numeric'))
+      .required(t('general:form.required')),
+    factoryId: Yup.number()
+      .typeError(t('general:form.numeric'))
+      .required(t('general:form.required')),
     planDate: Yup.array().nullable(),
   })
