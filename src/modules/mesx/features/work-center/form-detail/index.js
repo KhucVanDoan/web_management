@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Tab } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import { cloneDeep, groupBy, isEmpty, isNil, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +10,7 @@ import { MODAL_MODE } from '~/common/constants'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
@@ -24,7 +24,6 @@ const FormDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
-  const [tabValue, setTabValue] = useState('1')
   const mode = MODAL_MODE.DETAIL
 
   const [shifts, setShifts] = useState([
@@ -118,9 +117,7 @@ const FormDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WORK_CENTER.LIST.PATH)
   }
-  const handleChangeTabValue = (event, value) => {
-    setTabValue(value)
-  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -209,15 +206,9 @@ const FormDetail = () => {
         </Grid>
       </Grid>
 
-      <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChangeTabValue} sx={{ mt: 3 }}>
-            <Tab label={t('workCenter.detailInfo')} value="1" />
-            <Tab label={t('workCenter.timeSetup')} value="2" />
-          </TabList>
-        </Box>
-
-        <TabPanel value="1" sx={{ px: 0 }}>
+      <Tabs labels={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}>
+        {/* Tab 1 */}
+        <Box>
           <Grid container columnSpacing={4} rowSpacing={4 / 3}>
             <Grid item lg={6} xs={12}>
               <LV
@@ -232,9 +223,10 @@ const FormDetail = () => {
               />
             </Grid>
           </Grid>
-        </TabPanel>
+        </Box>
 
-        <TabPanel value="2" sx={{ px: 0 }}>
+        {/* Tab 2 */}
+        <Box>
           <Box sx={{ mt: 1 }}>
             <ShiftTable shifts={shifts} mode={mode} />
           </Box>
@@ -245,8 +237,8 @@ const FormDetail = () => {
               breakTimes={breakTime}
             />
           </Box>
-        </TabPanel>
-      </TabContext>
+        </Box>
+      </Tabs>
 
       <Box display="flex" justifyContent="flex-end" sx={{ mt: 4 }}>
         <Button onClick={backToList} color="grayF4">

@@ -5,10 +5,10 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch } from 'react-router-dom'
 
-import BasicTabs from '~/UNSAFE_components/shared/tab'
 import { MODAL_MODE } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -250,19 +250,28 @@ const MOForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <BasicTabs>
+                <Tabs
+                  labels={[
+                    t('Mo.itemDetails'),
+                    t('defineBOM.BOMStructure'),
+                    t('defineBOM.BOMStructureOperation'),
+                  ]}
+                >
+                  {/* Tab 1 */}
                   <ItemsSettingTable
                     saleOrders={saleOrders}
                     isSubmitForm={isSubmitForm}
                     updateSelectedItems={(itemIds) =>
                       setFieldValue('itemIds', itemIds)
                     }
-                  >
-                    {t('Mo.itemDetails')}
-                  </ItemsSettingTable>
-                  <div>{t('defineBOM.BOMStructure')}</div>
-                  <div>{t('defineBOM.BOMStructureOperation')}</div>
-                </BasicTabs>
+                  />
+
+                  {/* Tab 2 */}
+                  <Box />
+
+                  {/* Tab 3 */}
+                  <Box />
+                </Tabs>
                 <Box
                   sx={{
                     display: 'flex',

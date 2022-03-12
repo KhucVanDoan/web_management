@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { TabContext, TabPanel, TabList } from '@mui/lab'
-import { Checkbox, FormControlLabel, Grid, Tab } from '@mui/material'
+import { Checkbox, FormControlLabel, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import { Formik, Form, FieldArray } from 'formik'
@@ -12,6 +11,7 @@ import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants/index'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
@@ -26,7 +26,6 @@ function DefineItemForm() {
   const routeMatch = useRouteMatch()
   const history = useHistory()
   const params = useParams()
-  const [tabValue, setTabValue] = useState('1')
 
   const {
     data: { itemDetails, isLoading },
@@ -111,10 +110,6 @@ function DefineItemForm() {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-
-  const handleChangeTabValue = (event, value) => {
-    setTabValue(value)
-  }
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_ITEM.LIST.PATH)
@@ -305,16 +300,16 @@ function DefineItemForm() {
             {({ handleReset, values }) => {
               return (
                 <Form>
-                  <TabContext value={tabValue}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                      <TabList onChange={handleChangeTabValue}>
-                        <Tab label={t('defineItem.commonInfo')} value="1" />
-                        <Tab label={t('defineItem.storage')} value="2" />
-                        <Tab label={t('defineItem.storageInfo')} value="3" />
-                        <Tab label={t('defineItem.detail')} value="4" />
-                      </TabList>
-                    </Box>
-                    <TabPanel sx={{ px: 0 }} value="1">
+                  <Tabs
+                    labels={[
+                      t('defineItem.commonInfo'),
+                      t('defineItem.storage'),
+                      t('defineItem.storageInfo'),
+                      t('defineItem.detail'),
+                    ]}
+                  >
+                    {/* Tab 1 */}
+                    <Box>
                       <Grid
                         container
                         rowSpacing={4 / 3}
@@ -423,8 +418,10 @@ function DefineItemForm() {
                           />
                         </Grid>
                       </Grid>
-                    </TabPanel>
-                    <TabPanel sx={{ px: 0 }} value="2">
+                    </Box>
+
+                    {/* Tab 2 */}
+                    <Box>
                       <Grid
                         container
                         rowSpacing={4 / 3}
@@ -546,8 +543,10 @@ function DefineItemForm() {
                           </Grid>
                         </Grid>
                       </Grid>
-                    </TabPanel>
-                    <TabPanel sx={{ px: 0 }} value="3">
+                    </Box>
+
+                    {/* Tab 3 */}
+                    <Box>
                       <Grid
                         container
                         rowSpacing={4 / 3}
@@ -608,8 +607,10 @@ function DefineItemForm() {
                           />
                         </Grid>
                       </Grid>
-                    </TabPanel>
-                    <TabPanel sx={{ px: 0 }} value="4">
+                    </Box>
+
+                    {/* Tab 4 */}
+                    <Box>
                       <Grid
                         container
                         rowSpacing={4 / 3}
@@ -642,8 +643,8 @@ function DefineItemForm() {
                           </Grid>
                         )}
                       </Grid>
-                    </TabPanel>
-                  </TabContext>
+                    </Box>
+                  </Tabs>
                   <Box mt={3} display="flex" justifyContent="flex-end">
                     {renderActionButtons(handleReset)}
                   </Box>

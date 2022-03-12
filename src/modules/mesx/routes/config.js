@@ -75,15 +75,15 @@ export const ROUTE = {
       TITLE: 'saleOrderDefine',
     },
     CREATE: {
-      PATH: '/mesx/sale-order/create',
+      PATH: '/mesx/sale-orders/create',
       TITLE: 'saleOrderCreate',
     },
     DETAILS: {
-      PATH: '/mesx/sale-order/:id/detail',
+      PATH: '/mesx/sale-orders/:id/detail',
       TITLE: 'saleOrderDetails',
     },
     EDIT: {
-      PATH: '/mesx/sale-order/:id/edit',
+      PATH: '/mesx/sale-orders/:id/edit',
       TITLE: 'saleOrderEdit',
     },
   },

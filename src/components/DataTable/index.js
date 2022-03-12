@@ -224,7 +224,6 @@ const DataTable = (props) => {
                           {canTruncated ? (
                             <TruncateMarkup
                               lines={2}
-                              tokenize="words"
                               ellipsis={(rootEl) => (
                                 <Box
                                   title={rootEl.props.original}
