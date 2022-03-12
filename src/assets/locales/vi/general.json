@@ -3,7 +3,8 @@
     "searchButton": "Tìm kiếm",
     "searchPlaceholder": "Tìm kiếm thông tin",
     "goBack": "Quay lại trang trước",
-    "copyright": "Một sản phẩm của VTI - Solution ©2021"
+    "copyright": "Một sản phẩm của VTI - Solution ©2021",
+    "logout": "Đăng xuất"
   },
   "form": {
     "required": "Mục này bắt buộc phải nhập",
