@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-import { TabContext, TabPanel, TabList } from '@mui/lab'
-import { Grid, Tab, FormControlLabel, Checkbox } from '@mui/material'
+import { Grid, FormControlLabel, Checkbox } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -9,6 +8,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
 import {
   DEFAULT_UNITS_MAP,
@@ -36,7 +36,6 @@ const breadcrumbs = [
 function DefineItemDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  const [tabValue, setTabValue] = useState('1')
 
   const { id } = useParams()
   const {
@@ -69,10 +68,6 @@ function DefineItemDetail() {
     history.push(ROUTE.DEFINE_ITEM.LIST.PATH)
   }
 
-  const handleChangeTabValue = (event, value) => {
-    setTabValue(value)
-  }
-
   const getWarehouseName = (id) => {
     return warehouseList.find((item) => item?.id === id)
   }
@@ -98,16 +93,16 @@ function DefineItemDetail() {
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
-          <TabContext value={tabValue}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChangeTabValue}>
-                <Tab label={t('defineItem.commonInfo')} value="1" />
-                <Tab label={t('defineItem.storage')} value="2" />
-                <Tab label={t('defineItem.storageInfo')} value="3" />
-                <Tab label={t('defineItem.detail')} value="4" />
-              </TabList>
-            </Box>
-            <TabPanel sx={{ px: 0 }} value="1">
+          <Tabs
+            labels={[
+              t('defineItem.commonInfo'),
+              t('defineItem.storage'),
+              t('defineItem.storageInfo'),
+              t('defineItem.detail'),
+            ]}
+          >
+            {/* Tab 1 */}
+            <Box>
               <Grid
                 container
                 rowSpacing={4 / 3}
@@ -198,8 +193,10 @@ function DefineItemDetail() {
                   />
                 </Grid>
               </Grid>
-            </TabPanel>
-            <TabPanel sx={{ px: 0 }} value="2">
+            </Box>
+
+            {/* Tab 2 */}
+            <Box>
               <Grid
                 container
                 rowSpacing={4 / 3}
@@ -262,8 +259,10 @@ function DefineItemDetail() {
                   </>
                 )}
               </Grid>
-            </TabPanel>
-            <TabPanel sx={{ px: 0 }} value="3">
+            </Box>
+
+            {/* Tab 3 */}
+            <Box>
               <Grid
                 container
                 rowSpacing={4 / 3}
@@ -317,8 +316,10 @@ function DefineItemDetail() {
                   </>
                 )}
               </Grid>
-            </TabPanel>
-            <TabPanel sx={{ px: 0 }} value="4">
+            </Box>
+
+            {/* Tab 4 */}
+            <Box>
               <Grid
                 container
                 rowSpacing={4 / 3}
@@ -354,8 +355,9 @@ function DefineItemDetail() {
                     </>
                   ))}
               </Grid>
-            </TabPanel>
-          </TabContext>
+            </Box>
+          </Tabs>
+
           <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
             <Button variant="contained" onClick={backToList} color="grayF4">
               {t('common.close')}

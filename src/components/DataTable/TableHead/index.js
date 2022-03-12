@@ -167,6 +167,7 @@ const TableHead = (props) => {
 TableHead.defaultProps = {
   onChangeSort: () => {},
   onSelectAllClick: () => {},
+  rows: [],
 }
 
 TableHead.propTypes = {

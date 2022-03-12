@@ -5,7 +5,6 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import GanttChart from '~/UNSAFE_components/shared/gantt-chart'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -13,6 +12,7 @@ import {
   MODERATION_TYPE_OPTIONS,
   MODERATION_TYPE,
 } from '~/modules/mesx/constants'
+import GanttChart from '~/modules/mesx/partials/gantt-chart'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { redirectRouter, formatDateTimeUtc } from '~/utils'

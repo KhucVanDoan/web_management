@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Box, Button, Grid, Tab } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +9,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { MODAL_MODE } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
@@ -67,7 +67,6 @@ const WorkCenterForm = () => {
       oeeTarget: wcDetails?.oeeIndex || '',
       workCapacity: wcDetails?.productivityIndex || '',
       producingStepId: wcDetails?.producingStep?.id || '',
-      tabValue: '1',
       shifts: wcDetails?.workCenterShifts?.map((e) => ({
         id: e.id,
         shiftName: e.name,
@@ -373,67 +372,65 @@ const WorkCenterForm = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Box sx={{ mt: 3 }}>
-                <TabContext value={values.tabValue}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList
-                      onChange={(_, val) => setFieldValue('tabValue', val)}
-                    >
-                      <Tab label={t('workCenter.detailInfo')} value="1" />
-                      <Tab label={t('workCenter.timeSetup')} value="2" />
-                    </TabList>
-                  </Box>
-                  <TabPanel value="1" sx={{ px: 0 }}>
-                    <Grid
-                      container
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                      rowSpacing={4 / 3}
-                    >
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          label={t('workCenter.oeeGoal')}
-                          placeholder={t('workCenter.oeeGoal')}
-                          name="oeeTarget"
-                        />
-                      </Grid>
 
-                      <Grid item lg={6} xs={12}>
-                        <Field.TextField
-                          label={t('workCenter.workCapacity')}
-                          name="workCapacity"
-                          placeholder={t('workCenter.workCapacity')}
-                        />
-                      </Grid>
+              <Tabs
+                labels={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}
+                sx={{ mt: 3 }}
+              >
+                {/* Tab 1 */}
+                <Box>
+                  <Grid
+                    container
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                    rowSpacing={4 / 3}
+                  >
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        label={t('workCenter.oeeGoal')}
+                        placeholder={t('workCenter.oeeGoal')}
+                        name="oeeTarget"
+                      />
                     </Grid>
-                  </TabPanel>
-                  <TabPanel value="2" sx={{ px: 0 }}>
+
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        label={t('workCenter.workCapacity')}
+                        name="workCapacity"
+                        placeholder={t('workCenter.workCapacity')}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                {/* Tab 2 */}
+                <Box>
+                  <FieldArray
+                    name="shifts"
+                    render={(arrayHelpers) => (
+                      <ShiftTable
+                        shifts={values.shifts || []}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
+                  />
+                  <Box sx={{ mt: 3 }}>
                     <FieldArray
-                      name="shifts"
+                      name="breakTimes"
                       render={(arrayHelpers) => (
-                        <ShiftTable
+                        <BreakTimeTable
                           shifts={values.shifts || []}
                           mode={mode}
+                          breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
+                          setFieldValue={setFieldValue}
                         />
                       )}
                     />
-                    <Box sx={{ mt: 3 }}>
-                      <FieldArray
-                        name="breakTimes"
-                        render={(arrayHelpers) => (
-                          <BreakTimeTable
-                            shifts={values.shifts || []}
-                            mode={mode}
-                            breakTimes={values.breakTimes || []}
-                            arrayHelpers={arrayHelpers}
-                            setFieldValue={setFieldValue}
-                          />
-                        )}
-                      />
-                    </Box>
-                  </TabPanel>
-                </TabContext>
-              </Box>
+                  </Box>
+                </Box>
+              </Tabs>
+
               <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
                 {renderActionButtons(resetForm)}
               </Box>
