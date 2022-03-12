@@ -21,6 +21,10 @@ const FormikTextField = ({
     }
     helperText={helperText || getIn(form.errors, field.name)}
     value={field.value ?? ''}
+    onBlur={(e) => {
+      form.setFieldTouched(field.name, true)
+      form.setFieldValue(field.name, e.target.value?.trim())
+    }}
     onChange={(e) => {
       onChange(e.target.value)
       form.setFieldValue(field.name, e.target.value)
