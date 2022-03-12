@@ -23,7 +23,14 @@ const getFactoriesApi = (params) => {
  */
 function* doGetFactories(action) {
   try {
-    const response = yield call(getFactoriesApi, action?.payload)
+    const payload = {
+      keyword: '',
+      filter: [],
+      sort: [],
+      isGetAll: 1,
+    }
+
+    const response = yield call(getFactoriesApi, action.payload || payload)
 
     if (response?.statusCode === 200) {
       yield put(getFactoriesSuccess(response.data))

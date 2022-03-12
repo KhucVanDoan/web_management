@@ -70,6 +70,7 @@ const AutoModeration = () => {
           progress: 0,
           isOverQuantity: saleOrder.isOverQuantity,
         }
+
         return [saleOrderSchedule, ...itemSchedules]
       })
       .flat()
@@ -96,7 +97,7 @@ const AutoModeration = () => {
             progress: 0,
             parent: item.itemId,
             type: 'producingStep',
-            isOverQuantity: step.isOverQuantity,
+            isOverQuantity: step.overQuantity > 0,
           })) || []
         const subBom = getTasksInSaleOrder(item.subBom, item.itemId) || []
 

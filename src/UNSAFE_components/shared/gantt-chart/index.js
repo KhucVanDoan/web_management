@@ -193,7 +193,7 @@ class GanttChart extends Component {
     }
 
     gantt.templates.task_class = function (start, end, task) {
-      if (task.isOverQuantity) {
+      if (task.isOverQuantity || task.overQuantity) {
         return 'back-ground-over-quantity'
       }
       if (task.progress === 0) {
