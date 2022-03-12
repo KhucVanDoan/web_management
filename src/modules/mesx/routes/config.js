@@ -553,4 +553,14 @@ export const ROUTE = {
       TITLE: 'inputModeration',
     },
   },
+  WORK_CENTER_PLAN: {
+    LIST: {
+      PATH: '/mesx/work-center-plan',
+      TITLE: 'workCenterPlan',
+    },
+    DETAIL: {
+      PATH: '/mesx/work-center-plan/detail',
+      TITLE: 'detailWorkCenterPlan',
+    },
+  },
 }
