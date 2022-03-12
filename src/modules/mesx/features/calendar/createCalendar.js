@@ -1,13 +1,6 @@
-import { useState } from 'react'
+import React from 'react'
 
-import {
-  Checkbox,
-  FormControlLabel,
-  Input,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material'
+import { Checkbox, FormControlLabel, Input } from '@mui/material'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Formik, Form } from 'formik'
@@ -17,37 +10,11 @@ import { useHistory } from 'react-router-dom'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemTable from './itemTable'
 import TimeTable from './timeTable'
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  )
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
 
 function CalendarCreate() {
   const { t } = useTranslation(['mesx'])
@@ -63,11 +30,6 @@ function CalendarCreate() {
   ]
   const history = useHistory()
   const initialValues = {}
-  const [value, setValue] = useState(0)
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
 
   const onSubmit = () => {}
   const renderActionButtons = () => {
@@ -143,22 +105,12 @@ function CalendarCreate() {
                       <Input type="file" />
                     </Grid>
                     <Grid item xs={12}>
-                      <Box mt={2}>
-                        <Tabs
-                          value={value}
-                          onChange={handleChange}
-                          aria-label="basic tabs example"
-                        >
-                          <Tab
-                            label="Ngày làm việc trong tuần"
-                            {...a11yProps(0)}
-                          />
-                          <Tab label="Ca làm việc" {...a11yProps(1)} />
-                        </Tabs>
-                      </Box>
-
-                      <Box mt={2}>
-                        <TabPanel value={value} index={0}>
+                      <Tabs
+                        labels={['Ngày làm việc trong tuần', 'Ca làm việc']}
+                        sx={{ mt: 2 }}
+                      >
+                        {/* Tab 1 */}
+                        <Box>
                           <Grid
                             container
                             rowSpacing={4 / 3}
@@ -215,16 +167,17 @@ function CalendarCreate() {
                               </Grid>
                             </Grid>
                           </Grid>
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                          <Box>
-                            <ItemTable />
-                          </Box>
+                        </Box>
+
+                        {/* Tab 2 */}
+                        <Box>
+                          <ItemTable />
+
                           <Box mt={4}>
                             <TimeTable />
                           </Box>
-                        </TabPanel>
-                      </Box>
+                        </Box>
+                      </Tabs>
                     </Grid>
                   </Grid>
                   <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
