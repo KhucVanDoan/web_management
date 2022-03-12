@@ -76,6 +76,7 @@ import watchSearchItems from './define-item/search-items.saga'
 import watchUpdateItem from './define-item/update-item.saga'
 import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan.saga'
+import watchDeleteMasterPlan from './define-master-plan/delete-master-plan.saga'
 import watchExtendDeadline from './define-master-plan/extend-deadline.saga'
 import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details.saga'
 import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread.saga'
@@ -357,6 +358,7 @@ export default function* sagas() {
     watchGetProducingStepDetail(),
     watchApproveMasterPlan(),
     watchRejectMasterPlan(),
+    watchDeleteMasterPlan(),
     // producing step
     watchSearchProducingSteps(),
     watchUpdateProducingStep(),

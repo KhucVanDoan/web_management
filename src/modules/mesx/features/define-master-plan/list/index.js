@@ -54,6 +54,7 @@ const DefineMasterPlan = () => {
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const [id, setId] = useState(null)
+  const [deleteModal, setDeleteModal] = useState(false)
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const {
@@ -201,7 +202,14 @@ const DefineMasterPlan = () => {
                 </IconButton>
               )} */}
               {canDelete && (
-                <IconButton type="button" size="large">
+                <IconButton
+                  type="button"
+                  size="large"
+                  onClick={() => {
+                    setId(id)
+                    setDeleteModal(true)
+                  }}
+                >
                   <Delete />
                 </IconButton>
               )}
@@ -558,6 +566,14 @@ const DefineMasterPlan = () => {
     setIsOpenRejectModal(false)
   }
 
+  const onSubmitDelete = () => {
+    masterPlanActions.deleteMasterPlan(
+      id,
+      () => setDeleteModal(false),
+      () => setDeleteModal(false),
+    )
+  }
+
   /**
    *
    * @returns {JSX.Element}
@@ -620,6 +636,20 @@ const DefineMasterPlan = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.reject')}
+      </Dialog>
+      <Dialog
+        open={deleteModal}
+        title={t('defineBOM.deleteModalTitle')}
+        onCancel={() => setDeleteModal(false)}
+        cancelLabel={t('common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('defineBOM.deleteConfirm')}
       </Dialog>
     </Page>
   )

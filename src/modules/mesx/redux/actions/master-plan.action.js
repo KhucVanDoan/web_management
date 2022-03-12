@@ -42,6 +42,10 @@ export const REJECT_MASTER_PLAN = 'REJECT_MASTER_PLAN'
 export const REJECT_MASTER_PLAN_SUCCESS = 'REJECT_MASTER_PLAN_SUCCESS'
 export const REJECT_MASTER_PLAN_FAILED = 'REJECT_MASTER_PLAN_FAILED'
 
+export const DELETE_MASTER_PLAN_START = 'DELETE_MASTER_PLAN_START'
+export const DELETE_MASTER_PLAN_SUCCESS = 'DELETE_MASTER_PLAN_SUCCESS'
+export const DELETE_MASTER_PLAN_FAILED = 'DELETE_MASTER_PLAN_FAILED'
+
 /**
  * Search master plans
  * @param {object} payload
@@ -368,6 +372,28 @@ export function rejectMasterPlanFailed() {
   }
 }
 
+export function deleteMasterPlan(id, onSuccess, onError) {
+  return {
+    type: DELETE_MASTER_PLAN_START,
+    payload: id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function deleteMasterPlanSuccess(payload) {
+  return {
+    type: DELETE_MASTER_PLAN_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function deleteMasterPlanFailed() {
+  return {
+    type: DELETE_MASTER_PLAN_FAILED,
+  }
+}
+
 export default {
   approveMasterPlan,
   approveMasterPlanSuccess,
@@ -398,4 +424,7 @@ export default {
   getProducingStepDetail,
   getProducingStepDetailSuccess,
   getProducingStepDetailFailed,
+  deleteMasterPlan,
+  deleteMasterPlanFailed,
+  deleteMasterPlanSuccess,
 }
