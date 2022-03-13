@@ -212,7 +212,7 @@ const InputModeration = () => {
         const currentWorkCenterScheduleDetail =
           currentWorkCenterSchedule[key.split('_')[3]]
 
-        let quantity
+        let quantity = currentWorkCenterScheduleDetail.quantity
         const fixedQuantity = Number(values[key])
         let tmpTotalQuantity = 0
         let tmpMinusQuantity = 0
