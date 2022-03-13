@@ -27,6 +27,7 @@ const TextField = ({
   vertical,
   labelWidth,
   readOnly,
+  onBlur,
   ...props
 }) => {
   const classes = useClasses(style(readOnly))
@@ -57,6 +58,7 @@ const TextField = ({
           multiline={multiline}
           disabled={disabled}
           readOnly={readOnly}
+          onBlur={onBlur}
           fullWidth
           {...InputProps}
           {...props}
@@ -82,6 +84,7 @@ TextField.defaultProps = {
   sx: {},
   vertical: false,
   labelWidth: 160,
+  onBlur: () => {},
 }
 
 TextField.propTypes = {
@@ -97,6 +100,7 @@ TextField.propTypes = {
   sx: PropTypes.shape(),
   vertical: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onBlur: PropTypes.func,
 }
 
 export default TextField

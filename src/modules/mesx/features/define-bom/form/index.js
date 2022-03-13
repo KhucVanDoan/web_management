@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Tab, Typography, IconButton } from '@mui/material'
+import { Button, Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,7 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
+import Tabs from '~/components/Tabs'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
@@ -21,7 +21,7 @@ import ItemsSettingTable from '../item-setting-table'
 import { validationSchema } from './schema'
 
 const DEFAULT_ITEM = {
-  id: new Date().getTime(),
+  id: 0,
   itemId: '',
   quantity: 1,
 }
@@ -247,7 +247,6 @@ function BOMForm() {
       quantity: e.quantity,
     })) || [{ ...DEFAULT_ITEM }],
     itemName: '',
-    tabValue: '1',
   }
 
   const itemListBOM = itemList.filter((i) => {
@@ -273,7 +272,7 @@ function BOMForm() {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ handleReset, setFieldValue, values }) => (
+        {({ handleReset, values }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -347,28 +346,26 @@ function BOMForm() {
             </Grid>
 
             <Box mt={2}>
-              <TabContext value={values.tabValue}>
+              <Tabs
+                labels={[
+                  t('defineBOM.itemDetails'),
+                  t('defineBOM.BOMStructure'),
+                ]}
+              >
+                {/* Tab 1 */}
+                <FieldArray
+                  name="items"
+                  render={(arrayHelpers) => (
+                    <ItemsSettingTable
+                      items={values?.items || []}
+                      mode={mode}
+                      arrayHelpers={arrayHelpers}
+                    />
+                  )}
+                />
+
+                {/* Tab 2 */}
                 <Box>
-                  <TabList
-                    onChange={(_, val) => setFieldValue('tabValue', val)}
-                  >
-                    <Tab label={t('defineBOM.itemDetails')} value="1" />
-                    <Tab label={t('defineBOM.BOMStructure')} value="2" />
-                  </TabList>
-                </Box>
-                <TabPanel sx={{ px: 0 }} value="1">
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemsSettingTable
-                        items={values?.items || []}
-                        mode={mode}
-                        arrayHelpers={arrayHelpers}
-                      />
-                    )}
-                  />
-                </TabPanel>
-                <TabPanel sx={{ px: 0 }} value="2">
                   <Box
                     sx={{
                       display: 'flex',
@@ -389,8 +386,8 @@ function BOMForm() {
                     hideSetting
                     hideFooter
                   />
-                </TabPanel>
-              </TabContext>
+                </Box>
+              </Tabs>
             </Box>
 
             <Box

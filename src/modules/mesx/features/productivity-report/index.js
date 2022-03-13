@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { TabList, TabContext, TabPanel } from '@mui/lab'
-import { Tab, Box, Divider, Grid } from '@mui/material'
+import { Box, Divider, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import { MO_STATUS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -87,7 +87,6 @@ function ProductivityReport() {
   }, [producingStepId])
 
   const initialValues = {
-    tabValue: '1',
     moId: '',
     producingStepId: '',
     itemId: '',
@@ -133,7 +132,7 @@ function ProductivityReport() {
             validationSchema={productivityReportSchema(t)}
             enableReinitialize
           >
-            {({ values, setFieldValue }) => (
+            {() => (
               <Form>
                 <Grid
                   container
@@ -198,45 +197,26 @@ function ProductivityReport() {
                   </Grid>
                 </Grid>
                 <Box mt={2}>
-                  <TabContext value={values.tabValue}>
+                  <Tabs
+                    labels={[
+                      t('productivityReport.productivityDetail'),
+                      t('productivityReport.oee'),
+                    ]}
+                  >
+                    {/* Tab 1 */}
                     <Box>
-                      <TabList
-                        onChange={(_, val) => setFieldValue('tabValue', val)}
-                      >
-                        <Tab
-                          label={t('productivityReport.productivityDetail')}
-                          value="1"
-                        />
-                        <Tab label={t('productivityReport.oee')} value="2" />
-                      </TabList>
+                      <ProductivityChart data={data} />
+                      <Divider />
+                      <ProductivityTable data={data} />
                     </Box>
-                    <TabPanel sx={{ px: 0 }} value="1">
-                      <Grid container>
-                        <Grid item xs={12} lg={12} md={12}>
-                          <ProductivityChart data={data} />
-                        </Grid>
-                      </Grid>
+
+                    {/* Tab 2 */}
+                    <Box>
+                      <OEEChart data={data} />
                       <Divider />
-                      <Grid container>
-                        <Box width="100%">
-                          <ProductivityTable data={data} />
-                        </Box>
-                      </Grid>
-                    </TabPanel>
-                    <TabPanel sx={{ px: 0 }} value="2">
-                      <Grid container>
-                        <Grid item xs={12} lg={12} md={12}>
-                          <OEEChart data={data} />
-                        </Grid>
-                      </Grid>
-                      <Divider />
-                      <Grid container>
-                        <Box width="100%">
-                          <OEETable data={data} />
-                        </Box>
-                      </Grid>
-                    </TabPanel>
-                  </TabContext>
+                      <OEETable data={data} />
+                    </Box>
+                  </Tabs>
                 </Box>
               </Form>
             )}
