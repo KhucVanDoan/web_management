@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const submitModerationInputApi = (params) => {
-  const uri = `/v1/plans/moderations/input`
+  const uri = `/v1/plans/master-plans/${params.id}/moderations/input`
   return api.post(uri, params)
 }
 
@@ -34,7 +34,10 @@ function* doSubmitModerationInput(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification('defineMasterPlan.submitModerationInputSuccess', NOTIFICATION_TYPE.SUCCESS)
+      addNotification(
+        'defineMasterPlan.submitModerationInputSuccess',
+        NOTIFICATION_TYPE.SUCCESS,
+      )
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

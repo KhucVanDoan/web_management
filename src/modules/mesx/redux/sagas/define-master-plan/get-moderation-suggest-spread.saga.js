@@ -13,8 +13,10 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getModerationSuggestSpreadApi = (params) => {
-  const uri = `/v1/plans/moderations/suggest-spread`
-  return api.get(uri, params)
+  const uri = `/v1/plans/master-plans/${params.masterPlanId}/moderations/suggest-spread`
+  return api.get(uri, {
+    itemProducingStepIds: params.itemProducingStepIds,
+  })
 }
 
 /**
@@ -46,5 +48,8 @@ function* doGetModerationSuggestSpread(action) {
  * Watch get plan detail
  */
 export default function* watchGetModerationSuggestSpread() {
-  yield takeLatest(GET_MODERATION_SUGGEST_SPREAD_START, doGetModerationSuggestSpread)
+  yield takeLatest(
+    GET_MODERATION_SUGGEST_SPREAD_START,
+    doGetModerationSuggestSpread,
+  )
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { groupBy, uniq } from 'lodash'
+import { groupBy, keyBy, uniq, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -46,6 +46,7 @@ let initialValues = {}
 
 const InputModeration = () => {
   const { t } = useTranslation(['mesx'])
+  const { id } = useParams()
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const {
@@ -60,10 +61,14 @@ const InputModeration = () => {
     const moderationType = params?.get('moderationType')
     if (Number(moderationType) === MODERATION_TYPE.SPREAD_EVENLY) {
       actions.getModerationSuggestSpread({
+        masterPlanId: id,
         itemProducingStepIds: producingStepIds,
       })
     } else if (Number(moderationType) === MODERATION_TYPE.INPUT_MODERATION) {
-      actions.getProducingStepDetail({ itemProducingStepIds: producingStepIds })
+      actions.getProducingStepDetail({
+        masterPlanId: id,
+        itemProducingStepIds: producingStepIds,
+      })
     }
 
     return () => {
@@ -97,6 +102,8 @@ const InputModeration = () => {
         [workCenterSchedule.excutionDate]: {
           id: workCenterSchedule.id,
           quantity: workCenterSchedule.quantity,
+          workCenterDetailSchedules:
+            workCenterSchedule.workCenterDetailSchedules,
         },
       })),
       'workCenterId',
@@ -118,7 +125,7 @@ const InputModeration = () => {
             Object.keys(workCenter)
               .filter((key) => !excludeInputInColumns.includes(key))
               .map((key) => ({
-                [`${producingStepId}_${workCenter[key]?.id}_${key}`]:
+                [`${producingStepId}_${workCenter.workCenterId}_${workCenter[key]?.id}_${key}`]:
                   workCenter[key]?.quantity,
               }))
               .reduce((prev, cur) => ({ ...prev, ...cur }), {}),
@@ -160,7 +167,7 @@ const InputModeration = () => {
                 return (
                   <Field.TextField
                     style={{ width: 140 }}
-                    name={`${producingStepId}_${params.row[date]?.id}_${date}`}
+                    name={`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`}
                     type="number"
                   />
                 )
@@ -188,20 +195,92 @@ const InputModeration = () => {
     )
   }
 
+  const calculateFixedWorkCenterDailSchedules = (
+    producingStepId,
+    values,
+    currentProducingStep,
+  ) => {
+    const workCenterSchedules = keyBy(
+      currentProducingStep.workCenterSchedule,
+      'workCenterId',
+    )
+    const result = []
+    Object.keys(values)
+      .filter((key) => key.split('_')[0] === producingStepId)
+      .forEach((key) => {
+        const currentWorkCenterSchedule = workCenterSchedules[key.split('_')[1]]
+        const currentWorkCenterScheduleDetail =
+          currentWorkCenterSchedule[key.split('_')[3]]
+
+        let quantity
+        const fixedQuantity = Number(values[key])
+        let tmpTotalQuantity = 0
+        let tmpMinusQuantity = 0
+
+        const minusQuantity = quantity - fixedQuantity
+
+        result.push(
+          ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
+            (workCenterDetailSchedule, i) => {
+              let tmpQuantity = workCenterDetailSchedule.quantity
+              if (fixedQuantity > quantity) {
+                const plusQuantity = fixedQuantity - quantity
+                const stepQuantity = Math.floor(
+                  plusQuantity /
+                    currentWorkCenterScheduleDetail.workCenterDetailSchedules
+                      ?.length,
+                )
+                tmpQuantity =
+                  i ===
+                  currentWorkCenterScheduleDetail.workCenterDetailSchedules
+                    .length -
+                    1
+                    ? fixedQuantity - tmpTotalQuantity
+                    : workCenterDetailSchedule.quantity + stepQuantity
+                tmpTotalQuantity +=
+                  workCenterDetailSchedule.quantity + stepQuantity
+              } else if (
+                fixedQuantity < quantity &&
+                tmpMinusQuantity < minusQuantity
+              ) {
+                tmpQuantity =
+                  workCenterDetailSchedule.quantity - minusQuantity || 0
+                tmpMinusQuantity +=
+                  workCenterDetailSchedule.quantity - minusQuantity < 0
+                    ? workCenterDetailSchedule.quantity
+                    : minusQuantity
+              }
+
+              return {
+                id: workCenterDetailSchedule.id,
+                workCenterScheduleId: currentWorkCenterScheduleDetail.id,
+                quantity: tmpQuantity,
+              }
+            },
+          ),
+        )
+      })
+
+    return result
+  }
+
   const handleSubmit = async (values) => {
+    const itemSchedules = Object.keys(tableData).map((producingStepId) => ({
+      itemId: tableData[producingStepId]?.itemId,
+      workCenterDetailSchedules: calculateFixedWorkCenterDailSchedules(
+        producingStepId,
+        values,
+        tableData[producingStepId],
+      ),
+    }))
     const payload = {
-      soId: moderationSuggestSpread[0]?.saleOrderId,
-      items: Object.keys(tableData).map((producingStepId) => ({
-        itemId: tableData[producingStepId]?.itemId,
-        workCenterDetailSchedules: Object.keys(values)
-          .filter((key) => key.split('_')[0] === producingStepId)
-          .map((key) => ({
-            id: Number(key.split('_')[1]),
-            quantity: Number(values[key]),
-          })),
-      })),
+      id: id,
+      items: itemSchedules.filter(
+        (itemSchedule) => !isEmpty(itemSchedule.workCenterDetailSchedules),
+      ),
       modeType: 3,
     }
+
     await actions.submitModerationInput(payload)
   }
 

@@ -13,8 +13,10 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getProducingStepDetailApi = (params) => {
-  const uri = `/v1/plans/items-producing-step/detail`
-  return api.get(uri, params)
+  const uri = `/v1/plans/master-plans/${params.masterPlanId}/items-producing-step/detail`
+  return api.get(uri, {
+    itemProducingStepIds: params.itemProducingStepIds,
+  })
 }
 
 /**

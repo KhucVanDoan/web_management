@@ -293,14 +293,10 @@ export function resetMasterPlanDetails() {
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
-export function getProducingStepDetail(
-  itemProducingStepIds,
-  onSuccess,
-  onError,
-) {
+export function getProducingStepDetail(payload, onSuccess, onError) {
   return {
     type: GET_PRODUCING_STEP_DETAIL_START,
-    payload: itemProducingStepIds,
+    payload: payload,
     onSuccess: onSuccess,
     onError: onError,
   }

@@ -549,7 +549,7 @@ export const ROUTE = {
       TITLE: 'autoModeration',
     },
     INPUT_MODERATION: {
-      PATH: '/mesx/master-plan/input-moderation',
+      PATH: '/mesx/master-plan/:id/input-moderation',
       TITLE: 'inputModeration',
     },
   },

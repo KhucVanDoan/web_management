@@ -118,7 +118,9 @@ const AutoModeration = () => {
           masterPlanId: id,
           moderationType: values.moderationType?.value,
         }).toString()
-        redirectRouter(`${ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH}?${query}`)
+        redirectRouter(`${ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH}?${query}`, {
+          id: id,
+        })
         break
       default:
         break
