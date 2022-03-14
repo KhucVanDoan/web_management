@@ -176,17 +176,15 @@ const DefineMasterPlanForm = () => {
     }
   }
 
-  // const handleChangeSaleOrder = (value, setFieldValue) => {
-  //   const saleOderDeadline = soList.find((so) => so.id === value)?.deadline
-  //   // setFieldValue('planDate', [null, saleOderDeadline])
-  // }
-
   const initialValues =
     (isUpdate || isDetail) && !isEmpty(masterPlanDetails)
       ? {
           ...masterPlanDetails,
           planDate: [masterPlanDetails.dateFrom, masterPlanDetails.planTo],
-          soId: masterPlanDetails.saleOrderSchedules?.map(saleOrderSchedule => saleOrderSchedule.id)
+          soId: masterPlanDetails.saleOrderSchedules?.map(
+            (saleOrderSchedule) => saleOrderSchedule.id,
+          ),
+          factoryId: masterPlanDetails?.factory?.id,
         }
       : {
           code: '',

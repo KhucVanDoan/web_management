@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -51,9 +51,9 @@ const ItemsSettingTable = (props) => {
   ]
 
   useEffect(() => {
-    const itemsInSaleOrder = props.saleOrders?.map(saleOder => saleOder.itemSchedules).flat() || []
+    const itemsInSaleOrder = props.saleOrder?.itemSchedules || []
     setItems(getItemsInTable(itemsInSaleOrder))
-  }, [props.saleOrders])
+  }, [props.saleOrder])
 
   const getItemsInTable = (listItem) => {
     let itemsInSaleOrder = []
@@ -64,15 +64,16 @@ const ItemsSettingTable = (props) => {
         index,
         itemName: item.itemName,
         itemUnitName: item.itemUnitName,
-        quantity: item.quantity
+        quantity: item.quantity,
       })
     })
+
     return itemsInSaleOrder
   }
-  
+
   const onChangeSelectedRows = (selected) => {
     setSelectedRows([...selected])
-    props.updateSelectedItems(selected.map(item => item.id))
+    props.updateSelectedItems(selected.map((item) => item.id))
   }
 
   return (

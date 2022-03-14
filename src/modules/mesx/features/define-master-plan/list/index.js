@@ -48,7 +48,7 @@ const DEFAULT_FILTERS = {
 
 const DefineMasterPlan = () => {
   const { t } = useTranslation(['mesx'])
-  const [bomTree, setBomTree] = useState([])
+  const [masterPlans, setMasterPlans] = useState([])
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({})
@@ -64,14 +64,6 @@ const DefineMasterPlan = () => {
 
   const columns = useMemo(
     () => [
-      {
-        field: 'id',
-        headerName: t('defineMasterPlan.id'),
-        align: 'center',
-        width: 100,
-        sortable: false,
-        fixed: true,
-      },
       {
         field: 'code',
         headerName: t('defineMasterPlan.code'),
@@ -98,8 +90,8 @@ const DefineMasterPlan = () => {
         filterable: true,
         sortable: true,
         renderCell: (params) => {
-          return params.row.saleOrderSchedules
-            ?.map((saleOrderSchedule) => saleOrderSchedule.saleOrderName)
+          return params.row.saleOrders
+            ?.map((saleOrder) => saleOrder.name)
             .join(', ')
         },
       },
@@ -423,7 +415,7 @@ const DefineMasterPlan = () => {
   }, [pageSize, page, sort, filters])
 
   useEffect(() => {
-    setBomTree(masterPlanList)
+    setMasterPlans(masterPlanList)
   }, [masterPlanList])
 
   /**
@@ -458,14 +450,6 @@ const DefineMasterPlan = () => {
   const onClickViewDetails = (id) => {
     redirectRouter(ROUTE.MASTER_PLAN.DETAIL.PATH, { id: id })
   }
-
-  /**
-   * onClickEdit
-   * @param {int} id
-   */
-  // const onClickEdit = (id) => {
-  //   redirectRouter(ROUTE.MASTER_PLAN.EDIT.PATH, { id: id })
-  // }
 
   /**
    *
@@ -504,11 +488,11 @@ const DefineMasterPlan = () => {
    * @param {object} id
    */
   const handleGetData = (id) => {
-    const newBomTree = bomTree.map((bom) => {
-      if (bom?.id === id) {
-        const newBom = { ...bom }
-        if (!bom.subBom) {
-          const itemSchedules = bom.saleOrderSchedules
+    masterPlanActions.getMasterPlanDetailsById(id, (response) => {
+      const newMasterPlans = masterPlans.map((masterPlan) => {
+        if (masterPlan?.id === id) {
+          const newBom = { ...response }
+          const itemSchedules = response.saleOrderSchedules
             .map((saleOrder) => saleOrder.itemSchedules)
             .flat()
           newBom.subBom = changeToObjectCollapse(itemSchedules).map((item) => {
@@ -516,20 +500,21 @@ const DefineMasterPlan = () => {
             delete newItem.itemSchedules
             return newItem
           })
-          newBom.saleOrderSchedules = bom.saleOrderSchedules.map(
+          newBom.saleOrderSchedules = response.saleOrderSchedules.map(
             (saleOrder) => {
               const newSaleOrder = { ...saleOrder }
               delete newSaleOrder.itemSchedules
               return newSaleOrder
             },
           )
+          return newBom
+        } else {
+          return masterPlan
         }
-        return newBom
-      } else {
-        return bom
-      }
+      })
+
+      setMasterPlans(newMasterPlans)
     })
-    setBomTree(newBomTree)
   }
 
   const changeToObjectCollapse = (data) => {
@@ -588,7 +573,7 @@ const DefineMasterPlan = () => {
       loading={isLoading}
     >
       <TableCollapse
-        rows={bomTree}
+        rows={masterPlans}
         pageSize={pageSize}
         page={page}
         columns={columns}

@@ -23,6 +23,7 @@ const MOForm = () => {
   const { path } = useRouteMatch()
   const [mode, setMode] = useState(MODAL_MODE.CREATE)
   const [saleOrders, setSaleOrders] = useState([])
+  const [saleOrder, setSaleOrder] = useState({})
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -147,19 +148,24 @@ const MOForm = () => {
   }
 
   const handleChangePlan = (value) => {
-    const saleOrdersOfPlan =
-      masterPlanList.find((masterPlan) => masterPlan.id === value)
-        ?.saleOrderSchedules || []
-    setSaleOrders([...saleOrdersOfPlan])
+    masterPlanActions.getMasterPlanDetailsById(value, (response) => {
+      setSaleOrders(response.saleOrderSchedules)
+    })
+  }
+
+  const handleChangeSaleOrder = (value) => {
+    const saleOrder = saleOrders.find((so) => so.id === value)
+    setSaleOrder(saleOrder)
   }
 
   const handleSubmit = (values) => {
-    const convertValues = {
+    const payload = {
       ...values,
       planFrom: values?.moPlan ? values?.moPlan[0] : '',
       planTo: values?.moPlan ? values?.moPlan[1] : '',
     }
-    actions.createMO(convertValues, () => {
+
+    actions.createMO(payload, () => {
       backToList()
     })
   }
@@ -233,11 +239,15 @@ const MOForm = () => {
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="soCode"
-                      label={t('Mo.soCode')}
-                      placeholder={t('Mo.soCode')}
-                      disabled={true}
+                    <Field.Autocomplete
+                      name="saleOrderId"
+                      label={t('saleOrder.name')}
+                      placeholder={t('saleOrder.name')}
+                      options={saleOrders || []}
+                      getOptionLabel={(option) => option?.saleOrderName || ''}
+                      getOptionValue={(option) => option?.id}
+                      required
+                      onChange={handleChangeSaleOrder}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -259,7 +269,7 @@ const MOForm = () => {
                 >
                   {/* Tab 1 */}
                   <ItemsSettingTable
-                    saleOrders={saleOrders}
+                    saleOrder={saleOrder}
                     isSubmitForm={isSubmitForm}
                     updateSelectedItems={(itemIds) =>
                       setFieldValue('itemIds', itemIds)
