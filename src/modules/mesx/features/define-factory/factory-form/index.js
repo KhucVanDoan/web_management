@@ -7,7 +7,7 @@ import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -128,7 +128,7 @@ const DefineFactoryForm = () => {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -145,7 +145,7 @@ const DefineFactoryForm = () => {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -190,6 +190,9 @@ const DefineFactoryForm = () => {
                       label={t('defineFactory.code')}
                       name="code"
                       placeholder={t('defineFactory.code')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -199,6 +202,9 @@ const DefineFactoryForm = () => {
                       name="location"
                       label={t('defineFactory.location')}
                       placeholder={t('defineFactory.location')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -206,6 +212,9 @@ const DefineFactoryForm = () => {
                       label={t('defineFactory.name')}
                       name="name"
                       placeholder={t('defineFactory.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -214,6 +223,9 @@ const DefineFactoryForm = () => {
                       name="phone"
                       label={t('defineFactory.phone')}
                       placeholder={t('defineFactory.phone')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -232,6 +244,9 @@ const DefineFactoryForm = () => {
                       name="description"
                       label={t('defineFactory.description')}
                       placeholder={t('defineFactory.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
