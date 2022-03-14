@@ -301,7 +301,7 @@ function DefineItemForm() {
               return (
                 <Form>
                   <Tabs
-                    labels={[
+                    list={[
                       t('defineItem.commonInfo'),
                       t('defineItem.storage'),
                       t('defineItem.storageInfo'),

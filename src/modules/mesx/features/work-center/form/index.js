@@ -402,7 +402,7 @@ const WorkCenterForm = () => {
               </Grid>
 
               <Tabs
-                labels={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}
+                list={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}
                 sx={{ mt: 3 }}
               >
                 {/* Tab 1 */}

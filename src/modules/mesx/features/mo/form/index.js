@@ -261,7 +261,7 @@ const MOForm = () => {
                   </Grid>
                 </Grid>
                 <Tabs
-                  labels={[
+                  list={[
                     t('Mo.itemDetails'),
                     t('defineBOM.BOMStructure'),
                     t('defineBOM.BOMStructureOperation'),
