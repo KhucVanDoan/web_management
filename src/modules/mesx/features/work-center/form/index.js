@@ -1,14 +1,20 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { groupBy } from 'lodash'
+import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+  WORK_CENTER_STATUS_OPTIONS,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
@@ -182,7 +188,7 @@ const WorkCenterForm = () => {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               variant="outlined"
@@ -199,7 +205,7 @@ const WorkCenterForm = () => {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               variant="outlined"
@@ -299,12 +305,30 @@ const WorkCenterForm = () => {
                     rowSpacing={4 / 3}
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
+                    {!isNil(wcDetails?.status) && isUpdate && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>{t('producingStep.status')}</Typography>
+                          }
+                          value={
+                            <Status
+                              options={WORK_CENTER_STATUS_OPTIONS}
+                              value={wcDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="code"
                         label={t('workCenter.code')}
                         placeholder={t('workCenter.code')}
                         disabled={isUpdate}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -313,6 +337,9 @@ const WorkCenterForm = () => {
                         name="name"
                         label={t('workCenter.name')}
                         placeholder={t('workCenter.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -366,6 +393,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.description')}
                         placeholder={t('workCenter.description')}
                         multiline
+                        inputProps={{ maxLength: 254 }}
                         rows={3}
                       />
                     </Grid>
@@ -389,6 +417,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.oeeGoal')}
                         placeholder={t('workCenter.oeeGoal')}
                         name="oeeTarget"
+                        required
                       />
                     </Grid>
 
@@ -397,6 +426,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.workCapacity')}
                         name="workCapacity"
                         placeholder={t('workCenter.workCapacity')}
+                        required
                       />
                     </Grid>
                   </Grid>

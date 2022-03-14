@@ -36,7 +36,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           return isView ? (
             <>{shiftObject?.shiftName}</>
           ) : (
-            <Field.TextField name={`shifts[${index}].shiftName`} />
+            <Field.TextField
+              name={`shifts[${index}].shiftName`}
+              inputProps={{ maxLength: 254 }}
+            />
           )
         },
       },

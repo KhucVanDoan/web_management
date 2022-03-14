@@ -6,12 +6,7 @@ export const WorkCenterSchema = (t) => {
   return Yup.object().shape({
     code: Yup.string()
       .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        }),
-      ),
+      .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
@@ -68,7 +63,14 @@ export const WorkCenterSchema = (t) => {
               })
             }),
           shiftName: Yup.string().required(t('general:form.required')),
-          pricePerHour: Yup.number().required(t('general:form.required')),
+          pricePerHour: Yup.number()
+            .required(t('general:form.required'))
+            .max(
+              TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+              t('general:form.maxLength', {
+                max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+              }),
+            ),
         },
         ['startAt', 'endAt'],
       ),
