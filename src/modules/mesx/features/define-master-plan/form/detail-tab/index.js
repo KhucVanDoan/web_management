@@ -12,7 +12,7 @@ const DetailTab = (props) => {
 
   return (
     <Tabs
-      labels={[
+      list={[
         t('defineMasterPlan.itemDetailTabTitle'),
         t('defineMasterPlan.planDetailTabTitle'),
       ]}

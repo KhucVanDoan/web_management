@@ -15,7 +15,7 @@ import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/auth/routes/config'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
-import { qsParse } from '~/utils/qs'
+import qs from '~/utils/qs'
 
 import { loginSchema } from './schema'
 import style from './style'
@@ -28,7 +28,7 @@ const Login = () => {
   const { actions, isLoading } = useAuth()
   const history = useHistory()
   const location = useLocation()
-  const { callbackUrl } = qsParse(location.search)
+  const { callbackUrl } = qs.parse(location.search)
 
   const initialValues = {
     username: '',
@@ -65,7 +65,7 @@ const Login = () => {
           validationSchema={loginSchema(t)}
           onSubmit={handleSubmit}
         >
-          {({ handleChange, isValidating, isValid, dirty }) => (
+          {({ handleChange }) => (
             <Form>
               <Field.TextField
                 vertical
@@ -120,12 +120,7 @@ const Login = () => {
                 </Link>
               </Box>
 
-              <Button
-                type="submit"
-                fullWidth
-                loading={isLoading}
-                disabled={!dirty || !isValid || isValidating}
-              >
+              <Button type="submit" fullWidth loading={isLoading}>
                 {t('login.loginButton')}
               </Button>
             </Form>

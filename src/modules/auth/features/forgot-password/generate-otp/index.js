@@ -42,7 +42,7 @@ const GenerateOTP = () => {
           validationSchema={forgotPasswordSchema(t)}
           onSubmit={handleSubmit}
         >
-          {({ isValidating, isValid, dirty }) => (
+          {() => (
             <Form>
               <Field.TextField
                 vertical
@@ -55,7 +55,6 @@ const GenerateOTP = () => {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                disabled={!dirty || !isValid || isValidating}
                 sx={{ mt: 2 }}
               >
                 {t('forgotPassword.generateOTP.continue')}

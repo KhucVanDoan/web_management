@@ -347,10 +347,7 @@ function BOMForm() {
 
             <Box mt={2}>
               <Tabs
-                labels={[
-                  t('defineBOM.itemDetails'),
-                  t('defineBOM.BOMStructure'),
-                ]}
+                list={[t('defineBOM.itemDetails'), t('defineBOM.BOMStructure')]}
               >
                 {/* Tab 1 */}
                 <FieldArray

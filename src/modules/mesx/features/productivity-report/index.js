@@ -198,7 +198,7 @@ function ProductivityReport() {
                 </Grid>
                 <Box mt={2}>
                   <Tabs
-                    labels={[
+                    list={[
                       t('productivityReport.productivityDetail'),
                       t('productivityReport.oee'),
                     ]}

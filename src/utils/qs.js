@@ -1,6 +1,6 @@
 import queryString from 'query-string'
 
-export const qsParse = (str, opts) =>
+const parse = (str, opts) =>
   queryString.parse(str, {
     arrayFormat: 'comma',
     parseNumbers: true,
@@ -8,23 +8,23 @@ export const qsParse = (str, opts) =>
     ...opts,
   })
 
-export const qsStringify = (obj, opts) =>
+const stringify = (obj, opts) =>
   queryString.stringify(obj, {
     arrayFormat: 'comma',
     ...opts,
   })
 
-export const qsAdd = (str, obj, stringifyOptions, parseOptions) =>
-  qsStringify(
+const add = (str, obj, stringifyOptions, parseOptions) =>
+  stringify(
     {
-      ...qsParse(str, parseOptions),
+      ...parse(str, parseOptions),
       ...obj,
     },
     stringifyOptions,
   )
 
-export const qsRemove = (str, key) => {
-  const parsed = qsParse(str)
+const omit = (str, key) => {
+  const parsed = parse(str)
 
   if (typeof key === 'string') {
     delete parsed[key]
@@ -34,5 +34,12 @@ export const qsRemove = (str, key) => {
     })
   }
 
-  return qsStringify(parsed)
+  return stringify(parsed)
+}
+
+export default {
+  parse,
+  stringify,
+  add,
+  omit,
 }

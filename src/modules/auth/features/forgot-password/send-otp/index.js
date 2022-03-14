@@ -10,7 +10,7 @@ import { Field } from '~/components/Formik'
 import { ROUTE } from '~/modules/auth/routes/config'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { useClasses } from '~/themes'
-import { qsParse } from '~/utils'
+import qs from '~/utils/qs'
 
 import { RendOTPSchema } from './schema'
 import style from './style'
@@ -21,7 +21,7 @@ const VerifyOTP = () => {
   const { actions, isLoading } = useUserManagement()
   const history = useHistory()
   const location = useLocation()
-  const urlSearchParams = qsParse(location.search)
+  const urlSearchParams = qs.parse(location.search)
 
   const handleSubmitOTP = (values) => {
     const params = {
@@ -67,7 +67,7 @@ const VerifyOTP = () => {
           validationSchema={RendOTPSchema(t)}
           onSubmit={handleSubmitOTP}
         >
-          {({ isValidating, isValid, dirty }) => (
+          {() => (
             <Form>
               <Field.TextField
                 vertical
@@ -82,7 +82,6 @@ const VerifyOTP = () => {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                disabled={!dirty || !isValid || isValidating}
                 sx={{ mt: 2 }}
               >
                 {t('forgotPassword.verifyOTP.continue')}
