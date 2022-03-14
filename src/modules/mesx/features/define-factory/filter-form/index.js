@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 
@@ -17,6 +18,9 @@ const FilterForm = () => {
           name="code"
           label={t('defineFactory.code')}
           placeholder={t('defineFactory.code')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -24,6 +28,9 @@ const FilterForm = () => {
           name="name"
           label={t('defineFactory.name')}
           placeholder={t('defineFactory.name')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
