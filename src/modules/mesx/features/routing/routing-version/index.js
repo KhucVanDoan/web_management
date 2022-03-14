@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { DATE_FORMAT_2, MODAL_MODE } from '~/common/constants'
+import { DATE_FORMAT, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import Loading from '~/components/Loading'
 import {
@@ -121,7 +121,7 @@ class RoutingVersionSetting extends Component {
         type: 'date',
         renderCell: (params) => {
           const createdAt = params.row.createdAt
-          return formatDateTimeUtc(createdAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(createdAt, DATE_FORMAT)
         },
       },
       {
@@ -133,7 +133,7 @@ class RoutingVersionSetting extends Component {
         type: 'date',
         renderCell: (params) => {
           const updateAt = params.row.updatedAt
-          return formatDateTimeUtc(updateAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(updateAt, DATE_FORMAT)
         },
       },
       {

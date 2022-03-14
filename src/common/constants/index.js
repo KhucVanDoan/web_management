@@ -63,6 +63,12 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   CODE_20: {
     MAX: 20,
   },
+  CODE_50: {
+    MAX: 50,
+  },
+  TARGET: {
+    MAX: 5,
+  },
 }
 
 export const NUMBER_FIELD_REQUIRED_SIZE = {
@@ -86,15 +92,9 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 
-export const DEFAULT_DATE_TIME_FORMAT = 'yyy-MM-dd hh:mm a'
+export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy hh:mm:ss'
 
-export const DATE_FORMAT = 'yyyy/MM/dd'
-
-export const DATETIME_FORMAT = 'yyyy-MM-dd hh:mm:ss'
-
-export const DATE_TIME_12_HOURS_FORMAT = "yyy-MM-dd hh:mm aaaaa'm'"
-
-export const DATE_FORMAT_2 = 'MM/dd/yyyy'
+export const DATE_FORMAT = 'dd/MM/yyyy'
 
 export const DATE_FORMAT_3 = 'yyyy-MM-dd'
 
@@ -134,17 +134,6 @@ export const WAREHOUSE_TRANSFERS_TYPE = [
     id: 1,
     name: 'warehouseTransfer.2step',
   },
-]
-
-export const PIE_CHART_COLORS = [
-  '#0088FE',
-  '#003f5c',
-  '#bc5090',
-  '#ff6361',
-  '#58508d',
-  '#00C49F',
-  '#FFBB28',
-  '#FF8042',
 ]
 
 export const BOM_STATUS = {

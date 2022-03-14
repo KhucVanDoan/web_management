@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT_2 } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -112,9 +112,9 @@ const DefineBOQ = () => {
         type: 'date',
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(params.row.planTo, DATE_FORMAT_2)
+            formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
           )
         },
       },

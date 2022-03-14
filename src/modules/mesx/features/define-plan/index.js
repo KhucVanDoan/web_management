@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import SimpleReactValidator from 'simple-react-validator'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { MODAL_MODE, DATE_FORMAT_2 } from '~/common/constants'
+import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
@@ -119,9 +119,9 @@ class DefinePlan extends Component {
         sortable: true,
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(params.row.planTo, DATE_FORMAT_2)
+            formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
           )
         },
       },
@@ -234,9 +234,9 @@ class DefinePlan extends Component {
         renderCell: (params) => {
           const { workOrders } = params.row
           return (
-            formatDateTimeUtc(workOrders[0]?.planFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(workOrders[0]?.planFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(workOrders[0]?.planTo, DATE_FORMAT_2)
+            formatDateTimeUtc(workOrders[0]?.planTo, DATE_FORMAT)
           )
         },
       },
@@ -248,7 +248,7 @@ class DefinePlan extends Component {
         sortable: false,
         renderCell: (params) => {
           const { startAt } = params.row
-          return formatDateTimeUtc(startAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(startAt, DATE_FORMAT)
         },
       },
       {
@@ -259,7 +259,7 @@ class DefinePlan extends Component {
         sortable: false,
         renderCell: (params) => {
           const { endAt } = params.row
-          return formatDateTimeUtc(endAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(endAt, DATE_FORMAT)
         },
       },
       {
@@ -356,9 +356,9 @@ class DefinePlan extends Component {
         renderCell: (params) => {
           const { planBom } = params.row
           return (
-            formatDateTimeUtc(planBom.planFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(planBom.planFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(planBom.planTo, DATE_FORMAT_2)
+            formatDateTimeUtc(planBom.planTo, DATE_FORMAT)
           )
         },
       },
@@ -369,7 +369,7 @@ class DefinePlan extends Component {
         sortable: false,
         renderCell: (params) => {
           const { planBom } = params.row
-          return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
         },
       },
       {
@@ -379,7 +379,7 @@ class DefinePlan extends Component {
         sortable: false,
         renderCell: (params) => {
           const { planBom } = params.row
-          return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
         },
       },
       {

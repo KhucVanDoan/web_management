@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT_2, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
@@ -100,9 +100,9 @@ function PlanReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT_2)
+          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
         )
       },
     },
@@ -158,9 +158,9 @@ function PlanReport() {
       renderCell: (params) => {
         const { planDate, endDate } = params.row
         return (
-          formatDateTimeUtc(planDate, DATE_FORMAT_2) +
+          formatDateTimeUtc(planDate, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(endDate, DATE_FORMAT_2)
+          formatDateTimeUtc(endDate, DATE_FORMAT)
         )
       },
     },
@@ -172,7 +172,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(startAt, DATE_FORMAT)
       },
     },
     {
@@ -183,7 +183,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(endAt, DATE_FORMAT)
       },
     },
     {
@@ -268,9 +268,9 @@ function PlanReport() {
         const { planBom } = params.row
         if (planBom) {
           return (
-            formatDateTimeUtc(planBom?.planFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(planBom?.planFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(planBom?.planTo, DATE_FORMAT_2)
+            formatDateTimeUtc(planBom?.planTo, DATE_FORMAT)
           )
         }
       },
@@ -282,7 +282,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
       },
     },
     {
@@ -292,7 +292,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
       },
     },
     {
