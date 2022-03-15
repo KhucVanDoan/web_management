@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
 
 import { Delete, Edit, Visibility, CheckBox } from '@mui/icons-material'
-import { Button, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { DATE_FORMAT } from '~/common/constants'
+import { DATE_FORMAT, MO_STATUS } from '~/common/constants'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
-  MO_STATUS_MAP,
   MO_STATUS_OPTIONS,
   MO_STATUS_TO_CONFIRM,
   MO_STATUS_TO_EDIT,
   MO_STATUS_TO_DELETE,
-  MO_STATUS_PLAN,
 } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -42,6 +42,8 @@ const breadcrumbs = [
 const Mo = () => {
   const { t } = useTranslation(['mesx'])
   const [id, setId] = useState(null)
+  const history = useHistory()
+
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
@@ -54,34 +56,47 @@ const Mo = () => {
     actions,
   } = useMo()
   const {
-    data: { planList },
+    // data: { planList },
     actions: planActions,
   } = useDefinePlan()
 
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('Mo.moCode'),
-      width: 150,
-      filterable: true,
+      width: 120,
+      sortable: true,
+      fixed: true,
     },
     {
       field: 'name',
       headerName: t('Mo.moName'),
-      width: 150,
-      filterable: true,
+      width: 120,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'planCode',
+      headerName: t('Mo.planCode'),
+      width: 120,
+      sortable: true,
+      //TODO: <anh.nth> get planCode (now planList nodata)
+      // renderCell: (params) => {
+      //   const { id } = params.row
+      //   return planList.find((plan) => plan.id === id).code
+      // },
     },
     {
       field: 'factoryName',
       headerName: t('Mo.moFactory'),
       width: 150,
-      filterable: true,
+      sortable: true,
       renderCell: (params) => {
         const { factory } = params.row
         return factory?.name
@@ -91,7 +106,7 @@ const Mo = () => {
       field: 'saleOrderName',
       headerName: t('Mo.soName'),
       width: 150,
-      filterable: true,
+      sortable: true,
       renderCell: (params) => {
         const { saleOrder } = params.row
         return saleOrder?.name
@@ -101,8 +116,8 @@ const Mo = () => {
       field: 'plan',
       headerName: t('Mo.moPlan'),
       width: 200,
+      sortable: true,
       type: 'date',
-      filterable: true,
       renderCell: (params) => {
         return (
           formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
@@ -114,37 +129,52 @@ const Mo = () => {
     {
       field: 'status',
       headerName: t('Mo.status'),
-      width: 200,
-      align: 'center',
-
-      filterable: true,
-      filterOptions: {
-        options: MO_STATUS_OPTIONS,
-        getOptionValue: (option) => option?.id?.toString(),
-        getOptionLabel: (option) => t(option?.text),
-      },
+      width: 150,
+      sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(MO_STATUS_MAP[status])
+        return (
+          <Status options={MO_STATUS_OPTIONS} value={status} variant="text" />
+        )
+      },
+    },
+    {
+      field: 'workOrder',
+      headerName: t('Mo.workOrder'),
+      width: 150,
+      align: 'center',
+      sortable: true,
+      renderCell: (params) => {
+        const { status } = params.row
+        const isConfirmed = status === MO_STATUS.PENDING
+        return (
+          <>
+            {isConfirmed && (
+              <Button
+                variant="text"
+                // onClick={() => history.push(ROUTE.WORK_ORDER.LIST.PATH)}
+              >
+                {t('Mo.workOrder')}
+              </Button>
+            )}
+          </>
+        )
       },
     },
     {
       field: 'action',
       headerName: t('common.action'),
-      disableClickEventBubbling: true,
-      width: 250,
-      sortable: false,
-      align: 'center',
-      headerAlign: 'center',
+      width: 200,
+      sortable: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const canEdit = MO_STATUS_TO_EDIT.includes(status)
         const canConfirm = MO_STATUS_TO_CONFIRM.includes(status)
         const canDelete = MO_STATUS_TO_DELETE.includes(status)
-        const hasPlan = MO_STATUS_PLAN.includes(status)
-        const moHasPlan = planList.filter((i) => i.moId === id).map((m) => m.id)
-        const goDetail = hasPlan && moHasPlan.length === 1
-        const goList = hasPlan && moHasPlan.length > 1
+        // const hasPlan = MO_STATUS_PLAN.includes(status)
+        // const moHasPlan = planList.filter((i) => i.moId === id).map((m) => m.id)
+        // const goDetail = hasPlan && moHasPlan.length === 1
+        // const goList = hasPlan && moHasPlan.length > 1
         return (
           <div>
             <IconButton
@@ -181,14 +211,26 @@ const Mo = () => {
                 <CheckBox style={{ color: 'green' }} />
               </IconButton>
             )}
-            {goDetail && (
-              <Link onClick={() => onClickViewDetailsPlan(moHasPlan[0])}>
+            {/* {goDetail && (
+              <Button
+                variant="text"
+                onClick={() =>
+                  history.push(
+                    ROUTE.PLAN.DETAILS.PATH.replace(':id', `${moHasPlan[0]}`),
+                  )
+                }
+              >
                 {t('Mo.planList')}
-              </Link>
+              </Button>
             )}
             {goList && (
-              <Link to={ROUTE.PLAN.LIST.PATH}>{t('Mo.planList')}</Link>
-            )}
+              <Button
+                variant="text"
+                onClick={() => history.push(ROUTE.PLAN.LIST.PATH)}
+              >
+                {t('Mo.planList')}
+              </Button>
+            )} */}
           </div>
         )
       },
@@ -215,13 +257,6 @@ const Mo = () => {
     }
     actions.searchMO(params)
     planActions.searchPlans({ page, limit: pageSize })
-  }
-
-  /**
-   *
-   */
-  const handleCreate = () => {
-    redirectRouter(ROUTE.MO.CREATE.PATH)
   }
 
   /**
@@ -323,16 +358,18 @@ const Mo = () => {
     setIsOpenDeleteModal(false)
   }
 
-  const onClickViewDetailsPlan = (id) => {
-    redirectRouter(ROUTE.PLAN.DETAILS.PATH, { id })
-  }
-
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined">{t('Mo.export')}</Button>
-        <Button onClick={handleCreate} icon="add" sx={{ ml: 4 / 3 }}>
-          {t('Mo.createButton')}
+        <Button variant="outlined" icon="download" disabled>
+          {t('menu.importExportData')}
+        </Button>
+        <Button
+          onClick={() => history.push(ROUTE.MO.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
+        >
+          {t('common.create')}
         </Button>
       </>
     )
@@ -362,6 +399,7 @@ const Mo = () => {
             values: filters,
             onApply: onChangeFilter,
           }}
+          checkboxSelection
         />
       </Page>
       <Modal

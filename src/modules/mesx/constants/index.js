@@ -651,24 +651,30 @@ export const MO_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'moStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'moStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'moStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 3,
     text: 'moStatus.inProgress',
+    color: 'inProgress',
   },
   {
     id: 4,
     text: 'moStatus.completed',
+    color: 'completed',
   },
 ]
+
 export const MO_STATUS_TO_DELETE = [MO_STATUS.PENDING, MO_STATUS.REJECTED]
 export const MO_STATUS_TO_CONFIRM = [MO_STATUS.PENDING, MO_STATUS.REJECTED]
 export const MO_STATUS_TO_EDIT = [MO_STATUS.PENDING, MO_STATUS.REJECTED]
