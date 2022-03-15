@@ -245,7 +245,7 @@ const MOForm = () => {
                       placeholder={t('saleOrder.name')}
                       options={saleOrders || []}
                       getOptionLabel={(option) => option?.saleOrderName || ''}
-                      getOptionValue={(option) => option?.id}
+                      getOptionValue={(option) => option?.saleOrderId}
                       required
                       onChange={handleChangeSaleOrder}
                     />
