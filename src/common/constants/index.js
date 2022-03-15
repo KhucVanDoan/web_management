@@ -88,6 +88,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 99999999999,
   },
+  WATTAGE: {
+    MIN: 0,
+    MAX: 9999999,
+  },
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]

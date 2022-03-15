@@ -1,8 +1,6 @@
 import * as Yup from 'yup'
 
-import { codeSchema } from '~/common/schemas'
-
 export const filterSchema = (t) =>
   Yup.object().shape({
-    code: codeSchema(t),
+    code: Yup.string().matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
   })

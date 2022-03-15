@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import MuiTabs from '@mui/material/Tabs'
@@ -21,6 +22,21 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
     }
   }, [externalValue, list])
 
+  const getLable = (item) => {
+    const lable = item?.lable ?? item
+    const isRequired = item?.required
+
+    return (
+      <Box component="span" sx={{ whiteSpace: 'nowrap' }}>
+        {lable}
+        {isRequired && (
+          <Typography color="error" component="span" ml="3px">
+            *
+          </Typography>
+        )}
+      </Box>
+    )
+  }
   return (
     <Box sx={{ width: '100%', ...sx }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
@@ -35,7 +51,7 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
           allowScrollButtonsMobile
         >
           {list.map((item, index) => {
-            return <Tab key={`Tab-${index}`} label={item?.label ?? item} />
+            return <Tab key={`Tab-${index}`} label={getLable(item)} wrapped />
           })}
         </MuiTabs>
       </Box>

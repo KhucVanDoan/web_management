@@ -22,7 +22,6 @@ const BreakTimeTable = ({
 }) => {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
-
   const getColumns = useCallback(() => {
     const columns = [
       {
@@ -95,7 +94,9 @@ const BreakTimeTable = ({
         align: 'center',
         hide: isView,
         renderCell: (params) => {
-          const idx = breakTimes.findIndex((item) => item.id === params.row.id)
+          const idx = breakTimes.findIndex(
+            (item) => item.shiftId === params.row.id,
+          )
           return isView ? null : (
             <IconButton
               onClick={() => {
@@ -147,6 +148,9 @@ const BreakTimeTable = ({
       >
         <Typography variant="h4" component="span">
           {t('workCenter.breakTime')}
+          <Typography color="error" component="span" ml="3px">
+            *
+          </Typography>
         </Typography>
 
         {!isView && (
@@ -157,6 +161,7 @@ const BreakTimeTable = ({
                 id: `breakTimes-${new Date().getTime()}`,
                 shifts: shifts.map((shift) => ({
                   ...shift,
+                  shiftId: shift.id,
                   from: '',
                   to: '',
                 })),

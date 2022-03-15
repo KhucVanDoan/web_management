@@ -154,7 +154,11 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
       >
         <Typography variant="h4" component="span">
           {t('workCenter.workCenterShift')}
+          <Typography color="error" component="span" ml="3px">
+            *
+          </Typography>
         </Typography>
+
         {!isView && (
           <Button
             variant="outlined"
