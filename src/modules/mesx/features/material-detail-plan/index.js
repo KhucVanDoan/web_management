@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
+import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -63,13 +65,16 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
+        width: 150,
       },
     ]
     if (mdpDetails) {
       mdpDetails?.manufacturingOrderPlan?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e.executionDay, 'MM-dd-yyyy'),
+          headerName: formatDateTimeUtc(e.executionDay, DATE_FORMAT),
+          width: 100,
+          align: 'center',
         })
         return null
       })
@@ -79,6 +84,8 @@ const MaterialDetailPlan = () => {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
         fixed: true,
+        width: 100,
+        align: 'center',
       },
     ]
     return columns.concat(total)
@@ -97,25 +104,46 @@ const MaterialDetailPlan = () => {
     mdpDetails?.manufacturingOrderPlan?.forEach(
       (e) => (sumAdditionQuantity += Number(e.shortageQuantityMaterial)),
     )
-    const rows = [
+    let rows = [
       {
         plan: t('materialDetailPlan.planQuantity'),
-        total: mdpDetails ? sumPlanQuantity : '',
-        targetName: filters ? filters?.itemId : '',
+        total: 0,
       },
       {
         plan: t('materialDetailPlan.productionQuantity'),
-        total: mdpDetails ? sumProductionQuantity : '',
+        total: 0,
       },
       {
         plan: t('materialDetailPlan.additionQuantity'),
-        total: mdpDetails ? sumAdditionQuantity : 0,
+        total: 0,
       },
     ]
+    if (mdpDetails && !isEmpty(mdpDetails)) {
+      rows = []
+      rows.push(
+        {
+          plan: t('materialDetailPlan.planQuantity'),
+          total: mdpDetails ? sumPlanQuantity.toFixed(2) : 0,
+          targetName: filters ? filters?.itemId : '',
+        },
+        {
+          plan: t('materialDetailPlan.productionQuantity'),
+          total: mdpDetails ? sumProductionQuantity.toFixed(2) : 0,
+        },
+        {
+          plan: t('materialDetailPlan.additionQuantity'),
+          total: mdpDetails
+            ? (sumPlanQuantity - sumProductionQuantity).toFixed(2)
+            : 0,
+        },
+      )
+    }
     mdpDetails?.manufacturingOrderPlan?.map((i) => {
       rows[0][i.executionDay] = i.planQuantityMaterial
       rows[1][i.executionDay] = i.actualQuantityMaterial
-      rows[2][i.executionDay] = i.shortageQuantityMaterial
+      rows[2][i.executionDay] = (
+        i.planQuantityMaterial - i.actualQuantityMaterial
+      ).toFixed(2)
 
       return rows
     })
@@ -133,6 +161,7 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
+        width: 150,
       },
     ]
 
@@ -140,7 +169,9 @@ const MaterialDetailPlan = () => {
       mdpDetails?.manufacturingOrderPlan?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, 'MM-dd-yyyy'),
+          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          width: 100,
+          align: 'center',
         })
       })
     }
@@ -150,6 +181,8 @@ const MaterialDetailPlan = () => {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
         fixed: true,
+        width: 100,
+        align: 'center',
       },
     ]
     return columns.concat(total)
@@ -158,11 +191,23 @@ const MaterialDetailPlan = () => {
   const getRowMaterialPlan = () => {
     let sumPlanQuantity = 0
     let sumProductionQuantity = 0
-    let sumAdditionQuantity = 0
+    let rows = [
+      {
+        plan: t('materialDetailPlan.planQuantity'),
+        total: 0,
+      },
+      {
+        plan: t('materialDetailPlan.productionQuantity'),
+        total: 0,
+      },
+      {
+        plan: t('materialDetailPlan.additionQuantity'),
+        total: 0,
+      },
+    ]
 
-    const rows = []
-
-    if (mdpDetails) {
+    if (mdpDetails && !isEmpty(mdpDetails)) {
+      rows = []
       mdpDetails?.materialReport?.forEach((e, index) => {
         e.materialPlanSchedules.forEach((i) => {
           sumPlanQuantity += Number(i.planQuantityMaterial)
@@ -170,34 +215,33 @@ const MaterialDetailPlan = () => {
         e.materialPlanSchedules.forEach((i) => {
           sumProductionQuantity += Number(i.actualQuantityMaterial)
         })
-        e.materialPlanSchedules.forEach((i) => {
-          sumAdditionQuantity += Number(i.remainingQuantityMaterial)
-        })
-
         rows.push(
           {
             plan: t('materialDetailPlan.planQuantity'),
-            total: mdpDetails ? sumPlanQuantity : 0,
+            total: mdpDetails ? sumPlanQuantity.toFixed(2) : 0,
             targetName: e.itemName,
           },
           {
             plan: t('materialDetailPlan.productionQuantity'),
-            total: mdpDetails ? sumProductionQuantity : 0,
+            total: mdpDetails ? sumProductionQuantity.toFixed(2) : 0,
           },
 
           {
             plan: t('materialDetailPlan.additionQuantity'),
-            total: mdpDetails ? sumAdditionQuantity : 0,
+            total: mdpDetails
+              ? (sumPlanQuantity - sumProductionQuantity).toFixed(2)
+              : 0,
           },
         )
         e.materialPlanSchedules.forEach((i) => {
           rows[3 * index][i.executionDay] = i.planQuantityMaterial
           rows[3 * index + 1][i.executionDay] = i.actualQuantityMaterial
-          rows[3 * index + 2][i.executionDay] = i.remainingQuantityMaterial
+          rows[3 * index + 2][i.executionDay] = (
+            i.planQuantityMaterial - i.actualQuantityMaterial
+          ).toFixed(2)
         })
       })
     }
-
     return rows
   }
 
@@ -212,6 +256,7 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
+        width: 150,
       },
     ]
 
@@ -220,6 +265,8 @@ const MaterialDetailPlan = () => {
         field: 'total',
         headerName: t(`materialDetailPlan.total`),
         fixed: true,
+        width: 100,
+        align: 'center',
       },
     ]
     return columns.concat(total)

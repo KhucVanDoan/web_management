@@ -6,6 +6,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
+import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -56,7 +57,7 @@ const DetailWorkCenterPlan = () => {
       wcpStructure?.workCenterScheduleDetails?.map((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, 'MM-dd-yyyy'),
+          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
         })
         return null
       })
