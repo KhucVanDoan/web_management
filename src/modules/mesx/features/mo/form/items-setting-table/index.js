@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { Typography } from '@mui/material'
+import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -77,17 +79,31 @@ const ItemsSettingTable = (props) => {
   }
 
   return (
-    <DataTable
-      columns={columns}
-      rows={items}
-      hideFooter
-      hideSetting
-      pageSize={pageSize}
-      page={page}
-      checkboxSelection
-      selected={selectedRows}
-      onChangeSelectedRows={onChangeSelectedRows}
-    />
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 2,
+        }}
+      >
+        <Typography variant="h4" component="span">
+          {t('Mo.itemDetails')}
+        </Typography>
+      </Box>
+      <DataTable
+        columns={columns}
+        rows={items}
+        hideFooter
+        hideSetting
+        pageSize={pageSize}
+        page={page}
+        checkboxSelection
+        selected={selectedRows}
+        onChangeSelectedRows={onChangeSelectedRows}
+      />
+    </>
   )
 }
 

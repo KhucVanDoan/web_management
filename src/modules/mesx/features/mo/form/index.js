@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
-import { Button, Grid, Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import Tabs from '~/components/Tabs'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -58,42 +58,41 @@ const MOForm = () => {
     redirectRouter(ROUTE.MO.LIST.PATH)
   }
 
-  const renderActionButtons = (resetForm) => {
+  const renderActionButtons = ({ resetForm }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+          <Box mt={2} display="flex" justifyContent="flex-end">
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
+              {t('common.back')}
             </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
+            <Button
+              onClick={resetForm}
+              variant="outlined"
+              color="subText"
+              sx={{ mr: 4 / 3 }}
+            >
               {t('common.cancel')}
             </Button>
             <Button type="submit">{t('common.create')}</Button>
-          </>
+          </Box>
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+          <Box mt={2} display="flex" justifyContent="flex-end">
+            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
+              {t('common.back')}
             </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
+            <Button
+              onClick={resetForm}
+              variant="outlined"
+              color="subText"
+              sx={{ mr: 4 / 3 }}
+            >
               {t('common.cancel')}
             </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
-        )
-      case MODAL_MODE.DETAIL:
-        return (
-          <>
-            <Button variant="contained" color="primary">
-              {t('Mo.materialRequest')}
-            </Button>
-            <Button variant="contained" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-          </>
+            <Button type="submit">{t('common.save')}</Button>
+          </Box>
         )
       default:
         break
@@ -177,16 +176,16 @@ const MOForm = () => {
       isLoading={isLoading}
       onBack={backToList}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            enableReinitialize
-            validationSchema={validationSchema(t)}
-            onSubmit={handleSubmit}
-          >
-            {({ resetForm, setFieldValue }) => (
-              <Form>
+      <Formik
+        initialValues={initialValues}
+        enableReinitialize
+        validationSchema={validationSchema(t)}
+        onSubmit={handleSubmit}
+      >
+        {({ resetForm, setFieldValue }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -260,14 +259,14 @@ const MOForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Tabs
+
+                {/* <Tabs
                   list={[
                     t('Mo.itemDetails'),
                     t('defineBOM.BOMStructure'),
                     t('defineBOM.BOMStructureOperation'),
                   ]}
                 >
-                  {/* Tab 1 */}
                   <ItemsSettingTable
                     saleOrder={saleOrder}
                     isSubmitForm={isSubmitForm}
@@ -275,30 +274,22 @@ const MOForm = () => {
                       setFieldValue('itemIds', itemIds)
                     }
                   />
-
-                  {/* Tab 2 */}
-                  <Box />
-
-                  {/* Tab 3 */}
-                  <Box />
-                </Tabs>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    mt: 2,
-                    '& button + button': {
-                      ml: 4 / 3,
-                    },
-                  }}
-                >
-                  {renderActionButtons(resetForm)}
-                </Box>
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+                </Tabs> */}
+              </Grid>
+            </Grid>
+            <Box sx={{ mt: 3 }}>
+              <ItemsSettingTable
+                saleOrder={saleOrder}
+                isSubmitForm={isSubmitForm}
+                updateSelectedItems={(itemIds) =>
+                  setFieldValue('itemIds', itemIds)
+                }
+              />
+            </Box>
+            <Box>{renderActionButtons({ resetForm })}</Box>
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }
