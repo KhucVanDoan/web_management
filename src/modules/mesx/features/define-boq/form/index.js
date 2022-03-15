@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -98,9 +98,7 @@ const BOQForm = () => {
             <Button variant="outlined" color="subText" onClick={resetForm}>
               {t('common.cancel')}
             </Button>
-            <Button type="submit" icon="add">
-              {t('common.create')}
-            </Button>
+            <Button type="submit">{t('common.create')}</Button>
           </>
         )
       case MODAL_MODE.UPDATE:
@@ -206,7 +204,9 @@ const BOQForm = () => {
                       name="code"
                       label={t('defineBOQ.boqCode')}
                       placeholder={t('defineBOQ.boqCode')}
-                      inputProps={{ maxLength: 4 }}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -227,6 +227,9 @@ const BOQForm = () => {
                       name="name"
                       label={t('defineBOQ.boqName')}
                       placeholder={t('defineBOQ.boqName')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -265,6 +268,9 @@ const BOQForm = () => {
                       placeholder={t('defineBOQ.descriptionInput')}
                       multiline
                       rows={3}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                     />
                   </Grid>
                 </Grid>
