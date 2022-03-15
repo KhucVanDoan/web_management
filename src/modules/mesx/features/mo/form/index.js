@@ -153,7 +153,7 @@ const MOForm = () => {
   }
 
   const handleChangeSaleOrder = (value) => {
-    const saleOrder = saleOrders.find((so) => so.id === value)
+    const saleOrder = saleOrders.find((so) => so.saleOrderId === value)
     setSaleOrder(saleOrder)
   }
 
