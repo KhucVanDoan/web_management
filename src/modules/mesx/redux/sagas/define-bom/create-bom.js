@@ -34,7 +34,7 @@ function* doCreateBOM(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification('defineBOM.createBOMSuccess', NOTIFICATION_TYPE.SUCCESS)
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
