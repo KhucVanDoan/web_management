@@ -77,26 +77,32 @@ export const ORDER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'orderStatus.inProgress',
+    color: 'inProgress',
   },
   {
     id: 3,
     text: 'orderStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'orderStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'orderStatus.rejected',
+    color: 'rejected',
   },
 ]
 

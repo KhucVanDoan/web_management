@@ -17,9 +17,9 @@ import {
   UPDATE_WORK_ORDER_FAILED,
   UPDATE_WORK_ORDER_START,
   UPDATE_WORK_ORDER_SUCCESS,
-  GET_BOM_DETAILS_FAILED,
-  GET_BOM_DETAILS_START,
-  GET_BOM_DETAILS_SUCCESS,
+  GET_BOM_DETAILS_WORK_ORDER_FAILED,
+  GET_BOM_DETAILS_WORK_ORDER_SUCCESS,
+  GET_BOM_DETAILS_WORK_ORDER_START,
   PRINT_QR_WORK_ORDER_FAILED,
   PRINT_QR_WORK_ORDER_START,
   PRINT_QR_WORK_ORDER_SUCCESS,
@@ -52,7 +52,7 @@ export default function defineWorkOrder(state = initialState, action) {
         ...state,
         isLoading: true,
       }
-    case GET_BOM_DETAILS_START:
+    case GET_BOM_DETAILS_WORK_ORDER_START:
       return {
         ...state,
         isLoading: true,
@@ -101,13 +101,13 @@ export default function defineWorkOrder(state = initialState, action) {
         workOrderDetails: {},
         isLoading: false,
       }
-    case GET_BOM_DETAILS_SUCCESS:
+    case GET_BOM_DETAILS_WORK_ORDER_SUCCESS:
       return {
         ...state,
         bomDetails: action.payload,
         isLoading: false,
       }
-    case GET_BOM_DETAILS_FAILED:
+    case GET_BOM_DETAILS_WORK_ORDER_FAILED:
       return {
         ...state,
         bomDetails: {},

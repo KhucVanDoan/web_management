@@ -22,9 +22,12 @@ export const CONFIRM_WORK_ORDER_START = 'CONFIRM_WORK_ORDER_START'
 export const CONFIRM_WORK_ORDER_SUCCESS = 'CONFIRM_WORK_ORDER_SUCCESS'
 export const CONFIRM_WORK_ORDER_FAILED = 'CONFIRM_WORK_ORDER_FAILED'
 
-export const GET_BOM_DETAILS_START = 'GET_BOM_DETAILS_START'
-export const GET_BOM_DETAILS_SUCCESS = 'GET_BOM_DETAILS_SUCCESS'
-export const GET_BOM_DETAILS_FAILED = 'GET_BOM_DETAILS_FAILED'
+export const GET_BOM_DETAILS_WORK_ORDER_START =
+  'GET_BOM_DETAILS_WORK_ORDER_START'
+export const GET_BOM_DETAILS_WORK_ORDER_SUCCESS =
+  'GET_BOM_DETAILS_WORK_ORDER_SUCCESS'
+export const GET_BOM_DETAILS_WORK_ORDER_FAILED =
+  'GET_BOM_DETAILS_WORK_ORDER_FAILED'
 
 export const PRINT_QR_WORK_ORDER_START = 'PRINT_QR_WORK_ORDER_START'
 export const PRINT_QR_WORK_ORDER_SUCCESS = 'PRINT_QR_WORK_ORDER_SUCCESS'
@@ -258,7 +261,7 @@ export function confirmWorkOrderByIdFailed() {
 }
 export function getBomsByItemId(workOrderId, onSuccess, onError) {
   return {
-    type: GET_BOM_DETAILS_START,
+    type: GET_BOM_DETAILS_WORK_ORDER_START,
     payload: workOrderId,
     onSuccess: onSuccess,
     onError: onError,
@@ -272,7 +275,7 @@ export function getBomsByItemId(workOrderId, onSuccess, onError) {
  */
 export function getBomDetailsByIdSuccess(payload) {
   return {
-    type: GET_BOM_DETAILS_SUCCESS,
+    type: GET_BOM_DETAILS_WORK_ORDER_SUCCESS,
     payload: payload,
   }
 }
@@ -283,7 +286,7 @@ export function getBomDetailsByIdSuccess(payload) {
  */
 export function getBomDetailsByIdFailed() {
   return {
-    type: GET_BOM_DETAILS_FAILED,
+    type: GET_BOM_DETAILS_WORK_ORDER_FAILED,
   }
 }
 

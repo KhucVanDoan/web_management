@@ -1,10 +1,14 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
+import { codeSchema } from '~/common/schemas'
 
 export const saleOrderSchema = (t) => {
   return Yup.object().shape({
-    code: Yup.string()
+    code: codeSchema(t)
       .required(t('general:form.required'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
@@ -32,6 +36,12 @@ export const saleOrderSchema = (t) => {
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),
+        quantity: Yup.number().max(
+          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+          t('general:form.maxNumber', {
+            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+          }),
+        ),
       }),
     ),
     description: Yup.string().max(

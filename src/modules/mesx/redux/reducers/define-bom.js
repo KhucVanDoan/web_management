@@ -100,7 +100,7 @@ export default function bom(state = initialState, action) {
     case GET_BOM_BY_ITEM_SUCCESS:
       return {
         ...state,
-        BOMDetails: action.payload,
+        // BOMDetails: action.payload,
         isLoading: false,
       }
 

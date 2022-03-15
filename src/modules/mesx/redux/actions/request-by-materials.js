@@ -53,6 +53,9 @@ export const RESET_REQUEST_BUY_MATERIAL_DETAIL_STATE =
 export const RESET_REQUEST_BUY_MATERIAL_LIST_STATE =
   'RESET_REQUEST_BUY_MATERIAL_LIST_STATE'
 
+export const GET_ALL_LIST_REQUEST_BUY_MATERIAL_SUCCESS =
+  'GET_ALL_LIST_REQUEST_BUY_MATERIAL_SUCCESS'
+
 /**
  * Search requestBuyMaterial
  * @param {object} payload
@@ -337,6 +340,13 @@ export function resetRequestBuyMaterialListState() {
   }
 }
 
+export function getAllListSuccess(payload) {
+  return {
+    type: GET_ALL_LIST_REQUEST_BUY_MATERIAL_SUCCESS,
+    payload,
+  }
+}
+
 export default {
   searchRequestBuyMaterials,
   searchRequestBuyMaterialsSuccess,
@@ -361,4 +371,5 @@ export default {
   rejectRequestBuyMaterialByIdFailed,
   resetRequestBuyMaterialState,
   resetRequestBuyMaterialListState,
+  getAllListSuccess,
 }

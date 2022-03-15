@@ -4,26 +4,12 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
+import { codeSchema } from '~/common/schemas'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
+    code: codeSchema(t).required(t('general:form.required')),
+    name: Yup.string().required(t('general:form.required')),
     routingId: Yup.number().required(t('general:form.required')),
     itemId: Yup.number().required(t('general:form.required')),
     description: Yup.string().max(
@@ -41,6 +27,12 @@ export const validationSchema = (t) =>
             NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
             t('general:form.minNumber', {
               min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+            }),
+          )
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
             }),
           ),
       }),

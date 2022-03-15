@@ -332,6 +332,7 @@
     "documentUrl": "Tài liệu hướng dẫn",
     "description": "Mô tả về công đoạn",
     "createdAt": "Ngày tạo",
+    "creator": "Người tạo",
     "updatedAt": "Ngày sửa",
     "deleteTitle": "Thông báo",
     "confirmDelete": "Bạn có chắc chắn muốn xoá không?",
@@ -339,8 +340,8 @@
     "createProducingStepSuccess": "Tạo công đoạn sản xuất thành công",
     "deleteProducingStepSuccess": "Xóa công đoạn sản xuất thành công",
     "updateProducingStepSuccess": "Cập nhật công đoạn sản xuất thành công",
-    "allItemComplete": "Tất cả sản phẩm phải hoàn thành",
-    "someItemComplete": "Một số sản phẩm phải hoàn thành",
+    "allItemComplete": "Tất cả sản phẩm phải hoàn thành ?",
+    "someItemComplete": "Một số sản phẩm phải hoàn thành ?",
     "timePerProduct": "Thời gian thực hiện 1 sản phẩm/công đoạn",
     "qcCriteria": "Tiêu chí QC",
     "qcRule": {

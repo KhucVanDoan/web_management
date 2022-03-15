@@ -8,13 +8,16 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
-import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { validationSchema } from './schema'
@@ -29,11 +32,6 @@ function ProducingStepForm() {
     data: { qcList },
     actions: actionCommon,
   } = useCommonManagement()
-
-  const {
-    data: { wcList },
-    actions: actionWorkCenter,
-  } = useWorkCenter()
 
   const {
     data: { isLoading, details },
@@ -99,15 +97,14 @@ function ProducingStepForm() {
       description: values.description,
       switchMode: values.switchMode,
       qcQuantityRule: values.qcQuantityRule,
-      workCenterId: values.workCenterId,
       productionTimePerItem: values.productionTimePerItem,
       inputQc: {
         qcCriteriaId: values.qcCriteriaInput,
-        itemPerMemberTime: values.timeQcInput,
+        itemPerMemberTime: Number(values.timeQcInput),
       },
       outputQc: {
         qcCriteriaId: values.qcCriteriaOutput,
-        itemPerMemberTime: values.timeQcOutput,
+        itemPerMemberTime: Number(values.timeQcOutput),
       },
       status: '0',
     }
@@ -128,7 +125,7 @@ function ProducingStepForm() {
         return (
           <>
             <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -142,7 +139,7 @@ function ProducingStepForm() {
         return (
           <>
             <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -159,15 +156,18 @@ function ProducingStepForm() {
     name: details?.name || '',
     description: details?.description || '',
     qcQuantityRule:
-      details?.qcQuantityRule || NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+      details?.qcQuantityRule ||
+      Number(NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN),
     productionTimePerItem:
       Number(details?.productionTimePerItem) ||
       NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-    switchMode: details?.switchMode?.toString() || null,
-    workCenterId: details?.workCenterId || null,
-    processQc: false,
-    inputQc: details?.inputQc?.enable || false,
-    outputQc: details?.outputQc?.enable || false,
+    switchMode: details?.switchMode?.toString() || '0',
+    processQc:
+      Boolean(details?.inputQc?.qcCriteriaId) ||
+      Boolean(details?.outputQc?.qcCriteriaId) ||
+      false,
+    inputQc: Boolean(details?.inputQc?.qcCriteriaId) || false,
+    outputQc: Boolean(details?.outputQc?.qcCriteriaId) || false,
     qcCriteriaInput: details?.inputQc?.qcCriteriaId || null,
     timeQcInput: details?.inputQc?.itemPerMemberTime || null,
     qcCriteriaOutput: details?.outputQc?.qcCriteriaId || null,
@@ -179,7 +179,6 @@ function ProducingStepForm() {
       actions.getProducingStepDetailsById(id)
     }
     actionCommon.searchQualityPoints()
-    actionWorkCenter.searchWorkCenter()
     return () => actions.resetProducingStepState()
   }, [id])
 
@@ -210,6 +209,10 @@ function ProducingStepForm() {
                       name="code"
                       label={t('producingStep.code')}
                       placeholder={t('producingStep.code')}
+                      disabled={isUpdate}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -218,6 +221,9 @@ function ProducingStepForm() {
                       name="name"
                       label={t('producingStep.name')}
                       placeholder={t('producingStep.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -249,7 +255,7 @@ function ProducingStepForm() {
                   <Grid item xs={12} lg={6}>
                     <LV
                       label={
-                        <Typography sx={{ mt: '9px' }}>
+                        <Typography sx={{ mt: '9px' }} required>
                           {t('producingStep.switchMode')}
                         </Typography>
                       }
@@ -267,17 +273,6 @@ function ProducingStepForm() {
                         />
                       </Field.RadioGroup>
                     </LV>
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.Autocomplete
-                      name="workCenterId"
-                      label={t('producingStep.workCenter')}
-                      placeholder={t('producingStep.workCenter')}
-                      options={wcList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.name || opt?.workCenterId}
-                      required
-                    />
                   </Grid>
                   <Grid item xs={12}>
                     <FormControlLabel
@@ -391,12 +386,15 @@ function ProducingStepForm() {
                       name="description"
                       label={t('producingStep.description')}
                       placeholder={t('producingStep.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Input type="file" />
+                    <Box ml={16}>
+                      <Input type="file" />
+                    </Box>
                   </Grid>
                 </Grid>
 

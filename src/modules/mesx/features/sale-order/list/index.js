@@ -4,13 +4,17 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import {
+  ROWS_PER_PAGE_OPTIONS,
+  SALE_ORDER_STATUS_OPTIONS,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { ORDER_STATUS, SALE_ORDER_STATUS_MAP } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import { ORDER_STATUS } from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -83,17 +87,21 @@ function SaleOrder() {
       headerName: t('saleOrder.description'),
       width: 150,
       fixed: true,
-      sortable: true,
     },
     {
       field: 'status',
       headerName: t('saleOrder.status'),
       width: 150,
       sortable: true,
-
       renderCell: (params) => {
         const { status } = params.row
-        return t(SALE_ORDER_STATUS_MAP[status])
+        return (
+          <Status
+            options={SALE_ORDER_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
@@ -132,9 +140,11 @@ function SaleOrder() {
             <IconButton onClick={() => onClickViewDetails(id)}>
               <Icon name="show" />
             </IconButton>
-            <IconButton onClick={() => onClickEdit(id)}>
-              <Icon name="edit" />
-            </IconButton>
+            {isConfirmed && (
+              <IconButton onClick={() => onClickEdit(id)}>
+                <Icon name="edit" />
+              </IconButton>
+            )}
 
             {isDelete && (
               <IconButton onClick={() => onClickDelete(id)}>
@@ -176,6 +186,7 @@ function SaleOrder() {
         setDeleteModal(false)
       },
     )
+    refreshData()
   }
 
   const onClickConfirmed = (id) => {
@@ -193,6 +204,7 @@ function SaleOrder() {
         setConfirmModal(false)
       },
     )
+    refreshData()
   }
 
   useEffect(() => {

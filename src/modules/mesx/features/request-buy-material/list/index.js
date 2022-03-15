@@ -10,7 +10,8 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { ORDER_STATUS, ORDER_STATUS_MAP } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
@@ -61,12 +62,10 @@ function RequestBuyMaterial() {
 
   useEffect(() => {
     planAction.searchPlans({ isGetAll: 1 })
-    actions.searchRequestBuyMaterials({ isGetAll: 1 })
     saleOrderAction.searchSaleOrders({ isGetAll: 1 })
     return () => {
       planAction.resetPlanListState()
       saleOrderAction.resetSaleOrderListState()
-      actions.resetRequestBuyMaterialListState()
     }
   }, [])
 
@@ -106,36 +105,41 @@ function RequestBuyMaterial() {
         return code
       },
     },
-    // @TODO: <linh.taquang> wait field Backend
-    // {
-    //   field: 'createdAt',
-    //   headerName: t('producingStep.createdAt'),
-    //   width: 150,
-    //   sortable: true,
-    //   type: 'date',
-    //   renderCell: (params) => {
-    //     const createdAt = params.row.createdAt
-    //     return formatDateTimeUtc(createdAt)
-    //   },
-    // },
-    // {
-    //   field: 'updatedAt',
-    //   headerName: t('producingStep.updatedAt'),
-    //   width: 150,
-    //   sortable: true,
-    //   renderCell: (params) => {
-    //     const updatedAt = params.row.updatedAt
-    //     return formatDateTimeUtc(updatedAt)
-    //   },
-    // },
+    {
+      field: 'createdAt',
+      headerName: t('requestBuyMaterial.createAt'),
+      width: 150,
+      sortable: true,
+      type: 'date',
+      renderCell: (params) => {
+        const createdAt = params.row.createdAt
+        return formatDateTimeUtc(createdAt)
+      },
+    },
+    {
+      field: 'updatedAt',
+      headerName: t('requestBuyMaterial.updateAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const updatedAt = params.row.updatedAt
+        return formatDateTimeUtc(updatedAt)
+      },
+    },
     {
       field: 'status',
       headerName: t('requestBuyMaterial.status'),
       width: 150,
-      fixed: true,
+      sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(ORDER_STATUS_MAP[status])
+        return (
+          <Status
+            options={ORDER_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
@@ -143,7 +147,6 @@ function RequestBuyMaterial() {
       headerName: t('requestBuyMaterial.action'),
       align: 'center',
       width: 150,
-      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isEdit = status === ORDER_STATUS.PENDING
@@ -253,7 +256,7 @@ function RequestBuyMaterial() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('requestBuyMaterial.title')}
+        title={t('menu.requestBuyMaterial')}
         onSearch={setKeyword}
         placeholder={t('requestBuyMaterial.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
@@ -269,7 +272,7 @@ function RequestBuyMaterial() {
           onChangeFilter={setfilters}
           onChangeSort={setSort}
           total={total}
-          title={t('general:dataTable.title')}
+          title={t('requestBuyMaterial.title')}
           filters={{
             form: <FilterForm />,
             values: filters,

@@ -3,7 +3,6 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   deleteSaleOrderFailed,
-  deleteSaleOrderSuccess,
   DELETE_SALE_ORDER_START,
 } from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
@@ -31,17 +30,16 @@ function* doDeleteSaleOrder(action) {
   try {
     const response = yield call(deleteSaleOrderApi, action?.payload)
     if (response?.statusCode === 200) {
-      yield put(deleteSaleOrderSuccess(response.data))
-
-      // Call callback action if provided
-      if (action.onSuccess) {
-        yield action.onSuccess()
-      }
+      // yield put(deleteSaleOrderSuccess())
 
       addNotification(
         'saleOrder.deleteSaleOrderSuccess',
         NOTIFICATION_TYPE.SUCCESS,
       )
+      // Call callback action if provided
+      if (action.onSuccess) {
+        yield action.onSuccess()
+      }
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

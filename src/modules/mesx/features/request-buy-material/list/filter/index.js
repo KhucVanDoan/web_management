@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
@@ -14,7 +15,7 @@ function FilterForm() {
   } = useDefinePlan()
 
   const {
-    data: { requestBuyMaterialList },
+    data: { listAll },
   } = useRequestBuyMaterial()
 
   const {
@@ -28,9 +29,9 @@ function FilterForm() {
           name="code"
           label={t('requestBuyMaterial.requestCode')}
           placeholder={t('requestBuyMaterial.requestCode')}
-          options={requestBuyMaterialList}
+          options={listAll}
           getOptionValue={(opt) => opt?.code?.toString()}
-          getOptionLabel={(opt) => opt?.code || ''}
+          getOptionLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>
@@ -38,6 +39,7 @@ function FilterForm() {
           name="name"
           label={t('requestBuyMaterial.requestName')}
           placeholder={t('requestBuyMaterial.requestName')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
       <Grid item xs={12}>
