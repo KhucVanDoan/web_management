@@ -49,7 +49,6 @@ const FormDetail = () => {
     data: { isLoading, wcDetails },
     actions,
   } = useWorkCenter()
-
   useEffect(() => {
     actions.getWorkCenterDetailsById(id)
     return () => actions.resetWorkCenterDetailState()
@@ -183,7 +182,10 @@ const FormDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('workCenter.dateCreate')}
-                value={formatDateTimeUtc(wcDetails?.createdAt)}
+                value={formatDateTimeUtc(
+                  wcDetails?.createdAt,
+                  'dd/MM/yyyy HH:MM:SS',
+                )}
               />
             </Grid>
 

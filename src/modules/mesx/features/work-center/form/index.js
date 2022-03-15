@@ -259,7 +259,6 @@ const WorkCenterForm = () => {
           const shiftRelax = breakTime?.shifts?.find(
             (itemShift) => itemShift.shiftId === shift.id,
           )
-
           if (shiftRelax) {
             return {
               name: breakTime.breakTimeName,
@@ -278,6 +277,8 @@ const WorkCenterForm = () => {
     }
   }
 
+  const listProducingStep = producingStepList.filter((e) => e.status === 1)
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -291,7 +292,7 @@ const WorkCenterForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, setFieldValue }) => {
+        {({ values, setFieldValue }) => {
           const leaderOptions =
             userList?.filter((leader) =>
               values.members.some((member) => leader.id === member),
@@ -381,7 +382,7 @@ const WorkCenterForm = () => {
                         name="producingStepId"
                         label={t('workCenter.producingStep')}
                         placeholder={t('workCenter.producingStep')}
-                        options={producingStepList}
+                        options={listProducingStep}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
                         required
@@ -402,7 +403,16 @@ const WorkCenterForm = () => {
               </Grid>
 
               <Tabs
-                list={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}
+                list={[
+                  {
+                    lable: t('workCenter.detailInfo'),
+                    required: true,
+                  },
+                  {
+                    lable: t('workCenter.timeSetup'),
+                    required: true,
+                  },
+                ]}
                 sx={{ mt: 3 }}
               >
                 {/* Tab 1 */}
@@ -417,6 +427,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.oeeGoal')}
                         placeholder={t('workCenter.oeeGoal')}
                         name="oeeTarget"
+                        type="number"
                         required
                       />
                     </Grid>
@@ -426,6 +437,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.workCapacity')}
                         name="workCapacity"
                         placeholder={t('workCenter.workCapacity')}
+                        type="number"
                         required
                       />
                     </Grid>
@@ -462,7 +474,7 @@ const WorkCenterForm = () => {
               </Tabs>
 
               <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                {renderActionButtons(resetForm)}
+                {renderActionButtons()}
               </Box>
             </Form>
           )

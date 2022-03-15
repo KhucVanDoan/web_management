@@ -37,6 +37,25 @@ const FilterForm = () => {
           options={appStore?.factories}
           getOptionValue={(opt) => opt?.id.toString()}
           getOptionLabel={(opt) => opt?.name}
+          multiple
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.Autocomplete
+          name="status"
+          label={t('workCenter.status')}
+          placeholder={t('workCenter.status')}
+          options={WORK_CENTER_STATUS_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="timeCreate"
+          label={t('workCenter.timeCreate')}
+          placeholder={t('workCenter.timeCreate')}
+          type="date"
         />
       </Grid>
       <Grid item xs={12}>

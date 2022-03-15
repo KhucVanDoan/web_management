@@ -1,6 +1,9 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 
 export const WorkCenterSchema = (t) => {
   return Yup.object().shape({
@@ -21,8 +24,22 @@ export const WorkCenterSchema = (t) => {
     }),
     factoryId: Yup.string().required(t('general:form.required')),
     leaderId: Yup.number().required(t('general:form.required')),
-    oeeTarget: Yup.number().required(t('general:form.required')),
-    workCapacity: Yup.number().required(t('general:form.required')),
+    oeeTarget: Yup.number()
+      .required(t('general:form.required'))
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
+        }),
+      ),
+    workCapacity: Yup.number()
+      .required(t('general:form.required'))
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MAX,
+        }),
+      ),
     producingStepId: Yup.string().required(t('general:form.required')),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
@@ -64,13 +81,13 @@ export const WorkCenterSchema = (t) => {
             }),
           shiftName: Yup.string().required(t('general:form.required')),
           pricePerHour: Yup.number()
-            .required(t('general:form.required'))
             .max(
-              TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
-              t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+              NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+              t('general:form.maxNumber', {
+                max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
               }),
-            ),
+            )
+            .required(t('general:form.required')),
         },
         ['startAt', 'endAt'],
       ),
