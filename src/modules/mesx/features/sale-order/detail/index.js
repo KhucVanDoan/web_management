@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, SALE_ORDER_STATUS_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -56,6 +58,19 @@ function SaleOrderDetail() {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
+              {!isNil(saleOrder?.status) && (
+                <Grid item xs={12}>
+                  <LV
+                    label={t('saleOrder.status')}
+                    value={
+                      <Status
+                        options={SALE_ORDER_STATUS_OPTIONS}
+                        value={saleOrder?.status}
+                      />
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item lg={6} xs={12}>
                 <LV label={t('saleOrder.code')} value={saleOrder.code} />
               </Grid>
@@ -95,10 +110,17 @@ function SaleOrderDetail() {
                   />
                   <LV
                     label={t('saleOrder.deadline')}
-                    value={formatDateTimeUtc(saleOrder.deadline)}
+                    value={formatDateTimeUtc(saleOrder?.deadline)}
                     mt={4 / 3}
                   />
                 </Box>
+              </Grid>
+
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('saleOrder.createdByUser')}
+                  value={saleOrder?.createdByUser?.fullName}
+                />
               </Grid>
 
               <Grid item xs={12}>
@@ -124,7 +146,7 @@ function SaleOrderDetail() {
         </Box>
         <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
           <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.close')}
+            {t('common.back')}
           </Button>
         </Box>
       </Page>

@@ -65,9 +65,6 @@ export default function defineSaleOrder(state = initialState, action) {
     case DELETE_SALE_ORDER_SUCCESS:
       return {
         ...state,
-        saleOrderList: state.saleOrderList.filter(
-          (item) => item?.id !== action.payload.id,
-        ),
         isLoading: false,
       }
     case GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS:

@@ -21,6 +21,7 @@ import TextField from '~/components/TextField'
 import { PRODUCING_STEP_OPTIONS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc } from '~/utils'
 
 const ProducingStepDetail = () => {
   const { t } = useTranslation(['mesx'])
@@ -123,12 +124,6 @@ const ProducingStepDetail = () => {
                   </RadioGroup>
                 </LV>
               </Grid>
-              <Grid item lg={6} xs={12}>
-                <LV
-                  label={t('producingStep.workCenter')}
-                  value={details?.workCenterId}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <Box display="flex">
                   <FormControlLabel
@@ -139,8 +134,8 @@ const ProducingStepDetail = () => {
                       </Typography>
                     }
                     checked={
-                      Boolean(details?.outputQc?.enable) ||
-                      Boolean(details?.inputQc?.enable)
+                      Boolean(details?.outputQc?.qcCriteriaId) ||
+                      Boolean(details?.inputQc?.qcCriteriaId)
                     }
                     sx={{ pointerEvents: 'none' }}
                   />
@@ -150,7 +145,7 @@ const ProducingStepDetail = () => {
                 <FormControlLabel
                   control={<Checkbox />}
                   label={t('producingStep.inputQC')}
-                  checked={Boolean(details?.inputQc?.enable)}
+                  checked={Boolean(details?.inputQc?.qcCriteriaId)}
                   sx={{ pointerEvents: 'none' }}
                 />
                 <Box mt={1}>
@@ -179,7 +174,7 @@ const ProducingStepDetail = () => {
                 <FormControlLabel
                   control={<Checkbox />}
                   label={t('producingStep.outputQC')}
-                  checked={Boolean(details?.outputQc?.enable)}
+                  checked={Boolean(details?.outputQc?.qcCriteriaId)}
                   sx={{ pointerEvents: 'none' }}
                 />
                 <Box mt={1}>
@@ -204,6 +199,16 @@ const ProducingStepDetail = () => {
                   />
                 </Box>
               </Grid>
+              <Grid item lg={6} xs={12}>
+                {/* @TODO: <linh.taquang> wating BE return user */}
+                <LV label={t('producingStep.creator')} value={''} />
+              </Grid>
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('producingStep.createdAt')}
+                  value={formatDateTimeUtc(details?.createdAt)}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="description"
@@ -224,7 +229,7 @@ const ProducingStepDetail = () => {
         </Grid>
         <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
           <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.close')}
+            {t('common.back')}
           </Button>
         </Box>
       </Page>

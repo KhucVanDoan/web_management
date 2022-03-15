@@ -6,17 +6,18 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { BOM_STATUS_OPTIONS, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import { BOM_STATUS_MAP } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemSettingTable from '../item-setting-table'
@@ -33,15 +34,18 @@ function detailBOM() {
     actions: actionCommon,
   } = useCommonManagement()
 
+  const {
+    data: { itemTypeList },
+    actions: actionsItemType,
+  } = useItemType()
+
   const mode = MODAL_MODE.DETAIL
 
   useEffect(() => {
     actionCommon.getItems({})
+    actionsItemType.searchItemTypes({ isGetAll: 1 })
+    return () => actions.resetBomState()
   }, [id])
-
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
 
   const history = useHistory()
   const breadcrumbs = [
@@ -69,18 +73,30 @@ function detailBOM() {
         headerName: t('defineBOM.item.orderNumber'),
         width: 50,
         align: 'center',
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.id
+        },
       },
       {
         field: 'code',
         headerName: t('defineBOM.item.code'),
         width: 150,
         align: 'center',
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.code
+        },
       },
       {
         field: 'name',
         headerName: t('defineBOM.item.name'),
         width: 150,
         align: 'center',
+        renderCell: (params) => {
+          const { item } = params.row
+          return item?.name
+        },
       },
       {
         field: 'quantity',
@@ -94,8 +110,8 @@ function detailBOM() {
         width: 150,
         align: 'center',
         renderCell: (params) => {
-          const itemId = params.row?.itemId
-          return <>{getItemObject(itemId)?.itemUnit?.name}</>
+          const { item } = params.row
+          return item?.itemUnitName
         },
       },
       {
@@ -105,8 +121,8 @@ function detailBOM() {
         sortable: false,
         align: 'center',
         renderCell: (params) => {
-          const itemId = params.row?.itemId
-          return <>{getItemObject(itemId)?.itemType?.name}</>
+          const { item } = params.row
+          return itemTypeList.find((i) => i.id === item?.itemTypeId)?.name
         },
       },
       {
@@ -116,9 +132,8 @@ function detailBOM() {
         sortable: false,
         align: 'center',
         renderCell: (params) => {
-          const itemId = params.row?.itemId
-          const isProductionObject = getItemObject(itemId)?.isProductionObject
-          return isProductionObject ? (
+          const { item } = params.row
+          return item?.isProductionObject ? (
             <IconButton>
               <Icon name="tick" />
             </IconButton>
@@ -147,6 +162,19 @@ function detailBOM() {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            {!isNil(BOMDetails?.status) && (
+              <Grid item xs={12}>
+                <LV
+                  label={t('defineBOM.status')}
+                  value={
+                    <Status
+                      options={BOM_STATUS_OPTIONS}
+                      value={BOMDetails?.status}
+                    />
+                  }
+                />
+              </Grid>
+            )}
             <Grid item lg={6} xs={12}>
               <LV label={t('defineBOM.bomCode')} value={BOMDetails?.code} />
               <LV
@@ -157,14 +185,6 @@ function detailBOM() {
               <LV
                 label={t('defineBOM.routingCode')}
                 value={BOMDetails?.routingId}
-                mt={4 / 3}
-              />
-              <LV
-                label={t('defineBOM.status')}
-                value={
-                  !isNil(BOMDetails?.status) &&
-                  t(BOM_STATUS_MAP[BOMDetails?.status])
-                }
                 mt={4 / 3}
               />
             </Grid>
@@ -237,7 +257,7 @@ function detailBOM() {
 
       <Box display="flex" justifyContent="flex-end" mt={2}>
         <Button onClick={backToList} color="grayF4">
-          {t('common.close')}
+          {t('common.back')}
         </Button>
       </Box>
     </Page>

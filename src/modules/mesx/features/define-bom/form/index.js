@@ -6,7 +6,7 @@ import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
@@ -199,7 +199,7 @@ function BOMForm() {
         return (
           <>
             <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -211,7 +211,7 @@ function BOMForm() {
         return (
           <>
             <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -287,6 +287,9 @@ function BOMForm() {
                         name="code"
                         label={t('defineBOM.bomCode')}
                         placeholder={t('defineBOM.bomCode')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+                        }}
                         required
                       />
                     </Box>
@@ -295,6 +298,9 @@ function BOMForm() {
                         name="name"
                         label={t('defineBOM.bomName')}
                         placeholder={t('defineBOM.bomName')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         required
                       />
                     </Box>
@@ -337,6 +343,9 @@ function BOMForm() {
                       name="description"
                       label={t('defineBOM.descriptionInput')}
                       placeholder={t('defineBOM.descriptionInput')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

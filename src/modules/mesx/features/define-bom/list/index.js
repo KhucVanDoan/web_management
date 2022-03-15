@@ -4,14 +4,14 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { BOM_STATUS_OPTIONS, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
-  BOM_STATUS_MAP,
   BOM_STATUS_TO_EDIT,
   BOM_STATUS_TO_CONFIRM,
   BOM_STATUS_TO_DELETE,
@@ -104,7 +104,9 @@ function DefineBOM() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(BOM_STATUS_MAP[status])
+        return (
+          <Status options={BOM_STATUS_OPTIONS} value={status} variant="text" />
+        )
       },
     },
     {
@@ -203,6 +205,7 @@ function DefineBOM() {
       () => setDeleteModal(false),
       () => setDeleteModal(false),
     )
+    refreshData()
   }
 
   const onSubmitConfirm = () => {
@@ -211,13 +214,14 @@ function DefineBOM() {
       () => setConfirmModal(false),
       () => setConfirmModal(false),
     )
+    refreshData()
   }
 
   return (
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('defineBOM.title')}
+        title={t('menu.defineBOM')}
         onSearch={setKeyword}
         placeholder={t('defineBOM.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}

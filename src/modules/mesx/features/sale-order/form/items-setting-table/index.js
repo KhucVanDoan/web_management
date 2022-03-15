@@ -58,6 +58,7 @@ function ItemSettingTable(props) {
               listBomConfirmed.includes(n.id) &&
               n?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
           )
+          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
           ) : (
@@ -67,6 +68,9 @@ function ItemSettingTable(props) {
               disabled={isView}
               getOptionLabel={(option) => option?.code || ''}
               getOptionValue={(option) => option?.id}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
             />
           )
         },

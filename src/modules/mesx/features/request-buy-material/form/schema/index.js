@@ -1,17 +1,10 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { codeSchema } from '~/common/schemas'
 function validationSchema(t) {
   return Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
+    code: codeSchema(t).required(t('general:form.required')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(

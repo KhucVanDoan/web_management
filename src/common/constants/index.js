@@ -76,6 +76,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 99999999999,
   },
+  INTEGER_100K: {
+    MIN: 1,
+    MAX: 99999,
+  },
   AMOUNT_DECIMAL: {
     MIN: 0.0000001,
     MAX: 99999999999,

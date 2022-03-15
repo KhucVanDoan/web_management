@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import {
   getBomDetailsByIdFailed,
   getBomDetailsByIdSuccess,
-  GET_BOM_DETAILS_START,
+  GET_BOM_DETAILS_WORK_ORDER_START,
 } from '~/modules/mesx/redux/actions/work-order'
 import { api } from '~/services/api'
 
@@ -48,5 +48,5 @@ function* doGetBomDetails(action) {
  * Watch search users
  */
 export default function* watchGetBomDetails() {
-  yield takeLatest(GET_BOM_DETAILS_START, doGetBomDetails)
+  yield takeLatest(GET_BOM_DETAILS_WORK_ORDER_START, doGetBomDetails)
 }

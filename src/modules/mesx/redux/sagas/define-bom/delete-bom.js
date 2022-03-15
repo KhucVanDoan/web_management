@@ -3,7 +3,6 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   deleteBOMFailed,
-  deleteBOMSuccess,
   DELETE_BOM_START,
 } from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
@@ -28,8 +27,6 @@ function* doDeleteBOM(action) {
     const response = yield call(deleteBOMApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteBOMSuccess(response.data))
-
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()

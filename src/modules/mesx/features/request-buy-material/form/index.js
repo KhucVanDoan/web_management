@@ -7,6 +7,7 @@ import { useTranslation, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -182,6 +183,9 @@ function RequestBuyMaterialForm() {
                         label={t('requestBuyMaterial.requestCode')}
                         name="code"
                         placeholder={t('requestBuyMaterial.requestCode')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -292,7 +296,7 @@ function RequestBuyMaterialForm() {
                 }}
               >
                 <Button color="grayEE" onClick={backToList}>
-                  {t('common.close')}
+                  {t('common.back')}
                 </Button>
                 <Button
                   variant="outlined"

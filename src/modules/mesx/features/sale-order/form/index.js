@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -97,7 +97,7 @@ function SaleOrderForm() {
         return (
           <>
             <Button color="grayEE" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -109,7 +109,7 @@ function SaleOrderForm() {
         return (
           <>
             <Button color="grayEE" onClick={backToList}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button variant="outlined" color="subText" onClick={handleReset}>
               {t('common.cancel')}
@@ -210,6 +210,9 @@ function SaleOrderForm() {
                       name="code"
                       placeholder={t('saleOrder.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -218,6 +221,9 @@ function SaleOrderForm() {
                       label={t('saleOrder.name')}
                       name="name"
                       placeholder={t('saleOrder.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -319,6 +325,9 @@ function SaleOrderForm() {
                       name="description"
                       label={t('saleOrder.description')}
                       placeholder={t('saleOrder.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
