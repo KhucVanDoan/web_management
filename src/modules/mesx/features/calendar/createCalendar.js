@@ -106,7 +106,7 @@ function CalendarCreate() {
                     </Grid>
                     <Grid item xs={12}>
                       <Tabs
-                        labels={['Ngày làm việc trong tuần', 'Ca làm việc']}
+                        list={['Ngày làm việc trong tuần', 'Ca làm việc']}
                         sx={{ mt: 2 }}
                       >
                         {/* Tab 1 */}

@@ -7,7 +7,7 @@ import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -128,7 +128,7 @@ function DefineCompanyForm() {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -145,7 +145,7 @@ function DefineCompanyForm() {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -190,6 +190,9 @@ function DefineCompanyForm() {
                       label={t('defineCompany.code')}
                       name="code"
                       placeholder={t('defineCompany.code')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -199,6 +202,9 @@ function DefineCompanyForm() {
                       name="taxNo"
                       label={t('defineCompany.tax')}
                       placeholder={t('defineCompany.tax')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -206,6 +212,9 @@ function DefineCompanyForm() {
                       label={t('defineCompany.name')}
                       name="name"
                       placeholder={t('defineCompany.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -214,6 +223,9 @@ function DefineCompanyForm() {
                       name="email"
                       label={t('defineCompany.email')}
                       placeholder={t('defineCompany.email')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -222,6 +234,9 @@ function DefineCompanyForm() {
                       label={t('defineCompany.address')}
                       name="address"
                       placeholder={t('defineCompany.address')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -229,6 +244,9 @@ function DefineCompanyForm() {
                       name="fax"
                       label={t('defineCompany.fax')}
                       placeholder={t('defineCompany.fax')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -236,6 +254,9 @@ function DefineCompanyForm() {
                       name="phone"
                       label={t('defineCompany.phone')}
                       placeholder={t('defineCompany.phone')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -243,6 +264,9 @@ function DefineCompanyForm() {
                       name="description"
                       label={t('defineCompany.description')}
                       placeholder={t('defineCompany.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

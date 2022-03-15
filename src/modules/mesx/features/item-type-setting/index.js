@@ -200,6 +200,7 @@ function ItemTypeSetting() {
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        checkboxSelection
       />
       <Dialog
         open={modal.isOpenDeleteModal}

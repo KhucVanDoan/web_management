@@ -9,8 +9,9 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
-  WORK_CENTER_STATUS_MAP,
+  WORK_CENTER_STATUS_OPTIONS,
   WORK_CENTER_STATUS_TO_CONFIRM,
   WORK_CENTER_STATUS_TO_DELETE,
   WORK_CENTER_STATUS_TO_EDIT,
@@ -97,7 +98,13 @@ const WorkCenter = () => {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(WORK_CENTER_STATUS_MAP[status])
+        return (
+          <Status
+            options={WORK_CENTER_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
@@ -234,6 +241,7 @@ const WorkCenter = () => {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
+        checkboxSelection
       />
       <Dialog
         open={isOpenDeleteModal}

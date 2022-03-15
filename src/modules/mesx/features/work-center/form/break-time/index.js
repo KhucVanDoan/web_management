@@ -164,7 +164,7 @@ const BreakTimeTable = ({
               scrollToBottom()
             }}
           >
-            {t('workCenter.timeSetup')}
+            {t('workCenter.addWorkCenterBreakTimes')}
           </Button>
         )}
       </Box>

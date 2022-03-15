@@ -6,7 +6,7 @@ import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT_2, MASTER_PLAN_STATUS } from '~/common/constants'
+import { DATE_FORMAT, MASTER_PLAN_STATUS } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Page from '~/components/Page'
@@ -105,9 +105,9 @@ const DefineMasterPlan = () => {
         sortable: true,
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT_2) +
+            formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT) +
             ' - ' +
-            formatDateTimeUtc(params.row.dateTo, DATE_FORMAT_2)
+            formatDateTimeUtc(params.row.dateTo, DATE_FORMAT)
           )
         },
       },
@@ -268,9 +268,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT_2)
+          formatDateTimeUtc(dateTo, DATE_FORMAT)
         )
       },
     },
@@ -282,7 +282,7 @@ const DefineMasterPlan = () => {
       sortable: false,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(startAt, DATE_FORMAT)
       },
     },
     {
@@ -293,7 +293,7 @@ const DefineMasterPlan = () => {
       sortable: false,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(endAt, DATE_FORMAT)
       },
     },
     {
@@ -370,9 +370,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT_2)
+          formatDateTimeUtc(dateTo, DATE_FORMAT)
         )
       },
     },
@@ -383,7 +383,7 @@ const DefineMasterPlan = () => {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
       },
     },
     {
@@ -393,7 +393,7 @@ const DefineMasterPlan = () => {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT_2)
+        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
       },
     },
     {

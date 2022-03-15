@@ -206,7 +206,10 @@ const FormDetail = () => {
         </Grid>
       </Grid>
 
-      <Tabs labels={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}>
+      <Tabs
+        list={[t('workCenter.detailInfo'), t('workCenter.timeSetup')]}
+        sx={{ mt: 3 }}
+      >
         {/* Tab 1 */}
         <Box>
           <Grid container columnSpacing={4} rowSpacing={4 / 3}>
@@ -242,7 +245,7 @@ const FormDetail = () => {
 
       <Box display="flex" justifyContent="flex-end" sx={{ mt: 4 }}>
         <Button onClick={backToList} color="grayF4">
-          {t('common.close')}
+          {t('common.back')}
         </Button>
       </Box>
     </Page>

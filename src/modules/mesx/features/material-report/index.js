@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT_2, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
@@ -103,9 +103,9 @@ function MaterialReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row?.planFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(params.row?.planFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(params.row?.planTo, DATE_FORMAT_2)
+          formatDateTimeUtc(params.row?.planTo, DATE_FORMAT)
         )
       },
     },
@@ -286,9 +286,9 @@ function MaterialReport() {
       renderCell: (params) => {
         const { planFrom, planTo } = params.row
         return (
-          formatDateTimeUtc(planFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(planFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(planTo, DATE_FORMAT_2)
+          formatDateTimeUtc(planTo, DATE_FORMAT)
         )
       },
     },

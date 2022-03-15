@@ -204,7 +204,7 @@ function detailBOM() {
       </Grid>
 
       <Tabs
-        labels={[t('defineBOM.itemDetails'), t('defineBOM.BOMStructure')]}
+        list={[t('defineBOM.itemDetails'), t('defineBOM.BOMStructure')]}
         sx={{ mt: 2 }}
       >
         {/* Tab 1 */}

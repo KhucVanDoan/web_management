@@ -7,7 +7,7 @@ import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -301,7 +301,7 @@ function DefineItemForm() {
               return (
                 <Form>
                   <Tabs
-                    labels={[
+                    list={[
                       t('defineItem.commonInfo'),
                       t('defineItem.storage'),
                       t('defineItem.storageInfo'),
@@ -320,6 +320,9 @@ function DefineItemForm() {
                             label={t('defineItem.code')}
                             name="code"
                             placeholder={t('defineItem.code')}
+                            inputProps={{
+                              maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                            }}
                             disabled={isUpdate}
                             required
                           />
@@ -329,6 +332,9 @@ function DefineItemForm() {
                             name="name"
                             label={t('defineItem.name')}
                             placeholder={t('defineItem.name')}
+                            inputProps={{
+                              maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                            }}
                             required
                           />
                         </Grid>
@@ -413,6 +419,9 @@ function DefineItemForm() {
                             name="description"
                             label={t('defineItem.description')}
                             placeholder={t('defineItem.description')}
+                            inputProps={{
+                              maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                            }}
                             multiline
                             rows={3}
                           />

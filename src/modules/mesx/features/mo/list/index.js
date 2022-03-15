@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import Modal from '~/UNSAFE_components/shared/modal'
-import { DATE_FORMAT_2 } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import {
@@ -105,9 +105,9 @@ const Mo = () => {
       filterable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT_2) +
+          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT_2)
+          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
         )
       },
     },

@@ -94,7 +94,7 @@ function DefineItemDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Tabs
-            labels={[
+            list={[
               t('defineItem.commonInfo'),
               t('defineItem.storage'),
               t('defineItem.storageInfo'),

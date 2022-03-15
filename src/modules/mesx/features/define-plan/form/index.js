@@ -20,7 +20,7 @@ import Modal from '~/UNSAFE_components/shared/modal'
 import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
-  DATE_FORMAT_2,
+  DATE_FORMAT,
 } from '~/common/constants'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import Loading from '~/components/Loading'
@@ -164,7 +164,7 @@ class DefinePlanForm extends Component {
         sortable: false,
         renderCell: (params) => {
           const { planBom } = params.row
-          return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
         },
       },
       {
@@ -174,7 +174,7 @@ class DefinePlanForm extends Component {
         sortable: false,
         renderCell: (params) => {
           const { planBom } = params.row
-          return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
         },
       },
       {
@@ -239,7 +239,7 @@ class DefinePlanForm extends Component {
         sortable: false,
         renderCell: (params) => {
           const { startAt } = params.row
-          return formatDateTimeUtc(startAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(startAt, DATE_FORMAT)
         },
       },
       {
@@ -250,7 +250,7 @@ class DefinePlanForm extends Component {
         sortable: false,
         renderCell: (params) => {
           const { endAt } = params.row
-          return formatDateTimeUtc(endAt, DATE_FORMAT_2)
+          return formatDateTimeUtc(endAt, DATE_FORMAT)
         },
       },
       // {

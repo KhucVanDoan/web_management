@@ -7,7 +7,7 @@ import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -178,6 +178,9 @@ const ItemTypeForm = () => {
                       label={t('itemTypeSetting.code')}
                       name="code"
                       placeholder={t('itemTypeSetting.code')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -187,6 +190,9 @@ const ItemTypeForm = () => {
                       name="name"
                       label={t('itemTypeSetting.name')}
                       placeholder={t('itemTypeSetting.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
