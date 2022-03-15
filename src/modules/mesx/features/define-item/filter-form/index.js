@@ -62,6 +62,7 @@ const FilterForm = () => {
           options={appStore?.itemTypes}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
+          multiple
         />
       </Grid>
       <Grid item xs={12}>
@@ -72,6 +73,7 @@ const FilterForm = () => {
           options={appStore?.itemGroups}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
+          multiple
         />
       </Grid>
       <Grid item xs={12}>

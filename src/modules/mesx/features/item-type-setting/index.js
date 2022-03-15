@@ -57,12 +57,14 @@ function ItemTypeSetting() {
       field: 'code',
       headerName: t('itemTypeSetting.typeCode'),
       width: 100,
+      sortable: true,
       fixed: true,
     },
     {
       field: 'name',
       headerName: t('itemTypeSetting.typeName'),
       width: 200,
+      sortable: true,
       fixed: true,
     },
     {
@@ -76,6 +78,7 @@ function ItemTypeSetting() {
       type: 'date',
       headerName: t('itemTypeSetting.createDate'),
       width: 150,
+      sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return formatDateTimeUtc(createdAt)
@@ -86,6 +89,7 @@ function ItemTypeSetting() {
       type: 'date',
       headerName: t('itemTypeSetting.updateDate'),
       width: 150,
+      sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
         return formatDateTimeUtc(updatedAt)

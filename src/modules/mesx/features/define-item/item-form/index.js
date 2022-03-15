@@ -48,7 +48,7 @@ function DefineItemForm() {
       itemGroup: itemDetails?.itemGroup || '',
       itemUnit: itemDetails?.itemUnit || '',
       price: itemDetails?.price || '',
-      dayExpire: itemDetails?.dayExpire || '',
+      dayExpire: itemDetails?.dayExpire || 1,
       isProductionObject: itemDetails?.isProductionObject || false,
       hasStorageSpace: itemDetails?.hasStorageSpace || false,
       ...(itemDetails?.hasStorageSpace
@@ -70,7 +70,24 @@ function DefineItemForm() {
               unit: itemDetails?.weight?.unit,
             },
           }
-        : {}),
+        : {
+            long: {
+              value: 1,
+              unit: 3,
+            },
+            width: {
+              value: 1,
+              unit: 3,
+            },
+            height: {
+              value: 1,
+              unit: 3,
+            },
+            weight: {
+              value: 1,
+              unit: 1,
+            },
+          }),
       isLocation: !!itemDetails?.itemWarehouseLocation || false,
       ...(itemDetails?.itemWarehouseLocation
         ? {
@@ -192,7 +209,7 @@ function DefineItemForm() {
       itemGroupId: values?.itemGroup?.id,
       itemUnitId: values?.itemUnit?.id,
       price: Number(values.price),
-      dayExpire: values?.dayExpire ? Number(values.dayExpire) : null,
+      dayExpire: values?.dayExpire ? Number(values.dayExpire) : 1,
       isProductionObject: isProductionObject ? '1' : '0',
       hasStorageSpace: storage ? 1 : 0,
       ...(storage
@@ -248,7 +265,7 @@ function DefineItemForm() {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -265,7 +282,7 @@ function DefineItemForm() {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}

@@ -116,7 +116,7 @@ const ItemTypeForm = () => {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -133,7 +133,7 @@ const ItemTypeForm = () => {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}

@@ -9,6 +9,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import { USER_MANAGEMENT_STATUS_MAP } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -113,6 +114,16 @@ function UserManagement() {
           ?.map((warehouse) => warehouse?.name)
           ?.join('; ')
         return warehousesName
+      },
+    },
+    {
+      field: 'status',
+      headerName: t('userManagement.status'),
+      width: 80,
+      sortable: true,
+      renderCell: (params) => {
+        const { status } = params.row
+        return t(USER_MANAGEMENT_STATUS_MAP[status]) //@TODO: <anh.nth> waiting api return status
       },
     },
     {
