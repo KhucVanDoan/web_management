@@ -5,10 +5,10 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import Modal from '~/UNSAFE_components/shared/modal'
 import { DATE_FORMAT, MO_STATUS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -205,7 +205,10 @@ const Mo = () => {
             {canConfirm && (
               <IconButton
                 type="button"
-                onClick={() => onClickConfirmed(id)}
+                onClick={() => {
+                  setId(id)
+                  setIsOpenConfirmModal(true)
+                }}
                 size="large"
               >
                 <CheckBox style={{ color: 'green' }} />
@@ -285,28 +288,12 @@ const Mo = () => {
   }
 
   /**
-   *
-   * @param {int} id
-   */
-  const onClickConfirmed = (id) => {
-    setId(id)
-    setIsOpenConfirmModal(true)
-  }
-
-  /**
    * Submit confirm purchased order
    */
-  const submitConfirm = () => {
+  const onSubmitConfirm = () => {
     actions.confirmMOById(id, refreshData)
     setIsOpenConfirmModal(false)
     setId(null)
-  }
-
-  /**
-   * Close confirm modal and back to list
-   */
-  const onCloseConfirmModal = () => {
-    setIsOpenConfirmModal(false)
   }
 
   /**
@@ -351,19 +338,13 @@ const Mo = () => {
     })
   }
 
-  /**
-   * onCancelDelete
-   */
-  const onCancelDelete = () => {
-    setIsOpenDeleteModal(false)
-  }
-
   const renderHeaderRight = () => {
     return (
       <>
         <Button variant="outlined" icon="download" disabled>
           {t('menu.importExportData')}
         </Button>
+        import {Dialog} from '~/components/Dialog';
         <Button
           onClick={() => history.push(ROUTE.MO.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -401,31 +382,33 @@ const Mo = () => {
           }}
           checkboxSelection
         />
+        <Dialog
+          open={isOpenDeleteModal}
+          title={t('bomProducingStep.deleteModalTitle')}
+          onCancel={() => setIsOpenDeleteModal(false)}
+          onSubmit={onSubmitDelete}
+          cancelLabel={t('common.no')}
+          submitLabel={t('common.yes')}
+          submitProps={{
+            color: 'error',
+          }}
+          noBorderBottom
+        >
+          {t('bomProducingStep.deleteConfirm')}
+        </Dialog>
+        <Dialog
+          open={isOpenConfirmModal}
+          title={t('common.notify')}
+          maxWidth="sm"
+          onCancel={() => setIsOpenConfirmModal(false)}
+          onSubmit={onSubmitConfirm}
+          cancelLabel={t('common.no')}
+          submitLabel={t('common.yes')}
+          noBorderBottom
+        >
+          {t('common.confirmMessage.confirm')}
+        </Dialog>
       </Page>
-      <Modal
-        isOpen={isOpenDeleteModal}
-        title={t('Mo.deleteModalTitle')}
-        size="sm"
-        onSubmit={onSubmitDelete}
-        onClose={onCancelDelete}
-        submitLabel={t('common.yes')}
-        closeLabel={t('common.no')}
-        hideCancel
-      >
-        {t('Mo.deleteConfirm')}
-      </Modal>
-      <Modal
-        isOpen={isOpenConfirmModal}
-        title={t('common.notify')}
-        size="sm"
-        onSubmit={submitConfirm}
-        onClose={onCloseConfirmModal}
-        submitLabel={t('common.yes')}
-        closeLabel={t('common.no')}
-        hideCancel
-      >
-        {t('common.confirmMessage.confirm')}
-      </Modal>
     </>
   )
 }
