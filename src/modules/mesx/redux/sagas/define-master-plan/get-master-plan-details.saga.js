@@ -24,7 +24,7 @@ const getMasterPlanDetailsApi = (params) => {
 function* doGetMasterPlanDetails(action) {
   try {
     const response = yield call(getMasterPlanDetailsApi, action?.payload)
-    if (response?.data) {
+    if (response?.data && response?.statusCode === 200) {
       yield put(getMasterPlanDetailsByIdSuccess(response.data))
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +37,7 @@ function* doGetMasterPlanDetails(action) {
     yield put(getMasterPlanDetailsByIdFailed())
     // Call callback action if provided
     if (action.onError) {
-      yield action.onError()
+      yield action.onError(error)
     }
   }
 }
