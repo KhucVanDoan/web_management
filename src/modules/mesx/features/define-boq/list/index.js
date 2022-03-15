@@ -57,10 +57,7 @@ const DefineBOQ = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const [sort, setSort] = useState({
-    orderBy: 'status',
-    order: 'asc',
-  })
+  const [sort, setSort] = useState(null)
   const [keyword, setKeyword] = useState('')
 
   const DEFAULT_FILTERS = {
