@@ -11,6 +11,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -56,6 +57,11 @@ function DefineItem() {
   }
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
+
+  const {
+    data: { BOMList },
+    actions: commonActions,
+  } = useCommonManagement()
 
   const [modal, setModal] = useState({
     id: null,
@@ -141,6 +147,39 @@ function DefineItem() {
       sortable: false,
     },
     {
+      field: 'bom',
+      headerName: t('defineItem.bom'),
+      width: 150,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        const { id, isHasBom } = params?.row
+        const itemHasBom = BOMList.find((bom) => bom.itemId === id)?.id
+
+        return isHasBom ? (
+          <Button
+            variant="text"
+            onClick={() =>
+              history.push(
+                ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${itemHasBom}`),
+              )
+            }
+          >
+            {t('defineItem.bom')}
+          </Button>
+        ) : (
+          <Button
+            variant="text"
+            onClick={() =>
+              history.push(ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id)
+            }
+          >
+            {t('defineItem.bom')}
+          </Button>
+        )
+      },
+    },
+    {
       field: 'createdAt',
       type: 'date',
       headerName: t('defineItem.createdAt'),
@@ -206,6 +245,10 @@ function DefineItem() {
   }
 
   useEffect(() => {
+    commonActions.getBoms()
+  }, [])
+
+  useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
@@ -227,14 +270,7 @@ function DefineItem() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          variant="outlined"
-          onClick={() => history.push(ROUTE.DEFINE_BOM.CREATE.PATH)}
-          disabled
-        >
-          {t('defineItem.createBOM')}
-        </Button>
-        <Button variant="outlined" sx={{ ml: 4 / 3 }} disabled>
+        <Button variant="outlined" icon="download" disabled>
           {t('menu.importExportData')}
         </Button>
         <Button
