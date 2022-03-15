@@ -32,10 +32,7 @@ function* doDeleteSaleOrder(action) {
     if (response?.statusCode === 200) {
       // yield put(deleteSaleOrderSuccess())
 
-      addNotification(
-        'saleOrder.deleteSaleOrderSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()

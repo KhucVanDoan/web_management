@@ -35,10 +35,7 @@ function* doConfirmProducingStep(action) {
         yield action.onSuccess()
       }
 
-      addNotification(
-        'producingStep.confirmProducingStepSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

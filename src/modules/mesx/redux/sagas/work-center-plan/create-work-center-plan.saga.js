@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import {
   createWorkCenterPlanFailed,
@@ -37,15 +36,8 @@ function* doCreateWorkCenterPlan(action) {
         yield action.onSuccess()
       }
       if (action?.payload?.mode === MODAL_MODE.UPDATE)
-        addNotification(
-          'workCenterPlan.updateWorkCenterPlanSuccess',
-          NOTIFICATION_TYPE.SUCCESS,
-        )
-      else
-        addNotification(
-          'workCenterPlan.createWorkCenterPlanSuccess',
-          NOTIFICATION_TYPE.SUCCESS,
-        )
+        addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      else addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

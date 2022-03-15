@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   confirmMOByIdFailed,
@@ -36,7 +35,7 @@ function* doConfirmMO(action) {
         yield action.onSuccess()
       }
 
-      addNotification('Mo.confirmMOSuccess', NOTIFICATION_TYPE.SUCCESS)
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
