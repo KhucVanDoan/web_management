@@ -680,7 +680,8 @@
       "workCenterName": "Tên xưởng",
       "total": "Tổng"
     },
-    "submitModerationInputSuccess": "Lưu điều độ thành công"
+    "submitModerationInputSuccess": "Lưu điều độ thành công",
+    "titleErrorGetDetailMasterPlan": "Lỗi"
   },
   "definePlan": {
     "name": "Tên sản phẩm",

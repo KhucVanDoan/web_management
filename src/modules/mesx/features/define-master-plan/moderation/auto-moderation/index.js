@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Alert, AlertTitle } from '@mui/material'
+import { endOfDay, startOfDay } from 'date-fns'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
+import { DATE_TIME_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -39,6 +41,7 @@ const AutoModeration = () => {
   const { t } = useTranslation(['mesx'])
   const [tasks, setTasks] = useState([])
   const [selectedProducingStep, setSelectedProducingStep] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
   const { id } = useParams()
   const {
     data: { masterPlanDetails, isLoading },
@@ -46,7 +49,9 @@ const AutoModeration = () => {
   } = useDefineMasterPlan()
 
   useEffect(() => {
-    masterPlanActions.getMasterPlanDetailsById(id)
+    masterPlanActions.getMasterPlanDetailsById(id, null, (error) => {
+      setErrorMessage(error?.message)
+    })
   }, [])
 
   useEffect(() => {
@@ -54,6 +59,14 @@ const AutoModeration = () => {
       setTasks(getTasks(masterPlanDetails.saleOrderSchedules))
     }
   }, [masterPlanDetails])
+
+  const formatDateInGanttChart = (date, type) => {
+    if (date) {
+      const dateFormat = type === 'to' ? endOfDay(new Date(date)) : startOfDay(new Date(date))
+      return formatDateTimeUtc(dateFormat, DATE_TIME_FORMAT)
+    }
+    return ''
+  }
 
   const getTasks = (data) => {
     return data
@@ -65,8 +78,8 @@ const AutoModeration = () => {
         const saleOrderSchedule = {
           text: saleOrder.saleOrderName,
           id: saleOrder.saleOrderId,
-          end_date: formatDateTimeUtc(saleOrder.dateTo),
-          start_date: formatDateTimeUtc(saleOrder.dateFrom),
+          end_date: formatDateInGanttChart(saleOrder.dateTo, 'to'),
+          start_date: formatDateInGanttChart(saleOrder.dateFrom, 'from'),
           progress: 0,
           isOverQuantity: saleOrder.isOverQuantity,
         }
@@ -82,8 +95,8 @@ const AutoModeration = () => {
         const itemSchedule = {
           text: item.itemName,
           id: item.itemId,
-          end_date: formatDateTimeUtc(item.dateTo),
-          start_date: formatDateTimeUtc(item.dateFrom),
+          end_date: formatDateInGanttChart(item.dateTo, 'to'),
+          start_date: formatDateInGanttChart(item.dateFrom, 'from'),
           progress: 0,
           parent: saleOrderId,
           isOverQuantity: item.isOverQuantity,
@@ -92,8 +105,8 @@ const AutoModeration = () => {
           item.producingSteps?.map((step) => ({
             text: step.producingStepName,
             id: step.id,
-            end_date: formatDateTimeUtc(step.dateTo),
-            start_date: formatDateTimeUtc(step.dateFrom),
+            end_date: formatDateInGanttChart(step.dateTo, 'to'),
+            start_date: formatDateInGanttChart(step.dateFrom, 'from'),
             progress: 0,
             parent: item.itemId,
             type: 'producingStep',
@@ -212,7 +225,7 @@ const AutoModeration = () => {
     >
       <Grid container>
         <Grid item xs={12}>
-          {tasks?.length && (
+          {tasks?.length > 0 && (
             <GanttChart
               config={{
                 columns: [
@@ -249,25 +262,12 @@ const AutoModeration = () => {
               onTaskSelected={handleSelectProducingStep}
             />
           )}
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mt: 2,
-              '& button + button': {
-                ml: 4 / 3,
-              },
-            }}
-          >
-            <Button variant="outlined" color="subText">
-              {t('common.close')}
-            </Button>
-            <Button variant="contained" color="primary">
-              {t('common.save')}
-            </Button>
-          </Box>
+          {!isLoading && !tasks.length && (
+            <Alert severity="error">
+              <AlertTitle>{t('defineMasterPlan.titleErrorGetDetailMasterPlan')}</AlertTitle>
+              {errorMessage}
+            </Alert>
+          )}
         </Grid>
       </Grid>
     </Page>
