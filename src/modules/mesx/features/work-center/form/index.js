@@ -405,11 +405,11 @@ const WorkCenterForm = () => {
               <Tabs
                 list={[
                   {
-                    lable: t('workCenter.detailInfo'),
+                    label: t('workCenter.detailInfo'),
                     required: true,
                   },
                   {
-                    lable: t('workCenter.timeSetup'),
+                    label: t('workCenter.timeSetup'),
                     required: true,
                   },
                 ]}

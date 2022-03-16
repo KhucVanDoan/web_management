@@ -22,13 +22,13 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
     }
   }, [externalValue, list])
 
-  const getLable = (item) => {
-    const lable = item?.lable ?? item
+  const getLabel = (item) => {
+    const label = item?.label ?? item
     const isRequired = item?.required
 
     return (
       <Box component="span" sx={{ whiteSpace: 'nowrap' }}>
-        {lable}
+        {label}
         {isRequired && (
           <Typography color="error" component="span" ml="3px">
             *
@@ -51,7 +51,7 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
           allowScrollButtonsMobile
         >
           {list.map((item, index) => {
-            return <Tab key={`Tab-${index}`} label={getLable(item)} wrapped />
+            return <Tab key={`Tab-${index}`} label={getLabel(item)} wrapped />
           })}
         </MuiTabs>
       </Box>
