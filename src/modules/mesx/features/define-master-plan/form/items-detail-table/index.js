@@ -58,17 +58,13 @@ const ItemsDetailTable = (props) => {
       align: 'center',
       sortable: false,
     },
-    // {
-    //   field: 'planDate',
-    //   headerName: t('defineMasterPlan.itemDetail.planDate'),
-    //   align: 'center',
-    //   sortable: false,
-    // },
   ]
 
   useEffect(() => {
     if (!isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId.join(',') })
+    } else {
+      setItemsDetail([])
     }
   }, [soId])
 
@@ -87,9 +83,6 @@ const ItemsDetailTable = (props) => {
           quantityActual: actualQuantity,
           bomName: item?.bom?.name,
           routingName: item?.bom?.code,
-          // planDate: planDate
-          //   ?.map((date) => formatDateTimeUtc(date, 'dd/MM/yyyy'))
-          //   ?.join(' - '),
         }
       },
     )

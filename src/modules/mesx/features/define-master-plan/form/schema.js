@@ -32,5 +32,11 @@ export const validationSchema = (t) =>
     factoryId: Yup.number()
       .typeError(t('general:form.numeric'))
       .required(t('general:form.required')),
-    planDate: Yup.array().nullable(),
+    planDate: Yup.array()
+      .nullable()
+      .of(Yup.string().nullable().required(t('general:form.required')))
+      .test({
+        message: t('general:form.required'),
+        test: arr => arr?.length === 2,
+      })
   })
