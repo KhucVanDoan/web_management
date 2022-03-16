@@ -20,12 +20,12 @@ const breadcrumbs = [
     title: 'plan',
   },
   {
-    route: ROUTE.DEFINE_BOQ.LIST.PATH,
-    title: ROUTE.DEFINE_BOQ.LIST.TITLE,
+    route: ROUTE.ROUTING.LIST.PATH,
+    title: ROUTE.ROUTING.LIST.TITLE,
   },
   {
-    route: ROUTE.DEFINE_BOQ.DETAIL.PATH,
-    title: ROUTE.DEFINE_BOQ.DETAIL.TITLE,
+    route: ROUTE.ROUTING.DETAIL.PATH,
+    title: ROUTE.ROUTING.DETAIL.TITLE,
   },
 ]
 
@@ -63,9 +63,20 @@ const RoutingDetail = () => {
             <Grid item xs={12} lg={6}>
               <LV label={t('routing.code')} value={routingDetails.code} />
             </Grid>
-
             <Grid item xs={12} lg={6}>
               <LV label={t('routing.name')} value={routingDetails.name} />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('routing.createdByUser')}
+                // value={routingDetails}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('routing.createdAt')}
+                value={routingDetails.createdAt}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField

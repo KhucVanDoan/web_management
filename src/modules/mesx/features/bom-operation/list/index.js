@@ -21,14 +21,6 @@ import { convertFilterParams, convertSortParams } from '~/utils'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
-const DEFAULT_FILTERS = {
-  code: '',
-  name: '',
-  routingName: '',
-  status: '',
-  createTime: [],
-}
-
 const breadcrumbs = [
   {
     title: 'database',
@@ -46,7 +38,16 @@ function BomProducingStep() {
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+
+  const DEFAULT_FILTERS = {
+    bomCode: '',
+    bomName: '',
+    routingName: '',
+    status: '',
+    createdAt: '',
+  }
+
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [id, setId] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)

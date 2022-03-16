@@ -32,9 +32,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       if (mode === MODAL_MODE.UPDATE) {
         routingActions.getRoutingDetailsById(id)
       }
-      producingStepActions.getProducingSteps()
     }
   }, [id])
+
+  useEffect(() => {
+    producingStepActions.getProducingSteps()
+  }, [])
 
   const isView = mode === MODAL_MODE.DETAIL
 
@@ -59,6 +62,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(params.row?.id)?.code || ''}</>
           ) : (
@@ -66,6 +70,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               name={`items[${index}].itemId`}
               options={list}
               getOptionLabel={(option) => option.code || ''}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
               getOptionValue={(option) => option?.id}
               disabled={isView}
             />
@@ -105,7 +112,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               inputProps={{
                 min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
               }}
-              value={index + 1}
               type="number"
               disabled={isView}
             />
@@ -161,7 +167,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
                 arrayHelpers.push({
                   id: new Date().getTime(),
                   itemId: '',
-                  quantity: 1,
+                  order: 1,
+                  stepNumber: items?.length + 1,
                 })
                 scrollToBottom()
               }}
@@ -170,7 +177,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               {t('routing.addProducingStep')}
             </Button>
             <Button
-              onClick={() => history.push(ROUTE.DEFINE_BOM.CREATE.PATH)}
+              onClick={() => history.push(ROUTE.PRODUCING_STEP.LIST.PATH)}
               variant="outlined"
             >
               {t('routing.createProducingStep')}

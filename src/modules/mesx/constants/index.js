@@ -371,13 +371,14 @@ export const BOM_STATUS_OPTIONS = [
     text: 'bomStatus.rejected',
   },
 ]
+
 export const ROUTING_STATUS = {
-  CREATED: 0,
+  PENDING: 0,
   CONFIRMED: 1,
 }
 
 export const ROUTING_STATUS_MAP = {
-  [ROUTING_STATUS.CREATED]: 'orderStatus.pending',
+  [ROUTING_STATUS.PENDING]: 'orderStatus.pending',
   [ROUTING_STATUS.CONFIRMED]: 'orderStatus.confirmed',
 }
 
@@ -385,20 +386,17 @@ export const ROUTING_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
 ]
 
-export const ROUTING_VERSION_STATUS = {
-  CREATED: 0,
-  CONFIRMED: 1,
-}
-
 export const ROUTING_VERSION_STATUS_MAP = {
-  [ROUTING_VERSION_STATUS.CREATED]: 'orderStatus.pending',
+  [ROUTING_VERSION_STATUS.PENDING]: 'orderStatus.pending',
   [ROUTING_VERSION_STATUS.CONFIRMED]: 'orderStatus.confirmed',
 }
 
