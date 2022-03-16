@@ -13,10 +13,11 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import {
   WORK_ORDER_STATUS,
-  WORK_ORDER_STATUS_MAP,
+  WORK_ORDER_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -62,14 +63,8 @@ const WorkOrder = () => {
 
   const columns = useMemo(() => [
     {
-      field: 'id',
-      headerName: t('workOrder.orderIdColumn'),
-      width: 80,
-      fixed: true,
-    },
-    {
       field: 'code',
-      headerName: t('workOrder.codeCV'),
+      headerName: t('workOrder.lblcodeWorkOrder'),
       sortable: true,
       width: 200,
       fixed: true,
@@ -85,56 +80,35 @@ const WorkOrder = () => {
       },
     },
     {
-      field: 'moName',
-      headerName: t('workOrder.moName'),
+      field: 'moCode',
+      headerName: t('workOrder.moCode'),
       width: 200,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return row?.mo?.name
+        return row?.mo?.code
       },
     },
     {
       field: 'moDetailItemCode',
       headerName: t('workOrder.codeTP'),
-      width: 300,
+      width: 200,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
         return row?.moDetail?.itemCode
       },
     },
-
-    {
-      field: 'moDetailItemName',
-      headerName: t('workOrder.nameTP'),
-      width: 200,
-      sortable: true,
-      renderCell: (params) => {
-        const { row } = params
-        return row?.moDetail?.itemName
-      },
-    },
     {
       field: 'bomItemName',
-      headerName: t('workOrder.nameBTP'),
+      headerName: t('workOrder.codeBTP'),
       width: 200,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        if (row?.bom?.itemName !== row?.moDetail.itemName) {
-          return row?.bom?.itemName
+        if (row?.bom?.itemCode !== row?.moDetail.itemCode) {
+          return row?.bom?.itemCode
         }
-      },
-    },
-    {
-      field: 'bomName',
-      headerName: t('defineBOM.bomName'),
-      width: 200,
-      sortable: true,
-      renderCell: (params) => {
-        const { row } = params
-        return row?.bom?.name
       },
     },
     {
@@ -175,7 +149,7 @@ const WorkOrder = () => {
     },
     {
       field: 'quantity',
-      headerName: t('workOrder.quantityPlan'),
+      headerName: t('workOrder.lblquantityPlan'),
       width: 200,
       sortable: true,
     },
@@ -187,7 +161,7 @@ const WorkOrder = () => {
     },
     {
       field: 'itemUnitId',
-      headerName: t('workOrder.calunit'),
+      headerName: t('workOrder.unit'),
       width: 200,
       sortable: true,
       renderCell: (params) => {
@@ -201,9 +175,15 @@ const WorkOrder = () => {
       headerName: t('workOrder.status'),
       width: 200,
       align: 'center',
-
       renderCell: (params) => {
-        return t(WORK_ORDER_STATUS_MAP[params.row.status])
+        const { status } = params.row
+        return (
+          <Status
+            options={WORK_ORDER_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
@@ -418,14 +398,14 @@ const WorkOrder = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('workOrder.title')}
+      title={t('menu.workOrder')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('workOrder.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
-        title={t('general:dataTable.title')}
+        title={t('workOrder.title')}
         rows={workOrderList}
         pageSize={pageSize}
         page={page}

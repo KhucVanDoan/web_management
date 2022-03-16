@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import {
+  DATE_FORMAT,
+  PLAN_STATUS_OPTIONS,
+  ROWS_PER_PAGE_OPTIONS,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { PLAN_STATUS_MAP } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -116,7 +120,9 @@ function MaterialReport() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        return (
+          <Status options={PLAN_STATUS_OPTIONS} value={status} variant="text" />
+        )
       },
     },
   ]
@@ -157,7 +163,9 @@ function MaterialReport() {
       align: 'center',
       renderCell: (params) => {
         const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        return (
+          <Status options={PLAN_STATUS_OPTIONS} value={status} variant="text" />
+        )
       },
     },
     {
@@ -298,7 +306,9 @@ function MaterialReport() {
       align: 'center',
       renderCell: (params) => {
         const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        return (
+          <Status options={PLAN_STATUS_OPTIONS} value={status} variant="text" />
+        )
       },
     },
   ]

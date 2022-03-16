@@ -178,11 +178,11 @@ export const WORK_ORDER_STATUS_MAP = {
 }
 
 export const WORK_ORDER_STATUS_OPTIONS = [
-  { id: 0, name: 'workOrder.pending' },
-  { id: 1, name: 'workOrder.confirmed' },
-  { id: 3, name: 'workOrder.inProgress' },
-  { id: 2, name: 'workOrder.inPlam' },
-  { id: 4, name: 'workOrder.complete' },
+  { id: 0, text: 'workOrder.pending', color: 'pending' },
+  { id: 1, text: 'workOrder.confirmed', color: 'confirmed' },
+  { id: 3, text: 'workOrder.inProgress', color: 'inProgress' },
+  { id: 2, text: 'workOrder.inPlam', color: 'inPlam' },
+  { id: 4, text: 'workOrder.complete', color: 'complete' },
 ]
 export const MOVEMENT_TYPE = {
   PO_IMPORT: 0,

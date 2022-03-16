@@ -11,7 +11,7 @@ function FilterForm() {
   const { t } = useTranslation(['mesx'])
 
   const {
-    data: { moList },
+    data: { moListAll },
   } = useMo()
 
   const [itemList, setItemList] = useState([])
@@ -32,7 +32,7 @@ function FilterForm() {
           name="manufacturingOrderIds"
           label={t('materialReport.code')}
           placeholder={t('materialReport.code')}
-          options={moList}
+          options={moListAll}
           getOptionValue={(opt) => [opt?.id]}
           getOptionLabel={(opt) => opt?.code}
         />

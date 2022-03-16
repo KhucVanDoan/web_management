@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -8,7 +9,9 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -120,6 +123,19 @@ function RequestBuyMaterialDetail() {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+              {!isNil(requestBuyMaterialDetails?.status) && (
+                <Grid item xs={12}>
+                  <LV
+                    label={t('requestBuyMaterial.status')}
+                    value={
+                      <Status
+                        options={ORDER_STATUS_OPTIONS}
+                        value={requestBuyMaterialDetails?.status}
+                      />
+                    }
+                  />
+                </Grid>
+              )}
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('requestBuyMaterial.requestCode')}
@@ -177,12 +193,18 @@ function RequestBuyMaterialDetail() {
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
-                {/* @TODO: <linh.taquang> waiting BE return userCreate */}
-                <LV label={t('requestBuyMaterial.userCreate')} value={''} />
+                <LV
+                  label={t('requestBuyMaterial.userCreate')}
+                  value={requestBuyMaterialDetails?.createdBy?.username}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
-                {/* @TODO: <linh.taquang> waiting BE return createAt */}
-                <LV label={t('requestBuyMaterial.createAt')} value={''} />
+                <LV
+                  label={t('requestBuyMaterial.createAt')}
+                  value={formatDateTimeUtc(
+                    requestBuyMaterialDetails?.createdAt,
+                  )}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField

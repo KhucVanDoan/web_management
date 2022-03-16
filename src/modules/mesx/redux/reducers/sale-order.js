@@ -25,6 +25,7 @@ import {
   GET_SALE_ORDER_DETAIL_BY_IDS_FAILED,
   GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS,
   GET_SALE_ORDER_DETAIL_BY_IDS_START,
+  GET_SALE_ORDER_LIST_ALL,
 } from '~/modules/mesx/redux/actions/sale-order'
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
   saleOrderList: [],
   saleOrderDetails: {},
   saleOrderDetailList: [],
+  saleOrderListAll: [],
   total: 0,
 }
 
@@ -54,6 +56,11 @@ export default function defineSaleOrder(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+      }
+    case GET_SALE_ORDER_LIST_ALL:
+      return {
+        ...state,
+        saleOrderListAll: action.payload,
       }
     case SEARCH_SALE_ORDERS_SUCCESS:
       return {
