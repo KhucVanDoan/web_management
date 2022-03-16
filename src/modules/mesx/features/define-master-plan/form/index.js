@@ -236,11 +236,8 @@ const DefineMasterPlanForm = () => {
                       disabled={isUpdate || isDetail}
                       required
                       options={soList}
-                      getOptionLabel={(option) => option?.name || ''}
+                      getOptionLabel={(option) => `${option.id} - ${option?.name}`}
                       getOptionValue={(option) => option?.id}
-                      // onChange={(id) =>
-                      //   handleChangeSaleOrder(id, setFieldValue)
-                      // }
                       multiple
                     />
                   </Grid>
@@ -271,6 +268,7 @@ const DefineMasterPlanForm = () => {
                       label={t('defineMasterPlan.planDate')}
                       placeholder={t('defineMasterPlan.planDate')}
                       readOnly={isDetail}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
