@@ -52,6 +52,8 @@ export const GET_PRICE_STRUCTURE_START = 'GET_PRICE_STRUCTURE_START'
 export const GET_PRICE_STRUCTURE_SUCCESS = 'GET_PRICE_STRUCTURE_SUCCESS'
 export const GET_PRICE_STRUCTURE_FAILED = 'GET_PRICE_STRUCTURE_FAILED'
 
+export const GET_MO_LIST_ALL = 'GET_MO_LIST_ALL'
+
 export function searchMO(payload, onSuccess, onError) {
   return {
     type: SEARCH_MO_START,
@@ -466,5 +468,12 @@ export function getPriceStructureByIdSuccess(payload) {
 export function getPriceStructureByIdFailed() {
   return {
     type: GET_PRICE_STRUCTURE_FAILED,
+  }
+}
+
+export function getListMoAll(payload) {
+  return {
+    type: GET_MO_LIST_ALL,
+    payload,
   }
 }

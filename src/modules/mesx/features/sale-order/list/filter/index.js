@@ -11,7 +11,7 @@ import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
   const {
-    data: { saleOrderList },
+    data: { saleOrderListAll },
   } = useSaleOrder()
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -20,7 +20,7 @@ function FilterForm() {
           name="code"
           label={t('saleOrder.code')}
           placeholder={t('saleOrder.code')}
-          options={saleOrderList}
+          options={saleOrderListAll}
           getOptionValue={(opt) => opt?.code}
           getOptionLabel={(opt) => opt?.code}
         />

@@ -363,22 +363,22 @@ export const ROUTE = {
     PATH: '/mesx/plan-report',
     TITLE: 'planReport',
   },
-  // WORK_ORDER: {
-  //   PATH: '/mesx/work-order',
-  //   TITLE: 'workOrder',
-  // },
-  // WORK_ORDER_CREATE: {
-  //   PATH: '/mesx/work-order/create',
-  //   TITLE: 'workOrderCreate',
-  // },
-  // WORK_ORDER_DETAIL: {
-  //   PATH: '/mesx/work-order/:id/detail',
-  //   TITLE: 'workOrderDetail',
-  // },
-  // WORK_ORDER_EDIT: {
-  //   PATH: '/mesx/work-order/:id/edit',
-  //   TITLE: 'workOrderEdit',
-  // },
+  WORK_ORDER: {
+    PATH: '/mesx/work-order',
+    TITLE: 'workOrder',
+  },
+  WORK_ORDER_CREATE: {
+    PATH: '/mesx/work-order/create',
+    TITLE: 'workOrderCreate',
+  },
+  WORK_ORDER_DETAIL: {
+    PATH: '/mesx/work-order/:id/detail',
+    TITLE: 'workOrderDetail',
+  },
+  WORK_ORDER_EDIT: {
+    PATH: '/mesx/work-order/:id/edit',
+    TITLE: 'workOrderEdit',
+  },
   WORK_CENTER: {
     LIST: {
       PATH: '/mesx/work-center',

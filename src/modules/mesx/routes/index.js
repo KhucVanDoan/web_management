@@ -28,6 +28,7 @@ import AutoModeration from '~/modules/mesx/features/define-master-plan/moderatio
 import InputModeration from '~/modules/mesx/features/define-master-plan/moderation/input-moderation'
 import DefinePlan from '~/modules/mesx/features/define-plan'
 import DefinePlanForm from '~/modules/mesx/features/define-plan/form'
+import detailSchedule from '~/modules/mesx/features/detail-schedule/detail'
 import DetailScheduleForm from '~/modules/mesx/features/detail-schedule/form'
 import DetailSchedule from '~/modules/mesx/features/detail-schedule/list'
 import InventoryLimit from '~/modules/mesx/features/inventory-limit'
@@ -45,9 +46,12 @@ import MaterialReport from '~/modules/mesx/features/material-report'
 import MoForm from '~/modules/mesx/features/mo/form'
 import Mo from '~/modules/mesx/features/mo/list'
 import PlanReport from '~/modules/mesx/features/plan-report'
+import PriceReport from '~/modules/mesx/features/price-report'
+import PriceDetail from '~/modules/mesx/features/price-report/price-detail'
 import ProducingStep from '~/modules/mesx/features/producing-steps'
 import ProducingStepDetail from '~/modules/mesx/features/producing-steps/detail'
 import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
+import ProductivityCompareReport from '~/modules/mesx/features/productivity-compare-report'
 import ProductivityReport from '~/modules/mesx/features/productivity-report'
 import QualityReport from '~/modules/mesx/features/quality-report'
 import RequestBuyMaterialDetail from '~/modules/mesx/features/request-buy-material/detail'
@@ -65,16 +69,14 @@ import UserManagement from '~/modules/mesx/features/user-management'
 import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
 import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
 import UserPermission from '~/modules/mesx/features/user-permission'
+import DetailWorkCenterPlan from '~/modules/mesx/features/work-center-plan/form-detail'
+import WorkCenterPlanList from '~/modules/mesx/features/work-center-plan/list'
 import WorkCenterForm from '~/modules/mesx/features/work-center/form'
+import FormDetail from '~/modules/mesx/features/work-center/form-detail'
 import WorkCenter from '~/modules/mesx/features/work-center/list'
+import workOrderDetail from '~/modules/mesx/features/work-order/detail'
+import WorkOrder from '~/modules/mesx/features/work-order/list'
 
-import detailSchedule from '../features/detail-schedule/detail'
-import PriceReport from '../features/price-report'
-import PriceDetail from '../features/price-report/price-detail'
-import ProductivityCompareReport from '../features/productivity-compare-report'
-import DetailWorkCenterPlan from '../features/work-center-plan/form-detail'
-import WorkCenterPlanList from '../features/work-center-plan/list'
-import FormDetail from '../features/work-center/form-detail'
 import { ROUTE } from './config'
 
 const routes = [
@@ -189,35 +191,21 @@ const routes = [
           },
         ],
       },
-      // {
-      //   name: ROUTE.WORK_ORDER.TITLE,
-      //   path: ROUTE.WORK_ORDER.PATH,
-      //   component: WorkOrder,
-      //   isInSidebar: true,
-      //   subMenu: [
-      //     {
-      //       name: ROUTE.WORK_ORDER_CREATE.TITLE,
-      //       path: ROUTE.WORK_ORDER_CREATE.PATH,
-      //       pathActive: ROUTE.WORK_ORDER_CREATE.PATH,
-      //       component: WorkOderForm,
-      //       isInSidebar: false,
-      //     },
-      //     {
-      //       name: ROUTE.WORK_ORDER_DETAIL.TITLE,
-      //       path: ROUTE.WORK_ORDER_DETAIL.PATH,
-      //       pathActive: ROUTE.WORK_ORDER_DETAIL.PATH,
-      //       component: WorkOderForm,
-      //       isInSidebar: false,
-      //     },
-      //     {
-      //       name: ROUTE.WORK_ORDER_EDIT.TITLE,
-      //       path: ROUTE.WORK_ORDER_EDIT.PATH,
-      //       pathActive: ROUTE.WORK_ORDER_EDIT.PATH,
-      //       component: WorkOderForm,
-      //       isInSidebar: false,
-      //     },
-      //   ],
-      // },
+      {
+        name: ROUTE.WORK_ORDER.TITLE,
+        path: ROUTE.WORK_ORDER.PATH,
+        component: WorkOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WORK_ORDER_DETAIL.TITLE,
+            path: ROUTE.WORK_ORDER_DETAIL.PATH,
+            pathActive: ROUTE.WORK_ORDER_DETAIL.PATH,
+            component: workOrderDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
       {
         name: ROUTE.MO.LIST.TITLE,
         path: ROUTE.MO.LIST.PATH,
