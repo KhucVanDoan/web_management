@@ -146,9 +146,11 @@ const MOForm = () => {
     }
   }
 
-  const handleChangePlan = (value) => {
+  const handleChangePlan = (value, setFieldValue) => {
     masterPlanActions.getMasterPlanDetailsById(value, (response) => {
       setSaleOrders(response.saleOrderSchedules)
+      setFieldValue('moPlan', [response.dateFrom, response.dateTo])
+      setFieldValue('moFactory', response.factory?.name)
     })
   }
 
@@ -209,7 +211,7 @@ const MOForm = () => {
                       getOptionLabel={(option) => option?.name || ''}
                       getOptionValue={(option) => option?.id}
                       required
-                      onChange={handleChangePlan}
+                      onChange={(value) => handleChangePlan(value, setFieldValue)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
