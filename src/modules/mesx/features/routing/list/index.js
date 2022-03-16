@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
@@ -10,7 +10,11 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { ROUTING_STATUS, ROUTING_STATUS_MAP } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import {
+  ROUTING_STATUS,
+  ROUTING_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -40,7 +44,7 @@ function Routing() {
     code: '',
     name: '',
     status: '',
-    createTime: [],
+    createdAt: '',
   }
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
@@ -53,7 +57,7 @@ function Routing() {
     actions,
   } = useRouting()
 
-  const columns = [
+  const columns = useMemo(() => [
     // {
     //   field: 'id',
     //   headerName: t('routing.orderNumber'),
@@ -82,7 +86,13 @@ function Routing() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(ROUTING_STATUS_MAP[status])
+        return (
+          <Status
+            options={ROUTING_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
@@ -93,7 +103,7 @@ function Routing() {
       align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
-        const isConfirmed = status === ROUTING_STATUS.CREATED
+        const isConfirmed = status === ROUTING_STATUS.PENDING
         return (
           <Box sx={{ whiteSpace: 'nowrap' }}>
             <IconButton
@@ -136,14 +146,16 @@ function Routing() {
         )
       },
     },
-  ]
+  ])
 
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', type: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
 

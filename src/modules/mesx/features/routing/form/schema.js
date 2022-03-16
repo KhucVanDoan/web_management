@@ -7,9 +7,9 @@ export const validationSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         }),
       ),
     name: Yup.string()

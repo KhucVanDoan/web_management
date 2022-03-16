@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { ROUTING_STATUS_OPTIONS } from '~/modules/mesx/constants'
 
@@ -16,6 +17,9 @@ const FilterForm = () => {
           name="code"
           label={t('routing.code')}
           placeholder={t('routing.code')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -23,6 +27,9 @@ const FilterForm = () => {
           name="name"
           label={t('routing.name')}
           placeholder={t('routing.name')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -39,6 +46,7 @@ const FilterForm = () => {
         <Field.DateRangePicker
           name="createdAt"
           label={t('defineFactory.createTime')}
+          type="date"
         />
       </Grid>
     </Grid>

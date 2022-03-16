@@ -7,12 +7,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import {
-  MODAL_MODE,
-  // ROUTING_STATUS,
-  // ROUTING_STATUS_MAP,
-  // TEXTFIELD_REQUIRED_LENGTH,
-} from '~/common/constants'
+import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -82,7 +77,7 @@ function RoutingForm() {
       ...values,
       producingSteps: values.items?.map((item) => ({
         id: item?.itemId,
-        stepNumber: item?.stepNumber,
+        stepNumber: Number(item?.stepNumber),
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -102,7 +97,7 @@ function RoutingForm() {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -119,7 +114,7 @@ function RoutingForm() {
         return (
           <Box mt={2} display="flex" justifyContent="flex-end">
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('common.back')}
             </Button>
             <Button
               onClick={handleReset}
@@ -204,6 +199,9 @@ function RoutingForm() {
                       label={t('routing.code')}
                       name="code"
                       placeholder={t('routing.code')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -213,6 +211,9 @@ function RoutingForm() {
                       label={t('routing.name')}
                       name="name"
                       placeholder={t('routing.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -221,6 +222,9 @@ function RoutingForm() {
                       name="description"
                       label={t('routing.description')}
                       placeholder={t('routing.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

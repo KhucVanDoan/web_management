@@ -257,16 +257,16 @@ function BomProducingStepForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('bomProducingStep.itemName')}
-                      name="product.item.name"
+                      label={t('bomProducingStep.name')}
+                      name="product.name"
                       required
                       disabled
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('bomProducingStep.name')}
-                      name="product.name"
+                      label={t('bomProducingStep.itemName')}
+                      name="product.item.name"
                       required
                       disabled
                     />
