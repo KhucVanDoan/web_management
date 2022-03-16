@@ -47,6 +47,11 @@ const Toolbar = () => {
         color="grayEE"
         icon="user"
         handleMenuItemClick={(opt) => opt.onClick()}
+        sx={{
+          width: 40,
+          minWidth: 40,
+          height: 40,
+        }}
       />
     </Box>
   )
