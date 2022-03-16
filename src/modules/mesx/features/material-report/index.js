@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import {
-  DATE_FORMAT,
-  PLAN_STATUS_OPTIONS,
-  ROWS_PER_PAGE_OPTIONS,
-} from '~/common/constants'
+import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'

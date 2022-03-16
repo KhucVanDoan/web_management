@@ -4,17 +4,17 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import {
-  ROWS_PER_PAGE_OPTIONS,
-  SALE_ORDER_STATUS_OPTIONS,
-} from '~/common/constants'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS } from '~/modules/mesx/constants'
+import {
+  SALE_ORDER_STATUS_OPTIONS,
+  ORDER_STATUS,
+} from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {

@@ -35,9 +35,9 @@ export const WorkCenterSchema = (t) => {
     workCapacity: Yup.number()
       .required(t('general:form.required'))
       .max(
-        NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MAX,
+        NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         t('general:form.maxNumber', {
-          max: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MAX,
+          max: NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         }),
       ),
     producingStepId: Yup.string().required(t('general:form.required')),

@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT, MO_STATUS } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -16,6 +16,7 @@ import {
   MO_STATUS_TO_CONFIRM,
   MO_STATUS_TO_EDIT,
   MO_STATUS_TO_DELETE,
+  MO_STATUS,
 } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
