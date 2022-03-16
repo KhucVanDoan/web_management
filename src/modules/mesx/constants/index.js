@@ -349,26 +349,32 @@ export const BOM_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'bomStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'bomStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'bomStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'bomStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'bomStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'bomStatus.rejected',
+    color: 'rejected',
   },
 ]
 
@@ -394,6 +400,11 @@ export const ROUTING_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const ROUTING_VERSION_STATUS = {
+  CREATED: 0,
+  CONFIRMED: 1,
+}
 
 export const ROUTING_VERSION_STATUS_MAP = {
   [ROUTING_VERSION_STATUS.PENDING]: 'orderStatus.pending',
@@ -490,24 +501,30 @@ export const PLAN_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'planStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 1,
     text: 'planStatus.created',
+    color: 'created',
   },
   {
     id: 2,
     text: 'planStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 3,
     text: 'planStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 4,
     text: 'planStatus.completed',
+    color: 'completed',
   },
 ]
+
 export const PLAN_STATUS_TO_DELETE = [PLAN_STATUS.CREATED, PLAN_STATUS.REJECTED]
 export const PLAN_STATUS_TO_CONFIRM = [
   PLAN_STATUS.CREATED,
@@ -698,10 +715,12 @@ export const SALE_ORDER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
 ]
 
@@ -734,24 +753,30 @@ export const DETAIL_SCHEDULE_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'detailScheduleStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'detailScheduleStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'detailScheduleStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'detailScheduleStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'detailScheduleStatus.inProgress',
+    color: 'inprogress',
   },
 ]
+
 export const DETAIL_SCHEDULE_STATUS_TO_DELETE = [
   DETAIL_SCHEDULE_STATUS.PENDING,
   DETAIL_SCHEDULE_STATUS.REJECTED,
@@ -782,32 +807,40 @@ export const BOM_PRODUCING_STEP_STATUS_MAP = {
   [BOM_PRODUCING_STEP_STATUS.REJECTED]: 'bomProducingStepStatus.rejected',
   [BOM_PRODUCING_STEP_STATUS.COMPLETED]: 'bomProducingStepStatus.completed',
 }
+
 export const BOM_PRODUCING_STEP_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'bomProducingStepStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'bomProducingStepStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'bomProducingStepStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 3,
     text: 'bomProducingStepStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
     text: 'bomProducingStepStatus.completed',
+    color: 'completed',
   },
   {
     id: 5,
     text: 'bomProducingStepStatus.rejected',
+    color: 'rejected',
   },
 ]
+
 export const BOM_PRODUCING_STEP_STATUS_TO_DELETE = [
   BOM_PRODUCING_STEP_STATUS.PENDING,
   BOM_PRODUCING_STEP_STATUS.REJECTED,

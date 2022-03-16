@@ -6,7 +6,7 @@ import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT, MASTER_PLAN_STATUS } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Page from '~/components/Page'
@@ -15,6 +15,7 @@ import {
   PLAN_STATUS_MAP,
   PLAN_STATUS,
   MASTER_PLAN_STATUS_OPTIONS,
+  MASTER_PLAN_STATUS,
 } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'

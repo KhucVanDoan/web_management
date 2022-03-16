@@ -4,7 +4,7 @@ import { isAfter } from 'date-fns'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -38,7 +38,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           ) : (
             <Field.TextField
               name={`shifts[${index}].shiftName`}
-              inputProps={{ maxLength: 254 }}
+              inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
             />
           )
         },

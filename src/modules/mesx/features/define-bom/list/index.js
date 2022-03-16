@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { BOM_STATUS_OPTIONS, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -12,6 +12,7 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  BOM_STATUS_OPTIONS,
   BOM_STATUS_TO_EDIT,
   BOM_STATUS_TO_CONFIRM,
   BOM_STATUS_TO_DELETE,

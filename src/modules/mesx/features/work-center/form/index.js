@@ -6,16 +6,13 @@ import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import {
-  MODAL_MODE,
-  TEXTFIELD_REQUIRED_LENGTH,
-  WORK_CENTER_STATUS_OPTIONS,
-} from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
+import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
@@ -394,7 +391,9 @@ const WorkCenterForm = () => {
                         label={t('workCenter.description')}
                         placeholder={t('workCenter.description')}
                         multiline
-                        inputProps={{ maxLength: 254 }}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         rows={3}
                       />
                     </Grid>
