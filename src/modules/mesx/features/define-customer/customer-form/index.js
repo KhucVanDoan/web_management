@@ -120,7 +120,7 @@ function DefineCustomerForm() {
     }
   }
 
-  const renderActionButtons = (handleReset) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -239,7 +239,7 @@ function DefineCustomerForm() {
                   </Grid>
                 </Grid>
                 <Box mt={2} display="flex" justifyContent="flex-end">
-                  {renderActionButtons(handleReset)}
+                  {renderActionBar(handleReset)}
                 </Box>
               </Form>
             )}

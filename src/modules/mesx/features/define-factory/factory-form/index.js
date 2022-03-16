@@ -112,7 +112,7 @@ const DefineFactoryForm = () => {
     }
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionBar = ({ handleReset }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -242,7 +242,7 @@ const DefineFactoryForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Box>{renderActionButtons({ handleReset })}</Box>
+                <Box>{renderActionBar({ handleReset })}</Box>
               </Form>
             )}
           </Formik>

@@ -58,7 +58,7 @@ const MOForm = () => {
     redirectRouter(ROUTE.MO.LIST.PATH)
   }
 
-  const renderActionButtons = ({ resetForm }) => {
+  const renderActionBar = ({ resetForm }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -211,7 +211,9 @@ const MOForm = () => {
                       getOptionLabel={(option) => option?.name || ''}
                       getOptionValue={(option) => option?.id}
                       required
-                      onChange={(value) => handleChangePlan(value, setFieldValue)}
+                      onChange={(value) =>
+                        handleChangePlan(value, setFieldValue)
+                      }
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -288,7 +290,7 @@ const MOForm = () => {
                 }
               />
             </Box>
-            <Box>{renderActionButtons({ resetForm })}</Box>
+            <Box>{renderActionBar({ resetForm })}</Box>
           </Form>
         )}
       </Formik>

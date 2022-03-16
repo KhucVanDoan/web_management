@@ -122,7 +122,7 @@ function BomProducingStepForm() {
     history.push(ROUTE.BOM_PRODUCING_STEP.LIST.PATH)
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionBar = ({ handleReset }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -298,7 +298,7 @@ function BomProducingStepForm() {
             <Box sx={{ mt: 3 }}>
               <ItemsSettingTable items={values.items || []} mode={mode} />
             </Box>
-            <Box>{renderActionButtons({ handleReset })}</Box>
+            <Box>{renderActionBar({ handleReset })}</Box>
           </Form>
         )}
       </Formik>

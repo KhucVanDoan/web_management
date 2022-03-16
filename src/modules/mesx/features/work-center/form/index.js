@@ -179,7 +179,7 @@ const WorkCenterForm = () => {
     }
   }
 
-  const renderActionButtons = (resetForm) => {
+  const renderActionBar = (resetForm) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -289,7 +289,7 @@ const WorkCenterForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values, setFieldValue }) => {
+        {({ values, setFieldValue, resetForm }) => {
           const leaderOptions =
             userList?.filter((leader) =>
               values.members.some((member) => leader.id === member),
@@ -473,7 +473,7 @@ const WorkCenterForm = () => {
               </Tabs>
 
               <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                {renderActionButtons()}
+                {renderActionBar(resetForm)}
               </Box>
             </Form>
           )

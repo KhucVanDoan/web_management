@@ -19,6 +19,7 @@ import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
+import { ReactComponent as Save } from '~/assets/images/icons/save.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
 import { ReactComponent as Setting } from '~/assets/images/icons/setting.svg'
 import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
@@ -58,6 +59,7 @@ const icons = {
   cart: <Cart />,
   rhombus: <Rhombus />,
   invoid: <Invoid />,
+  save: <Save />,
 
   // menu
   drawer: <Drawer />,

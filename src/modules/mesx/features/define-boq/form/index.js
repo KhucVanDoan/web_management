@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -87,34 +87,26 @@ const BOQForm = () => {
     history.push(ROUTE.DEFINE_BOQ.LIST.PATH)
   }
 
-  const renderActionButtons = (resetForm) => {
+  const renderActionBar = (resetForm) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
-        break
+        return null
     }
   }
 
@@ -288,18 +280,8 @@ const BOQForm = () => {
                 )}
               />
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
-            >
-              {renderActionButtons(resetForm)}
-            </Box>
+
+            {renderActionBar(resetForm)}
           </Form>
         )}
       </Formik>

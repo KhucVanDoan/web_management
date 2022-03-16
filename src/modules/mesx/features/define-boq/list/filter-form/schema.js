@@ -5,7 +5,7 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 export const filterSchema = (t) =>
   Yup.object().shape({
     code: Yup.string()
-      .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, {
+      .matches(/^[0-9A-Za-z]+$/, {
         message: t('general:form.validCode'),
       })
       .max(

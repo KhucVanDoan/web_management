@@ -259,7 +259,7 @@ function DefineItemForm() {
     }
   }
 
-  const renderActionButtons = (handleReset) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -672,7 +672,7 @@ function DefineItemForm() {
                     </Box>
                   </Tabs>
                   <Box mt={3} display="flex" justifyContent="flex-end">
-                    {renderActionButtons(handleReset)}
+                    {renderActionBar(handleReset)}
                   </Box>
                 </Form>
               )

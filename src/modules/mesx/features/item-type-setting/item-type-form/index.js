@@ -110,7 +110,7 @@ const ItemTypeForm = () => {
     }
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionBar = ({ handleReset }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -210,7 +210,7 @@ const ItemTypeForm = () => {
                   </Grid>
                 </Grid>
                 <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  {renderActionButtons({ handleReset })}
+                  {renderActionBar({ handleReset })}
                 </Box>
               </Form>
             )}
