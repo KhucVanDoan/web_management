@@ -61,11 +61,11 @@ const TableCollapse = (props) => {
     hideSetting,
     onPageChange,
     onPageSizeChange,
+    filters,
   } = props
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState(props.filters || [])
   const [visibleColumns, setVisibleColumns] = useState([])
   const { tableSetting, updateTableSetting } = useTableSetting()
   const indexCol = props.indexCol || 'id'
@@ -115,30 +115,6 @@ const TableCollapse = (props) => {
       setSort(newSort)
       props.onChangeSort(newSort)
     }
-  }
-
-  /**
-   * Handle change filter event
-   * @param {string} field
-   * @param {string} value
-   */
-  const onChangeFilter = (field, value) => {
-    let filters = [...filters]
-    const index = filters.findIndex((item) => item.field === field)
-
-    // if field is in filters
-    if (index >= 0) {
-      filters[index].value = value
-    } else {
-      // if field is not in filters
-      filters.push({ field, value })
-    }
-
-    filters = filters.filter((item) => item.value !== '')
-    setFilters(filters)
-
-    // Call props handler
-    props.onChangeFilter && props.onChangeFilter(filters)
   }
 
   //@ not used
@@ -348,7 +324,7 @@ const TableCollapse = (props) => {
 
   return (
     <>
-      {(title || (filters && filters.length > 0) || !hideSetting) && (
+      {(title || filters || !hideSetting) && (
         <TopBar
           title={title}
           columns={rawColumns}
@@ -369,8 +345,6 @@ const TableCollapse = (props) => {
               orderBy={sort?.orderBy}
               onChangeSort={onChangeSort}
               columns={columns}
-              onChangeFilter={onChangeFilter}
-              filters={filters}
             />
           )}
           <TableBody>
@@ -669,6 +643,7 @@ TableCollapse.propsTypes = {
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
+  filters: PropTypes.shape(),
 }
 TableCollapse.defaultProps = {
   pageSize: 20,
