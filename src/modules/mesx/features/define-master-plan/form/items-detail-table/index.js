@@ -70,6 +70,7 @@ const ItemsDetailTable = (props) => {
 
   useEffect(() => {
     getItemsInSo(saleOrderDetailList)
+    return () => actions.resetSaleOrderState()
   }, [saleOrderDetailList, planDate])
 
   const getItemsInSo = (saleOrders = []) => {
@@ -89,7 +90,9 @@ const ItemsDetailTable = (props) => {
     setItemsDetail(itemsInSo)
   }
 
-  return <DataTable rows={itemsDetail} columns={columns} />
+  return (
+    <DataTable rows={itemsDetail} columns={columns} hideSetting hideFooter />
+  )
 }
 
 export default ItemsDetailTable

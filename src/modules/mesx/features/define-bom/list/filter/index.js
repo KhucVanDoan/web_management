@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { BOM_STATUS_OPTIONS } from '~/modules/mesx/constants'
 
@@ -13,6 +14,7 @@ function FilterForm() {
           name="code"
           label={t('defineBOM.bomCode')}
           placeholder={t('defineBOM.bomCode')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -20,6 +22,7 @@ function FilterForm() {
           name="name"
           label={t('defineBOM.bomName')}
           placeholder={t('defineBOM.bomName')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
       <Grid item xs={12}>
