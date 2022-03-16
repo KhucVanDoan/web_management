@@ -68,7 +68,7 @@ const DetailScheduleForm = () => {
     woQuantity: detailScheduleDetails?.quantity || '',
   }
 
-  const renderActionButtons = (resetForm) => {
+  const renderActionBar = (resetForm) => {
     switch (mode) {
       case MODAL_MODE.UPDATE:
         return (
@@ -257,7 +257,7 @@ const DetailScheduleForm = () => {
                 },
               }}
             >
-              {renderActionButtons(resetForm)}
+              {renderActionBar(resetForm)}
             </Box>
           </Form>
         )}

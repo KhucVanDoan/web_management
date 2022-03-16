@@ -119,7 +119,7 @@ function ProducingStepForm() {
     }
   }
 
-  const renderActionButtons = (handleReset) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -408,7 +408,7 @@ function ProducingStepForm() {
                     },
                   }}
                 >
-                  {renderActionButtons(handleReset)}
+                  {renderActionBar(handleReset)}
                 </Box>
               </Form>
             )}

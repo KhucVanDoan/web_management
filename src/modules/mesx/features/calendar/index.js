@@ -161,7 +161,7 @@ const PlanCalendar = () => {
     setIsOpenCreateEventModal(false)
   }
 
-  const renderActionButtons = (onCancel) => {
+  const renderActionBar = (onCancel) => {
     return (
       <>
         <Button color="grayF4" sx={{ mr: 1 }} onClick={onCancel}>
@@ -284,7 +284,7 @@ const PlanCalendar = () => {
             </Grid>
           </Grid>
           <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-            {renderActionButtons(onCancel)}
+            {renderActionBar(onCancel)}
           </Box>
         </Grid>
       </Dialog>

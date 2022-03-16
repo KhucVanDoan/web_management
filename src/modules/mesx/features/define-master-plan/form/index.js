@@ -100,7 +100,7 @@ const DefineMasterPlanForm = () => {
     history.push(ROUTE.MASTER_PLAN.LIST.PATH)
   }
 
-  const renderActionButtons = (resetForm) => {
+  const renderActionBar = (resetForm) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -382,7 +382,7 @@ const DefineMasterPlanForm = () => {
                 },
               }}
             >
-              {renderActionButtons(resetForm)}
+              {renderActionBar(resetForm)}
             </Box>
           </Form>
         )}

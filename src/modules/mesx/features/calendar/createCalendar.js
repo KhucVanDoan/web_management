@@ -32,7 +32,7 @@ function CalendarCreate() {
   const initialValues = {}
 
   const onSubmit = () => {}
-  const renderActionButtons = () => {
+  const renderActionBar = () => {
     return (
       <>
         <Button
@@ -181,7 +181,7 @@ function CalendarCreate() {
                     </Grid>
                   </Grid>
                   <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                    {renderActionButtons()}
+                    {renderActionBar()}
                   </Box>
                 </Form>
               )}

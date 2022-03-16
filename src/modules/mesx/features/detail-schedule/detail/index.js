@@ -74,7 +74,7 @@ const detailSchedule = () => {
     }
   }
 
-  const renderActionButtons = () => {
+  const renderActionBar = () => {
     switch (status) {
       case DETAIL_SCHEDULE_STATUS.PENDING:
         return (
@@ -215,7 +215,7 @@ const detailSchedule = () => {
           },
         }}
       >
-        {renderActionButtons()}
+        {renderActionBar()}
       </Box>
     </Page>
   )

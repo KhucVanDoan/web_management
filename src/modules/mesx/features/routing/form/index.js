@@ -91,7 +91,7 @@ function RoutingForm() {
     history.push(ROUTE.ROUTING.LIST.PATH)
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionBar = ({ handleReset }) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
@@ -244,7 +244,7 @@ function RoutingForm() {
                 )}
               />
             </Box>
-            <Box>{renderActionButtons({ handleReset })}</Box>
+            <Box>{renderActionBar({ handleReset })}</Box>
           </Form>
         )}
       </Formik>

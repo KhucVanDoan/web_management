@@ -112,7 +112,7 @@ function UserPermission() {
     })
   }
 
-  const renderActionButtons = ({ handleReset }) => {
+  const renderActionBar = ({ handleReset }) => {
     return (
       <Box mt={8} display="flex" justifyContent="flex-end">
         <Button onClick={() => {}} color="grayF4" sx={{ mr: 4 / 3 }}>
@@ -295,7 +295,7 @@ function UserPermission() {
                     </Grid>
                   )}
                 </Grid>
-                <Box>{renderActionButtons({ handleReset })}</Box>
+                <Box>{renderActionBar({ handleReset })}</Box>
               </Form>
             )}
           </Formik>

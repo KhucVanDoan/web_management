@@ -114,5 +114,11 @@
   "ganttChart": {
     "taskName": "Công việc",
     "completed": "Tiến độ"
+  },
+  "actionBar": {
+    "back": "Quay lại",
+    "cancel": "Huỷ",
+    "create": "Tạo mới",
+    "save": "Lưu"
   }
 }
