@@ -23,8 +23,8 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
     MAX: 50,
   },
   EMAIL: {
-    MIN: 5,
-    MAX: 50,
+    MIN: 6,
+    MAX: 100,
   },
   FAX: {
     MAX: 50,
@@ -33,7 +33,8 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
     MAX: 13,
   },
   PHONE: {
-    MAX: 12,
+    MIN: 10,
+    MAX: 20,
   },
   CODE: {
     MAX: 9,
@@ -106,7 +107,7 @@ export const DATE_FORMAT = 'dd/MM/yyyy'
 
 export const DATE_FORMAT_3 = 'yyyy-MM-dd'
 
-export const DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm"
+export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
 
 export const QR_CODE_TYPE = {
   ITEM: '02',

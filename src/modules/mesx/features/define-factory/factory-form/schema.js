@@ -8,9 +8,9 @@ export const defineFactorySchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         }),
       ),
     name: Yup.string()

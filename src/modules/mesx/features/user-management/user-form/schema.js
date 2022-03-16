@@ -34,15 +34,15 @@ export const validationSchema = (t, mode) =>
           password: Yup.string()
             .required(t('general:form.required'))
             .min(
-              TEXTFIELD_REQUIRED_LENGTH.CODE_6.MIN,
+              TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
               t('general:form.minLength', {
-                min: TEXTFIELD_REQUIRED_LENGTH.CODE_6.MIN,
+                min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
               }),
             )
             .max(
-              TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+              TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
               t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                max: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
               }),
             ),
         }
@@ -54,6 +54,12 @@ export const validationSchema = (t, mode) =>
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
         t('general:form.maxLength', {
           max: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
+        }),
+      )
+      .min(
+        TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
+        t('general:form.minLength', {
+          min: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
         }),
       ),
     phone: phoneSchema(t),
