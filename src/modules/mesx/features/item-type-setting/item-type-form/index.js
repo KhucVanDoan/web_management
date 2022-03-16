@@ -179,7 +179,7 @@ const ItemTypeForm = () => {
                       name="code"
                       placeholder={t('itemTypeSetting.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -201,6 +201,9 @@ const ItemTypeForm = () => {
                       name="description"
                       label={t('itemTypeSetting.description')}
                       placeholder={t('itemTypeSetting.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

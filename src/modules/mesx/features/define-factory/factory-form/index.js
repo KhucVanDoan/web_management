@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
-import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -29,23 +28,14 @@ const DefineFactoryForm = () => {
 
   const { appStore } = useAppStore()
 
-  const initialValues = isEmpty(factoryDetails)
-    ? {
-        code: '',
-        name: '',
-        description: '',
-        location: '',
-        phone: '',
-        companyId: '',
-      }
-    : pick(factoryDetails, [
-        'code',
-        'name',
-        'description',
-        'location',
-        'phone',
-        'companyId',
-      ])
+  const initialValues = {
+    code: factoryDetails?.code || '',
+    name: factoryDetails?.name || '',
+    description: factoryDetails?.description || '',
+    location: factoryDetails?.location || '',
+    phone: factoryDetails?.phone || '',
+    companyId: factoryDetails?.companyId || '',
+  }
 
   const MODE_MAP = {
     [ROUTE.DEFINE_FACTORY.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -191,7 +181,7 @@ const DefineFactoryForm = () => {
                       name="code"
                       placeholder={t('defineFactory.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
                       }}
                       disabled={isUpdate}
                       required

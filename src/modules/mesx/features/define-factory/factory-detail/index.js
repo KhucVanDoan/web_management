@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -31,6 +32,8 @@ function DefineFactoryDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
+  const { appStore } = useAppStore()
+
   const {
     data: { isLoading, factoryDetails },
     actions,
@@ -78,7 +81,12 @@ function DefineFactoryDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineFactory.companyName')}
-                value={factoryDetails.companyName}
+                value={
+                  appStore.companies.find(
+                    (item) => item.id === factoryDetails.companyId,
+                  )?.name
+                }
+                // @TODO: <anh.nth> if factoryDetails has companyName -> fix, dont need to map
               />
             </Grid>
             <Grid item lg={6} xs={12}>

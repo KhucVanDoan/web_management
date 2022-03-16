@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
@@ -18,6 +19,9 @@ const FilterForm = () => {
           name="username"
           label={t('userManagement.username')}
           placeholder={t('userManagement.username')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -25,6 +29,9 @@ const FilterForm = () => {
           name="fullName"
           label={t('userManagement.fullName')}
           placeholder={t('userManagement.fullName')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>

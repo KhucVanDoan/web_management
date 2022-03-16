@@ -38,7 +38,7 @@ function DefineFactory() {
     code: '',
     name: '',
     companyName: '',
-    createTime: [],
+    createdAt: '',
   }
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
 

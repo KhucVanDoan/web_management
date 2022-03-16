@@ -89,7 +89,7 @@ function DefineCompany() {
       field: 'taxNo',
       headerName: t('defineCompany.tax'),
       width: 100,
-      sortable: true,
+      sortable: false,
     },
     {
       field: 'email',

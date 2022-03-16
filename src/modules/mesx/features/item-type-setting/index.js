@@ -46,13 +46,13 @@ function ItemTypeSetting() {
   })
 
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      sortable: false,
-      fixed: true,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 80,
+    //   sortable: false,
+    //   fixed: true,
+    // },
     {
       field: 'code',
       headerName: t('itemTypeSetting.typeCode'),
