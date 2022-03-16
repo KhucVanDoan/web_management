@@ -41,7 +41,7 @@ const DEFAULT_FILTERS = {
   code: '',
   name: '',
   soId: null,
-  planDate: [],
+  planDate: null,
   createdAt: null,
 }
 

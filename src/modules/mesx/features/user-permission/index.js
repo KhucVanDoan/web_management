@@ -57,9 +57,18 @@ function UserPermission() {
     }
   }, [departmentId, userRoleId])
 
+  const refreshData = () => {
+    const groupPermissions = appStore.groupPermisions || []
+    const total = groupPermissions.length
+    const start = total ? pageSize * (page - 1) : 0
+    const end = total ? Math.min(pageSize * page, total) : 0
+    const pageOfItems = groupPermissions.slice(start, end)
+    setBomTree(pageOfItems)
+  }
+
   useEffect(() => {
-    setBomTree(appStore.groupPermisions)
-  }, [appStore.groupPermisions])
+    refreshData()
+  }, [appStore.groupPermisions, page, pageSize])
 
   useEffect(() => {
     const newArr = appStore.userPermisions?.map((item) => {
@@ -280,7 +289,7 @@ function UserPermission() {
                         type={'list'}
                         onPageChange={setPage}
                         onPageSizeChange={setPageSize}
-                        total={bomTree.length}
+                        total={appStore?.groupPermisions?.length}
                         hideSetting
                       />
                     </Grid>
