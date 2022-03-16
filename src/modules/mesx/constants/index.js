@@ -1036,22 +1036,27 @@ export const MASTER_PLAN_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'masterPlanStatus.created',
+    color: 'created',
   },
   {
     id: 1,
     text: 'masterPlanStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
     text: 'masterPlanStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 3,
     text: 'masterPlanStatus.inProgress',
+    color: 'inProgress',
   },
   {
     id: 4,
     text: 'masterPlanStatus.completed',
+    color: 'completed',
   },
 ]
 

@@ -15,6 +15,7 @@ import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
 import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
+import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
@@ -56,6 +57,7 @@ const icons = {
   bag: <Bag />,
   cart: <Cart />,
   rhombus: <Rhombus />,
+  invoid: <Invoid />,
 
   // menu
   drawer: <Drawer />,

@@ -1,19 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
-import { Delete, Visibility, CalendarToday } from '@mui/icons-material'
-import CheckBox from '@mui/icons-material/CheckBox'
-import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import {
-  PLAN_STATUS_MAP,
-  PLAN_STATUS,
   MASTER_PLAN_STATUS_OPTIONS,
   MASTER_PLAN_STATUS,
 } from '~/modules/mesx/constants'
@@ -49,6 +47,10 @@ const DEFAULT_FILTERS = {
 
 const DefineMasterPlan = () => {
   const { t } = useTranslation(['mesx'])
+
+  const history = useHistory()
+
+  const [keyword, setKeyword] = useState()
   const [masterPlans, setMasterPlans] = useState([])
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
@@ -68,18 +70,14 @@ const DefineMasterPlan = () => {
       {
         field: 'code',
         headerName: t('defineMasterPlan.code'),
-        align: 'center',
         width: 100,
-        filterable: true,
         sortable: true,
         fixed: true,
       },
       {
         field: 'name',
         headerName: t('defineMasterPlan.planName'),
-        align: 'center',
         width: 150,
-        filterable: true,
         sortable: true,
         fixed: true,
       },
@@ -87,8 +85,6 @@ const DefineMasterPlan = () => {
         field: 'soName',
         headerName: t('defineMasterPlan.saleOrderName'),
         width: 200,
-        align: 'center',
-        filterable: true,
         sortable: true,
         renderCell: (params) => {
           return params.row.saleOrders
@@ -100,9 +96,7 @@ const DefineMasterPlan = () => {
         field: 'plan',
         headerName: t('defineMasterPlan.planDate'),
         width: 200,
-        align: 'center',
         type: 'date',
-        filterable: true,
         sortable: true,
         renderCell: (params) => {
           return (
@@ -115,39 +109,31 @@ const DefineMasterPlan = () => {
       {
         field: 'status',
         headerName: t('defineMasterPlan.status'),
-        align: 'center',
         width: 100,
         sortable: true,
-        type: 'categorical',
-        filterable: true,
-        filterOptions: {
-          options: MASTER_PLAN_STATUS_OPTIONS,
-          getOptionValue: (option) => option?.id.toString(),
-          getOptionLabel: (option) => t(option?.text),
-        },
         renderCell: (params) => {
           const { status } = params.row
-          const statusValue = MASTER_PLAN_STATUS_OPTIONS.find(
-            (masterPlanStatus) => masterPlanStatus.id === status,
+          return (
+            <Status
+              options={MASTER_PLAN_STATUS_OPTIONS}
+              value={status}
+              variant="text"
+            />
           )
-          return t(statusValue.text)
         },
       },
       {
         field: 'moName',
         headerName: t('defineMasterPlan.moName'),
         sortable: true,
-        align: 'center',
         width: 150,
-        filterable: true,
-        paddingRight: 20,
         renderCell: () => {
           return (
             <Button
               variant="text"
               size="small"
-              sx={{ marginBottom: 0 }}
-              onClick={() => redirectRouter(ROUTE.MO.CREATE.PATH)}
+              bold={false}
+              onClick={() => history.push(ROUTE.MO.CREATE.PATH)}
             >
               {t('defineMasterPlan.createMo')}
             </Button>
@@ -157,11 +143,8 @@ const DefineMasterPlan = () => {
       {
         field: 'action',
         headerName: t('defineMasterPlan.action'),
-        disableClickEventBubbling: true,
         width: 250,
-        sortable: false,
         align: 'center',
-        headerAlign: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
           // const canEdit = status === MASTER_PLAN_STATUS.CREATED
@@ -170,67 +153,49 @@ const DefineMasterPlan = () => {
           const canReject = status === MASTER_PLAN_STATUS.CREATED
 
           return (
-            <div>
-              <IconButton
-                type="button"
-                size="large"
-                onClick={() => onClickViewDetails(id)}
-              >
-                <Visibility />
+            <>
+              <IconButton onClick={() => onClickViewDetails(id)}>
+                <Icon name="show" />
               </IconButton>
-              <IconButton
-                type="button"
-                size="large"
-                onClick={() => onClickViewModeration(id)}
-              >
-                <CalendarToday />
+              <IconButton onClick={() => onClickViewModeration(id)}>
+                <Icon name="invoid" />
               </IconButton>
               {/* {canEdit && (
-                <IconButton
-                  type="button"
-                  size="large"
-                  onClick={() => onClickEdit(id)}
-                >
-                  <Edit />
+                <IconButton onClick={() => onClickEdit(id)}>
+                  <Icon name="edit" />
                 </IconButton>
               )} */}
               {canDelete && (
                 <IconButton
-                  type="button"
-                  size="large"
                   onClick={() => {
                     setId(id)
                     setDeleteModal(true)
                   }}
                 >
-                  <Delete />
+                  <Icon name="delete" />
                 </IconButton>
               )}
               {canApprove && (
                 <IconButton
-                  type="button"
-                  size="large"
                   onClick={() => {
                     setId(id)
                     setIsOpenApproveModal(true)
                   }}
                 >
-                  <CheckBox style={{ color: 'green' }} />
+                  <Icon name="tick" />
                 </IconButton>
               )}
               {canReject && (
                 <IconButton
-                  type="button"
-                  size="large"
                   onClick={() => {
                     setId(id)
                     setIsOpenRejectModal(true)
                   }}
                 >
-                  <DoDisturbOnIcon style={{ color: 'red' }} />
+                  <Icon name="remove" />
                 </IconButton>
               )}
-            </div>
+            </>
           )
         },
       },
@@ -243,29 +208,21 @@ const DefineMasterPlan = () => {
       field: 'producingStepName',
       headerName: t('defineMasterPlan.producingStepName'),
       width: 200,
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'quantity',
       headerName: t('defineMasterPlan.quantity'),
       width: 200,
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'actualQuantity',
       headerName: t('defineMasterPlan.actualQuantity'),
       width: 200,
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'planDateOfList',
       headerName: t('defineMasterPlan.planDate'),
       width: 200,
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
@@ -279,8 +236,6 @@ const DefineMasterPlan = () => {
       field: 'executeDate',
       headerName: t('defineMasterPlan.executeDate'),
       width: 200,
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { startAt } = params.row
         return formatDateTimeUtc(startAt, DATE_FORMAT)
@@ -290,8 +245,6 @@ const DefineMasterPlan = () => {
       field: 'endDate',
       headerName: t('defineMasterPlan.endDate'),
       width: 200,
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { endAt } = params.row
         return formatDateTimeUtc(endAt, DATE_FORMAT)
@@ -300,20 +253,21 @@ const DefineMasterPlan = () => {
     {
       field: 'status',
       headerName: t('defineMasterPlan.status'),
-      align: 'center',
-      sortable: true,
-      type: 'categorical',
-      filterable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return status
+        return (
+          <Status
+            options={MASTER_PLAN_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
       field: 'progress',
       headerName: t('defineMasterPlan.progress'),
       align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { progress } = params.row
         return progress
@@ -326,13 +280,11 @@ const DefineMasterPlan = () => {
       field: 'itemName',
       headerName: t('defineMasterPlan.itemName'),
       width: 150,
-      align: 'left',
       sortable: false,
     },
     {
       field: 'bomName',
       headerName: t('defineMasterPlan.bomName'),
-      align: 'center',
       sortable: false,
       renderCell: (params) => {
         const { bom } = params.row
@@ -342,32 +294,22 @@ const DefineMasterPlan = () => {
     {
       field: 'bomId',
       headerName: t('defineMasterPlan.routingCode'),
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'quantity',
       headerName: t('defineMasterPlan.planQuantity'),
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'actualQuantity',
       headerName: t('defineMasterPlan.quantity'),
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'itemUnitName',
       headerName: t('defineMasterPlan.unit'),
-      align: 'center',
-      sortable: false,
     },
     {
       field: 'planDateOfList',
       headerName: t('defineMasterPlan.planDate'),
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
@@ -380,8 +322,6 @@ const DefineMasterPlan = () => {
     {
       field: 'executeDate',
       headerName: t('defineMasterPlan.executeDate'),
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
         return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
@@ -390,8 +330,6 @@ const DefineMasterPlan = () => {
     {
       field: 'endDate',
       headerName: t('defineMasterPlan.endDate'),
-      align: 'center',
-      sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
         return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
@@ -400,20 +338,22 @@ const DefineMasterPlan = () => {
     {
       field: 'status',
       headerName: t('defineMasterPlan.status'),
-      align: 'center',
-      sortable: true,
-      type: 'categorical',
-      filterable: true,
       renderCell: (params) => {
         const { planBom } = params.row
-        return planBom?.status || t(PLAN_STATUS_MAP[PLAN_STATUS.CREATED])
+        return (
+          <Status
+            options={MASTER_PLAN_STATUS_OPTIONS}
+            value={planBom?.statuss}
+            variant="text"
+          />
+        )
       },
     },
   ]
 
   useEffect(() => {
     refreshData()
-  }, [pageSize, page, sort, filters])
+  }, [pageSize, page, sort, filters, keyword])
 
   useEffect(() => {
     setMasterPlans(masterPlanList)
@@ -424,6 +364,7 @@ const DefineMasterPlan = () => {
    */
   const refreshData = () => {
     const params = {
+      keyword: keyword?.trim(),
       page,
       limit: pageSize,
       filter: convertFilterParams(filters, columns),
@@ -558,6 +499,7 @@ const DefineMasterPlan = () => {
       () => setDeleteModal(false),
       () => setDeleteModal(false),
     )
+    refreshData()
   }
 
   /**
@@ -568,7 +510,7 @@ const DefineMasterPlan = () => {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('defineMasterPlan.title')}
-      onSearch={refreshData}
+      onSearch={setKeyword}
       placeholder={t('defineMasterPlan.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}

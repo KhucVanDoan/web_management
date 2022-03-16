@@ -1,10 +1,11 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { codeSchema } from '~/common/schemas'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
+    code: codeSchema(t)
       .required(t('general:form.required'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
@@ -27,10 +28,10 @@ export const validationSchema = (t) =>
       }),
     ),
     soId: Yup.number()
-      .typeError(t('general:form.numeric'))
+      .typeError(t('general:form.required'))
       .required(t('general:form.required')),
     factoryId: Yup.number()
-      .typeError(t('general:form.numeric'))
+      .typeError(t('general:form.required'))
       .required(t('general:form.required')),
     planDate: Yup.array()
       .nullable()

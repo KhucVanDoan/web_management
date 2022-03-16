@@ -16,12 +16,13 @@ const DetailTab = (props) => {
         t('defineMasterPlan.itemDetailTabTitle'),
         t('defineMasterPlan.planDetailTabTitle'),
       ]}
+      sx={{ mt: 3 }}
     >
       {/* Tab 1 */}
       <ItemsDetailTable soId={props.soId} planDate={props.planDate} />
 
       {/* Tab 2 */}
-      <PlanDetail />
+      {!props.isDetail && <PlanDetail />}
     </Tabs>
   )
 }
