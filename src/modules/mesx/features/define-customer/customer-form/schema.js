@@ -33,6 +33,7 @@ export const defineCustomerSchema = (t) =>
     ),
     phone: phoneSchema(t),
     email: Yup.string()
+      .nullable()
       .email(t('general:form.validEmail'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,

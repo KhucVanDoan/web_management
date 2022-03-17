@@ -91,11 +91,15 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   },
   QUANTITY: {
     MIN: 0,
-    MAX: 99999999999,
+    MAX: 999999999,
   },
   WATTAGE: {
     MIN: 0,
     MAX: 9999999,
+  },
+  PRICE: {
+    MIN: 1,
+    MAX: 100000000000,
   },
 }
 

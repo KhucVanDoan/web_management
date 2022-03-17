@@ -45,6 +45,9 @@ export const validationSchema = (t, mode) =>
                 max: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
               }),
             ),
+          // .matches(/^([A-Z]){1}([\w_\.!@#$%^&*()]+)$/, {
+          //   message: t('general:form.validatePassword'),
+          // }),
         }
       : {}),
     email: Yup.string()

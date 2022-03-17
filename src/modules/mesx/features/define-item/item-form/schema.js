@@ -1,6 +1,9 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  TEXTFIELD_REQUIRED_LENGTH,
+  NUMBER_FIELD_REQUIRED_SIZE,
+} from '~/common/constants'
 import { numberSchema } from '~/common/schemas'
 
 export const itemSchema = (t) =>
@@ -24,7 +27,19 @@ export const itemSchema = (t) =>
     itemType: Yup.object().required(t('general:form.required')),
     itemGroup: Yup.object().required(t('general:form.required')),
     itemUnit: Yup.object().required(t('general:form.required')),
-    price: numberSchema(t),
+    price: Yup.number()
+      .min(
+        NUMBER_FIELD_REQUIRED_SIZE.PRICE.MIN,
+        t('general:form.minNumber', {
+          min: NUMBER_FIELD_REQUIRED_SIZE.PRICE.MIN,
+        }),
+      )
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.PRICE.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.PRICE.MAX,
+        }),
+      ),
     dayExpire: numberSchema(t),
     decription: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
@@ -46,7 +61,19 @@ export const itemSchema = (t) =>
     }),
     items: Yup.array().of(
       Yup.object().shape({
-        quantity: numberSchema(t),
+        quantity: Yup.number()
+          .min(
+            NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+            t('general:form.minNumber', {
+              min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+            }),
+          )
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
+            }),
+          ),
       }),
     ),
   })
