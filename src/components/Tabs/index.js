@@ -39,7 +39,7 @@ const Tabs = ({ list, children, sx, onChange, value: externalValue }) => {
   }
   return (
     <Box sx={{ width: '100%', ...sx }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+      <Box sx={{ borderBottom: 2, borderColor: 'divider', mb: 3 }}>
         <MuiTabs
           value={value ?? 0}
           onChange={(_, newValue) => {

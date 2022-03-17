@@ -17,14 +17,17 @@ import { Link, useLocation } from 'react-router-dom'
 
 import Icon from '~/components/Icon'
 
+import { useSidebar } from '../hooks'
 import SubMenu from './SubMenu'
 import ListMenuStyled from './style'
 
-const ListMenu = ({ routes, currentModule, isMinimal }) => {
+const ListMenu = ({ routes, currentModule }) => {
   const [open, setOpen] = useState()
   const { pathname } = useLocation()
   const { t } = useTranslation([currentModule])
   const theme = useTheme()
+  const { isMdUpMinimal, isMdDown, setIsMinimal } = useSidebar()
+
   const isActive = (path = '') =>
     pathname === path ||
     pathname === `${path}/` ||
@@ -59,16 +62,16 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
   }
 
   return (
-    <ListMenuStyled open={!isMinimal} component="div">
+    <ListMenuStyled open={!isMdUpMinimal} component="div">
       {routes.map((router, index) => (
         <React.Fragment key={index}>
           <ListItemButton
             ref={(el) => (popoverAnchor.current[index] = el)}
             {...(router.path ? { component: Link, to: router.path } : {})}
-            {...(isMinimal
+            {...(isMdUpMinimal
               ? {
-                  onMouseEnter: () => handlePopoverOpen(router.name),
-                  onMouseLeave: handlePopoverClose,
+                  onMouseOver: () => handlePopoverOpen(router.name),
+                  onMouseOut: handlePopoverClose,
                 }
               : {
                   onClick: () => toggle(index, router.subMenu),
@@ -80,7 +83,7 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
             className={clsx({
               active:
                 isActive(router.path) ||
-                (isMinimal && isActiveChildren(router.subMenu)),
+                (isMdUpMinimal && isActiveChildren(router.subMenu)),
             })}
           >
             <ListItemIcon
@@ -93,7 +96,7 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
                 name={router.icon}
                 fill={
                   isActive(router.path) ||
-                  (isMinimal && isActiveChildren(router.subMenu))
+                  (isMdUpMinimal && isActiveChildren(router.subMenu))
                     ? theme.palette.text.main
                     : theme.palette.subText.main
                 }
@@ -114,7 +117,7 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
                 </Typography>
               }
             />
-            {!isEmpty(router.subMenu) && !isMinimal && (
+            {!isEmpty(router.subMenu) && !isMdUpMinimal && (
               <ExpandMore
                 sx={{
                   transform: 'rotate(-90deg)',
@@ -128,50 +131,52 @@ const ListMenu = ({ routes, currentModule, isMinimal }) => {
             )}
           </ListItemButton>
 
-          {
-            <SubMenu
-              router={router}
-              currentModule={currentModule}
-              isCollapse={isOpen(index, router.subMenu)}
-              anchorEl={popoverAnchor.current[index]}
-              openPopover={openedPopover}
-              handlePopoverOpen={handlePopoverOpen}
-              handlePopoverClose={handlePopoverClose}
-              isMinimal={isMinimal}
-              hoverMenu={hoverMenu}
-            >
-              <List component="div" disablePadding>
-                {router.subMenu
-                  ? router.subMenu.map((menuItem) => (
-                      <ListItemButton
-                        component={Link}
-                        to={menuItem?.path}
-                        key={menuItem?.path}
-                        sx={{ py: '5px', pl: isMinimal ? '16px' : '46px' }}
-                        className={clsx({
-                          active: isActive(menuItem.path),
-                        })}
-                      >
-                        <ListItemText
-                          primary={
-                            <Typography
-                              variant="h5"
-                              color="text.main"
-                              noWrap
-                              sx={{
-                                fontWeight: isActive(menuItem.path) ? 700 : 400,
-                              }}
-                            >
-                              {t(`menu.${menuItem.name}`)}
-                            </Typography>
+          <SubMenu
+            router={router}
+            currentModule={currentModule}
+            isCollapse={isOpen(index, router.subMenu)}
+            anchorEl={popoverAnchor.current[index]}
+            openPopover={openedPopover}
+            handlePopoverOpen={handlePopoverOpen}
+            handlePopoverClose={handlePopoverClose}
+            hoverMenu={hoverMenu}
+          >
+            <List component="div" disablePadding>
+              {router.subMenu
+                ? router.subMenu.map((menuItem) => (
+                    <ListItemButton
+                      component={Link}
+                      to={menuItem?.path}
+                      key={menuItem?.path}
+                      sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
+                      className={clsx({
+                        active: isActive(menuItem.path),
+                      })}
+                      {...(isMdDown
+                        ? {
+                            onClick: () => setIsMinimal(true),
                           }
-                        />
-                      </ListItemButton>
-                    ))
-                  : 'Dashboard'}
-              </List>
-            </SubMenu>
-          }
+                        : {})}
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="h5"
+                            color="text.main"
+                            noWrap
+                            sx={{
+                              fontWeight: isActive(menuItem.path) ? 700 : 400,
+                            }}
+                          >
+                            {t(`menu.${menuItem.name}`)}
+                          </Typography>
+                        }
+                      />
+                    </ListItemButton>
+                  ))
+                : router.name}
+            </List>
+          </SubMenu>
         </React.Fragment>
       ))}
     </ListMenuStyled>

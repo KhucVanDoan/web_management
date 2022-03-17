@@ -6,11 +6,11 @@ import { PropTypes } from 'prop-types'
 
 import { useClasses } from '~/themes'
 
+import { useSidebar } from '../../hooks'
 import style from './style'
 
 const SubMenu = ({
   router,
-  isMinimal,
   isCollapse,
   anchorEl,
   handlePopoverOpen,
@@ -21,7 +21,9 @@ const SubMenu = ({
 }) => {
   const classes = useClasses(style(isEmpty(router.subMenu)))
 
-  if (isMinimal) {
+  const { isMinimal, isMdUp } = useSidebar()
+
+  if (isMinimal && isMdUp) {
     return (
       <Popover
         className={classes.popover}
