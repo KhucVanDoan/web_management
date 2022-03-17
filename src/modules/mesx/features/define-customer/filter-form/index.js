@@ -46,9 +46,7 @@ const FilterForm = () => {
           name="phone"
           label={t('defineCustomer.phone')}
           placeholder={t('defineCustomer.phone')}
-          inputProps={{
-            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-          }}
+          type="phone"
         />
       </Grid>
       <Grid item xs={12}>

@@ -11,6 +11,7 @@ const FormikTextField = ({
   onChange,
   error,
   helperText,
+  type,
   ...props
 }) => (
   <TextField
@@ -25,10 +26,11 @@ const FormikTextField = ({
       form.setFieldTouched(field.name, true)
       form.setFieldValue(field.name, e.target.value?.trim())
     }}
-    onChange={(e) => {
-      onChange(e.target.value)
-      form.setFieldValue(field.name, e.target.value)
+    onChange={(val) => {
+      onChange(val)
+      form.setFieldValue(field.name, val)
     }}
+    type={type}
     {...props}
   />
 )
@@ -47,6 +49,7 @@ FormikTextField.propTypes = {
   onChange: PropTypes.func,
   error: PropTypes.bool,
   helperText: PropTypes.string,
+  type: PropTypes.string,
 }
 
 export default FormikTextField

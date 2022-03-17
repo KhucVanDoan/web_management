@@ -235,9 +235,7 @@ function DefineCompanyForm() {
                       name="phone"
                       label={t('defineCompany.phone')}
                       placeholder={t('defineCompany.phone')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
+                      type="phone"
                     />
                   </Grid>
                   <Grid item xs={12}>

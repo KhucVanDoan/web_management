@@ -10,6 +10,7 @@ import {
 import clsx from 'clsx'
 import { PropTypes } from 'prop-types'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { useClasses } from '~/themes'
 
 import style from './style'
@@ -28,6 +29,8 @@ const TextField = ({
   labelWidth,
   readOnly,
   onBlur,
+  onChange,
+  type,
   ...props
 }) => {
   const classes = useClasses(style(readOnly))
@@ -59,6 +62,17 @@ const TextField = ({
           disabled={disabled}
           readOnly={readOnly}
           onBlur={onBlur}
+          onChange={(e) => {
+            let val = e.target.value
+            if (type === 'phone') {
+              const truncatedText = e.target.value.slice(
+                0,
+                TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+              )
+              val = truncatedText.replace(/[^0-9]/g, '')
+            }
+            onChange(val)
+          }}
           fullWidth
           {...InputProps}
           {...props}
@@ -85,6 +99,7 @@ TextField.defaultProps = {
   vertical: false,
   labelWidth: 160,
   onBlur: () => {},
+  onChange: () => {},
 }
 
 TextField.propTypes = {
@@ -101,6 +116,8 @@ TextField.propTypes = {
   vertical: PropTypes.bool,
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  type: PropTypes.string,
 }
 
 export default TextField

@@ -308,9 +308,6 @@ function UserManagementForm() {
                       name="phone"
                       label={t('userManagement.phone')}
                       placeholder={t('userManagement.phone')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
                       type="phone"
                     />
                   </Grid>
