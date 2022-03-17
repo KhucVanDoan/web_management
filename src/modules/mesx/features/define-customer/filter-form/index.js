@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 const FilterForm = () => {
@@ -15,6 +16,9 @@ const FilterForm = () => {
           name="code"
           label={t('defineCustomer.code')}
           placeholder={t('defineCustomer.code')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -22,6 +26,9 @@ const FilterForm = () => {
           name="name"
           label={t('defineCustomer.name')}
           placeholder={t('defineCustomer.name')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -29,6 +36,9 @@ const FilterForm = () => {
           name="address"
           label={t('defineCustomer.address')}
           placeholder={t('defineCustomer.address')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -36,6 +46,9 @@ const FilterForm = () => {
           name="phone"
           label={t('defineCustomer.phone')}
           placeholder={t('defineCustomer.phone')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -43,6 +56,9 @@ const FilterForm = () => {
           name="email"
           label={t('defineCustomer.email')}
           placeholder={t('defineCustomer.email')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -50,6 +66,9 @@ const FilterForm = () => {
           name="fax"
           label={t('defineCustomer.fax')}
           placeholder={t('defineCustomer.fax')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>

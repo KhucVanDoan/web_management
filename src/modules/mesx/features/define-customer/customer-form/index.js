@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -25,25 +24,15 @@ function DefineCustomerForm() {
     actions,
   } = useDefineCustomer()
 
-  const initialValues = isEmpty(customerDetails)
-    ? {
-        code: '',
-        name: '',
-        address: '',
-        phone: '',
-        email: '',
-        fax: '',
-        description: '',
-      }
-    : pick(customerDetails, [
-        'code',
-        'name',
-        'address',
-        'phone',
-        'email',
-        'fax',
-        'description',
-      ])
+  const initialValues = {
+    code: customerDetails?.code || '',
+    name: customerDetails?.name || '',
+    address: customerDetails?.address || '',
+    phone: customerDetails?.phone || '',
+    email: customerDetails?.email || null,
+    fax: customerDetails?.fax || '',
+    description: customerDetails?.description || '',
+  }
 
   const MODE_MAP = {
     [ROUTE.DEFINE_CUSTOMER.CREATE.PATH]: MODAL_MODE.CREATE,

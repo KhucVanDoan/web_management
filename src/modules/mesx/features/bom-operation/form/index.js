@@ -97,6 +97,7 @@ function BomProducingStepForm() {
     values.items?.forEach((item) =>
       item.producingStepData?.forEach((producingItem) =>
         detail.push({
+          id: item.bomDetail?.id,
           itemId: item.bomDetail?.itemId,
           bomDetailId: item.bomDetail?.id,
           producingStepId: producingItem.producingStep.id,
@@ -233,6 +234,7 @@ function BomProducingStepForm() {
                       <Field.TextField
                         name="product.item.code"
                         label={t('bomProducingStep.itemCode')}
+                        required
                         disabled
                       />
                     )}

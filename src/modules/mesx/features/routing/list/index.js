@@ -44,7 +44,7 @@ function Routing() {
     code: '',
     name: '',
     status: '',
-    createdAt: '',
+    createdAt: null,
   }
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
