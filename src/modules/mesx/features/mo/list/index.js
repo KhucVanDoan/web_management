@@ -48,8 +48,8 @@ const Mo = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
+  const [keyword, setKeyword] = useState('')
   const [page, setPage] = useState(1)
-  const [keyword] = useState('')
   const [filters, setFilters] = useState([])
   const [sort, setSort] = useState(null)
   const {
@@ -147,13 +147,13 @@ const Mo = () => {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        const isConfirmed = status === MO_STATUS.PENDING
+        const isConfirmed = status === MO_STATUS.CONFIRMED
         return (
           <>
             {isConfirmed && (
               <Button
                 variant="text"
-                // onClick={() => history.push(ROUTE.WORK_ORDER.LIST.PATH)}
+                onClick={() => history.push(ROUTE.WORK_ORDER.PATH)}
               >
                 {t('Mo.workOrder')}
               </Button>
@@ -241,27 +241,21 @@ const Mo = () => {
     },
   ]
 
-  /**
-   * componentDidMount
-   */
-  useEffect(() => {
-    refreshData()
-  }, [keyword, page, pageSize, sort, filters])
-
-  /**
-   * Refresh data
-   */
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
       filter: convertFilterParams(filters, columns),
-      sort: convertSortParams(sort, columns),
+      sort: convertSortParams(sort),
     }
     actions.searchMO(params)
     planActions.searchPlans({ page, limit: pageSize })
   }
+
+  useEffect(() => {
+    refreshData()
+  }, [keyword, page, pageSize, sort, filters])
 
   /**
    * onClickViewDetails
@@ -298,35 +292,11 @@ const Mo = () => {
   }
 
   /**
-   *
-   * @param {int} pageSize
-   */
-  const onPageSizeChange = ({ pageSize }) => {
-    setPageSize(pageSize)
-  }
-
-  /**
-   *
-   * @param {int} page
-   */
-  const onPageChange = ({ page }) => {
-    setPage(page)
-  }
-
-  /**
    * Handle change filter
    * @param {array} filters
    */
   const onChangeFilter = (filters) => {
     setFilters(filters)
-  }
-
-  /**
-   * Handle change sort
-   * @param {object} sort
-   */
-  const onChangeSort = (sort) => {
-    setSort(sort)
   }
 
   /**
@@ -361,7 +331,7 @@ const Mo = () => {
       <Page
         breadcrumbs={breadcrumbs}
         title={t('Mo.title')}
-        onSearch={refreshData}
+        onSearch={setKeyword}
         placeholder={t('Mo.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
@@ -371,10 +341,11 @@ const Mo = () => {
           columns={columns}
           pageSize={pageSize}
           page={page}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-          onChangeSort={onChangeSort}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+          onChangeSort={setSort}
           total={total}
+          sort={sort}
           filters={{
             form: <FilterForm />,
             values: filters,
