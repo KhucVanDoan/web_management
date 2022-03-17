@@ -6,23 +6,12 @@ import {
 } from '~/common/constants'
 
 export const phoneSchema = (t) =>
-  Yup.string()
-    .matches(/^[0-9]+$/, {
-      message: t('general:form.validPhone'),
-      excludeEmptyString: true,
-    })
-    .min(
-      TEXTFIELD_REQUIRED_LENGTH.PHONE.MIN,
-      t('general:form.minLength', {
-        min: TEXTFIELD_REQUIRED_LENGTH.PHONE.MIN,
-      }),
-    )
-    .max(
-      TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-      }),
-    )
+  Yup.string().min(
+    TEXTFIELD_REQUIRED_LENGTH.PHONE.MIN,
+    t('general:form.minLength', {
+      min: TEXTFIELD_REQUIRED_LENGTH.PHONE.MIN,
+    }),
+  )
 
 export const codeSchema = (t) =>
   Yup.string()

@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -194,9 +194,7 @@ const DefineFactoryForm = () => {
                       name="phone"
                       label={t('defineFactory.phone')}
                       placeholder={t('defineFactory.phone')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
+                      type="phone"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
