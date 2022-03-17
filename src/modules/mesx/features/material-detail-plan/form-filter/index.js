@@ -25,17 +25,7 @@ const FilterForm = () => {
     refreshData()
   }, [])
   const refreshData = () => {
-    const filterData = [
-      {
-        column: 'status',
-        text: MO_STATUS.IN_PROGRESS.toString(),
-      },
-    ]
-    const params = {
-      isGetAll: 1,
-      filter: JSON.stringify(filterData),
-    }
-    actionMo.searchMO(params)
+    actionMo.searchMO({ isGetAll: 1 })
   }
 
   useEffect(() => {
@@ -77,7 +67,13 @@ const FilterForm = () => {
           name="moId"
           label={t('materialDetailPlan.moCode')}
           placeholder={t('materialDetailPlan.moCode')}
-          options={moList}
+          options={moList.filter((i) =>
+            [
+              MO_STATUS.CONFIRMED,
+              MO_STATUS.IN_PROGRESS,
+              MO_STATUS.COMPLETED,
+            ]?.includes(i?.status),
+          )}
           getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.code}
           onChange={(id) => handleChangeMo(id)}
