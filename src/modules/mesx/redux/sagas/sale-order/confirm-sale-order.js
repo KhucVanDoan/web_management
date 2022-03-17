@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   confirmSaleOrderByIdFailed,
-  confirmSaleOrderByIdSuccess,
+  // confirmSaleOrderByIdSuccess,
   CONFIRM_SALE_ORDER_START,
 } from '~/modules/mesx/redux/actions/sale-order'
 import { api } from '~/services/api'
@@ -28,7 +28,7 @@ function* doConfirmSaleOrder(action) {
     const response = yield call(confirmSaleOrderApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmSaleOrderByIdSuccess(response.payload))
+      // yield put(confirmSaleOrderByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {

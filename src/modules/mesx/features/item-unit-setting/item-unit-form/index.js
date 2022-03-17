@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 
-import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Formik, Form } from 'formik'
 import { isEmpty, pick } from 'lodash'
@@ -8,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
@@ -95,37 +94,19 @@ function ItemUnitForm() {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayEE" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleReset}
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayEE" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleReset}
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
     }
@@ -200,9 +181,7 @@ function ItemUnitForm() {
                     />
                   </Grid>
                 </Grid>
-                <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                  {renderActionBar(handleReset)}
-                </Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>

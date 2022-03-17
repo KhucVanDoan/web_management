@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
@@ -263,37 +263,19 @@ function DefineItemForm() {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
     }
@@ -671,9 +653,8 @@ function DefineItemForm() {
                       </Grid>
                     </Box>
                   </Tabs>
-                  <Box mt={3} display="flex" justifyContent="flex-end">
-                    {renderActionBar(handleReset)}
-                  </Box>
+
+                  {renderActionBar(handleReset)}
                 </Form>
               )
             }}

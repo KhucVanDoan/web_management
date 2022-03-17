@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Grid, Typography, Input, InputAdornment } from '@mui/material'
+import { Grid, Typography, Input, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
@@ -13,6 +13,7 @@ import {
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -96,8 +97,8 @@ function ProducingStepForm() {
       name: values.name,
       description: values.description,
       switchMode: values.switchMode,
-      qcQuantityRule: values.qcQuantityRule,
-      productionTimePerItem: values.productionTimePerItem,
+      qcQuantityRule: Number(values.qcQuantityRule),
+      productionTimePerItem: Number(values.productionTimePerItem),
       inputQc: {
         qcCriteriaId: values.qcCriteriaInput,
         itemPerMemberTime: Number(values.timeQcInput),
@@ -123,29 +124,19 @@ function ProducingStepForm() {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={handleReset}>
-              {t('common.cancel')}
-            </Button>
-            <Button icon="add" type="submit">
-              {t('common.create')}
-            </Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={handleReset}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -156,7 +147,7 @@ function ProducingStepForm() {
     name: details?.name || '',
     description: details?.description || '',
     qcQuantityRule:
-      details?.qcQuantityRule ||
+      Number(details?.qcQuantityRule) ||
       Number(NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN),
     productionTimePerItem:
       Number(details?.productionTimePerItem) ||
@@ -398,18 +389,7 @@ function ProducingStepForm() {
                   </Grid>
                 </Grid>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    mt: 2,
-                    '& button + button': {
-                      marginLeft: 4 / 3,
-                    },
-                  }}
-                >
-                  {renderActionBar(handleReset)}
-                </Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>

@@ -99,6 +99,27 @@ function DefineBOM() {
       },
     },
     {
+      field: 'createdAt',
+      type: 'date',
+      headerName: t('defineBOM.createAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const createdAt = params.row.createdAt
+        return formatDateTimeUtc(createdAt)
+      },
+    },
+    {
+      field: 'updatedAt',
+      headerName: t('defineBOM.updateAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const updatedAt = params.row.updatedAt
+        return formatDateTimeUtc(updatedAt)
+      },
+    },
+    {
       field: 'status',
       headerName: t('defineBOM.status'),
       width: 150,
@@ -168,10 +189,6 @@ function DefineBOM() {
     },
   ]
 
-  useEffect(() => {
-    refreshData()
-  }, [keyword, page, filters, sort, pageSize])
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -182,6 +199,10 @@ function DefineBOM() {
     }
     actions.searchBOM(params)
   }
+
+  useEffect(() => {
+    refreshData()
+  }, [keyword, page, filters, sort, pageSize])
 
   const renderHeaderRight = () => {
     return (

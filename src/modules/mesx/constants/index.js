@@ -332,18 +332,18 @@ export const WAREHOUSE_TRANSFERS_TYPE = [
 export const BOM_STATUS = {
   PENDING: 0,
   CONFIRMED: 1,
-  IN_PROGRESS: 2,
-  APPROVED: 3,
-  COMPLETED: 4,
-  REJECTED: 5,
+  // IN_PROGRESS: 2,
+  // APPROVED: 3,
+  // COMPLETED: 4,
+  // REJECTED: 5,
 }
 export const BOM_STATUS_MAP = {
   [BOM_STATUS.PENDING]: 'bomStatus.pending',
   [BOM_STATUS.CONFIRMED]: 'bomStatus.confirmed',
-  [BOM_STATUS.IN_PROGRESS]: 'bomStatus.inProgress',
-  [BOM_STATUS.APPROVED]: 'bomStatus.approved',
-  [BOM_STATUS.REJECTED]: 'bomStatus.rejected',
-  [BOM_STATUS.COMPLETED]: 'bomStatus.completed',
+  // [BOM_STATUS.IN_PROGRESS]: 'bomStatus.inProgress',
+  // [BOM_STATUS.APPROVED]: 'bomStatus.approved',
+  // [BOM_STATUS.REJECTED]: 'bomStatus.rejected',
+  // [BOM_STATUS.COMPLETED]: 'bomStatus.completed',
 }
 export const BOM_STATUS_OPTIONS = [
   {
@@ -356,26 +356,26 @@ export const BOM_STATUS_OPTIONS = [
     text: 'bomStatus.confirmed',
     color: 'confirmed',
   },
-  {
-    id: 2,
-    text: 'bomStatus.inProgress',
-    color: 'inprogress',
-  },
-  {
-    id: 3,
-    text: 'bomStatus.approved',
-    color: 'approved',
-  },
-  {
-    id: 4,
-    text: 'bomStatus.completed',
-    color: 'completed',
-  },
-  {
-    id: 5,
-    text: 'bomStatus.rejected',
-    color: 'rejected',
-  },
+  // {
+  //   id: 2,
+  //   text: 'bomStatus.inProgress',
+  //   color: 'inprogress',
+  // },
+  // {
+  //   id: 3,
+  //   text: 'bomStatus.approved',
+  //   color: 'approved',
+  // },
+  // {
+  //   id: 4,
+  //   text: 'bomStatus.completed',
+  //   color: 'completed',
+  // },
+  // {
+  //   id: 5,
+  //   text: 'bomStatus.rejected',
+  //   color: 'rejected',
+  // },
 ]
 
 export const ROUTING_STATUS = {

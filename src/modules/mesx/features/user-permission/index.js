@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
 import { Grid, Checkbox, FormControlLabel } from '@mui/material'
-import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import Button from '~/components/Button'
+import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
@@ -112,22 +112,13 @@ function UserPermission() {
     })
   }
 
-  const renderActionBar = ({ handleReset }) => {
+  const renderActionBar = (handleReset) => {
     return (
-      <Box mt={8} display="flex" justifyContent="flex-end">
-        <Button onClick={() => {}} color="grayF4" sx={{ mr: 4 / 3 }}>
-          {t('common.close')}
-        </Button>
-        <Button
-          onClick={handleReset}
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 4 / 3 }}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button type="submit">{t('common.save')}</Button>
-      </Box>
+      <ActionBar
+        onBack={() => {}} // @TODO: <anh.nth> check onBack
+        onCancel={handleReset}
+        mode={MODAL_MODE.UPDATE}
+      />
     )
   }
 
@@ -295,7 +286,7 @@ function UserPermission() {
                     </Grid>
                   )}
                 </Grid>
-                <Box>{renderActionBar({ handleReset })}</Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>

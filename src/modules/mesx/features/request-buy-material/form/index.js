@@ -1,25 +1,16 @@
 import React, { useEffect } from 'react'
 
-import { Button, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Form, Formik } from 'formik'
-import { useTranslation, withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { getItems, getUsers } from '~/modules/mesx/redux/actions/common'
-import { getFactories } from '~/modules/mesx/redux/actions/factory'
-import {
-  confirmRequestBuyMaterialById,
-  getRequestBuyMaterialDetailsById,
-  rejectRequestBuyMaterialById,
-  updateRequestBuyMaterial,
-} from '~/modules/mesx/redux/actions/request-by-materials'
-import { searchSaleOrders } from '~/modules/mesx/redux/actions/sale-order'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -255,6 +246,9 @@ function RequestBuyMaterialForm() {
                         label={t('requestBuyMaterial.descriptionInput')}
                         name="description"
                         placeholder={t('requestBuyMaterial.descriptionInput')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         multiline
                         rows={3}
                       />
@@ -285,28 +279,11 @@ function RequestBuyMaterialForm() {
                   striped={false}
                 />
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  mt: 3,
-                  '& button + button': {
-                    ml: 4 / 3,
-                  },
-                }}
-              >
-                <Button color="grayEE" onClick={backToList}>
-                  {t('common.back')}
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="subText"
-                  onClick={handleReset}
-                >
-                  {t('common.cancel')}
-                </Button>
-                <Button type="submit">{t('common.save')}</Button>
-              </Box>
+              <ActionBar
+                onBack={backToList}
+                onCancel={handleReset}
+                mode={MODAL_MODE.UPDATE}
+              />
             </Form>
           )}
         </Formik>
@@ -315,24 +292,4 @@ function RequestBuyMaterialForm() {
   )
 }
 
-const mapStateToProps = (state) => ({
-  requestBuyMaterial: state.requestBuyMaterial,
-  userList: state.commonManagement.userList,
-  saleOrderList: state.saleOrder.saleOrderList,
-  factoriesList: state.defineFactory.factoriesList,
-})
-
-const mapDispatchToProps = {
-  confirmRequestBuyMaterialById,
-  getRequestBuyMaterialDetailsById,
-  rejectRequestBuyMaterialById,
-  updateRequestBuyMaterial,
-  getItems,
-  getUsers,
-  getFactories,
-  searchSaleOrders,
-}
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(RequestBuyMaterialForm),
-)
+export default RequestBuyMaterialForm

@@ -44,11 +44,5 @@ export const saleOrderSchema = (t) => {
         ),
       }),
     ),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
   })
 }

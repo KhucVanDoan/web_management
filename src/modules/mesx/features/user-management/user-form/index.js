@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -138,51 +138,31 @@ function UserManagementForm() {
     return breadcrumb
   }
 
-  const renderActionBar = ({ handleReset }) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={3} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={3} display="flex" justifyContent="space-between">
-            <Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+            elBefore={
               <Button
                 variant="outlined"
                 onClick={() => {}} //@TODO: <anh.nth> handle resetPassword
               >
                 {t('userManagement.resetPassword')}
               </Button>
-            </Box>
-            <Box>
-              <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-                {t('common.back')}
-              </Button>
-              <Button
-                onClick={handleReset}
-                variant="outlined"
-                color="subText"
-                sx={{ mr: 4 / 3 }}
-              >
-                {t('common.cancel')}
-              </Button>
-              <Button type="submit">{t('common.save')}</Button>
-            </Box>
-          </Box>
+            }
+          />
         )
       default:
         break
@@ -399,7 +379,7 @@ function UserManagementForm() {
                     />
                   </Grid>
                 </Grid>
-                <Box>{renderActionBar({ handleReset })}</Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>

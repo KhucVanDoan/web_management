@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -77,40 +78,16 @@ const detailSchedule = () => {
   const renderActionBar = () => {
     switch (status) {
       case DETAIL_SCHEDULE_STATUS.PENDING:
-        return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-          </>
-        )
+        return <ActionBar onBack={backToList} />
       case DETAIL_SCHEDULE_STATUS.APPROVED:
-        return (
-          <Button color="grayF4" onClick={backToList}>
-            {t('common.close')}
-          </Button>
-        )
+        return <ActionBar onBack={backToList} />
       case DETAIL_SCHEDULE_STATUS.REJECTED:
-        return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
-        )
+        return <ActionBar onBack={backToList} mode={MODAL_MODE.UPDATE} />
       case DETAIL_SCHEDULE_STATUS.CONFIRMED:
       case DETAIL_SCHEDULE_STATUS.IN_PROGRESS:
       case DETAIL_SCHEDULE_STATUS.COMPLETED:
       default:
-        return (
-          <Button color="grayF4" onClick={backToList}>
-            {t('common.close')}
-          </Button>
-        )
+        return <ActionBar onBack={backToList} />
     }
   }
   return (
@@ -174,7 +151,7 @@ const detailSchedule = () => {
             <Grid item xs={12} lg={6}>
               <LV label={t('detailSchedule.workPlan')}>
                 <Typography>
-                  {formatDateTimeUtc(workOrderDetails?.planFrom)} -> {` `}
+                  {formatDateTimeUtc(workOrderDetails?.planFrom)} - {` `}
                   {formatDateTimeUtc(workOrderDetails?.planTo)}
                 </Typography>
               </LV>
@@ -205,18 +182,8 @@ const detailSchedule = () => {
           woQuantity={detailScheduleDetails?.quantity}
         />
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          mt: 3,
-          '& button + button': {
-            marginLeft: 4 / 3,
-          },
-        }}
-      >
-        {renderActionBar()}
-      </Box>
+
+      {renderActionBar()}
     </Page>
   )
 }

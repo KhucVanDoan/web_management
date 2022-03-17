@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
@@ -122,41 +122,23 @@ function BomProducingStepForm() {
     history.push(ROUTE.BOM_PRODUCING_STEP.LIST.PATH)
   }
 
-  const renderActionBar = ({ handleReset }) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -298,7 +280,7 @@ function BomProducingStepForm() {
             <Box sx={{ mt: 3 }}>
               <ItemsSettingTable items={values.items || []} mode={mode} />
             </Box>
-            <Box>{renderActionBar({ handleReset })}</Box>
+            {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>

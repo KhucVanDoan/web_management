@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
@@ -136,11 +136,7 @@ function BomProducingStepDetail() {
           mode={MODAL_MODE.DETAIL}
         />
       </Box>
-      <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-        <Button variant="contained" onClick={backToList} color="grayF4">
-          {t('common.close')}
-        </Button>
-      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 
-// eslint-disable-next-line import/order
-import FullCalendar from '@fullcalendar/react' // must go before plugins
 import vi from '@fullcalendar/core/locales/vi'
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+// eslint-disable-next-line import/order
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { startOfMonth, endOfMonth, formatISO } from 'date-fns'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useRouteMatch } from 'react-router-dom'
 
+import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -47,10 +48,17 @@ const PlanCalendar = () => {
   const classes = useClasses(style)
 
   const history = useHistory()
+  const routeMatch = useRouteMatch()
   const [from, setFrom] = useState(formatISO(startOfMonth(new Date())))
   const [to, setTo] = useState(formatISO(endOfMonth(new Date())))
   const [isOpenCreateEventModal, setIsOpenCreateEventModal] = useState(false)
-  const [isUpdate, setIsUpdate] = useState(false)
+  const MODE_MAP = {
+    [ROUTE.DEFINE_BOQ.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_BOQ.DETAIL.PATH]: MODAL_MODE.DETAIL,
+    [ROUTE.DEFINE_BOQ.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
   const [initialValues, setInitialValues] = useState({
     id: null,
     title: '',
@@ -162,24 +170,26 @@ const PlanCalendar = () => {
   }
 
   const renderActionBar = (onCancel) => {
-    return (
-      <>
-        <Button color="grayF4" sx={{ mr: 1 }} onClick={onCancel}>
-          {t('common.close')}
-        </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 1 }}
-          onClick={onCancel}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button type="submit">
-          {isUpdate ? t('common.save') : t('common.create')}
-        </Button>
-      </>
-    )
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return (
+          <ActionBar
+            onBack={onCancel}
+            onCancel={onCancel}
+            mode={MODAL_MODE.CREATE}
+          />
+        )
+      case MODAL_MODE.UPDATE:
+        return (
+          <ActionBar
+            onBack={onCancel}
+            onCancel={onCancel}
+            mode={MODAL_MODE.UPDATE}
+          />
+        )
+      default:
+        return null
+    }
   }
 
   return (
@@ -283,9 +293,7 @@ const PlanCalendar = () => {
               />
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-            {renderActionBar(onCancel)}
-          </Box>
+          {renderActionBar(onCancel)}
         </Grid>
       </Dialog>
     </Page>

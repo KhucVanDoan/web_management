@@ -163,6 +163,21 @@ function SaleOrder() {
     },
   ])
 
+  const refreshData = () => {
+    const params = {
+      keyword: keyword.trim(),
+      page,
+      limit: pageSize,
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
+    }
+    actions.searchSaleOrders(params)
+  }
+
+  useEffect(() => {
+    refreshData()
+  }, [sort, keyword, filters, page, pageSize])
+
   const onClickViewDetails = (id) => {
     history.push(ROUTE.SALE_ORDER.DETAILS.PATH.replace(':id', `${id}`))
   }
@@ -205,21 +220,6 @@ function SaleOrder() {
       },
     )
     refreshData()
-  }
-
-  useEffect(() => {
-    refreshData()
-  }, [sort, keyword, filters, page, pageSize])
-
-  const refreshData = () => {
-    const params = {
-      keyword: keyword.trim(),
-      page,
-      limit: pageSize,
-      filter: convertFilterParams(filters, columns),
-      sort: convertSortParams(sort),
-    }
-    actions.searchSaleOrders(params)
   }
 
   const renderHeaderRight = () => {

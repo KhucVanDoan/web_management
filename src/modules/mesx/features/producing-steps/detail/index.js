@@ -13,7 +13,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -227,11 +227,7 @@ const ProducingStepDetail = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.back')}
-          </Button>
-        </Box>
+        <ActionBar onBack={backToList} />
       </Page>
     </>
   )

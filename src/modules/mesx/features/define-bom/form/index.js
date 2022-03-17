@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Button, Grid, Typography, IconButton } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
@@ -197,27 +198,19 @@ function BOMForm() {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={handleReset}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={handleReset}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -247,6 +240,7 @@ function BOMForm() {
       quantity: e.quantity,
     })) || [{ ...DEFAULT_ITEM }],
     itemName: '',
+    itemQuanlity: '',
   }
 
   const itemListBOM = itemList.filter((i) => {
@@ -287,8 +281,9 @@ function BOMForm() {
                         name="code"
                         label={t('defineBOM.bomCode')}
                         placeholder={t('defineBOM.bomCode')}
+                        disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
                         required
                       />
@@ -337,6 +332,16 @@ function BOMForm() {
                         required
                       />
                     </Box>
+                    {/* @TODO: <linh.taquang> wait BA comfirm this field */}
+                    {/* <Box mt={4 / 3}>
+                      <Field.TextField
+                        name="itemQuanlity"
+                        label={t('defineBOM.item.quantity')}
+                        placeholder={t('defineBOM.item.quantity')}
+                        type="number"
+                        required
+                      />
+                    </Box> */}
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
@@ -396,18 +401,7 @@ function BOMForm() {
               </Tabs>
             </Box>
 
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
-            >
-              {renderActionBar(handleReset)}
-            </Box>
+            {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>
