@@ -195,7 +195,7 @@ const routes = [
         name: ROUTE.WORK_ORDER.TITLE,
         path: ROUTE.WORK_ORDER.PATH,
         component: WorkOrder,
-        isInSidebar: true,
+        isInSidebar: false,
         subMenu: [
           {
             name: ROUTE.WORK_ORDER_DETAIL.TITLE,
