@@ -95,7 +95,7 @@ const ItemSettingTable = ({ items, mode }) => {
             <>{Number(producingStepData?.[stepIndex]?.quantity)}</>
           ) : (
             <Field.TextField
-              value={quantity}
+              {...(quantity ? { value: quantity } : {})}
               name={`items[${index}].producingStepData[${stepIndex}].quantity`}
               type="number"
             />
