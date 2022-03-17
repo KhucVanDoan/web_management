@@ -8,7 +8,7 @@ import TimePicker from '~/components/TimePicker'
 const FormikTimePicker = ({ form, field, onChange, ...props }) => (
   <TimePicker
     {...field}
-    value={field.value || ''}
+    value={field.value || '00:00'}
     onChange={(v) => {
       onChange(v)
       form.setFieldValue(field.name, v)
