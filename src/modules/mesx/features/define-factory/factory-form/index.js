@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
@@ -112,41 +111,23 @@ const DefineFactoryForm = () => {
     }
   }
 
-  const renderActionBar = ({ handleReset }) => {
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -242,7 +223,7 @@ const DefineFactoryForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Box>{renderActionBar({ handleReset })}</Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>

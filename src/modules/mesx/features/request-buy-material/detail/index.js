@@ -5,7 +5,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -246,11 +246,7 @@ function RequestBuyMaterialDetail() {
             striped={false}
           />
         </Box>
-        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.close')}
-          </Button>
-        </Box>
+        <ActionBar onBack={backToList} />
       </Page>
     </>
   )

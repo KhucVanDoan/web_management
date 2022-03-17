@@ -7,7 +7,8 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
@@ -35,22 +36,11 @@ function CalendarCreate() {
   const renderActionBar = () => {
     return (
       <>
-        <Button
-          color="grayF4"
-          sx={{ mr: 1 }}
-          onClick={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
-        >
-          {t('common.close')}
-        </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 1 }}
-          onClick={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button type="submit">{t('common.create')}</Button>
+        <ActionBar
+          onBack={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
+          onCancel={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
+          mode={MODAL_MODE.CREATE}
+        />
       </>
     )
   }
@@ -180,9 +170,7 @@ function CalendarCreate() {
                       </Tabs>
                     </Grid>
                   </Grid>
-                  <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                    {renderActionBar()}
-                  </Box>
+                  {renderActionBar()}
                 </Form>
               )}
             </Formik>

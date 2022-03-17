@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
@@ -97,11 +96,7 @@ const ItemTypeDetail = () => {
               />
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-            <Button variant="contained" onClick={backToList} color="grayF4">
-              {t('common.close')}
-            </Button>
-          </Box>
+          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
     </Page>

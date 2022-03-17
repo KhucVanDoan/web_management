@@ -4,11 +4,12 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
-import { codeSchema } from '~/common/schemas'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: codeSchema(t).required(t('general:form.required')),
+    code: Yup.string()
+      .required(t('general:form.required'))
+      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
     name: Yup.string().required(t('general:form.required')),
     routingId: Yup.number().required(t('general:form.required')),
     itemId: Yup.number().required(t('general:form.required')),

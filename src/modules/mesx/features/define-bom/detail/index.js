@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -20,6 +20,7 @@ import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { formatDateTimeUtc } from '~/utils'
 
 import ItemSettingTable from '../item-setting-table'
 
@@ -205,6 +206,18 @@ function detailBOM() {
                 mt={4 / 3}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineBOM.creator')}
+                value={BOMDetails?.user?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineBOM.createAt')}
+                value={formatDateTimeUtc(BOMDetails?.createdAt)}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
@@ -256,11 +269,7 @@ function detailBOM() {
         </Box>
       </Tabs>
 
-      <Box display="flex" justifyContent="flex-end" mt={2}>
-        <Button onClick={backToList} color="grayF4">
-          {t('common.back')}
-        </Button>
-      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

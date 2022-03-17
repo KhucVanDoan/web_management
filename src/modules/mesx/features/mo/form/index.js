@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
@@ -58,41 +58,23 @@ const MOForm = () => {
     redirectRouter(ROUTE.MO.LIST.PATH)
   }
 
-  const renderActionBar = ({ resetForm }) => {
+  const renderActionBar = (resetForm) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={resetForm}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.back')}
-            </Button>
-            <Button
-              onClick={resetForm}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </Box>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -290,7 +272,7 @@ const MOForm = () => {
                 }
               />
             </Box>
-            <Box>{renderActionBar({ resetForm })}</Box>
+            {renderActionBar(resetForm)}
           </Form>
         )}
       </Formik>

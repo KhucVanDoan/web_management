@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   confirmBOMByIdFailed,
-  confirmBOMByIdSuccess,
+  // confirmBOMByIdSuccess,
   CONFIRM_BOM_START,
 } from '~/modules/mesx/redux/actions/define-bom'
 import { api } from '~/services/api'
@@ -28,7 +28,7 @@ function* doConfirmBOM(action) {
     const response = yield call(confirmBOMApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmBOMByIdSuccess(response.payload))
+      // yield put(confirmBOMByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {

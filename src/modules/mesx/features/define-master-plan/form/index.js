@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Grid, Box } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -11,6 +11,7 @@ import {
   DATE_FORMAT_3,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -104,34 +105,22 @@ const DefineMasterPlanForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.back')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       case MODAL_MODE.DETAIL:
-        return (
-          <Button color="grayF4" onClick={backToList}>
-            {t('common.back')}
-          </Button>
-        )
+        return <ActionBar onBack={backToList} />
       default:
         break
     }
@@ -372,18 +361,8 @@ const DefineMasterPlanForm = () => {
               planDate={values.planDate}
               isDetail={isDetail}
             />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
-            >
-              {renderActionBar(resetForm)}
-            </Box>
+
+            {renderActionBar(resetForm)}
           </Form>
         )}
       </Formik>

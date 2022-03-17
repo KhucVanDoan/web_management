@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useDetailSchedule } from '~/modules/mesx/redux/hooks/useDetailSchedule'
@@ -72,15 +72,11 @@ const DetailScheduleForm = () => {
     switch (mode) {
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button color="grayF4" onClick={backToList}>
-              {t('common.close')}
-            </Button>
-            <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={resetForm}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -247,18 +243,8 @@ const DetailScheduleForm = () => {
                 woQuantity={values.woQuantity}
               />
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
-            >
-              {renderActionBar(resetForm)}
-            </Box>
+
+            {renderActionBar(resetForm)}
           </Form>
         )}
       </Formik>

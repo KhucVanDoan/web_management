@@ -4,11 +4,12 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
-import { codeSchema } from '~/common/schemas'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: codeSchema(t).required(t('general:form.required')),
+    code: Yup.string()
+      .required(t('general:form.required'))
+      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
     name: Yup.string().required(t('general:form.required')),
     qcQuantityRule: Yup.number()
       .required(t('general:form.required'))
@@ -19,7 +20,7 @@ export const validationSchema = (t) =>
         }),
       ),
     productionTimePerItem: Yup.number()
-      .required(t('general:form.required'))
+
       .min(
         NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
         t('general:form.minNumber', {
@@ -27,11 +28,12 @@ export const validationSchema = (t) =>
         }),
       )
       .max(
-        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MIN,
+        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
         t('general:form.maxNumber', {
           max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
         }),
-      ),
+      )
+      .required(t('general:form.required')),
     timeQcInput: Yup.number()
 
       .min(

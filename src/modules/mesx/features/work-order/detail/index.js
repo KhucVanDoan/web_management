@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -208,11 +208,7 @@ function workOrderDetail() {
             </Grid>
           </Grid>
         </Grid>
-        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={backToList} color="grayF4">
-            {t('common.back')}
-          </Button>
-        </Box>
+        <ActionBar onBack={backToList} />
       </Page>
     </>
   )

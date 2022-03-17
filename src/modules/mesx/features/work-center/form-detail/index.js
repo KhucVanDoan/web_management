@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import { cloneDeep, groupBy, isEmpty, isNil, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -245,11 +246,7 @@ const FormDetail = () => {
         </Box>
       </Tabs>
 
-      <Box display="flex" justifyContent="flex-end" sx={{ mt: 4 }}>
-        <Button onClick={backToList} color="grayF4">
-          {t('common.back')}
-        </Button>
-      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

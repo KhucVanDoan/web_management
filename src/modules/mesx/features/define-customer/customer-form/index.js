@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
-import Button from '~/components/Button'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
@@ -124,37 +123,19 @@ function DefineCustomerForm() {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.create')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.CREATE}
+          />
         )
       case MODAL_MODE.UPDATE:
         return (
-          <>
-            <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
-            </Button>
-            <Button
-              onClick={handleReset}
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 4 / 3 }}
-            >
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit">{t('common.save')}</Button>
-          </>
+          <ActionBar
+            onBack={backToList}
+            onCancel={handleReset}
+            mode={MODAL_MODE.UPDATE}
+          />
         )
       default:
         break
@@ -238,9 +219,7 @@ function DefineCustomerForm() {
                     />
                   </Grid>
                 </Grid>
-                <Box mt={2} display="flex" justifyContent="flex-end">
-                  {renderActionBar(handleReset)}
-                </Box>
+                {renderActionBar(handleReset)}
               </Form>
             )}
           </Formik>
