@@ -1,3 +1,4 @@
+/* eslint-disable babel/no-invalid-this */
 import * as Yup from 'yup'
 
 import {
@@ -32,7 +33,24 @@ export const validationSchema = (t) =>
                 t('general:form.minNumber', {
                   min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
                 }),
-              ),
+              )
+              .test('quantity_total', '', function () {
+                const items = [...(this?.from || [])].pop()?.value?.items || []
+                const index = this.path.match(/\d+/)[0]
+                const quantityTotal = items[+index]?.bomDetail?.quantity
+                const producingStep = items[+index]?.producingStepData || []
+                const quantity = producingStep.reduce(
+                  (acc, val) => acc + +val.quantity,
+                  0,
+                )
+                if (quantity !== quantityTotal) {
+                  return this.createError({
+                    message: t('bomProducingStep.quantityNotEqual'),
+                    path: `${this.path}`,
+                  })
+                }
+                return true
+              }),
           }),
         ),
       }),
