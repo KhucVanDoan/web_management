@@ -4,6 +4,7 @@ import { styled } from '@mui/system'
 const ListMenuStyled = styled(List)((props) => {
   const { theme, open } = props
   return {
+    marginTop: '-2px',
     '.active': {
       background: theme.palette.bgPrimaryOpacity,
       borderRadius: '3px 0px 0px 3px',
