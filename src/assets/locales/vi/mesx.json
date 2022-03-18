@@ -1597,7 +1597,9 @@
     "inProgress": "Đang thực hiện"
   },
   "planCalendar": {
+    "detail": "Chi tiết",
     "createEvent": "Tạo sự kiện",
+    "createWorkingSchedule": "Tạo lịch làm việc",
     "holiday": "Ngày nghỉ",
     "workingDay": "Ngày làm việc",
     "eventCode": "Mã sự kiện",
@@ -1630,7 +1632,15 @@
       "thursday": "Thứ 5",
       "friday": "Thứ 6",
       "saturday": "Thứ 7"
-    }
+    },
+    "shiftPreparationTime": "Thời gian chuẩn bị ca đầu",
+    "to": "Đến",
+    "shiftName": "Tên ca",
+    "shiftTimeStart": "Thời gian bắt đầu",
+    "shiftTimeEnd": "Thời gian kết thúc",
+    "shift": "Ca làm việc",
+    "relaxTime": "Thời gian nghỉ",
+    "relaxTimeTitle": "Tên ca nghỉ"
   },
   "masterPlanStatus": {
     "created": "Chờ xác nhận",

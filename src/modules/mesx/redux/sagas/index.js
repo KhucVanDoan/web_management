@@ -9,10 +9,13 @@ import watchGetBomProducingStepDetails from './bom-producing-step/get-bom-produc
 import watchSearchBomProducingStep from './bom-producing-step/search-bom-producing-step.saga'
 import watchUpdateBomProducingStep from './bom-producing-step/update-bom-producing-step.saga'
 import {
-  watchGetDetailFactoryCalendar,
+  watchGetDetailFactoryEvent,
   watchGetListFactoryCalendar,
   watchUpdateFactoryCalendar,
   watchCreateFactoryCalendar,
+  watchCreateFactoryCalendarSetup,
+  watchGetListFactoryEvent,
+  watchGetDetailFactoryCalendar,
 } from './calendar'
 import watchCreatePurchasedOrder from './common/create-purchased-order.saga'
 import watchGetAllItemDetails from './common/get-all-item-details.saga'
@@ -489,8 +492,11 @@ export default function* sagas() {
     //calendar
     watchGetListFactoryCalendar(),
     watchUpdateFactoryCalendar(),
-    watchGetDetailFactoryCalendar(),
+    watchGetDetailFactoryEvent(),
     watchCreateFactoryCalendar(),
+    watchCreateFactoryCalendarSetup(),
+    watchGetListFactoryEvent(),
+    watchGetDetailFactoryCalendar(),
 
     // productivity compare
     watchGetProductivityCompareList(),

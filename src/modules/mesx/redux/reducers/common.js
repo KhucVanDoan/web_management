@@ -83,6 +83,7 @@ import {
   CREATE_PURCHASED_ORDER_FAILED,
   CREATE_PURCHASED_ORDER_START,
   CREATE_PURCHASED_ORDER_SUCCESS,
+  RESET_FACTORIES_LIST_STATE,
   RESET_ITEMS,
 } from '~/modules/mesx/redux/actions/common'
 
@@ -393,6 +394,11 @@ export default function commonManagement(state = initialState, action) {
         ...state,
         factoryList: action.payload,
         isLoading: false,
+      }
+    case RESET_FACTORIES_LIST_STATE:
+      return {
+        ...state,
+        factoryList: [],
       }
     case GET_FACTORIES_FAILED:
       return {

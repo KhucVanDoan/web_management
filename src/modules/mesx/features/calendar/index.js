@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react'
 
 import vi from '@fullcalendar/core/locales/vi'
 // eslint-disable-next-line import/order
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import FullCalendar from '@fullcalendar/react' // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
 import { Grid } from '@mui/material'
+import Box from '@mui/material/Box'
 import { startOfMonth, endOfMonth, formatISO } from 'date-fns'
+import { Formik, Form } from 'formik'
+import { first, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
-import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -21,9 +22,9 @@ import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
-import { formatDateTimeUtc } from '~/utils'
 
-import { modalSchema } from './modalSchema'
+import { modalSchema } from './createEventSchema'
+import PopupDetail from './popupDetail'
 import style from './style'
 
 const PlanCalendar = () => {
@@ -36,7 +37,7 @@ const PlanCalendar = () => {
   ]
   const {
     actions,
-    data: { factoryCalendar, isLoading },
+    data: { factoryEvent, isLoading },
   } = useCalendar()
 
   const {
@@ -48,17 +49,13 @@ const PlanCalendar = () => {
   const classes = useClasses(style)
 
   const history = useHistory()
-  const routeMatch = useRouteMatch()
   const [from, setFrom] = useState(formatISO(startOfMonth(new Date())))
   const [to, setTo] = useState(formatISO(endOfMonth(new Date())))
   const [isOpenCreateEventModal, setIsOpenCreateEventModal] = useState(false)
-  const MODE_MAP = {
-    [ROUTE.DEFINE_BOQ.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.DEFINE_BOQ.DETAIL.PATH]: MODAL_MODE.DETAIL,
-    [ROUTE.DEFINE_BOQ.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
+  const [isUpdate, setIsUpdate] = useState(false)
+  const [openDetail, setIsOpenDetail] = useState(false)
+  const [dateSelected, setDateSelected] = useState(false)
+  const [factoryId, setFactoryId] = useState()
   const [initialValues, setInitialValues] = useState({
     id: null,
     title: '',
@@ -67,15 +64,21 @@ const PlanCalendar = () => {
     factoryIds: null,
     description: '',
   })
+  const initialSearch = isEmpty(factories)
+    ? { factoryId: null }
+    : { factoryId: first(factories)?.id }
 
   const renderHeaderRight = () => {
     return (
       <>
+        <Button onClick={handleClickCreateEvent} icon="add" sx={{ mr: 4 / 3 }}>
+          {t('planCalendar.createEvent')}
+        </Button>
         <Button
           onClick={() => history.push(ROUTE.PLAN.CALENDAR.CREATE.PATH)}
           icon="add"
         >
-          {t('common.create')}
+          {t('planCalendar.createWorkingSchedule')}
         </Button>
       </>
     )
@@ -86,19 +89,25 @@ const PlanCalendar = () => {
     commonAction.getFactories(params)
   }, [])
 
-  useEffect(() => {
-    getListFactoryCalendar()
-  }, [actions, from, to])
+  // useEffect(() => {
+  //   const factory = first(factories)?.id
+  //   if (factory) {
+  //     getListFactoryEvent(factory)
+  //   }
+  // }, [actions, from, to,])
 
-  const getListFactoryCalendar = () => {
-    actions.getListFactoryCalendar({ from, to })
+  const getListFactoryEvent = (factoryId) => {
+    actions.getListFactoryEvent({ from, to, factoryId })
   }
 
-  const events = factoryCalendar?.map((item) => ({
+  const getListFactoryWorkingSchedule = (factoryId) => {
+    actions.getListFactoryCalendar({ from, to, factoryId })
+  }
+
+  const events = factoryEvent?.map((item) => ({
     ...item,
-    start: formatDateTimeUtc(item.from, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-    end: formatDateTimeUtc(item.to, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-    rendering: 'background',
+    start: item.from,
+    end: item.to,
     className:
       item.type === EVENT_TYPE_OPTIONS[1].id
         ? classes.workingDay
@@ -120,13 +129,13 @@ const PlanCalendar = () => {
     setIsOpenCreateEventModal(true)
   }
 
-  const handleDateClick = (info) => {
+  const handleClickCreateEvent = () => {
     setIsUpdate(false)
     setInitialValues({
       id: null,
       title: '',
       code: '',
-      time: [info.dateStr, info.dateStr],
+      time: [null, null],
       factoryIds: null,
       description: '',
     })
@@ -150,14 +159,14 @@ const PlanCalendar = () => {
       to: values.time[1],
     }
     if (isUpdate) {
-      actions.updateFactoryCalendar(params, getListFactoryCalendar)
+      actions.updateFactoryCalendar(params, getListFactoryEvent)
     } else {
-      actions.createFactoryCalendar(params, getListFactoryCalendar)
+      actions.createFactoryCalendar(params, getListFactoryEvent)
     }
     setIsOpenCreateEventModal(false)
   }
 
-  const onCancel = () => {
+  const onResetForm = () => {
     setInitialValues({
       id: null,
       title: '',
@@ -166,29 +175,44 @@ const PlanCalendar = () => {
       factoryIds: null,
       description: '',
     })
+  }
+
+  const onClose = () => {
+    onResetForm()
     setIsOpenCreateEventModal(false)
   }
 
-  const renderActionBar = (onCancel) => {
-    switch (mode) {
-      case MODAL_MODE.CREATE:
-        return (
-          <ActionBar
-            onBack={onCancel}
-            onCancel={onCancel}
-            mode={MODAL_MODE.CREATE}
-          />
-        )
-      case MODAL_MODE.UPDATE:
-        return (
-          <ActionBar
-            onBack={onCancel}
-            onCancel={onCancel}
-            mode={MODAL_MODE.UPDATE}
-          />
-        )
-      default:
-        return null
+  const renderActionButtons = () => {
+    return (
+      <>
+        <Button color="grayF4" sx={{ mr: 1 }} onClick={onClose}>
+          {t('common.close')}
+        </Button>
+        <Button
+          variant="outlined"
+          color="subText"
+          sx={{ mr: 1 }}
+          onClick={onResetForm}
+        >
+          {t('common.cancel')}
+        </Button>
+        <Button type="submit">
+          {isUpdate ? t('common.save') : t('common.create')}
+        </Button>
+      </>
+    )
+  }
+
+  const handleSearch = (values) => {
+    setFactoryId(values.factoryId)
+    getListFactoryEvent(values.factoryId)
+    getListFactoryWorkingSchedule(values.factoryId)
+  }
+
+  const handleDateClick = (info) => {
+    if (factoryId) {
+      setDateSelected(formatISO(info.date))
+      setIsOpenDetail(true)
     }
   }
 
@@ -201,25 +225,51 @@ const PlanCalendar = () => {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
+      <Formik initialValues={initialSearch} onSubmit={handleSearch}>
+        {() => (
+          <Form>
+            <Grid container rowSpacing={4 / 3}>
+              <Grid item xs={12} display="flex">
+                <Grid item xs={6} sx={{ mr: 3 }}>
+                  <Field.Autocomplete
+                    name="factoryId"
+                    label={t('planCalendar.factory')}
+                    placeholder={t('planCalendar.factory')}
+                    options={factories}
+                    getOptionValue={(opt) => opt?.id}
+                    getOptionLabel={(opt) => opt?.name}
+                    sx={{ mb: 3 }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Button type="submit">{t('common.filter')}</Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Form>
+        )}
+      </Formik>
+
       <FullCalendar
-        //setting view
         headerToolbar={{
           left: 'prev,next',
           center: 'title',
           right: 'today',
         }}
+        locale={vi}
+        dayMaxEventRows={2}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
         height={700}
-        //handle event display
+        moreLinkContent={(args) => {
+          return '+' + args.num + ' Xem thêm'
+        }}
         displayEventTime={false}
         eventDisplay="block"
-        //event source
         events={events}
-        //handle event
         eventClick={handleEventClick}
         dateClick={handleDateClick}
-        locale={vi}
         datesSet={handleChangeRange}
       />
       <Dialog
@@ -232,7 +282,6 @@ const PlanCalendar = () => {
           validationSchema: modalSchema(t),
           onSubmit,
         }}
-        onCancel={onCancel}
       >
         <Grid>
           <Grid container rowSpacing={4 / 3} columnSpacing={4}>
@@ -271,6 +320,15 @@ const PlanCalendar = () => {
                 required
               />
             </Grid>
+            {/* <Grid item xs={9} sx={{ ml: 15 }}>
+              <Box display="flex" alignItems="center">
+                <Field.TimePicker name={`timeFrom`} />
+                <Box mx={1} display="flex" alignItems="center">
+                  {t('workCenter.to')}
+                </Box>
+                <Field.TimePicker name={`timeTo`} />
+              </Box>
+            </Grid> */}
             <Grid item xs={12}>
               <Field.Autocomplete
                 name="factoryIds"
@@ -293,9 +351,17 @@ const PlanCalendar = () => {
               />
             </Grid>
           </Grid>
-          {renderActionBar(onCancel)}
+          <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
+            {renderActionButtons()}
+          </Box>
         </Grid>
       </Dialog>
+      <PopupDetail
+        open={openDetail}
+        handleClose={() => setIsOpenDetail(false)}
+        date={dateSelected}
+        factoryId={factoryId}
+      />
     </Page>
   )
 }
