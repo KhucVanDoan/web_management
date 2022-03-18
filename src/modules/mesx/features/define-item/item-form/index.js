@@ -7,13 +7,21 @@ import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants/index'
+import {
+  DEFAULT_UNITS,
+  WEIGHT_UNITS,
+  ITEM_CODE_PREFIX,
+} from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -42,7 +50,7 @@ function DefineItemForm() {
   const initialValues = useMemo(
     () => ({
       name: itemDetails?.name || '',
-      code: itemDetails?.code || '',
+      code: itemDetails?.code || ITEM_CODE_PREFIX,
       description: itemDetails?.description || '',
       itemType: itemDetails?.itemType || '',
       itemGroup: itemDetails?.itemGroup || '',
@@ -296,7 +304,7 @@ function DefineItemForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => {
+            {({ handleReset, values, setFieldValue }) => {
               return (
                 <Form>
                   <Tabs
@@ -320,10 +328,17 @@ function DefineItemForm() {
                             name="code"
                             placeholder={t('defineItem.code')}
                             inputProps={{
-                              maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                              maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
                             }}
                             disabled={isUpdate}
                             required
+                            allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                            onInput={(val) => {
+                              if (val?.indexOf(ITEM_CODE_PREFIX) !== 0) {
+                                return
+                              }
+                              setFieldValue('code', val)
+                            }}
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>

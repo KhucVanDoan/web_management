@@ -1,8 +1,7 @@
-// @TODO: import welcome page here
-
+import WelcomePage from '../welcome-page'
 const route = {
   path: '/',
-  component: () => <h1>Welcome to Smart VMS</h1>,
+  component: WelcomePage,
 }
 
 export default route

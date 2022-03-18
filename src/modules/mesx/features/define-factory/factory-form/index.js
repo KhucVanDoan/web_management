@@ -5,7 +5,11 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -194,7 +198,10 @@ const DefineFactoryForm = () => {
                       name="phone"
                       label={t('defineFactory.phone')}
                       placeholder={t('defineFactory.phone')}
-                      allow="phone"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

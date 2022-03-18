@@ -3,7 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 const FilterForm = () => {
@@ -46,7 +46,10 @@ const FilterForm = () => {
           name="phone"
           label={t('defineCustomer.phone')}
           placeholder={t('defineCustomer.phone')}
-          allow="phone"
+          allow={TEXTFIELD_ALLOW.NUMERIC}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+          }}
         />
       </Grid>
       <Grid item xs={12}>

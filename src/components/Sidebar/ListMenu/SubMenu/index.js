@@ -10,7 +10,7 @@ import { useSidebar } from '../../hooks'
 import style from './style'
 
 const SubMenu = ({
-  router,
+  route,
   isCollapse,
   anchorEl,
   handlePopoverOpen,
@@ -19,7 +19,7 @@ const SubMenu = ({
   hoverMenu,
   children,
 }) => {
-  const classes = useClasses(style(isEmpty(router.subMenu)))
+  const classes = useClasses(style(isEmpty(route.subMenu)))
 
   const { isMinimal, isMdUp } = useSidebar()
 
@@ -30,7 +30,7 @@ const SubMenu = ({
         classes={{
           paper: classes.paper,
         }}
-        open={openPopover && hoverMenu === router.name}
+        open={openPopover && hoverMenu === route.name}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
@@ -44,7 +44,7 @@ const SubMenu = ({
         PaperProps={{
           onMouseEnter: () => handlePopoverOpen(hoverMenu),
           onMouseLeave: handlePopoverClose,
-          ...(!isEmpty(router.subMenu) ? { sx: { width: 250 } } : {}),
+          ...(!isEmpty(route.subMenu) ? { sx: { width: 250 } } : {}),
         }}
       >
         {children}
@@ -60,12 +60,12 @@ const SubMenu = ({
 }
 
 SubMenu.defaultProps = {
-  router: {},
+  route: {},
   children: null,
 }
 
 SubMenu.propTypes = {
-  router: PropTypes.shape(),
+  route: PropTypes.shape(),
   isCollapse: PropTypes.bool,
   children: PropTypes.node,
 }

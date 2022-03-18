@@ -10,10 +10,10 @@ export const itemSchema = (t) =>
   Yup.object().shape({
     code: Yup.string()
       .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+      .length(
+        TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+        t('general:form.length', {
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
         }),
       ),
     name: Yup.string()
