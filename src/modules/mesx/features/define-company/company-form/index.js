@@ -235,7 +235,7 @@ function DefineCompanyForm() {
                       name="phone"
                       label={t('defineCompany.phone')}
                       placeholder={t('defineCompany.phone')}
-                      type="phone"
+                      allow="phone"
                     />
                   </Grid>
                   <Grid item xs={12}>

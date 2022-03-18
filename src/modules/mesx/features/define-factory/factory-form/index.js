@@ -194,7 +194,7 @@ const DefineFactoryForm = () => {
                       name="phone"
                       label={t('defineFactory.phone')}
                       placeholder={t('defineFactory.phone')}
-                      type="phone"
+                      allow="phone"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

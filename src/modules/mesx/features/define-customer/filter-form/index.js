@@ -46,7 +46,7 @@ const FilterForm = () => {
           name="phone"
           label={t('defineCustomer.phone')}
           placeholder={t('defineCustomer.phone')}
-          type="phone"
+          allow="phone"
         />
       </Grid>
       <Grid item xs={12}>
