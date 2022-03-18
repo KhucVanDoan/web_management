@@ -3,12 +3,13 @@ import React from 'react'
 import { getIn } from 'formik'
 import PropTypes from 'prop-types'
 
+import { DEFAULT_TIME } from '~/common/constants'
 import TimePicker from '~/components/TimePicker'
 
 const FormikTimePicker = ({ form, field, onChange, ...props }) => (
   <TimePicker
     {...field}
-    value={field.value || '00:00'}
+    value={field.value || DEFAULT_TIME}
     onChange={(v) => {
       onChange(v)
       form.setFieldValue(field.name, v)

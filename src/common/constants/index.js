@@ -112,6 +112,7 @@ export const DATE_FORMAT = 'dd/MM/yyyy'
 export const DATE_FORMAT_3 = 'yyyy-MM-dd'
 
 export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
+export const DEFAULT_TIME = '00:00'
 
 export const QR_CODE_TYPE = {
   ITEM: '02',

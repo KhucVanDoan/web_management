@@ -62,12 +62,11 @@ const BreakTimeTable = ({
             return isView ? (
               <>{content}</>
             ) : (
-              <Box flex={1} alignItems="center" key={shiftIndex}>
+              <Box alignItems="center" key={shiftIndex}>
                 <Box
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  flex={1}
                 >
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
@@ -86,6 +85,7 @@ const BreakTimeTable = ({
         return columns
       })
     }
+
     const removeColumns = [
       {
         field: 'remove',
@@ -93,16 +93,13 @@ const BreakTimeTable = ({
         width: 50,
         align: 'center',
         hide: isView,
-        renderCell: (params) => {
-          const idx = breakTimes.findIndex(
-            (item) => item.shiftId === params.row.id,
-          )
+        renderCell: (params, index) => {
           return isView ? null : (
             <IconButton
               onClick={() => {
-                arrayHelpers.remove(idx)
+                arrayHelpers.remove(index)
               }}
-              disabled={breakTimes?.length === 1}
+              disabled={index === 0}
             >
               <Icon name="remove" />
             </IconButton>
@@ -160,7 +157,6 @@ const BreakTimeTable = ({
               arrayHelpers.push({
                 id: `breakTimes-${new Date().getTime()}`,
                 shifts: shifts.map((shift) => ({
-                  ...shift,
                   shiftId: shift.id,
                   from: '',
                   to: '',
