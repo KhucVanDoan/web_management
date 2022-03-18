@@ -10,10 +10,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import {
-  DEFAULT_UNITS_MAP,
-  WEIGHT_UNITS_MAP,
-} from '~/modules/mesx/constants/index'
+import { DEFAULT_UNITS_MAP, WEIGHT_UNITS_MAP } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'

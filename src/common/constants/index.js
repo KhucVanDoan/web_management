@@ -52,6 +52,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
     MIN: 6,
     MAX: 6,
   },
+  CODE_7: {
+    MAX: 7,
+  },
   CODE_8: {
     MAX: 8,
   },
@@ -101,6 +104,12 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 100000000000,
   },
+}
+
+export const TEXTFIELD_ALLOW = {
+  NUMERIC: /[^0-9]/g,
+  ALPHABET: /[^a-zA-Z]/g,
+  ALPHANUMERIC: /[^0-9A-Za-z]/g,
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]

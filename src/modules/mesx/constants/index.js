@@ -1067,3 +1067,5 @@ export const MASTER_PLAN_STATUS = {
   IN_PROGRESS: 3,
   COMPLETED: 4,
 }
+
+export const ITEM_CODE_PREFIX = '02'

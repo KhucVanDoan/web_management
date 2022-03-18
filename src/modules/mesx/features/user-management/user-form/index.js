@@ -7,7 +7,11 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
+import {
+  TEXTFIELD_REQUIRED_LENGTH,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -308,7 +312,10 @@ function UserManagementForm() {
                       name="phone"
                       label={t('userManagement.phone')}
                       placeholder={t('userManagement.phone')}
-                      allow="phone"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>

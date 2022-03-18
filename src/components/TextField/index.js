@@ -10,7 +10,6 @@ import {
 import clsx from 'clsx'
 import { PropTypes } from 'prop-types'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { useClasses } from '~/themes'
 
 import style from './style'
@@ -37,12 +36,8 @@ const TextField = ({
 
   const handleChange = (e) => {
     let val = e.target.value
-    if (allow === 'phone') {
-      const truncatedVal = (e.target.value || '').slice(
-        0,
-        TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-      )
-      val = truncatedVal.replace(/[^0-9]/g, '')
+    if (allow instanceof RegExp) {
+      val = val?.replace(allow, '')
     }
     onChange(val)
   }

@@ -3,6 +3,7 @@ import React from 'react'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import Icon from '~/components/Icon'
 import { useClasses } from '~/themes'
@@ -37,6 +38,7 @@ const SearchBox = ({ onSearch, placeholder }) => {
         className={classes.input}
         placeholder={placeholder || `${t('page.searchPlaceholder')}....`}
         autoComplete="off"
+        maxLength={TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX}
       />
       <Button
         sx={{

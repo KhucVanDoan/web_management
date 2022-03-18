@@ -90,7 +90,9 @@ export default function Sidebar() {
             </DrawerHeader>
           </Hidden>
           <ListMenu
-            routes={appRoutesObj[currentModule]}
+            routes={appRoutesObj[currentModule]?.filter(
+              (item) => item?.isInSidebar,
+            )}
             currentModule={currentModule}
           />
         </Drawer>

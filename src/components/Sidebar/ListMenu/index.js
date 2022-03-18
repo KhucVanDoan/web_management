@@ -63,122 +63,127 @@ const ListMenu = ({ routes, currentModule }) => {
 
   return (
     <ListMenuStyled open={!isMdUpMinimal} component="div">
-      {routes.map((router, index) => (
-        <React.Fragment key={index}>
-          <ListItemButton
-            ref={(el) => (popoverAnchor.current[index] = el)}
-            {...(router.path ? { component: Link, to: router.path } : {})}
-            {...(isMdUpMinimal
-              ? {
-                  onMouseOver: () => handlePopoverOpen(router.name),
-                  onMouseOut: handlePopoverClose,
-                }
-              : {
-                  onClick: () => toggle(index, router.subMenu),
-                })}
-            sx={{
-              mt: index === 0 ? 0 : '8px',
-              pr: '10px',
-            }}
-            className={clsx({
-              active:
-                isActive(router.path) ||
-                (isMdUpMinimal && isActiveChildren(router.subMenu)),
-            })}
-          >
-            <ListItemIcon
+      {routes.map((route, index) => {
+        const visibleSubMenu = route?.subMenu?.filter(
+          (item) => item?.isInSidebar,
+        )
+        return (
+          <React.Fragment key={index}>
+            <ListItemButton
+              ref={(el) => (popoverAnchor.current[index] = el)}
+              {...(route.path ? { component: Link, to: route.path } : {})}
+              {...(isMdUpMinimal
+                ? {
+                    onMouseOver: () => handlePopoverOpen(route.name),
+                    onMouseOut: handlePopoverClose,
+                  }
+                : {
+                    onClick: () => toggle(index, route.subMenu),
+                  })}
               sx={{
-                minWidth: 'unset',
-                mr: '10px',
+                mt: index === 0 ? 0 : '8px',
+                pr: '10px',
               }}
+              className={clsx({
+                active:
+                  isActive(route.path) ||
+                  (isMdUpMinimal && isActiveChildren(route.subMenu)),
+              })}
             >
-              <Icon
-                name={router.icon}
-                fill={
-                  isActive(router.path) ||
-                  (isMdUpMinimal && isActiveChildren(router.subMenu))
-                    ? theme.palette.text.main
-                    : theme.palette.subText.main
-                }
-                size={20}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Typography
-                  variant="h5"
-                  color="text.main"
-                  noWrap
-                  sx={{
-                    fontWeight: isActive(router.path) ? 700 : 400,
-                  }}
-                >
-                  {t(`menu.${router.name}`)}
-                </Typography>
-              }
-            />
-            {!isEmpty(router.subMenu) && !isMdUpMinimal && (
-              <ExpandMore
+              <ListItemIcon
                 sx={{
-                  transform: 'rotate(-90deg)',
-                  fontSize: '18px',
-                  color: '#999999',
-                  ...(isOpen(index, router.subMenu)
-                    ? { transform: 'rotate(0)' }
-                    : {}),
+                  minWidth: 'unset',
+                  mr: '10px',
                 }}
+              >
+                <Icon
+                  name={route.icon}
+                  fill={
+                    isActive(route.path) ||
+                    (isMdUpMinimal && isActiveChildren(route.subMenu))
+                      ? theme.palette.text.main
+                      : theme.palette.subText.main
+                  }
+                  size={20}
+                />
+              </ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography
+                    variant="h5"
+                    color="text.main"
+                    noWrap
+                    sx={{
+                      fontWeight: isActive(route.path) ? 700 : 400,
+                    }}
+                  >
+                    {t(`menu.${route.name}`)}
+                  </Typography>
+                }
               />
-            )}
-          </ListItemButton>
+              {!isEmpty(visibleSubMenu) && !isMdUpMinimal && (
+                <ExpandMore
+                  sx={{
+                    transform: 'rotate(-90deg)',
+                    fontSize: '18px',
+                    color: '#999999',
+                    ...(isOpen(index, route.subMenu)
+                      ? { transform: 'rotate(0)' }
+                      : {}),
+                  }}
+                />
+              )}
+            </ListItemButton>
 
-          <SubMenu
-            router={router}
-            currentModule={currentModule}
-            isCollapse={isOpen(index, router.subMenu)}
-            anchorEl={popoverAnchor.current[index]}
-            openPopover={openedPopover}
-            handlePopoverOpen={handlePopoverOpen}
-            handlePopoverClose={handlePopoverClose}
-            hoverMenu={hoverMenu}
-          >
-            <List component="div" disablePadding>
-              {router.subMenu
-                ? router.subMenu.map((menuItem) => (
-                    <ListItemButton
-                      component={Link}
-                      to={menuItem?.path}
-                      key={menuItem?.path}
-                      sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
-                      className={clsx({
-                        active: isActive(menuItem.path),
-                      })}
-                      {...(isMdDown
-                        ? {
-                            onClick: () => setIsMinimal(true),
+            <SubMenu
+              route={route}
+              currentModule={currentModule}
+              isCollapse={isOpen(index, route.subMenu)}
+              anchorEl={popoverAnchor.current[index]}
+              openPopover={openedPopover}
+              handlePopoverOpen={handlePopoverOpen}
+              handlePopoverClose={handlePopoverClose}
+              hoverMenu={hoverMenu}
+            >
+              <List component="div" disablePadding>
+                {!isEmpty(visibleSubMenu)
+                  ? visibleSubMenu.map((menuItem) => (
+                      <ListItemButton
+                        component={Link}
+                        to={menuItem?.path}
+                        key={menuItem?.path}
+                        sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
+                        className={clsx({
+                          active: isActive(menuItem.path),
+                        })}
+                        {...(isMdDown
+                          ? {
+                              onClick: () => setIsMinimal(true),
+                            }
+                          : {})}
+                      >
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="h5"
+                              color="text.main"
+                              noWrap
+                              sx={{
+                                fontWeight: isActive(menuItem.path) ? 700 : 400,
+                              }}
+                            >
+                              {t(`menu.${menuItem.name}`)}
+                            </Typography>
                           }
-                        : {})}
-                    >
-                      <ListItemText
-                        primary={
-                          <Typography
-                            variant="h5"
-                            color="text.main"
-                            noWrap
-                            sx={{
-                              fontWeight: isActive(menuItem.path) ? 700 : 400,
-                            }}
-                          >
-                            {t(`menu.${menuItem.name}`)}
-                          </Typography>
-                        }
-                      />
-                    </ListItemButton>
-                  ))
-                : router.name}
-            </List>
-          </SubMenu>
-        </React.Fragment>
-      ))}
+                        />
+                      </ListItemButton>
+                    ))
+                  : route.name}
+              </List>
+            </SubMenu>
+          </React.Fragment>
+        )
+      })}
     </ListMenuStyled>
   )
 }
