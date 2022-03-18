@@ -36,6 +36,7 @@ import {
   GET_PRICE_STRUCTURE_SUCCESS,
   GET_PRICE_STRUCTURE_FAILED,
   GET_MO_LIST_ALL,
+  RESET_MO_DETAIL_STATE,
 } from '~/modules/mesx/redux/actions/mo.action'
 
 const initialState = {
@@ -161,6 +162,11 @@ export default function Mo(state = initialState, action) {
         ...state,
         PriceStructure: action.payload,
         isLoading: false,
+      }
+    case RESET_MO_DETAIL_STATE:
+      return {
+        ...state,
+        moDetails: {},
       }
     default:
       return state

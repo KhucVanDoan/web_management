@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-import { Delete, Edit, Visibility, CheckBox } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -9,6 +8,7 @@ import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -154,6 +154,7 @@ const Mo = () => {
               <Button
                 variant="text"
                 onClick={() => history.push(ROUTE.WORK_ORDER.PATH)}
+                bold={false}
               >
                 {t('Mo.workOrder')}
               </Button>
@@ -166,7 +167,7 @@ const Mo = () => {
       field: 'action',
       headerName: t('common.action'),
       width: 200,
-      sortable: true,
+      align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
         const canEdit = MO_STATUS_TO_EDIT.includes(status)
@@ -178,41 +179,27 @@ const Mo = () => {
         // const goList = hasPlan && moHasPlan.length > 1
         return (
           <div>
-            <IconButton
-              type="button"
-              onClick={() => onClickViewDetails(id)}
-              size="large"
-            >
-              <Visibility />
+            <IconButton onClick={() => onClickViewDetails(id)}>
+              <Icon name="show" />
             </IconButton>
             {canEdit && (
-              <IconButton
-                type="button"
-                onClick={() => onClickEdit(id)}
-                size="large"
-              >
-                <Edit />
+              <IconButton onClick={() => onClickEdit(id)}>
+                <Icon name="edit" />
               </IconButton>
             )}
             {canDelete && (
-              <IconButton
-                type="button"
-                onClick={() => onClickDelete(id)}
-                size="large"
-              >
-                <Delete />
+              <IconButton onClick={() => onClickDelete(id)}>
+                <Icon name="delete" />
               </IconButton>
             )}
             {canConfirm && (
               <IconButton
-                type="button"
                 onClick={() => {
                   setId(id)
                   setIsOpenConfirmModal(true)
                 }}
-                size="large"
               >
-                <CheckBox style={{ color: 'green' }} />
+                <Icon name="tick" />
               </IconButton>
             )}
             {/* {goDetail && (

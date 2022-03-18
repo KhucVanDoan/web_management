@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { DATE_FORMAT } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -48,18 +49,22 @@ const DetailWorkCenterPlan = () => {
   const getColumnManufacturing = () => {
     const columns = [
       {
+        field: 'title',
+        headerName: '',
+        width: 50,
+      },
+      {
         field: 'plan',
         headerName: t('workCenterPlan.plan'),
-        width: 200,
+        width: 150,
       },
     ]
     if (wcpStructure) {
-      wcpStructure?.workCenterScheduleDetails?.map((e) => {
+      wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
         columns.push({
           field: e.executionDay,
           headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
         })
-        return null
       })
     }
     const total = [
@@ -74,7 +79,6 @@ const DetailWorkCenterPlan = () => {
 
   const getRowManufacturing = () => {
     const rows = []
-
     return rows
   }
   return (
@@ -141,7 +145,8 @@ const DetailWorkCenterPlan = () => {
         columns={getColumnManufacturing()}
         hideSetting
         hideFooter
-      ></DataTable>
+      />
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

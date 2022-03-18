@@ -215,6 +215,9 @@ const MaterialDetailPlan = () => {
         e.materialPlanSchedules.forEach((i) => {
           sumProductionQuantity += Number(i.actualQuantityMaterial)
         })
+        e.materialPlanSchedules.forEach((i) => {
+          sumAdditionQuantity += Number(i.remainingQuantityMaterial)
+        })
         rows.push(
           {
             plan: t('materialDetailPlan.planQuantity'),
