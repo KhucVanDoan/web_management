@@ -167,7 +167,7 @@ function DefineCustomerForm() {
                       name="phone"
                       label={t('defineCustomer.phone')}
                       placeholder={t('defineCustomer.phone')}
-                      type="phone"
+                      allow="phone"
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

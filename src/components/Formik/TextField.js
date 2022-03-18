@@ -11,7 +11,6 @@ const FormikTextField = ({
   onChange,
   error,
   helperText,
-  type,
   ...props
 }) => (
   <TextField
@@ -30,7 +29,6 @@ const FormikTextField = ({
       onChange(val)
       form.setFieldValue(field.name, val)
     }}
-    type={type}
     {...props}
   />
 )
@@ -49,7 +47,6 @@ FormikTextField.propTypes = {
   onChange: PropTypes.func,
   error: PropTypes.bool,
   helperText: PropTypes.string,
-  type: PropTypes.string,
 }
 
 export default FormikTextField

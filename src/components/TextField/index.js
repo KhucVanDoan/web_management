@@ -30,10 +30,22 @@ const TextField = ({
   readOnly,
   onBlur,
   onChange,
-  type,
+  allow,
   ...props
 }) => {
   const classes = useClasses(style(readOnly))
+
+  const handleChange = (e) => {
+    let val = e.target.value
+    if (allow === 'phone') {
+      const truncatedVal = (e.target.value || '').slice(
+        0,
+        TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+      )
+      val = truncatedVal.replace(/[^0-9]/g, '')
+    }
+    onChange(val)
+  }
 
   return (
     <FormControl
@@ -62,17 +74,7 @@ const TextField = ({
           disabled={disabled}
           readOnly={readOnly}
           onBlur={onBlur}
-          onChange={(e) => {
-            let val = e.target.value
-            if (type === 'phone') {
-              const truncatedText = e.target.value.slice(
-                0,
-                TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-              )
-              val = truncatedText.replace(/[^0-9]/g, '')
-            }
-            onChange(val)
-          }}
+          onChange={handleChange}
           fullWidth
           {...InputProps}
           {...props}

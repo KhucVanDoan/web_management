@@ -308,7 +308,7 @@ function UserManagementForm() {
                       name="phone"
                       label={t('userManagement.phone')}
                       placeholder={t('userManagement.phone')}
-                      type="phone"
+                      allow="phone"
                     />
                   </Grid>
                   <Grid item xs={12}>
