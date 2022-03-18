@@ -19,24 +19,6 @@ import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterP
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { redirectRouter, formatDateTimeUtc } from '~/utils'
 
-const breadcrumbs = [
-  {
-    title: 'plan',
-  },
-  {
-    route: ROUTE.MASTER_PLAN.LIST.PATH,
-    title: ROUTE.MASTER_PLAN.LIST.TITLE,
-  },
-  {
-    route: ROUTE.MASTER_PLAN.EDIT.PATH,
-    title: ROUTE.MASTER_PLAN.EDIT.TITLE,
-  },
-  {
-    route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH,
-    title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
-  },
-]
-
 const AutoModeration = () => {
   const { t } = useTranslation(['mesx'])
   const [tasks, setTasks] = useState([])
@@ -47,6 +29,23 @@ const AutoModeration = () => {
     data: { masterPlanDetails, isLoading },
     actions: masterPlanActions,
   } = useDefineMasterPlan()
+  const breadcrumbs = [
+    {
+      title: 'plan',
+    },
+    {
+      route: ROUTE.MASTER_PLAN.LIST.PATH,
+      title: ROUTE.MASTER_PLAN.LIST.TITLE,
+    },
+    {
+      route: ROUTE.MASTER_PLAN.EDIT.PATH.replace(':id', id),
+      title: ROUTE.MASTER_PLAN.EDIT.TITLE,
+    },
+    {
+      route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH,
+      title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
+    },
+  ]
 
   useEffect(() => {
     masterPlanActions.getMasterPlanDetailsById(id, null, (error) => {

@@ -14,28 +14,6 @@ import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterP
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { redirectRouter } from '~/utils'
 
-const breadcrumbs = [
-  {
-    title: 'plan',
-  },
-  {
-    route: ROUTE.MASTER_PLAN.LIST.PATH,
-    title: ROUTE.MASTER_PLAN.LIST.TITLE,
-  },
-  {
-    route: ROUTE.MASTER_PLAN.EDIT.PATH,
-    title: ROUTE.MASTER_PLAN.EDIT.TITLE,
-  },
-  {
-    route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH,
-    title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
-  },
-  {
-    route: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH,
-    title: ROUTE.MASTER_PLAN.INPUT_MODERATION.TITLE,
-  },
-]
-
 const excludeInputInColumns = [
   'workCenterId',
   'workCenterName',
@@ -55,6 +33,27 @@ const InputModeration = () => {
   } = useDefineMasterPlan()
   const [tableData, setTableData] = useState({})
   const [columns, setColumns] = useState({})
+  const breadcrumbs = [
+    {
+      title: 'plan',
+    },
+    {
+      route: ROUTE.MASTER_PLAN.LIST.PATH,
+      title: ROUTE.MASTER_PLAN.LIST.TITLE,
+    },
+    {
+      route: ROUTE.MASTER_PLAN.EDIT.PATH,
+      title: ROUTE.MASTER_PLAN.EDIT.TITLE,
+    },
+    {
+      route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', params?.get('masterPlanId')),
+      title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
+    },
+    {
+      route: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH.replace(':id', params?.get('masterPlanId')),
+      title: ROUTE.MASTER_PLAN.INPUT_MODERATION.TITLE,
+    },
+  ]
 
   useEffect(() => {
     const producingStepIds = params?.get('producingStep')
