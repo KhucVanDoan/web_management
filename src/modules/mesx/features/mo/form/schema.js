@@ -7,9 +7,9 @@ export const validationSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         }),
       ),
     name: Yup.string()
@@ -26,7 +26,9 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    masterPlanId: Yup.number().typeError(t('general:form.numeric')).required(t('general:form.required')),
+    masterPlanId: Yup.number()
+      .typeError(t('general:form.numeric'))
+      .required(t('general:form.required')),
     itemIds: Yup.array().required(t('general:form.required')),
     moPlan: Yup.array().required(),
   })

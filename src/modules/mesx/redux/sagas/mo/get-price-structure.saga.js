@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getPriceStructureApi = (params) => {
-  let uri = `/v1/produces/manufacturing-orders/${params?.id}/bom-price-structures`
+  let uri = `/v1/produces/manufacturing-orders/${params}/bom-price-structures`
   return api.get(uri, params?.search)
 }
 

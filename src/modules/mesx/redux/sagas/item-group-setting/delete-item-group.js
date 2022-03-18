@@ -4,7 +4,7 @@ import { NOTIFICATION_TYPE } from '~/common/constants'
 import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
   deleteItemGroupFailed,
-  deleteItemGroupSuccess,
+  // deleteItemGroupSuccess,
   DELETE_ITEM_GROUP_START,
 } from '~/modules/mesx/redux/actions/item-group-setting'
 import { api } from '~/services/api'
@@ -29,7 +29,7 @@ function* doDeleteItemGroup(action) {
     const response = yield call(deleteItemGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteItemGroupSuccess(response.data))
+      // yield put(deleteItemGroupSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {

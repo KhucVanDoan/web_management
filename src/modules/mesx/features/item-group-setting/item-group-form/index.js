@@ -6,7 +6,7 @@ import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -163,6 +163,9 @@ const ItemGroupForm = () => {
                       name="code"
                       placeholder={t('itemGroupDefine.code')}
                       disabled={isUpdate}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -171,6 +174,9 @@ const ItemGroupForm = () => {
                       name="name"
                       label={t('itemGroupDefine.name')}
                       placeholder={t('itemGroupDefine.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -179,6 +185,9 @@ const ItemGroupForm = () => {
                       name="description"
                       label={t('itemGroupDefine.description')}
                       placeholder={t('itemGroupDefine.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

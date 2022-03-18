@@ -5,13 +5,28 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const ItemsSettingTable = (props) => {
+  const { isView, moDetails } = props
   const { t } = useTranslation(['mesx'])
   const [items, setItems] = useState([])
   const [pageSize] = useState(20)
   const [page] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
+
+  const {
+    data: { itemList },
+    actions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    actions.getItems({})
+  }, [])
+
+  const getItemObject = (id) => {
+    return itemList?.find((item) => item?.id === id)
+  }
 
   const columns = [
     {
@@ -52,6 +67,45 @@ const ItemsSettingTable = (props) => {
     },
   ]
 
+  const columnsDetail = [
+    {
+      field: 'code',
+      headerName: t('Mo.item.code'),
+      width: 50,
+      align: 'center',
+      renderCell: (params) => {
+        const { row } = params
+        return row?.item?.code
+      },
+    },
+    {
+      field: 'itemName',
+      headerName: t('Mo.item.name'),
+      width: 150,
+      align: 'center',
+      renderCell: (params) => {
+        const { row } = params
+        return row?.item?.name
+      },
+    },
+    {
+      field: 'quantity',
+      headerName: t('Mo.item.quantity'),
+      width: 100,
+      align: 'center',
+    },
+    {
+      field: 'itemUnitName',
+      headerName: t('Mo.item.unitType'),
+      width: 100,
+      align: 'center',
+      renderCell: (params) => {
+        const { itemId } = params?.row
+        return getItemObject(itemId)?.itemUnit?.name
+      },
+    },
+  ]
+
   useEffect(() => {
     const itemsInSaleOrder = props.saleOrder?.itemSchedules || []
     setItems(getItemsInTable(itemsInSaleOrder))
@@ -77,7 +131,6 @@ const ItemsSettingTable = (props) => {
     setSelectedRows([...selected])
     props.updateSelectedItems(selected.map((item) => item.id))
   }
-
   return (
     <>
       <Box
@@ -93,13 +146,13 @@ const ItemsSettingTable = (props) => {
         </Typography>
       </Box>
       <DataTable
-        columns={columns}
-        rows={items}
+        columns={isView ? columnsDetail : columns}
+        rows={isView ? moDetails?.manufacturingOrderDetails : items}
         hideFooter
         hideSetting
         pageSize={pageSize}
         page={page}
-        checkboxSelection
+        checkboxSelection={!isView}
         selected={selectedRows}
         onChangeSelectedRows={onChangeSelectedRows}
       />

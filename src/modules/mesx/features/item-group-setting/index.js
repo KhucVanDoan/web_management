@@ -134,6 +134,18 @@ const ItemGroupSetting = () => {
       },
     },
   ])
+
+  const refreshData = () => {
+    const params = {
+      keyword: keyword.trim(),
+      page: page,
+      limit: pageSize,
+      filter: convertFilterParams(filters, columns),
+      sort: convertSortParams(sort),
+    }
+    actions.searchItemGroups(params)
+  }
+
   useEffect(() => {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
@@ -153,6 +165,7 @@ const ItemGroupSetting = () => {
         setDeleteModal(false)
       },
     )
+    refreshData()
   }
 
   const renderHeaderRight = () => {
@@ -176,16 +189,6 @@ const ItemGroupSetting = () => {
   /**
    * Refresh data
    */
-  const refreshData = () => {
-    const params = {
-      keyword: keyword.trim(),
-      page: page,
-      limit: pageSize,
-      filter: convertFilterParams(filters, columns),
-      sort: convertSortParams(sort),
-    }
-    actions.searchItemGroups(params)
-  }
 
   return (
     <>
