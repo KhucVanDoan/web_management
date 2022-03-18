@@ -7,9 +7,9 @@ export const modalSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
         }),
       ),
     title: Yup.string()

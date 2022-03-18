@@ -90,6 +90,7 @@ export const GET_BOMS_FAILED = 'GET_BOMS_FAILED'
 export const GET_FACTORIES_START = 'GET_FACTORIES_START'
 export const GET_FACTORIES_SUCCESS = 'GET_FACTORIES_SUCCESS'
 export const GET_FACTORIES_FAILED = 'GET_FACTORIES_FAILED'
+export const RESET_FACTORIES_LIST_STATE = 'RESET_FACTORIES_LIST_STATE'
 
 export const GET_SALE_ORDERS_START = 'GET_SALE_ORDERS_START'
 export const GET_SALE_ORDERS_SUCCESS = 'GET_SALE_ORDERS_SUCCESS'
@@ -1041,6 +1042,12 @@ export function createPurchasedOrderFailed() {
   }
 }
 
+export function resetFactoriesListState() {
+  return {
+    type: RESET_FACTORIES_LIST_STATE,
+  }
+}
+
 export function resetItems() {
   return {
     type: RESET_ITEMS,
@@ -1121,5 +1128,6 @@ export default {
   createPurchasedOrder,
   createPurchasedOrderSuccess,
   createPurchasedOrderFailed,
+  resetFactoriesListState,
   resetItems,
 }

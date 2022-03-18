@@ -141,6 +141,7 @@ const DataTable = (props) => {
           visibleColumns={visibleColumns}
           onApplySetting={handleApplySetting}
           filters={filters}
+          hideSetting={hideSetting}
         />
       )}
       <TableContainer
