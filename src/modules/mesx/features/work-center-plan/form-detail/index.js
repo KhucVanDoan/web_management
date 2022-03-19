@@ -64,22 +64,304 @@ const DetailWorkCenterPlan = () => {
         columns.push({
           field: e.executionDay,
           headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          align: 'center',
         })
       })
     }
-    const total = [
+    columns.push({
+      field: 'total',
+      headerName: t(`workCenterPlan.sum`),
+    })
+
+    return columns
+  }
+  const getRowManufacturing = () => {
+    let shift = [
       {
-        file: 'total',
-        headerName: t(`workCenterPlan.sum`),
+        plan: t(`workCenterPlan.planingAmount`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.planModeration`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.productAmount`),
+        total: 0,
       },
     ]
+    let title = []
+    let maxLength = 0
+    let totalDelayAmount = 0
+    wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
+      if (maxLength < e.scheduleShiftDetails.length)
+        maxLength = e.scheduleShiftDetails.length
+    })
+    wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
+      if (maxLength === e.scheduleShiftDetails.length)
+        title = e.scheduleShiftDetails.map((v) => v.name)
+    })
+    for (let i = 0; i < maxLength; i++) {
+      const planingAmount = {}
+      const planModeration = {}
+      const productAmount = {}
+      let totalPlaningAmount = 0
+      let totalPlanModeration = 0
+      let totalProductAmount = 0
+      planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
+      planModeration['plan'] = t(`workCenterPlan.planModeration`)
+      productAmount['plan'] = t(`workCenterPlan.productAmount`)
+      planingAmount['title'] = title[i]
 
-    return columns.concat(total)
+      wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
+        for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
+          planingAmount[e.executionDay] = e?.scheduleShiftDetails[i]?.quantity
+          totalPlaningAmount += e?.scheduleShiftDetails[i]?.quantity
+          planModeration[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.moderationQuantity
+          totalPlanModeration += e?.scheduleShiftDetails[i]?.moderationQuantity
+          productAmount[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.actualQuantity
+          totalProductAmount = e?.scheduleShiftDetails[i]?.actualQuantity
+        }
+      })
+      planingAmount['total'] = totalPlaningAmount / maxLength
+      planModeration['total'] = totalPlanModeration / maxLength
+      productAmount['total'] = totalProductAmount / maxLength
+
+      shift = [planingAmount, planModeration, productAmount]
+    }
+    const delayAmount = {
+      plan: t(`workCenterPlan.delayAmount`),
+    }
+
+    wcpStructure?.workCenterScheduleDetails?.forEach((i) => {
+      const quantity =
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.quantity
+        }, 0) -
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.actualQuantity
+        }, 0)
+      delayAmount[i.executionDay] = quantity
+      totalDelayAmount += quantity
+    })
+    delayAmount['total'] = totalDelayAmount
+
+    const rowDelayAmount = [delayAmount]
+    return shift.concat(rowDelayAmount)
   }
 
-  const getRowManufacturing = () => {
-    const rows = []
-    return rows
+  const getColumnQC = () => {
+    const columns = [
+      {
+        field: 'title',
+        headerName: '',
+        width: 50,
+      },
+      {
+        field: 'plan',
+        headerName: t('workCenterPlan.plan'),
+        width: 130,
+      },
+    ]
+    if (wcpStructure) {
+      wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
+        columns.push({
+          field: e.executionDay,
+          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          align: 'center',
+        })
+      })
+    }
+    columns.push({
+      field: 'total',
+      headerName: t(`workCenterPlan.sum`),
+    })
+
+    return columns
+  }
+  const getRowQC = () => {
+    let shift = [
+      {
+        plan: t(`workCenterPlan.planingAmount`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.planModeration`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.productAmount`),
+        total: 0,
+      },
+    ]
+    let title = []
+    let maxLength = 0
+    let totalDelayAmount = 0
+    wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
+      if (maxLength < e.scheduleShiftDetails.length)
+        maxLength = e.scheduleShiftDetails.length
+    })
+    wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
+      if (maxLength === e.scheduleShiftDetails.length)
+        title = e.scheduleShiftDetails.map((v) => v.name)
+    })
+    for (let i = 0; i < maxLength; i++) {
+      const planingAmount = {}
+      const planModeration = {}
+      const productAmount = {}
+      let totalPlaningAmount = 0
+      let totalPlanModeration = 0
+      let totalProductAmount = 0
+      planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
+      planModeration['plan'] = t(`workCenterPlan.planModeration`)
+      productAmount['plan'] = t(`workCenterPlan.productAmount`)
+      planingAmount['title'] = title[i]
+
+      wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
+        for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
+          planingAmount[e.executionDay] = e?.scheduleShiftDetails[i]?.quantity
+          totalPlaningAmount += e?.scheduleShiftDetails[i]?.quantity
+          planModeration[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.moderationQuantity
+          totalPlanModeration += e?.scheduleShiftDetails[i]?.moderationQuantity
+          productAmount[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.actualQuantity
+          totalProductAmount = e?.scheduleShiftDetails[i]?.actualQuantity
+        }
+      })
+      planingAmount['total'] = totalPlaningAmount / maxLength
+      planModeration['total'] = totalPlanModeration / maxLength
+      productAmount['total'] = totalProductAmount / maxLength
+
+      shift = [planingAmount, planModeration, productAmount]
+    }
+    const delayAmount = {
+      plan: t(`workCenterPlan.delayAmount`),
+    }
+
+    wcpStructure?.defaultScheduleQcDetails?.forEach((i) => {
+      const quantity =
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.quantity
+        }, 0) -
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.actualQuantity
+        }, 0)
+      delayAmount[i.executionDay] = quantity
+      totalDelayAmount += quantity
+    })
+    delayAmount['total'] = totalDelayAmount
+
+    const rowDelayAmount = [delayAmount]
+    return shift.concat(rowDelayAmount)
+  }
+
+  const getColumnFix = () => {
+    const columns = [
+      {
+        field: 'title',
+        headerName: '',
+        width: 50,
+      },
+      {
+        field: 'plan',
+        headerName: t('workCenterPlan.plan'),
+        width: 130,
+      },
+    ]
+    if (wcpStructure) {
+      wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
+        columns.push({
+          field: e.executionDay,
+          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          align: 'center',
+        })
+      })
+    }
+    columns.push({
+      field: 'total',
+      headerName: t(`workCenterPlan.sum`),
+    })
+
+    return columns
+  }
+  const getRowFix = () => {
+    let shift = [
+      {
+        plan: t(`workCenterPlan.planingAmount`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.planModeration`),
+        total: 0,
+      },
+      {
+        plan: t(`workCenterPlan.productAmount`),
+        total: 0,
+      },
+    ]
+    let title = []
+    let maxLength = 0
+    let totalDelayAmount = 0
+    wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
+      if (maxLength < e.scheduleShiftDetails.length)
+        maxLength = e.scheduleShiftDetails.length
+    })
+    wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
+      if (maxLength === e.scheduleShiftDetails.length)
+        title = e.scheduleShiftDetails.map((v) => v.name)
+    })
+    for (let i = 0; i < maxLength; i++) {
+      const planingAmount = {}
+      const planModeration = {}
+      const productAmount = {}
+      let totalPlaningAmount = 0
+      let totalPlanModeration = 0
+      let totalProductAmount = 0
+      planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
+      planModeration['plan'] = t(`workCenterPlan.planModeration`)
+      productAmount['plan'] = t(`workCenterPlan.productAmount`)
+      planingAmount['title'] = title[i]
+
+      wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
+        for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
+          planingAmount[e.executionDay] = e?.scheduleShiftDetails[i]?.quantity
+          totalPlaningAmount += e?.scheduleShiftDetails[i]?.quantity
+          planModeration[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.moderationQuantity
+          totalPlanModeration += e?.scheduleShiftDetails[i]?.moderationQuantity
+          productAmount[e.executionDay] =
+            e?.scheduleShiftDetails[i]?.actualQuantity
+          totalProductAmount = e?.scheduleShiftDetails[i]?.actualQuantity
+        }
+      })
+      planingAmount['total'] = totalPlaningAmount / maxLength
+      planModeration['total'] = totalPlanModeration / maxLength
+      productAmount['total'] = totalProductAmount / maxLength
+
+      shift = [planingAmount, planModeration, productAmount]
+    }
+    const delayAmount = {
+      plan: t(`workCenterPlan.delayAmount`),
+    }
+
+    wcpStructure?.workCenterRepairScheduleDetails?.forEach((i) => {
+      const quantity =
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.quantity
+        }, 0) -
+        i.scheduleShiftDetails.reduce((a, b) => {
+          return a + b.actualQuantity
+        }, 0)
+      delayAmount[i.executionDay] = quantity
+      totalDelayAmount += quantity
+    })
+    delayAmount['total'] = totalDelayAmount
+
+    const rowDelayAmount = [delayAmount]
+    return shift.concat(rowDelayAmount)
   }
   return (
     <Page
@@ -145,7 +427,29 @@ const DetailWorkCenterPlan = () => {
         columns={getColumnManufacturing()}
         hideSetting
         hideFooter
-      />
+      ></DataTable>
+      <Box sx={{ mt: 3, mb: 2 }}>
+        <Typography variant="h4" component="span">
+          {t('workCenterPlan.defaultScheduleQcDetails')}
+        </Typography>
+      </Box>
+      <DataTable
+        rows={getRowQC()}
+        columns={getColumnQC()}
+        hideSetting
+        hideFooter
+      ></DataTable>
+      <Box sx={{ mt: 3, mb: 2 }}>
+        <Typography variant="h4" component="span">
+          {t('workCenterPlan.workCenterRepairScheduleDetails')}
+        </Typography>
+      </Box>
+      <DataTable
+        rows={getRowFix()}
+        columns={getColumnFix()}
+        hideSetting
+        hideFooter
+      ></DataTable>
       <ActionBar onBack={backToList} />
     </Page>
   )

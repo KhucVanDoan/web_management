@@ -40,7 +40,7 @@ const WorkCenterPlanList = () => {
   const history = useHistory()
 
   const {
-    data: { wcpList, total, isLoading },
+    data: { wcpList, isLoading },
     actions,
   } = useWorkCenterPlan()
   const columns = useMemo(() => [
@@ -154,7 +154,8 @@ const WorkCenterPlanList = () => {
         onPageSizeChange={setPageSize}
         onChangeFilter={setFilters}
         onChangeSort={setSort}
-        total={total}
+        total={wcpList?.meta?.total}
+        sort={sort}
         filters={{
           form: <FilterForm />,
           defaultValue: DEFAULT_FILTER,
@@ -162,7 +163,6 @@ const WorkCenterPlanList = () => {
           onApply: setFilters,
         }}
         title={t('general:dataTable.title')}
-        sort={sort}
       ></DataTable>
     </Page>
   )
