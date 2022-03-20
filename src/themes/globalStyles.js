@@ -9,6 +9,7 @@ export const globalStyles = (theme) => ({
     width: '100%',
     height: '100%',
     fontFamily: 'Inter, sans-serif',
+    fontWeight: 400,
     fontSize: 14,
     lineHeight: 22 / 14,
     color: theme.palette.text,

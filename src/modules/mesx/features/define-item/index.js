@@ -159,6 +159,8 @@ function DefineItem() {
         return isHasBom ? (
           <Button
             variant="text"
+            bold={false}
+            size="small"
             onClick={() =>
               history.push(
                 ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${itemHasBom}`),
@@ -170,6 +172,8 @@ function DefineItem() {
         ) : (
           <Button
             variant="text"
+            bold={false}
+            size="small"
             onClick={() =>
               history.push(ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id)
             }

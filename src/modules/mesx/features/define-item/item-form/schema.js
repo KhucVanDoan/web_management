@@ -24,9 +24,9 @@ export const itemSchema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    itemType: Yup.object().required(t('general:form.required')),
-    itemGroup: Yup.object().required(t('general:form.required')),
-    itemUnit: Yup.object().required(t('general:form.required')),
+    itemType: Yup.object().nullable().required(t('general:form.required')),
+    itemGroup: Yup.object().nullable().required(t('general:form.required')),
+    itemUnit: Yup.object().nullable().required(t('general:form.required')),
     price: Yup.number()
       .min(
         NUMBER_FIELD_REQUIRED_SIZE.PRICE.MIN,

@@ -11668,7 +11668,7 @@ react-content-loader@^5.0.4:
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-5.1.4.tgz#854bafe4415dd9de07174621375bc308edd0ebb5"
   integrity sha512-hTq7pZi2GKCK6a9d3u6XStozm0QGCEjw8cSqQReiWnh2up6IwCha5R5TF0o6SY5qUDpByloEZEZtnFxpJyENFw==
 
-react-css-transition-replace@^4.0.5:
+react-css-transition-replace@4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/react-css-transition-replace/-/react-css-transition-replace-4.0.5.tgz#1f139daf5ec28ae8d34f840e50f24c30e32c227e"
   integrity sha512-nRBSliVk2exhJxGb+DMTekE59rH1XMbQgbE+U/RLLowO2VBYoU+edo1h9mlRdjKruVItPHBysXiw+uCIOD+UaQ==
@@ -11765,10 +11765,10 @@ react-notifications-component@3.1.0:
   resolved "https://registry.yarnpkg.com/react-notifications-component/-/react-notifications-component-3.1.0.tgz#c676b7897a3fb10c554b69dba25fe2a9da6170e2"
   integrity sha512-qq+zgqVIa2zhlw+RvO2QSPk7xHLvZWTHl9VKRO56sMUef/UrcUTqOswL0DSJtRIpZYZhclquQUfDxD6H2w8aWA==
 
-react-number-format@4.7.3:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.7.3.tgz#e1706204a23c40fa17365a19f5059aabfca1886f"
-  integrity sha512-4EvcANjstypQ5anhanmdEioGc49qbnErfS+yqbhatC0vzQ1okplkWNb0DIY7ABu4RhaxzttEz6pypEy8KsqgBQ==
+react-number-format@4.9.1:
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.9.1.tgz#62b3450b43c911f9227e770a8ea9fa606696e52e"
+  integrity sha512-v49XqXv7SpwYZKGkghNJjoDUr6lIUozlPLrObcxre7GfcLx7qD4TCvArn3GozN/Y4FVbLyEYCwJoBCiChdBh5A==
   dependencies:
     prop-types "^15.7.2"
 
@@ -11903,7 +11903,7 @@ react-smooth@^2.0.0:
     raf "^3.4.0"
     react-transition-group "2.9.0"
 
-react-time-picker-input@^2.0.10:
+react-time-picker-input@2.0.10:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/react-time-picker-input/-/react-time-picker-input-2.0.10.tgz#89f2796e153daa38ab9a8c8d7141aedc1867c81f"
   integrity sha512-kCjrRDUJo+9d5ef7ElHs1pCGdtWf/c81fJFWEuHY7X6Rd16laDZcPpuxyOEVC3F9M0MnAL4ya893O6HVcoSk0w==
