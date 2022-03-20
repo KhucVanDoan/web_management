@@ -24,9 +24,13 @@ const FormikTextField = ({
     value={field.value ?? ''}
     onBlur={(e) => {
       form.setFieldTouched(field.name, true)
-      form.setFieldValue(field.name, e.target.value?.trim())
+
+      const val = e?.target?.value
+      if (typeof val === 'string' && val?.trim() !== val) {
+        form.setFieldValue(field.name, val)
+      }
     }}
-    onChange={(val) => {
+    onChange={(_, val) => {
       if (typeof onInput === 'function') {
         onInput(val)
       } else {

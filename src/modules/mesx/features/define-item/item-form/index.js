@@ -406,6 +406,10 @@ function DefineItemForm() {
                             label={t('defineItem.price')}
                             placeholder={t('defineItem.price')}
                             type="number"
+                            numberProps={{
+                              thousandSeparator: true,
+                              decimalScale: 3,
+                            }}
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>

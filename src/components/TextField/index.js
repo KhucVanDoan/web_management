@@ -8,10 +8,12 @@ import {
   Box,
 } from '@mui/material'
 import clsx from 'clsx'
+import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 
 import { useClasses } from '~/themes'
 
+import { NumberFormatInput } from '../NumberFormat'
 import style from './style'
 
 const TextField = ({
@@ -30,6 +32,7 @@ const TextField = ({
   onBlur,
   onChange,
   allow,
+  numberProps,
   ...props
 }) => {
   const classes = useClasses(style(readOnly))
@@ -39,7 +42,8 @@ const TextField = ({
     if (allow instanceof RegExp) {
       val = val?.replace(allow, '')
     }
-    onChange(val)
+
+    onChange(e, val)
   }
 
   return (
@@ -73,7 +77,16 @@ const TextField = ({
           fullWidth
           {...InputProps}
           {...props}
+          {...(!isEmpty(numberProps)
+            ? {
+                inputComponent: NumberFormatInput,
+                inputProps: {
+                  numberProps: numberProps,
+                },
+              }
+            : {})}
         />
+
         {error && !!helperText && (
           <FormHelperText error>{helperText}</FormHelperText>
         )}
@@ -97,6 +110,7 @@ TextField.defaultProps = {
   labelWidth: 160,
   onBlur: () => {},
   onChange: () => {},
+  numberProps: {},
 }
 
 TextField.propTypes = {
@@ -114,7 +128,7 @@ TextField.propTypes = {
   labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  type: PropTypes.string,
+  numberProps: PropTypes.shape(),
 }
 
 export default TextField

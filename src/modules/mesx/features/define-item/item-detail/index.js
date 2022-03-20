@@ -7,6 +7,7 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
+import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
@@ -144,7 +145,8 @@ function DefineItemDetail() {
                 <Grid item xs={12} lg={6}>
                   <LV
                     label={t('defineItem.price')}
-                    value={itemDetails?.price}
+                    // value={itemDetails?.price}
+                    value={<NumberFormatText value={itemDetails?.price} />}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
