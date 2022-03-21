@@ -10,9 +10,10 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
   BOM_PRODUCING_STEP_STATUS,
-  BOM_PRODUCING_STEP_STATUS_MAP,
+  BOM_PRODUCING_STEP_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -103,7 +104,13 @@ function BomProducingStep() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(BOM_PRODUCING_STEP_STATUS_MAP[status])
+        return (
+          <Status
+            options={BOM_PRODUCING_STEP_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {

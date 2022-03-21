@@ -9,8 +9,9 @@ import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { BOM_PRODUCING_STEP_STATUS_MAP } from '~/modules/mesx/constants'
+import { BOM_PRODUCING_STEP_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -73,6 +74,17 @@ function BomProducingStepDetail() {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item xs={12}>
+              <LV
+                label={t('bomProducingStep.status')}
+                value={
+                  <Status
+                    options={BOM_PRODUCING_STEP_STATUS_OPTIONS}
+                    value={BOMDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item xs={12} lg={6}>
               <LV label={t('bomProducingStep.code')} value={BOMDetails?.code} />
             </Grid>
@@ -95,12 +107,6 @@ function BomProducingStepDetail() {
               <LV
                 label={t('bomProducingStep.routingName')}
                 value={BOMDetails?.routing?.name}
-              />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <LV
-                label={t('bomProducingStep.status')}
-                value={t(BOM_PRODUCING_STEP_STATUS_MAP[BOMDetails?.status])}
               />
             </Grid>
             <Grid item xs={12} lg={6}>

@@ -146,6 +146,21 @@ const palette = {
       background: '#FF0909',
       contrastText: '#FFF',
     },
+    inactive: {
+      text: '#555',
+      background: '#999',
+      contrastText: '#FFF',
+    },
+    active: {
+      text: '#0FA44A',
+      background: '#0FA44A',
+      contrastText: '#FFF',
+    },
+    deleted: {
+      text: '#FF0909',
+      background: '#FF0909',
+      contrastText: '#FFF',
+    },
   },
   borderField: '#0761AD',
   bgPrimaryOpacity: '#DAE7F3',
