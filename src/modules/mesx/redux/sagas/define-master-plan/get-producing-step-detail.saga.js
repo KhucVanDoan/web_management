@@ -39,7 +39,7 @@ function* doGetProducingStepDetail(action) {
     yield put(getProducingStepDetailFailed())
     // Call callback action if provided
     if (action.onError) {
-      yield action.onError()
+      yield action.onError(error)
     }
   }
 }

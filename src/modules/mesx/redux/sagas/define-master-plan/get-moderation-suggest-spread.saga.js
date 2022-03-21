@@ -39,7 +39,7 @@ function* doGetModerationSuggestSpread(action) {
     yield put(getModerationSuggestSpreadFailed())
     // Call callback action if provided
     if (action.onError) {
-      yield action.onError()
+      yield action.onError(error)
     }
   }
 }
