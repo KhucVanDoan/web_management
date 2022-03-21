@@ -236,6 +236,9 @@ const MOForm = () => {
                         name="code"
                         label={t('Mo.moCode')}
                         placeholder={t('Mo.moCode')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        }}
                         disabled={isUpdate}
                         required
                       />
@@ -274,7 +277,7 @@ const MOForm = () => {
                         label={t('Mo.moName')}
                         placeholder={t('Mo.moName')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
                         disabled={isUpdate}
                         required

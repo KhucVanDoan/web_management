@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { IconButton } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -80,7 +80,6 @@ const Mo = () => {
       headerName: t('Mo.moName'),
       width: 120,
       sortable: true,
-      fixed: true,
     },
     {
       field: 'planCode',

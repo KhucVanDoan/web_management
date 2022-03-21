@@ -34,3 +34,18 @@ export const numberSchema = (t) =>
         max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
       }),
     )
+
+export const passwordSchema = (t) =>
+  Yup.string()
+    .min(
+      TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
+      t('general:form.minLength', {
+        min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
+      }),
+    )
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/-~!@#$%^&*()_+?])[A-Za-z\d~!@#$%^&*()_+?]{6,}$/,
+      {
+        message: t('general:form.validatePassword'),
+      },
+    )

@@ -397,28 +397,6 @@ export const ROUTE = {
       TITLE: 'workCenterEdit',
     },
   },
-  SO_EXPORT: {
-    LIST: {
-      PATH: '/mesx/so-export',
-      TITLE: 'saleOrderExport',
-    },
-    CREATE: {
-      PATH: '/mesx/so-export/create',
-      TITLE: 'saleOrderExportCreate',
-    },
-    DETAILS: {
-      PATH: '/mesx/so-export/:id/detail',
-      TITLE: 'saleOrderExportDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/so-export/:id/edit',
-      TITLE: 'saleOrderExportEdit',
-    },
-    MOVEMENTS: {
-      PATH: '/mesx/so-export/movements',
-      TITLE: 'saleOrderExportMovement',
-    },
-  },
   MATERIAL_REPORT: {
     PATH: '/mesx/material-report',
     TITLE: 'materialReport',
@@ -436,28 +414,6 @@ export const ROUTE = {
   PRODUCTIVITY_REPORT: {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',
-  },
-  PRODUCTIVITY_COMPARE_REPORT: {
-    PATH: '/mesx/productivity-compare-report',
-    TITLE: 'productivityCompareReport',
-  },
-  DETAIL_SCHEDULE: {
-    LIST: {
-      PATH: '/mesx/detail-schedule',
-      TITLE: 'detailSchedule',
-    },
-    CREATE: {
-      PATH: '/mesx/detail-schedule/create',
-      TITLE: 'detailScheduleCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/detail-schedule/:id/detail',
-      TITLE: 'detailScheduleDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/detail-schedule/:id/edit',
-      TITLE: 'detailScheduleEdit',
-    },
   },
   MATERIAL_DETAIL_PLAN: {
     PATH: '/mesx/material-detail-plan',

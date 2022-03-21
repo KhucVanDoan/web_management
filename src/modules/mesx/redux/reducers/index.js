@@ -27,7 +27,6 @@ import requestBuyMaterial from './request-buy-materials'
 import defineRouting from './routing'
 import routingVersion from './routing-version.reducer'
 import saleOrder from './sale-order'
-import soExport from './so-export.reducer'
 import userManagement from './user-management'
 import userPermission from './user-permission'
 import workCenter from './work-center'
@@ -57,7 +56,6 @@ const reducers = {
   workCenter,
   Mo,
   saleOrder,
-  soExport,
   defineFactory,
   workCenterPlan,
   requestBuyMaterial,

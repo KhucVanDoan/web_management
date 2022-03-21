@@ -33,21 +33,25 @@ export const defineCompanySchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    taxNo: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
-      }),
-    ),
-    fax: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
-      }),
-    ),
+    taxNo: Yup.string()
+      .nullable()
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
+        }),
+      ),
+    fax: Yup.string()
+      .nullable()
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
+        }),
+      ),
     phone: phoneSchema(t),
     email: Yup.string()
-      .required(t('general:form.required'))
+      .nullable()
       .email(t('general:form.validEmail'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,

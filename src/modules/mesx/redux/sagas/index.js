@@ -179,13 +179,6 @@ import watchGetSaleOrderDetailByIds from './sale-order/get-sale-order-details'
 import watchRejectSaleOrder from './sale-order/reject-sale-order'
 import watchSearchSaleOrders from './sale-order/search-sale-orders'
 import watchUpdateSaleOrder from './sale-order/update-sale-order'
-import watchConfirmSOExport from './so-export/confirm-so-export.saga'
-import watchCreateSOExport from './so-export/create-so-export.saga'
-import watchDeleteSOExport from './so-export/delete-so-export.saga'
-import watchGetSOExportDetails from './so-export/get-so-export-details.saga'
-import watchRejectSOExport from './so-export/reject-so-export.saga'
-import watchSearchSOExport from './so-export/search-so-export.saga'
-import watchUpdateSOExport from './so-export/update-so-export.saga'
 import watchCreateUser from './user-management/create-user'
 import watchDeleteUser from './user-management/delete-user'
 import watchGenerateOTP from './user-management/generate-otp'
@@ -414,15 +407,6 @@ export default function* sagas() {
     watchGetSaleOrderDetails(),
     watchConfirmSaleOrder(),
     watchRejectSaleOrder(),
-
-    // so-export
-    watchSearchSOExport(),
-    watchUpdateSOExport(),
-    watchRejectSOExport(),
-    watchGetSOExportDetails(),
-    watchDeleteSOExport(),
-    watchCreateSOExport(),
-    watchConfirmSOExport(),
 
     // quality-point
     watchSearchQualityPoints(),
