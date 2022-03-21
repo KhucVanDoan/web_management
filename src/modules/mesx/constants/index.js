@@ -1021,14 +1021,17 @@ export const USER_MANAGEMENT_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'userStatus.inactive',
+    color: 'inactive',
   },
   {
     id: 1,
     text: 'userStatus.active',
+    color: 'active',
   },
   {
     id: 2,
     text: 'userStatus.deleted',
+    color: 'deleted',
   },
 ]
 

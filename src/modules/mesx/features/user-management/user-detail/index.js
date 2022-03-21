@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid, Hidden } from '@mui/material'
+import { Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -8,8 +8,9 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { USER_MANAGEMENT_STATUS_MAP } from '~/modules/mesx/constants'
+import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -65,6 +66,17 @@ function UserManagementDetail() {
                 {t('userManagement.commonInfo')}
               </Typography>
             </Grid>
+            <Grid item xs={12}>
+              <LV
+                label={t('userManagement.status')}
+                value={
+                  <Status
+                    options={USER_MANAGEMENT_STATUS_OPTIONS}
+                    value={userDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV label={t('userManagement.code')} value={userDetails.code} />
             </Grid>
@@ -93,17 +105,8 @@ function UserManagementDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.status')}
-                value={t(USER_MANAGEMENT_STATUS_MAP[userDetails?.status])}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
               <LV label={t('userManagement.user')} value={userDetails.user} />
             </Grid>
-            <Hidden lgDown>
-              <Grid item lg={6} xs={12}></Grid>
-            </Hidden>{' '}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.createTime')}

@@ -9,7 +9,9 @@ import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ROUTING_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -60,6 +62,17 @@ const RoutingDetail = () => {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item xs={12}>
+              <LV
+                label={t('routing.status')}
+                value={
+                  <Status
+                    options={ROUTING_STATUS_OPTIONS}
+                    value={routingDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item xs={12} lg={6}>
               <LV label={t('routing.code')} value={routingDetails.code} />
             </Grid>
