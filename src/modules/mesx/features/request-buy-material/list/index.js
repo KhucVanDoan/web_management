@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
@@ -47,7 +48,7 @@ function RequestBuyMaterial() {
     status: '',
   }
 
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [sort, setSort] = useState([])
@@ -189,7 +190,7 @@ function RequestBuyMaterial() {
             {isDelete && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setDeleteModal(true)
                 }}
               >
@@ -199,7 +200,7 @@ function RequestBuyMaterial() {
             {isConfirmed && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setConfirmModal(true)
                 }}
               >
@@ -234,18 +235,12 @@ function RequestBuyMaterial() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteRequestBuyMaterial(
-      id,
-      () => setDeleteModal(false),
-      () => setDeleteModal(false),
-    )
+    actions.deleteRequestBuyMaterial(tempItem?.id, () => refreshData())
+    setDeleteModal(false)
   }
   const onSubmitConfirm = () => {
-    actions.confirmRequestBuyMaterialById(
-      id,
-      () => setConfirmModal(false),
-      () => setConfirmModal(false),
-    )
+    actions.confirmRequestBuyMaterialById(tempItem?.id, () => refreshData())
+    setConfirmModal(false)
   }
   const renderHeaderRight = () => {
     return (
@@ -300,6 +295,16 @@ function RequestBuyMaterial() {
           noBorderBottom
         >
           {t('requestBuyMaterial.confirmDelete')}
+          <LV
+            label={t('requestBuyMaterial.requestCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('requestBuyMaterial.requestName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
         <Dialog
           open={confirmModal}
@@ -311,6 +316,16 @@ function RequestBuyMaterial() {
           noBorderBottom
         >
           {t('requestBuyMaterial.confirmBody')}
+          <LV
+            label={t('requestBuyMaterial.requestCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('requestBuyMaterial.requestName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -50,7 +51,7 @@ function ProducingStep() {
     name: '',
     status: '',
   }
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [sort, setSort] = useState([])
@@ -160,7 +161,7 @@ function ProducingStep() {
             {canDelete && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setDeleteModal(true)
                 }}
               >
@@ -170,7 +171,7 @@ function ProducingStep() {
             {canConfirm && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setConfirmModal(true)
                 }}
               >
@@ -216,19 +217,13 @@ function ProducingStep() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteProducingStep(
-      id,
-      () => setDeleteModal(false),
-      () => setDeleteModal(false),
-    )
+    actions.deleteProducingStep(tempItem?.id, () => refreshData())
+    setDeleteModal(false)
   }
 
   const onSubmitConfirm = () => {
-    actions.confirmProducingStep(
-      id,
-      () => setConfirmModal(false),
-      () => setConfirmModal(false),
-    )
+    actions.confirmProducingStep(tempItem?.id, () => refreshData())
+    setConfirmModal(false)
   }
 
   return (
@@ -275,6 +270,16 @@ function ProducingStep() {
           noBorderBottom
         >
           {t('producingStep.confirmDelete')}
+          <LV
+            label={t('producingStep.code')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('producingStep.name')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
         <Dialog
           open={confirmModal}
@@ -286,6 +291,16 @@ function ProducingStep() {
           noBorderBottom
         >
           {t('producingStep.confirmBody')}
+          <LV
+            label={t('producingStep.code')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('producingStep.name')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

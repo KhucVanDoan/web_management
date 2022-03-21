@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -52,7 +53,7 @@ const DefineBOQ = () => {
   } = useDefinePlan()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
@@ -173,7 +174,7 @@ const DefineBOQ = () => {
               {canDelete && (
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenDeleteModal(true)
                   }}
                 >
@@ -183,7 +184,7 @@ const DefineBOQ = () => {
               {canConfirm && (
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenConfirmModal(true)
                   }}
                 >
@@ -240,18 +241,19 @@ const DefineBOQ = () => {
   }, [page, pageSize, filters, sort, keyword])
 
   const submitConfirm = () => {
-    boqActions.confirmBOQById(id, () => {
+    boqActions.confirmBOQById(tempItem?.id, () => {
       refreshData()
-      setIsOpenConfirmModal(false)
-      setId(null)
     })
+    setIsOpenConfirmModal(false)
+    setTempItem(null)
   }
 
   const onSubmitDelete = () => {
-    boqActions.deleteBOQ(id, () => {
-      setIsOpenDeleteModal(false)
+    boqActions.deleteBOQ(tempItem?.id, () => {
       refreshData()
     })
+    setIsOpenDeleteModal(false)
+    setTempItem(null)
   }
 
   const renderHeaderRight = () => {
@@ -315,6 +317,16 @@ const DefineBOQ = () => {
         noBorderBottom
       >
         {t('defineBOQ.deleteConfirm')}
+        <LV
+          label={t('defineBOQ.boqCode')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineBOQ.boqName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
@@ -327,6 +339,16 @@ const DefineBOQ = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('defineBOQ.boqCode')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineBOQ.boqName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

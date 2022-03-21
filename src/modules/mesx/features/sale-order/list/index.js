@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -58,7 +59,7 @@ function SaleOrder() {
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
 
   const columns = useMemo(() => [
     // {
@@ -147,13 +148,13 @@ function SaleOrder() {
             )}
 
             {isDelete && (
-              <IconButton onClick={() => onClickDelete(id)}>
+              <IconButton onClick={() => onClickDelete(params.row)}>
                 <Icon name="delete" />
               </IconButton>
             )}
 
             {isConfirmed && (
-              <IconButton onClick={() => onClickConfirmed(params.row.id)}>
+              <IconButton onClick={() => onClickConfirmed(params.row)}>
                 <Icon name="tick" />
               </IconButton>
             )}
@@ -186,40 +187,28 @@ function SaleOrder() {
     history.push(ROUTE.SALE_ORDER.EDIT.PATH.replace(':id', `${id}`))
   }
 
-  const onClickDelete = (id) => {
+  const onClickDelete = (tempItem) => {
     setDeleteModal(true)
-    setId(id)
+    setTempItem(tempItem)
   }
 
   const onSubmitDelete = () => {
-    actions.deleteSaleOrder(
-      id,
-      () => {
-        setDeleteModal(false)
-      },
-      () => {
-        setDeleteModal(false)
-      },
-    )
-    refreshData()
+    actions.deleteSaleOrder(tempItem?.id, () => {
+      refreshData()
+    })
+    setDeleteModal(false)
   }
 
-  const onClickConfirmed = (id) => {
+  const onClickConfirmed = (tempItem) => {
     setConfirmModal(true)
-    setId(id)
+    setTempItem(tempItem)
   }
 
   const submitConfirm = () => {
-    actions.confirmSaleOrderById(
-      id,
-      () => {
-        setConfirmModal(false)
-      },
-      () => {
-        setConfirmModal(false)
-      },
-    )
-    refreshData()
+    actions.confirmSaleOrderById(tempItem?.id, () => {
+      refreshData()
+    })
+    setConfirmModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -284,6 +273,16 @@ function SaleOrder() {
           noBorderBottom
         >
           {t('saleOrder.confirmDelete')}
+          <LV
+            label={t('saleOrder.code')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('saleOrder.name')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
         <Dialog
           open={confirmModal}
@@ -295,6 +294,16 @@ function SaleOrder() {
           noBorderBottom
         >
           {t('saleOrder.confirmBody')}
+          <LV
+            label={t('saleOrder.code')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('saleOrder.name')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -52,7 +53,7 @@ function DefineBOM() {
     status: '',
   }
 
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [sort, setSort] = useState([])
@@ -170,7 +171,7 @@ function DefineBOM() {
             {canDelete && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setDeleteModal(true)
                 }}
               >
@@ -180,7 +181,7 @@ function DefineBOM() {
             {canConfirm && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setConfirmModal(true)
                 }}
               >
@@ -226,21 +227,15 @@ function DefineBOM() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteBOM(
-      id,
-      () => setDeleteModal(false),
-      () => setDeleteModal(false),
-    )
-    refreshData()
+    actions.deleteBOM(tempItem?.id, () => refreshData())
+    setDeleteModal(false)
+    setTempItem(null)
   }
 
   const onSubmitConfirm = () => {
-    actions.confirmBOMById(
-      id,
-      () => setConfirmModal(false),
-      () => setConfirmModal(false),
-    )
-    refreshData()
+    actions.confirmBOMById(tempItem?.id, () => refreshData())
+    setConfirmModal(false)
+    setTempItem(null)
   }
 
   return (
@@ -287,6 +282,16 @@ function DefineBOM() {
           noBorderBottom
         >
           {t('defineBOM.deleteConfirm')}
+          <LV
+            label={t('defineBOM.itemCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('defineBOM.itemName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
         <Dialog
           open={confirmModal}
@@ -298,6 +303,16 @@ function DefineBOM() {
           noBorderBottom
         >
           {t('defineBOM.confirmBody')}
+          <LV
+            label={t('defineBOM.itemCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('defineBOM.itemName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

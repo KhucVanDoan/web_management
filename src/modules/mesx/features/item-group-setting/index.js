@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -36,7 +37,7 @@ const ItemGroupSetting = () => {
     data: { isLoading, itemGroupList, total },
     actions,
   } = useItemGroup()
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [sort, setSort] = useState([])
   const [keyword, setKeyword] = useState('')
@@ -126,7 +127,7 @@ const ItemGroupSetting = () => {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleDeleteOpenModal(id)}>
+            <IconButton onClick={() => handleDeleteOpenModal(row)}>
               <Icon name="delete" />
             </IconButton>
           </>
@@ -150,22 +151,16 @@ const ItemGroupSetting = () => {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
-  const handleDeleteOpenModal = (id) => {
-    setId(id)
+  const handleDeleteOpenModal = (tempItem) => {
+    setTempItem(tempItem)
     setDeleteModal(true)
   }
 
   const onSubmitDelete = () => {
-    actions.deleteItemGroup(
-      id,
-      () => {
-        setDeleteModal(false)
-      },
-      () => {
-        setDeleteModal(false)
-      },
-    )
-    refreshData()
+    actions.deleteItemGroup(tempItem?.id, () => {
+      refreshData()
+    })
+    setDeleteModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -234,6 +229,16 @@ const ItemGroupSetting = () => {
           noBorderBottom
         >
           {t('itemGroupDefine.confirmDelete')}
+          <LV
+            label={t('itemGroupDefine.groupCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('itemGroupDefine.groupName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

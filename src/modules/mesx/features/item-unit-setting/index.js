@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -50,7 +51,7 @@ function ItemUnitSetting() {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
   const [deleteModal, setDeleteModal] = useState(false)
-  const [id, setId] = useState()
+  const [tempItem, setTempItem] = useState()
 
   const columns = useMemo(() => [
     // {
@@ -129,7 +130,7 @@ function ItemUnitSetting() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleDeleteOpenModal(id)}>
+            <IconButton onClick={() => handleDeleteOpenModal(row)}>
               <Icon name="delete" />
             </IconButton>
           </>
@@ -149,21 +150,14 @@ function ItemUnitSetting() {
     actions.searchItemUnits(params)
   }, [page, pageSize, sort, filters, keyword])
 
-  const handleDeleteOpenModal = (id) => {
-    setId(id)
+  const handleDeleteOpenModal = (tempItem) => {
+    setTempItem(tempItem)
     setDeleteModal(true)
   }
 
   const onSubmitDelete = () => {
-    actions.deleteItemUnit(
-      id,
-      () => {
-        setDeleteModal(false)
-      },
-      () => {
-        setDeleteModal(false)
-      },
-    )
+    actions.deleteItemUnit(tempItem?.id)
+    setDeleteModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -229,6 +223,16 @@ function ItemUnitSetting() {
           noBorderBottom
         >
           {t('itemUnitDefine.confirmDelete')}
+          <LV
+            label={t('itemUnitDefine.unitCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('itemUnitDefine.unitName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

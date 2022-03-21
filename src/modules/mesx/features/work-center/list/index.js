@@ -8,6 +8,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -39,7 +40,7 @@ const DEFAULT_FILTER = {
   status: '',
 }
 const WorkCenter = () => {
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [pageSize, setPageSize] = useState(20)
@@ -143,12 +144,12 @@ const WorkCenter = () => {
                 </IconButton>
               )}
               {canDelete && (
-                <IconButton onClick={() => onClickDelete(id)}>
+                <IconButton onClick={() => onClickDelete(params.row)}>
                   <Icon name="delete" />
                 </IconButton>
               )}
               {canConfirm && (
-                <IconButton onClick={() => onClickConfirmed(id)}>
+                <IconButton onClick={() => onClickConfirmed(params.row)}>
                   <Icon name="tick" />
                 </IconButton>
               )}
@@ -170,29 +171,31 @@ const WorkCenter = () => {
     actions.searchWorkCenter(params)
   }
 
-  const onClickDelete = (id) => {
-    setId(id)
+  const onClickDelete = (tempItem) => {
+    setTempItem(tempItem)
     setIsOpenDeleteModal(true)
   }
 
-  const onClickConfirmed = (id) => {
-    setId(id)
+  const onClickConfirmed = (tempItem) => {
+    setTempItem(tempItem)
     setIsOpenConfirmModal(true)
   }
 
   const submitConfirm = () => {
-    actions.confirmWorkCenter(id, () => {
-      setId(null)
-      setIsOpenConfirmModal(false)
+    actions.confirmWorkCenter(tempItem?.id, () => {
       refreshData()
     })
+    setTempItem(null)
+    setIsOpenConfirmModal(false)
   }
 
   const onSubmitDelete = () => {
-    actions.deleteWorkCenter(id, () => {
-      setIsOpenDeleteModal(false)
+    actions.deleteWorkCenter(tempItem?.id, () => {
       refreshData()
     })
+    setTempItem(null)
+
+    setIsOpenDeleteModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -257,6 +260,16 @@ const WorkCenter = () => {
         noBorderBottom
       >
         {t('workCenter.deleteConfirm')}
+        <LV
+          label={t('workCenter.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('workCenter.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
@@ -269,6 +282,16 @@ const WorkCenter = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('workCenter.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('workCenter.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

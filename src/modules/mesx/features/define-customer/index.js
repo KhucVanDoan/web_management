@@ -8,6 +8,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -50,7 +51,7 @@ function DefineCustomer() {
   } = useDefineCustomer()
 
   const [modal, setModal] = useState({
-    id: null,
+    tempItem: null,
     isOpenDeleteModal: false,
   })
 
@@ -127,7 +128,7 @@ function DefineCustomer() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row.id)}>
+            <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -153,19 +154,19 @@ function DefineCustomer() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const onClickDelete = (id) => {
-    setModal({ id, isOpenDeleteModal: true })
+  const onClickDelete = (tempItem) => {
+    setModal({ tempItem, isOpenDeleteModal: true })
   }
 
   const onSubmitDelete = () => {
-    actions.deleteCustomer(modal.id, () => {
-      setModal({ isOpenDeleteModal: false })
+    actions.deleteCustomer(modal?.tempItem?.id, () => {
       refreshData()
     })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, id: null })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const renderHeaderRight = () => {
@@ -228,6 +229,16 @@ function DefineCustomer() {
         noBorderBottom
       >
         {t('defineCustomer.deleteConfirm')}
+        <LV
+          label={t('defineCustomer.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineCustomer.name')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )
