@@ -606,26 +606,6 @@ export const PRODUCING_STEP_OPTIONS = [
     text: 'producingStepStatus.confirmed',
     color: 'confirmed',
   },
-  {
-    id: 2,
-    text: 'producingStepStatus.rejected',
-    color: 'rejected',
-  },
-  {
-    id: 3,
-    text: 'producingStepStatus.inProgress',
-    color: 'inProgress',
-  },
-  {
-    id: 4,
-    text: 'producingStepStatus.completed',
-    color: 'completed',
-  },
-  {
-    id: 5,
-    text: 'producingStepStatus.approved',
-    color: 'approved',
-  },
 ]
 export const PRODUCING_STEP_STATUS_TO_CONFIRM = [
   PRODUCING_STEP_STATUS.PENDING,

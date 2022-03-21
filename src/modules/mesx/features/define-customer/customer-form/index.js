@@ -162,6 +162,9 @@ function DefineCustomerForm() {
                       label={t('defineCustomer.code')}
                       name="code"
                       placeholder={t('defineCustomer.code')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />

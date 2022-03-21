@@ -7,17 +7,17 @@ export const validationSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
         }),
       ),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
     description: Yup.string().max(

@@ -14,7 +14,7 @@ function FilterForm() {
           name="code"
           label={t('defineBOM.bomCode')}
           placeholder={t('defineBOM.bomCode')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX }}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
       <Grid item xs={12}>

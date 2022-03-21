@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 function FilterForm() {
@@ -38,7 +38,7 @@ function FilterForm() {
           name="status"
           label={t('saleOrder.status')}
           placeholder={t('saleOrder.status')}
-          options={ORDER_STATUS_OPTIONS}
+          options={SALE_ORDER_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />

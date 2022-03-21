@@ -211,7 +211,6 @@ function DefineCompanyForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
-                      required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

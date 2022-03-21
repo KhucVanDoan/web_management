@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
-import { phoneSchema } from '~/common/schemas'
+import { phoneSchema, passwordSchema } from '~/common/schemas'
 
 export const validationSchema = (t, mode) =>
   Yup.object().shape({
@@ -31,23 +31,7 @@ export const validationSchema = (t, mode) =>
       ),
     ...(mode === MODAL_MODE.CREATE
       ? {
-          password: Yup.string()
-            .required(t('general:form.required'))
-            .min(
-              TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
-              t('general:form.minLength', {
-                min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
-              }),
-            )
-            .max(
-              TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
-              t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
-              }),
-            ),
-          // .matches(/^([A-Z]){1}([\w_\.!@#$%^&*()]+)$/, {
-          //   message: t('general:form.validatePassword'),
-          // }),
+          password: passwordSchema(t),
         }
       : {}),
     email: Yup.string()
