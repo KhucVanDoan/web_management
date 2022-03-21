@@ -8,6 +8,10 @@ import { useTranslation } from 'react-i18next'
 import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
+import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
@@ -34,17 +38,126 @@ const MaterialDetailPlan = () => {
   const { t } = useTranslation(['mesx'])
   const [filters, setFilters] = useState(DEFAULT_FILTER)
   const [keyword, setKeyword] = useState('')
+  const [moId, setMoId] = useState(null)
+  const [listItem, setListItem] = useState([])
+  const [listProducingSteps, setListProducingSteps] = useState([])
+  const [listWorkCenter, setlistWorkCenter] = useState([])
+  const [mo, setMo] = useState([])
+  const [itemId, setItemId] = useState(null)
+  const [producingStepId, setProducingStepId] = useState(null)
 
   const {
     data: { mdpDetails },
     actions,
   } = useMaterialPlanDetail()
 
+  const {
+    data: { moList },
+    actions: actionMo,
+  } = useMo()
+
+  const {
+    data: { itemList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
+  const {
+    data: { list },
+    actions: producingStepAction,
+  } = useProducingStep()
+
+  const {
+    data: { wcList },
+    actions: workCenterActions,
+  } = useWorkCenter()
+
   useEffect(() => {
     refreshData()
-  }, [filters, keyword])
+  }, [])
 
   const refreshData = () => {
+    actionMo.searchMO({ isGetAll: 1 })
+    commonManagementActions.getItems({ isGetAll: 1 })
+    producingStepAction.searchProducingSteps({ isGetAll: 1 })
+    workCenterActions.searchWorkCenter({ isGetAll: 1 })
+  }
+
+  let producingStepList = []
+  let workCenterList = []
+  let items = []
+
+  useEffect(() => {
+    actionMo.getMoItemsById(moId, (res) => {
+      setMo(res)
+      res?.moDetail?.forEach((parentItem) => {
+        parentItem?.moPlanBom?.forEach((i) => {
+          const listItem = itemList?.find((item) => i.itemId === item.id)
+          items.push(listItem)
+          setListItem(items)
+          i?.workOrders.forEach((work) => {
+            work?.workCenters?.forEach((wc) => {
+              const workCenter = wcList.find((e) => e?.id === wc?.id)
+              if (workCenter && !workCenterList.includes(workCenter)) {
+                workCenterList.push(workCenter)
+                setlistWorkCenter(workCenterList)
+              }
+            })
+            const producingStep = list.find(
+              (ps) => ps?.id === work?.producingStepId,
+            )
+            if (producingStep && !producingStepList.includes(producingStep)) {
+              producingStepList.push(producingStep)
+              setListProducingSteps(producingStepList)
+            }
+          })
+        })
+      })
+    })
+  }, [moId])
+
+  useEffect(() => {
+    let item = {}
+    mo?.moDetail?.forEach((parentItem) => {
+      const currentItem = parentItem?.moPlanBom.find((i) => i.itemId === itemId)
+      if (currentItem) item = currentItem
+    })
+    item?.workOrders?.forEach((work) => {
+      work?.workCenters?.forEach((wc) => {
+        const workCenter = wcList.find((i) => i?.id === wc?.id)
+        if (!workCenterList.includes(workCenter))
+          workCenterList.push(workCenter)
+        setlistWorkCenter(workCenterList)
+      })
+
+      const producingStep = list.find((ps) => ps?.id === work?.producingStepId)
+      if (!producingStepList.includes(producingStep))
+        producingStepList.push(producingStep)
+      setListProducingSteps(producingStepList)
+    })
+  }, [itemId])
+
+  useEffect(() => {
+    let item = {}
+    mo?.moDetail?.forEach((parentItem) => {
+      const currentItem = parentItem?.moPlanBom.find((i) => i.itemId === itemId)
+      if (currentItem) item = currentItem
+    })
+    item?.workOrders?.forEach((work) => {
+      if (work?.producingStepId === producingStepId)
+        work?.workCenters?.forEach((wc) => {
+          const workCenter = wcList.find((i) => i?.id === wc?.id)
+          if (!workCenterList.includes(workCenter))
+            workCenterList.push(workCenter)
+          setlistWorkCenter(workCenterList)
+        })
+    })
+  }, [producingStepId])
+
+  useEffect(() => {
+    refreshDataFilter()
+  }, [filters, keyword])
+
+  const refreshDataFilter = () => {
     const params = {
       manufacturingOrderId: filters.moId,
       itemId: filters?.itemId,
@@ -118,7 +231,7 @@ const MaterialDetailPlan = () => {
         total: 0,
       },
     ]
-    if (mdpDetails && !isEmpty(mdpDetails)) {
+    if (mdpDetails?.materialReport && !isEmpty(mdpDetails?.materialReport)) {
       rows = []
       rows.push(
         {
@@ -205,7 +318,6 @@ const MaterialDetailPlan = () => {
         total: 0,
       },
     ]
-
     if (mdpDetails && !isEmpty(mdpDetails)) {
       rows = []
       mdpDetails?.materialReport?.forEach((e, index) => {
@@ -215,9 +327,7 @@ const MaterialDetailPlan = () => {
         e.materialPlanSchedules.forEach((i) => {
           sumProductionQuantity += Number(i.actualQuantityMaterial)
         })
-        e.materialPlanSchedules.forEach((i) => {
-          sumAdditionQuantity += Number(i.remainingQuantityMaterial)
-        })
+
         rows.push(
           {
             plan: t('materialDetailPlan.planQuantity'),
@@ -304,7 +414,7 @@ const MaterialDetailPlan = () => {
       onSearch={setKeyword}
       title={t('materialDetailPlan.title')}
     >
-      <Typography variant="h4" component="span">
+      <Typography variant="h4" component="span" mb={-3}>
         {t('materialDetailPlan.productionPlan')}
       </Typography>
 
@@ -314,7 +424,17 @@ const MaterialDetailPlan = () => {
         hideSetting
         hideFooter
         filters={{
-          form: <FilterForm />,
+          form: (
+            <FilterForm
+              listItem={listItem}
+              listProducingSteps={listProducingSteps}
+              listWorkCenter={listWorkCenter}
+              moList={moList}
+              setMoId={setMoId}
+              setItemId={setItemId}
+              setProducingStepId={setProducingStepId}
+            />
+          ),
           values: filters,
           defaultValue: DEFAULT_FILTER,
           onApply: setFilters,
