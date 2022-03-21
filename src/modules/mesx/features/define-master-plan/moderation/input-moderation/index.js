@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button, Typography, Alert, AlertTitle } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { groupBy, keyBy, uniq, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -33,6 +33,7 @@ const InputModeration = () => {
   } = useDefineMasterPlan()
   const [tableData, setTableData] = useState({})
   const [columns, setColumns] = useState({})
+  const [errorMessage, setErrorMessage] = useState('')
   const breadcrumbs = [
     {
       title: 'plan',
@@ -62,11 +63,15 @@ const InputModeration = () => {
       actions.getModerationSuggestSpread({
         masterPlanId: id,
         itemProducingStepIds: producingStepIds,
+      }, null, (error) => {
+        setErrorMessage(error?.message)
       })
     } else if (Number(moderationType) === MODERATION_TYPE.INPUT_MODERATION) {
       actions.getProducingStepDetail({
         masterPlanId: id,
         itemProducingStepIds: producingStepIds,
+      }, null, (error) => {
+        setErrorMessage(error?.message)
       })
     }
 
@@ -290,50 +295,63 @@ const InputModeration = () => {
       loading={isLoading}
       onBack={backToAutoModeration}
     >
-      <Formik
-        initialValues={initialValues}
-        enableReinitialize
-        onSubmit={handleSubmit}
-      >
-        {({ resetForm }) => (
-          <Form>
-            {Object.keys(tableData).map(
-              (producingStepId) =>
-                columns[producingStepId]?.length && (
-                  <div key={producingStepId}>
-                    <Typography variant="h4" mb={1}>
-                      {tableData[producingStepId].producingStepName}
-                    </Typography>
-                    <DataTable
-                      rows={tableData[producingStepId].workCenterSchedule}
-                      columns={columns[producingStepId]}
-                      hideSetting={true}
-                      hideFooter={true}
-                    />
-                  </div>
-                ),
-            )}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mt: 2,
-                '& button + button': {
-                  ml: 4 / 3,
-                },
-              }}
+      {
+        !isEmpty(tableData)
+          ? (
+            <Formik
+              initialValues={initialValues}
+              enableReinitialize
+              onSubmit={handleSubmit}
             >
-              <Button color="grayF4" onClick={backToAutoModeration}>
-                {t('common.close')}
-              </Button>
-              <Button variant="outlined" color="subText" onClick={resetForm}>
-                {t('common.cancel')}
-              </Button>
-              <Button type="submit">{t('common.save')}</Button>
-            </Box>
-          </Form>
-        )}
-      </Formik>
+              {({ resetForm }) => (
+                <Form>
+                  {Object.keys(tableData).map(
+                    (producingStepId) =>
+                      columns[producingStepId]?.length && (
+                        <div key={producingStepId}>
+                          <Typography variant="h4" mb={1}>
+                            {tableData[producingStepId].producingStepName}
+                          </Typography>
+                          <DataTable
+                            rows={tableData[producingStepId].workCenterSchedule}
+                            columns={columns[producingStepId]}
+                            hideSetting={true}
+                            hideFooter={true}
+                          />
+                        </div>
+                      ),
+                  )}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      mt: 2,
+                      '& button + button': {
+                        ml: 4 / 3,
+                      },
+                    }}
+                  >
+                    <Button color="grayF4" onClick={backToAutoModeration}>
+                      {t('common.close')}
+                    </Button>
+                    <Button variant="outlined" color="subText" onClick={resetForm}>
+                      {t('common.cancel')}
+                    </Button>
+                    <Button type="submit">{t('common.save')}</Button>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          )
+          : (
+            <Alert severity="error">
+              <AlertTitle>
+                {t('defineMasterPlan.titleErrorGetDetailMasterPlan')}
+              </AlertTitle>
+              {errorMessage}
+            </Alert>
+          )
+      }
     </Page>
   )
 }
