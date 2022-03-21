@@ -1,64 +1,22 @@
-import { useEffect, useState } from 'react'
-
 import { Grid } from '@mui/material'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
 import { MO_STATUS } from '~/modules/mesx/constants'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 
-const FilterForm = () => {
+const FilterForm = ({
+  listItem,
+  listProducingSteps,
+  listWorkCenter,
+  moList,
+  setMoId,
+  setItemId,
+  setProducingStepId,
+}) => {
   const { t } = useTranslation(['mesx'])
-  const [listItem, setListItem] = useState([])
-  const [itemId, setItemId] = useState()
-  const [listProducingSteps, setListProducingSteps] = useState([])
-  const [producingStepId, setProducingStepId] = useState()
-  const [listWorkCenter, setlistWorkCenter] = useState([])
 
-  const {
-    data: { moList, moProducingStep },
-    actions: actionMo,
-  } = useMo()
-
-  useEffect(() => {
-    refreshData()
-  }, [])
-  const refreshData = () => {
-    actionMo.searchMO({ isGetAll: 1 })
-  }
-
-  useEffect(() => {
-    if (!isEmpty(moProducingStep)) {
-      setListItem(moProducingStep?.moDetail[0]?.moPlanBom)
-    }
-  }, [moProducingStep])
-
-  useEffect(() => {
-    if (itemId) {
-      const listProducingStep = listItem?.find(
-        (i) => i.itemId === itemId,
-      )?.workOrders
-      setListProducingSteps(listProducingStep)
-    }
-  }, [itemId])
-
-  useEffect(() => {
-    if (producingStepId) {
-      const listWorkCenter = listProducingSteps.find(
-        (i) => i.producingStepId === producingStepId,
-      )?.workCenters
-      setlistWorkCenter(listWorkCenter)
-    }
-  }, [producingStepId])
   const handleChangeMo = (id) => {
-    actionMo.getListMoProducingStepById(id)
-  }
-  const handleChangeItem = (id) => {
-    setItemId(id)
-  }
-  const handleChangeProducingStep = (id) => {
-    setProducingStepId(id)
+    setMoId(id)
   }
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -85,9 +43,9 @@ const FilterForm = () => {
           label={t('materialDetailPlan.itemName')}
           placeholder={t('materialDetailPlan.itemName')}
           options={listItem}
-          getOptionValue={(opt) => opt?.itemId}
-          getOptionLabel={(opt) => opt?.itemId || opt?.item?.name}
-          onChange={(id) => handleChangeItem(id)}
+          getOptionValue={(opt) => opt?.id}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={(id) => setItemId(id)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -96,9 +54,9 @@ const FilterForm = () => {
           label={t('materialDetailPlan.producingStepName')}
           placeholder={t('materialDetailPlan.producingStepName')}
           options={listProducingSteps}
-          getOptionValue={(opt) => opt?.producingStepId}
-          getOptionLabel={(opt) => opt?.producingStepName}
-          onChange={(id) => handleChangeProducingStep(id)}
+          getOptionValue={(opt) => opt?.id}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={(id) => setProducingStepId(id)}
         />
       </Grid>
 
