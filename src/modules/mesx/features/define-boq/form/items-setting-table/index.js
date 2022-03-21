@@ -14,7 +14,7 @@ import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const {
     data: { itemList },
     actions,
@@ -105,6 +105,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               }}
               type="number"
               disabled={isView}
+              onInput={(val) => {
+                setFieldValue(
+                  `items[${index}].quantity`,
+                  Math.max(0, parseInt(val)).toString().slice(0, 10),
+                )
+              }}
             />
           )
         },
@@ -198,12 +204,14 @@ ItemSettingTable.defaultProps = {
   items: [],
   mode: '',
   arrayHelpers: {},
+  setFieldValue: () => {},
 }
 
 ItemSettingTable.propTypes = {
   arrayHelpers: PropTypes.shape(),
   items: PropTypes.array,
   mode: PropTypes.string,
+  setFieldValue: PropTypes.func,
 }
 
 export default ItemSettingTable

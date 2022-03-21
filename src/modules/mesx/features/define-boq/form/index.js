@@ -7,7 +7,11 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -73,7 +77,7 @@ const BOQForm = () => {
       planTo: values?.planList ? values?.planList[1] : '',
       boqItems: values.items?.map((item) => ({
         id: item?.itemId,
-        quantity: item?.quantity,
+        quantity: +item?.quantity,
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -182,7 +186,7 @@ const BOQForm = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ resetForm, values }) => (
+        {({ resetForm, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -196,8 +200,9 @@ const BOQForm = () => {
                       name="code"
                       label={t('defineBOQ.boqCode')}
                       placeholder={t('defineBOQ.boqCode')}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -276,6 +281,7 @@ const BOQForm = () => {
                     items={values?.items || []}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
+                    setFieldValue={setFieldValue}
                   />
                 )}
               />
