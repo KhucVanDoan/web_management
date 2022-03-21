@@ -6,15 +6,20 @@ import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
-import { startOfMonth, endOfMonth, formatISO } from 'date-fns'
+import {
+  startOfMonth,
+  endOfMonth,
+  formatISO,
+  compareDesc,
+  compareAsc,
+  isEqual,
+} from 'date-fns'
 import { Formik, Form } from 'formik'
-import { first, isEmpty } from 'lodash'
+import { first, flatMap, isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import Button from '~/components/Button'
-import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { EVENT_TYPE_OPTIONS } from '~/modules/mesx/constants'
@@ -23,9 +28,19 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
 
-import { modalSchema } from './createEventSchema'
+import PopupCreateEvent from './popupCreateEvent'
 import PopupDetail from './popupDetail'
 import style from './style'
+
+export const DAY_OF_WEEK = {
+  MON: 1,
+  TUE: 2,
+  WED: 3,
+  THU: 4,
+  FRI: 5,
+  SAT: 6,
+  SUN: 0,
+}
 
 const PlanCalendar = () => {
   const { t } = useTranslation(['mesx'])
@@ -37,7 +52,7 @@ const PlanCalendar = () => {
   ]
   const {
     actions,
-    data: { factoryEvent, isLoading },
+    data: { factoryEvent, isLoading, factoryCalendar },
   } = useCalendar()
 
   const {
@@ -56,12 +71,13 @@ const PlanCalendar = () => {
   const [openDetail, setIsOpenDetail] = useState(false)
   const [dateSelected, setDateSelected] = useState(false)
   const [factoryId, setFactoryId] = useState()
+  const [disableEdit, setDisableEdit] = useState(false)
   const [initialValues, setInitialValues] = useState({
     id: null,
     title: '',
     code: '',
     time: [],
-    factoryIds: null,
+    factoryIds: [],
     description: '',
   })
   const initialSearch = isEmpty(factories)
@@ -84,24 +100,14 @@ const PlanCalendar = () => {
     )
   }
 
-  useEffect(() => {
-    const params = { isGetAll: 1 }
-    commonAction.getFactories(params)
-  }, [])
-
-  // useEffect(() => {
-  //   const factory = first(factories)?.id
-  //   if (factory) {
-  //     getListFactoryEvent(factory)
-  //   }
-  // }, [actions, from, to,])
-
-  const getListFactoryEvent = (factoryId) => {
-    actions.getListFactoryEvent({ from, to, factoryId })
+  const getListFactoryEvent = () => {
+    if (from && factoryId && to)
+      actions.getListFactoryEvent({ from, to, factoryId })
   }
 
-  const getListFactoryWorkingSchedule = (factoryId) => {
-    actions.getListFactoryCalendar({ from, to, factoryId })
+  const getListFactoryWorkingSchedule = () => {
+    if (from && factoryId && to)
+      actions.getListFactoryCalendar({ from, to, factoryId })
   }
 
   const events = factoryEvent?.map((item) => ({
@@ -110,12 +116,19 @@ const PlanCalendar = () => {
     end: item.to,
     className:
       item.type === EVENT_TYPE_OPTIONS[1].id
-        ? classes.workingDay
-        : classes.holiday,
+        ? classes.eventWorkingDay
+        : classes.eventHoliday,
   }))
 
   const handleEventClick = (info) => {
     const event = info.event.extendedProps
+    setDisableEdit(false)
+    if (
+      compareDesc(new Date(), new Date(event.to)) === -1 ||
+      compareDesc(new Date(), new Date(event.from)) === -1
+    ) {
+      setDisableEdit(true)
+    }
     setIsUpdate(true)
     setInitialValues({
       id: +info.event.id,
@@ -131,12 +144,13 @@ const PlanCalendar = () => {
 
   const handleClickCreateEvent = () => {
     setIsUpdate(false)
+    setDisableEdit(false)
     setInitialValues({
       id: null,
       title: '',
       code: '',
       time: [null, null],
-      factoryIds: null,
+      factoryIds: [],
       description: '',
     })
     setIsOpenCreateEventModal(true)
@@ -147,34 +161,19 @@ const PlanCalendar = () => {
     setTo(formatISO(new Date(info.endStr)))
   }
 
-  const onSubmit = (values) => {
-    const params = {
-      id: values?.id,
-      code: values.code,
-      title: values.title,
-      type: values.type,
-      factoryIds: values.factoryIds,
-      description: values.description,
-      from: values.time[0],
-      to: values.time[1],
-    }
-    if (isUpdate) {
-      actions.updateFactoryCalendar(params, getListFactoryEvent)
-    } else {
-      actions.createFactoryCalendar(params, getListFactoryEvent)
-    }
-    setIsOpenCreateEventModal(false)
-  }
-
   const onResetForm = () => {
-    setInitialValues({
-      id: null,
-      title: '',
-      code: '',
-      time: null,
-      factoryIds: null,
-      description: '',
-    })
+    setInitialValues(
+      isUpdate
+        ? initialValues
+        : {
+            id: null,
+            title: '',
+            code: '',
+            time: null,
+            factoryIds: [],
+            description: '',
+          },
+    )
   }
 
   const onClose = () => {
@@ -182,31 +181,8 @@ const PlanCalendar = () => {
     setIsOpenCreateEventModal(false)
   }
 
-  const renderActionButtons = () => {
-    return (
-      <>
-        <Button color="grayF4" sx={{ mr: 1 }} onClick={onClose}>
-          {t('common.close')}
-        </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 1 }}
-          onClick={onResetForm}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button type="submit">
-          {isUpdate ? t('common.save') : t('common.create')}
-        </Button>
-      </>
-    )
-  }
-
   const handleSearch = (values) => {
     setFactoryId(values.factoryId)
-    getListFactoryEvent(values.factoryId)
-    getListFactoryWorkingSchedule(values.factoryId)
   }
 
   const handleDateClick = (info) => {
@@ -215,6 +191,70 @@ const PlanCalendar = () => {
       setIsOpenDetail(true)
     }
   }
+
+  const addClassToHoliDay = (dayClassName) => {
+    const dayClassElems = Array.from(
+      document.getElementsByClassName(dayClassName),
+    )
+    dayClassElems.forEach((dayElem) => {
+      if (
+        dayElem.getAttribute('role') === 'gridcell' &&
+        (compareAsc(
+          new Date(dayElem.getAttribute('data-date')),
+          new Date(factoryCalendar.from),
+        ) === 1 ||
+          isEqual(
+            new Date(dayElem.getAttribute('data-date')),
+            new Date(factoryCalendar.from),
+          )) &&
+        (compareAsc(
+          new Date(dayElem.getAttribute('data-date')),
+          new Date(factoryCalendar.to),
+        ) === -1 ||
+          isEqual(
+            new Date(dayElem.getAttribute('data-date')),
+            new Date(factoryCalendar.to),
+          ))
+      )
+        dayElem.classList.add(classes.holiday)
+    })
+  }
+
+  useEffect(() => {
+    getListFactoryEvent()
+    getListFactoryWorkingSchedule()
+  }, [from, to, factoryId])
+
+  useEffect(() => {
+    const params = { isGetAll: 1 }
+    commonAction.getFactories(params)
+  }, [])
+
+  useEffect(() => {
+    if (!isNil(factoryCalendar) && !isEmpty(factoryCalendar)) {
+      const workingDays = flatMap(factoryCalendar.factoryworkdays, 'workingDay')
+      if (!workingDays.includes(DAY_OF_WEEK.MON))
+        addClassToHoliDay('fc-day-mon')
+
+      if (!workingDays.includes(DAY_OF_WEEK.TUE))
+        addClassToHoliDay('fc-day-tue')
+
+      if (!workingDays.includes(DAY_OF_WEEK.WED))
+        addClassToHoliDay('fc-day-wed')
+
+      if (!workingDays.includes(DAY_OF_WEEK.THU))
+        addClassToHoliDay('fc-day-thu')
+
+      if (!workingDays.includes(DAY_OF_WEEK.FRI))
+        addClassToHoliDay('fc-day-fri')
+
+      if (!workingDays.includes(DAY_OF_WEEK.SAT))
+        addClassToHoliDay('fc-day-sat')
+
+      if (!workingDays.includes(DAY_OF_WEEK.SUN))
+        addClassToHoliDay('fc-day-sun')
+    }
+  }, [factoryCalendar])
 
   return (
     <Page
@@ -272,90 +312,15 @@ const PlanCalendar = () => {
         dateClick={handleDateClick}
         datesSet={handleChangeRange}
       />
-      <Dialog
+      <PopupCreateEvent
         open={isOpenCreateEventModal}
-        title={t('planCalendar.createEvent')}
-        maxWidth="sm"
-        noBorderBottom
-        formikProps={{
-          initialValues: initialValues,
-          validationSchema: modalSchema(t),
-          onSubmit,
-        }}
-      >
-        <Grid>
-          <Grid container rowSpacing={4 / 3} columnSpacing={4}>
-            <Grid item xs={12}>
-              <Field.TextField
-                name="code"
-                label={t('planCalendar.eventCode')}
-                placeholder={t('planCalendar.eventCode')}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Field.TextField
-                name="title"
-                label={t('planCalendar.eventName')}
-                placeholder={t('planCalendar.eventName')}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Field.Autocomplete
-                name="type"
-                label={t('planCalendar.eventType')}
-                placeholder={t('planCalendar.eventType')}
-                options={EVENT_TYPE_OPTIONS}
-                getOptionValue={(opt) => opt?.id}
-                getOptionLabel={(opt) => t(opt?.name)}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Field.DateRangePicker
-                name="time"
-                label={t('planCalendar.eventTime')}
-                placeholder={t('planCalendar.eventTime')}
-                required
-              />
-            </Grid>
-            {/* <Grid item xs={9} sx={{ ml: 15 }}>
-              <Box display="flex" alignItems="center">
-                <Field.TimePicker name={`timeFrom`} />
-                <Box mx={1} display="flex" alignItems="center">
-                  {t('workCenter.to')}
-                </Box>
-                <Field.TimePicker name={`timeTo`} />
-              </Box>
-            </Grid> */}
-            <Grid item xs={12}>
-              <Field.Autocomplete
-                name="factoryIds"
-                label={t('planCalendar.factory')}
-                placeholder={t('planCalendar.factory')}
-                options={factories}
-                getOptionValue={(opt) => opt?.id}
-                getOptionLabel={(opt) => opt?.name}
-                multiple
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Field.TextField
-                name="description"
-                label={t('planCalendar.eventDescription')}
-                placeholder={t('planCalendar.eventDescription')}
-                multiline
-                rows={5}
-              />
-            </Grid>
-          </Grid>
-          <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-            {renderActionButtons()}
-          </Box>
-        </Grid>
-      </Dialog>
+        isDetail={disableEdit}
+        isUpdate={isUpdate}
+        initialValues={initialValues}
+        handleClose={onClose}
+        onResetForm={onResetForm}
+        getListFactoryEvent={getListFactoryEvent}
+      />
       <PopupDetail
         open={openDetail}
         handleClose={() => setIsOpenDetail(false)}

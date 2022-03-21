@@ -2,7 +2,7 @@ import BomProducingStepDetail from '~/modules/mesx/features/bom-operation/detail
 import BomProducingStepForm from '~/modules/mesx/features/bom-operation/form'
 import BomProducingStep from '~/modules/mesx/features/bom-operation/list'
 import Calendar from '~/modules/mesx/features/calendar'
-import CalendarCreate from '~/modules/mesx/features/calendar/createFactoryCalendarSchema'
+import CalendarCreate from '~/modules/mesx/features/calendar/createFactoryCalendar'
 import Dashboard from '~/modules/mesx/features/dashboard'
 import detailBOM from '~/modules/mesx/features/define-bom/detail'
 import BOMForm from '~/modules/mesx/features/define-bom/form'

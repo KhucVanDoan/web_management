@@ -45,7 +45,7 @@ function ShiftTable(props) {
         const { id, startAt, endAt } = params.row
         return (
           <Box flex={1} alignItems="center" key={`startAt${id}`}>
-            <Field.TextField name={`shifts[${index}].from`} type="time" />
+            <Field.TimePicker name={`shifts[${index}].from`} />
             {startAt && endAt && isAfter(startAt, endAt) && (
               <FormHelperText error>
                 {t('form.invalidTimeRange')}
@@ -61,7 +61,7 @@ function ShiftTable(props) {
       width: 200,
       align: 'center',
       renderCell: (params, index) => {
-        return <Field.TextField name={`shifts[${index}].to`} type="time" />
+        return <Field.TimePicker name={`shifts[${index}].to`} />
       },
     },
     {

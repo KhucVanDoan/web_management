@@ -2,15 +2,14 @@ import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
-export const formSchema = (t) =>
+export const createCalendarSchema = (t) =>
   Yup.object().shape({
     timePlan: Yup.array().test({
       message: t('general:form.required'),
       test: (arr) => arr.length !== 0,
     }),
-    fatoryIds: Yup.array().test({
+    fatoryIds: Yup.array().min(1, {
       message: t('general:form.required'),
-      test: (arr) => arr.length !== 0,
     }),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
