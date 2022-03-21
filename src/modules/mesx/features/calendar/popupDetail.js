@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
@@ -16,9 +16,7 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 function PopupDetail(props) {
   const { open, handleClose, factoryId, date } = props
   const { t } = useTranslation(['mesx'])
-  const initialSearch = factoryId
-    ? { factoryId: factoryId }
-    : { factoryId: factoryId }
+  const [initialSearch, setInitialValues] = useState({ factoryId: factoryId })
 
   const {
     actions,
@@ -32,10 +30,12 @@ function PopupDetail(props) {
   } = useCommonManagement()
 
   const handleSearch = (values) => {
+    setInitialValues({ factoryId: values.factoryId })
     getDetailFactoryCalendar(values.factoryId)
   }
 
   useEffect(() => {
+    setInitialValues({ factoryId })
     getDetailFactoryCalendar(factoryId)
   }, [factoryId, date, actions])
 
@@ -83,7 +83,7 @@ function PopupDetail(props) {
   ]
 
   const relaxData = flatten(
-    detailCalendar?.shifts.map((shift) => {
+    detailCalendar?.shifts?.map((shift) => {
       return shift.relaxes.map((relax) => ({
         title: relax.title,
         [shift.title]: `${relax.from} - ${relax.to}`,

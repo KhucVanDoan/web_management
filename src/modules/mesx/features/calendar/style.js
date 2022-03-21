@@ -1,18 +1,18 @@
 const style = (theme) => ({
-  holiday: {
+  eventHoliday: {
     background: theme.palette.error.a5,
     border: 'none',
     fontSize: '1rem',
     paddingLeft: '5px',
   },
-  workingDay: {
+  eventWorkingDay: {
     background: theme.palette.primary.a5,
     border: 'none',
     fontSize: '1rem',
     paddingLeft: '5px',
   },
-  dateWorking: {
-    backgroundColor: theme.palette.primary.a5,
+  holiday: {
+    background: `${theme.palette.grayF4.main} !important`,
   },
 })
 export default style

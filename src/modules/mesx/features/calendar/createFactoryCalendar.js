@@ -15,7 +15,7 @@ import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
-import { formSchema } from './formSchema'
+import { createCalendarSchema } from './createCalendarSchema'
 import RelaxTable from './relaxTable'
 import ShiftTable from './shiftsTable'
 
@@ -158,7 +158,7 @@ function CalendarCreate() {
       >
         <Formik
           initialValues={initialValues}
-          validationSchema={formSchema(t)}
+          validationSchema={createCalendarSchema(t)}
           onSubmit={onSubmit}
           enableReinitialize
         >
@@ -173,6 +173,7 @@ function CalendarCreate() {
                   >
                     <Grid item lg={6} xs={12}>
                       <Field.DateRangePicker
+                        minDate={new Date()}
                         name="timePlan"
                         label={t('planCalendar.setupYearCalendar.plan')}
                         placeholder={t('planCalendar.setupYearCalendar.plan')}

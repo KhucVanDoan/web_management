@@ -14,11 +14,16 @@ import {
   GET_DETAIL_FACTORY_CALENDAR_FAILED,
   GET_DETAIL_FACTORY_CALENDAR,
   GET_DETAIL_FACTORY_CALENDAR_SUCCESS,
+  GET_LIST_FACTORY_CALENDAR_SUCCESS,
+  UPDATE_FACTORY_CALENDAR_SUCCESS,
+  UPDATE_FACTORY_CALENDAR_FAILED,
+  CREATE_FACTORY_CALENDAR_SUCCESS,
+  CREATE_FACTORY_CALENDAR_FAILED,
 } from '~/modules/mesx/redux/actions/calendar'
 
 const initialState = {
   isLoading: false,
-  factoryCalendar: [],
+  factoryCalendar: null,
   factoryEvent: [],
   detailCalendar: null,
 }
@@ -47,6 +52,16 @@ export default function calendar(state = initialState, action) {
         detailCalendar: first(action.payload),
         isLoading: false,
       }
+    case GET_LIST_FACTORY_CALENDAR_SUCCESS:
+      return {
+        ...state,
+        factoryCalendar: first(action.payload),
+        isLoading: false,
+      }
+    case UPDATE_FACTORY_CALENDAR_SUCCESS:
+    case CREATE_FACTORY_CALENDAR_SUCCESS:
+    case UPDATE_FACTORY_CALENDAR_FAILED:
+    case CREATE_FACTORY_CALENDAR_FAILED:
     case GET_DETAIL_FACTORY_CALENDAR_FAILED:
     case GET_LIST_FACTORY_EVENT_FAILED:
     case GET_LIST_FACTORY_CALENDAR_FAILED:

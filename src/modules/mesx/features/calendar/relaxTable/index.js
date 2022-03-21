@@ -57,16 +57,14 @@ function RelaxTable(props) {
                   alignItems="center"
                   flex={1}
                 >
-                  <Field.TextField
+                  <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
-                    type="time"
                   />
                   <Box mx={1} display="flex" alignItems="center">
                     {t('planCalendar.to')}
                   </Box>
-                  <Field.TextField
+                  <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
-                    type="time"
                   />
                 </Box>
               </Box>
