@@ -8,6 +8,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -41,7 +42,7 @@ function ItemTypeSetting() {
   const [sort, setSort] = useState(null)
   const [filters, setFilters] = useState({})
   const [modal, setModal] = useState({
-    id: null,
+    tempItem: null,
     isOpenDeleteModal: false,
   })
 
@@ -121,7 +122,7 @@ function ItemTypeSetting() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(id)}>
+            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -145,23 +146,23 @@ function ItemTypeSetting() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const handleOpenDeleteModal = (id) => {
+  const handleOpenDeleteModal = (tempItem) => {
     setModal({
-      id: id,
+      tempItem,
       isOpenDeleteModal: true,
     })
   }
 
   const onSubmitDeleteModal = () => {
-    actions.deleteItemType(modal.id, () => {
-      setModal({ isOpenDeleteModal: false })
+    actions.deleteItemType(modal?.tempItem?.id, () => {
       refreshData()
     })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const onCloseDeleteModal = () => {
     setModal({
-      id: null,
+      tempItem: null,
       isOpenDeleteModal: false,
     })
   }
@@ -219,6 +220,16 @@ function ItemTypeSetting() {
         noBorderBottom
       >
         {t('itemTypeSetting.confirmDelete')}
+        <LV
+          label={t('itemTypeSetting.typeCode')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('itemTypeSetting.typeName')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

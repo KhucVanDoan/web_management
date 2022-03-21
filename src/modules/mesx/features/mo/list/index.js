@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -42,7 +43,7 @@ const breadcrumbs = [
 
 const Mo = () => {
   const { t } = useTranslation(['mesx'])
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const history = useHistory()
 
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
@@ -187,14 +188,14 @@ const Mo = () => {
               </IconButton>
             )}
             {canDelete && (
-              <IconButton onClick={() => onClickDelete(id)}>
+              <IconButton onClick={() => onClickDelete(params.row)}>
                 <Icon name="delete" />
               </IconButton>
             )}
             {canConfirm && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setIsOpenConfirmModal(true)
                 }}
               >
@@ -263,8 +264,8 @@ const Mo = () => {
    *
    * @param {int} id
    */
-  const onClickDelete = (id) => {
-    setId(id)
+  const onClickDelete = (tempItem) => {
+    setTempItem(tempItem)
     setIsOpenDeleteModal(true)
   }
 
@@ -272,9 +273,9 @@ const Mo = () => {
    * Submit confirm purchased order
    */
   const onSubmitConfirm = () => {
-    actions.confirmMOById(id, refreshData)
+    actions.confirmMOById(tempItem?.id, refreshData)
     setIsOpenConfirmModal(false)
-    setId(null)
+    setTempItem(null)
   }
 
   /**
@@ -289,10 +290,11 @@ const Mo = () => {
    * onSubmitDelete
    */
   const onSubmitDelete = () => {
-    actions.deleteMO(id, () => {
-      setIsOpenDeleteModal(false)
+    actions.deleteMO(tempItem?.id, () => {
       refreshData()
     })
+    setIsOpenDeleteModal(false)
+    setTempItem(null)
   }
 
   const renderHeaderRight = () => {
@@ -352,6 +354,16 @@ const Mo = () => {
           noBorderBottom
         >
           {t('bomProducingStep.deleteConfirm')}
+          <LV
+            label={t('Mo.moCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('Mo.moName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
         <Dialog
           open={isOpenConfirmModal}
@@ -364,6 +376,16 @@ const Mo = () => {
           noBorderBottom
         >
           {t('common.confirmMessage.confirm')}
+          <LV
+            label={t('Mo.moCode')}
+            value={tempItem?.code}
+            sx={{ mt: 4 / 3 }}
+          />
+          <LV
+            label={t('Mo.moName')}
+            value={tempItem?.name}
+            sx={{ mt: 4 / 3 }}
+          />
         </Dialog>
       </Page>
     </>

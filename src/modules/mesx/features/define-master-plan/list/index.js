@@ -8,6 +8,7 @@ import { DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
@@ -56,7 +57,7 @@ const DefineMasterPlan = () => {
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [deleteModal, setDeleteModal] = useState(false)
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
@@ -168,7 +169,7 @@ const DefineMasterPlan = () => {
               {canDelete && (
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setDeleteModal(true)
                   }}
                 >
@@ -178,7 +179,7 @@ const DefineMasterPlan = () => {
               {canApprove && (
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenApproveModal(true)
                   }}
                 >
@@ -188,7 +189,7 @@ const DefineMasterPlan = () => {
               {canReject && (
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenRejectModal(true)
                   }}
                 >
@@ -484,22 +485,21 @@ const DefineMasterPlan = () => {
   }
 
   const onSubmitApprove = () => {
-    masterPlanActions.approveMasterPlan(id, refreshData)
+    masterPlanActions.approveMasterPlan(tempItem?.id, refreshData)
     setIsOpenApproveModal(false)
+    setTempItem(null)
   }
 
   const onSubmitReject = () => {
-    masterPlanActions.rejectMasterPlan(id, refreshData)
+    masterPlanActions.rejectMasterPlan(tempItem?.id, refreshData)
     setIsOpenRejectModal(false)
+    setTempItem(null)
   }
 
   const onSubmitDelete = () => {
-    masterPlanActions.deleteMasterPlan(
-      id,
-      () => setDeleteModal(false),
-      () => setDeleteModal(false),
-    )
-    refreshData()
+    masterPlanActions.deleteMasterPlan(tempItem?.id, refreshData)
+    setDeleteModal(false)
+    setTempItem(null)
   }
 
   /**
@@ -552,6 +552,16 @@ const DefineMasterPlan = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('defineMasterPlan.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineMasterPlan.planName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
@@ -564,6 +574,16 @@ const DefineMasterPlan = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.reject')}
+        <LV
+          label={t('defineMasterPlan.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineMasterPlan.planName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={deleteModal}
@@ -578,6 +598,16 @@ const DefineMasterPlan = () => {
         noBorderBottom
       >
         {t('defineBOM.deleteConfirm')}
+        <LV
+          label={t('defineMasterPlan.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineMasterPlan.planName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

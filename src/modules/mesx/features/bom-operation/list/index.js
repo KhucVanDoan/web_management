@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -49,7 +50,7 @@ function BomProducingStep() {
   }
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
@@ -149,7 +150,7 @@ function BomProducingStep() {
                 </IconButton>
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenDeleteModal(true)
                   }}
                 >
@@ -157,7 +158,7 @@ function BomProducingStep() {
                 </IconButton>
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenConfirmModal(true)
                   }}
                 >
@@ -190,18 +191,19 @@ function BomProducingStep() {
   }, [page, pageSize, filters, sort, keyword])
 
   const onSubmitDelete = () => {
-    actions.deleteBomProducingStep(id, () => {
-      setIsOpenDeleteModal(false)
+    actions.deleteBomProducingStep(tempItem?.id, () => {
       refreshData()
     })
+    setIsOpenDeleteModal(false)
+    setTempItem(null)
   }
 
   const onSubmitConfirm = () => {
-    actions.confirmBomProducingStepById(id, () => {
+    actions.confirmBomProducingStepById(tempItem?.id, () => {
       refreshData()
-      setIsOpenConfirmModal(false)
-      setId(null)
     })
+    setIsOpenConfirmModal(false)
+    setTempItem(null)
   }
 
   const renderHeaderRight = () => {
@@ -264,6 +266,16 @@ function BomProducingStep() {
         noBorderBottom
       >
         {t('bomProducingStep.deleteConfirm')}
+        <LV
+          label={t('bomProducingStep.bomCode')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('bomProducingStep.bomName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
@@ -276,6 +288,16 @@ function BomProducingStep() {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('bomProducingStep.bomCode')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('bomProducingStep.bomName')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

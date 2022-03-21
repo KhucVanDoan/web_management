@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -48,7 +49,7 @@ function Routing() {
   }
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
@@ -126,7 +127,7 @@ function Routing() {
                 </IconButton>
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenDeleteModal(true)
                   }}
                 >
@@ -134,7 +135,7 @@ function Routing() {
                 </IconButton>
                 <IconButton
                   onClick={() => {
-                    setId(id)
+                    setTempItem(params.row)
                     setIsOpenConfirmModal(true)
                   }}
                 >
@@ -167,18 +168,19 @@ function Routing() {
   }, [page, pageSize, filters, sort, keyword])
 
   const onSubmitDelete = () => {
-    actions.deleteRouting(id, () => {
-      setIsOpenDeleteModal(false)
+    actions.deleteRouting(tempItem?.id, () => {
       refreshData()
     })
+    setIsOpenDeleteModal(false)
+    setTempItem(null)
   }
 
   const onSubmitConfirm = () => {
-    actions.confirmRoutingById(id, () => {
+    actions.confirmRoutingById(tempItem?.id, () => {
       refreshData()
-      setIsOpenConfirmModal(false)
-      setId(null)
     })
+    setIsOpenConfirmModal(false)
+    setTempItem(null)
   }
 
   const renderHeaderRight = () => {
@@ -241,6 +243,16 @@ function Routing() {
         noBorderBottom
       >
         {t('routing.deleteConfirm')}
+        <LV
+          label={t('routing.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('routing.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
@@ -253,6 +265,16 @@ function Routing() {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('routing.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('routing.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

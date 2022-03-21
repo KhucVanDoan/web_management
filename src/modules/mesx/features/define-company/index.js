@@ -8,6 +8,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -48,7 +49,7 @@ function DefineCompany() {
   } = useDefineCompany()
 
   const [modal, setModal] = useState({
-    id: null,
+    tempItem: null,
     isOpenDeleteModal: false,
   })
 
@@ -137,7 +138,7 @@ function DefineCompany() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row.id)}>
+            <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -163,19 +164,19 @@ function DefineCompany() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const onClickDelete = (id) => {
-    setModal({ id, isOpenDeleteModal: true })
+  const onClickDelete = (tempItem) => {
+    setModal({ tempItem, isOpenDeleteModal: true })
   }
 
   const onSubmitDelete = () => {
-    actions.deleteCompany(modal.id, () => {
-      setModal({ isOpenDeleteModal: false })
+    actions.deleteCompany(modal.tempItem?.id, () => {
       refreshData()
     })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, id: null })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const renderHeaderRight = () => {
@@ -238,6 +239,16 @@ function DefineCompany() {
         noBorderBottom
       >
         {t('defineCompany.deleteConfirm')}
+        <LV
+          label={t('defineCompany.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('defineCompany.name')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

@@ -8,6 +8,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { USER_MANAGEMENT_STATUS_MAP } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
@@ -49,7 +50,7 @@ function UserManagement() {
   } = useUserManagement()
 
   const [modal, setModal] = useState({
-    id: null,
+    tempItem: null,
     isOpenDeleteModal: false,
   })
 
@@ -154,7 +155,7 @@ function UserManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row.id)}>
+            <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -180,19 +181,19 @@ function UserManagement() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const onClickDelete = (id) => {
-    setModal({ id, isOpenDeleteModal: true })
+  const onClickDelete = (tempItem) => {
+    setModal({ tempItem, isOpenDeleteModal: true })
   }
 
   const onSubmitDelete = () => {
-    actions.deleteUser(modal.id, () => {
-      setModal({ isOpenDeleteModal: false })
+    actions.deleteUser(modal?.tempItem?.id, () => {
       refreshData()
     })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, id: null })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
   const renderHeaderRight = () => {
@@ -255,6 +256,16 @@ function UserManagement() {
         noBorderBottom
       >
         {t('userManagement.deleteConfirm')}
+        <LV
+          label={t('userManagement.username')}
+          value={modal?.tempItem?.username}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('userManagement.fullName')}
+          value={modal?.tempItem?.fullName}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

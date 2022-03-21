@@ -12,6 +12,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
@@ -50,7 +51,7 @@ const WorkOrder = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
 
-  const [id, setId] = useState(null)
+  const [tempItem, setTempItem] = useState(null)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
@@ -225,7 +226,7 @@ const WorkOrder = () => {
             {isDelete && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setIsOpenDeleteModal(true)
                 }}
               >
@@ -236,7 +237,7 @@ const WorkOrder = () => {
             {isConfirmed && (
               <IconButton
                 onClick={() => {
-                  setId(id)
+                  setTempItem(params.row)
                   setIsOpenConfirmModal(true)
                 }}
               >
@@ -289,15 +290,16 @@ const WorkOrder = () => {
   }, [page, pageSize, filters, sort, keyword])
 
   const onSubmitDelete = () => {
-    workOrderActions.deleteWorkOrder(id, () => {
-      setIsOpenDeleteModal(false)
+    workOrderActions.deleteWorkOrder(tempItem?.id, () => {
       refreshData()
     })
+    setIsOpenDeleteModal(false)
+    setTempItem(null)
   }
 
   const submitConfirm = () => {
-    workOrderActions.confirmWorkOrderById(id, refreshData())
-    setId(null)
+    workOrderActions.confirmWorkOrderById(tempItem?.id, refreshData)
+    setTempItem(null)
     setIsOpenConfirmModal(false)
   }
 
@@ -434,6 +436,16 @@ const WorkOrder = () => {
         noBorderBottom
       >
         {t('workOrder.deleteConfirm')}
+        <LV
+          label={t('workOrder.lblcodeWorkOrder')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('workOrder.codeKH')}
+          value={tempItem?.moPlan?.code}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
@@ -446,6 +458,16 @@ const WorkOrder = () => {
         noBorderBottom
       >
         {t('common.confirmMessage.confirm')}
+        <LV
+          label={t('workOrder.lblcodeWorkOrder')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('workOrder.codeKH')}
+          value={tempItem?.moPlan?.code}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={isOpenPrintQRModal}
