@@ -1,16 +1,22 @@
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const createCalendarSchema = (t) =>
   Yup.object().shape({
-    timePlan: Yup.array().test({
-      message: t('general:form.required'),
-      test: (arr) => arr.length !== 0,
-    }),
-    fatoryIds: Yup.array().min(1, {
-      message: t('general:form.required'),
-    }),
+    timePlan: Yup.array()
+      .nullable(true)
+      .test({
+        message: t('general:form.required'),
+        test: (arr) => Array.isArray(arr) && !isEmpty(arr),
+      }),
+    fatoryIds: Yup.array()
+      .nullable(true)
+      .test({
+        message: t('general:form.required'),
+        test: (arr) => Array.isArray(arr) && !isEmpty(arr),
+      }),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {
