@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -60,7 +60,7 @@ const QualityReports = () => {
     {
       field: 'soName',
       headerName: t('qualityReport.saleOrder'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
       renderCell: (params) => {
@@ -71,7 +71,7 @@ const QualityReports = () => {
     {
       field: 'itemName',
       headerName: t('qualityReport.productName'),
-      width: 150,
+      width: 200,
       sortable: true,
       fixed: true,
       renderCell: (params) => {
@@ -92,7 +92,7 @@ const QualityReports = () => {
     {
       field: 'producingStepName',
       headerName: t('qualityReport.nameCD'),
-      width: 200,
+      width: 100,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
@@ -103,7 +103,7 @@ const QualityReports = () => {
       field: 'quantity',
       headerName: t('qualityReport.quantityPlan'),
       width: 100,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         const { row } = params
         return row?.quantity ? row?.quantity : '0.00'
@@ -113,7 +113,7 @@ const QualityReports = () => {
       field: 'actualQuantity',
       headerName: t('qualityReport.quantitySX'),
       width: 100,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         const { row } = params
         return row?.actualQuantity ? row?.actualQuantity : '0.00'
@@ -123,7 +123,7 @@ const QualityReports = () => {
       field: 'confirmedQuantity',
       headerName: t('qualityReport.quantityNeed'),
       width: 100,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         const { row } = params
         return row?.confirmedQuantity ? row?.confirmedQuantity : '0.00'
@@ -133,7 +133,7 @@ const QualityReports = () => {
       field: 'qcPassQuantity',
       headerName: t('qualityReport.quantityDone'),
       width: 100,
-      align: 'center',
+      align: 'right',
 
       renderCell: (params) => {
         const { row } = params
@@ -144,7 +144,7 @@ const QualityReports = () => {
       field: 'errorQuantity',
       headerName: t('qualityReport.quantityErr'),
       width: 100,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         const { row } = params
         return row?.errorQuantity ? row?.errorQuantity : '0.00'
@@ -154,7 +154,7 @@ const QualityReports = () => {
       field: 'qcRejectQuantity',
       headerName: t('qualityReport.quantityErrs'),
       width: 100,
-      align: 'center',
+      align: 'right',
       sortable: false,
       renderCell: (params) => {
         const { row } = params
