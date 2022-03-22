@@ -62,18 +62,28 @@ const BreakTimeTable = ({
             return isView ? (
               <>{content}</>
             ) : (
-              <Box alignItems="center" key={shiftIndex}>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
+              <Box
+                key={shiftIndex}
+                sx={{
+                  display: 'inline-flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
                   />
-                  <Box mx={1} display="flex" alignItems="center">
-                    {t('workCenter.to')}
-                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    mx: 1,
+                    mt: '9px',
+                  }}
+                >
+                  {t('workCenter.to')}
+                </Box>
+                <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
                   />

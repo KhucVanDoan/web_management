@@ -8,6 +8,7 @@ import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import NumberFormatText from '~/components/NumberFormat'
 import { scrollToBottom } from '~/utils'
 
 const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
@@ -91,11 +92,16 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           const shiftObject = shifts?.find((x) => x.id === id)
           const isView = mode === MODAL_MODE.DETAIL
           return isView ? (
-            <>{shiftObject?.pricePerHour}</>
+            <>
+              <NumberFormatText value={shiftObject?.pricePerHour} />
+            </>
           ) : (
             <Field.TextField
               name={`shifts[${index}].pricePerHour`}
-              type="number"
+              numberProps={{
+                thousandSeparator: true,
+                decimalScale: 3,
+              }}
             />
           )
         },

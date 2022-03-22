@@ -922,29 +922,9 @@ export const WORK_CENTER_STATUS_OPTIONS = [
     color: 'pending',
   },
   {
-    id: 1,
+    id: 2,
     text: 'workCenterStatus.confirmed',
     color: 'confirmed',
-  },
-  {
-    id: 2,
-    text: 'workCenterStatus.inProgress',
-    color: 'inProgress',
-  },
-  {
-    id: 3,
-    text: 'workCenterStatus.approved',
-    color: 'approved',
-  },
-  {
-    id: 4,
-    text: 'workCenterStatus.completed',
-    color: 'completed',
-  },
-  {
-    id: 5,
-    text: 'workCenterStatus.rejected',
-    color: 'rejected',
   },
 ]
 export const WORK_CENTER_STATUS_TO_CONFIRM = [
