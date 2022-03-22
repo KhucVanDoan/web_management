@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 
+import { TEXTFIELD_PREVENT } from '~/common/constants'
 import { useClasses } from '~/themes'
 
 import { NumberFormatInput } from '../NumberFormat'
@@ -39,11 +40,28 @@ const TextField = ({
 
   const handleChange = (e) => {
     let val = e.target.value
-    if (allow instanceof RegExp) {
-      val = val?.replace(allow, '')
+
+    if (allow instanceof RegExp && val) {
+      if (props.type === 'number') {
+        val = Number(val?.toString().replace(allow, ''))
+      } else {
+        val = val?.replace(allow, '')
+      }
     }
 
     onChange(e, val)
+  }
+
+  const handleKeyDown = (e) => {
+    if (TEXTFIELD_PREVENT[allow]?.includes(e?.key)) e.preventDefault()
+  }
+  const handlePaste = (e) => {
+    const clipboardData = (e.clipboardData || window.clipboardData)?.getData(
+      'Text',
+    )
+    if (clipboardData?.match(allow)) {
+      e.preventDefault()
+    }
   }
 
   return (
@@ -77,6 +95,12 @@ const TextField = ({
           fullWidth
           {...InputProps}
           {...props}
+          {...(allow instanceof RegExp && props?.type === 'number'
+            ? {
+                onKeyDown: handleKeyDown,
+                onPaste: handlePaste,
+              }
+            : {})}
           {...(!isEmpty(numberProps)
             ? {
                 inputComponent: NumberFormatInput,
