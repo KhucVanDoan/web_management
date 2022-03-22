@@ -186,7 +186,7 @@ function detailBOM() {
               />
               <LV
                 label={t('defineBOM.routingCode')}
-                value={BOMDetails?.routingId}
+                value={BOMDetails?.routing?.code}
                 mt={4 / 3}
               />
             </Grid>

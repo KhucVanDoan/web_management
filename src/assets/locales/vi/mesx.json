@@ -882,8 +882,9 @@
       "quantity": "Số lượng",
       "unitType": "Đơn vị",
       "addItem": "Thêm sản phẩm",
-      "isProductionObject": "Là đối tượng sản xuất",
-      "type": "Kiểu sản phẩm"
+      "isProductionObject": "Đối tượng sản xuất",
+      "type": "Kiểu sản phẩm",
+      "action": "Hành động"
     },
     "confirmBOMSuccess": "Xác nhận BOM thành công",
     "deleteBOMSuccess": "Xóa BOM thành công ",
@@ -1258,6 +1259,7 @@
     "status": "Trạng thái",
     "workOrder": "Lệnh làm việc",
     "createAt": "Ngày tạo",
+    "createDate": "Thời gian tạo",
     "priceBom": "Cấu trúc chi phí",
     "bom": "Cấu trúc BOM ",
     "bomProducingStep": "Cấu trúc BOM công đoạn",

@@ -159,7 +159,7 @@ const ItemSettingTable = (props) => {
       },
       {
         field: 'remove',
-        headerName: '',
+        headerName: t('defineBOM.item.action'),
         width: 50,
         align: 'center',
         hide: isView,

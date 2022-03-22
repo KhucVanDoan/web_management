@@ -37,7 +37,7 @@ import {
   GET_PRICE_STRUCTURE_FAILED,
   GET_MO_LIST_ALL,
   RESET_MO_DETAIL_STATE,
-} from '~/modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/mo'
 
 const initialState = {
   isLoading: false,

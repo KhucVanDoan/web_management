@@ -161,7 +161,7 @@ function SaleOrderForm() {
         description: '',
         companyId: '',
         customerId: '',
-        boqId: '',
+        boqId: null,
         orderedAt: null,
         deadline: null,
         items: [{ ...DEFAULT_ITEM }],
@@ -234,7 +234,6 @@ function SaleOrderForm() {
                       name="boqId"
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
-                      required
                     />
                   </Grid>
                 </Grid>

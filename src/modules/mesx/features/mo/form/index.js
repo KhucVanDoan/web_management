@@ -32,6 +32,7 @@ const MOForm = () => {
   const { id } = useParams()
   const { path } = useRouteMatch()
   const [mode, setMode] = useState(MODAL_MODE.CREATE)
+
   const [saleOrders, setSaleOrders] = useState([])
   const [saleOrder, setSaleOrder] = useState({})
   const [isSubmitForm] = useState(false)
@@ -61,7 +62,6 @@ const MOForm = () => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
     masterPlanActions.searchMasterPlans()
   }, [])
-
   useEffect(() => {
     if (isUpdate || isView) {
       actions.getMODetailsById(id)
@@ -78,13 +78,30 @@ const MOForm = () => {
     redirectRouter(ROUTE.MO.LIST.PATH)
   }
 
-  const renderActionBar = (resetForm) => {
+  const getMasterDetail = () => {
+    masterPlanActions.getMasterPlanDetailsById(
+      moDetails?.masterPlan?.id,
+      (data) => {
+        setSaleOrders(data.saleOrderSchedules)
+        const saleOrder = data.saleOrderSchedules.find(
+          (so) => so.saleOrderId === moDetails?.saleOrderId,
+        )
+        setSaleOrder(saleOrder)
+      },
+    )
+  }
+
+  const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={resetForm}
+            onCancel={() => {
+              handleReset()
+              setSaleOrders([])
+              setSaleOrder({})
+            }}
             mode={MODAL_MODE.CREATE}
           />
         )
@@ -92,7 +109,10 @@ const MOForm = () => {
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={resetForm}
+            onCancel={() => {
+              handleReset()
+              getMasterDetail()
+            }}
             mode={MODAL_MODE.UPDATE}
           />
         )
@@ -150,6 +170,12 @@ const MOForm = () => {
     }
   }
 
+  useEffect(() => {
+    if (isUpdate) {
+      getMasterDetail()
+    }
+  }, [moDetails?.masterPlan?.id])
+
   const handleChangePlan = (value, setFieldValue) => {
     masterPlanActions.getMasterPlanDetailsById(value, (response) => {
       setSaleOrders(response.saleOrderSchedules)
@@ -169,14 +195,19 @@ const MOForm = () => {
     moPlan: [moDetails?.planFrom, moDetails?.planTo] || null,
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.materialPlan?.name || null,
+    masterPlanId: moDetails?.masterPlan?.id || null,
     moFactory: moDetails?.factory?.name || '',
-    saleOrderId: moDetails?.saleOrder?.name || null,
+    saleOrderId: moDetails?.saleOrderId || null,
   }
 
   const handleSubmit = (values) => {
     const payload = {
-      ...values,
+      name: values?.name,
+      code: values?.code,
+      itemIds: values?.itemIds,
+      description: values?.description,
+      saleOrderId: values?.saleOrderId,
+      masterPlanId: values?.masterPlanId,
       planFrom: values?.moPlan ? values?.moPlan[0] : '',
       planTo: values?.moPlan ? values?.moPlan[1] : '',
     }
@@ -202,7 +233,7 @@ const MOForm = () => {
         validationSchema={validationSchema(t)}
         onSubmit={handleSubmit}
       >
-        {({ resetForm, setFieldValue }) => (
+        {({ handleReset, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -248,7 +279,7 @@ const MOForm = () => {
                     {isView ? (
                       <LabelValue
                         label={t('Mo.planName')}
-                        value={moDetails?.materialPlan?.name}
+                        value={moDetails?.masterPlan?.name}
                       />
                     ) : (
                       <Field.Autocomplete
@@ -279,7 +310,6 @@ const MOForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
-                        disabled={isUpdate}
                         required
                       />
                     )}
@@ -329,6 +359,7 @@ const MOForm = () => {
                         getOptionLabel={(option) => option?.saleOrderName || ''}
                         getOptionValue={(option) => option?.saleOrderId}
                         required
+                        value={moDetails?.saleOrderId}
                         onChange={handleChangeSaleOrder}
                       />
                     )}
@@ -423,7 +454,7 @@ const MOForm = () => {
                 />
               </Tabs>
             )}
-            {renderActionBar(resetForm)}
+            {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>

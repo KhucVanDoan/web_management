@@ -283,7 +283,7 @@ function BOMForm() {
                         placeholder={t('defineBOM.bomCode')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                         }}
                         required
                       />
@@ -330,6 +330,7 @@ function BOMForm() {
                         placeholder={t('defineBOM.item.name')}
                         value={getItemObject(values.itemId)?.name || ''}
                         required
+                        disabled
                       />
                     </Box>
                     {/* @TODO: <linh.taquang> wait BA comfirm this field */}
