@@ -509,7 +509,7 @@ const DefineMasterPlan = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('defineMasterPlan.title')}
+      title={t('menu.masterPlanDefine')}
       onSearch={setKeyword}
       placeholder={t('defineMasterPlan.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}

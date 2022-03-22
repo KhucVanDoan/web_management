@@ -318,13 +318,14 @@ const Mo = () => {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('Mo.title')}
+        title={t('menu.moDefine')}
         onSearch={setKeyword}
         placeholder={t('Mo.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
         <DataTable
+          title={t('Mo.title')}
           rows={moList}
           columns={columns}
           pageSize={pageSize}

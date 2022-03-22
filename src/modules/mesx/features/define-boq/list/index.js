@@ -277,13 +277,14 @@ const DefineBOQ = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('defineBOQ.title')}
+      title={t('menu.boqDefine')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('defineBOQ.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
+        title={t('defineBOQ.title')}
         rows={boqList}
         columns={columns}
         pageSize={pageSize}
@@ -292,7 +293,6 @@ const DefineBOQ = () => {
         onPageSizeChange={setPageSize}
         onChangeSort={setSort}
         total={total}
-        title={t('general:dataTable.title')}
         sort={sort}
         checkboxSelection
         filters={{

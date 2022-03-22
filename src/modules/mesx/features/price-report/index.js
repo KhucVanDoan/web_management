@@ -178,11 +178,12 @@ const PriceReport = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('priceReport.title')}
+      title={t('menu.priceReport')}
       onSearch={setKeyword}
       placeholder={t('priceReport.searchPlacehoder')}
     >
       <DataTable
+        title={t('menu.priceReport')}
         rows={priceReport}
         columns={columns}
         pageSize={pageSize}

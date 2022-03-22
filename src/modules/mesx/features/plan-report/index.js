@@ -382,12 +382,13 @@ function PlanReport() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('planReport.title')}
+        title={t('menu.planReport')}
         onSearch={setKeyword}
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
         <TableCollapse
+          title={t('menu.planReport')}
           rows={bomTree}
           pageSize={pageSize}
           page={page}
@@ -410,7 +411,6 @@ function PlanReport() {
             defaultValue: DEFAULT_FILTERS,
             onApply: setFilters,
           }}
-          title={t('planReport.title')}
         />
       </Page>
     </>

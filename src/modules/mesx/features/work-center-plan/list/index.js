@@ -140,12 +140,13 @@ const WorkCenterPlanList = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('workCenterPlan.title')}
+      title={t('menu.workCenterPlan')}
       onSearch={setKeyword}
       placeholder={t('workCenterPlan.searchPlaceHolder')}
       loading={isLoading}
     >
       <DataTable
+        title={t('workCenterPlan.title')}
         rows={wcpList?.items}
         pageSize={pageSize}
         page={page}
@@ -162,7 +163,6 @@ const WorkCenterPlanList = () => {
           values: filters,
           onApply: setFilters,
         }}
-        title={t('general:dataTable.title')}
       ></DataTable>
     </Page>
   )

@@ -219,13 +219,14 @@ const WorkCenter = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('workCenter.title')}
+      title={t('menu.workCenter')}
       onSearch={setKeyword}
       placeholder={t('workCenter.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
+        title={t('workCenter.title')}
         rows={wcList}
         pageSize={pageSize}
         page={page}
@@ -235,7 +236,6 @@ const WorkCenter = () => {
         onChangeFilter={setFilters}
         onChangeSort={setSort}
         total={total}
-        title={t('general:dataTable.title')}
         sort={sort}
         filters={{
           form: <FilterForm />,
