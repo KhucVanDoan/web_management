@@ -1461,7 +1461,7 @@
     "total": "Tổng"
   },
   "requestBuyMaterial": {
-    "title": "Danh sách cảnh báo cần mua nguyên vật liệu",
+    "title": "Danh sách cảnh báo mua nguyên vật liệu",
     "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "requestCode": "Mã yêu cầu",
     "requestName": "Tên yêu cầu",

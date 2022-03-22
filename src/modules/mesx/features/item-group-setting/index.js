@@ -189,13 +189,14 @@ const ItemGroupSetting = () => {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('itemGroupDefine.title')}
+        title={t('menu.itemGroupDefine')}
         onSearch={setKeyword}
         placeholder={t('itemGroupDefine.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
         <DataTable
+          title={t('itemGroupDefine.title')}
           rows={itemGroupList}
           pageSize={pageSize}
           page={page}
@@ -205,7 +206,6 @@ const ItemGroupSetting = () => {
           onChangeFilter={setfilters}
           onChangeSort={setSort}
           total={total}
-          title={t('general:dataTable.title')}
           filters={{
             form: <FilterForm />,
             defaultValue: DEFAULT_FILTERS,

@@ -183,13 +183,14 @@ function ItemUnitSetting() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('itemUnitDefine.title')}
+        title={t('menu.itemUnitDefine')}
         onSearch={setKeyword}
         placeholder={t('itemUnitDefine.searchPlaceholder')}
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
         <DataTable
+          title={t('itemUnitDefine.title')}
           rows={itemUnitList}
           pageSize={pageSize}
           page={page}
@@ -199,7 +200,6 @@ function ItemUnitSetting() {
           onChangeFilter={setfilters}
           onChangeSort={setSort}
           total={total}
-          title={t('general:dataTable.title')}
           filters={{
             form: <FilterForm />,
             values: filters,

@@ -194,6 +194,7 @@ const QualityReports = () => {
       loading={isLoading}
     >
       <DataTable
+        title={t('qualityReport.title')}
         rows={transactions}
         columns={columns}
         pageSize={pageSize}
