@@ -5,7 +5,7 @@ import {
   confirmMOByIdFailed,
   confirmMOByIdSuccess,
   CONFIRM_MO_START,
-} from '~/modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/mo'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

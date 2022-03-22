@@ -25,7 +25,6 @@ export const saleOrderSchema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    boqId: Yup.string().required(t('general:form.required')),
     orderedAt: Yup.date().nullable().required(t('general:form.required')),
     companyId: Yup.string().required(t('general:form.required')),
     customerId: Yup.string().required(t('general:form.required')),

@@ -2,45 +2,46 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateMOFailed,
-  updateMOSuccess,
-  UPDATE_MO_START,
-} from '~/modules/mesx/redux/actions/mo.action'
+  deleteMOFailed,
+  deleteMOSuccess,
+  DELETE_MO_START,
+} from '~/modules/mesx/redux/actions/mo'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Update MO API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const updateMOApi = (params) => {
-  const uri = `/v1/produces/manufacturing-orders/${params.id}`
-  return api.put(uri, params)
+const deleteMOApi = (params) => {
+  const uri = `/v1/produces/manufacturing-orders/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateMO(action) {
+function* doDeleteMO(action) {
   try {
-    const response = yield call(updateMOApi, action?.payload)
+    const response = yield call(deleteMOApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateMOSuccess(response.data))
+      yield put(deleteMOSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateMOFailed())
+    yield put(deleteMOFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +50,8 @@ function* doUpdateMO(action) {
 }
 
 /**
- * Watch search production-orders
+ * Watch search users
  */
-export default function* watchUpdateMO() {
-  yield takeLatest(UPDATE_MO_START, doUpdateMO)
+export default function* watchDeleteMO() {
+  yield takeLatest(DELETE_MO_START, doDeleteMO)
 }

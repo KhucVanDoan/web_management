@@ -4,7 +4,7 @@ import {
   getListMoProducingStepByIdSuccess,
   getListMoProducingStepByIdFailed,
   GET_LIST_MO_PRODUCING_STEP_BY_ID,
-} from '~/modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/mo'
 import { api } from '~/services/api'
 
 /**

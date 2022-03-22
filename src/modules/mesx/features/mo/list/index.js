@@ -19,8 +19,10 @@ import {
   MO_STATUS_TO_DELETE,
   MO_STATUS,
 } from '~/modules/mesx/constants'
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   redirectRouter,
@@ -62,13 +64,10 @@ const Mo = () => {
     actions: planActions,
   } = useDefinePlan()
 
+  const { actions: factoryAction } = useDefineFactory()
+  const { actions: saleOrderAction } = useSaleOrder()
+
   const columns = [
-    // {
-    //   field: 'id',
-    //   headerName: '#',
-    //   width: 80,
-    //   sortable: false,
-    // },
     {
       field: 'code',
       headerName: t('Mo.moCode'),
@@ -146,14 +145,14 @@ const Mo = () => {
       align: 'center',
       sortable: true,
       renderCell: (params) => {
-        const { status } = params.row
+        const { status, id } = params.row
         const isConfirmed = status === MO_STATUS.CONFIRMED
         return (
           <>
             {isConfirmed && (
               <Button
                 variant="text"
-                onClick={() => history.push(ROUTE.WORK_ORDER.PATH)}
+                onClick={() => history.push(ROUTE.WORK_ORDER.PATH, { id: id })}
                 bold={false}
               >
                 {t('Mo.workOrder')}
@@ -173,10 +172,6 @@ const Mo = () => {
         const canEdit = MO_STATUS_TO_EDIT.includes(status)
         const canConfirm = MO_STATUS_TO_CONFIRM.includes(status)
         const canDelete = MO_STATUS_TO_DELETE.includes(status)
-        // const hasPlan = MO_STATUS_PLAN.includes(status)
-        // const moHasPlan = planList.filter((i) => i.moId === id).map((m) => m.id)
-        // const goDetail = hasPlan && moHasPlan.length === 1
-        // const goList = hasPlan && moHasPlan.length > 1
         return (
           <div>
             <IconButton onClick={() => onClickViewDetails(id)}>
@@ -202,26 +197,6 @@ const Mo = () => {
                 <Icon name="tick" />
               </IconButton>
             )}
-            {/* {goDetail && (
-              <Button
-                variant="text"
-                onClick={() =>
-                  history.push(
-                    ROUTE.PLAN.DETAILS.PATH.replace(':id', `${moHasPlan[0]}`),
-                  )
-                }
-              >
-                {t('Mo.planList')}
-              </Button>
-            )}
-            {goList && (
-              <Button
-                variant="text"
-                onClick={() => history.push(ROUTE.PLAN.LIST.PATH)}
-              >
-                {t('Mo.planList')}
-              </Button>
-            )} */}
           </div>
         )
       },
@@ -237,7 +212,9 @@ const Mo = () => {
       sort: convertSortParams(sort),
     }
     actions.searchMO(params)
-    planActions.searchPlans({ page, limit: pageSize })
+    planActions.searchPlans({ isGetAll: 1 })
+    factoryAction.searchFactories({ isGetAll: 1 })
+    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
   }
 
   useEffect(() => {

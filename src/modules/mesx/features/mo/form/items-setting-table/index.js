@@ -106,6 +106,14 @@ const ItemsSettingTable = (props) => {
     },
   ]
 
+  // const renderColumn = () => {
+  //   if (isView) {
+  //     return columnsDetail
+  //   } else if (isUpdate) {
+  //     return columnUpdate
+  //   } else return columns
+  // }
+
   useEffect(() => {
     const itemsInSaleOrder = props.saleOrder?.itemSchedules || []
     setItems(getItemsInTable(itemsInSaleOrder))

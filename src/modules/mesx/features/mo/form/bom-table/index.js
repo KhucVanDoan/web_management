@@ -8,16 +8,6 @@ function BomTable(props) {
   const { itemTypeList, BOMStructure } = props
   const { t } = useTranslation(['mesx'])
 
-  // const [bomTree, setBomTree] = useState([])
-
-  // let temp = {...BOMStructure}
-  // const convertBom = () => {
-  //   temp.map(bom => {
-
-  //   })
-
-  // }
-
   const getColumns = [
     {
       field: 'id',
@@ -138,6 +128,7 @@ function BomTable(props) {
       <TableCollapse
         rows={BOMStructure}
         columns={getColumns}
+        producingStepColumns={[]} // @TODO: <linh.taquang> convert BOM
         isRoot={true}
         isView={true}
         hideSetting

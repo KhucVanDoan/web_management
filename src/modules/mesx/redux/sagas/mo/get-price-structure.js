@@ -4,7 +4,7 @@ import {
   getPriceStructureByIdSuccess,
   getPriceStructureByIdFailed,
   GET_PRICE_STRUCTURE_START,
-} from '~/modules/mesx/redux/actions/mo.action'
+} from '~/modules/mesx/redux/actions/mo'
 import { api } from '~/services/api'
 
 /**

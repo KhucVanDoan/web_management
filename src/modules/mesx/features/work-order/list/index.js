@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
 import { QR_CODE_TYPE, DATE_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
@@ -12,14 +13,9 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import Status from '~/components/Status'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import {
-  WORK_ORDER_STATUS,
-  WORK_ORDER_STATUS_OPTIONS,
-} from '~/modules/mesx/constants'
+import { WORK_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -31,15 +27,6 @@ import {
 import FilterForm from './filter-form'
 import { validationSchema } from './schema'
 
-const breadcrumbs = [
-  {
-    title: 'plan',
-  },
-  {
-    route: ROUTE.WORK_ORDER.PATH,
-    title: ROUTE.WORK_ORDER.TITLE,
-  },
-]
 const WorkOrder = () => {
   const {
     data: { isLoading, workOrderList, total },
@@ -48,18 +35,18 @@ const WorkOrder = () => {
   const {
     appStore: { itemUnits },
   } = useAppStore()
+  const location = useLocation()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
 
-  const [tempItem, setTempItem] = useState(null)
-  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
+  const [locationId, setLocationId] = useState(location?.state?.id)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState({
+    moId: location?.state?.id.toString(),
+  })
   const [sort, setSort] = useState(null)
-  const [keyword, setKeyword] = useState('')
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = useMemo(() => [
@@ -172,22 +159,6 @@ const WorkOrder = () => {
       },
     },
     {
-      field: 'status',
-      headerName: t('workOrder.status'),
-      width: 200,
-      align: 'center',
-      renderCell: (params) => {
-        const { status } = params.row
-        return (
-          <Status
-            options={WORK_ORDER_STATUS_OPTIONS}
-            value={status}
-            variant="text"
-          />
-        )
-      },
-    },
-    {
       field: 'action',
       headerName: t('common.action'),
       disableClickEventBubbling: true,
@@ -195,9 +166,6 @@ const WorkOrder = () => {
       align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
-        const isEdit =
-          status === WORK_ORDER_STATUS.CREATED ||
-          status === WORK_ORDER_STATUS.CONFIRMED
         const isConfirmed = status === WORK_ORDER_STATUS.CREATED
         const isDelete = status === WORK_ORDER_STATUS.CREATED
         return (
@@ -211,17 +179,6 @@ const WorkOrder = () => {
             >
               <Icon name="show" />
             </IconButton>
-            {isEdit && (
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.WORK_ORDER_EDIT.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="edit" />
-              </IconButton>
-            )}
 
             {isDelete && (
               <IconButton
@@ -248,60 +205,27 @@ const WorkOrder = () => {
         )
       },
     },
-    {
-      field: 'detailSchedule',
-      headerName: t('workOrder.detailSchedule'),
-      width: 150,
-      align: 'center',
-      renderCell: (params) => {
-        const { status, id } = params.row
-        const canEdit = status === WORK_ORDER_STATUS.CONFIRMED
-        return canEdit ? (
-          <Button
-            variant="text"
-            size="small"
-            bold={false}
-            onClick={() =>
-              history.push(
-                ROUTE.DETAIL_SCHEDULE.EDIT.PATH.replace(':id', `${id}`),
-              )
-            }
-          >
-            {t('workOrder.detailSchedule')}
-          </Button>
-        ) : null
-      },
-    },
   ])
 
   const refreshData = () => {
     const params = {
-      keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [...columns, { field: 'moId' }]),
       sort: convertSortParams(sort),
     }
     workOrderActions.searchWorkOrders(params)
   }
 
   useEffect(() => {
-    refreshData()
-  }, [page, pageSize, filters, sort, keyword])
-
-  const onSubmitDelete = () => {
-    workOrderActions.deleteWorkOrder(tempItem?.id, () => {
+    if (locationId) {
       refreshData()
-    })
-    setIsOpenDeleteModal(false)
-    setTempItem(null)
-  }
+    }
+  }, [page, pageSize, filters, sort, location?.state?.id])
 
-  const submitConfirm = () => {
-    workOrderActions.confirmWorkOrderById(tempItem?.id, refreshData)
-    setTempItem(null)
-    setIsOpenConfirmModal(false)
-  }
+  useEffect(() => {
+    setLocationId(location?.state?.id)
+  }, [location?.state?.id])
 
   const onChangeSelectedRows = (selected) => {
     setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
@@ -331,16 +255,6 @@ const WorkOrder = () => {
           {t('defineItem.printQRButton')}
         </Button>
         {/* @TODO: <khanh.nguyenvan> handle import data */}
-        <Button variant="outlined" icon="download" disabled sx={{ ml: 4 / 3 }}>
-          {t('defineBOQ.import')}
-        </Button>
-        <Button
-          onClick={() => history.push(ROUTE.WORK_ORDER_CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('common.create')}
-        </Button>
       </>
     )
   }
@@ -399,10 +313,9 @@ const WorkOrder = () => {
 
   return (
     <Page
-      breadcrumbs={breadcrumbs}
       title={t('menu.workOrder')}
       renderHeaderRight={renderHeaderRight}
-      onSearch={setKeyword}
+      onBack={() => history.push(ROUTE.MO.LIST.PATH)}
       placeholder={t('workOrder.searchPlaceholder')}
       loading={isLoading}
     >
@@ -422,53 +335,6 @@ const WorkOrder = () => {
         selected={selectedRows}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
-      <Dialog
-        open={isOpenDeleteModal}
-        title={t('workOrder.deleteModalTitle')}
-        maxWidth="sm"
-        onSubmit={onSubmitDelete}
-        submitProps={{
-          color: 'error',
-        }}
-        submitLabel={t('common.yes')}
-        onCancel={() => setIsOpenDeleteModal(false)}
-        cancelLabel={t('common.no')}
-        noBorderBottom
-      >
-        {t('workOrder.deleteConfirm')}
-        <LV
-          label={t('workOrder.lblcodeWorkOrder')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('workOrder.codeKH')}
-          value={tempItem?.moPlan?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
-        open={isOpenConfirmModal}
-        title={t('common.notify')}
-        maxWidth="sm"
-        onSubmit={submitConfirm}
-        submitLabel={t('common.yes')}
-        onCancel={() => setIsOpenConfirmModal(false)}
-        cancelLabel={t('common.no')}
-        noBorderBottom
-      >
-        {t('common.confirmMessage.confirm')}
-        <LV
-          label={t('workOrder.lblcodeWorkOrder')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('workOrder.codeKH')}
-          value={tempItem?.moPlan?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={isOpenPrintQRModal}
         title={t('defineItem.printQRModalTitle')}

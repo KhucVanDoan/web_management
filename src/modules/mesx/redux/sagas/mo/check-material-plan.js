@@ -1,19 +1,19 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getMoItemsByIdFailed,
-  getMoItemsByIdSuccess,
-  GET_MO_ITEMS_START,
-} from '~/modules/mesx/redux/actions/mo.action'
+  checkMaterialPlanByIdFailed,
+  checkMaterialPlanByIdSuccess,
+  CHECK_MATERIAL_PLAN_START,
+} from '~/modules/mesx/redux/actions/mo'
 import { api } from '~/services/api'
 
 /**
- * Search MO API
+ * Check material plan
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getMoItemsApi = (params) => {
-  const uri = `v1/produces/manufacturing-orders/${params}/plan/producing-steps/list`
+const checkMaterialPlanApi = (params) => {
+  const uri = `/v1/produces/material-plans/${params}/check`
   return api.get(uri)
 }
 
@@ -21,22 +21,22 @@ const getMoItemsApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGetMOItems(action) {
+function* doCheckMaterialPlan(action) {
   try {
-    const response = yield call(getMoItemsApi, action?.payload)
+    const response = yield call(checkMaterialPlanApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getMoItemsByIdSuccess(response?.data))
+      yield put(checkMaterialPlanByIdSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        action.onSuccess(response?.data)
+        yield action.onSuccess()
       }
     } else {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getMoItemsByIdFailed())
+    yield put(checkMaterialPlanByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -47,6 +47,6 @@ function* doGetMOItems(action) {
 /**
  * Watch search users
  */
-export default function* watchGetMOItems() {
-  yield takeLatest(GET_MO_ITEMS_START, doGetMOItems)
+export default function* watchCheckMaterialPlan() {
+  yield takeLatest(CHECK_MATERIAL_PLAN_START, doCheckMaterialPlan)
 }
