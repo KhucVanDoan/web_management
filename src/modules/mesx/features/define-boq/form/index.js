@@ -186,7 +186,7 @@ const BOQForm = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ resetForm, values, setFieldValue }) => (
+        {({ resetForm, values }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -281,7 +281,6 @@ const BOQForm = () => {
                     items={values?.items || []}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
-                    setFieldValue={setFieldValue}
                   />
                 )}
               />

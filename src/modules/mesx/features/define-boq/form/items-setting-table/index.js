@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -14,7 +14,7 @@ import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
+const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const {
     data: { itemList },
     actions,
@@ -100,17 +100,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           ) : (
             <Field.TextField
               name={`items[${index}].quantity`}
-              inputProps={{
-                min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-              }}
               type="number"
               disabled={isView}
-              onInput={(val) => {
-                setFieldValue(
-                  `items[${index}].quantity`,
-                  Math.max(0, parseInt(val)).toString().slice(0, 10),
-                )
-              }}
+              allow={TEXTFIELD_ALLOW.NUMERIC}
             />
           )
         },
@@ -204,14 +196,12 @@ ItemSettingTable.defaultProps = {
   items: [],
   mode: '',
   arrayHelpers: {},
-  setFieldValue: () => {},
 }
 
 ItemSettingTable.propTypes = {
   arrayHelpers: PropTypes.shape(),
   items: PropTypes.array,
   mode: PropTypes.string,
-  setFieldValue: PropTypes.func,
 }
 
 export default ItemSettingTable

@@ -112,6 +112,10 @@ export const TEXTFIELD_ALLOW = {
   ALPHANUMERIC: /[^0-9A-Za-z]/g,
 }
 
+export const TEXTFIELD_PREVENT = {
+  [TEXTFIELD_ALLOW.NUMERIC]: [',', '.', '-', '+', 'e', 'E'],
+}
+
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 
 export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy hh:mm:ss'

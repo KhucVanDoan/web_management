@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE, NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -109,9 +109,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
           ) : (
             <Field.TextField
               name={`items[${index}].stepNumber`}
-              inputProps={{
-                min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
-              }}
               type="number"
               disabled={isView}
             />
