@@ -1,35 +1,61 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-
-  const [itemList, setItemList] = useState([])
-  const [saleOder, setSaleOder] = useState([])
-  const { actions: actionSaleOrder } = useSaleOrder()
+  const { values } = useFormikContext()
 
   const {
-    data: { moList, moDetails },
-    actions,
+    data: { moList, moItems },
+    actions: moActions,
   } = useMo()
+
+  const {
+    data: { saleOrderList },
+    actions: actionSaleOrder,
+  } = useSaleOrder()
+
+  const {
+    data: { itemList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
   useEffect(() => {
-    actions.searchMO({ isGetAll: 1 })
-  }, [])
-  const handleChange = (id) => {
-    actions.getMODetailsById(id, (res) => {
-      setSaleOder([res?.saleOrder])
+    actionSaleOrder.searchSaleOrders({
+      isGetAll: 1,
+      filter: JSON.stringify([
+        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
+      ]),
     })
+    moActions.searchMO({ isGetAll: 1 })
+    commonManagementActions.getItems({ isGetAll: 1 })
+  }, [values.moCode, values.soName])
+
+  const getDataItem = () => {
+    const items = []
+    moItems?.moDetail?.forEach((parentItem) => {
+      parentItem?.moPlanBom?.forEach((i) => {
+        const listItem = itemList?.find((item) => i.itemId === item.id)
+        items.push(listItem)
+      })
+    })
+    return items
   }
-  const onchange = (id) => {
-    actionSaleOrder.getSaleOrderDetailsById(id, (res) => {
-      setItemList(res?.saleOrderDetails)
-    })
+
+  const getDataSaleOder = () => {
+    const saleOrderLists = []
+    const soId = moList?.find((mo) => mo?.id === values?.moCode)?.saleOrderId
+    const saleOrders = saleOrderList?.find((so) => so?.id === soId)
+    saleOrderLists.push(saleOrders)
+    return saleOrderLists
   }
 
   return (
@@ -37,49 +63,36 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.Autocomplete
           name="moCode"
-          label={t('priceReport.moCode')}
-          placeholder={t('priceReport.moCode')}
-          options={moList}
+          label={t('qualityReport.moName')}
+          placeholder={t('qualityReport.moName')}
+          options={
+            values?.soName
+              ? moList.filter((mo) => mo?.saleOrderId === values?.soName)
+              : moList
+          }
           getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.code}
-          onChange={(id) => handleChange(id)}
+          onChange={(id) => moActions.getMoItemsById(id)}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
           name="soName"
-          label={t('priceReport.saleOrder')}
-          placeholder={t('priceReport.saleOrder')}
-          options={saleOder}
+          label={t('qualityReport.saleOrder')}
+          placeholder={t('qualityReport.saleOrder')}
+          options={values?.moCode ? getDataSaleOder() : saleOrderList}
           getOptionValue={(opt) => opt?.id}
-          getOptionLabel={(opt) => opt?.code}
-          onChange={(id) => onchange(id)}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
           name="itemName"
-          label={t('priceReport.productName')}
-          placeholder={t('priceReport.productName')}
-          options={itemList}
-          getOptionValue={(opt) => opt?.item?.name}
-          getOptionLabel={(opt) => opt?.item?.name}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DatePicker
-          value={moDetails?.createdAt}
-          label={t('priceReport.moDate')}
-          placeholder={t('planReport.labledateSX')}
-          type="date"
-          name="productionDate"
-          inputVariant="outlined"
-          format="MM/dd/yyyy"
-          margin="dense"
-          size="small"
-          fullWidth
-          clearable="true"
-          disabled
+          label={t('qualityReport.productName')}
+          placeholder={t('qualityReport.productName')}
+          options={getDataItem()}
+          getOptionValue={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
     </Grid>
