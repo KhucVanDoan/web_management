@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { BOQ_STATUS_OPTIONS_FILTER } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {
@@ -61,7 +61,7 @@ const FilterForm = () => {
           name="status"
           label={t('defineBOQ.status')}
           placeholder={t('defineBOQ.status')}
-          options={BOQ_STATUS_OPTIONS}
+          options={BOQ_STATUS_OPTIONS_FILTER}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />

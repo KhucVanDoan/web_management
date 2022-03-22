@@ -481,6 +481,17 @@ export const BOQ_STATUS_TO_CONFIRM = [BOQ_STATUS.PENDING, BOQ_STATUS.REJECTED]
 export const BOQ_STATUS_TO_EDIT = [BOQ_STATUS.PENDING, BOQ_STATUS.REJECTED]
 export const BOQ_STATUS_PLAN = [BOQ_STATUS.COMPLETED, BOQ_STATUS.IN_PROGRESS]
 
+export const BOQ_STATUS_OPTIONS_FILTER = [
+  {
+    id: 0,
+    text: 'boqStatus.pending',
+  },
+  {
+    id: 1,
+    text: 'boqStatus.confirmed',
+  },
+]
+
 export const PLAN_STATUS = {
   REJECTED: 0,
   CREATED: 1,
