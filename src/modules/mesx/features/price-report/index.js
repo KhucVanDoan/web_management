@@ -8,7 +8,6 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
 
 import { useMo } from '../../redux/hooks/useMo'
 import FilterForm from './form-filter'
@@ -28,20 +27,15 @@ const DEFAULT_FILTERS = {
   moCode: '',
   soName: '',
   itemName: '',
-  moDate: '',
 }
 
 const PriceReport = () => {
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [keyword, setKeyword] = useState('')
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
   const [priceReport, setPriceReport] = useState([])
   const history = useHistory()
-
   const { actions } = useMo()
+
   const columns = [
     // {
     //   field: 'id',
@@ -53,7 +47,7 @@ const PriceReport = () => {
     {
       field: 'itemName',
       headerName: t('priceReport.itemName'),
-      width: 200,
+      width: 100,
       sortable: true,
       fixed: true,
       renderCell: (params) => {
@@ -64,7 +58,7 @@ const PriceReport = () => {
     {
       field: 'quantity',
       headerName: t('priceReport.planQuantity'),
-      width: 200,
+      width: 100,
       align: 'center',
       fixed: true,
       sortable: true,
@@ -72,7 +66,7 @@ const PriceReport = () => {
     {
       field: 'actualQuantity',
       headerName: t('priceReport.productionQuantity'),
-      width: 200,
+      width: 100,
       align: 'center',
       fixed: true,
       sortable: true,
@@ -80,7 +74,7 @@ const PriceReport = () => {
     {
       field: 'unit',
       headerName: t('priceReport.unit'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: true,
       fixed: true,
@@ -92,14 +86,14 @@ const PriceReport = () => {
     {
       field: 'costProducing',
       headerName: t('priceReport.planProductionPrice'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: true,
     },
     {
       field: 'costProducingActual',
       headerName: t('priceReport.actualProductionPrice'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: true,
       renderCell: (params) => {
@@ -110,14 +104,14 @@ const PriceReport = () => {
     {
       field: 'costMaterial',
       headerName: t('priceReport.planMaterialPrice'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: true,
     },
     {
       field: 'costMaterialActual',
       headerName: t('priceReport.actualMaterialPrice'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: true,
       renderCell: (params) => {
@@ -128,7 +122,7 @@ const PriceReport = () => {
     {
       field: 'productDetailPrice',
       headerName: t('priceReport.productDetailPrice'),
-      width: 200,
+      width: 100,
       align: 'center',
       sortable: false,
       renderCell: (params) => {
@@ -159,40 +153,22 @@ const PriceReport = () => {
   }, [filters])
 
   const refreshData = () => {
-    const params = {
-      keyword: keyword.trim(),
-      page,
-      limit: pageSize,
-      filter: convertFilterParams(filters, columns),
-      sort: convertSortParams(sort),
-    }
-
-    actions.getPriceStructureById(
-      { id: filters.moCode, search: params },
-      (res) => {
-        setPriceReport(res)
-      },
-    )
+    actions.getPriceStructureById(filters.moCode, (res) => {
+      setPriceReport(res)
+    })
   }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.priceReport')}
-      onSearch={setKeyword}
       placeholder={t('priceReport.searchPlacehoder')}
     >
       <DataTable
         title={t('menu.priceReport')}
         rows={priceReport}
         columns={columns}
-        pageSize={pageSize}
-        page={page}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
         onChangeFilter={setFilters}
-        onChangeSort={setSort}
-        sort={sort}
         total={priceReport?.length}
         filters={{
           form: <FilterForm />,
