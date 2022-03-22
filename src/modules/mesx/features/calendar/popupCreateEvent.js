@@ -57,7 +57,7 @@ function PopupCreateEvent(props) {
   const onSubmit = (values) => {
     const params = {
       id: values?.id,
-      code: values.code,
+      code: values.code.trim(),
       title: values.title,
       type: values.type,
       factoryIds: values.factoryIds,

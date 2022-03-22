@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
-import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { FormControlLabel, Input, Tab } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Formik, Form, FieldArray } from 'formik'
@@ -11,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -52,8 +52,8 @@ function CalendarCreate() {
 
   const initialValues = {
     code: '',
-    timePlan: null || [new Date(), new Date(new Date().getFullYear(), 11, 31)],
-    fatoryIds: [],
+    timePlan: null,
+    fatoryIds: null,
     description: '',
     monday: false,
     tuesday: false,
@@ -81,6 +81,7 @@ function CalendarCreate() {
     breakTimes: [{ id: new Date().getTime() }],
     tabValue: '1',
   }
+
   const formatTime = (data = '') => {
     if (data) {
       const times = data.split(':')
@@ -124,7 +125,7 @@ function CalendarCreate() {
       })),
     }
     actions.createFactoryCalendarSetup(params, () =>
-      history.push(ROUTE.PLAN.CALENDAR.ROUTE),
+      history.push(ROUTE.PLAN.CALENDAR.PATH),
     )
   }
   const renderActionButtons = (handleReset) => {
@@ -160,7 +161,6 @@ function CalendarCreate() {
           initialValues={initialValues}
           validationSchema={createCalendarSchema(t)}
           onSubmit={onSubmit}
-          enableReinitialize
         >
           {({ values, setFieldValue, handleReset }) => (
             <Form>
@@ -177,7 +177,6 @@ function CalendarCreate() {
                         name="timePlan"
                         label={t('planCalendar.setupYearCalendar.plan')}
                         placeholder={t('planCalendar.setupYearCalendar.plan')}
-                        labelWidth={180}
                         required
                       />
                     </Grid>
@@ -190,7 +189,6 @@ function CalendarCreate() {
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
                         multiple
-                        labelWidth={180}
                         required
                       />
                     </Grid>
@@ -201,118 +199,116 @@ function CalendarCreate() {
                         placeholder={t('planCalendar.eventDescription')}
                         multiline
                         rows={3}
-                        labelWidth={180}
                       />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* @TODO: DongNQ implement when upload file done
+                     <Grid item xs={12}>
                       <Input type="file" />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
               </Grid>
               <Box mt={2}>
-                <TabContext value={values.tabValue}>
-                  <Box>
-                    <TabList
-                      onChange={(_, val) => setFieldValue('tabValue', val)}
-                    >
-                      <Tab
-                        label={t(
-                          'planCalendar.setupYearCalendar.workingDayInWeek',
-                        )}
-                        value="1"
-                      />
-                      <Tab
-                        label={t('planCalendar.setupYearCalendar.shift')}
-                        value="2"
-                      />
-                    </TabList>
-                  </Box>
-                  <TabPanel sx={{ px: 0 }} value="1">
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item lg={3} xs={12}>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="monday" />}
-                            label={t('planCalendar.setupYearCalendar.monday')}
-                          />
+                <Box>
+                  <Tabs
+                    list={[
+                      t('planCalendar.setupYearCalendar.workingDayInWeek'),
+                      t('planCalendar.setupYearCalendar.shift'),
+                    ]}
+                    sx={{ mt: 2 }}
+                  >
+                    <Box sx={{ px: 0 }}>
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item lg={3} xs={12}>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="monday" />}
+                              label={t('planCalendar.setupYearCalendar.monday')}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="tuesday" />}
+                              label={t(
+                                'planCalendar.setupYearCalendar.tuesday',
+                              )}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="tuesday" />}
-                            label={t('planCalendar.setupYearCalendar.tuesday')}
-                          />
+                        <Grid item lg={3} xs={12}>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="wednesday" />}
+                              label={t(
+                                'planCalendar.setupYearCalendar.wednesday',
+                              )}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="thursday" />}
+                              label={t(
+                                'planCalendar.setupYearCalendar.thursday',
+                              )}
+                            />
+                          </Grid>
                         </Grid>
-                      </Grid>
-                      <Grid item lg={3} xs={12}>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="wednesday" />}
-                            label={t(
-                              'planCalendar.setupYearCalendar.wednesday',
-                            )}
-                          />
+                        <Grid item lg={3} xs={12}>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="friday" />}
+                              label={t('planCalendar.setupYearCalendar.friday')}
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="saturday" />}
+                              label={t(
+                                'planCalendar.setupYearCalendar.saturday',
+                              )}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="thursday" />}
-                            label={t('planCalendar.setupYearCalendar.thursday')}
-                          />
-                        </Grid>
-                      </Grid>
-                      <Grid item lg={3} xs={12}>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="friday" />}
-                            label={t('planCalendar.setupYearCalendar.friday')}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="saturday" />}
-                            label={t('planCalendar.setupYearCalendar.saturday')}
-                          />
-                        </Grid>
-                      </Grid>
-                      <Grid item lg={3} xs={12}>
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={<Field.Checkbox name="sunday" />}
-                            label={t('planCalendar.setupYearCalendar.sunday')}
-                          />
+                        <Grid item lg={3} xs={12}>
+                          <Grid item xs={12}>
+                            <FormControlLabel
+                              control={<Field.Checkbox name="sunday" />}
+                              label={t('planCalendar.setupYearCalendar.sunday')}
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </TabPanel>
-                  <TabPanel sx={{ px: 0 }} value="2">
-                    <FieldArray
-                      name="shifts"
-                      render={(arrayHelpers) => (
-                        <ShiftTable
-                          shifts={values.shifts || []}
-                          arrayHelpers={arrayHelpers}
-                        />
-                      )}
-                    />
-                    <Box mt={4}>
-                      <FieldArray
-                        name="breakTimes"
-                        render={(arrayHelpers) => (
-                          <RelaxTable
-                            shifts={values.shifts || []}
-                            breakTimes={values.breakTimes || []}
-                            arrayHelpers={arrayHelpers}
-                            setFieldValue={setFieldValue}
-                          />
-                        )}
-                      />
                     </Box>
-                  </TabPanel>
-                </TabContext>
+                    <Box sx={{ px: 0 }}>
+                      <FieldArray
+                        name="shifts"
+                        render={(arrayHelpers) => (
+                          <ShiftTable
+                            shifts={values.shifts || []}
+                            arrayHelpers={arrayHelpers}
+                          />
+                        )}
+                      />
+                      <Box mt={4}>
+                        <FieldArray
+                          name="breakTimes"
+                          render={(arrayHelpers) => (
+                            <RelaxTable
+                              shifts={values.shifts || []}
+                              breakTimes={values.breakTimes || []}
+                              arrayHelpers={arrayHelpers}
+                              setFieldValue={setFieldValue}
+                            />
+                          )}
+                        />
+                      </Box>
+                    </Box>
+                  </Tabs>
+                </Box>
               </Box>
 
               <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>

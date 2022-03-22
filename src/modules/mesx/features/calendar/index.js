@@ -15,7 +15,7 @@ import {
   isEqual,
 } from 'date-fns'
 import { Formik, Form } from 'formik'
-import { first, flatMap, isEmpty, isNil } from 'lodash'
+import { flatMap, isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -80,9 +80,7 @@ const PlanCalendar = () => {
     factoryIds: [],
     description: '',
   })
-  const initialSearch = isEmpty(factories)
-    ? { factoryId: null }
-    : { factoryId: first(factories)?.id }
+  const initialSearch = { factoryId: null }
 
   const renderHeaderRight = () => {
     return (
@@ -186,7 +184,7 @@ const PlanCalendar = () => {
   }
 
   const handleDateClick = (info) => {
-    if (factoryId) {
+    if (factoryId && !info.dayEl.className.includes(classes.holiday)) {
       setDateSelected(formatISO(info.date))
       setIsOpenDetail(true)
     }
