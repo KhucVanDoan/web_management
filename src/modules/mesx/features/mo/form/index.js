@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isNil } from 'lodash'
+import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { useParams, useRouteMatch } from 'react-router-dom'
+import { useParams, useRouteMatch, useLocation } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -19,7 +20,7 @@ import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterP
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, redirectRouter } from '~/utils'
+import { formatDateTimeUtc, redirectRouter, convertFilterParams } from '~/utils'
 
 import BomProducingStepTable from './bom-producing-step-table'
 import BomTable from './bom-table'
@@ -32,9 +33,12 @@ const MOForm = () => {
   const { id } = useParams()
   const { path } = useRouteMatch()
   const [mode, setMode] = useState(MODAL_MODE.CREATE)
+  const location = useLocation()
+  const urlSearchParams = qs.parse(location.search)
 
   const [saleOrders, setSaleOrders] = useState([])
   const [saleOrder, setSaleOrder] = useState({})
+  const [factory, setFactory] = useState({})
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -60,8 +64,18 @@ const MOForm = () => {
 
   useEffect(() => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
-    masterPlanActions.searchMasterPlans()
+    masterPlanActions.searchMasterPlans({
+      isGetAll: 1,
+      filter: convertFilterParams({ status: 1 }, [
+        { field: 'status', type: 1 },
+      ]),
+    })
   }, [])
+
+  useEffect(() => {
+    setMasterPlan(urlSearchParams.masterPlanId)
+  }, [urlSearchParams.masterPlanId])
+
   useEffect(() => {
     if (isUpdate || isView) {
       actions.getMODetailsById(id)
@@ -176,8 +190,13 @@ const MOForm = () => {
     }
   }, [moDetails?.masterPlan?.id])
 
-  const handleChangePlan = (value, setFieldValue) => {
-    masterPlanActions.getMasterPlanDetailsById(value, (response) => {
+  const handleChangePlan = (value) => {
+    setMasterPlan(value)
+  }
+
+  const setMasterPlan = (id) => {
+    masterPlanActions.getMasterPlanDetailsById(id, (response) => {
+      setFactory(response.factory)
       setSaleOrders(response.saleOrderSchedules)
       setFieldValue('moPlan', [response.dateFrom, response.dateTo])
       setFieldValue('moFactory', response.factory?.name)
@@ -195,8 +214,8 @@ const MOForm = () => {
     moPlan: [moDetails?.planFrom, moDetails?.planTo] || null,
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.masterPlan?.id || null,
-    moFactory: moDetails?.factory?.name || '',
+    masterPlanId: moDetails?.masterPlan?.id || +urlSearchParams.masterPlanId,
+    moFactory: factory?.name || '',
     saleOrderId: moDetails?.saleOrderId || null,
   }
 

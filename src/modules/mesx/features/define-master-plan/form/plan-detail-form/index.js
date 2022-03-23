@@ -9,17 +9,12 @@ const PlanDetailForm = () => {
   const { t } = useTranslation(['mesx'])
 
   return (
-    <Grid
-      container
-      rowSpacing={4 / 3}
-      columnSpacing={{ xl: 8, xs: 4 }}
-    >
+    <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
       <Grid item lg={6} xs={12}>
         <Field.DatePicker
           name="dateFromSo"
           label={t('defineMasterPlan.executionDate')}
           placeholder={t('defineMasterPlan.executionDate')}
-          required
         />
       </Grid>
       <Grid item lg={6} xs={12}>
@@ -28,7 +23,6 @@ const PlanDetailForm = () => {
           type="number"
           label={t('defineMasterPlan.completionTime')}
           placeholder={t('defineMasterPlan.completionTime')}
-          required
         />
       </Grid>
     </Grid>

@@ -128,13 +128,16 @@ const DefineMasterPlan = () => {
         headerName: t('defineMasterPlan.moName'),
         sortable: true,
         width: 150,
-        renderCell: () => {
+        renderCell: (params) => {
+          const { id } = params.row
           return (
             <Button
               variant="text"
               size="small"
               bold={false}
-              onClick={() => history.push(ROUTE.MO.CREATE.PATH)}
+              onClick={() =>
+                history.push(`${ROUTE.MO.CREATE.PATH}?masterPlanId=${id}`)
+              }
             >
               {t('defineMasterPlan.createMo')}
             </Button>

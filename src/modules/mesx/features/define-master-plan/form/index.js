@@ -359,7 +359,7 @@ const DefineMasterPlanForm = () => {
             <DetailTab
               soId={values.soId}
               planDate={values.planDate}
-              isDetail={isDetail}
+              isDetail={true}
             />
 
             {renderActionBar(resetForm)}
