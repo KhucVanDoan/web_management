@@ -92,9 +92,10 @@ const AutoModeration = () => {
   const getTasksInSaleOrder = (items, saleOrderId) => {
     return items
       ?.map((item) => {
+        const key = `${item.itemId}-${saleOrderId}`
         const itemSchedule = {
           text: item.itemName,
-          id: item.itemId,
+          id: key,
           end_date: formatDateInGanttChart(item.dateTo, 'to'),
           start_date: formatDateInGanttChart(item.dateFrom, 'from'),
           progress: 0,
@@ -108,11 +109,11 @@ const AutoModeration = () => {
             end_date: formatDateInGanttChart(step.dateTo, 'to'),
             start_date: formatDateInGanttChart(step.dateFrom, 'from'),
             progress: 0,
-            parent: item.itemId,
+            parent: key,
             type: 'producingStep',
             isOverQuantity: step.overQuantity > 0,
           })) || []
-        const subBom = getTasksInSaleOrder(item.subBom, item.itemId) || []
+        const subBom = getTasksInSaleOrder(item.subBom, saleOrderId) || []
 
         return [itemSchedule, ...producingSteps, ...subBom]
       })

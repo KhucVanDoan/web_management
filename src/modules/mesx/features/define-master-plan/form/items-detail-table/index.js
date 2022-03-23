@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { flatMap, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -35,7 +35,7 @@ const ItemsDetailTable = (props) => {
       sortable: false,
     },
     {
-      field: 'saleOrder',
+      field: 'saleOrderName',
       headerName: t('defineMasterPlan.itemDetail.saleOrder'),
       align: 'center',
       sortable: false,
@@ -74,19 +74,22 @@ const ItemsDetailTable = (props) => {
   }, [saleOrderDetailList, planDate])
 
   const getItemsInSo = (saleOrders = []) => {
-    const itemsInSo = (flatMap(saleOrders, 'saleOrderDetails') || []).map(
-      (detail) => {
-        const { item, quantity, actualQuantity } = detail
-        return {
+    const itemsInSo = [];
+    saleOrders.forEach((saleOrder) => {
+      saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
+        const { item, quantity, actualQuantity } = saleOrderDetail
+        itemsInSo.push({
+          saleOrderName: saleOrder.name,
           itemName: item?.name,
           unit: item?.itemUnit,
           quantityPlan: quantity,
           quantityActual: actualQuantity,
           bomName: item?.bom?.name,
           routingName: item?.bom?.code,
-        }
-      },
-    )
+        })
+      })
+    });
+    
     setItemsDetail(itemsInSo)
   }
 

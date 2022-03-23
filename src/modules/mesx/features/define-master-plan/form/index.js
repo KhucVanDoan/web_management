@@ -179,7 +179,7 @@ const DefineMasterPlanForm = () => {
           ...masterPlanDetails,
           planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
           soId: masterPlanDetails.saleOrderSchedules?.map(
-            (saleOrderSchedule) => saleOrderSchedule.id,
+            (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
           ),
           factoryId: masterPlanDetails?.factory?.id,
         }
