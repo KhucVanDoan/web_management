@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Grid, Typography, IconButton } from '@mui/material'
+import {
+  Grid,
+  Typography,
+  IconButton,
+  createFilterOptions,
+} from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
@@ -308,7 +313,10 @@ function BOMForm() {
                         placeholder={t('defineBOM.routingCode')}
                         options={routingList}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.code || ''}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Box>
@@ -321,7 +329,10 @@ function BOMForm() {
                         placeholder={t('defineBOM.item.code')}
                         options={itemListBOM}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.code || ''}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Box>

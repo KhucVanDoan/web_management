@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { IconButton } from '@mui/material'
+import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -37,11 +37,14 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               name={`items[${index}].detailId`}
               label={t('defineItem.detailName')}
               options={detailList}
-              getOptionLabel={(option) => option?.name}
+              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id)
               }
               getOptionValue={(option) => option?.id}
+              filterOptions={createFilterOptions({
+                stringify: (opt) => `${opt?.code}|${opt?.name}`,
+              })}
               required
             />
           )

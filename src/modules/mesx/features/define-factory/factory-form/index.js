@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -211,6 +211,9 @@ const DefineFactoryForm = () => {
                       placeholder={t('defineFactory.companyName')}
                       options={appStore?.companies}
                       getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
                       getOptionValue={(opt) => opt?.id}
                       required
                     />

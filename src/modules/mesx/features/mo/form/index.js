@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, createFilterOptions } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isNil } from 'lodash'
 import qs from 'query-string'
@@ -305,7 +305,10 @@ const MOForm = () => {
                         label={t('Mo.planName')}
                         placeholder={t('Mo.planName')}
                         options={masterPlanList || []}
-                        getOptionLabel={(option) => option?.name || ''}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         getOptionValue={(option) => option?.id}
                         required
                         onChange={(value) =>
