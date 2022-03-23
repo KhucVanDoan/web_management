@@ -647,7 +647,10 @@ function DefineItemForm() {
                             control={
                               <Checkbox
                                 checked={isDetailed}
-                                onChange={onToggleIsDetailed}
+                                onChange={() => {
+                                  onToggleIsDetailed()
+                                  handleReset()
+                                }}
                                 name="isDetailed"
                               />
                             }

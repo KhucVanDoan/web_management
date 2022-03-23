@@ -50,8 +50,8 @@ const ItemSettingTable = (props) => {
           const itemId = params.row?.itemId
           const itemListFilter = itemList.filter(
             (i) =>
-              i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
-              i.isHasBom,
+              i.itemType.code !== DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
+              !i.isHasBom,
           )
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (

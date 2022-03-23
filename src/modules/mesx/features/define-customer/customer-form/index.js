@@ -207,6 +207,7 @@ function DefineCustomerForm() {
                       name="fax"
                       label={t('defineCustomer.fax')}
                       placeholder={t('defineCustomer.fax')}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                     />
                   </Grid>
                   <Grid item xs={12}>
