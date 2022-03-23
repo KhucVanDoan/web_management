@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useQualityReport from '~/modules/mesx/redux/hooks/useQualityReport'
+import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -32,11 +36,28 @@ const QualityReports = () => {
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
-
+  const [moId, setMoId] = useState(null)
+  const [itemMoList, setItemMoList] = useState([])
+  const [soId, setSoId] = useState(null)
   const {
     data: { isLoading, transactions, total },
     actions,
   } = useQualityReport()
+
+  const {
+    data: { moList },
+    actions: moActions,
+  } = useMo()
+
+  const {
+    data: { saleOrderList },
+    actions: actionSaleOrder,
+  } = useSaleOrder()
+
+  const {
+    data: { itemList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
 
   const columns = [
     // {
@@ -169,7 +190,34 @@ const QualityReports = () => {
       sortable: false,
     },
   ]
+  useEffect(() => {
+    actionSaleOrder.searchSaleOrders({
+      isGetAll: 1,
+      filter: JSON.stringify([
+        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
+      ]),
+    })
+    moActions.searchMO({ isGetAll: 1 })
+  }, [])
 
+  useEffect(() => {
+    moActions.getMoItemsById(moId, (res) => {
+      const itemIds = []
+      res?.moDetail.forEach((i) => {
+        i?.moPlanBom?.forEach((item) => {
+          if (
+            !itemIds.includes(item?.itemId) &&
+            itemList.find((i) => i.id === item?.itemId)?.itemType.code === '01'
+          )
+            itemIds.push(item?.itemId)
+        })
+      })
+      const items = itemList.filter((i) => itemIds.includes(i?.id))
+      setItemMoList(items)
+      const SoId = moList.find((mo) => mo?.id === moId)?.saleOrderId
+      setSoId(SoId)
+    })
+  }, [moId])
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
@@ -183,6 +231,7 @@ const QualityReports = () => {
       sort: convertSortParams(sort),
     }
     actions.getQualityReports(params)
+    commonManagementActions.getItems({ isGetAll: 1 })
   }
 
   return (
@@ -206,7 +255,15 @@ const QualityReports = () => {
         total={total}
         sort={sort}
         filters={{
-          form: <FilterForm />,
+          form: (
+            <FilterForm
+              moList={moList}
+              saleOrderList={saleOrderList}
+              setMoId={setMoId}
+              soId={soId}
+              itemMoList={itemMoList}
+            />
+          ),
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
