@@ -40,10 +40,7 @@ function ProductivityReport() {
     actions: actionMo,
   } = useMo()
 
-  const {
-    data: { data },
-    actions,
-  } = useProductivityReport()
+  const { actions } = useProductivityReport()
 
   useEffect(() => {
     refreshData()
@@ -94,9 +91,12 @@ function ProductivityReport() {
   }
   const handleChangeMo = (id) => {
     actionMo.getListMoProducingStepById(id)
+    setListProducingSteps([])
+    setlistWorkCenter([])
   }
   const handleChangeItem = (id) => {
     setItemId(id)
+    setlistWorkCenter([])
   }
   const handleChangeProducingStep = (id) => {
     setProducingStepId(id)
@@ -205,16 +205,16 @@ function ProductivityReport() {
                   >
                     {/* Tab 1 */}
                     <Box>
-                      <ProductivityChart data={data} />
+                      <ProductivityChart />
                       <Divider />
-                      <ProductivityTable data={data} />
+                      <ProductivityTable />
                     </Box>
 
                     {/* Tab 2 */}
                     <Box>
-                      <OEEChart data={data} />
+                      <OEEChart />
                       <Divider />
-                      <OEETable data={data} />
+                      <OEETable />
                     </Box>
                   </Tabs>
                 </Box>

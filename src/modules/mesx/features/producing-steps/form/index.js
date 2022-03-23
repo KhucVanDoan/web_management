@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid, Typography, Input, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -28,6 +28,8 @@ function ProducingStepForm() {
   const { id } = useParams()
   const history = useHistory()
   const routeMatch = useRouteMatch()
+
+  const [checked, setChecked] = useState(false)
 
   const {
     data: { qcList },
@@ -146,9 +148,7 @@ function ProducingStepForm() {
     code: details?.code || '',
     name: details?.name || '',
     description: details?.description || '',
-    qcQuantityRule:
-      Number(details?.qcQuantityRule) ||
-      Number(NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN),
+    qcQuantityRule: Number(details?.qcQuantityRule) || null,
     productionTimePerItem:
       Number(details?.productionTimePerItem) ||
       NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
@@ -219,14 +219,33 @@ function ProducingStepForm() {
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      name="qcQuantityRule"
-                      label={t('producingStep.completeItems')}
-                      placeholder={t('producingStep.completeItems')}
-                      type="number"
-                      required
-                    />
+                    <LV
+                      label={
+                        <Typography sx={{ mt: '9px' }} required>
+                          {t('producingStep.switchMode')}
+                        </Typography>
+                      }
+                    >
+                      <Field.RadioGroup name="switchMode">
+                        <FormControlLabel
+                          value="0"
+                          control={<Radio />}
+                          label={t('producingStep.allItemComplete')}
+                          onChange={(e, checked) => {
+                            setChecked(!checked)
+                            setFieldValue('qcQuantityRule', null)
+                          }}
+                        />
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label={t('producingStep.someItemComplete')}
+                          onChange={(e, checked) => setChecked(checked)}
+                        />
+                      </Field.RadioGroup>
+                    </LV>
                   </Grid>
+
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       name="productionTimePerItem"
@@ -243,28 +262,24 @@ function ProducingStepForm() {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <LV
-                      label={
-                        <Typography sx={{ mt: '9px' }} required>
-                          {t('producingStep.switchMode')}
-                        </Typography>
-                      }
-                    >
-                      <Field.RadioGroup name="switchMode">
-                        <FormControlLabel
-                          value="0"
-                          control={<Radio />}
-                          label={t('producingStep.allItemComplete')}
-                        />
-                        <FormControlLabel
-                          value="1"
-                          control={<Radio />}
-                          label={t('producingStep.someItemComplete')}
-                        />
-                      </Field.RadioGroup>
-                    </LV>
-                  </Grid>
+
+                  {checked && (
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        name="qcQuantityRule"
+                        label={t('producingStep.completeItems')}
+                        placeholder={t('producingStep.completeItems')}
+                        type="number"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment sx={{ pr: 1 }}>
+                              {t('producingStep.unit.persen')}
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     <FormControlLabel
                       label={

@@ -15,7 +15,7 @@ function Filter() {
   const [routingId, setRoutingId] = useState()
   const [producingStepId, setProducingStepId] = useState()
   const [itemList, setItemList] = useState([])
-  const [routing, setRouting] = useState()
+  const [routing, setRouting] = useState([])
   const [productStep, setProductStep] = useState([])
 
   const {
@@ -25,7 +25,8 @@ function Filter() {
 
   const handleChangeMo = (id) => {
     setMoId(id)
-
+    setRouting([])
+    setProductStep([])
     if (!id) {
       setItemList([])
       setRouting([])

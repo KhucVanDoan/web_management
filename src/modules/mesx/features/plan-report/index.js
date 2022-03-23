@@ -34,7 +34,7 @@ function PlanReport() {
   const { t } = useTranslation(['mesx'])
 
   const {
-    data: { isLoading, total, planList, planDetails },
+    data: { isLoading, total, planList },
     actions: actionPlan,
   } = useDefinePlan()
 
@@ -345,12 +345,12 @@ function PlanReport() {
   }
 
   const handleGetData = (id) => {
-    actionPlan.getPlanDetailsById(id, () => {
+    actionPlan.getPlanDetailsById(id, (data) => {
       const newBomTree = bomTree.map((bom) => {
         if (bom?.id === id) {
           const newBom = { ...bom }
           if (!bom.subBom) {
-            newBom['subBom'] = planDetails?.planBoms
+            newBom['subBom'] = data?.planBoms
           }
           return newBom
         } else {

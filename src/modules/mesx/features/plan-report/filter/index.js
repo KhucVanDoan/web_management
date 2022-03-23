@@ -32,7 +32,7 @@ const FilterForm = () => {
           placeholder={t('planReport.saleOrder')}
           options={saleOrderList}
           getOptionValue={(opt) => [opt?.id]}
-          getOptionLabel={(opt) => opt?.code}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>

@@ -1,7 +1,11 @@
 import { DualAxes } from '@ant-design/plots'
 import { useTranslation } from 'react-i18next'
-function ProductivityChart(props) {
-  const { data } = props
+
+import useProductivityReport from '~/modules/mesx/redux/hooks/useProductivityReport'
+function ProductivityChart() {
+  const {
+    data: { data },
+  } = useProductivityReport()
   const { t } = useTranslation(['mesx'])
   const columnData = []
   const lineData = []

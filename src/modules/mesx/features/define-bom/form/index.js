@@ -361,12 +361,8 @@ function BOMForm() {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Box mt={2}>
-              <Tabs
-                list={[t('defineBOM.itemDetails'), t('defineBOM.BOMStructure')]}
-              >
-                {/* Tab 1 */}
+            {mode === MODAL_MODE.CREATE && (
+              <Box mt={2}>
                 <FieldArray
                   name="items"
                   render={(arrayHelpers) => (
@@ -377,32 +373,54 @@ function BOMForm() {
                     />
                   )}
                 />
-
-                {/* Tab 2 */}
-                <Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      mb: 2,
-                    }}
-                  >
-                    <Typography variant="h4" component="span">
-                      {t('defineBOQ.itemsDetails')}
-                    </Typography>
-                  </Box>
-                  <TableCollapse
-                    rows={BOMStructure || []}
-                    columns={getColumns}
-                    isRoot={true}
-                    isView={true}
-                    hideSetting
-                    hideFooter
+              </Box>
+            )}
+            {mode === MODAL_MODE.UPDATE && (
+              <Box mt={2}>
+                <Tabs
+                  list={[
+                    t('defineBOM.itemDetails'),
+                    t('defineBOM.BOMStructure'),
+                  ]}
+                >
+                  {/* Tab 1 */}
+                  <FieldArray
+                    name="items"
+                    render={(arrayHelpers) => (
+                      <ItemsSettingTable
+                        items={values?.items || []}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
                   />
-                </Box>
-              </Tabs>
-            </Box>
+
+                  {/* Tab 2 */}
+                  <Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        mb: 2,
+                      }}
+                    >
+                      <Typography variant="h4" component="span">
+                        {t('defineBOQ.itemsDetails')}
+                      </Typography>
+                    </Box>
+                    <TableCollapse
+                      rows={BOMStructure || []}
+                      columns={getColumns}
+                      isRoot={true}
+                      isView={true}
+                      hideSetting
+                      hideFooter
+                    />
+                  </Box>
+                </Tabs>
+              </Box>
+            )}
 
             {renderActionBar(handleReset)}
           </Form>

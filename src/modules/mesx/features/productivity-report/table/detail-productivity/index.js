@@ -1,9 +1,12 @@
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import useProductivityReport from '~/modules/mesx/redux/hooks/useProductivityReport'
 
-function ProductivityTable(props) {
-  const { data } = props
+function ProductivityTable() {
+  const {
+    data: { data },
+  } = useProductivityReport()
   const { t } = useTranslation(['mesx'])
 
   const getColumns = () => {
