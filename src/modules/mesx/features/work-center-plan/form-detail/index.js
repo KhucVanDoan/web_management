@@ -363,6 +363,7 @@ const DetailWorkCenterPlan = () => {
     const rowDelayAmount = [delayAmount]
     return shift.concat(rowDelayAmount)
   }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}

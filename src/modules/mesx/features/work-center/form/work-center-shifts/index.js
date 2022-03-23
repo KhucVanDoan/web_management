@@ -107,22 +107,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
         },
       },
       {
-        field: 'unit',
-        headerName: t('workCenter.priceUnit'),
-        width: 200,
-        align: 'center',
-        renderCell: (params, index) => {
-          const { id } = params.row
-          const shiftObject = shifts?.find((x) => x.id === id)
-          const isView = mode === MODAL_MODE.DETAIL
-          return isView ? (
-            <>{shiftObject?.priceUnit}</>
-          ) : (
-            <Field.TextField name={`shifts[${index}].priceUnit`} />
-          )
-        },
-      },
-      {
         field: 'remove',
         headerName: '',
         width: 50,
