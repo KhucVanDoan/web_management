@@ -219,7 +219,6 @@ const MOForm = () => {
       actions.updateMO({ id: Number(id), ...payload }, () => backToList())
     }
   }
-
   return (
     <Page
       breadcrumbs={getBreadcrumb()}

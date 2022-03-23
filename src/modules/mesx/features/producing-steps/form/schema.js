@@ -12,11 +12,17 @@ export const validationSchema = (t) =>
       .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
     name: Yup.string().required(t('general:form.required')),
     qcQuantityRule: Yup.number()
-      .required(t('general:form.required'))
+      .nullable()
       .min(
-        NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+        NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MIN,
         t('general:form.minNumber', {
-          min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+          min: NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MIN,
+        }),
+      )
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         }),
       ),
     productionTimePerItem: Yup.number()

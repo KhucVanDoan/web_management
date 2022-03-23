@@ -342,8 +342,8 @@
     "createProducingStepSuccess": "Tạo công đoạn sản xuất thành công",
     "deleteProducingStepSuccess": "Xóa công đoạn sản xuất thành công",
     "updateProducingStepSuccess": "Cập nhật công đoạn sản xuất thành công",
-    "allItemComplete": "Tất cả sản phẩm phải hoàn thành ?",
-    "someItemComplete": "Một số sản phẩm phải hoàn thành ?",
+    "allItemComplete": "Tất cả sản phẩm phải hoàn thành?",
+    "someItemComplete": "Một số sản phẩm phải hoàn thành?",
     "timePerProduct": "Thời gian thực hiện 1 sản phẩm/công đoạn",
     "qcCriteria": "Tiêu chí QC",
     "qcRule": {
@@ -358,7 +358,8 @@
     "outputQC": "QC đầu ra",
     "timeQC": "Thời gian QC/1 sản phẩm",
     "unit": {
-      "minutes": "phút"
+      "minutes": "phút",
+      "persen": "%"
     },
     "confirmTitle": "Xác nhận",
     "confirmBody": "Bạn có chắc chắn xác nhận công đoạn này?"
@@ -1492,7 +1493,7 @@
       "code": "Mã sản phẩm",
       "name": "Tên sản phẩm",
       "type": "Kiểu sản phẩm",
-      "quantity": "SL cần sản xuất / mua",
+      "quantity": "SL cần mua",
       "unitType": "Đơn vị"
     },
     "confirmRequestBuyMaterialSuccess": "Xác nhận cảnh báo thành công",

@@ -16,7 +16,7 @@ function Filter() {
   const [routingId, setRoutingId] = useState()
   const [producingStepId, setProducingStepId] = useState()
   const [itemList, setItemList] = useState([])
-  const [routing, setRouting] = useState()
+  const [routing, setRouting] = useState([])
   const [productStep, setProductStep] = useState([])
   const {
     data: { inProgressMos },
@@ -26,6 +26,8 @@ function Filter() {
   const handleChangeMo = (id) => {
     actions.getDashboardAllItemByMo(id, (data) => setItemList(data))
     setMoId(id)
+    setRouting([])
+    setProductStep([])
   }
   const handleChangeItem = (id) => {
     setItemId(id)
