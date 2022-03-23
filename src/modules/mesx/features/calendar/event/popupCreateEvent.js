@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Button, Grid } from '@mui/material'
-import { Box } from '@mui/system'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import Dialog from '~/components/Dialog'
@@ -9,8 +9,10 @@ import { Field } from '~/components/Formik'
 import { EVENT_TYPE_OPTIONS } from '~/modules/mesx/constants'
 import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { formatDateTimeUtc } from '~/utils'
 
 import { createEventSchema } from './createEventSchema'
+const DATE_ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"
 
 function PopupCreateEvent(props) {
   const {
@@ -18,7 +20,6 @@ function PopupCreateEvent(props) {
     isDetail = false,
     initialValues,
     handleClose,
-    onResetForm,
     isUpdate,
     getListFactoryEvent,
   } = props
@@ -32,23 +33,27 @@ function PopupCreateEvent(props) {
   } = useCommonManagement()
 
   const renderActionButtons = () => {
+    const { resetForm } = useFormikContext()
     return (
       <>
         <Button color="grayF4" sx={{ mr: 1 }} onClick={handleClose}>
           {t('common.close')}
         </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 1 }}
-          onClick={onResetForm}
-        >
-          {t('common.cancel')}
-        </Button>
         {!isDetail && (
-          <Button type="submit" disabled={isDetail}>
-            {isUpdate ? t('common.update') : t('common.create')}
-          </Button>
+          <>
+            <Button
+              variant="outlined"
+              color="subText"
+              sx={{ mr: 1 }}
+              onClick={resetForm}
+            >
+              {t('common.cancel')}
+            </Button>
+
+            <Button type="submit" disabled={isDetail}>
+              {isUpdate ? t('common.update') : t('common.create')}
+            </Button>
+          </>
         )}
       </>
     )
@@ -62,8 +67,8 @@ function PopupCreateEvent(props) {
       type: values.type,
       factoryIds: values.factoryIds,
       description: values.description,
-      from: values.time[0],
-      to: values.time[1],
+      from: formatDateTimeUtc(values.time[0], DATE_ISO_FORMAT),
+      to: formatDateTimeUtc(values.time[1], DATE_ISO_FORMAT),
     }
     if (isUpdate) {
       actions.updateFactoryCalendar(params, getListFactoryEvent)
@@ -81,6 +86,7 @@ function PopupCreateEvent(props) {
       }
       maxWidth="sm"
       noBorderBottom
+      renderFooter={renderActionButtons}
       formikProps={{
         initialValues: initialValues,
         validationSchema: createEventSchema(t),
@@ -162,9 +168,6 @@ function PopupCreateEvent(props) {
             />
           </Grid>
         </Grid>
-        <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-          {renderActionButtons()}
-        </Box>
       </Grid>
     </Dialog>
   )
