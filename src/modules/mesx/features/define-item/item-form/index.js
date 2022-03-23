@@ -29,6 +29,11 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import ItemsSettingTable from './items-setting-table'
 import { itemSchema } from './schema'
 
+const DEFAULT_DETAIL = {
+  detailId: '',
+  quantity: 1,
+}
+
 function DefineItemForm() {
   const { t } = useTranslation(['mesx'])
   const routeMatch = useRouteMatch()
@@ -117,7 +122,7 @@ function DefineItemForm() {
       items: itemDetails?.itemDetails?.map((item) => ({
         detailId: item.itemDetailId,
         quantity: Number(item.quantity),
-      })),
+      })) || [{ ...DEFAULT_DETAIL }],
     }),
     [itemDetails],
   )
@@ -661,7 +666,6 @@ function DefineItemForm() {
                               render={(arrayHelpers) => (
                                 <ItemsSettingTable
                                   items={values?.items || []}
-                                  mode={mode}
                                   arrayHelpers={arrayHelpers}
                                 />
                               )}
