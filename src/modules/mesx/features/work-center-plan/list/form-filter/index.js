@@ -4,6 +4,7 @@ import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
+import { MO_STATUS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
@@ -29,9 +30,9 @@ const FilterForm = () => {
           label={t('workCenterPlan.moCode')}
           placeholder={t('workCenterPlan.moCode')}
           name="moCode"
-          options={moList}
-          getOptionValue={(opt) => opt?.name}
-          getOptionLabel={(opt) => opt?.name}
+          options={moList.filter((e) => e.status !== MO_STATUS.PENDING)}
+          getOptionValue={(opt) => opt?.code}
+          getOptionLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>
