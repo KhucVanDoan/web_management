@@ -20,9 +20,10 @@ import { validationSchema } from './schema'
 
 const DEFAULT_PRODUCING_STEP = {
   id: 1,
-  order: 1,
   stepNumber: 1,
   itemId: '',
+  min: 1,
+  max: 1,
 }
 
 function RoutingForm() {

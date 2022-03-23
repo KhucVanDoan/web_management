@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { orderBy } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -20,7 +21,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
   const history = useHistory()
-
   const { actions: routingActions } = useRouting()
   const {
     data: { list },
@@ -47,15 +47,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
 
   const columns = useMemo(
     () => [
-      // {
-      //   field: 'id',
-      //   headerName: '#',
-      //   width: 50,
-      //   align: 'center',
-      //   renderCell: (_, index) => {
-      //     return index + 1
-      //   },
-      // },
       {
         field: 'code',
         headerName: t('producingStep.code'),
@@ -103,14 +94,20 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const { stepNumber } = params.row
+          const { id, stepNumber, min, max } = params.row
           return isView ? (
             <>{+stepNumber}</>
           ) : (
             <Field.TextField
               name={`items[${index}].stepNumber`}
+              value={+stepNumber}
               type="number"
+              onChange={(e) => onChangeItem(id, 'stepNumber', e)}
               disabled={isView}
+              inputProps={{
+                min,
+                max,
+              }}
             />
           )
         },
@@ -122,11 +119,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         align: 'center',
         hide: isView,
         renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+          const { id } = params.row
+          // const idx = items.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
-                arrayHelpers.remove(idx)
+                onRemoveItem(id)
+                // arrayHelpers.remove(idx)
               }}
               disabled={items?.length === 1}
             >
@@ -138,6 +137,86 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
     ],
     [list, items],
   )
+
+  const onRemoveItem = (id) => {
+    let producingStep = [...items]
+      .filter((item) => item.id !== id)
+      .map((item, index) => ({
+        ...item,
+        id: index + 1,
+      }))
+    const newProducingSteps = sortOrder(producingStep)
+    return newProducingSteps
+  }
+
+  const sortOrder = (v) => {
+    let newStepNumber = 1
+    const producingStep = orderBy(v, 'stepNumber', 'asc')
+
+    const newProducingSteps = producingStep
+      .map((step, index, stepArr) => {
+        if (index > 0 && step.stepNumber > stepArr[index - 1].stepNumber) {
+          newStepNumber++
+          return {
+            ...step,
+            newStep: newStepNumber,
+          }
+        } else {
+          return {
+            ...step,
+            newStep: newStepNumber,
+          }
+        }
+      })
+      .map((step) => {
+        const { id, newStep, operationId } = step
+        return { id, operationId, stepNumber: newStep }
+      })
+    return newProducingSteps
+  }
+
+  const onChangeItem = (id, key, e) => {
+    const producingSteps = [...items]
+    const indexItemToChange = producingSteps?.findIndex(
+      (item) => item?.id === id,
+    )
+
+    producingSteps[indexItemToChange][key] = e
+
+    //kiểm tra có tồn tại producing step trước ko nếu có tính lại min max của producing step hiện tại
+    if (key === 'stepNumber' && producingSteps[indexItemToChange - 1]) {
+      producingSteps[indexItemToChange].min =
+        +producingSteps[indexItemToChange - 1].stepNumber
+      producingSteps[indexItemToChange].max =
+        +producingSteps[indexItemToChange - 1].stepNumber + 1
+    }
+
+    //kiểm tra có tồn tại producing step sau ko nếu có tính lại min max và stepNumber của producing step sau
+    if (key === 'stepNumber' && producingSteps[indexItemToChange + 1]) {
+      producingSteps[indexItemToChange + 1].min = +e
+      producingSteps[indexItemToChange + 1].max = +e + 1
+      if (
+        producingSteps[indexItemToChange + 1].stepNumber >
+        producingSteps[indexItemToChange + 1].max
+      ) {
+        producingSteps[indexItemToChange + 1].stepNumber =
+          producingSteps[indexItemToChange + 1].max
+      }
+      if (producingSteps[indexItemToChange + 1].stepNumber > e + 1) {
+        producingSteps[indexItemToChange + 1].stepNumber = +e + 1
+      }
+    }
+  }
+
+  const onChangeRowsOrder = (rows) => {
+    setState({
+      items: rows.map((item, index) => ({
+        ...item,
+        id: index + 1,
+        stepNumber: index + 1,
+      })),
+    })
+  }
 
   return (
     <>
@@ -161,11 +240,20 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             <Button
               sx={{ mr: 4 / 3 }}
               onClick={() => {
+                let stepNow = 0
+                let min = 1
+                let max = 1
+                for (let i = 0; i < items.length; i++) {
+                  stepNow = +items[i].stepNumber + 1
+                  min = items[i - 1] ? +items[i - 1]?.stepNumber : 1
+                  max = items[i - 1] ? +items[i - 1]?.stepNumber + 1 : 2
+                }
                 arrayHelpers.push({
-                  id: new Date().getTime(),
+                  id: items.length + 1,
                   itemId: '',
-                  order: 1,
-                  stepNumber: items?.length + 1,
+                  stepNumber: stepNow,
+                  min,
+                  max,
                 })
                 scrollToBottom()
               }}
@@ -187,6 +275,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         columns={columns}
         total={items.length}
         striped={false}
+        onChangeRowsOrder={onChangeRowsOrder}
         hideSetting
         hideFooter
       />

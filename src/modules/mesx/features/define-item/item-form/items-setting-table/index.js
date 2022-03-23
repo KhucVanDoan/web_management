@@ -5,7 +5,6 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -13,7 +12,7 @@ import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
 
   const {
@@ -25,8 +24,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
     commonManagementActions.getDetails()
   }, [])
 
-  const isView = mode === MODAL_MODE.DETAIL
-
   const columns = useMemo(
     () => [
       {
@@ -34,12 +31,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         width: 400,
         align: 'center',
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map((item) => item.detailId)
           return (
             <Field.Autocomplete
               name={`items[${index}].detailId`}
               label={t('defineItem.detailName')}
               options={detailList}
               getOptionLabel={(option) => option?.name}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
               getOptionValue={(option) => option?.id}
               required
             />
@@ -64,7 +65,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'action',
         width: 100,
         align: 'center',
-        hide: isView,
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (
@@ -95,21 +95,19 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       />
 
       <Box mt={1}>
-        {!isView && (
-          <Button
-            variant="outlined"
-            onClick={() => {
-              arrayHelpers.push({
-                id: new Date().getTime(),
-                itemId: '',
-                quantity: 1,
-              })
-              scrollToBottom()
-            }}
-          >
-            {t('defineItem.addDetailButton')}
-          </Button>
-        )}
+        <Button
+          variant="outlined"
+          onClick={() => {
+            arrayHelpers.push({
+              id: new Date().getTime(),
+              itemId: '',
+              quantity: 1,
+            })
+            scrollToBottom()
+          }}
+        >
+          {t('defineItem.addDetailButton')}
+        </Button>
       </Box>
     </>
   )
@@ -117,14 +115,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
 
 ItemSettingTable.defaultProps = {
   items: [],
-  mode: '',
   arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {
   arrayHelpers: PropTypes.shape(),
   items: PropTypes.array,
-  mode: PropTypes.string,
 }
 
 export default ItemSettingTable
