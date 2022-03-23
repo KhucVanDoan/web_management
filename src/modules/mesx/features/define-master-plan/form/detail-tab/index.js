@@ -14,7 +14,7 @@ const DetailTab = (props) => {
     <Tabs
       list={[
         t('defineMasterPlan.itemDetailTabTitle'),
-        t('defineMasterPlan.planDetailTabTitle'),
+        // t('defineMasterPlan.planDetailTabTitle'),
       ]}
       sx={{ mt: 3 }}
     >
