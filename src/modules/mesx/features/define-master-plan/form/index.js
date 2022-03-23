@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -268,7 +268,10 @@ const DefineMasterPlanForm = () => {
                         disabled={isUpdate}
                         required
                         options={soList}
-                        getOptionLabel={(option) => option?.name || ''}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         getOptionValue={(option) => option?.id}
                         multiple
                       />
@@ -307,6 +310,9 @@ const DefineMasterPlanForm = () => {
                         required
                         options={factoryList?.items || []}
                         getOptionLabel={(option) => option?.name || ''}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         getOptionValue={(option) => option?.id}
                       />
                     )}

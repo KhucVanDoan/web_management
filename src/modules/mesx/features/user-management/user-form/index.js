@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
@@ -330,6 +330,9 @@ function UserManagementForm() {
                       placeholder={t('userManagement.companyName')}
                       options={appStore?.companies}
                       getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
                       getOptionValue={(opt) => opt?.id}
                       required
                     />
@@ -343,6 +346,9 @@ function UserManagementForm() {
                         (factory) => factory.companyId === values.companyId,
                       )}
                       getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
                       getOptionValue={(opt) => opt?.id}
                       multiple
                     />
@@ -354,6 +360,9 @@ function UserManagementForm() {
                       placeholder={t('userManagement.departmentName')}
                       options={appStore?.deparments}
                       getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
                       getOptionValue={(opt) => opt?.id}
                       multiple
                       required
@@ -378,6 +387,9 @@ function UserManagementForm() {
                         values.factories?.includes(w.factoryId),
                       )}
                       getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
                       getOptionValue={(opt) => opt?.id}
                       multiple
                     />

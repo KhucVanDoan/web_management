@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Grid } from '@mui/material'
+import { Button, createFilterOptions, Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -152,6 +152,9 @@ function PopupCreateEvent(props) {
               options={factories}
               getOptionValue={(opt) => opt?.id}
               getOptionLabel={(opt) => opt?.name}
+              filterOptions={createFilterOptions({
+                stringify: (opt) => `${opt?.code}|${opt?.name}`,
+              })}
               disabled={isDetail}
               multiple
               required

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { IconButton } from '@mui/material'
+import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types'
@@ -66,7 +66,10 @@ function ItemSettingTable(props) {
               name={`items[${index}].itemId`}
               options={itemListFilter}
               disabled={isView}
-              getOptionLabel={(option) => option?.code || ''}
+              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+              filterOptions={createFilterOptions({
+                stringify: (opt) => `${opt?.code}|${opt?.name}`,
+              })}
               getOptionValue={(option) => option?.id}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id)

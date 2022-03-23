@@ -5,7 +5,7 @@ import vi from '@fullcalendar/core/locales/vi'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import {
   startOfMonth,
   endOfMonth,
@@ -260,6 +260,9 @@ const PlanCalendar = () => {
                     options={factories}
                     getOptionValue={(opt) => opt?.id}
                     getOptionLabel={(opt) => opt?.name}
+                    filterOptions={createFilterOptions({
+                      stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                    })}
                     sx={{ mb: 3 }}
                     required
                   />

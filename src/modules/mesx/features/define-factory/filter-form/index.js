@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -40,6 +40,9 @@ const FilterForm = () => {
           placeholder={t('defineFactory.companyName')}
           options={appStore?.companies}
           getOptionLabel={(opt) => opt?.name}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(opt) => opt?.name}
         />
       </Grid>

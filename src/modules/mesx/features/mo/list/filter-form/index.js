@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
@@ -24,6 +24,7 @@ const FilterForm = () => {
   const {
     data: { saleOrderList },
   } = useSaleOrder()
+
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -49,7 +50,10 @@ const FilterForm = () => {
           label={t('Mo.planName')}
           placeholder={t('Mo.planName')}
           options={planList}
-          getOptionLabel={(option) => option.code}
+          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(option) => option.code}
         />
       </Grid>
@@ -60,6 +64,9 @@ const FilterForm = () => {
           placeholder={t('Mo.moFactory')}
           options={factoryList}
           getOptionLabel={(option) => option.name}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(option) => option.id.toString()}
         />
       </Grid>
@@ -69,7 +76,10 @@ const FilterForm = () => {
           label={t('Mo.soName')}
           placeholder={t('Mo.soName')}
           options={saleOrderList}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(option) => option.id.toString()}
         />
       </Grid>

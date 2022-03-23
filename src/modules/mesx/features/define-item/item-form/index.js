@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
 import { Checkbox, FormControlLabel, Grid } from '@mui/material'
+import { createFilterOptions } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import { Formik, Form, FieldArray } from 'formik'
@@ -363,8 +364,13 @@ function DefineItemForm() {
                             label={t('defineItem.typeCode')}
                             placeholder={t('defineItem.typeCode')}
                             options={appStore?.itemTypes}
-                            getOptionLabel={(opt) => opt?.code}
+                            getOptionLabel={(opt) =>
+                              `${opt?.code} - ${opt?.name}`
+                            }
                             getOptionValue={(opt) => opt}
+                            filterOptions={createFilterOptions({
+                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                            })}
                             required
                           />
                         </Grid>
@@ -382,8 +388,13 @@ function DefineItemForm() {
                             label={t('defineItem.groupCode')}
                             placeholder={t('defineItem.groupCode')}
                             options={appStore?.itemGroups}
-                            getOptionLabel={(opt) => opt?.code}
+                            getOptionLabel={(opt) =>
+                              `${opt?.code} - ${opt?.name}`
+                            }
                             getOptionValue={(opt) => opt}
+                            filterOptions={createFilterOptions({
+                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                            })}
                             required
                           />
                         </Grid>
@@ -601,8 +612,13 @@ function DefineItemForm() {
                             label={t('defineItem.warehouseName')}
                             placeholder={t('defineItem.warehouseName')}
                             options={warehouseList}
-                            getOptionLabel={(opt) => opt?.name}
+                            getOptionLabel={(opt) =>
+                              `${opt?.code} - ${opt?.name}`
+                            }
                             getOptionValue={(opt) => opt?.id}
+                            filterOptions={createFilterOptions({
+                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                            })}
                             disabled={!isLocation}
                             required={isLocation}
                           />

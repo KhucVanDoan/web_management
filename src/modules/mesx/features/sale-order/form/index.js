@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
@@ -272,6 +272,9 @@ function SaleOrderForm() {
                         name="companyId"
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name || opt?.code}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Box>
@@ -286,7 +289,10 @@ function SaleOrderForm() {
                         options={customerList}
                         label={t('saleOrder.customer.name')}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.name || opt?.code}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Box>

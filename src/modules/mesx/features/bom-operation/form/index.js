@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
@@ -236,7 +236,13 @@ function BomProducingStepForm() {
                         label={t('bomProducingStep.itemCode')}
                         placeholder={t('bomProducingStep.itemCode')}
                         options={itemOptions}
-                        getOptionLabel={(opt) => opt?.item?.code}
+                        getOptionLabel={(opt) =>
+                          `${opt?.item?.code} - ${opt?.item?.name}`
+                        }
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) =>
+                            `${opt?.item?.code}|${opt?.item?.name}`,
+                        })}
                         onChange={(val) =>
                           handleProductChange(val?.id, setFieldValue)
                         }

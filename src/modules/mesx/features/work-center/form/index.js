@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, createFilterOptions, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -335,7 +335,13 @@ const WorkCenterForm = () => {
                         label={t('workCenter.member')}
                         options={userList}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.fullName || opt?.username}
+                        getOptionLabel={(opt) =>
+                          `${opt?.code} - ${opt?.fullName || opt?.username}`
+                        }
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) =>
+                            `${opt?.code}|${opt?.fullName || opt?.username}`,
+                        })}
                         multiple
                         required
                       />
@@ -348,6 +354,9 @@ const WorkCenterForm = () => {
                         options={factoryList?.items}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Grid>
@@ -369,7 +378,10 @@ const WorkCenterForm = () => {
                         placeholder={t('workCenter.producingStep')}
                         options={listProducingStep}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         required
                       />
                     </Grid>

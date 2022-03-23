@@ -41,7 +41,11 @@ const VirtualList = React.forwardRef(({ children, ...other }, ref) => {
           ref={listRef}
           itemData={itemData}
           itemCount={itemCount}
-          height={VISIBLE_COUNT * ITEM_HEIGHT + PADDING_TOP}
+          height={
+            (itemCount > VISIBLE_COUNT ? VISIBLE_COUNT : itemCount) *
+              ITEM_HEIGHT +
+            PADDING_TOP
+          }
           width="auto"
           outerElementType={OuterElementType}
           innerElementType="ul"

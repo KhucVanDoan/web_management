@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
@@ -40,7 +40,10 @@ const FilterForm = () => {
           label={t('defineMasterPlan.saleOrder')}
           placeholder={t('defineMasterPlan.saleOrder')}
           options={soList}
-          getOptionLabel={(option) => option?.name || ''}
+          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(option) => option?.id}
         />
       </Grid>

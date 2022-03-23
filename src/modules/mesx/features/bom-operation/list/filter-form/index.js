@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -40,7 +40,10 @@ const FilterForm = () => {
           label={t('bomProducingStep.routingName')}
           placeholder={t('bomProducingStep.routingName')}
           options={bomProducingStepList}
-          getOptionLabel={(opt) => opt?.routingName}
+          getOptionLabel={(opt) => `${opt?.bomCode} - ${opt?.routingName}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.bomCode}|${opt?.routingName}`,
+          })}
           getOptionValue={(opt) => opt?.routingName}
           // @TODO: <anh.nguyenthihai> edit option to routing, env doesnt have
         />

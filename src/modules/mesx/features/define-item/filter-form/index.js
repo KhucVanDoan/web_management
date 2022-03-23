@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -60,8 +60,11 @@ const FilterForm = () => {
           label={t('defineItem.type')}
           placeholder={t('defineItem.type')}
           options={appStore?.itemTypes}
-          getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
+          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           multiple
         />
       </Grid>
@@ -71,7 +74,10 @@ const FilterForm = () => {
           label={t('defineItem.group')}
           placeholder={t('defineItem.group')}
           options={appStore?.itemGroups}
-          getOptionLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          filterOptions={createFilterOptions({
+            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+          })}
           getOptionValue={(opt) => opt?.name}
           multiple
         />

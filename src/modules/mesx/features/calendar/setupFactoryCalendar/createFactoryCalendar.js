@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { FormControlLabel } from '@mui/material'
+import { createFilterOptions, FormControlLabel } from '@mui/material'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Formik, Form, FieldArray } from 'formik'
@@ -188,6 +188,9 @@ function CalendarCreate() {
                         options={factories}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
                         multiple
                         required
                       />
