@@ -74,6 +74,7 @@ export const itemSchema = (t) =>
               max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
             }),
           ),
+        detailId: Yup.number().required(t('general:form.required')),
       }),
     ),
   })

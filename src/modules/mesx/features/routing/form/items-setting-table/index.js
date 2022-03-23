@@ -174,7 +174,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               {t('routing.addProducingStep')}
             </Button>
             <Button
-              onClick={() => history.push(ROUTE.PRODUCING_STEP.LIST.PATH)}
+              onClick={() => history.push(ROUTE.PRODUCING_STEP.CREATE.PATH)}
               variant="outlined"
             >
               {t('routing.createProducingStep')}

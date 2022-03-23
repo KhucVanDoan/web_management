@@ -95,6 +95,20 @@ function UserPermission() {
     setPermissionList(newPermission)
   }
 
+  const handleChangeAll = (e, permissionSetting) => {
+    const permissionIdList = permissionSetting.map((item) => item.code)
+    const newPermissionAll = permissionList.map((permission) => {
+      if (permissionIdList.includes(permission.code)) {
+        return {
+          ...permission,
+          status: e.target.checked,
+        }
+      }
+      return { ...permission }
+    })
+    setPermissionList(newPermissionAll)
+  }
+
   const onSubmit = (values) => {
     const convertValues = permissionList.map((item) => ({
       ...item,
@@ -141,6 +155,25 @@ function UserPermission() {
       field: 'status',
       headerName: t('userPermission.status'),
       width: 120,
+      renderCell: (params) => {
+        const { permissionSetting } = params.row
+        const permission = roleDetail.map((item) => item.permissionSettingCode)
+        const isCheckAll = permissionSetting.every((item) => {
+          return permission.includes(item.code)
+        })
+        return (
+          <FormControlLabel
+            label=""
+            control={
+              <Checkbox
+                defaultChecked={isCheckAll}
+                onChange={(e) => handleChangeAll(e, permissionSetting)}
+                name="statusAll"
+              />
+            }
+          />
+        )
+      },
     },
   ]
 
@@ -157,17 +190,17 @@ function UserPermission() {
       width: 110,
       renderCell: (params) => {
         const { code } = params.row
-        const checkStatus = roleDetail?.find(
-          (item) => item.permissionSettingCode === code,
-        )
+        const isChecked = permissionList.find(
+          (item) => item.code === code,
+        )?.status
 
         return (
           <FormControlLabel
             label=""
             control={
               <Checkbox
-                defaultChecked={checkStatus}
                 onChange={(e) => handleChangeCheckbox(e, code)}
+                checked={isChecked}
                 name="status"
               />
             }

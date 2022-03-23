@@ -10,11 +10,12 @@ import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { BOM_STATUS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { getBomProducingStepDetailsApi } from '~/modules/mesx/redux/sagas/bom-producing-step/get-bom-producing-step-details'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
@@ -25,20 +26,24 @@ function BomProducingStepForm() {
   const routeMatch = useRouteMatch()
   const { id } = useParams()
 
+  const filters = {
+    isHasBomProducingStep: false,
+    canCreateBomProducingStep: 'true',
+  }
+
   const {
     data: { bomProducingStepDetails, isLoading },
     actions,
   } = useBomProducingStep()
 
   const {
-    data: { BOMDetails },
+    data: { BOMList, BOMDetails },
     actions: bomActions,
   } = useBOM()
 
-  const {
-    data: { BOMList },
-    actions: commonActions,
-  } = useCommonManagement()
+  const itemOptions = BOMList.filter(
+    (bom) => bom.status === BOM_STATUS.CONFIRMED,
+  )
 
   const initialValues = !id
     ? {
@@ -70,7 +75,15 @@ function BomProducingStepForm() {
   const mode = MODE_MAP[routeMatch.path]
 
   useEffect(() => {
-    commonActions.getBoms()
+    const params = {
+      isGetAll: 1,
+      filter: convertFilterParams(filters, [
+        { field: 'isHasBomProducingStep' },
+        { field: 'canCreateBomProducingStep' },
+      ]),
+    }
+
+    bomActions.searchBOM(params)
   }, [])
 
   useEffect(() => {
@@ -222,7 +235,7 @@ function BomProducingStepForm() {
                         name="product"
                         label={t('bomProducingStep.itemCode')}
                         placeholder={t('bomProducingStep.itemCode')}
-                        options={BOMList}
+                        options={itemOptions}
                         getOptionLabel={(opt) => opt?.item?.code}
                         onChange={(val) =>
                           handleProductChange(val?.id, setFieldValue)
