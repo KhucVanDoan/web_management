@@ -28,8 +28,8 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
 
-import PopupCreateEvent from './popupCreateEvent'
-import PopupDetail from './popupDetail'
+import PopupCreateEvent from './event/popupCreateEvent'
+import PopupDetail from './event/popupDetail'
 import style from './style'
 
 export const DAY_OF_WEEK = {
@@ -99,13 +99,11 @@ const PlanCalendar = () => {
   }
 
   const getListFactoryEvent = () => {
-    if (from && factoryId && to)
-      actions.getListFactoryEvent({ from, to, factoryId })
+    actions.getListFactoryEvent({ from, to, factoryId })
   }
 
   const getListFactoryWorkingSchedule = () => {
-    if (from && factoryId && to)
-      actions.getListFactoryCalendar({ from, to, factoryId })
+    actions.getListFactoryCalendar({ from, to, factoryId })
   }
 
   const events = factoryEvent?.map((item) => ({
@@ -159,23 +157,7 @@ const PlanCalendar = () => {
     setTo(formatISO(new Date(info.endStr)))
   }
 
-  const onResetForm = () => {
-    setInitialValues(
-      isUpdate
-        ? initialValues
-        : {
-            id: null,
-            title: '',
-            code: '',
-            time: null,
-            factoryIds: [],
-            description: '',
-          },
-    )
-  }
-
   const onClose = () => {
-    onResetForm()
     setIsOpenCreateEventModal(false)
   }
 
@@ -219,8 +201,10 @@ const PlanCalendar = () => {
   }
 
   useEffect(() => {
-    getListFactoryEvent()
-    getListFactoryWorkingSchedule()
+    if (factoryId) {
+      getListFactoryEvent()
+      getListFactoryWorkingSchedule()
+    }
   }, [from, to, factoryId])
 
   useEffect(() => {
@@ -316,7 +300,6 @@ const PlanCalendar = () => {
         isUpdate={isUpdate}
         initialValues={initialValues}
         handleClose={onClose}
-        onResetForm={onResetForm}
         getListFactoryEvent={getListFactoryEvent}
       />
       <PopupDetail
