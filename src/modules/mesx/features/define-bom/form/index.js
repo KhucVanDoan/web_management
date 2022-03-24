@@ -255,9 +255,7 @@ function BOMForm() {
         i.id === BOMDetails?.itemId
       )
     }
-    return (
-      i.isProductionObject === true && !i.isHasBom && i.itemType.code === '01'
-    )
+    return i.isProductionObject === true && !i.isHasBom
   })
 
   return (
