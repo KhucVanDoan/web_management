@@ -35,9 +35,8 @@ function MaterialReport() {
 
   const DEFAULT_FILTER = {
     manufacturingOrderIds: '',
-    itemName: '',
     saleOrderIds: '',
-    moFrom: '',
+    itemName: '',
   }
 
   const {
