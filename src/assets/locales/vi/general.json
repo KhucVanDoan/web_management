@@ -20,6 +20,7 @@
     "validCode": "Mã chỉ gồm chữ và số, ít nhất 1 chữ và 1 số",
     "minNumber": "Giá trị tối thiểu là {{min}}",
     "maxNumber": "Không được nhập quá {{max}}",
+    "moreThanNumber": "Giá trị phải lớn hơn {{min}}",
     "duplicates": "Mục này không được trùng lặp",
     "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",
     "minDate": "Ngày bắt đầu phải bằng hoặc sau {{from}}",
