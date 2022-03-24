@@ -39,6 +39,9 @@ const MOForm = () => {
   const [saleOrders, setSaleOrders] = useState([])
   const [saleOrder, setSaleOrder] = useState({})
   const [factory, setFactory] = useState({})
+  const [masterPlanId, setMasterPlanId] = useState(
+    +urlSearchParams.masterPlanId,
+  )
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -200,6 +203,7 @@ const MOForm = () => {
   const setMasterPlan = (id) => {
     masterPlanActions.getMasterPlanDetailsById(id, (response) => {
       setFactory(response.factory)
+      setMasterPlanId(+id)
       setSaleOrders(response.saleOrderSchedules)
       setFieldValue('moPlan', [response.dateFrom, response.dateTo])
       setFieldValue('moFactory', response.factory?.name)
@@ -217,7 +221,7 @@ const MOForm = () => {
     moPlan: [moDetails?.planFrom, moDetails?.planTo] || null,
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.masterPlan?.id || +urlSearchParams.masterPlanId,
+    masterPlanId: moDetails?.masterPlan?.id || masterPlanId,
     moFactory: factory?.name || '',
     saleOrderId: moDetails?.saleOrderId || null,
   }
@@ -241,6 +245,7 @@ const MOForm = () => {
       actions.updateMO({ id: Number(id), ...payload }, () => backToList())
     }
   }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
