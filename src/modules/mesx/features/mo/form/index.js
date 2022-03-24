@@ -15,7 +15,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import { MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { MO_STATUS_OPTIONS, MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -66,9 +66,12 @@ const MOForm = () => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
     masterPlanActions.searchMasterPlans({
       isGetAll: 1,
-      filter: convertFilterParams({ status: 1 }, [
-        { field: 'status', type: 1 },
-      ]),
+      filter: convertFilterParams({
+        status: [
+          MASTER_PLAN_STATUS.CONFIRMED,
+          MASTER_PLAN_STATUS.IN_PROGRESS,
+        ].join(','),
+      }),
     })
   }, [])
 
