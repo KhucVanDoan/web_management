@@ -324,7 +324,6 @@ const routes = [
         path: ROUTE.PRODUCING_STEP.LIST.PATH,
         component: ProducingStep,
         isInSidebar: true,
-
         subMenu: [
           {
             name: ROUTE.PRODUCING_STEP.CREATE.TITLE,
@@ -557,13 +556,6 @@ const routes = [
         isInSidebar: true,
         subMenu: [
           {
-            name: ROUTE.REQUEST_BUY_MATERIAL.CREATE.TITLE,
-            path: ROUTE.REQUEST_BUY_MATERIAL.CREATE.PATH,
-            component: RequestBuyMaterialForm,
-            pathActive: ROUTE.REQUEST_BUY_MATERIAL.CREATE.PATH,
-            isInSidebar: false,
-          },
-          {
             name: ROUTE.REQUEST_BUY_MATERIAL.DETAIL.TITLE,
             path: ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH,
             component: RequestBuyMaterialDetail,
@@ -606,10 +598,17 @@ const routes = [
             isInSidebar: false,
           },
           {
-            name: ROUTE.MO.MOVEMENTS.TITLE,
-            path: ROUTE.MO.MOVEMENTS.PATH,
-            pathActive: ROUTE.MO.MOVEMENTS.PATH,
-            component: MoForm,
+            name: ROUTE.MO.WORK_ORDER.TITLE,
+            path: ROUTE.MO.WORK_ORDER.PATH,
+            pathActive: ROUTE.MO.WORK_ORDER.PATH,
+            component: WorkOrder,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MO.WORK_ORDER_DETAIL.TITLE,
+            path: ROUTE.MO.WORK_ORDER_DETAIL.PATH,
+            pathActive: ROUTE.MO.WORK_ORDER_DETAIL.PATH,
+            component: workOrderDetail,
             isInSidebar: false,
           },
         ],
@@ -625,21 +624,6 @@ const routes = [
             path: ROUTE.WORK_CENTER_PLAN.DETAIL.PATH,
             component: DetailWorkCenterPlan,
             pathActive: ROUTE.WORK_CENTER_PLAN.DETAIL.PATH,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.WORK_ORDER.TITLE,
-        path: ROUTE.WORK_ORDER.PATH,
-        component: WorkOrder,
-        isInSidebar: false,
-        subMenu: [
-          {
-            name: ROUTE.WORK_ORDER_DETAIL.TITLE,
-            path: ROUTE.WORK_ORDER_DETAIL.PATH,
-            pathActive: ROUTE.WORK_ORDER_DETAIL.PATH,
-            component: workOrderDetail,
             isInSidebar: false,
           },
         ],

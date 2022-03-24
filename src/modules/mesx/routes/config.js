@@ -61,14 +61,6 @@ export const ROUTE = {
       TITLE: 'routingEdit',
     },
   },
-  ROUTING_VERSION: {
-    PATH: '/mesx/routings/:id/routing-version',
-    TITLE: 'routingVersion',
-  },
-  PURCHASED_ORDER_MOVEMENTS: {
-    PATH: '/mesx/production-management/purchased-order/movements',
-    TITLE: 'purchasedOrderMovement',
-  },
   SALE_ORDER: {
     LIST: {
       PATH: '/mesx/sale-orders',
@@ -87,10 +79,6 @@ export const ROUTE = {
       TITLE: 'saleOrderEdit',
     },
   },
-  SALE_ORDER_MOVEMENTS: {
-    PATH: '/mesx/production-management/sale-order/movements',
-    TITLE: 'saleOrderMovement',
-  },
   MO: {
     LIST: {
       PATH: '/mesx/mo',
@@ -108,50 +96,14 @@ export const ROUTE = {
       PATH: '/mesx/mo/:id/edit',
       TITLE: 'moEdit',
     },
-    MOVEMENTS: {
-      PATH: '/mesx/mo/movements',
-      TITLE: 'moMovement',
+    WORK_ORDER: {
+      PATH: '/mesx/mo/work-order',
+      TITLE: 'workOrder',
     },
-  },
-  INVENTORY_CALENDAR: {
-    PATH: '/mesx/production-management/inventory-calendars',
-    TITLE: 'inventoryCalendarDefine',
-  },
-  INVENTORY_CALENDAR_CREATE: {
-    PATH: '/mesx/production-management/inventory-calendar/create',
-    TITLE: 'inventoryCalendarCreate',
-  },
-  INVENTORY_CALENDAR_DETAILS: {
-    PATH: '/mesx/production-management/inventory-calendar/details',
-    TITLE: 'inventoryCalendarDetails',
-  },
-  INVENTORY_CALENDAR_EDIT: {
-    PATH: '/mesx/production-management/inventory-calendar/edit',
-    TITLE: 'inventoryCalendarEdit',
-  },
-  INVENTORY_CALENDAR_MOVEMENTS: {
-    PATH: '/mesx/production-management/inventory-calendar/movements',
-    TITLE: 'inventoryCalendarMovement',
-  },
-  WAREHOUSE_TRANSFER: {
-    PATH: '/mesx/warehouse-transfers',
-    TITLE: 'defineWarehouseTransfer',
-  },
-  WAREHOUSE_TRANSFER_CREATE: {
-    PATH: '/mesx/warehouse-transfer/create',
-    TITLE: 'defineWarehouseTransferCreate',
-  },
-  WAREHOUSE_TRANSFER_DETAILS: {
-    PATH: '/mesx/warehouse-transfer/details',
-    TITLE: 'defineWarehouseTransferDetails',
-  },
-  WAREHOUSE_TRANSFER_EDIT: {
-    PATH: '/mesx/warehouse-transfer/edit',
-    TITLE: 'defineWarehouseTransferEdit',
-  },
-  WAREHOUSE_TRANSFER_MOVEMENTS: {
-    PATH: '/mesx/warehouse-transfer-movements',
-    TITLE: 'warehouseTransferMovement',
+    WORK_ORDER_DETAIL: {
+      PATH: '/mesx/mo/work-order/:id/detail',
+      TITLE: 'workOrderDetail',
+    },
   },
   WAREHOUSE_REPORT: {
     LIST: {
@@ -296,10 +248,6 @@ export const ROUTE = {
       PATH: '/mesx/request-buy-material',
       TITLE: 'requestBuyMaterial',
     },
-    CREATE: {
-      PATH: '/mesx/request-buy-material/create',
-      TITLE: 'requestBuyMaterialCreate',
-    },
     DETAIL: {
       PATH: '/mesx/request-buy-material/:id/detail',
       TITLE: 'requestBuyMaterialDetails',
@@ -307,10 +255,6 @@ export const ROUTE = {
     EDIT: {
       PATH: '/mesx/request-buy-material/:id/edit',
       TITLE: 'requestBuyMaterialEdit',
-    },
-    MOVEMENTS: {
-      PATH: '/mesx/request-buy-material/movements',
-      TITLE: 'requestBuyMaterialMovement',
     },
   },
   DEFINE_BOM: {
@@ -330,10 +274,6 @@ export const ROUTE = {
       PATH: '/mesx/bom/:id/edit',
       TITLE: 'bomEdit',
     },
-    // WORK_ORDER: {
-    //   PATH: '/mesx/bom/work-order',
-    //   TITLE: 'bomWorkOrder',
-    // },
   },
   ITEM_GROUP: {
     LIST: {
@@ -362,22 +302,6 @@ export const ROUTE = {
   PLAN_REPORT: {
     PATH: '/mesx/plan-report',
     TITLE: 'planReport',
-  },
-  WORK_ORDER: {
-    PATH: '/mesx/work-order',
-    TITLE: 'workOrder',
-  },
-  WORK_ORDER_CREATE: {
-    PATH: '/mesx/work-order/create',
-    TITLE: 'workOrderCreate',
-  },
-  WORK_ORDER_DETAIL: {
-    PATH: '/mesx/work-order/:id/detail',
-    TITLE: 'workOrderDetail',
-  },
-  WORK_ORDER_EDIT: {
-    PATH: '/mesx/work-order/:id/edit',
-    TITLE: 'workOrderEdit',
   },
   WORK_CENTER: {
     LIST: {
