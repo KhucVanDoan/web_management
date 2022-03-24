@@ -21,7 +21,13 @@ export const convertFilterParams = (filters = {}, columns = []) => {
       return acc
     }
 
-    if (columns.find((col) => col.field === cur && col.type === 'date')) {
+    if (
+      columns.find(
+        (col) =>
+          col.field === cur &&
+          (col.filterFormat === 'date' || col.type === 'date'), // type is deprecated
+      )
+    ) {
       const dates = filters[cur]
       dates[0] = new Date(dates[0].setHours(0, 0, 0, 0))
       dates[1] = new Date(dates[1].setHours(23, 59, 59, 999))
@@ -30,6 +36,19 @@ export const convertFilterParams = (filters = {}, columns = []) => {
         {
           column: cur,
           text: `${dates[0].toISOString()}|${dates[1].toISOString()}`,
+        },
+      ]
+    }
+    if (
+      columns.find(
+        (col) => col.field === cur && col.filterFormat === 'multiple',
+      )
+    ) {
+      return [
+        ...acc,
+        {
+          column: cur,
+          text: (filters[cur] || []).toString(),
         },
       ]
     }

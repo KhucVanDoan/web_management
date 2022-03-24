@@ -49,7 +49,6 @@ const FilterForm = () => {
           name="plan"
           label={t('workOrder.plan')}
           placeholder={t('workOrder.plan')}
-          type="date"
         />
       </Grid>
       <Grid item xs={12}>

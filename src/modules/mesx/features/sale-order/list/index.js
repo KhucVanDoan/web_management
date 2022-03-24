@@ -110,7 +110,7 @@ function SaleOrder() {
       headerName: t('saleOrder.createdAt'),
       width: 150,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         const { createdAt } = params.row
         return formatDateTimeUtc(createdAt)

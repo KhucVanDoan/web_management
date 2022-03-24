@@ -58,7 +58,6 @@ const FilterForm = () => {
           name="timeCreate"
           label={t('workCenter.timeCreate')}
           placeholder={t('workCenter.timeCreate')}
-          type="date"
         />
       </Grid>
     </Grid>

@@ -141,7 +141,7 @@ function DefineFactory() {
       page,
       limit: pageSize,
       filter: convertFilterParams(filters, [
-        { field: 'createdAt', type: 'date' },
+        { field: 'createdAt', filterFormat: 'date' },
       ]),
       sort: convertSortParams(sort),
     }

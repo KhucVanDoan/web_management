@@ -93,7 +93,7 @@ function ProducingStep() {
       headerName: t('producingStep.createdAt'),
       width: 150,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return formatDateTimeUtc(createdAt)

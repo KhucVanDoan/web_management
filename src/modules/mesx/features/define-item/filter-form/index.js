@@ -60,7 +60,7 @@ const FilterForm = () => {
           label={t('defineItem.type')}
           placeholder={t('defineItem.type')}
           options={appStore?.itemTypes}
-          getOptionValue={(opt) => opt?.name}
+          getOptionValue={(opt) => opt?.code}
           getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -78,7 +78,7 @@ const FilterForm = () => {
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
           })}
-          getOptionValue={(opt) => opt?.name}
+          getOptionValue={(opt) => opt?.code}
           multiple
         />
       </Grid>
@@ -86,7 +86,6 @@ const FilterForm = () => {
         <Field.DateRangePicker
           name="createdAt"
           label={t('defineItem.createTime')}
-          type="date"
         />
       </Grid>
     </Grid>

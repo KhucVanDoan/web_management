@@ -105,7 +105,7 @@ function DefineBOM() {
     },
     {
       field: 'createdAt',
-      type: 'date',
+      filterFormat: 'date',
       headerName: t('defineBOM.createAt'),
       width: 150,
       sortable: true,

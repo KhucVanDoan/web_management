@@ -96,7 +96,7 @@ function PlanReport() {
       headerName: t('planReport.planDefine'),
       width: 200,
       align: 'center',
-      type: 'date',
+      filterFormat: 'date',
       sortable: true,
       renderCell: (params) => {
         return (

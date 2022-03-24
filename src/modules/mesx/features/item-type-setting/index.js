@@ -76,7 +76,7 @@ function ItemTypeSetting() {
     },
     {
       field: 'createdAt',
-      type: 'date',
+      filterFormat: 'date',
       headerName: t('itemTypeSetting.createDate'),
       width: 150,
       sortable: true,
@@ -87,7 +87,7 @@ function ItemTypeSetting() {
     },
     {
       field: 'updatedAt',
-      type: 'date',
+      filterFormat: 'date',
       headerName: t('itemTypeSetting.updateDate'),
       width: 150,
       sortable: true,

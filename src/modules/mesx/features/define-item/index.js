@@ -93,6 +93,7 @@ function DefineItem() {
     },
     {
       field: 'itemType',
+      filterFormat: 'multiple',
       headerName: t('defineItem.type'),
       width: 80,
       sortable: true,
@@ -103,6 +104,7 @@ function DefineItem() {
     },
     {
       field: 'itemGroup',
+      filterFormat: 'multiple',
       headerName: t('defineItem.group'),
       width: 80,
       sortable: true,
@@ -186,7 +188,7 @@ function DefineItem() {
     },
     {
       field: 'createdAt',
-      type: 'date',
+      filterFormat: 'date',
       headerName: t('defineItem.createdAt'),
       width: 150,
       sortable: true,
@@ -241,9 +243,7 @@ function DefineItem() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', type: 'date' },
-      ]),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchItems(params)

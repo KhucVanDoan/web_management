@@ -53,7 +53,6 @@ const FilterForm = () => {
           name="planFrom"
           label={t('defineBOQ.boqPlan')}
           placeholder={t('defineBOQ.boqPlan')}
-          type="date"
         />
       </Grid>
       <Grid item xs={12}>
