@@ -107,7 +107,7 @@ const DefineBOQ = () => {
         headerName: t('defineBOQ.boqPlan'),
         width: 200,
         sortable: true,
-        type: 'date',
+        filterFormat: 'date',
         renderCell: (params) => {
           return (
             formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +

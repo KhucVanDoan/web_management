@@ -84,6 +84,7 @@ const WorkCenter = () => {
     {
       field: 'factory',
       headerName: t('workCenter.factoryName'),
+      filterFormat: 'multiple',
       width: 200,
       sortable: true,
       renderCell: (params) => {

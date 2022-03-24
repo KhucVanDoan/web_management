@@ -86,7 +86,7 @@ function ItemUnitSetting() {
       headerName: t('itemUnitDefine.createDate'),
       width: 150,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return formatDateTimeUtc(createdAt)
@@ -96,7 +96,7 @@ function ItemUnitSetting() {
       field: 'updatedAt',
       headerName: t('itemUnitDefine.updateDate'),
       width: 150,
-      type: 'date',
+      filterFormat: 'date',
       sortable: true,
       renderCell: (params) => {
         const updateAt = params.row.updatedAt

@@ -97,7 +97,7 @@ const DefineMasterPlan = () => {
         field: 'plan',
         headerName: t('defineMasterPlan.planDate'),
         width: 200,
-        type: 'date',
+        filterFormat: 'date',
         sortable: true,
         renderCell: (params) => {
           return (

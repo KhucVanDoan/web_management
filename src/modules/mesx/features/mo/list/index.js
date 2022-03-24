@@ -117,7 +117,7 @@ const Mo = () => {
       headerName: t('Mo.moPlan'),
       width: 200,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         return (
           formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +

@@ -114,7 +114,7 @@ const WorkOrder = () => {
       headerName: t('workOrder.plan'),
       width: 200,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         return (
           formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +

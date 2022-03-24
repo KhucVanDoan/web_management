@@ -31,7 +31,6 @@ const FilterForm = () => {
           name="createdAt"
           label={t('itemGroupDefine.createDate')}
           placeholder={t('itemGroupDefine.createDate')}
-          type="date"
         />
       </Grid>
     </Grid>

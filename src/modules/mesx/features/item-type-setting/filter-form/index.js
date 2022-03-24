@@ -35,7 +35,6 @@ const FilterForm = () => {
         <Field.DateRangePicker
           name="createdAt"
           label={t('itemTypeSetting.createTime')}
-          type="date"
         />
       </Grid>
     </Grid>

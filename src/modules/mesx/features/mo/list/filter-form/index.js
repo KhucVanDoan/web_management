@@ -88,7 +88,6 @@ const FilterForm = () => {
           name="plan"
           label={t('Mo.moPlan')}
           placeholder={t('Mo.moPlan')}
-          type="date"
         />
       </Grid>
       <Grid item xs={12}>
@@ -106,7 +105,6 @@ const FilterForm = () => {
           name="createdAt"
           label={t('Mo.createDate')}
           placeholder={t('Mo.createDate')}
-          type="date"
         />
       </Grid>
     </Grid>

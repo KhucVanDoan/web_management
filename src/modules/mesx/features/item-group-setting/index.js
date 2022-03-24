@@ -81,7 +81,7 @@ const ItemGroupSetting = () => {
     },
     {
       field: 'createdAt',
-      type: 'date',
+      filterFormat: 'date',
       headerName: t('itemGroupDefine.createDate'),
       width: 150,
       sortable: true,

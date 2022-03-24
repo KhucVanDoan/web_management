@@ -115,7 +115,7 @@ function RequestBuyMaterial() {
       headerName: t('requestBuyMaterial.createAt'),
       width: 150,
       sortable: true,
-      type: 'date',
+      filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return formatDateTimeUtc(createdAt)

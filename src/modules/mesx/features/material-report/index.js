@@ -99,7 +99,7 @@ function MaterialReport() {
       field: 'moFrom',
       headerName: t('materialReport.planDate'),
       align: 'center',
-      type: 'date',
+      filterFormat: 'date',
       sortable: true,
       renderCell: (params) => {
         return (
