@@ -74,6 +74,7 @@ const AutoModeration = () => {
         const itemSchedules = getTasksInSaleOrder(
           saleOrder.itemSchedules,
           saleOrder.saleOrderId,
+          null
         )
         const saleOrderSchedule = {
           text: saleOrder.saleOrderName,
@@ -86,20 +87,21 @@ const AutoModeration = () => {
 
         return [saleOrderSchedule, ...itemSchedules]
       })
-      .flat()
+      .flat();
   }
 
-  const getTasksInSaleOrder = (items, saleOrderId) => {
+  const getTasksInSaleOrder = (items, saleOrderId, parentBomId) => {
     return items
       ?.map((item) => {
-        const key = `${item.itemId}-${saleOrderId}`
+        const key = `${item.itemFinishId}-${saleOrderId}-${item.bomId}`;
+        const keyParent = `${item.itemFinishId}-${saleOrderId}-${item.parentBomId}`;
         const itemSchedule = {
           text: item.itemName,
           id: key,
           end_date: formatDateInGanttChart(item.dateTo, 'to'),
           start_date: formatDateInGanttChart(item.dateFrom, 'from'),
           progress: 0,
-          parent: saleOrderId,
+          parent: parentBomId === null ? saleOrderId : keyParent,
           isOverQuantity: item.isOverQuantity,
         }
         const producingSteps =
@@ -113,7 +115,7 @@ const AutoModeration = () => {
             type: 'producingStep',
             isOverQuantity: step.overQuantity > 0,
           })) || []
-        const subBom = getTasksInSaleOrder(item.subBom, saleOrderId) || []
+        const subBom = getTasksInSaleOrder(item.subBom, saleOrderId, item.bomId) || []
 
         return [itemSchedule, ...producingSteps, ...subBom]
       })
