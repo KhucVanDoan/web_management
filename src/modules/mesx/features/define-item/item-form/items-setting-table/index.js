@@ -103,7 +103,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
           onClick={() => {
             arrayHelpers.push({
               id: new Date().getTime(),
-              itemId: '',
+              detailId: '',
               quantity: 1,
             })
             scrollToBottom()

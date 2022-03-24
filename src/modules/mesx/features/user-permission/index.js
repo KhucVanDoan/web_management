@@ -157,7 +157,10 @@ function UserPermission() {
       width: 120,
       renderCell: (params) => {
         const { permissionSetting } = params.row
-        const permission = roleDetail.map((item) => item.permissionSettingCode)
+        const permission = (permissionList || [])
+          .filter((item) => item.status === true)
+          .map((per) => per.code)
+
         const isCheckAll = permissionSetting.every((item) => {
           return permission.includes(item.code)
         })
@@ -166,7 +169,7 @@ function UserPermission() {
             label=""
             control={
               <Checkbox
-                defaultChecked={isCheckAll}
+                checked={isCheckAll}
                 onChange={(e) => handleChangeAll(e, permissionSetting)}
                 name="statusAll"
               />
