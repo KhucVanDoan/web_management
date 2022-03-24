@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { orderBy } from 'lodash'
+import { last } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -17,7 +17,7 @@ import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
   const history = useHistory()
@@ -139,40 +139,32 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   )
 
   const onRemoveItem = (id) => {
-    let producingStep = [...items]
-      .filter((item) => item.id !== id)
-      .map((item, index) => ({
-        ...item,
-        id: index + 1,
-      }))
-    const newProducingSteps = sortOrder(producingStep)
-    return newProducingSteps
-  }
+    const newItems = (items || []).reduce((acc, cur) => {
+      if (cur.id === id) return acc
 
-  const sortOrder = (v) => {
-    let newStepNumber = 1
-    const producingStep = orderBy(v, 'stepNumber', 'asc')
+      const removedStepNumber = Number(items[id - 1]?.stepNumber || 0)
 
-    const newProducingSteps = producingStep
-      .map((step, index, stepArr) => {
-        if (index > 0 && step.stepNumber > stepArr[index - 1].stepNumber) {
-          newStepNumber++
-          return {
-            ...step,
-            newStep: newStepNumber,
-          }
-        } else {
-          return {
-            ...step,
-            newStep: newStepNumber,
-          }
-        }
-      })
-      .map((step) => {
-        const { id, newStep, operationId } = step
-        return { id, operationId, stepNumber: newStep }
-      })
-    return newProducingSteps
+      const isEqualNext =
+        Number(items?.[id]?.stepNumber || 0) === removedStepNumber
+      const isEqualPrev =
+        Number(items?.[id - 2]?.stepNumber || 0) === removedStepNumber
+
+      return [
+        ...acc,
+        {
+          ...cur,
+          id: last(acc)?.id ? last(acc)?.id + 1 : 1,
+          stepNumber:
+            Number(cur.stepNumber) <= removedStepNumber ||
+            isEqualNext ||
+            isEqualPrev
+              ? cur.stepNumber
+              : Number(cur.stepNumber) - 1,
+        },
+      ]
+    }, [])
+
+    setFieldValue('items', newItems)
   }
 
   const onChangeItem = (id, key, e) => {
@@ -240,14 +232,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             <Button
               sx={{ mr: 4 / 3 }}
               onClick={() => {
-                let stepNow = 0
-                let min = 1
-                let max = 1
-                for (let i = 0; i < items.length; i++) {
-                  stepNow = +items[i].stepNumber + 1
-                  min = items[i - 1] ? +items[i - 1]?.stepNumber : 1
-                  max = items[i - 1] ? +items[i - 1]?.stepNumber + 1 : 2
-                }
+                const lastItem = last(items || [])
+                const lastStepNumber = Number(lastItem?.stepNumber || 0)
+
+                const stepNow = +lastItem.stepNumber + 1
+                const min = lastItem ? lastStepNumber : 1
+                const max = lastItem ? lastStepNumber + 1 : 1
+
                 arrayHelpers.push({
                   id: items.length + 1,
                   itemId: '',

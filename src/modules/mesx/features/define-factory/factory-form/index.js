@@ -168,6 +168,7 @@ const DefineFactoryForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
                     />

@@ -6,7 +6,7 @@ import {
 } from '~/common/constants'
 import { numberSchema } from '~/common/schemas'
 
-export const itemSchema = (t) =>
+export const itemSchema = (t, isDetailed) =>
   Yup.object().shape({
     code: Yup.string()
       .required(t('general:form.required'))
@@ -74,7 +74,11 @@ export const itemSchema = (t) =>
               max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
             }),
           ),
-        detailId: Yup.number().required(t('general:form.required')),
+        ...(isDetailed
+          ? {
+              detailId: Yup.number().required(t('general:form.required')),
+            }
+          : {}),
       }),
     ),
   })

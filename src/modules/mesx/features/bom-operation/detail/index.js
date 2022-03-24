@@ -91,7 +91,7 @@ function BomProducingStepDetail() {
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('bomProducingStep.itemCode')}
-                value={BOMDetails?.item?.itemId}
+                value={BOMDetails?.item?.code}
               />
             </Grid>
             <Grid item xs={12} lg={6}>

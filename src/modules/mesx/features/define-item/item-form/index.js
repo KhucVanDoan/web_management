@@ -306,7 +306,7 @@ function DefineItemForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={itemSchema(t)}
+            validationSchema={itemSchema(t, isDetailed)}
             onSubmit={onSubmit}
             enableReinitialize
           >
@@ -490,7 +490,9 @@ function DefineItemForm() {
                                 label={t('defineItem.long')}
                                 labelWidth={100}
                                 placeholder={t('defineItem.long')}
-                                type="number"
+                                numberProps={{
+                                  decimalScale: 3,
+                                }}
                                 disabled={!storage}
                                 required={storage}
                               />
@@ -515,7 +517,9 @@ function DefineItemForm() {
                                 label={t('defineItem.width')}
                                 labelWidth={100}
                                 placeholder={t('defineItem.width')}
-                                type="number"
+                                numberProps={{
+                                  decimalScale: 3,
+                                }}
                                 disabled={!storage}
                                 required={storage}
                               />
@@ -542,7 +546,9 @@ function DefineItemForm() {
                                 label={t('defineItem.height')}
                                 labelWidth={100}
                                 placeholder={t('defineItem.height')}
-                                type="number"
+                                numberProps={{
+                                  decimalScale: 3,
+                                }}
                                 disabled={!storage}
                                 required={storage}
                               />
@@ -567,7 +573,9 @@ function DefineItemForm() {
                                 label={t('defineItem.weight')}
                                 labelWidth={100}
                                 placeholder={t('defineItem.weight')}
-                                type="number"
+                                numberProps={{
+                                  decimalScale: 3,
+                                }}
                                 disabled={!storage}
                               />
                             </Grid>
@@ -670,7 +678,9 @@ function DefineItemForm() {
                                 checked={isDetailed}
                                 onChange={() => {
                                   onToggleIsDetailed()
-                                  handleReset()
+                                  setFieldValue('items', [
+                                    { ...DEFAULT_DETAIL },
+                                  ])
                                 }}
                                 name="isDetailed"
                               />

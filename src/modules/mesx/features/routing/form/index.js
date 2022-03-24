@@ -63,13 +63,13 @@ function RoutingForm() {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
-      const id = params?.id
-      routingActions.getRoutingDetailsById(id)
-      producingStepActions.getProducingSteps()
-    }
+    const id = params?.id
+    routingActions.getRoutingDetailsById(id)
+    producingStepActions.getProducingSteps()
+
     return () => {
-      if (isUpdate) routingActions.resetRoutingDetailState()
+      routingActions.resetRoutingDetailState()
+      producingStepActions.resetProducingStepState()
     }
   }, [params?.id])
 
@@ -168,7 +168,7 @@ function RoutingForm() {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -183,7 +183,7 @@ function RoutingForm() {
                       name="code"
                       placeholder={t('routing.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -223,6 +223,7 @@ function RoutingForm() {
                     items={values?.items || []}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
+                    setFieldValue={setFieldValue}
                   />
                 )}
               />
