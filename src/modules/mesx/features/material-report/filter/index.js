@@ -1,30 +1,68 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
+  const { values } = useFormikContext()
 
   const {
-    data: { moListAll },
+    data: { moList, moItems },
+    actions: moActions,
   } = useMo()
 
-  const [itemList, setItemList] = useState([])
   const {
-    data: { saleOrderList, saleOrderDetails },
+    data: { saleOrderList },
     actions: actionSaleOrder,
   } = useSaleOrder()
 
-  const handleChange = (id) => {
-    actionSaleOrder.getSaleOrderDetailsById(id)
-    setItemList(saleOrderDetails?.saleOrderDetails)
+  const {
+    data: { itemList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    actionSaleOrder.searchSaleOrders({
+      isGetAll: 1,
+      filter: JSON.stringify([
+        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
+      ]),
+    })
+    commonManagementActions.getItems({ isGetAll: 1 })
+  }, [values?.manufacturingOrderIds])
+
+  const getDataItem = () => {
+    const items = []
+    if (moItems)
+      moItems?.moDetail?.forEach((parentItem) => {
+        parentItem?.moPlanBom?.forEach((i) => {
+          const listItem = itemList?.find((item) => i.itemId === item.id)
+          items.push(listItem)
+        })
+      })
+    return items
   }
 
+  const getDataSaleOder = () => {
+    const saleOrderLists = []
+    const soId = moList?.find(
+      (mo) => mo?.id === values?.manufacturingOrderIds[0],
+    )?.saleOrderId
+    const saleOrders = saleOrderList?.find((so) => so?.id === soId)
+    saleOrderLists.push(saleOrders)
+    return saleOrderLists
+  }
+  const handle = (id) => {
+    moActions.getMoItemsById(id)
+  }
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -32,36 +70,40 @@ function FilterForm() {
           name="manufacturingOrderIds"
           label={t('materialReport.code')}
           placeholder={t('materialReport.code')}
-          options={moListAll}
+          options={
+            values?.saleOrderIds
+              ? moList.filter(
+                  (mo) => mo?.saleOrderId === values?.saleOrderIds[0],
+                )
+              : moList
+          }
           getOptionValue={(opt) => [opt?.id]}
           getOptionLabel={(opt) => opt?.code}
+          onChange={(id) => handle(id)}
         />
       </Grid>
+
       <Grid item xs={12}>
         <Field.Autocomplete
           name="saleOrderIds"
           label={t('materialReport.saleOrder')}
           placeholder={t('materialReport.saleOrder')}
-          options={saleOrderList}
+          options={
+            values?.manufacturingOrderIds ? getDataSaleOder() : saleOrderList
+          }
           getOptionValue={(opt) => [opt?.id]}
           getOptionLabel={(opt) => opt?.code}
-          onChange={(id) => handleChange(id)}
         />
       </Grid>
+
       <Grid item xs={12}>
         <Field.Autocomplete
           name="itemName"
           label={t('materialReport.productName')}
           placeholder={t('materialReport.productName')}
-          options={itemList}
-          getOptionValue={(opt) => opt?.item?.name}
-          getOptionLabel={(opt) => opt?.item?.name}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="moFrom"
-          label={t('materialReport.labledateSX')}
+          options={getDataItem() || []}
+          getOptionValue={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
     </Grid>
