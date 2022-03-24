@@ -201,23 +201,17 @@ function detailBOM() {
                 mt={4 / 3}
               />
               <LV
-                label={t('defineBOM.item.quantity')}
-                value={BOMDetails?.item?.remainingQuantity}
-                mt={4 / 3}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
                 label={t('defineBOM.creator')}
                 value={BOMDetails?.user?.name}
+                mt={4 / 3}
               />
-            </Grid>
-            <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineBOM.createAt')}
                 value={formatDateTimeUtc(BOMDetails?.createdAt)}
+                mt={4 / 3}
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 name="description"
