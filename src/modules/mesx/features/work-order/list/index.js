@@ -173,7 +173,7 @@ const WorkOrder = () => {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.WORK_ORDER_DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.MO.WORK_ORDER_DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >

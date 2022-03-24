@@ -7,9 +7,7 @@ import defineBOQ from './define-boq'
 import defineCompany from './define-company'
 import defineCustomer from './define-customer'
 import defineItem from './define-item'
-import detailSchedule from './detail-schedule'
 import defineFactory from './factory'
-import inventoryLimit from './inventory-limit.reducer'
 import itemGroupSetting from './item-group-setting'
 import itemTypeSetting from './item-type-setting'
 import itemUnitSetting from './item-unit-setting'
@@ -20,12 +18,10 @@ import planReport from './plan-report'
 import definePlan from './plan.reducer'
 import PriceReport from './price-report'
 import producingStep from './product-step'
-import productivityCompareReport from './productivity-compare'
 import productivityReport from './productivity-report'
 import qualityReport from './quality-report'
 import requestBuyMaterial from './request-buy-materials'
 import defineRouting from './routing'
-import routingVersion from './routing-version.reducer'
 import saleOrder from './sale-order'
 import userManagement from './user-management'
 import userPermission from './user-permission'
@@ -45,7 +41,6 @@ const reducers = {
   defineCompany,
   defineRouting,
   defineCustomer,
-  routingVersion,
   producingStep,
   defineBOQ,
   bom,
@@ -59,14 +54,11 @@ const reducers = {
   defineFactory,
   workCenterPlan,
   requestBuyMaterial,
-  inventoryLimit,
-  detailSchedule,
   materialDetailPlan,
   productivityReport,
   bomProducingStep,
   calendar,
   PriceReport,
-  productivityCompareReport,
 }
 
 export default reducers

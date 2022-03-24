@@ -17,7 +17,6 @@ import {
   watchGetListFactoryEvent,
   watchGetDetailFactoryCalendar,
 } from './calendar'
-import watchCreatePurchasedOrder from './common/create-purchased-order.saga'
 import watchGetAllItemDetails from './common/get-all-item-details.saga'
 import watchGetQualityPoints from './common/get-all-quality-points.saga'
 import watchGetBoms from './common/get-boms.saga'
@@ -95,23 +94,11 @@ import watchGetMoByPlan from './define-plan/get-mo-by-plan.saga'
 import watchGetPlanDetails from './define-plan/get-plan-details.saga'
 import watchSearchPlans from './define-plan/search-plans.saga'
 import watchUpdatePlan from './define-plan/update-plan.saga'
-import watchApproveDetailSchedule from './detail-schedule/approve-detail-schedule.saga'
-import watchCreateDetailSchedule from './detail-schedule/create-detail-schedule.saga'
-import watchGenerateDetailSchedule from './detail-schedule/generate-detail-schedule.saga'
-import watchGetDetailScheduleDetails from './detail-schedule/get-schedule-details.saga'
-import watchRejectDetailSchedule from './detail-schedule/reject-detail-schedule.saga'
-import watchSearchDetailSchedule from './detail-schedule/search-detail-schedule.saga'
-import watchUpdateDetailSchedule from './detail-schedule/update-detail-schedule.saga'
 import watchCreateFactory from './factory/create-factory.saga'
 import watchDeleteFactory from './factory/delete-factory.saga'
 import watchGetFactoryDetails from './factory/get-factory-details.saga'
 import watchSearchFactories from './factory/search-factories.saga'
 import watchUpdateFactory from './factory/update-factory.saga'
-import watchCreateInventoryLimit from './inventory-limit/create-inventory-limit.saga'
-import watchDeleteInventoryLimit from './inventory-limit/delete-inventory-limit.saga'
-import watchGetInventoryLimitDetails from './inventory-limit/get-inventory-limit-details.saga'
-import watchSearchInventoryLimits from './inventory-limit/search-inventory-limits.saga'
-import watchUpdateInventoryLimit from './inventory-limit/update-item-group.saga'
 import watchCreateItemGroup from './item-group-setting/create-item-group'
 import watchDeleteItemGroup from './item-group-setting/delete-item-group'
 import watchGetItemGroupDetails from './item-group-setting/get-item-group-details'
@@ -148,7 +135,6 @@ import watchGetProducingStepsByRoutingVersion from './producing-steps/get-by-rou
 import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
-import watchGetProductivityCompareList from './productivity-compare-report/get-list-productivity-compare-report'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
@@ -159,12 +145,6 @@ import watchPrintQRRequestBuyMaterial from './request-buy-material/print-qr-requ
 import watchRejectRequestBuyMaterial from './request-buy-material/reject-request-material'
 import watchSearchRequestBuyMaterial from './request-buy-material/search-request-buy-materials'
 import watchUpdateRequestBuyMaterial from './request-buy-material/update-request-buy-material'
-import watchConfirmRoutingVersion from './routing-version/confirm-routing-version.saga'
-import watchCreateRoutingVersion from './routing-version/create-routing-version.saga'
-import watchDeleteRoutingVersion from './routing-version/delete-routing-version.saga'
-import watchGetRoutingVersionDetails from './routing-version/get-routing-version-details.saga'
-import watchSearchRoutingVersions from './routing-version/search-routing-version.saga'
-import watchUpdateRoutingVersion from './routing-version/update-routing-version.saga'
 import watchConfirmRouting from './routing/confirm-routing'
 import watchCreateRouting from './routing/create-routing'
 import watchDeleteRouting from './routing/delete-routing'
@@ -326,14 +306,6 @@ export default function* sagas() {
     watchSearchRoutings(),
     watchUpdateRouting(),
 
-    //routing-version
-    watchCreateRoutingVersion(),
-    watchDeleteRoutingVersion(),
-    watchGetRoutingVersionDetails(),
-    watchSearchRoutingVersions(),
-    watchUpdateRoutingVersion(),
-    watchConfirmRoutingVersion(),
-
     // define plan
     watchSearchPlans(),
     watchGetPlanDetails(),
@@ -436,22 +408,6 @@ export default function* sagas() {
     watchRejectRequestBuyMaterial(),
     watchPrintQRRequestBuyMaterial(),
 
-    // item-group-setting
-    watchSearchInventoryLimits(),
-    watchCreateInventoryLimit(),
-    watchUpdateInventoryLimit(),
-    watchDeleteInventoryLimit(),
-    watchGetInventoryLimitDetails(),
-
-    //detail schedule
-    watchSearchDetailSchedule(),
-    watchCreateDetailSchedule(),
-    watchUpdateDetailSchedule(),
-    watchGetDetailScheduleDetails(),
-    watchApproveDetailSchedule(),
-    watchRejectDetailSchedule(),
-    watchGenerateDetailSchedule(),
-
     // search material detail plan
     watchSearchMaterialDetailPlan(),
 
@@ -470,9 +426,6 @@ export default function* sagas() {
     //check material plan
     watchCheckMaterialPlan(),
 
-    //create purchased order
-    watchCreatePurchasedOrder(),
-
     //calendar
     watchGetListFactoryCalendar(),
     watchUpdateFactoryCalendar(),
@@ -482,8 +435,6 @@ export default function* sagas() {
     watchGetListFactoryEvent(),
     watchGetDetailFactoryCalendar(),
 
-    // productivity compare
-    watchGetProductivityCompareList(),
     //user-permission
     watchGetUserPermission(),
     watchUpdateUserPermission(),

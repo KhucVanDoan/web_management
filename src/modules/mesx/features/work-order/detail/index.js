@@ -20,12 +20,12 @@ const breadcrumbs = [
     title: 'plan',
   },
   {
-    route: ROUTE.WORK_ORDER.PATH,
-    title: ROUTE.WORK_ORDER.TITLE,
+    route: ROUTE.MO.WORK_ORDER.PATH,
+    title: ROUTE.MO.WORK_ORDER.TITLE,
   },
   {
-    title: ROUTE.WORK_ORDER_DETAIL.TITLE,
-    route: ROUTE.WORK_ORDER_DETAIL.PATH,
+    title: ROUTE.MO.WORK_ORDER_DETAIL.TITLE,
+    route: ROUTE.MO.WORK_ORDER_DETAIL.PATH,
   },
 ]
 function workOrderDetail() {
@@ -43,7 +43,7 @@ function workOrderDetail() {
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.WORK_ORDER.PATH)
+    history.push(ROUTE.MO.WORK_ORDER.PATH)
   }
   return (
     <>

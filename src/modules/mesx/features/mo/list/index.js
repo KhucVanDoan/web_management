@@ -152,7 +152,9 @@ const Mo = () => {
             {isConfirmed && (
               <Button
                 variant="text"
-                onClick={() => history.push(ROUTE.WORK_ORDER.PATH, { id: id })}
+                onClick={() =>
+                  history.push(ROUTE.MO.WORK_ORDER.PATH, { id: id })
+                }
                 bold={false}
               >
                 {t('Mo.workOrder')}
