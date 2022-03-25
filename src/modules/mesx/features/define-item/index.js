@@ -52,8 +52,8 @@ function DefineItem() {
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
-    itemType: '',
-    itemGroup: '',
+    itemTypeCode: '',
+    itemGroupCode: '',
     createTime: [],
   }
 
@@ -92,7 +92,7 @@ function DefineItem() {
       fixed: true,
     },
     {
-      field: 'itemType',
+      field: 'itemTypeCode',
       filterFormat: 'multiple',
       headerName: t('defineItem.type'),
       width: 80,
@@ -103,7 +103,7 @@ function DefineItem() {
       },
     },
     {
-      field: 'itemGroup',
+      field: 'itemGroupCode',
       filterFormat: 'multiple',
       headerName: t('defineItem.group'),
       width: 80,
