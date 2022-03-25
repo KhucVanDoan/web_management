@@ -15,7 +15,7 @@ function FilterForm() {
   const { values } = useFormikContext()
 
   const {
-    data: { moList, moItems },
+    data: { moListAll, moItems },
     actions: moActions,
   } = useMo()
 
@@ -53,7 +53,7 @@ function FilterForm() {
 
   const getDataSaleOder = () => {
     const saleOrderLists = []
-    const soId = moList?.find(
+    const soId = moListAll?.find(
       (mo) => mo?.id === values?.manufacturingOrderIds[0],
     )?.saleOrderId
     const saleOrders = saleOrderList?.find((so) => so?.id === soId)
@@ -72,10 +72,10 @@ function FilterForm() {
           placeholder={t('materialReport.code')}
           options={
             values?.saleOrderIds
-              ? moList.filter(
+              ? moListAll.filter(
                   (mo) => mo?.saleOrderId === values?.saleOrderIds[0],
                 )
-              : moList
+              : moListAll
           }
           getOptionValue={(opt) => [opt?.id]}
           getOptionLabel={(opt) => opt?.code}

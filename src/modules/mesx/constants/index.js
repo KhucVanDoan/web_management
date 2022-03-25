@@ -261,6 +261,11 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
     code: '01',
     name: 'itemType.product',
   },
+  SEMI: {
+    id: 2,
+    code: '02',
+    name: 'itemType.product',
+  },
 }
 
 export const DEFAULT_ITEM_TYPES = [
