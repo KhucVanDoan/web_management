@@ -56,7 +56,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="itemType"
+          name="itemTypeCode"
           label={t('defineItem.type')}
           placeholder={t('defineItem.type')}
           options={appStore?.itemTypes}
@@ -70,7 +70,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="itemGroup"
+          name="itemGroupCode"
           label={t('defineItem.group')}
           placeholder={t('defineItem.group')}
           options={appStore?.itemGroups}
