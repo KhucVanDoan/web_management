@@ -199,7 +199,11 @@ function BomProducingStep() {
   }
 
   const onSubmitConfirm = () => {
-    actions.confirmBomProducingStepById(tempItem?.id, () => {
+    const params = {
+      id: tempItem?.id,
+      status: BOM_PRODUCING_STEP_STATUS.CONFIRMED,
+    }
+    actions.confirmBomProducingStepById(params, () => {
       refreshData()
     })
     setIsOpenConfirmModal(false)
@@ -222,7 +226,6 @@ function BomProducingStep() {
       </>
     )
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -267,13 +270,13 @@ function BomProducingStep() {
       >
         {t('bomProducingStep.deleteConfirm')}
         <LV
-          label={t('bomProducingStep.bomCode')}
-          value={tempItem?.code}
+          label={t('bomProducingStep.code')}
+          value={tempItem?.bomCode}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('bomProducingStep.bomName')}
-          value={tempItem?.name}
+          label={t('bomProducingStep.name')}
+          value={tempItem?.bomName}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -289,13 +292,13 @@ function BomProducingStep() {
       >
         {t('common.confirmMessage.confirm')}
         <LV
-          label={t('bomProducingStep.bomCode')}
-          value={tempItem?.code}
+          label={t('bomProducingStep.code')}
+          value={tempItem?.bomCode}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('bomProducingStep.bomName')}
-          value={tempItem?.name}
+          label={t('bomProducingStep.name')}
+          value={tempItem?.bomName}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
