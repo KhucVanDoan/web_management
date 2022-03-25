@@ -117,6 +117,7 @@ const ItemsSettingTable = (props) => {
   useEffect(() => {
     const itemsInSaleOrder = props.saleOrder?.itemSchedules || []
     setItems(getItemsInTable(itemsInSaleOrder))
+    setSelectedRows([])
   }, [props.saleOrder])
 
   const getItemsInTable = (listItem) => {
