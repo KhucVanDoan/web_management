@@ -109,7 +109,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
 export const TEXTFIELD_ALLOW = {
   NUMERIC: /[^0-9]/g,
   ALPHABET: /[^a-zA-Z]/g,
-  ALPHANUMERIC: /[^0-9A-Za-z]/g,
+  ALPHANUMERIC: /[^0-9a-zA-Z]/g,
+  ALPHANUMERIC_SPECIALS:
+    // eslint-disable-next-line no-useless-escape
+    /[^0-9a-zA-Z-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
 }
 
 export const TEXTFIELD_PREVENT = {

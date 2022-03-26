@@ -27,7 +27,7 @@ const FormikTextField = ({
 
       const val = e?.target?.value
       if (typeof val === 'string' && val?.trim() !== val) {
-        form.setFieldValue(field.name, val)
+        form.setFieldValue(field.name, val?.trim())
       }
     }}
     onChange={(_, val) => {

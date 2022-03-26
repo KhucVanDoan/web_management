@@ -12,7 +12,7 @@
     "maxLength": "Nhập tối đa {{max}} kí tự",
     "minLength": "Nhập tối thiểu {{min}} kí tự",
     "length": "Nhập đủ {{length}} kí tự",
-    "validEmail": "* Bạn hãy nhập đúng email",
+    "validEmail": "Bạn hãy nhập đúng email",
     "validUserName": "Tên đăng nhập chỉ gồm chữ và số",
     "validPassword": "Mật khẩu chỉ gồm chữ và số",
     "validatePassword": "Mật khẩu phải bao gồm ít nhất 1 ký tự chữ hoa, chữ thường, số và ký tự đặc biệt",
