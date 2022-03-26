@@ -5,7 +5,7 @@ import vi from '@fullcalendar/core/locales/vi'
 import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from '@fullcalendar/interaction'
-import { createFilterOptions, Grid } from '@mui/material'
+import { Box, createFilterOptions, Grid } from '@mui/material'
 import {
   startOfMonth,
   endOfMonth,
@@ -250,12 +250,12 @@ const PlanCalendar = () => {
       <Formik initialValues={initialSearch} onSubmit={handleSearch}>
         {() => (
           <Form>
-            <Grid container rowSpacing={4 / 3}>
-              <Grid item xs={12} display="flex">
-                <Grid item xs={6} sx={{ mr: 3 }}>
+            <Grid container justifyContent="center">
+              <Grid item lg={6} xs={12}>
+                <Box sx={{ display: 'flex' }}>
                   <Field.Autocomplete
                     name="factoryId"
-                    label={t('planCalendar.factory')}
+                    // label={t('planCalendar.factory')}
                     placeholder={t('planCalendar.factory')}
                     options={factories}
                     getOptionValue={(opt) => opt?.id}
@@ -263,40 +263,42 @@ const PlanCalendar = () => {
                     filterOptions={createFilterOptions({
                       stringify: (opt) => `${opt?.code}|${opt?.name}`,
                     })}
-                    sx={{ mb: 3 }}
+                    sx={{ flex: 1 }}
                     required
                   />
-                </Grid>
-                <Grid item xs={6}>
-                  <Button type="submit">{t('common.filter')}</Button>
-                </Grid>
+                  <Button type="submit" ml={3}>
+                    {t('common.filter')}
+                  </Button>
+                </Box>
               </Grid>
             </Grid>
           </Form>
         )}
       </Formik>
 
-      <FullCalendar
-        headerToolbar={{
-          left: 'prev,next',
-          center: 'title',
-          right: 'today',
-        }}
-        locale={vi}
-        dayMaxEventRows={2}
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        height={700}
-        moreLinkContent={(args) => {
-          return '+' + args.num + ' Xem thêm'
-        }}
-        displayEventTime={false}
-        eventDisplay="block"
-        events={events}
-        eventClick={handleEventClick}
-        dateClick={handleDateClick}
-        datesSet={handleChangeRange}
-      />
+      <Box className={classes.fullCalendar} sx={{ mt: 3 }}>
+        <FullCalendar
+          headerToolbar={{
+            left: 'prev,next',
+            center: 'title',
+            right: 'today',
+          }}
+          locale={vi}
+          dayMaxEventRows={2}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          height={700}
+          moreLinkContent={(args) => {
+            return '+' + args.num + ' Xem thêm'
+          }}
+          displayEventTime={false}
+          eventDisplay="block"
+          events={events}
+          eventClick={handleEventClick}
+          dateClick={handleDateClick}
+          datesSet={handleChangeRange}
+        />
+      </Box>
       <PopupCreateEvent
         open={isOpenCreateEventModal}
         isDetail={disableEdit}
