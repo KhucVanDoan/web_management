@@ -27,12 +27,14 @@ export const defineCompanySchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    address: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    address: Yup.string()
+      .nullable()
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        }),
+      ),
     taxNo: Yup.string()
       .nullable()
       .max(
@@ -49,7 +51,7 @@ export const defineCompanySchema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
         }),
       ),
-    phone: phoneSchema(t),
+    phone: phoneSchema(t).nullable(),
     email: Yup.string()
       .nullable()
       .email(t('general:form.validEmail'))

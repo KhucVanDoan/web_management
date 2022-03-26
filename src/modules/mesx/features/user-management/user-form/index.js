@@ -162,6 +162,7 @@ function UserManagementForm() {
               <Button
                 variant="outlined"
                 onClick={() => {}} //@TODO: <anh.nth> handle resetPassword
+                sx={{ mr: 'auto' }}
               >
                 {t('userManagement.resetPassword')}
               </Button>
@@ -274,6 +275,7 @@ function UserManagementForm() {
                           </IconButton>
                         }
                         required
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                       />
                     </Grid>
                   )}

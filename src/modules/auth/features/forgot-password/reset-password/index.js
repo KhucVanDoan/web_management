@@ -5,6 +5,7 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -73,6 +74,7 @@ const ResetPassword = () => {
                     )}
                   </IconButton>
                 }
+                allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                 sx={{ mt: 4 / 3 }}
               />
               <Field.TextField
@@ -93,6 +95,7 @@ const ResetPassword = () => {
                     )}
                   </IconButton>
                 }
+                allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                 sx={{ mt: 4 / 3 }}
               />
 

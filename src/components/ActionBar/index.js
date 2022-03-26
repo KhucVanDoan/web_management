@@ -25,6 +25,7 @@ const ActionBar = ({
         justifyContent: 'flex-end',
         py: 2,
         mb: -2,
+        mt: 2,
         position: 'sticky',
         bottom: 0,
         zIndex: 20,

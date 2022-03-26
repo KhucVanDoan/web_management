@@ -31,7 +31,7 @@ export const validationSchema = (t, mode) =>
       ),
     ...(mode === MODAL_MODE.CREATE
       ? {
-          password: passwordSchema(t),
+          password: passwordSchema(t).required(t('general:form.required')),
         }
       : {}),
     email: Yup.string()

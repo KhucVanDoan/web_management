@@ -302,7 +302,7 @@ function UserPermission() {
               </Grid>
             </Grid>
             {values.userRoleId && (
-              <Box sx={{ mb: 3 }}>
+              <Box>
                 <TableCollapse
                   rows={bomTree}
                   columns={columns}

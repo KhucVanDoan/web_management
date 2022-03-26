@@ -62,7 +62,7 @@ function DefineItemForm() {
       itemGroup: itemDetails?.itemGroup || '',
       itemUnit: itemDetails?.itemUnit || '',
       price: itemDetails?.price || '',
-      dayExpire: itemDetails?.dayExpire || 1,
+      dayExpire: itemDetails?.dayExpire || '',
       isProductionObject: itemDetails?.isProductionObject || false,
       hasStorageSpace: itemDetails?.hasStorageSpace || false,
       ...(itemDetails?.hasStorageSpace
@@ -223,7 +223,7 @@ function DefineItemForm() {
       itemGroupId: values?.itemGroup?.id,
       itemUnitId: values?.itemUnit?.id,
       price: Number(values.price),
-      dayExpire: values?.dayExpire ? Number(values.dayExpire) : 1,
+      dayExpire: values?.dayExpire ? Number(values.dayExpire) : null,
       isProductionObject: isProductionObject ? '1' : '0',
       hasStorageSpace: storage ? 1 : 0,
       ...(storage
