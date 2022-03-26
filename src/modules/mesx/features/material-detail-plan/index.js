@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
+import TableFilter from '~/components/DataTable/TableFilter'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -301,24 +302,36 @@ const MaterialDetailPlan = () => {
       onSearch={setKeyword}
       title={t('materialDetailPlan.title')}
     >
-      <Typography variant="h4" component="span" mb={-3}>
-        {t('materialDetailPlan.productionPlan')}
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 1,
+        }}
+      >
+        <Typography variant="h4" component="span">
+          {t('materialDetailPlan.productionPlan')}
+        </Typography>
+
+        <TableFilter
+          filters={{
+            form: <FilterForm />,
+            values: filters,
+            defaultValue: DEFAULT_FILTER,
+            onApply: setFilters,
+            validationSchema: materialSchema(t),
+          }}
+        />
+      </Box>
 
       <DataTable
         rows={getRowProductionPlan()}
         columns={getColumnProductionPlan()}
         hideSetting
         hideFooter
-        filters={{
-          form: <FilterForm />,
-          values: filters,
-          defaultValue: DEFAULT_FILTER,
-          onApply: setFilters,
-          validationSchema: materialSchema(t),
-        }}
-      ></DataTable>
-      <Box mt={3} mb={1}>
+      />
+      <Box mt={3} mb={1.5}>
         <Typography variant="h4" component="span">
           {t('materialDetailPlan.materialPlan')}
         </Typography>
@@ -328,8 +341,8 @@ const MaterialDetailPlan = () => {
         columns={getColumnMaterialPlan()}
         hideSetting
         hideFooter
-      ></DataTable>
-      <Box mt={3} mb={1}>
+      />
+      <Box mt={3} mb={1.5}>
         <Typography variant="h4" component="span">
           {t('materialDetailPlan.SuppliePlan')}
         </Typography>
@@ -339,7 +352,7 @@ const MaterialDetailPlan = () => {
         columns={getColumnSuppliesPlan()}
         hideSetting
         hideFooter
-      ></DataTable>
+      />
     </Page>
   )
 }
