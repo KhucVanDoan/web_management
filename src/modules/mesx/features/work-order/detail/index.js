@@ -2,8 +2,9 @@ import { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { isNil } from 'lodash'
+import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 import ActionBar from '~/components/ActionBar'
@@ -31,6 +32,9 @@ const breadcrumbs = [
 function workOrderDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
+  const location = useLocation()
+  const urlSearchParams = qs.parse(location.search)
+  const locationId = urlSearchParams.moId
   const { id } = useParams()
   const {
     data: { workOrderDetails },
@@ -43,7 +47,7 @@ function workOrderDetail() {
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.MO.WORK_ORDER.PATH)
+    history.push(`${ROUTE.MO.WORK_ORDER.PATH}?moId=${locationId}`)
   }
   return (
     <>

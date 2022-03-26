@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
+import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
@@ -38,9 +39,10 @@ const WorkOrder = () => {
   const location = useLocation()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
+  const urlSearchParams = qs.parse(location.search)
+  const locationId = urlSearchParams.moId
 
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
-  const [locationId, setLocationId] = useState(location?.state?.id)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({
@@ -173,7 +175,10 @@ const WorkOrder = () => {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.MO.WORK_ORDER_DETAIL.PATH.replace(':id', `${id}`),
+                  `${ROUTE.MO.WORK_ORDER_DETAIL.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  )}?moId=${locationId}`,
                 )
               }
             >
@@ -211,21 +216,15 @@ const WorkOrder = () => {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [...columns, { field: 'moId' }]),
+      filter: convertFilterParams({ ...filters, moId: locationId }),
       sort: convertSortParams(sort),
     }
     workOrderActions.searchWorkOrders(params)
   }
 
   useEffect(() => {
-    if (locationId) {
-      refreshData()
-    }
-  }, [page, pageSize, filters, sort, location?.state?.id])
-
-  useEffect(() => {
-    setLocationId(location?.state?.id)
-  }, [location?.state?.id])
+    refreshData()
+  }, [page, pageSize, filters, sort])
 
   const onChangeSelectedRows = (selected) => {
     setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))

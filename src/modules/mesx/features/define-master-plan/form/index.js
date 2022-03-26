@@ -21,7 +21,7 @@ import { MASTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, formatDateTimeUtc } from '~/utils'
+import { formatDateTimeUtc } from '~/utils'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -88,13 +88,13 @@ const DefineMasterPlanForm = () => {
       })
     }
     if (mode === MODAL_MODE.UPDATE) {
-      redirectToModeration(id)
+      // redirectToModeration(id)
     }
     return
   }
 
   const redirectToModeration = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
+    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
   }
 
   const backToList = () => {

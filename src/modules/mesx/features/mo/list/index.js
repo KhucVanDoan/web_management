@@ -25,7 +25,6 @@ import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  redirectRouter,
   formatDateTimeUtc,
   convertFilterParams,
   convertSortParams,
@@ -153,7 +152,7 @@ const Mo = () => {
               <Button
                 variant="text"
                 onClick={() =>
-                  history.push(ROUTE.MO.WORK_ORDER.PATH, { id: id })
+                  history.push(`${ROUTE.MO.WORK_ORDER.PATH}?moId=${id}`)
                 }
                 bold={false}
               >
@@ -228,7 +227,7 @@ const Mo = () => {
    * @param {int} id
    */
   const onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.MO.DETAIL.PATH, { id: id })
+    history.push(ROUTE.MO.DETAIL.PATH, { id: id })
   }
 
   /**
@@ -236,7 +235,7 @@ const Mo = () => {
    * @param {int} id
    */
   const onClickEdit = (id) => {
-    redirectRouter(ROUTE.MO.EDIT.PATH, { id: id })
+    history.push(ROUTE.MO.EDIT.PATH, { id: id })
   }
 
   /**

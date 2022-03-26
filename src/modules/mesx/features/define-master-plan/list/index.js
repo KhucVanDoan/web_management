@@ -19,7 +19,6 @@ import {
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  redirectRouter,
   formatDateTimeUtc,
   convertFilterParams,
   convertSortParams,
@@ -129,18 +128,23 @@ const DefineMasterPlan = () => {
         sortable: true,
         width: 150,
         renderCell: (params) => {
-          const { id } = params.row
+          const { id, status } = params.row
+          const isConfirmed = status === MASTER_PLAN_STATUS.CONFIRMED
           return (
-            <Button
-              variant="text"
-              size="small"
-              bold={false}
-              onClick={() =>
-                history.push(`${ROUTE.MO.CREATE.PATH}?masterPlanId=${id}`)
-              }
-            >
-              {t('defineMasterPlan.createMo')}
-            </Button>
+            <>
+              {isConfirmed && (
+                <Button
+                  variant="text"
+                  size="small"
+                  bold={false}
+                  onClick={() =>
+                    history.push(`${ROUTE.MO.CREATE.PATH}?masterPlanId=${id}`)
+                  }
+                >
+                  {t('defineMasterPlan.createMo')}
+                </Button>
+              )}
+            </>
           )
         },
       },
@@ -151,7 +155,7 @@ const DefineMasterPlan = () => {
         align: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
-          // const canEdit = status === MASTER_PLAN_STATUS.CREATED
+          const canEdit = status === MASTER_PLAN_STATUS.CREATED
           const canDelete = status === MASTER_PLAN_STATUS.CREATED
           const canApprove = status === MASTER_PLAN_STATUS.CREATED
           const canReject = status === MASTER_PLAN_STATUS.CREATED
@@ -164,11 +168,17 @@ const DefineMasterPlan = () => {
               <IconButton onClick={() => onClickViewModeration(id)}>
                 <Icon name="invoid" />
               </IconButton>
-              {/* {canEdit && (
-                <IconButton onClick={() => onClickEdit(id)}>
+              {canEdit && (
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.MASTER_PLAN.EDIT.PATH.replace(':id', `${id}`),
+                    )
+                  }
+                >
                   <Icon name="edit" />
                 </IconButton>
-              )} */}
+              )}
               {canDelete && (
                 <IconButton
                   onClick={() => {
@@ -382,11 +392,11 @@ const DefineMasterPlan = () => {
    *
    */
   const handleCreate = () => {
-    redirectRouter(ROUTE.MASTER_PLAN.CREATE.PATH)
+    history.push(ROUTE.MASTER_PLAN.CREATE.PATH)
   }
 
   const onClickViewModeration = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
+    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
   }
 
   /**
@@ -394,7 +404,7 @@ const DefineMasterPlan = () => {
    * @param {int} id
    */
   const onClickViewDetails = (id) => {
-    redirectRouter(ROUTE.MASTER_PLAN.DETAIL.PATH, { id: id })
+    history.push(ROUTE.MASTER_PLAN.DETAIL.PATH, { id: id })
   }
 
   /**
