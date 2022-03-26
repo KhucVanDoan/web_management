@@ -156,33 +156,37 @@ function DefineItem() {
       sortable: false,
       align: 'center',
       renderCell: (params) => {
-        const { id, isHasBom } = params?.row
+        const { id, isHasBom, isProductionObject } = params?.row
         const itemHasBom = BOMList.find((bom) => bom.itemId === id)?.id
 
-        return isHasBom ? (
-          <Button
-            variant="text"
-            bold={false}
-            size="small"
-            onClick={() =>
-              history.push(
-                ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${itemHasBom}`),
-              )
-            }
-          >
-            {t('defineItem.bom')}
-          </Button>
+        return isProductionObject ? (
+          isHasBom ? (
+            <Button
+              variant="text"
+              bold={false}
+              size="small"
+              onClick={() =>
+                history.push(
+                  ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${itemHasBom}`),
+                )
+              }
+            >
+              {t('defineItem.bom')}
+            </Button>
+          ) : (
+            <Button
+              variant="text"
+              bold={false}
+              size="small"
+              onClick={() =>
+                history.push(ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id)
+              }
+            >
+              {t('defineItem.bom')}
+            </Button>
+          )
         ) : (
-          <Button
-            variant="text"
-            bold={false}
-            size="small"
-            onClick={() =>
-              history.push(ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id)
-            }
-          >
-            {t('defineItem.bom')}
-          </Button>
+          ''
         )
       },
     },
