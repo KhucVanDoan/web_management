@@ -47,10 +47,6 @@ const style = (theme) => ({
         border: `1px solid ${theme.palette.primary.a5} !important`,
       },
 
-    '.fc-day-sun': {
-      backgroundColor: theme.palette.grayF4.main,
-    },
-
     '.fc-col-header-cell': {
       backgroundColor: theme.palette.bgPrimaryOpacity,
       padding: 8,

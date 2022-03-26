@@ -250,12 +250,12 @@ const PlanCalendar = () => {
       <Formik initialValues={initialSearch} onSubmit={handleSearch}>
         {() => (
           <Form>
-            <Grid container justifyContent="center">
-              <Grid item lg={6} xs={12}>
+            <Grid container justifyContent="">
+              <Grid item xl={5} lg={6} xs={12}>
                 <Box sx={{ display: 'flex' }}>
                   <Field.Autocomplete
                     name="factoryId"
-                    // label={t('planCalendar.factory')}
+                    label={t('planCalendar.factory')}
                     placeholder={t('planCalendar.factory')}
                     options={factories}
                     getOptionValue={(opt) => opt?.id}
@@ -265,6 +265,7 @@ const PlanCalendar = () => {
                     })}
                     sx={{ flex: 1 }}
                     required
+                    labelWidth="auto"
                   />
                   <Button type="submit" ml={3}>
                     {t('common.filter')}
