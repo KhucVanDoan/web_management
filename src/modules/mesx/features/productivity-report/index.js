@@ -134,12 +134,8 @@ function ProductivityReport() {
           >
             {() => (
               <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item lg={10} display="flex">
+                <Grid container justifyContent="center">
+                  <Grid item xl={11} xs={12}>
                     <Grid
                       container
                       rowSpacing={4 / 3}
@@ -190,10 +186,12 @@ function ProductivityReport() {
                           getOptionLabel={(opt) => opt?.name}
                         />
                       </Grid>
+                      <Grid item xs={12} display="flex">
+                        <Button type="submit" sx={{ ml: 'auto' }}>
+                          {t('common.search')}
+                        </Button>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid item lg={2}>
-                    <Button type="submit">{t('common.search')}</Button>
                   </Grid>
                 </Grid>
                 <Box mt={2}>

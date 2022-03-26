@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid, Checkbox, FormControlLabel } from '@mui/material'
+import { Grid, Checkbox, FormControlLabel, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -236,25 +236,24 @@ function UserPermission() {
       placeholder={t('userPermission.searchPlaceholder')}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, values }) => (
-              <Form>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, values }) => (
+          <Form>
+            <Grid container justifyContent="center" sx={{ mb: 3 }}>
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 4, xs: 4 }}
                 >
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="departmentId"
                       label={t('userPermission.department')}
-                      labelWidth={100}
                       placeholder={t('userPermission.department')}
                       options={appStore.deparments}
                       getOptionLabel={(opt) => opt?.name}
@@ -262,11 +261,10 @@ function UserPermission() {
                       onChange={(val) => setDepartmentId(val)}
                     />
                   </Grid>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="userRoleId"
                       label={t('userPermission.role')}
-                      labelWidth={100}
                       placeholder={t('userPermission.role')}
                       options={
                         appStore.deparments.find(
@@ -278,11 +276,10 @@ function UserPermission() {
                       onChange={(val) => setUserRoleId(val)}
                     />
                   </Grid>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="screen"
                       label={t('userPermission.screen')}
-                      labelWidth={100}
                       placeholder={t('userPermission.screen')}
                       options={[]}
                       getOptionLabel={(opt) => opt?.name}
@@ -290,11 +287,10 @@ function UserPermission() {
                       disabled
                     />
                   </Grid>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="system"
                       label={t('userPermission.system')}
-                      labelWidth={100}
                       placeholder={t('userPermission.system')}
                       options={[]}
                       getOptionLabel={(opt) => opt?.name}
@@ -302,32 +298,32 @@ function UserPermission() {
                       disabled
                     />
                   </Grid>
-                  {values.userRoleId && (
-                    <Grid item xs={12}>
-                      <TableCollapse
-                        rows={bomTree}
-                        columns={columns}
-                        additionColums={additionColums}
-                        handleGetData={handleGetData}
-                        pageSize={pageSize}
-                        page={page}
-                        isRoot={true}
-                        isView={true}
-                        type={'list'}
-                        onPageChange={setPage}
-                        onPageSizeChange={setPageSize}
-                        total={appStore?.groupPermisions?.length}
-                        hideSetting
-                      />
-                    </Grid>
-                  )}
                 </Grid>
-                {renderActionBar(handleReset)}
-              </Form>
+              </Grid>
+            </Grid>
+            {values.userRoleId && (
+              <Box sx={{ mb: 3 }}>
+                <TableCollapse
+                  rows={bomTree}
+                  columns={columns}
+                  additionColums={additionColums}
+                  handleGetData={handleGetData}
+                  pageSize={pageSize}
+                  page={page}
+                  isRoot={true}
+                  isView={true}
+                  type={'list'}
+                  onPageChange={setPage}
+                  onPageSizeChange={setPageSize}
+                  total={appStore?.groupPermisions?.length}
+                  hideSetting
+                />
+              </Box>
             )}
-          </Formik>
-        </Grid>
-      </Grid>
+            {renderActionBar(handleReset)}
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }
