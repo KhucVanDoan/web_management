@@ -4,7 +4,6 @@ import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
-import { useDashboardProductProcessFinished } from '~/modules/mesx/redux/hooks/useDashboard'
 import {
   getFinishedItemProgressApi,
   getFinishedItemByMoApi,
@@ -12,12 +11,8 @@ import {
 
 import FilterDialog from '../../filter-dialog'
 
-const Filter = ({ setTmpFinishedItemProgress = () => {} }) => {
+const Filter = ({ setTmpFinishedItemProgress = () => {}, inProgressMos }) => {
   const { t } = useTranslation(['mesx'])
-
-  const {
-    data: { inProgressMos },
-  } = useDashboardProductProcessFinished()
 
   const [itemList, setItemList] = useState([])
   const [itemId, setItemId] = useState()

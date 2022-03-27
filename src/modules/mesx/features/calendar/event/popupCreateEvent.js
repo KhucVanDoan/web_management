@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Button, createFilterOptions, Grid } from '@mui/material'
+import { createFilterOptions, Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import { EVENT_TYPE_OPTIONS } from '~/modules/mesx/constants'
@@ -36,21 +37,16 @@ function PopupCreateEvent(props) {
     const { resetForm } = useFormikContext()
     return (
       <>
-        <Button color="grayF4" sx={{ mr: 1 }} onClick={handleClose}>
+        <Button color="grayF4" onClick={handleClose}>
           {t('common.close')}
         </Button>
         {!isDetail && (
           <>
-            <Button
-              variant="outlined"
-              color="subText"
-              sx={{ mr: 1 }}
-              onClick={resetForm}
-            >
+            <Button variant="outlined" color="subText" onClick={resetForm}>
               {t('common.cancel')}
             </Button>
 
-            <Button type="submit" disabled={isDetail}>
+            <Button type="submit" disabled={isDetail} icon="save">
               {isUpdate ? t('common.update') : t('common.create')}
             </Button>
           </>
@@ -84,8 +80,6 @@ function PopupCreateEvent(props) {
       title={
         isUpdate ? t('planCalendar.detail') : t('planCalendar.createEvent')
       }
-      maxWidth="sm"
-      noBorderBottom
       renderFooter={renderActionButtons}
       formikProps={{
         initialValues: initialValues,

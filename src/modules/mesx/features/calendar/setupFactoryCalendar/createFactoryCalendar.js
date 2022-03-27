@@ -7,7 +7,8 @@ import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import Button from '~/components/Button'
+import { MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
@@ -128,200 +129,173 @@ function CalendarCreate() {
       history.push(ROUTE.PLAN.CALENDAR.PATH),
     )
   }
-  const renderActionButtons = (handleReset) => {
-    return (
-      <>
-        <Button
-          color="grayF4"
-          sx={{ mr: 1 }}
-          onClick={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
-        >
-          {t('common.close')}
-        </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          sx={{ mr: 1 }}
-          onClick={handleReset}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button type="submit">{t('common.create')}</Button>
-      </>
-    )
-  }
+
   return (
-    <>
-      <Page
-        breadcrumbs={breadcrumbs}
-        title={t('planCalendar.setupYearCalendar.title')}
-        loading={false}
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('planCalendar.setupYearCalendar.title')}
+      loading={false}
+    >
+      <Formik
+        initialValues={initialValues}
+        validationSchema={createCalendarSchema(t)}
+        onSubmit={onSubmit}
       >
-        <Formik
-          initialValues={initialValues}
-          validationSchema={createCalendarSchema(t)}
-          onSubmit={onSubmit}
-        >
-          {({ values, setFieldValue, handleReset }) => (
-            <Form>
-              <Grid container justifyContent="center">
-                <Grid item xl={11} xs={12}>
-                  <Grid
-                    container
-                    rowSpacing={4 / 3}
-                    columnSpacing={{ xl: 8, xs: 4 }}
-                  >
-                    <Grid item lg={6} xs={12}>
-                      <Field.DateRangePicker
-                        minDate={new Date()}
-                        name="timePlan"
-                        label={t('planCalendar.setupYearCalendar.plan')}
-                        placeholder={t('planCalendar.setupYearCalendar.plan')}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="fatoryIds"
-                        label={t('planCalendar.factory')}
-                        placeholder={t('planCalendar.factory')}
-                        options={factories}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        multiple
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field.TextField
-                        name="description"
-                        label={t('planCalendar.eventDescription')}
-                        placeholder={t('planCalendar.eventDescription')}
-                        multiline
-                        rows={3}
-                      />
-                    </Grid>
-                    {/* @TODO: DongNQ implement when upload file done
+        {({ values, setFieldValue, handleReset }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
+                <Grid
+                  container
+                  rowSpacing={4 / 3}
+                  columnSpacing={{ xl: 8, xs: 4 }}
+                >
+                  <Grid item lg={6} xs={12}>
+                    <Field.DateRangePicker
+                      minDate={new Date()}
+                      name="timePlan"
+                      label={t('planCalendar.setupYearCalendar.plan')}
+                      placeholder={t('planCalendar.setupYearCalendar.plan')}
+                      required
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="fatoryIds"
+                      label={t('planCalendar.factory')}
+                      placeholder={t('planCalendar.factory')}
+                      options={factories}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.name}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
+                      multiple
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field.TextField
+                      name="description"
+                      label={t('planCalendar.eventDescription')}
+                      placeholder={t('planCalendar.eventDescription')}
+                      multiline
+                      rows={3}
+                    />
+                  </Grid>
+                  {/* @TODO: DongNQ implement when upload file done
                      <Grid item xs={12}>
                       <Input type="file" />
                     </Grid> */}
-                  </Grid>
                 </Grid>
               </Grid>
-              <Box mt={2}>
-                <Box>
-                  <Tabs
-                    list={[
-                      t('planCalendar.setupYearCalendar.workingDayInWeek'),
-                      t('planCalendar.setupYearCalendar.shift'),
-                    ]}
-                    sx={{ mt: 2 }}
-                  >
-                    <Box sx={{ px: 0 }}>
-                      <Grid
-                        container
-                        rowSpacing={4 / 3}
-                        columnSpacing={{ xl: 8, xs: 4 }}
-                      >
-                        <Grid item lg={3} xs={12}>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="monday" />}
-                              label={t('planCalendar.setupYearCalendar.monday')}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="tuesday" />}
-                              label={t(
-                                'planCalendar.setupYearCalendar.tuesday',
-                              )}
-                            />
-                          </Grid>
+            </Grid>
+            <Box mt={2}>
+              <Box>
+                <Tabs
+                  list={[
+                    t('planCalendar.setupYearCalendar.workingDayInWeek'),
+                    t('planCalendar.setupYearCalendar.shift'),
+                  ]}
+                  sx={{ mt: 2 }}
+                >
+                  <Box sx={{ px: 0 }}>
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      <Grid item lg={3} xs={12}>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="monday" />}
+                            label={t('planCalendar.setupYearCalendar.monday')}
+                          />
                         </Grid>
-                        <Grid item lg={3} xs={12}>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="wednesday" />}
-                              label={t(
-                                'planCalendar.setupYearCalendar.wednesday',
-                              )}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="thursday" />}
-                              label={t(
-                                'planCalendar.setupYearCalendar.thursday',
-                              )}
-                            />
-                          </Grid>
-                        </Grid>
-                        <Grid item lg={3} xs={12}>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="friday" />}
-                              label={t('planCalendar.setupYearCalendar.friday')}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="saturday" />}
-                              label={t(
-                                'planCalendar.setupYearCalendar.saturday',
-                              )}
-                            />
-                          </Grid>
-                        </Grid>
-                        <Grid item lg={3} xs={12}>
-                          <Grid item xs={12}>
-                            <FormControlLabel
-                              control={<Field.Checkbox name="sunday" />}
-                              label={t('planCalendar.setupYearCalendar.sunday')}
-                            />
-                          </Grid>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="tuesday" />}
+                            label={t('planCalendar.setupYearCalendar.tuesday')}
+                          />
                         </Grid>
                       </Grid>
-                    </Box>
-                    <Box sx={{ px: 0 }}>
+                      <Grid item lg={3} xs={12}>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="wednesday" />}
+                            label={t(
+                              'planCalendar.setupYearCalendar.wednesday',
+                            )}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="thursday" />}
+                            label={t('planCalendar.setupYearCalendar.thursday')}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid item lg={3} xs={12}>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="friday" />}
+                            label={t('planCalendar.setupYearCalendar.friday')}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="saturday" />}
+                            label={t('planCalendar.setupYearCalendar.saturday')}
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid item lg={3} xs={12}>
+                        <Grid item xs={12}>
+                          <FormControlLabel
+                            control={<Field.Checkbox name="sunday" />}
+                            label={t('planCalendar.setupYearCalendar.sunday')}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <Box sx={{ px: 0 }}>
+                    <FieldArray
+                      name="shifts"
+                      render={(arrayHelpers) => (
+                        <ShiftTable
+                          shifts={values.shifts || []}
+                          arrayHelpers={arrayHelpers}
+                        />
+                      )}
+                    />
+                    <Box mt={4}>
                       <FieldArray
-                        name="shifts"
+                        name="breakTimes"
                         render={(arrayHelpers) => (
-                          <ShiftTable
+                          <RelaxTable
                             shifts={values.shifts || []}
+                            breakTimes={values.breakTimes || []}
                             arrayHelpers={arrayHelpers}
+                            setFieldValue={setFieldValue}
                           />
                         )}
                       />
-                      <Box mt={4}>
-                        <FieldArray
-                          name="breakTimes"
-                          render={(arrayHelpers) => (
-                            <RelaxTable
-                              shifts={values.shifts || []}
-                              breakTimes={values.breakTimes || []}
-                              arrayHelpers={arrayHelpers}
-                              setFieldValue={setFieldValue}
-                            />
-                          )}
-                        />
-                      </Box>
                     </Box>
-                  </Tabs>
-                </Box>
+                  </Box>
+                </Tabs>
               </Box>
+            </Box>
 
-              <Box display="flex" justifyContent="flex-end" sx={{ mt: 2 }}>
-                {renderActionButtons(handleReset)}
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Page>
-    </>
+            <ActionBar
+              onBack={() => history.push(ROUTE.PLAN.CALENDAR.PATH)}
+              onCancel={handleReset}
+              mode={MODAL_MODE.CREATE}
+            />
+          </Form>
+        )}
+      </Formik>
+    </Page>
   )
 }
 

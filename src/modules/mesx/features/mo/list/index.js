@@ -52,7 +52,7 @@ const Mo = () => {
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
   const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useState({})
   const [sort, setSort] = useState(null)
   const {
     data: { isLoading, moList, total },
@@ -142,7 +142,6 @@ const Mo = () => {
       headerName: t('Mo.workOrder'),
       width: 150,
       align: 'center',
-      sortable: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === MO_STATUS.CONFIRMED
@@ -155,6 +154,7 @@ const Mo = () => {
                   history.push(`${ROUTE.MO.WORK_ORDER.PATH}?moId=${id}`)
                 }
                 bold={false}
+                size="small"
               >
                 {t('Mo.workOrder')}
               </Button>
@@ -213,10 +213,13 @@ const Mo = () => {
       sort: convertSortParams(sort),
     }
     actions.searchMO(params)
+  }
+
+  useEffect(() => {
     planActions.searchPlans({ isGetAll: 1 })
     factoryAction.searchFactories({ isGetAll: 1 })
     saleOrderAction.searchSaleOrders({ isGetAll: 1 })
-  }
+  }, [])
 
   useEffect(() => {
     refreshData()
