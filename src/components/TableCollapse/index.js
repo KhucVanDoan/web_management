@@ -401,7 +401,6 @@ const TableCollapse = (props) => {
                             })}
                             key={`data-table-${field}-${i}`}
                             id={`data-table-${field}-${i}`}
-                            title={cellValue}
                             width={width}
                           >
                             {i === 0 &&

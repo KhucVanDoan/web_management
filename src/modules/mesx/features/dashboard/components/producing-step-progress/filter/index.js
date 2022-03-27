@@ -8,7 +8,8 @@ import { useDashboardProducingStepProgress } from '~/modules/mesx/redux/hooks/us
 
 import FilterDialog from '../../filter-dialog'
 
-function Filter() {
+function Filter(props) {
+  const { inProgressMos } = props
   const { t } = useTranslation(['mesx'])
   const [moId, setMoId] = useState()
   const [itemId, setItemId] = useState()
@@ -18,10 +19,7 @@ function Filter() {
   const [routing, setRouting] = useState([])
   const [productStep, setProductStep] = useState([])
 
-  const {
-    actions,
-    data: { inProgressMos },
-  } = useDashboardProducingStepProgress()
+  const { actions } = useDashboardProducingStepProgress()
 
   const handleChangeMo = (id) => {
     setMoId(id)

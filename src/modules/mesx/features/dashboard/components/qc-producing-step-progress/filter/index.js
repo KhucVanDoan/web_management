@@ -8,7 +8,8 @@ import { useDashboardProductProcessQc } from '~/modules/mesx/redux/hooks/useDash
 
 import FilterDialog from '../../filter-dialog'
 
-function Filter() {
+function Filter(props) {
+  const { inProgressMos } = props
   const { t } = useTranslation(['mesx'])
 
   const [moId, setMoId] = useState()
@@ -18,10 +19,7 @@ function Filter() {
   const [itemList, setItemList] = useState([])
   const [routing, setRouting] = useState([])
   const [productStep, setProductStep] = useState([])
-  const {
-    data: { inProgressMos },
-    actions,
-  } = useDashboardProductProcessQc()
+  const { actions } = useDashboardProductProcessQc()
 
   const handleChangeMo = (id) => {
     actions.getDashboardAllItemByMo(id, (data) => setItemList(data))

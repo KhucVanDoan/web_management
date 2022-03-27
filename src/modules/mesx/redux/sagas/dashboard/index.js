@@ -36,7 +36,7 @@ const getMoStatusApi = (query) => {
   return api.get(uri, query)
 }
 
-const getInProgressMosApi = (query) => {
+export const getInProgressMosApi = (query) => {
   const uri = `/v1/produces/manufacturing-orders/in-progress/list`
   return api.get(uri, query)
 }

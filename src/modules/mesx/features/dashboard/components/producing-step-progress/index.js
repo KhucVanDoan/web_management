@@ -8,7 +8,8 @@ import { useDashboardProducingStepProgress } from '~/modules/mesx/redux/hooks/us
 
 import Filter from './filter'
 
-function ProducingStepProgressReport() {
+function ProducingStepProgressReport(props) {
+  const { inProgressMos } = props
   const { t } = useTranslation(['mesx'])
 
   const {
@@ -84,7 +85,7 @@ function ProducingStepProgressReport() {
         <Typography variant="h2">
           {t('dashboard.producingStepProgress')}
         </Typography>
-        <Filter />
+        <Filter inProgressMos={inProgressMos} />
       </Box>
       <Box sx={{ height: 400 }}>
         <DualAxes {...config} />

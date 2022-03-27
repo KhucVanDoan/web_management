@@ -8,7 +8,8 @@ import { useDashboardProductProcessQc } from '~/modules/mesx/redux/hooks/useDash
 
 import Filter from './filter'
 
-function QcProducingStepProgressReport() {
+function QcProducingStepProgressReport(props) {
+  const { inProgressMos } = props
   const { t } = useTranslation(['mesx'])
 
   const {
@@ -104,7 +105,7 @@ function QcProducingStepProgressReport() {
           {t('dashboard.qcProducingStepProgress')}
         </Typography>
 
-        <Filter />
+        <Filter inProgressMos={inProgressMos} />
       </Box>
 
       <Box sx={{ height: 400 }}>

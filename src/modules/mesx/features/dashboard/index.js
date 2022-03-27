@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Page from '~/components/Page'
-import { useDashboard } from '~/modules/mesx/redux/hooks/useDashboard'
+import {
+  getFinishedItemProgressApi,
+  getInProgressMosApi,
+} from '~/modules/mesx/redux/sagas/dashboard'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import FinishedProductProgress from './components/finished-product-progress'
@@ -22,20 +25,32 @@ const breadcrumbs = [
 ]
 function Dashboard() {
   const { t } = useTranslation(['mesx'])
-  const {
-    actions,
-    data: { inProgressMos, finishedItemProgress },
-  } = useDashboard()
+  const [finishedItemProgress, setFinishedItemProgress] = useState([])
+  const [inProgressMos, setInProgressMos] = useState([])
 
   useEffect(() => {
     if (isEmpty(inProgressMos)) {
-      actions.getDashboardInProgressMos()
+      getInProgressMos()
     }
   }, [inProgressMos])
 
+  const getInProgressMos = async () => {
+    const res = await getInProgressMosApi()
+    if (res?.statusCode === 200) {
+      setInProgressMos(res?.data)
+    }
+  }
+
+  const getFinishedItemProgress = async () => {
+    const res = await getFinishedItemProgressApi()
+    if (res?.statusCode === 200) {
+      setFinishedItemProgress(res?.data)
+    }
+  }
+
   useEffect(() => {
     if (isEmpty(finishedItemProgress)) {
-      actions.getDashboardFinishedItemProgress()
+      getFinishedItemProgress()
     }
   }, [finishedItemProgress])
 
@@ -49,13 +64,16 @@ function Dashboard() {
           <MoStatusReport />
         </Grid>
         <Grid item xs={12} lg={6} md={6}>
-          <FinishedProductProgress />
+          <FinishedProductProgress
+            finishedItemProgress={finishedItemProgress}
+            inProgressMos={inProgressMos}
+          />
         </Grid>
         <Grid item xs={12} lg={6} md={6}>
-          <ProducingStepProgress />
+          <ProducingStepProgress inProgressMos={inProgressMos} />
         </Grid>
         <Grid item xs={12} lg={6} md={6}>
-          <QcProducingStepProgress />
+          <QcProducingStepProgress inProgressMos={inProgressMos} />
         </Grid>
       </Grid>
     </Page>

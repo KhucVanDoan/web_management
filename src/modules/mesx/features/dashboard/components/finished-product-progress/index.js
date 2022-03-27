@@ -4,17 +4,12 @@ import { DualAxes } from '@ant-design/plots'
 import { Box, Typography, Card } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { useDashboardProductProcessFinished } from '~/modules/mesx/redux/hooks/useDashboard'
-
 import Filter from './filter'
 
-function FinishedProductProgressReport() {
+function FinishedProductProgressReport(props) {
+  const { finishedItemProgress, inProgressMos } = props
   const { t } = useTranslation(['mesx'])
   const [tmpFinishedItemProgress, setTmpFinishedItemProgress] = useState()
-
-  const {
-    data: { finishedItemProgress },
-  } = useDashboardProductProcessFinished()
 
   const chartData = tmpFinishedItemProgress || finishedItemProgress
 
@@ -80,7 +75,10 @@ function FinishedProductProgressReport() {
         <Typography variant="h2">
           {t('dashboard.finishedItemProgress')}
         </Typography>
-        <Filter setTmpFinishedItemProgress={setTmpFinishedItemProgress} />
+        <Filter
+          setTmpFinishedItemProgress={setTmpFinishedItemProgress}
+          inProgressMos={inProgressMos}
+        />
       </Box>
       <Box sx={{ height: 400 }}>
         <DualAxes {...config} />

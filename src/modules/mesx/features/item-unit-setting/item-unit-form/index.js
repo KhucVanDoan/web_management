@@ -160,6 +160,9 @@ function ItemUnitForm() {
                       name="code"
                       placeholder={t('itemUnitDefine.code')}
                       disabled={isUpdate}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -168,6 +171,9 @@ function ItemUnitForm() {
                       name="name"
                       label={t('itemUnitDefine.name')}
                       placeholder={t('itemUnitDefine.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -176,6 +182,9 @@ function ItemUnitForm() {
                       name="description"
                       label={t('itemUnitDefine.description')}
                       placeholder={t('itemUnitDefine.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
