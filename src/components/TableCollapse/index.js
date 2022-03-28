@@ -62,24 +62,28 @@ const TableCollapse = (props) => {
     onPageChange,
     onPageSizeChange,
     filters,
+    tableSettingKey,
   } = props
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
   const [visibleColumns, setVisibleColumns] = useState([])
-  const { tableSetting, updateTableSetting } = useTableSetting()
+  const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
   const indexCol = props.indexCol || 'id'
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
-    updateTableSetting(cols)
+
+    if (!hideSetting) {
+      updateTableSetting(cols)
+    }
   }, [])
 
   useEffect(() => {
     if (!isRoot) return
 
     const initVisibleColumns =
-      (hideSetting ? null : tableSetting) ||
+      (!hideSetting && tableSetting) ||
       (rawColumns || []).reduce((acc, cur) => {
         if (!cur.hide) return [...acc, cur.field]
         return acc
@@ -643,6 +647,7 @@ TableCollapse.propsTypes = {
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
+  tableSettingKey: PropTypes.string,
 }
 TableCollapse.defaultProps = {
   pageSize: 20,

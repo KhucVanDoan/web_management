@@ -47,10 +47,11 @@ const DataTable = (props) => {
     onPageChange,
     onPageSizeChange,
     onChangeSelectedRows,
+    tableSettingKey,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
-  const { tableSetting, updateTableSetting } = useTableSetting()
+  const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
   const indexCol = props.indexCol || 'id'
 
   /**
@@ -116,12 +117,15 @@ const DataTable = (props) => {
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
-    updateTableSetting(cols)
+
+    if (!hideSetting) {
+      updateTableSetting(cols)
+    }
   }, [])
 
   useEffect(() => {
     const initVisibleColumns =
-      (hideSetting ? null : tableSetting) ||
+      (!hideSetting && tableSetting) ||
       (rawColumns || []).reduce((acc, cur) => {
         if (!cur.hide) return [...acc, cur.field]
         return acc
@@ -311,7 +315,6 @@ DataTable.propsTypes = {
       field: PropTypes.string.isRequired,
       headerName: PropTypes.string.isRequired,
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      filterable: PropTypes.bool,
       sortable: PropTypes.bool,
       hide: PropTypes.bool,
       align: PropTypes.oneOf(['left', 'center', 'right']), // default left
@@ -339,6 +342,7 @@ DataTable.propsTypes = {
   sort: PropTypes.shape(),
   selected: PropTypes.array,
   filters: PropTypes.shape(),
+  tableSettingKey: PropTypes.string,
 }
 
 export default withTranslation()(withClasses(style)(DataTable))

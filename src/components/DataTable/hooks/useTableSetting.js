@@ -2,11 +2,12 @@ import { useLocation } from 'react-router-dom'
 
 import storage from '~/utils/storage'
 
-const useTableSetting = (keyTableSetting) => {
+const useTableSetting = (tableSettingKey) => {
   const { pathname } = useLocation()
-  const storageKey =
-    keyTableSetting ||
-    `TABLE_SETTING${pathname.replace(/\//g, '_').toUpperCase()}`
+  const suffix = tableSettingKey ? `_${tableSettingKey}` : ''
+  const storageKey = `TABLE_SETTING${pathname
+    .replace(/\//g, '_')
+    .toUpperCase()}${suffix}`
   const tableSetting = storage.sessionGet(storageKey)
 
   const updateTableSetting = (newSetting) => {
