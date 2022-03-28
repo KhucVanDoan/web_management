@@ -40,6 +40,10 @@ function DefineItemForm() {
   const routeMatch = useRouteMatch()
   const history = useHistory()
   const params = useParams()
+  const [isProductionObject, setIsProductionObject] = useState(false)
+  const [isLocation, setIsLocation] = useState(false)
+  const [storage, setStorage] = useState(false)
+  const [isDetailed, setIsDetailed] = useState(false)
 
   const {
     data: { itemDetails, isLoading },
@@ -128,13 +132,6 @@ function DefineItemForm() {
     [itemDetails],
   )
 
-  const [isProductionObject, setIsProductionObject] = useState(
-    initialValues.isProductionObject,
-  )
-  const [isLocation, setIsLocation] = useState(initialValues.isLocation)
-  const [storage, setStorage] = useState(initialValues.hasStorageSpace)
-  const [isDetailed, setIsDetailed] = useState(initialValues.hasItemDetail)
-
   const MODE_MAP = {
     [ROUTE.DEFINE_ITEM.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_ITEM.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -209,6 +206,13 @@ function DefineItemForm() {
       actions.resetItemDetailsState()
     }
   }, [params?.id, mode])
+
+  useEffect(() => {
+    setIsProductionObject(itemDetails.isProductionObject)
+    setIsLocation(!!itemDetails.itemWarehouseLocation)
+    setStorage(itemDetails.hasStorageSpace)
+    setIsDetailed(!!itemDetails.itemDetails?.length)
+  }, [itemDetails])
 
   useEffect(() => {
     commonManagementActions.getWarehouses({ isGetAll: 1 })
