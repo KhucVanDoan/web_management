@@ -84,19 +84,18 @@ const DefineMasterPlanForm = () => {
     delete convertValues.soId
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
-        redirectToModeration(id)
+        history.push(
+          ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
+        )
       })
     }
     if (mode === MODAL_MODE.UPDATE) {
-      // redirectToModeration(id)
+      history.push(
+        ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
+      )
     }
     return
   }
-
-  const redirectToModeration = (id) => {
-    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
-  }
-
   const backToList = () => {
     history.push(ROUTE.MASTER_PLAN.LIST.PATH)
   }
