@@ -396,7 +396,7 @@ const DefineMasterPlan = () => {
   }
 
   const onClickViewModeration = (id) => {
-    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH, { id })
+    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`))
   }
 
   /**
@@ -404,7 +404,7 @@ const DefineMasterPlan = () => {
    * @param {int} id
    */
   const onClickViewDetails = (id) => {
-    history.push(ROUTE.MASTER_PLAN.DETAIL.PATH, { id: id })
+    history.push(ROUTE.MASTER_PLAN.DETAIL.PATH.replace(':id', `${id}`))
   }
 
   /**
