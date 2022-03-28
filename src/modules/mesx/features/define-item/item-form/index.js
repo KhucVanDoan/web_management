@@ -63,7 +63,7 @@ function DefineItemForm() {
       itemUnit: itemDetails?.itemUnit || '',
       price: itemDetails?.price || '',
       dayExpire: itemDetails?.dayExpire || '',
-      isProductionObject: itemDetails?.isProductionObject || false,
+      isProductionObject: Boolean(itemDetails?.isProductionObject) || false,
       hasStorageSpace: itemDetails?.hasStorageSpace || false,
       ...(itemDetails?.hasStorageSpace
         ? {
@@ -205,13 +205,16 @@ function DefineItemForm() {
   useEffect(() => {
     const id = params?.id
     actions.getItemDetailsById(id)
-    commonManagementActions.getWarehouses()
-    commonManagementActions.getWarehousesSector()
-    commonManagementActions.getWarehousesShelf()
     return () => {
       actions.resetItemDetailsState()
     }
-  }, [params?.id])
+  }, [params?.id, mode])
+
+  useEffect(() => {
+    commonManagementActions.getWarehouses({ isGetAll: 1 })
+    commonManagementActions.getWarehousesSector({ isGetAll: 1 })
+    commonManagementActions.getWarehousesShelf({ isGetAll: 1 })
+  }, [])
 
   const onSubmit = (values) => {
     const id = Number(params?.id)

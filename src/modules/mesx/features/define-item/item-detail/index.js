@@ -159,7 +159,7 @@ function DefineItemDetail() {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={itemDetails?.isProductionObject}
+                        checked={Boolean(itemDetails?.isProductionObject)}
                         name="isProductionObject"
                         disabled
                       />
