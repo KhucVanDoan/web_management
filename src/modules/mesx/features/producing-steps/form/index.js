@@ -30,6 +30,7 @@ function ProducingStepForm() {
   const routeMatch = useRouteMatch()
 
   const [checked, setChecked] = useState(false)
+  const [checkedUpdate, setCheckedUpdate] = useState(true)
 
   const {
     data: { qcList },
@@ -103,11 +104,13 @@ function ProducingStepForm() {
       productionTimePerItem: Number(values.productionTimePerItem),
       inputQc: {
         qcCriteriaId: values.qcCriteriaInput,
-        itemPerMemberTime: Number(values.timeQcInput),
+        itemPerMemberTime:
+          values.timeQcInput === null ? null : Number(values.timeQcInput),
       },
       outputQc: {
         qcCriteriaId: values.qcCriteriaOutput,
-        itemPerMemberTime: Number(values.timeQcOutput),
+        itemPerMemberTime:
+          values.timeQcOutput === null ? null : Number(values.timeQcOutput),
       },
       status: '0',
     }
@@ -128,7 +131,10 @@ function ProducingStepForm() {
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={handleReset}
+            onCancel={() => {
+              handleReset()
+              setChecked(false)
+            }}
             mode={MODAL_MODE.CREATE}
           />
         )
@@ -136,7 +142,10 @@ function ProducingStepForm() {
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={handleReset}
+            onCancel={() => {
+              handleReset()
+              setChecked(false)
+            }}
             mode={MODAL_MODE.UPDATE}
           />
         )
@@ -234,13 +243,17 @@ function ProducingStepForm() {
                           onChange={(e, checked) => {
                             setChecked(!checked)
                             setFieldValue('qcQuantityRule', null)
+                            setCheckedUpdate(false)
                           }}
                         />
                         <FormControlLabel
                           value="1"
                           control={<Radio />}
                           label={t('producingStep.someItemComplete')}
-                          onChange={(e, checked) => setChecked(checked)}
+                          onChange={(e, checked) => {
+                            setChecked(checked)
+                            setCheckedUpdate(true)
+                          }}
                         />
                       </Field.RadioGroup>
                     </LV>
@@ -263,7 +276,8 @@ function ProducingStepForm() {
                     />
                   </Grid>
 
-                  {checked && (
+                  {(checked ||
+                    (details?.switchMode === 1 && checkedUpdate)) && (
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         name="qcQuantityRule"
@@ -277,6 +291,7 @@ function ProducingStepForm() {
                             </InputAdornment>
                           ),
                         }}
+                        required
                       />
                     </Grid>
                   )}
@@ -293,6 +308,12 @@ function ProducingStepForm() {
                           onChange={(checked) => {
                             setFieldValue('inputQc', checked)
                             setFieldValue('outputQc', checked)
+                            if (!checked) {
+                              setFieldValue('qcCriteriaInput', null)
+                              setFieldValue('timeQcInput', null)
+                              setFieldValue('qcCriteriaOutput', null)
+                              setFieldValue('timeQcOutput', null)
+                            }
                           }}
                         />
                       }
@@ -308,6 +329,10 @@ function ProducingStepForm() {
                               setFieldValue('processQc', true)
                             } else if (!values.outputQc && values.processQc) {
                               setFieldValue('processQc', false)
+                            }
+                            if (!checked) {
+                              setFieldValue('qcCriteriaInput', null)
+                              setFieldValue('timeQcInput', null)
                             }
                           }}
                         />
@@ -353,6 +378,10 @@ function ProducingStepForm() {
                               setFieldValue('processQc', true)
                             } else if (!values.inputQc && values.processQc) {
                               setFieldValue('processQc', false)
+                            }
+                            if (!checked) {
+                              setFieldValue('qcCriteriaOutput', null)
+                              setFieldValue('timeQcOutput', null)
                             }
                           }}
                         />
