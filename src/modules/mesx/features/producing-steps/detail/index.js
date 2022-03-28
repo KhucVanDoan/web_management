@@ -87,22 +87,12 @@ const ProducingStepDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV label={t('producingStep.name')} value={details?.name} />
               </Grid>
-              <Grid item lg={6} xs={12}>
+              {/* <Grid item lg={6} xs={12}>
                 <LV
                   label={t('producingStep.completeItems')}
                   value={details?.qcQuantityRule}
                 />
-              </Grid>
-              <Grid item lg={6} xs={12}>
-                <LV label={t('producingStep.timePerProduct')}>
-                  <Typography component="span">
-                    {details?.productionTimePerItem}
-                  </Typography>{' '}
-                  <Typography component="span">
-                    {t('producingStep.unit.minutes')}
-                  </Typography>
-                </LV>
-              </Grid>
+              </Grid> */}
               <Grid item lg={6} xs={12}>
                 <LV label={t('producingStep.switchMode')}>
                   <RadioGroup
@@ -124,6 +114,28 @@ const ProducingStepDetail = () => {
                   </RadioGroup>
                 </LV>
               </Grid>
+              <Grid item lg={6} xs={12}>
+                <LV label={t('producingStep.timePerProduct')}>
+                  <Typography component="span">
+                    {Number(details?.productionTimePerItem)}
+                  </Typography>{' '}
+                  <Typography component="span">
+                    {t('producingStep.unit.minutes')}
+                  </Typography>
+                </LV>
+              </Grid>
+              {details?.qcQuantityRule !== 0 && (
+                <Grid item lg={6} xs={12}>
+                  <LV label={t('producingStep.completeItems')}>
+                    <Typography component="span">
+                      {Number(details?.qcQuantityRule)}
+                    </Typography>{' '}
+                    <Typography component="span">
+                      {t('producingStep.unit.persen')}
+                    </Typography>
+                  </LV>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <Box display="flex">
                   <FormControlLabel
