@@ -23,7 +23,6 @@ import {
   WEIGHT_UNITS,
   ITEM_CODE_PREFIX,
 } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -41,7 +40,6 @@ function DefineItemForm() {
   const history = useHistory()
   const params = useParams()
   const [isProductionObject, setIsProductionObject] = useState(false)
-  const [isLocation, setIsLocation] = useState(false)
   const [storage, setStorage] = useState(false)
   const [isDetailed, setIsDetailed] = useState(false)
 
@@ -49,11 +47,6 @@ function DefineItemForm() {
     data: { itemDetails, isLoading },
     actions,
   } = useDefineItem()
-
-  const {
-    data: { warehouseList, warehouseSectorList, warehouseShelfList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
 
   const { appStore } = useAppStore()
 
@@ -106,19 +99,6 @@ function DefineItemForm() {
               unit: 1,
             },
           }),
-      isLocation: !!itemDetails?.itemWarehouseLocation || false,
-      ...(itemDetails?.itemWarehouseLocation
-        ? {
-            itemWarehouseLocation: {
-              warehouseId:
-                itemDetails?.itemWarehouseLocation?.warehouseId || '',
-              warehouseSectorId:
-                itemDetails?.itemWarehouseLocation?.warehouseSectorId || '',
-              warehouseShelfId:
-                itemDetails?.itemWarehouseLocation?.warehouseShelfId || '',
-            },
-          }
-        : {}),
       hasItemDetail: !!itemDetails?.itemDetails || false,
       itemDetails: [],
       warehouseId: itemDetails?.itemWarehouseLocation?.warehouseId,
@@ -191,10 +171,6 @@ function DefineItemForm() {
     setStorage(!storage)
   }
 
-  const onToggleStorageLocation = () => {
-    setIsLocation(!isLocation)
-  }
-
   const onToggleIsDetailed = () => {
     setIsDetailed(!isDetailed)
   }
@@ -209,16 +185,9 @@ function DefineItemForm() {
 
   useEffect(() => {
     setIsProductionObject(itemDetails.isProductionObject)
-    setIsLocation(!!itemDetails.itemWarehouseLocation)
     setStorage(itemDetails.hasStorageSpace)
     setIsDetailed(!!itemDetails.itemDetails?.length)
   }, [itemDetails])
-
-  useEffect(() => {
-    commonManagementActions.getWarehouses({ isGetAll: 1 })
-    commonManagementActions.getWarehousesSector({ isGetAll: 1 })
-    commonManagementActions.getWarehousesShelf({ isGetAll: 1 })
-  }, [])
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
@@ -250,16 +219,6 @@ function DefineItemForm() {
             weight: {
               value: Number(values.weight?.value),
               unit: values.weight?.unit,
-            },
-          }
-        : {}),
-      isLocation: isLocation,
-      ...(isLocation
-        ? {
-            itemWarehouseLocation: {
-              warehouseId: values?.warehouseId,
-              warehouseSectorId: values?.warehouseSectorId,
-              warehouseShelfId: values?.warehouseShelfId,
             },
           }
         : {}),
@@ -324,7 +283,6 @@ function DefineItemForm() {
                     list={[
                       t('defineItem.commonInfo'),
                       t('defineItem.storage'),
-                      t('defineItem.storageInfo'),
                       t('defineItem.detail'),
                     ]}
                   >
@@ -603,75 +561,6 @@ function DefineItemForm() {
                     </Box>
 
                     {/* Tab 3 */}
-                    <Box>
-                      <Grid
-                        container
-                        rowSpacing={4 / 3}
-                        columnSpacing={{ xl: 8, xs: 4 }}
-                      >
-                        <Grid item xs={12}>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                checked={isLocation}
-                                onChange={onToggleStorageLocation}
-                                name="isLocation"
-                              />
-                            }
-                            label={t('defineItem.storageLocation')}
-                          />
-                        </Grid>
-                        <Grid item lg={6} xs={12}>
-                          <Field.Autocomplete
-                            name="warehouseId"
-                            label={t('defineItem.warehouseName')}
-                            placeholder={t('defineItem.warehouseName')}
-                            options={warehouseList}
-                            getOptionLabel={(opt) =>
-                              `${opt?.code} - ${opt?.name}`
-                            }
-                            getOptionValue={(opt) => opt?.id}
-                            filterOptions={createFilterOptions({
-                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                            })}
-                            disabled={!isLocation}
-                            required={isLocation}
-                          />
-                        </Grid>
-                        <Grid item lg={6} xs={12}>
-                          <Field.Autocomplete
-                            name="warehouseSectorId"
-                            label={t('defineItem.locationName')}
-                            placeholder={t('defineItem.locationName')}
-                            options={warehouseSectorList.filter(
-                              (item) => item.warehouseId === values.warehouseId,
-                            )}
-                            getOptionLabel={(opt) => opt?.name}
-                            getOptionValue={(opt) => opt?.id}
-                            disabled={!isLocation}
-                            required={isLocation}
-                          />
-                        </Grid>
-                        <Grid item lg={6} xs={12}>
-                          <Field.Autocomplete
-                            name="warehouseShelfId"
-                            label={t('defineItem.shelfName')}
-                            placeholder={t('defineItem.shelfName')}
-                            options={warehouseShelfList.filter(
-                              (item) =>
-                                item.warehouseSector.id ===
-                                values.warehouseSectorId,
-                            )}
-                            getOptionLabel={(opt) => opt?.name}
-                            getOptionValue={(opt) => opt?.id}
-                            disabled={!isLocation}
-                            required={isLocation}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Box>
-
-                    {/* Tab 4 */}
                     <Box>
                       <Grid
                         container
