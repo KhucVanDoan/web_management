@@ -13,7 +13,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -62,14 +62,13 @@ function RequestBuyMaterial() {
     actions,
   } = useRequestBuyMaterial()
 
-  const { actions: planAction } = useDefinePlan()
+  const { actions: moAction } = useMo()
   const { actions: saleOrderAction } = useSaleOrder()
 
   useEffect(() => {
-    planAction.searchPlans({ isGetAll: 1 })
+    moAction.searchMO({ isGetAll: 1 })
     saleOrderAction.searchSaleOrders({ isGetAll: 1 })
     return () => {
-      planAction.resetPlanListState()
       saleOrderAction.resetSaleOrderListState()
     }
   }, [])
@@ -91,13 +90,13 @@ function RequestBuyMaterial() {
     },
     {
       // @TODO: <linh.taquang> wait backend change data field
-      field: 'planName',
-      headerName: t('requestBuyMaterial.planName'),
+      field: 'moCode',
+      headerName: t('requestBuyMaterial.moCode'),
       width: 200,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return row?.manufacturingOrder?.name
+        return row?.manufacturingOrder?.code
       },
     },
     {

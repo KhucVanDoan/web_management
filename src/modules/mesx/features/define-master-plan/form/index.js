@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty, isNil, orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
@@ -20,6 +20,7 @@ import TextField from '~/components/TextField'
 import { MASTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
+import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
@@ -39,6 +40,10 @@ const DefineMasterPlanForm = () => {
     data: { soList, factoryList },
     actions: commonManagementActions,
   } = useCommonManagement()
+  const {
+    data: { saleOrderDetailList },
+    actions: actionSaleOrder,
+  } = useSaleOrder()
 
   const MODE_MAP = {
     [ROUTE.MASTER_PLAN.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -62,6 +67,10 @@ const DefineMasterPlanForm = () => {
     getMasterPlanDetail()
   }, [mode])
 
+  useEffect(() => {
+    return () => actionSaleOrder.resetSaleOrderState()
+  }, [saleOrderDetailList])
+
   const getMasterPlanDetail = () => {
     if (isUpdate || isDetail) {
       actions.getMasterPlanDetailsById(id)
@@ -83,16 +92,9 @@ const DefineMasterPlanForm = () => {
     }
     delete convertValues.soId
     if (mode === MODAL_MODE.CREATE) {
-      actions.createMasterPlan(convertValues, (id) => {
-        history.push(
-          ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
-        )
+      actions.createMasterPlan(convertValues, () => {
+        backToList()
       })
-    }
-    if (mode === MODAL_MODE.UPDATE) {
-      history.push(
-        ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
-      )
     }
     return
   }
@@ -193,6 +195,14 @@ const DefineMasterPlanForm = () => {
           dateCompletion: 0,
         }
 
+  const handleChangeSoId = (id, setFieldValue) => {
+    actionSaleOrder.getSaleOrderDetailsByIds({ ids: id.join(',') }, (data) => {
+      const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
+      const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
+      setFieldValue('planDate', [dateFrom, dateTo])
+    })
+  }
+
   return (
     <Page
       breadcrumbs={renderBreadcrumb()}
@@ -206,7 +216,7 @@ const DefineMasterPlanForm = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ resetForm, values }) => (
+        {({ resetForm, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -273,6 +283,9 @@ const DefineMasterPlanForm = () => {
                         })}
                         getOptionValue={(option) => option?.id}
                         multiple
+                        onChange={(id) => {
+                          handleChangeSoId(id, setFieldValue)
+                        }}
                       />
                     )}
                   </Grid>
