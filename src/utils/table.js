@@ -1,4 +1,4 @@
-import { isEmpty, isNull, isUndefined, isNumber, isBoolean } from 'lodash'
+import { isEmpty, isNil, isDate } from 'lodash'
 
 /**
  * Check table rendering page
@@ -12,11 +12,8 @@ export const checkPage = (total, pageSize, page, onChangePageOrPageSize) => {
 export const convertFilterParams = (filters = {}, columns = []) => {
   const filterData = Object.keys(filters).reduce((acc, cur) => {
     if (
-      isNull(filters[cur]) ||
-      isUndefined(filters[cur]) ||
-      (isEmpty(filters[cur]) &&
-        !isNumber(filters[cur]) &&
-        !isBoolean(filters[cur]))
+      isNil(filters[cur]) ||
+      (isEmpty(filters[cur]) && !isDate(filters[cur]))
     ) {
       return acc
     }
