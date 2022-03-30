@@ -1,5 +1,8 @@
 const style = (theme) => ({
   root: {
+    fontSize: 12,
+    lineHeight: 20 / 12,
+
     '& li:nth-of-type(2)': {
       display: 'none',
     },

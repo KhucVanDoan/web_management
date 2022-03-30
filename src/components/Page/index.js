@@ -16,6 +16,7 @@ const Page = ({
   onBack,
   title,
   renderHeaderRight,
+  renderSearchBox,
   breadcrumbs,
   children,
   PaperProps,
@@ -34,6 +35,7 @@ const Page = ({
         onBack={onBack}
         title={title}
         renderHeaderRight={renderHeaderRight}
+        renderSearchBox={renderSearchBox}
         breadcrumbs={breadcrumbs}
       />
 
@@ -75,6 +77,7 @@ Page.propTypes = {
   onBack: PropTypes.func,
   title: PropTypes.string,
   renderHeaderRight: PropTypes.func,
+  renderSearchBox: PropTypes.func,
   breadcrumbs: PropTypes.array,
   PaperProps: PropTypes.shape(),
   loading: PropTypes.bool,
