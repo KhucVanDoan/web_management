@@ -42,20 +42,12 @@ function DefineItemDetail() {
   } = useDefineItem()
 
   const {
-    data: {
-      warehouseList,
-      warehouseSectorList,
-      warehouseShelfList,
-      detailList,
-    },
+    data: { detailList },
     actions: commonManagementActions,
   } = useCommonManagement()
 
   useEffect(() => {
     actions.getItemDetailsById(id)
-    commonManagementActions.getWarehouses()
-    commonManagementActions.getWarehousesSector()
-    commonManagementActions.getWarehousesShelf()
     commonManagementActions.getDetails()
     return () => {
       actions.resetItemDetailsState()
@@ -64,18 +56,6 @@ function DefineItemDetail() {
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_ITEM.LIST.PATH)
-  }
-
-  const getWarehouseName = (id) => {
-    return warehouseList.find((item) => item?.id === id)
-  }
-
-  const getWarehouseSectorName = (id) => {
-    return warehouseSectorList.find((item) => item?.id === id)
-  }
-
-  const getWarehouseShelfName = (id) => {
-    return warehouseShelfList.find((item) => item?.id === id)
   }
 
   const getItemDetailName = (id) => {
@@ -95,7 +75,6 @@ function DefineItemDetail() {
             list={[
               t('defineItem.commonInfo'),
               t('defineItem.storage'),
-              t('defineItem.storageInfo'),
               t('defineItem.detail'),
             ]}
           >
@@ -261,63 +240,6 @@ function DefineItemDetail() {
             </Box>
 
             {/* Tab 3 */}
-            <Box>
-              <Grid
-                container
-                rowSpacing={4 / 3}
-                columnSpacing={{ xl: 8, xs: 4 }}
-              >
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={!!itemDetails.itemWarehouseLocation}
-                        name="isLocation"
-                        disabled
-                      />
-                    }
-                    label={t('defineItem.storageLocation')}
-                  />
-                </Grid>
-                {!!itemDetails.itemWarehouseLocation && (
-                  <>
-                    <Grid item xs={12} lg={6}>
-                      <LV
-                        label={t('defineItem.warehouseName')}
-                        value={
-                          getWarehouseName(
-                            itemDetails.itemWarehouseLocation?.warehouseId,
-                          )?.name
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <LV
-                        label={t('defineItem.locationName')}
-                        value={
-                          getWarehouseSectorName(
-                            itemDetails.itemWarehouseLocation
-                              ?.warehouseSectorId,
-                          )?.name
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <LV
-                        label={t('defineItem.shelfName')}
-                        value={
-                          getWarehouseShelfName(
-                            itemDetails.itemWarehouseLocation?.warehouseShelfId,
-                          )?.name
-                        }
-                      />
-                    </Grid>
-                  </>
-                )}
-              </Grid>
-            </Box>
-
-            {/* Tab 4 */}
             <Box>
               <Grid
                 container
