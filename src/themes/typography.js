@@ -3,6 +3,7 @@ const typography = {
   fontSize: 14,
   h1: {
     fontSize: 24,
+    lineHeight: 32 / 24,
     fontWeight: 700,
   },
   h2: {
@@ -36,6 +37,7 @@ const typography = {
   },
   subtitle: {
     fontSize: 12,
+    lineHeight: 20 / 12,
     color: '#666',
   },
 }

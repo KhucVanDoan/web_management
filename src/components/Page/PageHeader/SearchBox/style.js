@@ -2,24 +2,23 @@ const style = (theme) => ({
   root: {
     display: 'flex',
     flex: 1,
-    backgroundColor: theme.palette.grayEE.main,
     borderRadius: 3,
     alignItems: 'center',
     marginRight: 16,
-    maxWidth: '83%',
+    maxWidth: '80%',
     position: 'relative',
-  },
-  input: {
-    height: '100%',
-    outline: 'none',
-    border: 'none',
-    background: 'inherit',
-    fontSize: 14,
-    fontWeight: 'normal',
-    paddingLeft: 36,
-    flex: 1,
-    '::placeholder': {
-      color: theme.palette.text.a4,
+
+    form: {
+      width: '100%',
+
+      '.MuiOutlinedInput-root': {
+        background: theme.palette.grayEE.main,
+        boxShadow: 'none',
+
+        input: {
+          paddingLeft: 9,
+        },
+      },
     },
   },
 })

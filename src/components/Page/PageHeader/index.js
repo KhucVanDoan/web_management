@@ -15,9 +15,10 @@ const PageHeader = ({
   onBack,
   title,
   renderHeaderRight,
+  renderSearchBox,
   breadcrumbs,
 }) => {
-  if (!onSearch && !onBack) {
+  if ((!onSearch || !renderSearchBox) && !onBack && !renderHeaderRight) {
     return (
       <Box sx={{ display: 'flex', mb: 2 }}>
         <Box sx={{ mr: 1 }}>
@@ -35,8 +36,13 @@ const PageHeader = ({
   return (
     <>
       <Box sx={{ display: 'flex', mb: 2 }}>
-        {typeof onSearch === 'function' && (
-          <SearchBox onSearch={onSearch} placeholder={placeholder} />
+        {(typeof onSearch === 'function' ||
+          typeof renderSearchBox === 'function') && (
+          <SearchBox
+            onSearch={onSearch}
+            placeholder={placeholder}
+            renderSearchBox={renderSearchBox}
+          />
         )}
         {typeof onBack === 'function' && <GoBack onBack={onBack} />}
         <Toolbar />
@@ -73,6 +79,7 @@ PageHeader.propTypes = {
   onBack: PropTypes.func,
   title: PropTypes.string,
   renderHeaderRight: PropTypes.func,
+  renderSearchBox: PropTypes.func,
   breadcrumbs: PropTypes.array,
 }
 
