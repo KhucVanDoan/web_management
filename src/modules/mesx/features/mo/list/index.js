@@ -145,9 +145,10 @@ const Mo = () => {
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === MO_STATUS.CONFIRMED
+        const isProcess = status === MO_STATUS.IN_PROGRESS
         return (
           <>
-            {isConfirmed && (
+            {(isConfirmed || isProcess) && (
               <Button
                 variant="text"
                 onClick={() =>
@@ -230,7 +231,7 @@ const Mo = () => {
    * @param {int} id
    */
   const onClickViewDetails = (id) => {
-    history.push(ROUTE.MO.DETAIL.PATH, { id: id })
+    history.push(ROUTE.MO.DETAIL.PATH.replace(':id', `${id}`))
   }
 
   /**
@@ -238,7 +239,7 @@ const Mo = () => {
    * @param {int} id
    */
   const onClickEdit = (id) => {
-    history.push(ROUTE.MO.EDIT.PATH, { id: id })
+    history.push(ROUTE.MO.EDIT.PATH.replace(':id', `${id}`))
   }
 
   /**
