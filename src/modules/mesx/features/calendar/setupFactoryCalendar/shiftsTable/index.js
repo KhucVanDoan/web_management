@@ -12,6 +12,7 @@ import { scrollToBottom } from '~/utils'
 function ShiftTable(props) {
   const { shifts, arrayHelpers } = props
   const { t } = useTranslation(['mesx'])
+
   const getColumns = [
     {
       field: 'id',
