@@ -47,7 +47,7 @@ const BreakTimeTable = ({
     ]
 
     if (shifts) {
-      shifts?.map((shift, shiftIndex) => {
+      shifts?.forEach((shift, shiftIndex) => {
         columns.push({
           field: shift?.length + 1,
           headerName: shift?.shiftName,
@@ -155,9 +155,6 @@ const BreakTimeTable = ({
       >
         <Typography variant="h4" component="span">
           {t('workCenter.breakTime')}
-          <Typography color="error" component="span" ml="3px">
-            *
-          </Typography>
         </Typography>
 
         {!isView && (

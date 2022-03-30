@@ -33,7 +33,7 @@ const FilterForm = () => {
         <Field.Autocomplete
           label={t('workCenter.factoryName')}
           placeholder={t('workCenter.factoryName')}
-          name="factory"
+          name="factoryId"
           options={appStore?.factories}
           getOptionValue={(opt) => opt?.id.toString()}
           getOptionLabel={(opt) => opt?.name}
@@ -55,7 +55,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="timeCreate"
+          name="createAt"
           label={t('workCenter.timeCreate')}
           placeholder={t('workCenter.timeCreate')}
         />
