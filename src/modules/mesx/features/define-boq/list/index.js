@@ -95,11 +95,21 @@ const DefineBOQ = () => {
       {
         field: 'pmName',
         headerName: t('defineBOQ.boqPm'),
-        width: 80,
+        width: 150,
         sortable: true,
         renderCell: (params) => {
           const { row } = params
           return row?.pm?.fullName
+        },
+      },
+      {
+        field: 'createdAt',
+        headerName: t('defineBOQ.createdAt'),
+        width: 200,
+        sortable: true,
+        filterFormat: 'date',
+        renderCell: (params) => {
+          return formatDateTimeUtc(params.row.createdAt, DATE_FORMAT)
         },
       },
       {

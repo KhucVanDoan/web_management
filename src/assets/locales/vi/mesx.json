@@ -840,6 +840,7 @@
     "descriptionInput": "Mô tả về công trình",
     "itemsDetails": "Chi tiết thành phẩm",
     "boqUserPermission": "Quyền user",
+    "createdAt": "Thời gian tạo",
     "item": {
       "orderNumber": "#",
       "code": "Mã thành phẩm",
