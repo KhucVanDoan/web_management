@@ -21,6 +21,7 @@ import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import BreakTimeTable from './break-time'
@@ -37,7 +38,6 @@ const WorkCenterForm = () => {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-
   const {
     data: { isLoading, wcDetails },
     actions,
@@ -53,6 +53,8 @@ const WorkCenterForm = () => {
     actions: producingStepActions,
   } = useProducingStep()
 
+  const listProducingStep = producingStepList.filter((e) => e.status === 1)
+
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
@@ -63,6 +65,36 @@ const WorkCenterForm = () => {
 
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
+  const defaultShifts = [
+    {
+      id: 'shift-0',
+      shiftName: '',
+      startAt: '06:00',
+      endAt: '23:59',
+      pricePerHour: '',
+      priceUnit: '',
+      breakTimes: [
+        {
+          id: 0,
+          name: t('workCenter.shiftPreparationTime'),
+          from: '',
+          to: '',
+        },
+      ],
+    },
+  ]
+  const defaultBreakTime = [
+    {
+      id: 'breakTimes-0',
+      breakTimeName: t('workCenter.shiftPreparationTime'),
+      shifts: [
+        {
+          from: '',
+          to: '',
+        },
+      ],
+    },
+  ]
 
   const initialValues = useMemo(
     () => ({
@@ -75,39 +107,23 @@ const WorkCenterForm = () => {
       oeeTarget: wcDetails?.oeeIndex || '',
       workCapacity: wcDetails?.productivityIndex || '',
       producingStepId: wcDetails?.producingStep?.id || '',
-      shifts: wcDetails?.workCenterShifts?.map((e) => ({
-        id: e.id,
-        shiftName: e.name,
-        pricePerHour: e.pricePerHour,
-        priceUnit: e.priceUnit,
-        startAt: e.startAt,
-        endAt: e.endAt,
-        breakTimes: wcDetails?.workCenterShiftRelaxTimes
-          .filter((b) => b.workCenterShiftId === e.id)
-          .map((a, ind) => ({
-            id: ind,
-            name: a.name,
-            from: a.startAt,
-            to: a.endAt,
-          })),
-      })) || [
-        {
-          id: new Date().getTime(),
-          shiftName: '',
-          startAt: '06:00',
-          endAt: '23:59',
-          pricePerHour: '',
-          priceUnit: '',
-          breakTimes: [
-            {
-              id: 0,
-              name: t('workCenter.shiftPreparationTime'),
-              from: '',
-              to: '',
-            },
-          ],
-        },
-      ],
+      shifts:
+        wcDetails?.workCenterShifts?.map((e) => ({
+          id: e.id,
+          shiftName: e.name,
+          pricePerHour: e.pricePerHour,
+          priceUnit: e.priceUnit,
+          startAt: e.startAt,
+          endAt: e.endAt,
+          breakTimes: wcDetails?.workCenterShiftRelaxTimes
+            .filter((b) => b.workCenterShiftId === e.id)
+            .map((a, ind) => ({
+              id: ind,
+              name: a.name,
+              from: a.startAt,
+              to: a.endAt,
+            })),
+        })) || defaultShifts,
       breakTimes: wcDetails?.workCenterShiftRelaxTimes
         ? Object.values(
             groupBy(wcDetails?.workCenterShiftRelaxTimes, 'name'),
@@ -128,18 +144,7 @@ const WorkCenterForm = () => {
             }
             return null
           })
-        : [
-            {
-              id: `breakTimes-${new Date().getTime()}`,
-              breakTimeName: t('workCenter.shiftPreparationTime'),
-              shifts: [
-                {
-                  from: '',
-                  to: '',
-                },
-              ],
-            },
-          ],
+        : defaultBreakTime,
     }),
     [wcDetails],
   )
@@ -217,6 +222,56 @@ const WorkCenterForm = () => {
     }
   }
 
+  const handleChange = async (id, setFieldValue) => {
+    if (!id) {
+      setFieldValue('shifts', defaultShifts)
+      setFieldValue('breakTimes', defaultBreakTime)
+      return
+    }
+    const params = {
+      from: new Date(),
+      to: new Date(),
+      factoryId: id,
+    }
+    const response = await getDetailFactoryCalendarApi(params)
+    if (response?.statusCode === 200 && response?.data !== []) {
+      setField(setFieldValue, response?.data?.[0])
+    }
+    if (response.data.length === 0) {
+      setFieldValue('shifts', defaultShifts)
+      setFieldValue('breakTimes', defaultBreakTime)
+    }
+  }
+  const setField = (setFieldValue, detail) => {
+    const valueShifts = detail?.shifts?.map((i) => ({
+      id: i?.id,
+      shiftName: i?.title,
+      pricePerHour: '',
+      startAt: i?.from,
+      endAt: i?.to,
+      breakTimes: i?.relaxes?.map((t, ind) => ({
+        id: ind,
+        name: t?.title,
+        from: t?.from,
+        to: t?.to,
+      })),
+    }))
+    const valueBreakTime = detail?.shifts?.map((s) => {
+      return {
+        breakTimeName: s?.title,
+        shifts: (s?.relaxes || []).map((r) => ({
+          shiftName: r?.title,
+          shiftId: r?.id,
+          from: r?.from,
+          to: r?.to,
+        })),
+      }
+    })
+
+    setFieldValue('shifts', valueShifts)
+    setFieldValue('breakTimes', valueBreakTime)
+  }
+
   const onSubmit = (values) => {
     const params = {
       code: values.code,
@@ -260,8 +315,6 @@ const WorkCenterForm = () => {
       actions.updateWorkCenter({ ...params, id: +id }, () => backToList())
     }
   }
-
-  const listProducingStep = producingStepList.filter((e) => e.status === 1)
 
   return (
     <Page
@@ -358,6 +411,7 @@ const WorkCenterForm = () => {
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
                         required
+                        onChange={(id) => handleChange(id, setFieldValue)}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

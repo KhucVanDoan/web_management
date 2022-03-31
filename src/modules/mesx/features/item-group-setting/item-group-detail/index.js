@@ -67,16 +67,17 @@ const ItemGroupDetail = () => {
                   value={itemGroupDetails.name}
                 />
               </Grid>
+
               <Grid item lg={6} xs={12}>
                 <LV
-                  label={t('itemGroupDefine.createDate')}
-                  value={formatDateTimeUtc(itemGroupDetails.createdAt)}
+                  label={t('itemGroupDefine.creator')}
+                  value={itemGroupDetails?.createdBy?.fullName}
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
                 <LV
-                  label={t('itemGroupDefine.updateDate')}
-                  value={formatDateTimeUtc(itemGroupDetails.updatedAt)}
+                  label={t('itemGroupDefine.createDate')}
+                  value={formatDateTimeUtc(itemGroupDetails.createdAt)}
                 />
               </Grid>
               <Grid item xs={12}>

@@ -92,7 +92,7 @@ function FilterForm() {
             values?.manufacturingOrderIds ? getDataSaleOder() : saleOrderList
           }
           getOptionValue={(opt) => [opt?.id]}
-          getOptionLabel={(opt) => opt?.code}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
 

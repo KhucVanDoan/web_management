@@ -66,16 +66,17 @@ function ItemUnitDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('itemUnitDefine.createDate')}
-                value={formatDateTimeUtc(itemUnitDetails.createdAt)}
+                label={t('itemUnitDefine.creator')}
+                value={itemUnitDetails?.createdBy?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('itemUnitDefine.updateDate')}
-                value={formatDateTimeUtc(itemUnitDetails.updatedAt)}
+                label={t('itemUnitDefine.createDate')}
+                value={formatDateTimeUtc(itemUnitDetails.createdAt)}
               />
             </Grid>
+
             <Grid item xs={12}>
               <Box display="flex">
                 <TextField

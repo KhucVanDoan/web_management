@@ -174,10 +174,19 @@ const FormDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('workCenter.serialDevice')} value={''} />
+              <LV
+                label={t('workCenter.serialDevice')}
+                value={wcDetails?.deviceSerial}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('workCenter.creator')} value={''} />
+              <LV
+                label={t('workCenter.creator')}
+                value={
+                  wcDetails?.createdBy?.username ||
+                  wcDetails?.createdBy?.fullName
+                }
+              />
             </Grid>
             <Grid item lg={6} xs={12}></Grid>
             <Grid item lg={6} xs={12}>

@@ -36,8 +36,9 @@ const breadcrumbs = [
 const DEFAULT_FILTER = {
   code: '',
   name: '',
-  factory: '',
+  factoryId: '',
   status: '',
+  createAt: '',
 }
 const WorkCenter = () => {
   const [tempItem, setTempItem] = useState(null)
@@ -82,7 +83,7 @@ const WorkCenter = () => {
       fixed: true,
     },
     {
-      field: 'factory',
+      field: 'factoryId',
       headerName: t('workCenter.factoryName'),
       filterFormat: 'multiple',
       width: 200,

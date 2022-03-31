@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -11,7 +10,6 @@ const ItemsDetailTable = (props) => {
   const { t } = useTranslation(['mesx'])
   const {
     data: { saleOrderDetailList },
-    actions,
   } = useSaleOrder()
   const [itemsDetail, setItemsDetail] = useState()
   const columns = [
@@ -61,20 +59,14 @@ const ItemsDetailTable = (props) => {
   ]
 
   useEffect(() => {
-    if (!isEmpty(soId)) {
-      actions.getSaleOrderDetailsByIds({ ids: soId.join(',') })
-    } else {
+    getItemsInSo(saleOrderDetailList)
+    if (!soId) {
       setItemsDetail([])
     }
-  }, [soId])
-
-  useEffect(() => {
-    getItemsInSo(saleOrderDetailList)
-    return () => actions.resetSaleOrderState()
   }, [saleOrderDetailList, planDate])
 
   const getItemsInSo = (saleOrders = []) => {
-    const itemsInSo = [];
+    const itemsInSo = []
     saleOrders.forEach((saleOrder) => {
       saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
         const { item, quantity, actualQuantity } = saleOrderDetail
@@ -88,8 +80,8 @@ const ItemsDetailTable = (props) => {
           routingName: item?.bom?.code,
         })
       })
-    });
-    
+    })
+
     setItemsDetail(itemsInSo)
   }
 

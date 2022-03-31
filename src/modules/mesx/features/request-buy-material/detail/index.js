@@ -151,14 +151,14 @@ function RequestBuyMaterialDetail() {
               <Grid item lg={6} xs={12}>
                 {/* @TODO: <linh.taquang> waiting BE return planCode */}
                 <LV
-                  label={t('requestBuyMaterial.planCode')}
+                  label={t('requestBuyMaterial.moCode')}
                   value={requestBuyMaterialDetails?.manufacturingOrder?.code}
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
                 {/* @TODO: <linh.taquang> waiting BE return planName */}
                 <LV
-                  label={t('requestBuyMaterial.planName')}
+                  label={t('requestBuyMaterial.moName')}
                   value={requestBuyMaterialDetails?.manufacturingOrder?.name}
                 />
               </Grid>

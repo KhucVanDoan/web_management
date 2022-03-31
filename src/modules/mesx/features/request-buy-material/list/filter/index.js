@@ -4,15 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { planList },
-  } = useDefinePlan()
+  // const {
+  //   data: { moList },
+  // } = useMo()
 
   const {
     data: { listAll },
@@ -42,16 +41,16 @@ function FilterForm() {
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Field.Autocomplete
-          name="planName"
-          label={t('requestBuyMaterial.planName')}
-          placeholder={t('requestBuyMaterial.planName')}
-          options={planList}
-          getOptionValue={(opt) => opt?.name?.toString()}
-          getOptionLabel={(opt) => opt?.name || ''}
+          name="moId"
+          label={t('requestBuyMaterial.moCode')}
+          placeholder={t('requestBuyMaterial.moCode')}
+          options={moList}
+          getOptionValue={(opt) => opt?.id}
+          getOptionLabel={(opt) => opt?.code || ''}
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Field.Autocomplete
           name="saleOrderCode"

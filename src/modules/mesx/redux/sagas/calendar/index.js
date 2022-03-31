@@ -213,7 +213,7 @@ export function* watchCreateFactoryCalendarSetup() {
   yield takeLatest(CREATE_FACTORY_CALENDAR_SETUP, doCreateFactoryCalendarSetup)
 }
 
-const getDetailFactoryCalendarApi = (params) => {
+export const getDetailFactoryCalendarApi = (params) => {
   const uri = `/v1/plans/factory-calendars`
   return api.get(uri, params)
 }
