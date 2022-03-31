@@ -55,9 +55,9 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="createAt"
-          label={t('workCenter.timeCreate')}
-          placeholder={t('workCenter.timeCreate')}
+          name="createdAt"
+          label={t('workCenter.createdAt')}
+          placeholder={t('workCenter.createdAt')}
         />
       </Grid>
     </Grid>
