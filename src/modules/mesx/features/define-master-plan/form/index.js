@@ -79,23 +79,28 @@ const DefineMasterPlanForm = () => {
 
   const handleSubmit = (values) => {
     const convertValues = {
-      ...values,
-      dateCompletion: +values.dateCompletion,
+      name: values.name,
+      code: values.code,
+      factoryId: values.factoryId,
+      description: values.description,
       dateFrom: values?.planDate
         ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3)
         : '',
       dateTo: values?.planDate
         ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3)
         : '',
-      dateFromSo: new Date().toISOString(),
       saleOrders: values.soId.map((id) => ({ id })),
     }
-    delete convertValues.soId
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, () => {
         backToList()
       })
+    } else if (isUpdate) {
+      actions.updateMasterPlan({ ...convertValues, id: Number(id) }, () => {
+        backToList()
+      })
     }
+
     return
   }
   const backToList = () => {
@@ -274,7 +279,6 @@ const DefineMasterPlanForm = () => {
                         label={t('defineMasterPlan.saleOrder')}
                         name="soId"
                         placeholder={t('defineMasterPlan.saleOrder')}
-                        disabled={isUpdate}
                         required
                         options={soList}
                         getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
@@ -318,7 +322,6 @@ const DefineMasterPlanForm = () => {
                         name="factoryId"
                         label={t('defineMasterPlan.moFactory')}
                         placeholder={t('defineMasterPlan.moFactory')}
-                        disabled={isUpdate}
                         required
                         options={factoryList?.items || []}
                         getOptionLabel={(option) => option?.name || ''}
@@ -378,6 +381,8 @@ const DefineMasterPlanForm = () => {
               soId={values.soId}
               planDate={values.planDate}
               isDetail={true}
+              isView={isDetail}
+              isUpdate={isUpdate}
             />
 
             {renderActionBar(resetForm)}

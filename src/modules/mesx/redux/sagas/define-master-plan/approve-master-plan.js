@@ -5,7 +5,7 @@ import {
   approveMasterPlanFailed,
   approveMasterPlanSuccess,
   APPROVE_MASTER_PLAN,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

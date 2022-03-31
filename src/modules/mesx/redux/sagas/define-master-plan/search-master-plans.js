@@ -4,7 +4,7 @@ import {
   searchMasterPlansFailed,
   searchMasterPlansSuccess,
   SEARCH_MASTER_PLANS_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 
 /**
