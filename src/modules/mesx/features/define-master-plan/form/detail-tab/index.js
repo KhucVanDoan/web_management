@@ -19,7 +19,12 @@ const DetailTab = (props) => {
       sx={{ mt: 3 }}
     >
       {/* Tab 1 */}
-      <ItemsDetailTable soId={props.soId} planDate={props.planDate} />
+      <ItemsDetailTable
+        soId={props.soId}
+        planDate={props.planDate}
+        isView={props.isView}
+        isUpdate={props.isUpdate}
+      />
 
       {/* Tab 2 */}
       {!props.isDetail && <PlanDetail />}

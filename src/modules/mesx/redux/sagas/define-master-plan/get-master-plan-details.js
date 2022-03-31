@@ -4,7 +4,7 @@ import {
   getMasterPlanDetailsByIdFailed,
   getMasterPlanDetailsByIdSuccess,
   GET_MASTER_PLAN_DETAILS_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 
 /**

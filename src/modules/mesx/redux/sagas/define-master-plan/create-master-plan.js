@@ -2,20 +2,20 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  submitModerationInputSuccess,
-  submitModerationInputFailed,
-  SUBMIT_MODERATION_INPUT_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+  createMasterPlanFailed,
+  createMasterPlanSuccess,
+  CREATE_MASTER_PLAN_START,
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * submit moderation input
+ * create plan
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const submitModerationInputApi = (params) => {
-  const uri = `/v1/plans/master-plans/${params.id}/moderations/input`
+const createMasterPlansApi = (params) => {
+  const uri = `/v1/plans/master-plans/create`
   return api.post(uri, params)
 }
 
@@ -23,16 +23,16 @@ const submitModerationInputApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doSubmitModerationInput(action) {
+function* doCreateMasterPlan(action) {
   try {
-    const response = yield call(submitModerationInputApi, action?.payload)
+    const response = yield call(createMasterPlansApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(submitModerationInputSuccess(response.data))
+      yield put(createMasterPlanSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data?.id)
       }
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
@@ -40,7 +40,7 @@ function* doSubmitModerationInput(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(submitModerationInputFailed())
+    yield put(createMasterPlanFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +49,8 @@ function* doSubmitModerationInput(action) {
 }
 
 /**
- * Watch submit moderation input
+ * Watch create plan
  */
-export default function* watchSubmitModerationInput() {
-  yield takeLatest(SUBMIT_MODERATION_INPUT_START, doSubmitModerationInput)
+export default function* watchCreateMasterPlan() {
+  yield takeLatest(CREATE_MASTER_PLAN_START, doCreateMasterPlan)
 }

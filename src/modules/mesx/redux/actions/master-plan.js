@@ -10,6 +10,10 @@ export const CREATE_MASTER_PLAN_START = 'CREATE_MASTER_PLAN_START'
 export const CREATE_MASTER_PLAN_SUCCESS = 'CREATE_MASTER_PLAN_SUCCESS'
 export const CREATE_MASTER_PLAN_FAILED = 'CREATE_MASTER_PLAN_FAILED'
 
+export const UPDATE_MASTER_PLAN_START = 'UPDATE_MASTER_PLAN_START'
+export const UPDATE_MASTER_PLAN_SUCCESS = 'UPDATE_MASTER_PLAN_SUCCESS'
+export const UPDATE_MASTER_PLAN_FAILED = 'UPDATE_MASTER_PLAN_FAILED'
+
 export const GET_MODERATION_SUGGEST_SPREAD_START =
   'GET_MODERATION_SUGGEST_SPREAD_START'
 export const GET_MODERATION_SUGGEST_SPREAD_SUCCESS =
@@ -390,6 +394,28 @@ export function deleteMasterPlanFailed() {
   }
 }
 
+export function updateMasterPlan(id, onSuccess, onError) {
+  return {
+    type: UPDATE_MASTER_PLAN_START,
+    payload: id,
+    onSuccess,
+    onError,
+  }
+}
+
+export function updateMasterPlanSuccess(payload) {
+  return {
+    type: UPDATE_MASTER_PLAN_SUCCESS,
+    payload,
+  }
+}
+
+export function updateMasterPlanFailed() {
+  return {
+    type: UPDATE_MASTER_PLAN_FAILED,
+  }
+}
+
 export default {
   approveMasterPlan,
   approveMasterPlanSuccess,
@@ -423,4 +449,7 @@ export default {
   deleteMasterPlan,
   deleteMasterPlanFailed,
   deleteMasterPlanSuccess,
+  updateMasterPlan,
+  updateMasterPlanSuccess,
+  updateMasterPlanFailed,
 }

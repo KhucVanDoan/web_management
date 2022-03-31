@@ -2,37 +2,37 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  extendDeadlineSuccess,
-  extendDeadlineFailed,
-  EXTEND_DEADLINE_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+  updateMasterPlanFailed,
+  updateMasterPlanSuccess,
+  UPDATE_MASTER_PLAN_START,
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * extend deadline
+ * create plan
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const extendDeadlineApi = (params) => {
-  const uri = `/v1/plans/moderations/evenly`
-  return api.post(uri, params)
+const updateMasterPlansApi = (params) => {
+  const url = `/v1/plans/master-plans/${params.id}`
+  return api.put(url, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doExtendDeadline(action) {
+function* doUpdateMasterPlan(action) {
   try {
-    const response = yield call(extendDeadlineApi, action?.payload)
+    const response = yield call(updateMasterPlansApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(extendDeadlineSuccess(response.data))
+      yield put(updateMasterPlanSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data?.id)
       }
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
@@ -40,7 +40,7 @@ function* doExtendDeadline(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(extendDeadlineFailed())
+    yield put(updateMasterPlanFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +49,8 @@ function* doExtendDeadline(action) {
 }
 
 /**
- * Watch submit extend deadline
+ * Watch create plan
  */
-export default function* watchExtendDeadline() {
-  yield takeLatest(EXTEND_DEADLINE_START, doExtendDeadline)
+export default function* watchUpdateMasterPlan() {
+  yield takeLatest(UPDATE_MASTER_PLAN_START, doUpdateMasterPlan)
 }

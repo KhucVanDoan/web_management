@@ -22,7 +22,10 @@ import {
   GET_PRODUCING_STEP_DETAIL_START,
   GET_PRODUCING_STEP_DETAIL_SUCCESS,
   GET_PRODUCING_STEP_DETAIL_FAILED,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+  UPDATE_MASTER_PLAN_FAILED,
+  UPDATE_MASTER_PLAN_START,
+  UPDATE_MASTER_PLAN_SUCCESS,
+} from '~/modules/mesx/redux/actions/master-plan'
 
 const initialState = {
   isLoading: false,
@@ -30,7 +33,7 @@ const initialState = {
   masterPlanDetails: {},
   total: null,
   moderationSuggestSpread: [],
-  moderationInput: {}
+  moderationInput: {},
 }
 
 /**
@@ -48,6 +51,7 @@ export default function defineMasterPlan(state = initialState, action) {
     case SUBMIT_MODERATION_INPUT_START:
     case EXTEND_DEADLINE_START:
     case GET_PRODUCING_STEP_DETAIL_START:
+    case UPDATE_MASTER_PLAN_START:
       return {
         ...state,
         isLoading: true,
@@ -84,6 +88,8 @@ export default function defineMasterPlan(state = initialState, action) {
     case EXTEND_DEADLINE_SUCCESS:
     case EXTEND_DEADLINE_FAILED:
     case GET_PRODUCING_STEP_DETAIL_FAILED:
+    case UPDATE_MASTER_PLAN_SUCCESS:
+    case UPDATE_MASTER_PLAN_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -99,12 +105,12 @@ export default function defineMasterPlan(state = initialState, action) {
     case RESET_MODERATION_SUGGEST_SPREAD:
       return {
         ...state,
-        moderationSuggestSpread: []
+        moderationSuggestSpread: [],
       }
     case RESET_MASTER_PLAN_DETAIL:
       return {
         ...state,
-        masterPlanDetails: {}
+        masterPlanDetails: {},
       }
     default:
       return state
