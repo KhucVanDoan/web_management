@@ -80,7 +80,10 @@ function BomProducingStepDetail() {
                 value={
                   <Status
                     options={BOM_PRODUCING_STEP_STATUS_OPTIONS}
-                    value={BOMDetails?.status}
+                    value={
+                      bomProducingStepDetails?.materialDetails?.[0]
+                        ?.producingStepData?.[0]?.status
+                    }
                   />
                 }
               />

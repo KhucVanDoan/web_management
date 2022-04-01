@@ -87,7 +87,10 @@ function DefineCompanyDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('defineCompany.user')} value={companyDetails.user} />
+              <LV
+                label={t('defineCompany.user')}
+                value={companyDetails.createdBy?.username}
+              />
             </Grid>
             <Hidden lgDown>
               <Grid item lg={6} xs={12}></Grid>

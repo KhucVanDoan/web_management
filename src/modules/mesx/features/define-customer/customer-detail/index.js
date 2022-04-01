@@ -92,7 +92,7 @@ function DefineCustomerDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineCustomer.user')}
-                value={customerDetails.user}
+                value={customerDetails.createdBy?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
