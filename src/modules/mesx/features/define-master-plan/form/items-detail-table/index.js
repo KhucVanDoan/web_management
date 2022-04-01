@@ -6,11 +6,13 @@ import DataTable from '~/components/DataTable'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 const ItemsDetailTable = (props) => {
-  const { soId = [], planDate } = props
+  const { soId = [], planDate, isView, isUpdate } = props
   const { t } = useTranslation(['mesx'])
   const {
     data: { saleOrderDetailList },
+    actions,
   } = useSaleOrder()
+
   const [itemsDetail, setItemsDetail] = useState()
   const columns = [
     {
@@ -57,6 +59,13 @@ const ItemsDetailTable = (props) => {
       sortable: false,
     },
   ]
+
+  useEffect(() => {
+    if (isView || isUpdate) {
+      actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
+    }
+    return () => actions.resetSaleOrderListState()
+  }, [soId])
 
   useEffect(() => {
     getItemsInSo(saleOrderDetailList)

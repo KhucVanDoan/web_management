@@ -2,46 +2,45 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  DELETE_MASTER_PLAN_START,
-  deleteMasterPlanFailed,
-  deleteMasterPlanSuccess,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+  extendDeadlineSuccess,
+  extendDeadlineFailed,
+  EXTEND_DEADLINE_START,
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Search user API
+ * extend deadline
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteMasterPlanApi = (params) => {
-  const uri = `/v1/plans/master-plans/${params}`
-  return api.delete(uri)
+const extendDeadlineApi = (params) => {
+  const uri = `/v1/plans/moderations/evenly`
+  return api.post(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doDelete(action) {
+function* doExtendDeadline(action) {
   try {
-    const response = yield call(deleteMasterPlanApi, action?.payload)
+    const response = yield call(extendDeadlineApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteMasterPlanSuccess(response.data))
+      yield put(extendDeadlineSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteMasterPlanFailed())
+    yield put(extendDeadlineFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -50,8 +49,8 @@ function* doDelete(action) {
 }
 
 /**
- * Watch search users
+ * Watch submit extend deadline
  */
-export default function* watchDeleteMasterPlan() {
-  yield takeLatest(DELETE_MASTER_PLAN_START, doDelete)
+export default function* watchExtendDeadline() {
+  yield takeLatest(EXTEND_DEADLINE_START, doExtendDeadline)
 }

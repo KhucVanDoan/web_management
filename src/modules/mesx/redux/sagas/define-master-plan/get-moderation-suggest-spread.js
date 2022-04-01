@@ -4,7 +4,7 @@ import {
   getModerationSuggestSpreadSuccess,
   getModerationSuggestSpreadFailed,
   GET_MODERATION_SUGGEST_SPREAD_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 
 /**

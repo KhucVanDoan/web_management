@@ -2,45 +2,46 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createMasterPlanFailed,
-  createMasterPlanSuccess,
-  CREATE_MASTER_PLAN_START,
-} from '~/modules/mesx/redux/actions/master-plan.action'
+  DELETE_MASTER_PLAN_START,
+  deleteMasterPlanFailed,
+  deleteMasterPlanSuccess,
+} from '~/modules/mesx/redux/actions/master-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * create plan
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const createMasterPlansApi = (params) => {
-  const uri = `/v1/plans/master-plans/create`
-  return api.post(uri, params)
+const deleteMasterPlanApi = (params) => {
+  const uri = `/v1/plans/master-plans/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreateMasterPlan(action) {
+function* doDelete(action) {
   try {
-    const response = yield call(createMasterPlansApi, action?.payload)
+    const response = yield call(deleteMasterPlanApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createMasterPlanSuccess(response.data))
+      yield put(deleteMasterPlanSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess(response.data?.id)
+        yield action.onSuccess()
       }
+
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createMasterPlanFailed())
+    yield put(deleteMasterPlanFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +50,8 @@ function* doCreateMasterPlan(action) {
 }
 
 /**
- * Watch create plan
+ * Watch search users
  */
-export default function* watchCreateMasterPlan() {
-  yield takeLatest(CREATE_MASTER_PLAN_START, doCreateMasterPlan)
+export default function* watchDeleteMasterPlan() {
+  yield takeLatest(DELETE_MASTER_PLAN_START, doDelete)
 }

@@ -840,6 +840,7 @@
     "descriptionInput": "Mô tả về công trình",
     "itemsDetails": "Chi tiết thành phẩm",
     "boqUserPermission": "Quyền user",
+    "createdAt": "Thời gian tạo",
     "item": {
       "orderNumber": "#",
       "code": "Mã thành phẩm",
@@ -1212,7 +1213,7 @@
     "updateWorkCenterSuccess": "Cập nhật xưởng thành công",
     "confirmSOExportSuccess": "Xác nhận xưởng thành công",
     "import": "nhập/xuất dữ liệu",
-    "timeCreate": "Thời gian tạo",
+    "createdAt": "Thời gian tạo",
     "dateCreate": "Ngày tạo",
     "dateUpdate": "Ngày sửa",
     "serialDevice": "Serial thiết bị",

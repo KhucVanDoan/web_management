@@ -77,15 +77,16 @@ import watchGetItemDetails from './define-item/get-item-details.saga'
 import watchSearchItems from './define-item/search-items.saga'
 import watchUpdateItem from './define-item/update-item.saga'
 import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
-import watchCreateMasterPlan from './define-master-plan/create-master-plan.saga'
-import watchDeleteMasterPlan from './define-master-plan/delete-master-plan.saga'
-import watchExtendDeadline from './define-master-plan/extend-deadline.saga'
-import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details.saga'
-import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread.saga'
-import watchGetProducingStepDetail from './define-master-plan/get-producing-step-detail.saga'
+import watchCreateMasterPlan from './define-master-plan/create-master-plan'
+import watchDeleteMasterPlan from './define-master-plan/delete-master-plan'
+import watchExtendDeadline from './define-master-plan/extend-deadline'
+import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details'
+import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread'
+import watchGetProducingStepDetail from './define-master-plan/get-producing-step-detail'
 import watchRejectMasterPlan from './define-master-plan/reject-master-plan'
-import watchSearchMasterPlans from './define-master-plan/search-master-plans.saga'
-import watchSubmitModerationInput from './define-master-plan/submit-moderation-input.saga'
+import watchSearchMasterPlans from './define-master-plan/search-master-plans'
+import watchSubmitModerationInput from './define-master-plan/submit-moderation-input'
+import watchUpdateMasterPlan from './define-master-plan/update-master-plan'
 import watchConfirmPlan from './define-plan/confirm-plan.saga'
 import watchCreatePlan from './define-plan/create-plan.saga'
 import watchDeletePlan from './define-plan/delete-plan.saga'
@@ -327,6 +328,7 @@ export default function* sagas() {
     watchApproveMasterPlan(),
     watchRejectMasterPlan(),
     watchDeleteMasterPlan(),
+    watchUpdateMasterPlan(),
     // producing step
     watchSearchProducingSteps(),
     watchUpdateProducingStep(),
