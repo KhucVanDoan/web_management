@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Box } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { Formik, Form } from 'formik'
 import { PropTypes } from 'prop-types'
@@ -29,46 +30,64 @@ const SearchBox = ({ onSearch, placeholder, renderSearchBox }) => {
         onSubmit={({ keyword }) => onSearch(keyword)}
         enableReinitialize
       >
-        <Form>
-          <Field.TextField
-            name="keyword"
-            placeholder={placeholder || `${t('page.searchPlaceholder')}...`}
-            inputProps={{
-              maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-            }}
-            startAdornment={
-              <InputAdornment>
-                <Icon
-                  name="search"
-                  sx={{
-                    width: 18,
-                    height: 18,
-                    pointerEvents: 'none',
-                  }}
-                />
-              </InputAdornment>
-            }
-            endAdornment={
-              <InputAdornment
-                sx={{
-                  height: 'auto',
-                  maxHeight: 'none',
-                }}
-              >
-                <Button
-                  sx={{
-                    height: '32px',
-                    margin: '4px',
-                    whiteSpace: 'nowrap',
-                  }}
-                  type="submit"
-                >
-                  {t('page.searchButton')}
-                </Button>
-              </InputAdornment>
-            }
-          />
-        </Form>
+        {({ values, setFieldValue }) => (
+          <Form>
+            <Field.TextField
+              name="keyword"
+              placeholder={placeholder || `${t('page.searchPlaceholder')}...`}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
+              startAdornment={
+                <InputAdornment>
+                  <Icon
+                    name="search"
+                    sx={{
+                      width: 18,
+                      height: 18,
+                      pointerEvents: 'none',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              endAdornment={
+                <>
+                  {values.keyword && (
+                    <IconButton>
+                      <Icon
+                        name="close"
+                        size={12}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setFieldValue('keyword', '')
+                          onSearch('')
+                        }}
+                      />
+                    </IconButton>
+                  )}
+
+                  <InputAdornment
+                    sx={{
+                      height: 'auto',
+                      maxHeight: 'none',
+                    }}
+                  >
+                    <Button
+                      sx={{
+                        height: '32px',
+                        margin: '4px',
+                        whiteSpace: 'nowrap',
+                      }}
+                      type="submit"
+                    >
+                      {t('page.searchButton')}
+                    </Button>
+                  </InputAdornment>
+                </>
+              }
+            />
+          </Form>
+        )}
       </Formik>
     </Box>
   )
