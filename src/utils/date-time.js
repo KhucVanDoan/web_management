@@ -1,11 +1,12 @@
-import { format, isAfter } from 'date-fns'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { format } from 'date-fns'
 
 import { DEFAULT_DATE_TIME_FORMAT } from '~/common/constants'
 
 /**
  * Convert date (string or Date) into string with input format
  * @param {Date|String} dateTime
- * @param {String} formatPattern default yyyy-MM-dd hh:mm
+ * @param {String} formatPattern
  * @return {String}
  */
 export const formatDateTimeUtc = (
@@ -15,12 +16,9 @@ export const formatDateTimeUtc = (
   return dateTime ? format(new Date(dateTime), formatPattern) : ''
 }
 
-/**
- * Check if date range is valid
- * @param {*} from
- * @param {*} to
- * @returns {boolean}
- */
-export const isValidDateRange = (from, to) => {
-  return from && to && !isAfter(to, from)
+export class DateFns extends AdapterDateFns {
+  getWeekdays = () =>
+    ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((day) => ({
+      charAt: () => day,
+    }))
 }
