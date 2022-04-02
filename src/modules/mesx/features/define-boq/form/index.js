@@ -61,7 +61,7 @@ const BOQForm = () => {
 
   const refreshData = () => {
     getBOQDetail()
-    commonManagementActions.getUsers()
+    commonManagementActions.getUsers({ isGetAll: 1 })
   }
 
   const getBOQDetail = () => {
@@ -202,7 +202,7 @@ const BOQForm = () => {
                       placeholder={t('defineBOQ.boqCode')}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
                       disabled={isUpdate}
                       required
