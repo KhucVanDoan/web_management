@@ -4,6 +4,7 @@ import { createFilterOptions, Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -96,6 +97,7 @@ function PopupCreateEvent(props) {
               placeholder={t('planCalendar.eventCode')}
               disabled={isDetail || isUpdate}
               required
+              allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
             />
           </Grid>
           <Grid item xs={12}>

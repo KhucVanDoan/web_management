@@ -1,3 +1,4 @@
+import { startOfDay, endOfDay } from 'date-fns'
 import { isEmpty, isNil, isDate } from 'lodash'
 
 /**
@@ -25,14 +26,13 @@ export const convertFilterParams = (filters = {}, columns = []) => {
           (col.filterFormat === 'date' || col.type === 'date'), // type is deprecated
       )
     ) {
-      const dates = filters[cur]
-      dates[0] = new Date(dates[0].setHours(0, 0, 0, 0))
-      dates[1] = new Date(dates[1].setHours(23, 59, 59, 999))
+      const from = startOfDay(filters[cur]?.[0])
+      const to = endOfDay(filters[cur]?.[1])
       return [
         ...acc,
         {
           column: cur,
-          text: `${dates[0].toISOString()}|${dates[1].toISOString()}`,
+          text: `${from.toISOString()}|${to.toISOString()}`,
         },
       ]
     }

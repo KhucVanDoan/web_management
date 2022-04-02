@@ -12,17 +12,14 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  CODE_SETTINGS,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import {
-  DEFAULT_UNITS,
-  WEIGHT_UNITS,
-  ITEM_CODE_PREFIX,
-} from '~/modules/mesx/constants'
+import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -53,7 +50,7 @@ function DefineItemForm() {
   const initialValues = useMemo(
     () => ({
       name: itemDetails?.name || '',
-      code: itemDetails?.code || ITEM_CODE_PREFIX,
+      code: itemDetails?.code || CODE_SETTINGS.ITEM.PREFIX,
       description: itemDetails?.description || '',
       itemType: itemDetails?.itemType || '',
       itemGroup: itemDetails?.itemGroup || '',
@@ -305,7 +302,9 @@ function DefineItemForm() {
                             required
                             allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                             onInput={(val) => {
-                              if (val?.indexOf(ITEM_CODE_PREFIX) !== 0) {
+                              if (
+                                val?.indexOf(CODE_SETTINGS.ITEM.PREFIX) !== 0
+                              ) {
                                 return
                               }
                               setFieldValue('code', val)

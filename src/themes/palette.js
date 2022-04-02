@@ -112,18 +112,18 @@ const palette = {
   },
   status: {
     created: {
-      text: '#555',
-      background: '#999',
-      contrastText: '#FFF',
+      text: '#999',
+      background: '#DAE7F3',
+      contrastText: '#666',
     },
     pending: {
-      text: '#222',
-      background: '#666',
+      text: '#FF9054',
+      background: '#FF9054',
       contrastText: '#FFF',
     },
     inProgress: {
-      text: '#FF9054',
-      background: '#FF9054',
+      text: '#FFAC38',
+      background: '#FFAC38',
       contrastText: '#FFF',
     },
     confirmed: {
@@ -132,13 +132,13 @@ const palette = {
       contrastText: '#FFF',
     },
     approved: {
-      text: '#0761AD',
-      background: '#0761AD',
+      text: '#0FA44A',
+      background: '#0FA44A',
       contrastText: '#FFF',
     },
     completed: {
-      text: '#0B4D8A',
-      background: '#0B4D8A',
+      text: '#0FA44A',
+      background: '#0FA44A',
       contrastText: '#FFF',
     },
     rejected: {
@@ -147,13 +147,13 @@ const palette = {
       contrastText: '#FFF',
     },
     inactive: {
-      text: '#555',
-      background: '#999',
+      text: '#666',
+      background: '#666',
       contrastText: '#FFF',
     },
     active: {
-      text: '#0FA44A',
-      background: '#0FA44A',
+      text: '#0761AD',
+      background: '#0761AD',
       contrastText: '#FFF',
     },
     deleted: {
