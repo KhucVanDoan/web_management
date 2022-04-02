@@ -63,7 +63,9 @@ function BomProducingStepForm() {
           name: BOMDetails?.name,
           routingId: BOMDetails?.routing?.id,
         },
-        description: BOMDetails?.description,
+        description:
+          bomProducingStepDetails?.materialDetails?.[0]?.producingStepData?.[0]
+            ?.producingStep?.description,
         items: bomProducingStepDetails?.materialDetails || [],
       }
 
@@ -123,6 +125,7 @@ function BomProducingStepForm() {
       itemId: values.product?.itemId,
       bomId: values.product?.id,
       detail: detail,
+      description: values.description,
     }
 
     if (mode === MODAL_MODE.CREATE) {
