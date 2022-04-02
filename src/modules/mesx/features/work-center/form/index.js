@@ -67,7 +67,7 @@ const WorkCenterForm = () => {
   }, [mode])
   const defaultShifts = [
     {
-      id: 'shift-0',
+      id: new Date().getTime(),
       shiftName: '',
       startAt: '06:00',
       endAt: '23:59',
@@ -85,7 +85,7 @@ const WorkCenterForm = () => {
   ]
   const defaultBreakTime = [
     {
-      id: 'breakTimes-0',
+      id: new Date().getTime(),
       breakTimeName: t('workCenter.shiftPreparationTime'),
       shifts: [
         {
@@ -294,19 +294,21 @@ const WorkCenterForm = () => {
         name: shift.shiftName,
         pricePerHour: +shift.pricePerHour,
         priceUnit: shift.priceUnit,
-        relaxTimes: values.breakTimes?.map((breakTime) => {
-          const shiftRelax = breakTime?.shifts?.find(
-            (itemShift) => itemShift.shiftId === shift.id,
-          )
-          if (shiftRelax) {
-            return {
-              name: breakTime.breakTimeName,
-              endAt: formatTime(shiftRelax.to),
-              startAt: formatTime(shiftRelax.from),
+        relaxTimes: values.breakTimes
+          ?.map((breakTime) => {
+            const shiftRelax = breakTime?.shifts?.find(
+              (itemShift) => itemShift.shiftId === shift.id,
+            )
+            if (shiftRelax && shiftRelax.to !== shiftRelax.from) {
+              return {
+                name: breakTime.breakTimeName,
+                endAt: formatTime(shiftRelax.to),
+                startAt: formatTime(shiftRelax.from),
+              }
             }
-          }
-          return null
-        }),
+            return null
+          })
+          .filter((e) => e !== null),
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -365,7 +367,7 @@ const WorkCenterForm = () => {
                         placeholder={t('workCenter.code')}
                         disabled={isUpdate}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
