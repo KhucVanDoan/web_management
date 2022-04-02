@@ -61,7 +61,7 @@ const BOQForm = () => {
 
   const refreshData = () => {
     getBOQDetail()
-    commonManagementActions.getUsers()
+    commonManagementActions.getUsers({ isGetAll: 1 })
   }
 
   const getBOQDetail = () => {
