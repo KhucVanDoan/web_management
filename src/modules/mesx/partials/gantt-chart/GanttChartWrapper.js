@@ -242,7 +242,7 @@ class GanttChartWrapper extends Component {
     gantt.plugins({
       tooltip: true,
     })
-
+    gantt.config.open_tree_initially = true
     gantt.init(this.ganttContainer)
     this.initGanttDataProcessor()
     gantt.parse(tasks)

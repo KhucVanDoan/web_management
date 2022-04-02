@@ -47,11 +47,17 @@ const InputModeration = () => {
       title: ROUTE.MASTER_PLAN.EDIT.TITLE,
     },
     {
-      route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', params?.get('masterPlanId')),
+      route: ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(
+        ':id',
+        params?.get('masterPlanId'),
+      ),
       title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
     },
     {
-      route: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH.replace(':id', params?.get('masterPlanId')),
+      route: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH.replace(
+        ':id',
+        params?.get('masterPlanId'),
+      ),
       title: ROUTE.MASTER_PLAN.INPUT_MODERATION.TITLE,
     },
   ]
@@ -60,19 +66,27 @@ const InputModeration = () => {
     const producingStepIds = params?.get('producingStep')
     const moderationType = params?.get('moderationType')
     if (Number(moderationType) === MODERATION_TYPE.SPREAD_EVENLY) {
-      actions.getModerationSuggestSpread({
-        masterPlanId: id,
-        itemProducingStepIds: producingStepIds,
-      }, null, (error) => {
-        setErrorMessage(error?.message)
-      })
+      actions.getModerationSuggestSpread(
+        {
+          masterPlanId: id,
+          itemProducingStepIds: producingStepIds,
+        },
+        null,
+        (error) => {
+          setErrorMessage(error?.message)
+        },
+      )
     } else if (Number(moderationType) === MODERATION_TYPE.INPUT_MODERATION) {
-      actions.getProducingStepDetail({
-        masterPlanId: id,
-        itemProducingStepIds: producingStepIds,
-      }, null, (error) => {
-        setErrorMessage(error?.message)
-      })
+      actions.getProducingStepDetail(
+        {
+          masterPlanId: id,
+          itemProducingStepIds: producingStepIds,
+        },
+        null,
+        (error) => {
+          setErrorMessage(error?.message)
+        },
+      )
     }
 
     return () => {
@@ -295,63 +309,60 @@ const InputModeration = () => {
       loading={isLoading}
       onBack={backToAutoModeration}
     >
-      {
-        !isEmpty(tableData)
-          ? (
-            <Formik
-              initialValues={initialValues}
-              enableReinitialize
-              onSubmit={handleSubmit}
-            >
-              {({ resetForm }) => (
-                <Form>
-                  {Object.keys(tableData).map(
-                    (producingStepId) =>
-                      columns[producingStepId]?.length && (
-                        <div key={producingStepId}>
-                          <Typography variant="h4" mb={1}>
-                            {tableData[producingStepId].producingStepName}
-                          </Typography>
-                          <DataTable
-                            rows={tableData[producingStepId].workCenterSchedule}
-                            columns={columns[producingStepId]}
-                            hideSetting={true}
-                            hideFooter={true}
-                          />
-                        </div>
-                      ),
-                  )}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      mt: 2,
-                      '& button + button': {
-                        ml: 4 / 3,
-                      },
-                    }}
-                  >
-                    <Button color="grayF4" onClick={backToAutoModeration}>
-                      {t('common.close')}
-                    </Button>
-                    <Button variant="outlined" color="subText" onClick={resetForm}>
-                      {t('common.cancel')}
-                    </Button>
-                    <Button type="submit">{t('common.save')}</Button>
-                  </Box>
-                </Form>
+      {!isEmpty(tableData) && (
+        <Formik
+          initialValues={initialValues}
+          enableReinitialize
+          onSubmit={handleSubmit}
+        >
+          {({ resetForm }) => (
+            <Form>
+              {Object.keys(tableData).map(
+                (producingStepId) =>
+                  columns[producingStepId]?.length && (
+                    <div key={producingStepId}>
+                      <Typography variant="h4" mb={1} mt={2}>
+                        {tableData[producingStepId].producingStepName}
+                      </Typography>
+                      <DataTable
+                        rows={tableData[producingStepId].workCenterSchedule}
+                        columns={columns[producingStepId]}
+                        hideSetting={true}
+                        hideFooter={true}
+                      />
+                    </div>
+                  ),
               )}
-            </Formik>
-          )
-          : (
-            <Alert severity="error">
-              <AlertTitle>
-                {t('defineMasterPlan.titleErrorGetDetailMasterPlan')}
-              </AlertTitle>
-              {errorMessage}
-            </Alert>
-          )
-      }
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  mt: 2,
+                  '& button + button': {
+                    ml: 4 / 3,
+                  },
+                }}
+              >
+                <Button color="grayF4" onClick={backToAutoModeration}>
+                  {t('common.close')}
+                </Button>
+                <Button variant="outlined" color="subText" onClick={resetForm}>
+                  {t('common.cancel')}
+                </Button>
+                <Button type="submit">{t('common.save')}</Button>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+      )}
+      {!isLoading && isEmpty(tableData) && (
+        <Alert severity="error">
+          <AlertTitle>
+            {t('defineMasterPlan.titleErrorGetDetailMasterPlan')}
+          </AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
     </Page>
   )
 }

@@ -4,7 +4,7 @@ import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
-import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { MASTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {
@@ -59,10 +59,9 @@ const FilterForm = () => {
           name="status"
           label={t('defineMasterPlan.status')}
           placeholder={t('defineMasterPlan.status')}
-          options={PLAN_STATUS_OPTIONS.map((status) => ({
-            value: status.id.toString(),
-            label: t(status.text),
-          }))}
+          options={MASTER_PLAN_STATUS_OPTIONS}
+          getOptionLabel={(opt) => t(opt.text)}
+          getOptionValue={(opt) => opt?.id?.toString()}
         />
       </Grid>
       <Grid item xs={12}>
