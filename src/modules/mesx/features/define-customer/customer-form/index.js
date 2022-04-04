@@ -163,8 +163,9 @@ function DefineCustomerForm() {
                       name="code"
                       placeholder={t('defineCustomer.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
                     />

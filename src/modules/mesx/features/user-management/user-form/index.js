@@ -222,8 +222,9 @@ function UserManagementForm() {
                       name="code"
                       placeholder={t('userManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
                     />

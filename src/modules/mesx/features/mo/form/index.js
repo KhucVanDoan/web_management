@@ -12,7 +12,11 @@ import {
   useHistory,
 } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
@@ -312,8 +316,9 @@ const MOForm = () => {
                         label={t('Mo.moCode')}
                         placeholder={t('Mo.moCode')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         disabled={isUpdate}
                         required
                       />
