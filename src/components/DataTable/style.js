@@ -34,6 +34,13 @@ const style = (theme) => ({
     },
   },
 
+  tableRowGray: {
+    backgroundColor: theme.palette.grayF4.main,
+    '>.MuiTableCell-root': {
+      borderBottomColor: theme.palette.subText.a1,
+    },
+  },
+
   tableCell: {
     padding: 16,
     fontSize: 14,
