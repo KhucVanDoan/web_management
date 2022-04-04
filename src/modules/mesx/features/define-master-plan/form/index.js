@@ -10,6 +10,7 @@ import {
   MODAL_MODE,
   DATE_FORMAT_3,
   TEXTFIELD_REQUIRED_LENGTH,
+  TEXTFIELD_ALLOW,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -263,6 +264,7 @@ const DefineMasterPlanForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
                       />
                     )}
