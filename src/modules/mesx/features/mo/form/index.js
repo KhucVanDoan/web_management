@@ -18,6 +18,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -28,6 +29,7 @@ import { MO_STATUS_OPTIONS, MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc, convertFilterParams } from '~/utils'
 
@@ -74,6 +76,11 @@ const MOForm = () => {
     actions: actionsItemType,
   } = useItemType()
 
+  const {
+    data: { requestBuyMaterialList },
+    actions: actionRequest,
+  } = useRequestBuyMaterial()
+
   useEffect(() => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
     masterPlanActions.searchMasterPlans({
@@ -93,6 +100,7 @@ const MOForm = () => {
       actions.getBOMProducingStepStructureById(id)
       actions.getPriceStructureById(id)
       actionsItemType.searchItemTypes({ isGetAll: 1 })
+      actionRequest.searchRequestBuyMaterials({ isGetAll: 1 })
     }
     return () => {
       actions.resetMoDetail()
@@ -101,6 +109,15 @@ const MOForm = () => {
 
   const backToList = () => {
     history.push(ROUTE.MO.LIST.PATH)
+  }
+
+  const handleRedrict = () => {
+    const idx = requestBuyMaterialList?.find(
+      (i) => i?.manufacturingOrder?.id === Number(id),
+    )?.id
+    history.push(
+      ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
+    )
   }
 
   const getMasterDetail = () => {
@@ -155,7 +172,20 @@ const MOForm = () => {
           />
         )
       case MODAL_MODE.DETAIL:
-        return <ActionBar onBack={backToList} />
+        return (
+          <ActionBar
+            onBack={backToList}
+            elBefore={
+              <Button
+                variant="outlined"
+                onClick={() => handleRedrict()}
+                sx={{ mr: 'auto' }}
+              >
+                {t('menu.requestBuyMaterial')}
+              </Button>
+            }
+          />
+        )
       default:
         break
     }
