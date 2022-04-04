@@ -83,7 +83,7 @@ const WorkCenter = () => {
       fixed: true,
     },
     {
-      field: 'factoryId',
+      field: 'factoryName',
       headerName: t('workCenter.factoryName'),
       filterFormat: 'multiple',
       width: 200,
@@ -170,6 +170,7 @@ const WorkCenter = () => {
       filter: convertFilterParams(filters, [
         ...columns,
         { field: 'createdAt', filterFormat: 'date' },
+        { field: 'factoryId', filterFormat: 'multiple' },
       ]),
       sort: convertSortParams(sort),
     }

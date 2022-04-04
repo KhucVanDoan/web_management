@@ -1,13 +1,11 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import { REGEX_CODE_ONLY_NUMBER_AND_STRING } from '~/modules/mesx/constants'
 
 export const createEventSchema = (t) =>
   Yup.object().shape({
     code: Yup.string()
       .trim()
-      .matches(REGEX_CODE_ONLY_NUMBER_AND_STRING, t('general:form.special'))
       .required(t('general:form.required'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,

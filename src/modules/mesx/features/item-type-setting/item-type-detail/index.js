@@ -71,7 +71,7 @@ const ItemTypeDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('itemTypeSetting.user')}
-                value={itemTypeDetails.user}
+                value={itemTypeDetails.createdBy?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

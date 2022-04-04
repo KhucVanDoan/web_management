@@ -20,7 +20,7 @@ import store from '~/store'
 import theme, { globalStyles } from '~/themes'
 import i18n from '~/utils/i18n'
 
-import { DateFns } from './utils/dateFns'
+import { DateFns } from './utils/date-time'
 
 function App() {
   return (

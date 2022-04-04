@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import {
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_REQUIRED_LENGTH,
+  DEFAULT_TIME,
 } from '~/common/constants'
 
 export const WorkCenterSchema = (t) => {
@@ -53,6 +54,7 @@ export const WorkCenterSchema = (t) => {
         {
           startAt: Yup.string()
             .required(t('general:form.required'))
+            .matches(/^[0-9:]+$/, t('general:form.validTime'))
             .when(['endAt'], (_, schema, startAtContext) => {
               return schema.test({
                 message: t('general:form.invalidTimeStart'),
@@ -71,6 +73,7 @@ export const WorkCenterSchema = (t) => {
 
           endAt: Yup.string()
             .required(t('general:form.required'))
+            .matches(/^[0-9:]+$/, t('general:form.validTime'))
             .when(['startAt'], (startAt, schema, endAt) => {
               return schema.test({
                 message: t('general:form.invalidTimeRange'),
@@ -98,52 +101,67 @@ export const WorkCenterSchema = (t) => {
         shifts: Yup.array().of(
           Yup.object().shape(
             {
-              from: Yup.string().when(['to'], (_, schema, fromContext) => {
-                return schema.test({
-                  message: t('general:form.invalidBreakTime'),
-                  test: () => {
-                    const shifts =
-                      [...(fromContext?.from || [])].pop()?.value?.shifts || []
-                    const shiftByBreakTime = shifts.find(
-                      (shift) => shift.id === fromContext.parent.shiftId,
-                    )
-                    if (fromContext.value && shiftByBreakTime) {
-                      return (
-                        fromContext.value <= shiftByBreakTime.endAt &&
-                        fromContext.value >= shiftByBreakTime.startAt
-                      )
-                    }
-                    return true
-                  },
-                })
-              }),
-              to: Yup.string().when(['from'], (from, schema, toContext) => {
-                if (from < toContext.value) {
+              from: Yup.string()
+                .matches(/^[0-9:]+$/, t('general:form.validTime'))
+                .when(['to'], (_, schema, fromContext) => {
                   return schema.test({
                     message: t('general:form.invalidBreakTime'),
                     test: () => {
                       const shifts =
-                        [...(toContext?.from || [])].pop()?.value?.shifts || []
+                        [...(fromContext?.from || [])].pop()?.value?.shifts ||
+                        []
                       const shiftByBreakTime = shifts.find(
-                        (shift) => shift.id === toContext.parent.shiftId,
+                        (shift) => shift.id === fromContext.parent.shiftId,
                       )
-                      if (toContext.value && shiftByBreakTime) {
+                      if (fromContext.value === DEFAULT_TIME) {
+                        return true
+                      }
+                      if (fromContext.value && shiftByBreakTime) {
                         return (
-                          toContext.value <= shiftByBreakTime.endAt &&
-                          toContext.value >= shiftByBreakTime.startAt
+                          fromContext.value <= shiftByBreakTime.endAt &&
+                          fromContext.value >= shiftByBreakTime.startAt
                         )
                       }
                       return true
                     },
                   })
-                }
-                return schema.test({
-                  message: t('general:form.invalidTimeRange'),
-                  test: () => {
-                    return from < toContext.value
-                  },
-                })
-              }),
+                }),
+              to: Yup.string()
+                .matches(/^[0-9:]+$/, t('general:form.validTime'))
+                .when(['from'], (from, schema, toContext) => {
+                  if (
+                    toContext.value === DEFAULT_TIME ||
+                    toContext.value === undefined
+                  ) {
+                    return
+                  }
+                  if (from < toContext.value) {
+                    return schema.test({
+                      message: t('general:form.invalidBreakTime'),
+                      test: () => {
+                        const shifts =
+                          [...(toContext?.from || [])].pop()?.value?.shifts ||
+                          []
+                        const shiftByBreakTime = shifts.find(
+                          (shift) => shift.id === toContext.parent.shiftId,
+                        )
+                        if (toContext.value && shiftByBreakTime) {
+                          return (
+                            toContext.value <= shiftByBreakTime.endAt &&
+                            toContext.value >= shiftByBreakTime.startAt
+                          )
+                        }
+                        return true
+                      },
+                    })
+                  }
+                  return schema.test({
+                    message: t('general:form.invalidTimeRange'),
+                    test: () => {
+                      return from < toContext.value
+                    },
+                  })
+                }),
             },
             ['from', 'to'],
           ),

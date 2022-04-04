@@ -72,7 +72,7 @@ const FormDetail = () => {
       )
       const numberElementOfBreakTime = max(
         uniq(
-          Object.values(relaxTimeGroupByShift).map(
+          Object.values(relaxTimeGroupByShift)?.map(
             (relaxGroup) => relaxGroup.length,
           ),
         ),
@@ -92,8 +92,8 @@ const FormDetail = () => {
         startAt: e.startAt,
         endAt: e.endAt,
         breakTimes: cloneWorkCenterShiftsRelaxTimes
-          .filter((b) => b.workCenterShiftId === e.id)
-          .map((a, ind) => ({
+          ?.filter((b) => b?.workCenterShiftId === e?.id)
+          ?.map((a, ind) => ({
             id: ind,
             name: a.name,
             from: a.startAt,

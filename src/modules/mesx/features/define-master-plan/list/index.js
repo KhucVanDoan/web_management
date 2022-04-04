@@ -55,7 +55,7 @@ const DefineMasterPlan = () => {
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
   const [filters, setFilters] = useState({})
-  const [sort, setSort] = useState(null)
+  const [sort, setSort] = useState()
   const [tempItem, setTempItem] = useState(null)
   const [deleteModal, setDeleteModal] = useState(false)
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
@@ -87,9 +87,14 @@ const DefineMasterPlan = () => {
         width: 200,
         sortable: true,
         renderCell: (params) => {
-          return params.row.saleOrders
-            ?.map((saleOrder) => saleOrder.name)
-            .join(', ')
+          return (
+            params.row.saleOrders
+              ?.map((saleOrder) => saleOrder.name)
+              .join(', ') ||
+            params.row.saleOrderSchedules
+              ?.map((saleOrder) => saleOrder?.saleOrderName)
+              .join(', ')
+          )
         },
       },
       {
@@ -224,12 +229,12 @@ const DefineMasterPlan = () => {
       width: 200,
     },
     {
-      field: 'quantity',
+      field: 'actualQuantity',
       headerName: t('defineMasterPlan.quantity'),
       width: 200,
     },
     {
-      field: 'actualQuantity',
+      field: 'quantity',
       headerName: t('defineMasterPlan.actualQuantity'),
       width: 200,
     },
@@ -306,15 +311,15 @@ const DefineMasterPlan = () => {
       },
     },
     {
-      field: 'bomId',
+      field: 'routing',
       headerName: t('defineMasterPlan.routingCode'),
     },
     {
-      field: 'quantity',
+      field: 'actualQuantity',
       headerName: t('defineMasterPlan.planQuantity'),
     },
     {
-      field: 'actualQuantity',
+      field: 'quantity',
       headerName: t('defineMasterPlan.quantity'),
     },
     {

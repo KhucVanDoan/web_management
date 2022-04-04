@@ -18,16 +18,21 @@ const Toolbar = (props) => {
 
   const CustomButton = ({ active, children, ...btnProps }) => (
     <Button
-      {...(active
-        ? { color: 'grayF4', variant: 'contained' }
-        : { variant: 'outlined', color: 'subText' })}
+      variant="outlined"
+      color="subText"
       sx={{
         border: `1px solid ${theme.palette.grayF4.main}`,
         borderRadius: 0,
+        ...(active
+          ? {
+              color: theme.palette.primary.main,
+              backgroundColor: theme.palette.grayF4.main,
+            }
+          : {}),
         '&:hover': {
           border: `1px solid ${theme.palette.grayF4.main}`,
+          backgroundColor: theme.palette.grayF4.a5,
         },
-        ...(active ? { color: theme.palette.primary.main } : {}),
       }}
       {...btnProps}
     >

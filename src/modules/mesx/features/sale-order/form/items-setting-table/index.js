@@ -11,7 +11,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { BOM_STATUS, DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
+import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
@@ -20,7 +20,7 @@ function ItemSettingTable(props) {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
-    data: { itemList, BOMList },
+    data: { itemList },
     actions,
   } = useCommonManagement()
   useEffect(() => {
@@ -50,13 +50,9 @@ function ItemSettingTable(props) {
         align: 'center',
         renderCell: (params, index) => {
           const { itemId } = params.row
-          const listBomConfirmed = BOMList.filter(
-            (i) => i.status === BOM_STATUS.CONFIRMED,
-          ).map((n) => n.itemId)
           const itemListFilter = itemList.filter(
-            (n) =>
-              listBomConfirmed.includes(n.id) &&
-              n?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
+            (item) =>
+              item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
           )
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (

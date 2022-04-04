@@ -74,11 +74,12 @@ const AutoModeration = () => {
         const itemSchedules = getTasksInSaleOrder(
           saleOrder.itemSchedules,
           saleOrder.saleOrderId,
-          null
+          null,
         )
         const saleOrderSchedule = {
           text: saleOrder.saleOrderName,
-          id: saleOrder.saleOrderId,
+          id: saleOrder.saleOrderId.toString(),
+          saleOrderId: saleOrder.saleOrderId.toString(),
           end_date: formatDateInGanttChart(saleOrder.dateTo, 'to'),
           start_date: formatDateInGanttChart(saleOrder.dateFrom, 'from'),
           progress: 0,
@@ -87,35 +88,48 @@ const AutoModeration = () => {
 
         return [saleOrderSchedule, ...itemSchedules]
       })
-      .flat();
+      .flat()
   }
 
-  const getTasksInSaleOrder = (items, saleOrderId, parentBomId) => {
+  const getTasksInSaleOrder = (items, saleOrderId, parentBomId, listParents) => {
     return items
       ?.map((item) => {
-        const key = `${item.itemFinishId}-${saleOrderId}-${item.bomId}`;
-        const keyParent = `${item.itemFinishId}-${saleOrderId}-${item.parentBomId}`;
+        const key = `${saleOrderId}-${item.bomId}`
+        const keyParent = `${saleOrderId}-${item.parentBomId}`
         const itemSchedule = {
           text: item.itemName,
           id: key,
+          saleOrderId: saleOrderId.toString(),
           end_date: formatDateInGanttChart(item.dateTo, 'to'),
           start_date: formatDateInGanttChart(item.dateFrom, 'from'),
           progress: 0,
           parent: parentBomId === null ? saleOrderId : keyParent,
+          listParents: [
+            parentBomId === null ? saleOrderId.toString() : keyParent,
+            ...(listParents || [])
+          ],
           isOverQuantity: item.isOverQuantity,
         }
         const producingSteps =
           item.producingSteps?.map((step) => ({
             text: step.producingStepName,
-            id: step.id,
+            id: `${saleOrderId}-${step.id}`,
+            saleOrderId: saleOrderId.toString(),
+            producingStepId: step.id,
+            itemScheduleId: step.itemScheduleId,
             end_date: formatDateInGanttChart(step.dateTo, 'to'),
             start_date: formatDateInGanttChart(step.dateFrom, 'from'),
             progress: 0,
             parent: key,
             type: 'producingStep',
+            listParents: [
+              ...itemSchedule.listParents,
+              key
+            ],
             isOverQuantity: step.overQuantity > 0,
           })) || []
-        const subBom = getTasksInSaleOrder(item.subBom, saleOrderId, item.bomId) || []
+        const subBom =
+          getTasksInSaleOrder(item.subBom, saleOrderId, item.bomId, itemSchedule.listParents) || []
 
         return [itemSchedule, ...producingSteps, ...subBom]
       })
@@ -149,10 +163,41 @@ const AutoModeration = () => {
 
   const handleSelectProducingStep = (id, checked) => {
     if (checked) {
-      setSelectedProducingStep([...selectedProducingStep, id])
+      let propducingSteps = []
+      const updatedTasks = tasks.map(task => {
+        if (task.type === 'producingStep' && (task.listParents?.includes(id) || task.id === id)) {
+          propducingSteps.push(task.producingStepId)
+        }
+        return {
+          ...task,
+          checked: task.listParents?.includes(id) || task.checked
+        }
+      })
+      setTasks(updatedTasks)
+      setSelectedProducingStep([...selectedProducingStep, ...propducingSteps])
     } else {
+      const currentTaskUncheck = tasks.find((task) => task.id === id)
+
+      let removedPropducingSteps = []
+      const updatedTasks = tasks.map(task => {
+        if (task.type === 'producingStep' && (task.listParents?.includes(id) || task.id === id)) {
+          removedPropducingSteps.push(task.producingStepId)
+        }
+        if (currentTaskUncheck?.listParents?.includes(task.id)) {
+          return {
+            ...task,
+            checked: false
+          }
+        } else {
+          return {
+            ...task,
+            checked: task.listParents?.includes(id) ? false : task.checked
+          }
+        }
+      })
+      setTasks(updatedTasks)
       setSelectedProducingStep(
-        selectedProducingStep.filter((producingStep) => producingStep !== id),
+        selectedProducingStep.filter((producingStep) => !removedPropducingSteps.includes(producingStep))
       )
     }
   }
@@ -239,9 +284,8 @@ const AutoModeration = () => {
                     width: '*',
                     min_width: 200,
                     template: (task) => {
-                      if (task.type === 'producingStep') {
-                        const checked = !!task.checked ? ' checked' : ''
-                        return `
+                      const checked = !!task.checked ? ' checked' : ''
+                      return `
                         <input
                           class="gantt-checkbox-column"
                           type="checkbox"
@@ -250,8 +294,6 @@ const AutoModeration = () => {
                           value="${task.id}"
                           ${checked}
                         /> ${task.text}`
-                      }
-                      return task.text
                     },
                   },
                 ],

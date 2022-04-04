@@ -239,7 +239,10 @@ const DefineBOQ = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        ...columns,
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     boqActions.searchBOQ(params)
