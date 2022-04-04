@@ -3,7 +3,6 @@ import * as Yup from 'yup'
 import {
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_REQUIRED_LENGTH,
-  DEFAULT_TIME,
 } from '~/common/constants'
 
 export const WorkCenterSchema = (t) => {
@@ -54,34 +53,10 @@ export const WorkCenterSchema = (t) => {
         {
           startAt: Yup.string()
             .required(t('general:form.required'))
-            .matches(/^[0-9:]+$/, t('general:form.validTime'))
-            .when(['endAt'], (_, schema, startAtContext) => {
-              return schema.test({
-                message: t('general:form.invalidTimeStart'),
-                test: () => {
-                  const shifts =
-                    [...(startAtContext?.from || [])].pop()?.value?.shifts || []
-                  if (startAtContext.index > 0) {
-                    const endAtPrevious =
-                      shifts[startAtContext.index - 1]?.endAt
-                    return startAtContext.value === endAtPrevious
-                  }
-                  return true
-                },
-              })
-            }),
-
+            .matches(/^[0-9:]+$/, t('general:form.validTime')),
           endAt: Yup.string()
             .required(t('general:form.required'))
-            .matches(/^[0-9:]+$/, t('general:form.validTime'))
-            .when(['startAt'], (startAt, schema, endAt) => {
-              return schema.test({
-                message: t('general:form.invalidTimeRange'),
-                test: () => {
-                  return startAt < endAt.value
-                },
-              })
-            }),
+            .matches(/^[0-9:]+$/, t('general:form.validTime')),
           shiftName: Yup.string().required(t('general:form.required')),
           pricePerHour: Yup.number()
             .max(
@@ -101,72 +76,18 @@ export const WorkCenterSchema = (t) => {
         shifts: Yup.array().of(
           Yup.object().shape(
             {
-              from: Yup.string()
-                .matches(/^[0-9:]+$/, t('general:form.validTime'))
-                .when(['to'], (_, schema, fromContext) => {
-                  return schema.test({
-                    message: t('general:form.invalidBreakTime'),
-                    test: () => {
-                      const shifts =
-                        [...(fromContext?.from || [])].pop()?.value?.shifts ||
-                        []
-                      const shiftByBreakTime = shifts.find(
-                        (shift) => shift.id === fromContext.parent.shiftId,
-                      )
-                      if (fromContext.value === DEFAULT_TIME) {
-                        return true
-                      }
-                      if (fromContext.value && shiftByBreakTime) {
-                        return (
-                          fromContext.value <= shiftByBreakTime.endAt &&
-                          fromContext.value >= shiftByBreakTime.startAt
-                        )
-                      }
-                      return true
-                    },
-                  })
-                }),
-              to: Yup.string()
-                .matches(/^[0-9:]+$/, t('general:form.validTime'))
-                .when(['from'], (from, schema, toContext) => {
-                  if (
-                    toContext.value === DEFAULT_TIME ||
-                    toContext.value === undefined
-                  ) {
-                    return
-                  }
-                  if (from < toContext.value) {
-                    return schema.test({
-                      message: t('general:form.invalidBreakTime'),
-                      test: () => {
-                        const shifts =
-                          [...(toContext?.from || [])].pop()?.value?.shifts ||
-                          []
-                        const shiftByBreakTime = shifts.find(
-                          (shift) => shift.id === toContext.parent.shiftId,
-                        )
-                        if (toContext.value && shiftByBreakTime) {
-                          return (
-                            toContext.value <= shiftByBreakTime.endAt &&
-                            toContext.value >= shiftByBreakTime.startAt
-                          )
-                        }
-                        return true
-                      },
-                    })
-                  }
-                  return schema.test({
-                    message: t('general:form.invalidTimeRange'),
-                    test: () => {
-                      return from < toContext.value
-                    },
-                  })
-                }),
+              from: Yup.string().matches(
+                /^[0-9:]+$/,
+                t('general:form.validTime'),
+              ),
+              to: Yup.string().matches(
+                /^[0-9:]+$/,
+                t('general:form.validTime'),
+              ),
             },
             ['from', 'to'],
           ),
         ),
-        breakTimeName: Yup.string().required(t('general:form.required')),
       }),
     ),
   })
