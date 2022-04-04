@@ -93,7 +93,9 @@ const DefineMasterPlanForm = () => {
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, () => {
-        ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`)
+        history.push(
+          ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
+        )
       })
     } else if (isUpdate) {
       actions.updateMasterPlan({ ...convertValues, id: Number(id) }, () => {
