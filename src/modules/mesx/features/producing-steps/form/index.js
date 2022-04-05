@@ -17,6 +17,7 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { STAGES_OPTION } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -36,7 +37,6 @@ function ProducingStepForm() {
     data: { qcList },
     actions: actionCommon,
   } = useCommonManagement()
-
   const {
     data: { isLoading, details },
     actions,
@@ -344,9 +344,11 @@ function ProducingStepForm() {
                         name="qcCriteriaInput"
                         label={t('producingStep.qcCriteria')}
                         placeholder={t('producingStep.qcCriteria')}
-                        options={qcList}
+                        options={qcList.filter(
+                          (i) => i.stage === STAGES_OPTION.PRODUCTION_INPUT,
+                        )}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.qcStageName || opt?.code}
+                        getOptionLabel={(opt) => opt?.name}
                         disabled={!values.inputQc}
                       />
                     </Box>
@@ -393,9 +395,11 @@ function ProducingStepForm() {
                         name="qcCriteriaOutput"
                         label={t('producingStep.qcCriteria')}
                         placeholder={t('producingStep.qcCriteria')}
-                        options={qcList}
+                        options={qcList.filter(
+                          (i) => i.stage === STAGES_OPTION.PRODUCTION_OUTPUT,
+                        )}
                         getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.qcStageName || opt?.code}
+                        getOptionLabel={(opt) => opt?.name}
                         disabled={!values.outputQc}
                       />
                     </Box>

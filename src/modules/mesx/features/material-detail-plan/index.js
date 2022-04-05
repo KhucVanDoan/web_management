@@ -66,7 +66,7 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
-        width: 150,
+        width: 200,
       },
     ]
     if (mdpDetails) {
@@ -93,18 +93,15 @@ const MaterialDetailPlan = () => {
   }
 
   const getRowProductionPlan = () => {
-    let sumPlanQuantity = 0
-    let sumProductionQuantity = 0
-    let sumAdditionQuantity = 0
-    mdpDetails?.manufacturingOrderPlan?.forEach(
-      (e) => (sumPlanQuantity += Number(e.planQuantityMaterial)),
+    let sumPlanQuantity = mdpDetails?.manufacturingOrderPlan?.reduce(
+      (a, b) => a + Number(b.planQuantityMaterial),
+      0,
     )
-    mdpDetails?.manufacturingOrderPlan?.forEach(
-      (e) => (sumProductionQuantity += Number(e.actualQuantityMaterial)),
+    let sumProductionQuantity = mdpDetails?.manufacturingOrderPlan?.reduce(
+      (a, b) => a + Number(b.actualQuantityMaterial),
+      0,
     )
-    mdpDetails?.manufacturingOrderPlan?.forEach(
-      (e) => (sumAdditionQuantity += Number(e.shortageQuantityMaterial)),
-    )
+
     let rows = [
       {
         plan: t('materialDetailPlan.planQuantity'),
@@ -119,8 +116,18 @@ const MaterialDetailPlan = () => {
         total: 0,
       },
     ]
+    let matrix = [
+      [3, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+    ]
+
+    let rowGrayMatrix = []
+
     if (mdpDetails?.materialReport && !isEmpty(mdpDetails?.materialReport)) {
       rows = []
+      matrix = []
+
       rows.push(
         {
           plan: t('materialDetailPlan.planQuantity'),
@@ -139,16 +146,26 @@ const MaterialDetailPlan = () => {
         },
       )
     }
-    mdpDetails?.manufacturingOrderPlan?.map((i) => {
+    mdpDetails?.manufacturingOrderPlan?.forEach((i, index) => {
+      matrix = matrix.concat([
+        [3, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+      ])
+      if (index % 2) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true])
+      } else {
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false])
+      }
       rows[0][i.executionDay] = i.planQuantityMaterial
       rows[1][i.executionDay] = i.actualQuantityMaterial
       rows[2][i.executionDay] = (
         i.planQuantityMaterial - i.actualQuantityMaterial
       ).toFixed(2)
 
-      return rows
+      return { rows, rowSpanMatrix: matrix, rowGrayMatrix }
     })
-    return rows
+    return { rows, rowSpanMatrix: matrix, rowGrayMatrix }
   }
 
   const getColumnMaterialPlan = () => {
@@ -162,7 +179,7 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
-        width: 150,
+        width: 200,
       },
     ]
 
@@ -190,8 +207,6 @@ const MaterialDetailPlan = () => {
   }
 
   const getRowMaterialPlan = () => {
-    let sumPlanQuantity = 0
-    let sumProductionQuantity = 0
     let rows = [
       {
         plan: t('materialDetailPlan.planQuantity'),
@@ -206,16 +221,37 @@ const MaterialDetailPlan = () => {
         total: 0,
       },
     ]
+    let matrix = [
+      [3, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+    ]
+
+    let rowGrayMatrix = []
     if (mdpDetails && !isEmpty(mdpDetails)) {
       rows = []
-      mdpDetails?.materialReport?.forEach((e, index) => {
-        e.materialPlanSchedules.forEach((i) => {
-          sumPlanQuantity += Number(i.planQuantityMaterial)
-        })
-        e.materialPlanSchedules.forEach((i) => {
-          sumProductionQuantity += Number(i.actualQuantityMaterial)
-        })
+      matrix = []
 
+      mdpDetails?.materialReport?.forEach((e, index) => {
+        let sumPlanQuantity = e.materialPlanSchedules.reduce(
+          (a, b) => a + Number(b.planQuantityMaterial),
+          0,
+        )
+        let sumProductionQuantity = e.materialPlanSchedules.reduce(
+          (a, b) => a + Number(b.actualQuantityMaterial),
+          0,
+        )
+
+        matrix = matrix.concat([
+          [3, 1, 1],
+          [-1, 1, 1],
+          [-1, 1, 1],
+        ])
+        if (index % 2) {
+          rowGrayMatrix = rowGrayMatrix.concat([true, true, true])
+        } else {
+          rowGrayMatrix = rowGrayMatrix.concat([false, false, false])
+        }
         rows.push(
           {
             plan: t('materialDetailPlan.planQuantity'),
@@ -243,7 +279,7 @@ const MaterialDetailPlan = () => {
         })
       })
     }
-    return rows
+    return { rows, rowSpanMatrix: matrix, rowGrayMatrix }
   }
 
   const getColumnSuppliesPlan = () => {
@@ -257,7 +293,7 @@ const MaterialDetailPlan = () => {
         field: 'plan',
         headerName: t('materialDetailPlan.plan'),
         fixed: true,
-        width: 150,
+        width: 200,
       },
     ]
 
@@ -296,6 +332,7 @@ const MaterialDetailPlan = () => {
     })
     return rows
   }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -326,8 +363,11 @@ const MaterialDetailPlan = () => {
       </Box>
 
       <DataTable
-        rows={getRowProductionPlan()}
+        rows={getRowProductionPlan().rows}
         columns={getColumnProductionPlan()}
+        rowSpanMatrix={getRowProductionPlan().rowSpanMatrix}
+        rowGrayMatrix={getRowProductionPlan().rowGrayMatrix}
+        striped={false}
         hideSetting
         hideFooter
       />
@@ -337,8 +377,11 @@ const MaterialDetailPlan = () => {
         </Typography>
       </Box>
       <DataTable
-        rows={getRowMaterialPlan()}
+        rows={getRowMaterialPlan().rows}
         columns={getColumnMaterialPlan()}
+        rowSpanMatrix={getRowMaterialPlan().rowSpanMatrix}
+        rowGrayMatrix={getRowMaterialPlan().rowGrayMatrix}
+        striped={false}
         hideSetting
         hideFooter
       />
@@ -350,6 +393,7 @@ const MaterialDetailPlan = () => {
       <DataTable
         rows={getRowSuppliesPlan()}
         columns={getColumnSuppliesPlan()}
+        striped={false}
         hideSetting
         hideFooter
       />

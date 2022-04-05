@@ -7,7 +7,11 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
+import {
+  TEXTFIELD_REQUIRED_LENGTH,
+  TEXTFIELD_ALLOW,
+  MODAL_MODE,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -185,6 +189,7 @@ function RoutingForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
                     />

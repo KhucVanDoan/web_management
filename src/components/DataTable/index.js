@@ -136,6 +136,8 @@ const DataTable = (props) => {
 
   const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
 
+  const rowSpanMatrix = props.rowSpanMatrix
+
   return (
     <>
       {(title || filters || !hideSetting) && (
@@ -188,6 +190,7 @@ const DataTable = (props) => {
                       [classes.tableRowStriped]: striped,
                       [classes.tableRowBorder]: !striped,
                       [classes.tableRowHover]: hover,
+                      [classes.tableRowGray]: props.rowGrayMatrix?.[index],
                     })}
                     classes={classes}
                   >
@@ -210,12 +213,22 @@ const DataTable = (props) => {
                       </TableCell>
                     )}
                     {columns.map((column, i) => {
-                      const { field, align, renderCell, width } = column
+                      const {
+                        field,
+                        align,
+                        renderCell,
+                        width,
+                        cellStyle = {},
+                      } = column
                       const cellValue = renderCell
                         ? renderCell({ row }, index)
                         : row[field]
 
                       const canTruncated = typeof cellValue === 'string'
+
+                      const rowSpan = rowSpanMatrix?.[index]?.[i]
+
+                      if (rowSpan === -1) return null // remove td
 
                       return (
                         <TableCell
@@ -224,7 +237,8 @@ const DataTable = (props) => {
                           })}
                           key={`data-table-${field}-${i}`}
                           id={`data-table-${field}-${i}`}
-                          sx={{ minWidth: width }}
+                          sx={{ minWidth: width, ...cellStyle }}
+                          {...(rowSpan > 1 ? { rowSpan } : {})}
                         >
                           {canTruncated ? (
                             <TruncateMarkup

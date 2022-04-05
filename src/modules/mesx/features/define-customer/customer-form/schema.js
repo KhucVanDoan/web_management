@@ -6,9 +6,9 @@ import { phoneSchema, codeSchema } from '~/common/schemas'
 export const defineCustomerSchema = (t) =>
   Yup.object().shape({
     code: codeSchema(t).max(
-      TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+      TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
       t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+        max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
       }),
     ),
     name: Yup.string()
