@@ -52,6 +52,7 @@ const MOForm = () => {
   const [saleOrder, setSaleOrder] = useState({})
   const [moFactory, setMoFactory] = useState()
   const [dataPlan, setDataPlan] = useState()
+  const [isDisable, setIsDisable] = useState(false)
   const masterPlanId = +urlSearchParams.masterPlanId
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
@@ -115,9 +116,14 @@ const MOForm = () => {
     const idx = requestBuyMaterialList?.find(
       (i) => i?.manufacturingOrder?.id === Number(id),
     )?.id
-    history.push(
-      ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
-    )
+    if (idx) {
+      history.push(
+        ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
+      )
+    } else {
+      setIsDisable(true)
+      // @TODO:<linh.taquang> handle create material request
+    }
   }
 
   const getMasterDetail = () => {
@@ -180,8 +186,9 @@ const MOForm = () => {
                 variant="outlined"
                 onClick={() => handleRedrict()}
                 sx={{ mr: 'auto' }}
+                disabled={isDisable}
               >
-                {t('menu.requestBuyMaterial')}
+                {t('Mo.requestBuyMetarial')}
               </Button>
             }
           />

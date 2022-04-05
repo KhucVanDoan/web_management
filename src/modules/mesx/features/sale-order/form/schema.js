@@ -4,16 +4,15 @@ import {
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
-import { codeSchema } from '~/common/schemas'
 
 export const saleOrderSchema = (t) => {
   return Yup.object().shape({
-    code: codeSchema(t)
+    code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
         }),
       )
       .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
