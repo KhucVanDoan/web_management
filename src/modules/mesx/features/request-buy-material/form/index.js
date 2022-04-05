@@ -175,7 +175,7 @@ function RequestBuyMaterialForm() {
                         name="code"
                         placeholder={t('requestBuyMaterial.requestCode')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         required
                       />

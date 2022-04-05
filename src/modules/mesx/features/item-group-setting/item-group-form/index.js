@@ -168,7 +168,7 @@ const ItemGroupForm = () => {
                       placeholder={t('itemGroupDefine.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
