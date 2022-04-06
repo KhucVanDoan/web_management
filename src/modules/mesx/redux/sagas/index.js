@@ -409,6 +409,7 @@ export default function* sagas() {
     watchSearchRequestBuyMaterial(),
     watchRejectRequestBuyMaterial(),
     watchPrintQRRequestBuyMaterial(),
+    watchCreateRequestBuyMaterial(),
 
     // search material detail plan
     watchSearchMaterialDetailPlan(),
