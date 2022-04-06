@@ -176,7 +176,7 @@ function DefineCompanyForm() {
                       name="code"
                       placeholder={t('defineCompany.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}

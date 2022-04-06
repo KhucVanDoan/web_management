@@ -7,9 +7,9 @@ export const validationSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         }),
       )
       .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
