@@ -42,7 +42,13 @@ const MaterialDetailPlan = () => {
   } = useMaterialPlanDetail()
 
   useEffect(() => {
-    refreshDataFilter()
+    if (
+      filters?.moId &&
+      filters?.itemId &&
+      filters?.producingStepId &&
+      filters?.workCenterId
+    )
+      refreshDataFilter()
   }, [filters, keyword])
 
   const refreshDataFilter = () => {
