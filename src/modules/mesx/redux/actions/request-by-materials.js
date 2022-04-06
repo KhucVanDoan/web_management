@@ -56,6 +56,13 @@ export const RESET_REQUEST_BUY_MATERIAL_LIST_STATE =
 export const GET_ALL_LIST_REQUEST_BUY_MATERIAL_SUCCESS =
   'GET_ALL_LIST_REQUEST_BUY_MATERIAL_SUCCESS'
 
+export const CREATE_REQUEST_BUY_MATERIAL_START =
+  'CREATE_REQUEST_BUY_MATERIAL_START'
+export const CREATE_REQUEST_BUY_MATERIAL_SUCCESS =
+  'CREATE_REQUEST_BUY_MATERIAL_SUCCESS'
+export const CREATE_REQUEST_BUY_MATERIAL_FAILED =
+  'CREATE_REQUEST_BUY_MATERIAL_FAILED'
+
 /**
  * Search requestBuyMaterial
  * @param {object} payload
@@ -347,6 +354,28 @@ export function getAllListSuccess(payload) {
   }
 }
 
+export function createRequestBuyMaterial(payload, onSuccess, onError) {
+  return {
+    ype: CREATE_REQUEST_BUY_MATERIAL_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function createRequestBuyMaterialSuccess(payload) {
+  return {
+    type: CREATE_REQUEST_BUY_MATERIAL_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function createRequestBuyMaterialFailed() {
+  return {
+    type: CREATE_REQUEST_BUY_MATERIAL_FAILED,
+  }
+}
+
 export default {
   searchRequestBuyMaterials,
   searchRequestBuyMaterialsSuccess,
@@ -372,4 +401,7 @@ export default {
   resetRequestBuyMaterialState,
   resetRequestBuyMaterialListState,
   getAllListSuccess,
+  createRequestBuyMaterial,
+  createRequestBuyMaterialSuccess,
+  createRequestBuyMaterialFailed,
 }
