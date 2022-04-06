@@ -1290,6 +1290,7 @@
     "createPurchasedOrderSuccess": "Tạo đơn bán hàng thành công",
     "enoughMaterial": "Yêu cầu mua nguyên vật liệu",
     "enoughMaterialMessage": "Nguyên vật liệu đã đủ",
+    "requestBuyMetarial": "Yêu cầu mua nguyên vật liệu",
     "item": {
       "orderNumber": "#",
       "code": "Mã sản phẩm",
