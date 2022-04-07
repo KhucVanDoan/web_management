@@ -93,7 +93,7 @@ const DefineMasterPlanForm = () => {
       saleOrders: values.soId.map((id) => ({ id })),
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createMasterPlan(convertValues, () => {
+      actions.createMasterPlan(convertValues, (id) => {
         history.push(
           ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
         )
