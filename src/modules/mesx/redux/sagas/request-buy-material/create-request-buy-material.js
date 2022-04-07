@@ -1,13 +1,13 @@
-import { NOTIFICATION_TYPE } from 'common/constant'
-import addNotification from 'common/toast'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { api } from 'services/api'
 
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   createRequestBuyMaterialFailed,
   createRequestBuyMaterialSuccess,
   CREATE_REQUEST_BUY_MATERIAL_START,
 } from '~/modules/mesx/redux/actions/request-by-materials'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search user API
