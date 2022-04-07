@@ -13,13 +13,6 @@ export const phoneSchema = (t) =>
     }),
   )
 
-export const codeSchema = (t) =>
-  Yup.string()
-    .required(t('general:form.required'))
-    .matches(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/, {
-      message: t('general:form.validCode'),
-    })
-
 export const numberSchema = (t) =>
   Yup.number()
     .min(
