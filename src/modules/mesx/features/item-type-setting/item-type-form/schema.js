@@ -7,9 +7,9 @@ export const itemTypeSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         }),
       ),
     name: Yup.string()

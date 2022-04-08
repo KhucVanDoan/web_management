@@ -292,7 +292,7 @@ function BOMForm() {
                         placeholder={t('defineBOM.bomCode')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required

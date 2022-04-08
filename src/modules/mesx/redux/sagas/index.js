@@ -140,6 +140,7 @@ import watchGetDataProductivityReport from './productivity-report/get-data-produ
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
+import watchCreateRequestBuyMaterial from './request-buy-material/create-request-buy-material'
 import watchDeleteRequestBuyMaterial from './request-buy-material/delete-request-buy-material'
 import watchGetRequestBuyMaterialDetails from './request-buy-material/get-request-buy-material-details'
 import watchPrintQRRequestBuyMaterial from './request-buy-material/print-qr-request-buy-material'
@@ -409,6 +410,7 @@ export default function* sagas() {
     watchSearchRequestBuyMaterial(),
     watchRejectRequestBuyMaterial(),
     watchPrintQRRequestBuyMaterial(),
+    watchCreateRequestBuyMaterial(),
 
     // search material detail plan
     watchSearchMaterialDetailPlan(),

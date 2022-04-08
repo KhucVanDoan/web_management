@@ -93,6 +93,13 @@ const DetailWorkCenterPlan = () => {
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
+    let matrix = [
+      [4, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+    ]
+    let rowGrayMatrix = []
     wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
         maxLength = e.scheduleShiftDetails.length
@@ -108,10 +115,24 @@ const DetailWorkCenterPlan = () => {
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
+      matrix = []
+      rowGrayMatrix = []
       planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
+
+      matrix = matrix.concat([
+        [4, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+      ])
+      if (i % 2) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+      } else {
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+      }
 
       wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
         for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
@@ -149,7 +170,7 @@ const DetailWorkCenterPlan = () => {
     delayAmount['total'] = totalDelayAmount
 
     const rowDelayAmount = [delayAmount]
-    return shift.concat(rowDelayAmount)
+    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
   }
 
   const getColumnQC = () => {
@@ -199,6 +220,13 @@ const DetailWorkCenterPlan = () => {
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
+    let matrix = [
+      [4, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+    ]
+    let rowGrayMatrix = []
     wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
         maxLength = e.scheduleShiftDetails.length
@@ -214,10 +242,23 @@ const DetailWorkCenterPlan = () => {
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
+      matrix = []
+      rowGrayMatrix = []
       planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
+      matrix = matrix.concat([
+        [4, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+      ])
+      if (i % 2) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+      } else {
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+      }
 
       wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
         for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
@@ -255,7 +296,7 @@ const DetailWorkCenterPlan = () => {
     delayAmount['total'] = totalDelayAmount
 
     const rowDelayAmount = [delayAmount]
-    return shift.concat(rowDelayAmount)
+    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
   }
 
   const getColumnFix = () => {
@@ -305,6 +346,13 @@ const DetailWorkCenterPlan = () => {
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
+    let matrix = [
+      [4, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+      [-1, 1, 1],
+    ]
+    let rowGrayMatrix = []
     wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
         maxLength = e.scheduleShiftDetails.length
@@ -320,11 +368,23 @@ const DetailWorkCenterPlan = () => {
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
+      matrix = []
+      rowGrayMatrix = []
       planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
-
+      matrix = matrix.concat([
+        [4, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+        [-1, 1, 1],
+      ])
+      if (i % 2) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+      } else {
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+      }
       wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
         for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
           planingAmount[e.executionDay] = e?.scheduleShiftDetails[i]?.quantity
@@ -361,7 +421,7 @@ const DetailWorkCenterPlan = () => {
     delayAmount['total'] = totalDelayAmount
 
     const rowDelayAmount = [delayAmount]
-    return shift.concat(rowDelayAmount)
+    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
   }
 
   return (
@@ -424,8 +484,11 @@ const DetailWorkCenterPlan = () => {
         </Typography>
       </Box>
       <DataTable
-        rows={getRowManufacturing()}
+        rows={getRowManufacturing().shifts}
         columns={getColumnManufacturing()}
+        rowSpanMatrix={getRowManufacturing().matrix}
+        rowGrayMatrix={getRowManufacturing().rowGrayMatrix}
+        striped={false}
         hideSetting
         hideFooter
       ></DataTable>
@@ -435,8 +498,11 @@ const DetailWorkCenterPlan = () => {
         </Typography>
       </Box>
       <DataTable
-        rows={getRowQC()}
+        rows={getRowQC().shifts}
         columns={getColumnQC()}
+        rowSpanMatrix={getRowQC().matrix}
+        rowGrayMatrix={getRowQC().rowGrayMatrix}
+        striped={false}
         hideSetting
         hideFooter
       ></DataTable>
@@ -446,8 +512,11 @@ const DetailWorkCenterPlan = () => {
         </Typography>
       </Box>
       <DataTable
-        rows={getRowFix()}
+        rows={getRowFix().shifts}
         columns={getColumnFix()}
+        rowSpanMatrix={getRowFix().matrix}
+        rowGrayMatrix={getRowFix().rowGrayMatrix}
+        striped={false}
         hideSetting
         hideFooter
       ></DataTable>

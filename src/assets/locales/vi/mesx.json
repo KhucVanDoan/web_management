@@ -1278,6 +1278,9 @@
     "itemDetails": "Thiết lập chi tiết lệnh sản xuất",
     "planList": "Kế hoạch",
     "planName": "Kế hoạch sản xuất",
+    "createPlan": "Bạn có chắc chắn muốn tạo yêu cầu nguyên vật liệu?",
+    "planFull": "Nguyên vật liệu đã đủ",
+    "notification": "Thông báo",
     "createMOSuccess": "Tạo lệnh sản xuất thành công",
     "updateMOSuccess": "Cập nhật lệnh sản xuất thành công",
     "deleteModalTitle": "Xoá lệnh sản xuất",
@@ -1290,6 +1293,7 @@
     "createPurchasedOrderSuccess": "Tạo đơn bán hàng thành công",
     "enoughMaterial": "Yêu cầu mua nguyên vật liệu",
     "enoughMaterialMessage": "Nguyên vật liệu đã đủ",
+    "requestBuyMetarial": "Yêu cầu mua nguyên vật liệu",
     "item": {
       "orderNumber": "#",
       "code": "Mã sản phẩm",

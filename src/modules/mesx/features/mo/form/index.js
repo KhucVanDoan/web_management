@@ -19,6 +19,7 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -52,6 +53,9 @@ const MOForm = () => {
   const [saleOrder, setSaleOrder] = useState({})
   const [moFactory, setMoFactory] = useState()
   const [dataPlan, setDataPlan] = useState()
+  const [isOpenCreatePO, setIsOpenCreatePO] = useState(false)
+  const [isOpenEnoughMaterial, setIsOpenEnoughMaterial] = useState(false)
+  // const [isDisable, setIsDisable] = useState(false)
   const masterPlanId = +urlSearchParams.masterPlanId
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
@@ -67,7 +71,7 @@ const MOForm = () => {
     actions: masterPlanActions,
   } = useDefineMasterPlan()
   const {
-    data: { isLoading, moDetails, BOMStructure, PriceStructure },
+    data: { isLoading, moDetails, BOMStructure, PriceStructure, materialCheck },
     actions,
   } = useMo()
 
@@ -111,13 +115,34 @@ const MOForm = () => {
     history.push(ROUTE.MO.LIST.PATH)
   }
 
-  const handleRedrict = () => {
+  const handleCheckMaterial = () => {
     const idx = requestBuyMaterialList?.find(
       (i) => i?.manufacturingOrder?.id === Number(id),
     )?.id
-    history.push(
-      ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
-    )
+    if (idx) {
+      history.push(
+        ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
+      )
+    } else {
+      actions.checkMaterialPlanById(moDetails?.materialPlan?.id, () => {
+        if (materialCheck) {
+          setIsOpenCreatePO(true)
+        } else {
+          setIsOpenEnoughMaterial(true)
+        }
+      })
+    }
+  }
+
+  const createRequestBuyMaterial = () => {
+    const params = {
+      ...materialCheck,
+    }
+    actionRequest.createRequestBuyMaterial(params, (data) => {
+      history.push(
+        ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${data.id}`),
+      )
+    })
   }
 
   const getMasterDetail = () => {
@@ -178,10 +203,10 @@ const MOForm = () => {
             elBefore={
               <Button
                 variant="outlined"
-                onClick={() => handleRedrict()}
+                onClick={() => handleCheckMaterial()}
                 sx={{ mr: 'auto' }}
               >
-                {t('menu.requestBuyMaterial')}
+                {t('Mo.requestBuyMetarial')}
               </Button>
             }
           />
@@ -346,7 +371,7 @@ const MOForm = () => {
                         label={t('Mo.moCode')}
                         placeholder={t('Mo.moCode')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         disabled={isUpdate}
@@ -538,10 +563,29 @@ const MOForm = () => {
                 />
               </Tabs>
             )}
+
             {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>
+      <Dialog
+        open={isOpenCreatePO}
+        title={t('Mo.notification')}
+        onCancel={() => setIsOpenCreatePO(false)}
+        cancelLabel={t('common.no')}
+        onSubmit={createRequestBuyMaterial}
+        submitLabel={t('common.yes')}
+      >
+        {t('Mo.createPlan')}
+      </Dialog>
+      <Dialog
+        open={isOpenEnoughMaterial}
+        title={t('Mo.notification')}
+        onSubmit={() => setIsOpenEnoughMaterial(false)}
+        submitLabel={t('modal.btnSubmit')}
+      >
+        {t('Mo.planFull')}
+      </Dialog>
     </Page>
   )
 }

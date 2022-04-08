@@ -37,7 +37,8 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
     MAX: 20,
   },
   CODE: {
-    MAX: 9,
+    MIN: 1,
+    MAX: 20,
   },
   CODE_2: {
     MAX: 2,

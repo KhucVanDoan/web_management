@@ -202,7 +202,7 @@ const BOQForm = () => {
                       placeholder={t('defineBOQ.boqCode')}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       disabled={isUpdate}
                       required

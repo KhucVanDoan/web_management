@@ -1,16 +1,16 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-import { phoneSchema, codeSchema } from '~/common/schemas'
+import { phoneSchema } from '~/common/schemas'
 
 export const defineCompanySchema = (t) =>
   Yup.object().shape({
-    code: codeSchema(t)
+    code: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         }),
       ),
     name: Yup.string()

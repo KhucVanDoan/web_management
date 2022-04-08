@@ -93,7 +93,7 @@ const DefineMasterPlanForm = () => {
       saleOrders: values.soId.map((id) => ({ id })),
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createMasterPlan(convertValues, () => {
+      actions.createMasterPlan(convertValues, (id) => {
         history.push(
           ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
         )
@@ -262,7 +262,7 @@ const DefineMasterPlanForm = () => {
                         placeholder={t('defineMasterPlan.code')}
                         disabled={isUpdate}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
