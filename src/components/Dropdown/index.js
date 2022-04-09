@@ -17,19 +17,23 @@ const Dropdown = ({
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
-  const showDropdown = (event) => {
+  const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
   return (
     <>
-      <Button color="primary" onClick={showDropdown} {...props}>
+      <Button color="primary" onClick={handleOpen} {...props}>
         {title}
       </Button>
       <Menu
         anchorEl={anchorEl}
         open={open}
-        onClose={() => setAnchorEl(null)}
+        onClose={handleClose}
         PaperProps={{ variant: 'caret' }}
         anchorOrigin={{
           vertical: 'bottom',
@@ -43,7 +47,11 @@ const Dropdown = ({
         {options.map((option, index) => (
           <MenuItem
             key={index}
-            onClick={(event) => handleMenuItemClick(option, event, index)}
+            onClick={(event) => {
+              handleMenuItemClick(option, event, index)
+              handleClose()
+            }}
+            selected={option.selected}
           >
             {option?.icon && (
               <Box sx={{ display: 'inline-flex', mr: 1 }}>{option?.icon}</Box>
