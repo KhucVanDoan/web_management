@@ -10,7 +10,8 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { USER_MANAGEMENT_STATUS_MAP } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -124,7 +125,13 @@ function UserManagement() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(USER_MANAGEMENT_STATUS_MAP[status]) //@TODO: <anh.nth> waiting api return status
+        return (
+          <Status
+            options={USER_MANAGEMENT_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
