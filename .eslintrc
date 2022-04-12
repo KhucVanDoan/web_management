@@ -1,0 +1,94 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["react-app"],
+  "plugins": ["babel", "jsx-a11y", "jsdoc"],
+  "rules": {
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1,
+    "require-jsdoc": 0,
+    "camelcase": [0, { "properties": 0 }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
+      }
+    ],
+    "linebreak-style": 0,
+    "max-len": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-filename-extension": 0,
+    "react/prefer-stateless-function": 0,
+    "react/no-danger": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react/jsx-max-props-per-line": 0,
+    "fp/no-unused-expression": 0,
+    "fp/no-mutation": 0,
+    "fp/no-let": 0,
+    "fp/no-this": 0,
+    "fp/no-class": 0,
+    "fp/no-throw": 0,
+    "fp/no-delete": 0,
+    "fp/no-mutating-methods": 0,
+    "fp/no-loops": 0,
+    "better/no-new": 0,
+    "no-script-url": 0,
+    "no-confusing-arrow": 0,
+    "no-case-declarations": 0,
+    "fp/no-nil": 0,
+    "better/no-ifs": 0,
+    "better/explicit-return": 0,
+    "jsx-a11y/href-no-hash": "off",
+    "import/prefer-default-export": 0,
+    "import/no-anonymous-default-export": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-undef": 0,
+    "no-nested-ternary": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "global-require": "off",
+    "react/no-array-index-key": "off",
+    "react/destructuring-assignment": [0],
+    "react-hooks/rules-of-hooks": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["draft", "sketch", "outline"]
+      }
+    ],
+    "no-continue": 0,
+    "no-underscore-dangle": 0,
+    "no-console": 1,
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "~/**",
+            "group": "internal"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
+      }
+    ],
+    "import/no-duplicates": ["error", { "considerQueryString": true }],
+    "no-unused-vars": [
+      "warn",
+      { "vars": "local", "args": "after-used", "ignoreRestSiblings": false }
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "page": {
+    "searchButton": "Tìm kiếm",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "goBack": "Quay lại trang trước",
+    "copyright": "Một sản phẩm của VTI - Solution ©2021",
+    "logout": "Đăng xuất"
+  },
+  "form": {
+    "required": "Mục này bắt buộc phải nhập",
+    "mappingPassword": "* Mật khẩu không mapping",
+    "maxLength": "Nhập tối đa {{max}} kí tự",
+    "minLength": "Nhập tối thiểu {{min}} kí tự",
+    "length": "Nhập đủ {{length}} kí tự",
+    "validEmail": "Bạn hãy nhập đúng email",
+    "validUserName": "Tên đăng nhập chỉ gồm chữ và số",
+    "validPassword": "Mật khẩu chỉ gồm chữ và số",
+    "validatePassword": "Mật khẩu phải bao gồm ít nhất 1 ký tự chữ hoa, chữ thường, số và ký tự đặc biệt",
+    "validPhone": "Số điện thoại không hợp lệ",
+    "validCode": "Mã chỉ gồm chữ và số, ít nhất 1 chữ và 1 số",
+    "minNumber": "Giá trị tối thiểu là {{min}}",
+    "maxNumber": "Không được nhập quá {{max}}",
+    "moreThanNumber": "Giá trị phải lớn hơn {{min}}",
+    "duplicates": "Mục này không được trùng lặp",
+    "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",
+    "minDate": "Ngày bắt đầu phải bằng hoặc sau {{from}}",
+    "maxDate": "Ngày kết thúc phải bằng hoặc trước {{to}}",
+    "maxDateBigger": "Ngày kết thúc phải bằng hoặc sau {{from}}",
+    "biggerThanMinDate": "Ngày bắt đầu phải sau {{from}}",
+    "smallerThanMaxDate": "Ngày kết thúc phải trước {{to}}",
+    "invalidDateRange": "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+    "to": "đến",
+    "greaterThanZero": "Bắt buộc phải lớn hơn 0",
+    "integer": "Mục này phải là số nguyên",
+    "numeric": "Mục này phải là số",
+    "invalidTimeRange": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+    "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước",
+    "special": "Mục này không được chứa kí tự đặc biệt",
+    "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
+    "validTime": "Thời gian không hợp lệ"
+  },
+  "toast": {
+    "notificationTitle": "Thông báo"
+  },
+  "autocomplete": {
+    "noOptionsText": "Không có dữ liệu",
+    "loadingText": "Đang tải dữ liệu..."
+  },
+  "dateRangePicker": {
+    "from": "Từ ngày",
+    "to": "Đến ngày"
+  },
+  "dataTable": {
+    "visibleColumns": "Hiển thị các mục đã chọn",
+    "filterTitle": "Tìm kiếm",
+    "filterButton": "Tìm kiếm",
+    "cancel": "Hủy",
+    "title": "Danh sách",
+    "noData": "Không có dữ liệu"
+  },
+  "pagination": {
+    "rowsPerPage": "Số dòng mỗi trang",
+    "startEndRows": "{{start}} - {{end}} trên tổng số {{rows}}"
+  },
+  "date": {
+    "minToday": "Không được chọn trước ngày hiện tại",
+    "maxToday": "Ngày sinh phải nhỏ hơn ngày hiện tại"
+  },
+  "month": {
+    "jan": "Tháng 1",
+    "feb": "Tháng 2",
+    "mar": "Tháng 3",
+    "apr": "Tháng 4",
+    "may": "Tháng 5",
+    "jun": "Tháng 6",
+    "jul": "Tháng 7",
+    "aug": "Tháng 8",
+    "sep": "Tháng 9",
+    "oct": "Tháng 10",
+    "nov": "Tháng 11",
+    "dec": "Tháng 12",
+    "s_jan": "T1",
+    "s_feb": "T2",
+    "s_mar": "T3",
+    "s_apr": "T4",
+    "s_may": "T5",
+    "s_jun": "T6",
+    "s_jul": "T7",
+    "s_aug": "T8",
+    "s_sep": "T9",
+    "s_obt": "T10",
+    "s_nov": "T11",
+    "s_dec": "T12"
+  },
+  "day": {
+    "monday": "Thứ 2",
+    "tueday": "Thứ 3",
+    "wenesday": "Thứ 4",
+    "thurday": "Thứ 5",
+    "friday": "Thứ 6",
+    "saturday": "Thứ 7",
+    "sunday": "Chủ nhật",
+    "s_monday": "T2",
+    "s_tueday": "T3",
+    "s_wenesday": "T4",
+    "s_thurday": "5",
+    "s_friday": "T6",
+    "s_saturday": "T7",
+    "s_sunday": "CN"
+  },
+  "minutes": "Phút",
+  "hours": "Giờ",
+  "days": "Ngày",
+  "weeks": "Tuần",
+  "months": "Tháng",
+  "years": "Năm",
+  "ganttChart": {
+    "taskName": "Công việc",
+    "completed": "Tiến độ"
+  },
+  "actionBar": {
+    "back": "Quay lại",
+    "cancel": "Huỷ",
+    "create": "Tạo mới",
+    "save": "Lưu"
+  }
+}

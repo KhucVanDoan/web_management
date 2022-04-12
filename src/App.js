@@ -1,24 +1,88 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react'
+
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import GlobalStyles from '@mui/material/GlobalStyles'
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
+import viLocale from 'date-fns/locale/vi'
+import { I18nextProvider } from 'react-i18next'
+import ReactNotification from 'react-notifications-component'
+import { Provider as ReduxProvider } from 'react-redux'
+import { Router, Route, Switch } from 'react-router-dom'
+
+import AuthLayout from '~/layouts/Auth'
+import PrivateLayout from '~/layouts/Private'
+import PublicLayout from '~/layouts/Public'
+import authRoutes from '~/modules/auth/routes'
+import publicRoutes from '~/modules/public/routes'
+import { privateRoutesFlatten } from '~/routes'
+import history from '~/services/history'
+import store from '~/store'
+import theme, { globalStyles } from '~/themes'
+import i18n from '~/utils/i18n'
+
+import { DateFns } from './utils/date-time'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles styles={globalStyles(theme)} />
+
+        <Suspense fallback={() => null}>
+          <ReactNotification />
+          <ReduxProvider store={store}>
+            <I18nextProvider i18n={i18n}>
+              <LocalizationProvider dateAdapter={DateFns} locale={viLocale}>
+                <Router history={history}>
+                  <Switch>
+                    {publicRoutes.map((route) => (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        render={(props) => (
+                          <PublicLayout>
+                            <route.component {...props} />
+                          </PublicLayout>
+                        )}
+                        exact
+                      />
+                    ))}
+
+                    {authRoutes.map((route) => (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        render={(props) => (
+                          <AuthLayout>
+                            <route.component {...props} />
+                          </AuthLayout>
+                        )}
+                        exact
+                      />
+                    ))}
+
+                    {privateRoutesFlatten.map((route) => (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        render={(props) => (
+                          <PrivateLayout>
+                            <route.component {...props} />
+                          </PrivateLayout>
+                        )}
+                        exact
+                      />
+                    ))}
+                    <Route path="*" component={() => <h1>404 not found</h1>} />
+                  </Switch>
+                </Router>
+              </LocalizationProvider>
+            </I18nextProvider>
+          </ReduxProvider>
+        </Suspense>
+      </ThemeProvider>
+    </StyledEngineProvider>
+  )
 }
 
-export default App;
+export default App
