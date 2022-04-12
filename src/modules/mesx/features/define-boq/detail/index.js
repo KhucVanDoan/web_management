@@ -115,6 +115,18 @@ const BOQDetail = () => {
                 value={formatDateTimeUtc(boqDetails?.planTo)}
               />
             </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.user')}
+                value={boqDetails.createdByUser?.username}
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineBOQ.createdAt')}
+                value={formatDateTimeUtc(boqDetails.createdAt)}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
