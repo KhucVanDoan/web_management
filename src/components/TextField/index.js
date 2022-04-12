@@ -40,7 +40,6 @@ const TextField = ({
 
   const handleChange = (e) => {
     let val = e.target.value
-
     if (allow instanceof RegExp && val) {
       if (props.type === 'number') {
         val = Number(val?.toString().replace(allow, ''))
