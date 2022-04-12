@@ -307,7 +307,8 @@ const TableCollapse = (props) => {
   const handleDataProducingStep = (row, index) => {
     if (!row) return []
     let producingSteps = []
-    if (row?.planBom) producingSteps = row?.planBom?.producingStep
+    if (row?.planBom) producingSteps = row?.planBom?.producingSteps
+    //@Change 31/03/2022: vì BE MESx đổi API row?.planBom?.producingStep -> row?.planBom?.producingSteps
     else if (row?.producingSteps) producingSteps = row?.producingSteps
     else if (row?.routing?.producingSteps)
       producingSteps = row?.routing?.producingSteps
@@ -358,7 +359,8 @@ const TableCollapse = (props) => {
                 if (!row) return
                 let ps = []
                 if (
-                  row?.planBom?.producingStep ||
+                  //@Change 31/03/2022: vì BE MESx đổi API row?.planBom?.producingStep -> row?.planBom?.producingSteps
+                  row?.planBom?.producingSteps ||
                   row?.producingSteps ||
                   row?.routing?.producingSteps
                 ) {

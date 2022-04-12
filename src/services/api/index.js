@@ -199,6 +199,29 @@ const api = {
       )
   },
 
+  patch: (endpoint, params) => {
+    return instance
+      .patch(endpoint, params, {
+        validateStatus: (status) => validateStatus(status),
+      })
+      .then(
+        (response) => {
+          return response
+        },
+        (err) => {
+          return err.response || err
+        },
+      )
+      .catch(
+        (response) => {
+          return response
+        },
+        (err) => {
+          return err.response || err
+        },
+      )
+  },
+
   delete: (endpoint, params) => {
     return instance
       .delete(endpoint, {

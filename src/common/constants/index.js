@@ -134,6 +134,8 @@ export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss'
 
 export const DATE_FORMAT = 'dd/MM/yyyy'
 
+export const DEFAULT_DATE_TIME_FORMAT_VN = 'dd-MM-yyyy hh:mm a'
+
 export const DATE_FORMAT_3 = 'yyyy-MM-dd'
 
 export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
