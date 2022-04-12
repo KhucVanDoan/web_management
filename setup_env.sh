@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo REACT_APP_HOST=$REACT_APP_HOST >> .env
+echo REACT_APP_SOCKET_HOST=$REACT_APP_SOCKET_HOST >> .env

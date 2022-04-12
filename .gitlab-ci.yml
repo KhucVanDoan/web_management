@@ -1,0 +1,53 @@
+image: gitlab/dind
+
+variables:
+  DOCKER_DRIVER: overlay
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - docker version
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - chmod +x ./setup_env.sh
+  - ./setup_env.sh
+
+build:
+  stage: build
+  script:
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest  
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+deploy:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+  script:
+    - eval `ssh-agent -s`
+
+    - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
+    - mkdir -p ~/.ssh
+
+    - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+
+    - mkdir -p ~/.ssh
+
+    - chmod 644 ~/.ssh/known_hosts
+
+    - >
+      ssh $SSH_USER@$SSH_SERVER_IP
+      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+      cd ${PATH_TO_PROJECT};
+      docker pull ${CI_REGISTRY_IMAGE}:latest;
+      docker-compose down;
+      docker-compose up -d;
+      docker image prune -f;"
