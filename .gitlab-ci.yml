@@ -66,7 +66,7 @@ build_demo:
   stage: build_demo
   script:
     - echo "$REACT_APP_DEMO_HOST"
-    - docker build --tag $DEMO_CONTAINER_IMAGE --build-arg REACT_APP_HOST="$REACT_APP_DEMO_HOST"  --build-arg	REACT_APP_WMS_URL="$REACT_APP_WMS_DEMO_URL"   --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL" --build-arg	REACT_APP_QMSX_URL="$REACT_APP_QMSX_DEMO_URL" --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN" .
+    - docker build --tag $DEMO_CONTAINER_IMAGE --build-arg REACT_APP_HOST="$REACT_APP_DEMO_HOST"  --build-arg	REACT_APP_WMS_URL="$REACT_APP_WMS_DEMO_URL"   --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL" --build-arg	REACT_APP_QMSX_URL="$REACT_APP_QMSX_DEMO_URL" --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN"  .
     - docker push $DEMO_CONTAINER_IMAGE
   only:
     - master
