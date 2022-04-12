@@ -2,6 +2,7 @@ image: gitlab/dind
 
 variables:
   DOCKER_DRIVER: overlay
+  DEMO_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
 
 services:
   - docker:dind
@@ -9,6 +10,8 @@ services:
 stages:
   - build
   - deploy
+  - build_demo
+  # - deploy_demo
 
 before_script:
   - docker version
@@ -22,7 +25,7 @@ build:
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    - docker push $CI_REGISTRY_IMAGE:latest  
+    - docker push $CI_REGISTRY_IMAGE:latest
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
 deploy:
@@ -51,3 +54,44 @@ deploy:
       docker-compose down;
       docker-compose up -d;
       docker image prune -f;"
+
+build_demo:
+  before_script:
+    - docker version
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - ls -la
+    - chmod +x ./setup_env_demo.sh
+    - ./setup_env_demo.sh
+  stage: build_demo
+  script:
+    - echo "$REACT_APP_DEMO_HOST"
+    - docker build --tag $DEMO_CONTAINER_IMAGE --build-arg REACT_APP_HOST="$REACT_APP_DEMO_HOST"  --build-arg	REACT_APP_WMS_URL="$REACT_APP_WMS_DEMO_URL"   --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL" --build-arg	REACT_APP_QMSX_URL="$REACT_APP_QMSX_DEMO_URL" --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN" .
+    - docker push $DEMO_CONTAINER_IMAGE
+  only:
+    - master
+# deploy_demo:
+#   stage: deploy_demo
+#   variables:
+#     GIT_STRATEGY: none
+#   only:
+#     - master
+#   script:
+#     - eval `ssh-agent -s`
+
+#     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
+#     - mkdir -p ~/.ssh
+
+#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+
+#     - mkdir -p ~/.ssh
+
+#     - chmod 644 ~/.ssh/known_hosts
+
+#     - >
+#       ssh $SSH_USER@$SSH_SERVER_IP
+#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+#       cd ${PATH_TO_DEMO_PROJECT};
+#       docker pull ${DEMO_CONTAINER_IMAGE};
+#       docker-compose down;
+#       docker-compose up -d;
+#       docker image prune -f;"
