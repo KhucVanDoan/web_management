@@ -151,7 +151,6 @@ const WorkCenterQualityControlPlanProductionOuputDetail = () => {
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
-
       planingAmount['plan'] = t(
         `workCenterQualityControlPlan.headerTableDetail.planingAmount`,
       )
