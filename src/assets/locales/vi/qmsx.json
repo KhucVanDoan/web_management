@@ -609,12 +609,14 @@
       "plan": "Kế hoạch",
       "sum": "Tổng",
       "planingAmount": "Số lượng kế hoạch",
+      "planingAmountDefault": "Số lượng kế hoạch (Mặc định)",
       "planModeration": "Điều độ kế hoạch",
       "productAmount": "Số lượng sản xuất",
       "qcAmount": "Số lượng đã QC",
       "delayAmount": "Số lượng trễ",
       "productionPlan": "Kế hoạch sản xuất",
-      "shift": "Ca"
+      "shift": "Ca",
+      "material": "Nguyên vật liệu"
     }
   },
   "workCenterPlan": {

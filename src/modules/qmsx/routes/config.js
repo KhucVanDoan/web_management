@@ -261,12 +261,20 @@ export const ROUTE = {
       PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan',
       TITLE: 'workCenterQualityControlPlan',
     },
-    DETAIL: {
-      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/detail',
+    DETAIL_INPUT: {
+      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/inputDetail',
       TITLE: 'workCenterQualityControlPlanDetail',
     },
-    EDIT: {
-      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/edit',
+    EDIT_INPUT: {
+      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/inputEdit',
+      TITLE: 'workCenterQualityControlPlanEdit',
+    },
+    DETAIL_OUTPUT: {
+      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/outputDetail',
+      TITLE: 'workCenterQualityControlPlanDetail',
+    },
+    EDIT_OUTPUT: {
+      PATH: '/qmsx/production-quality-control-plan/work-center-quality-control-plan/:id/outputEdit',
       TITLE: 'workCenterQualityControlPlanEdit',
     },
   },

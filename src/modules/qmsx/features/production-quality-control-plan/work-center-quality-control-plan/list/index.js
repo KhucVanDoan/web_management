@@ -115,26 +115,25 @@ const WorkCenterQualityControlPlanList = () => {
         return (
           <>
             <IconButton
-              onClick={() =>
-                history.push(
-                  `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  )}?productionQcPlanId=${
-                    urlSearchParams?.productionQcPlanId
-                  }&moPlanId=${urlSearchParams?.moPlanId}&qcStageId=${
-                    urlSearchParams?.qcStageId
-                  }&workCenterId=${workCenterId}&workOrderId=${workOrderId}`,
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            {canEdit && (
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT.PATH.replace(
+              onClick={() => {
+                if (
+                  +urlSearchParams?.qcStageId === STAGE_OPTION.PRODUCTION_OUTPUT
+                ) {
+                  return history.push(
+                    `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    )}?productionQcPlanId=${
+                      urlSearchParams?.productionQcPlanId
+                    }&moPlanId=${urlSearchParams?.moPlanId}&qcStageId=${
+                      urlSearchParams?.qcStageId
+                    }&workCenterId=${workCenterId}&workOrderId=${workOrderId}`,
+                  )
+                } else if (
+                  +urlSearchParams?.qcStageId === STAGE_OPTION.PRODUCTION_INPUT
+                ) {
+                  return history.push(
+                    `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.PATH.replace(
                       ':id',
                       `${id}`,
                     )}?productionQcPlanId=${
@@ -144,6 +143,43 @@ const WorkCenterQualityControlPlanList = () => {
                     }&workCenterId=${workCenterId}&workOrderId=${workOrderId}`,
                   )
                 }
+              }}
+            >
+              <Icon name="show" />
+            </IconButton>
+            {canEdit && (
+              <IconButton
+                onClick={() => {
+                  if (
+                    +urlSearchParams?.qcStageId ===
+                    STAGE_OPTION.PRODUCTION_OUTPUT
+                  ) {
+                    return history.push(
+                      `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      )}?productionQcPlanId=${
+                        urlSearchParams?.productionQcPlanId
+                      }&moPlanId=${urlSearchParams?.moPlanId}&qcStageId=${
+                        urlSearchParams?.qcStageId
+                      }&workCenterId=${workCenterId}&workOrderId=${workOrderId}`,
+                    )
+                  } else if (
+                    +urlSearchParams?.qcStageId ===
+                    STAGE_OPTION.PRODUCTION_INPUT
+                  ) {
+                    return history.push(
+                      `${ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      )}?productionQcPlanId=${
+                        urlSearchParams?.productionQcPlanId
+                      }&moPlanId=${urlSearchParams?.moPlanId}&qcStageId=${
+                        urlSearchParams?.qcStageId
+                      }&workCenterId=${workCenterId}&workOrderId=${workOrderId}`,
+                    )
+                  }
+                }}
               >
                 <Icon name="edit" />
               </IconButton>

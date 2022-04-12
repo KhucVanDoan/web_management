@@ -47,7 +47,9 @@ import ProductionInputQualityControlPlanForm from '~/modules/qmsx/features/produ
 import ProductionOutputQualityControlPlanDetail from '~/modules/qmsx/features/production-quality-control-plan/production-output/detail'
 import ProductionOutputQualityControlPlanForm from '~/modules/qmsx/features/production-quality-control-plan/production-output/form'
 // Kế hoạch QC xưởng
-import WorkCenterQualityControlPlanDetail from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/detail/production-output'
+import WorkCenterQualityControlPlanProductionInputDetail from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/detail/production-input'
+import WorkCenterQualityControlPlanProductionOuputDetail from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/detail/production-output'
+import WorkCenterQualityControlPlanProductionInputForm from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/form/production-input'
 import WorkCenterQualityControlPlanProductionOuputForm from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/form/production-output'
 import WorkCenterQualityControlPlanList from '~/modules/qmsx/features/production-quality-control-plan/work-center-quality-control-plan/list'
 //Báo cáo chất lượng
@@ -217,17 +219,33 @@ const routes = [
             isInSidebar: false,
           },
           {
-            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.TITLE,
-            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.PATH,
-            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.PATH,
-            component: WorkCenterQualityControlPlanDetail,
+            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.TITLE,
+            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH,
+            pathActive:
+              ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH,
+            component: WorkCenterQualityControlPlanProductionOuputDetail,
             isInSidebar: false,
           },
           {
-            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT.TITLE,
-            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT.PATH,
-            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT.PATH,
+            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.TITLE,
+            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.PATH,
+            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.PATH,
             component: WorkCenterQualityControlPlanProductionOuputForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.TITLE,
+            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.PATH,
+            pathActive:
+              ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.PATH,
+            component: WorkCenterQualityControlPlanProductionInputDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.TITLE,
+            path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.PATH,
+            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.PATH,
+            component: WorkCenterQualityControlPlanProductionInputForm,
             isInSidebar: false,
           },
         ],
