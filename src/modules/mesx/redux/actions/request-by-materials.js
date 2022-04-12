@@ -356,7 +356,7 @@ export function getAllListSuccess(payload) {
 
 export function createRequestBuyMaterial(payload, onSuccess, onError) {
   return {
-    ype: CREATE_REQUEST_BUY_MATERIAL_START,
+    type: CREATE_REQUEST_BUY_MATERIAL_START,
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
