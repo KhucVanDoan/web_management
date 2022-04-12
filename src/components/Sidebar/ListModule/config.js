@@ -10,6 +10,7 @@ import wmsx_icon from '~/assets/images/menu/wmsx_icon.svg'
 const modules = [
   {
     name: 'wmsx',
+    path: process.env.REACT_APP_WMSX_URL || 'wmsx',
     icon: wmsx_icon,
     title: (
       <>
@@ -19,11 +20,13 @@ const modules = [
   },
   {
     name: 'mesx',
+    path: process.env.REACT_APP_MESX_URL || 'mesx',
     icon: mesx_icon,
     title: <>MES</>,
   },
   {
     name: 'mmsx',
+    path: process.env.REACT_APP_MMSX_URL || 'mmsx',
     icon: mmsx_icon,
     title: (
       <>
@@ -33,6 +36,7 @@ const modules = [
   },
   {
     name: 'qmsx',
+    path: process.env.REACT_APP_QMSX_URL || 'qmsx',
     icon: qmsx_icon,
     title: (
       <>
@@ -42,6 +46,7 @@ const modules = [
   },
   {
     name: 'tnt',
+    path: process.env.REACT_APP_TNT_URL || 'tnt',
     icon: tnt_icon,
     title: (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
@@ -51,6 +56,7 @@ const modules = [
   },
   {
     name: 'solution',
+    path: process.env.REACT_APP_SOLUTION_URL || 'solution',
     icon: solution_icon,
     title: (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
