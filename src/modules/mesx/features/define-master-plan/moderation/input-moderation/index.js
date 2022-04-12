@@ -20,6 +20,8 @@ const excludeInputInColumns = [
   'totalQuantity',
 ]
 
+const TOTAL_BY_DAY_KEY = 'TOTAL_BY_DAY'
+
 let initialValues = {}
 
 const InputModeration = () => {
@@ -103,7 +105,6 @@ const InputModeration = () => {
             itemId: producingStep.itemId,
             workCenterSchedule: groupWorkCenterSchedule(
               producingStep.workCenterSchedules,
-              producingStep.quantity,
             ),
           },
         }))
@@ -112,24 +113,37 @@ const InputModeration = () => {
     }
   }, [moderationSuggestSpread])
 
-  const groupWorkCenterSchedule = (workCenterSchedules, totalQuantity) => {
+  const groupWorkCenterSchedule = (workCenterSchedules) => {
+    const totalQuantityByWorkCenterId = {}
+    const totalQuantityByDay = []
     const groupWorkCenter = groupBy(
-      workCenterSchedules.map((workCenterSchedule) => ({
-        workCenterId: workCenterSchedule.workCenterId,
-        workCenterName: workCenterSchedule.workCenterName,
-        [workCenterSchedule.excutionDate]: {
-          id: workCenterSchedule.id,
-          quantity: workCenterSchedule.quantity,
-          workCenterDetailSchedules:
-            workCenterSchedule.workCenterDetailSchedules,
-        },
-      })),
+      workCenterSchedules.map((workCenterSchedule) => {
+        totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] = (totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] || 0) + workCenterSchedule.quantity
+        totalQuantityByDay[workCenterSchedule.excutionDate] = (totalQuantityByDay[workCenterSchedule.excutionDate] || 0) + workCenterSchedule.quantity
+        return {
+          workCenterId: workCenterSchedule.workCenterId,
+          workCenterName: workCenterSchedule.workCenterName,
+          [workCenterSchedule.excutionDate]: {
+            id: workCenterSchedule.id,
+            quantity: workCenterSchedule.quantity,
+            workCenterDetailSchedules:
+              workCenterSchedule.workCenterDetailSchedules,
+          },
+        }
+      }),
       'workCenterId',
     )
+    groupWorkCenter[TOTAL_BY_DAY_KEY] = Object.keys(totalQuantityByDay).map((executionDate) => ({
+      workCenterId: TOTAL_BY_DAY_KEY,
+      [executionDate]: {
+        quantity: totalQuantityByDay[executionDate],
+        workCenterDetailSchedules: []
+      },
+    }))
 
     return Object.keys(groupWorkCenter).map((key) => ({
       ...groupWorkCenter[key].reduce((prev, cur) => ({ ...prev, ...cur }), {}),
-      totalQuantity,
+      totalQuantity: totalQuantityByWorkCenterId[key],
     }))
   }
 
@@ -182,13 +196,17 @@ const InputModeration = () => {
               align: 'left',
               sortable: false,
               renderCell: (params) => {
-                return (
-                  <Field.TextField
-                    style={{ width: 140 }}
-                    name={`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`}
-                    type="number"
-                  />
-                )
+                if (params.row?.workCenterId !== TOTAL_BY_DAY_KEY) {
+                  return (
+                    <Field.TextField
+                      style={{ width: 140 }}
+                      name={`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`}
+                      type="number"
+                    />
+                  )
+                } else {
+                  return initialValues[`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`]
+                }
               },
             })),
             {
@@ -219,12 +237,12 @@ const InputModeration = () => {
     currentProducingStep,
   ) => {
     const workCenterSchedules = keyBy(
-      currentProducingStep.workCenterSchedule,
+      currentProducingStep.workCenterSchedule.filter(workCenterSchedule => workCenterSchedule.workCenterId !== TOTAL_BY_DAY_KEY),
       'workCenterId',
     )
     const result = []
     Object.keys(values)
-      .filter((key) => key.split('_')[0] === producingStepId)
+      .filter((key) => key.split('_')[0] === producingStepId && !key.includes(TOTAL_BY_DAY_KEY))
       .forEach((key) => {
         const currentWorkCenterSchedule = workCenterSchedules[key.split('_')[1]]
         const currentWorkCenterScheduleDetail =
@@ -278,7 +296,6 @@ const InputModeration = () => {
           ),
         )
       })
-
     return result
   }
 
