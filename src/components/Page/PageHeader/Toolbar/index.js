@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
 import Dropdown from '~/components/Dropdown'
+import LanguageSwitcher from '~/components/LanguageSwitcher'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { useClasses } from '~/themes'
 
@@ -42,6 +43,7 @@ const Toolbar = () => {
       >
         <Box className={classes.badge}>{2}</Box>
       </Button>
+      <LanguageSwitcher />
       <Dropdown
         options={options}
         color="grayEE"

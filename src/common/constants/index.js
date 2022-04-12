@@ -1,3 +1,11 @@
+export const LANG_OPTIONS = {
+  VI: 'vi',
+  EN: 'en',
+  JP: 'jp',
+}
+
+export const DEFAULT_LANG = 'vi'
+
 export const NOTIFICATION_TYPE = {
   SUCCESS: 'success',
   ERROR: 'danger',

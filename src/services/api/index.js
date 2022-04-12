@@ -23,7 +23,6 @@ const instance = axios.create({
     contentType: 'application/json',
     accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
-    lang: i18n?.language || 'vi',
   },
 })
 
@@ -33,6 +32,7 @@ instance.interceptors.request.use(
     if (config.url !== REFRESH_TOKEN_URL && localStorage.getItem('token')) {
       config.headers['Authorization'] = localStorage.getItem('token')
       config.headers['x-auth-token'] = localStorage.getItem('token')
+      config.headers['lang'] = i18n.language
     }
     return config
   },

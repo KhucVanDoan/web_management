@@ -397,6 +397,11 @@ const WorkCenterForm = () => {
                           stringify: (opt) =>
                             `${opt?.code}|${opt?.fullName || opt?.username}`,
                         })}
+                        onChange={(val = []) => {
+                          if (!val.includes(values.leaderId)) {
+                            setFieldValue('leaderId', '')
+                          }
+                        }}
                         multiple
                         required
                       />
