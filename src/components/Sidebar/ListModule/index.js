@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { Link, useLocation } from 'react-router-dom'
 
 import logo from '~/assets/images/logo.svg'
+import { ROUTE as MESX_ROUTE } from '~/modules/mesx/routes/config'
 import { getCurrentModule } from '~/utils/menu'
 
 import { useSidebar } from '../hooks'
@@ -54,7 +55,7 @@ const ModuleList = () => {
       </Hidden>
       <ListModuleStyled
         component={Link}
-        to={'/'}
+        to={MESX_ROUTE.DASHBOARD.PATH}
         sx={{
           height: '80px',
           opacity: 1,
@@ -68,7 +69,8 @@ const ModuleList = () => {
       {modules.map((item, index) => (
         <ListModuleStyled
           component={Link}
-          to={`/${item.name}`}
+          to={{ pathname: `${item.path}` }}
+          target="_blank"
           key={index}
           className={clsx({
             active: getCurrentModule(pathname) === item.name,
