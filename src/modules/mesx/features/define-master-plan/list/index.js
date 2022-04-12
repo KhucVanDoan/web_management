@@ -229,12 +229,12 @@ const DefineMasterPlan = () => {
       width: 200,
     },
     {
-      field: 'actualQuantity',
+      field: 'quantity',
       headerName: t('defineMasterPlan.quantity'),
       width: 200,
     },
     {
-      field: 'quantity',
+      field: 'actualQuantity',
       headerName: t('defineMasterPlan.actualQuantity'),
       width: 200,
     },
@@ -313,14 +313,18 @@ const DefineMasterPlan = () => {
     {
       field: 'routing',
       headerName: t('defineMasterPlan.routingCode'),
-    },
-    {
-      field: 'actualQuantity',
-      headerName: t('defineMasterPlan.planQuantity'),
+      renderCell: (params) => {
+        const { routing } = params.row
+        return routing?.code
+      },
     },
     {
       field: 'quantity',
       headerName: t('defineMasterPlan.quantity'),
+    },
+    {
+      field: 'actualQuantity',
+      headerName: t('defineMasterPlan.actualQuantity'),
     },
     {
       field: 'itemUnitName',
