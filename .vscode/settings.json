@@ -1,12 +1,14 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.codeActionsOnSave": { "source.fixAll": true },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
   "editor.wordWrap": "on",
   "window.openFilesInNewWindow": "on",
   "editor.tabSize": 2,
   "editor.minimap.showSlider": "always",
   "workbench.editor.showTabs": true,
-  "editor.fontSize": 14,
+  "editor.fontSize": 12,
   "eslint.format.enable": true,
   "editor.formatOnSave": true
 }

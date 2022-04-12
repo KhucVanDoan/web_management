@@ -9,6 +9,7 @@ import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 import {
   MODAL_MODE,
   DATE_FORMAT_3,
+  DATE_FORMAT,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
 } from '~/common/constants'
@@ -341,8 +342,8 @@ const DefineMasterPlanForm = () => {
                   <Grid item lg={6} xs={12}>
                     {isDetail ? (
                       <LabelValue label={t('defineMasterPlan.planDate')}>
-                        {formatDateTimeUtc(masterPlanDetails?.dateFrom)} -{' '}
-                        {formatDateTimeUtc(masterPlanDetails?.dateTo)}
+                        {formatDateTimeUtc(masterPlanDetails?.dateFrom, DATE_FORMAT)} -{' '}
+                        {formatDateTimeUtc(masterPlanDetails?.dateTo, DATE_FORMAT)}
                       </LabelValue>
                     ) : (
                       <Field.DateRangePicker

@@ -671,7 +671,7 @@
     "autoModeration": {
       "autoModeration": "Điều độ công việc",
       "title": "Chi tiết công việc",
-      "selectModerationType": "Điều độ",
+      "selectModerationType": "Điều độ công việc",
       "goToModerationType": "Điều độ công việc",
       "extendDeadline": "Giãn ngày kết thúc",
       "spreadProductEvenly": "Giãn đều sản phẩm",

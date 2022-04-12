@@ -21,7 +21,7 @@ import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkC
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
-const WorkCenterQualityControlPlanDetail = () => {
+const WorkCenterQualityControlPlanProductionOuputDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['qmsx'])
   const location = useLocation()
@@ -65,8 +65,8 @@ const WorkCenterQualityControlPlanDetail = () => {
       title: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.LIST.TITLE,
     },
     {
-      route: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.PATH,
-      title: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL.TITLE,
+      route: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH,
+      title: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.TITLE,
     },
   ]
 
@@ -106,28 +106,12 @@ const WorkCenterQualityControlPlanDetail = () => {
   }
 
   const getRowManufacturing = () => {
-    let shift = [
-      {
-        plan: t(`workCenterQualityControlPlan.headerTableDetail.planingAmount`),
-        total: 0,
-      },
-      {
-        plan: t(
-          `workCenterQualityControlPlan.headerTableDetail.planModeration`,
-        ),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterQualityControlPlan.headerTableDetail.productAmount`),
-        total: 0,
-      },
-    ]
+    let shift = []
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
     let matrix = [
-      [4, 1, 1],
-      [-1, 1, 1],
+      [3, 1, 1],
       [-1, 1, 1],
       [-1, 1, 1],
     ]
@@ -141,14 +125,32 @@ const WorkCenterQualityControlPlanDetail = () => {
         title = e.scheduleShiftDetails.map((v) => v.numberOfShift)
     })
     for (let i = 0; i < maxLength; i++) {
+      let shiftTemp = [
+        {
+          plan: t(
+            `workCenterQualityControlPlan.headerTableDetail.planingAmount`,
+          ),
+          total: 0,
+        },
+        {
+          plan: t(
+            `workCenterQualityControlPlan.headerTableDetail.planModeration`,
+          ),
+          total: 0,
+        },
+        {
+          plan: t(
+            `workCenterQualityControlPlan.headerTableDetail.productAmount`,
+          ),
+          total: 0,
+        },
+      ]
       const planingAmount = {}
       const planModeration = {}
       const productAmount = {}
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
-      matrix = []
-      rowGrayMatrix = []
       planingAmount['plan'] = t(
         `workCenterQualityControlPlan.headerTableDetail.planingAmount`,
       )
@@ -161,15 +163,15 @@ const WorkCenterQualityControlPlanDetail = () => {
       planingAmount['title'] = title[i]
 
       matrix = matrix.concat([
-        [4, 1, 1],
-        [-1, 1, 1],
+        [3, 1, 1],
         [-1, 1, 1],
         [-1, 1, 1],
       ])
-      if (i % 2) {
-        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+
+      if (i % 2 !== 0) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true])
       } else {
-        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false])
       }
 
       wcQcPlanDetail?.workInShiftWc?.dayInShift?.forEach((e) => {
@@ -189,8 +191,11 @@ const WorkCenterQualityControlPlanDetail = () => {
       planModeration['total'] = totalPlanModeration / maxLength
       productAmount['total'] = totalProductAmount / maxLength
 
-      shift = [planingAmount, planModeration, productAmount]
+      shiftTemp = [planingAmount, planModeration, productAmount]
+      shift.push(shiftTemp)
     }
+    shift = shift.flat()
+
     const delayAmount = {
       plan: t(`workCenterQualityControlPlan.headerTableDetail.delayAmount`),
     }
@@ -243,28 +248,12 @@ const WorkCenterQualityControlPlanDetail = () => {
   }
 
   const getRowQC = () => {
-    let shift = [
-      {
-        plan: t(`workCenterQualityControlPlan.headerTableDetail.planingAmount`),
-        total: 0,
-      },
-      {
-        plan: t(
-          `workCenterQualityControlPlan.headerTableDetail.planModeration`,
-        ),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterQualityControlPlan.headerTableDetail.qcAmount`),
-        total: 0,
-      },
-    ]
+    let shift = []
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
     let matrix = [
-      [4, 1, 1],
-      [-1, 1, 1],
+      [3, 1, 1],
       [-1, 1, 1],
       [-1, 1, 1],
     ]
@@ -278,15 +267,39 @@ const WorkCenterQualityControlPlanDetail = () => {
         title = e.scheduleShiftDetails.map((v) => v.numberOfShift)
     })
     for (let i = 0; i < maxLength; i++) {
+      let shiftTemp = [
+        {
+          plan: t(
+            `workCenterQualityControlPlan.headerTableDetail.planingAmountDefault`,
+          ),
+          total: 0,
+        },
+        {
+          plan: t(
+            `workCenterQualityControlPlan.headerTableDetail.planModeration`,
+          ),
+          total: 0,
+        },
+        {
+          plan: t(`workCenterQualityControlPlan.headerTableDetail.qcAmount`),
+          total: 0,
+        },
+      ]
       const planingAmount = {}
       const planModeration = {}
       const productAmount = {}
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
-      planingAmount['plan'] = t(
-        `workCenterQualityControlPlan.headerTableDetail.planingAmount`,
-      )
+      if (wcQcPlanDetail?.workInShiftQcPlan?.isDefault) {
+        planingAmount['plan'] = t(
+          `workCenterQualityControlPlan.headerTableDetail.planingAmountDefault`,
+        )
+      } else {
+        planingAmount['plan'] = t(
+          `workCenterQualityControlPlan.headerTableDetail.planingAmount`,
+        )
+      }
       planModeration['plan'] = t(
         `workCenterQualityControlPlan.headerTableDetail.planModeration`,
       )
@@ -295,15 +308,15 @@ const WorkCenterQualityControlPlanDetail = () => {
       )
       planingAmount['title'] = title[i]
       matrix = matrix.concat([
-        [4, 1, 1],
-        [-1, 1, 1],
+        [3, 1, 1],
         [-1, 1, 1],
         [-1, 1, 1],
       ])
-      if (i % 2) {
-        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+
+      if (i % 2 !== 0) {
+        rowGrayMatrix = rowGrayMatrix.concat([true, true, true])
       } else {
-        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+        rowGrayMatrix = rowGrayMatrix.concat([false, false, false])
       }
 
       wcQcPlanDetail?.workInShiftQcPlan?.dayInShift?.forEach((e) => {
@@ -323,8 +336,11 @@ const WorkCenterQualityControlPlanDetail = () => {
       planModeration['total'] = totalPlanModeration / maxLength
       productAmount['total'] = totalProductAmount / maxLength
 
-      shift = [planingAmount, planModeration, productAmount]
+      shiftTemp = [planingAmount, planModeration, productAmount]
+      shift.push(shiftTemp)
     }
+    shift = shift.flat()
+
     const delayAmount = {
       plan: t(`workCenterQualityControlPlan.headerTableDetail.delayAmount`),
     }
@@ -431,4 +447,4 @@ const WorkCenterQualityControlPlanDetail = () => {
     </Page>
   )
 }
-export default WorkCenterQualityControlPlanDetail
+export default WorkCenterQualityControlPlanProductionOuputDetail
