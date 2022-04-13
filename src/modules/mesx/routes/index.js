@@ -68,6 +68,7 @@ import WorkCenter from '~/modules/mesx/features/work-center/list'
 import workOrderDetail from '~/modules/mesx/features/work-order/detail'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
+import { DetailJob } from '../features/define-master-plan/form/detail-job'
 import { ROUTE } from './config'
 
 const routes = [
@@ -538,6 +539,13 @@ const routes = [
             name: ROUTE.MASTER_PLAN.INPUT_MODERATION.TITLE,
             path: ROUTE.MASTER_PLAN.INPUT_MODERATION.PATH,
             component: InputModeration,
+            isInSidebar: false,
+            subMenu: [],
+          },
+          {
+            name: ROUTE.MASTER_PLAN.JOB_DETAIL.TITLE,
+            path: ROUTE.MASTER_PLAN.JOB_DETAIL.PATH,
+            component: DetailJob,
             isInSidebar: false,
             subMenu: [],
           },

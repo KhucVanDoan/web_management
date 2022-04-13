@@ -3,14 +3,14 @@ import { useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import MasterPlanActions from '../actions/master-plan'
+import masterPlanActions from '../actions/master-plan'
 
 export const useDefineMasterPlan = () => {
   const data = useSelector((state) => state.defineMasterPlan)
 
   const dispatch = useDispatch()
   const actions = useMemo(
-    () => bindActionCreators(MasterPlanActions, dispatch),
+    () => bindActionCreators(masterPlanActions, dispatch),
     [dispatch],
   )
 

@@ -405,7 +405,7 @@ const DefineMasterPlan = () => {
   }
 
   const onClickViewModeration = (id) => {
-    history.push(ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`))
+    history.push(ROUTE.MASTER_PLAN.JOB_DETAIL.PATH.replace(':id', `${id}`))
   }
 
   /**

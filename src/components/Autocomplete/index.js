@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
+import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
+import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
   Autocomplete as MuiAutocomplete,
   Box,
   ListItemButton,
-  Paper,
+  // Paper,
   Typography,
 } from '@mui/material'
-import { isArray, isEqual, uniqBy } from 'lodash'
+import Chip from '@mui/material/Chip'
+import Tooltip from '@mui/material/Tooltip'
+import { isArray, isEqual, isNil, last } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -21,11 +25,13 @@ import style from './style'
 
 const Autocomplete = ({
   label,
-  options: rawOptions,
+  options: rawOptions = [],
   multiple,
   renderOption,
+  renderOptionMarkup,
   asyncRequest,
-  renderStickyHeader,
+  asyncRequestHelper,
+  // renderStickyHeader,
   noOptionsText,
   loadingText,
   vertical,
@@ -37,51 +43,66 @@ const Autocomplete = ({
   getOptionValue,
   placeholder,
   labelWidth,
-  value: rawValue,
-  onChange: rawOnChange,
+  value,
+  onChange,
+  subLabelWidth,
+  subLabelLeft,
   ...props
 }) => {
   const classes = useClasses(style)
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState(rawOptions)
-  const [value, setValue] = useState(multiple ? [] : null)
+  const [isShowFullTags, setIsShowFullTags] = useState(false)
 
   const isAsync = typeof asyncRequest === 'function'
+  const hasSubLabel = typeof getOptionSubLabel === 'function'
+
   const { t } = useTranslation()
-  const debouncedInputValue = useDebounce(inputValue, 500)
+  const debouncedInputValue = useDebounce(inputValue, 200)
+  const rawOptionsRef = useRef()
 
-  const hasSubLabel =
-    rawOptions?.some((opt) => opt.subLabel) ||
-    typeof getOptionSubLabel === 'function'
+  const parseValue = (val, opts = []) => {
+    if (multiple) {
+      return opts.filter((opt) => {
+        if (isArray(val)) {
+          return val?.some((v) => isEqual(v, getOptionValue(opt)))
+        }
+        return false
+      })
+    }
 
-  useEffect(() => {
-    setOptions(rawOptions)
-  }, [rawOptions])
+    return opts.find((opt) => isEqual(getOptionValue(opt), val)) || null
+  }
 
-  const getOptionsByKeyword = async (keyword) => {
+  const resetOptions = () => {
+    if (multiple) {
+      setOptions(!isNil(value) ? value : rawOptions)
+    } else {
+      setOptions(!isNil(value) ? [value] : rawOptions)
+    }
+  }
+
+  const fetchOptions = async (keyword) => {
     if (!keyword) {
-      if (multiple) {
-        setOptions(
-          uniqBy([...(rawOptions || []), ...(value || [])], getOptionValue),
-        )
-      } else {
-        setOptions(
-          uniqBy(
-            [...(rawOptions || []), ...(value ? [value] : [])],
-            getOptionValue,
-          ),
-        )
-      }
+      resetOptions()
       setLoading(false)
       return
     }
     setLoading(true)
     try {
       const response = await asyncRequest(keyword)
-      setOptions(response)
+      let opts = response
+
+      if (response && typeof asyncRequestHelper === 'function') {
+        opts = asyncRequestHelper(response)
+      }
+
+      if (Array.isArray(opts)) {
+        setOptions(opts || [])
+      }
     } catch (e) {
-      setOptions(rawOptions)
+      setOptions([])
     } finally {
       setLoading(false)
     }
@@ -89,75 +110,163 @@ const Autocomplete = ({
 
   useEffect(() => {
     if (isAsync) {
-      getOptionsByKeyword(debouncedInputValue)
+      fetchOptions(debouncedInputValue)
     }
   }, [debouncedInputValue, isAsync])
 
-  const renderOptionWithSubLabel = (optionProps, option) => {
-    return (
-      <ListItemButton {...optionProps} component="li">
-        <Typography sx={{ flex: 1, wordBreak: 'break-word' }}>
-          {getOptionLabel(option)}
-        </Typography>
-        <Typography sx={{ flex: '0 0 25%', ml: 2, textAlign: 'right' }}>
-          {getOptionSubLabel ? getOptionSubLabel(option) : option.subLabel}
-        </Typography>
-      </ListItemButton>
-    )
-  }
+  useEffect(() => {
+    if (!isEqual(rawOptionsRef.current, rawOptions)) {
+      rawOptionsRef.current = rawOptions
+      setOptions(rawOptions)
+    }
+  }, [rawOptions])
 
-  const renderOptionWithIconCheck = (optionProps, option, selected) => {
+  const renderCustomizedOption = (optProps, opt, selected) => {
+    if (typeof renderOption === 'function') {
+      return renderOption(optProps, opt, selected)
+    }
+
     return (
       <ListItemButton
-        {...optionProps}
+        {...optProps}
         component="li"
-        sx={{ justifyContent: 'space-between' }}
+        sx={{
+          wordBreak: 'break-word',
+          ...(multiple
+            ? {
+                pr: '30px !important',
+                position: 'relative',
+              }
+            : {}),
+          ...(hasSubLabel
+            ? {
+                display: 'flex',
+                alignItems: 'flex-start !important',
+                ...(subLabelLeft ? { flexDirection: 'row-reverse' } : {}),
+              }
+            : {}),
+        }}
       >
-        <Typography>{getOptionLabel(option)}</Typography>
+        {typeof renderOptionMarkup === 'function' ? (
+          renderOptionMarkup(opt)
+        ) : (
+          <>
+            <Typography sx={{ flex: 1 }}>{getOptionLabel(opt)}</Typography>
+
+            {hasSubLabel && (
+              <Typography
+                sx={{
+                  flex: 0,
+                  flexBasis: subLabelWidth || '30%',
+                  ...(subLabelLeft
+                    ? { mr: 1, textAlign: 'left' }
+                    : { ml: 1, textAlign: 'right' }),
+                }}
+              >
+                {getOptionSubLabel(opt)}
+              </Typography>
+            )}
+          </>
+        )}
+
         {selected && (
-          <Box sx={{ ml: 2 }}>
-            <Icon name="check" />
-          </Box>
+          <Icon
+            name="check"
+            size={16}
+            sx={{ position: 'absolute', top: 8, right: 8 }}
+          />
         )}
       </ListItemButton>
     )
   }
 
-  const PaperComponent = ({ children, ...other }) => {
-    const header = () => {
-      if (renderStickyHeader) {
-        if (typeof renderStickyHeader === 'function')
-          return renderStickyHeader()
-        if (typeof renderStickyHeader === 'string')
-          return (
-            <Typography sx={{ p: '8px 16px' }}>{renderStickyHeader}</Typography>
-          )
-      }
-      return null
+  const renderTags = (tags = [], getTagProps) => {
+    if (!tags?.length) return null
+
+    if (isShowFullTags) {
+      return (
+        <>
+          {tags.map((tag, index) => (
+            <Chip
+              label={getOptionLabel(tag)}
+              deleteIcon={
+                <Box sx={{ display: 'flex' }}>
+                  <Icon name="close" sx={{ width: '8px', height: '8px' }} />
+                </Box>
+              }
+              {...getTagProps({ index })}
+            />
+          ))}
+          {tags?.length > 1 && (
+            <Chip
+              classes={{ root: classes.tag }}
+              onClick={() => setIsShowFullTags(false)}
+              label={<HighlightAltOutlinedIcon />}
+              sx={{ m: '3px', '.MuiChip-label': { px: '6px' } }}
+            />
+          )}
+        </>
+      )
     }
+
     return (
-      <Paper {...other}>
-        {header()}
-        {children}
-      </Paper>
+      <>
+        <Chip
+          label={getOptionLabel(last(tags))}
+          deleteIcon={
+            <Box sx={{ display: 'flex' }}>
+              <Icon name="close" sx={{ width: '8px', height: '8px' }} />
+            </Box>
+          }
+          {...getTagProps({ index: tags?.length - 1 })}
+          sx={{ maxWidth: '50% !important' }}
+        />
+
+        {tags?.length > 1 && (
+          <Tooltip
+            arrow
+            placement="top"
+            title={
+              <ul className={classes.tooltipList}>
+                {tags?.map((tag, i) => (
+                  <li key={i}>
+                    <Typography fontSize={12}>{getOptionLabel(tag)}</Typography>
+                  </li>
+                ))}
+              </ul>
+            }
+            sx={{ '.MuiTooltip-tooltip': { maxHeight: 100 } }}
+          >
+            <Chip
+              classes={{ root: classes.tag }}
+              label={`+${tags?.length - 1}`}
+              onClick={() => setIsShowFullTags(true)}
+            />
+          </Tooltip>
+        )}
+      </>
     )
   }
 
-  useEffect(() => {
-    let selected
-    if (multiple) {
-      selected = options.filter((opt) => {
-        if (isArray(rawValue)) {
-          return rawValue?.some((v) => isEqual(v, getOptionValue(opt)))
-        }
-        return false
-      })
-    } else {
-      selected =
-        options.find((opt) => isEqual(getOptionValue(opt), rawValue)) || null
-    }
-    setValue(selected)
-  }, [rawValue, options])
+  // const PaperComponent = ({ children, ...other }) => {
+  //   const header = () => {
+  //     if (renderStickyHeader) {
+  //       if (typeof renderStickyHeader === 'function')
+  //         return renderStickyHeader()
+  //       if (typeof renderStickyHeader === 'string')
+  //         return (
+  //           <Typography sx={{ p: '8px 16px' }}>{renderStickyHeader}</Typography>
+  //         )
+  //     }
+  //     return null
+  //   }
+  //   return (
+  //     <Paper {...other}>
+  //       {header()}
+  //       {children}
+  //     </Paper>
+  //   )
+  // }
 
   return (
     <MuiAutocomplete
@@ -165,54 +274,32 @@ const Autocomplete = ({
         root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
         listbox: classes.listbox,
+        ...(isAsync
+          ? { popupIndicatorOpen: classes.popupIndicatorOpenSearch }
+          : {}),
       }}
-      forcePopupIcon={false}
       multiple={multiple}
-      ChipProps={{
-        deleteIcon: (
-          <Box sx={{ display: 'flex' }}>
-            <Icon name="close" sx={{ width: '8px', height: '8px' }} />
-          </Box>
-        ),
-      }}
-      value={value}
-      onChange={(_, newValue) => {
-        setValue(newValue)
-
-        if (multiple) {
-          rawOnChange(newValue?.map((v) => getOptionValue(v)))
-        } else {
-          rawOnChange(getOptionValue(newValue))
-        }
-      }}
-      options={options}
+      renderTags={renderTags}
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
       getOptionLabel={(opt) => getOptionLabel(opt) || ''}
-      renderOption={(optProps, option, { selected }) => {
-        const optionProps = {
-          ...optProps,
-          key: optProps?.key + optProps?.['data-option-index'],
-        }
-
-        if (typeof renderOption === 'function')
-          return renderOption(optionProps, option)
-        if (multiple)
-          return renderOptionWithIconCheck(optionProps, option, selected)
-        if (hasSubLabel) return renderOptionWithSubLabel(optionProps, option)
-        return (
-          <ListItemButton component="li" {...optionProps}>
-            {getOptionLabel(option)}
-          </ListItemButton>
+      renderOption={(p, opt, { selected }) =>
+        renderCustomizedOption(
+          {
+            ...p,
+            key: p?.key + p?.['data-option-index'],
+          },
+          opt,
+          selected,
         )
-      }}
+      }
       {...((options || []).length > 50
         ? {
             ListboxComponent: VirtualList,
           }
         : {})}
-      PaperComponent={PaperComponent}
+      // PaperComponent={PaperComponent}
       // eslint-disable-next-line no-unused-vars
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
@@ -224,17 +311,48 @@ const Autocomplete = ({
           placeholder={placeholder}
           label={label}
           labelWidth={labelWidth}
-          onChange={(e) => {
-            setInputValue(e.target.value)
-            if (isAsync && !loading) {
-              setLoading(true)
-            }
-          }}
+          {...(isAsync
+            ? {
+                onChange: (e) => {
+                  setInputValue(e.target.value)
+                  if (isAsync && !loading) {
+                    setLoading(true)
+                  }
+                },
+              }
+            : {})}
         />
       )}
       {...props}
-      {...(isAsync ? { filterOptions: (opts) => opts } : {})}
-      {...(multiple ? { disableCloseOnSelect: true } : {})}
+      {...(multiple
+        ? { disableCloseOnSelect: true, onOpen: () => setIsShowFullTags(false) }
+        : {})}
+      {...(isAsync
+        ? {
+            value: value,
+            options,
+            filterOptions: (opts) => opts,
+            getOptionValue: (opt) => opt,
+            onClose: () => {
+              setInputValue('')
+              resetOptions()
+            },
+            onChange: (_, newVal) => onChange(newVal),
+            popupIcon: <ManageSearch />,
+          }
+        : {
+            options: rawOptions,
+            onChange: (_, newVal) => {
+              if (multiple) {
+                onChange(newVal?.map((v) => getOptionValue(v)))
+              } else {
+                onChange(getOptionValue(newVal))
+              }
+            },
+            // popupIcon: <KeyboardArrowDownOutlinedIcon />,
+            ...(!isNil(value) ? { value: parseValue(value, rawOptions) } : {}),
+          })}
+      {...(isShowFullTags ? { open: false } : {})}
     />
   )
 }
@@ -250,16 +368,19 @@ Autocomplete.defaultProps = {
   error: false,
   helperText: '',
   placeholder: '',
-  getOptionLabel: (option) => option?.label || '',
-  getOptionValue: (option) => option,
+  getOptionLabel: (opt) => opt?.label || '',
+  getOptionValue: (opt) => opt,
   onChange: () => {},
+  subLabelWidth: '30%',
+  subLabelLeft: false,
 }
 
 Autocomplete.propTypes = {
   label: PropTypes.string,
   options: PropTypes.array,
   multiple: PropTypes.bool,
-  renderOption: PropTypes.shape(),
+  renderOption: PropTypes.func,
+  renderOptionMarkup: PropTypes.func,
   asyncRequest: PropTypes.func,
   renderStickyHeader: PropTypes.oneOfType([
     PropTypes.node,
@@ -278,6 +399,8 @@ Autocomplete.propTypes = {
   getOptionValue: PropTypes.func,
   labelWidth: PropTypes.number,
   onChange: PropTypes.func,
+  subLabelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  subLabelLeft: PropTypes.bool,
 }
 
 export default Autocomplete

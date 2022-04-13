@@ -12,8 +12,8 @@ const style = (theme) => ({
   rootMultiple: {
     'div.MuiOutlinedInput-root': {
       padding: 0,
-      maxHeight: 118,
-      overflow: 'auto',
+      // maxHeight: 118,
+      // overflow: 'auto',
       border: '1px solid',
       borderColor: theme.palette.grayF4.main,
 
@@ -40,9 +40,6 @@ const style = (theme) => ({
     '& ul': {
       width: 'auto !important',
     },
-    '& .MuiAutocomplete-option': {
-      justifyContent: 'space-between',
-    },
   },
   tag: {
     borderRadius: 3,
@@ -57,6 +54,13 @@ const style = (theme) => ({
     padding: '6px 16px',
     background: theme.palette.primary.contrastText,
     justifyContent: 'space-between',
+  },
+  tooltipList: {
+    padding: '0 0 0 20px',
+    margin: 0,
+  },
+  popupIndicatorOpenSearch: {
+    transform: 'rotate(0)',
   },
 })
 

@@ -6,6 +6,10 @@ export const GET_MASTER_PLAN_DETAILS_START = 'GET_MASTER_PLAN_DETAILS_START'
 export const GET_MASTER_PLAN_DETAILS_SUCCESS = 'GET_MASTER_PLAN_DETAILS_SUCCESS'
 export const GET_MASTER_PLAN_DETAILS_FAILED = 'GET_MASTER_PLAN_DETAILS_FAILED'
 
+export const GET_JOB_DETAILS_START = 'GET_JOB_DETAILS_START'
+export const GET_JOB_DETAILS_SUCCESS = 'GET_JOB_DETAILS_SUCCESS'
+export const GET_JOB_DETAILS_FAILED = 'GET_JOB_DETAILS_FAILED'
+
 export const CREATE_MASTER_PLAN_START = 'CREATE_MASTER_PLAN_START'
 export const CREATE_MASTER_PLAN_SUCCESS = 'CREATE_MASTER_PLAN_SUCCESS'
 export const CREATE_MASTER_PLAN_FAILED = 'CREATE_MASTER_PLAN_FAILED'
@@ -123,6 +127,44 @@ export function getMasterPlanDetailsByIdSuccess(payload) {
 export function getMasterPlanDetailsByIdFailed() {
   return {
     type: GET_MASTER_PLAN_DETAILS_FAILED,
+  }
+}
+
+/**
+ * Getjob details
+ * @param {int} masterPlanId
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+export function getJobDetailsById(masterPlanId, onSuccess, onError) {
+  return {
+    type: GET_JOB_DETAILS_START,
+    payload: masterPlanId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get job details by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getJobDetailsByIdSuccess(payload) {
+  return {
+    type: GET_JOB_DETAILS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get job details by id failed action
+ * @returns {object}
+ */
+export function getJobDetailsByIdFailed() {
+  return {
+    type: GET_JOB_DETAILS_FAILED,
   }
 }
 
@@ -429,6 +471,9 @@ export default {
   getMasterPlanDetailsById,
   getMasterPlanDetailsByIdSuccess,
   getMasterPlanDetailsByIdFailed,
+  getJobDetailsById,
+  getJobDetailsByIdSuccess,
+  getJobDetailsByIdFailed,
   getModerationSuggestSpread,
   getModerationSuggestSpreadSuccess,
   getModerationSuggestSpreadFailed,
