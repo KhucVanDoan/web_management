@@ -403,6 +403,7 @@
     "groupName": "Tên nhóm",
     "groupNote": "Mô tả nhóm sản phẩm",
     "createDate": "Ngày tạo",
+    "createdAt": "Thời gian tạo",
     "updateDate": "Ngày sửa",
     "creator": "Người tạo",
     "action": "Hành động",
