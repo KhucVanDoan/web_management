@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Page from '~/components/Page'
@@ -29,10 +28,9 @@ function Dashboard() {
   const [inProgressMos, setInProgressMos] = useState([])
 
   useEffect(() => {
-    if (isEmpty(inProgressMos)) {
-      getInProgressMos()
-    }
-  }, [inProgressMos])
+    getInProgressMos()
+    getFinishedItemProgress()
+  }, [])
 
   const getInProgressMos = async () => {
     const res = await getInProgressMosApi()
@@ -47,12 +45,6 @@ function Dashboard() {
       setFinishedItemProgress(res?.data)
     }
   }
-
-  useEffect(() => {
-    if (isEmpty(finishedItemProgress)) {
-      getFinishedItemProgress()
-    }
-  }, [finishedItemProgress])
 
   return (
     <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>
