@@ -202,7 +202,7 @@ function detailBOM() {
               />
               <LV
                 label={t('defineBOM.creator')}
-                value={BOMDetails?.user?.name}
+                value={BOMDetails?.createdBy?.fullName}
                 mt={4 / 3}
               />
               <LV
