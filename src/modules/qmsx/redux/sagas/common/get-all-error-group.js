@@ -12,7 +12,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getAllErrorGroupApi = (params) => {
+const getAllErrorGroupApi = () => {
   const uri = `/v1/quality-controls/check-lists/list-error-group`
   return api.get(uri)
 }
