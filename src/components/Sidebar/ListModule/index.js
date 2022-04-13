@@ -68,9 +68,10 @@ const ModuleList = () => {
       </ListModuleStyled>
       {modules.map((item, index) => (
         <ListModuleStyled
-          component={Link}
-          to={{ pathname: `${item.path}` }}
-          target="_blank"
+          onClick={() => window.location.href = item.path}
+          // @TODO: dongnq uncomment when refactor full
+          // component={Link}
+          // to={{ pathname: `${item.path}` }}
           key={index}
           className={clsx({
             active: getCurrentModule(pathname) === item.name,
