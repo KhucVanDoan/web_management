@@ -46,7 +46,7 @@ const FilterForm = () => {
           label={t('defineCompany.tax')}
           placeholder={t('defineCompany.tax')}
           options={taxOptions}
-          getOptionValue={(opt) => opt?.id}
+          getOptionValue={(opt) => opt?.taxNo}
           getOptionLabel={(opt) => opt?.taxNo}
         />
       </Grid>

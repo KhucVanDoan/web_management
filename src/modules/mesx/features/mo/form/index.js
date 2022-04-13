@@ -26,7 +26,11 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import { MO_STATUS_OPTIONS, MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
+import {
+  MO_STATUS_OPTIONS,
+  MASTER_PLAN_STATUS,
+  MO_STATUS,
+} from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -201,13 +205,15 @@ const MOForm = () => {
           <ActionBar
             onBack={backToList}
             elBefore={
-              <Button
-                variant="outlined"
-                onClick={() => handleCheckMaterial()}
-                sx={{ mr: 'auto' }}
-              >
-                {t('Mo.requestBuyMetarial')}
-              </Button>
+              moDetails?.status !== MO_STATUS.PENDING && (
+                <Button
+                  variant="outlined"
+                  onClick={() => handleCheckMaterial()}
+                  sx={{ mr: 'auto' }}
+                >
+                  {t('Mo.requestBuyMetarial')}
+                </Button>
+              )
             }
           />
         )
