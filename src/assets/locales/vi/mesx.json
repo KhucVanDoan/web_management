@@ -661,6 +661,7 @@
     "quantity": "Số lượng kế hoạch",
     "planQuantity": "Số lượng sản xuất",
     "actualQuantity": "Số lượng sản xuất",
+    "restQuantity": "Số lượng còn lại",
     "unit": "Đơn vị",
     "producingStepCode": "Mã công đoạn",
     "producingStepName": "Tên công đoạn",
