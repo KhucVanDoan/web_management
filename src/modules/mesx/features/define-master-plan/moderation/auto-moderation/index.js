@@ -91,11 +91,17 @@ const AutoModeration = () => {
       .flat()
   }
 
-  const getTasksInSaleOrder = (items, saleOrderId, parentBomId, listParents) => {
+  const getTasksInSaleOrder = (
+    items,
+    saleOrderId,
+    parentBomId,
+    listParents,
+    parentItemId = '',
+  ) => {
     return items
       ?.map((item) => {
-        const key = `${saleOrderId}-${item.bomId}`
-        const keyParent = `${saleOrderId}-${item.parentBomId}`
+        const key = `${saleOrderId}-${item.id}-${item.bomId}`
+        const keyParent = `${saleOrderId}-${parentItemId}-${item.parentBomId}`
         const itemSchedule = {
           text: item.itemName,
           id: key,
@@ -106,14 +112,14 @@ const AutoModeration = () => {
           parent: parentBomId === null ? saleOrderId : keyParent,
           listParents: [
             parentBomId === null ? saleOrderId.toString() : keyParent,
-            ...(listParents || [])
+            ...(listParents || []),
           ],
           isOverQuantity: item.isOverQuantity,
         }
         const producingSteps =
           item.producingSteps?.map((step) => ({
             text: step.producingStepName,
-            id: `${saleOrderId}-${step.id}`,
+            id: `P_${saleOrderId}-${step.id}`,
             saleOrderId: saleOrderId.toString(),
             producingStepId: step.id,
             itemScheduleId: step.itemScheduleId,
@@ -122,14 +128,17 @@ const AutoModeration = () => {
             progress: 0,
             parent: key,
             type: 'producingStep',
-            listParents: [
-              ...itemSchedule.listParents,
-              key
-            ],
+            listParents: [...itemSchedule.listParents, key],
             isOverQuantity: step.overQuantity > 0,
           })) || []
         const subBom =
-          getTasksInSaleOrder(item.subBom, saleOrderId, item.bomId, itemSchedule.listParents) || []
+          getTasksInSaleOrder(
+            item.subBom,
+            saleOrderId,
+            item.bomId,
+            itemSchedule.listParents,
+            item.id,
+          ) || []
 
         return [itemSchedule, ...producingSteps, ...subBom]
       })
@@ -164,13 +173,16 @@ const AutoModeration = () => {
   const handleSelectProducingStep = (id, checked) => {
     if (checked) {
       let propducingSteps = []
-      const updatedTasks = tasks.map(task => {
-        if (task.type === 'producingStep' && (task.listParents?.includes(id) || task.id === id)) {
+      const updatedTasks = tasks.map((task) => {
+        if (
+          task.type === 'producingStep' &&
+          (task.listParents?.includes(id) || task.id === id)
+        ) {
           propducingSteps.push(task.producingStepId)
         }
         return {
           ...task,
-          checked: task.listParents?.includes(id) || task.checked
+          checked: task.listParents?.includes(id) || task.checked,
         }
       })
       setTasks(updatedTasks)
@@ -179,25 +191,30 @@ const AutoModeration = () => {
       const currentTaskUncheck = tasks.find((task) => task.id === id)
 
       let removedPropducingSteps = []
-      const updatedTasks = tasks.map(task => {
-        if (task.type === 'producingStep' && (task.listParents?.includes(id) || task.id === id)) {
+      const updatedTasks = tasks.map((task) => {
+        if (
+          task.type === 'producingStep' &&
+          (task.listParents?.includes(id) || task.id === id)
+        ) {
           removedPropducingSteps.push(task.producingStepId)
         }
         if (currentTaskUncheck?.listParents?.includes(task.id)) {
           return {
             ...task,
-            checked: false
+            checked: false,
           }
         } else {
           return {
             ...task,
-            checked: task.listParents?.includes(id) ? false : task.checked
+            checked: task.listParents?.includes(id) ? false : task.checked,
           }
         }
       })
       setTasks(updatedTasks)
       setSelectedProducingStep(
-        selectedProducingStep.filter((producingStep) => !removedPropducingSteps.includes(producingStep))
+        selectedProducingStep.filter(
+          (producingStep) => !removedPropducingSteps.includes(producingStep),
+        ),
       )
     }
   }
