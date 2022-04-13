@@ -34,7 +34,7 @@ function ProducingStepForm() {
   const [checkedUpdate, setCheckedUpdate] = useState(true)
 
   const {
-    data: { qcList },
+    data: { qcList = [] },
     actions: actionCommon,
   } = useCommonManagement()
   const {
