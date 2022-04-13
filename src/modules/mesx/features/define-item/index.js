@@ -157,7 +157,7 @@ function DefineItem() {
       align: 'center',
       renderCell: (params) => {
         const { id, isHasBom, isProductionObject } = params?.row
-        const itemHasBom = BOMList.find((bom) => bom.itemId === id)?.id
+        const itemHasBom = BOMList?.find((bom) => bom.itemId === id)?.id
 
         return isProductionObject ? (
           isHasBom ? (

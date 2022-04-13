@@ -24,23 +24,26 @@ function ProducingStepProgressReport(props) {
     actions.getDashboardProducingStepProgress()
   }, [])
 
-  const producedQuantityData = producingStepProgress.map((i) => ({
-    type: t('dashboard.producedQuantity'),
-    time: i?.date,
-    value: i?.producedQuantity,
-  }))
+  const producedQuantityData =
+    producingStepProgress?.map((i) => ({
+      type: t('dashboard.producedQuantity'),
+      time: i?.date,
+      value: i?.producedQuantity,
+    })) || []
 
-  const planQuantity = producingStepProgress.map((i) => ({
-    name: t('dashboard.planQuantity'),
-    time: i?.date,
-    value: i?.planQuantity,
-  }))
+  const planQuantity =
+    producingStepProgress?.map((i) => ({
+      name: t('dashboard.planQuantity'),
+      time: i?.date,
+      value: i?.planQuantity,
+    })) || []
 
-  const todoQuantityData = producingStepProgress.map((i) => ({
-    name: t('dashboard.toDoQuantity'),
-    time: i?.date,
-    value: i?.todoQuantity,
-  }))
+  const todoQuantityData =
+    producingStepProgress?.map((i) => ({
+      name: t('dashboard.toDoQuantity'),
+      time: i?.date,
+      value: i?.todoQuantity,
+    })) || []
 
   columnData.push(...producedQuantityData)
   lineData.push(...planQuantity, ...todoQuantityData)

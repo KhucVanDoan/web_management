@@ -24,36 +24,42 @@ function QcProducingStepProgressReport(props) {
   const columnData = []
   const lineData = []
 
-  const producedQuantityData = qcProducingStepProgress.map((i) => ({
-    type: t('dashboard.producedQuantity'),
-    time: i?.date,
-    value: i?.producedQuantity,
-  }))
-  const needToBeRepairData = qcProducingStepProgress.map((i) => ({
-    type: t('dashboard.needToBeRepair'),
-    time: i?.date,
-    value: i?.needToBeRepair,
-  }))
-  const repairedQuantityData = qcProducingStepProgress.map((i) => ({
-    type: t('dashboard.qcQuantity'),
-    time: i?.date,
-    value: i?.repairedQuantity,
-  }))
-  const qcPassQuantityData = qcProducingStepProgress.map((i) => ({
-    type: t('dashboard.qcPassQuantity'),
-    time: i?.date,
-    value: i?.qcPassQuantity,
-  }))
-  const qcRejectQuantityData = qcProducingStepProgress.map((i) => ({
-    type: t('dashboard.errorQuantity'),
-    time: i?.date,
-    value: i?.qcRejectQuantity,
-  }))
-  const planQuantity = qcProducingStepProgress.map((i) => ({
-    name: t('dashboard.planQuantity'),
-    time: i?.date,
-    value: i?.planQuantity,
-  }))
+  const producedQuantityData =
+    qcProducingStepProgress?.map((i) => ({
+      type: t('dashboard.producedQuantity'),
+      time: i?.date,
+      value: i?.producedQuantity,
+    })) || []
+  const needToBeRepairData =
+    qcProducingStepProgress?.map((i) => ({
+      type: t('dashboard.needToBeRepair'),
+      time: i?.date,
+      value: i?.needToBeRepair,
+    })) || []
+  const repairedQuantityData =
+    qcProducingStepProgress?.map((i) => ({
+      type: t('dashboard.qcQuantity'),
+      time: i?.date,
+      value: i?.repairedQuantity,
+    })) || []
+  const qcPassQuantityData =
+    qcProducingStepProgress?.map((i) => ({
+      type: t('dashboard.qcPassQuantity'),
+      time: i?.date,
+      value: i?.qcPassQuantity,
+    })) || []
+  const qcRejectQuantityData =
+    qcProducingStepProgress?.map((i) => ({
+      type: t('dashboard.errorQuantity'),
+      time: i?.date,
+      value: i?.qcRejectQuantity,
+    })) || []
+  const planQuantity =
+    qcProducingStepProgress?.map((i) => ({
+      name: t('dashboard.planQuantity'),
+      time: i?.date,
+      value: i?.planQuantity,
+    })) || []
 
   columnData.push(
     ...producedQuantityData,

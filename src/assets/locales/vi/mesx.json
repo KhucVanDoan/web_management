@@ -671,7 +671,7 @@
     "autoModeration": {
       "autoModeration": "Điều độ công việc",
       "title": "Chi tiết công việc",
-      "selectModerationType": "Điều độ",
+      "selectModerationType": "Điều độ công việc",
       "goToModerationType": "Điều độ công việc",
       "extendDeadline": "Giãn ngày kết thúc",
       "spreadProductEvenly": "Giãn đều sản phẩm",
@@ -830,6 +830,8 @@
     "boqPlanFrom": "Kế hoạch từ",
     "boqPlanTo": "Kế hoạch đến",
     "status": "Trạng thái",
+    "createdAt": "Ngày tạo",
+    "user": "Người tạo",
     "boqPm": "PM",
     "boqApm": "APM",
     "planList": "Kế hoạch",
@@ -840,7 +842,7 @@
     "descriptionInput": "Mô tả về công trình",
     "itemsDetails": "Chi tiết thành phẩm",
     "boqUserPermission": "Quyền user",
-    "createdAt": "Thời gian tạo",
+    "createdTime": "Thời gian tạo",
     "item": {
       "orderNumber": "#",
       "code": "Mã thành phẩm",

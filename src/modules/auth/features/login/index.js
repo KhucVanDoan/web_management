@@ -13,6 +13,7 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/auth/routes/config'
+import { ROUTE as MESX_ROUTE } from '~/modules/mesx/routes/config'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
 import qs from '~/utils/qs'
@@ -40,7 +41,7 @@ const Login = () => {
     const params = { ...values, rememberPassword: +values.rememberPassword }
     actions.login(
       params,
-      () => history.push(callbackUrl || '/'),
+      () => history.push(callbackUrl || MESX_ROUTE.DASHBOARD.PATH),
       (e) => {
         setError(e)
       },

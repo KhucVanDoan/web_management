@@ -38,7 +38,7 @@ function DefineCustomer() {
     code: '',
     name: '',
     address: '',
-    phone: '',
+    phone: null,
     email: '',
     fax: '',
     createTime: [],
