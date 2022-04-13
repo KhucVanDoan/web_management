@@ -11,7 +11,7 @@ import {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getCompaniesApi = (params) => {
+const getCompaniesApi = () => {
   return {
     statusCode: 200,
     data: [{ id: 1, name: 'doieie' }],
