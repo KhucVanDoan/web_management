@@ -162,7 +162,10 @@ function DefineItemDetail() {
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <LV label={t('defineItem.user')} value={itemDetails?.user} />
+                  <LV
+                    label={t('defineItem.user')}
+                    value={itemDetails?.createdBy?.username}
+                  />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <LV

@@ -14,6 +14,7 @@ const FilterForm = () => {
   const {
     data: { companyList },
   } = useDefineCompany()
+
   const taxOptions = companyList.filter((item) => !!item.taxNo)
   // const { appStore } = useAppStore()
 
@@ -45,8 +46,7 @@ const FilterForm = () => {
           label={t('defineCompany.tax')}
           placeholder={t('defineCompany.tax')}
           options={taxOptions}
-          // options={appStore?.companies}
-          getOptionValue={(opt) => opt?.taxNo}
+          getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.taxNo}
         />
       </Grid>

@@ -16,10 +16,4 @@ export const filterSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    taxNo: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.TAX.MAX,
-      }),
-    ),
   })
