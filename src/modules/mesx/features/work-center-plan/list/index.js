@@ -131,7 +131,10 @@ const WorkCenterPlanList = () => {
       keyword: keyword.trim(),
       page: page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, moCode: filters?.moCode?.code },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWorkCenterPlan({ params })

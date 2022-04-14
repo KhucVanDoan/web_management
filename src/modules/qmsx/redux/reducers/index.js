@@ -1,5 +1,6 @@
 //@import: reducers files
-import auth from '../../../auth/redux/reducers/auth'
+import { combineReducers } from 'redux'
+
 import commonManagement from './common'
 import dashboard from './dashboard'
 import defineActionGroup from './define-action-group'
@@ -16,9 +17,8 @@ import qualityReport from './quality-report'
 import transactionHistory from './transaction-history'
 import workCenterQualityControlPlan from './work-center-quality-control-plan'
 
-const reducers = {
+export default combineReducers({
   commonManagement,
-  auth,
   dashboard,
   defineErrorGroup,
   defineActionGroup,
@@ -33,6 +33,4 @@ const reducers = {
   outputQualityControlPlan,
   productionQualityControlPlan,
   workCenterQualityControlPlan,
-}
-
-export default reducers
+})

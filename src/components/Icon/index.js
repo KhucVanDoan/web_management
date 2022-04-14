@@ -11,12 +11,16 @@ import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
 import { ReactComponent as Cart } from '~/assets/images/icons/cart.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
+import { ReactComponent as Collapse } from '~/assets/images/icons/collapse.svg'
 import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
 import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
+import { ReactComponent as DownloadAlt } from '~/assets/images/icons/downloadAlt.svg'
 import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
+import { ReactComponent as ImportXlsx } from '~/assets/images/icons/importXlsx.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
+import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
 import { ReactComponent as Save } from '~/assets/images/icons/save.svg'
@@ -26,6 +30,7 @@ import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
+import { ReactComponent as Upload } from '~/assets/images/icons/upload.svg'
 import { ReactComponent as User } from '~/assets/images/icons/user.svg'
 import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
 // menu
@@ -64,6 +69,12 @@ const icons = {
   rhombus: <Rhombus />,
   invoid: <Invoid />,
   save: <Save />,
+  upload: <Upload />,
+  importXlsx: <ImportXlsx />,
+  //@TODO: choose another name
+  downloadAlt: <DownloadAlt />,
+  collapse: <Collapse />,
+  paper: <Paper />,
 
   // menu
   drawer: <Drawer />,

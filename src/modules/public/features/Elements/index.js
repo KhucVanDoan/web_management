@@ -6,14 +6,13 @@ import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import Button from '~/components/Button'
 import DatePicker from '~/components/DatePicker'
@@ -22,11 +21,13 @@ import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import TextField from '~/components/TextField'
+import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items.saga'
 
 const Elements = () => {
   const theme = useTheme()
   const [dateValue, setDateValue] = useState(null)
   const [dateRangeValue, setDateRangeValue] = useState([null, null])
+  const [selectedItem, setSlectedItem] = useState([])
 
   const [openDialog, setOpenDialog] = useState(false)
   const [openCustomizedColorDialog, setOpenCustomizedColorDialog] =
@@ -34,14 +35,6 @@ const Elements = () => {
   const [openCustomizedFooterDialog, setOpenCustomizedFooterDialog] =
     useState(false)
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const open = Boolean(anchorEl)
-  const showDropdown = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const hideDropdown = () => {
-    setAnchorEl(null)
-  }
   const mockOptions = new Array(10).fill({}).map((_, index) => ({
     value: index,
     label: `Option ${index + 1}`,
@@ -319,35 +312,29 @@ const Elements = () => {
             label="Autocomplete Multiple"
           />
         </Grid>
+        <Grid item xs={6}>
+          <Autocomplete
+            multiple
+            label="Async search"
+            placeholder="Tìm sản phẩm"
+            asyncRequest={(s) =>
+              searchItemsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
+            // isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
+            value={selectedItem}
+            onChange={(val) => {
+              setSlectedItem(val)
+            }}
+          />
+        </Grid>
       </Grid>
 
       <Typography variant="h2" sx={{ mt: 3, mb: 1 }}>
         Dropdown
       </Typography>
-      <Box sx={{ button: { mr: 1 } }}>
-        <Button icon="setting" color="grayEE" onClick={showDropdown} />
-        <Button icon="setting" color="grayEE" onClick={showDropdown} />
-
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={hideDropdown}
-          // parse PaperProps variant to make a caret.
-          PaperProps={{ variant: 'caret' }} // caret | caret-left | outline-caret | outline-caret-left
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <MenuItem onClick={hideDropdown}>Profile</MenuItem>
-          <MenuItem onClick={hideDropdown}>My account</MenuItem>
-          <MenuItem onClick={hideDropdown}>Logout</MenuItem>
-        </Menu>
-      </Box>
       <Box sx={{ display: 'flex', mt: 1, button: { mr: 1 } }}>
         <Dropdown
           options={mockOptionsDropDown}

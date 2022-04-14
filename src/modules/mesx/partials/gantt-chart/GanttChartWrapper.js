@@ -242,7 +242,9 @@ class GanttChartWrapper extends Component {
     gantt.plugins({
       tooltip: true,
     })
+
     gantt.config.open_tree_initially = true
+
     gantt.init(this.ganttContainer)
     this.initGanttDataProcessor()
     gantt.parse(tasks)
@@ -280,6 +282,7 @@ class GanttChartWrapper extends Component {
       this.dataProcessor.destructor()
       this.dataProcessor = null
     }
+    gantt.ext.tooltips.tooltip.hide()
     gantt.clearAll()
   }
 

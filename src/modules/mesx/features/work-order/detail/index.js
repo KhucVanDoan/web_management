@@ -21,6 +21,10 @@ const breadcrumbs = [
     title: 'plan',
   },
   {
+    route: ROUTE.MO.LIST.PATH,
+    title: ROUTE.MO.LIST.TITLE,
+  },
+  {
     route: ROUTE.MO.WORK_ORDER.PATH,
     title: ROUTE.MO.WORK_ORDER.TITLE,
   },

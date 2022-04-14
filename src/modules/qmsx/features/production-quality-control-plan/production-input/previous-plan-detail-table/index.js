@@ -517,7 +517,7 @@ const PreviousPlanDetailTable = (props) => {
     } else {
       setFieldValue(
         `formPrevious[${objectValue?.keyBomTree}-${objectValue?.id}].planQcQuantity`,
-        undefined,
+        null,
       )
     }
   }

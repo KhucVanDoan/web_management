@@ -11,13 +11,14 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
+import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
@@ -38,10 +39,6 @@ const BOQForm = () => {
     data: { isLoading, boqDetails },
     actions,
   } = useDefineBOQ()
-  const {
-    data: { userList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
   const MODE_MAP = {
     [ROUTE.DEFINE_BOQ.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_BOQ.DETAIL.PATH]: MODAL_MODE.DETAIL,
@@ -61,7 +58,6 @@ const BOQForm = () => {
 
   const refreshData = () => {
     getBOQDetail()
-    commonManagementActions.getUsers({ isGetAll: 1 })
   }
 
   const getBOQDetail = () => {
@@ -73,6 +69,8 @@ const BOQForm = () => {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      apmId: values?.apmId?.id,
+      pmId: values?.pmId?.id,
       planFrom: values?.planList ? values?.planList[0] : '',
       planTo: values?.planList ? values?.planList[1] : '',
       boqItems: values.items?.map((item) => ({
@@ -165,6 +163,8 @@ const BOQForm = () => {
       }
     : {
         ...boqDetails,
+        apmId: boqDetails?.apm,
+        pmId: boqDetails?.pm,
         planList: [boqDetails.planFrom, boqDetails.planTo],
         items: boqDetails.boqDetails?.map((e) => ({
           id: e.id,
@@ -213,8 +213,13 @@ const BOQForm = () => {
                       name="pmId"
                       label={t('defineBOQ.boqPm')}
                       placeholder={t('defineBOQ.boqPm')}
-                      options={userList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        getUsersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       required
                     />
@@ -235,8 +240,13 @@ const BOQForm = () => {
                       name="apmId"
                       label={t('defineBOQ.boqApm')}
                       placeholder={t('defineBOQ.boqApm')}
-                      options={userList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        getUsersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.fullName || opt?.username}
                       required
                     />
