@@ -44,7 +44,8 @@
   },
   "autocomplete": {
     "noOptionsText": "Không có dữ liệu",
-    "loadingText": "Đang tải dữ liệu..."
+    "loadingText": "Đang tải dữ liệu...",
+    "hint": "Nhập từ khoá tìm kiếm"
   },
   "dateRangePicker": {
     "from": "Từ ngày",

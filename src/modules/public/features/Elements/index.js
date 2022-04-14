@@ -12,7 +12,7 @@ import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 
-import { IMPORT_EXPORT_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import Button from '~/components/Button'
 import DatePicker from '~/components/DatePicker'
@@ -20,7 +20,6 @@ import DateRangePicker from '~/components/DateRangePicker'
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import TextField from '~/components/TextField'
 import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items.saga'
 
@@ -35,8 +34,6 @@ const Elements = () => {
     useState(false)
   const [openCustomizedFooterDialog, setOpenCustomizedFooterDialog] =
     useState(false)
-
-  const [importFile, setImportFile] = useState(null)
 
   const mockOptions = new Array(10).fill({}).map((_, index) => ({
     value: index,
@@ -319,18 +316,18 @@ const Elements = () => {
           <Autocomplete
             multiple
             label="Async search"
-            asyncRequest={(s) => searchItemsApi({ keyword: s, limit: 100 })}
+            placeholder="Tìm sản phẩm"
+            asyncRequest={(s) =>
+              searchItemsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
+            }
             asyncRequestHelper={(res) => res?.data?.items}
-            // isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            // isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
             value={selectedItem}
             onChange={(val) => {
               setSlectedItem(val)
             }}
-            subLabelWidth={'auto'}
-            subLabelLeft
-            placeholder="Tìm sản phẩm"
           />
         </Grid>
       </Grid>
@@ -399,47 +396,6 @@ const Elements = () => {
         >
           Dialog content
         </Dialog>
-      </Box>
-
-      <Typography variant="h2" sx={{ mt: 3, mb: 1 }}>
-        Import / Export
-      </Typography>
-      <Box sx={{ button: { mr: 1, mb: 1 } }}>
-        <ImportExport
-          importFile={importFile}
-          setImportFile={setImportFile}
-          onDownloadTemplate={() =>
-            alert('Called download import template action')
-          }
-          onDownloadLog={() => alert('Called download import log action')}
-          onImport={() => {
-            const result = { success: 10, fail: 20, log: null }
-            const error = null
-
-            return { result, error }
-          }}
-        />
-
-        <ImportExport
-          mode={IMPORT_EXPORT_MODE.IMPORT_ONLY}
-          importFile={importFile}
-          setImportFile={setImportFile}
-          onDownloadTemplate={() =>
-            alert('Called download import template action')
-          }
-          onDownloadLog={() => alert('Called download import log action')}
-          onImport={() => {
-            const result = null
-            const error = 'Example error'
-
-            return { result, error }
-          }}
-        />
-
-        <ImportExport
-          mode={IMPORT_EXPORT_MODE.EXPORT_ONLY}
-          onExport={() => alert('Called export action')}
-        />
       </Box>
 
       <Typography variant="h2" sx={{ mt: 3, mb: 1 }}>

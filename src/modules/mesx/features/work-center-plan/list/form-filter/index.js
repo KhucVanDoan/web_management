@@ -1,21 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { MO_STATUS } from '~/modules/mesx/constants'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
 
-  const {
-    data: { moList },
-    actions,
-  } = useMo()
-  useEffect(() => {
-    actions.searchMO({ isGetAll: 1 })
-  }, [])
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -30,8 +23,13 @@ const FilterForm = () => {
           label={t('workCenterPlan.moCode')}
           placeholder={t('workCenterPlan.moCode')}
           name="moCode"
-          options={moList.filter((e) => e.status !== MO_STATUS.PENDING)}
-          getOptionValue={(opt) => opt?.code}
+          asyncRequest={(s) =>
+            searchMOApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.code}
         />
       </Grid>

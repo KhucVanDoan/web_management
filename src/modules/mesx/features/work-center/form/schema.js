@@ -22,7 +22,7 @@ export const WorkCenterSchema = (t) => {
       message: t('general:form.required'),
       test: (arr) => arr.length !== 0,
     }),
-    factoryId: Yup.string().required(t('general:form.required')),
+    factoryId: Yup.number().required(t('general:form.required')),
     leaderId: Yup.number().required(t('general:form.required')),
     oeeTarget: Yup.number()
       .required(t('general:form.required'))
@@ -40,7 +40,9 @@ export const WorkCenterSchema = (t) => {
           max: NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         }),
       ),
-    producingStepId: Yup.string().required(t('general:form.required')),
+    producingStepId: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {

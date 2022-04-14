@@ -39,6 +39,7 @@ const style = (theme) => ({
   listbox: {
     '& ul': {
       width: 'auto !important',
+      margin: 0,
     },
   },
   tag: {
@@ -56,11 +57,16 @@ const style = (theme) => ({
     justifyContent: 'space-between',
   },
   tooltipList: {
-    padding: '0 0 0 20px',
+    padding: theme.spacing(1, 1, 1, 2),
     margin: 0,
+    maxHeight: '40vh',
+    overflow: 'auto',
   },
   popupIndicatorOpenSearch: {
     transform: 'rotate(0)',
+  },
+  paper: {
+    border: `1px solid ${theme.palette.grayF4.main}`,
   },
 })
 
