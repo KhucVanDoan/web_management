@@ -122,6 +122,38 @@
     "back": "Quay lại",
     "cancel": "Huỷ",
     "create": "Tạo mới",
-    "save": "Lưu"
+    "save": "Lưu",
+    "import": "Nhập dữ liệu",
+    "closeNotification": "Đóng thông báo",
+    "importAgain": "Nhập lại"
+  },
+  "importExportMenu": {
+    "import": "Nhập dữ liệu",
+    "export": "Xuất dữ liệu",
+    "importExport": "Nhập/xuất dữ liệu"
+  },
+  "import": {
+    "title": "Nhập dữ liệu",
+    "stepDownloadTemplate": {
+      "title": "Bước 1: Tải xuống mẫu dữ liệu",
+      "description": "và điền theo hướng dẫn"
+    },
+    "downloadTemplate": "Tải Template mẫu",
+    "stepUploadData": {
+      "title": "Bước 2: Tải lên thông tin hoàn chỉnh",
+      "description": "Chọn hoặc thả một tệp vào vùng này để Import dữ liệu",
+      "support": "Hỗ trợ file ",
+      "fileType": "XLSX"
+    },
+    "result": "Đã nhập {0} dòng thành công, {1} dòng thất bại",
+    "log": "Nhấn vào để tải xuống kết quả nhập dữ liệu",
+    "unexpectedError": "Đã xảy ra lỗi khi nhập dữ liệu"
+  },
+  "fileUpload": {
+    "error": {
+      "invalidType": "File tải lên không đúng định dạng quy định. Vui lòng tải lên file có định dạng",
+      "invalidSize": "Dung lượng file không hợp lệ. Giới hạn dung lượng là",
+      "invalidNumberOfFiles": "Số lượng file tải lên không được quá"
+    }
   }
 }

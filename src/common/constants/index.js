@@ -168,3 +168,34 @@ export const CODE_SETTINGS = {
     FILLED_CHARACTER: '0',
   },
 }
+
+export const IMPORT_SETTING = {
+  FILE_SIZE_LIMIT: 5242880,
+  NUMBER_OF_FILE: 1,
+}
+
+export const FILE_TYPE = {
+  XLSX: {
+    NAME: 'XLSX',
+    EXT: '.xlsx',
+    MIME_TYPE:
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  },
+}
+
+export const IMPORT_EXPORT_MODE = {
+  IMPORT_ONLY: 'IMPORT',
+  EXPORT_ONLY: 'EXPORT',
+  BOTH: 'IMPORT/EXPORT',
+}
+
+export const IMPORT_EXPORT_MODE_OPTIONS = [
+  {
+    value: IMPORT_EXPORT_MODE.IMPORT_ONLY,
+    text: 'importExportMenu.import',
+  },
+  {
+    value: IMPORT_EXPORT_MODE.EXPORT_ONLY,
+    text: 'importExportMenu.export',
+  },
+]

@@ -105,6 +105,8 @@ const startLogout = () => {
 }
 
 const api = {
+  instance,
+
   post: (endpoint, params) => {
     return instance
       .post(endpoint, params, {
