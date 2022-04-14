@@ -22,8 +22,8 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    pmId: Yup.number().required(t('general:form.required')),
-    apmId: Yup.number().required(t('general:form.required')),
+    pmId: Yup.object().nullable().required(t('general:form.required')),
+    apmId: Yup.object().nullable().required(t('general:form.required')),
     planList: Yup.array()
       .nullable()
       .test('planList', t('general:form.required'), (planList) => {

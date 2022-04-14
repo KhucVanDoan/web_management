@@ -63,9 +63,7 @@ function BomProducingStepForm() {
           name: BOMDetails?.name,
           routingId: BOMDetails?.routing?.id,
         },
-        description:
-          bomProducingStepDetails?.materialDetails?.[0]?.producingStepData?.[0]
-            ?.producingStep?.description,
+        description: BOMDetails?.description,
         items: bomProducingStepDetails?.materialDetails || [],
       }
 

@@ -432,6 +432,10 @@ export const ROUTE = {
       PATH: '/mesx/master-plan/:id/input-moderation',
       TITLE: 'inputModeration',
     },
+    JOB_DETAIL: {
+      PATH: '/mesx/master-plan/:id/job-detail',
+      TITLE: 'autoModeration',
+    },
   },
   WORK_CENTER_PLAN: {
     LIST: {

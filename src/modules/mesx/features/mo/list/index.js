@@ -326,7 +326,7 @@ const Mo = () => {
         />
         <Dialog
           open={isOpenDeleteModal}
-          title={t('bomProducingStep.deleteModalTitle')}
+          title={t('Mo.deleteModalTitle')}
           onCancel={() => setIsOpenDeleteModal(false)}
           onSubmit={onSubmitDelete}
           cancelLabel={t('common.no')}
@@ -336,7 +336,7 @@ const Mo = () => {
           }}
           noBorderBottom
         >
-          {t('bomProducingStep.deleteConfirm')}
+          {t('Mo.deleteConfirm')}
           <LV
             label={t('Mo.moCode')}
             value={tempItem?.code}

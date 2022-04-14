@@ -44,7 +44,7 @@ const FilterForm = () => {
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
           })}
-          getOptionValue={(option) => option?.id}
+          getOptionValue={(option) => option?.id?.toString()}
         />
       </Grid>
       <Grid item xs={12}>

@@ -1,10 +1,12 @@
-export const GET_MATERIAL_REPORT = 'GET_MATERIAL_REPORT';
-export const GET_MATERIAL_REPORT_SUCCESS = 'GET_MATERIAL_REPORT_SUCCESS';
-export const GET_MATERIAL_REPORT_FAILED = "GET_MATERIAL_REPORT_FAILED";
+export const GET_MATERIAL_REPORT = 'MESX_GET_MATERIAL_REPORT'
+export const GET_MATERIAL_REPORT_SUCCESS = 'MESX_GET_MATERIAL_REPORT_SUCCESS'
+export const GET_MATERIAL_REPORT_FAILED = 'GET_MATERIAL_REPORT_FAILED'
 
-export const EXPORT_MATERIAL_REPORT = 'EXPORT_MATERIAL_REPORT';
-export const EXPORT_MATERIAL_REPORT_SUCCESS = 'EXPORT_MATERIAL_REPORT_SUCCESS';
-export const EXPORT_MATERIAL_REPORT_FAILED = 'EXPORT_MATERIAL_REPORT_FAILED';
+export const EXPORT_MATERIAL_REPORT = 'MESX_EXPORT_MATERIAL_REPORT'
+export const EXPORT_MATERIAL_REPORT_SUCCESS =
+  'MESX_EXPORT_MATERIAL_REPORT_SUCCESS'
+export const EXPORT_MATERIAL_REPORT_FAILED =
+  'MESX_EXPORT_MATERIAL_REPORT_FAILED'
 /**
  * get material report
  * @param {object} payload
@@ -18,7 +20,7 @@ export function getMaterialReport(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -30,7 +32,7 @@ export function getMaterialReportSuccess(payload) {
   return {
     type: GET_MATERIAL_REPORT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -38,10 +40,10 @@ export function getMaterialReportSuccess(payload) {
  * @param {*} payload
  * @returns {object}
  */
- export function getMaterialReportFailed() {
+export function getMaterialReportFailed() {
   return {
     type: GET_MATERIAL_REPORT_FAILED,
-  };
+  }
 }
 
 export function exportMaterialReport(payload, onSuccess, onError) {
@@ -50,17 +52,17 @@ export function exportMaterialReport(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 export function exportMaterialReportSuccess(payload) {
   return {
     type: EXPORT_MATERIAL_REPORT_SUCCESS,
     payload: payload,
-  };
+  }
 }
 export function exportMaterialReportFailed() {
   return {
     type: EXPORT_MATERIAL_REPORT_FAILED,
-  };
+  }
 }

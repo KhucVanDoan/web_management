@@ -80,6 +80,7 @@ import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan'
 import watchDeleteMasterPlan from './define-master-plan/delete-master-plan'
 import watchExtendDeadline from './define-master-plan/extend-deadline'
+import watchJobDetails from './define-master-plan/get-job-detail'
 import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details'
 import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread'
 import watchGetProducingStepDetail from './define-master-plan/get-producing-step-detail'
@@ -321,6 +322,7 @@ export default function* sagas() {
     // define master plan
     watchSearchMasterPlans(),
     watchGetMasterPlanDetails(),
+    watchJobDetails(),
     watchGetModerationSuggestSpread(),
     watchCreateMasterPlan(),
     watchSubmitModerationInput(),

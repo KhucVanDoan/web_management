@@ -186,6 +186,9 @@ function DefineCustomerForm() {
                       label={t('defineCustomer.name')}
                       name="name"
                       placeholder={t('defineCustomer.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -194,6 +197,9 @@ function DefineCustomerForm() {
                       name="email"
                       label={t('defineCustomer.email')}
                       placeholder={t('defineCustomer.email')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -201,6 +207,9 @@ function DefineCustomerForm() {
                       label={t('defineCustomer.address')}
                       name="address"
                       placeholder={t('defineCustomer.address')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -209,6 +218,9 @@ function DefineCustomerForm() {
                       label={t('defineCustomer.fax')}
                       placeholder={t('defineCustomer.fax')}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.FAX.MAX,
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -216,6 +228,9 @@ function DefineCustomerForm() {
                       name="description"
                       label={t('defineCustomer.description')}
                       placeholder={t('defineCustomer.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
