@@ -668,6 +668,7 @@
     "producingStepName": "Tên công đoạn",
     "workOrder": "Lệnh làm việc",
     "createdAt": "Thời gian tạo",
+    "createdBy": "Người tạo",
     "executionDate": "Ngày bắt đầu thực hiện",
     "completionTime": "Thời gian hoàn thành trước ngày giao",
     "autoModeration": {

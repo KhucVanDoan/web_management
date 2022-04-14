@@ -85,7 +85,6 @@ const DefineMasterPlan = () => {
         field: 'soName',
         headerName: t('defineMasterPlan.saleOrderName'),
         width: 200,
-        sortable: true,
         renderCell: (params) => {
           return (
             params.row.saleOrders
@@ -130,7 +129,6 @@ const DefineMasterPlan = () => {
       {
         field: 'moName',
         headerName: t('defineMasterPlan.moName'),
-        sortable: true,
         width: 150,
         renderCell: (params) => {
           const { id, status } = params.row
