@@ -4,7 +4,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import { Typography, Grid, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
@@ -19,7 +19,7 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
 const MaterialPlanDetailTable = (props) => {
-  const { planBomMaterials, mode, setFieldValue, values } = props
+  const { planBomMaterials, mode, setFieldValue } = props
   const { t } = useTranslation(['qmsx'])
   const [bomTree, setBomTree] = useState([])
 
@@ -410,30 +410,24 @@ const MaterialPlanDetailTable = (props) => {
         } else {
           return (
             <Field.DateRangePicker
-              name={`formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].productionQcPlanDate`}
+              name={`formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].productionQcPlanDate`}
               disabled={!id}
               minDate={new Date(workOrders[0]?.planFrom)}
-              validate={(val) => {
-                const filterNull = val?.filter((x) => x)
-                if (filterNull?.length < 2) {
-                  return t('general:form.required')
-                }
-              }}
               onChange={() => {
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].bomId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].bomId`,
                   bomId,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].itemId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].itemId`,
                   itemId,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].workOrderId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].workOrderId`,
                   workOrders[0]?.id,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].qualityPointId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].qualityPointId`,
                   producingStep?.qualityPoint?.id,
                 )
               }}
@@ -479,7 +473,7 @@ const MaterialPlanDetailTable = (props) => {
           }
           return (
             <Field.TextField
-              name={`formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].planErrorRate`}
+              name={`formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].planErrorRate`}
               type="number"
               disabled={!id}
               InputProps={{
@@ -489,32 +483,29 @@ const MaterialPlanDetailTable = (props) => {
                   </InputAdornment>
                 ),
               }}
-              validate={(val) => {
-                if (isNil(val) && id) return t('general:form.required')
-              }}
               onChange={(value) => {
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].type`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].type`,
                   type,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].routingId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].routingId`,
                   routingId,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].itemMaterialId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].itemMaterialId`,
                   itemMaterialId,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].producingStepId`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].producingStepId`,
                   producingStep?.id,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].keyBomTree`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].keyBomTree`,
                   keyBomTree,
                 )
                 setFieldValue(
-                  `formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].planningQuantity`,
+                  `formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].planningQuantity`,
                   planningQuantity,
                 )
                 return onChangePlanErrorRate(value, objectValue, setFieldValue)
@@ -540,9 +531,8 @@ const MaterialPlanDetailTable = (props) => {
       width: 150,
       align: 'center',
       renderCell: (params) => {
-        const { itemMaterialId, producingStep, keyBomTree, planningQuantity } =
-          params?.row
-        const { id: producingStepId, qualityPoint } = producingStep
+        const { itemMaterialId, producingStep, keyBomTree } = params?.row
+        const { id: producingStepId } = producingStep
         if (mode === MODAL_MODE.DETAIL) {
           const { qualityPlanBom } = params?.row?.producingStep
           const findMaterial = qualityPlanBom.find(
@@ -552,30 +542,12 @@ const MaterialPlanDetailTable = (props) => {
             return +findMaterial?.planQcQuantity
           } else return ''
         } else {
-          const planErrorRate =
-            values?.formMaterial?.[`${keyBomTree}-${producingStepId}`]?.[
-              `${itemMaterialId}`
-            ]?.planErrorRate
-          const defaultValue =
-            (1 + +planErrorRate / 100) *
-            qualityPoint?.numberOfTime *
-            qualityPoint?.formalityRate *
-            planningQuantity
           const { id } = producingStep?.qualityPoint
           return (
             <Field.TextField
-              name={`formMaterial[${keyBomTree}-${producingStepId}].[${itemMaterialId}].planQcQuantity`}
+              name={`formMaterial[${keyBomTree}-${producingStepId}].[_${itemMaterialId}].planQcQuantity`}
               type="number"
               disabled={!id}
-              validate={(val) => {
-                if (isNil(val) && id) return t('general:form.required')
-                else {
-                  if (val > Math.ceil(+defaultValue))
-                    return t('form.compareTwoField', {
-                      limit: Math.ceil(+defaultValue),
-                    })
-                }
-              }}
             />
           )
         }
@@ -635,13 +607,13 @@ const MaterialPlanDetailTable = (props) => {
         objectValue?.formalityRate *
         objectValue?.planQuantity
       setFieldValue(
-        `formMaterial[${objectValue?.keyBomTree}-${objectValue?.id}].[${objectValue?.itemMaterialId}].planQcQuantity`,
+        `formMaterial[${objectValue?.keyBomTree}-${objectValue?.id}].[_${objectValue?.itemMaterialId}].planQcQuantity`,
         Math.ceil(cal),
       )
     } else {
       setFieldValue(
-        `formMaterial[${objectValue?.keyBomTree}-${objectValue?.id}].[${objectValue?.itemMaterialId}].planQcQuantity`,
-        undefined,
+        `formMaterial[${objectValue?.keyBomTree}-${objectValue?.id}].[_${objectValue?.itemMaterialId}].planQcQuantity`,
+        null,
       )
     }
   }

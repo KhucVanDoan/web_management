@@ -1,7 +1,9 @@
-export const SEARCH_MATERIAL_DETAIL_PLAN_START = 'MATERIAL_DETAIL_PLAN_START';
+export const SEARCH_MATERIAL_DETAIL_PLAN_START =
+  'MESX_MATERIAL_DETAIL_PLAN_START'
 export const SEARCH_MATERIAL_DETAIL_PLAN_SUCCESS =
-  'MATERIAL_DETAIL_PLAN_SUCCESS';
-export const SEARCH_MATERIAL_DETAIL_PLAN_FAILED = 'MATERIAL_DETAIL_PLAN_FAILED';
+  'MESX_MATERIAL_DETAIL_PLAN_SUCCESS'
+export const SEARCH_MATERIAL_DETAIL_PLAN_FAILED =
+  'MESX_MATERIAL_DETAIL_PLAN_FAILED'
 
 /*
  * Search material detail plan success action
@@ -12,7 +14,7 @@ export function searchMaterialDetailPlan(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  };
+  }
 }
 
 /**
@@ -24,7 +26,7 @@ export function searchMaterialDetailPlanSuccess(payload) {
   return {
     type: SEARCH_MATERIAL_DETAIL_PLAN_SUCCESS,
     payload: payload,
-  };
+  }
 }
 
 /**
@@ -34,5 +36,5 @@ export function searchMaterialDetailPlanSuccess(payload) {
 export function searchMaterialDetailPlanFailed() {
   return {
     type: SEARCH_MATERIAL_DETAIL_PLAN_FAILED,
-  };
+  }
 }

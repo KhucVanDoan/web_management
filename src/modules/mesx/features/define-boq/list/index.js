@@ -103,16 +103,6 @@ const DefineBOQ = () => {
         },
       },
       {
-        field: 'createdAt',
-        headerName: t('defineBOQ.createdAt'),
-        width: 200,
-        sortable: true,
-        filterFormat: 'date',
-        renderCell: (params) => {
-          return formatDateTimeUtc(params.row.createdAt, DATE_FORMAT)
-        },
-      },
-      {
         field: 'planFrom',
         headerName: t('defineBOQ.boqPlan'),
         width: 200,

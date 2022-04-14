@@ -105,7 +105,10 @@ function UserManagementDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('userManagement.user')} value={userDetails.user} />
+              <LV
+                label={t('userManagement.user')}
+                value={userDetails.createdBy?.username}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV

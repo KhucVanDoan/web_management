@@ -5,30 +5,9 @@ import { phoneSchema, passwordSchema } from '~/common/schemas'
 
 export const validationSchema = (t, mode) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        }),
-      ),
-    fullName: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        }),
-      ),
-    username: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-        }),
-      ),
+    code: Yup.string().required(t('general:form.required')),
+    fullName: Yup.string().required(t('general:form.required')),
+    username: Yup.string().required(t('general:form.required')),
     ...(mode === MODAL_MODE.CREATE
       ? {
           password: passwordSchema(t).required(t('general:form.required')),
@@ -37,12 +16,6 @@ export const validationSchema = (t, mode) =>
     email: Yup.string()
       .required(t('general:form.required'))
       .email(t('general:form.validEmail'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-        }),
-      )
       .min(
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
         t('general:form.minLength', {

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { isBefore } from 'date-fns'
 import { Formik, Form } from 'formik'
 import { isNil } from 'lodash'
 import qs from 'query-string'
@@ -43,6 +44,7 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
   const par = useParams()
   const location = useLocation()
   const urlSearchParams = qs.parse(location.search)
+  const dateTimeNow = new Date().toDateString()
 
   const {
     data: { wcQcPlanDetail, isLoading },
@@ -284,6 +286,10 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
                     if (typeof val === 'number' && !isNil(val) && +val < 0)
                       return t('general:form.minNumber', { min: 0 })
                   }}
+                  disabled={isBefore(
+                    new Date(e?.executionDay),
+                    new Date(dateTimeNow),
+                  )}
                 />
               )
             } else return params?.row[e.executionDay]

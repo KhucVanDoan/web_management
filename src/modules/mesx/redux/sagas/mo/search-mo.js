@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchMOApi = (params) => {
+export const searchMOApi = (params) => {
   const uri = `/v1/produces/manufacturing-orders/list`
   return api.get(uri, params)
 }
