@@ -386,6 +386,7 @@ const Autocomplete = ({
             ),
           }
         : {
+            value: parseValue(value, rawOptions),
             options: rawOptions,
             onChange: (_, newVal) => {
               if (multiple) {
@@ -394,7 +395,7 @@ const Autocomplete = ({
                 onChange(getOptionValue(newVal))
               }
             },
-            ...(!isNil(value) ? { value: parseValue(value, rawOptions) } : {}),
+            // ...(!isNil(value) ? { value: parseValue(value, rawOptions) } : {}),
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
