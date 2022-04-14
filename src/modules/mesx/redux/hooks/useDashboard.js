@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 
+import { get } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import dashboardActions from '../actions/dashboard'
 
 export const useDashboard = () => {
-  const data = useSelector((state) => state.dashboard)
+  const data = useSelector((state) => get(state, 'mesx.dashboard'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -21,7 +22,7 @@ export const useDashboard = () => {
 }
 
 export const useDashboardSummary = () => {
-  const data = useSelector((state) => state.dashboard.summary)
+  const data = useSelector((state) => get(state, 'mesx.dashboard.summary'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -36,7 +37,7 @@ export const useDashboardSummary = () => {
 }
 
 export const useDashboardMoStatus = () => {
-  const data = useSelector((state) => state.dashboard.moStatus)
+  const data = useSelector((state) => get(state, 'mesx.dashboard.moStatus'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -51,9 +52,11 @@ export const useDashboardMoStatus = () => {
 }
 
 export const useDashboardProductProcessFinished = () => {
-  const inProgressMos = useSelector((state) => state.dashboard.inProgressMos)
-  const finishedItemProgress = useSelector(
-    (state) => state.dashboard.finishedItemProgress,
+  const inProgressMos = useSelector((state) =>
+    get(state, 'mesx.dashboard.inProgressMos'),
+  )
+  const finishedItemProgress = useSelector((state) =>
+    get(state, 'mesx.dashboard.finishedItemProgress'),
   )
 
   const dispatch = useDispatch()
@@ -69,9 +72,11 @@ export const useDashboardProductProcessFinished = () => {
 }
 
 export const useDashboardProducingStepProgress = () => {
-  const inProgressMos = useSelector((state) => state.dashboard.inProgressMos)
-  const producingStepProgress = useSelector(
-    (state) => state.dashboard.producingStepProgress,
+  const inProgressMos = useSelector((state) =>
+    get(state, 'mesx.dashboard.inProgressMos'),
+  )
+  const producingStepProgress = useSelector((state) =>
+    get(state, 'mesx.dashboard.producingStepProgress'),
   )
 
   const dispatch = useDispatch()
@@ -87,9 +92,11 @@ export const useDashboardProducingStepProgress = () => {
 }
 
 export const useDashboardProductProcessQc = () => {
-  const inProgressMos = useSelector((state) => state.dashboard.inProgressMos)
-  const qcProducingStepProgress = useSelector(
-    (state) => state.dashboard.qcProducingStepProgress,
+  const inProgressMos = useSelector((state) =>
+    get(state, 'mesx.dashboard.inProgressMos'),
+  )
+  const qcProducingStepProgress = useSelector((state) =>
+    get(state, 'mesx.dashboard.qcProducingStepProgress'),
   )
 
   const dispatch = useDispatch()
