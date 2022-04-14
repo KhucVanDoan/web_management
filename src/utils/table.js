@@ -26,13 +26,23 @@ export const convertFilterParams = (filters = {}, columns = []) => {
           (col.filterFormat === 'date' || col.type === 'date'), // type is deprecated
       )
     ) {
-      const from = startOfDay(filters[cur]?.[0])
-      const to = endOfDay(filters[cur]?.[1])
+      let day1 = filters[cur]?.[0]
+      let day2 = filters[cur]?.[1]
+
+      if (!day1 && !day2) {
+        return acc
+      }
+
+      day1 = day1 || day2
+      day2 = day2 || day1
+
+      const startOfDay1 = startOfDay(day1)
+      const endOfDay2 = endOfDay(day2)
       return [
         ...acc,
         {
           column: cur,
-          text: `${from.toISOString()}|${to.toISOString()}`,
+          text: `${startOfDay1.toISOString()}|${endOfDay2.toISOString()}`,
         },
       ]
     }
