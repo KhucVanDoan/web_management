@@ -13,7 +13,7 @@
     "itemUnitDefine": "Định nghĩa đơn vị sản phẩm",
     "itemUnitCreate": "Tạo đơn vị sản phẩm",
     "itemUnitDetail": "Chi tiết đơn vị sản phẩm",
-    "itemUnitEdit": "Chỉnh sửa đơn vị sản phẩm",
+    "itemUnitEdit": "Sửa đơn vị sản phẩm",
     "itemTypeSetting": "Định nghĩa kiểu sản phẩm",
     "defineItem": "Định nghĩa sản phẩm",
     "defineItemCreate": "Tạo sản phẩm",
@@ -121,7 +121,7 @@
     "autoModeration": "Chi tiết công việc",
     "extendDeadline": "Giãn ngày kết thúc",
     "inputModeration": "Điều độ công việc",
-    "detailWorkCenterPlan": "Chi tiết kế hoạch cho xưởng"
+    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
