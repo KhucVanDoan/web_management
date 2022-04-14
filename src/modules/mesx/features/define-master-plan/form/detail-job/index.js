@@ -32,16 +32,13 @@ export const DetailJob = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
-
   const backToList = () => {
     history.push(ROUTE.MASTER_PLAN.LIST.PATH)
   }
-
   const {
     data: { jobDetail, isLoading },
     actions,
   } = useDefineMasterPlan()
-
   useEffect(() => {
     actions.getJobDetailsById(id)
   }, [id])
@@ -207,7 +204,6 @@ export const DetailJob = () => {
     })
     return { rows, rowSpanMatrix, grayRowMatrix }
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
