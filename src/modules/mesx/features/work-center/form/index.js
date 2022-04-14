@@ -11,6 +11,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_STATUS,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -385,7 +386,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.member')}
                         options={wcDetails?.members}
                         asyncRequest={(s) =>
-                          getUsersApi({ keyword: s, limit: 100 })
+                          getUsersApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
@@ -437,7 +438,7 @@ const WorkCenterForm = () => {
                         asyncRequest={(s) =>
                           searchProducingStepsApi({
                             keyword: s,
-                            limit: 100,
+                            limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ASYNC_SEARCH_STATUS,
                             }),
