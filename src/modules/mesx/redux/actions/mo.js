@@ -484,3 +484,9 @@ export function resetMoDetail() {
     type: RESET_MO_DETAIL_STATE,
   }
 }
+
+export function resetMaterialCheck() {
+  return {
+    type: RESET_CHECK_MATERIAL_PLAN,
+  }
+}

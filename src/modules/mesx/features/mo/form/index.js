@@ -128,13 +128,12 @@ const MOForm = () => {
         ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
       )
     } else {
-      actions.checkMaterialPlanById(moDetails?.materialPlan?.id, () => {
-        if (materialCheck) {
-          setIsOpenCreatePO(true)
-        } else {
-          setIsOpenEnoughMaterial(true)
-        }
-      })
+      actions.checkMaterialPlanById(moDetails?.materialPlan?.id)
+      if (materialCheck) {
+        setIsOpenCreatePO(true)
+      } else {
+        setIsOpenEnoughMaterial(true)
+      }
     }
   }
 
@@ -142,10 +141,9 @@ const MOForm = () => {
     const params = {
       ...materialCheck,
     }
-    actionRequest.createRequestBuyMaterial(params, (data) => {
-      history.push(
-        ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${data.id}`),
-      )
+    actionRequest.createRequestBuyMaterial(params, () => {
+      setIsOpenCreatePO(false)
+      history.push(ROUTE.REQUEST_BUY_MATERIAL.LIST.PATH)
     })
   }
 
@@ -307,6 +305,7 @@ const MOForm = () => {
     itemIds: [],
     masterPlanId: moDetails?.masterPlan?.id || masterPlanId,
     saleOrderId: moDetails?.saleOrderId || null,
+    moFactory: '',
   }
 
   const handleSubmit = (values) => {
@@ -577,7 +576,9 @@ const MOForm = () => {
       <Dialog
         open={isOpenCreatePO}
         title={t('Mo.notification')}
-        onCancel={() => setIsOpenCreatePO(false)}
+        onCancel={() => {
+          setIsOpenCreatePO(false)
+        }}
         cancelLabel={t('common.no')}
         onSubmit={createRequestBuyMaterial}
         submitLabel={t('common.yes')}
