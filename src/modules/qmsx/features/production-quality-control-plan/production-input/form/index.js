@@ -308,9 +308,14 @@ function ProductionInputQualityControlPlanForm() {
               icon="save"
               onClick={() => {
                 validateForm().then((res) => {
-                  if (!isEmpty(res?.form)) {
+                  if (!isEmpty(res?.formPrevious)) {
                     addNotification(
-                      'qmsx:productionQualityControlPlan.notification.tableDetailIsNotValid',
+                      'qmsx:productionQualityControlPlan.notification.tablePreviousDetailIsNotValid',
+                      NOTIFICATION_TYPE.ERROR,
+                    )
+                  } else if (!isEmpty(res?.formMaterial)) {
+                    addNotification(
+                      'qmsx:productionQualityControlPlan.notification.tableMaterialDetailIsNotValid',
                       NOTIFICATION_TYPE.ERROR,
                     )
                   }
@@ -393,7 +398,7 @@ function ProductionInputQualityControlPlanForm() {
           const obj = {}
           rowProducingStep?.producingStep?.qualityPlanBom?.forEach(
             (rowMaterial) => {
-              obj[rowMaterial.itemMaterialId] = {
+              obj[`_${rowMaterial.itemMaterialId}`] = {
                 id: rowMaterial?.id,
                 itemMaterialId: rowMaterial?.itemMaterialId,
                 planErrorRate: +rowMaterial?.planErrorRate,
@@ -429,6 +434,9 @@ function ProductionInputQualityControlPlanForm() {
                   rowProducingStep?.producingStep?.qualityPlanBom[0]?.qualityPlanBomQualityPointUser2s?.map(
                     (x) => x?.userId,
                   ),
+                numberOfTime:
+                  rowProducingStep?.producingStep?.qualityPoint?.numberOfTime,
+                materialLength: rowProducingStep?.materials?.length,
                 ...obj,
               },
           }))
@@ -517,7 +525,7 @@ function ProductionInputQualityControlPlanForm() {
           if (!isEmpty(rowProducingStep?.producingStep?.qualityPlanBom)) {
             rowProducingStep?.producingStep?.qualityPlanBom?.forEach(
               (rowMaterial) => {
-                obj[`${material.itemMaterialId}`] = {
+                obj[`_${material.itemMaterialId}`] = {
                   id: rowMaterial?.id,
                   itemMaterialId: rowMaterial?.itemMaterialId,
                   type: rowProducingStep?.type,
@@ -548,7 +556,7 @@ function ProductionInputQualityControlPlanForm() {
             )
           } else {
             rowProducingStep?.materials.forEach((material) => {
-              obj[`${material.itemMaterialId}`] = {
+              obj[`_${material.itemMaterialId}`] = {
                 itemMaterialId: material?.itemMaterialId,
                 type: rowProducingStep?.type,
                 bomId: rowProducingStep?.bomId,

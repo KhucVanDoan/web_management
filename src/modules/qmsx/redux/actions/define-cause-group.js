@@ -1,27 +1,28 @@
 //@Define Action
 //Action: Get list
-export const SEARCH_CAUSE_GROUP_START = 'SEARCH_CAUSE_GROUP_START'
-export const SEARCH_CAUSE_GROUP_SUCCESS = 'SEARCH_CAUSE_GROUP_SUCCESS'
-export const SEARCH_CAUSE_GROUP_FAIL = 'SEARCH_CAUSE_GROUP_FAIL'
+export const SEARCH_CAUSE_GROUP_START = 'QMSX_SEARCH_CAUSE_GROUP_START'
+export const SEARCH_CAUSE_GROUP_SUCCESS = 'QMSX_SEARCH_CAUSE_GROUP_SUCCESS'
+export const SEARCH_CAUSE_GROUP_FAIL = 'QMSX_SEARCH_CAUSE_GROUP_FAIL'
 //Action: create
-export const CREATE_CAUSE_GROUP_START = 'CREATE_CAUSE_GROUP_START'
-export const CREATE_CAUSE_GROUP_SUCCESS = 'CREATE_CAUSE_GROUP_SUCCESS'
-export const CREATE_CAUSE_GROUP_FAIL = 'CREATE_CAUSE_GROUP_FAIL'
+export const CREATE_CAUSE_GROUP_START = 'QMSX_CREATE_CAUSE_GROUP_START'
+export const CREATE_CAUSE_GROUP_SUCCESS = 'QMSX_CREATE_CAUSE_GROUP_SUCCESS'
+export const CREATE_CAUSE_GROUP_FAIL = 'QMSX_CREATE_CAUSE_GROUP_FAIL'
 //Action: update
-export const UPDATE_CAUSE_GROUP_START = 'UPDATE_CAUSE_GROUP_START'
-export const UPDATE_CAUSE_GROUP_SUCCESS = 'UPDATE_CAUSE_GROUP_SUCCESS'
-export const UPDATE_CAUSE_GROUP_FAIL = 'UPDATE_CAUSE_GROUP_FAIL'
+export const UPDATE_CAUSE_GROUP_START = 'QMSX_UPDATE_CAUSE_GROUP_START'
+export const UPDATE_CAUSE_GROUP_SUCCESS = 'QMSX_UPDATE_CAUSE_GROUP_SUCCESS'
+export const UPDATE_CAUSE_GROUP_FAIL = 'QMSX_UPDATE_CAUSE_GROUP_FAIL'
 //Action: delete
-export const DELETE_CAUSE_GROUP_START = 'DELETE_CAUSE_GROUP_START'
-export const DELETE_CAUSE_GROUP_SUCCESS = 'DELETE_CAUSE_GROUP_SUCCESS'
-export const DELETE_CAUSE_GROUP_FAIL = 'DELETE_CAUSE_GROUP_FAIL'
+export const DELETE_CAUSE_GROUP_START = 'QMSX_DELETE_CAUSE_GROUP_START'
+export const DELETE_CAUSE_GROUP_SUCCESS = 'QMSX_DELETE_CAUSE_GROUP_SUCCESS'
+export const DELETE_CAUSE_GROUP_FAIL = 'QMSX_DELETE_CAUSE_GROUP_FAIL'
 //Action: Get detail
-export const GET_CAUSE_GROUP_DETAIL_START = 'GET_CAUSE_GROUP_DETAIL_START'
-export const GET_CAUSE_GROUP_DETAIL_SUCCESS = 'GET_CAUSE_GROUP_DETAIL_SUCCESS'
-export const GET_CAUSE_GROUP_DETAIL_FAIL = 'GET_CAUSE_GROUP_DETAIL_FAIL'
+export const GET_CAUSE_GROUP_DETAIL_START = 'QMSX_GET_CAUSE_GROUP_DETAIL_START'
+export const GET_CAUSE_GROUP_DETAIL_SUCCESS =
+  'QMSX_GET_CAUSE_GROUP_DETAIL_SUCCESS'
+export const GET_CAUSE_GROUP_DETAIL_FAIL = 'QMSX_GET_CAUSE_GROUP_DETAIL_FAIL'
 //Action: Reset state detail
-export const RESET_CAUSE_GROUP_DETAIL_STATE = 'RESET_CAUSE_GROUP_DETAIL_STATE'
-
+export const RESET_CAUSE_GROUP_DETAIL_STATE =
+  'QMSX_RESET_CAUSE_GROUP_DETAIL_STATE'
 
 /**
  * Search Cause Group start action
@@ -213,32 +214,31 @@ export function getCauseGroupDetailByIdFail() {
   }
 }
 
-
 /**
  * Reset state action
  * @returns {object}
  */
- export function resetCauseGroupDetailState() {
-    return {
-      type: RESET_CAUSE_GROUP_DETAIL_STATE,
-    }
+export function resetCauseGroupDetailState() {
+  return {
+    type: RESET_CAUSE_GROUP_DETAIL_STATE,
   }
-  
-  export default {
-    searchCauseGroup,
-    searchCauseGroupSuccess,
-    searchCauseGroupFail,
-    createCauseGroup,
-    createCauseGroupSuccess,
-    createCauseGroupFail,
-    getCauseGroupDetailById,
-    getCauseGroupDetailByIdSuccess,
-    getCauseGroupDetailByIdFail,
-    updateCauseGroup,
-    updateCauseGroupSuccess,
-    updateCauseGroupFail,
-    deleteCauseGroup,
-    deleteCauseGroupSuccess,
-    deleteCauseGroupFail,
-    resetCauseGroupDetailState,
-  }
+}
+
+export default {
+  searchCauseGroup,
+  searchCauseGroupSuccess,
+  searchCauseGroupFail,
+  createCauseGroup,
+  createCauseGroupSuccess,
+  createCauseGroupFail,
+  getCauseGroupDetailById,
+  getCauseGroupDetailByIdSuccess,
+  getCauseGroupDetailByIdFail,
+  updateCauseGroup,
+  updateCauseGroupSuccess,
+  updateCauseGroupFail,
+  deleteCauseGroup,
+  deleteCauseGroupSuccess,
+  deleteCauseGroupFail,
+  resetCauseGroupDetailState,
+}

@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 
+import { get } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import dashboardActions from '../actions/dashboard'
 
 export const useDashboard = () => {
-  const data = useSelector((state) => state.dashboard)
+  const data = useSelector((state) => get(state, 'qmsx.dashboard'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -21,7 +22,7 @@ export const useDashboard = () => {
 }
 
 export const useDashboardSummary = () => {
-  const data = useSelector((state) => state.dashboard.summary)
+  const data = useSelector((state) => get(state, 'qmsx.dashboard.summary'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -36,7 +37,7 @@ export const useDashboardSummary = () => {
 }
 
 export const useDashboardInputQuality = () => {
-  const data = useSelector((state) => state.dashboard.inputQuality)
+  const data = useSelector((state) => get(state, 'qmsx.dashboard.inputQuality'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -51,7 +52,9 @@ export const useDashboardInputQuality = () => {
 }
 
 export const useDashboardOutputQuality = () => {
-  const data = useSelector((state) => state.dashboard.outputQuality)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.outputQuality'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -66,8 +69,8 @@ export const useDashboardOutputQuality = () => {
 }
 
 export const useDashboardProductionInputQualityProductPrevious = () => {
-  const data = useSelector(
-    (state) => state.dashboard.productionInputQualityProductPrevious,
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.productionInputQualityProductPrevious'),
   )
 
   const dispatch = useDispatch()
@@ -83,8 +86,8 @@ export const useDashboardProductionInputQualityProductPrevious = () => {
 }
 
 export const useDashboardProductionInputQualityMaterial = () => {
-  const data = useSelector(
-    (state) => state.dashboard.productionInputQualityMaterial,
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.productionInputQualityMaterial'),
   )
 
   const dispatch = useDispatch()
@@ -100,7 +103,9 @@ export const useDashboardProductionInputQualityMaterial = () => {
 }
 
 export const useDashboardProductionOutputQuality = () => {
-  const data = useSelector((state) => state.dashboard.productionOutputQuality)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.productionOutputQuality'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -115,7 +120,7 @@ export const useDashboardProductionOutputQuality = () => {
 }
 
 export const useDashboardQcProgress = () => {
-  const data = useSelector((state) => state.dashboard.qcProgress)
+  const data = useSelector((state) => get(state, 'qmsx.dashboard.qcProgress'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -130,7 +135,7 @@ export const useDashboardQcProgress = () => {
 }
 
 export const useDashboardMo = () => {
-  const data = useSelector((state) => state.dashboard.moList)
+  const data = useSelector((state) => get(state, 'qmsx.dashboard.moList'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -145,7 +150,9 @@ export const useDashboardMo = () => {
 }
 
 export const useDashboardErrorGroup = () => {
-  const data = useSelector((state) => state.dashboard.errorGroupList)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.errorGroupList'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -160,7 +167,9 @@ export const useDashboardErrorGroup = () => {
 }
 
 export const useDashboardCauseGroup = () => {
-  const data = useSelector((state) => state.dashboard.causeGroupList)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.causeGroupList'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -175,7 +184,9 @@ export const useDashboardCauseGroup = () => {
 }
 
 export const useDashboardActionGroup = () => {
-  const data = useSelector((state) => state.dashboard.actionGroupList)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.actionGroupList'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
@@ -190,7 +201,9 @@ export const useDashboardActionGroup = () => {
 }
 
 export const useDashboardErrorReportStatus = () => {
-  const data = useSelector((state) => state.dashboard.errorReportStatusList)
+  const data = useSelector((state) =>
+    get(state, 'qmsx.dashboard.errorReportStatusList'),
+  )
 
   const dispatch = useDispatch()
   const actions = useMemo(
