@@ -5,6 +5,9 @@ import {
   GET_MASTER_PLAN_DETAILS_START,
   GET_MASTER_PLAN_DETAILS_SUCCESS,
   GET_MASTER_PLAN_DETAILS_FAILED,
+  GET_JOB_DETAILS_START,
+  GET_JOB_DETAILS_SUCCESS,
+  GET_JOB_DETAILS_FAILED,
   GET_MODERATION_SUGGEST_SPREAD_START,
   GET_MODERATION_SUGGEST_SPREAD_SUCCESS,
   GET_MODERATION_SUGGEST_SPREAD_FAILED,
@@ -34,6 +37,7 @@ const initialState = {
   total: null,
   moderationSuggestSpread: [],
   moderationInput: {},
+  jobDetail: [],
 }
 
 /**
@@ -52,6 +56,7 @@ export default function defineMasterPlan(state = initialState, action) {
     case EXTEND_DEADLINE_START:
     case GET_PRODUCING_STEP_DETAIL_START:
     case UPDATE_MASTER_PLAN_START:
+    case GET_JOB_DETAILS_START:
       return {
         ...state,
         isLoading: true,
@@ -67,6 +72,12 @@ export default function defineMasterPlan(state = initialState, action) {
       return {
         ...state,
         masterPlanDetails: action.payload,
+        isLoading: false,
+      }
+    case GET_JOB_DETAILS_SUCCESS:
+      return {
+        ...state,
+        jobDetail: action.payload,
         isLoading: false,
       }
     case GET_MODERATION_SUGGEST_SPREAD_SUCCESS:
@@ -100,6 +111,12 @@ export default function defineMasterPlan(state = initialState, action) {
       return {
         ...state,
         masterPlanDetails: action.payload,
+        isLoading: false,
+      }
+    case GET_JOB_DETAILS_FAILED:
+      return {
+        ...state,
+        jobDetail: action.payload,
         isLoading: false,
       }
     case RESET_MODERATION_SUGGEST_SPREAD:

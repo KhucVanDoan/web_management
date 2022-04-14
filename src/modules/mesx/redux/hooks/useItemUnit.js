@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 
+import { get } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import itemUnitActions from '../actions/item-unit-setting'
 
 const useItemUnit = () => {
-  const data = useSelector((state) => state.itemUnitSetting)
+  const data = useSelector((state) => get(state, 'mesx.itemUnitSetting'))
 
   const dispatch = useDispatch()
   const actions = useMemo(

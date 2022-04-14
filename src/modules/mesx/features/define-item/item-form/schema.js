@@ -16,14 +16,7 @@ export const itemSchema = (t, isDetailed) =>
           length: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
         }),
       ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
+    name: Yup.string().required(t('general:form.required')),
     itemType: Yup.object().nullable().required(t('general:form.required')),
     itemGroup: Yup.object().nullable().required(t('general:form.required')),
     itemUnit: Yup.object().nullable().required(t('general:form.required')),
@@ -41,12 +34,7 @@ export const itemSchema = (t, isDetailed) =>
         }),
       ),
     dayExpire: numberSchema(t),
-    decription: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    description: Yup.string(),
     long: Yup.object().shape({
       value: numberSchema(t),
     }),

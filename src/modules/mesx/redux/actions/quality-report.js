@@ -1,14 +1,15 @@
-export const GET_QUALITY_REPORTS = 'quality-report/GET_QUALITY_REPORTS'
+export const GET_QUALITY_REPORTS = 'MESX_quality-report/GET_QUALITY_REPORTS'
 export const GET_QUALITY_REPORTS_SUCCESS =
-  'quality-report/GET_QUALITY_REPORTS_SUCCESS'
+  'MESX_quality-report/GET_QUALITY_REPORTS_SUCCESS'
 export const GET_QUALITY_REPORTS_FAILED =
-  'quality-report/GET_QUALITY_REPORTS_FAILED'
+  'MESX_quality-report/GET_QUALITY_REPORTS_FAILED'
 
-export const EXPORT_QUALITY_REPORTS = 'quality-report/EXPORT_QUALITY_REPORTS'
+export const EXPORT_QUALITY_REPORTS =
+  'MESX_quality-report/EXPORT_QUALITY_REPORTS'
 export const EXPORT_QUALITY_REPORTS_SUCCESS =
-  'quality-report/EXPORT_QUALITY_REPORTS_SUCCESS'
+  'MESX_quality-report/EXPORT_QUALITY_REPORTS_SUCCESS'
 export const EXPORT_QUALITY_REPORTS_FAILED =
-  'quality-report/EXPORT_QUALITY_REPORTS_FAILED'
+  'MESX_quality-report/EXPORT_QUALITY_REPORTS_FAILED'
 export function getQualityReports(payload, onSuccess, onError) {
   return {
     type: GET_QUALITY_REPORTS,

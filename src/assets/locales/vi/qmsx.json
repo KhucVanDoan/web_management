@@ -619,34 +619,6 @@
       "material": "Nguyên vật liệu"
     }
   },
-  "workCenterPlan": {
-    "title": "Danh sách kế hoạch xưởng",
-    "searchPlaceHolder": "Tìm kiếm theo mã kế hoạch",
-    "id": "#",
-    "planCode": "Mã kế hoạch",
-    "woCode": "Mã lệnh làm việc",
-    "code": "Mã xưởng",
-    "name": "Tên xưởng",
-    "status": "Trạng thái",
-    "action": "Hành động",
-    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng",
-    "leader": "Tổ trưởng",
-    "member": "Thành viên",
-    "performance": "Số lượng kế hoạch",
-    "plan": "Kế hoạch",
-    "sum": "Tổng",
-    "planingAmount": "Số lượng kế hoạch",
-    "planModeration": "Điều độ kế hoạch",
-    "productAmount": "Số lượng sản xuất",
-    "qcAmount": "Số lượng đã QC",
-    "delayAmount": "Số lượng trễ",
-    "productionPlan": "Kế hoạch sản xuất",
-    "qcPlan": "Kế hoạch QC",
-    "editWorkCenterPlan": "Sửa kế hoạch QC theo xưởng",
-    "shift": "Ca",
-    "updateWorkCenterQCPlanSuccess": "Cập nhật kế hoạch QC cho xưởng thành công",
-    "default": "(Mặc định)"
-  },
   "dashboard": {
     "title": "Dashboard",
     "qualityControl": {

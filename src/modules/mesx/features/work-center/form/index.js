@@ -10,6 +10,7 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_STATUS,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -19,10 +20,12 @@ import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
+import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
+import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import BreakTimeTable from './break-time'
 import { WorkCenterSchema } from './schema'
@@ -48,20 +51,12 @@ const WorkCenterForm = () => {
     actions: commonManagementActions,
   } = useCommonManagement()
 
-  const {
-    data: { list: producingStepList },
-    actions: producingStepActions,
-  } = useProducingStep()
-
-  const listProducingStep = producingStepList.filter((e) => e.status === 1)
-
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
-    commonManagementActions.getFactories()
-    producingStepActions.searchProducingSteps({ isGetAll: 1 })
+    commonManagementActions.getFactories({ isGetAll: 1 })
 
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
@@ -101,12 +96,12 @@ const WorkCenterForm = () => {
       code: wcDetails?.code || '',
       name: wcDetails?.name || '',
       description: wcDetails?.description || '',
-      members: wcDetails?.members?.map((e) => e.id) || [],
+      members: wcDetails?.members || [],
       factoryId: wcDetails?.factoryId || '',
-      leaderId: wcDetails?.leader?.id || '',
+      leaderId: wcDetails?.leaderId || '',
       oeeTarget: wcDetails?.oeeIndex || '',
       workCapacity: wcDetails?.productivityIndex || '',
-      producingStepId: wcDetails?.producingStep?.id || '',
+      producingStepId: wcDetails?.producingStep || '',
       shifts:
         wcDetails?.workCenterShifts?.map((e) => ({
           id: e.id,
@@ -237,7 +232,7 @@ const WorkCenterForm = () => {
     if (response?.statusCode === 200 && response?.data !== []) {
       setField(setFieldValue, response?.data?.[0])
     }
-    if (response.data.length === 0) {
+    if (response?.data?.length === 0) {
       setFieldValue('shifts', defaultShifts)
       setFieldValue('breakTimes', defaultBreakTime)
     }
@@ -286,8 +281,8 @@ const WorkCenterForm = () => {
       preProductionTime: '',
       postProductionTime: '',
       workingHours: '',
-      members: values.members?.map((member) => ({ id: member })),
-      producingStepId: values.producingStepId,
+      members: values.members?.map((member) => ({ id: member?.id })),
+      producingStepId: values.producingStepId?.id,
       workCenterShifts: values?.shifts?.map((shift) => ({
         startAt: formatTime(shift.startAt),
         endAt: formatTime(shift.endAt),
@@ -334,7 +329,7 @@ const WorkCenterForm = () => {
         {({ values, setFieldValue, resetForm }) => {
           const leaderOptions =
             userList?.filter((leader) =>
-              values.members.some((member) => leader.id === member),
+              values.members.some((member) => leader.id === member?.id),
             ) || []
           return (
             <Form>
@@ -388,17 +383,18 @@ const WorkCenterForm = () => {
                       <Field.Autocomplete
                         name="members"
                         label={t('workCenter.member')}
-                        options={userList}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) =>
-                          `${opt?.code} - ${opt?.fullName || opt?.username}`
+                        options={wcDetails?.members}
+                        asyncRequest={(s) =>
+                          getUsersApi({ keyword: s, limit: 100 })
                         }
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) =>
-                            `${opt?.code}|${opt?.fullName || opt?.username}`,
-                        })}
-                        onChange={(val = []) => {
-                          if (!val.includes(values.leaderId)) {
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.fullName || opt?.username}
+                        getOptionSubLabel={(opt) => opt?.code}
+                        onChange={(val) => {
+                          if (
+                            val.filter((v) => v?.id === values?.leaderId)
+                              .length === 0
+                          ) {
                             setFieldValue('leaderId', '')
                           }
                         }}
@@ -429,6 +425,7 @@ const WorkCenterForm = () => {
                         options={leaderOptions}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
+                        getOptionSubLabel={(opt) => opt?.code}
                         required
                       />
                     </Grid>
@@ -437,12 +434,18 @@ const WorkCenterForm = () => {
                         name="producingStepId"
                         label={t('workCenter.producingStep')}
                         placeholder={t('workCenter.producingStep')}
-                        options={listProducingStep}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          searchProducingStepsApi({
+                            keyword: s,
+                            limit: 100,
+                            filter: convertFilterParams({
+                              status: ASYNC_SEARCH_STATUS,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
                         required
                       />
                     </Grid>

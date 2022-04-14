@@ -43,6 +43,3 @@ export const passwordSchema = (t) =>
         message: t('general:form.validatePassword'),
       },
     )
-// .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/, {
-
-// /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/-~!@#$%^&*()_+?])[A-Za-z\d/\-~!@#$%^&*()_+?]$/,

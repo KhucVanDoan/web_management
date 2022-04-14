@@ -27,7 +27,19 @@ import {
 
 import FilterForm from './filter-form'
 import { validationSchema } from './schema'
-
+const breadcrumbs = [
+  {
+    title: 'plan',
+  },
+  {
+    route: ROUTE.MO.LIST.PATH,
+    title: ROUTE.MO.LIST.TITLE,
+  },
+  {
+    route: ROUTE.MO.WORK_ORDER.PATH,
+    title: ROUTE.MO.WORK_ORDER.TITLE,
+  },
+]
 const WorkOrder = () => {
   const {
     data: { isLoading, workOrderList, total },
@@ -313,6 +325,7 @@ const WorkOrder = () => {
   return (
     <Page
       title={t('menu.workOrder')}
+      breadcrumbs={breadcrumbs}
       renderHeaderRight={renderHeaderRight}
       onBack={() => history.push(ROUTE.MO.LIST.PATH)}
       placeholder={t('workOrder.searchPlaceholder')}

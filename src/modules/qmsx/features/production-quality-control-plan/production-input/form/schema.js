@@ -153,30 +153,71 @@ export const productionInputQualityControlPlanSchema = (t) =>
                     return true
                   },
                 })
+              } else if (key !== 'materialLength' && key !== 'numberOfTime') {
+                return Yup.object().shape({
+                  productionQcPlanDate: Yup.array()
+                    .nullable()
+                    .test({
+                      message: t('general:form.required'),
+                      test: (arr) => {
+                        if (!isEmpty(arr)) {
+                          const filterNull = arr.filter((x) => x)
+                          if (filterNull.length < 2) {
+                            return false
+                          }
+                        }
+                        return true
+                      },
+                    }),
+                  planErrorRate: Yup.number()
+                    .transform((v) => (v === '' || isNaN(v) ? null : v))
+                    .nullable()
+                    .min(0, t('general:form.minNumber', { min: 0 }))
+                    .integer(t('general:form.integer'))
+                    .required(t('general:form.required')),
+                  planQcQuantity: Yup.number()
+                    .transform((v) => (v === '' || isNaN(v) ? null : v))
+                    .nullable()
+                    .min(0, t('general:form.minNumber', { min: 0 }))
+                    .integer(t('general:form.integer'))
+                    .required(t('general:form.required'))
+                    .when((_, schema, context) => {
+                      return schema.test({
+                        message: t('qmsx:form.compareTwoField', {
+                          limit: Math.ceil(
+                            (1 + +context.parent?.planErrorRate / 100) *
+                              context.parent?.numberOfTime *
+                              context.parent?.formalityRate *
+                              context.parent?.planningQuantity,
+                          ),
+                        }),
+                        test: () => {
+                          const numberOfTime = context.parent?.numberOfTime
+                          const formalityRate = context.parent?.formalityRate
+                          const planErrorRate = context.parent?.planErrorRate
+                          const planningQuantity =
+                            context.parent?.planningQuantity
+                          if (
+                            !isNil(context?.value) &&
+                            !isNil(planErrorRate) &&
+                            !isNil(formalityRate) &&
+                            !isNil(planningQuantity)
+                          ) {
+                            const cal =
+                              (1 + planErrorRate / 100) *
+                              numberOfTime *
+                              formalityRate *
+                              planningQuantity
+                            if (context.value > Math.ceil(cal)) {
+                              return false
+                            }
+                          }
+                          return true
+                        },
+                      })
+                    }),
+                })
               }
-              //@TODO: validate~
-              // return Yup.object().shape({
-              //   productionQcPlanDate: Yup.array()
-              //     .nullable()
-              //     .test({
-              //       message: t('general:form.required'),
-              //       test: (arr) => {
-              //         if (!isEmpty(arr)) {
-              //           const filterNull = arr.filter((x) => x)
-              //           if (filterNull.length < 2) {
-              //             return false
-              //           }
-              //         }
-              //         return true
-              //       },
-              //     }),
-              //   planErrorRate: Yup.number()
-              //     .transform((v) => (v === '' || isNaN(v) ? null : v))
-              //     .nullable()
-              //     .min(0, t('general:form.minNumber', { min: 0 }))
-              //     .integer(t('general:form.integer'))
-              //     .required(t('general:form.required')),
-              // })
             }),
           )
         }),

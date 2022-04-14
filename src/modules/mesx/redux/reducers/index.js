@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux'
+
 import bomProducingStep from './bom-producing-step'
 import calendar from './calendar'
 import commonManagement from './common'
@@ -28,7 +30,8 @@ import userPermission from './user-permission'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
 import workOrder from './work-order'
-const reducers = {
+
+export default combineReducers({
   userPermission,
   userManagement,
   commonManagement,
@@ -59,6 +62,4 @@ const reducers = {
   bomProducingStep,
   calendar,
   PriceReport,
-}
-
-export default reducers
+})
