@@ -353,6 +353,20 @@ const DefineMasterPlanForm = () => {
                       />
                     )}
                   </Grid>
+                  {isDetail && (<Grid item lg={6} xs={12}>
+                    <LabelValue
+                      label={t('defineMasterPlan.createdBy')}
+                      value={masterPlanDetails?.createdBy?.fullname}
+                    />
+                    </Grid>
+                  )}
+                  {isDetail && (<Grid item lg={6} xs={12}>
+                    <LabelValue
+                      label={t('defineMasterPlan.createdAt')}
+                      value={formatDateTimeUtc(masterPlanDetails?.createdAt)}
+                    />
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     {isDetail ? (
                       <TextField
