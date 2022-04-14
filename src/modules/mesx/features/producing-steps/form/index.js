@@ -11,6 +11,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -211,8 +212,9 @@ function ProducingStepForm() {
                       placeholder={t('producingStep.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>
