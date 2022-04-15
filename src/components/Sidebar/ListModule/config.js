@@ -9,28 +9,18 @@ import wmsx_icon from '~/assets/images/menu/wmsx_icon.svg'
 
 const modules = [
   {
-    name: 'wmsx',
-    path: process.env.REACT_APP_WMSX_URL || 'wmsx',
-    icon: wmsx_icon,
-    title: (
-      <>
-        WMS<span style={{ color: '#ff9054' }}>X</span>
-      </>
-    ),
-  },
-  {
     name: 'mesx',
     path: process.env.REACT_APP_MESX_URL || 'mesx',
     icon: mesx_icon,
     title: <>MES</>,
   },
   {
-    name: 'mmsx',
-    path: process.env.REACT_APP_MMSX_URL || 'mmsx',
-    icon: mmsx_icon,
+    name: 'wmsx',
+    path: process.env.REACT_APP_WMSX_URL || 'wmsx',
+    icon: wmsx_icon,
     title: (
       <>
-        MMS<span style={{ color: '#ff9054' }}>X</span>
+        WMS<span style={{ color: '#ff9054' }}>X</span>
       </>
     ),
   },
@@ -45,8 +35,18 @@ const modules = [
     ),
   },
   {
+    name: 'mmsx',
+    path: process.env.REACT_APP_MMSX_URL || 'mmsx',
+    icon: mmsx_icon,
+    title: (
+      <>
+        MMS<span style={{ color: '#ff9054' }}>X</span>
+      </>
+    ),
+  },
+  {
     name: 'tnt',
-    path: process.env.REACT_APP_TNT_URL || 'tnt',
+    // path: process.env.REACT_APP_TNT_URL || 'tnt',
     icon: tnt_icon,
     title: (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
@@ -56,7 +56,7 @@ const modules = [
   },
   {
     name: 'solution',
-    path: process.env.REACT_APP_SOLUTION_URL || 'solution',
+    // path: process.env.REACT_APP_SOLUTION_URL || 'solution',
     icon: solution_icon,
     title: (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>

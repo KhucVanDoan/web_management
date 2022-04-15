@@ -76,29 +76,11 @@ const DetailWorkCenterPlan = () => {
     return columns
   }
   const getRowManufacturing = () => {
-    let shift = [
-      {
-        plan: t(`workCenterPlan.planingAmount`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.planModeration`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.productAmount`),
-        total: 0,
-      },
-    ]
+    let shift = []
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
-    let matrix = [
-      [4, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-    ]
+    let matrix = []
     let rowGrayMatrix = []
     wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
@@ -108,6 +90,7 @@ const DetailWorkCenterPlan = () => {
       if (maxLength === e.scheduleShiftDetails.length)
         title = e.scheduleShiftDetails.map((v) => v.name)
     })
+    shift = []
     for (let i = 0; i < maxLength; i++) {
       const planingAmount = {}
       const planModeration = {}
@@ -115,25 +98,15 @@ const DetailWorkCenterPlan = () => {
       let totalPlaningAmount = 0
       let totalPlanModeration = 0
       let totalProductAmount = 0
-      matrix = []
-      rowGrayMatrix = []
       planingAmount['plan'] = t(`workCenterPlan.planingAmount`)
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
-
-      matrix = matrix.concat([
-        [4, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-      ])
-      if (i % 2) {
-        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+      if (i === maxLength - 1) {
+        matrix.push([4, 1], [-1, 1], [-1, 1], [-1, 1])
       } else {
-        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+        matrix.push([3, 1], [-1, 1], [-1, 1])
       }
-
       wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
         for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
           planingAmount[e.executionDay] = e?.scheduleShiftDetails[i]?.quantity
@@ -150,7 +123,7 @@ const DetailWorkCenterPlan = () => {
       planModeration['total'] = totalPlanModeration / maxLength
       productAmount['total'] = totalProductAmount / maxLength
 
-      shift = [planingAmount, planModeration, productAmount]
+      shift.push(...[planingAmount, planModeration, productAmount])
     }
     const delayAmount = {
       plan: t(`workCenterPlan.delayAmount`),
@@ -169,8 +142,13 @@ const DetailWorkCenterPlan = () => {
     })
     delayAmount['total'] = totalDelayAmount
 
-    const rowDelayAmount = [delayAmount]
-    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
+    const rowDelayAmount = delayAmount
+    if (shift?.length > 0) {
+      shift.push(rowDelayAmount)
+    } else {
+      shift = []
+    }
+    return { shifts: shift, matrix, rowGrayMatrix }
   }
 
   const getColumnQC = () => {
@@ -203,29 +181,11 @@ const DetailWorkCenterPlan = () => {
     return columns
   }
   const getRowQC = () => {
-    let shift = [
-      {
-        plan: t(`workCenterPlan.planingAmount`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.planModeration`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.productAmount`),
-        total: 0,
-      },
-    ]
+    let shift = []
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
-    let matrix = [
-      [4, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-    ]
+    let matrix = []
     let rowGrayMatrix = []
     wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
@@ -248,16 +208,11 @@ const DetailWorkCenterPlan = () => {
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
-      matrix = matrix.concat([
-        [4, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-      ])
-      if (i % 2) {
-        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+
+      if (i === maxLength - 1) {
+        matrix.push([4, 1], [-1, 1], [-1, 1], [-1, 1])
       } else {
-        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+        matrix.push([3, 1], [-1, 1], [-1, 1])
       }
 
       wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
@@ -276,7 +231,7 @@ const DetailWorkCenterPlan = () => {
       planModeration['total'] = totalPlanModeration / maxLength
       productAmount['total'] = totalProductAmount / maxLength
 
-      shift = [planingAmount, planModeration, productAmount]
+      shift.push(...[planingAmount, planModeration, productAmount])
     }
     const delayAmount = {
       plan: t(`workCenterPlan.delayAmount`),
@@ -295,8 +250,13 @@ const DetailWorkCenterPlan = () => {
     })
     delayAmount['total'] = totalDelayAmount
 
-    const rowDelayAmount = [delayAmount]
-    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
+    const rowDelayAmount = delayAmount
+    if (shift?.length > 0) {
+      shift.push(rowDelayAmount)
+    } else {
+      shift = []
+    }
+    return { shifts: shift, matrix, rowGrayMatrix }
   }
 
   const getColumnFix = () => {
@@ -329,29 +289,11 @@ const DetailWorkCenterPlan = () => {
     return columns
   }
   const getRowFix = () => {
-    let shift = [
-      {
-        plan: t(`workCenterPlan.planingAmount`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.planModeration`),
-        total: 0,
-      },
-      {
-        plan: t(`workCenterPlan.productAmount`),
-        total: 0,
-      },
-    ]
+    let shift = []
     let title = []
     let maxLength = 0
     let totalDelayAmount = 0
-    let matrix = [
-      [4, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-      [-1, 1, 1],
-    ]
+    let matrix = []
     let rowGrayMatrix = []
     wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
       if (maxLength < e.scheduleShiftDetails.length)
@@ -361,6 +303,7 @@ const DetailWorkCenterPlan = () => {
       if (maxLength === e.scheduleShiftDetails.length)
         title = e.scheduleShiftDetails.map((v) => v.name)
     })
+
     for (let i = 0; i < maxLength; i++) {
       const planingAmount = {}
       const planModeration = {}
@@ -374,16 +317,10 @@ const DetailWorkCenterPlan = () => {
       planModeration['plan'] = t(`workCenterPlan.planModeration`)
       productAmount['plan'] = t(`workCenterPlan.productAmount`)
       planingAmount['title'] = title[i]
-      matrix = matrix.concat([
-        [4, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-        [-1, 1, 1],
-      ])
-      if (i % 2) {
-        rowGrayMatrix = rowGrayMatrix.concat([true, true, true, true])
+      if (i === maxLength - 1) {
+        matrix.push([4, 1], [-1, 1], [-1, 1], [-1, 1])
       } else {
-        rowGrayMatrix = rowGrayMatrix.concat([false, false, false, false])
+        matrix.push([3, 1], [-1, 1], [-1, 1])
       }
       wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
         for (let j = 0; j < e.scheduleShiftDetails.length; j++) {
@@ -401,7 +338,7 @@ const DetailWorkCenterPlan = () => {
       planModeration['total'] = totalPlanModeration / maxLength
       productAmount['total'] = totalProductAmount / maxLength
 
-      shift = [planingAmount, planModeration, productAmount]
+      shift.push(...[planingAmount, planModeration, productAmount])
     }
     const delayAmount = {
       plan: t(`workCenterPlan.delayAmount`),
@@ -420,8 +357,13 @@ const DetailWorkCenterPlan = () => {
     })
     delayAmount['total'] = totalDelayAmount
 
-    const rowDelayAmount = [delayAmount]
-    return { shifts: shift.concat(rowDelayAmount), matrix, rowGrayMatrix }
+    const rowDelayAmount = delayAmount
+    if (shift?.length > 0) {
+      shift.push(rowDelayAmount)
+    } else {
+      shift = []
+    }
+    return { shifts: shift, matrix, rowGrayMatrix }
   }
 
   return (

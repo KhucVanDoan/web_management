@@ -1,9 +1,12 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
+import Cookies from 'universal-cookie'
 
+import { CONFIG_COOKIES } from '~/common/constants'
 import { api } from '~/services/api'
 
 import { getAppStore } from '../actions/app-store'
 import { loginFailed, loginSuccess, LOGIN_START } from '../actions/auth'
+const cookies = new Cookies()
 
 /**
  * Login
@@ -26,9 +29,12 @@ function* doLogin(action) {
       const { data } = response
       // Save token to local storage
       localStorage.setItem('token', 'Bearer ' + data.accessToken.token)
-
-      // Save refresh to ken to local storage
       localStorage.setItem('refreshToken', 'Bearer ' + data.refreshToken.token)
+
+      // Save token info to cookies
+      cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
+      cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
+      cookies.set('userId', data.userId, CONFIG_COOKIES)
 
       // Save user infomation to local storage
       localStorage.setItem('userInfo', JSON.stringify(data.userInfo))
