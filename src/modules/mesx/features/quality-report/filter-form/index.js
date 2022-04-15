@@ -37,7 +37,7 @@ const FilterForm = () => {
     })
     moActions.searchMO({ isGetAll: 1 })
     commonManagementActions.getItems({ isGetAll: 1 })
-  }, [values.moId])
+  }, [values.moName])
 
   const getDataItem = () => {
     const items = []
@@ -52,7 +52,7 @@ const FilterForm = () => {
 
   const getDataSaleOder = () => {
     const saleOrderLists = []
-    const soId = moList?.find((mo) => mo?.id === values?.moId)?.saleOrderId
+    const soId = moList?.find((mo) => mo?.id === values?.moName)?.saleOrderId
     const saleOrders = saleOrderList?.find((so) => so?.id === soId)
     saleOrderLists.push(saleOrders)
     return saleOrderLists
@@ -62,12 +62,12 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="moId"
+          name="moName"
           label={t('qualityReport.moName')}
           placeholder={t('qualityReport.moName')}
           options={
-            values?.soId
-              ? moList.filter((mo) => mo?.saleOrderId === values?.soId)
+            values?.soName
+              ? moList.filter((mo) => mo?.saleOrderId === values?.soName)
               : moList
           }
           getOptionValue={(opt) => opt?.id}
@@ -77,10 +77,10 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="soId"
+          name="soName"
           label={t('qualityReport.saleOrder')}
           placeholder={t('qualityReport.saleOrder')}
-          options={values?.moId ? getDataSaleOder() : saleOrderList}
+          options={values?.moName ? getDataSaleOder() : saleOrderList}
           getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.name}
         />
