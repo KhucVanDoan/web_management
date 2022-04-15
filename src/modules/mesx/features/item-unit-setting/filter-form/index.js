@@ -15,7 +15,7 @@ const FilterForm = () => {
           name="code"
           label={t('itemUnitDefine.unitCode')}
           placeholder={t('itemUnitDefine.unitCode')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX }}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX }}
         />
       </Grid>
       <Grid item xs={12}>

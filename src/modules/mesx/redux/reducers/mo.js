@@ -26,6 +26,7 @@ import {
   CHECK_MATERIAL_PLAN_START,
   CHECK_MATERIAL_PLAN_SUCCESS,
   CHECK_MATERIAL_PLAN_FAILED,
+  RESET_CHECK_MATERIAL_PLAN,
   GET_LIST_MO_PRODUCING_STEP_BY_ID,
   GET_LIST_MO_PRODUCING_STEP_BY_ID_SUCCESS,
   GET_LIST_MO_PRODUCING_STEP_BY_ID_FAILED,
@@ -167,6 +168,11 @@ export default function Mo(state = initialState, action) {
       return {
         ...state,
         moDetails: {},
+      }
+    case RESET_CHECK_MATERIAL_PLAN:
+      return {
+        ...state,
+        materialCheck: {},
       }
     default:
       return state

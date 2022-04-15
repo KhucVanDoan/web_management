@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 
 import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
-import TableFilter from '~/components/DataTable/TableFilter'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
@@ -34,31 +33,25 @@ const DEFAULT_FILTER = {
 const MaterialDetailPlan = () => {
   const { t } = useTranslation(['mesx'])
   const [filters, setFilters] = useState(DEFAULT_FILTER)
-  const [keyword, setKeyword] = useState('')
-
   const {
     data: { mdpDetails },
     actions,
   } = useMaterialPlanDetail()
 
   useEffect(() => {
-    if (
-      filters?.moId &&
-      filters?.itemId &&
-      filters?.producingStepId &&
-      filters?.workCenterId
-    )
-      refreshDataFilter()
-  }, [filters, keyword])
+    refreshDataFilter()
+  }, [filters])
 
   const refreshDataFilter = () => {
     const params = {
-      manufacturingOrderId: filters.moId,
+      manufacturingOrderId: filters?.moId,
       itemId: filters?.itemId,
       producingStepId: filters?.producingStepId,
       workCenterId: filters?.workCenterId,
     }
-    actions.searchMaterialDetailPlan(params)
+    if (params?.manufacturingOrderId) {
+      actions.searchMaterialDetailPlan(params)
+    }
   }
 
   const getColumnProductionPlan = () => {
@@ -112,6 +105,7 @@ const MaterialDetailPlan = () => {
       {
         plan: t('materialDetailPlan.planQuantity'),
         total: 0,
+        targetName: '',
       },
       {
         plan: t('materialDetailPlan.productionQuantity'),
@@ -130,15 +124,14 @@ const MaterialDetailPlan = () => {
 
     let rowGrayMatrix = []
 
-    if (mdpDetails?.materialReport && !isEmpty(mdpDetails?.materialReport)) {
+    if (mdpDetails?.manufacturingOrderPlan) {
       rows = []
       matrix = []
-
       rows.push(
         {
           plan: t('materialDetailPlan.planQuantity'),
           total: mdpDetails ? sumPlanQuantity.toFixed(2) : 0,
-          targetName: filters ? filters?.itemId : '',
+          targetName: filters?.itemId || '',
         },
         {
           plan: t('materialDetailPlan.productionQuantity'),
@@ -171,6 +164,7 @@ const MaterialDetailPlan = () => {
 
       return { rows, rowSpanMatrix: matrix, rowGrayMatrix }
     })
+
     return { rows, rowSpanMatrix: matrix, rowGrayMatrix }
   }
 
@@ -189,8 +183,8 @@ const MaterialDetailPlan = () => {
       },
     ]
 
-    if (mdpDetails) {
-      mdpDetails?.manufacturingOrderPlan?.forEach((e) => {
+    if (mdpDetails?.materialReport) {
+      mdpDetails?.materialReport[0]?.materialPlanSchedules?.forEach((e) => {
         columns.push({
           field: e.executionDay,
           headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
@@ -340,33 +334,10 @@ const MaterialDetailPlan = () => {
   }
 
   return (
-    <Page
-      breadcrumbs={breadcrumbs}
-      onSearch={setKeyword}
-      title={t('materialDetailPlan.title')}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 1,
-        }}
-      >
-        <Typography variant="h4" component="span">
-          {t('materialDetailPlan.productionPlan')}
-        </Typography>
-
-        <TableFilter
-          filters={{
-            form: <FilterForm />,
-            values: filters,
-            defaultValue: DEFAULT_FILTER,
-            onApply: setFilters,
-            validationSchema: materialSchema(t),
-          }}
-        />
-      </Box>
+    <Page breadcrumbs={breadcrumbs} title={t('materialDetailPlan.title')}>
+      <Typography variant="h4" component="span" mb={-3}>
+        {t('materialDetailPlan.productionPlan')}
+      </Typography>
 
       <DataTable
         rows={getRowProductionPlan().rows}
@@ -376,8 +347,15 @@ const MaterialDetailPlan = () => {
         striped={false}
         hideSetting
         hideFooter
-      />
-      <Box mt={3} mb={1.5}>
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTER,
+          onApply: setFilters,
+          validationSchema: materialSchema(t),
+        }}
+      ></DataTable>
+      <Box mt={3} mb={1}>
         <Typography variant="h4" component="span">
           {t('materialDetailPlan.materialPlan')}
         </Typography>
@@ -390,8 +368,8 @@ const MaterialDetailPlan = () => {
         striped={false}
         hideSetting
         hideFooter
-      />
-      <Box mt={3} mb={1.5}>
+      ></DataTable>
+      <Box mt={3} mb={1}>
         <Typography variant="h4" component="span">
           {t('materialDetailPlan.SuppliePlan')}
         </Typography>
@@ -402,7 +380,7 @@ const MaterialDetailPlan = () => {
         striped={false}
         hideSetting
         hideFooter
-      />
+      ></DataTable>
     </Page>
   )
 }

@@ -8,8 +8,14 @@ import {
 } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
+import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -46,6 +52,9 @@ function BOMForm() {
     [ROUTE.DEFINE_BOM.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
+  const location = useLocation()
+  const urlSearchParams = qs.parse(location.search)
+  const itemId = +urlSearchParams.itemId
 
   const {
     data: { isLoading, BOMDetails, BOMStructure },
@@ -242,7 +251,7 @@ function BOMForm() {
     name: BOMDetails?.name || '',
     routingId: BOMDetails?.routingId || '',
     description: BOMDetails?.description || '',
-    itemId: BOMDetails?.itemId || '',
+    itemId: BOMDetails?.itemId || itemId,
     items: BOMDetails?.bomDetails?.map((e) => ({
       id: e.id,
       itemId: e.itemId,

@@ -52,7 +52,7 @@ function SaleOrderDetail() {
     <>
       <Page
         breadcrumbs={breadcrumbs}
-        title={t('menu.saleOrderDefine')}
+        title={t('menu.saleOrderDetails')}
         loading={isLoading}
         onBack={backToList}
       >

@@ -36,6 +36,7 @@ export const GET_BOM_PRODUCING_STEP_STRUCTURE_FAILED =
 export const CHECK_MATERIAL_PLAN_START = 'MESX_CHECK_MATERIAL_PLAN_START'
 export const CHECK_MATERIAL_PLAN_SUCCESS = 'MESX_CHECK_MATERIAL_PLAN_SUCCESS'
 export const CHECK_MATERIAL_PLAN_FAILED = 'MESX_CHECK_MATERIAL_PLAN_FAILED'
+export const RESET_CHECK_MATERIAL_PLAN = 'MESX_RESET_CHECK_MATERIAL_PLAN'
 
 export const GET_LIST_MO_PRODUCING_STEP_BY_ID =
   'MESX_GET_LIST_MO_PRODUCING_STEP_BY_ID'
@@ -482,5 +483,11 @@ export function getListMoAll(payload) {
 export function resetMoDetail() {
   return {
     type: RESET_MO_DETAIL_STATE,
+  }
+}
+
+export function resetMaterialCheck() {
+  return {
+    type: RESET_CHECK_MATERIAL_PLAN,
   }
 }

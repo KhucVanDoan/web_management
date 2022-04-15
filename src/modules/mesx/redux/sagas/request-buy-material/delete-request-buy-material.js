@@ -3,7 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   deleteRequestBuyMaterialFailed,
-  deleteRequestBuyMaterialSuccess,
+  // deleteRequestBuyMaterialSuccess,
   DELETE_REQUEST_BUY_MATERIAL_START,
 } from '~/modules/mesx/redux/actions/request-by-materials'
 import { api } from '~/services/api'
@@ -28,7 +28,7 @@ function* doDeleteRequestBuyMaterial(action) {
     const response = yield call(deleteRequestBuyMaterialApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteRequestBuyMaterialSuccess(response.data))
+      // yield put(deleteRequestBuyMaterialSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {

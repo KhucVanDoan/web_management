@@ -1,14 +1,15 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios'
+import Cookies from 'universal-cookie'
 
-import { NOTIFICATION_TYPE } from '~/common/constants'
+import { CONFIG_COOKIES, NOTIFICATION_TYPE } from '~/common/constants'
 import { logout } from '~/modules/auth/redux/actions/auth'
 import history from '~/services/history'
 import store from '~/store'
 import { validateStatus } from '~/utils/api'
 import i18n from '~/utils/i18n'
 import addNotification from '~/utils/toast'
-
+const cookies = new Cookies()
 // common base instance
 const BASE_URL = process.env.REACT_APP_HOST + '/api'
 
@@ -29,8 +30,12 @@ const instance = axios.create({
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
-    if (config.url !== REFRESH_TOKEN_URL && localStorage.getItem('token')) {
-      config.headers['Authorization'] = localStorage.getItem('token')
+    if (
+      config.url !== REFRESH_TOKEN_URL &&
+      (cookies.get('token') || localStorage.getItem('token'))
+    ) {
+      config.headers['Authorization'] =
+        cookies.get('token') || localStorage.getItem('token')
       config.headers['x-auth-token'] = localStorage.getItem('token')
       config.headers['lang'] = i18n.language
     }
@@ -72,6 +77,15 @@ instance.interceptors.response.use(
           if (refresh.statusCode === 200) {
             axios.defaults.headers.common['Authorization'] =
               refresh.data.accessToken.token
+            //save to cookies
+            cookies.set('token', refresh.data.accessToken.token, CONFIG_COOKIES)
+            cookies.set(
+              'refreshToken',
+              refresh.data.refreshToken.token,
+              CONFIG_COOKIES,
+            )
+
+            // save to localStorage
             localStorage.setItem(
               'token',
               'Bearer ' + refresh.data.accessToken.token,
@@ -254,10 +268,14 @@ const api = {
  * @returns {Promise}
  */
 export const refreshAccessToken = () => {
+  const refreshToken =
+    localStorage.getItem('refreshToken') || cookies.get('refreshToken')
+      ? `Bearer ${cookies.get('refreshToken')}`
+      : null
   return instance.get(REFRESH_TOKEN_URL, {
     headers: {
-      Authorization: localStorage.getItem('refreshToken'),
-      'x-auth-token': localStorage.getItem('refreshToken'),
+      Authorization: refreshToken,
+      'x-auth-token': refreshToken,
     },
   })
 }
