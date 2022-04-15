@@ -1,10 +1,10 @@
 version: '3.7'
 
 services:
-  mesx-web:
+  main-web:
     image: registry.vti.com.vn/snp_smartwms/source/web:develop
     ports:
-      - '10088:80'
+      - '5081:80'
     build:
       context: .
       dockerfile: Dockerfile
