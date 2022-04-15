@@ -193,7 +193,8 @@ const DefineMasterPlanForm = () => {
           soId: masterPlanDetails.saleOrderSchedules?.map(
             (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
           ),
-          factoryId: masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
+          factoryId:
+            masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
         }
       : {
           code: '',
@@ -282,25 +283,27 @@ const DefineMasterPlanForm = () => {
                           .join(', ')}
                       />
                     ) : (
-                      (!isEmpty(masterPlanDetails) || (!isUpdate && !isDetail)) && (<Field.Autocomplete
-                        label={t('defineMasterPlan.saleOrder')}
-                        name="soId"
-                        placeholder={t('defineMasterPlan.saleOrder')}
-                        required
-                        options={soList}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        getOptionValue={(option) => option?.id}
-                        multiple
-                        onChange={(id) => {
-                          handleChangeSoId(id, setFieldValue)
-                        }}
-                        value={masterPlanDetails.saleOrderSchedules?.map(
-                          (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
-                        )}
-                      />)
+                      (!isEmpty(masterPlanDetails) ||
+                        (!isUpdate && !isDetail)) && (
+                        <Field.Autocomplete
+                          label={t('defineMasterPlan.saleOrder')}
+                          name="soId"
+                          placeholder={t('defineMasterPlan.saleOrder')}
+                          required
+                          options={soList}
+                          getOptionLabel={(opt) =>
+                            `${opt?.code} - ${opt?.name}`
+                          }
+                          filterOptions={createFilterOptions({
+                            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                          })}
+                          getOptionValue={(option) => option?.id}
+                          multiple
+                          onChange={(id) => {
+                            handleChangeSoId(id, setFieldValue)
+                          }}
+                        />
+                      )
                     )}
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -328,26 +331,35 @@ const DefineMasterPlanForm = () => {
                         value={masterPlanDetails?.factory?.name}
                       />
                     ) : (
-                      (!isEmpty(masterPlanDetails) || (!isUpdate && !isDetail)) && (<Field.Autocomplete
-                        name="factoryId"
-                        label={t('defineMasterPlan.moFactory')}
-                        placeholder={t('defineMasterPlan.moFactory')}
-                        required
-                        options={factoryList?.items || []}
-                        getOptionLabel={(option) => option?.name || ''}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        getOptionValue={(option) => option?.id}
-                        value={masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId}
-                      />)
+                      (!isEmpty(masterPlanDetails) ||
+                        (!isUpdate && !isDetail)) && (
+                        <Field.Autocomplete
+                          name="factoryId"
+                          label={t('defineMasterPlan.moFactory')}
+                          placeholder={t('defineMasterPlan.moFactory')}
+                          required
+                          options={factoryList?.items || []}
+                          getOptionLabel={(option) => option?.name || ''}
+                          filterOptions={createFilterOptions({
+                            stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                          })}
+                          getOptionValue={(option) => option?.id}
+                        />
+                      )
                     )}
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     {isDetail ? (
                       <LabelValue label={t('defineMasterPlan.planDate')}>
-                        {formatDateTimeUtc(masterPlanDetails?.dateFrom, DATE_FORMAT)} -{' '}
-                        {formatDateTimeUtc(masterPlanDetails?.dateTo, DATE_FORMAT)}
+                        {formatDateTimeUtc(
+                          masterPlanDetails?.dateFrom,
+                          DATE_FORMAT,
+                        )}{' '}
+                        -{' '}
+                        {formatDateTimeUtc(
+                          masterPlanDetails?.dateTo,
+                          DATE_FORMAT,
+                        )}
                       </LabelValue>
                     ) : (
                       <Field.DateRangePicker
@@ -357,18 +369,20 @@ const DefineMasterPlanForm = () => {
                       />
                     )}
                   </Grid>
-                  {isDetail && (<Grid item lg={6} xs={12}>
-                    <LabelValue
-                      label={t('defineMasterPlan.createdBy')}
-                      value={masterPlanDetails?.createdBy?.fullname}
-                    />
+                  {isDetail && (
+                    <Grid item lg={6} xs={12}>
+                      <LabelValue
+                        label={t('defineMasterPlan.createdBy')}
+                        value={masterPlanDetails?.createdBy?.fullname}
+                      />
                     </Grid>
                   )}
-                  {isDetail && (<Grid item lg={6} xs={12}>
-                    <LabelValue
-                      label={t('defineMasterPlan.createdAt')}
-                      value={formatDateTimeUtc(masterPlanDetails?.createdAt)}
-                    />
+                  {isDetail && (
+                    <Grid item lg={6} xs={12}>
+                      <LabelValue
+                        label={t('defineMasterPlan.createdAt')}
+                        value={formatDateTimeUtc(masterPlanDetails?.createdAt)}
+                      />
                     </Grid>
                   )}
                   <Grid item xs={12}>
