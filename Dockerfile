@@ -3,8 +3,6 @@ FROM node:14-alpine as build-stage
 
 WORKDIR /app
 
-COPY package*.json /app/
-
 RUN yarn install 
 
 COPY ./ /app/
