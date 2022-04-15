@@ -212,8 +212,10 @@ const ProducingStepDetail = () => {
                 </Box>
               </Grid>
               <Grid item lg={6} xs={12}>
-                {/* @TODO: <linh.taquang> wating BE return user */}
-                <LV label={t('producingStep.creator')} value={''} />
+                <LV
+                  label={t('producingStep.creator')}
+                  value={details?.createdBy?.fullName}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
                 <LV
