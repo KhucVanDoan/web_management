@@ -182,7 +182,7 @@ export const DetailJob = () => {
               1,
             ])
           } else {
-            rowSpanMatrix.push([-1, 1])
+            rowSpanMatrix.push([-1, 1, 1, 1, -1, 1])
           }
         }
         if (workcenterPlans?.length) {

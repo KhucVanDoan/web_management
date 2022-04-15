@@ -25,7 +25,7 @@ export const saleOrderSchema = (t) => {
       ),
     orderedAt: Yup.date().nullable().required(t('general:form.required')),
     companyId: Yup.string().required(t('general:form.required')),
-    customerId: Yup.string().required(t('general:form.required')),
+    customerId: Yup.object().nullable().required(t('general:form.required')),
     deadline: Yup.date()
       .nullable()
       .required(t('general:form.required'))
