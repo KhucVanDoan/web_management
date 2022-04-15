@@ -3,16 +3,16 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { saleOrderListAll },
-  } = useSaleOrder()
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -20,8 +20,13 @@ function FilterForm() {
           name="code"
           label={t('saleOrder.code')}
           placeholder={t('saleOrder.code')}
-          options={saleOrderListAll}
-          getOptionValue={(opt) => opt?.code}
+          asyncRequest={(s) =>
+            searchSaleOrdersApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.code}
         />
       </Grid>
