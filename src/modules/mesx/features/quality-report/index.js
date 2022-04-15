@@ -172,13 +172,15 @@ const QualityReports = () => {
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
-
   const refreshData = () => {
     const params = {
       keyword: keyword?.trim(),
       page: page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, moName: filters?.moName?.name },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.getQualityReports(params)
