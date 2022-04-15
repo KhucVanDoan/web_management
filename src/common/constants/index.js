@@ -1,3 +1,5 @@
+const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN || 'vti.com.vn'
+
 export const LANG_OPTIONS = {
   VI: 'vi',
   EN: 'en',
@@ -199,3 +201,8 @@ export const IMPORT_EXPORT_MODE_OPTIONS = [
     text: 'importExportMenu.export',
   },
 ]
+
+export const CONFIG_COOKIES = {
+  path: '/',
+  domain: VTI_DOMAIN,
+}
