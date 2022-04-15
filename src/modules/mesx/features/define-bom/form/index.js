@@ -18,6 +18,7 @@ import {
 } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -31,6 +32,7 @@ import Tabs from '~/components/Tabs'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from '../item-setting-table'
@@ -62,7 +64,7 @@ function BOMForm() {
   } = useBOM()
 
   const {
-    data: { itemList, routingList },
+    data: { itemList },
     actions: actionCommon,
   } = useCommonManagement()
 
@@ -198,7 +200,7 @@ function BOMForm() {
       code: values?.code.trim(),
       name: values?.name,
       description: values?.description,
-      routingId: values?.routingId,
+      routingId: values?.routingId?.id,
       itemId: values?.itemId,
       bomItems: values?.items?.map((item) => ({
         id: item?.itemId,
@@ -240,7 +242,7 @@ function BOMForm() {
       actions.getBOMDetailsById(id)
       actions.getBOMStructureById(id)
     }
-    actionCommon.getRoutings()
+    // actionCommon.getRoutings()
     actionCommon.getItems()
     actionsItemType.searchItemTypes({ isGetAll: 1 })
     return () => actions.resetBomState()
@@ -249,7 +251,7 @@ function BOMForm() {
   const initialValues = {
     code: BOMDetails?.code || '',
     name: BOMDetails?.name || '',
-    routingId: BOMDetails?.routingId || '',
+    routingId: BOMDetails?.routing || '',
     description: BOMDetails?.description || '',
     itemId: BOMDetails?.itemId || itemId,
     items: BOMDetails?.bomDetails?.map((e) => ({
@@ -323,12 +325,16 @@ function BOMForm() {
                         name="routingId"
                         label={t('defineBOM.routingCode')}
                         placeholder={t('defineBOM.routingCode')}
-                        options={routingList}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          getRoutingsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => opt?.code}
+                        subLabelWidth="250px"
                         required
                       />
                     </Box>
