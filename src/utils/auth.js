@@ -14,13 +14,15 @@ export const isAuth = () => {
 
   let isAuth = false
   if (cookieToken && !localToken) {
-    localStorage.setItem('token', 'Bearer ' + cookieToken)
+    localStorage.setItem('token', cookieToken)
     localStorage.setItem('userId', userId)
     isAuth = true
   }
   if (!cookieToken && localToken) {
-    const token = localToken.replace('Bearer ', '')
-    cookies.set('token', token, CONFIG_COOKIES)
+    cookies.set('token', localToken, CONFIG_COOKIES)
+    isAuth = true
+  }
+  if (cookieToken || localToken) {
     isAuth = true
   }
   return isAuth

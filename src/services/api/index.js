@@ -34,9 +34,9 @@ instance.interceptors.request.use(
       config.url !== REFRESH_TOKEN_URL &&
       (cookies.get('token') || localStorage.getItem('token'))
     ) {
-      config.headers['Authorization'] =
-        cookies.get('token') || localStorage.getItem('token')
-      config.headers['x-auth-token'] = localStorage.getItem('token')
+      const token = localStorage.getItem('token') || cookies.get('token')
+      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers['x-auth-token'] = `Bearer ${token}`
       config.headers['lang'] = i18n.language
     }
     return config
@@ -86,13 +86,10 @@ instance.interceptors.response.use(
             )
 
             // save to localStorage
-            localStorage.setItem(
-              'token',
-              'Bearer ' + refresh.data.accessToken.token,
-            )
+            localStorage.setItem('token', refresh.data.accessToken.token)
             localStorage.setItem(
               'refreshToken',
-              'Bearer ' + refresh.data.refreshToken.token,
+              refresh.data.refreshToken.token,
             )
             response.config._isRefreshBefore = true
             return instance(response.config)
@@ -270,12 +267,10 @@ const api = {
 export const refreshAccessToken = () => {
   const refreshToken =
     localStorage.getItem('refreshToken') || cookies.get('refreshToken')
-      ? `Bearer ${cookies.get('refreshToken')}`
-      : null
   return instance.get(REFRESH_TOKEN_URL, {
     headers: {
-      Authorization: refreshToken,
-      'x-auth-token': refreshToken,
+      Authorization: `Bearer ${refreshToken}`,
+      'x-auth-token': `Bearer ${refreshToken}`,
     },
   })
 }
