@@ -105,14 +105,14 @@ export const DetailJob = () => {
 
       const totalProducingStep = item?.producingSteps?.length
       const totalQuantity = item?.producingSteps?.reduce((acc, cur) => {
-        return acc + cur?.quantity
+        return acc + cur?.planQuantity
       }, 0)
 
       item?.producingSteps?.forEach((ps, psIndex) => {
         let obj = {
           producingStepName: ps?.producingStepName,
           itemName: item?.itemName,
-          quantity: ps?.quantity,
+          quantity: ps?.planQuantity,
           restQuantity: totalQuantity - item?.quantityDays?.quantity,
           workCenterName: '',
           schedules: '',
@@ -155,15 +155,22 @@ export const DetailJob = () => {
                   totalWorkCenter + 1,
                   ps?.workCenterSchedules?.length || 1,
                   1,
-                  1,
+                  ps?.workCenterSchedules?.length || 1,
                   totalWorkCenter + 1,
                   1,
                 ])
                 return
               }
-              rowSpanMatrix.push([-1, ps?.workCenterSchedules?.length || 1])
+              rowSpanMatrix.push([
+                -1,
+                ps?.workCenterSchedules?.length || 1,
+                1,
+                1,
+                -1,
+                1,
+              ])
             } else {
-              rowSpanMatrix.push([-1, -1, 1, -1, -1])
+              rowSpanMatrix.push([-1, -1, 1, -1, -1, 1])
             }
           })
         } else {
