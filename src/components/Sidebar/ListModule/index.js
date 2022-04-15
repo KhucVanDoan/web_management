@@ -68,7 +68,10 @@ const ModuleList = () => {
       </ListModuleStyled>
       {modules.map((item, index) => (
         <ListModuleStyled
-          onClick={() => window.location.href = item.path}
+          disabled={!item?.path}
+          onClick={() => {
+            if (item?.path) window.location.href = item?.path
+          }}
           // @TODO: dongnq uncomment when refactor full
           // component={Link}
           // to={{ pathname: `${item.path}` }}
