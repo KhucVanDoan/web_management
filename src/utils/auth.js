@@ -23,5 +23,8 @@ export const isAuth = () => {
     cookies.set('token', token, CONFIG_COOKIES)
     isAuth = true
   }
+  if (cookieToken || localToken) {
+    isAuth = true
+  }
   return isAuth
 }
