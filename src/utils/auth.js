@@ -19,7 +19,7 @@ export const isAuth = () => {
     isAuth = true
   }
   if (!cookieToken && localToken) {
-    cookies.set('token', token, CONFIG_COOKIES)
+    cookies.set('token', localToken, CONFIG_COOKIES)
     isAuth = true
   }
   if (cookieToken || localToken) {
