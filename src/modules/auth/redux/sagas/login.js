@@ -28,8 +28,13 @@ function* doLogin(action) {
     if (response?.statusCode === 200) {
       const { data } = response
       // Save token to local storage
-      localStorage.setItem('token', 'Bearer ' + data.accessToken.token)
-      localStorage.setItem('refreshToken', 'Bearer ' + data.refreshToken.token)
+      localStorage.setItem('token', data.accessToken.token)
+      localStorage.setItem('refreshToken', data.refreshToken.token)
+
+      // Save token info to cookies
+      cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
+      cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
+      cookies.set('userId', data.userId, CONFIG_COOKIES)
 
       // Save token info to cookies
       cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
