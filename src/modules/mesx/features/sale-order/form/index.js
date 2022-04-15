@@ -12,14 +12,15 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import { getCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/get-customers'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
@@ -30,10 +31,6 @@ function SaleOrderForm() {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
-  const {
-    data: { customerList },
-    actions: actionCommon,
-  } = useCommonManagement()
   const {
     data: { boqList },
     actions: defineBoqAction,
@@ -70,7 +67,7 @@ function SaleOrderForm() {
       isGetAll: 1,
     }
     defineBoqAction.searchBOQ(params)
-    actionCommon.getCustomers()
+    // actionCommon.getCustomers()
     if (mode === MODAL_MODE.UPDATE) {
       saleOrderAction.getSaleOrderDetailsById(id)
     }
@@ -83,6 +80,7 @@ function SaleOrderForm() {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      customerId: values?.customerId?.id,
       items: values?.items?.map((item) => ({
         id: item?.itemId,
         quantity: Number(item?.quantity),
@@ -172,6 +170,7 @@ function SaleOrderForm() {
       }
     : {
         ...saleOrder,
+        customerId: saleOrder?.customer,
         items: saleOrder?.saleOrderDetails?.map((e) => ({
           id: e?.id,
           itemId: e?.itemId,
@@ -291,13 +290,16 @@ function SaleOrderForm() {
                     <Box mt={4 / 3}>
                       <Field.Autocomplete
                         name="customerId"
-                        options={customerList}
                         label={t('saleOrder.customer.name')}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          getCustomersApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
                         required
                       />
                     </Box>
