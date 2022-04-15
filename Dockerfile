@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package*.json /app/
 
-RUN npm install 
+RUN yarn install 
 
 COPY ./ /app/
 
@@ -23,7 +23,7 @@ ENV REACT_APP_MMSX_URL $REACT_APP_MMSX_URL
 ENV REACT_APP_QMSX_URL $REACT_APP_QMSX_URL
 ENV REACT_APP_VTI_DOMAIN $REACT_APP_VTI_DOMAIN
 
-RUN npm run build
+RUN yarn run build
 
 RUN rm -rf /etc/nginx/conf.d
 
