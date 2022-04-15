@@ -18,7 +18,6 @@ import {
   BOM_STATUS_TO_CONFIRM,
   BOM_STATUS_TO_DELETE,
 } from '~/modules/mesx/constants'
-import { filterSchema } from '~/modules/mesx/features/define-bom/list/filter/schema'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -263,7 +262,6 @@ function DefineBOM() {
             form: <FilterForm />,
             values: filters,
             defaultValue: DEFAULT_FILTER,
-            validationSchema: filterSchema(t),
             onApply: setfilters,
           }}
           sort={sort}

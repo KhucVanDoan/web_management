@@ -241,7 +241,7 @@ const PlanCalendar = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('planCalendar.title')}
+      title={t('menu.planCalendar')}
       onSearch={() => {}}
       placeholder={t('planCalendar.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}

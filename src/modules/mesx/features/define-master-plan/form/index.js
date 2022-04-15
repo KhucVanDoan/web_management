@@ -193,7 +193,7 @@ const DefineMasterPlanForm = () => {
           soId: masterPlanDetails.saleOrderSchedules?.map(
             (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
           ),
-          factoryId: masterPlanDetails?.factory?.id,
+          factoryId: masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
         }
       : {
           code: '',
@@ -282,7 +282,7 @@ const DefineMasterPlanForm = () => {
                           .join(', ')}
                       />
                     ) : (
-                      <Field.Autocomplete
+                      (!isEmpty(masterPlanDetails) || (!isUpdate && !isDetail)) && (<Field.Autocomplete
                         label={t('defineMasterPlan.saleOrder')}
                         name="soId"
                         placeholder={t('defineMasterPlan.saleOrder')}
@@ -297,7 +297,10 @@ const DefineMasterPlanForm = () => {
                         onChange={(id) => {
                           handleChangeSoId(id, setFieldValue)
                         }}
-                      />
+                        value={masterPlanDetails.saleOrderSchedules?.map(
+                          (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
+                        )}
+                      />)
                     )}
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -325,7 +328,7 @@ const DefineMasterPlanForm = () => {
                         value={masterPlanDetails?.factory?.name}
                       />
                     ) : (
-                      <Field.Autocomplete
+                      (!isEmpty(masterPlanDetails) || (!isUpdate && !isDetail)) && (<Field.Autocomplete
                         name="factoryId"
                         label={t('defineMasterPlan.moFactory')}
                         placeholder={t('defineMasterPlan.moFactory')}
@@ -336,7 +339,8 @@ const DefineMasterPlanForm = () => {
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
                         getOptionValue={(option) => option?.id}
-                      />
+                        value={masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId}
+                      />)
                     )}
                   </Grid>
                   <Grid item lg={6} xs={12}>
