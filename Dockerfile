@@ -3,7 +3,9 @@ FROM node:14-alpine as build-stage
 
 WORKDIR /app
 
-RUN yarn install 
+COPY package*.json /app/
+
+RUN npm install 
 
 COPY ./ /app/
 
@@ -21,7 +23,7 @@ ENV REACT_APP_MMSX_URL $REACT_APP_MMSX_URL
 ENV REACT_APP_QMSX_URL $REACT_APP_QMSX_URL
 ENV REACT_APP_VTI_DOMAIN $REACT_APP_VTI_DOMAIN
 
-RUN yarn run build
+RUN npm run build
 
 RUN rm -rf /etc/nginx/conf.d
 
