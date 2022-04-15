@@ -163,7 +163,7 @@ const ProducingStepDetail = () => {
                 <Box mt={1}>
                   <LV
                     label={t('producingStep.qcCriteria')}
-                    value={details?.inputQc?.qcCriteriaId}
+                    value={details?.inputQc?.qcName}
                   />
                 </Box>
                 <Box mt={4 / 3}>
@@ -192,7 +192,7 @@ const ProducingStepDetail = () => {
                 <Box mt={1}>
                   <LV
                     label={t('producingStep.qcCriteria')}
-                    value={details?.outputQc?.qcCriteriaId}
+                    value={details?.outputQc?.qcName}
                   />
                 </Box>
                 <Box mt={4 / 3}>

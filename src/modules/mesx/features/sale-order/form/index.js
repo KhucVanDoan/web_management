@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
@@ -156,27 +155,24 @@ function SaleOrderForm() {
     }
   }
 
-  const initialValues = isEmpty(saleOrder)
-    ? {
-        code: '',
-        name: '',
-        description: '',
-        companyId: '',
-        customerId: '',
-        boqId: null,
-        orderedAt: null,
-        deadline: null,
-        items: [{ ...DEFAULT_ITEM }],
-      }
-    : {
-        ...saleOrder,
-        customerId: saleOrder?.customer,
-        items: saleOrder?.saleOrderDetails?.map((e) => ({
-          id: e?.id,
-          itemId: e?.itemId,
-          quantity: e?.quantity,
-        })),
-      }
+  const initialValues = useMemo(
+    () => ({
+      code: saleOrder?.code || '',
+      name: saleOrder?.name || '',
+      description: saleOrder?.description || '',
+      customerId: saleOrder?.customer || null,
+      boqId: saleOrder?.boqId || null,
+      orderedAt: saleOrder?.orderedAt || null,
+      deadline: saleOrder?.deadline || null,
+      items: saleOrder?.saleOrderDetails?.map((e) => ({
+        id: e?.id,
+        itemId: e?.itemId,
+        quantity: e?.quantity,
+      })) || [{ ...DEFAULT_ITEM }],
+    }),
+    [saleOrder],
+  )
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
