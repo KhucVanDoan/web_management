@@ -46,7 +46,7 @@ function ItemSettingTable(props) {
       {
         field: 'code',
         headerName: t('saleOrder.item.code'),
-        width: 180,
+        width: 250,
         align: 'center',
         renderCell: (params, index) => {
           const { itemId } = params.row

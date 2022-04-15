@@ -169,7 +169,10 @@ function SaleOrder() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, code: filters?.code?.name },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchSaleOrders(params)

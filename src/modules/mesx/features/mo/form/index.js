@@ -473,7 +473,6 @@ const MOForm = () => {
                         getOptionLabel={(option) => option?.saleOrderName || ''}
                         getOptionValue={(option) => option?.saleOrderId}
                         required
-                        value={moDetails?.saleOrderId}
                         onChange={handleChangeSaleOrder}
                       />
                     )}
