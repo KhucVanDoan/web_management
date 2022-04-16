@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -25,13 +26,13 @@ const breadcrumbs = [
 
 function UserPermission() {
   const { t } = useTranslation(['mesx'])
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
   const { appStore } = useAppStore()
   const [bomTree, setBomTree] = useState([])
   const [departmentId, setDepartmentId] = useState(null)
   const [userRoleId, setUserRoleId] = useState(null)
   const [permissionList, setPermissionList] = useState([])
+
+  const { page, pageSize, setPage, setPageSize } = useQueryState()
 
   const {
     data: { roleDetail, isLoading },

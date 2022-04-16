@@ -604,10 +604,8 @@ const TableCollapse = (props) => {
       </TableContainer>
       {!hideFooter && (
         <Pagination
-          onChange={(newPage, newPageSize) => {
-            onPageChange(newPage)
-            onPageSizeChange(newPageSize)
-          }}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
           total={total}
           pageSize={pageSize}
           page={page}

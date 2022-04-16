@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
 import { QR_CODE_TYPE, DATE_FORMAT } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -51,17 +52,24 @@ const WorkOrder = () => {
   const location = useLocation()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  const urlSearchParams = qs.parse(location.search)
-  const locationId = urlSearchParams.moId
+  const { moId } = qs.parse(location.search)
 
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState({
-    moId: location?.state?.id.toString(),
-  })
-  const [sort, setSort] = useState(null)
+
   const [selectedRows, setSelectedRows] = useState([])
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+  } = useQueryState({
+    filters: { moId: moId },
+  })
 
   const columns = useMemo(() => [
     {
@@ -190,18 +198,19 @@ const WorkOrder = () => {
                   `${ROUTE.MO.WORK_ORDER_DETAIL.PATH.replace(
                     ':id',
                     `${id}`,
-                  )}?moId=${locationId}`,
+                  )}?moId=${moId}`,
                 )
               }
             >
               <Icon name="show" />
             </IconButton>
 
+            {/* @TODO: <yen.nguyenhai> check onClick actions */}
             {isDelete && (
               <IconButton
                 onClick={() => {
-                  setTempItem(params.row)
-                  setIsOpenDeleteModal(true)
+                  // setTempItem(params.row)
+                  // setIsOpenDeleteModal(true)
                 }}
               >
                 <Icon name="delete" />
@@ -211,8 +220,8 @@ const WorkOrder = () => {
             {isConfirmed && (
               <IconButton
                 onClick={() => {
-                  setTempItem(params.row)
-                  setIsOpenConfirmModal(true)
+                  // setTempItem(params.row)
+                  // setIsOpenConfirmModal(true)
                 }}
               >
                 <Icon name="tick" />
@@ -228,7 +237,7 @@ const WorkOrder = () => {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, moId: locationId }),
+      filter: convertFilterParams({ ...filters, moId: moId }),
       sort: convertSortParams(sort),
     }
     workOrderActions.searchWorkOrders(params)

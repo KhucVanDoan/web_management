@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -33,7 +34,7 @@ const breadcrumbs = [
     title: ROUTE.WORK_CENTER.LIST.TITLE,
   },
 ]
-const DEFAULT_FILTER = {
+const DEFAULT_FILTERS = {
   code: '',
   name: '',
   factoryId: '',
@@ -44,13 +45,24 @@ const WorkCenter = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [keyword, setKeyword] = useState('')
-  const [filters, setFilters] = useState(DEFAULT_FILTER)
-  const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
+
   const {
     data: { isLoading, wcList, total },
     actions,
@@ -244,7 +256,7 @@ const WorkCenter = () => {
         sort={sort}
         filters={{
           form: <FilterForm />,
-          defaultValue: DEFAULT_FILTER,
+          defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
           validationSchema: filterSchema(t),

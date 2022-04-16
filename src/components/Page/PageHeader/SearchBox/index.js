@@ -53,16 +53,14 @@ const SearchBox = ({ onSearch, placeholder, renderSearchBox }) => {
               endAdornment={
                 <>
                   {values.keyword && (
-                    <IconButton>
-                      <Icon
-                        name="close"
-                        size={12}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setFieldValue('keyword', '')
-                          onSearch('')
-                        }}
-                      />
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setFieldValue('keyword', '')
+                        onSearch('')
+                      }}
+                    >
+                      <Icon name="close" size={12} />
                     </IconButton>
                   )}
 
