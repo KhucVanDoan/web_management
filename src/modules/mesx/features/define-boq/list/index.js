@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
 import { DATE_FORMAT } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -56,10 +57,6 @@ const DefineBOQ = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
-  const [keyword, setKeyword] = useState('')
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -69,7 +66,20 @@ const DefineBOQ = () => {
     status: '',
   }
 
-  const [filters, setFilters] = useState(DEFAULT_FILTERS)
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = useMemo(
     () => [

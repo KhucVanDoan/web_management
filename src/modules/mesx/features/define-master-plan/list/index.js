@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
 import { DATE_FORMAT } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
@@ -50,16 +51,25 @@ const DefineMasterPlan = () => {
 
   const history = useHistory()
 
-  const [keyword, setKeyword] = useState()
   const [masterPlans, setMasterPlans] = useState([])
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [filters, setFilters] = useState({})
-  const [sort, setSort] = useState()
   const [tempItem, setTempItem] = useState(null)
   const [deleteModal, setDeleteModal] = useState(false)
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState()
+
   const {
     data: { masterPlanList, isLoading, total },
     actions: masterPlanActions,

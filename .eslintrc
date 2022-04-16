@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "extends": ["react-app"],
   "plugins": ["babel", "jsx-a11y", "jsdoc"],
+  "globals": { "_": true },
   "rules": {
     "no-invalid-this": 0,
     "babel/no-invalid-this": 1,
@@ -44,7 +45,7 @@
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "import/no-extraneous-dependencies": 0,
-    "no-undef": 0,
+    "no-undef": 1,
     "no-nested-ternary": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "global-require": "off",
