@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -33,7 +34,7 @@ const breadcrumbs = [
 function MaterialReport() {
   const { t } = useTranslation(['mesx'])
 
-  const DEFAULT_FILTER = {
+  const DEFAULT_FILTERS = {
     manufacturingOrderIds: '',
     saleOrderIds: '',
     itemName: '',
@@ -55,11 +56,21 @@ function MaterialReport() {
   } = useSaleOrder()
 
   const [bomTree, setBomTree] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
-  const [filters, setFilters] = useState(DEFAULT_FILTER)
-  const [sort, setSort] = useState([])
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = [
     {
@@ -397,7 +408,7 @@ function MaterialReport() {
           filters={{
             form: <FilterForm />,
             values: filters,
-            defaultValue: DEFAULT_FILTER,
+            defaultValue: DEFAULT_FILTERS,
             onApply: setFilters,
           }}
         />

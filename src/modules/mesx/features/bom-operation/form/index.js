@@ -32,7 +32,7 @@ function BomProducingStepForm() {
   }
 
   const {
-    data: { bomProducingStepDetails, isLoading },
+    data: { bomProducingStepList, bomProducingStepDetails, isLoading },
     actions,
   } = useBomProducingStep()
 
@@ -41,8 +41,9 @@ function BomProducingStepForm() {
     actions: bomActions,
   } = useBOM()
 
+  const a = bomProducingStepList.map((item) => item.itemId)
   const itemOptions = BOMList.filter(
-    (bom) => bom.status === BOM_STATUS.CONFIRMED,
+    (bom) => !a.includes(bom.itemId) && bom.status === BOM_STATUS.CONFIRMED,
   )
 
   const initialValues = !id
@@ -97,6 +98,10 @@ function BomProducingStepForm() {
       bomActions.resetBomState()
     }
   }, [id])
+
+  useEffect(() => {
+    actions.searchBomProducingStep({ isGetAll: 1 })
+  }, [])
 
   const handleProductChange = async (productId, setFieldValue) => {
     if (!productId) return

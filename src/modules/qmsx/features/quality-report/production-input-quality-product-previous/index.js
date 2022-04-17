@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import ProductionInputQualityProductPreviousFilterForm from '~/modules/qmsx/features/quality-report/production-input-quality-product-previous/filter-form'
@@ -13,10 +14,18 @@ import { convertFilterParams, convertSortParams } from '~/utils'
 
 function ProductionInputQualityProductPrevious() {
   const { t } = useTranslation('qmsx')
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+  } = useQueryState()
+
   const {
     data: { qualityReportProductPreviousList, total },
     actions,

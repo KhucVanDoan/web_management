@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import useQualityReport from '~/modules/mesx/redux/hooks/useQualityReport'
@@ -26,12 +27,22 @@ const DEFAULT_FILTERS = {
   itemName: '',
 }
 const QualityReports = () => {
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [keyword, setKeyword] = useState('')
-  const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
+
   const {
     data: { isLoading, transactions, total },
     actions,
@@ -172,13 +183,15 @@ const QualityReports = () => {
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
-
   const refreshData = () => {
     const params = {
       keyword: keyword?.trim(),
       page: page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, moName: filters?.moName?.name },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.getQualityReports(params)

@@ -39,7 +39,7 @@ const PriceDetail = () => {
   useEffect(() => {
     actions.getAppStore()
 
-    actionMo.getPriceStructureById({ id: id }, (res) => {
+    actionMo.getPriceStructureById(id, (res) => {
       setPriceReport(res)
     })
   }, [id])

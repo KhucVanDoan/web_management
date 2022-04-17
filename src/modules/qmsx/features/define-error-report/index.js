@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -48,11 +49,20 @@ function DefineErrorReport() {
   const { t } = useTranslation('qmsx')
   const history = useHistory()
   const location = useLocation()
-  const [keyword, setKeyword] = useState('')
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState()
+
   const {
     data: { errorReportList, total, isLoading },
     actions,

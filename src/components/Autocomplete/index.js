@@ -18,7 +18,7 @@ import { isArray, isEqual, isNil, last } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { useDebounce } from '~/common/hooks/useDebounce'
+import { useDebounce } from '~/common/hooks'
 import VirtualList from '~/components/Autocomplete/VirtualList'
 import TextField from '~/components/TextField'
 import { useClasses } from '~/themes'
