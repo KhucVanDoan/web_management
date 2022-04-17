@@ -444,7 +444,7 @@ const DefineMasterPlan = () => {
    * Handle change filter
    * @param {array} filters
    */
-  const onChangeFilter = (filters) => {
+  const onFilterChange = (filters) => {
     setFilters(filters)
   }
 
@@ -452,7 +452,7 @@ const DefineMasterPlan = () => {
    * Handle change sort
    * @param {object} sort
    */
-  const onChangeSort = (sort) => {
+  const onSortChange = (sort) => {
     setSort(sort)
   }
 
@@ -559,7 +559,7 @@ const DefineMasterPlan = () => {
         isView={true}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
-        onChangeSort={onChangeSort}
+        onSortChange={onSortChange}
         total={total}
         title={t('defineMasterPlan.tableTitle')}
         sort={sort}
@@ -568,7 +568,7 @@ const DefineMasterPlan = () => {
           values: filters,
           validationSchema: validationSchema(t),
           defaultValue: DEFAULT_FILTERS,
-          onApply: onChangeFilter,
+          onApply: onFilterChange,
         }}
       />
       <Dialog

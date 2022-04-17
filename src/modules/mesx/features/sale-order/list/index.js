@@ -260,8 +260,8 @@ function SaleOrder() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeSort={setSort}
-          onChangeFilter={setFilters}
+          onSortChange={setSort}
+          onFilterChange={setFilters}
           total={total}
           filters={{
             form: <FilterForm />,
@@ -271,7 +271,6 @@ function SaleOrder() {
             onApply: setFilters,
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}

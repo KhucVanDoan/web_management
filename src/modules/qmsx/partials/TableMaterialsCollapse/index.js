@@ -102,10 +102,10 @@ const TableMaterialsCollapse = (props) => {
    * Handle change order
    * @param {*} param
    */
-  const onChangeSort = (newSort) => {
-    if (typeof props.onChangeSort === 'function') {
+  const onSortChange = (newSort) => {
+    if (typeof props.onSortChange === 'function') {
       setSort(newSort)
-      props.onChangeSort(newSort)
+      props.onSortChange(newSort)
     }
   }
 
@@ -148,7 +148,7 @@ const TableMaterialsCollapse = (props) => {
               rows={rows}
               order={sort?.order}
               orderBy={sort?.orderBy}
-              onChangeSort={onChangeSort}
+              onSortChange={onSortChange}
               columns={columns}
             />
           )}
@@ -387,7 +387,7 @@ TableMaterialsCollapse.propsTypes = {
   height: PropTypes.number, // default: 500px
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
-  onChangeFilter: PropTypes.func,
+  onFilterChange: PropTypes.func,
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,

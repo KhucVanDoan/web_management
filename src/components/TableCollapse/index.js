@@ -18,14 +18,18 @@ import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
-import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import {
+  MODAL_MODE,
+  DATE_FORMAT,
+  ROWS_PER_PAGE_OPTIONS,
+} from '~/common/constants'
 import TopBar from '~/components/DataTable/TopBar'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
+import { withClasses } from '~/themes'
 import { formatDateTimeUtc } from '~/utils'
 
 import Pagination from '../DataTable/Pagination'
 import TableHead from '../DataTable/TableHead'
-import { withClasses } from '~/themes'
 import DateRangePicker from '../DateRangePicker'
 import style from './style'
 
@@ -114,51 +118,12 @@ const TableCollapse = (props) => {
    * Handle change order
    * @param {*} param
    */
-  const onChangeSort = (newSort) => {
-    if (typeof props.onChangeSort === 'function') {
+  const onSortChange = (newSort) => {
+    if (typeof props.onSortChange === 'function') {
       setSort(newSort)
-      props.onChangeSort(newSort)
+      props.onSortChange(newSort)
     }
   }
-
-  //@ not used
-  // const onChangeItem = (i, value, row) => {
-  //   this.setState({
-  //     fake: this.state.quantity,
-  //     quantity: {
-  //       ...this.state.quantity,
-  //       [i]: value,
-  //     },
-  //   })
-  //   props.collectData(row, value, 'quantity', i)
-  // }
-
-  // const changeRoutingVersion = (e, i, row) => {
-  //   const { routingVersions } = row?.routing
-  //   const { producingSteps } = this.state
-  //   const check = routingVersions.find((r) => r.id === e.target.value)
-  //   if (check) {
-  //     const newPs = check?.producingSteps
-  //     const { actualQuantity, item } = row
-  //     newPs.map((p) => {
-  //       p['quantity'] = row?.quantity
-  //       p['planQuantity'] = parseInt(actualQuantity)
-  //       p['unit'] = item?.itemUnit
-  //       p['bomId'] = row?.bom?.id
-  //       p['boqDetailId'] = row?.boqDetailId
-  //       p['isProducingStep'] = true
-  //     })
-  //     producingSteps[i] = newPs
-  //     this.setState({
-  //       producingSteps,
-  //       routingId: {
-  //         ...this.state.routingId,
-  //         [i]: e.target.value,
-  //       },
-  //     })
-  //   }
-  //   props.collectData(row, e.target.value, 'routingId', i)
-  // }
 
   const onChangeDate = (rawDate, isFrom, row) => {
     let where = isFrom ? 'planFrom' : 'planTo'
@@ -348,7 +313,7 @@ const TableCollapse = (props) => {
               rows={rows}
               order={sort?.order}
               orderBy={sort?.orderBy}
-              onChangeSort={onChangeSort}
+              onSortChange={onSortChange}
               columns={columns}
             />
           )}
@@ -618,6 +583,10 @@ const TableCollapse = (props) => {
 TableCollapse.defaultProps = {
   onPageChange: () => {},
   onPageSizeChange: () => {},
+  pageSize: ROWS_PER_PAGE_OPTIONS[0],
+  page: 1,
+  title: '',
+  hideSetting: false,
 }
 
 TableCollapse.propsTypes = {
@@ -630,30 +599,24 @@ TableCollapse.propsTypes = {
       filterable: PropTypes.bool,
       sortable: PropTypes.bool,
       hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']), // default left
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']), // default center
-      renderCell: PropTypes.func, // renderCell and replace valueGetter
+      align: PropTypes.oneOf(['left', 'center', 'right']),
+      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
+      renderCell: PropTypes.func,
     }),
   ),
   indexCol: PropTypes.string,
   total: PropTypes.number,
-  pageSize: PropTypes.number, // default: 20
+  pageSize: PropTypes.number,
   page: PropTypes.number,
-  height: PropTypes.number, // default: 500px
+  height: PropTypes.number,
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
-  onChangeFilter: PropTypes.func,
+  onFilterChange: PropTypes.func,
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
   tableSettingKey: PropTypes.string,
-}
-TableCollapse.defaultProps = {
-  pageSize: 20,
-  page: 1,
-  title: '',
-  hideSetting: false,
 }
 
 export default withTranslation()(withClasses(style)(TableCollapse))

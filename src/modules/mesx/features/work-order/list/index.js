@@ -247,7 +247,7 @@ const WorkOrder = () => {
     refreshData()
   }, [page, pageSize, filters, sort])
 
-  const onChangeSelectedRows = (selected) => {
+  const onSelectionChange = (selected) => {
     setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
   }
 
@@ -348,11 +348,10 @@ const WorkOrder = () => {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeSelectedRows={onChangeSelectedRows}
+        onSelectionChange={onSelectionChange}
         sort={sort}
-        onChangeSort={setSort}
+        onSortChange={setSort}
         total={total}
-        checkboxSelection
         selected={selectedRows}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
