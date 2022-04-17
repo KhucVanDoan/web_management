@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { useToggle } from '~/common/hooks/useToggle'
+import { useToggle } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -104,7 +104,7 @@ function OutputQualityDetail() {
       pathname: ROUTE.TRANSACTION_HISTORY.LIST.PATH,
       search: '?tab=qcOutput',
     }
-    
+
     history.push(location)
   }
 

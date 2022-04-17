@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -46,7 +46,7 @@ function DefineBOM() {
     actions,
   } = useBOM()
 
-  const DEFAULT_FILTER = {
+  const DEFAULT_FILTERS = {
     code: '',
     name: '',
     status: '',
@@ -55,11 +55,21 @@ function DefineBOM() {
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
-  const [sort, setSort] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [filters, setfilters] = useState(DEFAULT_FILTER)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = [
     // {
@@ -254,15 +264,15 @@ function DefineBOM() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setfilters}
+          onChangeFilter={setFilters}
           onChangeSort={setSort}
           total={total}
           title={t('defineBOM.title')}
           filters={{
             form: <FilterForm />,
             values: filters,
-            defaultValue: DEFAULT_FILTER,
-            onApply: setfilters,
+            defaultValue: DEFAULT_FILTERS,
+            onApply: setFilters,
           }}
           sort={sort}
           checkboxSelection

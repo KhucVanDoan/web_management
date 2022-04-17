@@ -20,7 +20,15 @@ class Pagination extends Component {
   /**
    */
   render() {
-    const { t, total, pageSizeOptions, pageSize, page } = this.props
+    const {
+      t,
+      total,
+      pageSizeOptions,
+      pageSize,
+      page,
+      onPageChange,
+      onPageSizeChange,
+    } = this.props
     const numberOfPages = Math.ceil(total / pageSize) || 1
     const start = total ? pageSize * (page - 1) + 1 : 0
     const end = total ? Math.min(pageSize * page, total) : 0
@@ -41,7 +49,10 @@ class Pagination extends Component {
           <Select
             displayEmpty
             value={pageSize}
-            onChange={(e) => this.props.onChange(1, e.target.value)}
+            onChange={(e) => {
+              onPageSizeChange(e.target.value)
+              onPageChange(1)
+            }}
             variant="standard"
             autoWidth
             IconComponent={KeyboardArrowDownIcon}
@@ -96,7 +107,7 @@ class Pagination extends Component {
         <MuiPagination
           count={numberOfPages}
           page={page}
-          onChange={(_, newPage) => this.props.onChange(newPage, pageSize)}
+          onChange={(_, newPage) => onPageChange(newPage)}
           variant="outlined"
           shape="rounded"
           sx={{
@@ -142,7 +153,8 @@ Pagination.propsTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   pageSizeOptions: PropTypes.array,
-  onChange: PropTypes.func,
+  onPageChange: PropTypes.func,
+  onPageSizeChange: PropTypes.func,
 }
 
 export default withTranslation()(Pagination)

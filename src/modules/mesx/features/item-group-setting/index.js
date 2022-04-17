@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -39,10 +39,6 @@ const ItemGroupSetting = () => {
   } = useItemGroup()
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
-  const [sort, setSort] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -50,7 +46,20 @@ const ItemGroupSetting = () => {
     createdAt: '',
   }
 
-  const [filters, setfilters] = useState(DEFAULT_FILTERS)
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = useMemo(() => [
     // {
@@ -203,7 +212,7 @@ const ItemGroupSetting = () => {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setfilters}
+          onChangeFilter={setFilters}
           onChangeSort={setSort}
           total={total}
           filters={{
@@ -211,7 +220,7 @@ const ItemGroupSetting = () => {
             defaultValue: DEFAULT_FILTERS,
             validationSchema: filterSchema(t),
             values: filters,
-            onApply: setfilters,
+            onApply: setFilters,
           }}
           sort={sort}
           checkboxSelection
