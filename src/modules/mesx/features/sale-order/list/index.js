@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -45,21 +45,31 @@ function SaleOrder() {
     actions,
   } = useSaleOrder()
 
-  const DEFAULT_FILTER = {
+  const DEFAULT_FILTERS = {
     code: '',
     name: '',
     status: '',
     createdAt: '',
   }
 
-  const [sort, setSort] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [filters, setFilters] = useState(DEFAULT_FILTER)
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [tempItem, setTempItem] = useState()
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = useMemo(() => [
     // {
@@ -256,7 +266,7 @@ function SaleOrder() {
           filters={{
             form: <FilterForm />,
             values: filters,
-            defaultValue: DEFAULT_FILTER,
+            defaultValue: DEFAULT_FILTERS,
             validationSchema: filterSchema(t),
             onApply: setFilters,
           }}

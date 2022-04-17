@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
@@ -22,7 +23,7 @@ const breadcrumbs = [
     title: ROUTE.WORK_CENTER_PLAN.LIST.TITLE,
   },
 ]
-const DEFAULT_FILTER = {
+const DEFAULT_FILTERS = {
   mpCode: '',
   moCode: '',
   woCode: '',
@@ -31,13 +32,23 @@ const DEFAULT_FILTER = {
   wcName: '',
 }
 const WorkCenterPlanList = () => {
-  const [pageSize, setPageSize] = useState(20)
-  const [keyword, setKeyword] = useState('')
-  const [filters, setFilters] = useState(DEFAULT_FILTER)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const {
     data: { wcpList, isLoading },
@@ -162,7 +173,7 @@ const WorkCenterPlanList = () => {
         sort={sort}
         filters={{
           form: <FilterForm />,
-          defaultValue: DEFAULT_FILTER,
+          defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
         }}

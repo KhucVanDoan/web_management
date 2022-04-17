@@ -46,7 +46,9 @@ const VerifyOTP = () => {
       email: urlSearchParams?.email,
     }
     actions.generateOTP(params, () => {
-      history.push(`${ROUTE.VERIFY_OTP.PATH + '?email=' + email}`)
+      history.push(
+        `${ROUTE.VERIFY_OTP.PATH + '?email=' + urlSearchParams?.email}`,
+      )
     })
   }
 

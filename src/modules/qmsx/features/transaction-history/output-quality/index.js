@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Loading from '~/components/Loading'
@@ -19,11 +20,17 @@ import {
 
 function OutputQualityTransactionHistory() {
   const { t } = useTranslation('qmsx')
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
-  const [filters, setFilters] = useState({})
   const history = useHistory()
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+  } = useQueryState()
   const {
     data: { transactionHistoryOutputList, total, isLoading },
     actions,

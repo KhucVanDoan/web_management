@@ -24,7 +24,7 @@ const breadcrumbs = [
     title: ROUTE.MATERIAL_DETAIL_PLAN.TITLE,
   },
 ]
-const DEFAULT_FILTER = {
+const DEFAULT_FILTERS = {
   moId: '',
   itemId: '',
   producingStepId: '',
@@ -32,7 +32,7 @@ const DEFAULT_FILTER = {
 }
 const MaterialDetailPlan = () => {
   const { t } = useTranslation(['mesx'])
-  const [filters, setFilters] = useState(DEFAULT_FILTER)
+  const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const {
     data: { mdpDetails },
     actions,
@@ -350,7 +350,7 @@ const MaterialDetailPlan = () => {
         filters={{
           form: <FilterForm />,
           values: filters,
-          defaultValue: DEFAULT_FILTER,
+          defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
           validationSchema: materialSchema(t),
         }}
