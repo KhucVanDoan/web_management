@@ -254,8 +254,8 @@ function BomProducingStep() {
         page={page}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         sort={sort}
         total={total}
         filters={{
@@ -265,7 +265,6 @@ function BomProducingStep() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={isOpenDeleteModal}
