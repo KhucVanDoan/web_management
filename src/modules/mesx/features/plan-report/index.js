@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import { DATE_FORMAT } from '~/common/constants'
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
@@ -32,17 +33,7 @@ const breadcrumbs = [
 
 function PlanReport() {
   const { t } = useTranslation(['mesx'])
-
-  const {
-    data: { isLoading, total, planList },
-    actions: actionPlan,
-  } = useDefinePlan()
-
-  const { actions: actionMo } = useMo()
-
-  const { actions: actionSaleOrder } = useSaleOrder()
-
-  const { actions: actionPlanReport } = usePlanReport()
+  const [bomTree, setBomTree] = useState([])
 
   const DEFAULT_FILTERS = {
     moName: '',
@@ -50,12 +41,29 @@ function PlanReport() {
     plan: '',
   }
 
-  const [bomTree, setBomTree] = useState([])
-  const [keyword, setKeyword] = useState('')
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(ROWS_PER_PAGE_OPTIONS[0])
-  const [filters, setFilters] = useState(DEFAULT_FILTERS)
-  const [sort, setSort] = useState([])
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
+
+  const {
+    data: { isLoading, total, planList },
+    actions: actionPlan,
+  } = useDefinePlan()
+
+  const { actions: actionMo } = useMo()
+  const { actions: actionSaleOrder } = useSaleOrder()
+  const { actions: actionPlanReport } = usePlanReport()
 
   const columns = [
     {

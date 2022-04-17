@@ -12,12 +12,10 @@ import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
   const { values } = useFormikContext()
-
   const {
     data: { moList, moItems },
     actions: moActions,
   } = useMo()
-
   const {
     data: { saleOrderList },
     actions: actionSaleOrder,
@@ -49,10 +47,11 @@ const FilterForm = () => {
     })
     return items
   }
-
   const getDataSaleOder = () => {
     const saleOrderLists = []
-    const soId = moList?.find((mo) => mo?.id === values?.moName)?.saleOrderId
+    const soId = moList?.find(
+      (mo) => mo?.id === values?.moName?.id,
+    )?.saleOrderId
     const saleOrders = saleOrderList?.find((so) => so?.id === soId)
     saleOrderLists.push(saleOrders)
     return saleOrderLists
@@ -67,12 +66,12 @@ const FilterForm = () => {
           placeholder={t('qualityReport.moName')}
           options={
             values?.soName
-              ? moList.filter((mo) => mo?.saleOrderId === values?.soName)
+              ? moList.filter((mo) => mo?.saleOrder?.name === values?.soName)
               : moList
           }
-          getOptionValue={(opt) => opt?.id}
+          getOptionValue={(opt) => ({ name: opt?.name, id: opt?.id })}
           getOptionLabel={(opt) => opt?.name}
-          onChange={(id) => moActions.getMoItemsById(id)}
+          onChange={(val) => moActions.getMoItemsById(val?.id)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -81,7 +80,7 @@ const FilterForm = () => {
           label={t('qualityReport.saleOrder')}
           placeholder={t('qualityReport.saleOrder')}
           options={values?.moName ? getDataSaleOder() : saleOrderList}
-          getOptionValue={(opt) => opt?.id}
+          getOptionValue={(opt) => opt?.name}
           getOptionLabel={(opt) => opt?.name}
         />
       </Grid>

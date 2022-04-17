@@ -3,7 +3,7 @@ import React from 'react'
 import { Switch } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const FormikSwitch = ({ field, form, ...props }) => (
+const FormikSwitch = ({ field, form, onChange, ...props }) => (
   <Switch
     {...field}
     checked={field.value}
