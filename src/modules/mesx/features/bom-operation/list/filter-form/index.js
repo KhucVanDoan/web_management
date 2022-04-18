@@ -1,17 +1,17 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { BOM_PRODUCING_STEP_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
+import { searchRoutingsApi } from '~/modules/mesx/redux/sagas/routing/search-routings'
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-  const {
-    data: { bomProducingStepList },
-  } = useBomProducingStep()
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -39,13 +39,15 @@ const FilterForm = () => {
           name="routingName"
           label={t('bomProducingStep.routingName')}
           placeholder={t('bomProducingStep.routingName')}
-          options={bomProducingStepList}
-          getOptionLabel={(opt) => `${opt?.bomCode} - ${opt?.routingName}`}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.bomCode}|${opt?.routingName}`,
-          })}
-          getOptionValue={(opt) => opt?.routingName}
-          // @TODO: <anh.nguyenthihai> edit option to routing, env doesnt have
+          asyncRequest={(s) =>
+            searchRoutingsApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>

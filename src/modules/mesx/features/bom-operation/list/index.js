@@ -188,9 +188,10 @@ function BomProducingStep() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, routingName: filters?.routingName?.name },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
 
