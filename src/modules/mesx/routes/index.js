@@ -37,6 +37,7 @@ import ItemUnitDetail from '~/modules/mesx/features/item-unit-setting/item-unit-
 import ItemUnitForm from '~/modules/mesx/features/item-unit-setting/item-unit-form'
 import MaterialDetailPlan from '~/modules/mesx/features/material-detail-plan'
 import MaterialReport from '~/modules/mesx/features/material-report'
+import MoDetail from '~/modules/mesx/features/mo/detail'
 import MoForm from '~/modules/mesx/features/mo/form'
 import Mo from '~/modules/mesx/features/mo/list'
 import PlanReport from '~/modules/mesx/features/plan-report'
@@ -602,7 +603,7 @@ const routes = [
             name: ROUTE.MO.DETAIL.TITLE,
             path: ROUTE.MO.DETAIL.PATH,
             pathActive: ROUTE.MO.DETAIL.PATH,
-            component: MoForm,
+            component: MoDetail,
             isInSidebar: false,
           },
           {
