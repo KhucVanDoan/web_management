@@ -22,6 +22,7 @@ import DefineFactoryForm from '~/modules/mesx/features/define-factory/factory-fo
 import DefineItem from '~/modules/mesx/features/define-item'
 import DefineItemDetail from '~/modules/mesx/features/define-item/item-detail'
 import DefineItemForm from '~/modules/mesx/features/define-item/item-form'
+import MasterPlanDetail from '~/modules/mesx/features/define-master-plan/detail'
 import DefineMasterPlanForm from '~/modules/mesx/features/define-master-plan/form'
 import DefineMasterPlan from '~/modules/mesx/features/define-master-plan/list'
 import AutoModeration from '~/modules/mesx/features/define-master-plan/moderation/auto-moderation'
@@ -518,7 +519,7 @@ const routes = [
           {
             name: ROUTE.MASTER_PLAN.DETAIL.TITLE,
             path: ROUTE.MASTER_PLAN.DETAIL.PATH,
-            component: DefineMasterPlanForm,
+            component: MasterPlanDetail,
             pathActive: ROUTE.MASTER_PLAN.DETAIL.PATH,
             isInSidebar: false,
           },
