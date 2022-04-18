@@ -59,7 +59,7 @@ function DefineItemDetail() {
   }
 
   const getItemDetailName = (id) => {
-    return detailList.find((item) => item.id === id)
+    return detailList?.find((item) => item.id === id)
   }
 
   return (

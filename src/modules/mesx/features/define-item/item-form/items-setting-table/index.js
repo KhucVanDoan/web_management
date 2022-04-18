@@ -1,28 +1,20 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
-import { createFilterOptions, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { getDetailsApi } from '~/modules/mesx/redux/sagas/common/get-details.saga'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['mesx'])
-
-  const {
-    data: { detailList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
-  useEffect(() => {
-    commonManagementActions.getDetails()
-  }, [])
 
   const columns = useMemo(
     () => [
@@ -31,20 +23,17 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         width: 400,
         align: 'center',
         renderCell: (params, index) => {
-          const itemIdCodeList = items.map((item) => item.detailId)
           return (
             <Field.Autocomplete
               name={`items[${index}].detailId`}
               label={t('defineItem.detailName')}
-              options={detailList}
-              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+              options={items}
+              asyncRequest={(s) =>
+                getDetailsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
               }
-              getOptionValue={(option) => option?.id}
-              filterOptions={createFilterOptions({
-                stringify: (opt) => `${opt?.code}|${opt?.name}`,
-              })}
+              asyncRequestHelper={(res) => res?.data?.items}
+              getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
               required
             />
           )
@@ -83,7 +72,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         },
       },
     ],
-    [detailList, items],
+    [items],
   )
 
   return (
@@ -102,7 +91,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
           variant="outlined"
           onClick={() => {
             arrayHelpers.push({
-              id: new Date().getTime(),
               detailId: '',
               quantity: 1,
             })

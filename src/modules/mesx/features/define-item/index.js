@@ -257,7 +257,16 @@ function DefineItem() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          // itemGroupCode: (filters?.itemGroupCode || []).map(
+          //   (item) => item?.code,
+          // ),
+          itemGroupCode: filters?.itemGroupCode?.code,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchItems(params)
