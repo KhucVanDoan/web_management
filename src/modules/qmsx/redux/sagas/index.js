@@ -12,6 +12,7 @@ import watchGetItems from './common/get-items'
 import watchGetProductsByStageQC from './common/get-products-by-stage-qc'
 import watchGetRoles from './common/get-role'
 import watchGetUsers from './common/get-users'
+import watchGetWarehouses from './common/get-warehouses'
 //dashboard
 import watchGetActionGroupDashboard from './dashboard/error-report/get-action-group-dashboard'
 import watchGetCauseGroupDashboard from './dashboard/error-report/get-cause-group-dashboard'
@@ -20,6 +21,8 @@ import watchGetErrorReportStatusDashboard from './dashboard/error-report/get-err
 import watchGetInProgressMoDashboard from './dashboard/get-in-progress-mo-list-dashboard'
 import watchGetItemListByMoDashboard from './dashboard/get-item-list-by-mo-dashboard'
 import watchGetProducingStepListByItemMoDashboard from './dashboard/get-producing-step-list-by-item-mo-dashboard'
+import watchGetQcCheckItemByExo from './dashboard/get-qc-check-item-by-exo'
+import watchGetQcCheckItemByImo from './dashboard/get-qc-check-item-by-imo'
 import watchGetQcCheckItemByPo from './dashboard/get-qc-check-item-by-po'
 import watchGetQcCheckItemByPro from './dashboard/get-qc-check-item-by-pro'
 import watchGetQcCheckItemBySo from './dashboard/get-qc-check-item-by-so'
@@ -136,6 +139,18 @@ import watchSearchOutputQualityTransactionHistory from './transaction-history/se
 import watchSearchProductionInputQualityMaterialTransactionHistory from './transaction-history/search-production-input-material-quality-transaction-history'
 import watchSearchProductionInputQualityProductPreviousTransactionHistory from './transaction-history/search-production-input-product-previous-quality-transaction-history'
 import watchSearchProductionOutputQualityTransactionHistory from './transaction-history/search-production-output-quality-transaction-history'
+//usser-managemnets
+import watchCreateUser from './user-management/create-user'
+import watchDeleteUser from './user-management/delete-user'
+import watchGenerateOTP from './user-management/generate-otp'
+import watchGetUserDetails from './user-management/get-user-details'
+import watchResetPassword from './user-management/reset-password'
+import watchSearchUsers from './user-management/search-users'
+import watchUpdateUser from './user-management/update-user'
+import watchVerifyOTP from './user-management/verify-otp-code'
+//user-permission
+import watchGetUserPermission from './user-permission/get-user-permission'
+import watchUpdateUserPermission from './user-permission/update-user-permission'
 //work-center-quality-control-plan
 import watchGetWorkCenterQualityControlPlanDetail from './work-center-quality-control-plan/get-detail-work-center-plan'
 import watchSearchWorkCenterQualityControlPlan from './work-center-quality-control-plan/search-work-center-plan'
@@ -158,6 +173,7 @@ export default function* sagas() {
     watchGetAllErrorGroup(),
     watchGetProductsByStageQC(),
     watchGetAllCheckList(),
+    watchGetWarehouses(),
 
     //dashboard
     watchGetQcProgressDashboard(),
@@ -174,6 +190,8 @@ export default function* sagas() {
     watchGetItemListByMoDashboard(),
     watchGetProducingStepListByItemMoDashboard(),
     watchGetSummaryDashboard(),
+    watchGetQcCheckItemByExo(),
+    watchGetQcCheckItemByImo(),
     watchGetQcCheckItemByPo(),
     watchGetQcCheckItemBySo(),
     watchGetQcCheckItemByPro(),
@@ -300,5 +318,19 @@ export default function* sagas() {
     watchSearchWorkCenterQualityControlPlan(),
     watchGetWorkCenterQualityControlPlanDetail(),
     watchUpdateWorkCenterQualityControlPlan(),
+
+    // user-management
+    watchSearchUsers(),
+    watchCreateUser(),
+    watchUpdateUser(),
+    watchDeleteUser(),
+    watchGetUserDetails(),
+    watchGenerateOTP(),
+    watchVerifyOTP(),
+    watchResetPassword(),
+
+    //user-permission
+    watchGetUserPermission(),
+    watchUpdateUserPermission(),
   ])
 }

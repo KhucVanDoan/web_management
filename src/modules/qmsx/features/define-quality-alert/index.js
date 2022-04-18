@@ -182,11 +182,13 @@ function DefineQualityAlert() {
         )
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.DETAIL_INPUT.PATH.replace(':id', id),
         )
       case STAGE_OPTION.PRO_EXPORT:
       case STAGE_OPTION.SO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.DETAIL_OUTPUT.PATH.replace(':id', id),
         )
@@ -213,11 +215,13 @@ function DefineQualityAlert() {
         )
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.EDIT_INPUT.PATH.replace(':id', id),
         )
       case STAGE_OPTION.PRO_EXPORT:
       case STAGE_OPTION.SO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.EDIT_OUTPUT.PATH.replace(':id', id),
         )

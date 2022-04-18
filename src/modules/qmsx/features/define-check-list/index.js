@@ -98,7 +98,7 @@ function DefineCheckList() {
     },
     {
       field: 'createdAt',
-      headerName: t('defineCheckList.createdAt'),
+      headerName: t('common.createdAt'),
       width: 150,
       sortable: true,
       renderCell: (params) => {
@@ -176,7 +176,9 @@ function DefineCheckList() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchCheckList(params)

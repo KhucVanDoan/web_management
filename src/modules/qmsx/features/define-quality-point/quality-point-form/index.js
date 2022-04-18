@@ -10,6 +10,7 @@ import {
   FormHelperText,
   Hidden,
 } from '@mui/material'
+import { createFilterOptions } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { isNil, omit, isEmpty } from 'lodash'
@@ -385,8 +386,11 @@ function DefineQualityPointForm() {
                       required
                       options={checkListConfirmedList || []}
                       getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.code || ''}
-                      getOptionSubLabel={(opt) => opt?.name || ''}
+                      getOptionLabel={(opt) => opt?.name || ''}
+                      getOptionSubLabel={(opt) => opt?.code || ''}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.name}|${opt?.code}`,
+                      })}
                     />
                   </Grid>
                 </Grid>

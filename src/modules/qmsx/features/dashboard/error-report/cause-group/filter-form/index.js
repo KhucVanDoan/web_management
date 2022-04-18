@@ -47,6 +47,8 @@ function CauseGroupFilterForm() {
     switch (id) {
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
+      case STAGE_OPTION.EXO_EXPORT:
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_EXPORT:
         qualityReportActions.getOrderListByStage({ stage: id }, (data) =>
@@ -74,6 +76,12 @@ function CauseGroupFilterForm() {
     switch (qcStageId) {
       case STAGE_OPTION.PO_IMPORT:
         dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        dashboardActions.getQcCheckItemByImo({ imoId: id }, setDataToState)
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        dashboardActions.getQcCheckItemByExo({ exoId: id }, setDataToState)
         break
       case STAGE_OPTION.SO_EXPORT:
         dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
@@ -122,6 +130,8 @@ function CauseGroupFilterForm() {
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
+      case STAGE_OPTION.IMO_IMPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         params.itemId = itemId
         params.orderId = orderId
 

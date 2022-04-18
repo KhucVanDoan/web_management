@@ -40,7 +40,7 @@ function ProductionInputQualityProductPrevious() {
       width: 50,
       sortable: false,
       fixed: true,
-      renderCell: (params, index) => {
+      renderCell: (_, index) => {
         return getRowNumber(index, page, pageSize)
       },
     },
