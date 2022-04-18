@@ -250,8 +250,8 @@ const WorkCenter = () => {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -261,7 +261,6 @@ const WorkCenter = () => {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={isOpenDeleteModal}

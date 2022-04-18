@@ -409,8 +409,8 @@ function PlanReport() {
           isView={true}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeSort={setSort}
-          onChangeFilter={setFilters}
+          onSortChange={setSort}
+          onFilterChange={setFilters}
           sort={sort}
           total={total}
           filters={{

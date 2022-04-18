@@ -277,8 +277,8 @@ function RequestBuyMaterial() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('requestBuyMaterial.title')}
           filters={{
@@ -289,7 +289,6 @@ function RequestBuyMaterial() {
             validationSchema: filterSchema(t),
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}

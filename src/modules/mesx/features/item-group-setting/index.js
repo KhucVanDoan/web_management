@@ -212,8 +212,8 @@ const ItemGroupSetting = () => {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           filters={{
             form: <FilterForm />,
@@ -223,7 +223,6 @@ const ItemGroupSetting = () => {
             onApply: setFilters,
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}

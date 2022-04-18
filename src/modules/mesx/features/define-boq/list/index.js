@@ -304,10 +304,9 @@ const DefineBOQ = () => {
         page={page}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeSort={setSort}
+        onSortChange={setSort}
         total={total}
         sort={sort}
-        checkboxSelection
         filters={{
           form: <FilterForm />,
           values: filters,

@@ -264,8 +264,8 @@ function DefineBOM() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('defineBOM.title')}
           filters={{
@@ -275,7 +275,6 @@ function DefineBOM() {
             onApply: setFilters,
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}
