@@ -132,7 +132,6 @@ export const TEXTFIELD_PREVENT = {
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 export const ASYNC_SEARCH_LIMIT = 100
-export const ASYNC_SEARCH_STATUS = '1'
 export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss'
 
 export const DATE_FORMAT = 'dd/MM/yyyy'
