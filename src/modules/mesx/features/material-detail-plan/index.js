@@ -44,7 +44,7 @@ const MaterialDetailPlan = () => {
 
   const refreshDataFilter = () => {
     const params = {
-      manufacturingOrderId: filters?.moId,
+      manufacturingOrderId: filters?.moId?.id,
       itemId: filters?.itemId,
       producingStepId: filters?.producingStepId,
       workCenterId: filters?.workCenterId,

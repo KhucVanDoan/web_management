@@ -4,18 +4,19 @@ import { Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { MO_STATUS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
   const { values } = useFormikContext()
 
   const {
-    data: { moList, moItems },
+    data: { moItems },
     actions: actionMo,
   } = useMo()
 
@@ -35,7 +36,6 @@ const FilterForm = () => {
   } = useWorkCenter()
 
   useEffect(() => {
-    actionMo.searchMO({ isGetAll: 1 })
     commonManagementActions.getItems({ isGetAll: 1 })
     producingStepAction.searchProducingSteps({ isGetAll: 1 })
     workCenterActions.searchWorkCenter({ isGetAll: 1 })
@@ -95,16 +95,12 @@ const FilterForm = () => {
           name="moId"
           label={t('materialDetailPlan.moCode')}
           placeholder={t('materialDetailPlan.moCode')}
-          options={moList.filter((i) =>
-            [
-              MO_STATUS.CONFIRMED,
-              MO_STATUS.IN_PROGRESS,
-              MO_STATUS.COMPLETED,
-            ]?.includes(i?.status),
-          )}
-          getOptionValue={(opt) => opt?.id}
+          asyncRequest={(s) =>
+            searchMOApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.code}
-          onChange={(id) => actionMo.getMoItemsById(id)}
+          onChange={(val) => actionMo.getMoItemsById(val?.id)}
         />
       </Grid>
 
