@@ -278,4 +278,26 @@ export const ROUTE = {
       TITLE: 'workCenterQualityControlPlanEdit',
     },
   },
+  USER_MANAGEMENT: {
+    LIST: {
+      PATH: '/qmsx/user-management',
+      TITLE: 'userManagement',
+    },
+    CREATE: {
+      PATH: '/qmsx/user-management/create',
+      TITLE: 'userManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/qmsx/user-management/:id/detail',
+      TITLE: 'userManagementDetail',
+    },
+    EDIT: {
+      PATH: '/qmsx/user-management/:id/edit',
+      TITLE: 'userManagementEdit',
+    },
+  },
+  USER_PERMISSION: {
+    PATH: '/qmsx/user-permission',
+    TITLE: 'userPermission',
+  },
 }

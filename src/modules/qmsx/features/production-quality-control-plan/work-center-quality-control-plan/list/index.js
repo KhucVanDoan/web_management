@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import { IconButton } from '@mui/material'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -12,6 +11,7 @@ import Status from '~/components/Status'
 import { WORK_CENTER_PLAN_STATUS, STAGE_OPTION } from '~/modules/qmsx/constants'
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import qs from '~/utils/qs'
 
 const breadcrumbs = [
   {

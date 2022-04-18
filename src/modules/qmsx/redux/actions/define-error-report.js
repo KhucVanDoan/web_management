@@ -91,7 +91,7 @@ export function confirmErrorReportSuccess(payload) {
  */
 export function confirmErrorReportFail() {
   return {
-    type: CONFIRM_ERROR_REPORT_FAILED,
+    type: CONFIRM_ERROR_REPORT_FAIL,
   }
 }
 

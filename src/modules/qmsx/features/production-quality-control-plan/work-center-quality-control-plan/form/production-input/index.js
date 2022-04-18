@@ -5,7 +5,6 @@ import { Box } from '@mui/system'
 import { isBefore } from 'date-fns'
 import { Formik, Form } from 'formik'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -29,6 +28,7 @@ import {
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
+import qs from '~/utils/qs'
 
 const KEY_ROW_TABLE = {
   PLAN_QUANTITY: 1, //Số lượng kế hoạch

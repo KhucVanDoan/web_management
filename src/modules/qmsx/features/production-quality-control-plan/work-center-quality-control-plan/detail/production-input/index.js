@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 
@@ -20,6 +19,7 @@ import {
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
+import qs from '~/utils/qs'
 
 const WorkCenterQualityControlPlanProductionInputDetail = () => {
   const history = useHistory()

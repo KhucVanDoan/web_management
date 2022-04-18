@@ -525,7 +525,7 @@ function ProductionInputQualityControlPlanForm() {
           if (!isEmpty(rowProducingStep?.producingStep?.qualityPlanBom)) {
             rowProducingStep?.producingStep?.qualityPlanBom?.forEach(
               (rowMaterial) => {
-                obj[`_${material.itemMaterialId}`] = {
+                obj[`_${rowMaterial.itemMaterialId}`] = {
                   id: rowMaterial?.id,
                   itemMaterialId: rowMaterial?.itemMaterialId,
                   type: rowProducingStep?.type,

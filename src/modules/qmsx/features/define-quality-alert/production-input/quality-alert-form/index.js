@@ -92,9 +92,9 @@ function DefineQualityAlertProductionInputForm() {
         type: TYPE_QC_VALUE_TO_API.PRODUCTION,
       }
       actions.getQualityAlertDetailById(params, (data) => {
-        actions.getProductsByMo(data?.manufacturingOrder?.id)
-        actions.getRoutingByProduct(data?.item?.id)
-        actions.getProducingStepByRouting(data?.routing?.id)
+        getProductsByMo(data?.manufacturingOrder?.id)
+        getRoutingByProduct(data?.item?.id)
+        getProducingStepByRouting(data?.routing?.id)
       })
     }
     return () => {
@@ -160,7 +160,7 @@ function DefineQualityAlertProductionInputForm() {
 
     if (!moId) return
 
-    actions.getProductsByMo(moId, (data) => setItemList(data))
+    getProductsByMo(moId)
   }
 
   const onChangeItem = (itemId, setFieldValue) => {
@@ -169,7 +169,7 @@ function DefineQualityAlertProductionInputForm() {
 
     if (!itemId) return
 
-    actions.getRoutingByProduct(itemId, (data) => setRoutingList(data))
+    getRoutingByProduct(itemId)
   }
 
   const onChangeRouting = (routingId, setFieldValue) => {
@@ -177,6 +177,19 @@ function DefineQualityAlertProductionInputForm() {
 
     if (!routingId) return
 
+    getProducingStepByRouting(routingId)
+  }
+
+  //Call api
+  const getProductsByMo = (moId) => {
+    actions.getProductsByMo(moId, (data) => setItemList(data))
+  }
+
+  const getRoutingByProduct = (itemId) => {
+    actions.getRoutingByProduct(itemId, (data) => setRoutingList(data))
+  }
+
+  const getProducingStepByRouting = (routingId) => {
     actions.getProducingStepByRouting(routingId, (data) =>
       setProducingStepList(data),
     )
