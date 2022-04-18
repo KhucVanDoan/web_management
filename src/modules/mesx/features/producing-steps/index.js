@@ -253,8 +253,8 @@ function ProducingStep() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('producingStep.title')}
           filters={{
@@ -265,7 +265,6 @@ function ProducingStep() {
             validationSchema: filterSchema(t),
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}

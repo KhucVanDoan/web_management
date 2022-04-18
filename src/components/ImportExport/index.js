@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { useEffect, useRef, useState } from 'react'
 
 import {
@@ -6,7 +7,9 @@ import {
   Grid,
   Link as MuiLink,
   Typography,
+  IconButton,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { isEmpty, isNil } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +26,6 @@ import {
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import palette from '~/themes/palette'
 import { formatFileSize, isValidFileType } from '~/utils/file'
 
 import Button from '../Button'
@@ -45,6 +47,7 @@ const ImportExport = ({
   ...props
 }) => {
   const { t } = useTranslation()
+  const theme = useTheme()
 
   const [validationError, setValidationError] = useState(null)
   const [importing, setImporting] = useState(false)
@@ -152,7 +155,7 @@ const ImportExport = ({
   const getColor = (prevColor) =>
     isEmpty(validationError) && isEmpty(importError)
       ? prevColor
-      : palette.error.main
+      : theme.palette.error.main
 
   const handleMenuItemClick = (option) => {
     switch (option) {
@@ -165,7 +168,7 @@ const ImportExport = ({
     }
   }
 
-  const Dropzone = (
+  const Dropzone = () => (
     <Grid
       container
       flexDirection="column"
@@ -190,44 +193,43 @@ const ImportExport = ({
         <Typography component="span">
           {t('import.stepUploadData.support')}
         </Typography>
-        <Typography color={palette.primary.main} variant="h5" component="span">
+        <Typography
+          color={theme.palette.primary.main}
+          variant="h5"
+          component="span"
+        >
           {t('import.stepUploadData.fileType')}
         </Typography>
       </Grid>
     </Grid>
   )
 
-  const FileInfo = (
-    <Grid container flexDirection="column" minHeight={150}>
+  const FileInfo = () => (
+    <Grid container flexDirection="column" minHeight={138}>
       <Grid item flex={1}>
         <Grid container columnSpacing={2}>
           <Grid item>
             <Icon
               name="paper"
               size="100%"
-              fill={getColor(palette.primary.main)}
+              fill={getColor(theme.palette.primary.main)}
             />
           </Grid>
           <Grid item flex={1}>
             <TruncateMarkup lines={1} ellipsis={() => '...'}>
-              <Typography color={getColor(palette.text.main)}>
+              <Typography color={getColor(theme.palette.text.main)}>
                 {importFile?.name}
               </Typography>
             </TruncateMarkup>
 
-            <Typography color={palette.grayF4.contrastText}>
+            <Typography color={theme.palette.grayF4.contrastText}>
               {formatFileSize(importFile?.size)}
             </Typography>
           </Grid>
           <Grid item alignSelf="center">
-            <Button
-              variant="text"
-              onClick={resetImportState}
-              sx={{ p: 0, minWidth: 0 }}
-              disabled={importing}
-            >
-              <Icon name="delete" size="auto" />
-            </Button>
+            <IconButton onClick={resetImportState} disabled={importing}>
+              <Icon name="delete" />
+            </IconButton>
           </Grid>
         </Grid>
       </Grid>
@@ -236,7 +238,7 @@ const ImportExport = ({
         {!isEmpty(validationError || importError) && (
           <Typography
             sx={{ whiteSpace: 'pre-line' }}
-            color={palette.subText.main}
+            color={theme.palette.subText.main}
           >
             {!isEmpty(validationError) ? validationError : importError}
           </Typography>
@@ -265,14 +267,14 @@ const ImportExport = ({
           {format(
             t('import.result'),
             <Typography
-              color={palette.success.main}
+              color={theme.palette.success.main}
               variant="h5"
               component="span"
             >
               {importResult?.success}
             </Typography>,
             <Typography
-              color={palette.error.main}
+              color={theme.palette.error.main}
               variant="h5"
               component="span"
             >
@@ -334,7 +336,7 @@ const ImportExport = ({
           lg={6}
           pt={2}
           borderRight={1}
-          borderColor={palette.divider}
+          borderColor={theme.palette.divider}
         >
           <Typography variant="h5">
             {t('import.stepDownloadTemplate.title')}
@@ -354,20 +356,51 @@ const ImportExport = ({
           <Typography variant="h5">
             {t('import.stepUploadData.title')}
           </Typography>
-          <Box
-            my={3}
-            py={3}
-            px={5}
-            bgcolor={palette.grayF5.main}
-            onClick={onClickDropzone}
-            minHeight={150}
-            border={1}
-            borderColor={getColor(palette.grayF5.main)}
-            onDrop={onDropFile}
-            onDragOver={(event) => event.preventDefault()}
-          >
-            {isNil(importFile) ? Dropzone : FileInfo}
-          </Box>
+
+          {isNil(importFile) ? (
+            <Box
+              onClick={onClickDropzone}
+              onDrop={onDropFile}
+              onDragEnter={(event) => {
+                event.currentTarget.style.border = `1px dashed ${theme.palette.primary.main}`
+              }}
+              onDragOver={(event) => {
+                event.preventDefault()
+              }}
+              onDragLeave={(event) => {
+                event.currentTarget.style.border = ''
+              }}
+              sx={{
+                my: 3,
+                bgcolor: theme.palette.grayF5.main,
+                borderRadius: 1,
+                border: 1,
+                borderColor: getColor(theme.palette.grayF5.main),
+                cursor: 'pointer',
+                '&:hover': {
+                  border: `1px dashed ${theme.palette.primary.main}`,
+                },
+              }}
+            >
+              <Box sx={{ p: 3, pointerEvents: 'none' }}>
+                <Dropzone />
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                my: 3,
+                py: 3,
+                px: 5,
+                bgcolor: theme.palette.grayF5.main,
+                borderRadius: 1,
+                border: 1,
+                borderColor: getColor(theme.palette.grayF5.main),
+              }}
+            >
+              <FileInfo />
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Dialog>

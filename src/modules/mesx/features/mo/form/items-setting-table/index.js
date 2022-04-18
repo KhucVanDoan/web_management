@@ -136,7 +136,7 @@ const ItemsSettingTable = (props) => {
     return itemsInSaleOrder
   }
 
-  const onChangeSelectedRows = (selected) => {
+  const onSelectionChange = (selected) => {
     setSelectedRows([...selected])
     props.updateSelectedItems(selected.map((item) => item.id))
   }
@@ -161,9 +161,12 @@ const ItemsSettingTable = (props) => {
         hideSetting
         pageSize={pageSize}
         page={page}
-        checkboxSelection={!isView}
         selected={selectedRows}
-        onChangeSelectedRows={onChangeSelectedRows}
+        {...(isView
+          ? {}
+          : {
+              onSelectionChange: onSelectionChange,
+            })}
       />
     </>
   )

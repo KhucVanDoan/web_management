@@ -274,7 +274,7 @@ const Mo = () => {
    * Handle change filter
    * @param {array} filters
    */
-  const onChangeFilter = (filters) => {
+  const onFilterChange = (filters) => {
     setFilters(filters)
   }
 
@@ -324,15 +324,14 @@ const Mo = () => {
           page={page}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeSort={setSort}
+          onSortChange={setSort}
           total={total}
           sort={sort}
           filters={{
             form: <FilterForm />,
             values: filters,
-            onApply: onChangeFilter,
+            onApply: onFilterChange,
           }}
-          checkboxSelection
         />
         <Dialog
           open={isOpenDeleteModal}
