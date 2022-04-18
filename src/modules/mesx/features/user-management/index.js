@@ -98,7 +98,7 @@ function UserManagement() {
       field: 'departmentName',
       headerName: t('userManagement.department'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const deparmentName = params.row?.departmentSettings
           ?.map((department) => department?.name)
@@ -110,7 +110,7 @@ function UserManagement() {
       field: 'roleName',
       headerName: t('userManagement.role'),
       width: 100,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const roleName = params.row?.userRoleSettings
           ?.map((role) => role?.name)
