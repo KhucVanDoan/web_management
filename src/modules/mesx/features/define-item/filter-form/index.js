@@ -86,7 +86,7 @@ const FilterForm = () => {
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
-          // multiple
+          multiple
         />
       </Grid>
       <Grid item xs={12}>

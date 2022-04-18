@@ -50,7 +50,7 @@ function DefineItem() {
     code: '',
     name: '',
     itemTypeCode: '',
-    itemGroupCode: '',
+    itemGroupCode: [],
     createTime: [],
   }
 
@@ -260,10 +260,9 @@ function DefineItem() {
       filter: convertFilterParams(
         {
           ...filters,
-          // itemGroupCode: (filters?.itemGroupCode || []).map(
-          //   (item) => item?.code,
-          // ),
-          itemGroupCode: filters?.itemGroupCode?.code,
+          itemGroupCode: (filters?.itemGroupCode || []).map(
+            (item) => item?.code,
+          ),
         },
         columns,
       ),

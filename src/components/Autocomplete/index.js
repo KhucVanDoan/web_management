@@ -52,6 +52,7 @@ const Autocomplete = ({
   // fixedDropdownWidth,
   subLabelBefore,
   subLabelWidth,
+  uncontrolled,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -107,9 +108,11 @@ const Autocomplete = ({
         opts = asyncRequestHelper(response)
       }
 
-      if (Array.isArray(opts)) {
-        setOptions(opts || [])
+      if (!Array.isArray(opts)) {
+        opts = []
       }
+
+      setOptions(opts)
     } catch (e) {
       setOptions([])
     } finally {
@@ -179,7 +182,7 @@ const Autocomplete = ({
           </>
         )}
 
-        {selected && (
+        {multiple && selected && (
           <Icon
             name="check"
             size={16}
@@ -367,7 +370,7 @@ const Autocomplete = ({
         : {})}
       {...(isAsync
         ? {
-            value: value,
+            value,
             options,
             filterOptions: (opts) => opts,
             onClose: () => {
@@ -386,7 +389,7 @@ const Autocomplete = ({
             ),
           }
         : {
-            value: parseValue(value, rawOptions),
+            ...(uncontrolled ? {} : { value: parseValue(value, rawOptions) }),
             options: rawOptions,
             onChange: (_, newVal) => {
               if (multiple) {
@@ -395,7 +398,6 @@ const Autocomplete = ({
                 onChange(getOptionValue(newVal))
               }
             },
-            // ...(!isNil(value) ? { value: parseValue(value, rawOptions) } : {}),
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
@@ -421,7 +423,8 @@ Autocomplete.defaultProps = {
   onChange: () => {},
   subLabelWidth: 100,
   subLabelBefore: false,
-  fixedDropdownWidth: false,
+  // fixedDropdownWidth: false,
+  uncontrolled: false,
 }
 
 Autocomplete.propTypes = {
@@ -451,7 +454,8 @@ Autocomplete.propTypes = {
   subLabelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   subLabelBefore: PropTypes.bool,
   isOptionEqualToValue: PropTypes.func,
-  fixedDropdownWidth: PropTypes.bool,
+  // fixedDropdownWidth: PropTypes.bool,
+  uncontrolled: PropTypes.bool,
 }
 
 export default Autocomplete
