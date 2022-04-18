@@ -237,7 +237,14 @@ function RequestBuyMaterial() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          saleOrderCode: filters?.saleOrderCode?.code,
+          code: filters?.code?.code,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchRequestBuyMaterials(params)
