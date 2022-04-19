@@ -220,7 +220,14 @@ const Mo = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          code: filters?.code?.code,
+          saleOrderId: filters?.saleOrderId?.name,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchMO(params)

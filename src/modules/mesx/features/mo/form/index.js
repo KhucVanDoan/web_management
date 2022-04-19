@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Box, createFilterOptions } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
 import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -20,10 +21,12 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
+import TextField from '~/components/TextField'
 import { MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 
@@ -55,7 +58,7 @@ const MOForm = () => {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
-    data: { masterPlanList },
+    data: { masterPlanDetails },
     actions: masterPlanActions,
   } = useDefineMasterPlan()
   const {
@@ -70,15 +73,6 @@ const MOForm = () => {
 
   useEffect(() => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
-    masterPlanActions.searchMasterPlans({
-      isGetAll: 1,
-      filter: convertFilterParams({
-        status: [
-          MASTER_PLAN_STATUS.CONFIRMED,
-          MASTER_PLAN_STATUS.IN_PROGRESS,
-        ].join(','),
-      }),
-    })
   }, [])
 
   useEffect(() => {
@@ -133,6 +127,7 @@ const MOForm = () => {
               handleReset()
               setSaleOrders([])
               setSaleOrder({})
+              setMoFactory('')
             }}
             mode={MODAL_MODE.CREATE}
           />
@@ -205,6 +200,12 @@ const MOForm = () => {
   }, [moDetails?.masterPlan?.id])
 
   useEffect(() => {
+    if (masterPlanId) {
+      masterPlanActions.getMasterPlanDetailsById(masterPlanId)
+    }
+  }, [masterPlanId])
+
+  useEffect(() => {
     if (mode === MODAL_MODE.CREATE && masterPlanId) {
       getMasterCreate()
     }
@@ -234,7 +235,7 @@ const MOForm = () => {
         : [moDetails?.planFrom, moDetails?.planTo],
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.masterPlan?.id || masterPlanId,
+    masterPlanId: moDetails?.masterPlan || masterPlanDetails || '',
     saleOrderId: moDetails?.saleOrderId || null,
     moFactory: '',
   }
@@ -246,7 +247,7 @@ const MOForm = () => {
       itemIds: values?.itemIds,
       description: values?.description,
       saleOrderId: values?.saleOrderId,
-      masterPlanId: values?.masterPlanId,
+      masterPlanId: values?.masterPlanId?.id,
       planFrom: values?.moPlan ? values?.moPlan[0] : '',
       planTo: values?.moPlan ? values?.moPlan[1] : '',
     }
@@ -299,15 +300,24 @@ const MOForm = () => {
                       name="masterPlanId"
                       label={t('Mo.planName')}
                       placeholder={t('Mo.planName')}
-                      options={masterPlanList || []}
-                      getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(option) => option?.id}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchMasterPlansApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: [
+                              MASTER_PLAN_STATUS.CONFIRMED,
+                              MASTER_PLAN_STATUS.IN_PROGRESS,
+                            ].join(','),
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.masterPlans}
                       required
-                      onChange={(id) => {
-                        handleChangePlan(id, setFieldValue)
+                      onChange={(val) => {
+                        handleChangePlan(val?.id, setFieldValue)
                         setFieldValue('itemIds', [])
                       }}
                     />
@@ -324,7 +334,7 @@ const MOForm = () => {
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
+                    <TextField
                       name="moFactory"
                       label={t('Mo.moFactory')}
                       placeholder={t('Mo.moFactory')}
