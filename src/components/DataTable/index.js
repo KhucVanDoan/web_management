@@ -154,6 +154,7 @@ const DataTable = (props) => {
       )}
       <TableContainer
         sx={{
+          maxHeight: 'calc(100vh - 160px)',
           ...(height ? { maxHeight: height } : { flex: 1, overflow: 'auto' }),
         }}
       >

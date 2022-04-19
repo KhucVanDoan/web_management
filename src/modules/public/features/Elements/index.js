@@ -306,13 +306,18 @@ const Elements = () => {
       </Typography>
       <Grid container rowSpacing={4 / 3} columnSpacing={4}>
         <Grid item xs={6}>
-          <Autocomplete options={mockOptions} label="Autocomplete Single" />
+          <Autocomplete
+            options={mockOptions}
+            label="Autocomplete Single"
+            uncontrolled
+          />
         </Grid>
         <Grid item xs={6}>
           <Autocomplete
             options={mockOptions}
             multiple
             label="Autocomplete Multiple"
+            uncontrolled
           />
         </Grid>
         <Grid item xs={6}>
