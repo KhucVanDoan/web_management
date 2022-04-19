@@ -447,4 +447,10 @@ export const ROUTE = {
       TITLE: 'detailWorkCenterPlan',
     },
   },
+  PRODUCTIVITY_COMPARE_REPORT: {
+    LIST: {
+      PATH: '/mesx/productivity-compare-report',
+      TITLE: 'productivityCompareReport',
+    },
+  },
 }

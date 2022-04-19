@@ -20,6 +20,7 @@ import planReport from './plan-report'
 import definePlan from './plan.reducer'
 import PriceReport from './price-report'
 import producingStep from './product-step'
+import productivityCompareReport from './productivity-compare-report'
 import productivityReport from './productivity-report'
 import qualityReport from './quality-report'
 import requestBuyMaterial from './request-buy-materials'
@@ -62,4 +63,5 @@ export default combineReducers({
   bomProducingStep,
   calendar,
   PriceReport,
+  productivityCompareReport,
 })

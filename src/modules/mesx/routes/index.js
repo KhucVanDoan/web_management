@@ -47,6 +47,7 @@ import PriceDetail from '~/modules/mesx/features/price-report/price-detail'
 import ProducingStep from '~/modules/mesx/features/producing-steps'
 import ProducingStepDetail from '~/modules/mesx/features/producing-steps/detail'
 import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
+import ProductivityCompareReport from '~/modules/mesx/features/productivity-compare-report'
 import ProductivityReport from '~/modules/mesx/features/productivity-report'
 import QualityReport from '~/modules/mesx/features/quality-report'
 import RequestBuyMaterialDetail from '~/modules/mesx/features/request-buy-material/detail'
@@ -682,6 +683,12 @@ const routes = [
             isInSidebar: true,
           },
         ],
+      },
+      {
+        name: ROUTE.PRODUCTIVITY_COMPARE_REPORT.LIST.TITLE,
+        path: ROUTE.PRODUCTIVITY_COMPARE_REPORT.LIST.PATH,
+        component: ProductivityCompareReport,
+        isInSidebar: true,
       },
     ],
   },
