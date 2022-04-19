@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
@@ -211,36 +211,33 @@ export const DetailJob = () => {
     })
     return { rows, rowSpanMatrix, grayRowMatrix }
   }
+  const renderHeaderRight = () => {
+    return (
+      <Button
+        onClick={() =>
+          history.push(
+            ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
+          )
+        }
+        sx={{ ml: 4 / 3 }}
+      >
+        {t('defineMasterPlan.autoModeration.selectModerationType')}
+      </Button>
+    )
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('defineMasterPlan.autoModeration.title')}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
       onBack={backToList}
     >
-      <Box
-        sx={() => ({
-          display: 'flex',
-          justifyContent: 'flex-end',
-        })}
-      >
-        <Button
-          onClick={() =>
-            history.push(
-              ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
-            )
-          }
-        >
-          {t('defineMasterPlan.autoModeration.selectModerationType')}
-        </Button>
-      </Box>
       {jobDetail?.saleOrderSchedules?.map((s) => (
         <>
-          <Box sx={4}>
-            <Typography variant="h4" component="span">
-              {s?.saleOrderName}
-            </Typography>
-          </Box>
+          <Typography variant="h4" component="span" mb={2}>
+            {s?.saleOrderName}
+          </Typography>
           <DataTable
             columns={getColumns(s)}
             rows={getRows(s).rows}
