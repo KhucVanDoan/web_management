@@ -268,18 +268,9 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
   },
 }
 
-export const DEFAULT_ITEM_TYPES = [
-  {
-    id: 1,
-    code: '00',
-    name: 'itemType.material',
-  },
-  {
-    id: 2,
-    code: '01',
-    name: 'itemType.product',
-  },
-]
+export const DEFAULT_ITEM_TYPES = {
+  code: ['00', '04', '05', '06'],
+}
 
 export const DEFAULT_UNITS = [
   {

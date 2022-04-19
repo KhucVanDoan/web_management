@@ -588,7 +588,8 @@
   },
   "itemType": {
     "material": "Nguyên vật liệu",
-    "product": "Thành phẩm"
+    "product": "Thành phẩm",
+    "supplies": "Vật tư"
   },
   "defineMasterPlan": {
     "name": "Tên sản phẩm",

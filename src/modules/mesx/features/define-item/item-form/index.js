@@ -20,7 +20,11 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants'
+import {
+  DEFAULT_UNITS,
+  WEIGHT_UNITS,
+  DEFAULT_ITEM_TYPES,
+} from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
@@ -204,7 +208,6 @@ function DefineItemForm() {
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
-
     const convertValues = {
       ...values,
       id,
@@ -290,6 +293,10 @@ function DefineItemForm() {
             enableReinitialize
           >
             {({ handleReset, values, setFieldValue }) => {
+              const itemtype = values?.itemType?.code
+              const disabledCheckBox = (DEFAULT_ITEM_TYPES.code || []).includes(
+                itemtype,
+              )
               return (
                 <Form>
                   <Tabs
@@ -428,6 +435,7 @@ function DefineItemForm() {
                                 checked={isProductionObject}
                                 onChange={onToggleIsProductionObject}
                                 name="isProductionObject"
+                                disabled={disabledCheckBox}
                               />
                             }
                             label={t('defineItem.isProductionObject') + '?'}
