@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
@@ -11,6 +11,7 @@ import {
   DATE_FORMAT_3,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -18,6 +19,7 @@ import Page from '~/components/Page'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
@@ -29,12 +31,14 @@ const DefineMasterPlanForm = () => {
   const { id } = useParams()
   const history = useHistory()
   const routeMatch = useRouteMatch()
+
+  const [soId, setSoId] = useState([])
   const {
     data: { isLoading, masterPlanDetails },
     actions,
   } = useDefineMasterPlan()
   const {
-    data: { soList, factoryList },
+    data: { factoryList },
     actions: commonManagementActions,
   } = useCommonManagement()
   const {
@@ -63,6 +67,13 @@ const DefineMasterPlanForm = () => {
   }, [mode])
 
   useEffect(() => {
+    // set soId when update
+    if (masterPlanDetails?.saleOrderSchedules && isUpdate) {
+      setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.id))
+    }
+  }, [masterPlanDetails])
+
+  useEffect(() => {
     return () => actionSaleOrder.resetSaleOrderState()
   }, [saleOrderDetailList])
 
@@ -84,7 +95,7 @@ const DefineMasterPlanForm = () => {
       dateTo: values?.planDate
         ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3)
         : '',
-      saleOrders: values.soId.map((id) => ({ id })),
+      saleOrders: values.soId.map((i) => ({ id: i?.id })),
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
@@ -173,16 +184,14 @@ const DefineMasterPlanForm = () => {
       ? {
           ...masterPlanDetails,
           planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
-          soId: masterPlanDetails.saleOrderSchedules?.map(
-            (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
-          ),
+          soId: masterPlanDetails?.saleOrderSchedules,
           factoryId:
             masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
         }
       : {
           code: '',
           name: '',
-          soId: null,
+          soId: [],
           factoryId: null,
           description: '',
           planDate: null,
@@ -190,12 +199,15 @@ const DefineMasterPlanForm = () => {
           dateCompletion: 0,
         }
 
-  const handleChangeSoId = (id, setFieldValue) => {
-    actionSaleOrder.getSaleOrderDetailsByIds({ ids: id.join(',') }, (data) => {
-      const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
-      const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
-      setFieldValue('planDate', [dateFrom, dateTo])
-    })
+  const handleChangeSoId = (val, setFieldValue) => {
+    actionSaleOrder.getSaleOrderDetailsByIds(
+      { ids: val?.map((i) => i?.id).join(',') },
+      (data) => {
+        const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
+        const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
+        setFieldValue('planDate', [dateFrom, dateTo])
+      },
+    )
   }
 
   return (
@@ -239,15 +251,19 @@ const DefineMasterPlanForm = () => {
                       name="soId"
                       placeholder={t('defineMasterPlan.saleOrder')}
                       required
-                      options={soList}
-                      getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(option) => option?.id}
+                      options={masterPlanDetails?.saleOrderSchedules}
+                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderName}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchSaleOrdersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       multiple
-                      onChange={(id) => {
-                        handleChangeSoId(id, setFieldValue)
+                      onChange={(val) => {
+                        handleChangeSoId(val, setFieldValue)
                       }}
                     />
                   </Grid>
@@ -299,7 +315,7 @@ const DefineMasterPlanForm = () => {
               </Grid>
             </Grid>
             <DetailTab
-              soId={values.soId}
+              soId={isUpdate ? soId : values?.soId}
               planDate={values.planDate}
               isDetail={true}
               isUpdate={isUpdate}

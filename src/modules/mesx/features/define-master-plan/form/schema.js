@@ -27,9 +27,7 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    soId: Yup.number()
-      .typeError(t('general:form.required'))
-      .required(t('general:form.required')),
+    soId: Yup.array().nullable().required(t('general:form.required')),
     factoryId: Yup.number()
       .typeError(t('general:form.required'))
       .required(t('general:form.required')),

@@ -70,7 +70,7 @@ const ItemsDetailTable = (props) => {
 
   useEffect(() => {
     getItemsInSo(saleOrderDetailList)
-    if (!soId) {
+    if (isEmpty(soId)) {
       setItemsDetail([])
     }
   }, [saleOrderDetailList, planDate])
