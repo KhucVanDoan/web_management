@@ -137,6 +137,7 @@ import watchGetProducingStepsByRoutingVersion from './producing-steps/get-by-rou
 import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
+import watchGetDataProductivityCompareReport from './productivity-compare-report/get-data-productivity-compare'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
@@ -444,5 +445,8 @@ export default function* sagas() {
     //user-permission
     watchGetUserPermission(),
     watchUpdateUserPermission(),
+
+    // productivity-compare-report
+    watchGetDataProductivityCompareReport(),
   ])
 }
