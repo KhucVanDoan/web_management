@@ -26,9 +26,7 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    masterPlanId: Yup.number()
-      .typeError(t('general:form.numeric'))
-      .required(t('general:form.required')),
+    masterPlanId: Yup.object().nullable().required(t('general:form.required')),
     itemIds: Yup.array().required(t('general:form.required')),
     moPlan: Yup.array().required(),
   })
