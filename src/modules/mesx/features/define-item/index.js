@@ -17,7 +17,7 @@ import { ROUTE } from '~/modules/database/routes/config'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import {
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -208,7 +208,7 @@ function DefineItem() {
       sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {

@@ -16,7 +16,7 @@ import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -96,7 +96,7 @@ const ItemGroupSetting = () => {
       sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -106,7 +106,7 @@ const ItemGroupSetting = () => {
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
+        return convertUtcDateTimeToLocalTz(updatedAt)
       },
     },
     {

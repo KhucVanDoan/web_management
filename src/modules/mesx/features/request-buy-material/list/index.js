@@ -20,7 +20,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -127,7 +127,7 @@ function RequestBuyMaterial() {
       filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -137,7 +137,7 @@ function RequestBuyMaterial() {
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
+        return convertUtcDateTimeToLocalTz(updatedAt)
       },
     },
     {

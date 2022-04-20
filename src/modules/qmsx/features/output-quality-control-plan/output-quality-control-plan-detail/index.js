@@ -8,7 +8,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -22,7 +21,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useOutputQualityControlPlan from '~/modules/qmsx/redux/hooks/useOutputQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 
 const breadcrumbs = [
   {
@@ -157,13 +156,9 @@ function OutputQualityControlPlanDetail() {
         align: 'center',
         renderCell: (params) => {
           const { qualityPlanIOqcDetails } = params?.row
-          return `${formatDateTimeUtc(
+          return `${convertUtcDateToLocalTz(
             qualityPlanIOqcDetails[0]?.planFrom,
-            DATE_FORMAT,
-          )} - ${formatDateTimeUtc(
-            qualityPlanIOqcDetails[0]?.planTo,
-            DATE_FORMAT,
-          )}  `
+          )} - ${convertUtcDateToLocalTz(qualityPlanIOqcDetails[0]?.planTo)}  `
         },
       },
       {

@@ -15,7 +15,7 @@ import { BOM_PRODUCING_STEP_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -118,7 +118,7 @@ function BomProducingStepDetail() {
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('bomProducingStep.createDate')}
-                value={formatDateTimeUtc(BOMDetails?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(BOMDetails?.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

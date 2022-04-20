@@ -14,7 +14,7 @@ import Page from '~/components/Page'
 import { ROUTE } from '~/modules/database/routes/config'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
 import {
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -99,7 +99,7 @@ function ItemUnitSetting() {
       filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -110,7 +110,7 @@ function ItemUnitSetting() {
       sortable: true,
       renderCell: (params) => {
         const updateAt = params.row.updatedAt
-        return formatDateTimeUtc(updateAt)
+        return convertUtcDateTimeToLocalTz(updateAt)
       },
     },
     {

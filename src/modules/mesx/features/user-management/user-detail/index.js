@@ -13,7 +13,7 @@ import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -113,7 +113,7 @@ function UserManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.createTime')}
-                value={formatDateTimeUtc(userDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(userDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

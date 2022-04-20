@@ -13,7 +13,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom'
 
-import { DATE_FORMAT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -27,7 +27,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 import qs from '~/utils/qs'
 
 const KEY_ROW_TABLE = {
@@ -123,7 +123,7 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
       wcQcPlanDetail?.workInDayWc?.dayInShift?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
@@ -267,7 +267,7 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
       wcQcPlanDetail?.workInShiftQcPlan?.dayInShift?.forEach((e, idx) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
           width: 130,
           renderCell: (params) => {
