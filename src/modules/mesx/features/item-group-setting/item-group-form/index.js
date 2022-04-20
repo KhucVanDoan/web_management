@@ -14,8 +14,8 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
-import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { itemGroupSchema } from './schema'
 
@@ -48,9 +48,9 @@ const ItemGroupForm = () => {
 
   const getBreadcrumb = () => {
     const breadcrumb = [
-      {
-        title: 'database',
-      },
+      // {
+      //   title: 'database',
+      // },
       {
         route: ROUTE.ITEM_GROUP.LIST.PATH,
         title: ROUTE.ITEM_GROUP.LIST.TITLE,

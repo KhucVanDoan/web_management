@@ -8,8 +8,8 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
 const ItemGroupDetail = () => {
@@ -30,9 +30,9 @@ const ItemGroupDetail = () => {
   }, [id])
 
   const breadcrumbs = [
-    {
-      title: 'database',
-    },
+    // {
+    //   title: 'database',
+    // },
     {
       route: ROUTE.ITEM_GROUP.LIST.PATH,
       title: ROUTE.ITEM_GROUP.LIST.TITLE,

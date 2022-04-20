@@ -9,8 +9,8 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
 function ItemUnitDetail() {
@@ -22,8 +22,12 @@ function ItemUnitDetail() {
     actions,
   } = useItemUnit()
   const breadcrumbs = [
+    // {
+    //   title: 'database',
+    // },
     {
-      title: 'database',
+      route: ROUTE.ITEM_UNIT.LIST.PATH,
+      title: ROUTE.ITEM_UNIT.LIST.TITLE,
     },
     {
       route: ROUTE.ITEM_UNIT.DETAIL.PATH,

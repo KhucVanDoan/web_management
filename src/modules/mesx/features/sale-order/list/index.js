@@ -12,12 +12,12 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { ROUTE } from '~/modules/database/routes/config'
 import {
   SALE_ORDER_STATUS_OPTIONS,
   ORDER_STATUS,
 } from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   formatDateTimeUtc,
   convertFilterParams,
@@ -28,9 +28,9 @@ import FilterForm from './filter'
 import { filterSchema } from './filter/schema'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.SALE_ORDER.LIST.PATH,
     title: ROUTE.SALE_ORDER.LIST.TITLE,
