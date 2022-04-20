@@ -72,6 +72,7 @@ import workOrderDetail from '~/modules/mesx/features/work-order/detail'
 import WorkOrder from '~/modules/mesx/features/work-order/list'
 
 import { DetailJob } from '../features/define-master-plan/form/detail-job'
+import ProgessDetailReport from '../features/progress-detail-report'
 import { ROUTE } from './config'
 
 const routes = [
@@ -688,6 +689,12 @@ const routes = [
         name: ROUTE.PRODUCTIVITY_COMPARE_REPORT.LIST.TITLE,
         path: ROUTE.PRODUCTIVITY_COMPARE_REPORT.LIST.PATH,
         component: ProductivityCompareReport,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.PROGRESS_DETAIL_REPORT.TITLE,
+        path: ROUTE.PROGRESS_DETAIL_REPORT.PATH,
+        component: ProgessDetailReport,
         isInSidebar: true,
       },
     ],
