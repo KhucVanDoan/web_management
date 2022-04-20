@@ -33,6 +33,21 @@ export const saleOrderSchema = (t) => {
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),
+        itemPrice: Yup.number()
+          .nullable()
+          .required(t('general:form.required'))
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.PRICE_ITEM_SALE_ORDER.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.PRICE_ITEM_SALE_ORDER.MAX,
+            }),
+          )
+          .min(
+            NUMBER_FIELD_REQUIRED_SIZE.PRICE_ITEM_SALE_ORDER.MIN,
+            t('general:form.minNumber', {
+              min: NUMBER_FIELD_REQUIRED_SIZE.PRICE_ITEM_SALE_ORDER.MIN,
+            }),
+          ),
         quantity: Yup.number().max(
           NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
           t('general:form.maxNumber', {
