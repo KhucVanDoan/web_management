@@ -132,7 +132,7 @@ function MasterPlanDetail() {
         </Grid>
       </Grid>
       <DetailTab
-        soId={masterPlanDetails?.saleOrderSchedules?.map((i) => i?.id)}
+        soId={masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId)}
         isDetail={true}
         isView={true}
       />

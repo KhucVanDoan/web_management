@@ -34,5 +34,13 @@
     "saleOrderExportCreate": "Tạo lệnh xuất theo đơn bán hàng",
     "saleOrderExportEdit": "Sửa lệnh xuất theo đơn bán hàng",
     "saleOrderExportDetail": "Chi tiết lệnh xuất theo đơn bán hàng"
+  },
+  "orderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
   }
 }
