@@ -22,6 +22,7 @@ import PriceReport from './price-report'
 import producingStep from './product-step'
 import productivityCompareReport from './productivity-compare-report'
 import productivityReport from './productivity-report'
+import progressDetailReport from './progress-detail-report'
 import qualityReport from './quality-report'
 import requestBuyMaterial from './request-buy-materials'
 import defineRouting from './routing'
@@ -31,7 +32,6 @@ import userPermission from './user-permission'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
 import workOrder from './work-order'
-
 export default combineReducers({
   userPermission,
   userManagement,
@@ -63,5 +63,6 @@ export default combineReducers({
   bomProducingStep,
   calendar,
   PriceReport,
+  progressDetailReport,
   productivityCompareReport,
 })

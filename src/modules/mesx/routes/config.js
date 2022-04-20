@@ -339,6 +339,10 @@ export const ROUTE = {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',
   },
+  PROGRESS_DETAIL_REPORT: {
+    PATH: '/mesx/progress-detail-report',
+    TITLE: 'progressDetailReport',
+  },
   MATERIAL_DETAIL_PLAN: {
     PATH: '/mesx/material-detail-plan',
     TITLE: 'materialDetailPlan',
