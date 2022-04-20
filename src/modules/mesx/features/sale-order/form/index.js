@@ -83,6 +83,7 @@ function SaleOrderForm() {
       items: values?.items?.map((item) => ({
         id: item?.itemId,
         quantity: Number(item?.quantity),
+        price: +item?.itemPrice,
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -162,12 +163,14 @@ function SaleOrderForm() {
       description: saleOrder?.description || '',
       customerId: saleOrder?.customer || null,
       boqId: saleOrder?.boqId || null,
+      companyId: saleOrder?.companyId || '',
       orderedAt: saleOrder?.orderedAt || null,
       deadline: saleOrder?.deadline || null,
       items: saleOrder?.saleOrderDetails?.map((e) => ({
         id: e?.id,
         itemId: e?.itemId,
         quantity: e?.quantity,
+        itemPrice: e?.price,
       })) || [{ ...DEFAULT_ITEM }],
     }),
     [saleOrder],

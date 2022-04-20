@@ -115,6 +115,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 100000000000,
   },
+  PRICE_ITEM_SALE_ORDER: {
+    MIN: 0,
+    MAX: 999999999999999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
