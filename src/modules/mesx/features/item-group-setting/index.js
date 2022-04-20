@@ -11,8 +11,8 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
@@ -22,9 +22,9 @@ import {
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.ITEM_GROUP.LIST.PATH,
     title: ROUTE.ITEM_GROUP.LIST.TITLE,

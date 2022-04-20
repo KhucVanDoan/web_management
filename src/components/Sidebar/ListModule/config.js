@@ -55,6 +55,16 @@ const modules = [
     ),
   },
   {
+    name: 'database',
+    path: process.env.REACT_APP_DATABASE_URL || 'database',
+    icon: mesx_icon,
+    title: (
+      <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
+        Cơ sở dữ liệu
+      </Typography>
+    ),
+  },
+  {
     name: 'solution',
     // path: process.env.REACT_APP_SOLUTION_URL || 'solution',
     icon: solution_icon,

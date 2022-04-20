@@ -8,14 +8,14 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { formatDateTimeUtc } from '~/utils'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.ITEM_TYPE.LIST.PATH,
     title: ROUTE.ITEM_TYPE.LIST.TITLE,
