@@ -5,7 +5,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -14,7 +13,7 @@ import TextField from '~/components/TextField'
 import { MASTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import DetailTab from '../form/detail-tab'
 
@@ -97,8 +96,8 @@ function MasterPlanDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue label={t('defineMasterPlan.planDate')}>
-                {formatDateTimeUtc(masterPlanDetails?.dateFrom, DATE_FORMAT)} -{' '}
-                {formatDateTimeUtc(masterPlanDetails?.dateTo, DATE_FORMAT)}
+                {convertUtcDateToLocalTz(masterPlanDetails?.dateFrom)} -{' '}
+                {convertUtcDateToLocalTz(masterPlanDetails?.dateTo)}
               </LabelValue>
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -110,7 +109,7 @@ function MasterPlanDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('defineMasterPlan.createdAt')}
-                value={formatDateTimeUtc(masterPlanDetails?.createdAt)}
+                value={convertUtcDateToLocalTz(masterPlanDetails?.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

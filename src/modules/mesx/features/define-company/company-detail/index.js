@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import { ROUTE } from '~/modules/database/routes/config'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   // {
@@ -98,7 +98,7 @@ function DefineCompanyDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineCompany.createDate')}
-                value={formatDateTimeUtc(companyDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(companyDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -98,7 +98,7 @@ function DefineCustomerDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineCustomer.createDate')}
-                value={formatDateTimeUtc(customerDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(customerDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

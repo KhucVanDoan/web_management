@@ -5,7 +5,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -24,7 +23,7 @@ import { ROUTE } from '~/modules/qmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 import qs from '~/utils/qs'
 
@@ -126,7 +125,7 @@ function DefineErrorReport() {
       sortable: true,
       renderCell: (params) => {
         const { createdAt } = params?.row
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {

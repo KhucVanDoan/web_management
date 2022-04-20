@@ -20,7 +20,7 @@ import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import BomProducingStepTable from '../form/bom-producing-step-table'
 import BomTable from '../form/bom-table'
@@ -153,8 +153,8 @@ function MoDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue label={t('Mo.moPlan')}>
-                {formatDateTimeUtc(moDetails?.planFrom)} -{' '}
-                {formatDateTimeUtc(moDetails?.planTo)}
+                {convertUtcDateTimeToLocalTz(moDetails?.planFrom)} -{' '}
+                {convertUtcDateTimeToLocalTz(moDetails?.planTo)}
               </LabelValue>
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -172,7 +172,7 @@ function MoDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('Mo.createAt')}
-                value={formatDateTimeUtc(moDetails?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(moDetails?.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import { ROUTE } from '~/modules/database/routes/config'
 import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const ItemGroupDetail = () => {
   const history = useHistory()
@@ -77,7 +77,9 @@ const ItemGroupDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('itemGroupDefine.createDate')}
-                  value={formatDateTimeUtc(itemGroupDetails.createdAt)}
+                  value={convertUtcDateTimeToLocalTz(
+                    itemGroupDetails.createdAt,
+                  )}
                 />
               </Grid>
               <Grid item xs={12}>

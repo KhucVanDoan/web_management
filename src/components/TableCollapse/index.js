@@ -18,15 +18,11 @@ import { isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
-import {
-  MODAL_MODE,
-  DATE_FORMAT,
-  ROWS_PER_PAGE_OPTIONS,
-} from '~/common/constants'
+import { MODAL_MODE, ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import TopBar from '~/components/DataTable/TopBar'
 import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { withClasses } from '~/themes'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import Pagination from '../DataTable/Pagination'
 import TableHead from '../DataTable/TableHead'
@@ -190,14 +186,14 @@ const TableCollapse = (props) => {
     if (!row) return null
     const { routing, planBom } = row
     if (field === 'planDate') {
-      let planFrom = formatDateTimeUtc(row?.planFrom, DATE_FORMAT)
-      let planTo = formatDateTimeUtc(row?.planTo, DATE_FORMAT)
+      let planFrom = convertUtcDateToLocalTz(row?.planFrom)
+      let planTo = convertUtcDateToLocalTz(row?.planTo)
       if (mode !== MODAL_MODE.CREATE && !row?.isProducingStep) {
-        planFrom = formatDateTimeUtc(row?.planBom?.planFrom, DATE_FORMAT)
-        planTo = formatDateTimeUtc(row?.planBom?.planTo, DATE_FORMAT)
+        planFrom = convertUtcDateToLocalTz(row?.planBom?.planFrom)
+        planTo = convertUtcDateToLocalTz(row?.planBom?.planTo)
       } else if (mode !== MODAL_MODE.CREATE && row?.isProducingStep) {
-        planFrom = formatDateTimeUtc(row?.workOrders[0]?.planFrom, DATE_FORMAT)
-        planTo = formatDateTimeUtc(row?.workOrders[0]?.planTo, DATE_FORMAT)
+        planFrom = convertUtcDateToLocalTz(row?.workOrders[0]?.planFrom)
+        planTo = convertUtcDateToLocalTz(row?.workOrders[0]?.planTo)
       }
       let prevPlanFrom = null
       let prevPlanTo = null
@@ -246,7 +242,7 @@ const TableCollapse = (props) => {
             isBefore(new Date(planFrom || null), new Date(prevPlanFrom)) && (
               <FormHelperText error>
                 {t('form.minDate', {
-                  from: formatDateTimeUtc(prevPlanFrom, DATE_FORMAT),
+                  from: convertUtcDateToLocalTz(prevPlanFrom),
                 })}
               </FormHelperText>
             )}
@@ -255,7 +251,7 @@ const TableCollapse = (props) => {
             isBefore(new Date(planTo || null), new Date(prevPlanTo)) && (
               <FormHelperText error>
                 {t('form.maxDateBigger', {
-                  from: formatDateTimeUtc(prevPlanTo, DATE_FORMAT),
+                  from: convertUtcDateToLocalTz(prevPlanTo),
                 })}
               </FormHelperText>
             )}

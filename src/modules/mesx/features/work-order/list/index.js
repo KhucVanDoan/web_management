@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 
-import { QR_CODE_TYPE, DATE_FORMAT } from '~/common/constants'
+import { QR_CODE_TYPE } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -21,7 +21,7 @@ import { WORK_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -139,9 +139,9 @@ const WorkOrder = () => {
       filterFormat: 'date',
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row.planTo)
         )
       },
     },

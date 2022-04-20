@@ -19,7 +19,7 @@ import {
 } from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import {
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -123,7 +123,7 @@ function SaleOrder() {
       filterFormat: 'date',
       renderCell: (params) => {
         const { createdAt } = params.row
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -133,7 +133,7 @@ function SaleOrder() {
       sortable: true,
       renderCell: (params) => {
         const { deadline } = params.row
-        return formatDateTimeUtc(deadline)
+        return convertUtcDateTimeToLocalTz(deadline)
       },
     },
     {

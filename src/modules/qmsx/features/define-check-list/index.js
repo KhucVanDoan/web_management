@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -23,7 +22,7 @@ import { ROUTE } from '~/modules/qmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -103,7 +102,7 @@ function DefineCheckList() {
       sortable: true,
       renderCell: (params) => {
         const { createdAt } = params?.row
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {

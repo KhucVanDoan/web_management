@@ -5,14 +5,13 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -82,7 +81,7 @@ export const DetailJob = () => {
       ...(saleOder?.itemSchedules?.[0]?.quantityDays?.days || []).map(
         (d, index) => ({
           field: d?.executionDate,
-          headerName: formatDateTimeUtc(d?.executionDate, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(d?.executionDate),
           width: 100,
           align: 'right',
           renderCell: (params) => {

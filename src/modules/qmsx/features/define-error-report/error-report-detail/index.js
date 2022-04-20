@@ -5,7 +5,6 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -20,7 +19,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useDefineErrorReport from '~/modules/qmsx/redux/hooks/useDefineErrorReport'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -189,10 +188,7 @@ function DefineErrorReportDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineErrorReport.createdAt')}
-                value={formatDateTimeUtc(
-                  createdAt,
-                  DEFAULT_DATE_TIME_FORMAT_VN,
-                )}
+                value={convertUtcDateTimeToLocalTz(createdAt)}
               />
             </Grid>
             {/* Content 2 */}
@@ -296,10 +292,7 @@ function DefineErrorReportDetail() {
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={t('defineErrorReport.deliveryDate')}
-                    value={formatDateTimeUtc(
-                      deliveredAt,
-                      DEFAULT_DATE_TIME_FORMAT_VN,
-                    )}
+                    value={convertUtcDateTimeToLocalTz(deliveredAt)}
                   />
                 </Grid>
               </>
@@ -369,10 +362,7 @@ function DefineErrorReportDetail() {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('defineErrorReport.repairDeadline')}
-                  value={formatDateTimeUtc(
-                    repairDeadline,
-                    DEFAULT_DATE_TIME_FORMAT_VN,
-                  )}
+                  value={convertUtcDateTimeToLocalTz(repairDeadline)}
                 />
               </Grid>
             )}

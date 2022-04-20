@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import { ROUTE } from '~/modules/database/routes/config'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   // {
@@ -77,7 +77,7 @@ const ItemTypeDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('itemTypeSetting.createDate')}
-                value={formatDateTimeUtc(itemTypeDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(itemTypeDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

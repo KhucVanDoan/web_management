@@ -15,7 +15,7 @@ import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -164,11 +164,11 @@ function RequestBuyMaterialDetail() {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <LV label={t('requestBuyMaterial.plan')}>
-                  {formatDateTimeUtc(
+                  {convertUtcDateTimeToLocalTz(
                     requestBuyMaterialDetails?.manufacturingOrder?.planFrom,
                   )}
                   {' - '}
-                  {formatDateTimeUtc(
+                  {convertUtcDateTimeToLocalTz(
                     requestBuyMaterialDetails?.manufacturingOrder?.planTo,
                   )}
                 </LV>
@@ -181,9 +181,13 @@ function RequestBuyMaterialDetail() {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <LV label={t('requestBuyMaterial.deadline')}>
-                  {formatDateTimeUtc(requestBuyMaterialDetails?.planFrom)}
+                  {convertUtcDateTimeToLocalTz(
+                    requestBuyMaterialDetails?.planFrom,
+                  )}
                   {' - '}
-                  {formatDateTimeUtc(requestBuyMaterialDetails?.planTo)}
+                  {convertUtcDateTimeToLocalTz(
+                    requestBuyMaterialDetails?.planTo,
+                  )}
                 </LV>
               </Grid>
               <Grid item lg={6} xs={12}>
@@ -201,7 +205,7 @@ function RequestBuyMaterialDetail() {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('requestBuyMaterial.createAt')}
-                  value={formatDateTimeUtc(
+                  value={convertUtcDateTimeToLocalTz(
                     requestBuyMaterialDetails?.createdAt,
                   )}
                 />

@@ -8,7 +8,7 @@ import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
 import {
   MODAL_MODE,
-  DATE_FORMAT_3,
+  UNSAFE_DATE_FORMAT_3,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_LIMIT,
@@ -21,7 +21,7 @@ import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterP
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -90,10 +90,10 @@ const DefineMasterPlanForm = () => {
       factoryId: values.factoryId,
       description: values.description,
       dateFrom: values?.planDate
-        ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3)
+        ? convertUtcDateTimeToLocalTz(values?.planDate[0], UNSAFE_DATE_FORMAT_3)
         : '',
       dateTo: values?.planDate
-        ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3)
+        ? convertUtcDateTimeToLocalTz(values?.planDate[1], UNSAFE_DATE_FORMAT_3)
         : '',
       saleOrders: values.soId.map((i) => ({ id: i?.id })),
     }

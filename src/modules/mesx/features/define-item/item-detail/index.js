@@ -15,7 +15,7 @@ import { ROUTE } from '~/modules/database/routes/config'
 import { DEFAULT_UNITS_MAP, WEIGHT_UNITS_MAP } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   // {
@@ -170,7 +170,7 @@ function DefineItemDetail() {
                 <Grid item xs={12} lg={6}>
                   <LV
                     label={t('defineItem.createTime')}
-                    value={formatDateTimeUtc(itemDetails?.createdAt)}
+                    value={convertUtcDateTimeToLocalTz(itemDetails?.createdAt)}
                   />
                 </Grid>
               </Grid>

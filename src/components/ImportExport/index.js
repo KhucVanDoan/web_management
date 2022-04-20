@@ -28,7 +28,7 @@ import {
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 import { downloadFile, formatFileSize, isValidFileType } from '~/utils/file'
 import addNotification from '~/utils/toast'
 
@@ -157,7 +157,8 @@ const ImportExport = ({
           IMPORT_SETTING.FILE_NAME,
           t('import.prefix.importLog'),
           name,
-          '_' + formatDateTimeUtc(new Date(), IMPORT_EXPORT_DATE_FORMAT),
+          '_' +
+            convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
         ),
         XLSX.MIME_TYPE,
         [XLSX.EXT],
