@@ -11,7 +11,8 @@ import style from './style'
 
 const SubMenu = ({
   route,
-  isCollapse,
+  visibleSubMenu = [],
+  isExpanded,
   anchorEl,
   handlePopoverOpen,
   handlePopoverClose,
@@ -19,7 +20,7 @@ const SubMenu = ({
   hoverMenu,
   children,
 }) => {
-  const classes = useClasses(style(isEmpty(route.subMenu)))
+  const classes = useClasses(style(isEmpty(visibleSubMenu)))
 
   const { isMinimal, isMdUp } = useSidebar()
 
@@ -44,7 +45,7 @@ const SubMenu = ({
         PaperProps={{
           onMouseEnter: () => handlePopoverOpen(hoverMenu),
           onMouseLeave: handlePopoverClose,
-          ...(!isEmpty(route.subMenu) ? { sx: { width: 250 } } : {}),
+          ...(!isEmpty(visibleSubMenu) ? { sx: { width: 250 } } : {}),
         }}
       >
         {children}
@@ -53,7 +54,7 @@ const SubMenu = ({
   }
 
   return (
-    <Collapse in={isCollapse} timeout="auto" unmountOnExit>
+    <Collapse in={isExpanded} timeout="auto" unmountOnExit>
       {children}
     </Collapse>
   )
@@ -66,7 +67,7 @@ SubMenu.defaultProps = {
 
 SubMenu.propTypes = {
   route: PropTypes.shape(),
-  isCollapse: PropTypes.bool,
+  isExpanded: PropTypes.bool,
   children: PropTypes.node,
 }
 
