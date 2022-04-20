@@ -143,6 +143,8 @@ export const DATE_FORMAT_3 = 'yyyy-MM-dd'
 export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
 export const DEFAULT_TIME = '00:00'
 
+export const IMPORT_EXPORT_DATE_FORMAT = 'dd-MM-yyyy_HH_mm_SS'
+
 export const QR_CODE_TYPE = {
   ITEM: '02',
   BLOCK: '03',
@@ -170,11 +172,6 @@ export const CODE_SETTINGS = {
   },
 }
 
-export const IMPORT_SETTING = {
-  FILE_SIZE_LIMIT: 5242880,
-  NUMBER_OF_FILE: 1,
-}
-
 export const FILE_TYPE = {
   XLSX: {
     NAME: 'XLSX',
@@ -182,6 +179,12 @@ export const FILE_TYPE = {
     MIME_TYPE:
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   },
+}
+
+export const IMPORT_SETTING = {
+  FILE_SIZE_LIMIT: 5242880,
+  NUMBER_OF_FILE: 1,
+  FILE_NAME: '{0}_{1}{2}' + FILE_TYPE.XLSX.EXT,
 }
 
 export const IMPORT_EXPORT_MODE = {

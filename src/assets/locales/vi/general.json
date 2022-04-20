@@ -148,7 +148,11 @@
     },
     "result": "Đã nhập {0} dòng thành công, {1} dòng thất bại",
     "log": "Nhấn vào để tải xuống kết quả nhập dữ liệu",
-    "unexpectedError": "Đã xảy ra lỗi khi nhập dữ liệu"
+    "unexpectedError": "Đã xảy ra lỗi khi nhập dữ liệu",
+    "prefix": {
+      "importLog": "ImportLog",
+      "importTemplate": "ImportTemplate"
+    }
   },
   "fileUpload": {
     "error": {
