@@ -140,6 +140,14 @@ import watchUpdateProducingStep from './producing-steps/update'
 import watchGetDataProductivityCompareReport from './productivity-compare-report/get-data-productivity-compare'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
 import watchProgressDetailReportData from './progress-detail-report/get-progress-detail-report'
+import watchConfirmPurchasedOrder from './purchased-order/confirm-purchased-order'
+import watchCreatePurchasedOrder from './purchased-order/create-purchased-order'
+import watchDeletePurchasedOrder from './purchased-order/delete-purchased-order'
+import watchGetPurchasedOrderDetails from './purchased-order/get-purchased-order-details'
+import watchGetPurchasedOrderNotCreatePOimp from './purchased-order/get-purchased-order-not-poimp'
+import watchRejectPurchasedOrder from './purchased-order/reject-purchased-order'
+import watchSearchPurchasedOrders from './purchased-order/search-purchased-order'
+import watchUpdatePurchasedOrder from './purchased-order/update-purchased-order'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
@@ -195,6 +203,7 @@ import watchGetWorkOrderDetails from './work-order/get-work-order-details.saga'
 import watchPrintQRWorkOrder from './work-order/print-qr-work-order'
 import watchSearchWorkOrders from './work-order/search-work-orders.saga'
 import watchUpdateWorkOrder from './work-order/update-work-order.saga'
+
 /**
  * Root saga
  */
@@ -451,5 +460,15 @@ export default function* sagas() {
     watchProgressDetailReportData(),
     // productivity-compare-report
     watchGetDataProductivityCompareReport(),
+
+    // purchased-order
+    watchSearchPurchasedOrders(),
+    watchCreatePurchasedOrder(),
+    watchUpdatePurchasedOrder(),
+    watchDeletePurchasedOrder(),
+    watchGetPurchasedOrderDetails(),
+    watchConfirmPurchasedOrder(),
+    watchRejectPurchasedOrder(),
+    watchGetPurchasedOrderNotCreatePOimp(),
   ])
 }

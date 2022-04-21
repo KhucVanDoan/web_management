@@ -2,10 +2,9 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import useProgressDetailReport from '~/modules/mesx/redux/hooks/useProgressDetailReport'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const ProgressTable = () => {
   const { t } = useTranslation(['mesx'])
@@ -20,7 +19,7 @@ const ProgressTable = () => {
       align: 'center',
       renderCell: (params) => {
         const { executionDay } = params.row
-        return formatDateTimeUtc(executionDay, DATE_FORMAT)
+        return convertUtcDateToLocalTz(executionDay)
       },
     },
     {
