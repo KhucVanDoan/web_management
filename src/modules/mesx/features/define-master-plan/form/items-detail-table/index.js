@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -61,7 +62,7 @@ const ItemsDetailTable = (props) => {
   ]
 
   useEffect(() => {
-    if (isView || isUpdate) {
+    if ((isView || isUpdate) && !isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
     }
     return () => actions.resetSaleOrderListState()
@@ -69,7 +70,7 @@ const ItemsDetailTable = (props) => {
 
   useEffect(() => {
     getItemsInSo(saleOrderDetailList)
-    if (!soId) {
+    if (isEmpty(soId)) {
       setItemsDetail([])
     }
   }, [saleOrderDetailList, planDate])

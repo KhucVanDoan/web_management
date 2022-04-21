@@ -35,7 +35,11 @@ function RoutingForm() {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const params = useParams()
-  const { actions: producingStepActions } = useProducingStep()
+
+  const {
+    data: { list },
+    actions: producingStepActions,
+  } = useProducingStep()
 
   const {
     data: { routingDetails, isLoading },
@@ -53,11 +57,13 @@ function RoutingForm() {
         ...routingDetails,
         items: routingDetails.producingSteps.map((item) => ({
           id: item.id,
-          itemId: item.id,
+          itemId: {
+            id: item.id,
+            code: list?.find((e) => e?.id === item.id)?.code,
+          },
           stepNumber: item.stepNumber,
         })),
       }
-
   const MODE_MAP = {
     [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -76,12 +82,22 @@ function RoutingForm() {
       producingStepActions.resetProducingStepState()
     }
   }, [params?.id])
+  useEffect(() => {
+    producingStepActions.getProducingSteps({ isGetAll: 1 })
+  }, [])
 
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      items: (values?.items || []).map((e) => ({
+        id: e?.id,
+        itemId: e?.itemId?.id,
+        max: e?.max,
+        min: e?.min,
+        stepNumber: e?.stepNumber,
+      })),
       producingSteps: values.items?.map((item) => ({
-        id: item?.itemId,
+        id: item?.itemId?.id,
         stepNumber: Number(item?.stepNumber),
       })),
     }

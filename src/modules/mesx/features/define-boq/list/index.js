@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -27,7 +26,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -120,9 +119,9 @@ const DefineBOQ = () => {
         filterFormat: 'date',
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(params.row.planFrom) +
             ' - ' +
-            formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(params.row.planTo)
           )
         },
       },

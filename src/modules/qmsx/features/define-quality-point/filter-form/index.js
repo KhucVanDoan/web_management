@@ -42,6 +42,13 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('common.createdAt')}
+          placeholder={t('common.createdAt')}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
           label={t('defineQualityPoint.status')}

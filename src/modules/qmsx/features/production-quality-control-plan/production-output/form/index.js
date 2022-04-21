@@ -6,7 +6,7 @@ import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, DATE_FORMAT, NOTIFICATION_TYPE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -20,7 +20,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useProductionQualityControlPlan from '~/modules/qmsx/redux/hooks/useProductionQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 import addNotification from '~/utils/toast'
 
 import PlanDetailTable from '../plan-detail-table'
@@ -399,12 +399,10 @@ function ProductionOutputQualityControlPlanForm() {
         mo: productionQcPlanDetail?.mo?.id,
         moName: productionQcPlanDetail?.mo?.name,
         moPlanDate: !isEmpty(productionQcPlanDetail?.mo)
-          ? `${formatDateTimeUtc(
+          ? `${convertUtcDateToLocalTz(
               productionQcPlanDetail?.mo?.planFrom,
-              DATE_FORMAT,
-            )} - ${formatDateTimeUtc(
+            )} - ${convertUtcDateToLocalTz(
               productionQcPlanDetail?.mo?.planTo,
-              DATE_FORMAT,
             )} `
           : null,
         productionPlan: productionQcPlanDetail?.moPlan?.id,
@@ -424,10 +422,9 @@ function ProductionOutputQualityControlPlanForm() {
       setFieldValue('moName', recordMo?.name)
       setFieldValue(
         'moPlanDate',
-        `${formatDateTimeUtc(
+        `${convertUtcDateToLocalTz(
           recordMo?.planFrom,
-          DATE_FORMAT,
-        )} - ${formatDateTimeUtc(recordMo?.planTo, DATE_FORMAT)} `,
+        )} - ${convertUtcDateToLocalTz(recordMo?.planTo)} `,
       )
       getProductionPlan(moId, setFieldValue)
     } else {

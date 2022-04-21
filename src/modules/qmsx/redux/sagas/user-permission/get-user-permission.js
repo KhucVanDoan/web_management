@@ -1,18 +1,19 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  GET_WAREHOUSES_BY_FACTORIES_START,
-  GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
-  GET_WAREHOUSES_BY_FACTORIES_FAILED,
-} from '~/modules/qmsx/redux/actions/common'
+  getUserPermissionDetailsFail,
+  getUserPermissionDetailsSuccess,
+  GET_USER_PERMISSION_DETAILS_START,
+} from '~/modules/qmsx/redux/actions/user-permission'
 import { api } from '~/services/api'
+
 /**
  * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getWarehousesByFactoriesApi = () => {
-  const uri = `/v1/users/ping`
+const getUserPermissionDetailsApi = (params) => {
+  const uri = `/v1/users/user-permission-settings/departments/${params.department}/roles/${params.role}`
   return api.get(uri)
 }
 
@@ -20,15 +21,12 @@ const getWarehousesByFactoriesApi = () => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGetWarehousesByFactories(action) {
+function* doGetUserPermissionDetails(action) {
   try {
-    const response = yield call(getWarehousesByFactoriesApi, action?.payload)
+    const response = yield call(getUserPermissionDetailsApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put({
-        type: GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
-        payload: response.data,
-      })
+      yield put(getUserPermissionDetailsSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -38,9 +36,7 @@ function* doGetWarehousesByFactories(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put({
-      type: GET_WAREHOUSES_BY_FACTORIES_FAILED,
-    })
+    yield put(getUserPermissionDetailsFail())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -51,9 +47,9 @@ function* doGetWarehousesByFactories(action) {
 /**
  * Watch search users
  */
-export default function* watchGetWarehousesByFactories() {
+export default function* watchGetUserPermissionDetails() {
   yield takeLatest(
-    GET_WAREHOUSES_BY_FACTORIES_START,
-    doGetWarehousesByFactories,
+    GET_USER_PERMISSION_DETAILS_START,
+    doGetUserPermissionDetails,
   )
 }

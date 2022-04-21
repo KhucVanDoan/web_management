@@ -3,10 +3,14 @@ import React from 'react'
 import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import { searchItemGroupsApi } from '~/modules/mesx/redux/sagas/item-group-setting/search-item-groups'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
@@ -73,12 +77,15 @@ const FilterForm = () => {
           name="itemGroupCode"
           label={t('defineItem.group')}
           placeholder={t('defineItem.group')}
-          options={appStore?.itemGroups}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-          getOptionValue={(opt) => opt?.code}
+          asyncRequest={(s) =>
+            searchItemGroupsApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           multiple
         />
       </Grid>

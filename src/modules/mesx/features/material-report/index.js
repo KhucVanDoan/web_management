@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
@@ -16,7 +15,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -114,9 +113,9 @@ function MaterialReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row?.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row?.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row?.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row?.planTo)
         )
       },
     },
@@ -301,9 +300,9 @@ function MaterialReport() {
       renderCell: (params) => {
         const { planFrom, planTo } = params.row
         return (
-          formatDateTimeUtc(planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(planFrom) +
           ' - ' +
-          formatDateTimeUtc(planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(planTo)
         )
       },
     },

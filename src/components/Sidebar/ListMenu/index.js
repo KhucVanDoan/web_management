@@ -78,7 +78,7 @@ const ListMenu = ({ routes, currentModule }) => {
                     onMouseOut: handlePopoverClose,
                   }
                 : {
-                    onClick: () => toggle(index, route.subMenu),
+                    onClick: () => toggle(index, visibleSubMenu),
                   })}
               sx={{
                 mt: index === 0 ? 0 : '8px',
@@ -137,8 +137,9 @@ const ListMenu = ({ routes, currentModule }) => {
 
             <SubMenu
               route={route}
+              visibleSubMenu={visibleSubMenu}
               currentModule={currentModule}
-              isCollapse={isOpen(index, route.subMenu)}
+              isExpanded={isOpen(index, route.subMenu)}
               anchorEl={popoverAnchor.current[index]}
               openPopover={openedPopover}
               handlePopoverOpen={handlePopoverOpen}
@@ -178,7 +179,7 @@ const ListMenu = ({ routes, currentModule }) => {
                         />
                       </ListItemButton>
                     ))
-                  : route.name}
+                  : t(`menu.${route.name}`)}
               </List>
             </SubMenu>
           </React.Fragment>

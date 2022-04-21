@@ -20,7 +20,7 @@ import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemSettingTable from '../item-setting-table'
 
@@ -207,7 +207,7 @@ function detailBOM() {
               />
               <LV
                 label={t('defineBOM.createAt')}
-                value={formatDateTimeUtc(BOMDetails?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(BOMDetails?.createdAt)}
                 mt={4 / 3}
               />
             </Grid>

@@ -10,7 +10,6 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
-  ASYNC_SEARCH_STATUS,
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -19,7 +18,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
-import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  PRODUCING_STEP_STATUS,
+  WORK_CENTER_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
@@ -440,7 +442,7 @@ const WorkCenterForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: ASYNC_SEARCH_STATUS,
+                              status: PRODUCING_STEP_STATUS.CONFIRMED,
                             }),
                           })
                         }

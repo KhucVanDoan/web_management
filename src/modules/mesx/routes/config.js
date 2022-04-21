@@ -79,6 +79,24 @@ export const ROUTE = {
       TITLE: 'saleOrderEdit',
     },
   },
+  PURCHASED_ORDER: {
+    LIST: {
+      PATH: '/mesx/purchased-order',
+      TITLE: 'purchasedOrder',
+    },
+    CREATE: {
+      PATH: '/mesx/purchased-order/create',
+      TITLE: 'purchasedOrderCreate',
+    },
+    EDIT: {
+      PATH: '/mesx/purchased-order/:id/edit',
+      TITLE: 'purchasedOrderEdit',
+    },
+    DETAIL: {
+      PATH: '/mesx/purchased-order/:id/detail',
+      TITLE: 'purchasedOrderDetail',
+    },
+  },
   MO: {
     LIST: {
       PATH: '/mesx/mo',
@@ -339,6 +357,10 @@ export const ROUTE = {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',
   },
+  PROGRESS_DETAIL_REPORT: {
+    PATH: '/mesx/progress-detail-report',
+    TITLE: 'progressDetailReport',
+  },
   MATERIAL_DETAIL_PLAN: {
     PATH: '/mesx/material-detail-plan',
     TITLE: 'materialDetailPlan',
@@ -445,6 +467,12 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mesx/work-center-plan/detail',
       TITLE: 'detailWorkCenterPlan',
+    },
+  },
+  PRODUCTIVITY_COMPARE_REPORT: {
+    LIST: {
+      PATH: '/mesx/productivity-compare-report',
+      TITLE: 'productivityCompareReport',
     },
   },
 }

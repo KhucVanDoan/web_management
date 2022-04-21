@@ -9,9 +9,9 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
-import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 function ItemUnitDetail() {
   const { t } = useTranslation(['mesx'])
@@ -22,8 +22,12 @@ function ItemUnitDetail() {
     actions,
   } = useItemUnit()
   const breadcrumbs = [
+    // {
+    //   title: 'database',
+    // },
     {
-      title: 'database',
+      route: ROUTE.ITEM_UNIT.LIST.PATH,
+      title: ROUTE.ITEM_UNIT.LIST.TITLE,
     },
     {
       route: ROUTE.ITEM_UNIT.DETAIL.PATH,
@@ -73,7 +77,7 @@ function ItemUnitDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('itemUnitDefine.createDate')}
-                value={formatDateTimeUtc(itemUnitDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(itemUnitDetails.createdAt)}
               />
             </Grid>
 

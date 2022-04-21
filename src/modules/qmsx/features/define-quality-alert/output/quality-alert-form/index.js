@@ -29,11 +29,13 @@ const ENDPOINT_PATCH_GET_ORDER_BY_STAGE_OUTPUT = 'env-output-order'
 const ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID = {
   SO: 'env-item-by-so',
   PRO: 'env-item-by-pro',
+  EXO: 'env-item-by-exo',
 }
 
 const ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID = {
   SO: 'env-warehouse-by-so-and-item',
   PRO: 'env-warehouse-by-pro-and-item',
+  EXO: 'env-warehouse-by-exo-and-item',
 }
 
 function DefineQualityAlertOutputForm() {
@@ -246,11 +248,22 @@ function DefineQualityAlertOutputForm() {
   }
 
   const getProduct = (stageQcValue, orderId) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.SO_EXPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.SO
+        break
+      case STAGE_OPTION.PRO_EXPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PRO
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.EXO
+        break
+      default:
+        break
+    }
     const params = {
-      endpointPatch:
-        stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PO
-          : ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PRO,
+      endpointPatch: endpointPatch,
       id: orderId,
     }
 
@@ -258,11 +271,25 @@ function DefineQualityAlertOutputForm() {
   }
 
   const getWarehouse = (stageQcValue, orderId, productId) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.SO_EXPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.SO
+        break
+      case STAGE_OPTION.PRO_EXPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PRO
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.EXO
+        break
+      default:
+        break
+    }
     const params = {
-      endpointPatch:
-        stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PO
-          : ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PRO,
+      endpointPatch: endpointPatch,
       orderId,
       productId,
     }

@@ -1,4 +1,14 @@
-export const ORDER_TYPE = [
+export const ORDER_TYPE = {
+  IMPORT: 0,
+  EXPORT: 1,
+}
+
+export const ORDER_TYPE_MAP = {
+  [ORDER_TYPE.IMPORT]: 'orderType.import',
+  [ORDER_TYPE.EXPORT]: 'orderType.export',
+}
+
+export const ORDER_TYPE_OPTIONS = [
   {
     id: 0,
     name: 'orderType.import',
@@ -268,18 +278,9 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
   },
 }
 
-export const DEFAULT_ITEM_TYPES = [
-  {
-    id: 1,
-    code: '00',
-    name: 'itemType.material',
-  },
-  {
-    id: 2,
-    code: '01',
-    name: 'itemType.product',
-  },
-]
+export const DEFAULT_ITEM_TYPES = {
+  code: ['00', '04', '05', '06'],
+}
 
 export const DEFAULT_UNITS = [
   {
@@ -717,6 +718,57 @@ export const SALE_ORDER_STATUS_OPTIONS = [
     id: 1,
     text: 'orderStatus.confirmed',
     color: 'confirmed',
+  },
+]
+
+export const PURCHASED_ORDER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  APPROVED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+}
+
+export const PURCHASED_ORDER_STATUS_MAP = {
+  [PURCHASED_ORDER_STATUS.PENDING]: 'orderStatus.pending',
+  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
+  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
+  [PURCHASED_ORDER_STATUS.APPROVED]: 'orderStatus.approved',
+  [PURCHASED_ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
+  [PURCHASED_ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+}
+
+export const PURCHASED_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'orderStatus.approved',
+    color: 'approved',
+  },
+  {
+    id: 4,
+    text: 'orderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'orderStatus.rejected',
+    color: 'rejected',
   },
 ]
 

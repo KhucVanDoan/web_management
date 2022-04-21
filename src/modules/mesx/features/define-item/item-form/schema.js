@@ -64,7 +64,9 @@ export const itemSchema = (t, isDetailed) =>
           ),
         ...(isDetailed
           ? {
-              detailId: Yup.number().required(t('general:form.required')),
+              detailId: Yup.object()
+                .nullable()
+                .required(t('general:form.required')),
             }
           : {}),
       }),

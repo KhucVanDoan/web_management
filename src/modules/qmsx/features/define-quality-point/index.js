@@ -20,7 +20,11 @@ import {
 } from '~/modules/qmsx/constants'
 import useDefineQualityPoint from '~/modules/qmsx/redux/hooks/useDefineQualityPoint'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateTimeToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -107,6 +111,16 @@ function DefineQualityPoint() {
       },
     },
     {
+      field: 'createdAt',
+      headerName: t('common.createdAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const { createdAt } = params?.row
+        return convertUtcDateTimeToLocalTz(createdAt)
+      },
+    },
+    {
       field: 'status',
       headerName: t('defineQualityPoint.status'),
       width: 150,
@@ -186,7 +200,9 @@ function DefineQualityPoint() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchQualityPoint(params)

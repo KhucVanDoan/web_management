@@ -8,14 +8,14 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
-import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.ITEM_TYPE.LIST.PATH,
     title: ROUTE.ITEM_TYPE.LIST.TITLE,
@@ -77,7 +77,7 @@ const ItemTypeDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('itemTypeSetting.createDate')}
-                value={formatDateTimeUtc(itemTypeDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(itemTypeDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

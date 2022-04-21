@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
@@ -16,7 +15,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -108,9 +107,9 @@ function PlanReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row.planTo)
         )
       },
     },
@@ -166,9 +165,9 @@ function PlanReport() {
       renderCell: (params) => {
         const { planDate, endDate } = params.row
         return (
-          formatDateTimeUtc(planDate, DATE_FORMAT) +
+          convertUtcDateToLocalTz(planDate) +
           ' - ' +
-          formatDateTimeUtc(endDate, DATE_FORMAT)
+          convertUtcDateToLocalTz(endDate)
         )
       },
     },
@@ -180,7 +179,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(startAt)
       },
     },
     {
@@ -191,7 +190,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(endAt)
       },
     },
     {
@@ -276,9 +275,9 @@ function PlanReport() {
         const { planBom } = params.row
         if (planBom) {
           return (
-            formatDateTimeUtc(planBom?.planFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(planBom?.planFrom) +
             ' - ' +
-            formatDateTimeUtc(planBom?.planTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(planBom?.planTo)
           )
         }
       },
@@ -290,7 +289,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.startAt)
       },
     },
     {
@@ -300,7 +299,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.endAt)
       },
     },
     {

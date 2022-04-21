@@ -28,6 +28,7 @@ import { InputQualityControlPlanSchema } from './schema'
 const ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID = {
   PO: 'detail-po',
   PRO: 'detail-pro',
+  IMO: 'detail-imo',
 }
 
 export const DEFAULT_ROW_TABLE = {
@@ -73,7 +74,6 @@ function InputQualityControlPlanForm() {
   const [initialValuesForm, setInitialValuesForm] = useState(initialValues)
   const [saveInitialValuesDetailForm, setSaveInitialValuesDetailForm] =
     useState({})
-  const [formValue, setForm] = useState([])
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -108,7 +108,6 @@ function InputQualityControlPlanForm() {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getInputQcPlanDetailById(params, (data) => {
         getInputOrder(data?.qcStageId)
-        getFormData(data?.qualityPlanIOqcs)
       })
     }
     return () => {
@@ -264,7 +263,7 @@ function InputQualityControlPlanForm() {
           : null,
       ],
     }))
-    setForm(result)
+    return result
   }
 
   useEffect(() => {
@@ -276,12 +275,12 @@ function InputQualityControlPlanForm() {
         stageQc: inputQcPlanDetail?.qcStageId,
         order: inputQcPlanDetail?.order?.id,
         description: inputQcPlanDetail?.description,
-        qualityPlanIOqcs: formValue,
+        qualityPlanIOqcs: getFormData(inputQcPlanDetail?.qualityPlanIOqcs),
       }
       setInitialValuesForm(initDetail)
       setSaveInitialValuesDetailForm(initDetail)
     }
-  }, [inputQcPlanDetail, formValue])
+  }, [inputQcPlanDetail])
 
   //Handle onChange Autocomplete
   const onChangeStageQc = (stageQcValue, setFieldValue) => {
@@ -289,16 +288,25 @@ function InputQualityControlPlanForm() {
       getInputOrder(stageQcValue)
     } else {
       setFieldValue('order', null)
-      setFieldValue('qualityPlanIOqcs', [])
       setInputOrderList([])
+      setInitialValuesForm((prev) => ({
+        ...prev,
+        stageQc: null,
+        order: null,
+        qualityPlanIOqcs: [],
+      }))
     }
   }
 
-  const onChangeOrder = (stageQcValue, inputOrderId, setFieldValue, values) => {
+  const onChangeOrder = (stageQcValue, inputOrderId, values) => {
     if (!isNil(inputOrderId) && !isNil(stageQcValue)) {
       getInputPlan(stageQcValue, inputOrderId, values)
     } else {
-      setFieldValue('qualityPlanIOqcs', [])
+      setInitialValuesForm((prev) => ({
+        ...prev,
+        order: null,
+        qualityPlanIOqcs: [],
+      }))
     }
   }
 
@@ -313,50 +321,29 @@ function InputQualityControlPlanForm() {
   }
 
   const getInputPlan = (stageQcValue, inputOrderId, values) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.PO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PO
+        break
+      case STAGE_OPTION.PRO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PRO
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.IMO
+        break
+      default:
+        break
+    }
     const params = {
-      endpointPatch:
-        +stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PO
-          : ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PRO,
+      endpointPatch: endpointPatch,
       id: inputOrderId,
     }
     actions.getInputPlanByOrderId(params, (data) => {
       setInitialValuesForm({
         ...values,
         order: inputOrderId,
-        qualityPlanIOqcs: data?.qualityPlanIOqcs.map((x) => ({
-          ...x,
-          planErrorRate: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.planErrorRate
-            : null,
-          qcPlanQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.planQcQuantity
-            : null,
-          qcDoneQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.qcDoneQuantity
-            : null,
-          qcPassQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.qcPassQuantity
-            : null,
-          userQc1st: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.qualityPlanIOqcQualityPointUser1s.map(
-                (i) => i?.userId,
-              )
-            : [],
-          userQc2nd: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.qualityPlanIOqcQualityPointUser2s.map(
-                (i) => i?.userId,
-              )
-            : [],
-          qcPlanDate: [
-            !isEmpty(x?.qualityPlanIOqcDetails)
-              ? x?.qualityPlanIOqcDetails[0]?.planFrom
-              : null,
-            !isEmpty(x?.qualityPlanIOqcDetails)
-              ? x?.qualityPlanIOqcDetails[0]?.planTo
-              : null,
-          ],
-        })),
+        qualityPlanIOqcs: getFormData(data?.qualityPlanIOqcs),
       })
     })
   }
@@ -445,12 +432,7 @@ function InputQualityControlPlanForm() {
                       getOptionValue={(option) => option?.id}
                       getOptionLabel={(option) => option?.name}
                       onChange={(value) =>
-                        onChangeOrder(
-                          values?.stageQc,
-                          value,
-                          setFieldValue,
-                          values,
-                        )
+                        onChangeOrder(values?.stageQc, value, values)
                       }
                     />
                   </Grid>

@@ -15,13 +15,13 @@ export const formatFileSize = (bytes, decimals = 2) => {
 
 /**
  * Download a file using blob
- * @param {BlobPart} response binary data from server
+ * @param {BlobPart} buffer binary data from server
  * @param {string} fileName name of the file to be saved
  * @param {string} mimeType mime type of the blob
  * @param {[string]} accept array of accepted file extensions
  */
-export const downloadFile = async (response, fileName, mimeType, accept) => {
-  const blob = new Blob([response], {
+export const downloadFile = async (buffer, fileName, mimeType, accept) => {
+  const blob = new Blob([buffer], {
     type: mimeType,
   })
 

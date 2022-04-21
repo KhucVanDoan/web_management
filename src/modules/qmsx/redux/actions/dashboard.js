@@ -133,6 +133,22 @@ export const GET_QC_CHECK_ITEM_BY_PRO_SUCCESS =
 export const GET_QC_CHECK_ITEM_BY_PRO_FAIL =
   'QMSX_GET_QC_CHECK_ITEM_BY_PRO_FAIL'
 
+// Action: Get QC check item by IMO
+export const GET_QC_CHECK_ITEM_BY_IMO_START =
+  'QMSX_GET_QC_CHECK_ITEM_BY_IMO_START'
+export const GET_QC_CHECK_ITEM_BY_IMO_SUCCESS =
+  'QMSX_GET_QC_CHECK_ITEM_BY_IMO_SUCCESS'
+export const GET_QC_CHECK_ITEM_BY_IMO_FAIL =
+  'QMSX_GET_QC_CHECK_ITEM_BY_IMO_FAIL'
+
+// Action: Get QC check item by EXO
+export const GET_QC_CHECK_ITEM_BY_EXO_START =
+  'QMSX_GET_QC_CHECK_ITEM_BY_EXO_START'
+export const GET_QC_CHECK_ITEM_BY_EXO_SUCCESS =
+  'QMSX_GET_QC_CHECK_ITEM_BY_EXO_SUCCESS'
+export const GET_QC_CHECK_ITEM_BY_EXO_FAIL =
+  'QMSX_GET_QC_CHECK_ITEM_BY_EXO_FAIL'
+
 // Action: Get summary dashboard
 export const GET_SUMMARY_DASHBOARD_START = 'QMSX_GET_SUMMARY_DASHBOARD_START'
 export const GET_SUMMARY_DASHBOARD_SUCCESS =
@@ -806,6 +822,82 @@ export function getQcCheckItemByProFail() {
 }
 
 /**
+ * Get QC check item by IMO start action
+ * @param {object} payload Payload to be sent to the server
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getQcCheckItemByImo(payload, onSuccess, onError) {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_IMO_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get QC check item by IMO success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getQcCheckItemByImoSuccess(payload) {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_IMO_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get QC check item by IMO fail action
+ * @returns {object}
+ */
+export function getQcCheckItemByImoFail() {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_IMO_FAIL,
+  }
+}
+
+/**
+ * Get QC check item by EXO start action
+ * @param {object} payload Payload to be sent to the server
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getQcCheckItemByExo(payload, onSuccess, onError) {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_EXO_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get QC check item by EXO success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getQcCheckItemByExoSuccess(payload) {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_EXO_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get QC check item by EXO fail action
+ * @returns {object}
+ */
+export function getQcCheckItemByExoFail() {
+  return {
+    type: GET_QC_CHECK_ITEM_BY_EXO_FAIL,
+  }
+}
+
+/**
  * Get summary dashboard start action
  * @param {object} payload Payload to be sent to the server
  * @param {function} onSuccess Callback function on success
@@ -895,6 +987,12 @@ export default {
   getQcCheckItemByPro,
   getQcCheckItemByProSuccess,
   getQcCheckItemByProFail,
+  getQcCheckItemByImo,
+  getQcCheckItemByImoSuccess,
+  getQcCheckItemByImoFail,
+  getQcCheckItemByExo,
+  getQcCheckItemByExoSuccess,
+  getQcCheckItemByExoFail,
   getSummaryDashboard,
   getSummaryDashboardSuccess,
   getSummaryDashboardFail,

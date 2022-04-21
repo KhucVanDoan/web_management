@@ -53,6 +53,8 @@ function QcProgressFilterForm() {
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_EXPORT:
+      case STAGE_OPTION.IMO_IMPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         qualityReportActions.getOrderListByStage({ stage: id }, (data) =>
           setOrderList(data),
         )
@@ -80,7 +82,13 @@ function QcProgressFilterForm() {
         dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
         break
       case STAGE_OPTION.SO_EXPORT:
-        dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
+        dashboardActions.getQcCheckItemBySo({ soId: id }, setDataToState)
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        dashboardActions.getQcCheckItemByImo({ imoId: id }, setDataToState)
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        dashboardActions.getQcCheckItemByExo({ exoId: id }, setDataToState)
         break
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
@@ -126,6 +134,8 @@ function QcProgressFilterForm() {
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
+      case STAGE_OPTION.IMO_IMPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         params.ioQcFilter = {
           qcStageId: qcStageId,
           orderId: orderId,

@@ -28,7 +28,6 @@ function ItemSettingTable(props) {
     actions.getWarehouses({})
     actions.getBoms({ isGetAll: 1 })
   }, [])
-
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -137,12 +136,21 @@ function ItemSettingTable(props) {
         renderCell: (params, index) => {
           const { itemId } = params.row
           return isView ? (
-            <>{getItemObject(itemId)?.price || ''}</>
+            <>
+              {items?.map((e) => {
+                if (e?.itemId === itemId) {
+                  return e?.price
+                }
+                return null
+              })}
+            </>
           ) : (
             <Field.TextField
               name={`items[${index}].itemPrice`}
-              value={getItemObject(itemId)?.price || ''}
-              disabled={true}
+              numberProps={{
+                thousandSeparator: true,
+                decimalScale: 2,
+              }}
             />
           )
         },
@@ -168,7 +176,6 @@ function ItemSettingTable(props) {
       },
     ]
   }
-
   return (
     <>
       <Box
