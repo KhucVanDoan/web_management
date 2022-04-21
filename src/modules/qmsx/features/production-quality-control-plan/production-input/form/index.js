@@ -7,7 +7,11 @@ import { isNil, isEmpty, cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -744,6 +748,7 @@ function ProductionInputQualityControlPlanForm() {
                       label={t('productionQualityControlPlan.code')}
                       placeholder={t('productionQualityControlPlan.code')}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>

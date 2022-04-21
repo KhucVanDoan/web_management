@@ -4,15 +4,7 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(

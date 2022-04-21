@@ -6,7 +6,11 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -177,6 +181,7 @@ function RequestBuyMaterialForm() {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
                       />
                     </Grid>
@@ -185,6 +190,9 @@ function RequestBuyMaterialForm() {
                         label={t('requestBuyMaterial.requestName')}
                         name="name"
                         placeholder={t('requestBuyMaterial.requestName')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         required
                       />
                     </Grid>

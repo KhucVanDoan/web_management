@@ -24,7 +24,6 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from '../form-fillter'
-import { filterSchema } from '../form-fillter/schema'
 
 const breadcrumbs = [
   {
@@ -264,7 +263,6 @@ const WorkCenter = () => {
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
-          validationSchema: filterSchema(t),
         }}
       />
       <Dialog

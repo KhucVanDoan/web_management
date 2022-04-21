@@ -7,9 +7,7 @@ import {
 
 export const WorkCenterSchema = (t) => {
   return Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
@@ -53,12 +51,8 @@ export const WorkCenterSchema = (t) => {
     shifts: Yup.array().of(
       Yup.object().shape(
         {
-          startAt: Yup.string()
-            .required(t('general:form.required'))
-            .matches(/^[0-9:]+$/, t('general:form.validTime')),
-          endAt: Yup.string()
-            .required(t('general:form.required'))
-            .matches(/^[0-9:]+$/, t('general:form.validTime')),
+          startAt: Yup.string().required(t('general:form.required')),
+          endAt: Yup.string().required(t('general:form.required')),
           shiftName: Yup.string().required(t('general:form.required')),
           pricePerHour: Yup.number()
             .max(
