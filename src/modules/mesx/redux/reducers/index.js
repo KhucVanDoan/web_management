@@ -23,6 +23,7 @@ import producingStep from './product-step'
 import productivityCompareReport from './productivity-compare-report'
 import productivityReport from './productivity-report'
 import progressDetailReport from './progress-detail-report'
+import purchasedOrder from './purchased-order'
 import qualityReport from './quality-report'
 import requestBuyMaterial from './request-buy-materials'
 import defineRouting from './routing'
@@ -65,4 +66,5 @@ export default combineReducers({
   PriceReport,
   progressDetailReport,
   productivityCompareReport,
+  purchasedOrder,
 })
