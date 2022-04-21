@@ -8,12 +8,12 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { MODAL_MODE, DATE_FORMAT } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import TableCollapse from '~/components/TableCollapse'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
@@ -90,9 +90,9 @@ const PreviousPlanDetailTable = (props) => {
       renderCell: (params) => {
         const { planBom } = params?.row
         return (
-          formatDateTimeUtc(planBom?.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(planBom?.planFrom) +
           ' - ' +
-          formatDateTimeUtc(planBom?.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(planBom?.planTo)
         )
       },
     },
@@ -105,7 +105,7 @@ const PreviousPlanDetailTable = (props) => {
       align: 'center',
       renderCell: (params) => {
         const { planBom } = params?.row
-        return formatDateTimeUtc(planBom?.executeDate, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.executeDate)
       },
     },
     {
@@ -115,7 +115,7 @@ const PreviousPlanDetailTable = (props) => {
       align: 'center',
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endDate, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.endDate)
       },
     },
     {
@@ -178,9 +178,9 @@ const PreviousPlanDetailTable = (props) => {
       renderCell: (params) => {
         const { workOrders } = params?.row
         return (
-          formatDateTimeUtc(workOrders[0]?.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(workOrders[0]?.planFrom) +
           ' - ' +
-          formatDateTimeUtc(workOrders[0]?.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(workOrders[0]?.planTo)
         )
       },
     },
@@ -310,13 +310,9 @@ const PreviousPlanDetailTable = (props) => {
         const { id, qualityPlanBom } = params?.row?.producingStep
         if (mode === MODAL_MODE.DETAIL) {
           return !isEmpty(qualityPlanBom)
-            ? `${formatDateTimeUtc(
+            ? `${convertUtcDateToLocalTz(
                 qualityPlanBom[0]?.planFrom,
-                DATE_FORMAT,
-              )} - ${formatDateTimeUtc(
-                qualityPlanBom[0]?.planTo,
-                DATE_FORMAT,
-              )} `
+              )} - ${convertUtcDateToLocalTz(qualityPlanBom[0]?.planTo)} `
             : null
         } else {
           return (

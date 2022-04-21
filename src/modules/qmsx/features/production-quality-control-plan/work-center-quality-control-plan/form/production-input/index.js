@@ -5,7 +5,6 @@ import { Box } from '@mui/system'
 import { isBefore } from 'date-fns'
 import { Formik, Form } from 'formik'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -14,7 +13,7 @@ import {
   useRouteMatch,
 } from 'react-router-dom'
 
-import { DATE_FORMAT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -28,7 +27,8 @@ import {
 } from '~/modules/qmsx/constants'
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 
 const KEY_ROW_TABLE = {
   PLAN_QUANTITY: 1, //Số lượng kế hoạch
@@ -123,7 +123,7 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
       wcQcPlanDetail?.workInDayWc?.dayInShift?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
@@ -267,7 +267,7 @@ const WorkCenterQualityControlPlanProductionInputForm = () => {
       wcQcPlanDetail?.workInShiftQcPlan?.dayInShift?.forEach((e, idx) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
           width: 130,
           renderCell: (params) => {

@@ -14,7 +14,7 @@ import TextField from '~/components/TextField'
 import { ROUTING_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 const breadcrumbs = [
@@ -88,7 +88,7 @@ const RoutingDetail = () => {
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('routing.createdAt')}
-                value={formatDateTimeUtc(routingDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(routingDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

@@ -11,10 +11,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -37,8 +37,12 @@ function SaleOrderDetail() {
   }, [id])
 
   const breadcrumbs = [
+    // {
+    //   title: 'database',
+    // },
     {
-      title: 'database',
+      route: ROUTE.SALE_ORDER.LIST.PATH,
+      title: ROUTE.SALE_ORDER.LIST.TITLE,
     },
     {
       route: ROUTE.SALE_ORDER.DETAILS.PATH,
@@ -81,7 +85,7 @@ function SaleOrderDetail() {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('saleOrder.orderedAt')}
-                  value={formatDateTimeUtc(saleOrder.orderedAt)}
+                  value={convertUtcDateTimeToLocalTz(saleOrder.orderedAt)}
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
@@ -111,7 +115,7 @@ function SaleOrderDetail() {
                   />
                   <LV
                     label={t('saleOrder.deadline')}
-                    value={formatDateTimeUtc(saleOrder?.deadline)}
+                    value={convertUtcDateTimeToLocalTz(saleOrder?.deadline)}
                     mt={4 / 3}
                   />
                 </Box>
@@ -126,7 +130,7 @@ function SaleOrderDetail() {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('saleOrder.createdAt')}
-                  value={formatDateTimeUtc(saleOrder?.createdAt)}
+                  value={convertUtcDateTimeToLocalTz(saleOrder?.createdAt)}
                 />
               </Grid>
 

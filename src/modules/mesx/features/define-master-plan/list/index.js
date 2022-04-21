@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
@@ -20,7 +19,7 @@ import {
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -114,9 +113,9 @@ const DefineMasterPlan = () => {
         sortable: true,
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(params.row.dateFrom) +
             ' - ' +
-            formatDateTimeUtc(params.row.dateTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(params.row.dateTo)
           )
         },
       },
@@ -253,9 +252,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(dateFrom) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(dateTo)
         )
       },
     },
@@ -265,7 +264,7 @@ const DefineMasterPlan = () => {
       width: 200,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(startAt)
       },
     },
     {
@@ -274,7 +273,7 @@ const DefineMasterPlan = () => {
       width: 200,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(endAt)
       },
     },
     {
@@ -344,9 +343,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(dateFrom) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(dateTo)
         )
       },
     },
@@ -355,7 +354,7 @@ const DefineMasterPlan = () => {
       headerName: t('defineMasterPlan.executeDate'),
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.startAt)
       },
     },
     {
@@ -363,7 +362,7 @@ const DefineMasterPlan = () => {
       headerName: t('defineMasterPlan.endDate'),
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.endAt)
       },
     },
     {

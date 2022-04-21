@@ -3,27 +3,22 @@ import React from 'react'
 import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
+import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { moListAll },
-  } = useMo()
   const {
     data: { planList },
   } = useDefinePlan()
   const {
     data: { factoryList },
   } = useDefineFactory()
-  const {
-    data: { saleOrderList },
-  } = useSaleOrder()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -32,9 +27,14 @@ const FilterForm = () => {
           name="code"
           label={t('Mo.moCode')}
           placeholder={t('Mo.moCode')}
-          options={moListAll}
+          asyncRequest={(s) =>
+            searchMOApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(option) => option.code}
-          getOptionValue={(option) => option.code}
         />
       </Grid>
       <Grid item xs={12}>
@@ -75,12 +75,14 @@ const FilterForm = () => {
           name="saleOrderId"
           label={t('Mo.soName')}
           placeholder={t('Mo.soName')}
-          options={saleOrderList}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-          getOptionValue={(option) => option.id.toString()}
+          asyncRequest={(s) =>
+            searchSaleOrdersApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>

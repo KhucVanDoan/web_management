@@ -15,7 +15,7 @@ import TextField from '~/components/TextField'
 import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -106,13 +106,13 @@ const BOQDetail = () => {
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('defineBOQ.boqPlanFrom')}
-                value={formatDateTimeUtc(boqDetails?.planFrom)}
+                value={convertUtcDateTimeToLocalTz(boqDetails?.planFrom)}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('defineBOQ.boqPlanTo')}
-                value={formatDateTimeUtc(boqDetails?.planTo)}
+                value={convertUtcDateTimeToLocalTz(boqDetails?.planTo)}
               />
             </Grid>
             <Grid item xs={12} lg={6}>
@@ -124,7 +124,7 @@ const BOQDetail = () => {
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('defineBOQ.createdAt')}
-                value={formatDateTimeUtc(boqDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(boqDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>

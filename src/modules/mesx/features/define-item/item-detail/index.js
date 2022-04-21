@@ -11,16 +11,16 @@ import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
+import { ROUTE } from '~/modules/database/routes/config'
 import { DEFAULT_UNITS_MAP, WEIGHT_UNITS_MAP } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
-import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.DEFINE_ITEM.LIST.PATH,
     title: ROUTE.DEFINE_ITEM.LIST.TITLE,
@@ -59,7 +59,7 @@ function DefineItemDetail() {
   }
 
   const getItemDetailName = (id) => {
-    return detailList.find((item) => item.id === id)
+    return detailList?.find((item) => item.id === id)
   }
 
   return (
@@ -170,7 +170,7 @@ function DefineItemDetail() {
                 <Grid item xs={12} lg={6}>
                   <LV
                     label={t('defineItem.createTime')}
-                    value={formatDateTimeUtc(itemDetails?.createdAt)}
+                    value={convertUtcDateTimeToLocalTz(itemDetails?.createdAt)}
                   />
                 </Grid>
               </Grid>

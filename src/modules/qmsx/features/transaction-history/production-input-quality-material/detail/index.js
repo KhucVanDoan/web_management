@@ -14,7 +14,7 @@ import Page from '~/components/Page'
 import useTransactionHistory from '~/modules/qmsx/redux/hooks/useTransactionHistory'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import { toNumberIgnoreNaN } from '~/modules/qmsx/utils'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -151,7 +151,7 @@ function ProductionInputQualityMaterialDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t(`${transactionHistoryTransKey}.createdAt`)}
-                value={formatDateTimeUtc(createdAt)}
+                value={convertUtcDateTimeToLocalTz(createdAt)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

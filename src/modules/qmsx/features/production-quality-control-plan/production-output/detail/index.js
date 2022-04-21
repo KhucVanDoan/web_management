@@ -5,7 +5,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -17,7 +17,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useProductionQualityControlPlan from '~/modules/qmsx/redux/hooks/useProductionQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 
 import PlanDetailTable from '../plan-detail-table'
 
@@ -121,12 +121,10 @@ function ProductionOutputQualityControlPlanDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('productionQualityControlPlan.moPlanDate')}
-                value={`${formatDateTimeUtc(
+                value={`${convertUtcDateToLocalTz(
                   productionQcPlanDetail?.mo?.planFrom,
-                  DATE_FORMAT,
-                )} - ${formatDateTimeUtc(
+                )} - ${convertUtcDateToLocalTz(
                   productionQcPlanDetail?.mo?.planTo,
-                  DATE_FORMAT,
                 )} `}
               />
             </Grid>

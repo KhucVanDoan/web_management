@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { DATE_TIME_FORMAT } from '~/common/constants'
+import { UNSAFE_DATE_TIME_FORMAT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -17,7 +17,7 @@ import {
 import GanttChart from '~/modules/mesx/partials/gantt-chart'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, formatDateTimeUtc } from '~/utils'
+import { redirectRouter, convertUtcDateTimeToLocalTz } from '~/utils'
 
 const AutoModeration = () => {
   const { t } = useTranslation(['mesx'])
@@ -63,7 +63,7 @@ const AutoModeration = () => {
     if (date) {
       const dateFormat =
         type === 'to' ? endOfDay(new Date(date)) : startOfDay(new Date(date))
-      return formatDateTimeUtc(dateFormat, DATE_TIME_FORMAT)
+      return convertUtcDateTimeToLocalTz(dateFormat, UNSAFE_DATE_TIME_FORMAT)
     }
     return ''
   }

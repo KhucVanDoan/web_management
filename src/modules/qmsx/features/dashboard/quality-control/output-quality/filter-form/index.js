@@ -61,6 +61,11 @@ function OutputQualityFilterForm() {
           setItemList(data)
         })
         break
+      case STAGE_OPTION.EXO_EXPORT:
+        dashboardActions.getQcCheckItemByExo({ exoId: id }, (data) => {
+          setItemList(data)
+        })
+        break
       default:
         break
     }

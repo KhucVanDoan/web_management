@@ -11,10 +11,10 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/database/routes/config'
 import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -23,9 +23,9 @@ import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.ITEM_UNIT.LIST.PATH,
     title: ROUTE.ITEM_UNIT.LIST.TITLE,
@@ -99,7 +99,7 @@ function ItemUnitSetting() {
       filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -110,7 +110,7 @@ function ItemUnitSetting() {
       sortable: true,
       renderCell: (params) => {
         const updateAt = params.row.updatedAt
-        return formatDateTimeUtc(updateAt)
+        return convertUtcDateTimeToLocalTz(updateAt)
       },
     },
     {

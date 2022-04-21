@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
 
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -82,7 +81,7 @@ export const DetailJob = () => {
       ...(saleOder?.itemSchedules?.[0]?.quantityDays?.days || []).map(
         (d, index) => ({
           field: d?.executionDate,
-          headerName: formatDateTimeUtc(d?.executionDate, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(d?.executionDate),
           width: 100,
           align: 'right',
           renderCell: (params) => {
@@ -211,36 +210,33 @@ export const DetailJob = () => {
     })
     return { rows, rowSpanMatrix, grayRowMatrix }
   }
+  const renderHeaderRight = () => {
+    return (
+      <Button
+        onClick={() =>
+          history.push(
+            ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
+          )
+        }
+        sx={{ ml: 4 / 3 }}
+      >
+        {t('defineMasterPlan.autoModeration.selectModerationType')}
+      </Button>
+    )
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('defineMasterPlan.autoModeration.title')}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
       onBack={backToList}
     >
-      <Box
-        sx={() => ({
-          display: 'flex',
-          justifyContent: 'flex-end',
-        })}
-      >
-        <Button
-          onClick={() =>
-            history.push(
-              ROUTE.MASTER_PLAN.AUTO_MODERATION.PATH.replace(':id', `${id}`),
-            )
-          }
-        >
-          {t('defineMasterPlan.autoModeration.selectModerationType')}
-        </Button>
-      </Box>
       {jobDetail?.saleOrderSchedules?.map((s) => (
         <>
-          <Box sx={4}>
-            <Typography variant="h4" component="span">
-              {s?.saleOrderName}
-            </Typography>
-          </Box>
+          <Typography variant="h4" component="span" mb={2}>
+            {s?.saleOrderName}
+          </Typography>
           <DataTable
             columns={getColumns(s)}
             rows={getRows(s).rows}

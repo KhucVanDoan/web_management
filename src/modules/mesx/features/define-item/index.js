@@ -13,11 +13,11 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/database/routes/config'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -26,9 +26,9 @@ import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.DEFINE_ITEM.LIST.PATH,
     title: ROUTE.DEFINE_ITEM.LIST.TITLE,
@@ -50,7 +50,7 @@ function DefineItem() {
     code: '',
     name: '',
     itemTypeCode: '',
-    itemGroupCode: '',
+    itemGroupCode: [],
     createTime: [],
   }
 
@@ -208,7 +208,7 @@ function DefineItem() {
       sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -257,7 +257,15 @@ function DefineItem() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          itemGroupCode: (filters?.itemGroupCode || []).map(
+            (item) => item?.code,
+          ),
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchItems(params)

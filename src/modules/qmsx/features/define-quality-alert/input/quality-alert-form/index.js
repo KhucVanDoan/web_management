@@ -29,11 +29,13 @@ const ENDPOINT_PATCH_GET_ORDER_BY_STAGE_INPUT = 'env-input-order'
 const ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID = {
   PO: 'env-item-by-po',
   PRO: 'env-item-by-pro',
+  IMO: 'env-item-by-imo',
 }
 
 const ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID = {
   PO: 'env-warehouse-by-po-and-item',
   PRO: 'env-warehouse-by-pro-and-item',
+  IMO: 'env-warehouse-by-imo-and-item',
 }
 
 function DefineQualityAlertInputForm() {
@@ -248,23 +250,48 @@ function DefineQualityAlertInputForm() {
   }
 
   const getProduct = (stageQcValue, orderId) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.PO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PO
+        break
+      case STAGE_OPTION.PRO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PRO
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.IMO
+        break
+      default:
+        break
+    }
     const params = {
-      endpointPatch:
-        stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PO
-          : ENDPOINT_PATCH_GET_PRODUCT_BY_ORDER_ID.PRO,
+      endpointPatch: endpointPatch,
       id: orderId,
     }
-
     actions.getProductByOrderId(params, (data) => setItemList(data))
   }
 
   const getWarehouse = (stageQcValue, orderId, productId) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.PO_IMPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PO
+        break
+      case STAGE_OPTION.PRO_IMPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PRO
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        endpointPatch =
+          ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.IMO
+        break
+      default:
+        break
+    }
+
     const params = {
-      endpointPatch:
-        stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PO
-          : ENDPOINT_PATCH_GET_WAREHOUSE_BY_ORDER_ID_AND_PRODUCT_ID.PRO,
+      endpointPatch: endpointPatch,
       orderId,
       productId,
     }

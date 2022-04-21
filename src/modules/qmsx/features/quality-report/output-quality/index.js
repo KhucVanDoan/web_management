@@ -10,6 +10,7 @@ import Loading from '~/components/Loading'
 import OutputQualityFilterForm from '~/modules/qmsx/features/quality-report/output-quality/filter-form'
 import useQualityReport from '~/modules/qmsx/redux/hooks/useQualityReport'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { getRowNumber } from '~/modules/qmsx/utils'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 function OutputQuality() {
@@ -33,11 +34,21 @@ function OutputQuality() {
   const transKey = 'qualityReport'
 
   const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
-      field: 'id',
+      field: 'rowNumber',
       headerName: '#',
       width: 50,
       sortable: false,
+      fixed: true,
+      renderCell: (_, index) => {
+        return getRowNumber(index, page, pageSize)
+      },
     },
     {
       field: 'stageName',
@@ -99,6 +110,7 @@ function OutputQuality() {
           <Button
             variant="text"
             size="small"
+            bold={false}
             component={Link}
             to={`${ROUTE.DEFINE_ERROR_REPORT.LIST.PATH}?errorReportId=${errorReportId}`}
           >
@@ -144,6 +156,7 @@ function OutputQuality() {
         total={total}
         sort={sort}
         tableSettingKey="qcOutput"
+        indexCol="rowNumber"
         filters={{
           form: <OutputQualityFilterForm />,
           values: filters,

@@ -6,6 +6,8 @@ export const STAGE_OPTION = {
   SO_EXPORT: 5,
   PRODUCTION_OUTPUT: 8,
   PRODUCTION_INPUT: 9,
+  IMO_IMPORT: 10,
+  EXO_EXPORT: 11,
 }
 
 export const STAGE_OPTION_PRODUCTION = [
@@ -22,6 +24,10 @@ export const STAGES_INPUT = [
     value: STAGE_OPTION.PRO_IMPORT, //2
     text: 'common.stages.proImport',
   },
+  {
+    value: STAGE_OPTION.IMO_IMPORT, //10
+    text: 'common.stages.imoImport',
+  },
 ]
 
 export const STAGES_OUTPUT = [
@@ -32,6 +38,10 @@ export const STAGES_OUTPUT = [
   {
     value: STAGE_OPTION.SO_EXPORT, //5
     text: 'common.stages.soExport',
+  },
+  {
+    value: STAGE_OPTION.EXO_EXPORT, //11
+    text: 'common.stages.exoExport',
   },
 ]
 
@@ -49,15 +59,19 @@ export const STAGES_PRODUCTION = [
 export const STAGE_OPTION_OTHER = [
   STAGE_OPTION.PO_IMPORT,
   STAGE_OPTION.PRO_IMPORT,
+  STAGE_OPTION.IMO_IMPORT,
   STAGE_OPTION.PRO_EXPORT,
   STAGE_OPTION.SO_EXPORT,
+  STAGE_OPTION.EXO_EXPORT,
 ]
 
 export const STAGE_OPTION_MAP = {
   [STAGE_OPTION.PO_IMPORT]: 'common.stages.poImport',
   [STAGE_OPTION.PRO_IMPORT]: 'common.stages.proImport',
+  [STAGE_OPTION.IMO_IMPORT]: 'common.stages.imoImport',
   [STAGE_OPTION.PRO_EXPORT]: 'common.stages.proExport',
   [STAGE_OPTION.SO_EXPORT]: 'common.stages.soExport',
+  [STAGE_OPTION.EXO_EXPORT]: 'common.stages.exoExport',
   [STAGE_OPTION.PRODUCTION_OUTPUT]: 'common.stages.productionOutput',
   [STAGE_OPTION.PRODUCTION_INPUT]: 'common.stages.productionInput',
 }
@@ -65,11 +79,13 @@ export const STAGE_OPTION_MAP = {
 export const STAGE_OPTION_INPUT = [
   STAGE_OPTION.PO_IMPORT,
   STAGE_OPTION.PRO_IMPORT,
+  STAGE_OPTION.IMO_IMPORT,
 ]
 
 export const STAGE_OPTION_OUTPUT = [
   STAGE_OPTION.PRO_EXPORT,
   STAGE_OPTION.SO_EXPORT,
+  STAGE_OPTION.EXO_EXPORT,
 ]
 
 export const STAGES = [...STAGES_INPUT, ...STAGES_OUTPUT, ...STAGES_PRODUCTION]
@@ -604,3 +620,34 @@ export const ENDPOINT_PATCH_UPDATE_WORK_CENTER_QC_PLAN = {
   INPUT_SCHEDULES: 'input-schedules',
   OUTPUT_SCHEDULES: 'output-schedules',
 }
+
+export const USER_MANAGEMENT_STATUS_OPTIONS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+  DELETED: 2,
+}
+
+export const USER_MANAGEMENT_STATUS_MAP = {
+  [USER_MANAGEMENT_STATUS_OPTIONS.INACTIVE]:
+    'userManagement.userStatus.inactive',
+  [USER_MANAGEMENT_STATUS_OPTIONS.ACTIVE]: 'userManagement.userStatus.active',
+  [USER_MANAGEMENT_STATUS_OPTIONS.DELETED]: 'userManagement.userStatus.deleted',
+}
+
+export const USER_MANAGEMENT_STATUS = [
+  {
+    id: 0,
+    text: 'userManagement.userStatus.inactive',
+    color: 'inactive',
+  },
+  {
+    id: 1,
+    text: 'userManagement.userStatus.active',
+    color: 'active',
+  },
+  {
+    id: 2,
+    text: 'userManagement.userStatus.deleted',
+    color: 'deleted',
+  },
+]

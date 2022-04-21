@@ -5,11 +5,10 @@ import { Box } from '@mui/system'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import { useMaterialPlanDetail } from '../../redux/hooks/useMaterialDetailPlan'
 import FilterForm from './form-filter'
@@ -44,7 +43,7 @@ const MaterialDetailPlan = () => {
 
   const refreshDataFilter = () => {
     const params = {
-      manufacturingOrderId: filters?.moId,
+      manufacturingOrderId: filters?.moId?.id,
       itemId: filters?.itemId,
       producingStepId: filters?.producingStepId,
       workCenterId: filters?.workCenterId,
@@ -72,7 +71,7 @@ const MaterialDetailPlan = () => {
       mdpDetails?.manufacturingOrderPlan?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e.executionDay),
           width: 100,
           align: 'center',
         })
@@ -187,7 +186,7 @@ const MaterialDetailPlan = () => {
       mdpDetails?.materialReport[0]?.materialPlanSchedules?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           width: 100,
           align: 'center',
         })

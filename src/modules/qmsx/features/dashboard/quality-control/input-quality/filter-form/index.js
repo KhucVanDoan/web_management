@@ -61,6 +61,11 @@ function InputQualityFilterForm() {
           setItemList(data)
         })
         break
+      case STAGE_OPTION.IMO_IMPORT:
+        dashboardActions.getQcCheckItemByImo({ imoId: id }, (data) => {
+          setItemList(data)
+        })
+        break
       default:
         break
     }

@@ -115,6 +115,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 100000000000,
   },
+  PRICE_ITEM_SALE_ORDER: {
+    MIN: 0,
+    MAX: 999999999999999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
@@ -132,16 +136,23 @@ export const TEXTFIELD_PREVENT = {
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 export const ASYNC_SEARCH_LIMIT = 100
-export const ASYNC_SEARCH_STATUS = '1'
-export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss'
 
-export const DATE_FORMAT = 'dd/MM/yyyy'
+export const DATE_TIME_FORMAT_BY_LANG = {
+  [LANG_OPTIONS.VI]: 'dd/MM/yyyy HH:mm:ss',
+  [LANG_OPTIONS.EN]: 'MMM dd, yyyy HH:mm:ss',
+  [LANG_OPTIONS.JP]: 'yyyy/MM/dd HH:mm:ss',
+}
 
-export const DEFAULT_DATE_TIME_FORMAT_VN = 'dd-MM-yyyy hh:mm a'
+export const DATE_FORMAT_BY_LANG = {
+  [LANG_OPTIONS.VI]: 'dd/MM/yyyy',
+  [LANG_OPTIONS.EN]: 'MMM dd, yyyy',
+  [LANG_OPTIONS.JP]: 'yyyy/MM/dd',
+}
 
-export const DATE_FORMAT_3 = 'yyyy-MM-dd'
+export const UNSAFE_DATE_FORMAT_3 = 'yyyy-MM-dd'
+export const UNSAFE_DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
+export const IMPORT_EXPORT_DATE_FORMAT = 'dd-MM-yyyy_HH_mm_SS'
 
-export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
 export const DEFAULT_TIME = '00:00'
 
 export const QR_CODE_TYPE = {
@@ -171,11 +182,6 @@ export const CODE_SETTINGS = {
   },
 }
 
-export const IMPORT_SETTING = {
-  FILE_SIZE_LIMIT: 5242880,
-  NUMBER_OF_FILE: 1,
-}
-
 export const FILE_TYPE = {
   XLSX: {
     NAME: 'XLSX',
@@ -183,6 +189,12 @@ export const FILE_TYPE = {
     MIME_TYPE:
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   },
+}
+
+export const IMPORT_SETTING = {
+  FILE_SIZE_LIMIT: 5242880,
+  NUMBER_OF_FILE: 1,
+  FILE_NAME: '{0}_{1}{2}' + FILE_TYPE.XLSX.EXT,
 }
 
 export const IMPORT_EXPORT_MODE = {

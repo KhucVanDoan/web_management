@@ -13,14 +13,21 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
   CODE_SETTINGS,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/mesx/constants'
+import {
+  DEFAULT_UNITS,
+  WEIGHT_UNITS,
+  DEFAULT_ITEM_TYPES,
+} from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
@@ -44,6 +51,15 @@ function DefineItemForm() {
     data: { itemDetails, isLoading },
     actions,
   } = useDefineItem()
+
+  const {
+    data: { detailList },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    commonManagementActions.getDetails()
+  }, [])
 
   const { appStore } = useAppStore()
 
@@ -102,7 +118,11 @@ function DefineItemForm() {
       warehouseSectorId: itemDetails?.itemWarehouseLocation?.warehouseSectorId,
       warehouseShelfId: itemDetails?.itemWarehouseLocation?.warehouseShelfId,
       items: itemDetails?.itemDetails?.map((item) => ({
-        detailId: item.itemDetailId,
+        detailId: {
+          ...item,
+          name: detailList.find((detail) => detail.id === item?.itemDetailId)
+            ?.name,
+        },
         quantity: Number(item.quantity),
       })) || [{ ...DEFAULT_DETAIL }],
     }),
@@ -188,7 +208,6 @@ function DefineItemForm() {
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
-
     const convertValues = {
       ...values,
       id,
@@ -222,7 +241,7 @@ function DefineItemForm() {
       ...(isDetailed
         ? {
             itemDetails: values.items?.map((item) => ({
-              detailId: item.detailId,
+              detailId: item.detailId?.id || item.detailId?.itemDetailId,
               quantity: Number(item.quantity),
             })),
           }
@@ -274,6 +293,10 @@ function DefineItemForm() {
             enableReinitialize
           >
             {({ handleReset, values, setFieldValue }) => {
+              const itemtype = values?.itemType?.code
+              const disabledCheckBox = (DEFAULT_ITEM_TYPES.code || []).includes(
+                itemtype,
+              )
               return (
                 <Form>
                   <Tabs
@@ -375,7 +398,13 @@ function DefineItemForm() {
                             name="itemUnit"
                             label={t('defineItem.unit')}
                             placeholder={t('defineItem.unit')}
-                            options={appStore?.itemUnits}
+                            asyncRequest={(s) =>
+                              searchItemUnitsApi({
+                                keyword: s,
+                                limit: ASYNC_SEARCH_LIMIT,
+                              })
+                            }
+                            asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.name}
                             required
                           />
@@ -406,6 +435,7 @@ function DefineItemForm() {
                                 checked={isProductionObject}
                                 onChange={onToggleIsProductionObject}
                                 name="isProductionObject"
+                                disabled={disabledCheckBox}
                               />
                             }
                             label={t('defineItem.isProductionObject') + '?'}

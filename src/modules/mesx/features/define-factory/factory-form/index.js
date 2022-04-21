@@ -14,8 +14,8 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { ROUTE } from '~/modules/database/routes/config'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
-import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { defineFactorySchema } from './schema'
 
@@ -50,9 +50,9 @@ const DefineFactoryForm = () => {
 
   const getBreadcrumb = () => {
     const breadcrumb = [
-      {
-        title: 'database',
-      },
+      // {
+      //   title: 'database',
+      // },
       {
         route: ROUTE.DEFINE_FACTORY.LIST.PATH,
         title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
