@@ -12,8 +12,7 @@ export const defineQualityAlertOutputSchema = (t) =>
         t('general:form.maxLength', {
           max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
         }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
+      ),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(

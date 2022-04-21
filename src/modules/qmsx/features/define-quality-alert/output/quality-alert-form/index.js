@@ -7,7 +7,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -364,6 +364,7 @@ function DefineQualityAlertOutputForm() {
                       label={t('defineQualityAlert.code')}
                       placeholder={t('defineQualityAlert.code')}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>

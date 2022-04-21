@@ -6,7 +6,7 @@ import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -195,6 +195,7 @@ function DefineCheckListForm() {
                       label={t('defineCheckList.code')}
                       placeholder={t('defineCheckList.code')}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>

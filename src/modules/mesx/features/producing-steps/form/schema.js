@@ -7,9 +7,7 @@ import {
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     switchMode: Yup.string(),
     qcQuantityRule: Yup.number()

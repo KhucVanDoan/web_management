@@ -3,7 +3,7 @@ import React from 'react'
 import { createFilterOptions, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
@@ -19,6 +19,7 @@ const FilterForm = () => {
           label={t('workCenter.code')}
           placeholder={t('workCenter.code')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
       <Grid item xs={12}>

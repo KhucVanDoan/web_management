@@ -20,7 +20,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   // {
@@ -214,7 +213,6 @@ function ItemUnitSetting() {
             form: <FilterForm />,
             values: filters,
             defaultValue: DEFAULT_FILTERS,
-            validationSchema: filterSchema(t),
             onApply: setFilters,
           }}
           sort={sort}

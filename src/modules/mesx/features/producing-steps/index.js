@@ -27,7 +27,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
-import { filterSchema } from './filter/schema'
 
 const breadcrumbs = [
   {
@@ -262,7 +261,6 @@ function ProducingStep() {
             values: filters,
             defaultValue: DEFAULT_FILTERS,
             onApply: setFilters,
-            validationSchema: filterSchema(t),
           }}
           sort={sort}
         />

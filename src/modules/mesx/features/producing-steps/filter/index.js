@@ -3,7 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { PRODUCING_STEP_OPTIONS } from '~/modules/mesx/constants'
 
@@ -17,6 +17,7 @@ const FilterForm = () => {
           label={t('producingStep.code')}
           placeholder={t('producingStep.code')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
       <Grid item xs={12}>
