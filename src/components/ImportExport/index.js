@@ -8,7 +8,6 @@ import {
   IconButton,
   Link as MuiLink,
   Typography,
-  IconButton,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { isEmpty, isNil } from 'lodash'
