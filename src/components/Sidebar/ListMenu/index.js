@@ -139,48 +139,50 @@ const ListMenu = ({ routes, currentModule }) => {
               route={route}
               visibleSubMenu={visibleSubMenu}
               currentModule={currentModule}
-              isExpanded={isOpen(index, route.subMenu)}
+              isExpanded={isOpen(index, visibleSubMenu)}
               anchorEl={popoverAnchor.current[index]}
               openPopover={openedPopover}
               handlePopoverOpen={handlePopoverOpen}
               handlePopoverClose={handlePopoverClose}
               hoverMenu={hoverMenu}
             >
-              <List component="div" disablePadding>
-                {!isEmpty(visibleSubMenu)
-                  ? visibleSubMenu.map((menuItem) => (
-                      <ListItemButton
-                        component={Link}
-                        to={menuItem?.path}
-                        key={menuItem?.path}
-                        sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
-                        className={clsx({
-                          active: isActive(menuItem.path),
-                        })}
-                        {...(isMdDown
-                          ? {
-                              onClick: () => setIsMinimal(true),
-                            }
-                          : {})}
-                      >
-                        <ListItemText
-                          primary={
-                            <Typography
-                              variant="h5"
-                              color="text.main"
-                              noWrap
-                              sx={{
-                                fontWeight: isActive(menuItem.path) ? 700 : 400,
-                              }}
-                            >
-                              {t(`menu.${menuItem.name}`)}
-                            </Typography>
+              {!isEmpty(visibleSubMenu) ? (
+                <List component="div" disablePadding>
+                  {visibleSubMenu.map((menuItem) => (
+                    <ListItemButton
+                      component={Link}
+                      to={menuItem?.path}
+                      key={menuItem?.path}
+                      sx={{ py: '5px', pl: isMdUpMinimal ? '16px' : '46px' }}
+                      className={clsx({
+                        active: isActive(menuItem.path),
+                      })}
+                      {...(isMdDown
+                        ? {
+                            onClick: () => setIsMinimal(true),
                           }
-                        />
-                      </ListItemButton>
-                    ))
-                  : t(`menu.${route.name}`)}
-              </List>
+                        : {})}
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="h5"
+                            color="text.main"
+                            noWrap
+                            sx={{
+                              fontWeight: isActive(menuItem.path) ? 700 : 400,
+                            }}
+                          >
+                            {t(`menu.${menuItem.name}`)}
+                          </Typography>
+                        }
+                      />
+                    </ListItemButton>
+                  ))}
+                </List>
+              ) : (
+                t(`menu.${route.name}`)
+              )}
             </SubMenu>
           </React.Fragment>
         )
