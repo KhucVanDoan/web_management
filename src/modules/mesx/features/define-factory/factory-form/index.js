@@ -3,7 +3,12 @@ import React, { useEffect } from 'react'
 import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -16,6 +21,7 @@ import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { ROUTE } from '~/modules/database/routes/config'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
+import qs from '~/utils/qs'
 
 import { defineFactorySchema } from './schema'
 
@@ -24,21 +30,14 @@ const DefineFactoryForm = () => {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { factoryDetails, isLoading },
     actions,
   } = useDefineFactory()
 
   const { appStore } = useAppStore()
-
-  const initialValues = {
-    code: factoryDetails?.code || '',
-    name: factoryDetails?.name || '',
-    description: factoryDetails?.description || '',
-    location: factoryDetails?.location || '',
-    phone: factoryDetails?.phone || '',
-    companyId: factoryDetails?.companyId || '',
-  }
 
   const MODE_MAP = {
     [ROUTE.DEFINE_FACTORY.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -47,6 +46,15 @@ const DefineFactoryForm = () => {
 
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+
+  const initialValues = {
+    code: isUpdate ? factoryDetails?.code : '',
+    name: factoryDetails?.name || '',
+    description: factoryDetails?.description || '',
+    location: factoryDetails?.location || '',
+    phone: factoryDetails?.phone || '',
+    companyId: factoryDetails?.companyId || '',
+  }
 
   const getBreadcrumb = () => {
     const breadcrumb = [
@@ -78,12 +86,15 @@ const DefineFactoryForm = () => {
   }
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
+    if (isUpdate) {
       const id = params?.id
       actions.getFactoryDetailsById(id)
     }
+    if (cloneId) {
+      actions.getFactoryDetailsById(cloneId)
+    }
     return () => {
-      if (isUpdate) actions.resetFactoryDetailsState()
+      actions.resetFactoryDetailsState()
     }
   }, [params?.id])
 

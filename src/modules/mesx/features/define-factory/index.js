@@ -140,6 +140,15 @@ function DefineFactory() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.DEFINE_FACTORY.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },

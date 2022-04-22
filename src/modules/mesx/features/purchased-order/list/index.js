@@ -219,6 +219,15 @@ function PurchasedOrder() {
                 </IconButton>
               </>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.PURCHASED_ORDER.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </Box>
         )
       },

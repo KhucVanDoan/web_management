@@ -177,6 +177,15 @@ function UserManagement() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.USER_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },

@@ -95,7 +95,6 @@ export default function operationSetting(state = initialState, action) {
     case GET_BY_ROUTING_VERSION_FAILED:
       return {
         ...state,
-        details: {},
         isLoading: false,
       }
     case GET_PRODUCING_STEP_DETAILS_SUCCESS:

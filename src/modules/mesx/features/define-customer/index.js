@@ -143,6 +143,15 @@ function DefineCustomer() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.DEFINE_CUSTOMER.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },

@@ -171,6 +171,13 @@ const WorkCenter = () => {
                   <Icon name="tick" />
                 </IconButton>
               )}
+              <IconButton
+                onClick={() =>
+                  history.push(`${ROUTE.WORK_CENTER.CREATE.PATH}?cloneId=${id}`)
+                }
+              >
+                <Icon name="clone" />
+              </IconButton>
             </>
           </div>
         )

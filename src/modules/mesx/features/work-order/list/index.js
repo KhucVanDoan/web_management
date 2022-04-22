@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
@@ -25,6 +24,7 @@ import {
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
+import qs from '~/utils/qs'
 
 import FilterForm from './filter-form'
 import { validationSchema } from './schema'

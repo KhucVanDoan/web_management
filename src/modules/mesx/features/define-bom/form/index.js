@@ -8,7 +8,6 @@ import {
 } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -34,6 +33,7 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from '../item-setting-table'
 import { validationSchema } from './schema'
