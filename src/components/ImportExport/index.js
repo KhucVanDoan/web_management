@@ -147,12 +147,23 @@ const ImportExport = ({
     setOpen && setOpen(true)
   }
 
-  const onDownloadLog = async () => {
-    const uint8Arr = new Uint8Array(importResult.log.data)
+  /**
+   * Convert raw int array in json response to JS Uint8Array
+   * @param rawArr
+   * @param fileName
+   * @return {Promise<void>}
+   */
+  const downloadInt8Arr = async (rawArr, fileName) => {
+    const uint8Arr = new Uint8Array(rawArr)
 
-    uint8Arr &&
-      (await downloadFile(
-        uint8Arr,
+    await downloadFile(uint8Arr, fileName, XLSX.MIME_TYPE, [XLSX.EXT])
+  }
+
+  // @TODO: Không show err toast khi cancel save (Khi nhấn cancel tại save dialog => bị nhảy vào catch err)
+  const onDownloadLog = async () => {
+    try {
+      await downloadInt8Arr(
+        importResult.log.data,
         format(
           IMPORT_SETTING.FILE_NAME,
           t('import.prefix.importLog'),
@@ -160,26 +171,35 @@ const ImportExport = ({
           '_' +
             convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
         ),
-        XLSX.MIME_TYPE,
-        [XLSX.EXT],
-      ))
+      )
+    } catch (err) {
+      // addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      throw err
+    }
   }
 
-  const onClickDownloadTemplate = () => {
-    onDownloadTemplate &&
-      onDownloadTemplate(null, async (data) => {
-        await downloadFile(
-          data,
+  const onClickDownloadTemplate = async () => {
+    try {
+      const res = await onDownloadTemplate()
+
+      if (res.statusCode === 200) {
+        const rawArr = res.data.data
+
+        await downloadInt8Arr(
+          rawArr,
           format(
             IMPORT_SETTING.FILE_NAME,
             t('import.prefix.importTemplate'),
             name,
             '',
           ),
-          XLSX.MIME_TYPE,
-          [XLSX.EXT],
         )
-      })
+      } else {
+        addNotification(res.message, NOTIFICATION_TYPE.ERROR)
+      }
+    } catch (err) {
+      throw err
+    }
   }
 
   const onClickExport = async () => {
@@ -188,12 +208,22 @@ const ImportExport = ({
       const message = res.message
 
       if (res.statusCode === 200) {
+        const rawArr = res.data.data
+
+        await downloadInt8Arr(
+          rawArr,
+          `${name}_${convertUtcDateTimeToLocalTz(
+            new Date(),
+            IMPORT_EXPORT_DATE_FORMAT,
+          )}`,
+        )
+
         addNotification(message, NOTIFICATION_TYPE.SUCCESS)
       } else {
         addNotification(message, NOTIFICATION_TYPE.ERROR)
       }
     } catch (err) {
-      addNotification(err, NOTIFICATION_TYPE.ERROR)
+      throw err
     }
   }
 
