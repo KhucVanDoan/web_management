@@ -20,6 +20,7 @@ import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import {
   PRODUCING_STEP_STATUS,
+  WORK_CENTER_STATUS,
   WORK_CENTER_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
@@ -44,6 +45,7 @@ const WorkCenterForm = () => {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+
   const {
     data: { isLoading, wcDetails },
     actions,
@@ -363,7 +365,10 @@ const WorkCenterForm = () => {
                         name="code"
                         label={t('workCenter.code')}
                         placeholder={t('workCenter.code')}
-                        disabled={isUpdate}
+                        disabled={
+                          isUpdate ||
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
@@ -376,6 +381,9 @@ const WorkCenterForm = () => {
                         name="name"
                         label={t('workCenter.name')}
                         placeholder={t('workCenter.name')}
+                        disabled={
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
@@ -410,6 +418,9 @@ const WorkCenterForm = () => {
                         name="factoryId"
                         label={t('workCenter.factoryName')}
                         placeholder={t('workCenter.factoryName')}
+                        disabled={
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         options={factoryList?.items}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
@@ -437,6 +448,9 @@ const WorkCenterForm = () => {
                         name="producingStepId"
                         label={t('workCenter.producingStep')}
                         placeholder={t('workCenter.producingStep')}
+                        disabled={
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         asyncRequest={(s) =>
                           searchProducingStepsApi({
                             keyword: s,
@@ -492,6 +506,9 @@ const WorkCenterForm = () => {
                       <Field.TextField
                         label={t('workCenter.oeeGoal')}
                         placeholder={t('workCenter.oeeGoal')}
+                        disabled={
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         name="oeeTarget"
                         numberProps={{
                           decimalScale: 3,
@@ -505,6 +522,9 @@ const WorkCenterForm = () => {
                         label={t('workCenter.workCapacity')}
                         name="workCapacity"
                         placeholder={t('workCenter.workCapacity')}
+                        disabled={
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         type="number"
                         numberProps={{
                           decimalScale: 3,
@@ -524,6 +544,7 @@ const WorkCenterForm = () => {
                         shifts={values.shifts || []}
                         mode={mode}
                         arrayHelpers={arrayHelpers}
+                        status={wcDetails?.status}
                       />
                     )}
                   />
@@ -537,6 +558,7 @@ const WorkCenterForm = () => {
                           breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
+                          status={wcDetails?.status}
                         />
                       )}
                     />

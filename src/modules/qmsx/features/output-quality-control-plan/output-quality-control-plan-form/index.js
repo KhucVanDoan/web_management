@@ -6,7 +6,7 @@ import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -394,6 +394,7 @@ function OutputQualityControlPlanForm() {
                       label={t('outputQualityControlPlan.code')}
                       placeholder={t('outputQualityControlPlan.code')}
                       disabled={isUpdate || canUpdateQuantity}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>

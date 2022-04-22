@@ -9,9 +9,10 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
+import { WORK_CENTER_STATUS } from '~/modules/mesx/constants'
 import { scrollToBottom } from '~/utils'
 
-const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
+const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
   const { t } = useTranslation(['mesx'])
   const getColumns = () => {
     return [
@@ -39,6 +40,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
             <Field.TextField
               name={`shifts[${index}].shiftName`}
               inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+              disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
             />
           )
         },
@@ -56,7 +58,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
             <>{shiftObject?.startAt}</>
           ) : (
             <Box flex={1} alignItems="center" key={`startAt${id}`}>
-              <Field.TimePicker name={`shifts[${index}].startAt`} />
+              <Field.TimePicker
+                name={`shifts[${index}].startAt`}
+                disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
+              />
               {startAt && endAt && isAfter(startAt, endAt) && (
                 <FormHelperText error>
                   {t('form.invalidTimeRange')}
@@ -78,7 +83,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           return isView ? (
             <>{shiftObject?.endAt}</>
           ) : (
-            <Field.TimePicker name={`shifts[${index}].endAt`} />
+            <Field.TimePicker
+              name={`shifts[${index}].endAt`}
+              disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
+            />
           )
         },
       },
@@ -102,6 +110,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
                 thousandSeparator: true,
                 decimalScale: 3,
               }}
+              disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
             />
           )
         },
@@ -120,7 +129,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={shifts?.length === 1}
+              disabled={
+                shifts?.length === 1 ||
+                status === WORK_CENTER_STATUS.IN_PROGRESS
+              }
             >
               <Icon name="remove" />
             </IconButton>
@@ -168,8 +180,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
                   },
                 ],
               })
+
               scrollToBottom()
             }}
+            disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
             icon="add"
           >
             {t('workCenter.addWorkCenterShift')}

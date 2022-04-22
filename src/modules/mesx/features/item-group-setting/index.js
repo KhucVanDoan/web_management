@@ -20,7 +20,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import { filterSchema } from './filter-form/schema'
 const breadcrumbs = [
   // {
   //   title: 'database',
@@ -218,7 +217,6 @@ const ItemGroupSetting = () => {
           filters={{
             form: <FilterForm />,
             defaultValue: DEFAULT_FILTERS,
-            validationSchema: filterSchema(t),
             values: filters,
             onApply: setFilters,
           }}

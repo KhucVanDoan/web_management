@@ -11,6 +11,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { WORK_CENTER_STATUS } from '~/modules/mesx/constants'
 import { scrollToBottom } from '~/utils'
 
 const BreakTimeTable = ({
@@ -19,6 +20,7 @@ const BreakTimeTable = ({
   mode,
   arrayHelpers,
   setFieldValue,
+  status,
 }) => {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
@@ -37,6 +39,7 @@ const BreakTimeTable = ({
             <>{name}</>
           ) : (
             <Field.TextField
+              disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
               name={`breakTimes[${index}].breakTimeName`}
               variant="outlined"
               margin="dense"
@@ -73,6 +76,7 @@ const BreakTimeTable = ({
                 <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
+                    disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
                   />
                 </Box>
                 <Box
@@ -86,6 +90,7 @@ const BreakTimeTable = ({
                 <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
+                    disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
                   />
                 </Box>
               </Box>
@@ -171,6 +176,7 @@ const BreakTimeTable = ({
               })
               scrollToBottom()
             }}
+            disabled={status === WORK_CENTER_STATUS.IN_PROGRESS}
           >
             {t('workCenter.addWorkCenterBreakTimes')}
           </Button>

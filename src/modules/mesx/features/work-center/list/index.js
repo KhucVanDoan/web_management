@@ -13,6 +13,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  WORK_CENTER_STATUS_CONFIRM_TO_EDIT,
   WORK_CENTER_STATUS_OPTIONS,
   WORK_CENTER_STATUS_TO_CONFIRM,
   WORK_CENTER_STATUS_TO_DELETE,
@@ -23,7 +24,6 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from '../form-fillter'
-import { filterSchema } from '../form-fillter/schema'
 
 const breadcrumbs = [
   {
@@ -132,6 +132,8 @@ const WorkCenter = () => {
         const { id, status } = params.row
         const canConfirm = WORK_CENTER_STATUS_TO_CONFIRM.includes(status)
         const canEdit = WORK_CENTER_STATUS_TO_EDIT.includes(status)
+        const canEditConfirm =
+          WORK_CENTER_STATUS_CONFIRM_TO_EDIT.includes(status)
         const canDelete = WORK_CENTER_STATUS_TO_DELETE.includes(status)
         return (
           <div>
@@ -146,7 +148,7 @@ const WorkCenter = () => {
             </IconButton>
 
             <>
-              {canEdit && (
+              {canEdit || canEditConfirm ? (
                 <IconButton
                   onClick={() =>
                     history.push(
@@ -156,6 +158,8 @@ const WorkCenter = () => {
                 >
                   <Icon name="edit" />
                 </IconButton>
+              ) : (
+                ''
               )}
               {canDelete && (
                 <IconButton onClick={() => onClickDelete(params.row)}>
@@ -259,7 +263,6 @@ const WorkCenter = () => {
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
-          validationSchema: filterSchema(t),
         }}
       />
       <Dialog
