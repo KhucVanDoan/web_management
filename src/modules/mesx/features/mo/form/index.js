@@ -87,6 +87,7 @@ const MOForm = () => {
 
     return () => {
       actions.resetMoDetail()
+      masterPlanActions.resetMasterPlanDetails()
     }
   }, [mode, cloneId])
 
@@ -197,7 +198,7 @@ const MOForm = () => {
   }
 
   useEffect(() => {
-    if (isUpdate) {
+    if (isUpdate || cloneId) {
       getMasterDetail()
     }
   }, [moDetails?.masterPlan?.id])
@@ -233,9 +234,9 @@ const MOForm = () => {
     code: isUpdate ? moDetails?.code : '',
     name: moDetails?.name || '',
     moPlan:
-      mode === MODAL_MODE.CREATE
-        ? [dataPlan?.dateFrom, dataPlan?.dateTo]
-        : [moDetails?.planFrom, moDetails?.planTo],
+      isUpdate || cloneId
+        ? [moDetails?.planFrom, moDetails?.planTo]
+        : [dataPlan?.dateFrom, dataPlan?.dateTo],
     description: moDetails?.description || '',
     itemIds: [],
     masterPlanId: moDetails?.masterPlan || masterPlanDetails || '',
