@@ -69,7 +69,7 @@ function UserManagementForm() {
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
-      status: userDetails?.status || '',
+      status: userDetails?.status || '1',
       factories: userDetails.factories?.map((item) => item.id) || [],
       userRoleSettings: userDetails.userRoleSettings?.[0]?.id || null,
       departmentSettings:
@@ -102,6 +102,7 @@ function UserManagementForm() {
     const convertValues = {
       ...values,
       id,
+      status: values?.status?.toString(),
       factories: values?.factories?.map((item) => ({
         id: item,
       })),
