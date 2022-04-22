@@ -75,15 +75,16 @@ function RoutingForm() {
   useEffect(() => {
     const id = params?.id
     routingActions.getRoutingDetailsById(id)
-    producingStepActions.getProducingSteps()
-
     return () => {
       routingActions.resetRoutingDetailState()
-      producingStepActions.resetProducingStepState()
     }
   }, [params?.id])
+
   useEffect(() => {
     producingStepActions.getProducingSteps({ isGetAll: 1 })
+    return () => {
+      producingStepActions.resetProducingStepState()
+    }
   }, [])
 
   const onSubmit = (values) => {

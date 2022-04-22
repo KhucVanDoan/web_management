@@ -25,7 +25,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { actions: routingActions } = useRouting()
   const {
     data: { list },
-    actions: producingStepActions,
   } = useProducingStep()
 
   useEffect(() => {
@@ -35,10 +34,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       }
     }
   }, [id])
-
-  useEffect(() => {
-    producingStepActions.getProducingSteps()
-  }, [])
 
   const isView = mode === MODAL_MODE.DETAIL
 
