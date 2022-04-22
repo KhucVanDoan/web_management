@@ -20,6 +20,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { ROUTE } from '~/modules/database/routes/config'
 import {
   DEFAULT_UNITS,
   WEIGHT_UNITS,
@@ -28,7 +29,6 @@ import {
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
-import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
 import { itemSchema } from './schema'
