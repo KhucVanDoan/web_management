@@ -163,7 +163,7 @@ const DefineMasterPlan = () => {
       {
         field: 'action',
         headerName: t('defineMasterPlan.action'),
-        width: 250,
+        width: 280,
         align: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
