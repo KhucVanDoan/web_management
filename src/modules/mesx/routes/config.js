@@ -7,42 +7,42 @@ export const ROUTE = {
     PATH: '/mesx/database',
     TITLE: 'database',
   },
-  ITEM_TYPE: {
-    LIST: {
-      PATH: '/mesx/item-type-setting',
-      TITLE: 'itemTypeSetting',
-    },
-    CREATE: {
-      PATH: '/mesx/item-type-setting/create',
-      TITLE: 'itemTypeCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/item-type-setting/:id/detail',
-      TITLE: 'itemTypeDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/item-type-setting/:id/edit',
-      TITLE: 'itemTypeEdit',
-    },
-  },
-  DEFINE_ITEM: {
-    LIST: {
-      PATH: '/mesx/define-item',
-      TITLE: 'defineItem',
-    },
-    CREATE: {
-      PATH: '/mesx/define-item/create',
-      TITLE: 'defineItemCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-item/:id/detail',
-      TITLE: 'defineItemDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-item/:id/edit',
-      TITLE: 'defineItemEdit',
-    },
-  },
+  // ITEM_TYPE: {
+  //   LIST: {
+  //     PATH: '/mesx/item-type-setting',
+  //     TITLE: 'itemTypeSetting',
+  //   },
+  //   CREATE: {
+  //     PATH: '/mesx/item-type-setting/create',
+  //     TITLE: 'itemTypeCreate',
+  //   },
+  //   DETAIL: {
+  //     PATH: '/mesx/item-type-setting/:id/detail',
+  //     TITLE: 'itemTypeDetail',
+  //   },
+  //   EDIT: {
+  //     PATH: '/mesx/item-type-setting/:id/edit',
+  //     TITLE: 'itemTypeEdit',
+  //   },
+  // },
+  // DEFINE_ITEM: {
+  //   LIST: {
+  //     PATH: '/mesx/define-item',
+  //     TITLE: 'defineItem',
+  //   },
+  //   CREATE: {
+  //     PATH: '/mesx/define-item/create',
+  //     TITLE: 'defineItemCreate',
+  //   },
+  //   DETAIL: {
+  //     PATH: '/mesx/define-item/:id/detail',
+  //     TITLE: 'defineItemDetail',
+  //   },
+  //   EDIT: {
+  //     PATH: '/mesx/define-item/:id/edit',
+  //     TITLE: 'defineItemEdit',
+  //   },
+  // },
   ROUTING: {
     LIST: {
       PATH: '/mesx/routing',
@@ -61,24 +61,24 @@ export const ROUTE = {
       TITLE: 'routingEdit',
     },
   },
-  SALE_ORDER: {
-    LIST: {
-      PATH: '/mesx/sale-orders',
-      TITLE: 'saleOrderDefine',
-    },
-    CREATE: {
-      PATH: '/mesx/sale-orders/create',
-      TITLE: 'saleOrderCreate',
-    },
-    DETAILS: {
-      PATH: '/mesx/sale-orders/:id/detail',
-      TITLE: 'saleOrderDetails',
-    },
-    EDIT: {
-      PATH: '/mesx/sale-orders/:id/edit',
-      TITLE: 'saleOrderEdit',
-    },
-  },
+  // SALE_ORDER: {
+  //   LIST: {
+  //     PATH: '/database/sale-orders',
+  //     TITLE: 'saleOrderDefine',
+  //   },
+  //   CREATE: {
+  //     PATH: '/database/sale-orders/create',
+  //     TITLE: 'saleOrderCreate',
+  //   },
+  //   DETAILS: {
+  //     PATH: '/database/sale-orders/:id/detail',
+  //     TITLE: 'saleOrderDetails',
+  //   },
+  //   EDIT: {
+  //     PATH: '/database/sale-orders/:id/edit',
+  //     TITLE: 'saleOrderEdit',
+  //   },
+  // },
   PURCHASED_ORDER: {
     LIST: {
       PATH: '/mesx/purchased-order',
@@ -207,42 +207,42 @@ export const ROUTE = {
       TITLE: 'boqMovement',
     },
   },
-  DEFINE_FACTORY: {
-    LIST: {
-      PATH: '/mesx/define-factory',
-      TITLE: 'defineFactory',
-    },
-    CREATE: {
-      PATH: '/mesx/define-factory/create',
-      TITLE: 'defineFactoryCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-factory/:id/detail',
-      TITLE: 'defineFactoryDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-factory/:id/edit',
-      TITLE: 'defineFactoryEdit',
-    },
-  },
-  DEFINE_COMPANY: {
-    LIST: {
-      PATH: '/mesx/define-company',
-      TITLE: 'defineCompany',
-    },
-    CREATE: {
-      PATH: '/mesx/define-company/create',
-      TITLE: 'defineCompanyCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-company/:id/detail',
-      TITLE: 'defineCompanyDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-company/:id/edit',
-      TITLE: 'defineCompanyEdit',
-    },
-  },
+  // DEFINE_FACTORY: {
+  //   LIST: {
+  //     PATH: '/mesx/define-factory',
+  //     TITLE: 'defineFactory',
+  //   },
+  //   CREATE: {
+  //     PATH: '/mesx/define-factory/create',
+  //     TITLE: 'defineFactoryCreate',
+  //   },
+  //   DETAIL: {
+  //     PATH: '/mesx/define-factory/:id/detail',
+  //     TITLE: 'defineFactoryDetail',
+  //   },
+  //   EDIT: {
+  //     PATH: '/mesx/define-factory/:id/edit',
+  //     TITLE: 'defineFactoryEdit',
+  //   },
+  // },
+  // DEFINE_COMPANY: {
+  //   LIST: {
+  //     PATH: '/mesx/define-company',
+  //     TITLE: 'defineCompany',
+  //   },
+  //   CREATE: {
+  //     PATH: '/mesx/define-company/create',
+  //     TITLE: 'defineCompanyCreate',
+  //   },
+  //   DETAIL: {
+  //     PATH: '/mesx/define-company/:id/detail',
+  //     TITLE: 'defineCompanyDetail',
+  //   },
+  //   EDIT: {
+  //     PATH: '/mesx/define-company/:id/edit',
+  //     TITLE: 'defineCompanyEdit',
+  //   },
+  // },
   DEFINE_CUSTOMER: {
     LIST: {
       PATH: '/mesx/define-customer',
@@ -405,24 +405,24 @@ export const ROUTE = {
     PATH: '/mesx/user-permission',
     TITLE: 'userPermission',
   },
-  ITEM_UNIT: {
-    LIST: {
-      PATH: '/mesx/item-unit-define',
-      TITLE: 'itemUnitDefine',
-    },
-    CREATE: {
-      PATH: '/mesx/item-unit-define/create',
-      TITLE: 'itemUnitCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/item-unit-define/:id/detail',
-      TITLE: 'itemUnitDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/item-unit-define/:id/edit',
-      TITLE: 'itemUnitEdit',
-    },
-  },
+  // ITEM_UNIT: {
+  //   LIST: {
+  //     PATH: '/mesx/item-unit-define',
+  //     TITLE: 'itemUnitDefine',
+  //   },
+  //   CREATE: {
+  //     PATH: '/mesx/item-unit-define/create',
+  //     TITLE: 'itemUnitCreate',
+  //   },
+  //   DETAIL: {
+  //     PATH: '/mesx/item-unit-define/:id/detail',
+  //     TITLE: 'itemUnitDetail',
+  //   },
+  //   EDIT: {
+  //     PATH: '/mesx/item-unit-define/:id/edit',
+  //     TITLE: 'itemUnitEdit',
+  //   },
+  // },
   QUALITY_REPORT: {
     LIST: {
       PATH: '/mesx/qualityreport',
