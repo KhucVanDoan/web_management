@@ -146,7 +146,7 @@ const palette = {
       background: '#FF0909',
       contrastText: '#FFF',
     },
-    inactive: {
+    tempLocked: {
       text: '#666',
       background: '#666',
       contrastText: '#FFF',
@@ -154,11 +154,6 @@ const palette = {
     active: {
       text: '#0761AD',
       background: '#0761AD',
-      contrastText: '#FFF',
-    },
-    deleted: {
-      text: '#FF0909',
-      background: '#FF0909',
       contrastText: '#FFF',
     },
   },
