@@ -4,7 +4,12 @@ import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEmpty, orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
+import {
+  useHistory,
+  useRouteMatch,
+  useParams,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -22,6 +27,7 @@ import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -31,7 +37,8 @@ const DefineMasterPlanForm = () => {
   const { id } = useParams()
   const history = useHistory()
   const routeMatch = useRouteMatch()
-
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const [soId, setSoId] = useState([])
   const {
     data: { isLoading, masterPlanDetails },
@@ -64,7 +71,7 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     getMasterPlanDetail()
-  }, [mode])
+  }, [mode, cloneId])
 
   useEffect(() => {
     // set soId when update
@@ -80,6 +87,9 @@ const DefineMasterPlanForm = () => {
   const getMasterPlanDetail = () => {
     if (isUpdate) {
       actions.getMasterPlanDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getMasterPlanDetailsById(cloneId)
     }
   }
 
@@ -179,25 +189,25 @@ const DefineMasterPlanForm = () => {
     }
   }
 
-  const initialValues =
-    isUpdate && !isEmpty(masterPlanDetails)
-      ? {
-          ...masterPlanDetails,
-          planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
-          soId: masterPlanDetails?.saleOrderSchedules,
-          factoryId:
-            masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
-        }
-      : {
-          code: '',
-          name: '',
-          soId: [],
-          factoryId: null,
-          description: '',
-          planDate: null,
-          dateFromSo: null,
-          dateCompletion: 0,
-        }
+  const initialValues = !isEmpty(masterPlanDetails)
+    ? {
+        ...masterPlanDetails,
+        ...(isUpdate ? { code: masterPlanDetails?.code || '' } : { code: '' }),
+        planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
+        soId: masterPlanDetails?.saleOrderSchedules,
+        factoryId:
+          masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
+      }
+    : {
+        code: '',
+        name: '',
+        soId: [],
+        factoryId: null,
+        description: '',
+        planDate: null,
+        dateFromSo: null,
+        dateCompletion: 0,
+      }
 
   const handleChangeSoId = (val, setFieldValue) => {
     actionSaleOrder.getSaleOrderDetailsByIds(

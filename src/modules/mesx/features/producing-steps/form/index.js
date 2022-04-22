@@ -6,7 +6,12 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -22,12 +27,15 @@ import { STAGES_OPTION } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
 
 function ProducingStepForm() {
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const history = useHistory()
   const routeMatch = useRouteMatch()
 
@@ -155,7 +163,7 @@ function ProducingStepForm() {
     }
   }
   const initialValues = {
-    code: details?.code || '',
+    code: isUpdate ? details?.code : '',
     name: details?.name || '',
     description: details?.description || '',
     qcQuantityRule: Number(details?.qcQuantityRule) || null,
@@ -179,9 +187,12 @@ function ProducingStepForm() {
     if (isUpdate) {
       actions.getProducingStepDetailsById(id)
     }
+    if (cloneId) {
+      actions.getProducingStepDetailsById(cloneId)
+    }
     actionCommon.searchQualityPoints()
     return () => actions.resetProducingStepState()
-  }, [id])
+  }, [id, cloneId])
 
   return (
     <Page

@@ -154,6 +154,13 @@ function Routing() {
                 </IconButton>
               </>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(`${ROUTE.ROUTING.CREATE.PATH}?cloneId=${id}`)
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </Box>
         )
       },

@@ -221,6 +221,13 @@ const DefineMasterPlan = () => {
                   <Icon name="remove" />
                 </IconButton>
               )}
+              <IconButton
+                onClick={() =>
+                  history.push(`${ROUTE.MASTER_PLAN.CREATE.PATH}?cloneId=${id}`)
+                }
+              >
+                <Icon name="clone" />
+              </IconButton>
             </>
           )
         },

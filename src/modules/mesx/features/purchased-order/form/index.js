@@ -5,7 +5,12 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
+import {
+  useHistory,
+  useRouteMatch,
+  useParams,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -22,6 +27,7 @@ import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
 // import { getCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/get-customers'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
@@ -32,7 +38,8 @@ function PurchasedOrderForm() {
   const routeMatch = useRouteMatch()
 
   const { id } = useParams()
-
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { vendorList },
     actions: commonActions,
@@ -66,7 +73,7 @@ function PurchasedOrderForm() {
   }
 
   const mode = MODE_MAP[routeMatch.path]
-  // const isUpdate = mode === MODAL_MODE.UPDATE
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
     commonActions.getVendors({ isGetAll: 1 })
@@ -74,7 +81,15 @@ function PurchasedOrderForm() {
 
   useEffect(() => {
     moActions.searchMO({ isGetAll: 1 })
-    actions.getPurchasedOrderDetailsById(id)
+    if (id) {
+      actions.getPurchasedOrderDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getPurchasedOrderDetailsById(cloneId)
+    }
+    return () => {
+      actions.resetPurchasedOrderDetailsState()
+    }
   }, [id])
 
   const backToList = () => {
@@ -83,7 +98,7 @@ function PurchasedOrderForm() {
 
   const initialValues = useMemo(
     () => ({
-      code: purchasedOrderDetails?.code || '',
+      code: isUpdate ? purchasedOrderDetails?.code : '',
       name: purchasedOrderDetails?.name || '',
       description: purchasedOrderDetails?.description || '',
       manufacturingOrderId:
