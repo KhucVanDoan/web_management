@@ -47,7 +47,7 @@ export default function defineplan(state = initialState, action) {
     case GET_PLAN_DETAILS_START:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       }
     case GET_MO_BY_PLAN_START:
       return {
