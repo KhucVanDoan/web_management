@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  main-web:
-    image: registry.vti.com.vn/snp_smartwms/source/web:develop
+  stg-mesx-web:
+    image: registry.vti.com.vn/snp_smartwms/source/web:stg
     ports:
       - '5081:80'
     build:
