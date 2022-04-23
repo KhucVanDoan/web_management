@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
@@ -6,6 +6,7 @@ import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import clsx from 'clsx'
+import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import TruncateMarkup from 'react-truncate-markup'
@@ -48,6 +49,7 @@ const DataTable = (props) => {
     onPageSizeChange,
     onSelectionChange,
     tableSettingKey,
+    onSettingChange,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
@@ -119,7 +121,6 @@ const DataTable = (props) => {
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
-
     if (!hideSetting) {
       updateTableSetting(cols)
     }
@@ -135,6 +136,14 @@ const DataTable = (props) => {
 
     handleApplySetting(initVisibleColumns)
   }, [rawColumns, handleApplySetting])
+
+  const tableSettingRef = useRef(null)
+  useEffect(() => {
+    if (!isEqual(tableSetting, tableSettingRef?.current)) {
+      onSettingChange(tableSetting)
+      tableSettingRef.current = tableSetting
+    }
+  }, [tableSetting])
 
   const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
 
@@ -320,6 +329,7 @@ DataTable.defaultProps = {
   onSortChange: () => {},
   onPageChange: () => {},
   onPageSizeChange: () => {},
+  onSettingChange: () => {},
 }
 
 DataTable.propsTypes = {
@@ -356,6 +366,7 @@ DataTable.propsTypes = {
   selected: PropTypes.array,
   filters: PropTypes.shape(),
   tableSettingKey: PropTypes.string,
+  onSettingChange: PropTypes.func,
 }
 
 export default withTranslation()(withClasses(style)(DataTable))
