@@ -4,7 +4,7 @@ services:
   stg-mesx-web:
     image: registry.vti.com.vn/snp_smartwms/source/web:stg
     ports:
-      - '5081:80'
+      - '10088:80'
     build:
       context: .
       dockerfile: Dockerfile
