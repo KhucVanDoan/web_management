@@ -57,7 +57,8 @@
     "filterButton": "Tìm kiếm",
     "cancel": "Hủy",
     "title": "Danh sách",
-    "noData": "Không có dữ liệu"
+    "noData": "Không có dữ liệu",
+    "showAllColumns": "Tất cả"
   },
   "pagination": {
     "rowsPerPage": "Số dòng mỗi trang",
