@@ -194,7 +194,12 @@ const DefineMasterPlanForm = () => {
         ...masterPlanDetails,
         ...(isUpdate ? { code: masterPlanDetails?.code || '' } : { code: '' }),
         planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
-        soId: masterPlanDetails?.saleOrderSchedules,
+        soId: masterPlanDetails?.saleOrderSchedules.map((saleOrderSchedule) => {
+          return {
+            ...saleOrderSchedule,
+            id: saleOrderSchedule.saleOrderId,
+          }
+        }),
         factoryId:
           masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
       }
