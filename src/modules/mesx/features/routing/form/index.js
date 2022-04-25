@@ -5,7 +5,12 @@ import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   TEXTFIELD_REQUIRED_LENGTH,
@@ -18,6 +23,7 @@ import Page from '~/components/Page'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
@@ -35,6 +41,15 @@ function RoutingForm() {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const params = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
+  const MODE_MAP = {
+    [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
     data: { list },
@@ -55,6 +70,7 @@ function RoutingForm() {
       }
     : {
         ...routingDetails,
+        code: isUpdate ? routingDetails?.code : '',
         items: routingDetails.producingSteps.map((item) => ({
           id: item.id,
           itemId: {
@@ -64,26 +80,27 @@ function RoutingForm() {
           stepNumber: item.stepNumber,
         })),
       }
-  const MODE_MAP = {
-    [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
     const id = params?.id
-    routingActions.getRoutingDetailsById(id)
+    if (id) {
+      routingActions.getRoutingDetailsById(id)
+    }
+    if (cloneId) {
+      routingActions.getRoutingDetailsById(cloneId)
+    }
     producingStepActions.getProducingSteps()
 
     return () => {
       routingActions.resetRoutingDetailState()
-      producingStepActions.resetProducingStepState()
     }
-  }, [params?.id])
+  }, [params?.id, cloneId])
+
   useEffect(() => {
     producingStepActions.getProducingSteps({ isGetAll: 1 })
+    return () => {
+      producingStepActions.resetProducingStepState()
+    }
   }, [])
 
   const onSubmit = (values) => {

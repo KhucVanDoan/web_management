@@ -220,9 +220,8 @@
     "user": "Người tạo"
   },
   "userStatus": {
-    "inactive": "Ngừng hoạt động",
-    "active": "Đang hoạt động",
-    "deleted": "Đã xóa"
+    "active": "Hoạt động",
+    "tempLocked": "Tạm khóa"
   },
   "userPermission": {
     "department": "Chọn bộ phận",

@@ -4,7 +4,12 @@ import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -16,6 +21,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/database/routes/config'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
+import qs from '~/utils/qs'
 
 import { defineCompanySchema } from './schema'
 
@@ -24,10 +30,18 @@ function DefineCompanyForm() {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { companyDetails, isLoading },
     actions,
   } = useDefineCompany()
+  const MODE_MAP = {
+    [ROUTE.DEFINE_COMPANY.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_COMPANY.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const initialValues = isEmpty(companyDetails)
     ? {
@@ -40,7 +54,7 @@ function DefineCompanyForm() {
         fax: '',
         description: '',
       }
-    : pick(companyDetails, [
+    : pick(isUpdate ? companyDetails : { ...companyDetails, code: '' }, [
         'code',
         'name',
         'description',
@@ -50,13 +64,6 @@ function DefineCompanyForm() {
         'fax',
         'email',
       ])
-
-  const MODE_MAP = {
-    [ROUTE.DEFINE_COMPANY.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.DEFINE_COMPANY.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -88,14 +95,17 @@ function DefineCompanyForm() {
   }
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
+    if (isUpdate) {
       const id = params?.id
       actions.getCompanyDetailsById(id)
     }
-    return () => {
-      if (isUpdate) actions.resetCompanyDetailsState()
+    if (cloneId) {
+      actions.getCompanyDetailsById(cloneId)
     }
-  }, [params?.id])
+    return () => {
+      actions.resetCompanyDetailsState()
+    }
+  }, [params?.id, cloneId])
 
   const getTitle = () => {
     switch (mode) {

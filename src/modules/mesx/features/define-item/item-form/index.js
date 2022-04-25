@@ -6,7 +6,12 @@ import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
+import {
+  useParams,
+  useHistory,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -20,6 +25,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { ROUTE } from '~/modules/database/routes/config'
 import {
   DEFAULT_UNITS,
   WEIGHT_UNITS,
@@ -28,7 +34,7 @@ import {
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
-import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { itemSchema } from './schema'
@@ -43,9 +49,17 @@ function DefineItemForm() {
   const routeMatch = useRouteMatch()
   const history = useHistory()
   const params = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const [isProductionObject, setIsProductionObject] = useState(false)
   const [storage, setStorage] = useState(false)
   const [isDetailed, setIsDetailed] = useState(false)
+  const MODE_MAP = {
+    [ROUTE.DEFINE_ITEM.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_ITEM.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
     data: { itemDetails, isLoading },
@@ -66,7 +80,7 @@ function DefineItemForm() {
   const initialValues = useMemo(
     () => ({
       name: itemDetails?.name || '',
-      code: itemDetails?.code || CODE_SETTINGS.ITEM.PREFIX,
+      code: isUpdate ? itemDetails?.code : CODE_SETTINGS.ITEM.PREFIX,
       description: itemDetails?.description || '',
       itemType: itemDetails?.itemType || '',
       itemGroup: itemDetails?.itemGroup || '',
@@ -126,15 +140,8 @@ function DefineItemForm() {
         quantity: Number(item.quantity),
       })) || [{ ...DEFAULT_DETAIL }],
     }),
-    [itemDetails],
+    [itemDetails, isUpdate],
   )
-
-  const MODE_MAP = {
-    [ROUTE.DEFINE_ITEM.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.DEFINE_ITEM.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_ITEM.LIST.PATH)
@@ -193,12 +200,17 @@ function DefineItemForm() {
   }
 
   useEffect(() => {
-    const id = params?.id
-    actions.getItemDetailsById(id)
+    if (params?.id) {
+      const id = params?.id
+      actions.getItemDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getItemDetailsById(cloneId)
+    }
     return () => {
       actions.resetItemDetailsState()
     }
-  }, [params?.id, mode])
+  }, [params?.id, cloneId])
 
   useEffect(() => {
     setIsProductionObject(itemDetails.isProductionObject)

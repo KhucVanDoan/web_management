@@ -5,7 +5,12 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   TEXTFIELD_REQUIRED_LENGTH,
@@ -22,6 +27,7 @@ import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
 
@@ -29,8 +35,17 @@ function UserManagementForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const params = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const routeMatch = useRouteMatch()
   const { appStore } = useAppStore()
+  const MODE_MAP = {
+    [ROUTE.USER_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.USER_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
   const [visible, setVisible] = useState(false)
 
   const {
@@ -45,7 +60,7 @@ function UserManagementForm() {
 
   const initialValues = useMemo(
     () => ({
-      code: userDetails?.code || '',
+      code: isUpdate ? userDetails?.code : '',
       username: userDetails?.username || '',
       password: userDetails?.password || '',
       showPassword: false,
@@ -54,7 +69,7 @@ function UserManagementForm() {
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
-      status: userDetails?.status || '',
+      status: userDetails?.status || '1',
       factories: userDetails.factories?.map((item) => item.id) || [],
       userRoleSettings: userDetails.userRoleSettings?.[0]?.id || null,
       departmentSettings:
@@ -69,14 +84,17 @@ function UserManagementForm() {
   }, [])
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
+    if (isUpdate) {
       const id = params?.id
       actions.getUserDetailsById(id)
     }
-    return () => {
-      if (isUpdate) actions.resetUserDetailsState()
+    if (cloneId) {
+      actions.getUserDetailsById(cloneId)
     }
-  }, [params?.id])
+    return () => {
+      actions.resetUserDetailsState()
+    }
+  }, [params?.id, cloneId])
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
@@ -84,6 +102,7 @@ function UserManagementForm() {
     const convertValues = {
       ...values,
       id,
+      status: values?.status?.toString(),
       factories: values?.factories?.map((item) => ({
         id: item,
       })),
@@ -104,14 +123,6 @@ function UserManagementForm() {
       actions.updateUser(convertValues, backToList)
     }
   }
-
-  const MODE_MAP = {
-    [ROUTE.USER_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.USER_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const getBreadcrumb = () => {
     const breadcrumb = [

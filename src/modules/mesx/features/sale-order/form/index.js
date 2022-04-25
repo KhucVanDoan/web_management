@@ -1,11 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
+import {
+  useHistory,
+  useRouteMatch,
+  useParams,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -17,10 +22,11 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import { ROUTE } from '~/modules/database/routes/config'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { getCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/get-customers'
-import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { saleOrderSchema } from './schema'
@@ -30,6 +36,8 @@ function SaleOrderForm() {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { boqList },
     actions: defineBoqAction,
@@ -48,18 +56,17 @@ function SaleOrderForm() {
     quantity: 1,
   }
 
-  const [mode, setMode] = useState(MODAL_MODE.CREATE)
-
   const MODE_MAP = {
     [ROUTE.SALE_ORDER.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.SALE_ORDER.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    setMode(MODE_MAP[routeMatch.path])
     refreshData()
     return () => saleOrderAction.resetSaleOrderState()
-  }, [mode])
+  }, [mode, cloneId])
 
   const refreshData = () => {
     const params = {
@@ -67,8 +74,11 @@ function SaleOrderForm() {
     }
     defineBoqAction.searchBOQ(params)
     // actionCommon.getCustomers()
-    if (mode === MODAL_MODE.UPDATE) {
+    if (isUpdate) {
       saleOrderAction.getSaleOrderDetailsById(id)
+    }
+    if (cloneId) {
+      saleOrderAction.getSaleOrderDetailsById(cloneId)
     }
   }
 
@@ -158,7 +168,7 @@ function SaleOrderForm() {
 
   const initialValues = useMemo(
     () => ({
-      code: saleOrder?.code || '',
+      code: isUpdate ? saleOrder?.code : '',
       name: saleOrder?.name || '',
       description: saleOrder?.description || '',
       customerId: saleOrder?.customer || null,

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 
-import { TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { Box } from '@mui/system'
+import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import * as Yup from 'yup'
 
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -217,6 +219,15 @@ function PurchasedOrder() {
                 </IconButton>
               </>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.PURCHASED_ORDER.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </Box>
         )
       },
@@ -365,6 +376,9 @@ function PurchasedOrder() {
         cancelLabel={t('common.no')}
         submitLabel={t('common.yes')}
         noBorderBottom
+        validationSchema={Yup.object().shape({
+          reason: Yup.string().required(t('general:form.required')),
+        })}
       >
         {t('common.confirmMessage.reject')}
         <LV
@@ -377,16 +391,21 @@ function PurchasedOrder() {
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
-        <Box mt={2}>
-          <TextField
-            name="reason"
-            label={t('purchasedOrder.reason')}
-            placeholder={t('purchasedOrder.reason')}
-            multiline
-            rows={3}
-            style={{ width: 604 }}
-          />
-        </Box>
+        <Formik validationSchema={filterSchema(t)}>
+          {() => (
+            <Form sx={{ mt: 2 }}>
+              <Field.TextField
+                name="reason"
+                label={t('purchasedOrder.reason')}
+                placeholder={t('purchasedOrder.reason')}
+                multiline
+                rows={3}
+                required
+                sx={{ mt: 4 / 3, color: 'subText' }}
+              />
+            </Form>
+          )}
+        </Formik>
       </Dialog>
     </Page>
   )

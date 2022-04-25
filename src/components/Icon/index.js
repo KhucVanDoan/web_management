@@ -10,6 +10,7 @@ import { ReactComponent as Bag } from '~/assets/images/icons/bag.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
 import { ReactComponent as Cart } from '~/assets/images/icons/cart.svg'
 import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
+import { ReactComponent as Clone } from '~/assets/images/icons/clone.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
 import { ReactComponent as Collapse } from '~/assets/images/icons/collapse.svg'
 import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
@@ -71,6 +72,7 @@ const icons = {
   save: <Save />,
   upload: <Upload />,
   importXlsx: <ImportXlsx />,
+  clone: <Clone />,
   //@TODO: choose another name
   downloadAlt: <DownloadAlt />,
   collapse: <Collapse />,

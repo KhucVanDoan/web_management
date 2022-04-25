@@ -163,7 +163,7 @@ const DefineMasterPlan = () => {
       {
         field: 'action',
         headerName: t('defineMasterPlan.action'),
-        width: 250,
+        width: 280,
         align: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
@@ -221,6 +221,13 @@ const DefineMasterPlan = () => {
                   <Icon name="remove" />
                 </IconButton>
               )}
+              <IconButton
+                onClick={() =>
+                  history.push(`${ROUTE.MASTER_PLAN.CREATE.PATH}?cloneId=${id}`)
+                }
+              >
+                <Icon name="clone" />
+              </IconButton>
             </>
           )
         },

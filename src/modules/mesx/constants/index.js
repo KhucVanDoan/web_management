@@ -1038,32 +1038,25 @@ export const MODERATION_TYPE_OPTIONS = [
 ]
 
 export const USER_MANAGEMENT_STATUS = {
-  INACTIVE: 0,
+  TEMP_LOCKED: 0,
   ACTIVE: 1,
-  DELETED: 2,
 }
 
 export const USER_MANAGEMENT_STATUS_MAP = {
-  [USER_MANAGEMENT_STATUS.INACTIVE]: 'userStatus.inactive',
+  [USER_MANAGEMENT_STATUS.TEMP_LOCKED]: 'userStatus.tempLocked',
   [USER_MANAGEMENT_STATUS.ACTIVE]: 'userStatus.active',
-  [USER_MANAGEMENT_STATUS.DELETED]: 'userStatus.deleted',
 }
 
 export const USER_MANAGEMENT_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'userStatus.inactive',
-    color: 'inactive',
+    text: 'userStatus.tempLocked',
+    color: 'tempLocked',
   },
   {
     id: 1,
     text: 'userStatus.active',
     color: 'active',
-  },
-  {
-    id: 2,
-    text: 'userStatus.deleted',
-    color: 'deleted',
   },
 ]
 

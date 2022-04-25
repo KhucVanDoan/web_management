@@ -246,6 +246,13 @@ function DefineItem() {
                 <Icon name="delete" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(`${ROUTE.DEFINE_ITEM.CREATE.PATH}?cloneId=${id}`)
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },

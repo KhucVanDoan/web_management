@@ -77,7 +77,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, manufacturingOrderId }) {
               })}
               getOptionValue={(opt) => opt?.itemId || opt?.id}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.itemId)
+                itemIdCodeList.some((id) => id === opt?.id)
               }
               disabled={isView}
             />

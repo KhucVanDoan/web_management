@@ -4,7 +4,12 @@ import { Box, createFilterOptions, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -30,15 +35,19 @@ import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
+import qs from '~/utils/qs'
 
 import BreakTimeTable from './break-time'
 import { WorkCenterSchema } from './schema'
 import ShiftTable from './work-center-shifts'
+
 const WorkCenterForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const MODE_MAP = {
     [ROUTE.WORK_CENTER.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WORK_CENTER.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -59,6 +68,9 @@ const WorkCenterForm = () => {
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getWorkCenterDetailsById(cloneId)
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
     commonManagementActions.getFactories({ isGetAll: 1 })
@@ -98,7 +110,7 @@ const WorkCenterForm = () => {
 
   const initialValues = useMemo(
     () => ({
-      code: wcDetails?.code || '',
+      code: isUpdate ? wcDetails?.code : '',
       name: wcDetails?.name || '',
       description: wcDetails?.description || '',
       members: wcDetails?.members || [],

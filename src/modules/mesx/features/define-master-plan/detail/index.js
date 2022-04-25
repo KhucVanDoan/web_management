@@ -41,6 +41,9 @@ function MasterPlanDetail() {
 
   useEffect(() => {
     actions.getMasterPlanDetailsById(id)
+    return () => {
+      actions.resetMasterPlanDetails()
+    }
   }, [id])
 
   const backToList = () => {

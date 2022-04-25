@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import clsx from 'clsx'
 import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
@@ -63,6 +63,7 @@ const TableCollapse = (props) => {
     onPageSizeChange,
     filters,
     tableSettingKey,
+    onSettingChange,
   } = props
 
   const [open, setOpen] = useState({})
@@ -78,6 +79,14 @@ const TableCollapse = (props) => {
       updateTableSetting(cols)
     }
   }, [])
+
+  const tableSettingRef = useRef(null)
+  useEffect(() => {
+    if (!isEqual(tableSetting, tableSettingRef?.current)) {
+      onSettingChange(tableSetting)
+      tableSettingRef.current = tableSetting
+    }
+  }, [tableSetting])
 
   useEffect(() => {
     if (!isRoot) return
@@ -583,6 +592,7 @@ TableCollapse.defaultProps = {
   page: 1,
   title: '',
   hideSetting: false,
+  onSettingChange: () => {},
 }
 
 TableCollapse.propsTypes = {
@@ -613,6 +623,7 @@ TableCollapse.propsTypes = {
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
   tableSettingKey: PropTypes.string,
+  onSettingChange: PropTypes.func,
 }
 
 export default withTranslation()(withClasses(style)(TableCollapse))

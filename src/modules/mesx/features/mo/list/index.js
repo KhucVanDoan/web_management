@@ -208,6 +208,13 @@ const Mo = () => {
                 <Icon name="tick" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(`${ROUTE.MO.CREATE.PATH}?cloneId=${id}`)
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },

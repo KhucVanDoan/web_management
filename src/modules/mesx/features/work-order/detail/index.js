@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useParams, useLocation } from 'react-router-dom'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
@@ -16,6 +15,7 @@ import { WORK_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 const breadcrumbs = [
   {
     title: 'plan',

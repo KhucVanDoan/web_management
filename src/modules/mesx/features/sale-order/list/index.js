@@ -168,6 +168,13 @@ function SaleOrder() {
                 <Icon name="tick" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(`${ROUTE.SALE_ORDER.CREATE.PATH}?cloneId=${id}`)
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </>
         )
       },

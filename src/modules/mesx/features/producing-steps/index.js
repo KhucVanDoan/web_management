@@ -187,6 +187,15 @@ function ProducingStep() {
                 <Icon name="tick" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.PRODUCING_STEP.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </>
         )
       },

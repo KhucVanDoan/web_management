@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -29,6 +28,7 @@ import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
+import qs from '~/utils/qs'
 
 import BomProducingStepTable from './bom-producing-step-table'
 import BomTable from './bom-table'
@@ -50,6 +50,7 @@ const MOForm = () => {
   const [moFactory, setMoFactory] = useState()
   const [dataPlan, setDataPlan] = useState()
   const masterPlanId = +urlSearchParams.masterPlanId
+  const { cloneId } = urlSearchParams
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -76,16 +77,19 @@ const MOForm = () => {
   }, [])
 
   useEffect(() => {
-    if (isUpdate) {
-      actions.getMODetailsById(id)
-      actions.getBOMProducingStepStructureById(id)
-      actions.getPriceStructureById(id)
+    if (isUpdate || cloneId) {
+      const moId = id || cloneId
+      actions.getMODetailsById(moId)
+      actions.getBOMProducingStepStructureById(moId)
+      actions.getPriceStructureById(moId)
       actionsItemType.searchItemTypes({ isGetAll: 1 })
     }
+
     return () => {
       actions.resetMoDetail()
+      masterPlanActions.resetMasterPlanDetails()
     }
-  }, [mode])
+  }, [mode, cloneId])
 
   const backToList = () => {
     history.push(ROUTE.MO.LIST.PATH)
@@ -194,7 +198,7 @@ const MOForm = () => {
   }
 
   useEffect(() => {
-    if (isUpdate) {
+    if (isUpdate || cloneId) {
       getMasterDetail()
     }
   }, [moDetails?.masterPlan?.id])
@@ -227,12 +231,12 @@ const MOForm = () => {
   }
 
   const initialValues = {
-    code: moDetails?.code || '',
+    code: isUpdate ? moDetails?.code : '',
     name: moDetails?.name || '',
     moPlan:
-      mode === MODAL_MODE.CREATE
-        ? [dataPlan?.dateFrom, dataPlan?.dateTo]
-        : [moDetails?.planFrom, moDetails?.planTo],
+      isUpdate || cloneId
+        ? [moDetails?.planFrom, moDetails?.planTo]
+        : [dataPlan?.dateFrom, dataPlan?.dateTo],
     description: moDetails?.description || '',
     itemIds: [],
     masterPlanId: moDetails?.masterPlan || masterPlanDetails || '',
