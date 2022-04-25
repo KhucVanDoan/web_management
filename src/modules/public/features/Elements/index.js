@@ -48,8 +48,8 @@ const Elements = () => {
   })
 
   const mockImportExportErrorResponse = () => ({
-    statusCode: 400,
-    message: 'Example import/export error',
+    statusCode: 406,
+    message: 'Số lượng bản ghi quá lớn (27), hệ thống chỉ xuất tối đa 20 bản ghi. Vui lòng lọc điều kiện và thực hiện xuất file.',
   })
 
   const mockOptions = new Array(10).fill({}).map((_, index) => ({

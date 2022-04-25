@@ -19,6 +19,7 @@ import TruncateMarkup from 'react-truncate-markup'
 
 import {
   FILE_TYPE,
+  HTTP_STATUS_CODE,
   IMPORT_EXPORT_DATE_FORMAT,
   IMPORT_EXPORT_MODE,
   IMPORT_EXPORT_MODE_OPTIONS,
@@ -46,10 +47,11 @@ const ImportExport = ({
   const theme = useTheme()
 
   const [importing, setImporting] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [openImport, setOpenImport] = useState(false)
   const [importFile, setImportFile] = useState(null)
   const [importResult, setImportResult] = useState(null)
   const [importError, setImportError] = useState(null)
+  const [exportWarning, setExportWarning] = useState(null)
 
   const inputFileRef = useRef()
 
@@ -114,7 +116,7 @@ const ImportExport = ({
       const res = await onImport(importFile)
 
       if (res.statusCode === 200) {
-        setOpen(false)
+        setOpenImport(false)
         setImportResult(res.data)
       } else {
         setImportError(res.message)
@@ -129,12 +131,12 @@ const ImportExport = ({
   const onResultCancel = () => {
     resetImportState()
     onRefresh && onRefresh()
-    setOpen && setOpen(false)
+    setOpenImport && setOpenImport(false)
   }
 
   const onImportCancel = () => {
     resetImportState()
-    setOpen && setOpen(false)
+    setOpenImport && setOpenImport(false)
   }
 
   const onClickDropzone = () => {
@@ -144,7 +146,7 @@ const ImportExport = ({
   const onImportAgain = () => {
     resetImportState()
     onRefresh && onRefresh()
-    setOpen && setOpen(true)
+    setOpenImport && setOpenImport(true)
   }
 
   /**
@@ -159,71 +161,82 @@ const ImportExport = ({
     await downloadFile(uint8Arr, fileName, XLSX.MIME_TYPE, [XLSX.EXT])
   }
 
-  // @TODO: Không show err toast khi cancel save (Khi nhấn cancel tại save dialog => bị nhảy vào catch err)
   const onDownloadLog = async () => {
-    try {
-      await downloadInt8Arr(
-        importResult.log.data,
-        format(
-          IMPORT_SETTING.FILE_NAME,
-          t('import.prefix.importLog'),
-          name,
-          '_' +
-            convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
-        ),
-      )
-    } catch (err) {
-      // addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
-      throw err
-    }
+    await downloadInt8Arr(
+      importResult.log.data,
+      format(
+        IMPORT_SETTING.FILE_NAME,
+        t('import.prefix.importLog'),
+        name,
+        '_' +
+          convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
+      ),
+    )
   }
 
   const onClickDownloadTemplate = async () => {
+    let res
+
     try {
-      const res = await onDownloadTemplate()
-
-      if (res.statusCode === 200) {
-        const rawArr = res.data.data
-
-        await downloadInt8Arr(
-          rawArr,
-          format(
-            IMPORT_SETTING.FILE_NAME,
-            t('import.prefix.importTemplate'),
-            name,
-            '',
-          ),
-        )
-      } else {
-        addNotification(res.message, NOTIFICATION_TYPE.ERROR)
-      }
+      res = await onDownloadTemplate()
     } catch (err) {
-      throw err
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+    }
+
+    if (!res) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      return
+    }
+
+    if (res.statusCode === 200) {
+      const rawArr = res.data.data
+
+      await downloadInt8Arr(
+        rawArr,
+        format(
+          IMPORT_SETTING.FILE_NAME,
+          t('import.prefix.importTemplate'),
+          name,
+          '',
+        ),
+      )
+    } else {
+      addNotification(res.message, NOTIFICATION_TYPE.ERROR)
     }
   }
 
   const onClickExport = async () => {
+    let res
+
     try {
-      const res = await onExport()
-      const message = res.message
-
-      if (res.statusCode === 200) {
-        const rawArr = res.data.data
-
-        await downloadInt8Arr(
-          rawArr,
-          `${name}_${convertUtcDateTimeToLocalTz(
-            new Date(),
-            IMPORT_EXPORT_DATE_FORMAT,
-          )}`,
-        )
-
-        addNotification(message, NOTIFICATION_TYPE.SUCCESS)
-      } else {
-        addNotification(message, NOTIFICATION_TYPE.ERROR)
-      }
+      res = await onExport()
     } catch (err) {
-      throw err
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+    }
+
+    if (!res) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      return
+    }
+
+    const { message, statusCode, data } = res
+
+    if (statusCode === HTTP_STATUS_CODE.SUCCESS) {
+      const rawArr = data.data
+
+      await downloadInt8Arr(
+        rawArr,
+        `${name}_${convertUtcDateTimeToLocalTz(
+          new Date(),
+          IMPORT_EXPORT_DATE_FORMAT,
+        )}`,
+      )
+
+      addNotification(message, NOTIFICATION_TYPE.SUCCESS)
+    } else if (statusCode === HTTP_STATUS_CODE.NOT_ACCEPTABLE) {
+      setExportWarning(message)
+    } else {
+      addNotification(message, NOTIFICATION_TYPE.ERROR)
     }
   }
 
@@ -243,7 +256,7 @@ const ImportExport = ({
   const handleMenuItemClick = (option) => {
     switch (option) {
       case IMPORT_EXPORT_MODE.IMPORT_ONLY:
-        setOpen(true)
+        setOpenImport(true)
         break
       case IMPORT_EXPORT_MODE.EXPORT_ONLY:
         onClickExport()
@@ -337,7 +350,7 @@ const ImportExport = ({
     </Grid>
   )
 
-  const ResultDialog = (
+  const ResultDialog = () => (
     <Dialog
       open={!isNil(importResult)}
       title={t('import.title')}
@@ -380,9 +393,9 @@ const ImportExport = ({
     </Dialog>
   )
 
-  const ImportDialog = (
+  const ImportDialog = () => (
     <Dialog
-      open={open}
+      open={openImport}
       maxWidth="lg"
       fullWidth={true}
       title={t('import.title')}
@@ -492,7 +505,7 @@ const ImportExport = ({
     </Dialog>
   )
 
-  const ImportExportDropdown = (
+  const ImportExportDropdown = () => (
     <Dropdown
       icon="download"
       title={t('importExportMenu.importExport')}
@@ -503,7 +516,7 @@ const ImportExport = ({
     />
   )
 
-  const ImportButton = (
+  const ImportButton = () => (
     <Button
       variant="outlined"
       icon="upload"
@@ -513,7 +526,7 @@ const ImportExport = ({
     </Button>
   )
 
-  const ExportButton = (
+  const ExportButton = () => (
     <Button
       variant="outlined"
       icon="downloadAlt"
@@ -523,25 +536,41 @@ const ImportExport = ({
     </Button>
   )
 
+  const ExportWarningDialog = () => (
+    <Dialog
+      title={t('importExportMenu.export')}
+      open={!isEmpty(exportWarning)}
+      onCancel={() => setExportWarning(null)}
+    >
+      <Typography>{exportWarning}</Typography>
+    </Dialog>
+  )
+
   switch (mode) {
     case IMPORT_EXPORT_MODE.BOTH:
       return (
         <>
-          {ImportExportDropdown}
-          {ImportDialog}
-          {ResultDialog}
+          <ImportExportDropdown />
+          <ImportDialog />
+          <ResultDialog />
+          <ExportWarningDialog />
         </>
       )
     case IMPORT_EXPORT_MODE.IMPORT_ONLY:
       return (
         <>
-          {ImportButton}
-          {ImportDialog}
-          {ResultDialog}
+          <ImportButton />
+          <ImportDialog />
+          <ResultDialog />
         </>
       )
     case IMPORT_EXPORT_MODE.EXPORT_ONLY:
-      return ExportButton
+      return (
+        <>
+          <ExportButton />
+          <ExportWarningDialog />
+        </>
+      )
     default:
       return null
   }
