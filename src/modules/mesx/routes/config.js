@@ -475,4 +475,10 @@ export const ROUTE = {
       TITLE: 'productivityCompareReport',
     },
   },
+  PROGRESS_MANUFACTURING_BY_ORDER: {
+    LIST: {
+      PATH: '/mesx/progress-manufacturing-by-order',
+      TITLE: 'progressManufacturingByOrder',
+    },
+  },
 }
