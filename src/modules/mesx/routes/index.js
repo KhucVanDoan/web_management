@@ -76,6 +76,7 @@ import WorkOrder from '~/modules/mesx/features/work-order/list'
 
 import { DetailJob } from '../features/define-master-plan/form/detail-job'
 import ProgessDetailReport from '../features/progress-detail-report'
+import progressManufacturingByOrder from '../features/progress-manufacturing-by-order'
 import { ROUTE } from './config'
 
 const routes = [
@@ -727,6 +728,19 @@ const routes = [
         name: ROUTE.PROGRESS_DETAIL_REPORT.TITLE,
         path: ROUTE.PROGRESS_DETAIL_REPORT.PATH,
         component: ProgessDetailReport,
+        isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: 'statistical',
+    icon: 'key',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.PROGRESS_MANUFACTURING_BY_ORDER.LIST.TITLE,
+        path: ROUTE.PROGRESS_MANUFACTURING_BY_ORDER.LIST.PATH,
+        component: progressManufacturingByOrder,
         isInSidebar: true,
       },
     ],

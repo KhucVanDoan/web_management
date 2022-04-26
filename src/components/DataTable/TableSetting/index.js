@@ -79,7 +79,7 @@ const TableSetting = ({
                 }}
               />
             }
-            label="Tất cả"
+            label={t('dataTable.showAllColumns')}
           />
           {columns.map((column, idx) => {
             return (

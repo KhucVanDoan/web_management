@@ -126,7 +126,9 @@
     "autoModeration": "Chi tiết công việc",
     "extendDeadline": "Giãn ngày kết thúc",
     "inputModeration": "Điều độ công việc",
-    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng"
+    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng",
+    "statistical": "Thống kê",
+    "progressManufacturingByOrder": "Thống kê tiến độ sản xuất theo đơn hàng"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
@@ -1692,6 +1694,34 @@
     "created": "Chờ xác nhận",
     "confirmed": "Xác nhận",
     "inProgress": "Đang thực hiện",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
+  "progressManufacturingByOrder": {
+    "title": "Danh sách độ sản xuất",
+    "name": "Tên đơn hàng",
+    "code": "Mã đơn hàng",
+    "export": "Xuất dữ liệu",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
+    "saleOrder": "Đơn hàng",
+    "status": "Trạng thái",
+    "createdPlan": "Đã tạo kế hoạch",
+    "dateSell": "Ngày bán",
+    "deliveryDate": "Ngày giao hàng",
+    "datePlan": "Ngày kế hoạch",
+    "planManufacturing": "Kế hoạch sản xuất",
+    "choosePlanManufacturing": "Chọn kế hoạch sản xuất",
+    "moName": "Lệnh sản xuất",
+    "datePerform": "Ngày thực hiện",
+    "dateEnd": "Ngày Kết thúc",
+    "planQuantity": "Số lượng kế hoạch",
+    "quantity": "Số lượng đã sản xuất"
+  },
+  "progressManufacturingByOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },
