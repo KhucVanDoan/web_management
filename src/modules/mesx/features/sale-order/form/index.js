@@ -21,11 +21,11 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { ROUTE } from '~/modules/database/routes/config'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-import { getCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/get-customers'
+import { searchCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/search-customers'
 import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
@@ -47,13 +47,14 @@ function SaleOrderForm() {
     actions: saleOrderAction,
   } = useSaleOrder()
   const {
-    appStore: { companies },
-  } = useAppStore()
-
+    data: { companyList },
+    actions: defineCompany,
+  } = useDefineCompany()
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
     itemId: null,
-    quantity: 1,
+    quantity: 0,
+    itemPrice: null,
   }
 
   const MODE_MAP = {
@@ -67,7 +68,9 @@ function SaleOrderForm() {
     refreshData()
     return () => saleOrderAction.resetSaleOrderState()
   }, [mode, cloneId])
-
+  useEffect(() => {
+    defineCompany.searchCompanies({ isGetAll: 1 })
+  }, [])
   const refreshData = () => {
     const params = {
       isGetAll: 1,
@@ -199,7 +202,7 @@ function SaleOrderForm() {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -280,7 +283,7 @@ function SaleOrderForm() {
                     </Typography>
                     <Box mt={4 / 3}>
                       <Field.Autocomplete
-                        options={companies}
+                        options={companyList}
                         label={t('saleOrder.vendor.name')}
                         name="companyId"
                         getOptionValue={(opt) => opt?.id}
@@ -301,7 +304,7 @@ function SaleOrderForm() {
                         name="customerId"
                         label={t('saleOrder.customer.name')}
                         asyncRequest={(s) =>
-                          getCustomersApi({
+                          searchCustomersApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                           })
@@ -357,6 +360,7 @@ function SaleOrderForm() {
                     items={values?.items || []}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
+                    setFieldValue={setFieldValue}
                   />
                 )}
               />

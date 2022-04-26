@@ -16,7 +16,7 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import { scrollToBottom } from '~/utils'
 
 function ItemSettingTable(props) {
-  const { items, mode, arrayHelpers } = props
+  const { items, mode, arrayHelpers, setFieldValue } = props
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -69,6 +69,15 @@ function ItemSettingTable(props) {
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id)
               }
+              onChange={(val) => {
+                if (val === undefined || val === '') {
+                  setFieldValue(`items[${index}].itemPrice`, null)
+                }
+                setFieldValue(
+                  `items[${index}].itemPrice`,
+                  getItemObject(val)?.price || null,
+                )
+              }}
             />
           )
         },
@@ -216,12 +225,6 @@ function ItemSettingTable(props) {
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
-  mode: '',
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {

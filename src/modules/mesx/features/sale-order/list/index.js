@@ -187,7 +187,7 @@ function SaleOrder() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, code: filters?.code?.name },
+        { ...filters, code: filters?.code?.code },
         columns,
       ),
       sort: convertSortParams(sort),
