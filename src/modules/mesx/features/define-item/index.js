@@ -16,6 +16,7 @@ import Page from '~/components/Page'
 import { ROUTE } from '~/modules/database/routes/config'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import {
   convertUtcDateTimeToLocalTz,
   convertFilterParams,
@@ -45,6 +46,12 @@ function DefineItem() {
     data: { itemList, total, isLoading },
     actions,
   } = useDefineItem()
+
+  const { actions: itemTypeActions } = useItemType()
+
+  useEffect(() => {
+    itemTypeActions.searchItemTypes({ isGetAll: 1 })
+  }, [])
 
   const DEFAULT_FILTERS = {
     code: '',

@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-  const { appStore } = useAppStore()
+  const {
+    data: { departmentList },
+  } = useCommonManagement()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -39,7 +41,7 @@ const FilterForm = () => {
           name="departmentName"
           label={t('userManagement.department')}
           placeholder={t('userManagement.department')}
-          options={appStore?.deparments} //TODO: fix department
+          options={departmentList}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
         />
