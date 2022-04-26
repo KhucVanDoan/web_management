@@ -18,8 +18,8 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { ROUTE } from '~/modules/database/routes/config'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import qs from '~/utils/qs'
 
@@ -37,7 +37,10 @@ const DefineFactoryForm = () => {
     actions,
   } = useDefineFactory()
 
-  const { appStore } = useAppStore()
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
 
   const MODE_MAP = {
     [ROUTE.DEFINE_FACTORY.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -55,6 +58,10 @@ const DefineFactoryForm = () => {
     phone: factoryDetails?.phone || '',
     companyId: factoryDetails?.companyId || '',
   }
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
 
   const getBreadcrumb = () => {
     const breadcrumb = [
@@ -221,7 +228,7 @@ const DefineFactoryForm = () => {
                       name="companyId"
                       label={t('defineFactory.companyName')}
                       placeholder={t('defineFactory.companyName')}
-                      options={appStore?.companies}
+                      options={companyList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,

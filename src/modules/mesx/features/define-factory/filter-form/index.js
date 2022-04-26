@@ -5,11 +5,13 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-  const { appStore } = useAppStore()
+  const {
+    data: { companyList },
+  } = useDefineCompany()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -38,7 +40,7 @@ const FilterForm = () => {
           name="companyName"
           label={t('defineFactory.companyName')}
           placeholder={t('defineFactory.companyName')}
-          options={appStore?.companies}
+          options={companyList}
           getOptionLabel={(opt) => opt?.name}
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,

@@ -22,9 +22,10 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
@@ -38,7 +39,6 @@ function UserManagementForm() {
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
   const routeMatch = useRouteMatch()
-  const { appStore } = useAppStore()
   const MODE_MAP = {
     [ROUTE.USER_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.USER_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -54,9 +54,26 @@ function UserManagementForm() {
   } = useUserManagement()
 
   const {
-    data: { warehouseList },
-    actions: commonManagementActions,
+    data: { warehouseList, departmentList, roleList },
+    actions: commonActions,
   } = useCommonManagement()
+
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  const {
+    data: { factoryList },
+    actions: factoryActions,
+  } = useDefineFactory()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+    factoryActions.searchFactories({ isGetAll: 1 })
+    commonActions.getDepartments({ isGetAll: 1 })
+    commonActions.getRoles({ isGetAll: 1 })
+  }, [])
 
   const initialValues = useMemo(
     () => ({
@@ -80,7 +97,7 @@ function UserManagementForm() {
   )
 
   useEffect(() => {
-    commonManagementActions.getWarehouses()
+    commonActions.getWarehouses()
   }, [])
 
   useEffect(() => {
@@ -342,7 +359,7 @@ function UserManagementForm() {
                       name="companyId"
                       label={t('userManagement.companyName')}
                       placeholder={t('userManagement.companyName')}
-                      options={appStore?.companies}
+                      options={companyList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -356,7 +373,7 @@ function UserManagementForm() {
                       name="factories"
                       label={t('userManagement.factoryName')}
                       placeholder={t('userManagement.factoryName')}
-                      options={appStore?.factories?.filter(
+                      options={factoryList?.filter(
                         (factory) => factory.companyId === values.companyId,
                       )}
                       getOptionLabel={(opt) => opt?.name}
@@ -372,7 +389,7 @@ function UserManagementForm() {
                       name="departmentSettings"
                       label={t('userManagement.departmentName')}
                       placeholder={t('userManagement.departmentName')}
-                      options={appStore?.deparments}
+                      options={departmentList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -387,7 +404,7 @@ function UserManagementForm() {
                       name="userRoleSettings"
                       label={t('userManagement.roleAssign')}
                       placeholder={t('userManagement.roleAssign')}
-                      options={appStore?.roles}
+                      options={roleList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                     />

@@ -24,7 +24,6 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { ROUTE } from '~/modules/database/routes/config'
 import {
   DEFAULT_UNITS,
@@ -33,6 +32,8 @@ import {
 } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
 import qs from '~/utils/qs'
 
@@ -67,6 +68,21 @@ function DefineItemForm() {
   } = useDefineItem()
 
   const {
+    data: { itemTypeList },
+    actions: itemTypeActions,
+  } = useItemType()
+
+  const {
+    data: { itemGroupList },
+    actions: itemGroupActions,
+  } = useItemGroup()
+
+  useEffect(() => {
+    itemTypeActions.searchItemTypes({ isGetAll: 1 })
+    itemGroupActions.searchItemGroups({ isGetAll: 1 })
+  }, [])
+
+  const {
     data: { detailList },
     actions: commonManagementActions,
   } = useCommonManagement()
@@ -74,8 +90,6 @@ function DefineItemForm() {
   useEffect(() => {
     commonManagementActions.getDetails()
   }, [])
-
-  const { appStore } = useAppStore()
 
   const initialValues = useMemo(
     () => ({
@@ -362,7 +376,7 @@ function DefineItemForm() {
                             name="itemType"
                             label={t('defineItem.typeCode')}
                             placeholder={t('defineItem.typeCode')}
-                            options={appStore?.itemTypes}
+                            options={itemTypeList}
                             getOptionLabel={(opt) =>
                               `${opt?.code} - ${opt?.name}`
                             }
@@ -386,7 +400,7 @@ function DefineItemForm() {
                             name="itemGroup"
                             label={t('defineItem.groupCode')}
                             placeholder={t('defineItem.groupCode')}
-                            options={appStore?.itemGroups}
+                            options={itemGroupList}
                             getOptionLabel={(opt) =>
                               `${opt?.code} - ${opt?.name}`
                             }
