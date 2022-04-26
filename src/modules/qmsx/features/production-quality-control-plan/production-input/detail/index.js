@@ -64,7 +64,7 @@ function ProductionInputQualityControlPlanDetail() {
       id: id,
       endpointPatch: ENDPOINT_PATCH_GET_DETAIL_PRODUCTION_INPUT,
     }
-    actions.getProductionQcPlanDetailById(paramsGetdetail)
+    actions.getProductionQcPlanDetailById(paramsGetdetail, _, backToList)
     return () => {
       actions.resetProductionQcPlanDetailState()
     }
@@ -162,23 +162,23 @@ function ProductionInputQualityControlPlanDetail() {
               />
             </Grid>
           </Grid>
-          <Tabs list={TAB_PRODUCT_QC_PLAN_LIST} sx={{ mt: 3 }}>
-            <Box>
-              <PreviousPlanDetailTable
-                planBomPrevious={productionQcPlanDetail?.planBomPrevious}
-                mode={MODAL_MODE.DETAIL}
-              />
-            </Box>
-            <Box>
-              <MaterialPlanDetailTable
-                planBomMaterials={productionQcPlanDetail?.planBomMaterials}
-                mode={MODAL_MODE.DETAIL}
-              />
-            </Box>
-          </Tabs>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Tabs list={TAB_PRODUCT_QC_PLAN_LIST} sx={{ mt: 3 }}>
+        <Box>
+          <PreviousPlanDetailTable
+            planBomPrevious={productionQcPlanDetail?.planBomPrevious}
+            mode={MODAL_MODE.DETAIL}
+          />
+        </Box>
+        <Box>
+          <MaterialPlanDetailTable
+            planBomMaterials={productionQcPlanDetail?.planBomMaterials}
+            mode={MODAL_MODE.DETAIL}
+          />
+        </Box>
+      </Tabs>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

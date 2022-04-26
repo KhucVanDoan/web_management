@@ -7,13 +7,19 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  QUALITY_ALERT_STATUS_OPTIONS,
   QUALITY_ALERT_STATUS,
   STAGE_OPTION,
   STAGES_OUTPUT,
@@ -113,18 +119,24 @@ function DefineQualityAlertOutputForm() {
         id: id,
         type: TYPE_QC_VALUE_TO_API.OUTPUT,
       }
-      actions.getQualityAlertDetailById(params, (data) => {
-        const { stage, purchasedOrder, item, warehouse } = data
-        getOrder(stage)
-        getProduct(stage, purchasedOrder?.id)
-        getWarehouse(stage, purchasedOrder?.id, item?.id)
-        getErrorReportAndRelatedUser(
-          stage,
-          purchasedOrder?.id,
-          item?.id,
-          warehouse?.id,
-        )
-      })
+      actions.getQualityAlertDetailById(
+        params,
+        (data) => {
+          if (data?.status !== QUALITY_ALERT_STATUS_OPTIONS.PENDING)
+            return backToList()
+          const { stage, purchasedOrder, item, warehouse } = data
+          getOrder(stage)
+          getProduct(stage, purchasedOrder?.id)
+          getWarehouse(stage, purchasedOrder?.id, item?.id)
+          getErrorReportAndRelatedUser(
+            stage,
+            purchasedOrder?.id,
+            item?.id,
+            warehouse?.id,
+          )
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate) actions.resetQualityAlertDetailState()
@@ -321,6 +333,69 @@ function DefineQualityAlertOutputForm() {
     )
   }
 
+  const renderActionButtons = ({ handleReset }) => {
+    switch (mode) {
+      case MODAL_MODE.CREATE:
+        return (
+          <>
+            <Button
+              onClick={() => {
+                handleReset()
+              }}
+              variant="outlined"
+              color="subText"
+              sx={(theme) => ({
+                border: `1px solid ${theme.palette.subText.a3} !important`,
+              })}
+            >
+              {t('general:actionBar.cancel')}
+            </Button>
+            <Button type="submit" icon="save">
+              {t('general:actionBar.create')}
+            </Button>
+          </>
+        )
+      case MODAL_MODE.UPDATE:
+        return (
+          <>
+            <Button
+              onClick={() => {
+                getOrder(qualityAlertDetail?.stage)
+                getProduct(
+                  qualityAlertDetail?.stage,
+                  qualityAlertDetail?.purchasedOrder?.id,
+                )
+                getWarehouse(
+                  qualityAlertDetail?.stage,
+                  qualityAlertDetail?.purchasedOrder?.id,
+                  qualityAlertDetail?.item?.id,
+                )
+                getErrorReportAndRelatedUser(
+                  qualityAlertDetail?.stage,
+                  qualityAlertDetail?.purchasedOrder?.id,
+                  qualityAlertDetail?.item?.id,
+                  qualityAlertDetail?.warehouse?.id,
+                )
+                handleReset()
+              }}
+              variant="outlined"
+              color="subText"
+              sx={(theme) => ({
+                border: `1px solid ${theme.palette.subText.a3} !important`,
+              })}
+            >
+              {t('general:actionBar.cancel')}
+            </Button>
+            <Button type="submit" icon="save">
+              {t('general:actionBar.save')}
+            </Button>
+          </>
+        )
+      default:
+        break
+    }
+  }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -363,8 +438,11 @@ function DefineQualityAlertOutputForm() {
                       name="code"
                       label={t('defineQualityAlert.code')}
                       placeholder={t('defineQualityAlert.code')}
-                      disabled={isUpdate}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
+                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -373,6 +451,9 @@ function DefineQualityAlertOutputForm() {
                       name="name"
                       label={t('defineQualityAlert.name')}
                       placeholder={t('defineQualityAlert.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -485,6 +566,9 @@ function DefineQualityAlertOutputForm() {
                       name="description"
                       label={t('defineQualityAlert.alertContent')}
                       placeholder={t('defineQualityAlert.alertContent')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
@@ -492,8 +576,7 @@ function DefineQualityAlertOutputForm() {
                 </Grid>
                 <ActionBar
                   onBack={backToList}
-                  onCancel={handleReset}
-                  mode={mode}
+                  elAfter={renderActionButtons({ handleReset })}
                 />
               </Form>
             )}

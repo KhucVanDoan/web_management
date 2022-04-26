@@ -40,7 +40,8 @@
     "validTime": "Thời gian không hợp lệ"
   },
   "toast": {
-    "notificationTitle": "Thông báo"
+    "notificationTitle": "Thông báo",
+    "defaultError": "Đã xảy ra lỗi"
   },
   "autocomplete": {
     "noOptionsText": "Không có dữ liệu",

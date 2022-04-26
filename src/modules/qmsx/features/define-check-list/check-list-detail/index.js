@@ -47,7 +47,7 @@ function DefineCheckListDetail() {
       headerName: '#',
       width: 50,
       sortable: false,
-      renderCell: (params, index) => {
+      renderCell: (_, index) => {
         const indexCount = index + 1
         return indexCount
       },
@@ -118,7 +118,7 @@ function DefineCheckListDetail() {
     const params = {
       id: id,
     }
-    actions.getCheckListDetailById(params)
+    actions.getCheckListDetailById(params, _, backToList)
     return () => {
       actions.resetCheckListDetailState()
     }
@@ -182,37 +182,29 @@ function DefineCheckListDetail() {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={4 / 3}
-            columnSpacing={{ xl: 8, xs: 4 }}
-            sx={{ my: 2 }}
-          >
-            {/* Table */}
-            <Grid item lg={12} xs={12}>
-              <Box
-                sx={{
-                  display: 'block',
-                  mb: 2,
-                }}
-              >
-                <Typography variant="h4" component="span">
-                  {t('defineCheckList.tableDetailTitle')}
-                </Typography>
-              </Box>
-              <DataTable
-                rows={checkListDetail?.checkListDetails}
-                columns={columns}
-                total={checkListDetail?.checkListDetails?.length}
-                striped={true}
-                hideSetting
-                hideFooter
-              />
-            </Grid>
-          </Grid>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Box mt={3}>
+        <Box
+          sx={{
+            display: 'block',
+            mb: 2,
+          }}
+        >
+          <Typography variant="h4" component="span">
+            {t('defineCheckList.tableDetailTitle')}
+          </Typography>
+        </Box>
+        <DataTable
+          rows={checkListDetail?.checkListDetails}
+          columns={columns}
+          total={checkListDetail?.checkListDetails?.length}
+          striped={true}
+          hideSetting
+          hideFooter
+        />
+      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

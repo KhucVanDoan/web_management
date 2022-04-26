@@ -38,7 +38,7 @@ function DefineErrorGroupDetail() {
     const params = {
       id: id,
     }
-    actions.getErrorGroupDetailById(params)
+    actions.getErrorGroupDetailById(params, _, backToList)
     return () => {
       actions.resetErrorGroupDetailState()
     }

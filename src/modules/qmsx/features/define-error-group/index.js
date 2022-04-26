@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -9,9 +9,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useDefineErrorGroup from '~/modules/qmsx/redux/hooks/useDefineErrorGroup'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
@@ -29,6 +31,21 @@ const breadcrumbs = [
     title: ROUTE.DEFINE_ERROR_GROUP.LIST.TITLE,
   },
 ]
+
+const importErrorGroupApi = (params) => {
+  const uri = `/v1/quality-controls/error-groups/import`
+
+  const formData = new FormData()
+  formData.append('file', params)
+
+  return api.postMultiplePart(uri, formData)
+}
+
+const getImportErrorGroupTemplateApi = () => {
+  const uri = `/v1/quality-controls/error-groups/import-template`
+
+  return api.get(uri)
+}
 
 function DefineErrorGroup() {
   const { t } = useTranslation('qmsx')
@@ -169,9 +186,12 @@ function DefineErrorGroup() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.errorGroup')}
+          onImport={importErrorGroupApi}
+          onDownloadTemplate={getImportErrorGroupTemplateApi}
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_ERROR_GROUP.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}

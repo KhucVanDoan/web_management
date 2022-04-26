@@ -46,7 +46,7 @@ function DefineQualityAlertOutputDetail() {
       id: id,
       type: TYPE_QC_VALUE_TO_API.OUTPUT,
     }
-    actions.getQualityAlertDetailById(params)
+    actions.getQualityAlertDetailById(params, _, backToList)
     return () => {
       actions.resetQualityAlertDetailState()
     }

@@ -279,7 +279,7 @@ function InputQualityControlPlanDetail() {
     const params = {
       id: id,
     }
-    actions.getInputQcPlanDetailById(params)
+    actions.getInputQcPlanDetailById(params, _, backToList)
     return () => {
       actions.resetInputQcPlanDetailState()
     }
@@ -352,37 +352,37 @@ function InputQualityControlPlanDetail() {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={5 / 3}
-            columnSpacing={{ xl: 8, xs: 4 }}
-            sx={{ my: 2 }}
-          >
-            {/* Table */}
-            <Grid item lg={12} xs={12}>
-              <Box
-                sx={{
-                  display: 'block',
-                  mb: 2,
-                }}
-              >
-                <Typography variant="h4" component="span">
-                  {t('inputQualityControlPlan.planDetailTableTitle')}
-                </Typography>
-              </Box>
-              <DataTable
-                rows={inputQcPlanDetail?.qualityPlanIOqcs}
-                columns={columns}
-                total={inputQcPlanDetail?.qualityPlanIOqcs?.length}
-                striped={false}
-                hideSetting
-                hideFooter
-              />
-            </Grid>
-          </Grid>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Grid
+        container
+        rowSpacing={4 / 3}
+        columnSpacing={{ xl: 8, xs: 4 }}
+        sx={{ my: 2 }}
+      >
+        {/* Table */}
+        <Grid item lg={12} xs={12}>
+          <Box
+            sx={{
+              display: 'block',
+              mb: 2,
+            }}
+          >
+            <Typography variant="h4" component="span">
+              {t('inputQualityControlPlan.planDetailTableTitle')}
+            </Typography>
+          </Box>
+          <DataTable
+            rows={inputQcPlanDetail?.qualityPlanIOqcs}
+            columns={columns}
+            total={inputQcPlanDetail?.qualityPlanIOqcs?.length}
+            striped={false}
+            hideSetting
+            hideFooter
+          />
+        </Grid>
+      </Grid>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

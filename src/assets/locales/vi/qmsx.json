@@ -767,5 +767,13 @@
     "notification": {
       "updateSuccess": "Cập nhật quyền người dùng thành công"
     }
+  },
+  "importExport": {
+    "errorGroup": "NhómLỗi",
+    "qualityPoint": "TiêuChíQLCL",
+    "actionGroup": "NhómĐốiSách",
+    "causeGroup": "NhómNguyênNhân",
+    "errorReport": "PhiếuBáoCáoLỗi",
+    "checkList": "DanhSáchKiểmTra"
   }
 }

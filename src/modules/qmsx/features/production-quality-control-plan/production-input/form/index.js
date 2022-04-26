@@ -11,6 +11,7 @@ import {
   MODAL_MODE,
   NOTIFICATION_TYPE,
   TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
@@ -20,6 +21,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import {
+  PRODUCTION_QC_PLAN_STATUS_OPTIONS,
   STAGE_OPTION,
   PRODUCTION_QC_PLAN_STATUS,
   STAGES,
@@ -120,11 +122,17 @@ function ProductionInputQualityControlPlanForm() {
         id: params?.id,
         endpointPatch: ENDPOINT_PATCH_GET_DETAIL_PRODUCTION_INPUT,
       }
-      actions.getProductionQcPlanDetailById(paramsGetdetail, (data) => {
-        getProductionPlan(data?.mo?.id)
-        getFormPreviousData(data?.planBomPrevious)
-        getFormMaterialData(data?.planBomMaterials)
-      })
+      actions.getProductionQcPlanDetailById(
+        paramsGetdetail,
+        (data) => {
+          if (+data.status !== PRODUCTION_QC_PLAN_STATUS_OPTIONS.PENDING)
+            return backToList()
+          getProductionPlan(data?.mo?.id)
+          getFormPreviousData(data?.planBomPrevious)
+          getFormMaterialData(data?.planBomMaterials)
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate) actions.resetProductionQcPlanDetailState()
@@ -712,22 +720,21 @@ function ProductionInputQualityControlPlanForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValuesForm}
-            validationSchema={productionInputQualityControlPlanSchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-            validateOnMount
-          >
-            {({ handleReset, setFieldValue, values, validateForm }) => (
-              <Form>
+      <Formik
+        initialValues={initialValuesForm}
+        validationSchema={productionInputQualityControlPlanSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+        validateOnMount
+      >
+        {({ handleReset, setFieldValue, values, validateForm }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
                 >
                   {!isNil(values?.status) && (
                     <Grid item xs={12}>
@@ -747,8 +754,11 @@ function ProductionInputQualityControlPlanForm() {
                       name="code"
                       label={t('productionQualityControlPlan.code')}
                       placeholder={t('productionQualityControlPlan.code')}
-                      disabled={isUpdate}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
+                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -757,6 +767,9 @@ function ProductionInputQualityControlPlanForm() {
                       name="name"
                       label={t('productionQualityControlPlan.name')}
                       placeholder={t('productionQualityControlPlan.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -825,37 +838,40 @@ function ProductionInputQualityControlPlanForm() {
                         'productionQualityControlPlan.description',
                       )}
                       multiline
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-                <Tabs list={TAB_PRODUCT_QC_PLAN_LIST} sx={{ mt: 3 }}>
-                  <Box>
-                    <PreviousPlanDetailTable
-                      planBomPrevious={values?.planBomPrevious}
-                      mode={mode}
-                      setFieldValue={setFieldValue}
-                      values={values}
-                    />
-                  </Box>
-                  <Box>
-                    <MaterialPlanDetailTable
-                      planBomMaterials={values?.planBomMaterials}
-                      mode={mode}
-                      setFieldValue={setFieldValue}
-                      values={values}
-                    />
-                  </Box>
-                </Tabs>
-                <ActionBar
-                  onBack={backToList}
-                  elAfter={renderActionButtons({ handleReset, validateForm })}
+              </Grid>
+            </Grid>
+            <Tabs list={TAB_PRODUCT_QC_PLAN_LIST} sx={{ mt: 3 }}>
+              <Box>
+                <PreviousPlanDetailTable
+                  planBomPrevious={values?.planBomPrevious}
+                  mode={mode}
+                  setFieldValue={setFieldValue}
+                  values={values}
                 />
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+              </Box>
+              <Box>
+                <MaterialPlanDetailTable
+                  planBomMaterials={values?.planBomMaterials}
+                  mode={mode}
+                  setFieldValue={setFieldValue}
+                  values={values}
+                />
+              </Box>
+            </Tabs>
+            <ActionBar
+              onBack={backToList}
+              elAfter={renderActionButtons({ handleReset, validateForm })}
+            />
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

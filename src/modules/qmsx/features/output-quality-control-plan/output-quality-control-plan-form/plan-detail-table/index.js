@@ -4,28 +4,20 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import { Typography, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
-import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
-import { OUTPUT_QC_PLAN_STATUS_OPTIONS } from '~/modules/qmsx/constants'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
 const PlanDetailTable = (props) => {
-  const { values } = useFormikContext()
-  const { qualityPlanIOqcs, mode, setFieldValue } = props
+  const { qualityPlanIOqcs, setFieldValue } = props
   const { t } = useTranslation(['qmsx'])
-  const canUpdateQuantity =
-    mode === MODAL_MODE.UPDATE &&
-    (values?.status === OUTPUT_QC_PLAN_STATUS_OPTIONS.CONFIRMED ||
-      values?.status === OUTPUT_QC_PLAN_STATUS_OPTIONS.INPROGRESS)
 
   const getColumns = useMemo(
     () => [
@@ -116,7 +108,6 @@ const PlanDetailTable = (props) => {
               name={`qualityPlanIOqcs[${index}].userQc1st`}
               required
               multiple
-              disabled={canUpdateQuantity}
               options={qualityPoint?.user1s || []}
               getOptionValue={(option) => option?.userId}
               getOptionLabel={(option) => option?.userName}
@@ -135,7 +126,7 @@ const PlanDetailTable = (props) => {
             <Field.Autocomplete
               name={`qualityPlanIOqcs[${index}].userQc2nd`}
               multiple
-              disabled={canUpdateQuantity || qualityPoint?.numberOfTime === 1}
+              disabled={qualityPoint?.numberOfTime === 1}
               options={qualityPoint?.user2s || []}
               getOptionValue={(option) => option?.userId}
               getOptionLabel={(option) => option?.userName}
@@ -151,7 +142,6 @@ const PlanDetailTable = (props) => {
         renderCell: (_, index) => {
           return (
             <Field.DateRangePicker
-              disabled={canUpdateQuantity}
               name={`qualityPlanIOqcs[${index}].qcPlanDate`}
             />
           )
@@ -174,7 +164,6 @@ const PlanDetailTable = (props) => {
             <Field.TextField
               name={`qualityPlanIOqcs[${index}].planErrorRate`}
               type="number"
-              disabled={canUpdateQuantity}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" sx={{ mr: 1 }}>
@@ -236,7 +225,6 @@ const PlanDetailTable = (props) => {
           return (
             <Field.TextField
               name={`qualityPlanIOqcs[${index}].qcPlanQuantity`}
-              disabled={canUpdateQuantity}
               type="number"
             />
           )
@@ -249,20 +237,12 @@ const PlanDetailTable = (props) => {
         ),
         width: 100,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (params) => {
           const { qualityPlanIOqcDetails } = params?.row
-          if (canUpdateQuantity) {
-            return (
-              <Field.TextField
-                name={`qualityPlanIOqcs[${index}].qcDoneQuantity`}
-                type="number"
-              />
-            )
-          } else {
-            return qualityPlanIOqcDetails
-              ? qualityPlanIOqcDetails[0]?.qcDoneQuantity
-              : 0
-          }
+
+          return qualityPlanIOqcDetails
+            ? qualityPlanIOqcDetails[0]?.qcDoneQuantity
+            : 0
         },
       },
       {
@@ -272,20 +252,11 @@ const PlanDetailTable = (props) => {
         ),
         width: 100,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (params) => {
           const { qualityPlanIOqcDetails } = params?.row
-          if (canUpdateQuantity) {
-            return (
-              <Field.TextField
-                name={`qualityPlanIOqcs[${index}].qcPassQuantity`}
-                type="number"
-              />
-            )
-          } else {
-            return qualityPlanIOqcDetails
-              ? qualityPlanIOqcDetails[0]?.qcPassQuantity
-              : 0
-          }
+          return qualityPlanIOqcDetails
+            ? qualityPlanIOqcDetails[0]?.qcPassQuantity
+            : 0
         },
       },
       {

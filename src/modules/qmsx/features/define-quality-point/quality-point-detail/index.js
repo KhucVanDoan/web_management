@@ -61,7 +61,7 @@ function DefineQualityPointDetail() {
     const params = {
       id: id,
     }
-    actions.getQualityPointDetailById(params)
+    actions.getQualityPointDetailById(params, _, backToList)
     const payload = {
       isGetAll: 1,
     }

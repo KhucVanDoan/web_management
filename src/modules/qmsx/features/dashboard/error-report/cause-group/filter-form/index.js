@@ -57,7 +57,9 @@ function CauseGroupFilterForm() {
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        dashboardActions.getInProgressMoListDashboard()
+        dashboardActions.getInProgressMoListDashboard((data) => {
+          setOrderList(data)
+        })
         break
       default:
         break
@@ -132,20 +134,23 @@ function CauseGroupFilterForm() {
       case STAGE_OPTION.PRO_EXPORT:
       case STAGE_OPTION.IMO_IMPORT:
       case STAGE_OPTION.EXO_EXPORT:
-        params.itemId = itemId
-        params.orderId = orderId
-
+        params.ioQcFilter = {
+          itemId,
+          orderId,
+        }
         dashboardActions.getCauseGroupDashboard(params)
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        params.moId = orderId
-        params.itemId = itemId
-        params.producingStepId = producingStepId
-
+        params.produceStepQcFilter = {
+          moId: orderId,
+          itemId,
+          producingStepId,
+        }
         dashboardActions.getCauseGroupDashboard(params)
         break
       default:
+        dashboardActions.getCauseGroupDashboard(params)
         break
     }
   }

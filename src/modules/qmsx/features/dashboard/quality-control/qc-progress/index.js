@@ -33,7 +33,7 @@ function QcProgress() {
   const planQuantityData = qcProgress.map((i) => ({
     lineName: t(`${transKey}.planQuantity`),
     time: i?.date,
-    lineValue: i?.qcPlanQuantity,
+    lineValue: i?.planQuantity,
   }))
   const qcNeedQuantityData = qcProgress.map((i) => ({
     lineName: t(`${transKey}.qcNeedQuantity`),
