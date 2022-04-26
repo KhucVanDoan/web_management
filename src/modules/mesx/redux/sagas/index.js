@@ -139,6 +139,7 @@ import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
 import watchGetDataProductivityCompareReport from './productivity-compare-report/get-data-productivity-compare'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
+import watchSearchProgressManufacturingByWorkCenter from './progress-by-work-center/search-progress-by-work-center'
 import watchProgressDetailReportData from './progress-detail-report/get-progress-detail-report'
 import watchProgressManuFacturingByOrderData from './progress-manudacturing-by-order/get-progress-manudacturing-by-order'
 import watchConfirmPurchasedOrder from './purchased-order/confirm-purchased-order'
@@ -471,6 +472,9 @@ export default function* sagas() {
     watchConfirmPurchasedOrder(),
     watchRejectPurchasedOrder(),
     watchGetPurchasedOrderNotCreatePOimp(),
+
+    //progress-manufacturing-by-work-center
+    watchSearchProgressManufacturingByWorkCenter(),
     //progress-manufacturing-by-order
     watchProgressManuFacturingByOrderData(),
   ])

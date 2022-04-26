@@ -128,7 +128,8 @@
     "inputModeration": "Điều độ công việc",
     "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng",
     "statistical": "Thống kê",
-    "progressManufacturingByOrder": "Thống kê tiến độ sản xuất theo đơn hàng"
+    "progressManufacturingByWorkCenter": "Tiến độ sản xuất theo xưởng",
+    "progressManufacturingByOrder": "Tiến độ sản xuất theo đơn hàng"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
@@ -1813,5 +1814,22 @@
     "validatePurchasedAt": "Ngày đặt hàng phải trước ngày giao hàng",
     "validateDeadline": "Ngày giao hàng phải sau ngày đặt hàng",
     "reason": "Lý do"
+  },
+  "progressManufacturingByWorkCenter": {
+    "export": "Xuất dữ liệu",
+    "workCenterName": "Tên xưởng",
+    "status": "Trạng thái",
+    "masterPlan": "Kế hoạch sản xuất",
+    "planDate": "Ngày kế hoạch",
+    "tableTitle": "Danh sách tiến độ sản xuất",
+    "workCenterCode": "Mã xưởng",
+    "mo": "Lệnh sản xuất",
+    "workOrder": "Lệnh làm việc",
+    "workCenterPlan": "Kế hoạch xưởng",
+    "producingStep": "Công đoạn",
+    "startDate": "Ngày thực hiện",
+    "endDate": "Ngày kết thúc",
+    "planQuantity": "Số lượng kế hoạch",
+    "actualQuantity": "Số lượng đã sản xuất"
   }
 }

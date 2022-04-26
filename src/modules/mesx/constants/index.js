@@ -1121,3 +1121,51 @@ export const MASTER_PLAN_STATUS = {
   IN_PROGRESS: 3,
   COMPLETED: 4,
 }
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  COMPLETED: 3,
+  REJECTED: 4,
+}
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_MAP = {
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.PENDING]: 'orderStatus.pending',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.CONFIRMED]:
+    'orderStatus.confirmed',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.IN_PROGRESS]:
+    'orderStatus.inProgress',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.COMPLETED]:
+    'orderStatus.completed',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.REJECTED]:
+    'orderStatus.rejected',
+}
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'orderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'orderStatus.rejected',
+    color: 'rejected',
+  },
+]
