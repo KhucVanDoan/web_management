@@ -19,6 +19,7 @@ import {
   WORK_CENTER_STATUS_TO_DELETE,
   WORK_CENTER_STATUS_TO_EDIT,
 } from '~/modules/mesx/constants'
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -67,11 +68,13 @@ const WorkCenter = () => {
     data: { isLoading, wcList, total },
     actions,
   } = useWorkCenter()
-
+  const { actions: factoryAction } = useDefineFactory()
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
-
+  useEffect(() => {
+    factoryAction.searchFactories({ isGetAll: 1 })
+  }, [])
   const columns = useMemo(() => [
     // {
     //   field: 'id',
