@@ -7,7 +7,6 @@ import Button from '~/components/Button'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
@@ -18,6 +17,7 @@ import {
   convertUtcDateToLocalTz,
 } from '~/utils'
 
+import useItemType from '../../redux/hooks/useItemType'
 import FilterForm from './filter'
 
 const breadcrumbs = [
@@ -40,10 +40,9 @@ function MaterialReport() {
   }
 
   const {
-    appStore: { itemTypes },
-    actions: actionAppstore,
-  } = useAppStore()
-
+    data: { itemTypeList },
+    actions: ItemTypeAction,
+  } = useItemType()
   const {
     data: { isLoading, total, moList },
     actions,
@@ -206,7 +205,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypes.find((i) => i.id === item.itemTypeId)?.name
+        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
       },
     },
     {
@@ -268,7 +267,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypes.find((i) => i.id === item.itemTypeId)?.name
+        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
       },
     },
     {
@@ -321,7 +320,7 @@ function MaterialReport() {
 
   useEffect(() => {
     refreshData()
-    actionAppstore.getAppStore()
+    ItemTypeAction.searchItemTypes({ isGetAll: 1 })
     actionSaleOrder.searchSaleOrders({ isGetAll: 1 })
   }, [pageSize, page, filters, sort, filters, keyword])
 
