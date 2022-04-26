@@ -15,8 +15,8 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { WORK_ORDER_STATUS } from '~/modules/mesx/constants'
+import useItemUnit from '~/modules/mesx/redux/hooks/useItemUnit'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -46,9 +46,12 @@ const WorkOrder = () => {
     data: { isLoading, workOrderList, total },
     actions: workOrderActions,
   } = useWorkOrder()
+
   const {
-    appStore: { itemUnits },
-  } = useAppStore()
+    data: { itemUnitList },
+    actions: itemUnitAction,
+  } = useItemUnit()
+
   const location = useLocation()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
@@ -70,7 +73,6 @@ const WorkOrder = () => {
   } = useQueryState({
     filters: { moId: moId },
   })
-
   const columns = useMemo(() => [
     {
       field: 'code',
@@ -176,8 +178,9 @@ const WorkOrder = () => {
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return itemUnits?.find((item) => item.id === row?.moDetail?.itemUnitId)
-          ?.name
+        return itemUnitList?.find(
+          (item) => item.id === row?.moDetail?.itemUnitId,
+        )?.name
       },
     },
     {
@@ -242,7 +245,9 @@ const WorkOrder = () => {
     }
     workOrderActions.searchWorkOrders(params)
   }
-
+  useEffect(() => {
+    itemUnitAction.searchItemUnits({ isGetAll: 1 })
+  }, [])
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort])
