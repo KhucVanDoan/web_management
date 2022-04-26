@@ -33,7 +33,7 @@ export const saleOrderSchema = (t) => {
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),
-        itemPrice: Yup.number()
+        itemPrice: Yup.string()
           .nullable()
           .required(t('general:form.required'))
           .max(
