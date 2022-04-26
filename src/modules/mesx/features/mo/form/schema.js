@@ -1,6 +1,9 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
@@ -27,6 +30,14 @@ export const validationSchema = (t) =>
       }),
     ),
     masterPlanId: Yup.object().nullable().required(t('general:form.required')),
-    itemIds: Yup.array().required(t('general:form.required')),
+    itemIds: Yup.array()
+      .min(
+        NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MIN,
+        t('general:form.minItem', {
+          min: NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MIN,
+        }),
+      )
+      .required(t('general:form.required')),
     moPlan: Yup.array().required(),
+    saleOrderId: Yup.string().nullable().required(t('general:form.required')),
   })
