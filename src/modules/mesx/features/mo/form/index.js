@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -25,6 +26,7 @@ import { MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { getMasterPlanDetailsApi } from '~/modules/mesx/redux/sagas/define-master-plan/get-master-plan-details'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
@@ -129,9 +131,9 @@ const MOForm = () => {
             onBack={backToList}
             onCancel={() => {
               handleReset()
-              setSaleOrders([])
+              setSaleOrders(masterPlanDetails?.saleOrderSchedules)
               setSaleOrder({})
-              setMoFactory('')
+              setMoFactory(masterPlanDetails?.factory?.name)
             }}
             mode={MODAL_MODE.CREATE}
           />
@@ -215,14 +217,12 @@ const MOForm = () => {
     }
   }, [masterPlanId])
 
-  const handleChangePlan = (id, setFieldValue) => {
+  const handleChangePlan = async (id, setFieldValue) => {
     setSaleOrder({})
-
-    masterPlanActions.getMasterPlanDetailsById(id, (response) => {
-      setSaleOrders(response.saleOrderSchedules)
-      setFieldValue('moPlan', [response.dateFrom, response.dateTo])
-      setMoFactory(response.factory?.name)
-    })
+    const res = await getMasterPlanDetailsApi(id)
+    setSaleOrders(res?.data?.saleOrderSchedules)
+    setFieldValue('moPlan', [res?.data?.dateFrom, res?.data?.dateTo])
+    setMoFactory(res?.data?.factory?.name)
   }
 
   const handleChangeSaleOrder = (value) => {
@@ -239,7 +239,11 @@ const MOForm = () => {
         : [dataPlan?.dateFrom, dataPlan?.dateTo],
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.masterPlan || masterPlanDetails || '',
+    // masterPlanId: moDetails?.masterPlan || null,
+    masterPlanId:
+      moDetails?.masterPlan ||
+      (isEmpty(masterPlanDetails) ? null : masterPlanDetails) ||
+      null,
     saleOrderId: moDetails?.saleOrderId || null,
     moFactory: '',
   }
@@ -392,36 +396,38 @@ const MOForm = () => {
                 />
               </Box>
             ) : (
-              <Tabs
-                list={[
-                  t('Mo.itemDetails'),
-                  t('Mo.bom'),
-                  t('Mo.bomProducingStep'),
-                  t('Mo.priceBom'),
-                ]}
-              >
-                <ItemsSettingTable
-                  saleOrder={saleOrder}
-                  isSubmitForm={isSubmitForm}
-                  updateSelectedItems={(itemIds) =>
-                    setFieldValue('itemIds', itemIds)
-                  }
-                  isUpdate={isUpdate}
-                  moDetails={moDetails}
-                />
-                <BomTable
-                  BOMStructure={BOMStructure}
-                  itemTypeList={itemTypeList}
-                />
-                <BomProducingStepTable
-                  BOMStructure={BOMStructure}
-                  itemTypeList={itemTypeList}
-                />
-                <PriceTable
-                  PriceStructure={PriceStructure}
-                  itemTypeList={itemTypeList}
-                />
-              </Tabs>
+              <Box sx={{ mt: 3 }}>
+                <Tabs
+                  list={[
+                    t('Mo.itemDetails'),
+                    t('Mo.bom'),
+                    t('Mo.bomProducingStep'),
+                    t('Mo.priceBom'),
+                  ]}
+                >
+                  <ItemsSettingTable
+                    saleOrder={saleOrder}
+                    isSubmitForm={isSubmitForm}
+                    updateSelectedItems={(itemIds) =>
+                      setFieldValue('itemIds', itemIds)
+                    }
+                    isUpdate={isUpdate}
+                    moDetails={moDetails}
+                  />
+                  <BomTable
+                    BOMStructure={BOMStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                  <BomProducingStepTable
+                    BOMStructure={BOMStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                  <PriceTable
+                    PriceStructure={PriceStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                </Tabs>
+              </Box>
             )}
 
             {renderActionBar(handleReset)}

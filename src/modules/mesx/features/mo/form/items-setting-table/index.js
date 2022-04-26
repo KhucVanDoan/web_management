@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { Typography } from '@mui/material'
+import { FormHelperText, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -14,7 +15,7 @@ const ItemsSettingTable = (props) => {
   const [pageSize] = useState(20)
   const [page] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
-
+  const { errors, touched } = useFormikContext()
   const {
     data: { itemList },
     actions,
@@ -144,15 +145,20 @@ const ItemsSettingTable = (props) => {
     <>
       <Box
         sx={{
-          display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           mb: 2,
         }}
       >
-        <Typography variant="h4" component="span">
+        <Typography variant="h4" component="span" required>
           {t('Mo.itemDetails')}
+          <Typography color="error" component="span" ml={0.5}>
+            *
+          </Typography>
         </Typography>
+        {errors.itemIds && touched.itemIds && (
+          <FormHelperText error>{errors.itemIds}</FormHelperText>
+        )}
       </Box>
       <DataTable
         columns={isView ? columnsDetail : columns}

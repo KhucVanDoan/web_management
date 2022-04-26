@@ -119,6 +119,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 999999999999999,
   },
+  ITEM_QUANLITY: {
+    MIN: 1,
+    MAX: 9999,
+  },
   PO_QUANTITY: {
     MAX: 9999999,
   },
