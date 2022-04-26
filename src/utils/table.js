@@ -1,30 +1,19 @@
 import { startOfDay, endOfDay } from 'date-fns'
-import { isEmpty, isNil, isDate } from 'lodash'
-
-/**
- * Check table rendering page
- */
-export const checkPage = (total, pageSize, page, onChangePageOrPageSize) => {
-  if (Math.ceil(total / pageSize) < page && page > 1) {
-    onChangePageOrPageSize(1, pageSize)
-  }
-}
+import { isEqual, isNil } from 'lodash'
 
 export const convertFilterParams = (filters = {}, columns = []) => {
   const filterData = Object.keys(filters).reduce((acc, cur) => {
     if (
       isNil(filters[cur]) ||
-      (isEmpty(filters[cur]) && !isDate(filters[cur]))
+      filters[cur] === '' ||
+      isEqual(filters[cur], []) ||
+      isEqual(filters[cur], {})
     ) {
       return acc
     }
 
     if (
-      columns.find(
-        (col) =>
-          col.field === cur &&
-          (col.filterFormat === 'date' || col.type === 'date'), // type is deprecated
-      )
+      columns.find((col) => col.field === cur && col.filterFormat === 'date')
     ) {
       let day1 = filters[cur]?.[0]
       let day2 = filters[cur]?.[1]
@@ -64,7 +53,7 @@ export const convertFilterParams = (filters = {}, columns = []) => {
       ...acc,
       {
         column: cur,
-        text: filters[cur],
+        text: filters[cur].toString(),
       },
     ]
   }, [])
