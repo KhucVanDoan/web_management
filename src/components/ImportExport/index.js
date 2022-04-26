@@ -355,7 +355,6 @@ const ImportExport = ({
       open={!isNil(importResult)}
       title={t('import.title')}
       onCancel={onResultCancel}
-      onClose={() => alert('abc')}
       cancelLabel={t('actionBar.closeNotification')}
       onSubmit={onImportAgain}
       submitLabel={t('actionBar.importAgain')}
