@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
@@ -31,14 +31,17 @@ const PriceDetail = () => {
   const { id } = useParams()
   const [priceReport, setPriceReport] = useState([])
 
+  // const {
+  //   appStore: { itemTypes },
+  //   actions,
+  // } = useAppStore()
   const {
-    appStore: { itemTypes },
+    data: { itemTypeList },
     actions,
-  } = useAppStore()
+  } = useItemType()
   const { actions: actionMo } = useMo()
   useEffect(() => {
-    actions.getAppStore()
-
+    actions.searchItemTypes({ isGetAll: 1 })
     actionMo.getPriceStructureById(id, (res) => {
       setPriceReport(res)
     })
@@ -75,7 +78,7 @@ const PriceDetail = () => {
       align: 'center',
       renderCell: (params) => {
         const { item } = params?.row
-        return itemTypes.find((type) => type.id === item.itemTypeId)?.name
+        return itemTypeList.find((type) => type.id === item.itemTypeId)?.name
       },
     },
     {
