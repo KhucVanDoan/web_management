@@ -229,9 +229,6 @@ function OutputQualityControlPlan() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
         <Button
           onClick={() =>
             history.push(ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.CREATE.PATH)

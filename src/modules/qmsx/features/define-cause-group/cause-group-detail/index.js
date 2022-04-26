@@ -38,7 +38,7 @@ function DefineCauseGroupDetail() {
     const params = {
       id: id,
     }
-    actions.getCauseGroupDetailById(params)
+    actions.getCauseGroupDetailById(params, _, backToList)
     return () => {
       actions.resetCauseGroupDetailState()
     }

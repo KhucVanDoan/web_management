@@ -356,19 +356,19 @@ export const NUMBER_OF_TIMES_QC_TRANSACTION_OPTION = {
 export const NUMBER_OF_TIMES_QC_TRANSACTION = [
   {
     value: NUMBER_OF_TIMES_QC_TRANSACTION_OPTION.ONE,
-    text: 'transactionHistory.numberOfTimeQc.one',
+    text: 'transactionHistory.header.numberOfTimeQc.one',
   },
   {
     value: NUMBER_OF_TIMES_QC_TRANSACTION_OPTION.ONE_OF_TWO,
-    text: 'transactionHistory.numberOfTimeQc.oneOfTwo',
+    text: 'transactionHistory.header.numberOfTimeQc.oneOfTwo',
   },
   {
     value: NUMBER_OF_TIMES_QC_TRANSACTION_OPTION.TWO_OF_TWO,
-    text: 'transactionHistory.numberOfTimeQc.twoOfTwo',
+    text: 'transactionHistory.header.numberOfTimeQc.twoOfTwo',
   },
   {
     value: NUMBER_OF_TIMES_QC_TRANSACTION_OPTION.TWO,
-    text: 'transactionHistory.numberOfTimeQc.two',
+    text: 'transactionHistory.header.numberOfTimeQc.two',
   },
 ]
 
@@ -424,8 +424,6 @@ export const INPUT_QC_PLAN_STATUS_TO_DELETE = [
 
 export const INPUT_QC_PLAN_STATUS_TO_EDIT = [
   INPUT_QC_PLAN_STATUS_OPTIONS.PENDING,
-  INPUT_QC_PLAN_STATUS_OPTIONS.CONFIRMED,
-  INPUT_QC_PLAN_STATUS_OPTIONS.INPROGRESS,
 ]
 
 //@Define: status - Kế hoạch QC đầu ra
@@ -480,8 +478,6 @@ export const OUTPUT_QC_PLAN_STATUS_TO_DELETE = [
 
 export const OUTPUT_QC_PLAN_STATUS_TO_EDIT = [
   OUTPUT_QC_PLAN_STATUS_OPTIONS.PENDING,
-  OUTPUT_QC_PLAN_STATUS_OPTIONS.CONFIRMED,
-  OUTPUT_QC_PLAN_STATUS_OPTIONS.INPROGRESS,
 ]
 
 //@Define: status - Kế hoạch QC sản xuất

@@ -38,7 +38,7 @@ function DefineActionGroupDetail() {
     const params = {
       id: id,
     }
-    actions.getActionGroupDetailById(params)
+    actions.getActionGroupDetailById(params, _, backToList)
     return () => {
       actions.resetActionGroupDetailState()
     }

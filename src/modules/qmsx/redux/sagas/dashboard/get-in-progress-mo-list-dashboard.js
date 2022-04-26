@@ -22,14 +22,17 @@ const getInProgressMoListDashboardApi = () => {
  */
 function* doGetInProgressMoDashboard(action) {
   try {
-    const response = yield call(getInProgressMoListDashboardApi, action?.payload)
+    const response = yield call(
+      getInProgressMoListDashboardApi,
+      action?.payload,
+    )
 
     if (response?.statusCode === 200) {
       yield put(getInProgressMoListDashboardSuccess(response?.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response?.data)
       }
     }
   } catch (error) {
@@ -45,5 +48,8 @@ function* doGetInProgressMoDashboard(action) {
  * Watch get in-progress MO list
  */
 export default function* watchGetInProgressMoDashboard() {
-  yield takeLatest(GET_IN_PROGRESS_MO_LIST_DASHBOARD_START, doGetInProgressMoDashboard)
+  yield takeLatest(
+    GET_IN_PROGRESS_MO_LIST_DASHBOARD_START,
+    doGetInProgressMoDashboard,
+  )
 }

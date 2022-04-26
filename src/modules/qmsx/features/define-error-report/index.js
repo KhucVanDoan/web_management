@@ -6,10 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -19,6 +19,7 @@ import {
   STAGE_OPTION,
 } from '~/modules/qmsx/constants'
 import useDefineErrorReport from '~/modules/qmsx/redux/hooks/useDefineErrorReport'
+import getExportErrorReportApi from '~/modules/qmsx/redux/sagas/define-error-report/export-error-report'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import {
   convertFilterParams,
@@ -79,13 +80,16 @@ function DefineErrorReport() {
     isOpenRejectModal: false,
   })
 
+  const [selectedRows, setSelectedRows] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
+
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineErrorReport.code'),
@@ -230,6 +234,7 @@ function DefineErrorReport() {
       ]),
       sort: convertSortParams(sort),
     }
+    setSelectedRows([])
     actions.searchErrorReport(params)
   }
 
@@ -301,11 +306,28 @@ function DefineErrorReport() {
     }
   }
 
+  //handle: selected checkbox
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected)
+  }
+
   const renderHeaderRight = () => {
     return (
-      <Button variant="outlined" icon="download">
-        {t('menu.exportData')}
-      </Button>
+      <ImportExport
+        name={t('importExport.errorReport')}
+        onExport={() =>
+          getExportErrorReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }
+        onRefresh={refreshData}
+      />
     )
   }
 
@@ -330,6 +352,9 @@ function DefineErrorReport() {
         onSortChange={setSort}
         total={total}
         sort={sort}
+        onSelectionChange={onSelectionChange}
+        selected={selectedRows}
+        onSettingChange={(settings) => setColumnsSettings(settings)}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog

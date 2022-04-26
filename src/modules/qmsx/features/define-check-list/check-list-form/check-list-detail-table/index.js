@@ -4,6 +4,7 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -48,11 +49,14 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.title'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.TextField
               name={`checkListDetails[${index}].title`}
               placeholder={t('defineCheckList.headerDetailTable.title')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+              }}
             />
           )
         },
@@ -62,11 +66,14 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.content'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.TextField
               name={`checkListDetails[${index}].descriptionContent`}
               placeholder={t('defineCheckList.headerDetailTable.content')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
             />
           )
         },
@@ -76,7 +83,7 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.typeOfTest'),
         width: 150,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.Autocomplete
               name={`checkListDetails[${index}].checkType`}
@@ -183,7 +190,7 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.typeError'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           const listErrorGroupId = items.map((item) => item.errorGroupId)
           return (
             <Field.Autocomplete

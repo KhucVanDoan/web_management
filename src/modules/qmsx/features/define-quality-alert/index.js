@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
@@ -286,9 +285,6 @@ function DefineQualityAlert() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
         <Dropdown
           sx={{ ml: 4 / 3 }}
           icon="add"

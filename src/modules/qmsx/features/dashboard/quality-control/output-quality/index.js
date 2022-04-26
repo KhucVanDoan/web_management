@@ -45,10 +45,10 @@ function OutputQuality() {
     time: i?.date,
     colValue: i?.qcRejectQuantity,
   }))
-  const qcPlanQuantityData = outputQuality.map((i) => ({
+  const planQuantityData = outputQuality.map((i) => ({
     lineName: t(`${transKey}.planQuantity`),
     time: i?.date,
-    lineValue: i?.qcPlanQuantity,
+    lineValue: i?.planQuantity,
   }))
 
   columnData.push(
@@ -58,7 +58,7 @@ function OutputQuality() {
     ...qcPassQuantityData,
     ...qcRejectQuantityData,
   )
-  lineData.push(...qcPlanQuantityData)
+  lineData.push(...planQuantityData)
 
   const config = {
     data: [columnData, lineData],

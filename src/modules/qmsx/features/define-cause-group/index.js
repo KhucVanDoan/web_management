@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -9,9 +9,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useDefineCauseGroup from '~/modules/qmsx/redux/hooks/useDefineCauseGroup'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
@@ -29,6 +31,21 @@ const breadcrumbs = [
     title: ROUTE.DEFINE_CAUSE_GROUP.LIST.TITLE,
   },
 ]
+
+const importCauseGroupApi = (params) => {
+  const uri = `/v1/quality-controls/cause-groups/import`
+
+  const formData = new FormData()
+  formData.append('file', params)
+
+  return api.postMultiplePart(uri, formData)
+}
+
+const getImportCauseGroupTemplateApi = () => {
+  const uri = `/v1/quality-controls/cause-groups/import-template`
+
+  return api.get(uri)
+}
 
 function DefineCauseGroup() {
   const { t } = useTranslation('qmsx')
@@ -169,9 +186,12 @@ function DefineCauseGroup() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.causeGroup')}
+          onImport={importCauseGroupApi}
+          onDownloadTemplate={getImportCauseGroupTemplateApi}
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CAUSE_GROUP.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
