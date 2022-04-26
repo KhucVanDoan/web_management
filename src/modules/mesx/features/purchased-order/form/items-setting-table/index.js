@@ -16,9 +16,16 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { scrollToBottom } from '~/utils'
 
-function ItemSettingTable({ items, mode, arrayHelpers, manufacturingOrderId }) {
+function ItemSettingTable({
+  items,
+  mode,
+  arrayHelpers,
+  manufacturingOrderId,
+  setFieldValue,
+}) {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
+
   const {
     data: { itemList },
     actions,
@@ -77,7 +84,13 @@ function ItemSettingTable({ items, mode, arrayHelpers, manufacturingOrderId }) {
               })}
               getOptionValue={(opt) => opt?.itemId || opt?.id}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+                itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId))
+              }
+              onChange={(id) =>
+                setFieldValue(
+                  `items[${index}].itemPrice`,
+                  getItemObject(id)?.price || 0,
+                )
               }
               disabled={isView}
             />
@@ -134,6 +147,9 @@ function ItemSettingTable({ items, mode, arrayHelpers, manufacturingOrderId }) {
               name={`items[${index}].quantity`}
               type="number"
               disabled={isView}
+              numberProps={{
+                decimalScale: 3,
+              }}
             />
           )
         },
@@ -162,15 +178,15 @@ function ItemSettingTable({ items, mode, arrayHelpers, manufacturingOrderId }) {
         width: 120,
         align: 'center',
         renderCell: (params, index) => {
-          const { itemId } = params.row
           return isView ? (
-            <>
-              {<NumberFormatText value={getItemObject(itemId)?.price || ''} />}
-            </>
+            <>{<NumberFormatText value={items[index]?.price || ''} />}</>
           ) : (
             <Field.TextField
               name={`items[${index}].itemPrice`}
-              value={getItemObject(itemId)?.price || ''}
+              numberProps={{
+                thousandSeparator: true,
+                decimalScale: 3,
+              }}
             />
           )
         },
