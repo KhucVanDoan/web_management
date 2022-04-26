@@ -52,7 +52,7 @@ function ProductionOutputQualityControlPlanDetail() {
       id: id,
       endpointPatch: ENDPOINT_PATCH_GET_DETAIL_PRODUCTION_OUTPUT,
     }
-    actions.getProductionQcPlanDetailById(paramsGetdetail)
+    actions.getProductionQcPlanDetailById(paramsGetdetail, _, backToList)
     return () => {
       actions.resetProductionQcPlanDetailState()
     }
@@ -150,23 +150,23 @@ function ProductionOutputQualityControlPlanDetail() {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={5 / 3}
-            columnSpacing={{ xl: 8, xs: 4 }}
-            sx={{ my: 2 }}
-          >
-            {/* Table */}
-            <Grid item lg={12} xs={12}>
-              <PlanDetailTable
-                items={productionQcPlanDetail?.planBomOutputs}
-                mode={MODAL_MODE.DETAIL}
-              />
-            </Grid>
-          </Grid>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Grid
+        container
+        rowSpacing={5 / 3}
+        columnSpacing={{ xl: 8, xs: 4 }}
+        sx={{ my: 2 }}
+      >
+        {/* Table */}
+        <Grid item lg={12} xs={12}>
+          <PlanDetailTable
+            items={productionQcPlanDetail?.planBomOutputs}
+            mode={MODAL_MODE.DETAIL}
+          />
+        </Grid>
+      </Grid>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

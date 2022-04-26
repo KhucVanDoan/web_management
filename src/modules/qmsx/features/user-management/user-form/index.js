@@ -83,6 +83,7 @@ function UserManagementForm() {
 
     const convertValues = {
       ...values,
+      status: `${values?.status}`,
       id,
       factories: values?.factories?.map((item) => ({
         id: item,

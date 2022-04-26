@@ -1,26 +1,10 @@
 import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-
 export const defineQualityAlertOutputSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        }),
-      ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
+    code: Yup.string().required(t('general:form.required')),
+    name: Yup.string().required(t('general:form.required')),
     stage: Yup.number().nullable().required(t('general:form.required')),
     alertRelatedUsers: Yup.array()
       .nullable()
@@ -38,10 +22,5 @@ export const defineQualityAlertOutputSchema = (t) =>
     itemId: Yup.number().nullable().required(t('general:form.required')),
     warehouseId: Yup.number().nullable().required(t('general:form.required')),
     errorReportId: Yup.number().nullable().required(t('general:form.required')),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    description: Yup.string(),
   })

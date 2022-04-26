@@ -1,43 +1,17 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { CHECK_TYPE_OPTIONS } from '~/modules/qmsx/constants'
 
 export const defineCheckListSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        }),
-      ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    code: Yup.string().required(t('general:form.required')),
+    name: Yup.string().required(t('general:form.required')),
+    description: Yup.string(),
     checkListDetails: Yup.array().of(
       Yup.object().shape(
         {
           title: Yup.string()
             .required(t('general:form.required'))
-            .max(
-              TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-              t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-              }),
-            )
             .when((_, schema, titleContext) => {
               return schema.test({
                 message: t('qmsx:form.duplicate'),
@@ -56,14 +30,7 @@ export const defineCheckListSchema = (t) =>
                 },
               })
             }),
-          descriptionContent: Yup.string()
-            .required(t('general:form.required'))
-            .max(
-              TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              }),
-            ),
+          descriptionContent: Yup.string().required(t('general:form.required')),
           checkType: Yup.number()
             .nullable()
             .required(t('general:form.required')),

@@ -296,9 +296,6 @@ function ProductionQualityControlPlan() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
         <Dropdown
           sx={{ ml: 4 / 3 }}
           icon="add"

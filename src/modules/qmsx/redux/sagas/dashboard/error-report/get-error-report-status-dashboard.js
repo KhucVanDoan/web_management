@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  GET_ERROR_GROUP_DASHBOARD_START,
+  GET_ERROR_REPORT_STATUS_DASHBOARD_START,
   getErrorReportStatusDashboardFail,
   getErrorReportStatusDashboardSuccess,
 } from '~/modules/qmsx/redux/actions/dashboard'
@@ -22,7 +22,10 @@ const getErrorReportStatusDashboardApi = (params) => {
  */
 function* doGetErrorReportStatusDashboard(action) {
   try {
-    const response = yield call(getErrorReportStatusDashboardApi, action?.payload)
+    const response = yield call(
+      getErrorReportStatusDashboardApi,
+      action?.payload,
+    )
 
     if (response?.statusCode === 200) {
       yield put(getErrorReportStatusDashboardSuccess(response?.data))
@@ -45,5 +48,8 @@ function* doGetErrorReportStatusDashboard(action) {
  * Watch get error report status
  */
 export default function* watchGetErrorReportStatusDashboard() {
-  yield takeLatest(GET_ERROR_GROUP_DASHBOARD_START, doGetErrorReportStatusDashboard)
+  yield takeLatest(
+    GET_ERROR_REPORT_STATUS_DASHBOARD_START,
+    doGetErrorReportStatusDashboard,
+  )
 }

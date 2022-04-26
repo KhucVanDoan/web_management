@@ -17,13 +17,18 @@ import { isNil, omit, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  QUALITY_POINT_STATUS_OPTIONS,
   QUALITY_POINT_STATUS,
   FOMALITY_QC_OPTION,
   NUMBER_OF_TIMES_QC_OPTION,
@@ -126,9 +131,18 @@ function DefineQualityPointForm() {
       const paramsGetDetail = {
         id: params?.id || history?.location?.state,
       }
-      actions.getQualityPointDetailById(paramsGetDetail, (data) => {
-        commonManagementActions.getProductsByStageQC(data?.stage)
-      })
+      actions.getQualityPointDetailById(
+        paramsGetDetail,
+        (data) => {
+          if (
+            mode === MODAL_MODE.UPDATE &&
+            +data?.status !== QUALITY_POINT_STATUS_OPTIONS.PENDING
+          )
+            return backToList()
+          commonManagementActions.getProductsByStageQC(data?.stage)
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate || isClone) actions.resetQualityPointDetailState()
@@ -260,6 +274,9 @@ function DefineQualityPointForm() {
                       placeholder={t('defineQualityPoint.code')}
                       disabled={isUpdate}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -268,6 +285,9 @@ function DefineQualityPointForm() {
                       name="name"
                       label={t('defineQualityPoint.name')}
                       placeholder={t('defineQualityPoint.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -543,6 +563,9 @@ function DefineQualityPointForm() {
                       name="description"
                       label={t('defineQualityPoint.description')}
                       placeholder={t('defineQualityPoint.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

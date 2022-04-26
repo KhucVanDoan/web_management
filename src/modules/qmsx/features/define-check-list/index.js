@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -18,7 +19,9 @@ import {
   CHECK_LIST_STATUS_TO_EDIT,
 } from '~/modules/qmsx/constants'
 import useDefineCheckList from '~/modules/qmsx/redux/hooks/useDefineCheckList'
+import getExportCheckListApi from '~/modules/qmsx/redux/sagas/define-check-list/export-check-list'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
@@ -68,13 +71,16 @@ function DefineCheckList() {
     isOpenConfirmModal: false,
   })
 
+  const [selectedRows, setSelectedRows] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
+
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineCheckList.code'),
@@ -112,7 +118,6 @@ function DefineCheckList() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params?.row
-
         return (
           <Status options={CHECK_LIST_STATUS} value={+status} variant="text" />
         )
@@ -180,6 +185,7 @@ function DefineCheckList() {
       ]),
       sort: convertSortParams(sort),
     }
+    setSelectedRows([])
     actions.searchCheckList(params)
   }
 
@@ -229,12 +235,45 @@ function DefineCheckList() {
     setConfirmModal({ isOpenConfirmModal: false, id: null })
   }
 
+  //handle: selected checkbox
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected)
+  }
+
+  const importCheckListApi = (params) => {
+    const uri = `/v1/quality-controls/check-lists/import`
+    const formData = new FormData()
+    formData.append('file', params)
+    return api.postMultiplePart(uri, formData)
+  }
+
+  const getImportCheckListTemplateApi = () => {
+    const uri = `/v1/quality-controls/check-lists/import-template`
+    return api.get(uri)
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.checkList')}
+          onImport={importCheckListApi}
+          onDownloadTemplate={getImportCheckListTemplateApi}
+          onExport={() =>
+            getExportCheckListApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CHECK_LIST.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -267,6 +306,9 @@ function DefineCheckList() {
         onSortChange={setSort}
         total={total}
         sort={sort}
+        onSelectionChange={onSelectionChange}
+        selected={selectedRows}
+        onSettingChange={(settings) => setColumnsSettings(settings)}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog

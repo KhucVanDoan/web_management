@@ -24,29 +24,6 @@ export const GET_ERROR_GROUP_DETAIL_SUCCESS =
   'QMSX_GET_ERROR_GROUP_DETAIL_SUCCESS'
 export const GET_ERROR_GROUP_DETAIL_FAIL = 'QMSX_GET_ERROR_GROUP_DETAIL_FAIL'
 
-// Action: upload file
-export const UPLOAD_ERROR_GROUP_DATA_START =
-  'QMSX_UPLOAD_ERROR_GROUP_DATA_START'
-export const UPLOAD_ERROR_GROUP_DATA_SUCCESS =
-  'QMSX_UPLOAD_ERROR_GROUP_DATA_SUCCESS'
-export const UPLOAD_ERROR_GROUP_DATA_FAIL = 'QMSX_UPLOAD_ERROR_GROUP_DATA_FAIL'
-
-// Action: download log file
-export const DOWNLOAD_ERROR_GROUP_DATA_LOG_START =
-  'QMSX_DOWNLOAD_ERROR_GROUP_DATA_LOG_START'
-export const DOWNLOAD_ERROR_GROUP_DATA_LOG_SUCCESS =
-  'QMSX_DOWNLOAD_ERROR_GROUP_DATA_LOG_SUCCESS'
-export const DOWNLOAD_ERROR_GROUP_DATA_LOG_FAIL =
-  'QMSX_DOWNLOAD_ERROR_GROUP_DATA_LOG_FAIL'
-
-// Action: download template
-export const DOWNLOAD_ERROR_GROUP_TEMPLATE_START =
-  'QMSX_DOWNLOAD_ERROR_GROUP_TEMPLATE_START'
-export const DOWNLOAD_ERROR_GROUP_TEMPLATE_SUCCESS =
-  'QMSX_DOWNLOAD_ERROR_GROUP_TEMPLATE_SUCCESS'
-export const DOWNLOAD_ERROR_GROUP_TEMPLATE_FAIL =
-  'QMSX_DOWNLOAD_ERROR_GROUP_TEMPLATE_FAIL'
-
 //Action: reset state
 export const RESET_ERROR_GROUP_DETAIL_STATE =
   'QMSX_RESET_ERROR_GROUP_DETAIL_STATE'
@@ -238,102 +215,6 @@ export function getErrorGroupDetailByIdFail() {
   }
 }
 
-//---------------------- IMPORT ----------------------
-/**
- * Upload file start action
- * @param {*} payload
- * @param {function=} onSuccess Callback function on success
- * @param {function=} onError Callback function on error
- * @returns {object}
- */
-export const uploadErrorGroupData = (payload, onSuccess, onError) => ({
-  type: UPLOAD_ERROR_GROUP_DATA_START,
-  payload: payload,
-  onSuccess: onSuccess,
-  onError: onError,
-})
-
-/**
- * Upload file success action
- * @param {*} payload
- * @returns {object}
- */
-export const uploadErrorGroupDataSuccess = (payload) => ({
-  type: UPLOAD_ERROR_GROUP_DATA_SUCCESS,
-  payload: payload,
-})
-
-/**
- * Upload file fail action
- * @returns {object}
- */
-export const uploadErrorGroupDataFail = () => ({
-  type: UPLOAD_ERROR_GROUP_DATA_FAIL,
-})
-
-/**
- * Download log file start action
- * @param {*} payload
- * @param {function=} onSuccess Callback function on success
- * @param {function=} onError Callback function on error
- * @returns {object}
- */
-export const downloadErrorGroupDataLog = (payload, onSuccess, onError) => ({
-  type: DOWNLOAD_ERROR_GROUP_DATA_LOG_START,
-  payload: payload,
-  onSuccess: onSuccess,
-  onError: onError,
-})
-
-/**
- * Download log file success action
- * @param {*} payload
- * @returns {object}
- */
-export const downloadErrorGroupDataLogSuccess = (payload) => ({
-  type: DOWNLOAD_ERROR_GROUP_DATA_LOG_SUCCESS,
-  payload: payload,
-})
-
-/**
- * Download log file fail action
- * @returns {object}
- */
-export const downloadErrorGroupDataLogFail = () => ({
-  type: DOWNLOAD_ERROR_GROUP_DATA_LOG_FAIL,
-})
-
-/**
- * Download template file start action
- * @param {*} payload
- * @param {function=} onSuccess Callback function on success
- * @param {function=} onError Callback function on error
- * @returns {object}
- */
-export const downloadErrorGroupTemplate = (payload, onSuccess, onError) => ({
-  type: DOWNLOAD_ERROR_GROUP_TEMPLATE_START,
-  payload: payload,
-  onSuccess: onSuccess,
-  onError: onError,
-})
-
-/**
- * Download log file success action
- * @param {*} payload
- * @returns {object}
- */
-export const downloadErrorGroupTemplateSuccess = () => ({
-  type: DOWNLOAD_ERROR_GROUP_TEMPLATE_SUCCESS,
-})
-
-/**
- * Download log file fail action
- * @returns {object}
- */
-export const downloadErrorGroupTemplateFail = () => ({
-  type: DOWNLOAD_ERROR_GROUP_TEMPLATE_FAIL,
-})
-
 /**
  * Reset state action
  * @returns {object}
@@ -361,5 +242,4 @@ export default {
   deleteErrorGroupSuccess,
   deleteErrorGroupFail,
   resetErrorGroupDetailState,
-  //import
 }

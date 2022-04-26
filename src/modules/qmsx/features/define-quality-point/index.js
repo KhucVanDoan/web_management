@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -19,7 +20,9 @@ import {
   STAGE_OPTION_MAP,
 } from '~/modules/qmsx/constants'
 import useDefineQualityPoint from '~/modules/qmsx/redux/hooks/useDefineQualityPoint'
+import getExportQualityPointApi from '~/modules/qmsx/redux/sagas/define-quality-point/export-quality-point'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
@@ -69,13 +72,16 @@ function DefineQualityPoint() {
     isOpenConfirmModal: false,
   })
 
+  const [selectedRows, setSelectedRows] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
+
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineQualityPoint.code'),
@@ -205,6 +211,7 @@ function DefineQualityPoint() {
       ]),
       sort: convertSortParams(sort),
     }
+    setSelectedRows([])
     actions.searchQualityPoint(params)
   }
 
@@ -254,12 +261,45 @@ function DefineQualityPoint() {
     setConfirmModal({ isOpenConfirmModal: false, id: null })
   }
 
+  //handle: selected checkbox
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected)
+  }
+
+  const importQualityPointApi = (params) => {
+    const uri = `/v1/quality-controls/quality-points/import`
+    const formData = new FormData()
+    formData.append('file', params)
+    return api.postMultiplePart(uri, formData)
+  }
+
+  const getImportQualityPointTemplateApi = () => {
+    const uri = `/v1/quality-controls/quality-points/import-template`
+    return api.get(uri)
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.qualityPoint')}
+          onImport={importQualityPointApi}
+          onDownloadTemplate={getImportQualityPointTemplateApi}
+          onExport={() =>
+            getExportQualityPointApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_QUALITY_POINT.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -292,6 +332,9 @@ function DefineQualityPoint() {
         onSortChange={setSort}
         total={total}
         sort={sort}
+        onSelectionChange={onSelectionChange}
+        selected={selectedRows}
+        onSettingChange={(settings) => setColumnsSettings(settings)}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog

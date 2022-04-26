@@ -61,7 +61,9 @@ function QcProgressFilterForm() {
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        dashboardActions.getInProgressMoListDashboard()
+        dashboardActions.getInProgressMoListDashboard((data) =>
+          setOrderList(data),
+        )
         break
       default:
         break
@@ -153,6 +155,7 @@ function QcProgressFilterForm() {
         dashboardActions.getQcProgressDashboard(params)
         break
       default:
+        dashboardActions.getQcProgressDashboard(params)
         break
     }
   }

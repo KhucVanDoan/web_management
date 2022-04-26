@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { isArray } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { useToggle } from '~/common/hooks'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -110,8 +110,8 @@ function ProductionOutputQualityDetail() {
   useEffect(() => {
     actions.getDetailProductionOutputQualityTransactionHistory(
       { id: id },
-      null,
-      null,
+      _,
+      backToList,
     )
 
     return () => {
@@ -309,11 +309,7 @@ function ProductionOutputQualityDetail() {
               )}
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="flex-end" sx={{ my: 2 }}>
-            <Button variant="contained" onClick={backToList} color="grayF4">
-              {t('common.close')}
-            </Button>
-          </Box>
+          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
     </Page>
