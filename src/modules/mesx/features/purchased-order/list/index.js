@@ -31,6 +31,7 @@ import {
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
+import { rejectSchema } from './schema'
 
 const breadcrumbs = [
   {
@@ -391,7 +392,7 @@ function PurchasedOrder() {
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
-        <Formik validationSchema={filterSchema(t)}>
+        <Formik validationSchema={rejectSchema(t)}>
           {() => (
             <Form sx={{ mt: 2 }}>
               <Field.TextField

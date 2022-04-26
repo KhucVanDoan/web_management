@@ -119,6 +119,9 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 999999999999999,
   },
+  PO_QUANTITY: {
+    MAX: 9999999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
