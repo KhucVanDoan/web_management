@@ -2,20 +2,18 @@ import React, { useEffect, useState } from 'react'
 
 import { FormHelperText, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const ItemsSettingTable = (props) => {
-  const { isView, moDetails } = props
+  const { isView, moDetails, errors, touched } = props
   const { t } = useTranslation(['mesx'])
   const [items, setItems] = useState([])
   const [pageSize] = useState(20)
   const [page] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
-  const { errors, touched } = useFormikContext()
   const {
     data: { itemList },
     actions,
@@ -156,8 +154,8 @@ const ItemsSettingTable = (props) => {
             *
           </Typography>
         </Typography>
-        {errors.itemIds && touched.itemIds && (
-          <FormHelperText error>{errors.itemIds}</FormHelperText>
+        {!isView && errors?.itemIds && touched?.itemIds && (
+          <FormHelperText error>{errors?.itemIds}</FormHelperText>
         )}
       </Box>
       <DataTable
