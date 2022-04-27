@@ -35,7 +35,6 @@ function MoDetail() {
   const [saleOrders, setSaleOrders] = useState([])
   const [isOpenCreatePO, setIsOpenCreatePO] = useState(false)
   const [isOpenEnoughMaterial, setIsOpenEnoughMaterial] = useState(false)
-
   const {
     data: { moDetails, BOMStructure, PriceStructure, materialCheck },
     actions,

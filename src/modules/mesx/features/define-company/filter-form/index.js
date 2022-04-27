@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-// import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 
 const FilterForm = () => {
@@ -16,7 +15,6 @@ const FilterForm = () => {
   } = useDefineCompany()
 
   const taxOptions = companyList.filter((item) => !!item.taxNo)
-  // const { appStore } = useAppStore()
 
   return (
     <Grid container rowSpacing={4 / 3}>

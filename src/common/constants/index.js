@@ -119,6 +119,13 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 999999999999999,
   },
+  ITEM_QUANLITY: {
+    MIN: 1,
+    MAX: 9999,
+  },
+  PO_QUANTITY: {
+    MAX: 9999999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
@@ -192,7 +199,7 @@ export const FILE_TYPE = {
 }
 
 export const IMPORT_SETTING = {
-  FILE_SIZE_LIMIT: 5242880,
+  FILE_SIZE_LIMIT: 2097152,
   NUMBER_OF_FILE: 1,
   FILE_NAME: '{0}_{1}{2}' + FILE_TYPE.XLSX.EXT,
 }

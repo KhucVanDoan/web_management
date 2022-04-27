@@ -475,6 +475,10 @@ export const ROUTE = {
       TITLE: 'productivityCompareReport',
     },
   },
+  PROGRESS_MANUFACTURING_BY_WORK_CENTER: {
+    PATH: '/mesx/progress-manufacturing-by-work-center',
+    TITLE: 'progressManufacturingByWorkCenter',
+  },
   PROGRESS_MANUFACTURING_BY_ORDER: {
     LIST: {
       PATH: '/mesx/progress-manufacturing-by-order',

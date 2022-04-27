@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { createFilterOptions, Grid, Hidden } from '@mui/material'
+import { Grid, Hidden } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
@@ -16,22 +16,22 @@ import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { MO_STATUS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
-// import { getCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/get-customers'
+import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors.saga'
+import { searchCompaniesApi } from '~/modules/mesx/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
-
 function PurchasedOrderForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
@@ -40,10 +40,6 @@ function PurchasedOrderForm() {
   const { id } = useParams()
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
-  const {
-    data: { vendorList },
-    actions: commonActions,
-  } = useCommonManagement()
 
   const {
     data: { moList },
@@ -76,10 +72,6 @@ function PurchasedOrderForm() {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    commonActions.getVendors({ isGetAll: 1 })
-  }, [])
-
-  useEffect(() => {
     moActions.searchMO({ isGetAll: 1 })
     if (id) {
       actions.getPurchasedOrderDetailsById(id)
@@ -104,13 +96,17 @@ function PurchasedOrderForm() {
       manufacturingOrderId:
         purchasedOrderDetails?.manufacturingOrder?.id || null,
       purchasedAt: purchasedOrderDetails?.purchasedAt || '',
-      vendorId: purchasedOrderDetails?.vendorId || null,
-      companyId: purchasedOrderDetails?.companyId || null,
+      vendorId: purchasedOrderDetails?.vendor || null,
+      companyId:
+        companies?.find(
+          (item) => item.id === purchasedOrderDetails?.companyId,
+        ) || null,
       deadline: purchasedOrderDetails?.deadline || null,
       items: purchasedOrderDetails?.purchasedOrderDetails?.map((e) => ({
         id: Number(e?.id),
         itemId: Number(e?.itemId),
         quantity: Number(e?.quantity),
+        itemPrice: Number(e?.price),
       })) || [{ ...DEFAULT_ITEM }],
     }),
     [purchasedOrderDetails],
@@ -125,10 +121,12 @@ function PurchasedOrderForm() {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      companyId: values?.companyId?.id,
+      vendorId: values?.vendorId?.id,
       items: values?.items?.map((item) => ({
         id: item?.itemId,
         quantity: Number(item?.quantity),
-        price: Number(item?.price),
+        price: Number(item?.itemPrice),
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -315,12 +313,14 @@ function PurchasedOrderForm() {
                         name="companyId"
                         label={t('purchasedOrder.customer.name')}
                         placeholder={t('purchasedOrder.customer.name')}
-                        options={companies}
-                        getOptionValue={(opt) => opt?.id}
+                        asyncRequest={(s) =>
+                          searchCompaniesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
                         required
                       />
                     </Box>
@@ -334,12 +334,14 @@ function PurchasedOrderForm() {
                         name="vendorId"
                         label={t('purchasedOrder.vendor.name')}
                         placeholder={t('purchasedOrder.vendor.name')}
-                        options={vendorList}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => opt?.name || opt?.code}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          getVendorsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
                         required
                       />
                     </Box>
@@ -388,6 +390,7 @@ function PurchasedOrderForm() {
                     mode={mode}
                     arrayHelpers={arrayHelpers}
                     manufacturingOrderId={manufacturingOrderId}
+                    setFieldValue={setFieldValue}
                   />
                 )}
               />

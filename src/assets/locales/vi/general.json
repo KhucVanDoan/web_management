@@ -37,7 +37,8 @@
     "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước",
     "special": "Mục này không được chứa kí tự đặc biệt",
     "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
-    "validTime": "Thời gian không hợp lệ"
+    "validTime": "Thời gian không hợp lệ",
+    "minItem": "Chọn tối thiểu {{min}} sản phẩm"
   },
   "toast": {
     "notificationTitle": "Thông báo",

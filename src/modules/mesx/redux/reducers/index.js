@@ -22,6 +22,7 @@ import PriceReport from './price-report'
 import producingStep from './product-step'
 import productivityCompareReport from './productivity-compare-report'
 import productivityReport from './productivity-report'
+import progressByWorkCenter from './progress-by-work-center'
 import progressDetailReport from './progress-detail-report'
 import progressManufacturingByOrder from './progress-manudacturing-by-order'
 import purchasedOrder from './purchased-order'
@@ -34,6 +35,7 @@ import userPermission from './user-permission'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan.reducer'
 import workOrder from './work-order'
+
 export default combineReducers({
   userPermission,
   userManagement,
@@ -68,5 +70,6 @@ export default combineReducers({
   progressDetailReport,
   productivityCompareReport,
   purchasedOrder,
+  progressByWorkCenter,
   progressManufacturingByOrder,
 })

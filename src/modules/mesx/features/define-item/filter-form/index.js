@@ -8,33 +8,14 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
+import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { searchItemGroupsApi } from '~/modules/mesx/redux/sagas/item-group-setting/search-item-groups'
-
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
-  const { appStore } = useAppStore()
 
   const {
-    data: { itemList },
-  } = useDefineItem()
-
-  const itemTypeList = []
-  // @TODO: <anh.nth> Don't disable, refactor this code please.
-  // eslint-disable-next-line array-callback-return
-  itemList.map((item) => {
-    if (!itemTypeList.includes(item.itemType.name))
-      return itemTypeList.push(item.itemType.name)
-  })
-
-  const itemGroupList = []
-  // @TODO: <anh.nth> Don't disable, refactor this code please.
-  // eslint-disable-next-line array-callback-return
-  itemList.map((item) => {
-    if (!itemGroupList.includes(item.itemGroup.name))
-      return itemGroupList.push(item.itemGroup.name)
-  })
+    data: { itemTypeList },
+  } = useItemType()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -63,7 +44,7 @@ const FilterForm = () => {
           name="itemTypeCode"
           label={t('defineItem.type')}
           placeholder={t('defineItem.type')}
-          options={appStore?.itemTypes}
+          options={itemTypeList}
           getOptionValue={(opt) => opt?.code}
           getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
           filterOptions={createFilterOptions({

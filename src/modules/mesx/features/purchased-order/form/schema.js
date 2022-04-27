@@ -8,12 +8,6 @@ import {
 export const validationSchema = (t) => {
   return Yup.object().shape({
     code: Yup.string().required(t('general:form.required')),
-    // .max(
-    //   TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-    //   t('general:form.maxLength', {
-    //     max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-    //   }),
-    // ),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
@@ -23,8 +17,8 @@ export const validationSchema = (t) => {
         }),
       ),
     purchasedAt: Yup.date().nullable().required(t('general:form.required')),
-    vendorId: Yup.string().nullable().required(t('general:form.required')),
-    companyId: Yup.string().nullable().required(t('general:form.required')),
+    vendorId: Yup.object().nullable().required(t('general:form.required')),
+    companyId: Yup.object().nullable().required(t('general:form.required')),
     deadline: Yup.date()
       .nullable()
       .required(t('general:form.required'))
@@ -33,9 +27,9 @@ export const validationSchema = (t) => {
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),
         quantity: Yup.number().max(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+          NUMBER_FIELD_REQUIRED_SIZE.PO_QUANTITY.MAX,
           t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            max: NUMBER_FIELD_REQUIRED_SIZE.PO_QUANTITY.MAX,
           }),
         ),
       }),

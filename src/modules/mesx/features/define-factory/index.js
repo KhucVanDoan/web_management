@@ -12,6 +12,7 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/database/routes/config'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -38,6 +39,12 @@ function DefineFactory() {
     companyName: '',
     createdAt: null,
   }
+
+  const { actions: companyActions } = useDefineCompany()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
 
   const {
     page,
