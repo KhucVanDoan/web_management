@@ -124,17 +124,6 @@ function ProgressDetailReport() {
                 </Grid>
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
-                    name="producingStepId"
-                    label={t('ProgessDetailReport.producingSteps')}
-                    placeholder={t('ProgessDetailReport.producingSteps')}
-                    options={listProducingSteps}
-                    getOptionValue={(opt) => opt?.producingStepId}
-                    getOptionLabel={(opt) => opt?.producingStepName}
-                    onChange={(id) => handleChangeProducingStep(id)}
-                  />
-                </Grid>
-                <Grid item lg={6} xs={12}>
-                  <Field.Autocomplete
                     name="itemId"
                     label={t('ProgessDetailReport.itemName')}
                     placeholder={t('ProgessDetailReport.itemName')}
@@ -142,6 +131,17 @@ function ProgressDetailReport() {
                     getOptionValue={(opt) => opt?.itemId}
                     getOptionLabel={(opt) => opt?.itemId || opt?.item?.name}
                     onChange={(id) => handleChangeItem(id)}
+                  />
+                </Grid>
+                <Grid item lg={6} xs={12}>
+                  <Field.Autocomplete
+                    name="producingStepId"
+                    label={t('ProgessDetailReport.producingSteps')}
+                    placeholder={t('ProgessDetailReport.producingSteps')}
+                    options={listProducingSteps}
+                    getOptionValue={(opt) => opt?.producingStepId}
+                    getOptionLabel={(opt) => opt?.producingStepName}
+                    onChange={(id) => handleChangeProducingStep(id)}
                   />
                 </Grid>
                 <Grid item lg={6} xs={12}>
