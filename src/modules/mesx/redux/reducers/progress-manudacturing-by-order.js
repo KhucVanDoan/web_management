@@ -28,6 +28,7 @@ export default function progressManufacturingByOrder(
     case GET_PROGRESS_MANUFACTURING_BY_ORDERD_FAILED:
       return {
         ...state,
+        progressByOrderList: [],
         isLoading: false,
       }
     default:
