@@ -93,7 +93,7 @@ function ProgressDetailReport() {
       producingStepId: values?.producingStepId,
       workCenterId: values?.workCenterId,
     }
-    actionProgress.getProducingStepDashboard(params)
+    actionProgress.getProgressDetailReport(params)
   }
   return (
     <Formik

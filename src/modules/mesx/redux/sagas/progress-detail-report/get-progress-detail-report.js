@@ -1,9 +1,9 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getProducingStepDashboardFailed,
-  getProducingStepDashboardSuccess,
-  GET_PRODUCING_STEP_DASHBOARD_START,
+  getProgressDetailReportFailed,
+  getProgressDetailReportSuccess,
+  GET_PROGRESS_DETAIL_REPORT_START,
 } from '~/modules/mesx/redux/actions/progress-detail-report'
 import { api } from '~/services/api'
 
@@ -26,7 +26,7 @@ function* doGetProgressDetailReports(action) {
     const response = yield call(getProgressDeatilReportApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getProducingStepDashboardSuccess(response.data))
+      yield put(getProgressDetailReportSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -36,7 +36,7 @@ function* doGetProgressDetailReports(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getProducingStepDashboardFailed())
+    yield put(getProgressDetailReportFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -48,8 +48,5 @@ function* doGetProgressDetailReports(action) {
  * Get data saga
  */
 export default function* watchProgressDetailReportData() {
-  yield takeLatest(
-    GET_PRODUCING_STEP_DASHBOARD_START,
-    doGetProgressDetailReports,
-  )
+  yield takeLatest(GET_PROGRESS_DETAIL_REPORT_START, doGetProgressDetailReports)
 }

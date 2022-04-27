@@ -1,28 +1,28 @@
-export const GET_PRODUCING_STEP_DASHBOARD_START =
-  'MESX_GET_PRODUCING_STEP_DASHBOARD_START'
-export const GET_PRODUCING_STEP_DASHBOARD_SUCCESS =
-  'MESX_GET_PRODUCING_STEP_DASHBOARD_SUCCESS'
-export const GET_PRODUCING_STEP_DASHBOARD_FAILED =
-  'MESX_GET_PRODUCING_STEP_DASHBOARD_FAILED'
-export const getProducingStepDashboard = (payload, onSuccess, onError) => ({
-  type: GET_PRODUCING_STEP_DASHBOARD_START,
+export const GET_PROGRESS_DETAIL_REPORT_START =
+  'MESX_GET_PROGRESS_DETAIL_REPORT_START'
+export const GET_PROGRESS_DETAIL_REPORT_SUCCESS =
+  'MESX_GET_PROGRESS_DETAIL_REPORT_SUCCESS'
+export const GET_PROGRESS_DETAIL_REPORT_FAILED =
+  'MESX_GET_PROGRESS_DETAIL_REPORT_FAILED'
+export const getProgressDetailReport = (payload, onSuccess, onError) => ({
+  type: GET_PROGRESS_DETAIL_REPORT_START,
   payload,
   onSuccess,
   onError,
 })
 
-export const getProducingStepDashboardSuccess = (payload) => ({
-  type: GET_PRODUCING_STEP_DASHBOARD_SUCCESS,
+export const getProgressDetailReportSuccess = (payload) => ({
+  type: GET_PROGRESS_DETAIL_REPORT_SUCCESS,
   payload,
 })
 
-export const getProducingStepDashboardFailed = (payload) => ({
-  type: GET_PRODUCING_STEP_DASHBOARD_FAILED,
+export const getProgressDetailReportFailed = (payload) => ({
+  type: GET_PROGRESS_DETAIL_REPORT_FAILED,
   payload,
 })
 
 export default {
-  getProducingStepDashboard,
-  getProducingStepDashboardSuccess,
-  getProducingStepDashboardFailed,
+  getProgressDetailReport,
+  getProgressDetailReportSuccess,
+  getProgressDetailReportFailed,
 }
