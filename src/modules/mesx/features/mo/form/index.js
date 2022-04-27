@@ -281,7 +281,7 @@ const MOForm = () => {
         validationSchema={validationSchema(t)}
         onSubmit={handleSubmit}
       >
-        {({ handleReset, setFieldValue }) => (
+        {({ handleReset, setFieldValue, errors, touched }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -413,6 +413,8 @@ const MOForm = () => {
                     }
                     isUpdate={isUpdate}
                     moDetails={moDetails}
+                    errors={errors}
+                    touched={touched}
                   />
                   <BomTable
                     BOMStructure={BOMStructure}
