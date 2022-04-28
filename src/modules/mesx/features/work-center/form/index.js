@@ -31,7 +31,7 @@ import {
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
+import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
