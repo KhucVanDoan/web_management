@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid, createFilterOptions } from '@mui/material'
+import { Grid, createFilterOptions, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -55,7 +55,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                 rowSpacing={4 / 3}
                 columnSpacing={{ xl: 8, xs: 4 }}
               >
-                <Grid item xs={12} lg={5}>
+                <Grid item xs={12} lg={6}>
                   <Field.Autocomplete
                     name="workCenterName"
                     label={t(
@@ -72,7 +72,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     })}
                   />
                 </Grid>
-                <Grid item xs={12} lg={5}>
+                <Grid item xs={12} lg={6}>
                   <Field.Autocomplete
                     name="status"
                     label={t('userManagement.status')}
@@ -84,10 +84,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     getOptionLabel={(opt) => t(opt?.text)}
                   />
                 </Grid>
-                <Grid item xs={12} lg={2}>
-                  <Button type="submit">{t('common.search')}</Button>
-                </Grid>
-                <Grid item xs={12} lg={5}>
+                <Grid item xs={12} lg={6}>
                   <Field.Autocomplete
                     name="masterPlan"
                     label={t('progressManufacturingByWorkCenter.masterPlan')}
@@ -102,7 +99,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     })}
                   />
                 </Grid>
-                <Grid item xs={12} lg={5}>
+                <Grid item xs={12} lg={6}>
                   <Field.DateRangePicker
                     name="planDate"
                     label={t('progressManufacturingByWorkCenter.planDate')}
@@ -111,18 +108,20 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} lg={2}>
-                  <Button
-                    variant="outlined"
-                    color="subText"
-                    sx={{ width: 110 }}
-                    onClick={() => {
-                      handleReset()
-                      setFilters(initialValues)
-                    }}
-                  >
-                    {t('common.cancel')}
-                  </Button>
+                <Grid item xs={12}>
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      color="grayF4"
+                      sx={{ ml: 'auto', mr: '8px' }}
+                      onClick={() => {
+                        handleReset()
+                        setFilters(initialValues)
+                      }}
+                    >
+                      {t('common.cancel')}
+                    </Button>
+                    <Button type="submit">{t('common.search')}</Button>
+                  </Box>
                 </Grid>
               </Grid>
             </Grid>

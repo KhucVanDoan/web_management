@@ -215,9 +215,9 @@ function DefineItemForm() {
 
   useEffect(() => {
     if (params?.id) {
-      const id = params?.id
-      actions.getItemDetailsById(id)
+      actions.getItemDetailsById(params?.id)
     }
+
     if (cloneId) {
       actions.getItemDetailsById(cloneId)
     }

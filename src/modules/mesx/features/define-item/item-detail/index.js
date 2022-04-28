@@ -105,13 +105,13 @@ function DefineItemDetail() {
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <LV
-                    label={t('defineItem.typeCode')}
+                    label={t('defineItem.groupCode')}
                     value={itemDetails?.itemGroup?.code}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <LV
-                    label={t('defineItem.typeName')}
+                    label={t('defineItem.groupName')}
                     value={itemDetails?.itemGroup?.name}
                   />
                 </Grid>
