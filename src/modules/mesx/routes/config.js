@@ -447,4 +447,8 @@ export const ROUTE = {
       TITLE: 'detailWorkCenterPlan',
     },
   },
+  PROGRESS_DETAIL_REPORT: {
+    PATH: '/mesx/progress-detail-report',
+    TITLE: 'progressDetailReport',
+  },
 }

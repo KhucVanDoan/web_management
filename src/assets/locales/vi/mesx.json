@@ -121,7 +121,8 @@
     "autoModeration": "Chi tiết công việc",
     "extendDeadline": "Giãn ngày kết thúc",
     "inputModeration": "Điều độ công việc",
-    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng"
+    "detailWorkCenterPlan": "Chi tiết kế hoạch xưởng",
+    "progressDetailReport": "Báo cáo chi tiết tiến độ"
   },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
@@ -1673,5 +1674,21 @@
     "inProgress": "Đang thực hiện",
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
+  },
+  "ProgessDetailReport": {
+    "title": "Báo cáo chi tiết tiến độ",
+    "moCode": "Mã lệnh sản xuất",
+    "workCenter": "Tên xưởng",
+    "itemName": "Tên sản phẩm",
+    "producingSteps": "Tên công đoạn",
+    "actualQuantity": "Số lượng sản xuất",
+    "moderationQuantity": "Số lượng điều độ",
+    "delayQuantity": "Số lượng trễ",
+    "accumlateQuantity": "Kế hoạch trễ (lũy kế)",
+    "accumlateDelayQuantity": "Số lượng trễ (lũy kế)",
+    "accumlateActualQuantity": "Tiến độ (lũy kế)",
+    "quantity": "số lượng kế hoạch",
+    "plan": "Kế hoạch",
+    "export": "Xuất dữ liệu"
   }
 }

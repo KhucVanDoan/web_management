@@ -138,6 +138,7 @@ import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
+import watchProgressDetailReportData from './progress-detail-report/get-progress-detail-report'
 import watchExportQualityReportData from './quality-report/export.saga'
 import watchQualityReportData from './quality-report/index.saga'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
@@ -444,5 +445,7 @@ export default function* sagas() {
     //user-permission
     watchGetUserPermission(),
     watchUpdateUserPermission(),
+    //progress-detail-report
+    watchProgressDetailReportData(),
   ])
 }
