@@ -9,7 +9,8 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/mesx/constants'
+import { DEFAULT_ITEM_TYPE_ENUM, ORDER_STATUS } from '~/modules/mesx/constants'
+import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
@@ -20,6 +21,16 @@ const ItemSettingTable = (props) => {
     data: { itemList },
     actions,
   } = useCommonManagement()
+
+  const {
+    data: { BOMList },
+    actions: bomActions,
+  } = useBOM()
+
+  useEffect(() => {
+    bomActions.searchBOM({ isGetAll: 1 })
+  }, [])
+
   const isView = mode === MODAL_MODE.DETAIL
 
   useEffect(() => {
@@ -52,8 +63,11 @@ const ItemSettingTable = (props) => {
             (i) =>
               i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.MATERIAL.code ||
               (i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.SEMI.code &&
-                i.isHasBom),
+                i.isHasBom &&
+                (BOMList || []).find((bom) => bom.item?.itemId === i.id)
+                  ?.status === ORDER_STATUS.CONFIRMED),
           )
+
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>

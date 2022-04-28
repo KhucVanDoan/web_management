@@ -194,7 +194,6 @@ function ProgressManufacturingByWorkCenter() {
   ]
 
   const refreshData = () => {
-    // console.log('filters', filters)
     const params = {
       isGetAll: 1,
       keyword: keyword.trim(),
