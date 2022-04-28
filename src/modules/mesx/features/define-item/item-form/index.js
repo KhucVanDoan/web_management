@@ -371,13 +371,15 @@ function DefineItemForm() {
                             label={t('defineItem.typeCode')}
                             placeholder={t('defineItem.typeCode')}
                             options={itemTypeList}
-                            getOptionLabel={(opt) =>
-                              `${opt?.code} - ${opt?.name}`
+                            getOptionLabel={(opt) => opt?.code}
+                            getOptionSubLabel={(opt) => opt?.name}
+                            isOptionEqualToValue={(opt, val) =>
+                              opt?.code === val?.code
                             }
-                            getOptionValue={(opt) => opt}
                             filterOptions={createFilterOptions({
                               stringify: (opt) => `${opt?.code}|${opt?.name}`,
                             })}
+                            subLabelWidth="70%"
                             required
                           />
                         </Grid>
@@ -401,7 +403,9 @@ function DefineItemForm() {
                               })
                             }
                             asyncRequestHelper={(res) => res?.data?.items}
-                            getOptionLabel={(opt) => opt?.name}
+                            getOptionLabel={(opt) => opt?.code}
+                            getOptionSubLabel={(opt) => opt?.name}
+                            subLabelWidth="70%"
                             required
                           />
                         </Grid>

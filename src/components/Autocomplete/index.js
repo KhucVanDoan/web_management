@@ -68,21 +68,22 @@ const Autocomplete = ({
   const debouncedInputValue = useDebounce(inputValue, 200)
   const rawOptionsRef = useRef()
 
+  const isOptEqual = (opt, v) =>
+    typeof isOptionEqualToValue === 'function'
+      ? isOptionEqualToValue(opt, v)
+      : isEqual(getOptionValue(opt), v)
+
   const parseValue = (val, opts = []) => {
     if (multiple) {
       return opts.filter((opt) => {
         if (isArray(val)) {
-          return val?.some((v) =>
-            typeof isOptionEqualToValue === 'function'
-              ? isOptionEqualToValue(opt, v)
-              : isEqual(getOptionValue(opt), v),
-          )
+          return val?.some((v) => isOptEqual(opt, v))
         }
         return false
       })
     }
 
-    return opts.find((opt) => isEqual(getOptionValue(opt), val)) || null
+    return opts.find((opt) => isOptEqual(opt, val)) || null
   }
 
   const resetOptions = () => {
