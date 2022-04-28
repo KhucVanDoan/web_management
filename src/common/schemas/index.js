@@ -29,17 +29,9 @@ export const numberSchema = (t) =>
     )
 
 export const passwordSchema = (t) =>
-  Yup.string()
-    .min(
-      TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
-      t('general:form.minLength', {
-        min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
-      }),
-    )
-    .matches(
-      // eslint-disable-next-line no-useless-escape
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|])/,
-      {
-        message: t('general:form.validatePassword'),
-      },
-    )
+  Yup.string().min(
+    TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
+    t('general:form.minLength', {
+      min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
+    }),
+  )
