@@ -1,4 +1,3 @@
-// @TODO: rename all saga files
 import { all } from 'redux-saga/effects'
 
 import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step.saga'
