@@ -5,7 +5,7 @@ import {
   createWorkCenterPlanFailed,
   createWorkCenterPlanSuccess,
   CREATE_WORK_CENTER_PLAN_START,
-} from '~/modules/mesx/redux/actions/work-center-plan.action'
+} from '~/modules/mesx/redux/actions/work-center-plan'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 

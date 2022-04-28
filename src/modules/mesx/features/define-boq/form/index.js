@@ -18,7 +18,7 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
+import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'

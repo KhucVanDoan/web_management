@@ -23,7 +23,7 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import TextField from '~/components/TextField'
-import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items.saga'
+import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items'
 
 const Elements = () => {
   const theme = useTheme()
@@ -49,7 +49,8 @@ const Elements = () => {
 
   const mockImportExportErrorResponse = () => ({
     statusCode: 406,
-    message: 'Số lượng bản ghi quá lớn (27), hệ thống chỉ xuất tối đa 20 bản ghi. Vui lòng lọc điều kiện và thực hiện xuất file.',
+    message:
+      'Số lượng bản ghi quá lớn (27), hệ thống chỉ xuất tối đa 20 bản ghi. Vui lòng lọc điều kiện và thực hiện xuất file.',
   })
 
   const mockOptions = new Array(10).fill({}).map((_, index) => ({
