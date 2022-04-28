@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Column } from '@ant-design/plots'
 
 import useProductivityCompare from '~/modules/mesx/redux/hooks/useProductivityCompare'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 function ChartCompare() {
   const [data, setData] = useState([])
@@ -15,7 +16,7 @@ function ChartCompare() {
       const name = element?.workCenterName
       const list = element?.productivityAssessmentReportSchedules?.map((i) => ({
         name: name,
-        time: i?.executionDay,
+        time: convertUtcDateToLocalTz(i?.executionDay),
         value: Math.round(Number(i?.productivityRatio) * 100) / 100,
       }))
       listData.push(...list)

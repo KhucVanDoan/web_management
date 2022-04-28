@@ -38,18 +38,22 @@ function ProductivityCompareReport() {
     >
       <ProductivityCompareFilter />
       <Box mt={2}>
-        <Typography variant="h3" color="primary">
+        <Typography variant="h4" component="span">
           {t('productivityCompareReport.productivityWorkCenter')}
         </Typography>
         <ChartCompare />
-        <TableCompare />
+        <Box mt={4}>
+          <TableCompare />
+        </Box>
       </Box>
       <Box mt={2}>
-        <Typography variant="h3" color="primary">
+        <Typography variant="h4" component="span">
           {t('productivityCompareReport.oeeWorkCenter')}
         </Typography>
         <OeeCompare />
-        <OeeTable />
+        <Box mt={4}>
+          <OeeTable />
+        </Box>
       </Box>
     </Page>
   )

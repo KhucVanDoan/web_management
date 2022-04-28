@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import useProductivityCompare from '~/modules/mesx/redux/hooks/useProductivityCompare'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 function OeeTable() {
   const { t } = useTranslation(['mesx'])
@@ -26,7 +27,7 @@ function OeeTable() {
       )
       const columnData = colMap.map((i) => ({
         field: i,
-        headerName: i,
+        headerName: convertUtcDateToLocalTz(i),
       }))
       columns.push(...columnData)
     }
