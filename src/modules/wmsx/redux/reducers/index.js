@@ -1,3 +1,7 @@
 import { combineReducers } from 'redux'
 
-export default combineReducers({})
+import defineDetail from './define-detail'
+
+export default combineReducers({
+  defineDetail,
+})

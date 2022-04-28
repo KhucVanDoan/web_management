@@ -1,6 +1,83 @@
 {
   "menu": {
     "wmsx": "WMSX",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "importExportData": "Nhập/Xuất dữ liệu",
+    "defineCategory": "Định nghĩa danh mục",
+    "defineDetail": "Định nghĩa chi tiết",
+    "defineDetailCreate": "Tạo chi tiết",
+    "defineDetailEdit": "Sửa chi tiết",
+    "defineDetailDetail": "Chi tiết chi tiết"
+  },
+  "message": {
+    "fieldIsRequired": "Mục này bắt buộc phải nhập.",
+    "unknownError": "Có lỗi xảy ra vui lòng thử lại",
+    "noData": "Không có dữ liệu.",
+    "lessThan": "Gía trị phải nhỏ hơn {{max}}"
+  },
+  "modal": {
+    "btnSubmit": "Xác nhận",
+    "btnCancel": "Huỷ",
+    "btnClose": "Đóng"
+  },
+  "common": {
+    "yes": "Có",
+    "no": "Không",
+    "all": "Tất cả",
+    "cancel": "Huỷ",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "action": "Hành động",
+    "printQR": "In mã QR",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "createModal": "Tạo",
+    "save": "Lưu",
+    "print": "In",
+    "amount": "Số lượng",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "accept": "Xác nhận",
+    "reject": "Từ chối",
+    "notify": "Thông báo",
+    "confirmMessage": {
+      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
+      "reject": "Bạn có chắc chắn muốn từ chối không?"
+    },
+    "creator": "Người tạo",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "day": "Ngày",
+    "week": "Tuần",
+    "month": "Tháng",
+    "quater": "Quý",
+    "export": "Xuất",
+    "import": "Nhập",
+    "dayOfWeeks7": "Chủ nhật",
+    "dayOfWeeks1": "Thứ 2",
+    "dayOfWeeks2": "Thứ 3",
+    "dayOfWeeks3": "Thứ 4",
+    "dayOfWeeks4": "Thứ 5",
+    "dayOfWeeks5": "Thứ 6",
+    "dayOfWeeks6": "Thứ 7"
+  },
+  "defineDetail": {
+    "title": "Danh sách chi tiết",
+    "code": "Mã chi tiết",
+    "name": "Tên chi tiết",
+    "description": "Mô tả về chi tiết",
+    "searchPlaceholder": "Tìm kiếm chi tiết theo mã hoặc tên",
+    "createTime": "Thời gian tạo",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "action": "Hành động",
+    "createdByUser": "Người tạo",
+    "defineDetailDelete": "Xóa chi tiết",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa chi tiết này không?",
+    "deleteDetailSuccess": "Xóa chi tiết thành công",
+    "createDetailSuccess": "Tạo chi tiết thành công",
+    "updateDetailSuccess": "Cập nhật chi tiết thành công",
+    "delete": "Xóa chi tiết",
+    "deleteButton": "Xoá chi tiết"
   }
 }
