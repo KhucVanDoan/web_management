@@ -3,6 +3,9 @@ import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
 
+import WarehouseSettingDetail from '../features/warehouse-setting/detail'
+import WarehouseSettingForm from '../features/warehouse-setting/form'
+import WarehouseSetting from '../features/warehouse-setting/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -12,6 +15,39 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.WAREHOUSE_SETUP.TITLE,
+    isInSidebar: true,
+    icon: 'setting',
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_SETTING.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_SETTING.LIST.PATH,
+        component: WarehouseSetting,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_SETTING.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_SETTING.CREATE.PATH,
+            component: WarehouseSettingForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_SETTING.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_SETTING.EDIT.PATH,
+            component: WarehouseSettingForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.WAREHOUSE_SETTING.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_SETTING.DETAIL.PATH,
+            component: WarehouseSettingDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.DEFINE_CATEGORY.TITLE,

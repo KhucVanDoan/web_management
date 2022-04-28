@@ -3,6 +3,27 @@ export const ROUTE = {
     PATH: '/wmsx',
     TITLE: 'dashboard',
   },
+  WAREHOUSE_SETUP: {
+    TITLE: 'warehouseSetup',
+  },
+  WAREHOUSE_SETTING: {
+    LIST: {
+      PATH: '/wmsx/warehouse-setting',
+      TITLE: 'warehouseSetting',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-setting/create',
+      TITLE: 'warehouseSettingCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-setting/:id/edit',
+      TITLE: 'warehouseSettingEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-setting/:id/detail',
+      TITLE: 'warehouseSettingDetail',
+    },
+  },
   DEFINE_CATEGORY: {
     PATH: '/wmsx/define-category',
     TITLE: 'defineCategory',
