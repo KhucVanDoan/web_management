@@ -1,1 +1,6 @@
-{}
+{
+  "menu": {
+    "wmsx": "WMSX",
+    "dashboard": "Dashboard"
+  }
+}

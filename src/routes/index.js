@@ -6,6 +6,7 @@ import mesxRoutes from '~/modules/mesx/routes'
 import publicRoutes from '~/modules/public/routes'
 import qmsxRoutes from '~/modules/qmsx/routes'
 import welcomeRoute from '~/modules/welcome/routes'
+import wmsxRoutes from '~/modules/wmsx/routes'
 
 const flatten = (arr) => {
   if (!arr) return []
@@ -21,10 +22,11 @@ const flatten = (arr) => {
 }
 
 export const privateRoutes = [
-  ...mesxRoutes,
   welcomeRoute,
+  ...mesxRoutes,
   ...qmsxRoutes,
   ...databaseRoutes,
+  ...wmsxRoutes,
 ]
 export const privateRoutesFlatten = flatten(privateRoutes)
 
@@ -33,6 +35,6 @@ export const appRoutesFlatten = flatten(appRoutes)
 export const appRoutesObj = {
   mesx: mesxRoutes,
   qmsx: qmsxRoutes,
+  wmsx: wmsxRoutes,
   database: databaseRoutes,
-  // add other modules here
 }

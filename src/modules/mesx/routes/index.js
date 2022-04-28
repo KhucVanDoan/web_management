@@ -89,7 +89,7 @@ const routes = [
     isInSidebar: true,
   },
   {
-    name: 'database',
+    name: ROUTE.DATABASE.TITLE,
     icon: 'database',
     isInSidebar: true,
     subMenu: [
