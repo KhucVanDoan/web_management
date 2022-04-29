@@ -76,7 +76,7 @@ const DefineMasterPlanForm = () => {
   useEffect(() => {
     // set soId when update
     if (masterPlanDetails?.saleOrderSchedules && isUpdate) {
-      setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.id))
+      setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
     }
   }, [masterPlanDetails])
 
@@ -215,14 +215,16 @@ const DefineMasterPlanForm = () => {
       }
 
   const handleChangeSoId = (val, setFieldValue) => {
-    actionSaleOrder.getSaleOrderDetailsByIds(
-      { ids: val?.map((i) => i?.id).join(',') },
-      (data) => {
-        const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
-        const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
-        setFieldValue('planDate', [dateFrom, dateTo])
-      },
-    )
+    if (!isEmpty(val)) {
+      actionSaleOrder.getSaleOrderDetailsByIds(
+        { ids: val?.map((i) => i?.id).join(',') },
+        (data) => {
+          const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
+          const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
+          setFieldValue('planDate', [dateFrom, dateTo])
+        },
+      )
+    }
   }
 
   return (
@@ -266,7 +268,6 @@ const DefineMasterPlanForm = () => {
                       name="soId"
                       placeholder={t('defineMasterPlan.saleOrder')}
                       required
-                      options={masterPlanDetails?.saleOrderSchedules}
                       getOptionLabel={(opt) => opt?.code || opt?.saleOrderName}
                       getOptionSubLabel={(opt) => opt?.name}
                       asyncRequest={(s) =>
