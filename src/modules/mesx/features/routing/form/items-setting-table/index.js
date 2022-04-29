@@ -12,11 +12,12 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { PRODUCING_STEP_STATUS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { scrollToBottom } from '~/utils'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['mesx'])
@@ -58,6 +59,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                 searchProducingStepsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: [PRODUCING_STEP_STATUS.CONFIRMED],
+                  }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
