@@ -18,6 +18,10 @@ const style = (theme) => ({
         input: {
           paddingLeft: 9,
         },
+
+        '.MuiOutlinedInput-notchedOutline': {
+          border: 'none',
+        },
       },
     },
   },

@@ -375,7 +375,7 @@ const PreviousPlanDetailTable = (props) => {
               type="number"
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end" sx={{ mr: 1 }}>
+                  <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
                     %
                   </InputAdornment>
                 ),
