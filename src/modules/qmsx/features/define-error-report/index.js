@@ -157,7 +157,7 @@ function DefineErrorReport() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -361,9 +361,9 @@ function DefineErrorReport() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineErrorReport.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineErrorReport.modalConfirmContent')}
@@ -372,9 +372,9 @@ function DefineErrorReport() {
         open={modalReject.isOpenRejectModal}
         title={t('defineErrorReport.modalRejectTitle')}
         onCancel={onCloseRejectModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitReject}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineErrorReport.modalRejectContent')}

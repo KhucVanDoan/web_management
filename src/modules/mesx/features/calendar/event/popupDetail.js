@@ -96,7 +96,7 @@ function PopupDetail(props) {
       open={open}
       title={t('planCalendar.detail')}
       onCancel={handleClose}
-      cancelLabel={t('common.close')}
+      cancelLabel={t('general:common.close')}
       noBorderBottom
       maxWidth="lg"
     >
@@ -118,7 +118,7 @@ function PopupDetail(props) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <Button type="submit">{t('common.filter')}</Button>
+                  <Button type="submit">{t('general:common.filter')}</Button>
                 </Grid>
               </Grid>
             </Grid>

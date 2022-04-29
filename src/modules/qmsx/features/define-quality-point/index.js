@@ -118,7 +118,7 @@ function DefineQualityPoint() {
     },
     {
       field: 'createdAt',
-      headerName: t('common.createdAt'),
+      headerName: t('general:common.createdAt'),
       width: 150,
       sortable: true,
       renderCell: (params) => {
@@ -145,7 +145,7 @@ function DefineQualityPoint() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -305,7 +305,7 @@ function DefineQualityPoint() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -341,9 +341,9 @@ function DefineQualityPoint() {
         open={modalDelete.isOpenDeleteModal}
         title={t('defineQualityPoint.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -355,9 +355,9 @@ function DefineQualityPoint() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineQualityPoint.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineQualityPoint.modalConfirmContent')}

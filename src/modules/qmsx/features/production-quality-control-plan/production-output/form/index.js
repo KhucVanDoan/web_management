@@ -207,7 +207,7 @@ function ProductionOutputQualityControlPlanForm() {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('general:common.close')}
             </Button>
             <Button
               onClick={() => {

@@ -183,7 +183,7 @@ function DefineDetail() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -215,9 +215,9 @@ function DefineDetail() {
         open={modal.isOpenDeleteModal}
         title={t('defineDetail.defineDetailDelete')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDeleteModal}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

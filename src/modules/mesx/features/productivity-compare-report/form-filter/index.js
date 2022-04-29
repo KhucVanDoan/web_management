@@ -128,7 +128,7 @@ function ProductivityCompareFilter() {
                 </Grid>
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button type="submit">{t('common.search')}</Button>
+                    <Button type="submit">{t('general:common.search')}</Button>
                   </Box>
                 </Grid>
               </Grid>

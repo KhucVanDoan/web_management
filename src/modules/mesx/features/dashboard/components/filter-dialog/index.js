@@ -24,14 +24,14 @@ const FilterDialog = ({ children, onSubmit }) => {
 
       <Dialog
         open={openDialog}
-        title={t('common.filter')}
+        title={t('general:common.filter')}
         onCancel={() => setOpenDialog(false)}
         cancelLabel={t('modal.btnClose')}
         onSubmit={() => {
           setOpenDialog(false)
           onSubmit()
         }}
-        submitLabel={t('modal.btnSubmit')}
+        submitLabel={t('general:modal.btnSubmit')}
       >
         {children}
       </Dialog>

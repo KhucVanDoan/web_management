@@ -118,9 +118,9 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                         setFilters(initialValues)
                       }}
                     >
-                      {t('common.cancel')}
+                      {t('general:common.cancel')}
                     </Button>
-                    <Button type="submit">{t('common.search')}</Button>
+                    <Button type="submit">{t('general:common.search')}</Button>
                   </Box>
                 </Grid>
               </Grid>

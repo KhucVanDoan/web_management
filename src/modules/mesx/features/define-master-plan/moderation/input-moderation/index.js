@@ -118,8 +118,12 @@ const InputModeration = () => {
     const totalQuantityByDay = []
     const groupWorkCenter = groupBy(
       workCenterSchedules.map((workCenterSchedule) => {
-        totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] = (totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] || 0) + workCenterSchedule.quantity
-        totalQuantityByDay[workCenterSchedule.excutionDate] = (totalQuantityByDay[workCenterSchedule.excutionDate] || 0) + workCenterSchedule.quantity
+        totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] =
+          (totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] || 0) +
+          workCenterSchedule.quantity
+        totalQuantityByDay[workCenterSchedule.excutionDate] =
+          (totalQuantityByDay[workCenterSchedule.excutionDate] || 0) +
+          workCenterSchedule.quantity
         return {
           workCenterId: workCenterSchedule.workCenterId,
           workCenterName: workCenterSchedule.workCenterName,
@@ -133,13 +137,15 @@ const InputModeration = () => {
       }),
       'workCenterId',
     )
-    groupWorkCenter[TOTAL_BY_DAY_KEY] = Object.keys(totalQuantityByDay).map((executionDate) => ({
-      workCenterId: TOTAL_BY_DAY_KEY,
-      [executionDate]: {
-        quantity: totalQuantityByDay[executionDate],
-        workCenterDetailSchedules: []
-      },
-    }))
+    groupWorkCenter[TOTAL_BY_DAY_KEY] = Object.keys(totalQuantityByDay).map(
+      (executionDate) => ({
+        workCenterId: TOTAL_BY_DAY_KEY,
+        [executionDate]: {
+          quantity: totalQuantityByDay[executionDate],
+          workCenterDetailSchedules: [],
+        },
+      }),
+    )
 
     return Object.keys(groupWorkCenter).map((key) => ({
       ...groupWorkCenter[key].reduce((prev, cur) => ({ ...prev, ...cur }), {}),
@@ -205,7 +211,9 @@ const InputModeration = () => {
                     />
                   )
                 } else {
-                  return initialValues[`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`]
+                  return initialValues[
+                    `${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`
+                  ]
                 }
               },
             })),
@@ -237,12 +245,19 @@ const InputModeration = () => {
     currentProducingStep,
   ) => {
     const workCenterSchedules = keyBy(
-      currentProducingStep.workCenterSchedule.filter(workCenterSchedule => workCenterSchedule.workCenterId !== TOTAL_BY_DAY_KEY),
+      currentProducingStep.workCenterSchedule.filter(
+        (workCenterSchedule) =>
+          workCenterSchedule.workCenterId !== TOTAL_BY_DAY_KEY,
+      ),
       'workCenterId',
     )
     const result = []
     Object.keys(values)
-      .filter((key) => key.split('_')[0] === producingStepId && !key.includes(TOTAL_BY_DAY_KEY))
+      .filter(
+        (key) =>
+          key.split('_')[0] === producingStepId &&
+          !key.includes(TOTAL_BY_DAY_KEY),
+      )
       .forEach((key) => {
         const currentWorkCenterSchedule = workCenterSchedules[key.split('_')[1]]
         const currentWorkCenterScheduleDetail =
@@ -361,12 +376,12 @@ const InputModeration = () => {
                 }}
               >
                 <Button color="grayF4" onClick={backToAutoModeration}>
-                  {t('common.close')}
+                  {t('general:common.close')}
                 </Button>
                 <Button variant="outlined" color="subText" onClick={resetForm}>
-                  {t('common.cancel')}
+                  {t('general:common.cancel')}
                 </Button>
-                <Button type="submit">{t('common.save')}</Button>
+                <Button type="submit">{t('general:common.save')}</Button>
               </Box>
             </Form>
           )}
