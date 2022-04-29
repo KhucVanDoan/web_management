@@ -21,11 +21,11 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { MO_STATUS } from '~/modules/mesx/constants'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
-import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors.saga'
+import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
 import { searchCompaniesApi } from '~/modules/mesx/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
@@ -47,8 +47,13 @@ function PurchasedOrderForm() {
   } = useMo()
 
   const {
-    appStore: { companies },
-  } = useAppStore()
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
 
   const {
     data: { purchasedOrderDetails, isLoading },
@@ -98,7 +103,7 @@ function PurchasedOrderForm() {
       purchasedAt: purchasedOrderDetails?.purchasedAt || '',
       vendorId: purchasedOrderDetails?.vendor || null,
       companyId:
-        companies?.find(
+        companyList?.find(
           (item) => item.id === purchasedOrderDetails?.companyId,
         ) || null,
       deadline: purchasedOrderDetails?.deadline || null,

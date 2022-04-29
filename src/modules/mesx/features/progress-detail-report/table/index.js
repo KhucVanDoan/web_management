@@ -9,7 +9,7 @@ import { convertUtcDateToLocalTz } from '~/utils'
 const ProgressTable = () => {
   const { t } = useTranslation(['mesx'])
   const {
-    data: { progressDetailReaport },
+    data: { progressDetailReports },
   } = useProgressDetailReport()
   const columns = [
     {
@@ -71,7 +71,7 @@ const ProgressTable = () => {
   ]
   return (
     <DataTable
-      rows={progressDetailReaport}
+      rows={progressDetailReports}
       columns={columns}
       hideSetting
       hideFooter

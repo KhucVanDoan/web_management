@@ -2,21 +2,20 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteWorkCenterPlanFailed,
-  deleteWorkCenterPlanSuccess,
-  DELETE_WORK_CENTER_PLAN_START,
-} from '~/modules/mesx/redux/actions/work-center-plan.action'
+  deleteWarehouseSettingSuccess,
+  deleteWarehouseSettingFailed,
+  DELETE_WAREHOUSE_SETTING_START,
+} from '~/modules/wmsx/redux/actions/warehouse-setting'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Delete work center plan API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteWorkCenterPlanApi = (params) => {
-  const { id, wcId } = params
-  const uri = `/v1/produces/work-orders/${id}/schedules/work-centers/${wcId}`
+const deleteWarehouseSettingApi = (params) => {
+  const uri = `/v1/warehouses/warehouse-type-settings/${params}`
   return api.delete(uri)
 }
 
@@ -24,12 +23,12 @@ const deleteWorkCenterPlanApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doDeleteWorkCenterPlan(action) {
+function* doDeleteWarehouseSetting(action) {
   try {
-    const response = yield call(deleteWorkCenterPlanApi, action?.payload)
+    const response = yield call(deleteWarehouseSettingApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteWorkCenterPlanSuccess(response.data))
+      yield put(deleteWarehouseSettingSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -42,7 +41,7 @@ function* doDeleteWorkCenterPlan(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteWorkCenterPlanFailed())
+    yield put(deleteWarehouseSettingFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -53,6 +52,6 @@ function* doDeleteWorkCenterPlan(action) {
 /**
  * Watch search users
  */
-export default function* watchDeleteWorkCenterPlan() {
-  yield takeLatest(DELETE_WORK_CENTER_PLAN_START, doDeleteWorkCenterPlan)
+export default function* watchDeleteWarehouseSetting() {
+  yield takeLatest(DELETE_WAREHOUSE_SETTING_START, doDeleteWarehouseSetting)
 }

@@ -10,7 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { getDetailsApi } from '~/modules/mesx/redux/sagas/common/get-details.saga'
+import { getDetailsApi } from '~/modules/mesx/redux/sagas/common/get-details'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {

@@ -79,7 +79,7 @@ export default function defineItem(state = initialState, action) {
     case RESET_ITEM_DETAILS_STATE:
       return {
         ...state,
-        itemGroupDetails: {},
+        itemDetails: {},
       }
     default:
       return state

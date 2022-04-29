@@ -20,7 +20,7 @@ import {
   CONFIRM_WORK_CENTER_PLAN_START,
   CONFIRM_WORK_CENTER_PLAN_FAILED,
   CONFIRM_WORK_CENTER_PLAN_SUCCESS,
-} from '~/modules/mesx/redux/actions/work-center-plan.action'
+} from '~/modules/mesx/redux/actions/work-center-plan'
 
 const initialState = {
   isLoading: false,

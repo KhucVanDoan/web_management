@@ -4,7 +4,7 @@ import {
   getWorkCenterPlanDetailByIdFailed,
   getWorkCenterPlanDetailByIdSuccess,
   GET_WORK_CENTER_PLAN_DETAILS_START,
-} from '~/modules/mesx/redux/actions/work-center-plan.action'
+} from '~/modules/mesx/redux/actions/work-center-plan'
 import { api } from '~/services/api'
 
 /**

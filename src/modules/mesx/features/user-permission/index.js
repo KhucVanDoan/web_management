@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Grid, Checkbox, FormControlLabel, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { flatten, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -33,11 +34,14 @@ function UserPermission() {
   const [permissionList, setPermissionList] = useState([])
 
   const { page, pageSize, setPage, setPageSize } = useQueryState()
-
   const {
     data: { roleDetail, isLoading },
     actions,
   } = useUserPermission()
+
+  const listRole = flatten(
+    map(appStore.groupPermisions, (per) => per.permissionSetting),
+  )
 
   const initialValues = {
     departmentId: null,
@@ -45,7 +49,7 @@ function UserPermission() {
   }
 
   useEffect(() => {
-    if (!!userRoleId) {
+    if (userRoleId) {
       const params = {
         department: departmentId,
         role: userRoleId,
@@ -72,9 +76,9 @@ function UserPermission() {
   }, [appStore.groupPermisions, page, pageSize])
 
   useEffect(() => {
-    const newArr = appStore.userPermisions?.map((item) => {
+    const newArr = listRole?.map((item) => {
       return {
-        ...item,
+        code: item.code,
         status: !!roleDetail.find(
           (role) => role.permissionSettingCode === item.code,
         ),

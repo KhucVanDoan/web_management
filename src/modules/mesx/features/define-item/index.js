@@ -17,6 +17,7 @@ import { ROUTE } from '~/modules/database/routes/config'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import { ROUTE as MESX_ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertUtcDateTimeToLocalTz,
   convertFilterParams,
@@ -184,7 +185,10 @@ function DefineItem() {
               size="small"
               onClick={() =>
                 history.push(
-                  ROUTE.DEFINE_BOM.DETAIL.PATH.replace(':id', `${itemHasBom}`),
+                  MESX_ROUTE.DEFINE_BOM.DETAIL.PATH.replace(
+                    ':id',
+                    `${itemHasBom}`,
+                  ),
                 )
               }
             >
@@ -196,7 +200,9 @@ function DefineItem() {
               bold={false}
               size="small"
               onClick={() =>
-                history.push(ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id)
+                history.push(
+                  MESX_ROUTE.DEFINE_BOM.CREATE.PATH + '?itemId=' + id,
+                )
               }
             >
               {t('defineItem.bom')}

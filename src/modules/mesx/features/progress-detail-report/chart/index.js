@@ -7,52 +7,51 @@ import { useTranslation } from 'react-i18next'
 import useProgressDetailReport from '~/modules/mesx/redux/hooks/useProgressDetailReport'
 function ProgressDetailReportChart() {
   const {
-    data: { progressDetailReaport },
+    data: { progressDetailReports },
   } = useProgressDetailReport()
-
   const { t } = useTranslation(['mesx'])
   const [col, setCol] = useState([])
   const [line, setLine] = useState([])
   useEffect(() => {
-    if (!isEmpty(progressDetailReaport)) {
+    if (!isEmpty(progressDetailReports)) {
       const columnData = []
       const lineData = []
 
-      const quantitys = progressDetailReaport?.map((i) => ({
+      const quantitys = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         type: t('ProgessDetailReport.quantity'),
         value: Math.round(Number(i?.quantity) * 100) / 100,
       }))
 
-      const moderationQuantity = progressDetailReaport?.map((i) => ({
+      const moderationQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         type: t('ProgessDetailReport.moderationQuantity'),
         value: Math.round(Number(i?.moderationQuantity) * 100) / 100,
       }))
 
-      const actualQuantity = progressDetailReaport?.map((i) => ({
+      const actualQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         type: t('ProgessDetailReport.actualQuantity'),
         value: Math.round(Number(i?.actualQuantity) * 100) / 100,
       }))
 
-      const delayQuantity = progressDetailReaport?.map((i) => ({
+      const delayQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         type: t('ProgessDetailReport.delayQuantity'),
         value: Math.round(Number(i?.delayQuantity) * 100) / 100,
       }))
 
-      const accumlateQuantity = progressDetailReaport?.map((i) => ({
+      const accumlateQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         name: t('ProgessDetailReport.accumlateQuantity'),
         count: Math.round(Number(i?.accumlateQuantity) * 100) / 100,
       }))
-      const accumlateActualQuantity = progressDetailReaport?.map((i) => ({
+      const accumlateActualQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         name: t('ProgessDetailReport.accumlateActualQuantity'),
         count: Math.round(Number(i?.accumlateActualQuantity) * 100) / 100,
       }))
-      const accumlateDelayQuantity = progressDetailReaport?.map((i) => ({
+      const accumlateDelayQuantity = progressDetailReports?.map((i) => ({
         time: i?.executionDay,
         name: t('ProgessDetailReport.accumlateDelayQuantity'),
         count: Math.round(Number(i?.accumlateDelayQuantity) * 100) / 100,
@@ -71,7 +70,7 @@ function ProgressDetailReportChart() {
       setCol(columnData)
       setLine(lineData)
     }
-  }, [progressDetailReaport])
+  }, [progressDetailReports])
 
   const config = {
     data: [col, line],

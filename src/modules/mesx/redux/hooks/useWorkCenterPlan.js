@@ -4,7 +4,7 @@ import { get } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import workCenterPlanActions from '../actions/work-center-plan.action'
+import workCenterPlanActions from '../actions/work-center-plan'
 
 const useWorkCenterPlan = () => {
   const data = useSelector((state) => get(state, 'mesx.workCenterPlan'))

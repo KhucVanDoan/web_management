@@ -32,8 +32,8 @@ import {
 } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useDefineItem from '~/modules/mesx/redux/hooks/useDefineItem'
-import useItemGroup from '~/modules/mesx/redux/hooks/useItemGroup'
 import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import { searchItemGroupsApi } from '~/modules/mesx/redux/sagas/item-group-setting/search-item-groups'
 import { searchItemUnitsApi } from '~/modules/mesx/redux/sagas/item-unit-setting/search-item-units'
 import qs from '~/utils/qs'
 
@@ -72,14 +72,8 @@ function DefineItemForm() {
     actions: itemTypeActions,
   } = useItemType()
 
-  const {
-    data: { itemGroupList },
-    actions: itemGroupActions,
-  } = useItemGroup()
-
   useEffect(() => {
     itemTypeActions.searchItemTypes({ isGetAll: 1 })
-    itemGroupActions.searchItemGroups({ isGetAll: 1 })
   }, [])
 
   const {
@@ -215,9 +209,9 @@ function DefineItemForm() {
 
   useEffect(() => {
     if (params?.id) {
-      const id = params?.id
-      actions.getItemDetailsById(id)
+      actions.getItemDetailsById(params?.id)
     }
+
     if (cloneId) {
       actions.getItemDetailsById(cloneId)
     }
@@ -400,14 +394,14 @@ function DefineItemForm() {
                             name="itemGroup"
                             label={t('defineItem.groupCode')}
                             placeholder={t('defineItem.groupCode')}
-                            options={itemGroupList}
-                            getOptionLabel={(opt) =>
-                              `${opt?.code} - ${opt?.name}`
+                            asyncRequest={(s) =>
+                              searchItemGroupsApi({
+                                keyword: s,
+                                limit: ASYNC_SEARCH_LIMIT,
+                              })
                             }
-                            getOptionValue={(opt) => opt}
-                            filterOptions={createFilterOptions({
-                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                            })}
+                            asyncRequestHelper={(res) => res?.data?.items}
+                            getOptionLabel={(opt) => opt?.name}
                             required
                           />
                         </Grid>
