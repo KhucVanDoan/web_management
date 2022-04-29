@@ -618,32 +618,25 @@ export const ENDPOINT_PATCH_UPDATE_WORK_CENTER_QC_PLAN = {
 }
 
 export const USER_MANAGEMENT_STATUS_OPTIONS = {
-  INACTIVE: 0,
+  TEMP_LOCKED: 0,
   ACTIVE: 1,
-  DELETED: 2,
 }
 
 export const USER_MANAGEMENT_STATUS_MAP = {
-  [USER_MANAGEMENT_STATUS_OPTIONS.INACTIVE]:
-    'userManagement.userStatus.inactive',
+  [USER_MANAGEMENT_STATUS_OPTIONS.TEMP_LOCKED]:
+    'userManagement.userStatus.tempLocked',
   [USER_MANAGEMENT_STATUS_OPTIONS.ACTIVE]: 'userManagement.userStatus.active',
-  [USER_MANAGEMENT_STATUS_OPTIONS.DELETED]: 'userManagement.userStatus.deleted',
 }
 
 export const USER_MANAGEMENT_STATUS = [
   {
     id: 0,
-    text: 'userManagement.userStatus.inactive',
-    color: 'inactive',
+    text: 'userManagement.userStatus.tempLocked',
+    color: 'tempLocked',
   },
   {
     id: 1,
     text: 'userManagement.userStatus.active',
     color: 'active',
-  },
-  {
-    id: 2,
-    text: 'userManagement.userStatus.deleted',
-    color: 'deleted',
   },
 ]

@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
-import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { USER_MANAGEMENT_STATUS } from '~/modules/qmsx/constants'
+import { useCommonManagement } from '~/modules/qmsx/redux/hooks/useCommonManagement'
 
 const FilterForm = () => {
-  const { t } = useTranslation('mesx')
-  const { appStore } = useAppStore()
+  const { t } = useTranslation('qmsx')
+  const {
+    data: { departmentList },
+  } = useCommonManagement()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -39,7 +41,7 @@ const FilterForm = () => {
           name="departmentName"
           label={t('userManagement.department')}
           placeholder={t('userManagement.department')}
-          options={appStore?.deparments} //TODO: fix department
+          options={departmentList}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.name}
         />
@@ -49,7 +51,7 @@ const FilterForm = () => {
           name="status"
           label={t('userManagement.status')}
           placeholder={t('userManagement.status')}
-          options={USER_MANAGEMENT_STATUS_OPTIONS}
+          options={USER_MANAGEMENT_STATUS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />

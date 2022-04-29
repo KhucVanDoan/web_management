@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getItemUnitsApi = () => {
-  const uri = `/v1/users/ping`
+  const uri = `/v1/quality-controls/check-lists/list-item-unit`
   return api.get(uri)
 }
 
@@ -23,16 +23,10 @@ const getItemUnitsApi = () => {
  */
 function* doGetItemUnits(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getItemUnitsApi, payload)
+    const response = yield call(getItemUnitsApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getItemUnitsSuccess(response.data))
+      yield put(getItemUnitsSuccess(response?.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
