@@ -65,7 +65,9 @@ const ItemsDetailTable = (props) => {
     if ((isView || isUpdate) && !isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
     }
-    return () => actions.resetSaleOrderListState()
+    return () => {
+      actions.resetSaleOrderListState()
+    }
   }, [soId])
 
   useEffect(() => {
@@ -73,7 +75,7 @@ const ItemsDetailTable = (props) => {
     if (isEmpty(soId)) {
       setItemsDetail([])
     }
-  }, [saleOrderDetailList, planDate])
+  }, [saleOrderDetailList, planDate, soId])
 
   const getItemsInSo = (saleOrders = []) => {
     const itemsInSo = []
