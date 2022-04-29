@@ -1,4 +1,4 @@
-const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN || 'vti.com.vn'
+const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN
 
 export const LANG_OPTIONS = {
   VI: 'vi',
