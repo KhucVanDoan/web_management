@@ -24,6 +24,26 @@ export const ROUTE = {
       TITLE: 'warehouseSettingDetail',
     },
   },
+  DEFINE_WAREHOUSE: {
+    LIST: {
+      PATH: '/wmsx/define-warehouse',
+      TITLE: 'defineWarehouse',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-warehouse/create',
+      TITLE: 'defineWarehouseCreate',
+    },
+
+    EDIT: {
+      PATH: '/wmsx/define-warehouse/:id/edit',
+      TITLE: 'defineWarehouseEdit',
+    },
+
+    DETAIL: {
+      PATH: '/wmsx/define-warehouse/:id/detail',
+      TITLE: 'defineWarehouseDetail',
+    },
+  },
   DEFINE_CATEGORY: {
     PATH: '/wmsx/define-category',
     TITLE: 'defineCategory',

@@ -471,7 +471,10 @@ function DefineQualityPointForm() {
                         required
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment position="end" sx={{ mr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               %
                             </InputAdornment>
                           ),
@@ -493,7 +496,10 @@ function DefineQualityPointForm() {
                         required
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment position="end" sx={{ mr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               %
                             </InputAdornment>
                           ),

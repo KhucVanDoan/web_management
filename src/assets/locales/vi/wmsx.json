@@ -12,7 +12,11 @@
     "warehouseSetting": "Cài đặt kho",
     "warehouseDetail": "Chi tiết thông tin loại kho",
     "warehouseSettingEdit": "Sửa thông tin loại kho",
-    "warehouseSettingCreate": "Tạo loại kho"
+    "warehouseSettingCreate": "Tạo loại kho",
+    "defineWarehouse": "Định nghĩa kho",
+    "defineWarehouseCreate": "Tạo kho",
+    "defineWarehouseEdit": "Sửa kho",
+    "defineWarehouseDetail": "Chi tiết kho"
   },
   "defineDetail": {
     "title": "Danh sách chi tiết",
@@ -44,6 +48,38 @@
     "searchPlaceholder": "Tìm kiếm công trình theo mã hoặc tên",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
-    "import": "Nhập/Xuất dữ liệu"
+    "import": "Nhập/Xuất dữ liệu",
+    "warehouseSetup": "Thiết lập kho",
+    "defineWarehouse": "Định nghĩa kho",
+    "defineWarehouseDetail": "Chi tiết kho",
+    "defineWarehouseCreate": "Tạo kho",
+    "defineWarehouseEdit": "Sửa kho"
+  },
+  "defineWarehouse": {
+    "searchPlaceholder": "Tìm kiếm kho theo mã hoặc tên",
+    "create": "Tạo kho",
+    "import": "Nhập/Xuất dữ liệu",
+    "code": "Mã kho",
+    "name": "Tên kho",
+    "type": "Loại kho",
+    "description": "Mô tả kho",
+    "factory": "Nhà máy",
+    "address": "Địa chỉ",
+    "action": "Hành động",
+    "design": "Thiết kế kho",
+    "title": "Danh sách kho",
+    "deleteTitle": "Xóa kho",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa kho này?",
+    "company": "Công ty",
+    "storageSpace": "Không gian lưu trữ",
+    "high": "Chiều cao",
+    "long": "Chiều dài",
+    "wide": "Chiều rộng",
+    "delete": "Xóa kho",
+    "unit": {
+      "m": "m",
+      "dm": "dm",
+      "cm": "cm"
+    }
   }
 }

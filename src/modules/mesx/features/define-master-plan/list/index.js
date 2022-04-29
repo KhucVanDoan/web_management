@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
