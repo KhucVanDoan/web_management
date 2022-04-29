@@ -82,7 +82,9 @@ const AutoModeration = () => {
           saleOrderId: saleOrder.saleOrderId.toString(),
           end_date: formatDateInGanttChart(saleOrder.dateTo, 'to'),
           start_date: formatDateInGanttChart(saleOrder.dateFrom, 'from'),
-          progress: 0,
+          progress: saleOrder.quantity
+            ? saleOrder.actualQuantity / saleOrder.quantity
+            : 0,
           isOverQuantity: saleOrder.isOverQuantity,
         }
 
@@ -108,7 +110,7 @@ const AutoModeration = () => {
           saleOrderId: saleOrderId.toString(),
           end_date: formatDateInGanttChart(item.dateTo, 'to'),
           start_date: formatDateInGanttChart(item.dateFrom, 'from'),
-          progress: 0,
+          progress: item.quantity ? item.actualQuantity / item.quantity : 0,
           parent: parentBomId === null ? saleOrderId : keyParent,
           listParents: [
             parentBomId === null ? saleOrderId.toString() : keyParent,
@@ -125,12 +127,13 @@ const AutoModeration = () => {
             itemScheduleId: step.itemScheduleId,
             end_date: formatDateInGanttChart(step.dateTo, 'to'),
             start_date: formatDateInGanttChart(step.dateFrom, 'from'),
-            progress: 0,
+            progress: step.quantity ? step.actualQuantity / step.quantity : 0,
             parent: key,
             type: 'producingStep',
             listParents: [...itemSchedule.listParents, key],
             isOverQuantity: step.overQuantity > 0,
           })) || []
+
         const subBom =
           getTasksInSaleOrder(
             item.subBom,
