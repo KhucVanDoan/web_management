@@ -237,9 +237,9 @@ function MoDetail() {
         onCancel={() => {
           setIsOpenCreatePO(false)
         }}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={createRequestBuyMaterial}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
       >
         {t('Mo.createPlan')}
       </Dialog>
@@ -247,7 +247,7 @@ function MoDetail() {
         open={isOpenEnoughMaterial}
         title={t('Mo.notification')}
         onSubmit={() => setIsOpenEnoughMaterial(false)}
-        submitLabel={t('modal.btnSubmit')}
+        submitLabel={t('general:modal.btnSubmit')}
       >
         {t('Mo.planFull')}
       </Dialog>

@@ -185,7 +185,7 @@ const WorkOrder = () => {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       disableClickEventBubbling: true,
       width: 160,
       align: 'center',
@@ -297,12 +297,12 @@ const WorkOrder = () => {
         }}
       >
         <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
-          {t('common.close')}
+          {t('general:common.close')}
         </Button>
         <Button variant="outlined" color="subText" onClick={resetForm}>
-          {t('common.cancel')}
+          {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('common.print')}</Button>
+        <Button type="submit">{t('general:common.print')}</Button>
       </Box>
     )
   }

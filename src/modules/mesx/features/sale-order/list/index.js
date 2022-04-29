@@ -138,7 +138,7 @@ function SaleOrder() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -243,7 +243,7 @@ function SaleOrder() {
           startIcon={<Icon name="add" />}
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -283,9 +283,9 @@ function SaleOrder() {
           open={deleteModal}
           title={t('saleOrder.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -307,9 +307,9 @@ function SaleOrder() {
           open={confirmModal}
           title={t('saleOrder.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={submitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('saleOrder.confirmBody')}

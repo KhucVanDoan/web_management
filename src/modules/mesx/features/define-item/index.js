@@ -226,7 +226,7 @@ function DefineItem() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -325,7 +325,7 @@ function DefineItem() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -364,9 +364,9 @@ function DefineItem() {
         open={modal.isOpenDeleteModal}
         title={t('defineItem.deleteModalTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

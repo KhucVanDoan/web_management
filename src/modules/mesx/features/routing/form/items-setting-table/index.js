@@ -111,7 +111,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       },
       {
         field: 'action',
-        headerName: t('common.action'),
+        headerName: t('general:common.action'),
         width: 200,
         align: 'center',
         hide: isView,

@@ -44,8 +44,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('common.createdAt')}
-          placeholder={t('common.createdAt')}
+          label={t('general:common.createdAt')}
+          placeholder={t('general:common.createdAt')}
         />
       </Grid>
       <Grid item xs={12}>

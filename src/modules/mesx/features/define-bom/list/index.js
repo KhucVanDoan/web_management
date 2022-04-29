@@ -147,7 +147,7 @@ function DefineBOM() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -229,7 +229,7 @@ function DefineBOM() {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -280,9 +280,9 @@ function DefineBOM() {
           open={deleteModal}
           title={t('defineBOM.deleteModalTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -304,9 +304,9 @@ function DefineBOM() {
           open={confirmModal}
           title={t('defineBOM.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('defineBOM.confirmBody')}

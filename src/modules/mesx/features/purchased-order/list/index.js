@@ -152,7 +152,7 @@ function PurchasedOrder() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -287,7 +287,7 @@ function PurchasedOrder() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -327,8 +327,8 @@ function PurchasedOrder() {
         title={t('purchasedOrder.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         onSubmit={onSubmitDelete}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -348,15 +348,15 @@ function PurchasedOrder() {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenConfirmModal(false)}
         onSubmit={onSubmitConfirm}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('purchasedOrder.code')}
           value={tempItem?.code}
@@ -370,18 +370,18 @@ function PurchasedOrder() {
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenRejectModal(false)}
         onSubmit={onSubmitReject}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
         validationSchema={Yup.object().shape({
           reason: Yup.string().required(t('general:form.required')),
         })}
       >
-        {t('common.confirmMessage.reject')}
+        {t('general:common.confirmMessage.reject')}
         <LV
           label={t('purchasedOrder.code')}
           value={tempItem?.code}

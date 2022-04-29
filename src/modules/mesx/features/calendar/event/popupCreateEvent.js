@@ -38,16 +38,18 @@ function PopupCreateEvent(props) {
     return (
       <>
         <Button color="grayF4" onClick={handleClose}>
-          {t('common.close')}
+          {t('general:common.close')}
         </Button>
         {!isDetail && (
           <>
             <Button variant="outlined" color="subText" onClick={resetForm}>
-              {t('common.cancel')}
+              {t('general:common.cancel')}
             </Button>
 
             <Button type="submit" disabled={isDetail} icon="save">
-              {isUpdate ? t('common.update') : t('common.create')}
+              {isUpdate
+                ? t('general:common.update')
+                : t('general:common.create')}
             </Button>
           </>
         )}

@@ -144,7 +144,7 @@ const DefineBOQ = () => {
       },
       {
         field: 'action',
-        headerName: t('common.action'),
+        headerName: t('general:common.action'),
         width: 250,
         align: 'center',
         renderCell: (params) => {
@@ -280,7 +280,7 @@ const DefineBOQ = () => {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -318,12 +318,12 @@ const DefineBOQ = () => {
         open={isOpenDeleteModal}
         title={t('defineBOQ.deleteModalTitle')}
         maxWidth="sm"
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         onSubmit={onSubmitDelete}
         submitProps={{
           color: 'error',
         }}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onCancel={() => setIsOpenDeleteModal(false)}
         noBorderBottom
       >
@@ -341,15 +341,15 @@ const DefineBOQ = () => {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onSubmit={submitConfirm}
         onCancel={() => setIsOpenConfirmModal(false)}
-        submitLabel={t('common.yes')}
-        cancelLabel={t('common.no')}
+        submitLabel={t('general:common.yes')}
+        cancelLabel={t('general:common.no')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('defineBOQ.boqCode')}
           value={tempItem?.code}

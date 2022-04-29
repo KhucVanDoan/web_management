@@ -109,7 +109,7 @@ function Routing() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 250,
       sortable: false,
       align: 'center',
@@ -212,7 +212,7 @@ function Routing() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -252,8 +252,8 @@ function Routing() {
         title={t('routing.routingDeleteTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         onSubmit={onSubmitDelete}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -273,15 +273,15 @@ function Routing() {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenConfirmModal(false)}
         onSubmit={onSubmitConfirm}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('routing.code')}
           value={tempItem?.code}

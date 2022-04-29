@@ -241,7 +241,7 @@ const WorkCenter = () => {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -279,9 +279,9 @@ const WorkCenter = () => {
         open={isOpenDeleteModal}
         title={t('workCenter.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBotttom
         submitProps={{
           color: 'error',
@@ -302,15 +302,15 @@ const WorkCenter = () => {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         onCancel={() => setIsOpenConfirmModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
         noBorderBotttom
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('workCenter.code')}
           value={tempItem?.code}

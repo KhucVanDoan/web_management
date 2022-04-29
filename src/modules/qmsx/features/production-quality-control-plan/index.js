@@ -167,7 +167,7 @@ function ProductionQualityControlPlan() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -299,7 +299,7 @@ function ProductionQualityControlPlan() {
         <Dropdown
           sx={{ ml: 4 / 3 }}
           icon="add"
-          title={t('common.create')}
+          title={t('general:common.create')}
           options={CREATE_OPTIONS_PRODUCTION_LIST}
           handleMenuItemClick={(option) => handleMenuItemClick(option)}
           getOptionLabel={(option) => t(option.text) || ''}
@@ -352,9 +352,9 @@ function ProductionQualityControlPlan() {
         open={modalDelete.isOpenDeleteModal}
         title={t('productionQualityControlPlan.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -366,9 +366,9 @@ function ProductionQualityControlPlan() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('productionQualityControlPlan.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('productionQualityControlPlan.modalConfirmContent')}
