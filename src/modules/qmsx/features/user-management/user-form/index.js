@@ -17,7 +17,10 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+//@Note: import from MESx
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
+//@Note: import from MESx
+import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { USER_MANAGEMENT_STATUS } from '~/modules/qmsx/constants'
 import { useCommonManagement } from '~/modules/qmsx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/qmsx/redux/hooks/useUserManagement'
@@ -30,7 +33,6 @@ function UserManagementForm() {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
-  const { appStore } = useAppStore()
   const [visible, setVisible] = useState(false)
 
   const {
@@ -39,9 +41,19 @@ function UserManagementForm() {
   } = useUserManagement()
 
   const {
-    data: { warehouseList },
+    data: { warehouseList, departmentList, roleList },
     actions: commonManagementActions,
   } = useCommonManagement()
+
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  const {
+    data: { factoryList },
+    actions: factoryActions,
+  } = useDefineFactory()
 
   const initialValues = useMemo(
     () => ({
@@ -66,6 +78,10 @@ function UserManagementForm() {
 
   useEffect(() => {
     commonManagementActions.getWarehouses()
+    companyActions.searchCompanies({ isGetAll: 1 })
+    factoryActions.searchFactories({ isGetAll: 1 })
+    commonManagementActions.getDepartments({ isGetAll: 1 })
+    commonManagementActions.getRoles({ isGetAll: 1 })
   }, [])
 
   useEffect(() => {
@@ -83,7 +99,7 @@ function UserManagementForm() {
 
     const convertValues = {
       ...values,
-      status: `${values?.status}`,
+      status: `${values?.status}` || '1', //@TODO: just only pass BE validate ~ confused
       id,
       factories: values?.factories?.map((item) => ({
         id: item,
@@ -332,7 +348,7 @@ function UserManagementForm() {
                       name="companyId"
                       label={t('userManagement.companyName')}
                       placeholder={t('userManagement.companyName')}
-                      options={appStore?.companies}
+                      options={companyList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -346,9 +362,11 @@ function UserManagementForm() {
                       name="factories"
                       label={t('userManagement.factoryName')}
                       placeholder={t('userManagement.factoryName')}
-                      options={appStore?.factories?.filter(
-                        (factory) => factory.companyId === values.companyId,
-                      )}
+                      // @Question: Mục đích của đoạn code này là gì vậy?
+                      // options={factoryList?.filter(
+                      //   (factory) => factory.companyId === values.companyId,
+                      // )}
+                      options={factoryList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -362,7 +380,7 @@ function UserManagementForm() {
                       name="departmentSettings"
                       label={t('userManagement.departmentName')}
                       placeholder={t('userManagement.departmentName')}
-                      options={appStore?.deparments}
+                      options={departmentList}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -377,11 +395,12 @@ function UserManagementForm() {
                       name="userRoleSettings"
                       label={t('userManagement.roleAssign')}
                       placeholder={t('userManagement.roleAssign')}
-                      options={appStore?.roles}
+                      options={roleList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                     />
                   </Grid>
+                  {/* @Note: BE không trả về kho trong detail */}
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="userWarehouses"

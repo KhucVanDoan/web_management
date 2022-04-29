@@ -73,25 +73,6 @@
     "userPermission": "Decentralize"
   },
   "common": {
-    "yes": "Yes",
-    "no": "No",
-    "cancel": "Cancel",
-    "close": "Close",
-    "importFile": "Import data",
-    "importBtnTitle": "Import data",
-    "exportBtnTitle": "Export data",
-    "action": "Action",
-    "printQR": "Print QR code",
-    "create": "Create",
-    "save": "Save",
-    "createdAt": "Date created",
-    "updatedAt": "Date edited",
-    "accept": "Confirm",
-    "reject": "Reject",
-    "confirmMessage": {
-      "confirm": "Are you sure to confirm?",
-      "reject": "Are you sure to reject?"
-    },
     "stages": {
       "poImport": "Import by PO",
       "proImport": "Import by PrO",
