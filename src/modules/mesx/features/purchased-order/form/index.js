@@ -237,6 +237,7 @@ function PurchasedOrderForm() {
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

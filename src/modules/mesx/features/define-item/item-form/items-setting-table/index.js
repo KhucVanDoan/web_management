@@ -23,6 +23,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         width: 400,
         align: 'center',
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map(
+            (item) => item?.detailId?.itemDetailId,
+          )
           return (
             <Field.Autocomplete
               name={`items[${index}].detailId`}
@@ -34,6 +37,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
               required
             />
           )

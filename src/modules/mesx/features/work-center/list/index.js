@@ -28,7 +28,7 @@ import FilterForm from '../form-fillter'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.WORK_CENTER.LIST.PATH,
