@@ -225,6 +225,7 @@ function RoutingForm() {
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

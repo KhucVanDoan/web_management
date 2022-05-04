@@ -48,12 +48,19 @@ export const saleOrderSchema = (t) => {
               min: NUMBER_FIELD_REQUIRED_SIZE.PRICE_ITEM_SALE_ORDER.MIN,
             }),
           ),
-        quantity: Yup.number().max(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
-          }),
-        ),
+        quantity: Yup.number()
+          .min(
+            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+            t('general:form.minNumber', {
+              min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+            }),
+          )
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            }),
+          ),
       }),
     ),
   })

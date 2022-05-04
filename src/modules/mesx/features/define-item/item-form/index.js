@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
-import { Checkbox, FormControlLabel, Grid } from '@mui/material'
+import { FormControlLabel, Grid } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -52,9 +52,6 @@ function DefineItemForm() {
   const params = useParams()
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
-  const [isProductionObject, setIsProductionObject] = useState(false)
-  const [storage, setStorage] = useState(false)
-  const [isDetailed, setIsDetailed] = useState(false)
   const MODE_MAP = {
     [ROUTE.DEFINE_ITEM.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_ITEM.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -93,7 +90,11 @@ function DefineItemForm() {
       itemType: itemDetails?.itemType || '',
       itemGroup: itemDetails?.itemGroup || '',
       itemUnit: itemDetails?.itemUnit || '',
-      price: itemDetails?.price || '',
+      price: itemDetails?.price
+        ? itemDetails?.price === '0.00' && cloneId
+          ? ''
+          : itemDetails?.price
+        : '',
       dayExpire: itemDetails?.dayExpire || '',
       isProductionObject: Boolean(itemDetails?.isProductionObject) || false,
       hasStorageSpace: itemDetails?.hasStorageSpace || false,
@@ -134,7 +135,7 @@ function DefineItemForm() {
               unit: 1,
             },
           }),
-      hasItemDetail: !!itemDetails?.itemDetails || false,
+      hasItemDetail: !!itemDetails?.itemDetails?.length || false,
       itemDetails: [],
       warehouseId: itemDetails?.itemWarehouseLocation?.warehouseId,
       warehouseSectorId: itemDetails?.itemWarehouseLocation?.warehouseSectorId,
@@ -169,9 +170,6 @@ function DefineItemForm() {
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
-        title: 'database',
-      },
-      {
         route: ROUTE.DEFINE_ITEM.LIST.PATH,
         title: ROUTE.DEFINE_ITEM.LIST.TITLE,
       },
@@ -195,18 +193,6 @@ function DefineItemForm() {
     return breadcrumbs
   }
 
-  const onToggleIsProductionObject = () => {
-    setIsProductionObject(!isProductionObject)
-  }
-
-  const onToggleStorage = () => {
-    setStorage(!storage)
-  }
-
-  const onToggleIsDetailed = () => {
-    setIsDetailed(!isDetailed)
-  }
-
   useEffect(() => {
     if (params?.id) {
       actions.getItemDetailsById(params?.id)
@@ -220,12 +206,6 @@ function DefineItemForm() {
     }
   }, [params?.id, cloneId])
 
-  useEffect(() => {
-    setIsProductionObject(itemDetails.isProductionObject)
-    setStorage(itemDetails.hasStorageSpace)
-    setIsDetailed(!!itemDetails.itemDetails?.length)
-  }, [itemDetails])
-
   const onSubmit = (values) => {
     const id = Number(params?.id)
     const convertValues = {
@@ -236,9 +216,9 @@ function DefineItemForm() {
       itemUnitId: values?.itemUnit?.id,
       price: Number(values.price),
       dayExpire: values?.dayExpire ? Number(values.dayExpire) : null,
-      isProductionObject: isProductionObject ? '1' : '0',
-      hasStorageSpace: storage ? 1 : 0,
-      ...(storage
+      isProductionObject: values?.isProductionObject ? '1' : '0',
+      hasStorageSpace: values?.hasStorageSpace ? 1 : 0,
+      ...(values?.hasStorageSpace
         ? {
             long: {
               value: Number(values?.long?.value),
@@ -258,7 +238,7 @@ function DefineItemForm() {
             },
           }
         : {}),
-      ...(isDetailed
+      ...(values?.hasItemDetail
         ? {
             itemDetails: values.items?.map((item) => ({
               detailId: item.detailId?.id || item.detailId?.itemDetailId,
@@ -308,7 +288,7 @@ function DefineItemForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={itemSchema(t, isDetailed)}
+            validationSchema={itemSchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >
@@ -352,6 +332,7 @@ function DefineItemForm() {
                               }
                               setFieldValue('code', val)
                             }}
+                            {...(cloneId ? { autoFocus: true } : {})}
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>
@@ -450,14 +431,13 @@ function DefineItemForm() {
                             label={t('defineItem.expiry')}
                             placeholder={t('defineItem.expiry')}
                             type="number"
+                            allow={TEXTFIELD_ALLOW.NUMERIC}
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>
                           <FormControlLabel
                             control={
-                              <Checkbox
-                                checked={isProductionObject}
-                                onChange={onToggleIsProductionObject}
+                              <Field.Checkbox
                                 name="isProductionObject"
                                 disabled={disabledCheckBox}
                               />
@@ -489,13 +469,7 @@ function DefineItemForm() {
                       >
                         <Grid item xs={12}>
                           <FormControlLabel
-                            control={
-                              <Checkbox
-                                checked={storage}
-                                onChange={onToggleStorage}
-                                name="storage"
-                              />
-                            }
+                            control={<Field.Checkbox name="hasStorageSpace" />}
                             label={t('defineItem.storage')}
                           />
                         </Grid>
@@ -511,8 +485,8 @@ function DefineItemForm() {
                                 numberProps={{
                                   decimalScale: 3,
                                 }}
-                                disabled={!storage}
-                                required={storage}
+                                disabled={!values.hasStorageSpace}
+                                required={values.hasStorageSpace}
                               />
                             </Grid>
                             <Grid item xs={4}>
@@ -522,7 +496,7 @@ function DefineItemForm() {
                                   options={DEFAULT_UNITS}
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
-                                  disabled={!storage}
+                                  disabled={!values.hasStorageSpace}
                                 ></Field.Autocomplete>
                               </FormControl>
                             </Grid>
@@ -538,8 +512,8 @@ function DefineItemForm() {
                                 numberProps={{
                                   decimalScale: 3,
                                 }}
-                                disabled={!storage}
-                                required={storage}
+                                disabled={!values.hasStorageSpace}
+                                required={values.hasStorageSpace}
                               />
                             </Grid>
                             <Grid item xs={4}>
@@ -549,7 +523,7 @@ function DefineItemForm() {
                                   options={DEFAULT_UNITS}
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
-                                  disabled={!storage}
+                                  disabled={!values.hasStorageSpace}
                                 ></Field.Autocomplete>
                               </FormControl>
                             </Grid>
@@ -567,8 +541,8 @@ function DefineItemForm() {
                                 numberProps={{
                                   decimalScale: 3,
                                 }}
-                                disabled={!storage}
-                                required={storage}
+                                disabled={!values.hasStorageSpace}
+                                required={values.hasStorageSpace}
                               />
                             </Grid>
                             <Grid item xs={4}>
@@ -578,7 +552,7 @@ function DefineItemForm() {
                                   options={DEFAULT_UNITS}
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
-                                  disabled={!storage}
+                                  disabled={!values.hasStorageSpace}
                                 ></Field.Autocomplete>
                               </FormControl>
                             </Grid>
@@ -594,7 +568,7 @@ function DefineItemForm() {
                                 numberProps={{
                                   decimalScale: 3,
                                 }}
-                                disabled={!storage}
+                                disabled={!values.hasStorageSpace}
                               />
                             </Grid>
                             <Grid item xs={4}>
@@ -604,7 +578,7 @@ function DefineItemForm() {
                                   options={WEIGHT_UNITS}
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
-                                  disabled={!storage}
+                                  disabled={!values.hasStorageSpace}
                                 ></Field.Autocomplete>
                               </FormControl>
                             </Grid>
@@ -623,21 +597,19 @@ function DefineItemForm() {
                         <Grid item xs={12}>
                           <FormControlLabel
                             control={
-                              <Checkbox
-                                checked={isDetailed}
+                              <Field.Checkbox
                                 onChange={() => {
-                                  onToggleIsDetailed()
                                   setFieldValue('items', [
                                     { ...DEFAULT_DETAIL },
                                   ])
                                 }}
-                                name="isDetailed"
+                                name="hasItemDetail"
                               />
                             }
                             label={t('defineItem.isDetailed') + '?'}
                           />
                         </Grid>
-                        {isDetailed && (
+                        {values?.hasItemDetail && (
                           <Grid item xs={12}>
                             <FieldArray
                               name="items"

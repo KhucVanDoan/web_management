@@ -130,6 +130,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
 
 export const TEXTFIELD_ALLOW = {
   NUMERIC: /[^0-9]/g,
+  POSITIVE_DECIMAL: /[^0-9.]/g,
   ALPHABET: /[^a-zA-Z]/g,
   ALPHANUMERIC: /[^0-9a-zA-Z]/g,
   ALPHANUMERIC_SPECIALS:
@@ -139,6 +140,7 @@ export const TEXTFIELD_ALLOW = {
 
 export const TEXTFIELD_PREVENT = {
   [TEXTFIELD_ALLOW.NUMERIC]: [',', '.', '-', '+', 'e', 'E'],
+  [TEXTFIELD_ALLOW.POSITIVE_DECIMAL]: [',', '-', '+', 'e', 'E'],
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]

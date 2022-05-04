@@ -47,7 +47,7 @@ const TextField = ({
         val = val?.replace(allow, '')
       }
     } else if (props.type === 'number') {
-      val = Number(val)
+      // val = Number(val)
     }
 
     onChange(e, val)

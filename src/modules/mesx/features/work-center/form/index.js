@@ -376,16 +376,20 @@ const WorkCenterForm = () => {
                       <Field.TextField
                         name="code"
                         label={t('workCenter.code')}
+                        ss
                         placeholder={t('workCenter.code')}
                         disabled={
-                          isUpdate ||
-                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                          !cloneId &&
+                          (isUpdate ||
+                            wcDetails?.status ===
+                              WORK_CENTER_STATUS.IN_PROGRESS)
                         }
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
+                        {...(cloneId ? { autoFocus: true } : {})}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -394,6 +398,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.name')}
                         placeholder={t('workCenter.name')}
                         disabled={
+                          !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         inputProps={{
@@ -431,6 +436,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.factoryName')}
                         placeholder={t('workCenter.factoryName')}
                         disabled={
+                          !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         options={factoryList?.items}
@@ -461,6 +467,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.producingStep')}
                         placeholder={t('workCenter.producingStep')}
                         disabled={
+                          !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         asyncRequest={(s) =>
@@ -519,6 +526,7 @@ const WorkCenterForm = () => {
                         label={t('workCenter.oeeGoal')}
                         placeholder={t('workCenter.oeeGoal')}
                         disabled={
+                          !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         name="oeeTarget"
@@ -535,6 +543,7 @@ const WorkCenterForm = () => {
                         name="workCapacity"
                         placeholder={t('workCenter.workCapacity')}
                         disabled={
+                          !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         type="number"

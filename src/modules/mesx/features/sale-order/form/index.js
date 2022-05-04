@@ -132,9 +132,6 @@ function SaleOrderForm() {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'database',
-      },
-      {
         route: ROUTE.SALE_ORDER.LIST.PATH,
         title: ROUTE.SALE_ORDER.LIST.TITLE,
       },
@@ -222,6 +219,7 @@ function SaleOrderForm() {
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -248,7 +246,7 @@ function SaleOrderForm() {
                       options={boqList}
                       label={t('saleOrder.boqCode')}
                       name="boqId"
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionValue={(opt) => opt?.id || ''}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
                     />
                   </Grid>
@@ -286,7 +284,8 @@ function SaleOrderForm() {
                         options={companyList}
                         label={t('saleOrder.vendor.name')}
                         name="companyId"
-                        getOptionValue={(opt) => opt?.id}
+                        placeholder={t('saleOrder.vendor.name')}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name || opt?.code}
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -303,6 +302,7 @@ function SaleOrderForm() {
                       <Field.Autocomplete
                         name="customerId"
                         label={t('saleOrder.customer.name')}
+                        placeholder={t('saleOrder.customer.name')}
                         asyncRequest={(s) =>
                           searchCustomersApi({
                             keyword: s,
