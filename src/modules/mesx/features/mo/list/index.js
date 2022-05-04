@@ -175,7 +175,7 @@ const Mo = () => {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -313,7 +313,7 @@ const Mo = () => {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -351,8 +351,8 @@ const Mo = () => {
           title={t('Mo.deleteModalTitle')}
           onCancel={() => setIsOpenDeleteModal(false)}
           onSubmit={onSubmitDelete}
-          cancelLabel={t('common.no')}
-          submitLabel={t('common.yes')}
+          cancelLabel={t('general:common.no')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -372,15 +372,15 @@ const Mo = () => {
         </Dialog>
         <Dialog
           open={isOpenConfirmModal}
-          title={t('common.notify')}
+          title={t('general:common.notify')}
           maxWidth="sm"
           onCancel={() => setIsOpenConfirmModal(false)}
           onSubmit={onSubmitConfirm}
-          cancelLabel={t('common.no')}
-          submitLabel={t('common.yes')}
+          cancelLabel={t('general:common.no')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
-          {t('common.confirmMessage.confirm')}
+          {t('general:common.confirmMessage.confirm')}
           <LV
             label={t('Mo.moCode')}
             value={tempItem?.code}

@@ -93,7 +93,7 @@ function OutputQualityTransactionHistory() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',

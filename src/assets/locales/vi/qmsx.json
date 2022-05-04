@@ -73,25 +73,6 @@
     "userPermission": "Phân quyền"
   },
   "common": {
-    "yes": "Có",
-    "no": "Không",
-    "cancel": "Huỷ",
-    "close": "Đóng",
-    "importFile": "Nhập dữ liệu",
-    "importBtnTitle": "Nhập dữ liệu",
-    "exportBtnTitle": "Xuất dữ liệu",
-    "action": "Hành động",
-    "printQR": "In mã QR",
-    "create": "Tạo mới",
-    "save": "Lưu",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa",
-    "accept": "Xác nhận",
-    "reject": "Từ chối",
-    "confirmMessage": {
-      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
-      "reject": "Bạn có chắc chắn muốn từ chối không?"
-    },
     "stages": {
       "poImport": "Nhập kho theo PO",
       "proImport": "Nhập kho theo PrO",
@@ -750,9 +731,8 @@
     "createTime": "Thời gian tạo",
     "user": "Người tạo",
     "userStatus": {
-      "inactive": "Ngừng hoạt động",
-      "active": "Đang hoạt động",
-      "deleted": "Đã xóa"
+      "active": "Hoạt động",
+      "tempLocked": "Tạm khóa"
     }
   },
   "userPermission": {

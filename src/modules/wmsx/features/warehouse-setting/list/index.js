@@ -187,7 +187,7 @@ const warehouseSetting = () => {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -224,9 +224,9 @@ const warehouseSetting = () => {
         open={isOpenDeleteModal}
         title={t('warehouseSetting.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBotttom
         submitProps={{
           color: 'error',

@@ -279,7 +279,7 @@ function ProducingStepForm() {
                       placeholder={t('producingStep.timePerProduct')}
                       InputProps={{
                         endAdornment: (
-                          <InputAdornment sx={{ pr: 1 }}>
+                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
                             {t('producingStep.unit.minutes')}
                           </InputAdornment>
                         ),
@@ -299,7 +299,10 @@ function ProducingStepForm() {
                         type="number"
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.persen')}
                             </InputAdornment>
                           ),
@@ -373,7 +376,10 @@ function ProducingStepForm() {
                         disabled={!values.inputQc}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.minutes')}
                             </InputAdornment>
                           ),
@@ -424,7 +430,10 @@ function ProducingStepForm() {
                         disabled={!values.outputQc}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.minutes')}
                             </InputAdornment>
                           ),

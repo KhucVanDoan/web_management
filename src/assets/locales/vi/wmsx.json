@@ -12,63 +12,11 @@
     "warehouseSetting": "Cài đặt kho",
     "warehouseDetail": "Chi tiết thông tin loại kho",
     "warehouseSettingEdit": "Sửa thông tin loại kho",
-    "warehouseSettingCreate": "Tạo loại kho"
-  },
-  "message": {
-    "fieldIsRequired": "Mục này bắt buộc phải nhập.",
-    "unknownError": "Có lỗi xảy ra vui lòng thử lại",
-    "noData": "Không có dữ liệu.",
-    "lessThan": "Gía trị phải nhỏ hơn {{max}}"
-  },
-  "modal": {
-    "btnSubmit": "Xác nhận",
-    "btnCancel": "Huỷ",
-    "btnClose": "Đóng"
-  },
-  "common": {
-    "yes": "Có",
-    "no": "Không",
-    "all": "Tất cả",
-    "cancel": "Huỷ",
-    "close": "Đóng",
-    "back": "Quay lại",
-    "action": "Hành động",
-    "printQR": "In mã QR",
-    "create": "Tạo mới",
-    "update": "Cập nhật",
-    "createModal": "Tạo",
-    "save": "Lưu",
-    "print": "In",
-    "amount": "Số lượng",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa",
-    "accept": "Xác nhận",
-    "reject": "Từ chối",
-    "notify": "Thông báo",
-    "confirmMessage": {
-      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
-      "reject": "Bạn có chắc chắn muốn từ chối không?"
-    },
-    "creator": "Người tạo",
-    "note": "THIÊN THƯỢNG THIÊN HẠ, DUY NGÃ ĐỘC TÔN",
-    "search": "Tìm kiếm",
-    "filter": "Lọc",
-    "saleOrderType": "Loại đơn",
-    "day": "Ngày",
-    "week": "Tuần",
-    "month": "Tháng",
-    "quater": "Quý",
-    "export": "Xuất",
-    "import": "Nhập",
-    "transfer": "Chuyển kho",
-    "stock": "Tồn kho",
-    "dayOfWeeks7": "Chủ nhật",
-    "dayOfWeeks1": "Thứ 2",
-    "dayOfWeeks2": "Thứ 3",
-    "dayOfWeeks3": "Thứ 4",
-    "dayOfWeeks4": "Thứ 5",
-    "dayOfWeeks5": "Thứ 6",
-    "dayOfWeeks6": "Thứ 7"
+    "warehouseSettingCreate": "Tạo loại kho",
+    "defineWarehouse": "Định nghĩa kho",
+    "defineWarehouseCreate": "Tạo kho",
+    "defineWarehouseEdit": "Sửa kho",
+    "defineWarehouseDetail": "Chi tiết kho"
   },
   "defineDetail": {
     "title": "Danh sách chi tiết",
@@ -100,6 +48,38 @@
     "searchPlaceholder": "Tìm kiếm công trình theo mã hoặc tên",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
-    "import": "Nhập/Xuất dữ liệu"
+    "import": "Nhập/Xuất dữ liệu",
+    "warehouseSetup": "Thiết lập kho",
+    "defineWarehouse": "Định nghĩa kho",
+    "defineWarehouseDetail": "Chi tiết kho",
+    "defineWarehouseCreate": "Tạo kho",
+    "defineWarehouseEdit": "Sửa kho"
+  },
+  "defineWarehouse": {
+    "searchPlaceholder": "Tìm kiếm kho theo mã hoặc tên",
+    "create": "Tạo kho",
+    "import": "Nhập/Xuất dữ liệu",
+    "code": "Mã kho",
+    "name": "Tên kho",
+    "type": "Loại kho",
+    "description": "Mô tả kho",
+    "factory": "Nhà máy",
+    "address": "Địa chỉ",
+    "action": "Hành động",
+    "design": "Thiết kế kho",
+    "title": "Danh sách kho",
+    "deleteTitle": "Xóa kho",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa kho này?",
+    "company": "Công ty",
+    "storageSpace": "Không gian lưu trữ",
+    "high": "Chiều cao",
+    "long": "Chiều dài",
+    "wide": "Chiều rộng",
+    "delete": "Xóa kho",
+    "unit": {
+      "m": "m",
+      "dm": "dm",
+      "cm": "cm"
+    }
   }
 }

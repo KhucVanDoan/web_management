@@ -31,10 +31,6 @@ const PriceDetail = () => {
   const { id } = useParams()
   const [priceReport, setPriceReport] = useState([])
 
-  // const {
-  //   appStore: { itemTypes },
-  //   actions,
-  // } = useAppStore()
   const {
     data: { itemTypeList },
     actions,

@@ -163,5 +163,40 @@
       "invalidSize": "Dung lượng file không hợp lệ. Giới hạn dung lượng là",
       "invalidNumberOfFiles": "Số lượng file tải lên không được quá"
     }
+  },
+  "message": {
+    "fieldIsRequired": "Mục này bắt buộc phải nhập.",
+    "unknownError": "Có lỗi xảy ra vui lòng thử lại",
+    "noData": "Không có dữ liệu.",
+    "lessThan": "Gía trị phải nhỏ hơn {{max}}"
+  },
+  "modal": {
+    "btnSubmit": "Xác nhận",
+    "btnCancel": "Huỷ",
+    "btnClose": "Đóng"
+  },
+  "common": {
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Huỷ",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "action": "Hành động",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "save": "Lưu",
+    "print": "In",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "accept": "Xác nhận",
+    "reject": "Từ chối",
+    "notify": "Thông báo",
+    "confirmMessage": {
+      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
+      "reject": "Bạn có chắc chắn muốn từ chối không?"
+    },
+    "creator": "Người tạo",
+    "search": "Tìm kiếm",
+    "filter": "Lọc"
   }
 }

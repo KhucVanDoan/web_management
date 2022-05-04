@@ -115,7 +115,7 @@ function ProductionOutputQuality() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 100,
       sortable: false,
       align: 'center',

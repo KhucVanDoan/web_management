@@ -303,21 +303,21 @@ const BOQForm = () => {
 
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         onSubmit={() => actions.confirmBOQById(id, backToList())}
         submitProps={{
           color: 'error',
         }}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onCancel={() => {
           setIsOpenConfirmModal(false)
           backToList()
         }}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
       </Dialog>
     </Page>
   )

@@ -301,9 +301,9 @@ function RequestBuyMaterial() {
           open={deleteModal}
           title={t('requestBuyMaterial.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -325,9 +325,9 @@ function RequestBuyMaterial() {
           open={confirmModal}
           title={t('requestBuyMaterial.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('requestBuyMaterial.confirmBody')}

@@ -27,7 +27,7 @@ function UserPermission() {
   const { t } = useTranslation(['qmsx'])
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const { appStore } = useAppStore()
+  const { appStore } = useAppStore() //@TODO: <yen.nguyenhai> need hook get groupPermisions/ get department is not enough data
   const [bomTree, setBomTree] = useState([])
   const [departmentId, setDepartmentId] = useState(null)
   const [userRoleId, setUserRoleId] = useState(null)

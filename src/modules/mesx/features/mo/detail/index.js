@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react'
 import { Box, Grid } from '@mui/material'
 import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useParams, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
@@ -237,9 +236,9 @@ function MoDetail() {
         onCancel={() => {
           setIsOpenCreatePO(false)
         }}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={createRequestBuyMaterial}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
       >
         {t('Mo.createPlan')}
       </Dialog>
@@ -247,7 +246,7 @@ function MoDetail() {
         open={isOpenEnoughMaterial}
         title={t('Mo.notification')}
         onSubmit={() => setIsOpenEnoughMaterial(false)}
-        submitLabel={t('modal.btnSubmit')}
+        submitLabel={t('general:modal.btnSubmit')}
       >
         {t('Mo.planFull')}
       </Dialog>

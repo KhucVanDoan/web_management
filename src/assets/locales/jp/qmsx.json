@@ -73,25 +73,6 @@
     "userPermission": "権限設定"
   },
   "common": {
-    "yes": "はい",
-    "no": "いいえ",
-    "cancel": "キャンセル",
-    "close": "閉じる",
-    "importFile": "データ入力",
-    "importBtnTitle": "データ入力",
-    "exportBtnTitle": "データ出力",
-    "action": "操作",
-    "printQR": "QRコード印刷",
-    "create": "新規作成",
-    "save": "保存",
-    "createdAt": "作成日",
-    "updatedAt": "編集日",
-    "accept": "確認",
-    "reject": "拒否",
-    "confirmMessage": {
-      "confirm": "確認します。よろしいですか。",
-      "reject": "拒否します。よろしですか。"
-    },
     "stages": {
       "poImport": "発注書に沿った入庫",
       "proImport": "入出庫指示に沿った入庫",

@@ -103,7 +103,7 @@ function DefineCheckList() {
     },
     {
       field: 'createdAt',
-      headerName: t('common.createdAt'),
+      headerName: t('general:common.createdAt'),
       width: 150,
       sortable: true,
       renderCell: (params) => {
@@ -125,7 +125,7 @@ function DefineCheckList() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -279,7 +279,7 @@ function DefineCheckList() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -315,9 +315,9 @@ function DefineCheckList() {
         open={modalDelete.isOpenDeleteModal}
         title={t('defineCheckList.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -329,9 +329,9 @@ function DefineCheckList() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineCheckList.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineCheckList.modalConfirmContent')}

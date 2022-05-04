@@ -9,7 +9,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { CHECK_TYPE, CHECK_TYPE_OPTIONS } from '~/modules/qmsx/constants'
 import useCommonManagement from '~/modules/qmsx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
@@ -19,17 +18,12 @@ const CheckListDetailTable = (props) => {
   const { t } = useTranslation(['qmsx'])
 
   const {
-    appStore: { itemUnits },
-    actions: appStoreActions,
-  } = useAppStore()
-
-  const {
-    data: { errorGroupList },
+    data: { errorGroupList, itemUnitList },
     actions: commonManagementActions,
   } = useCommonManagement()
 
   useEffect(() => {
-    appStoreActions.getAppStore()
+    commonManagementActions.getItemUnits()
     commonManagementActions.getAllErrorGroup()
   }, [])
 
@@ -138,7 +132,7 @@ const CheckListDetailTable = (props) => {
                 !checkValid && t('defineCheckList.headerDetailTable.unit')
               }
               disabled={checkValid}
-              options={itemUnits || []}
+              options={itemUnitList || []}
               getOptionValue={(opt) => opt?.id}
               getOptionLabel={(opt) => opt?.name || ''}
             />
@@ -226,7 +220,7 @@ const CheckListDetailTable = (props) => {
         },
       },
     ],
-    [items, itemUnits, errorGroupList],
+    [items, itemUnitList, errorGroupList],
   )
 
   return (

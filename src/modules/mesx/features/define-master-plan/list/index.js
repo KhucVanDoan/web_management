@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
@@ -579,15 +579,15 @@ const DefineMasterPlan = () => {
       />
       <Dialog
         open={isOpenApproveModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenApproveModal(false)}
         onSubmit={onSubmitApprove}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('defineMasterPlan.code')}
           value={tempItem?.code}
@@ -601,15 +601,15 @@ const DefineMasterPlan = () => {
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenRejectModal(false)}
         onSubmit={onSubmitReject}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.reject')}
+        {t('general:common.confirmMessage.reject')}
         <LV
           label={t('defineMasterPlan.code')}
           value={tempItem?.code}
@@ -625,9 +625,9 @@ const DefineMasterPlan = () => {
         open={deleteModal}
         title={t('defineBOM.deleteModalTitle')}
         onCancel={() => setDeleteModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

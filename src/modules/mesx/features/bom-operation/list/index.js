@@ -127,7 +127,7 @@ function BomProducingStep() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -233,7 +233,7 @@ function BomProducingStep() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -272,8 +272,8 @@ function BomProducingStep() {
         title={t('bomProducingStep.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         onSubmit={onSubmitDelete}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -293,15 +293,15 @@ function BomProducingStep() {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenConfirmModal(false)}
         onSubmit={onSubmitConfirm}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('bomProducingStep.code')}
           value={tempItem?.bomCode}

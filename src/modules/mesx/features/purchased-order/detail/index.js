@@ -10,8 +10,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -36,12 +36,19 @@ const PurchasedOrderDetail = () => {
   const history = useHistory()
   const { id } = useParams()
 
-  const { appStore } = useAppStore()
-
   const {
     data: { isLoading, purchasedOrderDetails },
     actions,
   } = usePurchasedOrder()
+
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
 
   useEffect(() => {
     actions.getPurchasedOrderDetailsById(id)
@@ -54,7 +61,7 @@ const PurchasedOrderDetail = () => {
     history.push(ROUTE.PURCHASED_ORDER.LIST.PATH)
   }
 
-  const customerDetail = appStore.companies.find(
+  const customerDetail = companyList.find(
     (item) => item.id === purchasedOrderDetails?.companyId,
   )
 

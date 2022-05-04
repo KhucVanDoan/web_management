@@ -103,7 +103,7 @@ function DefineCauseGroup() {
     },
     {
       field: 'createdAt',
-      headerName: t('common.createdAt'),
+      headerName: t('general:common.createdAt'),
       width: 100,
       sortable: true,
       renderCell: (params) => {
@@ -113,7 +113,7 @@ function DefineCauseGroup() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -197,7 +197,7 @@ function DefineCauseGroup() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -230,9 +230,9 @@ function DefineCauseGroup() {
         open={modal.isOpenDeleteModal}
         title={t('defineCauseGroup.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

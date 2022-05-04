@@ -6,18 +6,11 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 
 import Sidebar from '~/components/Sidebar'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { socket } from '~/services/socket/socket-client'
 import { isAuth } from '~/utils'
 
 const PrivateLayout = ({ children }) => {
-  const { actions } = useAppStore()
-
   useEffect(() => {
-    if (isAuth()) {
-      actions.getAppStore()
-    }
-
     // @TODO: <yen.nguyenhai> create new socket provider
     socket.on('print_item_qr_code', (event) => {
       console.log(event)

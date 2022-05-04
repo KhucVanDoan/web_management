@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -12,6 +13,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { USER_MANAGEMENT_STATUS } from '~/modules/qmsx/constants'
+import { useCommonManagement } from '~/modules/qmsx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/qmsx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -32,10 +34,7 @@ const breadcrumbs = [
 function UserManagement() {
   const { t } = useTranslation('qmsx')
   const history = useHistory()
-  const [keyword, setKeyword] = useState('')
-  const [pageSize, setPageSize] = useState(20)
-  const [page, setPage] = useState(1)
-  const [sort, setSort] = useState(null)
+
   const DEFAULT_FILTERS = {
     username: '',
     fullName: '',
@@ -43,12 +42,31 @@ function UserManagement() {
     status: '',
     createTime: [],
   }
-  const [filters, setFilters] = useState(DEFAULT_FILTERS)
+
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const {
     data: { userList, total, isLoading },
     actions,
   } = useUserManagement()
+
+  const { actions: commonActions } = useCommonManagement()
+  useEffect(() => {
+    commonActions.getDepartments({ isGetAll: 1 })
+  }, [])
 
   const [modal, setModal] = useState({
     tempItem: null,
@@ -214,7 +232,7 @@ function UserManagement() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -254,9 +272,9 @@ function UserManagement() {
         open={modal.isOpenDeleteModal}
         title={t('userManagement.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

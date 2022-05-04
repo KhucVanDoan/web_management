@@ -3,6 +3,9 @@ import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
 
+import DefineWarehouse from '../features/define-warehouse'
+import DefineWarehouseDetail from '../features/define-warehouse/detail'
+import DefineWarehouseFrom from '../features/define-warehouse/form'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
@@ -44,6 +47,32 @@ const routes = [
             path: ROUTE.WAREHOUSE_SETTING.DETAIL.PATH,
             component: WarehouseSettingDetail,
             isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_WAREHOUSE.LIST.TITLE,
+        path: ROUTE.DEFINE_WAREHOUSE.LIST.PATH,
+        component: DefineWarehouse,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.CREATE.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.CREATE.PATH,
+            component: DefineWarehouseFrom,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.DETAIL.PATH,
+            component: DefineWarehouseDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.EDIT.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.EDIT.PATH,
+            component: DefineWarehouseFrom,
+            isInSidebar: false,
           },
         ],
       },

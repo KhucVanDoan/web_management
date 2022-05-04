@@ -4,8 +4,7 @@ import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import { QR_CODE_TYPE } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
@@ -185,7 +184,7 @@ const WorkOrder = () => {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       disableClickEventBubbling: true,
       width: 160,
       align: 'center',
@@ -297,12 +296,12 @@ const WorkOrder = () => {
         }}
       >
         <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
-          {t('common.close')}
+          {t('general:common.close')}
         </Button>
         <Button variant="outlined" color="subText" onClick={resetForm}>
-          {t('common.cancel')}
+          {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('common.print')}</Button>
+        <Button type="submit">{t('general:common.print')}</Button>
       </Box>
     )
   }

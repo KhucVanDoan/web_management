@@ -29,7 +29,10 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.DateRangePicker name="createdAt" label={t('common.createdAt')} />
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('general:common.createdAt')}
+        />
       </Grid>
     </Grid>
   )

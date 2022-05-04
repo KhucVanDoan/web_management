@@ -39,7 +39,7 @@ const SearchBox = ({ onSearch, placeholder, renderSearchBox }) => {
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
               startAdornment={
-                <InputAdornment>
+                <InputAdornment position="start" sx={{ mr: 0 }}>
                   <Icon
                     name="search"
                     sx={{
@@ -52,28 +52,28 @@ const SearchBox = ({ onSearch, placeholder, renderSearchBox }) => {
               }
               endAdornment={
                 <>
-                  {values.keyword && (
-                    <IconButton
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setFieldValue('keyword', '')
-                        onSearch('')
-                      }}
-                    >
-                      <Icon name="close" size={12} />
-                    </IconButton>
-                  )}
-
                   <InputAdornment
+                    position="end"
                     sx={{
                       height: 'auto',
                       maxHeight: 'none',
+                      ml: 0,
                     }}
                   >
+                    {values.keyword && (
+                      <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setFieldValue('keyword', '')
+                          onSearch('')
+                        }}
+                      >
+                        <Icon name="close" size={12} />
+                      </IconButton>
+                    )}
+
                     <Button
                       sx={{
-                        height: '32px',
-                        margin: '4px',
                         whiteSpace: 'nowrap',
                       }}
                       type="submit"
