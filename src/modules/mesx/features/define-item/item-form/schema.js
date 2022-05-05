@@ -1,3 +1,5 @@
+/* eslint-disable babel/no-invalid-this */
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 import {
@@ -6,7 +8,7 @@ import {
 } from '~/common/constants'
 import { numberSchema } from '~/common/schemas'
 
-export const itemSchema = (t, isDetailed) =>
+export const itemSchema = (t) =>
   Yup.object().shape({
     code: Yup.string()
       .required(t('general:form.required'))
@@ -37,16 +39,21 @@ export const itemSchema = (t, isDetailed) =>
     description: Yup.string(),
     long: Yup.object().shape({
       value: numberSchema(t),
+      unit: Yup.string().required(t('general:form.required')),
     }),
     width: Yup.object().shape({
       value: numberSchema(t),
+      unit: Yup.string().required(t('general:form.required')),
     }),
     height: Yup.object().shape({
       value: numberSchema(t),
+      unit: Yup.string().required(t('general:form.required')),
     }),
     weight: Yup.object().shape({
       value: numberSchema(t),
+      unit: Yup.string().required(t('general:form.required')),
     }),
+    hasItemDetail: Yup.boolean(),
     items: Yup.array().of(
       Yup.object().shape({
         quantity: Yup.number()
@@ -62,13 +69,19 @@ export const itemSchema = (t, isDetailed) =>
               max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
             }),
           ),
-        ...(isDetailed
-          ? {
-              detailId: Yup.object()
-                .nullable()
-                .required(t('general:form.required')),
+        detailId: Yup.object()
+          .nullable()
+          .test('detail_items', '', function () {
+            const hasItemDetail =
+              [...(this?.from || [])].pop()?.value?.hasItemDetail || false
+            if (hasItemDetail && isEmpty(this.originalValue)) {
+              return this.createError({
+                message: t('general:form.required'),
+                path: `${this.path}`,
+              })
             }
-          : {}),
+            return true
+          }),
       }),
     ),
   })

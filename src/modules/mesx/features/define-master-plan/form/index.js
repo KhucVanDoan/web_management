@@ -260,6 +260,7 @@ const DefineMasterPlanForm = () => {
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

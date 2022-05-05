@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -65,7 +65,7 @@ function ItemSettingTable(props) {
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}
-              getOptionValue={(option) => option?.id}
+              getOptionValue={(option) => option?.id || ''}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id)
               }
@@ -115,6 +115,7 @@ function ItemSettingTable(props) {
               name={`items[${index}].quantity`}
               type="number"
               disabled={isView}
+              allow={TEXTFIELD_ALLOW.NUMERIC}
             />
           )
         },

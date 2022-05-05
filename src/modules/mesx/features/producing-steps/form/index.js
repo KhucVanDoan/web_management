@@ -227,6 +227,7 @@ function ProducingStepForm() {
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -285,6 +286,7 @@ function ProducingStepForm() {
                         ),
                       }}
                       type="number"
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />
                   </Grid>
@@ -307,6 +309,7 @@ function ProducingStepForm() {
                             </InputAdornment>
                           ),
                         }}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                         required
                       />
                     </Grid>
@@ -363,9 +366,10 @@ function ProducingStepForm() {
                         options={qcList.filter(
                           (i) => i.stage === STAGES_OPTION.PRODUCTION_INPUT,
                         )}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.inputQc}
+                        required
                       />
                     </Box>
                     <Box mt={4 / 3}>
@@ -385,6 +389,7 @@ function ProducingStepForm() {
                           ),
                         }}
                         type="number"
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       />
                     </Box>
                   </Grid>
@@ -417,9 +422,10 @@ function ProducingStepForm() {
                         options={qcList.filter(
                           (i) => i.stage === STAGES_OPTION.PRODUCTION_OUTPUT,
                         )}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.outputQc}
+                        required
                       />
                     </Box>
                     <Box mt={4 / 3}>
@@ -439,6 +445,7 @@ function ProducingStepForm() {
                           ),
                         }}
                         type="number"
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       />
                     </Box>
                   </Grid>
