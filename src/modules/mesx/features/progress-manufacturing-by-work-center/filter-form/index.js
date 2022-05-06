@@ -36,7 +36,6 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
   }, [])
 
   const onSubmit = (values) => {
-    // console.log('values', values)
     setFilters(values)
   }
 
