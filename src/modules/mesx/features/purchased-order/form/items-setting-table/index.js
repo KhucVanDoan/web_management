@@ -13,14 +13,14 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { scrollToBottom } from '~/utils'
 
 function ItemSettingTable({
   items,
   mode,
   arrayHelpers,
-  manufacturingOrderId,
+  requestBuyMaterialId,
   setFieldValue,
 }) {
   const { t } = useTranslation(['mesx'])
@@ -32,26 +32,38 @@ function ItemSettingTable({
   } = useCommonManagement()
 
   const {
-    data: { moDetails },
-    actions: moAction,
-  } = useMo()
+    data: { requestBuyMaterialDetails },
+    actions: requestBuyMaterialAction,
+  } = useRequestBuyMaterial()
 
-  const moChosen =
-    moDetails?.manufacturingOrderDetails?.map((item) => item.item) || itemList
+  const requestBuyMaterial =
+    requestBuyMaterialDetails?.itemDetails?.map((item) => item) || itemList
+
   useEffect(() => {
     actions.getItems({})
     actions.getWarehouses({})
-    moAction.searchMO({ isGetAll: 1 })
     actions.getBoms({ isGetAll: 1 })
   }, [])
 
   useEffect(() => {
-    moAction.getMODetailsById(manufacturingOrderId)
-  }, [manufacturingOrderId])
+    if (requestBuyMaterialId)
+      requestBuyMaterialAction.getRequestBuyMaterialDetailsById(
+        requestBuyMaterialId,
+      )
+  }, [requestBuyMaterialId])
 
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
+
+  const onChangeItem = (id, index, setFieldValue) => {
+    const quantity = requestBuyMaterial.find(
+      (material) => material.id === id,
+    )?.quantity
+    setFieldValue(`items[${index}].itemPrice`, getItemObject(id)?.price || 0)
+    setFieldValue(`items[${index}].quantity`, +quantity || 0)
+  }
+
   const getColumns = () => {
     return [
       {
@@ -77,7 +89,7 @@ function ItemSettingTable({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
-              options={moChosen}
+              options={requestBuyMaterial}
               getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -86,12 +98,7 @@ function ItemSettingTable({
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId))
               }
-              onChange={(id) =>
-                setFieldValue(
-                  `items[${index}].itemPrice`,
-                  getItemObject(id)?.price || 0,
-                )
-              }
+              onChange={(id) => onChangeItem(id, index, setFieldValue)}
               disabled={isView}
             />
           )

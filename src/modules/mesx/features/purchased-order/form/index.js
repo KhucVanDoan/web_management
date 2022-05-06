@@ -21,13 +21,13 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { MO_STATUS } from '~/modules/mesx/constants'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
+import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
 import { searchCompaniesApi } from '~/modules/mesx/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
@@ -40,11 +40,12 @@ function PurchasedOrderForm() {
   const { id } = useParams()
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
+  const [moSelected, setMoSelected] = useState(null)
 
   const {
-    data: { moList },
-    actions: moActions,
-  } = useMo()
+    data: { requestBuyMaterialList },
+    actions: requestBuyMaterialAction,
+  } = useRequestBuyMaterial()
 
   const {
     data: { companyList },
@@ -52,7 +53,12 @@ function PurchasedOrderForm() {
   } = useDefineCompany()
 
   useEffect(() => {
+    const params = {
+      filter: convertFilterParams({ status: '1' }),
+      isGetAll: 1,
+    }
     companyActions.searchCompanies({ isGetAll: 1 })
+    requestBuyMaterialAction.searchRequestBuyMaterials(params)
   }, [])
 
   const {
@@ -77,7 +83,6 @@ function PurchasedOrderForm() {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    moActions.searchMO({ isGetAll: 1 })
     if (id) {
       actions.getPurchasedOrderDetailsById(id)
     }
@@ -99,7 +104,9 @@ function PurchasedOrderForm() {
       name: purchasedOrderDetails?.name || '',
       description: purchasedOrderDetails?.description || '',
       manufacturingOrderId:
-        purchasedOrderDetails?.manufacturingOrder?.id || null,
+        purchasedOrderDetails?.manufacturingOrder?.code || null,
+      requestBuyMaterialCode:
+        purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id || null,
       purchasedAt: purchasedOrderDetails?.purchasedAt || '',
       vendorId: purchasedOrderDetails?.vendor || null,
       companyId:
@@ -117,15 +124,18 @@ function PurchasedOrderForm() {
     [purchasedOrderDetails],
   )
 
-  const [manufacturingOrderId, setManufacturingOrderId] = useState(null)
+  const [requestBuyMaterialId, setRequestBuyMaterialId] = useState(null)
 
   useEffect(() => {
-    setManufacturingOrderId(purchasedOrderDetails.manufacturingOrder?.id)
+    setRequestBuyMaterialId(
+      purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id,
+    )
   }, [purchasedOrderDetails])
 
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      manufacturingOrderId: moSelected,
       companyId: values?.companyId?.id,
       vendorId: values?.vendorId?.id,
       items: values?.items?.map((item) => ({
@@ -204,6 +214,19 @@ function PurchasedOrderForm() {
     }
   }
 
+  const handleChangeRequestBuyMaterialCode = (val, setFieldValue) => {
+    setRequestBuyMaterialId(val)
+    const requestBuySelected = requestBuyMaterialList.find(
+      (request) => request.id === val,
+    )
+    setMoSelected(requestBuySelected.manufacturingOrder.id)
+    setFieldValue(
+      'manufacturingOrderId',
+      requestBuySelected.manufacturingOrder.code,
+    )
+    setFieldValue('items', [{ ...DEFAULT_ITEM }])
+  }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -253,17 +276,14 @@ function PurchasedOrderForm() {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Field.Autocomplete
-                      name="manufacturingOrderId"
-                      label={t('purchasedOrder.manufacturingOrder')}
-                      placeholder={t('purchasedOrder.manufacturingOrder')}
-                      options={(moList || []).filter(
-                        (mo) => mo.status === MO_STATUS.CONFIRMED,
-                      )}
+                      name="requestBuyMaterialCode"
+                      label={t('purchasedOrder.requestBuyMaterialCode')}
+                      placeholder={t('purchasedOrder.requestBuyMaterialCode')}
+                      options={requestBuyMaterialList}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
                       onChange={(val) => {
-                        setManufacturingOrderId(val)
-                        setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
                     />
                   </Grid>
@@ -280,8 +300,8 @@ function PurchasedOrderForm() {
                   </Hidden>
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
-                      name="requestBuyMaterialCode"
-                      label={t('purchasedOrder.requestBuyMaterialCode')}
+                      name="manufacturingOrderId"
+                      label={t('purchasedOrder.manufacturingOrder')}
                       disabled
                     />
                   </Grid>
@@ -395,7 +415,7 @@ function PurchasedOrderForm() {
                     items={values?.items || []}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
-                    manufacturingOrderId={manufacturingOrderId}
+                    requestBuyMaterialId={requestBuyMaterialId}
                     setFieldValue={setFieldValue}
                   />
                 )}
