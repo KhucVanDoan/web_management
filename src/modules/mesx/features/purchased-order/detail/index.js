@@ -100,6 +100,15 @@ const PurchasedOrderDetail = () => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <LV
+                label={t('purchasedOrder.requestBuyMaterialCode')}
+                value={
+                  purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial
+                    ?.code
+                }
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
                 label={t('purchasedOrder.manufacturingOrder')}
                 value={purchasedOrderDetails.manufacturingOrder?.code}
               />
@@ -115,12 +124,7 @@ const PurchasedOrderDetail = () => {
             <Hidden lgDown>
               <Grid item lg={6} xs={12}></Grid>
             </Hidden>
-            <Grid item xs={12} lg={6}>
-              <LV
-                label={t('purchasedOrder.requestBuyMaterialCode')}
-                value={purchasedOrderDetails.requestBuyMaterialCode}
-              />
-            </Grid>
+
             <Grid item xs={12} lg={6}>
               <LV
                 label={t('purchasedOrder.createdByUser')}
