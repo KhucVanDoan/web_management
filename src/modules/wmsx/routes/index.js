@@ -9,6 +9,8 @@ import DefineWarehouseFrom from '../features/define-warehouse/form'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
+import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
+import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
 import { ROUTE } from './config'
 
 const routes = [
@@ -75,6 +77,21 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.LIST.PATH,
+    component: WarehouseTransferMovements,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.DETAIL.PATH,
+        component: WarehouseTransferMovementsDetail,
+        isInSidebar: false,
       },
     ],
   },

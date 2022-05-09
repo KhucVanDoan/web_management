@@ -1,1 +1,63 @@
-{}
+{
+  "menu": {
+    "warehouseTransfer": "Warehouse Transfer Statistics",
+    "warehouseTransferMovementDetail": "Warehouse transfer Statistics details",
+    "warehouseTransferMovement": "warehouse transfer"
+  },
+  "warehouseTransferMovement": {
+    "title": "Warehouse transfer statistics list",
+    "formTitle": "Warehouse transfer form",
+    "orderNumber": "#",
+    "dateRange": "Transaction date range",
+    "code": "Transaction code",
+    "warehouseType": "Warehouse type",
+    "status": "Status",
+    "inventoryType": "Inventory type",
+    "letterCode": "Order code",
+    "type": "Transaction type",
+    "letterType": "Order type",
+    "letterStatus": "Order status",
+    "transferOn": "Licensed date",
+    "createdByUser": "User created",
+    "warehouseCode": "Warehouse code",
+    "destinationWarehouseName": "Import warehouse name",
+    "sourceWarehouseName": "Export warehouse name",
+    "transferImport": "Warehouse transfer import",
+    "transferExport": "Warehouse transfer export",
+    "transactionStatus": "Transaction status",
+    "itemDetails": "Item details",
+    "createdUser": "Transaction user",
+    "movementDate": "Transaction date",
+    "confirmUser": "User confirmed",
+    "confirmDate": "Licensed date",
+    "description": "Transfer form description",
+    "inventoryDate": "Inventory date",
+    "item": {
+      "orderNumber": "#",
+      "code": "Item code",
+      "name": "Item name",
+      "type": "Item type",
+      "warehouseName": "Warehouse name",
+      "warehouseType": "Warehouse type",
+      "quantity": "Plan quantity",
+      "movementQuantity": "Transaction quantity",
+      "unitType": "Unit",
+      "inventoriesQuantity": "Inventory quantity",
+      "orderCode": "Order code"
+    },
+    "calendar": {
+      "formTitle": "Inventory form",
+      "code": "Transaction code",
+      "type": "Transaction type",
+      "inventoryCode": "Warehouse transfer order code",
+      "transferType": "Transfer type",
+      "destinationWarehouseName": "Import warehouse name",
+      "sourceWarehouseName": "Export warehouse name",
+      "destinationFactoryName": "Import factory name",
+      "sourceFactoryName": "Export factory name",
+      "createdByUser": "Transaction user",
+      "movementDate": "Transaction date",
+      "itemDetails": "Item details"
+    }
+  }
+}

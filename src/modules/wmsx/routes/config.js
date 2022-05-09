@@ -66,4 +66,16 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
+  WAREHOUSE_TRANSFER_MOVEMENTS: {
+    LIST: {
+      PATH: '/wmsx/warehouse-transfer-movements',
+      TITLE: 'warehouseTransferMovement',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-transfer-movements/:id/detail',
+      TITLE: 'warehouseTransferMovementDetail',
+    },
+    PATH: '/wmsx/warehouse-transfer-movements',
+    TITLE: 'warehouseTransferMovement',
+  },
 }
