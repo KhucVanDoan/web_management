@@ -6,8 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
 import { useLocation } from 'react-router-dom'
 
-import LogoClient from '~/assets/images/Logo-Client.png'
-import LogoMinimal from '~/assets/images/Logo-Minimal.png'
+import LogoSolution from '~/assets/images/logo-solutions.png'
 import Icon from '~/components/Icon'
 import { appRoutesObj } from '~/routes'
 import { getCurrentModule } from '~/utils/menu'
@@ -41,15 +40,15 @@ export default function Sidebar() {
                 sx={{
                   display: 'inline-flex',
                   flex: 1,
-                  px: isMinimal ? 0.5 : 1,
+                  px: isMinimal ? 0.2 : 1,
                   overflow: 'hidden',
-                  img: { maxHeight: theme.spacing(2) },
+                  img: { maxHeight: theme.spacing(4) },
                 }}
               >
                 {isMinimal ? (
-                  <img src={LogoMinimal} alt="minimal-logo" />
+                  <img src={LogoSolution} alt="minimal-logo" />
                 ) : (
-                  <img src={LogoClient} alt="client-logo" />
+                  <img src={LogoSolution} alt="client-logo" />
                 )}
               </Box>
 
@@ -60,6 +59,7 @@ export default function Sidebar() {
                     : theme.palette.grayEE.main,
                   borderRadius: '3px 0 0 3px',
                   p: '2px',
+                  pl: 0,
                   flex: '0 0 24px',
                 }}
                 onClick={() => setIsMinimal(!isMinimal)}
@@ -82,10 +82,10 @@ export default function Sidebar() {
                   flex: 1,
                   px: 1,
                   overflow: 'hidden',
-                  img: { maxHeight: theme.spacing(2) },
+                  img: { maxHeight: theme.spacing(4) },
                 }}
               >
-                <img src={LogoClient} alt="client-logo" />
+                <img src={LogoSolution} alt="client-logo" />
               </Box>
             </DrawerHeader>
           </Hidden>

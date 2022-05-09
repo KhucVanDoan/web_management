@@ -6,7 +6,7 @@ export const DrawerHeader = styled('div')(() => ({
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '30px 0 20px',
+  padding: '15px 0 11px',
 }))
 
 export const Drawer = styled(MuiDrawer, {

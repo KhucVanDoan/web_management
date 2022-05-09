@@ -5,7 +5,7 @@ const style = (theme) => ({
   },
 
   logoBox: {
-    marginBottom: theme.spacing(2.5),
+    marginBottom: theme.spacing(1.5),
     textAlign: 'center',
   },
 
@@ -18,6 +18,11 @@ const style = (theme) => ({
 
   linkForgotPassword: {
     textDecoration: 'none',
+  },
+
+  logoLogin: {
+    width: '200px',
+    maxWidth: '200px',
   },
 })
 

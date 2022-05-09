@@ -72,7 +72,7 @@ const ModuleList = () => {
           onClick={() => {
             if (item?.path) window.location.href = item?.path
           }}
-          // @TODO: dongnq uncomment when refactor full
+          // @TODO: dongnq uncomment when refactor all module done
           // component={Link}
           // to={{ pathname: `${item.path}` }}
           key={index}
