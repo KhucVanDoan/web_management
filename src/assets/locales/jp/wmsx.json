@@ -1,1 +1,62 @@
-{}
+{
+  "menu": {
+    "warehouseTransfer": "倉庫移動統計",
+    "warehouseTransferMovement": "倉庫移転",
+    "warehouseTransferMovementDetail": "倉庫転送統計の詳細"
+  },
+  "warehouseTransferMovement": {
+    "title": "倉庫移動一覧",
+    "formTitle": "倉庫移動伝票",
+    "orderNumber": "#",
+    "dateRange": "取引日",
+    "code": "取引コード",
+    "warehouseType": "倉庫種類",
+    "status": "ステータス",
+    "inventoryType": "棚卸タイプ",
+    "letterCode": "発注書コード",
+    "type": "取引タイプ",
+    "letterType": "発注書タイプ",
+    "letterStatus": "ステータス",
+    "transferOn": "書類発行日",
+    "createdByUser": "作成者",
+    "warehouseCode": "倉庫コード",
+    "destinationWarehouseName": "移動先倉庫名",
+    "sourceWarehouseName": "移動元倉庫名",
+    "transferImport": "入出庫",
+    "transferExport": "出庫",
+    "transactionStatus": "取引ステータス",
+    "itemDetails": "商品詳細",
+    "createdUser": "取引者",
+    "movementDate": "取引日",
+    "confirmUser": "確認者",
+    "confirmDate": "書類発行日",
+    "description": "取引伝票説明",
+    "inventoryDate": "棚卸日",
+    "item": {
+      "code": "商品コード",
+      "name": "商品名",
+      "type": "商品分類",
+      "warehouseName": "倉庫名",
+      "warehouseType": "倉庫種類",
+      "quantity": "予定数量",
+      "movementQuantity": "取引数量",
+      "unitType": "単位",
+      "inventoriesQuantity": "棚卸数量",
+      "orderCode": "発注書コード"
+    },
+    "calendar": {
+      "formTitle": "棚卸伝票",
+      "code": "取引コード",
+      "type": "取引タイプ",
+      "inventoryCode": "倉庫移動指示コード",
+      "transferType": "移動方法",
+      "destinationWarehouseName": "移動元倉庫名",
+      "sourceWarehouseName": "移動先倉庫名",
+      "destinationFactoryName": "移動元工場名",
+      "sourceFactoryName": "移動先工場名",
+      "createdByUser": "取引者",
+      "movementDate": "取引日",
+      "itemDetails": "商品詳細"
+    }
+  }
+}

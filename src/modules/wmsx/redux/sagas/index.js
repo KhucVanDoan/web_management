@@ -18,7 +18,8 @@ import watchDeleteWarehouseSetting from './warehouse-setting/delete-warehouse-se
 import watchGetWarehouseSettingDetails from './warehouse-setting/get-detail-warehouse-setting'
 import watchSearchWarehouseSetting from './warehouse-setting/search-warehouse-setting'
 import watchUpdateWarehouseSetting from './warehouse-setting/update-warehouse-setting'
-
+import watchGetWarehouseTransferMovementsDetails from './warehouse-transfer-movements/get-movement-details'
+import watchSearchWarehouseTransferMovements from './warehouse-transfer-movements/search-movements'
 /**
  * Root saga
  */
@@ -44,5 +45,8 @@ export default function* sagas() {
     watchImportWarehouse(),
     watchSearchWarehouses(),
     watchUpdateWarehouse(),
+    //warehouse transfer movements
+    watchGetWarehouseTransferMovementsDetails(),
+    watchSearchWarehouseTransferMovements(),
   ])
 }
