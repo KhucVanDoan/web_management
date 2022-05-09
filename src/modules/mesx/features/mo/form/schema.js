@@ -31,6 +31,7 @@ export const validationSchema = (t) =>
     ),
     masterPlanId: Yup.object().nullable().required(t('general:form.required')),
     itemIds: Yup.array()
+      .nullable()
       .min(
         NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MIN,
         t('general:form.minItem', {
@@ -39,5 +40,5 @@ export const validationSchema = (t) =>
       )
       .required(t('general:form.required')),
     moPlan: Yup.array().required(),
-    saleOrderId: Yup.string().nullable().required(t('general:form.required')),
+    saleOrderId: Yup.string().required(t('general:form.required')),
   })
