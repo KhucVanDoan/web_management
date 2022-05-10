@@ -12,10 +12,13 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+} from '~/modules/database/constants'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,

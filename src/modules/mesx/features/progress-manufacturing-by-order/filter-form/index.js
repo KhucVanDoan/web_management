@@ -8,8 +8,8 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION } from '~/modules/mesx/constants'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 const ProgressManufacturingFilter = ({ setFilters }) => {
   const { t } = useTranslation(['mesx'])

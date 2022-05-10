@@ -23,7 +23,7 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import TextField from '~/components/TextField'
-import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
 
 const Elements = () => {
   const theme = useTheme()

@@ -1,5 +1,7 @@
 import { all } from 'redux-saga/effects'
 
+import watchGetSaleOrderDetailByIds from '~/modules/database/redux/sagas/sale-order/get-sale-order-details'
+
 import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step'
 import watchCreateBomProducingStep from './bom-producing-step/create-bom-producing-step'
 import watchDeleteBomProducingStep from './bom-producing-step/delete-bom-producing-step'
@@ -60,21 +62,11 @@ import watchGetBOQDetails from './define-boq/get-boq-details'
 import watchRejectBOQ from './define-boq/reject-boq'
 import watchSearchBOQ from './define-boq/search-boq'
 import watchUpdateBOQ from './define-boq/update-boq'
-import watchCreateCompany from './define-company/create-company'
-import watchDeleteCompany from './define-company/delete-company'
-import watchGetCompanyDetails from './define-company/get-company-details'
-import watchSearchCompanies from './define-company/search-companies'
-import watchUpdateCompany from './define-company/update-company'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
 import watchSearchCustomers from './define-customer/search-customers'
 import watchUpdateCustomer from './define-customer/update-customer'
-import watchCreateItem from './define-item/create-item'
-import watchDeleteItem from './define-item/delete-item'
-import watchGetItemDetails from './define-item/get-item-details'
-import watchSearchItems from './define-item/search-items'
-import watchUpdateItem from './define-item/update-item'
 import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan'
 import watchDeleteMasterPlan from './define-master-plan/delete-master-plan'
@@ -95,26 +87,6 @@ import watchGetMoByPlan from './define-plan/get-mo-by-plan'
 import watchGetPlanDetails from './define-plan/get-plan-details'
 import watchSearchPlans from './define-plan/search-plans'
 import watchUpdatePlan from './define-plan/update-plan'
-import watchCreateFactory from './factory/create-factory'
-import watchDeleteFactory from './factory/delete-factory'
-import watchGetFactoryDetails from './factory/get-factory-details'
-import watchSearchFactories from './factory/search-factories'
-import watchUpdateFactory from './factory/update-factory'
-import watchCreateItemGroup from './item-group-setting/create-item-group'
-import watchDeleteItemGroup from './item-group-setting/delete-item-group'
-import watchGetItemGroupDetails from './item-group-setting/get-item-group-details'
-import watchSearchItemGroups from './item-group-setting/search-item-groups'
-import watchUpdateItemGroup from './item-group-setting/update-item-group'
-import watchCreateItemType from './item-type-setting/create-item-type'
-import watchDeleteItemType from './item-type-setting/delete-item-type'
-import watchGetItemTypeDetails from './item-type-setting/get-item-type-details'
-import watchSearchItemTypes from './item-type-setting/search-item-types'
-import watchUpdateItemType from './item-type-setting/update-item-type'
-import watchCreateItemUnit from './item-unit-setting/create-item-unit'
-import watchDeleteItemUnit from './item-unit-setting/delete-item-unit'
-import watchGetItemUnitDetails from './item-unit-setting/get-item-unit-details'
-import watchSearchItemUnits from './item-unit-setting/search-item-units'
-import watchUpdateItemUnit from './item-unit-setting/update-item-unit'
 import watchSearchMaterialDetailPlan from './material-detail-plan/search'
 import watchCheckMaterialPlan from './mo/check-material-plan'
 import watchConfirmMO from './mo/confirm-mo'
@@ -165,14 +137,6 @@ import watchDeleteRouting from './routing/delete-routing'
 import watchGetRoutingDetails from './routing/get-routing-details'
 import watchSearchRoutings from './routing/search-routings'
 import watchUpdateRouting from './routing/update-routing'
-import watchConfirmSaleOrder from './sale-order/confirm-sale-order'
-import watchCreateSaleOrder from './sale-order/create-sale-order'
-import watchDeleteSaleOrder from './sale-order/delete-sale-order'
-import watchGetSaleOrderDetails from './sale-order/get-sale-order-detail_by_ids'
-import watchGetSaleOrderDetailByIds from './sale-order/get-sale-order-details'
-import watchRejectSaleOrder from './sale-order/reject-sale-order'
-import watchSearchSaleOrders from './sale-order/search-sale-orders'
-import watchUpdateSaleOrder from './sale-order/update-sale-order'
 import watchCreateUser from './user-management/create-user'
 import watchDeleteUser from './user-management/delete-user'
 import watchGenerateOTP from './user-management/generate-otp'
@@ -222,34 +186,6 @@ export default function* sagas() {
     watchVerifyOTP(),
     watchResetPassword(),
 
-    // item-group-setting
-    watchSearchItemGroups(),
-    watchCreateItemGroup(),
-    watchUpdateItemGroup(),
-    watchDeleteItemGroup(),
-    watchGetItemGroupDetails(),
-
-    // item-type-setting
-    watchSearchItemTypes(),
-    watchCreateItemType(),
-    watchUpdateItemType(),
-    watchDeleteItemType(),
-    watchGetItemTypeDetails(),
-
-    // item-unit-setting
-    watchSearchItemUnits(),
-    watchCreateItemUnit(),
-    watchUpdateItemUnit(),
-    watchDeleteItemUnit(),
-    watchGetItemUnitDetails(),
-
-    // define-item
-    watchSearchItems(),
-    watchCreateItem(),
-    watchUpdateItem(),
-    watchDeleteItem(),
-    watchGetItemDetails(),
-
     //define-boq
     watchSearchBOQ(),
     watchCreateBOQ(),
@@ -270,13 +206,6 @@ export default function* sagas() {
     watchGetBOMStructure(),
     watchGetBomByItem(),
     watchGetBOMProducingStepStructure(),
-
-    //define-company
-    watchSearchCompanies(),
-    watchCreateCompany(),
-    watchUpdateCompany(),
-    watchGetCompanyDetails(),
-    watchDeleteCompany(),
 
     //define-customer
     watchSearchCustomers(),
@@ -388,27 +317,12 @@ export default function* sagas() {
     watchGetPriceStructure(),
     watchGetMOItems(),
 
-    // sale-order
-    watchSearchSaleOrders(),
-    watchCreateSaleOrder(),
-    watchUpdateSaleOrder(),
-    watchDeleteSaleOrder(),
-    watchGetSaleOrderDetails(),
-    watchConfirmSaleOrder(),
-    watchRejectSaleOrder(),
-
     // quality-point
     watchSearchQualityPoints(),
     watchGetQualityPointDetails(),
 
     //price-report
     watchGetPriceReport(),
-    // factory
-    watchSearchFactories(),
-    watchCreateFactory(),
-    watchUpdateFactory(),
-    watchDeleteFactory(),
-    watchGetFactoryDetails(),
 
     //work-center-plan
     watchSearchWorkCenterPlan(),

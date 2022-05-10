@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])

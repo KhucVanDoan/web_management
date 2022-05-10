@@ -7,7 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
+import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
 

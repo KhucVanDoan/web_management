@@ -11,7 +11,7 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import {
   MOVEMENT_STATUS,
   MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT,
