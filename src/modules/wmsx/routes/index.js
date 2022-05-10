@@ -2,6 +2,11 @@ import Dashboard from '~/modules/wmsx/features/dashboard'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
+import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
+import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
+import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
+import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
+import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
 import DefineWarehouse from '../features/define-warehouse'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
@@ -12,7 +17,6 @@ import WarehouseSetting from '../features/warehouse-setting/list'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
 import { ROUTE } from './config'
-
 const routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
@@ -125,6 +129,45 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_REPORT.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_REPORT.LIST.PATH,
+        component: WarehouseReport,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_REPORT.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_REPORT.CREATE.PATH,
+            component: WarehouseReportForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_REPORT.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_REPORT.DETAIL.PATH,
+            component: WarehouseReportDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        path: ROUTE.INVENTORY_DEADLINE_WARNING.PATH,
+        name: ROUTE.INVENTORY_DEADLINE_WARNING.TITLE,
+        component: InventoryDeadlineWarning,
+        isInSidebar: true,
+      },
+      {
+        path: ROUTE.INVENTORY_WARNING.PATH,
+        name: ROUTE.INVENTORY_WARNING.TITLE,
+        component: InventoryWarning,
+        isInSidebar: true,
       },
     ],
   },
