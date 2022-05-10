@@ -11,6 +11,9 @@ import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 import DefineWarehouse from '../features/define-warehouse'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
+import InventoryLimit from '../features/inventory-limit'
+import InventoryLimitDetail from '../features/inventory-limit/detail'
+import InventoryLimitForm from '../features/inventory-limit/form'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
@@ -168,6 +171,39 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'setting',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.INVENTORY_LIMIT.LIST.TITLE,
+        path: ROUTE.INVENTORY_LIMIT.LIST.PATH,
+        component: InventoryLimit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_LIMIT.CREATE.TITLE,
+            path: ROUTE.INVENTORY_LIMIT.CREATE.PATH,
+            component: InventoryLimitForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_LIMIT.EDIT.TITLE,
+            path: ROUTE.INVENTORY_LIMIT.EDIT.PATH,
+            component: InventoryLimitForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_LIMIT.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_LIMIT.DETAIL.PATH,
+            component: InventoryLimitDetail,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

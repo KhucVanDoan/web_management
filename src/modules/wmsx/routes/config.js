@@ -105,4 +105,25 @@ export const ROUTE = {
     PATH: '/wmsx/warehouse-transfer-movements',
     TITLE: 'warehouseTransferMovement',
   },
+  SETTING: {
+    TITLE: 'setting',
+  },
+  INVENTORY_LIMIT: {
+    LIST: {
+      PATH: '/wmsx/inventory-limit',
+      TITLE: 'inventoryLimit',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-limit/create',
+      TITLE: 'inventoryLimitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-limit/:id/details',
+      TITLE: 'inventoryLimitDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-limit/:id/edit',
+      TITLE: 'inventoryLimitEdit',
+    },
+  },
 }

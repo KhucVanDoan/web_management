@@ -34,7 +34,12 @@
     "inventoryDeadlineWarning": "Cảnh báo quá hạn sử dụng",
     "warehouseTransferMovement": "Chuyển kho",
     "warehouseTransfer": "Thống kê về chuyển kho",
-    "warehouseTransferMovementDetail": "Chi tiết về chuyển kho"
+    "warehouseTransferMovementDetail": "Chi tiết về chuyển kho",
+    "inventoryLimit": "Cài đặt tồn kho",
+    "setting": "Cài đặt",
+    "inventoryLimitCreate": "Tạo cài đặt tồn kho",
+    "inventoryLimitDetails": "Chi tiết cài đặt tồn kho",
+    "inventoryLimitEdit": "Chỉnh sửa cài đặt tồn kho"
   },
   "defineDetail": {
     "title": "Danh sách chi tiết",
@@ -308,5 +313,35 @@
     "deleteWarehouseTransferSuccess": "Xóa lệnh chuyển kho thành công",
     "confirmWarehouseTransferSuccess": "Xác nhận lệnh chuyển kho thành công",
     "rejectWarehouseTransferSuccess": "Từ chối lệnh chuyển kho thành công"
+  },
+  "inventoryLimit": {
+    "title": "Danh sách cài đặt tồn kho",
+    "searchPlaceholder": "Tìm hiếm thông tin",
+    "code": "Mã thiết lập",
+    "itemCode": "Mã sản phẩm",
+    "itenUnit": "Đơn vị",
+    "itemType": "Loại sản phẩm",
+    "itemName": "Tên sản phẩm",
+    "inventoryLimitDown": "Giới hạn tồn kho (cận dưới)",
+    "inventoryLimit": "Giới hạn tồn kho",
+    "inventoryLimitUp": "Giới hạn tồn kho (cận trên)",
+    "action": "Hành động",
+    "createTitle": "Tạo cài đặt tồn kho",
+    "updateTitle": "Sửa cài đặt tồn kho",
+    "viewTitle": "Chi tiết cài đặt tồn kho",
+    "confirmDelete": "Bạn có muốn xoá tồn kho này không? Chú ý, bạn sẽ không thể hoàn tác nếu đồng ý xóa tồn kho này",
+    "deleteTitle": "Xóa tồn kho",
+    "deleteInventoryLimitSuccess": "Xóa cài đặt thành công",
+    "createInventoryLimitSuccess": "Tạo cài đặt thành công",
+    "updateInventoryLimitSuccess": "Cập nhật thiết lập thành công",
+    "minThanLimit": "Giới hạn cận dưới không được lớn hơn giới hạn tồn kho",
+    "limitThanMax": "Giới hạn tồn kho không được lớn hơn giới hạn cận trên",
+    "thanZero": "Giá trị phải lớn hơn hoặc bằng 0",
+    "durationStorage": "Giới hạn lưu kho",
+    "warningStorage": "Thời hạn cảnh báo lưu kho",
+    "durationLife": "Giới hạn sử dụng",
+    "shelfLifeWarning": "Thời hạn cảnh báo hạn sử dụng",
+    "createButton": "Tạo cài đặt",
+    "deleteSetting": "Xóa tồn kho"
   }
 }
