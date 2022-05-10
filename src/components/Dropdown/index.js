@@ -12,6 +12,7 @@ const Dropdown = ({
   title,
   handleMenuItemClick,
   getOptionLabel,
+  renderButton,
   ...props
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -27,9 +28,14 @@ const Dropdown = ({
 
   return (
     <>
-      <Button color="primary" onClick={handleOpen} {...props}>
-        {title}
-      </Button>
+      {typeof renderButton === 'function' ? (
+        renderButton({ onClick: handleOpen })
+      ) : (
+        <Button color="primary" onClick={handleOpen} {...props}>
+          {title}
+        </Button>
+      )}
+
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -78,4 +84,5 @@ Dropdown.propTypes = {
   title: PropTypes.node,
   handleMenuItemClick: PropTypes.func,
   getOptionLabel: PropTypes.func,
+  renderButton: PropTypes.func,
 }

@@ -9,9 +9,9 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import useUserPermission from '~/modules/qmsx/redux/hooks/useUserPermission'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { useAppStore } from '~/modules/shared/redux/hooks/useAppStore'
 
 const breadcrumbs = [
   {
@@ -27,7 +27,7 @@ function UserPermission() {
   const { t } = useTranslation(['qmsx'])
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
-  const { appStore } = useAppStore() //@TODO: <yen.nguyenhai> need hook get groupPermisions/ get department is not enough data
+  const { appStore } = useAppStore()
   const [bomTree, setBomTree] = useState([])
   const [departmentId, setDepartmentId] = useState(null)
   const [userRoleId, setUserRoleId] = useState(null)

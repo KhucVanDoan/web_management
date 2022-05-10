@@ -73,7 +73,6 @@ const icons = {
   upload: <Upload />,
   importXlsx: <ImportXlsx />,
   clone: <Clone />,
-  //@TODO: choose another name
   downloadAlt: <DownloadAlt />,
   collapse: <Collapse />,
   paper: <Paper />,

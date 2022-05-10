@@ -10,12 +10,10 @@ const cookies = new Cookies()
 export const isAuth = () => {
   const cookieToken = cookies.get('token')
   const localToken = localStorage.getItem('token')
-  const userId = cookies.get('userId')
 
   let isAuth = false
   if (cookieToken && !localToken) {
     localStorage.setItem('token', cookieToken)
-    localStorage.setItem('userId', userId)
     isAuth = true
   }
   if (!cookieToken && localToken) {
