@@ -13,7 +13,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useWarehouseReport from '~/modules/wmsx/redux/hooks/useWarehouseReport'
 import { ROUTE } from '~/modules/wmsx/routes/config'

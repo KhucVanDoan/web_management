@@ -5,9 +5,9 @@ import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { Field } from '~/components/Formik'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])

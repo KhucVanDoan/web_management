@@ -12,6 +12,7 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import {
   WORK_CENTER_STATUS_CONFIRM_TO_EDIT,
   WORK_CENTER_STATUS_OPTIONS,
@@ -19,7 +20,6 @@ import {
   WORK_CENTER_STATUS_TO_DELETE,
   WORK_CENTER_STATUS_TO_EDIT,
 } from '~/modules/mesx/constants'
-import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'

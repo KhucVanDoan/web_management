@@ -13,7 +13,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
 import useInventoryLimit from '~/modules/wmsx/redux/hooks/useInvetoryLimit'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
