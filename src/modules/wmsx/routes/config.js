@@ -66,6 +66,33 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
+
+  WAREHOUSE_REPORT_MANAGEMENT: {
+    PATH: '/wmsx/warehouse-report-management',
+    TITLE: 'warehouseReportManagement',
+  },
+  INVENTORY_DEADLINE_WARNING: {
+    PATH: '/wmsx/inventory-deadline-warning',
+    TITLE: 'inventoryDeadlineWarning',
+  },
+  INVENTORY_WARNING: {
+    PATH: '/wmsx/inventory-warning',
+    TITLE: 'inventoryWarning',
+  },
+  WAREHOUSE_REPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-report',
+      TITLE: 'warehouseReport',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-report/create',
+      TITLE: 'warehouseReportCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-report/:id/details',
+      TITLE: 'warehouseReportDetails',
+    },
+  },
   WAREHOUSE_TRANSFER_MOVEMENTS: {
     LIST: {
       PATH: '/wmsx/warehouse-transfer-movements',
