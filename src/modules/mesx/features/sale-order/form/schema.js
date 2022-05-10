@@ -49,6 +49,7 @@ export const saleOrderSchema = (t) => {
             }),
           ),
         quantity: Yup.number()
+          .required(t('general:form.required'))
           .min(
             NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
             t('general:form.minNumber', {

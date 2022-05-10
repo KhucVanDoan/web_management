@@ -369,7 +369,7 @@ function ProducingStepForm() {
                         getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.inputQc}
-                        required
+                        required={values.inputQc}
                       />
                     </Box>
                     <Box mt={4 / 3}>
@@ -425,7 +425,7 @@ function ProducingStepForm() {
                         getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.outputQc}
-                        required
+                        required={values.outputQc}
                       />
                     </Box>
                     <Box mt={4 / 3}>

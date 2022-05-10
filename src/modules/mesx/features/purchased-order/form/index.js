@@ -106,7 +106,7 @@ function PurchasedOrderForm() {
       manufacturingOrderId:
         purchasedOrderDetails?.manufacturingOrder?.code || null,
       requestBuyMaterialCode:
-        purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id || null,
+        purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id || '',
       purchasedAt: purchasedOrderDetails?.purchasedAt || '',
       vendorId: purchasedOrderDetails?.vendor || null,
       companyId:
@@ -280,11 +280,12 @@ function PurchasedOrderForm() {
                       label={t('purchasedOrder.requestBuyMaterialCode')}
                       placeholder={t('purchasedOrder.requestBuyMaterialCode')}
                       options={requestBuyMaterialList}
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionValue={(opt) => opt?.id || ''}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
                       onChange={(val) => {
                         handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

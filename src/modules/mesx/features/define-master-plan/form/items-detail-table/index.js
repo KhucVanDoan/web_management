@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 import DataTable from '~/components/DataTable'
 import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import qs from '~/utils/qs'
 
 const ItemsDetailTable = (props) => {
   const { soId = [], planDate, isView, isUpdate } = props
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { saleOrderDetailList },
     actions,
@@ -62,7 +66,7 @@ const ItemsDetailTable = (props) => {
   ]
 
   useEffect(() => {
-    if ((isView || isUpdate) && !isEmpty(soId)) {
+    if ((isView || isUpdate || cloneId) && !isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
     }
     return () => {

@@ -94,7 +94,7 @@ function ItemSettingTable({
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}
-              getOptionValue={(opt) => opt?.itemId || opt?.id}
+              getOptionValue={(opt) => opt?.itemId || opt?.id || ''}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId))
               }
@@ -194,6 +194,7 @@ function ItemSettingTable({
                 thousandSeparator: true,
                 decimalScale: 3,
               }}
+              disabled
             />
           )
         },

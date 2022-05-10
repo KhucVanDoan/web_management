@@ -569,6 +569,7 @@ function DefineItemForm() {
                                   decimalScale: 3,
                                 }}
                                 disabled={!values.hasStorageSpace}
+                                required={values.hasStorageSpace}
                               />
                             </Grid>
                             <Grid item xs={4}>
