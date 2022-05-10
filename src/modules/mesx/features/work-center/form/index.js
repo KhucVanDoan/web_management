@@ -418,6 +418,9 @@ const WorkCenterForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
                         getOptionSubLabel={(opt) => opt?.code}
+                        getOptionDisabled={(opt) =>
+                          values?.members?.some((i) => i?.id === opt?.id)
+                        }
                         onChange={(val) => {
                           if (
                             val.filter((v) => v?.id === values?.leaderId)
@@ -440,7 +443,7 @@ const WorkCenterForm = () => {
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
                         options={factoryList?.items}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,

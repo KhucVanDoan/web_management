@@ -69,6 +69,14 @@ export const WorkCenterSchema = (t) => {
 
     breakTimes: Yup.array().of(
       Yup.object().shape({
+        breakTimeName: Yup.string()
+          .required(t('general:form.required'))
+          .max(
+            TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+            t('general:form.maxLength', {
+              max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+            }),
+          ),
         shifts: Yup.array().of(
           Yup.object().shape(
             {

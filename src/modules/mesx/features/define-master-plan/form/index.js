@@ -75,7 +75,7 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     // set soId when update
-    if (masterPlanDetails?.saleOrderSchedules && isUpdate) {
+    if (masterPlanDetails?.saleOrderSchedules && (isUpdate || cloneId)) {
       setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
     }
   }, [masterPlanDetails])
@@ -306,7 +306,7 @@ const DefineMasterPlanForm = () => {
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
                       })}
-                      getOptionValue={(option) => option?.id}
+                      getOptionValue={(option) => option?.id || ''}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -314,6 +314,7 @@ const DefineMasterPlanForm = () => {
                       name="planDate"
                       label={t('defineMasterPlan.planDate')}
                       placeholder={t('defineMasterPlan.planDate')}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -332,13 +333,20 @@ const DefineMasterPlanForm = () => {
               </Grid>
             </Grid>
             <DetailTab
-              soId={isUpdate ? soId : values?.soId}
+              soId={isUpdate || cloneId ? soId : values?.soId}
               planDate={values.planDate}
               isDetail={true}
               isUpdate={isUpdate}
             />
 
-            {renderActionBar(resetForm)}
+            {renderActionBar(() => {
+              resetForm()
+              setSoId((prevSoId) =>
+                prevSoId.filter(
+                  (i) => !values?.soId?.includes((val) => val?.id === i),
+                ),
+              )
+            })}
           </Form>
         )}
       </Formik>

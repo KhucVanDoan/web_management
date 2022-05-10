@@ -23,9 +23,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         width: 400,
         align: 'center',
         renderCell: (params, index) => {
-          const itemIdCodeList = items.map(
-            (item) => item?.detailId?.itemDetailId,
-          )
+          const itemIdCodeList = items.map((item) => item?.detailId?.id)
           return (
             <Field.Autocomplete
               name={`items[${index}].detailId`}
