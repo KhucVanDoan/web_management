@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import appStoreActions from '../actions/app-store'
 
 export const useAppStore = () => {
-  const appStore = useSelector((state) => get(state, 'appStore'))
+  const appStore = useSelector((state) => get(state, 'shared.appStore'))
 
   const dispatch = useDispatch()
   const actions = useMemo(

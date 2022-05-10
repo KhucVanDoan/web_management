@@ -20,6 +20,7 @@ import store from '~/store'
 import theme, { globalStyles } from '~/themes'
 import i18n from '~/utils/i18n'
 
+import { SocketProvider } from './contexts/SocketContext'
 import { DateFns } from './utils/date-time'
 
 function App() {
@@ -29,56 +30,62 @@ function App() {
         <GlobalStyles styles={globalStyles(theme)} />
 
         <Suspense fallback={() => null}>
-          <ReactNotification />
-          <ReduxProvider store={store}>
-            <I18nextProvider i18n={i18n}>
+          <I18nextProvider i18n={i18n}>
+            <ReduxProvider store={store}>
               <LocalizationProvider dateAdapter={DateFns} locale={viLocale}>
-                <Router history={history}>
-                  <Switch>
-                    {publicRoutes.map((route) => (
-                      <Route
-                        key={route.path}
-                        path={route.path}
-                        render={(props) => (
-                          <PublicLayout>
-                            <route.component {...props} />
-                          </PublicLayout>
-                        )}
-                        exact
-                      />
-                    ))}
+                <SocketProvider>
+                  <ReactNotification />
 
-                    {authRoutes.map((route) => (
-                      <Route
-                        key={route.path}
-                        path={route.path}
-                        render={(props) => (
-                          <AuthLayout>
-                            <route.component {...props} />
-                          </AuthLayout>
-                        )}
-                        exact
-                      />
-                    ))}
+                  <Router history={history}>
+                    <Switch>
+                      {publicRoutes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          render={(props) => (
+                            <PublicLayout>
+                              <route.component {...props} />
+                            </PublicLayout>
+                          )}
+                          exact
+                        />
+                      ))}
 
-                    {privateRoutesFlatten.map((route) => (
+                      {authRoutes.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          render={(props) => (
+                            <AuthLayout>
+                              <route.component {...props} />
+                            </AuthLayout>
+                          )}
+                          exact
+                        />
+                      ))}
+
+                      {privateRoutesFlatten.map((route) => (
+                        <Route
+                          key={route.path}
+                          path={route.path}
+                          render={(props) => (
+                            <PrivateLayout>
+                              <route.component {...props} />
+                            </PrivateLayout>
+                          )}
+                          exact
+                        />
+                      ))}
                       <Route
-                        key={route.path}
-                        path={route.path}
-                        render={(props) => (
-                          <PrivateLayout>
-                            <route.component {...props} />
-                          </PrivateLayout>
-                        )}
-                        exact
+                        path="*"
+                        component={() => <h1>404 not found</h1>}
                       />
-                    ))}
-                    <Route path="*" component={() => <h1>404 not found</h1>} />
-                  </Switch>
-                </Router>
+                    </Switch>
+                  </Router>
+                </SocketProvider>
               </LocalizationProvider>
-            </I18nextProvider>
-          </ReduxProvider>
+            </ReduxProvider>
+          </I18nextProvider>
         </Suspense>
       </ThemeProvider>
     </StyledEngineProvider>

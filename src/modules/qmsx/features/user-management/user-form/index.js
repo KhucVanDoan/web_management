@@ -17,9 +17,7 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-//@Note: import from MESx
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
-//@Note: import from MESx
 import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { USER_MANAGEMENT_STATUS } from '~/modules/qmsx/constants'
 import { useCommonManagement } from '~/modules/qmsx/redux/hooks/useCommonManagement'

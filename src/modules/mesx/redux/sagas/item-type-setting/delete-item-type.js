@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
-import { getAppStore } from '~/modules/auth/redux/actions/app-store'
 import {
   deleteItemTypeFailed,
   deleteItemTypeSuccess,
@@ -35,7 +34,6 @@ function* doDeleteItemType(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      yield put(getAppStore())
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
