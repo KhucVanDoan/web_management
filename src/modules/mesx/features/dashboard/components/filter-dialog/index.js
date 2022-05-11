@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import Dialog from '~/components/Dialog'
 
 const FilterDialog = ({ children, onSubmit }) => {
-  const { t } = useTranslation(['mesx'])
+  const { t } = useTranslation()
 
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -24,14 +24,14 @@ const FilterDialog = ({ children, onSubmit }) => {
 
       <Dialog
         open={openDialog}
-        title={t('general:common.filter')}
+        title={t('common.filter')}
         onCancel={() => setOpenDialog(false)}
         cancelLabel={t('modal.btnClose')}
         onSubmit={() => {
           setOpenDialog(false)
           onSubmit()
         }}
-        submitLabel={t('general:modal.btnSubmit')}
+        submitLabel={t('modal.btnSubmit')}
       >
         {children}
       </Dialog>

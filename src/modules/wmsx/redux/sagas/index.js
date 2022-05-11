@@ -6,6 +6,11 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchCreateTemplateShelf from './define-template-shelf/create-template-shelf'
+import watchDeleteTemplateShelf from './define-template-shelf/delete-template-shelf'
+import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
+import watchSearchTemplateShelfs from './define-template-shelf/search-template-shelfs'
+import watchUpdateTemplateShelf from './define-template-shelf/update-template-shelf'
 import watchCreateVendor from './define-vendor/create-vendor.saga'
 import watchDeleteVendor from './define-vendor/delete-vendor.saga'
 import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
@@ -44,6 +49,13 @@ import watchSearchWarehouseTransferMovements from './warehouse-transfer-movement
  */
 export default function* sagas() {
   yield all([
+    //define-template-shelf
+    watchCreateTemplateShelf(),
+    watchDeleteTemplateShelf(),
+    watchGetTemplateShelfDetail(),
+    watchSearchTemplateShelfs(),
+    watchUpdateTemplateShelf(),
+
     watchCreateWarehouseSetting(),
     watchDeleteWarehouseSetting(),
     watchGetWarehouseSettingDetails(),
