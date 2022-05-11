@@ -269,7 +269,7 @@ const DefineMasterPlanForm = () => {
                       name="soId"
                       placeholder={t('defineMasterPlan.saleOrder')}
                       required
-                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderName}
+                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderCode}
                       getOptionSubLabel={(opt) => opt?.name}
                       asyncRequest={(s) =>
                         searchSaleOrdersApi({

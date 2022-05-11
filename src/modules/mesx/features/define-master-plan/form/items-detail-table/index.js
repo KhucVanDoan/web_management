@@ -17,8 +17,8 @@ const ItemsDetailTable = (props) => {
     data: { saleOrderDetailList },
     actions,
   } = useSaleOrder()
-
   const [itemsDetail, setItemsDetail] = useState()
+
   const columns = [
     {
       field: 'itemName',
@@ -84,6 +84,7 @@ const ItemsDetailTable = (props) => {
   const getItemsInSo = (saleOrders = []) => {
     const itemsInSo = []
     saleOrders.forEach((saleOrder) => {
+      const { boq } = saleOrder
       saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
         const { item, quantity, actualQuantity } = saleOrderDetail
         itemsInSo.push({
@@ -93,7 +94,7 @@ const ItemsDetailTable = (props) => {
           quantityPlan: quantity,
           quantityActual: actualQuantity,
           bomName: item?.bom?.name,
-          routingName: item?.bom?.code,
+          routingName: boq?.code,
         })
       })
     })
