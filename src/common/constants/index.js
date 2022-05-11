@@ -92,7 +92,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 99999999999,
   },
   INTEGER_100K: {
-    MIN: 0,
+    MIN: 1,
     MAX: 100000,
   },
   AMOUNT_DECIMAL: {
@@ -104,8 +104,8 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 100,
   },
   QUANTITY: {
-    MIN: 0,
-    MAX: 999999999,
+    MIN: 1,
+    MAX: 99999,
   },
   WATTAGE: {
     MIN: 0,
