@@ -12,9 +12,6 @@ import { searchRequestBuyMaterialsApi } from '~/modules/mesx/redux/sagas/request
 
 function FilterForm() {
   const { t } = useTranslation(['mesx'])
-  // const {
-  //   data: { moList },
-  // } = useMo()
 
   return (
     <Grid container rowSpacing={4 / 3}>
