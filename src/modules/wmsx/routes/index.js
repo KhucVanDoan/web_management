@@ -3,6 +3,7 @@ import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
+import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
 import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
@@ -159,6 +160,12 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+      {
+        path: ROUTE.INVENTORY_STATISTICS.PATH,
+        name: ROUTE.INVENTORY_STATISTICS.TITLE,
+        component: InventoryStatistics,
+        isInSidebar: true,
       },
       {
         path: ROUTE.INVENTORY_DEADLINE_WARNING.PATH,

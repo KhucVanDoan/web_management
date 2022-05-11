@@ -16,7 +16,8 @@
     "inventoryWarning": "保管期限超過警告",
     "warehouseTransfer": "倉庫移動統計",
     "warehouseTransferMovement": "倉庫移転",
-    "warehouseTransferMovementDetail": "倉庫転送統計の詳細"
+    "warehouseTransferMovementDetail": "倉庫転送統計の詳細",
+    "inventoryStatistics": "在庫統計"
   },
   "warehouseReport": {
     "title": "在庫報告一覧",
@@ -142,5 +143,23 @@
       "movementDate": "取引日",
       "itemDetails": "商品詳細"
     }
+  },
+  "inventoryStatistics": {
+    "breadcrumbTitle": "在庫統計",
+    "title": "在庫統計",
+    "statisticsDate": "統計日",
+    "itemType": "商品分類",
+    "warehouseChoose": "倉庫選択",
+    "code": "商品コード",
+    "name": "商品名",
+    "type": "商品分類",
+    "warehouseId": "倉庫コード",
+    "warehouseName": "倉庫名",
+    "warehouseType": "倉庫種類",
+    "itemGroup": "商品グループ",
+    "inventoryNumbers": "現在在庫個数",
+    "unitType": "単位",
+    "inventoryCost": "在庫コスト",
+    "warningInventory": "在庫警告"
   }
 }
