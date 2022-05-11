@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 
-import { Typography } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
-import LabelValue from '~/components/LabelValue'
+import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import useInventoryStatistics from '~/modules/wmsx/redux/hooks/useInventoryStatistics'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -219,22 +219,35 @@ function InventoryStatistics() {
         loading={isLoading}
         renderHeaderRight={renderHeaderRight}
       >
-        <LabelValue
-          label={
-            <Typography variant="h5">
-              {t('inventoryStatistics.totalStock')}
-            </Typography>
-          }
-          value={totalStock?.toFixed(2)}
-        />
-        <LabelValue
-          label={
-            <Typography variant="h5">
-              {t('inventoryStatistics.totalCost')}
-            </Typography>
-          }
-          value={totalCost?.toFixed(2)}
-        />
+        <Box sx={{ mb: 1, textAlign: 'left' }}>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <Typography variant="h5">
+                    {t('inventoryStatistics.totalStock')}:
+                  </Typography>
+                </th>
+                <td>
+                  <Typography variant="h4">{totalStock?.toFixed(2)}</Typography>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <Typography variant="h5">
+                    {t('inventoryStatistics.totalCost')}:
+                  </Typography>
+                </th>
+                <td>
+                  <Typography variant="h4">
+                    <NumberFormatText value={totalCost} />
+                  </Typography>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Box>
+
         <DataTable
           title={t('inventoryStatistics.tableTitle')}
           rows={inventoryStatisticList}
