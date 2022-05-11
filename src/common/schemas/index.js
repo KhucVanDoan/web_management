@@ -15,7 +15,6 @@ export const phoneSchema = (t) =>
 
 export const numberSchema = (t) =>
   Yup.number()
-    .required(t('general:form.required'))
     .min(
       NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MIN,
       t('general:form.minNumber', {

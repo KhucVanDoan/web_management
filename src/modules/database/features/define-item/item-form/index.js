@@ -95,7 +95,7 @@ function DefineItemForm() {
           ? ''
           : itemDetails?.price
         : '',
-      dayExpire: itemDetails?.dayExpire || '',
+      dayExpire: itemDetails?.dayExpire || 1,
       isProductionObject: Boolean(itemDetails?.isProductionObject) || false,
       hasStorageSpace: itemDetails?.hasStorageSpace || false,
       ...(itemDetails?.hasStorageSpace

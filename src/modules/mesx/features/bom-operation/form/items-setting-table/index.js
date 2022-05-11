@@ -45,7 +45,8 @@ const ItemSettingTable = ({ items, mode }) => {
       width: 150,
       align: 'center',
       renderCell: (params) => {
-        return params?.row?.bomDetail?.itemId
+        const itemId = params.row?.bomDetail?.itemId
+        return getItemObject(itemId)?.code || ''
       },
     },
     {
