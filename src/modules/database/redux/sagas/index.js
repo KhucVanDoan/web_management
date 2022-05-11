@@ -33,6 +33,7 @@ import watchUpdateItemUnit from './item-unit-setting/update-item-unit'
 import watchConfirmSaleOrder from './sale-order/confirm-sale-order'
 import watchCreateSaleOrder from './sale-order/create-sale-order'
 import watchDeleteSaleOrder from './sale-order/delete-sale-order'
+import watchSaleOrderDetailByIds from './sale-order/get-sale-order-detail_by_ids'
 import watchGetSaleOrderDetails from './sale-order/get-sale-order-details'
 import watchRejectSaleOrder from './sale-order/reject-sale-order'
 import watchSearchSaleOrders from './sale-order/search-sale-orders'
@@ -92,5 +93,6 @@ export default function* sagas() {
     watchGetSaleOrderDetails(),
     watchConfirmSaleOrder(),
     watchRejectSaleOrder(),
+    watchSaleOrderDetailByIds(),
   ])
 }
