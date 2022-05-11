@@ -16,8 +16,6 @@ import {
   ORDER_STATUS,
   ORDER_STATUS_OPTIONS,
 } from '~/modules/database/constants'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -74,17 +72,6 @@ function RequestBuyMaterial() {
     data: { isLoading, requestBuyMaterialList, total },
     actions,
   } = useRequestBuyMaterial()
-
-  const { actions: moAction } = useMo()
-  const { actions: saleOrderAction } = useSaleOrder()
-
-  useEffect(() => {
-    moAction.searchMO({ isGetAll: 1 })
-    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
-    return () => {
-      saleOrderAction.resetSaleOrderListState()
-    }
-  }, [])
 
   const columns = [
     {

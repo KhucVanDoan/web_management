@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getAllListSuccess,
   searchRequestBuyMaterialsFailed,
   searchRequestBuyMaterialsSuccess,
   SEARCH_REQUEST_BUY_MATERIALS_START,
@@ -25,9 +24,6 @@ export const searchRequestBuyMaterialsApi = (params) => {
 function* doSearchRequestBuyMaterials(action) {
   try {
     const response = yield call(searchRequestBuyMaterialsApi, action?.payload)
-    const responseAll = yield call(searchRequestBuyMaterialsApi, {
-      isGetAll: 1,
-    })
 
     if (response?.statusCode === 200) {
       const payload = {
@@ -35,7 +31,6 @@ function* doSearchRequestBuyMaterials(action) {
         total: response.data.meta.total,
       }
       yield put(searchRequestBuyMaterialsSuccess(payload))
-      yield put(getAllListSuccess(responseAll?.data?.items))
 
       // Call callback action if provided
       if (action.onSuccess) {
