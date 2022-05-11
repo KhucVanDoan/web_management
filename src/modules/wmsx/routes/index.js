@@ -8,6 +8,9 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import DefineVendorDetail from '../features/define-vendor/detail'
+import DefineVendorForm from '../features/define-vendor/form'
+import DefineVendor from '../features/define-vendor/list'
 import DefineWarehouse from '../features/define-warehouse'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
@@ -171,6 +174,39 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.PRODUCTION_INFORMATION_MANAGENMENT.TITLE,
+    isInSidebar: true,
+    icon: 'setting',
+    subMenu: [
+      {
+        name: ROUTE.DEFINE_VENDEOR.LIST.TITLE,
+        path: ROUTE.DEFINE_VENDEOR.LIST.PATH,
+        component: DefineVendor,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_VENDEOR.CREATE.TITLE,
+            path: ROUTE.DEFINE_VENDEOR.CREATE.PATH,
+            component: DefineVendorForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_VENDEOR.EDIT.TITLE,
+            path: ROUTE.DEFINE_VENDEOR.EDIT.PATH,
+            component: DefineVendorForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VENDEOR.DETAIL.TITLE,
+            path: ROUTE.DEFINE_VENDEOR.DETAIL.PATH,
+            component: DefineVendorDetail,
+            isInSidebar: true,
+          },
+        ],
       },
     ],
   },
