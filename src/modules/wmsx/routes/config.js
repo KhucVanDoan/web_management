@@ -167,6 +167,16 @@ export const ROUTE = {
       TITLE: 'inventoryLimitEdit',
     },
   },
+  WAREHOUSE_IMPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-import',
+      TITLE: 'warehouseImport',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-import/:id/detail',
+      TITLE: 'movementsDetail',
+    },
+  },
   INVENTORY_STATISTICS: {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',

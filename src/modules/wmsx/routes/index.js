@@ -21,6 +21,8 @@ import DefineWarehouseFrom from '../features/define-warehouse/form'
 import InventoryLimit from '../features/inventory-limit'
 import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
+import WarehouseImportDetail from '../features/warehouse-import/detail'
+import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
@@ -210,6 +212,21 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
+    component: WarehouseImport,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
+        component: WarehouseImportDetail,
+        isInSidebar: false,
       },
     ],
   },
