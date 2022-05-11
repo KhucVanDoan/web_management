@@ -16,7 +16,8 @@
     "inventoryDeadlineWarning": "Expiry Warning",
     "warehouseTransfer": "Warehouse Transfer Statistics",
     "warehouseTransferMovementDetail": "Warehouse transfer Statistics details",
-    "warehouseTransferMovement": "warehouse transfer"
+    "warehouseTransferMovement": "warehouse transfer",
+    "inventoryStatistics": "Inventory Statistics"
   },
   "warehouseReport": {
     "title": "Inventory report list",
@@ -142,5 +143,24 @@
       "movementDate": "Transaction date",
       "itemDetails": "Item details"
     }
+  },
+  "inventoryStatistics": {
+    "breadcrumbTitle": "Inventory statistics",
+    "title": "Inventory statistics",
+    "tableTitle": "Inventory list",
+    "statisticsDate": "Statistics date",
+    "itemType": "Item type",
+    "warehouseSelect": "Choose warehouse",
+    "code": "Item code",
+    "name": "Item name",
+    "type": "Item type",
+    "warehouseId": "Warehouse code",
+    "warehouseName": "Warehouse name",
+    "warehouseType": "Warehouse type",
+    "itemGroup": "Item group",
+    "inventoryNumbers": "Current inventory quantity",
+    "unitType": "Unit",
+    "inventoryCost": "Inventory cost",
+    "warningInventory": "Inventory warning"
   }
 }

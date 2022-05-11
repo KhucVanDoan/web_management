@@ -44,7 +44,8 @@
     "setting": "Cài đặt",
     "inventoryLimitCreate": "Tạo cài đặt tồn kho",
     "inventoryLimitDetails": "Chi tiết cài đặt tồn kho",
-    "inventoryLimitEdit": "Chỉnh sửa cài đặt tồn kho"
+    "inventoryLimitEdit": "Chỉnh sửa cài đặt tồn kho",
+    "inventoryStatistics": "Thống kê tồn kho"
   },
   "defineDetail": {
     "title": "Danh sách chi tiết",
@@ -385,5 +386,29 @@
     "shelfLifeWarning": "Thời hạn cảnh báo hạn sử dụng",
     "createButton": "Tạo cài đặt",
     "deleteSetting": "Xóa tồn kho"
+  },
+  "inventoryStatistics": {
+    "breadcrumbTitle": "Thống kê tồn kho",
+    "tableTitle": "Danh sách tồn kho",
+    "title": "Thống kê tồn kho",
+    "statisticsDate": "Ngày thống kê",
+    "itemType": "Loại sản phẩm",
+    "warehouseSelect": "Chọn kho",
+    "code": "Mã sản phẩm",
+    "name": "Tên sản phẩm",
+    "type": "Loại sản phẩm",
+    "warehouseId": "Mã kho",
+    "warehouseName": "Tên kho",
+    "warehouseType": "Loại kho",
+    "itemGroup": "Nhóm sản phẩm",
+    "inventoryNumbers": "Số tồn kho hiện tại",
+    "unitType": "Đơn vị",
+    "inventoryCost": "Chi phí tồn kho",
+    "warningInventory": "Cảnh báo tồn kho",
+    "lotNumber": "Số lô",
+    "packageCode": "Mã package",
+    "totalStock": "Tổng số tồn kho hiện tại",
+    "totalCost": "Tổng chi phí tồn kho",
+    "reportDate": "Ngày báo cáo"
   }
 }

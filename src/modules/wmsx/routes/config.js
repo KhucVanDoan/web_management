@@ -149,4 +149,8 @@ export const ROUTE = {
       TITLE: 'inventoryLimitEdit',
     },
   },
+  INVENTORY_STATISTICS: {
+    PATH: '/wmsx/inventory-statistics',
+    TITLE: 'inventoryStatistics',
+  },
 }
