@@ -32,6 +32,9 @@ import watchSearchInventoryLimits from './inventory-limit/search-inventory-limit
 import watchUpdateInventoryLimit from './inventory-limit/update-item-group'
 import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
 import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
+import watchGetMovementsDetails from './movements/get-movement-details.'
+import watchSearchMovements from './movements/search-movements.saga'
+import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
 import watchCreateWarehouseReport from './warehouse-report/create-warehouse-report'
 import watchDeleteWarehouseReport from './warehouse-report/delete-warehouse-report'
 import watchGetWarehouseReportDetails from './warehouse-report/get-warehouse-report-detail'
@@ -100,6 +103,13 @@ export default function* sagas() {
     watchSearchInventoryLimits(),
     watchGetInventoryLimitDetails(),
     watchDeleteInventoryLimit(),
+
+    //warehouse-import
+    watchWarehouseImportData(),
+
+    //movements
+    watchSearchMovements(),
+    watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
   ])

@@ -94,6 +94,19 @@ export const MOVEMENT_TYPE = {
   EMO_EXPORT: 9,
 }
 
+export const MOVEMENT_TYPE_MAP = {
+  [MOVEMENT_TYPE.PO_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.PO_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.PRO_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.PRO_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.SO_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.SO_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.IMO_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.EMO_EXPORT]: 'movements.export',
+}
+
 export const MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT = {
   [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'warehouseTransferMovement.transferImport',
   [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'warehouseTransferMovement.transferExport',
@@ -132,10 +145,12 @@ export const ORDER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'orderStatus.pending',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'orderStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 2,
@@ -221,5 +236,37 @@ export const TRANSFER_MOVEMENT_TYPE_OPTIONS = [
   {
     id: 7,
     name: 'warehouseTransferMovement.transferExport',
+  },
+]
+
+export const WAREHOUSE_IMPORT_STATUS = {
+  PO: 0,
+  PRO: 1,
+  SO: 2,
+  TRANSFER: 3,
+}
+
+export const WAREHOUSE_IMPORT_STATUS_MAP = {
+  [WAREHOUSE_IMPORT_STATUS.PO]: 'movementsStatus.po',
+  [WAREHOUSE_IMPORT_STATUS.PRO]: 'movementsStatus.pro',
+  [WAREHOUSE_IMPORT_STATUS.SO]: 'movementsStatus.so',
+  [WAREHOUSE_IMPORT_STATUS.TRANSFER]: 'movementsStatus.transfer',
+}
+export const WAREHOUSE_IMPORT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'movementsStatus.po',
+  },
+  {
+    id: 1,
+    text: 'movementsStatus.pro',
+  },
+  {
+    id: 2,
+    text: 'movementsStatus.so',
+  },
+  {
+    id: 3,
+    text: 'movementsStatus.transfer',
   },
 ]
