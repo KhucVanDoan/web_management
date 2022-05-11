@@ -46,7 +46,7 @@ function* doGetSaleOrderDetailByIds(action) {
 /**
  * Watch search users
  */
-export default function* watrchetSaleOrderDetailByIds() {
+export default function* watchSaleOrderDetailByIds() {
   yield takeLatest(
     GET_SALE_ORDER_DETAIL_BY_IDS_START,
     doGetSaleOrderDetailByIds,
