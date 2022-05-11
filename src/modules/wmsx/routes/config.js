@@ -6,6 +6,24 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+  DEFINE_TEMPLATE_SHELF: {
+    LIST: {
+      PATH: '/wmsx/define-template-shelf',
+      TITLE: 'defineTemplateShelf',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-template-shelf/create',
+      TITLE: 'defineTemplateShelfCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-template-shelf/:id/detail',
+      TITLE: 'defineTemplateShelfDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-template-shelf/:id/edit',
+      TITLE: 'defineTemplateShelfEdit',
+    },
+  },
 
   WAREHOUSE_SETTING: {
     LIST: {

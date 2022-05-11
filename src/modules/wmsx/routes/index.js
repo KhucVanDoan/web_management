@@ -2,6 +2,9 @@ import Dashboard from '~/modules/wmsx/features/dashboard'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
+import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
+import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
+import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
 import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
@@ -85,6 +88,32 @@ const routes = [
             name: ROUTE.DEFINE_WAREHOUSE.EDIT.TITLE,
             path: ROUTE.DEFINE_WAREHOUSE.EDIT.PATH,
             component: DefineWarehouseFrom,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_TEMPLATE_SHELF.LIST.TITLE,
+        path: ROUTE.DEFINE_TEMPLATE_SHELF.LIST.PATH,
+        component: DefineTemplateShelf,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_TEMPLATE_SHELF.CREATE.TITLE,
+            path: ROUTE.DEFINE_TEMPLATE_SHELF.CREATE.PATH,
+            component: DefineTemplateShelfForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_TEMPLATE_SHELF.DETAIL.TITLE,
+            path: ROUTE.DEFINE_TEMPLATE_SHELF.DETAIL.PATH,
+            component: DefineTemplateShelfDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.TITLE,
+            path: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.PATH,
+            component: DefineTemplateShelfForm,
             isInSidebar: false,
           },
         ],
