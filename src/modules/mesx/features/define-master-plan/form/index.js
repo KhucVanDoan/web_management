@@ -62,7 +62,6 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     commonManagementActions.getSaleOrders({ isGetAll: 1 })
-    commonManagementActions.getFactories()
 
     return () => {
       actions.resetMasterPlanDetails()
@@ -223,7 +222,10 @@ const DefineMasterPlanForm = () => {
           const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
           setFieldValue('planDate', [dateFrom, dateTo])
         },
-      )
+      );
+      commonManagementActions.getFactories(
+        { saleOrderIds: val?.map((i) => i?.id).join(',') }
+      );
     }
   }
 
@@ -307,6 +309,7 @@ const DefineMasterPlanForm = () => {
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
                       })}
                       getOptionValue={(option) => option?.id || ''}
+                      disabled={!values?.soId?.length}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
