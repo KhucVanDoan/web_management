@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, createFilterOptions, Grid, Typography } from '@mui/material'
+import {
+  Box,
+  createFilterOptions,
+  Grid,
+  InputAdornment,
+  Typography,
+} from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -535,6 +541,16 @@ const WorkCenterForm = () => {
                         name="oeeTarget"
                         numberProps={{
                           decimalScale: 3,
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
+                              {t('workCenter.percent')}
+                            </InputAdornment>
+                          ),
                         }}
                         required
                       />
