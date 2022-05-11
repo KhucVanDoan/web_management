@@ -875,6 +875,7 @@
     "workCapacity": "Công suất làm việc",
     "oeeGoal": "Mục tiêu năng suất",
     "costPerHour": "Chi phí trên giờ",
+    "percent": "%",
     "preProductionTime": "Thời gian trước sản xuất",
     "postProductionTime": "Thời gian sau sản xuất",
     "workTimeLabel": "Giờ làm việc",
