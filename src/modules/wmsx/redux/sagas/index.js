@@ -6,6 +6,12 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchCreateVendor from './define-vendor/create-vendor.saga'
+import watchDeleteVendor from './define-vendor/delete-vendor.saga'
+import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
+import watchImportVendor from './define-vendor/import-vendor.saga'
+import watchSearchVendors from './define-vendor/search-vendors.saga'
+import watchUpdateVendor from './define-vendor/updata-vendor.saga'
 import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
 import watchCreateWarehouse from './define-warehouse/create-warehouse'
 import watchDeleteWarehouse from './define-warehouse/delete-warehouse'
@@ -68,6 +74,13 @@ export default function* sagas() {
     //warehouse transfer movements
     watchGetWarehouseTransferMovementsDetails(),
     watchSearchWarehouseTransferMovements(),
+    ///define vendor
+    watchCreateVendor(),
+    watchDeleteVendor(),
+    watchGetVendorDetails(),
+    watchImportVendor(),
+    watchSearchVendors(),
+    watchUpdateVendor(),
     // inventory limit
     watchCreateInventoryLimit(),
     watchUpdateInventoryLimit(),

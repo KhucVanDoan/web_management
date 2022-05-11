@@ -6,6 +6,7 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+
   WAREHOUSE_SETTING: {
     LIST: {
       PATH: '/wmsx/warehouse-setting',
@@ -104,6 +105,28 @@ export const ROUTE = {
     },
     PATH: '/wmsx/warehouse-transfer-movements',
     TITLE: 'warehouseTransferMovement',
+  },
+  PRODUCTION_INFORMATION_MANAGENMENT: {
+    PATH: '/wmsx/production-information-management',
+    TITLE: 'productionInformationManagement',
+  },
+  DEFINE_VENDEOR: {
+    LIST: {
+      PATH: '/wmsx/define-vendor',
+      TITLE: 'defineVendor',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-vendor/create',
+      TITLE: 'defineVendorCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-vendor/:id/edit',
+      TITLE: 'defineVendorEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-vendor/:id/detail',
+      TITLE: 'defineVendorDetail',
+    },
   },
   SETTING: {
     TITLE: 'setting',
