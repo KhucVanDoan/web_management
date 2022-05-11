@@ -83,13 +83,13 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.warehouseCode')}
-                value={movementDetail?.warehouse.code}
+                value={movementDetail?.warehouse?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.warehouseName')}
-                value={movementDetail?.warehouse.name}
+                value={movementDetail?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
