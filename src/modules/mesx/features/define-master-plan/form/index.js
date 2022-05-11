@@ -23,10 +23,11 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertFilterParams, convertUtcDateTimeToLocalTz } from '~/utils'
 import qs from '~/utils/qs'
 
 import DetailTab from './detail-tab'
@@ -277,6 +278,9 @@ const DefineMasterPlanForm = () => {
                         searchSaleOrdersApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: SALE_ORDER_STATUS.CONFIRMED,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
