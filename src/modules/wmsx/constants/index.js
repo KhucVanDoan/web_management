@@ -270,3 +270,36 @@ export const WAREHOUSE_IMPORT_STATUS_OPTIONS = [
     text: 'movementsStatus.transfer',
   },
 ]
+
+export const WAREHOUSE_EXPORT_STATUS = {
+  PO: 0,
+  PRO: 1,
+  SO: 2,
+  TRANSFER: 3,
+}
+
+export const WAREHOUSE_EXPORT_STATUS_MAP = {
+  [WAREHOUSE_EXPORT_STATUS.PO]: 'movementsStatus.po',
+  [WAREHOUSE_EXPORT_STATUS.PRO]: 'movementsStatus.pro',
+  [WAREHOUSE_EXPORT_STATUS.SO]: 'movementsStatus.so',
+  [WAREHOUSE_EXPORT_STATUS.TRANSFER]: 'movementsStatus.transfer',
+}
+
+export const WAREHOUSE_EXPORT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'movementsStatus.po',
+  },
+  {
+    id: 1,
+    text: 'movementsStatus.pro',
+  },
+  {
+    id: 2,
+    text: 'movementsStatus.so',
+  },
+  {
+    id: 3,
+    text: 'movementsStatus.transfer',
+  },
+]

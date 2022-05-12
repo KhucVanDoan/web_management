@@ -17,6 +17,7 @@
     "warehouseTransfer": "倉庫移動統計",
     "warehouseTransferMovement": "倉庫移転",
     "warehouseTransferMovementDetail": "倉庫転送統計の詳細",
+    "warehouseExport": "出庫",
     "inventoryStatistics": "在庫統計"
   },
   "warehouseReport": {
@@ -141,6 +142,59 @@
       "sourceFactoryName": "移動先工場名",
       "createdByUser": "取引者",
       "movementDate": "取引日",
+      "itemDetails": "商品詳細"
+    }
+  },
+  "warehouseExport": {
+    "title": "出庫一覧"
+  },
+  "movements": {
+    "breadcrumbTitle": "取引伝票",
+    "formTitle": "取引伝票",
+    "title": "取引項目",
+    "import": "入庫",
+    "export": "出庫",
+    "orderNumber": "#",
+    "code": "取引コード",
+    "warehouseType": "倉庫種類",
+    "orderStatus": "ステータス",
+    "approveDate": "書類発行日",
+    "createdByUser": "作成者",
+    "movementStatus": "取引ステータス",
+    "movementDateRange": "取引日",
+    "purchasedOrder": "発注書",
+    "saleOrder": "受注書",
+    "productionOrder": "製造指図",
+    "importManufacturingOrder": "",
+    "itemDetails": "商品詳細",
+    "transferOrder": "倉庫移動指示",
+    "importExport": {
+      "formTitle": "取引伝票",
+      "movementCode": "取引コード",
+      "movementType": "取引タイプ",
+      "letterCode": "発注書コード",
+      "letterType": "発注書タイプ",
+      "warehouseCode": "倉庫コード",
+      "warehouseName": "倉庫名",
+      "createdUser": "取引者",
+      "movementDate": "取引日",
+      "confirmUser": "確認者",
+      "confirmDate": "書類発行日",
+      "description": "取引伝票説明"
+    },
+    "inventoryCalendar": {
+      "formTitle": "棚卸伝票",
+      "inventoryPaperCode": "棚卸伝票コード",
+      "inventoryCode": "棚卸指示コード",
+      "inventoryName": "棚卸指示名",
+      "executeDateDate": "発注書タイプ",
+      "warehouseCode": "倉庫コード",
+      "warehouseName": "倉庫名",
+      "createdUser": "棚卸者",
+      "movementDate": "棚卸日",
+      "confirmUser": "確認者",
+      "confirmDate": "書類発行日",
+      "description": "棚卸伝票説明",
       "itemDetails": "商品詳細"
     }
   },

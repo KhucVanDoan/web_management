@@ -17,6 +17,7 @@
     "warehouseTransfer": "Warehouse Transfer Statistics",
     "warehouseTransferMovementDetail": "Warehouse transfer Statistics details",
     "warehouseTransferMovement": "warehouse transfer",
+    "warehouseExport": "Warehouse export",
     "inventoryStatistics": "Inventory Statistics"
   },
   "warehouseReport": {
@@ -141,6 +142,63 @@
       "sourceFactoryName": "Export factory name",
       "createdByUser": "Transaction user",
       "movementDate": "Transaction date",
+      "itemDetails": "Item details"
+    }
+  },
+  "warehouseExport": {
+    "title": "Warehouse export"
+  },
+  "movements": {
+    "breadcrumbTitle": "Transaction form",
+    "formTitle": "Transaction form",
+    "title": "Transactions",
+    "import": "Warehouse import",
+    "export": "Export",
+    "orderNumber": "#",
+    "code": "Transaction code",
+    "warehouseType": "Warehouse type",
+    "orderStatus": "Order status",
+    "approveDate": "Licensed date",
+    "createdByUser": "User created",
+    "movementStatus": "Transaction status",
+    "movementDateRange": "Transaction date",
+    "purchasedOrder": "Purchased order",
+    "saleOrder": "Sale order",
+    "productionOrder": "Production order",
+    "importManufacturingOrder": "Import Manufacturing Order",
+    "itemDetails": "Item details",
+    "transferOrder": "Warehouse movement order",
+    "importExport": {
+      "formTitle": "Transaction form",
+      "movementCode": "Transaction code",
+      "movementType": "Transaction type",
+      "letterCode": "Order code",
+      "letterType": "Order type",
+      "warehouseCode": "Warehouse code",
+      "warehouseName": "Warehouse name",
+      "createdUser": "Transaction user",
+      "movementDate": "Transaction date",
+      "confirmUser": "User confirmed",
+      "confirmDate": "Licensed date",
+      "description": "Transaction form description",
+      "orderCode": "Order code",
+      "orderName": "Order name",
+      "orderType": "Order type",
+      "executeDate": "Execute date"
+    },
+    "inventoryCalendar": {
+      "formTitle": "Inventory form",
+      "inventoryPaperCode": "Inventory form code",
+      "inventoryCode": "Inventory order code",
+      "inventoryName": "Inventory order name",
+      "executeDateDate": "Order type",
+      "warehouseCode": "Warehouse code",
+      "warehouseName": "Warehouse name",
+      "createdUser": "Inventory user",
+      "movementDate": "Inventory date",
+      "confirmUser": "User confirmed",
+      "confirmDate": "Licensed date",
+      "description": "Inventory form description",
       "itemDetails": "Item details"
     }
   },
