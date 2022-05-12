@@ -5,6 +5,7 @@ import {
   SEARCH_MOVEMENTS_FAILED,
   SEARCH_MOVEMENTS_START,
   SEARCH_MOVEMENTS_SUCCESS,
+  RESET_MOVEMENT_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/movements'
 
 const initialState = {
@@ -53,6 +54,11 @@ export default function movementManagement(state = initialState, action) {
         movementList: [],
         isLoading: false,
         total: 0,
+      }
+    case RESET_MOVEMENT_DETAILS_STATE:
+      return {
+        ...state,
+        movementDetail: {},
       }
     default:
       return state

@@ -22,7 +22,8 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import WarehouseImportFilter from './filter-form'
+import FilterForm from './filter-form'
+
 const breadcrumbs = [
   {
     route: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
@@ -179,7 +180,6 @@ function WarehouseImport() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
-      <WarehouseImportFilter setFilters={setFilters} />
       <DataTable
         title={t('movements.title')}
         rows={movements}
@@ -192,6 +192,7 @@ function WarehouseImport() {
         onSortChange={setSort}
         total={total}
         sort={sort}
+        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
     </Page>
   )

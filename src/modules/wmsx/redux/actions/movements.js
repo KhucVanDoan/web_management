@@ -6,6 +6,7 @@ export const GET_MOVEMENT_DETAILS_START = 'WMSX_GET_MOVEMENT_DETAILS_START'
 export const GET_MOVEMENT_DETAILS_SUCCESS = 'WMSX_GET_MOVEMENT_DETAILS_SUCCESS'
 export const GET_MOVEMENT_DETAILS_FAILED = 'WMSX_GET_MOVEMENT_DETAILS_FAILED'
 
+export const RESET_MOVEMENT_DETAILS_STATE = 'WMSX_RESET_MOVEMENT_DETAILS_STATE'
 /**
  * Get movement details
  * @param {int} payload
@@ -82,6 +83,12 @@ export function getMovementsDetailsByIdFailed() {
   }
 }
 
+export function resetMovementsDetailsState() {
+  return {
+    type: RESET_MOVEMENT_DETAILS_STATE,
+  }
+}
+
 export default {
   searchMovements,
   searchMovementsSuccess,
@@ -89,4 +96,5 @@ export default {
   getMovementsDetailsById,
   getMovementsDetailsByIdSuccess,
   getMovementsDetailsByIdFailed,
+  resetMovementsDetailsState,
 }
