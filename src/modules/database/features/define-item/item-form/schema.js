@@ -38,19 +38,19 @@ export const itemSchema = (t) =>
     dayExpire: numberSchema(t),
     description: Yup.string(),
     long: Yup.object().shape({
-      value: numberSchema(t),
+      value: numberSchema(t).required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     width: Yup.object().shape({
-      value: numberSchema(t),
+      value: numberSchema(t).required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     height: Yup.object().shape({
-      value: numberSchema(t),
+      value: numberSchema(t).required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     weight: Yup.object().shape({
-      value: numberSchema(t),
+      value: numberSchema(t).required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     hasItemDetail: Yup.boolean(),
