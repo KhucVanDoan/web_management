@@ -45,6 +45,7 @@
     "inventoryLimitCreate": "Tạo cài đặt tồn kho",
     "inventoryLimitDetails": "Chi tiết cài đặt tồn kho",
     "inventoryLimitEdit": "Chỉnh sửa cài đặt tồn kho",
+    "warehouseExport": "Giao dịch xuất kho",
     "warehouseImport": "Giao dịch nhập kho",
     "movementsDetail": "Phiếu giao dịch",
     "inventoryStatistics": "Thống kê tồn kho",
@@ -452,6 +453,12 @@
     "createButton": "Tạo cài đặt",
     "deleteSetting": "Xóa tồn kho"
   },
+  "warehouseExport": {
+    "title": "Giao dịch xuất kho",
+    "breadcrumbTitle": "Phiếu giao dịch",
+    "formTitle": "Phiếu giao dịch",
+    "tableTitle": "Danh sách giao dịch"
+  },
   "movements": {
     "breadcrumbTitle": "Phiếu giao dịch",
     "formTitle": "Phiếu giao dịch",
@@ -470,7 +477,6 @@
     "saleOrder": "Đơn bán hàng",
     "productionOrder": "Lệnh sản xuất",
     "importManufacturingOrder": "Lệnh xuất nhập khác",
-
     "transferOrder": "Lệnh chuyển kho",
     "movementType": "Loại lệnh",
     "action": "Hành động",
@@ -516,6 +522,12 @@
       "warehouseName": "Tên kho",
       "planQuantity": "Số lượng dự kiến",
       "actualQuantity": "Số lượng giao dịch"
+    },
+    "movementsStatus": {
+      "po": "Lệnh đặt hàng",
+      "pro": "Lệnh sản xuất",
+      "so": "Lệnh bán hàng",
+      "transfer": "Lệnh xuất nhập khác"
     }
   },
   "movementsStatus": {
