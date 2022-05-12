@@ -275,7 +275,7 @@
   "itemType": {
     "material": "Nguyên vật liệu",
     "product": "Thành phẩm",
-    "supplies": "Vật tư"
+    "semi": "Bán thành phẩm"
   },
   "defineMasterPlan": {
     "name": "Tên sản phẩm",
