@@ -100,7 +100,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 99999999999,
   },
   PERCENT: {
-    MIN: 1,
+    MIN: 0.01,
     MAX: 100,
   },
   QUANTITY: {
@@ -121,7 +121,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   },
   ITEM_QUANLITY: {
     MIN: 1,
-    MAX: 9999,
+    MAX: 10000,
   },
   PO_QUANTITY: {
     MIN: 0,

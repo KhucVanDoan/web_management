@@ -254,7 +254,7 @@ function BOMForm() {
     name: BOMDetails?.name || '',
     routingId: BOMDetails?.routing || '',
     description: BOMDetails?.description || '',
-    itemId: BOMDetails?.itemId || itemId,
+    itemId: BOMDetails?.itemId || itemId || null,
     items: BOMDetails?.bomDetails?.map((e) => ({
       id: e.id,
       itemId: e.itemId,
