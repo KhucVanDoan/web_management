@@ -6,7 +6,7 @@ import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import { SOCKET_EVENTS } from '~/common/constants/socket'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { isAuth } from '~/utils'
-import { getLocalItem } from '~/utils/storage'
+// import { getLocalItem } from '~/utils/storage'
 
 export const SocketContext = createContext({
   socket: null,
@@ -72,17 +72,14 @@ export const SocketProvider = ({ children }) => {
     })
   }, [socket])
 
-  useEffect(() => {
-    const userId = getLocalItem('userInfo')?.id
-
-    if (!socket || !isAuthenticated || !userId) return
-
-    const receivingEvent = `${SOCKET_EVENTS.PREFIX_CHANNEL_WEB}-${userId}`
-
-    socket.on(receivingEvent, (res) => {
-      actions.addNotification(res)
-    })
-  }, [socket, isAuthenticated])
+  // useEffect(() => {
+  // const userId = getLocalItem('userInfo')?.id
+  // if (!socket || !isAuthenticated || !userId) return
+  // const receivingEvent = `${SOCKET_EVENTS.PREFIX_CHANNEL_WEB}-${userId}`
+  // socket.on(receivingEvent, (res) => {
+  //   actions.addNotification(res)
+  // })
+  // }, [socket, isAuthenticated])
 
   useEffect(() => {
     if (isAuthenticated) {
