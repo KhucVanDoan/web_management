@@ -277,6 +277,34 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
     name: 'itemType.product',
   },
 }
+export const DEFAULT_ITEM_TYPE = {
+  MATERIAL: 0,
+  PRODUCT: 1,
+  SEMI: 2,
+}
+
+export const DEFAULT_ITEM_TYPE_MAP = {
+  [DEFAULT_ITEM_TYPE.MATERIAL]: 'itemType.material',
+  [DEFAULT_ITEM_TYPE.PRODUCT]: 'itemType.product',
+  [DEFAULT_ITEM_TYPE.SEMI]: 'itemType.semi',
+}
+export const DEFAULT_ITEM_TYPE_OPTIONS = [
+  {
+    id: 0,
+    code: '00',
+    text: 'itemType.material',
+  },
+  {
+    id: 1,
+    code: '01',
+    text: 'itemType.product',
+  },
+  {
+    id: 2,
+    code: '02',
+    text: 'itemType.semi',
+  },
+]
 
 export const DEFAULT_ITEM_TYPES = {
   code: ['00', '04', '05', '06'],
