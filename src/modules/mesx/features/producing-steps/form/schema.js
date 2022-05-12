@@ -37,9 +37,9 @@ export const validationSchema = (t) =>
         }),
       )
       .max(
-        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+        NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MAX,
         t('general:form.maxNumber', {
-          max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+          max: NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MAX,
         }),
       )
       .required(t('general:form.required')),
