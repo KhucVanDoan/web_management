@@ -22,9 +22,9 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
+import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { getMasterPlanDetailsApi } from '~/modules/mesx/redux/sagas/define-master-plan/get-master-plan-details'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
@@ -106,7 +106,6 @@ const MOForm = () => {
           (so) => so.saleOrderId === moDetails?.saleOrderId,
         )
         setSaleOrder(saleOrder)
-        setMoFactory(data?.factory?.name)
       },
     )
   }
@@ -132,7 +131,11 @@ const MOForm = () => {
             onCancel={() => {
               handleReset()
               setSaleOrders(masterPlanDetails?.saleOrderSchedules)
-              setSaleOrder({})
+              if (!cloneId) {
+                setSaleOrder({})
+              } else {
+                getMasterDetail()
+              }
               setMoFactory(masterPlanDetails?.factory?.name)
             }}
             mode={MODAL_MODE.CREATE}
@@ -145,6 +148,7 @@ const MOForm = () => {
             onCancel={() => {
               handleReset()
               getMasterDetail()
+              setMoFactory(moDetails?.factory?.name)
             }}
             mode={MODAL_MODE.UPDATE}
           />
@@ -153,7 +157,6 @@ const MOForm = () => {
         break
     }
   }
-
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
@@ -200,10 +203,16 @@ const MOForm = () => {
   }
 
   useEffect(() => {
-    if (isUpdate || cloneId) {
+    if ((isUpdate || cloneId) && moDetails?.masterPlan?.id) {
       getMasterDetail()
     }
   }, [moDetails?.masterPlan?.id])
+
+  useEffect(() => {
+    if (!isEmpty(moDetails)) {
+      setMoFactory(moDetails?.factory?.name)
+    }
+  }, [moDetails])
 
   useEffect(() => {
     if (masterPlanId) {
@@ -219,17 +228,24 @@ const MOForm = () => {
 
   const handleChangePlan = async (id, setFieldValue) => {
     setSaleOrder({})
-    const res = await getMasterPlanDetailsApi(id)
-    setSaleOrders(res?.data?.saleOrderSchedules)
-    setFieldValue('moPlan', [res?.data?.dateFrom, res?.data?.dateTo])
-    setMoFactory(res?.data?.factory?.name)
+    if (id) {
+      const res = await getMasterPlanDetailsApi(id)
+      setSaleOrders(res?.data?.saleOrderSchedules)
+      setFieldValue('moPlan', [res?.data?.dateFrom, res?.data?.dateTo])
+      setMoFactory(res?.data?.factory?.name)
+    } else {
+      setMoFactory('')
+      setSaleOrders([])
+    }
   }
 
-  const handleChangeSaleOrder = (value) => {
+  const handleChangeSaleOrder = (value, setFieldValue) => {
     const saleOrder = saleOrders.find((so) => so.saleOrderId === value)
     setSaleOrder(saleOrder)
+    if (!value) {
+      setFieldValue('itemIds', [])
+    }
   }
-
   const initialValues = {
     code: isUpdate ? moDetails?.code : '',
     name: moDetails?.name || '',
@@ -239,13 +255,11 @@ const MOForm = () => {
         : [dataPlan?.dateFrom, dataPlan?.dateTo],
     description: moDetails?.description || '',
     itemIds: [],
-    // masterPlanId: moDetails?.masterPlan || null,
     masterPlanId:
       moDetails?.masterPlan ||
       (isEmpty(masterPlanDetails) ? null : masterPlanDetails) ||
       null,
-    saleOrderId: moDetails?.saleOrderId || null,
-    moFactory: '',
+    saleOrderId: moDetails?.saleOrderId || '',
   }
 
   const handleSubmit = (values) => {
@@ -281,7 +295,7 @@ const MOForm = () => {
         validationSchema={validationSchema(t)}
         onSubmit={handleSubmit}
       >
-        {({ handleReset, setFieldValue, errors, touched }) => (
+        {({ handleReset, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -364,11 +378,13 @@ const MOForm = () => {
                       name="saleOrderId"
                       label={t('saleOrder.name')}
                       placeholder={t('saleOrder.name')}
-                      options={saleOrders || []}
+                      options={saleOrders}
                       getOptionLabel={(option) => option?.saleOrderName || ''}
-                      getOptionValue={(option) => option?.saleOrderId}
+                      getOptionValue={(option) => option?.saleOrderId || ''}
                       required
-                      onChange={handleChangeSaleOrder}
+                      onChange={(val) =>
+                        handleChangeSaleOrder(val, setFieldValue)
+                      }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -414,8 +430,6 @@ const MOForm = () => {
                     }
                     isUpdate={isUpdate}
                     moDetails={moDetails}
-                    errors={errors}
-                    touched={touched}
                   />
                   <BomTable
                     BOMStructure={BOMStructure}

@@ -120,7 +120,7 @@ const BreakTimeTable = ({
               onClick={() => {
                 arrayHelpers.remove(index)
               }}
-              disabled={index === 0}
+              disabled={breakTimes?.length === 1}
             >
               <Icon name="remove" />
             </IconButton>
@@ -129,7 +129,7 @@ const BreakTimeTable = ({
       },
     ]
     return columns.concat(removeColumns)
-  }, [shifts])
+  }, [shifts, breakTimes?.length])
 
   useEffect(() => {
     const newBreakTimes = breakTimes?.map((item) => {

@@ -12,10 +12,11 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+} from '~/modules/database/constants'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
@@ -71,17 +72,6 @@ function RequestBuyMaterial() {
     data: { isLoading, requestBuyMaterialList, total },
     actions,
   } = useRequestBuyMaterial()
-
-  const { actions: moAction } = useMo()
-  const { actions: saleOrderAction } = useSaleOrder()
-
-  useEffect(() => {
-    moAction.searchMO({ isGetAll: 1 })
-    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
-    return () => {
-      saleOrderAction.resetSaleOrderListState()
-    }
-  }, [])
 
   const columns = [
     {

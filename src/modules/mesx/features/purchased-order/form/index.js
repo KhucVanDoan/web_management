@@ -21,11 +21,11 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
+import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
-import { searchCompaniesApi } from '~/modules/mesx/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
@@ -106,7 +106,7 @@ function PurchasedOrderForm() {
       manufacturingOrderId:
         purchasedOrderDetails?.manufacturingOrder?.code || null,
       requestBuyMaterialCode:
-        purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id || null,
+        purchasedOrderDetails.manufacturingOrder?.requestBuyMaterial.id || '',
       purchasedAt: purchasedOrderDetails?.purchasedAt || '',
       vendorId: purchasedOrderDetails?.vendor || null,
       companyId:
@@ -280,11 +280,12 @@ function PurchasedOrderForm() {
                       label={t('purchasedOrder.requestBuyMaterialCode')}
                       placeholder={t('purchasedOrder.requestBuyMaterialCode')}
                       options={requestBuyMaterialList}
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionValue={(opt) => opt?.id || ''}
                       getOptionLabel={(opt) => opt?.code || opt?.name}
                       onChange={(val) => {
                         handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import { FormHelperText, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const ItemsSettingTable = (props) => {
-  const { isView, moDetails, errors, touched } = props
+  const { isView, moDetails } = props
+  const { errors, touched } = useFormikContext() ?? {}
   const { t } = useTranslation(['mesx'])
   const [items, setItems] = useState([])
   const [pageSize] = useState(20)
@@ -22,11 +24,9 @@ const ItemsSettingTable = (props) => {
   useEffect(() => {
     actions.getItems({})
   }, [])
-
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
-
   const columns = [
     {
       field: 'id',
@@ -134,7 +134,6 @@ const ItemsSettingTable = (props) => {
 
     return itemsInSaleOrder
   }
-
   const onSelectionChange = (selected) => {
     setSelectedRows([...selected])
     props.updateSelectedItems(selected.map((item) => item.id))
@@ -150,9 +149,11 @@ const ItemsSettingTable = (props) => {
       >
         <Typography variant="h4" component="span" required>
           {t('Mo.itemDetails')}
-          <Typography color="error" component="span" ml={0.5}>
-            *
-          </Typography>
+          {!isView && (
+            <Typography color="error" component="span" ml={0.5}>
+              *
+            </Typography>
+          )}
         </Typography>
         {!isView && errors?.itemIds && touched?.itemIds && (
           <FormHelperText error>{errors?.itemIds}</FormHelperText>

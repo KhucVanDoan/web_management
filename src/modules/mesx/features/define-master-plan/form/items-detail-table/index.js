@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react'
 
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 import DataTable from '~/components/DataTable'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import qs from '~/utils/qs'
 
 const ItemsDetailTable = (props) => {
   const { soId = [], planDate, isView, isUpdate } = props
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const {
     data: { saleOrderDetailList },
     actions,
   } = useSaleOrder()
-
   const [itemsDetail, setItemsDetail] = useState()
+
   const columns = [
     {
       field: 'itemName',
@@ -62,7 +66,7 @@ const ItemsDetailTable = (props) => {
   ]
 
   useEffect(() => {
-    if ((isView || isUpdate) && !isEmpty(soId)) {
+    if ((isView || isUpdate || cloneId) && !isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
     }
     return () => {
@@ -80,6 +84,7 @@ const ItemsDetailTable = (props) => {
   const getItemsInSo = (saleOrders = []) => {
     const itemsInSo = []
     saleOrders.forEach((saleOrder) => {
+      const { boq } = saleOrder
       saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
         const { item, quantity, actualQuantity } = saleOrderDetail
         itemsInSo.push({
@@ -89,7 +94,7 @@ const ItemsDetailTable = (props) => {
           quantityPlan: quantity,
           quantityActual: actualQuantity,
           bomName: item?.bom?.name,
-          routingName: item?.bom?.code,
+          routingName: boq?.code,
         })
       })
     })

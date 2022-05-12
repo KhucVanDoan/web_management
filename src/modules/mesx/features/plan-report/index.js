@@ -6,11 +6,11 @@ import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_MAP, SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,

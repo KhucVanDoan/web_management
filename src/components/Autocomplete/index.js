@@ -413,7 +413,7 @@ Autocomplete.defaultProps = {
   multiple: false,
   options: [],
   asyncRequest: null,
-  renderStickyHeader: '',
+  // renderStickyHeader: '',
   vertical: false,
   required: false,
   error: false,

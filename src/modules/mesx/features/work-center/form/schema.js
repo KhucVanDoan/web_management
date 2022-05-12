@@ -24,6 +24,12 @@ export const WorkCenterSchema = (t) => {
     leaderId: Yup.number().required(t('general:form.required')),
     oeeTarget: Yup.number()
       .required(t('general:form.required'))
+      .min(
+        NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+        t('general:form.minNumber', {
+          min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+        }),
+      )
       .max(
         NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         t('general:form.maxNumber', {
@@ -32,6 +38,12 @@ export const WorkCenterSchema = (t) => {
       ),
     workCapacity: Yup.number()
       .required(t('general:form.required'))
+      .min(
+        NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+        t('general:form.minNumber', {
+          min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+        }),
+      )
       .max(
         NUMBER_FIELD_REQUIRED_SIZE.PERCENT.MAX,
         t('general:form.maxNumber', {
@@ -69,6 +81,14 @@ export const WorkCenterSchema = (t) => {
 
     breakTimes: Yup.array().of(
       Yup.object().shape({
+        breakTimeName: Yup.string()
+          .required(t('general:form.required'))
+          .max(
+            TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+            t('general:form.maxLength', {
+              max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+            }),
+          ),
         shifts: Yup.array().of(
           Yup.object().shape(
             {

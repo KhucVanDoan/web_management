@@ -92,20 +92,20 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 99999999999,
   },
   INTEGER_100K: {
-    MIN: 0,
-    MAX: 99999,
+    MIN: 1,
+    MAX: 100000,
   },
   AMOUNT_DECIMAL: {
     MIN: 0.0000001,
     MAX: 99999999999,
   },
   PERCENT: {
-    MIN: 0,
+    MIN: 1,
     MAX: 100,
   },
   QUANTITY: {
-    MIN: 0,
-    MAX: 999999999,
+    MIN: 1,
+    MAX: 99999,
   },
   WATTAGE: {
     MIN: 0,
@@ -117,13 +117,14 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   },
   PRICE_ITEM_SALE_ORDER: {
     MIN: 0,
-    MAX: 999999999999999,
+    MAX: 99999999,
   },
   ITEM_QUANLITY: {
     MIN: 1,
     MAX: 9999,
   },
   PO_QUANTITY: {
+    MIN: 0,
     MAX: 9999999,
   },
 }

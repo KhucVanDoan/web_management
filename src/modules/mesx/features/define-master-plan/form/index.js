@@ -21,12 +21,13 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
-import { searchSaleOrdersApi } from '~/modules/mesx/redux/sagas/sale-order/search-sale-orders'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertFilterParams, convertUtcDateTimeToLocalTz } from '~/utils'
 import qs from '~/utils/qs'
 
 import DetailTab from './detail-tab'
@@ -62,7 +63,6 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     commonManagementActions.getSaleOrders({ isGetAll: 1 })
-    commonManagementActions.getFactories()
 
     return () => {
       actions.resetMasterPlanDetails()
@@ -75,7 +75,7 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     // set soId when update
-    if (masterPlanDetails?.saleOrderSchedules && isUpdate) {
+    if (masterPlanDetails?.saleOrderSchedules && (isUpdate || cloneId)) {
       setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
     }
   }, [masterPlanDetails])
@@ -223,7 +223,10 @@ const DefineMasterPlanForm = () => {
           const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
           setFieldValue('planDate', [dateFrom, dateTo])
         },
-      )
+      );
+      commonManagementActions.getFactories(
+        { saleOrderIds: val?.map((i) => i?.id).join(',') }
+      );
     }
   }
 
@@ -269,12 +272,15 @@ const DefineMasterPlanForm = () => {
                       name="soId"
                       placeholder={t('defineMasterPlan.saleOrder')}
                       required
-                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderName}
+                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderCode}
                       getOptionSubLabel={(opt) => opt?.name}
                       asyncRequest={(s) =>
                         searchSaleOrdersApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: SALE_ORDER_STATUS.CONFIRMED,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -306,7 +312,8 @@ const DefineMasterPlanForm = () => {
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
                       })}
-                      getOptionValue={(option) => option?.id}
+                      getOptionValue={(option) => option?.id || ''}
+                      disabled={!values?.soId?.length}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -314,6 +321,7 @@ const DefineMasterPlanForm = () => {
                       name="planDate"
                       label={t('defineMasterPlan.planDate')}
                       placeholder={t('defineMasterPlan.planDate')}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -332,13 +340,20 @@ const DefineMasterPlanForm = () => {
               </Grid>
             </Grid>
             <DetailTab
-              soId={isUpdate ? soId : values?.soId}
+              soId={isUpdate || cloneId ? soId : values?.soId}
               planDate={values.planDate}
               isDetail={true}
               isUpdate={isUpdate}
             />
 
-            {renderActionBar(resetForm)}
+            {renderActionBar(() => {
+              resetForm()
+              setSoId((prevSoId) =>
+                prevSoId.filter(
+                  (i) => !values?.soId?.includes((val) => val?.id === i),
+                ),
+              )
+            })}
           </Form>
         )}
       </Formik>

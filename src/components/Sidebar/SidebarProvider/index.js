@@ -9,7 +9,7 @@ export const SidebarContext = createContext({})
 
 const SidebarProvider = ({ children }) => {
   const [isMinimal, setIsMinimal] = useState(
-    storage.sessionGet('isMinimal') || false,
+    storage.getSessionItem('isMinimal') || false,
   )
 
   const theme = useTheme()
@@ -20,7 +20,7 @@ const SidebarProvider = ({ children }) => {
     isMinimal,
     setIsMinimal: (val) => {
       setIsMinimal(val)
-      storage.sessionSet('isMinimal', val)
+      storage.setSessionItem('isMinimal', val)
     },
     isMdUp,
     isMdUpMinimal: isMdUp && isMinimal,

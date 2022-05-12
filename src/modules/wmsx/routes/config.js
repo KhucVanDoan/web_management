@@ -6,6 +6,25 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+  DEFINE_TEMPLATE_SHELF: {
+    LIST: {
+      PATH: '/wmsx/define-template-shelf',
+      TITLE: 'defineTemplateShelf',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-template-shelf/create',
+      TITLE: 'defineTemplateShelfCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-template-shelf/:id/detail',
+      TITLE: 'defineTemplateShelfDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-template-shelf/:id/edit',
+      TITLE: 'defineTemplateShelfEdit',
+    },
+  },
+
   WAREHOUSE_SETTING: {
     LIST: {
       PATH: '/wmsx/warehouse-setting',
@@ -65,5 +84,101 @@ export const ROUTE = {
       PATH: '/wmsx/define-detail/:id/edit',
       TITLE: 'defineDetailEdit',
     },
+  },
+
+  WAREHOUSE_REPORT_MANAGEMENT: {
+    PATH: '/wmsx/warehouse-report-management',
+    TITLE: 'warehouseReportManagement',
+  },
+  INVENTORY_DEADLINE_WARNING: {
+    PATH: '/wmsx/inventory-deadline-warning',
+    TITLE: 'inventoryDeadlineWarning',
+  },
+  INVENTORY_WARNING: {
+    PATH: '/wmsx/inventory-warning',
+    TITLE: 'inventoryWarning',
+  },
+  WAREHOUSE_REPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-report',
+      TITLE: 'warehouseReport',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-report/create',
+      TITLE: 'warehouseReportCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-report/:id/details',
+      TITLE: 'warehouseReportDetails',
+    },
+  },
+  WAREHOUSE_TRANSFER_MOVEMENTS: {
+    LIST: {
+      PATH: '/wmsx/warehouse-transfer-movements',
+      TITLE: 'warehouseTransferMovement',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-transfer-movements/:id/detail',
+      TITLE: 'warehouseTransferMovementDetail',
+    },
+    PATH: '/wmsx/warehouse-transfer-movements',
+    TITLE: 'warehouseTransferMovement',
+  },
+  PRODUCTION_INFORMATION_MANAGENMENT: {
+    PATH: '/wmsx/production-information-management',
+    TITLE: 'productionInformationManagement',
+  },
+  DEFINE_VENDEOR: {
+    LIST: {
+      PATH: '/wmsx/define-vendor',
+      TITLE: 'defineVendor',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-vendor/create',
+      TITLE: 'defineVendorCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-vendor/:id/edit',
+      TITLE: 'defineVendorEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-vendor/:id/detail',
+      TITLE: 'defineVendorDetail',
+    },
+  },
+  SETTING: {
+    TITLE: 'setting',
+  },
+  INVENTORY_LIMIT: {
+    LIST: {
+      PATH: '/wmsx/inventory-limit',
+      TITLE: 'inventoryLimit',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-limit/create',
+      TITLE: 'inventoryLimitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-limit/:id/details',
+      TITLE: 'inventoryLimitDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-limit/:id/edit',
+      TITLE: 'inventoryLimitEdit',
+    },
+  },
+  WAREHOUSE_IMPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-import',
+      TITLE: 'warehouseImport',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-import/:id/detail',
+      TITLE: 'movementsDetail',
+    },
+  },
+  INVENTORY_STATISTICS: {
+    PATH: '/wmsx/inventory-statistics',
+    TITLE: 'inventoryStatistics',
   },
 }

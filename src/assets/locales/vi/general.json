@@ -164,6 +164,19 @@
       "invalidNumberOfFiles": "Số lượng file tải lên không được quá"
     }
   },
+  "notification": {
+    "heading": "Thông báo",
+    "readOne": "Đánh dấu là đã đọc",
+    "noData": "Không có thông báo",
+    "readAll": "Đã đọc tất cả",
+    "turnOff": "Tắt thông báo",
+    "hoursAgo": "{{time}} giờ trước",
+    "minutesAgo": "{{time}} phút trước",
+    "action": {
+      "confirm": "Xác nhận",
+      "reject": "Từ chối"
+    }
+  },
   "message": {
     "fieldIsRequired": "Mục này bắt buộc phải nhập.",
     "unknownError": "Có lỗi xảy ra vui lòng thử lại",

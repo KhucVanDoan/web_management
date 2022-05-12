@@ -4,7 +4,6 @@ import Cookies from 'universal-cookie'
 import { CONFIG_COOKIES } from '~/common/constants'
 import { api } from '~/services/api'
 
-import { getAppStore } from '../actions/app-store'
 import { loginFailed, loginSuccess, LOGIN_START } from '../actions/auth'
 const cookies = new Cookies()
 
@@ -43,7 +42,6 @@ function* doLogin(action) {
 
       // Save user infomation to local storage
       localStorage.setItem('userInfo', JSON.stringify(data.userInfo))
-      yield put(getAppStore())
       yield put(loginSuccess(response.data.userInfo))
 
       // Call callback action if provided
