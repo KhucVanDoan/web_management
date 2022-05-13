@@ -10,43 +10,47 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import {
   MOVEMENT_TYPE_MAP,
-  WAREHOUSE_IMPORT_STATUS_MAP,
+  WAREHOUSE_EXPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
-import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
-import ItemsSettingTable from './items-setting-table'
+import ItemTable from '../item-table'
+
+// import ItemsSettingTable from './items-setting-table'
 
 const breadcrumbs = [
   {
-    route: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
+    title: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
   },
   {
-    route: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+    route: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
+    title: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
   },
 ]
 
-const WarehouseImportDetail = () => {
+const WarehouseExportDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
   const {
-    data: { isLoading, movementDetail },
+    data: { warehouseExportDetail, isLoading },
     actions,
-  } = useMovements()
+  } = useWarehouseExport()
 
   useEffect(() => {
-    actions.getMovementsDetailsById(id)
+    if (id) {
+      actions.getWarehouseExportDetailsById(id)
+    }
     return () => {
-      actions.resetMovementsDetailsState()
+      actions.resetWarehouseExportDetailsState()
     }
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.WAREHOUSE_IMPORT.LIST.PATH)
+    history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)
   }
 
   return (
@@ -62,57 +66,65 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementCode')}
-                value={movementDetail?.id}
+                value={warehouseExportDetail?.id}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementType')}
-                value={t(MOVEMENT_TYPE_MAP[movementDetail?.movementType])}
+                value={t(
+                  MOVEMENT_TYPE_MAP[warehouseExportDetail?.movementType],
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.letterCode')}
-                value={movementDetail?.order?.code}
+                value={warehouseExportDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.letterType')}
                 value={t(
-                  WAREHOUSE_IMPORT_STATUS_MAP[movementDetail?.movementType],
+                  WAREHOUSE_EXPORT_STATUS_MAP[
+                    warehouseExportDetail?.movementType
+                  ],
                 )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.warehouseCode')}
-                value={movementDetail?.warehouse?.code}
+                value={warehouseExportDetail?.warehouse?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.warehouseName')}
-                value={movementDetail?.warehouse?.name}
+                value={warehouseExportDetail?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.createdUser')}
-                value={movementDetail?.user?.username}
+                value={warehouseExportDetail?.user?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementDate')}
-                value={convertUtcDateTimeToLocalTz(movementDetail?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(
+                  warehouseExportDetail?.createdAt,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.confirmDate')}
-                value={convertUtcDateTimeToLocalTz(movementDetail?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(
+                  warehouseExportDetail?.createdAt,
+                )}
               />
             </Grid>
             <Grid item xs={12}>
@@ -121,7 +133,7 @@ const WarehouseImportDetail = () => {
                 label={t('movements.importExport.description')}
                 multiline
                 rows={3}
-                value={movementDetail?.description}
+                value={warehouseExportDetail?.description}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
@@ -130,15 +142,18 @@ const WarehouseImportDetail = () => {
                 }}
               />
             </Grid>
+            {/* <Box sx={{ mt: 3 }}>
+              <ItemsSettingTable items={movementDetail?.items || []} />
+            </Box> */}
           </Grid>
+          <Box sx={{ mt: 3 }}>
+            <ItemTable items={warehouseExportDetail?.items || []} />
+          </Box>
+          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={movementDetail?.items || []} />
-      </Box>
-      <ActionBar onBack={backToList} />
     </Page>
   )
 }
 
-export default WarehouseImportDetail
+export default WarehouseExportDetail

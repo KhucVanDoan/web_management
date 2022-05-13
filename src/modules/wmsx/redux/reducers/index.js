@@ -9,6 +9,7 @@ import inventoryLimitSetting from './inventory-limit'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import movementManagement from './movements'
+import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
 import warehouseSetting from './warehouse-setting'
@@ -24,6 +25,7 @@ export default combineReducers({
   warehouseTransferMovements,
   defineVendor,
   inventoryLimitSetting,
+  warehouseExport,
   warehouseImport,
   movementManagement,
   inventoryStatistics,

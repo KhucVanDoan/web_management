@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { createFilterOptions, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -9,7 +10,10 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { DEFAULT_ITEM_TYPE_ENUM, ORDER_STATUS } from '~/modules/mesx/constants'
+import {
+  DEFAULT_ITEM_TYPE_OPTIONS,
+  ORDER_STATUS,
+} from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
@@ -17,6 +21,7 @@ import { scrollToBottom } from '~/utils'
 const ItemSettingTable = (props) => {
   const { items, mode, arrayHelpers } = props
   const { t } = useTranslation(['mesx'])
+  const { setFieldValue } = useFormikContext() ?? {}
   const {
     data: { itemList },
     actions,
@@ -53,21 +58,49 @@ const ItemSettingTable = (props) => {
         },
       },
       {
+        field: 'itemType',
+        headerName: t('defineBOM.item.type'),
+        width: 200,
+        align: 'center',
+        renderCell: (params, index) => {
+          const { itemId } = params.row
+          const itemIdCodeList = items.map((item) => item.itemId)
+          return isView ? (
+            <>{getItemObject(itemId)?.itemType?.name || ''}</>
+          ) : (
+            <Field.Autocomplete
+              name={`items[${index}].itemType`}
+              options={DEFAULT_ITEM_TYPE_OPTIONS}
+              getOptionValue={(opt) => opt?.code}
+              getOptionLabel={(opt) => t(opt?.text)}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id)
+              }
+              onChange={() =>
+                setFieldValue(`items[${index}]`, {
+                  ...items[index],
+                  itemId: '',
+                })
+              }
+            />
+          )
+        },
+      },
+      {
         field: 'code',
         headerName: t('defineBOM.item.code'),
-        width: 150,
+        width: 200,
         align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
+          const itemType = params.row?.itemType
           const itemListFilter = itemList.filter(
             (i) =>
-              i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.MATERIAL.code ||
-              (i.itemType.code === DEFAULT_ITEM_TYPE_ENUM.SEMI.code &&
-                i.isHasBom &&
-                (BOMList || []).find((bom) => bom.item?.itemId === i.id)
-                  ?.status === ORDER_STATUS.CONFIRMED),
+              i.itemType.code === itemType &&
+              i.isHasBom &&
+              (BOMList || []).find((bom) => bom.item?.itemId === i.id)
+                ?.status === ORDER_STATUS.CONFIRMED,
           )
-
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
@@ -75,7 +108,6 @@ const ItemSettingTable = (props) => {
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               options={itemListFilter}
-              disabled={isView}
               getOptionValue={(opt) => opt?.id}
               getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
               filterOptions={createFilterOptions({
@@ -143,24 +175,6 @@ const ItemSettingTable = (props) => {
         },
       },
       {
-        field: 'itemType',
-        headerName: t('defineBOM.item.type'),
-        width: 150,
-        align: 'center',
-        renderCell: (params, index) => {
-          const { itemId } = params.row
-          return isView ? (
-            <>{getItemObject(itemId)?.itemType?.name || ''}</>
-          ) : (
-            <Field.TextField
-              name={`items[${index}].itemType`}
-              value={getItemObject(itemId)?.itemType?.name || ''}
-              disabled={true}
-            />
-          )
-        },
-      },
-      {
         field: 'isProductionObject',
         headerName: t('defineBOM.item.isProductionObject'),
         width: 150,
@@ -182,7 +196,7 @@ const ItemSettingTable = (props) => {
         align: 'center',
         hide: isView,
         renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+          const idx = items.findIndex((item) => item.id === params?.row?.id)
           return (
             <IconButton
               onClick={() => {

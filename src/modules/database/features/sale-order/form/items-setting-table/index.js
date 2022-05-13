@@ -51,7 +51,10 @@ function ItemSettingTable(props) {
           const { itemId } = params.row
           const itemListFilter = itemList.filter(
             (item) =>
-              item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
+              (item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
+                item?.isProductionObject === false) ||
+              (item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
+                item?.isHasBom === true),
           )
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
@@ -61,7 +64,8 @@ function ItemSettingTable(props) {
               name={`items[${index}].itemId`}
               options={itemListFilter}
               disabled={isView}
-              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+              getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}

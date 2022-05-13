@@ -8,6 +8,8 @@ import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/l
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
 import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
+import WarehouseExport from '~/modules/wmsx/features/warehouse-export'
+import WarehouseExportDetail from '~/modules/wmsx/features/warehouse-export/detail'
 import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
@@ -119,6 +121,21 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
+    component: WarehouseExport,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
+        component: WarehouseExportDetail,
+        isInSidebar: false,
       },
     ],
   },

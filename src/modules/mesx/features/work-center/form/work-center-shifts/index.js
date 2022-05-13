@@ -115,6 +115,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
               numberProps={{
                 thousandSeparator: true,
                 decimalScale: 3,
+                allowNegative: false,
               }}
               disabled={isDisabledField}
             />

@@ -19,6 +19,7 @@ export const validationSchema = (t) =>
     ),
     items: Yup.array().of(
       Yup.object().shape({
+        itemType: Yup.number().nullable().required(t('general:form.required')),
         itemId: Yup.number().nullable().required(t('general:form.required')),
         quantity: Yup.number()
           .required(t('general:form.required'))
