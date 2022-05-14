@@ -157,7 +157,7 @@ function MoDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
-                label={t('saleOrder.name')}
+                label={t('Mo.soName')}
                 value={moDetails?.saleOrder?.name}
               />
             </Grid>

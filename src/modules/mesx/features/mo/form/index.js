@@ -376,8 +376,8 @@ const MOForm = () => {
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="saleOrderId"
-                      label={t('saleOrder.name')}
-                      placeholder={t('saleOrder.name')}
+                      label={t('Mo.soName')}
+                      placeholder={t('Mo.soName')}
                       options={saleOrders}
                       getOptionLabel={(option) => option?.saleOrderName || ''}
                       getOptionValue={(option) => option?.saleOrderId || ''}
