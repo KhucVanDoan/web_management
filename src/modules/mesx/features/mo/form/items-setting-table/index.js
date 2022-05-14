@@ -29,7 +29,7 @@ const ItemsSettingTable = (props) => {
   }
   const columns = [
     {
-      field: 'id',
+      field: 'itemCode',
       headerName: t('Mo.item.code'),
       width: 50,
       sortable: false,
