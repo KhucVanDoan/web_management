@@ -50,8 +50,8 @@ export const itemSchema = (t) =>
       unit: Yup.string().required(t('general:form.required')),
     }),
     weight: Yup.object().shape({
-      value: numberSchema(t).required(t('general:form.required')),
-      unit: Yup.string().required(t('general:form.required')),
+      value: numberSchema(t),
+      // unit: Yup.string(),
     }),
     hasItemDetail: Yup.boolean(),
     items: Yup.array().of(
