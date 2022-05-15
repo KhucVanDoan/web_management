@@ -74,7 +74,7 @@ const ItemsSettingTable = (props) => {
       align: 'center',
       renderCell: (params) => {
         const { row } = params
-        return row?.item?.code
+        return row?.item?.code || row?.item?.itemCode
       },
     },
     {
@@ -127,6 +127,7 @@ const ItemsSettingTable = (props) => {
         id: item.itemId,
         index,
         itemName: item.itemName,
+        itemCode: item.itemCode || item.code,
         itemUnitName: item.itemUnitName,
         quantity: item.quantity,
       })
@@ -138,6 +139,7 @@ const ItemsSettingTable = (props) => {
     setSelectedRows([...selected])
     props.updateSelectedItems(selected.map((item) => item.id))
   }
+
   return (
     <>
       <Box
