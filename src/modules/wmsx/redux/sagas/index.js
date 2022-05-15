@@ -1,5 +1,11 @@
 import { all } from 'redux-saga/effects'
 
+import watchCreateCustomer from './define-customer/create-customer'
+import watchDeleteCustomer from './define-customer/delete-customer'
+import watchGetCustomerDetails from './define-customer/get-customer-details'
+import watchImportCustomer from './define-customer/import-customer'
+import watchSearchCustomers from './define-customer/search-customers'
+import watchUpdateCustomer from './define-customer/update-customer'
 import watchCreateDetail from './define-detail/create-detail'
 import watchDeleteDetail from './define-detail/delete-detail'
 import watchGetDetailDetails from './define-detail/get-detail-details'
@@ -128,6 +134,13 @@ export default function* sagas() {
     watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
+    // define customer
+    watchCreateCustomer(),
+    watchDeleteCustomer(),
+    watchGetCustomerDetails(),
+    watchImportCustomer(),
+    watchSearchCustomers(),
+    watchUpdateCustomer(),
 
     //inventory-calendar
     watchConfirmInventoryCalendar(),
