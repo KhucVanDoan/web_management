@@ -4,6 +4,7 @@ import defineDetail from './define-detail'
 import defineTemplateShelf from './define-template-shelf'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
+import inventory from './inventory'
 import inventoryDeadlineWarning from './inventory-deadline-warning'
 import inventoryLimitSetting from './inventory-limit'
 import inventoryStatistics from './inventory-statistics'
@@ -23,6 +24,7 @@ export default combineReducers({
   inventoryWarning,
   warehouseReport,
   warehouseTransferMovements,
+  inventory,
   defineVendor,
   inventoryLimitSetting,
   warehouseExport,
