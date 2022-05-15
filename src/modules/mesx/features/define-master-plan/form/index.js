@@ -64,7 +64,7 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     commonManagementActions.getSaleOrders({ isGetAll: 1 })
-
+    commonManagementActions.getFactories()
     return () => {
       actions.resetMasterPlanDetails()
     }
@@ -78,9 +78,6 @@ const DefineMasterPlanForm = () => {
     // set soId when update
     if (masterPlanDetails?.saleOrderSchedules && (isUpdate || cloneId)) {
       setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
-      commonManagementActions.getFactories(
-        { saleOrderIds: masterPlanDetails.saleOrderSchedules?.map((saleOrder) => saleOrder.saleOrderId).join(',') }
-      );
     }
     if (masterPlanDetails?.saleOrders && (isUpdate || cloneId)) {
       setSaleOrderDetails(masterPlanDetails?.saleOrders)
@@ -230,9 +227,6 @@ const DefineMasterPlanForm = () => {
           const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
           setFieldValue('planDate', [dateFrom, dateTo])
         },
-      );
-      commonManagementActions.getFactories(
-        { saleOrderIds: val?.map((i) => i?.id).join(',') }
       );
     }
   }
