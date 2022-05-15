@@ -217,6 +217,24 @@ export const ROUTE = {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',
   },
+  DEFINE_CUSTOMER: {
+    LIST: {
+      PATH: '/wmsx/define-customer',
+      TITLE: 'defineCustomer',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-customer/create',
+      TITLE: 'defineCustomerCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-customer/:id/edit',
+      TITLE: 'defineCustomerEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-customer/:id/detail',
+      TITLE: 'defineCustomerDetail',
+    },
+  },
   INVENTORY_CALENDAR: {
     LIST: {
       PATH: '/wmsx/inventory-calendar',

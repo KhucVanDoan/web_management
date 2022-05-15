@@ -1,4 +1,7 @@
 import Dashboard from '~/modules/wmsx/features/dashboard'
+import DefineCustomerDetail from '~/modules/wmsx/features/define-customer/detail'
+import DefineCustomerForm from '~/modules/wmsx/features/define-customer/form'
+import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
@@ -326,6 +329,32 @@ const routes = [
             name: ROUTE.DEFINE_VENDEOR.DETAIL.TITLE,
             path: ROUTE.DEFINE_VENDEOR.DETAIL.PATH,
             component: DefineVendorDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CUSTOMER.LIST.TITLE,
+        path: ROUTE.DEFINE_CUSTOMER.LIST.PATH,
+        component: DefineCustomer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CUSTOMER.CREATE.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.CREATE.PATH,
+            component: DefineCustomerForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.EDIT.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.EDIT.PATH,
+            component: DefineCustomerForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.DETAIL.PATH,
+            component: DefineCustomerDetail,
             isInSidebar: true,
           },
         ],
