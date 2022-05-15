@@ -227,7 +227,7 @@ const DefineMasterPlanForm = () => {
           const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
           setFieldValue('planDate', [dateFrom, dateTo])
         },
-      );
+      )
     }
   }
 
@@ -297,7 +297,7 @@ const DefineMasterPlanForm = () => {
                       label={t('defineMasterPlan.planName')}
                       placeholder={t('defineMasterPlan.planName')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />
