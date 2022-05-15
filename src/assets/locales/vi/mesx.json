@@ -37,10 +37,10 @@
     "routingDetail": "Chi tiết quy trình",
     "routingEdit": "Sửa quy trình",
     "routingVersion": "Quản lý phiên bản quy trình sản xuất",
-    "boqDefine": "Định nghĩa công trình",
-    "boqCreate": "Tạo công trình",
-    "boqDetails": "Chi tiết công trình",
-    "boqEdit": "Sửa công trình",
+    "boqDefine": "Định nghĩa dự án",
+    "boqCreate": "Tạo dự án",
+    "boqDetails": "Chi tiết dự án",
+    "boqEdit": "Sửa dự án",
     "qualityReport": "Báo cáo chất lượng",
     "priceReport": "Báo cáo về chi phí",
     "priceDetail": "Chi tiết chi phí sản xuất",
@@ -320,7 +320,12 @@
       "quantityPlan": "Số lượng kế hoạch",
       "quantityActual": "Số lượng sản xuất",
       "unit": "Đơn vị",
-      "planDate": "Ngày kế hoạch"
+      "planDate": "Ngày kế hoạch",
+      "itemCode": "Mã sản phẩm",
+      "quantity": "Số lượng",
+      "itemType": "Kiểu sản phẩm",
+      "productionObject": "Đối tượng sản xuất?",
+      "saleOrderName": "Tên đơn hàng"
     },
     "itemDetailTabTitle": "Chi tiết sản phẩm",
     "planDetailTabTitle": "Kế hoạch chi tiết",
@@ -512,10 +517,10 @@
     "createProducingStep": "Tạo mới công đoạn"
   },
   "defineBOQ": {
-    "title": "Danh sách công trình",
-    "searchPlaceholder": "Tìm kiếm công trình theo mã hoặc tên",
-    "boqCode": "Mã công trình",
-    "boqName": "Tên công trình",
+    "title": "Danh sách dự án",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
+    "boqCode": "Mã dự án",
+    "boqName": "Tên dự án",
     "boqPlan": "Kế hoạch",
     "boqPlanFrom": "Kế hoạch từ",
     "boqPlanTo": "Kế hoạch đến",
@@ -528,8 +533,8 @@
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
     "import": "Nhập/Xuất dữ liệu",
-    "formTitle": "Tạo công trình",
-    "descriptionInput": "Mô tả về công trình",
+    "formTitle": "Tạo dự án",
+    "descriptionInput": "Mô tả",
     "itemsDetails": "Chi tiết thành phẩm",
     "boqUserPermission": "Quyền user",
     "createdTime": "Thời gian tạo",
@@ -541,10 +546,10 @@
       "unitType": "Đơn vị",
       "addItem": "Thêm thành phẩm"
     },
-    "confirmBOQSuccess": "Xác nhận BOQ thành công",
-    "deleteBOQSuccess": "Xóa BOQ thành công ",
-    "createBOQSuccess": "Tạo BOQ thành công",
-    "updateBOQSuccess": "Cập nhật BOQ thành công"
+    "confirmBOQSuccess": "Xác nhận dự án thành công",
+    "deleteBOQSuccess": "Xóa dự án thành công",
+    "createBOQSuccess": "Tạo dự án thành công",
+    "updateBOQSuccess": "Cập nhật dự án thành công"
   },
   "defineBOM": {
     "title": "Danh sách BOM",
@@ -1360,7 +1365,7 @@
     "completed": "Hoàn thành"
   },
   "progressManufacturingByOrder": {
-    "title": "Danh sách độ sản xuất",
+    "title": "Danh sách tiến độ sản xuất",
     "name": "Tên đơn hàng",
     "code": "Mã đơn hàng",
     "export": "Xuất dữ liệu",

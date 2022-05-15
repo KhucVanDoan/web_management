@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, MATERIAL_CODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -94,13 +94,24 @@ const ItemSettingTable = (props) => {
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           const itemType = params.row?.itemType
-          const itemListFilter = itemList.filter(
-            (i) =>
-              i.itemType.code === itemType &&
-              i.isHasBom &&
-              (BOMList || []).find((bom) => bom.item?.itemId === i.id)
-                ?.status === ORDER_STATUS.CONFIRMED,
-          )
+          let itemListFilter = []
+          
+          if (itemType !== MATERIAL_CODE) {
+            itemListFilter = itemList.filter(
+              (i) =>
+                i.itemType.code === itemType &&
+                i.isHasBom &&
+                (BOMList || []).find((bom) => bom.item?.itemId === i.id)
+                  ?.status === ORDER_STATUS.CONFIRMED,
+            )
+          } else {
+            itemListFilter = itemList.filter(
+              (i) =>
+                i.itemType.code === itemType &&
+                !i.isHasBom
+            )
+          }
+          
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
