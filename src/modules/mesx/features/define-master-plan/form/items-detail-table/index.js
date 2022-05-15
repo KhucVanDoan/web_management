@@ -122,11 +122,15 @@ const ItemsDetailTable = (props) => {
       sortable: false,
       renderCell: (params) => {
         return params.row?.itemTypeCode !== MATERIAL_CODE && (
-          <Checkbox
-            checked={productionObjectByItemId[params.row?.id]}
-            onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
-            disabled={disabledProductionObjects[params.row?.id] || isView}
-          />
+          <>
+            <Checkbox
+              defaultChecked={params.row?.isProductionObject}
+              checked={productionObjectByItemId[params.row?.id]}
+              onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
+              disabled={disabledProductionObjects[params.row?.id] || isView}
+            />
+            {params.row?.id}
+          </>
         )
       },
     }
@@ -157,6 +161,10 @@ const ItemsDetailTable = (props) => {
       setProductionObjectByItemId(mapValues(keyBy(parsedItems, 'id'), 'isProductionObject'))
     }
   }, [masterPlanDetails])
+
+  useEffect(() => {
+    changeSaleOrdersObject()
+  }, [itemsDetail])
 
   const parseItemsInSaleOrder = (items, parentBomId) => {
     let results = []
@@ -211,6 +219,9 @@ const ItemsDetailTable = (props) => {
         unit: bom.item?.itemUnitName,
         itemType: bom.item?.itemType?.name,
         itemTypeCode: bom.item?.itemType?.code,
+        isProductionObject: productionObjectByItemId[id] !== undefined
+          ? productionObjectByItemId[id]
+          : true
       }
       if (!isEmpty(bom.subBoms)) {
         newItem.subBom = [...changeToObjectCollapse(bom.subBoms, id)]
@@ -237,6 +248,19 @@ const ItemsDetailTable = (props) => {
         }
       })
       setItemsDetail(newItemsDetail)
+
+      let newProductionObjectState = { ...productionObjectByItemId }
+      newItemsDetail.forEach((item) => {
+        const parsedItem = mapValues(
+          keyBy(parseItemsInSaleOrder(item.subBom, `${item.itemId}-${item.saleOrderId}`), 'id'),
+          'isProductionObject'
+        )
+        newProductionObjectState = {
+          ...newProductionObjectState,
+          ...parsedItem
+        }
+      })
+      setProductionObjectByItemId({ ...newProductionObjectState })
     })
   }
 
