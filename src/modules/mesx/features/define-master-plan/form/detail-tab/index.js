@@ -24,6 +24,7 @@ const DetailTab = (props) => {
         planDate={props.planDate}
         isView={props.isView}
         isUpdate={props.isUpdate}
+        updateSaleOrderObject={props.updateSaleOrderObject}
       />
 
       {/* Tab 2 */}
