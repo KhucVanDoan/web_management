@@ -12,7 +12,7 @@ import Page from '~/components/Page'
 import { MODERATION_TYPE } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter } from '~/utils'
+import { redirectRouter, generateRandomString } from '~/utils'
 
 const excludeInputInColumns = [
   'workCenterId',
@@ -102,7 +102,7 @@ const InputModeration = () => {
         ?.map((producingStep) => ({
           [producingStep.id.toString()]: {
             producingStepName: producingStep.producingStepName,
-            itemId: producingStep.itemId,
+            itemId: producingStep.itemScheduleId,
             workCenterSchedule: groupWorkCenterSchedule(
               producingStep.workCenterSchedules,
             ),
@@ -128,10 +128,15 @@ const InputModeration = () => {
           workCenterId: workCenterSchedule.workCenterId,
           workCenterName: workCenterSchedule.workCenterName,
           [workCenterSchedule.excutionDate]: {
-            id: workCenterSchedule.id,
+            id: workCenterSchedule.id || generateRandomString(),
             quantity: workCenterSchedule.quantity,
             workCenterDetailSchedules:
-              workCenterSchedule.workCenterDetailSchedules,
+              workCenterSchedule.workCenterDetailSchedules.map(
+                (workCenterDetailSchedule) => ({
+                  ...workCenterDetailSchedule,
+                  id: workCenterDetailSchedule.id || generateRandomString()
+                })
+              ),
           },
         }
       }),
@@ -270,46 +275,57 @@ const InputModeration = () => {
 
         const minusQuantity = quantity - fixedQuantity
 
-        result.push(
-          ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
-            (workCenterDetailSchedule, i) => {
-              let tmpQuantity = workCenterDetailSchedule.quantity
-              if (fixedQuantity > quantity) {
-                const plusQuantity = fixedQuantity - quantity
-                const stepQuantity = Math.floor(
-                  plusQuantity /
+        if (fixedQuantity > 0) {
+          result.push(
+            ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
+              (workCenterDetailSchedule, i) => {
+                let tmpQuantity = workCenterDetailSchedule.quantity
+                if (fixedQuantity > quantity) {
+                  const plusQuantity = fixedQuantity - quantity
+                  const stepQuantity = Math.floor(
+                    plusQuantity /
+                      currentWorkCenterScheduleDetail.workCenterDetailSchedules
+                        ?.length,
+                  )
+                  tmpQuantity =
+                    i ===
                     currentWorkCenterScheduleDetail.workCenterDetailSchedules
-                      ?.length,
-                )
-                tmpQuantity =
-                  i ===
-                  currentWorkCenterScheduleDetail.workCenterDetailSchedules
-                    .length -
-                    1
-                    ? fixedQuantity - tmpTotalQuantity
-                    : workCenterDetailSchedule.quantity + stepQuantity
-                tmpTotalQuantity +=
-                  workCenterDetailSchedule.quantity + stepQuantity
-              } else if (
-                fixedQuantity < quantity &&
-                tmpMinusQuantity < minusQuantity
-              ) {
-                tmpQuantity =
-                  workCenterDetailSchedule.quantity - minusQuantity || 0
-                tmpMinusQuantity +=
-                  workCenterDetailSchedule.quantity - minusQuantity < 0
-                    ? workCenterDetailSchedule.quantity
-                    : minusQuantity
-              }
-
-              return {
-                id: workCenterDetailSchedule.id,
-                workCenterScheduleId: currentWorkCenterScheduleDetail.id,
-                quantity: tmpQuantity,
-              }
-            },
-          ),
-        )
+                      .length -
+                      1
+                      ? fixedQuantity - tmpTotalQuantity
+                      : workCenterDetailSchedule.quantity + stepQuantity
+                  tmpTotalQuantity +=
+                    workCenterDetailSchedule.quantity + stepQuantity
+                } else if (
+                  fixedQuantity < quantity &&
+                  tmpMinusQuantity < minusQuantity
+                ) {
+                  tmpQuantity =
+                    workCenterDetailSchedule.quantity - minusQuantity || 0
+                  tmpMinusQuantity +=
+                    workCenterDetailSchedule.quantity - minusQuantity < 0
+                      ? workCenterDetailSchedule.quantity
+                      : minusQuantity
+                }
+                
+                if (isNaN(workCenterDetailSchedule.id) && isNaN(currentWorkCenterScheduleDetail.id)) {
+                  return {
+                    workCenterShiftScheduleId: workCenterDetailSchedule.workCenterShiftScheduleId,
+                    workCenterId: currentWorkCenterSchedule.workCenterId,
+                    date: key.split('_')[3],
+                    quantity: tmpQuantity,
+                  }
+                } else {
+                  return {
+                    id: workCenterDetailSchedule.id,
+                    workCenterScheduleId: currentWorkCenterScheduleDetail.id,
+                    quantity: tmpQuantity,
+                  }
+                }
+              },
+            ),
+          )
+        }
       })
     return result
   }

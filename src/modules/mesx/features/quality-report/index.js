@@ -130,13 +130,13 @@ const QualityReports = () => {
       },
     },
     {
-      field: 'confirmedQuantity',
+      field: 'quantityNeedQC',
       headerName: t('qualityReport.quantityNeed'),
       width: 100,
       align: 'right',
       renderCell: (params) => {
         const { row } = params
-        return row?.confirmedQuantity ? row?.confirmedQuantity : '0.00'
+        return row?.quantityNeedQC ? row?.quantityNeedQC : '0.00'
       },
     },
     {

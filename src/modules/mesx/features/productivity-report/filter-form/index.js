@@ -141,7 +141,7 @@ function ProductivityFilter() {
                     placeholder={t('productivityReport.itemName')}
                     options={listItem}
                     getOptionValue={(opt) => opt?.itemId}
-                    getOptionLabel={(opt) => opt?.itemId || opt?.item?.name}
+                    getOptionLabel={(opt) => opt?.itemName || opt?.item?.name}
                     onChange={(id) => handleChangeItem(id)}
                   />
                 </Grid>
