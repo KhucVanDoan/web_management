@@ -6,6 +6,29 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+  WAREHOUSE_MANAGEMENT: {
+    TITLE: 'warehouseManagement',
+  },
+  INVENTORY: {
+    LIST: {
+      PATH: '/wmsx/inventory',
+      TITLE: 'inventory',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory/:id/detail/:warehouseId',
+      TITLE: 'inventoryDetail',
+    },
+  },
+  INVENTORY_STATISTIC: {
+    LIST: {
+      PATH: '/wmsx/inventory-statistics',
+      TITLE: 'inventoryStatistics',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-statistics/:id/detail/:warehouseId',
+      TITLE: 'inventoryStatisticsDetail',
+    },
+  },
   DEFINE_TEMPLATE_SHELF: {
     LIST: {
       PATH: '/wmsx/define-template-shelf',

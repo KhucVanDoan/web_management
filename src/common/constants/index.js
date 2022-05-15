@@ -236,4 +236,11 @@ export const HTTP_STATUS_CODE = {
   NOT_ACCEPTABLE: 406,
 }
 
+export const INVENTORY_STATUS_OPTIONS = [
+  { id: 1, name: 'inventoryStatus.pending', color: 'created' },
+  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
+  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
+  { id: 5, name: 'inventoryStatus.inProgress', color: 'inProgress' },
+  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
+]
 export const MATERIAL_CODE = '00'
