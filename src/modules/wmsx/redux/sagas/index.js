@@ -24,6 +24,13 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchImportWarehouse from './define-warehouse/import-warehouse'
 import watchSearchWarehouses from './define-warehouse/search-warehouses'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
+import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
+import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
+import watchGetInventoryCalendarDetails from './inventory-calendar/get-inventory-calendar-details'
+import watchRejectInventoryCalendar from './inventory-calendar/reject-inventory-calendar'
+import watchSearchInventoryCalendars from './inventory-calendar/search-inventory-calendars'
+import watchUpdateInventoryCalendar from './inventory-calendar/update-inventory-calendar'
 import watchSearchInventoryDeadlineWarning from './inventory-deadline-warning/search-inventory-deadline-warning'
 import watchCreateInventoryLimit from './inventory-limit/create-inventory-limit'
 import watchDeleteInventoryLimit from './inventory-limit/delete-inventory-limit'
@@ -121,6 +128,15 @@ export default function* sagas() {
     watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
+
+    //inventory-calendar
+    watchConfirmInventoryCalendar(),
+    watchCreateInventoryCalendar(),
+    watchDeleteInventoryCalendar(),
+    watchGetInventoryCalendarDetails(),
+    watchRejectInventoryCalendar(),
+    watchSearchInventoryCalendars(),
+    watchUpdateInventoryCalendar(),
     //inventory
     watchSearchInventoryDetail(),
     watchSearchInventory(),
