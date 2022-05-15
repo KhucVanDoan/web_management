@@ -41,6 +41,7 @@ const DefineMasterPlanForm = () => {
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
   const [soId, setSoId] = useState([])
+  const [saleOrderDetails, setSaleOrderDetails] = useState([])
   const {
     data: { isLoading, masterPlanDetails },
     actions,
@@ -77,6 +78,12 @@ const DefineMasterPlanForm = () => {
     // set soId when update
     if (masterPlanDetails?.saleOrderSchedules && (isUpdate || cloneId)) {
       setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
+      commonManagementActions.getFactories(
+        { saleOrderIds: masterPlanDetails.saleOrderSchedules?.map((saleOrder) => saleOrder.saleOrderId).join(',') }
+      );
+    }
+    if (masterPlanDetails?.saleOrders && (isUpdate || cloneId)) {
+      setSaleOrderDetails(masterPlanDetails?.saleOrders)
     }
   }, [masterPlanDetails])
 
@@ -105,7 +112,7 @@ const DefineMasterPlanForm = () => {
       dateTo: values?.planDate
         ? convertUtcDateTimeToLocalTz(values?.planDate[1], UNSAFE_DATE_FORMAT_3)
         : '',
-      saleOrders: values.soId.map((i) => ({ id: i?.id })),
+      saleOrders: saleOrderDetails,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
@@ -344,6 +351,7 @@ const DefineMasterPlanForm = () => {
               planDate={values.planDate}
               isDetail={true}
               isUpdate={isUpdate}
+              updateSaleOrderObject={setSaleOrderDetails}
             />
 
             {renderActionBar(() => {

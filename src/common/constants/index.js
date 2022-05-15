@@ -235,3 +235,5 @@ export const HTTP_STATUS_CODE = {
   INTERNAL_SERVER_ERROR: 500,
   NOT_ACCEPTABLE: 406,
 }
+
+export const MATERIAL_CODE = '00'

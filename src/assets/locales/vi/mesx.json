@@ -320,7 +320,12 @@
       "quantityPlan": "Số lượng kế hoạch",
       "quantityActual": "Số lượng sản xuất",
       "unit": "Đơn vị",
-      "planDate": "Ngày kế hoạch"
+      "planDate": "Ngày kế hoạch",
+      "itemCode": "Mã sản phẩm",
+      "quantity": "Số lượng",
+      "itemType": "Kiểu sản phẩm",
+      "productionObject": "Đối tượng sản xuất?",
+      "saleOrderName": "Tên đơn hàng"
     },
     "itemDetailTabTitle": "Chi tiết sản phẩm",
     "planDetailTabTitle": "Kế hoạch chi tiết",

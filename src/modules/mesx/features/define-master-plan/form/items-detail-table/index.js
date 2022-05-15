@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import { isEmpty } from 'lodash'
+import Checkbox from '@mui/material/Checkbox'
+import { isEmpty, groupBy, keyBy, mapValues } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import DataTable from '~/components/DataTable'
+import { MATERIAL_CODE } from '~/common/constants'
+import TableCollapse from '~/components/TableCollapse'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import useBOM from '~/modules/mesx/redux/hooks/useBOM'
+import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import qs from '~/utils/qs'
 
 const ItemsDetailTable = (props) => {
@@ -17,7 +21,15 @@ const ItemsDetailTable = (props) => {
     data: { saleOrderDetailList },
     actions,
   } = useSaleOrder()
+  const {
+    actions: bomActions
+  } = useBOM()
+  const {
+    data: { masterPlanDetails },
+  } = useDefineMasterPlan()
   const [itemsDetail, setItemsDetail] = useState()
+  const [productionObjectByItemId, setProductionObjectByItemId] = useState({})
+  const [disabledProductionObjects, setDisabledProductionObjects] = useState({})
 
   const columns = [
     {
@@ -25,6 +37,12 @@ const ItemsDetailTable = (props) => {
       headerName: t('defineMasterPlan.itemDetail.itemName'),
       width: 150,
       align: 'left',
+      sortable: false,
+    },
+    {
+      field: 'saleOrderName',
+      headerName: t('defineMasterPlan.itemDetail.saleOrderName'),
+      align: 'center',
       sortable: false,
     },
     {
@@ -65,6 +83,55 @@ const ItemsDetailTable = (props) => {
     },
   ]
 
+  const boms = [
+    {
+      field: 'itemCode',
+      headerName: t('defineMasterPlan.itemDetail.itemCode'),
+      align: 'left',
+      sortable: false,
+    },
+    {
+      field: 'itemName',
+      headerName: t('defineMasterPlan.itemDetail.itemName'),
+      align: 'left',
+      width: 100,
+      sortable: false,
+    },
+    {
+      field: 'quantity',
+      headerName: t('defineMasterPlan.itemDetail.quantity'),
+      align: 'right',
+      sortable: false,
+    },
+    {
+      field: 'unit',
+      headerName: t('defineMasterPlan.itemDetail.unit'),
+      align: 'center',
+      sortable: false,
+    },
+    {
+      field: 'itemType',
+      headerName: t('defineMasterPlan.itemDetail.itemType'),
+      align: 'left',
+      sortable: false,
+    },
+    {
+      field: 'isProductionObject',
+      headerName: t('defineMasterPlan.itemDetail.productionObject'),
+      align: 'left',
+      sortable: false,
+      renderCell: (params) => {
+        return params.row?.itemTypeCode !== MATERIAL_CODE && (
+          <Checkbox
+            checked={productionObjectByItemId[params.row?.id]}
+            onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
+            disabled={disabledProductionObjects[params.row?.id] || isView}
+          />
+        )
+      },
+    }
+  ]
+
   useEffect(() => {
     if ((isView || isUpdate || cloneId) && !isEmpty(soId)) {
       actions.getSaleOrderDetailsByIds({ ids: soId?.join(',') })
@@ -81,6 +148,32 @@ const ItemsDetailTable = (props) => {
     }
   }, [saleOrderDetailList, planDate, soId])
 
+  useEffect(() => {
+    // set soId when update
+    if (masterPlanDetails?.saleOrders && (isUpdate || cloneId || isView)) {
+      const parsedItems = masterPlanDetails?.saleOrders.map((saleOrder) => (
+        parseItemsInSaleOrder(saleOrder.items, saleOrder.id)
+      )).flat()
+      setProductionObjectByItemId(mapValues(keyBy(parsedItems, 'id'), 'isProductionObject'))
+    }
+  }, [masterPlanDetails])
+
+  const parseItemsInSaleOrder = (items, parentBomId) => {
+    let results = []
+    items.forEach((item) => {
+      const newItem = {
+        id: `${item.itemId}-${parentBomId}`,
+        isProductionObject: item.isProductionObject,
+      }
+      if (!isEmpty(item.subBoms)) {
+        const subBoms = parseItemsInSaleOrder(item.subBoms, newItem.id)
+        results = results.concat(subBoms)
+      }
+      results.push(newItem)
+    })
+    return results.flat()
+  }
+
   const getItemsInSo = (saleOrders = []) => {
     const itemsInSo = []
     saleOrders.forEach((saleOrder) => {
@@ -88,13 +181,17 @@ const ItemsDetailTable = (props) => {
       saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
         const { item, quantity, actualQuantity } = saleOrderDetail
         itemsInSo.push({
+          saleOrderId: saleOrder.id,
           saleOrderName: saleOrder.name,
           itemName: item?.name,
           unit: item?.itemUnit,
           quantityPlan: quantity,
           quantityActual: actualQuantity,
+          id: item?.bom?.id,
           bomName: item?.bom?.name,
           routingName: boq?.code,
+          itemId: item?.itemId,
+          isProductionObject: true
         })
       })
     })
@@ -102,8 +199,107 @@ const ItemsDetailTable = (props) => {
     setItemsDetail(itemsInSo)
   }
 
+  const changeToObjectCollapse = (data, parentBomId) => {
+    return data.map((bom) => {
+      const id = `${bom.item?.id}-${parentBomId}`
+      let newItem = {
+        id,
+        itemId: bom.item?.id,
+        itemCode: bom.item?.code,
+        itemName: bom.item?.name,
+        quantity: bom.quantity,
+        unit: bom.item?.itemUnitName,
+        itemType: bom.item?.itemType?.name,
+        itemTypeCode: bom.item?.itemType?.code,
+      }
+      if (!isEmpty(bom.subBoms)) {
+        newItem.subBom = [...changeToObjectCollapse(bom.subBoms, id)]
+      } else {
+        newItem.subBom = []
+      }
+      return newItem
+    })
+  }
+
+  const handleGetBoms = (bomId) => {
+    bomActions.getBOMStructureById(bomId, (response) => {
+      const newItemsDetail = itemsDetail.map((item) => {
+        if (item?.id === bomId && !item.subBom) {
+          return {
+            ...item,
+            subBom: changeToObjectCollapse(
+              response[0]?.subBoms,
+              `${response[0]?.itemId}-${item.saleOrderId}`
+            )
+          }
+        } else {
+          return item
+        }
+      })
+      setItemsDetail(newItemsDetail)
+    })
+  }
+
+  const changeSaleOrdersObject = (id, value) => {
+    const itemsBySaleOrder = groupBy(itemsDetail, 'saleOrderId')
+    const result = Object.keys(itemsBySaleOrder).map((saleOrder) => ({
+      id: Number(saleOrder),
+      items: mapItemResults(itemsBySaleOrder[saleOrder], id, value)
+    }))
+    const newProductionObjectState = mapValues(
+      keyBy(result.map((saleOrder) => (
+        parseItemsInSaleOrder(saleOrder.items, saleOrder.id)
+      )).flat(), 'id'),
+      'isProductionObject'
+    )
+    setProductionObjectByItemId(newProductionObjectState)
+
+    const newDisabledProductionObjects = { ...disabledProductionObjects }
+    Object.keys(newProductionObjectState).forEach((key) => {
+      if (id !== key.toString() && key.toString().includes(id)) {
+        newDisabledProductionObjects[key] = !value
+      }
+    })
+    setDisabledProductionObjects(newDisabledProductionObjects)
+
+    if (props.updateSaleOrderObject) {
+      props.updateSaleOrderObject(result)
+    }
+  }
+
+  const mapItemResults = (items, id, value) => {
+    return items.map((item) => {
+      let isProductionObject = productionObjectByItemId[item.id] !== undefined
+        ? productionObjectByItemId[item.id]
+        : true
+      if (item.id === id || item.id.toString().includes(id)) {
+        isProductionObject = value
+      }
+      const itemResult = {
+        itemId: item.itemId,
+        isProductionObject,
+        subBoms: []
+      }
+      if (!isEmpty(item.subBom)) {
+        itemResult.subBoms = [...mapItemResults(item.subBom, id, value)]
+      }
+      return itemResult
+    })
+  }
+
   return (
-    <DataTable rows={itemsDetail} columns={columns} hideSetting hideFooter />
+    <TableCollapse
+      hideSetting
+      hideFooter
+      rows={itemsDetail}
+      columns={columns}
+      additionColums={boms}
+      handleGetData={handleGetBoms}
+      isRoot={true}
+      type={'list'}
+      mode={'DETAIL'}
+      isView={true}
+    />
   )
 }
 
