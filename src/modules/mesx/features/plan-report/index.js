@@ -249,12 +249,20 @@ function PlanReport() {
       headerName: t('definePlan.quantity'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { planBom } = params.row
+        return planBom?.planningQuantity
+      }
     },
     {
-      field: 'quantity',
-      headerName: t('definePlan.planQuantity'),
+      field: 'actualQuantity',
+      headerName: t('definePlan.actualQuantity'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { planBom } = params.row
+        return planBom?.actualQuantity
+      }
     },
     {
       field: 'unit',
@@ -357,10 +365,7 @@ function PlanReport() {
         if (bom?.id === id) {
           const newBom = { ...bom }
           if (!bom.subBom) {
-            newBom['subBom'] = data?.planBoms.map((planBom) => ({
-              ...planBom,
-              planningQuantity: planBom.planBom?.planningQuantity
-            }))
+            newBom['subBom'] = data?.planBoms
           }
           return newBom
         } else {
