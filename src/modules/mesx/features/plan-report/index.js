@@ -245,7 +245,7 @@ function PlanReport() {
       },
     },
     {
-      field: 'planingQuantity',
+      field: 'planningQuantity',
       headerName: t('definePlan.quantity'),
       align: 'center',
       sortable: false,
@@ -357,7 +357,10 @@ function PlanReport() {
         if (bom?.id === id) {
           const newBom = { ...bom }
           if (!bom.subBom) {
-            newBom['subBom'] = data?.planBoms
+            newBom['subBom'] = data?.planBoms.map((planBom) => ({
+              ...planBom,
+              planningQuantity: planBom.planBom?.planningQuantity
+            }))
           }
           return newBom
         } else {
