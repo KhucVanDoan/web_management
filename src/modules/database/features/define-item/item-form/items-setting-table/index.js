@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -53,6 +53,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               name={`items[${index}].quantity`}
               label={t('defineItem.detailAmount')}
               type="number"
+              allow={TEXTFIELD_ALLOW.NUMERIC}
             />
           )
         },

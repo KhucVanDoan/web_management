@@ -89,7 +89,7 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
 export const NUMBER_FIELD_REQUIRED_SIZE = {
   AMOUNT_INTEGER: {
     MIN: 1,
-    MAX: 99999999999,
+    MAX: 99999999,
   },
   INTEGER_100K: {
     MIN: 1,
@@ -235,3 +235,5 @@ export const HTTP_STATUS_CODE = {
   INTERNAL_SERVER_ERROR: 500,
   NOT_ACCEPTABLE: 406,
 }
+
+export const MATERIAL_CODE = '00'

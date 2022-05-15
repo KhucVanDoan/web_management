@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { FormControlLabel, Grid } from '@mui/material'
+import { FormControlLabel, Grid, InputAdornment } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -432,6 +432,14 @@ function DefineItemForm() {
                             placeholder={t('defineItem.expiry')}
                             type="number"
                             allow={TEXTFIELD_ALLOW.NUMERIC}
+                            endAdornment={
+                              <InputAdornment
+                                position="end"
+                                sx={{ ml: 0, pr: 1 }}
+                              >
+                                {t('defineItem.day')}
+                              </InputAdornment>
+                            }
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>
