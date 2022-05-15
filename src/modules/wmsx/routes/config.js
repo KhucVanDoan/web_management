@@ -6,6 +6,9 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+  ORDER_MANAGEMENT: {
+    TITLE: 'orderManagement',
+  },
   WAREHOUSE_MANAGEMENT: {
     TITLE: 'warehouseManagement',
   },
@@ -213,5 +216,23 @@ export const ROUTE = {
   INVENTORY_STATISTICS: {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',
+  },
+  INVENTORY_CALENDAR: {
+    LIST: {
+      PATH: '/wmsx/inventory-calendar',
+      TITLE: 'inventoryCalendar',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-calendar/create',
+      TITLE: 'inventoryCalendarCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-calendar/:id/detail',
+      TITLE: 'inventoryCalendarDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-calendar/:id/edit',
+      TITLE: 'inventoryCalendarEdit',
+    },
   },
 }

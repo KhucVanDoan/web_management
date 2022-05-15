@@ -5,6 +5,9 @@ import DefineDetail from '~/modules/wmsx/features/define-detail/list'
 import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
 import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
 import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
+import InventoryCalendarDetail from '~/modules/wmsx/features/inventory-calendar/detail'
+import InventoryCalendarForm from '~/modules/wmsx/features/inventory-calendar/form'
+import InventoryCalendar from '~/modules/wmsx/features/inventory-calendar/list'
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
 import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
@@ -40,6 +43,39 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.ORDER_MANAGEMENT.TITLE,
+    isInSidebar: true,
+    icon: 'home',
+    subMenu: [
+      {
+        name: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
+        path: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
+        component: InventoryCalendar,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_CALENDAR.CREATE.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.CREATE.PATH,
+            component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH,
+            component: InventoryCalendarDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
+            component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.WAREHOUSE_SETUP.TITLE,
@@ -123,6 +159,21 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
+    component: WarehouseImport,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
+        component: WarehouseImportDetail,
+        isInSidebar: false,
       },
     ],
   },
@@ -245,21 +296,6 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
-      },
-    ],
-  },
-  {
-    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
-    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
-    component: WarehouseImport,
-    icon: 'home',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
-        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
-        component: WarehouseImportDetail,
-        isInSidebar: false,
       },
     ],
   },
