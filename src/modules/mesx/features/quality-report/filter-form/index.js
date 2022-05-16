@@ -76,7 +76,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="soName"
+          name="saleOrderName"
           label={t('qualityReport.saleOrder')}
           placeholder={t('qualityReport.saleOrder')}
           options={values?.moName ? getDataSaleOder() : saleOrderList}
