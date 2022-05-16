@@ -3,11 +3,9 @@ import React, { useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -19,7 +17,8 @@ import {
 } from '~/modules/qmsx/constants'
 import useWorkCenterQualityControlPlan from '~/modules/qmsx/redux/hooks/useWorkCenterQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 
 const WorkCenterQualityControlPlanProductionOuputDetail = () => {
   const history = useHistory()
@@ -93,7 +92,7 @@ const WorkCenterQualityControlPlanProductionOuputDetail = () => {
       wcQcPlanDetail?.workInShiftWc?.dayInShift?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
@@ -234,7 +233,7 @@ const WorkCenterQualityControlPlanProductionOuputDetail = () => {
       wcQcPlanDetail?.workInShiftQcPlan?.dayInShift?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })

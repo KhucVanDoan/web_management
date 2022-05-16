@@ -56,7 +56,10 @@ instance.interceptors.response.use(
     if (validateStatus(response.status)) {
       return response.data
     } else if (response.status === 500) {
-      addNotification(i18n.t('message.unknownError'), NOTIFICATION_TYPE.ERROR)
+      addNotification(
+        i18n.t('general:message.unknownError'),
+        NOTIFICATION_TYPE.ERROR,
+      )
     } else {
       addNotification('unauthorized', NOTIFICATION_TYPE.ERROR)
     }

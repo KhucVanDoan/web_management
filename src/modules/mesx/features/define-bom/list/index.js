@@ -23,7 +23,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -120,7 +120,7 @@ function DefineBOM() {
       sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -130,7 +130,7 @@ function DefineBOM() {
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
+        return convertUtcDateTimeToLocalTz(updatedAt)
       },
     },
     {
@@ -147,7 +147,7 @@ function DefineBOM() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -229,7 +229,7 @@ function DefineBOM() {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -264,8 +264,8 @@ function DefineBOM() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('defineBOM.title')}
           filters={{
@@ -275,15 +275,14 @@ function DefineBOM() {
             onApply: setFilters,
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}
           title={t('defineBOM.deleteModalTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -305,9 +304,9 @@ function DefineBOM() {
           open={confirmModal}
           title={t('defineBOM.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('defineBOM.confirmBody')}

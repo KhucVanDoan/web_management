@@ -1,4 +1,14 @@
-export const ORDER_TYPE = [
+export const ORDER_TYPE = {
+  IMPORT: 0,
+  EXPORT: 1,
+}
+
+export const ORDER_TYPE_MAP = {
+  [ORDER_TYPE.IMPORT]: 'orderType.import',
+  [ORDER_TYPE.EXPORT]: 'orderType.export',
+}
+
+export const ORDER_TYPE_OPTIONS = [
   {
     id: 0,
     name: 'orderType.import',
@@ -156,11 +166,11 @@ export const INVENTORY_STATUS_MAP = {
 }
 
 export const INVENTORY_STATUS_OPTIONS = [
-  { id: 1, name: 'inventoryStatus.pending' },
-  { id: 2, name: 'inventoryStatus.confirmed' },
-  { id: 3, name: 'inventoryStatus.reject' },
-  { id: 5, name: 'inventoryStatus.inProgress' },
-  { id: 4, name: 'inventoryStatus.complete' },
+  { id: 1, name: 'inventoryStatus.pending', color: 'created' },
+  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
+  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
+  { id: 5, name: 'inventoryStatus.inProgress', color: 'inProgress' },
+  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const WORK_ORDER_STATUS = {
   REJECTED: 2,
@@ -267,19 +277,38 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
     name: 'itemType.product',
   },
 }
+export const DEFAULT_ITEM_TYPE = {
+  MATERIAL: 0,
+  PRODUCT: 1,
+  SEMI: 2,
+}
 
-export const DEFAULT_ITEM_TYPES = [
+export const DEFAULT_ITEM_TYPE_MAP = {
+  [DEFAULT_ITEM_TYPE.MATERIAL]: 'itemType.material',
+  [DEFAULT_ITEM_TYPE.PRODUCT]: 'itemType.product',
+  [DEFAULT_ITEM_TYPE.SEMI]: 'itemType.semi',
+}
+export const DEFAULT_ITEM_TYPE_OPTIONS = [
+  {
+    id: 0,
+    code: '00',
+    text: 'itemType.material',
+  },
   {
     id: 1,
-    code: '00',
-    name: 'itemType.material',
+    code: '01',
+    text: 'itemType.product',
   },
   {
     id: 2,
-    code: '01',
-    name: 'itemType.product',
+    code: '02',
+    text: 'itemType.semi',
   },
 ]
+
+export const DEFAULT_ITEM_TYPES = {
+  code: ['00', '04', '05', '06'],
+}
 
 export const DEFAULT_UNITS = [
   {
@@ -505,12 +534,26 @@ export const PLAN_STATUS = {
   COMPLETED: 4,
 }
 
+export const PLAN_PROGRESS = {
+  LATE: 1,
+  NORMAL: 2,
+  DONE: 3,
+  NOTHING: 4,
+}
+
 export const PLAN_STATUS_MAP = {
   [PLAN_STATUS.REJECTED]: 'planStatus.rejected',
   [PLAN_STATUS.CREATED]: 'planStatus.created',
   [PLAN_STATUS.CONFIRMED]: 'planStatus.confirmed',
   [PLAN_STATUS.IN_PROGRESS]: 'planStatus.inProgress',
   [PLAN_STATUS.COMPLETED]: 'planStatus.completed',
+}
+
+export const PLAN_PROGRESS_MAP = {
+  [PLAN_PROGRESS.LATE]: 'planProgress.late',
+  [PLAN_PROGRESS.NORMAL]: 'planProgress.normal',
+  [PLAN_PROGRESS.DONE]: 'planProgress.done',
+  [PLAN_PROGRESS.NOTHING]: 'planProgress.nothing',
 }
 
 export const PLAN_STATUS_OPTIONS = [
@@ -720,6 +763,57 @@ export const SALE_ORDER_STATUS_OPTIONS = [
   },
 ]
 
+export const PURCHASED_ORDER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  APPROVED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+}
+
+export const PURCHASED_ORDER_STATUS_MAP = {
+  [PURCHASED_ORDER_STATUS.PENDING]: 'orderStatus.pending',
+  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
+  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
+  [PURCHASED_ORDER_STATUS.APPROVED]: 'orderStatus.approved',
+  [PURCHASED_ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
+  [PURCHASED_ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+}
+
+export const PURCHASED_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'orderStatus.approved',
+    color: 'approved',
+  },
+  {
+    id: 4,
+    text: 'orderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'orderStatus.rejected',
+    color: 'rejected',
+  },
+]
+
 export const WMS_URL = process.env.REACT_APP_WMS_URL
 export const STAGES_OPTION = {
   PO_IMPORT: 0,
@@ -737,7 +831,33 @@ export const DETAIL_SCHEDULE_STATUS = {
   IN_PROGRESS: 3,
   COMPLETED: 4,
 }
-
+export const PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION = [
+  {
+    id: 0,
+    text: 'progressManufacturingByOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'progressManufacturingByOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'progressManufacturingByOrderStatus.rejected',
+    color: 'rejected',
+  },
+  {
+    id: 4,
+    text: 'progressManufacturingByOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 3,
+    text: 'progressManufacturingByOrderStatus.inProgress',
+    color: 'inprogress',
+  },
+]
 export const DETAIL_SCHEDULE_STATUS_MAP = {
   [DETAIL_SCHEDULE_STATUS.PENDING]: 'detailScheduleStatus.pending',
   [DETAIL_SCHEDULE_STATUS.CONFIRMED]: 'detailScheduleStatus.confirmed',
@@ -952,6 +1072,9 @@ export const WORK_CENTER_STATUS_TO_EDIT = [
   WORK_CENTER_STATUS.PENDING,
   WORK_CENTER_STATUS.REJECTED,
 ]
+export const WORK_CENTER_STATUS_CONFIRM_TO_EDIT = [
+  WORK_CENTER_STATUS.IN_PROGRESS,
+]
 export const WORK_CENTER_STATUS_TO_DELETE = [
   WORK_CENTER_STATUS.PENDING,
   WORK_CENTER_STATUS.REJECTED,
@@ -983,32 +1106,25 @@ export const MODERATION_TYPE_OPTIONS = [
 ]
 
 export const USER_MANAGEMENT_STATUS = {
-  INACTIVE: 0,
+  TEMP_LOCKED: 0,
   ACTIVE: 1,
-  DELETED: 2,
 }
 
 export const USER_MANAGEMENT_STATUS_MAP = {
-  [USER_MANAGEMENT_STATUS.INACTIVE]: 'userStatus.inactive',
+  [USER_MANAGEMENT_STATUS.TEMP_LOCKED]: 'userStatus.tempLocked',
   [USER_MANAGEMENT_STATUS.ACTIVE]: 'userStatus.active',
-  [USER_MANAGEMENT_STATUS.DELETED]: 'userStatus.deleted',
 }
 
 export const USER_MANAGEMENT_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'userStatus.inactive',
-    color: 'inactive',
+    text: 'userStatus.tempLocked',
+    color: 'tempLocked',
   },
   {
     id: 1,
     text: 'userStatus.active',
     color: 'active',
-  },
-  {
-    id: 2,
-    text: 'userStatus.deleted',
-    color: 'deleted',
   },
 ]
 
@@ -1047,3 +1163,51 @@ export const MASTER_PLAN_STATUS = {
   IN_PROGRESS: 3,
   COMPLETED: 4,
 }
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  COMPLETED: 3,
+  REJECTED: 4,
+}
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_MAP = {
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.PENDING]: 'orderStatus.pending',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.CONFIRMED]:
+    'orderStatus.confirmed',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.IN_PROGRESS]:
+    'orderStatus.inProgress',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.COMPLETED]:
+    'orderStatus.completed',
+  [PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS.REJECTED]:
+    'orderStatus.rejected',
+}
+
+export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'orderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 4,
+    text: 'orderStatus.rejected',
+    color: 'rejected',
+  },
+]

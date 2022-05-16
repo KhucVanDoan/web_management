@@ -23,11 +23,10 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
-import { filterSchema } from './filter/schema'
 
 const breadcrumbs = [
   {
@@ -106,7 +105,7 @@ function ProducingStep() {
       filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -116,7 +115,7 @@ function ProducingStep() {
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
+        return convertUtcDateTimeToLocalTz(updatedAt)
       },
     },
     {
@@ -188,6 +187,15 @@ function ProducingStep() {
                 <Icon name="tick" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.PRODUCING_STEP.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </>
         )
       },
@@ -220,7 +228,7 @@ function ProducingStep() {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -253,8 +261,8 @@ function ProducingStep() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('producingStep.title')}
           filters={{
@@ -262,18 +270,16 @@ function ProducingStep() {
             values: filters,
             defaultValue: DEFAULT_FILTERS,
             onApply: setFilters,
-            validationSchema: filterSchema(t),
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}
           title={t('producingStep.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -295,9 +301,9 @@ function ProducingStep() {
           open={confirmModal}
           title={t('producingStep.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('producingStep.confirmBody')}

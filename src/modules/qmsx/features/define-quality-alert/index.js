@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
@@ -129,7 +128,7 @@ function DefineQualityAlert() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -182,11 +181,13 @@ function DefineQualityAlert() {
         )
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.DETAIL_INPUT.PATH.replace(':id', id),
         )
       case STAGE_OPTION.PRO_EXPORT:
       case STAGE_OPTION.SO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.DETAIL_OUTPUT.PATH.replace(':id', id),
         )
@@ -213,11 +214,13 @@ function DefineQualityAlert() {
         )
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.EDIT_INPUT.PATH.replace(':id', id),
         )
       case STAGE_OPTION.PRO_EXPORT:
       case STAGE_OPTION.SO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         return history.push(
           ROUTE.DEFINE_QUALITY_ALERT.EDIT_OUTPUT.PATH.replace(':id', id),
         )
@@ -282,13 +285,10 @@ function DefineQualityAlert() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
         <Dropdown
           sx={{ ml: 4 / 3 }}
           icon="add"
-          title={t('common.create')}
+          title={t('general:common.create')}
           options={CREATE_OPTIONS_LIST}
           handleMenuItemClick={(option) => handleMenuItemClick(option)}
           getOptionLabel={(option) => t(option.text) || ''}
@@ -333,8 +333,8 @@ function DefineQualityAlert() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -347,9 +347,9 @@ function DefineQualityAlert() {
         open={modalDelete.isOpenDeleteModal}
         title={t('defineQualityAlert.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -361,9 +361,9 @@ function DefineQualityAlert() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineQualityAlert.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineQualityAlert.modalConfirmContent')}

@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useDefineCauseGroup from '~/modules/qmsx/redux/hooks/useDefineCauseGroup'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -30,6 +31,21 @@ const breadcrumbs = [
     title: ROUTE.DEFINE_CAUSE_GROUP.LIST.TITLE,
   },
 ]
+
+const importCauseGroupApi = (params) => {
+  const uri = `/v1/quality-controls/cause-groups/import`
+
+  const formData = new FormData()
+  formData.append('file', params)
+
+  return api.postMultiplePart(uri, formData)
+}
+
+const getImportCauseGroupTemplateApi = () => {
+  const uri = `/v1/quality-controls/cause-groups/import-template`
+
+  return api.get(uri)
+}
 
 function DefineCauseGroup() {
   const { t } = useTranslation('qmsx')
@@ -87,17 +103,17 @@ function DefineCauseGroup() {
     },
     {
       field: 'createdAt',
-      headerName: t('common.createdAt'),
+      headerName: t('general:common.createdAt'),
       width: 100,
       sortable: true,
       renderCell: (params) => {
         const { createdAt } = params?.row
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -170,15 +186,18 @@ function DefineCauseGroup() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.causeGroup')}
+          onImport={importCauseGroupApi}
+          onDownloadTemplate={getImportCauseGroupTemplateApi}
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CAUSE_GROUP.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -201,8 +220,8 @@ function DefineCauseGroup() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
@@ -211,9 +230,9 @@ function DefineCauseGroup() {
         open={modal.isOpenDeleteModal}
         title={t('defineCauseGroup.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

@@ -44,7 +44,7 @@ function ProductionOutputQuality() {
       width: 50,
       sortable: false,
       fixed: true,
-      renderCell: (params, index) => {
+      renderCell: (_, index) => {
         return getRowNumber(index, page, pageSize)
       },
     },
@@ -159,10 +159,11 @@ function ProductionOutputQuality() {
       columns={columns}
       onPageChange={setPage}
       onPageSizeChange={setPageSize}
-      onChangeFilter={setFilters}
-      onChangeSort={setSort}
+      onFilterChange={setFilters}
+      onSortChange={setSort}
       total={total}
       sort={sort}
+      indexCol="rowNumber"
       tableSettingKey={qcProductionOutput}
       filters={{
         form: <ProductionOutputQualityFilterForm />,

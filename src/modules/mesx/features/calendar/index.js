@@ -268,7 +268,7 @@ const PlanCalendar = () => {
                     labelWidth="auto"
                   />
                   <Button type="submit" ml={3}>
-                    {t('common.filter')}
+                    {t('general:common.filter')}
                   </Button>
                 </Box>
               </Grid>

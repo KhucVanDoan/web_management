@@ -75,7 +75,7 @@ const InputQualityFilterForm = () => {
           label={t(`${transKey}.orderCode`)}
           placeholder={t(`${transKey}.orderCode`)}
           options={orderList}
-          getOptionValue={(option) => option?.code}
+          getOptionValue={(option) => option?.code?.toString()}
           getOptionLabel={(option) => option?.code}
           onChange={(option) => handleChangeOrder(option)}
         />
@@ -121,7 +121,7 @@ const InputQualityFilterForm = () => {
           label={t(`${transKey}.numberOfTimeSearch`)}
           placeholder={t(`${transKey}.numberOfTimeSearch`)}
           options={NUMBER_OF_TIMES_QC_TRANSACTION}
-          getOptionValue={(option) => option.value}
+          getOptionValue={(option) => option.value.toString()}
           getOptionLabel={(option) => t(option.text)}
         />
       </Grid>

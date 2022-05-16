@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import { PLAN_STATUS_MAP, SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { SALE_ORDER_STATUS, PLAN_PROGRESS_MAP } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -108,9 +107,9 @@ function PlanReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row.planTo)
         )
       },
     },
@@ -121,8 +120,9 @@ function PlanReport() {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        const { planBom } = params.row
+        return planBom?.status
+        // return t(PLAN_STATUS_MAP[status]) // TODO BE return enum
       },
     },
     {
@@ -130,6 +130,10 @@ function PlanReport() {
       headerName: t('definePlan.progress'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { progress } = params.row
+        return t(PLAN_PROGRESS_MAP[progress])
+      },
     },
   ]
   const producingStepColumns = [
@@ -166,9 +170,9 @@ function PlanReport() {
       renderCell: (params) => {
         const { planDate, endDate } = params.row
         return (
-          formatDateTimeUtc(planDate, DATE_FORMAT) +
+          convertUtcDateToLocalTz(planDate) +
           ' - ' +
-          formatDateTimeUtc(endDate, DATE_FORMAT)
+          convertUtcDateToLocalTz(endDate)
         )
       },
     },
@@ -180,7 +184,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(startAt)
       },
     },
     {
@@ -191,7 +195,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(endAt)
       },
     },
     {
@@ -201,7 +205,8 @@ function PlanReport() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        return status
+        // return t(PLAN_STATUS_MAP[status]) TODO BE change status to enum
       },
     },
     {
@@ -210,8 +215,9 @@ function PlanReport() {
       align: 'center',
       sortable: false,
       renderCell: (params) => {
-        const { progress } = params.row
-        return progress
+        const { status } = params.row
+        return status
+        // return t(PLAN_PROGRESS_MAP[planBom?.progres])
       },
     },
   ]
@@ -246,16 +252,24 @@ function PlanReport() {
       },
     },
     {
-      field: 'planingQuantity',
+      field: 'planningQuantity',
       headerName: t('definePlan.quantity'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { planBom } = params.row
+        return planBom?.planningQuantity
+      },
     },
     {
-      field: 'quantity',
-      headerName: t('definePlan.planQuantity'),
+      field: 'actualQuantity',
+      headerName: t('definePlan.actualQuantity'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { planBom } = params.row
+        return planBom?.actualQuantity
+      },
     },
     {
       field: 'unit',
@@ -276,9 +290,9 @@ function PlanReport() {
         const { planBom } = params.row
         if (planBom) {
           return (
-            formatDateTimeUtc(planBom?.planFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(planBom?.planFrom) +
             ' - ' +
-            formatDateTimeUtc(planBom?.planTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(planBom?.planTo)
           )
         }
       },
@@ -290,7 +304,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.executeDate)
       },
     },
     {
@@ -300,7 +314,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.endAt)
       },
     },
     {
@@ -309,8 +323,9 @@ function PlanReport() {
       align: 'center',
       sortable: true,
       renderCell: (params) => {
-        const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        const { planBom } = params.row
+        return planBom?.status
+        // return t(PLAN_STATUS_MAP[status])
       },
     },
     {
@@ -320,7 +335,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return planBom?.progress
+        return t(PLAN_PROGRESS_MAP[planBom?.progres])
       },
     },
   ]
@@ -409,8 +424,8 @@ function PlanReport() {
           isView={true}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeSort={setSort}
-          onChangeFilter={setFilters}
+          onSortChange={setSort}
+          onFilterChange={setFilters}
           sort={sort}
           total={total}
           filters={{

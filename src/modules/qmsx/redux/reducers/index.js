@@ -15,6 +15,8 @@ import outputQualityControlPlan from './output-quality-control-plan'
 import productionQualityControlPlan from './production-quality-control-plan'
 import qualityReport from './quality-report'
 import transactionHistory from './transaction-history'
+import userManagement from './user-management'
+import userPermission from './user-permission'
 import workCenterQualityControlPlan from './work-center-quality-control-plan'
 
 export default combineReducers({
@@ -33,4 +35,6 @@ export default combineReducers({
   outputQualityControlPlan,
   productionQualityControlPlan,
   workCenterQualityControlPlan,
+  userManagement,
+  userPermission,
 })

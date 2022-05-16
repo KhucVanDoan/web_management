@@ -67,33 +67,19 @@
     "workCenterQualityControlPlanDetail": "Chi tiết kế hoạch quản lý chất lượng sản xuất theo xưởng",
     "workCenterQualityControlPlanEdit": "Sửa kế hoạch quản lý chất lượng sản xuất theo xưởng",
     "userManagement": "Quản lý người dùng",
-    "roleManagement": "Phân quyền"
+    "userManagementCreate": "Tạo người dùng",
+    "userManagementEdit": "Sửa người dùng",
+    "userManagementDetail": "Chi tiết người dùng",
+    "userPermission": "Phân quyền"
   },
   "common": {
-    "yes": "Có",
-    "no": "Không",
-    "cancel": "Huỷ",
-    "close": "Đóng",
-    "importFile": "Nhập dữ liệu",
-    "importBtnTitle": "Nhập dữ liệu",
-    "exportBtnTitle": "Xuất dữ liệu",
-    "action": "Hành động",
-    "printQR": "In mã QR",
-    "create": "Tạo mới",
-    "save": "Lưu",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa",
-    "accept": "Xác nhận",
-    "reject": "Từ chối",
-    "confirmMessage": {
-      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
-      "reject": "Bạn có chắc chắn muốn từ chối không?"
-    },
     "stages": {
       "poImport": "Nhập kho theo PO",
       "proImport": "Nhập kho theo PrO",
+      "imoImport": "Nhập kho theo IMO",
       "proExport": "Xuất kho theo PrO",
       "soExport": "Xuất kho theo SO",
+      "exoExport": "Xuất kho theo EXO",
       "productionOutput": "Sản xuất đầu ra",
       "productionInput": "Sản xuất đầu vào"
     },
@@ -114,46 +100,6 @@
     "userExistedInUserQC1st": "Người QC lần 2 không được trùng với người QC lần 1",
     "userExistedInUserQC2nd": "Người QC lần 1 không được trùng với người QC lần 2",
     "compareTwoField": "Mục này không được lớn hơn {{limit}}"
-  },
-  "userManagement": {
-    "title": "Danh sách user",
-    "searchPlaceHolder": "Tìm kiếm user theo tên đăng nhập hoặc tên nhân viên",
-    "confirmDelete": "Bạn có chắc chắc muốn xóa không?",
-    "username": "Tên đăng nhập",
-    "password": "Mật khẩu",
-    "comfirmPassword": "Xác nhận mật khẩu",
-    "fullName": "Họ và tên",
-    "email": "Địa chỉ email",
-    "dateOfBirth": "Ngày sinh",
-    "phone": "Số điện thoại",
-    "warehouseNames": "Tên kho quản lý",
-    "code": "Mã nhân viên",
-    "factoryNames": "Tên nhà máy",
-    "companyName": "Tên công ty",
-    "departmentNames": "Tên bộ phận",
-    "role": "Chọn quyền",
-    "createModalTitle": "Tạo user",
-    "submitCreateModalLabel": "Tạo mới",
-    "cancelCreateModalLabel": "Hủy",
-    "updateModalTitle": "Sửa thông tin nhân viên",
-    "submitUpdateModalLabel": "Lưu",
-    "cancelUpdateModalLabel": "Hủy",
-    "changePasswordLabel": "Thay đổi mật khẩu",
-    "viewModalTitle": "Chi tiết thông tin nhân viên",
-    "cancelViewModalLabel": "Đóng",
-    "deleteModalTitle": "Xóa user",
-    "createButton": "Tạo mới",
-    "orderIdColumn": "#",
-    "usernameColumn": "Tên đăng nhập",
-    "fullNameColumn": "Họ và tên",
-    "emailColumn": "Địa chỉ email",
-    "departmentColumn": "Bộ phận",
-    "actionColumn": "Hành động",
-    "roleColumn": "Role",
-    "warehouseColumn": "Kho quản lý",
-    "createUserSuccess": "Tạo user thành công",
-    "deleteUserSuccess": "Xóa user thành công",
-    "updateUserSuccess": "Cập nhật user thành công"
   },
   "defineErrorGroup": {
     "errorGroupList": "Danh sách nhóm lỗi",
@@ -270,7 +216,6 @@
     "code": "Mã danh sách kiểm tra lỗi",
     "name": "Tên danh sách kiểm tra lỗi",
     "description": "Mô tả",
-    "createdAt": "Ngày tạo",
     "status": "Trạng thái",
     "statusText": {
       "pending": "Chờ xác nhận",
@@ -748,12 +693,67 @@
       "createdAt": "Ngày giao dịch"
     }
   },
-  "roleManagement": {
-    "departmentType": "Chọn bộ phận",
-    "title": "Phân quyền",
-    "roles": "Chọn chức vụ",
-    "screens": "Chọn màn",
-    "systems": "Chọn hệ thống",
-    "updateRoleSuccess": "Cập nhật quyền thành công"
+  "userManagement": {
+    "userManagementList": "Danh sách người dùng",
+    "searchPlaceholder": "Tìm kiếm người dùng theo tên đăng nhập hoặc họ tên",
+    "modalDeleteTitle": "Xóa người dùng",
+    "modalDeleteContent": "Bạn có chắc chắn muốn xoá không?",
+    "deleteConfirm": "Bạn có chắc chắc muốn xóa người dùng không?",
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "comfirmPassword": "Xác nhận mật khẩu",
+    "fullName": "Họ tên",
+    "email": "Email",
+    "department": "Bộ phận",
+    "departmentName": "Tên bộ phận",
+    "role": "Role",
+    "dateOfBirth": "Ngày sinh",
+    "phone": "Số điện thoại",
+    "warehouse": "Kho quản lý",
+    "warehouseName": "Tên kho quản lý",
+    "action": "Hành động",
+    "status": "Trạng thái",
+    "commonInfo": "Thông tin chung",
+    "workInfo": "Thông tin công việc",
+    "code": "Mã nhân viên",
+    "factoryName": "Tên nhà máy",
+    "companyName": "Tên công ty",
+    "roleAssign": "Chọn quyền",
+    "changePasswordLabel": "Thay đổi mật khẩu",
+    "resetPassword": "Lấy lại mật khẩu",
+    "notification": {
+      "createSuccess": "Tạo người dùng thành công",
+      "deleteSuccess": "Xóa người dùng thành công",
+      "updateSuccess": "Cập nhật thông tin người dùng thành công",
+      "generateOTPSuccess": "Thành công ! Một mã OTP vừa được gửi về email của bạn",
+      "verifyOTPSuccess": "Xác thực mã OTP thành công"
+    },
+    "createTime": "Thời gian tạo",
+    "user": "Người tạo",
+    "userStatus": {
+      "active": "Hoạt động",
+      "tempLocked": "Tạm khóa"
+    }
+  },
+  "userPermission": {
+    "department": "Chọn bộ phận",
+    "role": "Chọn chức vụ",
+    "screen": "Chọn màn",
+    "system": "Chọn hệ thống",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "id": "ID",
+    "permission": "Quyền",
+    "status": "Trạng thái",
+    "notification": {
+      "updateSuccess": "Cập nhật quyền người dùng thành công"
+    }
+  },
+  "importExport": {
+    "errorGroup": "NhómLỗi",
+    "qualityPoint": "TiêuChíQLCL",
+    "actionGroup": "NhómĐốiSách",
+    "causeGroup": "NhómNguyênNhân",
+    "errorReport": "PhiếuBáoCáoLỗi",
+    "checkList": "DanhSáchKiểmTra"
   }
 }

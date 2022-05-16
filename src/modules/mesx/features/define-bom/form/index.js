@@ -8,7 +8,6 @@ import {
 } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -29,17 +28,19 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
+import useItemType from '~/modules/database/redux/hooks/useItemType'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from '../item-setting-table'
 import { validationSchema } from './schema'
 
 const DEFAULT_ITEM = {
   id: 0,
+  itemType: '',
   itemId: '',
   quantity: 1,
 }
@@ -253,11 +254,12 @@ function BOMForm() {
     name: BOMDetails?.name || '',
     routingId: BOMDetails?.routing || '',
     description: BOMDetails?.description || '',
-    itemId: BOMDetails?.itemId || itemId,
+    itemId: BOMDetails?.itemId || itemId || null,
     items: BOMDetails?.bomDetails?.map((e) => ({
       id: e.id,
       itemId: e.itemId,
       quantity: e.quantity,
+      itemType: getItemObject(e.itemId)?.itemType?.code,
     })) || [{ ...DEFAULT_ITEM }],
     itemName: '',
     itemQuanlity: '',
@@ -415,11 +417,13 @@ function BOMForm() {
                   {/* Tab 1 */}
                   <FieldArray
                     name="items"
-                    render={(arrayHelpers) => (
+                    render={(arrayHelpers, handleReset, DEFAULT_ITEM) => (
                       <ItemsSettingTable
                         items={values?.items || []}
                         mode={mode}
                         arrayHelpers={arrayHelpers}
+                        handleReset={handleReset}
+                        DEFAULT_ITEM={DEFAULT_ITEM}
                       />
                     )}
                   />

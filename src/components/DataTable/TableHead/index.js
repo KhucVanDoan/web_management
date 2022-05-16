@@ -28,7 +28,7 @@ const TableHead = (props) => {
     onSelectAllClick,
     order,
     orderBy,
-    onChangeSort,
+    onSortChange,
     checkboxSelection,
     columns,
     selected,
@@ -54,7 +54,7 @@ const TableHead = (props) => {
         order: ORDER_DIRECTION.DESC,
       }
     }
-    onChangeSort(newSort)
+    onSortChange(newSort)
   }
 
   /**
@@ -165,13 +165,13 @@ const TableHead = (props) => {
   )
 }
 TableHead.defaultProps = {
-  onChangeSort: () => {},
+  onSortChange: () => {},
   onSelectAllClick: () => {},
   rows: [],
 }
 
 TableHead.propTypes = {
-  onChangeSort: PropTypes.func,
+  onSortChange: PropTypes.func,
   onSelectAllClick: PropTypes.func,
   order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,

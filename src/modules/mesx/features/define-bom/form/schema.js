@@ -7,9 +7,7 @@ import {
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     routingId: Yup.object().nullable().required(t('general:form.required')),
     itemId: Yup.number().nullable().required(t('general:form.required')),
@@ -21,6 +19,7 @@ export const validationSchema = (t) =>
     ),
     items: Yup.array().of(
       Yup.object().shape({
+        itemType: Yup.number().nullable().required(t('general:form.required')),
         itemId: Yup.number().nullable().required(t('general:form.required')),
         quantity: Yup.number()
           .required(t('general:form.required'))

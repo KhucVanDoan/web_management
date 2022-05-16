@@ -7,15 +7,17 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { PRODUCING_STEP_STATUS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
+import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { scrollToBottom } from '~/utils'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['mesx'])
@@ -24,7 +26,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { actions: routingActions } = useRouting()
   const {
     data: { list },
-    actions: producingStepActions,
   } = useProducingStep()
 
   useEffect(() => {
@@ -34,10 +35,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       }
     }
   }, [id])
-
-  useEffect(() => {
-    producingStepActions.getProducingSteps()
-  }, [])
 
   const isView = mode === MODAL_MODE.DETAIL
 
@@ -53,18 +50,22 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(params.row?.id)?.code || ''}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
-              options={list}
-              getOptionLabel={(option) => option.code || ''}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+              asyncRequest={(s) =>
+                searchProducingStepsApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: [PRODUCING_STEP_STATUS.CONFIRMED],
+                  }),
+                })
               }
-              getOptionValue={(option) => option?.id}
+              asyncRequestHelper={(res) => res?.data?.items}
+              getOptionLabel={(opt) => opt?.code || ''}
               disabled={isView}
             />
           )
@@ -76,7 +77,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const itemId = params.row?.itemId
+          const itemId = params.row?.itemId?.id
           return isView ? (
             <>{getItemObject(params.row?.id)?.name || ''}</>
           ) : (
@@ -114,18 +115,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       },
       {
         field: 'action',
-        headerName: t('common.action'),
+        headerName: t('general:common.action'),
         width: 200,
         align: 'center',
         hide: isView,
         renderCell: (params) => {
           const { id } = params.row
-          // const idx = items.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
                 onRemoveItem(id)
-                // arrayHelpers.remove(idx)
               }}
               disabled={items?.length === 1}
             >
@@ -199,17 +198,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       }
     }
   }
-
-  const onChangeRowsOrder = (rows) => {
-    setState({
-      items: rows.map((item, index) => ({
-        ...item,
-        id: index + 1,
-        stepNumber: index + 1,
-      })),
-    })
-  }
-
   return (
     <>
       <Box
@@ -266,7 +254,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         columns={columns}
         total={items.length}
         striped={false}
-        onChangeRowsOrder={onChangeRowsOrder}
         hideSetting
         hideFooter
       />

@@ -47,15 +47,19 @@ function ErrorGroupFilterForm() {
     switch (id) {
       case STAGE_OPTION.PO_IMPORT:
       case STAGE_OPTION.PRO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         qualityReportActions.getOrderListByStage({ stage: id }, (data) =>
           setOrderList(data),
         )
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        dashboardActions.getInProgressMoListDashboard()
+        dashboardActions.getInProgressMoListDashboard((data) => {
+          setOrderList(data)
+        })
         break
       default:
         break
@@ -76,7 +80,13 @@ function ErrorGroupFilterForm() {
         dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
         break
       case STAGE_OPTION.SO_EXPORT:
-        dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
+        dashboardActions.getQcCheckItemBySo({ soId: id }, setDataToState)
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        dashboardActions.getQcCheckItemByImo({ imoId: id }, setDataToState)
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        dashboardActions.getQcCheckItemByExo({ exoId: id }, setDataToState)
         break
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
@@ -94,18 +104,22 @@ function ErrorGroupFilterForm() {
   const handleChangeItem = (id) => {
     setItemId(id)
     resetProducingStepState()
-
     if (
       id &&
       (qcStageId === STAGE_OPTION.PRODUCTION_INPUT ||
         qcStageId === STAGE_OPTION.PRODUCTION_OUTPUT)
-    )
+    ) {
       dashboardActions.getProducingStepListByItemMoDashboard(
         { itemId: id, moId: orderId },
         (data) => {
           setProducingStepList(data)
         },
       )
+    }
+  }
+
+  const handleChangeProducingStep = (id) => {
+    setProducingStepId(id)
   }
 
   const handleSubmit = () => {
@@ -115,23 +129,30 @@ function ErrorGroupFilterForm() {
 
     switch (qcStageId) {
       case STAGE_OPTION.PO_IMPORT:
+      case STAGE_OPTION.IMO_IMPORT:
       case STAGE_OPTION.SO_EXPORT:
+      case STAGE_OPTION.EXO_EXPORT:
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
-        params.itemId = itemId
-        params.orderId = orderId
+        params.ioQcFilter = {
+          itemId,
+          orderId,
+        }
 
         dashboardActions.getErrorGroupDashboard(params)
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        params.moId = orderId
-        params.itemId = itemId
-        params.producingStepId = producingStepId
+        params.produceStepQcFilter = {
+          moId: orderId,
+          itemId,
+          producingStepId,
+        }
 
         dashboardActions.getErrorGroupDashboard(params)
         break
       default:
+        dashboardActions.getErrorGroupDashboard(params)
         break
     }
   }

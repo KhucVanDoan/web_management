@@ -3,7 +3,12 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -15,6 +20,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import { defineCustomerSchema } from './schema'
 
@@ -22,21 +28,13 @@ function DefineCustomerForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const params = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const routeMatch = useRouteMatch()
   const {
     data: { customerDetails, isLoading },
     actions,
   } = useDefineCustomer()
-
-  const initialValues = {
-    code: customerDetails?.code || '',
-    name: customerDetails?.name || '',
-    address: customerDetails?.address || '',
-    phone: customerDetails?.phone || '',
-    email: customerDetails?.email || null,
-    fax: customerDetails?.fax || '',
-    description: customerDetails?.description || '',
-  }
 
   const MODE_MAP = {
     [ROUTE.DEFINE_CUSTOMER.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -44,6 +42,16 @@ function DefineCustomerForm() {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+
+  const initialValues = {
+    code: isUpdate ? customerDetails?.code : '',
+    name: customerDetails?.name || '',
+    address: customerDetails?.address || '',
+    phone: customerDetails?.phone || '',
+    email: customerDetails?.email || null,
+    fax: customerDetails?.fax || '',
+    description: customerDetails?.description || '',
+  }
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -75,12 +83,15 @@ function DefineCustomerForm() {
   }
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
+    if (isUpdate) {
       const id = params?.id
       actions.getCustomerDetailsById(id)
     }
+    if (cloneId) {
+      actions.getCustomerDetailsById(cloneId)
+    }
     return () => {
-      if (isUpdate) actions.resetCustomerDetailsState()
+      actions.resetCustomerDetailsState()
     }
   }, [params?.id])
 
@@ -168,6 +179,7 @@ function DefineCustomerForm() {
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

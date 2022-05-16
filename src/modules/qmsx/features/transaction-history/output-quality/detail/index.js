@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { useToggle } from '~/common/hooks'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useTransactionHistory from '~/modules/qmsx/redux/hooks/useTransactionHistory'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -109,7 +109,7 @@ function OutputQualityDetail() {
   }
 
   useEffect(() => {
-    actions.getDetailOutputQualityTransactionHistory({ id: id }, null, null)
+    actions.getDetailOutputQualityTransactionHistory({ id: id }, _, backToList)
 
     return () => {
       actions.resetTransactionHistoryState()
@@ -140,7 +140,7 @@ function OutputQualityDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t(`${transactionHistoryTransKey}.createdAt`)}
-                value={formatDateTimeUtc(createdAt)}
+                value={convertUtcDateTimeToLocalTz(createdAt)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -282,11 +282,7 @@ function OutputQualityDetail() {
               )}
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="flex-end" sx={{ my: 2 }}>
-            <Button variant="contained" onClick={backToList} color="grayF4">
-              {t('common.close')}
-            </Button>
-          </Box>
+          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
     </Page>

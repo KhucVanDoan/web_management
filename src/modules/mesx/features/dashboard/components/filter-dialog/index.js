@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import Dialog from '~/components/Dialog'
 
 const FilterDialog = ({ children, onSubmit }) => {
-  const { t } = useTranslation(['mesx'])
+  const { t } = useTranslation()
 
   const [openDialog, setOpenDialog] = useState(false)
 

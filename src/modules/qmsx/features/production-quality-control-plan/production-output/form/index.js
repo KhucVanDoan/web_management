@@ -6,7 +6,12 @@ import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, DATE_FORMAT, NOTIFICATION_TYPE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -14,13 +19,14 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  PRODUCTION_QC_PLAN_STATUS_OPTIONS,
   STAGE_OPTION,
   PRODUCTION_QC_PLAN_STATUS,
   STAGES,
 } from '~/modules/qmsx/constants'
 import useProductionQualityControlPlan from '~/modules/qmsx/redux/hooks/useProductionQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 import addNotification from '~/utils/toast'
 
 import PlanDetailTable from '../plan-detail-table'
@@ -106,10 +112,16 @@ function ProductionOutputQualityControlPlanForm() {
         id: params?.id,
         endpointPatch: ENDPOINT_PATCH_GET_DETAIL_PRODUCTION_OUTPUT,
       }
-      actions.getProductionQcPlanDetailById(paramsGetdetail, (data) => {
-        getProductionPlan(data?.mo?.id)
-        getFormData(data?.planBomOutputs)
-      })
+      actions.getProductionQcPlanDetailById(
+        paramsGetdetail,
+        (data) => {
+          if (+data.status !== PRODUCTION_QC_PLAN_STATUS_OPTIONS.PENDING)
+            return backToList()
+          getProductionPlan(data?.mo?.id)
+          getFormData(data?.planBomOutputs)
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate) actions.resetProductionQcPlanDetailState()
@@ -195,7 +207,7 @@ function ProductionOutputQualityControlPlanForm() {
         return (
           <>
             <Button onClick={backToList} color="grayF4" sx={{ mr: 4 / 3 }}>
-              {t('common.close')}
+              {t('general:common.close')}
             </Button>
             <Button
               onClick={() => {
@@ -399,12 +411,10 @@ function ProductionOutputQualityControlPlanForm() {
         mo: productionQcPlanDetail?.mo?.id,
         moName: productionQcPlanDetail?.mo?.name,
         moPlanDate: !isEmpty(productionQcPlanDetail?.mo)
-          ? `${formatDateTimeUtc(
+          ? `${convertUtcDateToLocalTz(
               productionQcPlanDetail?.mo?.planFrom,
-              DATE_FORMAT,
-            )} - ${formatDateTimeUtc(
+            )} - ${convertUtcDateToLocalTz(
               productionQcPlanDetail?.mo?.planTo,
-              DATE_FORMAT,
             )} `
           : null,
         productionPlan: productionQcPlanDetail?.moPlan?.id,
@@ -424,10 +434,9 @@ function ProductionOutputQualityControlPlanForm() {
       setFieldValue('moName', recordMo?.name)
       setFieldValue(
         'moPlanDate',
-        `${formatDateTimeUtc(
+        `${convertUtcDateToLocalTz(
           recordMo?.planFrom,
-          DATE_FORMAT,
-        )} - ${formatDateTimeUtc(recordMo?.planTo, DATE_FORMAT)} `,
+        )} - ${convertUtcDateToLocalTz(recordMo?.planTo)} `,
       )
       getProductionPlan(moId, setFieldValue)
     } else {
@@ -481,21 +490,20 @@ function ProductionOutputQualityControlPlanForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValuesForm}
-            validationSchema={productionOutputQualityControlPlanSchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, setFieldValue, values, validateForm }) => (
-              <Form>
+      <Formik
+        initialValues={initialValuesForm}
+        validationSchema={productionOutputQualityControlPlanSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, setFieldValue, values, validateForm }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
                 >
                   {!isNil(values?.status) && (
                     <Grid item xs={12}>
@@ -515,6 +523,10 @@ function ProductionOutputQualityControlPlanForm() {
                       name="code"
                       label={t('productionQualityControlPlan.code')}
                       placeholder={t('productionQualityControlPlan.code')}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -524,6 +536,9 @@ function ProductionOutputQualityControlPlanForm() {
                       name="name"
                       label={t('productionQualityControlPlan.name')}
                       placeholder={t('productionQualityControlPlan.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -592,36 +607,39 @@ function ProductionOutputQualityControlPlanForm() {
                       placeholder={t(
                         'productionQualityControlPlan.description',
                       )}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
-                >
-                  {/* Plan detail table */}
-                  <Grid item lg={12} xs={12}>
-                    <PlanDetailTable
-                      items={values?.items}
-                      mode={mode}
-                      setFieldValue={setFieldValue}
-                      values={values}
-                    />
-                  </Grid>
-                </Grid>
-                <ActionBar
-                  onBack={backToList}
-                  elAfter={renderActionButtons({ handleReset, validateForm })}
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              rowSpacing={4 / 3}
+              columnSpacing={{ xl: 8, xs: 4 }}
+              sx={{ my: 2 }}
+            >
+              {/* Plan detail table */}
+              <Grid item lg={12} xs={12}>
+                <PlanDetailTable
+                  items={values?.items}
+                  mode={mode}
+                  setFieldValue={setFieldValue}
+                  values={values}
                 />
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+              </Grid>
+            </Grid>
+            <ActionBar
+              onBack={backToList}
+              elAfter={renderActionButtons({ handleReset, validateForm })}
+            />
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

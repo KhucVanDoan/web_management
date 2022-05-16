@@ -1,13 +1,14 @@
-// @TODO: rename all saga files
 import { all } from 'redux-saga/effects'
 
-import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step.saga'
-import watchCreateBomProducingStep from './bom-producing-step/create-bom-producing-step.saga'
-import watchDeleteBomProducingStep from './bom-producing-step/delete-bom-producing-step.saga'
+import watchGetSaleOrderDetailByIds from '~/modules/database/redux/sagas/sale-order/get-sale-order-details'
+
+import watchConfirmBomProducingStep from './bom-producing-step/confirm-bom-producing-step'
+import watchCreateBomProducingStep from './bom-producing-step/create-bom-producing-step'
+import watchDeleteBomProducingStep from './bom-producing-step/delete-bom-producing-step'
 import watchGetBomProducingStep from './bom-producing-step/get-bom-producing-step'
 import watchGetBomProducingStepDetails from './bom-producing-step/get-bom-producing-step-details'
-import watchSearchBomProducingStep from './bom-producing-step/search-bom-producing-step.saga'
-import watchUpdateBomProducingStep from './bom-producing-step/update-bom-producing-step.saga'
+import watchSearchBomProducingStep from './bom-producing-step/search-bom-producing-step'
+import watchUpdateBomProducingStep from './bom-producing-step/update-bom-producing-step'
 import {
   watchGetDetailFactoryEvent,
   watchGetListFactoryCalendar,
@@ -17,33 +18,33 @@ import {
   watchGetListFactoryEvent,
   watchGetDetailFactoryCalendar,
 } from './calendar'
-import watchGetAllItemDetails from './common/get-all-item-details.saga'
-import watchGetQualityPoints from './common/get-all-quality-points.saga'
-import watchGetBoms from './common/get-boms.saga'
-import watchGetCompanies from './common/get-company.saga'
-import watchGetCustomers from './common/get-customers.saga'
-import watchGetDepartments from './common/get-department.saga'
-import watchGetDetails from './common/get-details.saga'
-import watchGetFactories from './common/get-factories.saga'
-import watchGetFactoriesByCompany from './common/get-factory-by-company.saga'
-import watchGetItemGroups from './common/get-item-groups.saga'
-import watchGetItemQualityPoint from './common/get-item-quality-point.saga'
-import watchGetItemTypes from './common/get-item-types.saga'
-import watchGetItemUnits from './common/get-item-units.saga'
-import watchGetItems from './common/get-items.saga'
-import watchGetProducingSteps from './common/get-producing-steps.saga'
-import watchGetProducts from './common/get-products.saga'
-import watchGetQualityPointDetails from './common/get-quality-point-details.saga'
-import watchGetRoles from './common/get-role.saga'
+import watchGetAllItemDetails from './common/get-all-item-details'
+import watchGetQualityPoints from './common/get-all-quality-points'
+import watchGetBoms from './common/get-boms'
+import watchGetCompanies from './common/get-company'
+import watchGetCustomers from './common/get-customers'
+import watchGetDepartments from './common/get-department'
+import watchGetDetails from './common/get-details'
+import watchGetFactories from './common/get-factories'
+import watchGetFactoriesByCompany from './common/get-factory-by-company'
+import watchGetItemGroups from './common/get-item-groups'
+import watchGetItemQualityPoint from './common/get-item-quality-point'
+import watchGetItemTypes from './common/get-item-types'
+import watchGetItemUnits from './common/get-item-units'
+import watchGetItems from './common/get-items'
+import watchGetProducingSteps from './common/get-producing-steps'
+import watchGetProducts from './common/get-products'
+import watchGetQualityPointDetails from './common/get-quality-point-details'
+import watchGetRoles from './common/get-role'
 import watchGetRoutings from './common/get-routings'
-import watchGetSaleOrders from './common/get-sale-orders.saga'
-import watchGetUsers from './common/get-users.saga'
-import watchGetVendors from './common/get-vendors.saga'
-import watchGetWarehousesByFactories from './common/get-warehouse-by-factory.saga'
-import watchGetWarehousesSector from './common/get-warehouses-sector.saga'
-import watchGetWarehousesShelf from './common/get-warehouses-shelf.saga'
-import watchGetWarehouses from './common/get-warehouses.saga'
-import watchSearchQualityPoints from './common/search-quality-points.saga'
+import watchGetSaleOrders from './common/get-sale-orders'
+import watchGetUsers from './common/get-users'
+import watchGetVendors from './common/get-vendors'
+import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
+import watchGetWarehouses from './common/get-warehouses'
+import watchGetWarehousesSector from './common/get-warehouses-sector'
+import watchGetWarehousesShelf from './common/get-warehouses-shelf'
+import watchSearchQualityPoints from './common/search-quality-points'
 import watchDashboard from './dashboard'
 import watchConfirmBOM from './define-bom/confirm-bom'
 import watchCreateBOM from './define-bom/create-bom'
@@ -54,28 +55,18 @@ import watchGetBOMStructure from './define-bom/get-bom-structure'
 import watchRejectBOM from './define-bom/reject-bom'
 import watchSearchBOM from './define-bom/search-bom'
 import watchUpdateBOM from './define-bom/update-bom'
-import watchConfirmBOQ from './define-boq/confirm-boq.saga'
-import watchCreateBOQ from './define-boq/create-boq.saga'
-import watchDeleteBOQ from './define-boq/delete-boq.saga'
-import watchGetBOQDetails from './define-boq/get-boq-details.saga'
-import watchRejectBOQ from './define-boq/reject-boq.saga'
-import watchSearchBOQ from './define-boq/search-boq.saga'
-import watchUpdateBOQ from './define-boq/update-boq.saga'
-import watchCreateCompany from './define-company/create-company'
-import watchDeleteCompany from './define-company/delete-company'
-import watchGetCompanyDetails from './define-company/get-company-details'
-import watchSearchCompanies from './define-company/search-companies'
-import watchUpdateCompany from './define-company/update-company'
+import watchConfirmBOQ from './define-boq/confirm-boq'
+import watchCreateBOQ from './define-boq/create-boq'
+import watchDeleteBOQ from './define-boq/delete-boq'
+import watchGetBOQDetails from './define-boq/get-boq-details'
+import watchRejectBOQ from './define-boq/reject-boq'
+import watchSearchBOQ from './define-boq/search-boq'
+import watchUpdateBOQ from './define-boq/update-boq'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
 import watchSearchCustomers from './define-customer/search-customers'
 import watchUpdateCustomer from './define-customer/update-customer'
-import watchCreateItem from './define-item/create-item.saga'
-import watchDeleteItem from './define-item/delete-item.saga'
-import watchGetItemDetails from './define-item/get-item-details.saga'
-import watchSearchItems from './define-item/search-items.saga'
-import watchUpdateItem from './define-item/update-item.saga'
 import watchApproveMasterPlan from './define-master-plan/approve-master-plan'
 import watchCreateMasterPlan from './define-master-plan/create-master-plan'
 import watchDeleteMasterPlan from './define-master-plan/delete-master-plan'
@@ -88,35 +79,15 @@ import watchRejectMasterPlan from './define-master-plan/reject-master-plan'
 import watchSearchMasterPlans from './define-master-plan/search-master-plans'
 import watchSubmitModerationInput from './define-master-plan/submit-moderation-input'
 import watchUpdateMasterPlan from './define-master-plan/update-master-plan'
-import watchConfirmPlan from './define-plan/confirm-plan.saga'
-import watchCreatePlan from './define-plan/create-plan.saga'
-import watchDeletePlan from './define-plan/delete-plan.saga'
-import watchExportPlanReport from './define-plan/export.saga'
-import watchGetMoByPlan from './define-plan/get-mo-by-plan.saga'
-import watchGetPlanDetails from './define-plan/get-plan-details.saga'
-import watchSearchPlans from './define-plan/search-plans.saga'
-import watchUpdatePlan from './define-plan/update-plan.saga'
-import watchCreateFactory from './factory/create-factory.saga'
-import watchDeleteFactory from './factory/delete-factory.saga'
-import watchGetFactoryDetails from './factory/get-factory-details.saga'
-import watchSearchFactories from './factory/search-factories.saga'
-import watchUpdateFactory from './factory/update-factory.saga'
-import watchCreateItemGroup from './item-group-setting/create-item-group'
-import watchDeleteItemGroup from './item-group-setting/delete-item-group'
-import watchGetItemGroupDetails from './item-group-setting/get-item-group-details'
-import watchSearchItemGroups from './item-group-setting/search-item-groups'
-import watchUpdateItemGroup from './item-group-setting/update-item-group'
-import watchCreateItemType from './item-type-setting/create-item-type'
-import watchDeleteItemType from './item-type-setting/delete-item-type'
-import watchGetItemTypeDetails from './item-type-setting/get-item-type-details'
-import watchSearchItemTypes from './item-type-setting/search-item-types'
-import watchUpdateItemType from './item-type-setting/update-item-type'
-import watchCreateItemUnit from './item-unit-setting/create-item-unit'
-import watchDeleteItemUnit from './item-unit-setting/delete-item-unit'
-import watchGetItemUnitDetails from './item-unit-setting/get-item-unit-details'
-import watchSearchItemUnits from './item-unit-setting/search-item-units'
-import watchUpdateItemUnit from './item-unit-setting/update-item-unit'
-import watchSearchMaterialDetailPlan from './material-detail-plan/search.saga'
+import watchConfirmPlan from './define-plan/confirm-plan'
+import watchCreatePlan from './define-plan/create-plan'
+import watchDeletePlan from './define-plan/delete-plan'
+import watchExportPlanReport from './define-plan/export'
+import watchGetMoByPlan from './define-plan/get-mo-by-plan'
+import watchGetPlanDetails from './define-plan/get-plan-details'
+import watchSearchPlans from './define-plan/search-plans'
+import watchUpdatePlan from './define-plan/update-plan'
+import watchSearchMaterialDetailPlan from './material-detail-plan/search'
 import watchCheckMaterialPlan from './mo/check-material-plan'
 import watchConfirmMO from './mo/confirm-mo'
 import watchCreateMO from './mo/create-mo'
@@ -129,7 +100,7 @@ import watchGetPriceStructure from './mo/get-price-structure'
 import watchRejectMO from './mo/reject-mo'
 import watchSearchMO from './mo/search-mo'
 import watchUpdateMO from './mo/update-mo'
-import watchGetPriceReport from './price-report/get-price-report.saga'
+import watchGetPriceReport from './price-report/get-price-report'
 import watchConfirmProducingStep from './producing-steps/confirm'
 import watchCreateProducingStep from './producing-steps/create'
 import watchDeleteProducingStep from './producing-steps/delete'
@@ -137,10 +108,21 @@ import watchGetProducingStepsByRoutingVersion from './producing-steps/get-by-rou
 import watchGetProducingStepDetails from './producing-steps/get-detail'
 import watchSearchProducingSteps from './producing-steps/search'
 import watchUpdateProducingStep from './producing-steps/update'
+import watchGetDataProductivityCompareReport from './productivity-compare-report/get-data-productivity-compare'
 import watchGetDataProductivityReport from './productivity-report/get-data-productivity-report'
+import watchSearchProgressManufacturingByWorkCenter from './progress-by-work-center/search-progress-by-work-center'
 import watchProgressDetailReportData from './progress-detail-report/get-progress-detail-report'
-import watchExportQualityReportData from './quality-report/export.saga'
-import watchQualityReportData from './quality-report/index.saga'
+import watchProgressManuFacturingByOrderData from './progress-manudacturing-by-order/get-progress-manudacturing-by-order'
+import watchConfirmPurchasedOrder from './purchased-order/confirm-purchased-order'
+import watchCreatePurchasedOrder from './purchased-order/create-purchased-order'
+import watchDeletePurchasedOrder from './purchased-order/delete-purchased-order'
+import watchGetPurchasedOrderDetails from './purchased-order/get-purchased-order-details'
+import watchGetPurchasedOrderNotCreatePOimp from './purchased-order/get-purchased-order-not-poimp'
+import watchRejectPurchasedOrder from './purchased-order/reject-purchased-order'
+import watchSearchPurchasedOrders from './purchased-order/search-purchased-order'
+import watchUpdatePurchasedOrder from './purchased-order/update-purchased-order'
+import watchQualityReportData from './quality-report'
+import watchExportQualityReportData from './quality-report/export'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
 import watchCreateRequestBuyMaterial from './request-buy-material/create-request-buy-material'
 import watchDeleteRequestBuyMaterial from './request-buy-material/delete-request-buy-material'
@@ -155,14 +137,6 @@ import watchDeleteRouting from './routing/delete-routing'
 import watchGetRoutingDetails from './routing/get-routing-details'
 import watchSearchRoutings from './routing/search-routings'
 import watchUpdateRouting from './routing/update-routing'
-import watchConfirmSaleOrder from './sale-order/confirm-sale-order'
-import watchCreateSaleOrder from './sale-order/create-sale-order'
-import watchDeleteSaleOrder from './sale-order/delete-sale-order'
-import watchGetSaleOrderDetails from './sale-order/get-sale-order-detail_by_ids'
-import watchGetSaleOrderDetailByIds from './sale-order/get-sale-order-details'
-import watchRejectSaleOrder from './sale-order/reject-sale-order'
-import watchSearchSaleOrders from './sale-order/search-sale-orders'
-import watchUpdateSaleOrder from './sale-order/update-sale-order'
 import watchCreateUser from './user-management/create-user'
 import watchDeleteUser from './user-management/delete-user'
 import watchGenerateOTP from './user-management/generate-otp'
@@ -173,27 +147,28 @@ import watchUpdateUser from './user-management/update-user'
 import watchVerifyOTP from './user-management/verify-otp-code'
 import watchGetUserPermission from './user-permission/get-user-permission'
 import watchUpdateUserPermission from './user-permission/update-user-permission'
-import watchConfirmWorkCenterPlan from './work-center-plan/confirm-work-center-plan.saga'
-import watchCreateWorkCenterPlan from './work-center-plan/create-work-center-plan.saga'
-import watchDeleteWorkCenterPlan from './work-center-plan/delete-work-center-plan.saga'
-import watchGenerateWorkCenterPlan from './work-center-plan/generate-work-center-plan.saga'
-import watchGetWorkCenterPlanDetail from './work-center-plan/get-work-center-plan-detail.saga'
-import watchSearchWorkCenterPlan from './work-center-plan/search-work-center-plan.saga'
-import watchUpdateWorkCenterPlan from './work-center-plan/update-work-center-plan.saga'
-import watchConfirmWorkCenter from './work-center/confirm-work-center.saga'
-import watchCreateWorkCenter from './work-center/create-work-center.saga'
-import watchDeleteWorkCenter from './work-center/delete-work-center.saga'
-import watchGetWorkCenterDetails from './work-center/get-work-center-details.saga'
-import watchSearchWorkCenter from './work-center/search-work-center.saga'
-import watchUpdateWorkCenter from './work-center/update-work-center.saga'
-import watchConfirmWorkOrder from './work-order/confirm-work-order.saga'
-import watchCreateWorkOrder from './work-order/create-work-order.saga'
-import watchDeleteWorkOrder from './work-order/delete-work-order.saga'
-import watchGetBomDetails from './work-order/get-bom-details.saga'
-import watchGetWorkOrderDetails from './work-order/get-work-order-details.saga'
+import watchConfirmWorkCenterPlan from './work-center-plan/confirm-work-center-plan'
+import watchCreateWorkCenterPlan from './work-center-plan/create-work-center-plan'
+import watchDeleteWorkCenterPlan from './work-center-plan/delete-work-center-plan'
+import watchGenerateWorkCenterPlan from './work-center-plan/generate-work-center-plan'
+import watchGetWorkCenterPlanDetail from './work-center-plan/get-work-center-plan-detail'
+import watchSearchWorkCenterPlan from './work-center-plan/search-work-center-plan'
+import watchUpdateWorkCenterPlan from './work-center-plan/update-work-center-plan'
+import watchConfirmWorkCenter from './work-center/confirm-work-center'
+import watchCreateWorkCenter from './work-center/create-work-center'
+import watchDeleteWorkCenter from './work-center/delete-work-center'
+import watchGetWorkCenterDetails from './work-center/get-work-center-details'
+import watchSearchWorkCenter from './work-center/search-work-center'
+import watchUpdateWorkCenter from './work-center/update-work-center'
+import watchConfirmWorkOrder from './work-order/confirm-work-order'
+import watchCreateWorkOrder from './work-order/create-work-order'
+import watchDeleteWorkOrder from './work-order/delete-work-order'
+import watchGetBomDetails from './work-order/get-bom-details'
+import watchGetWorkOrderDetails from './work-order/get-work-order-details'
 import watchPrintQRWorkOrder from './work-order/print-qr-work-order'
-import watchSearchWorkOrders from './work-order/search-work-orders.saga'
-import watchUpdateWorkOrder from './work-order/update-work-order.saga'
+import watchSearchWorkOrders from './work-order/search-work-orders'
+import watchUpdateWorkOrder from './work-order/update-work-order'
+
 /**
  * Root saga
  */
@@ -210,34 +185,6 @@ export default function* sagas() {
     watchGenerateOTP(),
     watchVerifyOTP(),
     watchResetPassword(),
-
-    // item-group-setting
-    watchSearchItemGroups(),
-    watchCreateItemGroup(),
-    watchUpdateItemGroup(),
-    watchDeleteItemGroup(),
-    watchGetItemGroupDetails(),
-
-    // item-type-setting
-    watchSearchItemTypes(),
-    watchCreateItemType(),
-    watchUpdateItemType(),
-    watchDeleteItemType(),
-    watchGetItemTypeDetails(),
-
-    // item-unit-setting
-    watchSearchItemUnits(),
-    watchCreateItemUnit(),
-    watchUpdateItemUnit(),
-    watchDeleteItemUnit(),
-    watchGetItemUnitDetails(),
-
-    // define-item
-    watchSearchItems(),
-    watchCreateItem(),
-    watchUpdateItem(),
-    watchDeleteItem(),
-    watchGetItemDetails(),
 
     //define-boq
     watchSearchBOQ(),
@@ -259,13 +206,6 @@ export default function* sagas() {
     watchGetBOMStructure(),
     watchGetBomByItem(),
     watchGetBOMProducingStepStructure(),
-
-    //define-company
-    watchSearchCompanies(),
-    watchCreateCompany(),
-    watchUpdateCompany(),
-    watchGetCompanyDetails(),
-    watchDeleteCompany(),
 
     //define-customer
     watchSearchCustomers(),
@@ -377,27 +317,12 @@ export default function* sagas() {
     watchGetPriceStructure(),
     watchGetMOItems(),
 
-    // sale-order
-    watchSearchSaleOrders(),
-    watchCreateSaleOrder(),
-    watchUpdateSaleOrder(),
-    watchDeleteSaleOrder(),
-    watchGetSaleOrderDetails(),
-    watchConfirmSaleOrder(),
-    watchRejectSaleOrder(),
-
     // quality-point
     watchSearchQualityPoints(),
     watchGetQualityPointDetails(),
 
     //price-report
     watchGetPriceReport(),
-    // factory
-    watchSearchFactories(),
-    watchCreateFactory(),
-    watchUpdateFactory(),
-    watchDeleteFactory(),
-    watchGetFactoryDetails(),
 
     //work-center-plan
     watchSearchWorkCenterPlan(),
@@ -445,7 +370,25 @@ export default function* sagas() {
     //user-permission
     watchGetUserPermission(),
     watchUpdateUserPermission(),
+
     //progress-detail-report
     watchProgressDetailReportData(),
+    // productivity-compare-report
+    watchGetDataProductivityCompareReport(),
+
+    // purchased-order
+    watchSearchPurchasedOrders(),
+    watchCreatePurchasedOrder(),
+    watchUpdatePurchasedOrder(),
+    watchDeletePurchasedOrder(),
+    watchGetPurchasedOrderDetails(),
+    watchConfirmPurchasedOrder(),
+    watchRejectPurchasedOrder(),
+    watchGetPurchasedOrderNotCreatePOimp(),
+
+    //progress-manufacturing-by-work-center
+    watchSearchProgressManufacturingByWorkCenter(),
+    //progress-manufacturing-by-order
+    watchProgressManuFacturingByOrderData(),
   ])
 }

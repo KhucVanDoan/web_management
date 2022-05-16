@@ -7,42 +7,7 @@ export const ROUTE = {
     PATH: '/mesx/database',
     TITLE: 'database',
   },
-  ITEM_TYPE: {
-    LIST: {
-      PATH: '/mesx/item-type-setting',
-      TITLE: 'itemTypeSetting',
-    },
-    CREATE: {
-      PATH: '/mesx/item-type-setting/create',
-      TITLE: 'itemTypeCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/item-type-setting/:id/detail',
-      TITLE: 'itemTypeDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/item-type-setting/:id/edit',
-      TITLE: 'itemTypeEdit',
-    },
-  },
-  DEFINE_ITEM: {
-    LIST: {
-      PATH: '/mesx/define-item',
-      TITLE: 'defineItem',
-    },
-    CREATE: {
-      PATH: '/mesx/define-item/create',
-      TITLE: 'defineItemCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-item/:id/detail',
-      TITLE: 'defineItemDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-item/:id/edit',
-      TITLE: 'defineItemEdit',
-    },
-  },
+
   ROUTING: {
     LIST: {
       PATH: '/mesx/routing',
@@ -61,22 +26,23 @@ export const ROUTE = {
       TITLE: 'routingEdit',
     },
   },
-  SALE_ORDER: {
+
+  PURCHASED_ORDER: {
     LIST: {
-      PATH: '/mesx/sale-orders',
-      TITLE: 'saleOrderDefine',
+      PATH: '/mesx/purchased-order',
+      TITLE: 'purchasedOrder',
     },
     CREATE: {
-      PATH: '/mesx/sale-orders/create',
-      TITLE: 'saleOrderCreate',
-    },
-    DETAILS: {
-      PATH: '/mesx/sale-orders/:id/detail',
-      TITLE: 'saleOrderDetails',
+      PATH: '/mesx/purchased-order/create',
+      TITLE: 'purchasedOrderCreate',
     },
     EDIT: {
-      PATH: '/mesx/sale-orders/:id/edit',
-      TITLE: 'saleOrderEdit',
+      PATH: '/mesx/purchased-order/:id/edit',
+      TITLE: 'purchasedOrderEdit',
+    },
+    DETAIL: {
+      PATH: '/mesx/purchased-order/:id/detail',
+      TITLE: 'purchasedOrderDetail',
     },
   },
   MO: {
@@ -189,42 +155,7 @@ export const ROUTE = {
       TITLE: 'boqMovement',
     },
   },
-  DEFINE_FACTORY: {
-    LIST: {
-      PATH: '/mesx/define-factory',
-      TITLE: 'defineFactory',
-    },
-    CREATE: {
-      PATH: '/mesx/define-factory/create',
-      TITLE: 'defineFactoryCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-factory/:id/detail',
-      TITLE: 'defineFactoryDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-factory/:id/edit',
-      TITLE: 'defineFactoryEdit',
-    },
-  },
-  DEFINE_COMPANY: {
-    LIST: {
-      PATH: '/mesx/define-company',
-      TITLE: 'defineCompany',
-    },
-    CREATE: {
-      PATH: '/mesx/define-company/create',
-      TITLE: 'defineCompanyCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/define-company/:id/detail',
-      TITLE: 'defineCompanyDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/define-company/:id/edit',
-      TITLE: 'defineCompanyEdit',
-    },
-  },
+
   DEFINE_CUSTOMER: {
     LIST: {
       PATH: '/mesx/define-customer',
@@ -339,6 +270,10 @@ export const ROUTE = {
     PATH: '/mesx/productivity-report',
     TITLE: 'productivityReport',
   },
+  PROGRESS_DETAIL_REPORT: {
+    PATH: '/mesx/progress-detail-report',
+    TITLE: 'progressDetailReport',
+  },
   MATERIAL_DETAIL_PLAN: {
     PATH: '/mesx/material-detail-plan',
     TITLE: 'materialDetailPlan',
@@ -383,24 +318,7 @@ export const ROUTE = {
     PATH: '/mesx/user-permission',
     TITLE: 'userPermission',
   },
-  ITEM_UNIT: {
-    LIST: {
-      PATH: '/mesx/item-unit-define',
-      TITLE: 'itemUnitDefine',
-    },
-    CREATE: {
-      PATH: '/mesx/item-unit-define/create',
-      TITLE: 'itemUnitCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/item-unit-define/:id/detail',
-      TITLE: 'itemUnitDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/item-unit-define/:id/edit',
-      TITLE: 'itemUnitEdit',
-    },
-  },
+
   QUALITY_REPORT: {
     LIST: {
       PATH: '/mesx/qualityreport',
@@ -447,8 +365,20 @@ export const ROUTE = {
       TITLE: 'detailWorkCenterPlan',
     },
   },
-  PROGRESS_DETAIL_REPORT: {
-    PATH: '/mesx/progress-detail-report',
-    TITLE: 'progressDetailReport',
+  PRODUCTIVITY_COMPARE_REPORT: {
+    LIST: {
+      PATH: '/mesx/productivity-compare-report',
+      TITLE: 'productivityCompareReport',
+    },
+  },
+  PROGRESS_MANUFACTURING_BY_WORK_CENTER: {
+    PATH: '/mesx/progress-manufacturing-by-work-center',
+    TITLE: 'progressManufacturingByWorkCenter',
+  },
+  PROGRESS_MANUFACTURING_BY_ORDER: {
+    LIST: {
+      PATH: '/mesx/progress-manufacturing-by-order',
+      TITLE: 'progressManufacturingByOrder',
+    },
   },
 }

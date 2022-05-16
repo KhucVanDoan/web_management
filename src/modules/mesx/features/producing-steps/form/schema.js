@@ -7,9 +7,7 @@ import {
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     switchMode: Yup.string(),
     qcQuantityRule: Yup.number()
@@ -39,9 +37,9 @@ export const validationSchema = (t) =>
         }),
       )
       .max(
-        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+        NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MAX,
         t('general:form.maxNumber', {
-          max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+          max: NUMBER_FIELD_REQUIRED_SIZE.ITEM_QUANLITY.MAX,
         }),
       )
       .required(t('general:form.required')),
@@ -61,6 +59,12 @@ export const validationSchema = (t) =>
           min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
         }),
       )
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+        }),
+      )
       .when('inputQc', {
         is: true,
         then: Yup.number().nullable().required(t('general:form.required')),
@@ -77,6 +81,12 @@ export const validationSchema = (t) =>
         NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
         t('general:form.minNumber', {
           min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+        }),
+      )
+      .max(
+        NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
+        t('general:form.maxNumber', {
+          max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_100K.MAX,
         }),
       )
       .when('outputQc', {

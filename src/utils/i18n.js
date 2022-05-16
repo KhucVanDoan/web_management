@@ -14,6 +14,7 @@ import jpMmsx from '~/assets/locales/jp/mmsx.json'
 import jpQmsx from '~/assets/locales/jp/qmsx.json'
 import jpWmsx from '~/assets/locales/jp/wmsx.json'
 import viAuth from '~/assets/locales/vi/auth.json'
+import viDatabase from '~/assets/locales/vi/database.json'
 import viGeneral from '~/assets/locales/vi/general.json'
 import viMesx from '~/assets/locales/vi/mesx.json'
 import viMmsx from '~/assets/locales/vi/mmsx.json'
@@ -26,6 +27,7 @@ const resources = {
     general: viGeneral,
     auth: viAuth,
     mesx: viMesx,
+    database: viDatabase,
     mmsx: viMmsx,
     qmsx: viQmsx,
     wmsx: viWmsx,
@@ -63,7 +65,7 @@ i18n.use(initReactI18next).init({
   resources: resources,
   lng: getCurrentLang(),
   fallbackLng: DEFAULT_LANG,
-  ns: ['general', 'auth', 'mesx', 'mmsx', 'qmsx', 'wmsx'],
+  ns: ['general', 'auth', 'mesx', 'mmsx', 'qmsx', 'wmsx', 'database'],
   defaultNS: ['general'],
   interpolation: {
     escapeValue: false,

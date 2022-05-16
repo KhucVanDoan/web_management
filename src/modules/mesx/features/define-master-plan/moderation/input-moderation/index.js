@@ -12,7 +12,7 @@ import Page from '~/components/Page'
 import { MODERATION_TYPE } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter } from '~/utils'
+import { redirectRouter, generateRandomString } from '~/utils'
 
 const excludeInputInColumns = [
   'workCenterId',
@@ -102,7 +102,7 @@ const InputModeration = () => {
         ?.map((producingStep) => ({
           [producingStep.id.toString()]: {
             producingStepName: producingStep.producingStepName,
-            itemId: producingStep.itemId,
+            itemId: producingStep.itemScheduleId,
             workCenterSchedule: groupWorkCenterSchedule(
               producingStep.workCenterSchedules,
             ),
@@ -118,28 +118,39 @@ const InputModeration = () => {
     const totalQuantityByDay = []
     const groupWorkCenter = groupBy(
       workCenterSchedules.map((workCenterSchedule) => {
-        totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] = (totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] || 0) + workCenterSchedule.quantity
-        totalQuantityByDay[workCenterSchedule.excutionDate] = (totalQuantityByDay[workCenterSchedule.excutionDate] || 0) + workCenterSchedule.quantity
+        totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] =
+          (totalQuantityByWorkCenterId[workCenterSchedule.workCenterId] || 0) +
+          workCenterSchedule.quantity
+        totalQuantityByDay[workCenterSchedule.excutionDate] =
+          (totalQuantityByDay[workCenterSchedule.excutionDate] || 0) +
+          workCenterSchedule.quantity
         return {
           workCenterId: workCenterSchedule.workCenterId,
           workCenterName: workCenterSchedule.workCenterName,
           [workCenterSchedule.excutionDate]: {
-            id: workCenterSchedule.id,
+            id: workCenterSchedule.id || generateRandomString(),
             quantity: workCenterSchedule.quantity,
             workCenterDetailSchedules:
-              workCenterSchedule.workCenterDetailSchedules,
+              workCenterSchedule.workCenterDetailSchedules.map(
+                (workCenterDetailSchedule) => ({
+                  ...workCenterDetailSchedule,
+                  id: workCenterDetailSchedule.id || generateRandomString()
+                })
+              ),
           },
         }
       }),
       'workCenterId',
     )
-    groupWorkCenter[TOTAL_BY_DAY_KEY] = Object.keys(totalQuantityByDay).map((executionDate) => ({
-      workCenterId: TOTAL_BY_DAY_KEY,
-      [executionDate]: {
-        quantity: totalQuantityByDay[executionDate],
-        workCenterDetailSchedules: []
-      },
-    }))
+    groupWorkCenter[TOTAL_BY_DAY_KEY] = Object.keys(totalQuantityByDay).map(
+      (executionDate) => ({
+        workCenterId: TOTAL_BY_DAY_KEY,
+        [executionDate]: {
+          quantity: totalQuantityByDay[executionDate],
+          workCenterDetailSchedules: [],
+        },
+      }),
+    )
 
     return Object.keys(groupWorkCenter).map((key) => ({
       ...groupWorkCenter[key].reduce((prev, cur) => ({ ...prev, ...cur }), {}),
@@ -205,7 +216,9 @@ const InputModeration = () => {
                     />
                   )
                 } else {
-                  return initialValues[`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`]
+                  return initialValues[
+                    `${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`
+                  ]
                 }
               },
             })),
@@ -237,12 +250,19 @@ const InputModeration = () => {
     currentProducingStep,
   ) => {
     const workCenterSchedules = keyBy(
-      currentProducingStep.workCenterSchedule.filter(workCenterSchedule => workCenterSchedule.workCenterId !== TOTAL_BY_DAY_KEY),
+      currentProducingStep.workCenterSchedule.filter(
+        (workCenterSchedule) =>
+          workCenterSchedule.workCenterId !== TOTAL_BY_DAY_KEY,
+      ),
       'workCenterId',
     )
     const result = []
     Object.keys(values)
-      .filter((key) => key.split('_')[0] === producingStepId && !key.includes(TOTAL_BY_DAY_KEY))
+      .filter(
+        (key) =>
+          key.split('_')[0] === producingStepId &&
+          !key.includes(TOTAL_BY_DAY_KEY),
+      )
       .forEach((key) => {
         const currentWorkCenterSchedule = workCenterSchedules[key.split('_')[1]]
         const currentWorkCenterScheduleDetail =
@@ -255,46 +275,57 @@ const InputModeration = () => {
 
         const minusQuantity = quantity - fixedQuantity
 
-        result.push(
-          ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
-            (workCenterDetailSchedule, i) => {
-              let tmpQuantity = workCenterDetailSchedule.quantity
-              if (fixedQuantity > quantity) {
-                const plusQuantity = fixedQuantity - quantity
-                const stepQuantity = Math.floor(
-                  plusQuantity /
+        if (fixedQuantity > 0) {
+          result.push(
+            ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
+              (workCenterDetailSchedule, i) => {
+                let tmpQuantity = workCenterDetailSchedule.quantity
+                if (fixedQuantity > quantity) {
+                  const plusQuantity = fixedQuantity - quantity
+                  const stepQuantity = Math.floor(
+                    plusQuantity /
+                      currentWorkCenterScheduleDetail.workCenterDetailSchedules
+                        ?.length,
+                  )
+                  tmpQuantity =
+                    i ===
                     currentWorkCenterScheduleDetail.workCenterDetailSchedules
-                      ?.length,
-                )
-                tmpQuantity =
-                  i ===
-                  currentWorkCenterScheduleDetail.workCenterDetailSchedules
-                    .length -
-                    1
-                    ? fixedQuantity - tmpTotalQuantity
-                    : workCenterDetailSchedule.quantity + stepQuantity
-                tmpTotalQuantity +=
-                  workCenterDetailSchedule.quantity + stepQuantity
-              } else if (
-                fixedQuantity < quantity &&
-                tmpMinusQuantity < minusQuantity
-              ) {
-                tmpQuantity =
-                  workCenterDetailSchedule.quantity - minusQuantity || 0
-                tmpMinusQuantity +=
-                  workCenterDetailSchedule.quantity - minusQuantity < 0
-                    ? workCenterDetailSchedule.quantity
-                    : minusQuantity
-              }
-
-              return {
-                id: workCenterDetailSchedule.id,
-                workCenterScheduleId: currentWorkCenterScheduleDetail.id,
-                quantity: tmpQuantity,
-              }
-            },
-          ),
-        )
+                      .length -
+                      1
+                      ? fixedQuantity - tmpTotalQuantity
+                      : workCenterDetailSchedule.quantity + stepQuantity
+                  tmpTotalQuantity +=
+                    workCenterDetailSchedule.quantity + stepQuantity
+                } else if (
+                  fixedQuantity < quantity &&
+                  tmpMinusQuantity < minusQuantity
+                ) {
+                  tmpQuantity =
+                    workCenterDetailSchedule.quantity - minusQuantity || 0
+                  tmpMinusQuantity +=
+                    workCenterDetailSchedule.quantity - minusQuantity < 0
+                      ? workCenterDetailSchedule.quantity
+                      : minusQuantity
+                }
+                
+                if (isNaN(workCenterDetailSchedule.id) && isNaN(currentWorkCenterScheduleDetail.id)) {
+                  return {
+                    workCenterShiftScheduleId: workCenterDetailSchedule.workCenterShiftScheduleId,
+                    workCenterId: currentWorkCenterSchedule.workCenterId,
+                    date: key.split('_')[3],
+                    quantity: tmpQuantity,
+                  }
+                } else {
+                  return {
+                    id: workCenterDetailSchedule.id,
+                    workCenterScheduleId: currentWorkCenterScheduleDetail.id,
+                    quantity: tmpQuantity,
+                  }
+                }
+              },
+            ),
+          )
+        }
       })
     return result
   }
@@ -361,12 +392,12 @@ const InputModeration = () => {
                 }}
               >
                 <Button color="grayF4" onClick={backToAutoModeration}>
-                  {t('common.close')}
+                  {t('general:common.close')}
                 </Button>
                 <Button variant="outlined" color="subText" onClick={resetForm}>
-                  {t('common.cancel')}
+                  {t('general:common.cancel')}
                 </Button>
-                <Button type="submit">{t('common.save')}</Button>
+                <Button type="submit">{t('general:common.save')}</Button>
               </Box>
             </Form>
           )}

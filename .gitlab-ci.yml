@@ -25,8 +25,8 @@ build:
   script:
     - docker build -t $DEV_CONTAINER_IMAGE
       --build-arg REACT_APP_HOST="$REACT_APP_HOST"
-      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_DEMO_URL"
-      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL"
+      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_URL"
+      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_URL"
       --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN" --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:

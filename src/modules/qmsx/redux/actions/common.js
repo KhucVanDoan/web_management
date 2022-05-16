@@ -65,22 +65,6 @@ export function getCompanies(payload, onSuccess, onError) {
 }
 
 /**
- * Get factory
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getFactoriesByCompany(payload, onSuccess, onError) {
-  return {
-    type: GET_FACTORIES_BY_COMPANY_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
  * Get department
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -459,7 +443,6 @@ export default {
   getCustomersSuccess,
   getCustomersFailed,
   getCompanies,
-  getFactoriesByCompany,
   getDepartments,
   getRoles,
   getItemUnits,

@@ -37,10 +37,12 @@
     "invalidTimeStart": "Thời gian bắt đầu ca sau phải bằng thời gian kết thúc ca trước",
     "special": "Mục này không được chứa kí tự đặc biệt",
     "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
-    "validTime": "Thời gian không hợp lệ"
+    "validTime": "Thời gian không hợp lệ",
+    "minItem": "Chọn tối thiểu {{min}} sản phẩm"
   },
   "toast": {
-    "notificationTitle": "Thông báo"
+    "notificationTitle": "Thông báo",
+    "defaultError": "Đã xảy ra lỗi"
   },
   "autocomplete": {
     "noOptionsText": "Không có dữ liệu",
@@ -57,7 +59,8 @@
     "filterButton": "Tìm kiếm",
     "cancel": "Hủy",
     "title": "Danh sách",
-    "noData": "Không có dữ liệu"
+    "noData": "Không có dữ liệu",
+    "showAllColumns": "Tất cả"
   },
   "pagination": {
     "rowsPerPage": "Số dòng mỗi trang",
@@ -148,7 +151,11 @@
     },
     "result": "Đã nhập {0} dòng thành công, {1} dòng thất bại",
     "log": "Nhấn vào để tải xuống kết quả nhập dữ liệu",
-    "unexpectedError": "Đã xảy ra lỗi khi nhập dữ liệu"
+    "unexpectedError": "Đã xảy ra lỗi khi nhập dữ liệu",
+    "prefix": {
+      "importLog": "ImportLog",
+      "importTemplate": "ImportTemplate"
+    }
   },
   "fileUpload": {
     "error": {
@@ -156,5 +163,53 @@
       "invalidSize": "Dung lượng file không hợp lệ. Giới hạn dung lượng là",
       "invalidNumberOfFiles": "Số lượng file tải lên không được quá"
     }
+  },
+  "notification": {
+    "heading": "Thông báo",
+    "readOne": "Đánh dấu là đã đọc",
+    "noData": "Không có thông báo",
+    "readAll": "Đã đọc tất cả",
+    "turnOff": "Tắt thông báo",
+    "hoursAgo": "{{time}} giờ trước",
+    "minutesAgo": "{{time}} phút trước",
+    "action": {
+      "confirm": "Xác nhận",
+      "reject": "Từ chối"
+    }
+  },
+  "message": {
+    "fieldIsRequired": "Mục này bắt buộc phải nhập.",
+    "unknownError": "Có lỗi xảy ra vui lòng thử lại",
+    "noData": "Không có dữ liệu.",
+    "lessThan": "Gía trị phải nhỏ hơn {{max}}"
+  },
+  "modal": {
+    "btnSubmit": "Xác nhận",
+    "btnCancel": "Huỷ",
+    "btnClose": "Đóng"
+  },
+  "common": {
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Huỷ",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "action": "Hành động",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "save": "Lưu",
+    "print": "In",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "accept": "Xác nhận",
+    "reject": "Từ chối",
+    "notify": "Thông báo",
+    "confirmMessage": {
+      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
+      "reject": "Bạn có chắc chắn muốn từ chối không?"
+    },
+    "creator": "Người tạo",
+    "search": "Tìm kiếm",
+    "filter": "Lọc"
   }
 }

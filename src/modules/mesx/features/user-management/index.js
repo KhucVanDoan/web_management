@@ -13,6 +13,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -62,6 +63,12 @@ function UserManagement() {
     actions,
   } = useUserManagement()
 
+  const { actions: commonActions } = useCommonManagement()
+
+  useEffect(() => {
+    commonActions.getDepartments({ isGetAll: 1 })
+  }, [])
+
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
@@ -98,7 +105,7 @@ function UserManagement() {
       field: 'departmentName',
       headerName: t('userManagement.department'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const deparmentName = params.row?.departmentSettings
           ?.map((department) => department?.name)
@@ -110,7 +117,7 @@ function UserManagement() {
       field: 'roleName',
       headerName: t('userManagement.role'),
       width: 100,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const roleName = params.row?.userRoleSettings
           ?.map((role) => role?.name)
@@ -177,6 +184,15 @@ function UserManagement() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.USER_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },
@@ -226,7 +242,7 @@ function UserManagement() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -249,8 +265,8 @@ function UserManagement() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -260,15 +276,14 @@ function UserManagement() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={modal.isOpenDeleteModal}
         title={t('userManagement.userManagementDelete')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

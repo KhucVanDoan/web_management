@@ -6,7 +6,12 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -22,12 +27,15 @@ import { STAGES_OPTION } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
 
 function ProducingStepForm() {
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const history = useHistory()
   const routeMatch = useRouteMatch()
 
@@ -155,7 +163,7 @@ function ProducingStepForm() {
     }
   }
   const initialValues = {
-    code: details?.code || '',
+    code: isUpdate ? details?.code : '',
     name: details?.name || '',
     description: details?.description || '',
     qcQuantityRule: Number(details?.qcQuantityRule) || null,
@@ -179,9 +187,12 @@ function ProducingStepForm() {
     if (isUpdate) {
       actions.getProducingStepDetailsById(id)
     }
+    if (cloneId) {
+      actions.getProducingStepDetailsById(cloneId)
+    }
     actionCommon.searchQualityPoints()
     return () => actions.resetProducingStepState()
-  }, [id])
+  }, [id, cloneId])
 
   return (
     <Page
@@ -216,6 +227,7 @@ function ProducingStepForm() {
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -268,12 +280,13 @@ function ProducingStepForm() {
                       placeholder={t('producingStep.timePerProduct')}
                       InputProps={{
                         endAdornment: (
-                          <InputAdornment sx={{ pr: 1 }}>
+                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
                             {t('producingStep.unit.minutes')}
                           </InputAdornment>
                         ),
                       }}
                       type="number"
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />
                   </Grid>
@@ -288,11 +301,15 @@ function ProducingStepForm() {
                         type="number"
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.persen')}
                             </InputAdornment>
                           ),
                         }}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                         required
                       />
                     </Grid>
@@ -349,9 +366,10 @@ function ProducingStepForm() {
                         options={qcList.filter(
                           (i) => i.stage === STAGES_OPTION.PRODUCTION_INPUT,
                         )}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.inputQc}
+                        required={values.inputQc}
                       />
                     </Box>
                     <Box mt={4 / 3}>
@@ -362,12 +380,16 @@ function ProducingStepForm() {
                         disabled={!values.inputQc}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.minutes')}
                             </InputAdornment>
                           ),
                         }}
                         type="number"
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       />
                     </Box>
                   </Grid>
@@ -400,9 +422,10 @@ function ProducingStepForm() {
                         options={qcList.filter(
                           (i) => i.stage === STAGES_OPTION.PRODUCTION_OUTPUT,
                         )}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.outputQc}
+                        required={values.outputQc}
                       />
                     </Box>
                     <Box mt={4 / 3}>
@@ -413,12 +436,16 @@ function ProducingStepForm() {
                         disabled={!values.outputQc}
                         InputProps={{
                           endAdornment: (
-                            <InputAdornment sx={{ pr: 1 }}>
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
                               {t('producingStep.unit.minutes')}
                             </InputAdornment>
                           ),
                         }}
                         type="number"
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       />
                     </Box>
                   </Grid>

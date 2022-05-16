@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
@@ -15,7 +14,7 @@ import { ROUTE } from '~/modules/qmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 function ProductionInputQualityProductPrevious() {
@@ -106,12 +105,12 @@ function ProductionInputQualityProductPrevious() {
       renderCell: (params) => {
         const { createdAt } = params?.row
 
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 100,
       sortable: false,
       align: 'center',
@@ -167,8 +166,8 @@ function ProductionInputQualityProductPrevious() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         tableSettingKey="qcProductionInputProductPrevious"

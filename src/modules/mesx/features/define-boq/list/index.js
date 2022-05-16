@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -27,7 +26,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -120,9 +119,9 @@ const DefineBOQ = () => {
         filterFormat: 'date',
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(params.row.planFrom) +
             ' - ' +
-            formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(params.row.planTo)
           )
         },
       },
@@ -145,7 +144,7 @@ const DefineBOQ = () => {
       },
       {
         field: 'action',
-        headerName: t('common.action'),
+        headerName: t('general:common.action'),
         width: 250,
         align: 'center',
         renderCell: (params) => {
@@ -281,7 +280,7 @@ const DefineBOQ = () => {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -304,10 +303,9 @@ const DefineBOQ = () => {
         page={page}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeSort={setSort}
+        onSortChange={setSort}
         total={total}
         sort={sort}
-        checkboxSelection
         filters={{
           form: <FilterForm />,
           values: filters,
@@ -320,12 +318,12 @@ const DefineBOQ = () => {
         open={isOpenDeleteModal}
         title={t('defineBOQ.deleteModalTitle')}
         maxWidth="sm"
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         onSubmit={onSubmitDelete}
         submitProps={{
           color: 'error',
         }}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onCancel={() => setIsOpenDeleteModal(false)}
         noBorderBottom
       >
@@ -343,15 +341,15 @@ const DefineBOQ = () => {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onSubmit={submitConfirm}
         onCancel={() => setIsOpenConfirmModal(false)}
-        submitLabel={t('common.yes')}
-        cancelLabel={t('common.no')}
+        submitLabel={t('general:common.yes')}
+        cancelLabel={t('general:common.no')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('defineBOQ.boqCode')}
           value={tempItem?.code}

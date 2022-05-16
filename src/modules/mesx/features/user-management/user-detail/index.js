@@ -9,11 +9,11 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -38,7 +38,14 @@ function UserManagementDetail() {
     actions,
   } = useUserManagement()
 
-  const { appStore } = useAppStore()
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
 
   useEffect(() => {
     actions.getUserDetailsById(id)
@@ -113,7 +120,7 @@ function UserManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.createTime')}
-                value={formatDateTimeUtc(userDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(userDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -125,9 +132,8 @@ function UserManagementDetail() {
               <LV
                 label={t('userManagement.companyName')}
                 value={
-                  appStore?.companies?.find(
-                    (item) => item.id === userDetails.companyId,
-                  )?.name
+                  companyList?.find((item) => item.id === userDetails.companyId)
+                    ?.name
                 }
               />
             </Grid>

@@ -12,7 +12,7 @@ import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 
-import { ASYNC_SEARCH_LIMIT, IMPORT_EXPORT_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import Button from '~/components/Button'
 import DatePicker from '~/components/DatePicker'
@@ -21,8 +21,9 @@ import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
+import LabelValue from '~/components/LabelValue'
 import TextField from '~/components/TextField'
-import { searchItemsApi } from '~/modules/mesx/redux/sagas/define-item/search-items.saga'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
 
 const Elements = () => {
   const theme = useTheme()
@@ -36,7 +37,21 @@ const Elements = () => {
   const [openCustomizedFooterDialog, setOpenCustomizedFooterDialog] =
     useState(false)
 
-  const [importFile, setImportFile] = useState(null)
+  const mockImportExportSuccessResponse = () => ({
+    statusCode: 200,
+    message: 'Example import/export success',
+    data: {
+      success: 10,
+      fail: 10,
+      log: new Uint8Array([10, 20, 30]),
+    },
+  })
+
+  const mockImportExportErrorResponse = () => ({
+    statusCode: 406,
+    message:
+      'Số lượng bản ghi quá lớn (27), hệ thống chỉ xuất tối đa 20 bản ghi. Vui lòng lọc điều kiện và thực hiện xuất file.',
+  })
 
   const mockOptions = new Array(10).fill({}).map((_, index) => ({
     value: index,
@@ -306,13 +321,18 @@ const Elements = () => {
       </Typography>
       <Grid container rowSpacing={4 / 3} columnSpacing={4}>
         <Grid item xs={6}>
-          <Autocomplete options={mockOptions} label="Autocomplete Single" />
+          <Autocomplete
+            options={mockOptions}
+            label="Autocomplete Single"
+            uncontrolled
+          />
         </Grid>
         <Grid item xs={6}>
           <Autocomplete
             options={mockOptions}
             multiple
             label="Autocomplete Multiple"
+            uncontrolled
           />
         </Grid>
         <Grid item xs={6}>
@@ -405,41 +425,34 @@ const Elements = () => {
         Import / Export
       </Typography>
       <Box sx={{ button: { mr: 1, mb: 1 } }}>
-        <ImportExport
-          importFile={importFile}
-          setImportFile={setImportFile}
-          onDownloadTemplate={() =>
-            alert('Called download import template action')
-          }
-          onDownloadLog={() => alert('Called download import log action')}
-          onImport={() => {
-            const result = { success: 10, fail: 20, log: null }
-            const error = null
-
-            return { result, error }
-          }}
-        />
-
-        <ImportExport
-          mode={IMPORT_EXPORT_MODE.IMPORT_ONLY}
-          importFile={importFile}
-          setImportFile={setImportFile}
-          onDownloadTemplate={() =>
-            alert('Called download import template action')
-          }
-          onDownloadLog={() => alert('Called download import log action')}
-          onImport={() => {
-            const result = null
-            const error = 'Example error'
-
-            return { result, error }
-          }}
-        />
-
-        <ImportExport
-          mode={IMPORT_EXPORT_MODE.EXPORT_ONLY}
-          onExport={() => alert('Called export action')}
-        />
+        <LabelValue label="Success import/export">
+          <ImportExport
+            name="Name of the entity"
+            onDownloadTemplate={() =>
+              alert('Called download import template action')
+            }
+            onImport={mockImportExportSuccessResponse}
+            onExport={mockImportExportSuccessResponse}
+            onRefresh={() => {}}
+          />
+        </LabelValue>
+        <LabelValue label="Failed import">
+          <ImportExport
+            name="Name of the entity"
+            onDownloadTemplate={() =>
+              alert('Called download import template action')
+            }
+            onImport={mockImportExportErrorResponse}
+            onRefresh={() => {}}
+          />
+        </LabelValue>
+        <LabelValue label="Failed export">
+          <ImportExport
+            name="Name of the entity"
+            onExport={mockImportExportErrorResponse}
+            onRefresh={() => {}}
+          />
+        </LabelValue>
       </Box>
 
       <Typography variant="h2" sx={{ mt: 3, mb: 1 }}>

@@ -52,6 +52,7 @@ const Autocomplete = ({
   // fixedDropdownWidth,
   subLabelBefore,
   subLabelWidth,
+  uncontrolled,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -67,21 +68,22 @@ const Autocomplete = ({
   const debouncedInputValue = useDebounce(inputValue, 200)
   const rawOptionsRef = useRef()
 
+  const isOptEqual = (opt, v) =>
+    typeof isOptionEqualToValue === 'function'
+      ? isOptionEqualToValue(opt, v)
+      : isEqual(getOptionValue(opt), v)
+
   const parseValue = (val, opts = []) => {
     if (multiple) {
       return opts.filter((opt) => {
         if (isArray(val)) {
-          return val?.some((v) =>
-            typeof isOptionEqualToValue === 'function'
-              ? isOptionEqualToValue(opt, v)
-              : isEqual(getOptionValue(opt), v),
-          )
+          return val?.some((v) => isOptEqual(opt, v))
         }
         return false
       })
     }
 
-    return opts.find((opt) => isEqual(getOptionValue(opt), val)) || null
+    return opts.find((opt) => isOptEqual(opt, val)) || null
   }
 
   const resetOptions = () => {
@@ -107,9 +109,11 @@ const Autocomplete = ({
         opts = asyncRequestHelper(response)
       }
 
-      if (Array.isArray(opts)) {
-        setOptions(opts || [])
+      if (!Array.isArray(opts)) {
+        opts = []
       }
+
+      setOptions(opts)
     } catch (e) {
       setOptions([])
     } finally {
@@ -179,7 +183,7 @@ const Autocomplete = ({
           </>
         )}
 
-        {selected && (
+        {multiple && selected && (
           <Icon
             name="check"
             size={16}
@@ -367,7 +371,7 @@ const Autocomplete = ({
         : {})}
       {...(isAsync
         ? {
-            value: value,
+            value,
             options,
             filterOptions: (opts) => opts,
             onClose: () => {
@@ -386,7 +390,7 @@ const Autocomplete = ({
             ),
           }
         : {
-            value: parseValue(value, rawOptions),
+            ...(uncontrolled ? {} : { value: parseValue(value, rawOptions) }),
             options: rawOptions,
             onChange: (_, newVal) => {
               if (multiple) {
@@ -395,7 +399,6 @@ const Autocomplete = ({
                 onChange(getOptionValue(newVal))
               }
             },
-            // ...(!isNil(value) ? { value: parseValue(value, rawOptions) } : {}),
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
@@ -410,7 +413,7 @@ Autocomplete.defaultProps = {
   multiple: false,
   options: [],
   asyncRequest: null,
-  renderStickyHeader: '',
+  // renderStickyHeader: '',
   vertical: false,
   required: false,
   error: false,
@@ -421,7 +424,8 @@ Autocomplete.defaultProps = {
   onChange: () => {},
   subLabelWidth: 100,
   subLabelBefore: false,
-  fixedDropdownWidth: false,
+  // fixedDropdownWidth: false,
+  uncontrolled: false,
 }
 
 Autocomplete.propTypes = {
@@ -451,7 +455,8 @@ Autocomplete.propTypes = {
   subLabelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   subLabelBefore: PropTypes.bool,
   isOptionEqualToValue: PropTypes.func,
-  fixedDropdownWidth: PropTypes.bool,
+  // fixedDropdownWidth: PropTypes.bool,
+  uncontrolled: PropTypes.bool,
 }
 
 export default Autocomplete

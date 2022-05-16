@@ -183,7 +183,7 @@ export default function defineQualityAlert(state = initialState, action) {
     case GET_RELATED_USER_BY_WAREHOUSE_ID_START:
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
       }
     case GET_ORDER_BY_STAGE_QC_VALUES_SUCCESS:
       return {

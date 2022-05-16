@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useDefineActionGroup from '~/modules/qmsx/redux/hooks/useDefineActionGroup'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { api } from '~/services/api'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -30,6 +31,21 @@ const breadcrumbs = [
     title: ROUTE.DEFINE_ACTION_GROUP.LIST.TITLE,
   },
 ]
+
+const importActionGroupApi = (params) => {
+  const uri = `/v1/quality-controls/action-categories/import`
+
+  const formData = new FormData()
+  formData.append('file', params)
+
+  return api.postMultiplePart(uri, formData)
+}
+
+const getImportActionGroupTemplateApi = () => {
+  const uri = `/v1/quality-controls/action-categories/import-template`
+
+  return api.get(uri)
+}
 
 function DefineActionGroup() {
   const { t } = useTranslation('qmsx')
@@ -87,17 +103,17 @@ function DefineActionGroup() {
     },
     {
       field: 'createdAt',
-      headerName: t('common.createdAt'),
+      headerName: t('general:common.createdAt'),
       width: 100,
       sortable: true,
       renderCell: (params) => {
         const { createdAt } = params?.row
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -170,15 +186,18 @@ function DefineActionGroup() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.actionGroup')}
+          onImport={importActionGroupApi}
+          onDownloadTemplate={getImportActionGroupTemplateApi}
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_ACTION_GROUP.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -201,8 +220,8 @@ function DefineActionGroup() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
@@ -211,9 +230,9 @@ function DefineActionGroup() {
         open={modal.isOpenDeleteModal}
         title={t('defineActionGroup.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

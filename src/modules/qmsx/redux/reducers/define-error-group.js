@@ -14,15 +14,6 @@ import {
   UPDATE_ERROR_GROUP_FAIL,
   UPDATE_ERROR_GROUP_START,
   UPDATE_ERROR_GROUP_SUCCESS,
-  UPLOAD_ERROR_GROUP_DATA_START,
-  UPLOAD_ERROR_GROUP_DATA_SUCCESS,
-  UPLOAD_ERROR_GROUP_DATA_FAIL,
-  DOWNLOAD_ERROR_GROUP_DATA_LOG_START,
-  DOWNLOAD_ERROR_GROUP_DATA_LOG_SUCCESS,
-  DOWNLOAD_ERROR_GROUP_DATA_LOG_FAIL,
-  DOWNLOAD_ERROR_GROUP_TEMPLATE_START,
-  DOWNLOAD_ERROR_GROUP_TEMPLATE_SUCCESS,
-  DOWNLOAD_ERROR_GROUP_TEMPLATE_FAIL,
   RESET_ERROR_GROUP_DETAIL_STATE,
 } from '~/modules/qmsx/redux/actions/define-error-group'
 
@@ -30,7 +21,6 @@ const initialState = {
   isLoading: false,
   errorGroupList: [],
   errorGroupDetail: {},
-  responseUploadFile: null,
   total: null,
 }
 
@@ -90,54 +80,6 @@ export default function defineErrorGroup(state = initialState, action) {
       return {
         ...state,
         errorGroupDetail: {},
-      }
-    //import
-    case UPLOAD_ERROR_GROUP_DATA_START:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case UPLOAD_ERROR_GROUP_DATA_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        responseUploadFile: action.payload,
-      }
-    case UPLOAD_ERROR_GROUP_DATA_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-        responseUploadFile: null,
-      }
-    case DOWNLOAD_ERROR_GROUP_DATA_LOG_START:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case DOWNLOAD_ERROR_GROUP_DATA_LOG_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case DOWNLOAD_ERROR_GROUP_DATA_LOG_FAIL:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case DOWNLOAD_ERROR_GROUP_TEMPLATE_START:
-      return {
-        ...state,
-        isLoading: true,
-      }
-    case DOWNLOAD_ERROR_GROUP_TEMPLATE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
-    case DOWNLOAD_ERROR_GROUP_TEMPLATE_FAIL:
-      return {
-        ...state,
-        isLoading: false,
       }
     default:
       return state

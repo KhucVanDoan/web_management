@@ -8,7 +8,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -22,7 +21,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useOutputQualityControlPlan from '~/modules/qmsx/redux/hooks/useOutputQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 
 const breadcrumbs = [
   {
@@ -157,13 +156,9 @@ function OutputQualityControlPlanDetail() {
         align: 'center',
         renderCell: (params) => {
           const { qualityPlanIOqcDetails } = params?.row
-          return `${formatDateTimeUtc(
+          return `${convertUtcDateToLocalTz(
             qualityPlanIOqcDetails[0]?.planFrom,
-            DATE_FORMAT,
-          )} - ${formatDateTimeUtc(
-            qualityPlanIOqcDetails[0]?.planTo,
-            DATE_FORMAT,
-          )}  `
+          )} - ${convertUtcDateToLocalTz(qualityPlanIOqcDetails[0]?.planTo)}  `
         },
       },
       {
@@ -284,7 +279,7 @@ function OutputQualityControlPlanDetail() {
     const params = {
       id: id,
     }
-    actions.getOutputQcPlanDetailById(params)
+    actions.getOutputQcPlanDetailById(params, _, backToList)
     return () => {
       actions.resetOutputQcPlanDetailState()
     }
@@ -357,37 +352,37 @@ function OutputQualityControlPlanDetail() {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={5 / 3}
-            columnSpacing={{ xl: 8, xs: 4 }}
-            sx={{ my: 2 }}
-          >
-            {/* Table */}
-            <Grid item lg={12} xs={12}>
-              <Box
-                sx={{
-                  display: 'block',
-                  mb: 2,
-                }}
-              >
-                <Typography variant="h4" component="span">
-                  {t('outputQualityControlPlan.planDetailTableTitle')}
-                </Typography>
-              </Box>
-              <DataTable
-                rows={outputQcPlanDetail?.qualityPlanIOqcs}
-                columns={columns}
-                total={outputQcPlanDetail?.qualityPlanIOqcs?.length}
-                striped={false}
-                hideSetting
-                hideFooter
-              />
-            </Grid>
-          </Grid>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Grid
+        container
+        rowSpacing={4 / 3}
+        columnSpacing={{ xl: 8, xs: 4 }}
+        sx={{ my: 2 }}
+      >
+        {/* Table */}
+        <Grid item lg={12} xs={12}>
+          <Box
+            sx={{
+              display: 'block',
+              mb: 2,
+            }}
+          >
+            <Typography variant="h4" component="span">
+              {t('outputQualityControlPlan.planDetailTableTitle')}
+            </Typography>
+          </Box>
+          <DataTable
+            rows={outputQcPlanDetail?.qualityPlanIOqcs}
+            columns={columns}
+            total={outputQcPlanDetail?.qualityPlanIOqcs?.length}
+            striped={false}
+            hideSetting
+            hideFooter
+          />
+        </Grid>
+      </Grid>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

@@ -4,11 +4,11 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import { CHECK_TYPE, CHECK_TYPE_OPTIONS } from '~/modules/qmsx/constants'
 import useCommonManagement from '~/modules/qmsx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
@@ -18,17 +18,12 @@ const CheckListDetailTable = (props) => {
   const { t } = useTranslation(['qmsx'])
 
   const {
-    appStore: { itemUnits },
-    actions: appStoreActions,
-  } = useAppStore()
-
-  const {
-    data: { errorGroupList },
+    data: { errorGroupList, itemUnitList },
     actions: commonManagementActions,
   } = useCommonManagement()
 
   useEffect(() => {
-    appStoreActions.getAppStore()
+    commonManagementActions.getItemUnits()
     commonManagementActions.getAllErrorGroup()
   }, [])
 
@@ -48,11 +43,14 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.title'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.TextField
               name={`checkListDetails[${index}].title`}
               placeholder={t('defineCheckList.headerDetailTable.title')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+              }}
             />
           )
         },
@@ -62,11 +60,14 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.content'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.TextField
               name={`checkListDetails[${index}].descriptionContent`}
               placeholder={t('defineCheckList.headerDetailTable.content')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
             />
           )
         },
@@ -76,7 +77,7 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.typeOfTest'),
         width: 150,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           return (
             <Field.Autocomplete
               name={`checkListDetails[${index}].checkType`}
@@ -131,7 +132,7 @@ const CheckListDetailTable = (props) => {
                 !checkValid && t('defineCheckList.headerDetailTable.unit')
               }
               disabled={checkValid}
-              options={itemUnits || []}
+              options={itemUnitList || []}
               getOptionValue={(opt) => opt?.id}
               getOptionLabel={(opt) => opt?.name || ''}
             />
@@ -183,7 +184,7 @@ const CheckListDetailTable = (props) => {
         headerName: t('defineCheckList.headerDetailTable.typeError'),
         width: 180,
         align: 'center',
-        renderCell: (params, index) => {
+        renderCell: (_, index) => {
           const listErrorGroupId = items.map((item) => item.errorGroupId)
           return (
             <Field.Autocomplete
@@ -219,7 +220,7 @@ const CheckListDetailTable = (props) => {
         },
       },
     ],
-    [items, itemUnits, errorGroupList],
+    [items, itemUnitList, errorGroupList],
   )
 
   return (

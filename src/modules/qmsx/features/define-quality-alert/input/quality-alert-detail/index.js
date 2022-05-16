@@ -46,7 +46,7 @@ function DefineQualityAlertInputDetail() {
       id: id,
       type: TYPE_QC_VALUE_TO_API.INPUT,
     }
-    actions.getQualityAlertDetailById(params)
+    actions.getQualityAlertDetailById(params, _, backToList)
     return () => {
       actions.resetQualityAlertDetailState()
     }

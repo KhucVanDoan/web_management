@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -19,8 +20,14 @@ import {
   STAGE_OPTION_MAP,
 } from '~/modules/qmsx/constants'
 import useDefineQualityPoint from '~/modules/qmsx/redux/hooks/useDefineQualityPoint'
+import getExportQualityPointApi from '~/modules/qmsx/redux/sagas/define-quality-point/export-quality-point'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import { api } from '~/services/api'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateTimeToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -65,13 +72,16 @@ function DefineQualityPoint() {
     isOpenConfirmModal: false,
   })
 
+  const [selectedRows, setSelectedRows] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
+
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineQualityPoint.code'),
@@ -107,6 +117,16 @@ function DefineQualityPoint() {
       },
     },
     {
+      field: 'createdAt',
+      headerName: t('general:common.createdAt'),
+      width: 150,
+      sortable: true,
+      renderCell: (params) => {
+        const { createdAt } = params?.row
+        return convertUtcDateTimeToLocalTz(createdAt)
+      },
+    },
+    {
       field: 'status',
       headerName: t('defineQualityPoint.status'),
       width: 150,
@@ -125,7 +145,7 @@ function DefineQualityPoint() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -186,9 +206,12 @@ function DefineQualityPoint() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
+    setSelectedRows([])
     actions.searchQualityPoint(params)
   }
 
@@ -238,18 +261,51 @@ function DefineQualityPoint() {
     setConfirmModal({ isOpenConfirmModal: false, id: null })
   }
 
+  //handle: selected checkbox
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected)
+  }
+
+  const importQualityPointApi = (params) => {
+    const uri = `/v1/quality-controls/quality-points/import`
+    const formData = new FormData()
+    formData.append('file', params)
+    return api.postMultiplePart(uri, formData)
+  }
+
+  const getImportQualityPointTemplateApi = () => {
+    const uri = `/v1/quality-controls/quality-points/import-template`
+    return api.get(uri)
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('importExport.qualityPoint')}
+          onImport={importQualityPointApi}
+          onDownloadTemplate={getImportQualityPointTemplateApi}
+          onExport={() =>
+            getExportQualityPointApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }
+          onRefresh={refreshData}
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_QUALITY_POINT.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -272,19 +328,22 @@ function DefineQualityPoint() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
+        onSelectionChange={onSelectionChange}
+        selected={selectedRows}
+        onSettingChange={(settings) => setColumnsSettings(settings)}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog
         open={modalDelete.isOpenDeleteModal}
         title={t('defineQualityPoint.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -296,9 +355,9 @@ function DefineQualityPoint() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineQualityPoint.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineQualityPoint.modalConfirmContent')}

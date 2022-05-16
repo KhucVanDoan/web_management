@@ -24,14 +24,14 @@ const FilterDialog = ({ children, onSubmit }) => {
 
       <Dialog
         open={openDialog}
-        title={t('common.filter')}
+        title={t('general:common.filter')}
         onCancel={() => setOpenDialog(false)}
-        cancelLabel={t('common.close')}
+        cancelLabel={t('general:common.close')}
         onSubmit={() => {
           setOpenDialog(false)
           onSubmit()
         }}
-        submitLabel={t('common.accept')}
+        submitLabel={t('general:common.accept')}
       >
         {children}
       </Dialog>
