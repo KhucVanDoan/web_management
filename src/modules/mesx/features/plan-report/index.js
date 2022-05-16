@@ -183,8 +183,8 @@ function PlanReport() {
       align: 'center',
       sortable: false,
       renderCell: (params) => {
-        const { startAt } = params.row
-        return convertUtcDateToLocalTz(startAt)
+        const { executeDate } = params.row
+        return convertUtcDateToLocalTz(executeDate)
       },
     },
     {
@@ -194,8 +194,8 @@ function PlanReport() {
       align: 'center',
       sortable: false,
       renderCell: (params) => {
-        const { endAt } = params.row
-        return convertUtcDateToLocalTz(endAt)
+        const { endDate } = params.row
+        return convertUtcDateToLocalTz(endDate)
       },
     },
     {
@@ -314,7 +314,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return convertUtcDateToLocalTz(planBom?.endAt)
+        return convertUtcDateToLocalTz(planBom?.endDate)
       },
     },
     {
