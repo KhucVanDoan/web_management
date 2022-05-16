@@ -85,13 +85,13 @@ function FilterForm() {
 
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="saleOrderIds"
+          name="saleOrderName"
           label={t('materialReport.saleOrder')}
           placeholder={t('materialReport.saleOrder')}
           options={
             values?.manufacturingOrderIds ? getDataSaleOder() : saleOrderList
           }
-          getOptionValue={(opt) => [opt?.id]}
+          getOptionValue={(opt) => [opt?.name]}
           getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
