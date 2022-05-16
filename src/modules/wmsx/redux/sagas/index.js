@@ -1,5 +1,11 @@
 import { all } from 'redux-saga/effects'
 
+import watchCreateCustomer from './define-customer/create-customer'
+import watchDeleteCustomer from './define-customer/delete-customer'
+import watchGetCustomerDetails from './define-customer/get-customer-details'
+import watchImportCustomer from './define-customer/import-customer'
+import watchSearchCustomers from './define-customer/search-customers'
+import watchUpdateCustomer from './define-customer/update-customer'
 import watchCreateDetail from './define-detail/create-detail'
 import watchDeleteDetail from './define-detail/delete-detail'
 import watchGetDetailDetails from './define-detail/get-detail-details'
@@ -24,6 +30,13 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchImportWarehouse from './define-warehouse/import-warehouse'
 import watchSearchWarehouses from './define-warehouse/search-warehouses'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
+import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
+import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
+import watchGetInventoryCalendarDetails from './inventory-calendar/get-inventory-calendar-details'
+import watchRejectInventoryCalendar from './inventory-calendar/reject-inventory-calendar'
+import watchSearchInventoryCalendars from './inventory-calendar/search-inventory-calendars'
+import watchUpdateInventoryCalendar from './inventory-calendar/update-inventory-calendar'
 import watchSearchInventoryDeadlineWarning from './inventory-deadline-warning/search-inventory-deadline-warning'
 import watchCreateInventoryLimit from './inventory-limit/create-inventory-limit'
 import watchDeleteInventoryLimit from './inventory-limit/delete-inventory-limit'
@@ -32,6 +45,9 @@ import watchSearchInventoryLimits from './inventory-limit/search-inventory-limit
 import watchUpdateInventoryLimit from './inventory-limit/update-item-group'
 import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
 import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
+import watchSearchInventoryDetail from './inventory/detail-inventory'
+import watchGetWarehouseType from './inventory/get-warehouse-types'
+import watchSearchInventory from './inventory/search-inventory'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements.saga'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
@@ -118,5 +134,25 @@ export default function* sagas() {
     watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
+    // define customer
+    watchCreateCustomer(),
+    watchDeleteCustomer(),
+    watchGetCustomerDetails(),
+    watchImportCustomer(),
+    watchSearchCustomers(),
+    watchUpdateCustomer(),
+
+    //inventory-calendar
+    watchConfirmInventoryCalendar(),
+    watchCreateInventoryCalendar(),
+    watchDeleteInventoryCalendar(),
+    watchGetInventoryCalendarDetails(),
+    watchRejectInventoryCalendar(),
+    watchSearchInventoryCalendars(),
+    watchUpdateInventoryCalendar(),
+    //inventory
+    watchSearchInventoryDetail(),
+    watchSearchInventory(),
+    watchGetWarehouseType(),
   ])
 }
