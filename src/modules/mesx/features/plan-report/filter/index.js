@@ -52,8 +52,8 @@ const FilterForm = () => {
                 )
               : moList
           }
-          getOptionValue={(opt) => opt?.code}
-          getOptionLabel={(opt) => opt?.code}
+          getOptionValue={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
