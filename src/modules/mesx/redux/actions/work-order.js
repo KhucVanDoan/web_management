@@ -37,6 +37,11 @@ export const PRINT_QR_WORK_ORDER_FAILED = 'MESX_PRINT_QR_WORK_ORDER_FAILED'
 
 export const RESET_WORK_ORDER_DETAILS_STATE =
   'MESX_RESET_WORK_ORDER_DETAILS_STATE'
+
+export const AUTOCOMPLETE_WORK_ORDER_START = 'AUTOCOMPLETE_WORK_ORDER_START'
+export const AUTOCOMPLETE_WORK_ORDER_SUCCESS = 'AUTOCOMPLETE_WORK_ORDER_SUCCESS'
+export const AUTOCOMPLETE_WORK_ORDER_FAILED = 'AUTOCOMPLETE_WORK_ORDER_FAILED'
+
 /**
  * Search workOrder
  * @param {object} payload
@@ -342,6 +347,28 @@ export function resetWorkOrderDetailState() {
   }
 }
 
+export function autocompleteWorkOrder(payload, onSuccess, onError) {
+  return {
+    type: AUTOCOMPLETE_WORK_ORDER_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function autocompleteWorkOrderSuccess(payload) {
+  return {
+    type: AUTOCOMPLETE_WORK_ORDER_SUCCESS,
+    payload
+  }
+}
+
+export function autocompleteWorkOrderFailed() {
+  return {
+    type: AUTOCOMPLETE_WORK_ORDER_FAILED,
+  }
+}
+
 export default {
   searchWorkOrders,
   searchWorkOrdersSuccess,
@@ -368,4 +395,7 @@ export default {
   printQRWorkOrderSuccess,
   printQRWorkOrderFailed,
   resetWorkOrderDetailState,
+  autocompleteWorkOrder,
+  autocompleteWorkOrderSuccess,
+  autocompleteWorkOrderFailed,
 }
