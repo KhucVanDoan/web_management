@@ -126,6 +126,14 @@ export const CREATE_PURCHASED_ORDER_SUCCESS =
 export const CREATE_PURCHASED_ORDER_FAILED =
   'MESX_CREATE_PURCHASED_ORDER_FAILED'
 
+export const GET_GROUP_PERMISSIONS_START = 'MESX_GET_GROUP_PERMISSIONS_START'
+export const GET_GROUP_PERMISSIONS_SUCCESS =
+  'MESX_GET_GROUP_PERMISSIONS_SUCCESS'
+export const GET_GROUP_PERMISSIONS_FAILED = 'MESX_GET_GROUP_PERMISSIONS_FAILED'
+
+export const GET_DEPARTMENTS_ROLE_START = 'MESX_GET_DEPARTMENTS_ROLE_START'
+export const GET_DEPARTMENTS_ROLE_SUCCESS = 'MESX_GET_DEPARTMENTS_ROLE_SUCCESS'
+export const GET_DEPARTMENTS_ROLE_FAILED = 'MESX_GET_DEPARTMENTS_ROLE_FAILED'
 /**
  * Get company
  * @param {object} payload
@@ -1063,6 +1071,50 @@ export function resetItems() {
   }
 }
 
+export function getGroupPermissions(payload, onSuccess, onError) {
+  return {
+    type: GET_GROUP_PERMISSIONS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getGroupPermissionsSuccess(payload) {
+  return {
+    type: GET_GROUP_PERMISSIONS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getGroupPermissionsFailed() {
+  return {
+    type: GET_GROUP_PERMISSIONS_FAILED,
+  }
+}
+
+export function getDepartmentsRole(payload, onSuccess, onError) {
+  return {
+    type: GET_DEPARTMENTS_ROLE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getDepartmentsRoleSuccess(payload) {
+  return {
+    type: GET_DEPARTMENTS_ROLE_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getDepartmentsRoleFailed() {
+  return {
+    type: GET_DEPARTMENTS_ROLE_FAILED,
+  }
+}
+
 export default {
   getCustomers,
   getCustomersSuccess,
@@ -1139,4 +1191,10 @@ export default {
   createPurchasedOrderFailed,
   resetFactoriesListState,
   resetItems,
+  getGroupPermissions,
+  getGroupPermissionsSuccess,
+  getGroupPermissionsFailed,
+  getDepartmentsRole,
+  getDepartmentsRoleSuccess,
+  getDepartmentsRoleFailed,
 }
