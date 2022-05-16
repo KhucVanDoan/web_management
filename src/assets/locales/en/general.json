@@ -25,65 +25,95 @@
     "integer": "This field must be interger.",
     "numeric": "This field must be numeric.",
     "invalidTimeRange": "End time must be greater than start time.",
-    "invalidTimeStart": "Start time of next shift must equal to end time of previous shift."
+    "invalidTimeStart": "Start time of next shift must equal to end time of previous shift.",
+    "invalidBreakTime": "Break time must be within the duration of work shift",
+    "length": "Enter {{lenth}} characters",
+    "moreThanNumber": "Value must be greater than {{min}}",
+    "special": "This entry cannot contain special characters",
+    "validatePassword": "Password must contain at least uppercase lowercase, number and special character,",
+    "validTime": "Time is invalid"
   },
   "toast": {
     "notificationTitle": "Notification"
   },
   "dataTable": {
     "search": "Search",
-    "noData": "No data."
+    "noData": "No data.",
+    "cancel": "Cancel",
+    "filterButton": "Search",
+    "filterTitle": "Search",
+    "title": "List",
+    "visibleColumns": "Show selected"
   },
   "pagination": {
-    "rowsPerPage": "Records of page",
-    "startEndRows": "{{start}} - {{end}} on total {{rows}}"
+    "rowsPerPage": "Rows per page",
+    "startEndRows": "{{start}} - {{end}} per total {{row}}"
   },
   "month": {
-    "jan": "January",
-    "feb": "February",
-    "mar": "March",
     "apr": "April",
-    "may": "May",
-    "jun": "June",
-    "jul": "July",
     "aug": "August",
-    "sep": "September",
-    "oct": "October",
-    "nov": "November",
     "dec": "December",
-    "s_jan": "Jan",
-    "s_feb": "Feb",
-    "s_mar": "Mar",
+    "feb": "February",
+    "jan": "January",
+    "jul": "July",
+    "jun": "June",
+    "mar": "March",
+    "may": "May",
+    "nov": "November",
+    "oct": "October",
     "s_apr": "Apr",
-    "s_may": "May",
-    "s_jun": "Jun",
-    "s_jul": "Jul",
     "s_aug": "Aug",
-    "s_sep": "Sep",
-    "s_obt": "Oct",
+    "s_dec": "Dec",
+    "s_feb": "Feb",
+    "s_jan": "Jan",
+    "s_jul": "Jul",
+    "s_jun": "Jun",
+    "s_mar": "Mar",
+    "s_may": "May",
     "s_nov": "Nov",
-    "s_dec": "Dec"
+    "s_obt": "Obt",
+    "s_sep": "Sep",
+    "sep": "September"
   },
   "day": {
-    "monday": "Monday",
-    "tueday": "Tuesday",
-    "wenesday": "Wednesday",
-    "thurday": "Thursday",
     "friday": "Friday",
-    "saturday": "Saturday",
-    "sunday": "Sunday",
+    "monday": "Monday",
+    "s_friday": "Fri",
     "s_monday": "Mon",
+    "s_saturday": "Sat",
+    "s_sunday": "Sun",
+    "s_thurday": "Thu",
     "s_tueday": "Tue",
     "s_wenesday": "Wed",
-    "s_thurday": "Thu",
-    "s_friday": "Fri",
-    "s_saturday": "Sat",
-    "s_sunday": "Sun"
+    "saturday": "Sat",
+    "sunday": "Sunday",
+    "thurday": "Thurday",
+    "tueday": "Tueday",
+    "wenesday": "Wenesday"
   },
   "minutes": "Minute",
   "hours": "Hour",
-  "days": "Date",
+  "days": "Days",
   "weeks": "Week",
-  "months": "Month",
-  "years": "Year"
+  "months": "Months",
+  "years": "Years",
+  "actionBar": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "create": "Create",
+    "save": "Save"
+  },
+  "autocomplete": { "loadingText": "Loading...", "noOptionsText": "No data" },
+  "date": {
+    "maxToday": "Date of birth must be less than to day",
+    "minToday": "Canoot selected before current date"
+  },
+  "dateRangePicker": { "from": "From", "to": "To" },
+  "page": {
+    "copyright": "A product of VTI - Solution ©2021",
+    "goBack": "Back",
+    "logout": "Logout",
+    "searchButton": "Search",
+    "searchPlaceholder": "Search"
+  }
 }
