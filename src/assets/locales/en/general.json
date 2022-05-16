@@ -115,5 +115,29 @@
     "logout": "Logout",
     "searchButton": "Search",
     "searchPlaceholder": "Search"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "action": "Action",
+    "create": "Create",
+    "update": "Update",
+    "save": "Save",
+    "print": "Print",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "accept": "Accept",
+    "reject": "Reject",
+    "notify": "Thông báo",
+    "confirmMessage": {
+      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
+      "reject": "Bạn có chắc chắn muốn từ chối không?"
+    },
+    "creator": "Người tạo",
+    "search": "Search",
+    "filter": "Filter"
   }
 }

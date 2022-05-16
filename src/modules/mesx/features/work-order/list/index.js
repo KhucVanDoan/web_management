@@ -14,8 +14,9 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useItemUnit from '~/modules/database/redux/hooks/useItemUnit'
-import { WORK_ORDER_STATUS } from '~/modules/mesx/constants'
+import { WORK_ORDER_STATUS, WORK_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -59,6 +60,7 @@ const WorkOrder = () => {
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
 
   const [selectedRows, setSelectedRows] = useState([])
+  const [isExecutingAutocompleteWorkOrder, setIsExecutingAutocompleteWorkOrder] = useState({})
 
   const {
     page,
@@ -80,16 +82,16 @@ const WorkOrder = () => {
       width: 200,
       fixed: true,
     },
-    {
-      field: 'moPlanCode',
-      headerName: t('workOrder.codeKH'),
-      sortable: true,
-      width: 200,
-      renderCell: (params) => {
-        const { moPlan } = params.row
-        return moPlan?.code
-      },
-    },
+    // {
+    //   field: 'moPlanCode',
+    //   headerName: t('workOrder.codeKH'),
+    //   sortable: true,
+    //   width: 200,
+    //   renderCell: (params) => {
+    //     const { moPlan } = params.row
+    //     return moPlan?.code
+    //   },
+    // },
     {
       field: 'moCode',
       headerName: t('workOrder.moCode'),
@@ -173,7 +175,7 @@ const WorkOrder = () => {
     {
       field: 'itemUnitId',
       headerName: t('workOrder.unit'),
-      width: 200,
+      width: 100,
       sortable: true,
       renderCell: (params) => {
         const { row } = params
@@ -181,6 +183,35 @@ const WorkOrder = () => {
           (item) => item.id === row?.moDetail?.itemUnitId,
         )?.name
       },
+    },
+    {
+      field: 'changeWorkOrder',
+      headerName: t('Mo.changeWorkOrder'),
+      renderCell: (params) => {
+        return (
+          <Button
+            variant="text"
+            size="small"
+            bold={false}
+            loading={isExecutingAutocompleteWorkOrder[params.row?.id]}
+            onClick={() => changeProgress(params.row?.id)}
+          >
+            {t('Mo.triggerChangeWorkOrder')}
+          </Button>
+        )
+      },
+    },
+    {
+      field: 'status',
+      width: 100,
+      align: 'right',
+      headerName: t('workOrder.status'),
+      renderCell: (params) => {
+        const { status } = params.row
+        return (
+          <Status options={WORK_ORDER_STATUS_OPTIONS} value={status} variant="text" />
+        )
+      }
     },
     {
       field: 'action',
@@ -244,15 +275,39 @@ const WorkOrder = () => {
     }
     workOrderActions.searchWorkOrders(params)
   }
+
   useEffect(() => {
     itemUnitAction.searchItemUnits({ isGetAll: 1 })
   }, [])
+
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort])
 
   const onSelectionChange = (selected) => {
     setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
+  }
+
+  const changeProgress = (id) => {
+    setIsExecutingAutocompleteWorkOrder({
+      ...isExecutingAutocompleteWorkOrder,
+      [id]: true
+    })
+    workOrderActions.autocompleteWorkOrder(
+      { id },
+      () => {
+        setIsExecutingAutocompleteWorkOrder({
+          ...isExecutingAutocompleteWorkOrder,
+          [id]: false
+        })
+      },
+      () => {
+        setIsExecutingAutocompleteWorkOrder({
+          ...isExecutingAutocompleteWorkOrder,
+          [id]: false
+        })
+      }
+    )
   }
 
   const handleSubmitPrintQR = (values) => {
