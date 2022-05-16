@@ -85,6 +85,12 @@ import {
   CREATE_PURCHASED_ORDER_SUCCESS,
   RESET_FACTORIES_LIST_STATE,
   RESET_ITEMS,
+  GET_GROUP_PERMISSIONS_FAILED,
+  GET_GROUP_PERMISSIONS_START,
+  GET_GROUP_PERMISSIONS_SUCCESS,
+  GET_DEPARTMENTS_ROLE_FAILED,
+  GET_DEPARTMENTS_ROLE_START,
+  GET_DEPARTMENTS_ROLE_SUCCESS,
 } from '~/modules/mesx/redux/actions/common'
 
 const initialState = {
@@ -116,6 +122,8 @@ const initialState = {
   qcDetails: {},
   qualityPointList: [],
   itemQualityPoint: [],
+  groupPermissions: [],
+  departments: [],
 }
 
 /**
@@ -153,6 +161,8 @@ export default function commonManagement(state = initialState, action) {
     case GET_ITEM_QUALITY_POINT_START:
     case GET_SALE_ORDERS_START:
     case GET_QUALITY_POINTS_START:
+    case GET_GROUP_PERMISSIONS_START:
+    case GET_DEPARTMENTS_ROLE_START:
       return {
         ...state,
         isLoading: true,
@@ -474,6 +484,30 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         itemQualityPoint: [],
+        isLoading: false,
+      }
+    case GET_GROUP_PERMISSIONS_SUCCESS:
+      return {
+        ...state,
+        groupPermissions: action.payload,
+        isLoading: false,
+      }
+    case GET_GROUP_PERMISSIONS_FAILED:
+      return {
+        ...state,
+        groupPermissions: [],
+        isLoading: false,
+      }
+    case GET_DEPARTMENTS_ROLE_SUCCESS:
+      return {
+        ...state,
+        departments: action.payload,
+        isLoading: false,
+      }
+    case GET_DEPARTMENTS_ROLE_FAILED:
+      return {
+        ...state,
+        departments: [],
         isLoading: false,
       }
     case CREATE_PURCHASED_ORDER_START:

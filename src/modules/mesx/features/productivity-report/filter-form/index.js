@@ -47,7 +47,7 @@ function ProductivityFilter() {
 
   useEffect(() => {
     if (!isEmpty(moProducingStep)) {
-      setListItem(moProducingStep?.moDetail[0]?.moPlanBom)
+      setListItem(moProducingStep?.moDetail.map((item) => item.moPlanBom).flat())
     }
   }, [moProducingStep])
 
