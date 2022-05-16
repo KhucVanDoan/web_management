@@ -470,6 +470,7 @@
     "labledateSX": "Production date",
     "quantityNeed": "QC Quantity",
     "quantityDone": "Done QC Quantity",
+    "quantityPass": "Pass QC Quantity",
     "quantityErr": "Error quantity",
     "orderIdColumn": "#",
     "nameColumn": "Customer name",

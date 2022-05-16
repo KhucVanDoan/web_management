@@ -141,7 +141,7 @@ const QualityReports = () => {
     },
     {
       field: 'qcPassQuantity',
-      headerName: t('qualityReport.quantityDone'),
+      headerName: t('qualityReport.quantityPass'),
       width: 100,
       align: 'right',
 

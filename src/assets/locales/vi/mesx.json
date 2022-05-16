@@ -603,6 +603,7 @@
     "labledateSX": "Ngày sản xuất",
     "quantityNeed": "Số lượng cần QC",
     "quantityDone": "SL đã QC",
+    "quantityPass": "SL QC đạt",
     "quantityErr": "Số lượng lỗi",
     "orderIdColumn": "#",
     "nameColumn": "Tên khách hàng",
