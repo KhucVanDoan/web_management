@@ -135,7 +135,7 @@ const PriceReport = () => {
                   history.push(
                     ROUTE.PRICE_REPORT.DETAIL.PATH.replace(
                       ':id',
-                      `${filters.moCode}`,
+                      `${filters.moCode?.id}`,
                     ),
                   )
                 }
@@ -153,7 +153,7 @@ const PriceReport = () => {
   }, [filters])
 
   const refreshData = () => {
-    actions.getPriceStructureById(filters.moCode, (res) => {
+    actions.getPriceStructureById(filters.moCode?.id, (res) => {
       setPriceReport(res)
     })
   }

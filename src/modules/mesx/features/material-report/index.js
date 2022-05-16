@@ -12,11 +12,7 @@ import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import {
-  convertFilterParams,
-  convertSortParams,
-  convertUtcDateToLocalTz,
-} from '~/utils'
+import { convertSortParams, convertUtcDateToLocalTz } from '~/utils'
 
 import FilterForm from './filter'
 
@@ -333,7 +329,26 @@ function MaterialReport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: JSON.stringify([
+        filters?.manufacturingOrderIds?.id
+          ? {
+              column: 'manufacturingOrderIds',
+              text: [filters?.manufacturingOrderIds?.id],
+            }
+          : {},
+        filters?.saleOrderIds
+          ? {
+              column: 'saleOrderIds',
+              text: filters?.saleOrderIds,
+            }
+          : {},
+        filters?.itemName
+          ? {
+              column: 'itemName',
+              text: filters?.itemName,
+            }
+          : {},
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchMO(params)
