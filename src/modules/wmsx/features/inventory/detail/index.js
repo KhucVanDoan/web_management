@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { isNil } from 'lodash'
@@ -20,7 +20,6 @@ const InventoryStatisticDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['wmsx'])
   const { id, warehouseId } = useParams()
-  const [formattedData, setFormattedData] = useState([])
   const breadcrumbs = [
     {
       title: 'warehouseManagement',
@@ -35,14 +34,20 @@ const InventoryStatisticDetail = () => {
   }
 
   const {
-    data: { inventoryStatisticDetail },
+    data: { inventoryStatisticDetail, isLoading },
     actions,
   } = useInventory()
 
   useEffect(() => {
-    actions.getInventoryDetail({ id: id, warehouseId: warehouseId })
+    if (id) {
+      actions.getInventoryDetail({ id: id, warehouseId: warehouseId })
+    }
+    return () => {
+      actions.resetInventoryDetailsState()
+    }
   }, [id])
-  useEffect(() => {
+
+  const formattedData = () => {
     const itemIds =
       inventoryStatisticDetail?.warehouseItems?.map((item) => item.itemId) || []
     const uniqueIds = itemIds.filter(
@@ -85,52 +90,43 @@ const InventoryStatisticDetail = () => {
         })
       })
     })
-
-    setFormattedData(items)
-  }, [inventoryStatisticDetail])
-
+    return items
+  }
   const columns = [
     {
       field: 'id',
       headerName: t('inventories.item.orderNumber'),
-      width: 150,
       align: 'left',
       sortable: false,
     },
     {
       field: 'code',
       headerName: t('inventories.item.code'),
-      align: 'center',
       sortable: false,
     },
     {
       field: 'name',
       headerName: t('inventories.item.name'),
-      align: 'center',
       sortable: false,
     },
     {
       field: 'itemType',
       headerName: t('inventories.item.type'),
-      align: 'center',
       sortable: false,
     },
     {
       field: 'lotNumber',
       headerName: t('inventories.item.lotNumber'),
-      align: 'center',
       sortable: false,
     },
     {
       field: 'packageCode',
       headerName: t('inventories.item.packageCode'),
-      align: 'center',
       sortable: false,
     },
     {
       field: 'warehouseName',
       headerName: t('inventories.item.warehouseName'),
-      align: 'center',
       sortable: false,
     },
   ]
@@ -140,6 +136,7 @@ const InventoryStatisticDetail = () => {
       breadcrumbs={breadcrumbs}
       title={t('menu.inventoryDetail')}
       onBack={backToList}
+      loading={isLoading}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>

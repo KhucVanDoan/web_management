@@ -10,6 +10,9 @@ export const WMSX_GET_WAREHOUSE_TYPE_START = 'WMSX_GET_WAREHOUSE_TYPE_START'
 export const WMSX_GET_WAREHOUSE_TYPE_SUCCESS = 'WMSX_GET_WAREHOUSE_TYPE_SUCCESS'
 export const WMSX_GET_WAREHOUSE_TYPE_FAILED = 'WMSX_GET_WAREHOUSE_TYPE_FAILED'
 
+export const RESET_INVENTORY_DETAILS_STATE =
+  'WMSX_RESET_INVENTORY_DETAILS_STATE'
+
 /**
  * Get inventory details
  * @param {int} payload
@@ -109,6 +112,12 @@ export function getWarehouseTypeFailed() {
     type: WMSX_GET_WAREHOUSE_TYPE_FAILED,
   }
 }
+
+export function resetInventoryDetailsState() {
+  return {
+    type: RESET_INVENTORY_DETAILS_STATE,
+  }
+}
 export default {
   searchInventory,
   searchInventorySuccess,
@@ -119,4 +128,5 @@ export default {
   getWarehouseType,
   getWarehouseTypeFailed,
   getWarehouseTypeSuccess,
+  resetInventoryDetailsState,
 }
