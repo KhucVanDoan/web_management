@@ -7,7 +7,7 @@ import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import { SALE_ORDER_STATUS, PLAN_PROGRESS_MAP } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
@@ -130,6 +130,10 @@ function PlanReport() {
       headerName: t('definePlan.progress'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        const { progress } = params.row
+        return t(PLAN_PROGRESS_MAP[progress])
+      },
     },
   ]
   const producingStepColumns = [
@@ -211,8 +215,9 @@ function PlanReport() {
       align: 'center',
       sortable: false,
       renderCell: (params) => {
-        const { progress } = params.row
-        return progress
+        const { status } = params.row
+        return status
+        // return t(PLAN_PROGRESS_MAP[planBom?.progres])
       },
     },
   ]
@@ -299,7 +304,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return convertUtcDateToLocalTz(planBom?.startAt)
+        return convertUtcDateToLocalTz(planBom?.executeDate)
       },
     },
     {
@@ -330,7 +335,7 @@ function PlanReport() {
       sortable: false,
       renderCell: (params) => {
         const { planBom } = params.row
-        return planBom?.progress
+        return t(PLAN_PROGRESS_MAP[planBom?.progres])
       },
     },
   ]
