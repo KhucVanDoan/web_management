@@ -8,6 +8,7 @@ import {
   WMSX_GET_WAREHOUSE_TYPE_FAILED,
   WMSX_GET_WAREHOUSE_TYPE_START,
   WMSX_GET_WAREHOUSE_TYPE_SUCCESS,
+  RESET_INVENTORY_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/inventory'
 
 const initialState = {
@@ -57,6 +58,13 @@ export default function inventory(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      }
+    case RESET_INVENTORY_DETAILS_STATE:
+      return {
+        ...state,
+        inventoryStatistic: [],
+        inventoryStatisticDetail: {},
+        warehouseType: [],
       }
     default:
       return state
