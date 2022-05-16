@@ -15,6 +15,7 @@ import TableCollapse from '~/components/TableCollapse'
 import {
   MASTER_PLAN_STATUS_OPTIONS,
   MASTER_PLAN_STATUS,
+  PLAN_PROGRESS_MAP,
 } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -283,27 +284,28 @@ const DefineMasterPlan = () => {
         return convertUtcDateToLocalTz(endAt)
       },
     },
-    {
-      field: 'status',
-      headerName: t('defineMasterPlan.status'),
-      renderCell: (params) => {
-        const { status } = params.row
-        return (
-          <Status
-            options={MASTER_PLAN_STATUS_OPTIONS}
-            value={status}
-            variant="text"
-          />
-        )
-      },
-    },
+    // TODO ping @long.ngoquang
+    // {
+    //   field: 'status',
+    //   headerName: t('defineMasterPlan.status'),
+    //   renderCell: (params) => {
+    //     const { status } = params.row
+    //     return (
+    //       <Status
+    //         options={MASTER_PLAN_STATUS_OPTIONS}
+    //         value={status}
+    //         variant="text"
+    //       />
+    //     )
+    //   },
+    // },
     {
       field: 'progress',
       headerName: t('defineMasterPlan.progress'),
       align: 'center',
       renderCell: (params) => {
         const { progress } = params.row
-        return progress
+        return t(PLAN_PROGRESS_MAP[progress])
       },
     },
   ]
@@ -360,8 +362,8 @@ const DefineMasterPlan = () => {
       field: 'executeDate',
       headerName: t('defineMasterPlan.executeDate'),
       renderCell: (params) => {
-        const { planBom } = params.row
-        return convertUtcDateToLocalTz(planBom?.startAt)
+        const { startAt } = params.row
+        return convertUtcDateToLocalTz(startAt)
       },
     },
     {
@@ -372,20 +374,21 @@ const DefineMasterPlan = () => {
         return convertUtcDateToLocalTz(planBom?.endAt)
       },
     },
-    {
-      field: 'status',
-      headerName: t('defineMasterPlan.status'),
-      renderCell: (params) => {
-        const { planBom } = params.row
-        return (
-          <Status
-            options={MASTER_PLAN_STATUS_OPTIONS}
-            value={planBom?.statuss}
-            variant="text"
-          />
-        )
-      },
-    },
+    // TODO ping long
+    // {
+    //   field: 'status',
+    //   headerName: t('defineMasterPlan.status'),
+    //   renderCell: (params) => {
+    //     const { status } = params.row
+    //     return (
+    //       <Status
+    //         options={MASTER_PLAN_STATUS_OPTIONS}
+    //         value={status}
+    //         variant="text"
+    //       />
+    //     )
+    //   },
+    // },
   ]
 
   useEffect(() => {

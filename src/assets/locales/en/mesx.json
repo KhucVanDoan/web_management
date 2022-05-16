@@ -196,8 +196,7 @@
   },
   "userStatus": {
     "active": "Active",
-    "deleted": "Deleted",
-    "inactive": "Inactive"
+    "tempLocked": "Inactive"
   },
   "defineItem": {
     "title": "Item list",
@@ -710,16 +709,9 @@
     "deleteModalTitle": "Notification",
     "import": "Import/Export data",
     "formTitle": "Create project",
-    "descriptionInput": "Project description",
     "itemsDetails": "Finished product details",
-    "boqUserPermission": "User role management",
-    "boqPlanFrom": "Plan from",
-    "boqPlanTo": "Plan to",
-    "createdAt": "Created date",
-    "createdTime": "Created time",
-    "user": "Creator",
+
     "descriptionInput": "Description",
-    "itemsDetails": "Finished product detail",
     "boqUserPermission": "User permisstion",
     "createdTime": "Created at",
     "item": {
@@ -1761,5 +1753,13 @@
     "endDate": "End date",
     "planQuantity": "Plan quantity",
     "actualQuantity": "Production quantity"
+  },
+  "orderStatus": {
+    "pending": "Pending",
+    "confirmed": "Confirm",
+    "inProgress": "In Progress",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "completed": "Completed"
   }
 }

@@ -2,12 +2,14 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 import enAuth from '~/assets/locales/en/auth.json'
+import enDatabase from '~/assets/locales/en/database.json'
 import enGeneral from '~/assets/locales/en/general.json'
 import enMesx from '~/assets/locales/en/mesx.json'
 import enMmsx from '~/assets/locales/en/mmsx.json'
 import enQmsx from '~/assets/locales/en/qmsx.json'
 import enWmsx from '~/assets/locales/en/wmsx.json'
 import jpAuth from '~/assets/locales/jp/auth.json'
+import jpDatabase from '~/assets/locales/jp/database.json'
 import jpGeneral from '~/assets/locales/jp/general.json'
 import jpMesx from '~/assets/locales/jp/mesx.json'
 import jpMmsx from '~/assets/locales/jp/mmsx.json'
@@ -38,6 +40,7 @@ const resources = {
     mesx: enMesx,
     mmsx: enMmsx,
     qmsx: enQmsx,
+    database: enDatabase,
     wmsx: enWmsx,
   },
   [LANG_OPTIONS.JP]: {
@@ -47,6 +50,7 @@ const resources = {
     mmsx: jpMmsx,
     qmsx: jpQmsx,
     wmsx: jpWmsx,
+    database: jpDatabase,
   },
 }
 

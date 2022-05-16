@@ -1009,7 +1009,9 @@
       "planningQuantity": "Số lượng NVL đã kế hoạch",
       "inputQuantity": "Số lượng NVL cần nhập/mua",
       "unit": "Đơn vị"
-    }
+    },
+    "changeWorkOrder": "Chuyển công đoạn",
+    "triggerChangeWorkOrder": "Thực thi"
   },
   "moStatus": {
     "pending": "Chờ xác nhận",

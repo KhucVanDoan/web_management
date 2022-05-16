@@ -160,6 +160,7 @@ import watchDeleteWorkCenter from './work-center/delete-work-center'
 import watchGetWorkCenterDetails from './work-center/get-work-center-details'
 import watchSearchWorkCenter from './work-center/search-work-center'
 import watchUpdateWorkCenter from './work-center/update-work-center'
+import watchAutocompleteWorkOrder from './work-order/autocomplete-work-order'
 import watchConfirmWorkOrder from './work-order/confirm-work-order'
 import watchCreateWorkOrder from './work-order/create-work-order'
 import watchDeleteWorkOrder from './work-order/delete-work-order'
@@ -284,6 +285,7 @@ export default function* sagas() {
     watchConfirmProducingStep(),
 
     //work-order
+    watchAutocompleteWorkOrder(),
     watchSearchWorkOrders(),
     watchCreateWorkOrder(),
     watchUpdateWorkOrder(),
