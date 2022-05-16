@@ -25,65 +25,98 @@
     "integer": "このフィールドに整数を入力してください。",
     "numeric": "このフィールドに数字を入力してください。",
     "invalidTimeRange": "終了時間は開始時間より後ろにする必要があります。",
-    "invalidTimeStart": "シフトの開始時間は直前シフトの終了時間と一致しなければなりません。"
+    "invalidTimeStart": "シフトの開始時間は直前シフトの終了時間と一致しなければなりません。",
+    "invalidBreakTime": "休憩時間はシフトの作業期間内でなければなりません。",
+    "length": "{{length}}文字で入力してください。",
+    "moreThanNumber": "{{min}}より大きい値でなければなりません。",
+    "special": "このフィールドに特殊文字が含まれてはいけません。",
+    "validatePassword": "パスワードには、大文字、小文字、数字、特殊文字を少なくとも1つ含める必要があります。",
+    "validTime": "時間が不正です。"
+  },
+  "actionBar": {
+    "back": "戻る",
+    "cancel": "キャンセル",
+    "create": "新規作成",
+    "save": "保存"
+  },
+  "autocomplete": {
+    "loadingText": "データを読み込んでいます。",
+    "noOptionsText": "該当データがありません。"
   },
   "toast": {
     "notificationTitle": "通知"
   },
   "dataTable": {
     "search": "検索",
-    "noData": "該当データがありません"
+    "noData": "該当データがありません",
+    "cancel": "キャンセル",
+    "filterButton": "検索",
+    "filterTitle": "検索",
+    "title": "一覧",
+    "visibleColumns": "選択した項目を表示"
   },
+  "date": {
+    "maxToday": "生年月日は現在日付より前でなければなりません。",
+    "minToday": "現在日付より前の日付を選択してはいけません。"
+  },
+  "dateRangePicker": { "from": "開始日", "to": "終了日" },
   "pagination": {
     "rowsPerPage": "表示件数",
-    "startEndRows": "{{start}} - {{end}}（全件数{{rows}}件"
+    "startEndRows": "{{start}} - {{end}}（全件数{{rows}}件）"
   },
   "month": {
-    "jan": "1月",
-    "feb": "2月",
-    "mar": "3月",
     "apr": "4月",
-    "may": "5月",
-    "jun": "6月",
-    "jul": "7月",
     "aug": "8月",
-    "sep": "9月",
-    "oct": "10月",
-    "nov": "11月",
     "dec": "12月",
-    "s_jan": "1月",
-    "s_feb": "2月",
-    "s_mar": "3月",
+    "feb": "2月",
+    "jan": "1月",
+    "jul": "7月",
+    "jun": "6月",
+    "mar": "3月",
+    "may": "5月",
+    "nov": "11月",
+    "oct": "10月",
     "s_apr": "4月",
-    "s_may": "5月",
-    "s_jun": "6月",
-    "s_jul": "7月",
     "s_aug": "8月",
-    "s_sep": "9月",
-    "s_obt": "10月",
+    "s_dec": "12月",
+    "s_feb": "2月",
+    "s_jan": "1月",
+    "s_jul": "7月",
+    "s_jun": "6月",
+    "s_mar": "3月",
+    "s_may": "5月",
     "s_nov": "11月",
-    "s_dec": "12月"
+    "s_obt": "10月",
+    "s_sep": "9月",
+    "sep": "9月"
   },
   "day": {
-    "monday": "月曜日",
-    "tueday": "火曜日",
-    "wenesday": "水曜日",
-    "thurday": "木曜日",
     "friday": "金曜日",
-    "saturday": "土曜日",
-    "sunday": "日曜日",
-    "s_moday": "月",
+    "monday": "月曜日",
+    "s_friday": "金",
+    "s_monday": "月",
+    "s_saturday": "土",
+    "s_sunday": "日",
+    "s_thurday": "木",
     "s_tueday": "火",
     "s_wenesday": "水",
-    "s_thurday": "木",
-    "s_friday": "金",
-    "s_saturday": "土",
-    "s_sunday": "日"
+    "saturday": "土曜日",
+    "sunday": "日曜日",
+    "thurday": "木曜日",
+    "tueday": "火曜日",
+    "wenesday": "水曜日"
   },
-  "minutes": "分",
-  "hours": "時",
+  "page": {
+    "copyright": "©2021 VTI Solutions",
+    "goBack": "前画面に戻る",
+    "logout": "ログアウト",
+    "searchButton": "検索",
+    "searchPlaceholder": "データを検索"
+  },
   "days": "日",
-  "weeks": "週",
+  "hours": "時",
+  "minutes": "分",
   "months": "月",
+  "weeks": "週",
   "years": "年"
 }
