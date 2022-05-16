@@ -196,8 +196,7 @@
   },
   "userStatus": {
     "active": "稼働中",
-    "deleted": "削除済み",
-    "inactive": "稼働停止"
+    "tempLocked": "稼働停止"
   },
   "defineItem": {
     "title": "商品登録",
@@ -697,6 +696,8 @@
     "boqName": "プロジェクト名プロジェクト名",
     "boqPlan": "計画日",
     "status": "ステータス",
+    "createdAt": "作成日",
+    "user": "作成者",
     "boqPm": "PM",
     "boqApm": "APM",
     "planList": "計画",
@@ -1506,11 +1507,6 @@
     "productDetailPrice": "商品ごとの費用明細",
     "detailPrice": "費用明細",
     "export": "ファイル出力"
-  },
-  "ganttChart": {
-    "taskName": "作業名",
-    "completed": "完了",
-    "time": "時間"
   },
   "priceDetail": {
     "modalTitle": "製造費用明細",
