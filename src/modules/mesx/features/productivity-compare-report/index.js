@@ -3,8 +3,9 @@ import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import Button from '~/components/Button'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
+import { exportProductivityCompareReportApi } from '~/modules/mesx/redux/sagas/productivity-compare-report/import-export-productivity-compare-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import OeeCompare from './chart/oee'
@@ -23,11 +24,16 @@ const breadcrumbs = [
 function ProductivityCompareReport() {
   const { t } = useTranslation(['mesx'])
   const renderHeaderRight = () => {
-    // @TODO: <linh.taquang> handle export
     return (
-      <Button variant="outlined" disabled icon="download">
-        {t('productivityCompareReport.export')}
-      </Button>
+      <ImportExport
+        name={t('planReport.export')}
+        onExport={(params) => {
+          exportProductivityCompareReportApi({
+            queryIds: JSON.stringify(params?.map((x) => ({ id: x?.id }))),
+          })
+        }}
+        disabled
+      />
     )
   }
   return (

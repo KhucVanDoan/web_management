@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -21,6 +22,7 @@ import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
+import { exportBomProducingStepApi } from '../../../redux/sagas/bom-producing-step/import-export-bom-producing-step'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -49,6 +51,8 @@ function BomProducingStep() {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -202,6 +206,10 @@ function BomProducingStep() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onSubmitDelete = () => {
     actions.deleteBomProducingStep(tempItem?.id, () => {
       refreshData()
@@ -225,9 +233,24 @@ function BomProducingStep() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('bomProducingStep.export')}
+          onExport={() => {
+            exportBomProducingStepApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.BOM_PRODUCING_STEP.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -257,6 +280,9 @@ function BomProducingStep() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         sort={sort}
         total={total}
         filters={{

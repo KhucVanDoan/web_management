@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -29,6 +30,7 @@ import {
   convertUtcDateToLocalTz,
 } from '~/utils'
 
+import { exportBoqApi } from '../../../redux/sagas/define-boq/import-export-boq'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -56,6 +58,8 @@ const DefineBOQ = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -252,6 +256,10 @@ const DefineBOQ = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const submitConfirm = () => {
     boqActions.confirmBOQById(tempItem?.id, () => {
       refreshData()
@@ -271,10 +279,24 @@ const DefineBOQ = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('defineBOQ.import')}
-        </Button>
+        <ImportExport
+          name={t('boqDefine.export')}
+          onExport={() => {
+            exportBoqApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_BOQ.CREATE.PATH)}
           icon="add"
@@ -304,6 +326,9 @@ const DefineBOQ = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

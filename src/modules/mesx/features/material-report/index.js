@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
@@ -11,6 +11,7 @@ import useItemType from '~/modules/database/redux/hooks/useItemType'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { exportMaterialReportApi } from '~/modules/mesx/redux/sagas/material-report/import-export-material-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
@@ -19,7 +20,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
-
 const breadcrumbs = [
   {
     title: 'report',
@@ -54,6 +54,7 @@ function MaterialReport() {
   } = useSaleOrder()
 
   const [bomTree, setBomTree] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
 
   const {
     page,
@@ -366,12 +367,22 @@ function MaterialReport() {
   // }
   const renderHeaderRight = () => {
     return (
-      <>
-        {/* @TODO: <linh.tauquang> handle export */}
-        <Button variant="outlined" disabled icon="download">
-          {t('materialReport.export')}
-        </Button>
-      </>
+      <ImportExport
+        name={t('materialReport.export')}
+        onExport={(params) => {
+          exportMaterialReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(params?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -400,6 +411,7 @@ function MaterialReport() {
           onPageSizeChange={setPageSize}
           onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
           total={total}
           materialReport={true}
           title={t('materialReport.title')}

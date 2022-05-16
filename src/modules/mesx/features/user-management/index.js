@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,6 +19,11 @@ import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
+import {
+  exportUserApi,
+  getUserTemplateApi,
+  importUserApi,
+} from '../../redux/sagas/user-management/import-export-user'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -73,6 +79,8 @@ function UserManagement() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -216,6 +224,10 @@ function UserManagement() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
   }
@@ -234,9 +246,28 @@ function UserManagement() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('userManagement.import')}
+          onImport={(params) => {
+            importUserApi(params)
+          }}
+          onExport={() => {
+            exportUserApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getUserTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -267,6 +298,9 @@ function UserManagement() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

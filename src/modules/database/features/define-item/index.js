@@ -11,10 +11,16 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
+import {
+  exportItemApi,
+  getItemTemplateApi,
+  importItemApi,
+} from '~/modules/database/redux/sagas/define-item/import-export-item'
 import { ROUTE } from '~/modules/database/routes/config'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE as MESX_ROUTE } from '~/modules/mesx/routes/config'
@@ -86,6 +92,8 @@ function DefineItem() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -299,6 +307,10 @@ function DefineItem() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
   }
@@ -317,9 +329,28 @@ function DefineItem() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('defineItem.import')}
+          onImport={(params) => {
+            importItemApi(params)
+          }}
+          onExport={() => {
+            exportItemApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getItemTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_ITEM.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -350,6 +381,9 @@ function DefineItem() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{
