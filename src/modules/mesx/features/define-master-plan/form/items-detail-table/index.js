@@ -122,15 +122,12 @@ const ItemsDetailTable = (props) => {
       sortable: false,
       renderCell: (params) => {
         return params.row?.itemTypeCode !== MATERIAL_CODE && (
-          <>
-            <Checkbox
-              defaultChecked={params.row?.isProductionObject}
-              checked={productionObjectByItemId[params.row?.id]}
-              onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
-              disabled={disabledProductionObjects[params.row?.id] || isView}
-            />
-            {params.row?.id}
-          </>
+          <Checkbox
+            defaultChecked={params.row?.isProductionObject}
+            checked={productionObjectByItemId[params.row?.id]}
+            onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
+            disabled={disabledProductionObjects[params.row?.id] || isView}
+          />
         )
       },
     }
@@ -292,23 +289,25 @@ const ItemsDetailTable = (props) => {
   }
 
   const mapItemResults = (items, id, value) => {
-    return items.map((item) => {
-      let isProductionObject = productionObjectByItemId[item.id] !== undefined
-        ? productionObjectByItemId[item.id]
-        : true
-      if (item.id === id || item.id.toString().includes(id)) {
-        isProductionObject = value
-      }
-      const itemResult = {
-        itemId: item.itemId,
-        isProductionObject,
-        subBoms: []
-      }
-      if (!isEmpty(item.subBom)) {
-        itemResult.subBoms = [...mapItemResults(item.subBom, id, value)]
-      }
-      return itemResult
-    })
+    return items
+      .filter((item) => item.itemTypeCode !== MATERIAL_CODE)
+      .map((item) => {
+        let isProductionObject = productionObjectByItemId[item.id] !== undefined
+          ? productionObjectByItemId[item.id]
+          : true
+        if (item.id === id || item.id.toString().includes(id)) {
+          isProductionObject = value
+        }
+        const itemResult = {
+          itemId: item.itemId,
+          isProductionObject,
+          subBoms: []
+        }
+        if (!isEmpty(item.subBom)) {
+          itemResult.subBoms = [...mapItemResults(item.subBom, id, value)]
+        }
+        return itemResult
+      })
   }
 
   return (
