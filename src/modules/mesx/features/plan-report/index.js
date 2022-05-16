@@ -13,11 +13,7 @@ import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
 import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import {
-  convertFilterParams,
-  convertSortParams,
-  convertUtcDateToLocalTz,
-} from '~/utils'
+import { convertSortParams, convertUtcDateToLocalTz } from '~/utils'
 
 import FilterForm from './filter'
 const breadcrumbs = [
@@ -54,7 +50,6 @@ function PlanReport() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-
   const {
     data: { isLoading, total, planList },
     actions: actionPlan,
@@ -362,7 +357,26 @@ function PlanReport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: JSON.stringify([
+        filters?.moName?.id
+          ? {
+              column: 'moName',
+              text: filters?.moName?.name,
+            }
+          : {},
+        filters?.saleOrderIds
+          ? {
+              column: 'saleOrderIds',
+              text: filters?.saleOrderIds,
+            }
+          : {},
+        filters?.plan
+          ? {
+              column: 'plan',
+              text: `${filters?.plan[0].toISOString()}|${filters?.plan[1].toISOString()}`,
+            }
+          : {},
+      ]),
       sort: convertSortParams(sort),
     }
     actionPlan.searchPlans(params)

@@ -5,11 +5,13 @@ import { Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { MO_STATUS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useProductivityReport from '~/modules/mesx/redux/hooks/useProductivityReport'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 
 import productivityReportSchema from '../schema'
 
@@ -22,7 +24,7 @@ function ProductivityFilter() {
   const [listWorkCenter, setlistWorkCenter] = useState([])
 
   const {
-    data: { moList, moProducingStep },
+    data: { moProducingStep },
     actions: actionMo,
   } = useMo()
 
@@ -75,8 +77,8 @@ function ProductivityFilter() {
     itemId: '',
     workCenterId: '',
   }
-  const handleChangeMo = (id) => {
-    actionMo.getListMoProducingStepById(id)
+  const handleChangeMo = (val) => {
+    actionMo.getListMoProducingStepById(val?.id)
     setListProducingSteps([])
     setlistWorkCenter([])
   }
@@ -90,7 +92,7 @@ function ProductivityFilter() {
   const onSubmit = (values) => {
     const params = {
       itemId: values?.itemId,
-      manufacturingOrderId: values?.moId,
+      manufacturingOrderId: values?.moId?.id,
       producingStepId: values?.producingStepId,
       workCenterId: values?.workCenterId,
     }
@@ -117,10 +119,15 @@ function ProductivityFilter() {
                     name="moId"
                     label={t('productivityReport.moCode')}
                     placeholder={t('productivityReport.moCode')}
-                    options={moList}
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.code}
-                    onChange={(id) => handleChangeMo(id)}
+                    asyncRequest={(s) =>
+                      searchMOApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    getOptionLabel={(opt) => opt?.name}
+                    onChange={(val) => handleChangeMo(val)}
                   />
                 </Grid>
                 <Grid item lg={6} xs={12}>
