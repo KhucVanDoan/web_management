@@ -24,9 +24,9 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
   } = useDefineMasterPlan()
 
   const initialValues = {
-    workCenterName: '',
+    workCenterIds: '',
     status: '',
-    masterPlan: '',
+    masterPlanIds: '',
     planDate: null,
   }
 
@@ -56,7 +56,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
               >
                 <Grid item xs={12} lg={6}>
                   <Field.Autocomplete
-                    name="workCenterName"
+                    name="workCenterIds"
                     label={t(
                       'progressManufacturingByWorkCenter.workCenterName',
                     )}
@@ -85,7 +85,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                 </Grid>
                 <Grid item xs={12} lg={6}>
                   <Field.Autocomplete
-                    name="masterPlan"
+                    name="masterPlanIds"
                     label={t('progressManufacturingByWorkCenter.masterPlan')}
                     placeholder={t(
                       'progressManufacturingByWorkCenter.masterPlan',
