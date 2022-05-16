@@ -24,9 +24,11 @@ import watchGetBoms from './common/get-boms'
 import watchGetCompanies from './common/get-company'
 import watchGetCustomers from './common/get-customers'
 import watchGetDepartments from './common/get-department'
+import watchGetDepartmentsRole from './common/get-departments-role'
 import watchGetDetails from './common/get-details'
 import watchGetFactories from './common/get-factories'
 import watchGetFactoriesByCompany from './common/get-factory-by-company'
+import watchGetGroupPermissions from './common/get-group-permissions'
 import watchGetItemGroups from './common/get-item-groups'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItemTypes from './common/get-item-types'
@@ -390,5 +392,8 @@ export default function* sagas() {
     watchSearchProgressManufacturingByWorkCenter(),
     //progress-manufacturing-by-order
     watchProgressManuFacturingByOrderData(),
+
+    watchGetGroupPermissions(),
+    watchGetDepartmentsRole(),
   ])
 }
