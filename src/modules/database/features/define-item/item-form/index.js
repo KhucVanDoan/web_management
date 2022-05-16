@@ -477,7 +477,17 @@ function DefineItemForm() {
                       >
                         <Grid item xs={12}>
                           <FormControlLabel
-                            control={<Field.Checkbox name="hasStorageSpace" />}
+                            control={
+                              <Field.Checkbox
+                                name="hasStorageSpace"
+                                onChange={() => {
+                                  setFieldValue('long', { value: 1, unit: 3 })
+                                  setFieldValue('width', { value: 1, unit: 3 })
+                                  setFieldValue('height', { value: 1, unit: 3 })
+                                  setFieldValue('weight', { value: 1, unit: 1 })
+                                }}
+                              />
+                            }
                             label={t('defineItem.storage')}
                           />
                         </Grid>
