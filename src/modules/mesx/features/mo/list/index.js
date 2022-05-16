@@ -94,11 +94,9 @@ const Mo = () => {
       headerName: t('Mo.planCode'),
       width: 120,
       sortable: true,
-      //TODO: <anh.nth> get planCode (now planList nodata)
-      // renderCell: (params) => {
-      //   const { id } = params.row
-      //   return planList.find((plan) => plan.id === id).code
-      // },
+      renderCell: (params) => {
+        return params?.row?.masterPlan?.code
+      },
     },
     {
       field: 'factoryName',
