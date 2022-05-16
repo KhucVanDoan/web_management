@@ -697,6 +697,8 @@
     "boqName": "プロジェクト名プロジェクト名",
     "boqPlan": "計画日",
     "status": "ステータス",
+    "createdAt": "作成日",
+    "user": "作成者",
     "boqPm": "PM",
     "boqApm": "APM",
     "planList": "計画",

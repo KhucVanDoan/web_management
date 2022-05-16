@@ -28,7 +28,6 @@ import userPermission from './user-permission'
 import workCenter from './work-center'
 import workCenterPlan from './work-center-plan'
 import workOrder from './work-order'
-
 export default combineReducers({
   userPermission,
   userManagement,
