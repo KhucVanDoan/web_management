@@ -1,30 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, isNil, orderBy } from 'lodash'
+import { isEmpty, orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
+import {
+  useHistory,
+  useRouteMatch,
+  useParams,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
-  DATE_FORMAT_3,
-  DATE_FORMAT,
+  UNSAFE_DATE_FORMAT_3,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
-import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
-import Status from '~/components/Status'
-import TextField from '~/components/TextField'
-import { MASTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertFilterParams, convertUtcDateTimeToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 
 import DetailTab from './detail-tab'
 import { validationSchema } from './schema'
@@ -34,12 +38,16 @@ const DefineMasterPlanForm = () => {
   const { id } = useParams()
   const history = useHistory()
   const routeMatch = useRouteMatch()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
+  const [soId, setSoId] = useState([])
+  const [saleOrderDetails, setSaleOrderDetails] = useState([])
   const {
     data: { isLoading, masterPlanDetails },
     actions,
   } = useDefineMasterPlan()
   const {
-    data: { soList, factoryList },
+    data: { factoryList },
     actions: commonManagementActions,
   } = useCommonManagement()
   const {
@@ -49,17 +57,14 @@ const DefineMasterPlanForm = () => {
 
   const MODE_MAP = {
     [ROUTE.MASTER_PLAN.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.MASTER_PLAN.DETAIL.PATH]: MODAL_MODE.DETAIL,
     [ROUTE.MASTER_PLAN.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-  const isDetail = mode === MODAL_MODE.DETAIL
 
   useEffect(() => {
     commonManagementActions.getSaleOrders({ isGetAll: 1 })
     commonManagementActions.getFactories()
-
     return () => {
       actions.resetMasterPlanDetails()
     }
@@ -67,15 +72,28 @@ const DefineMasterPlanForm = () => {
 
   useEffect(() => {
     getMasterPlanDetail()
-  }, [mode])
+  }, [mode, cloneId])
+
+  useEffect(() => {
+    // set soId when update
+    if (masterPlanDetails?.saleOrderSchedules && (isUpdate || cloneId)) {
+      setSoId(masterPlanDetails?.saleOrderSchedules?.map((i) => i?.saleOrderId))
+    }
+    if (masterPlanDetails?.saleOrders && (isUpdate || cloneId)) {
+      setSaleOrderDetails(masterPlanDetails?.saleOrders)
+    }
+  }, [masterPlanDetails])
 
   useEffect(() => {
     return () => actionSaleOrder.resetSaleOrderState()
   }, [saleOrderDetailList])
 
   const getMasterPlanDetail = () => {
-    if (isUpdate || isDetail) {
+    if (isUpdate) {
       actions.getMasterPlanDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getMasterPlanDetailsById(cloneId)
     }
   }
 
@@ -86,12 +104,12 @@ const DefineMasterPlanForm = () => {
       factoryId: values.factoryId,
       description: values.description,
       dateFrom: values?.planDate
-        ? formatDateTimeUtc(values?.planDate[0], DATE_FORMAT_3)
+        ? convertUtcDateTimeToLocalTz(values?.planDate[0], UNSAFE_DATE_FORMAT_3)
         : '',
       dateTo: values?.planDate
-        ? formatDateTimeUtc(values?.planDate[1], DATE_FORMAT_3)
+        ? convertUtcDateTimeToLocalTz(values?.planDate[1], UNSAFE_DATE_FORMAT_3)
         : '',
-      saleOrders: values.soId.map((id) => ({ id })),
+      saleOrders: saleOrderDetails,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMasterPlan(convertValues, (id) => {
@@ -131,8 +149,6 @@ const DefineMasterPlanForm = () => {
             mode={MODAL_MODE.UPDATE}
           />
         )
-      case MODAL_MODE.DETAIL:
-        return <ActionBar onBack={backToList} />
       default:
         break
     }
@@ -162,12 +178,6 @@ const DefineMasterPlanForm = () => {
           title: ROUTE.MASTER_PLAN.EDIT.TITLE,
         })
         break
-      case MODAL_MODE.DETAIL:
-        breadcrumb.push({
-          route: ROUTE.MASTER_PLAN.DETAIL.PATH,
-          title: ROUTE.MASTER_PLAN.DETAIL.TITLE,
-        })
-        break
       default:
     }
     return breadcrumb
@@ -179,40 +189,46 @@ const DefineMasterPlanForm = () => {
         return ROUTE.MASTER_PLAN.CREATE.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.MASTER_PLAN.EDIT.TITLE
-      case MODAL_MODE.DETAIL:
-        return ROUTE.MASTER_PLAN.DETAIL.TITLE
       default:
     }
   }
 
-  const initialValues =
-    (isUpdate || isDetail) && !isEmpty(masterPlanDetails)
-      ? {
-          ...masterPlanDetails,
-          planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
-          soId: masterPlanDetails.saleOrderSchedules?.map(
-            (saleOrderSchedule) => saleOrderSchedule.saleOrderId,
-          ),
-          factoryId:
-            masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
-        }
-      : {
-          code: '',
-          name: '',
-          soId: null,
-          factoryId: null,
-          description: '',
-          planDate: null,
-          dateFromSo: null,
-          dateCompletion: 0,
-        }
+  const initialValues = !isEmpty(masterPlanDetails)
+    ? {
+        ...masterPlanDetails,
+        ...(isUpdate ? { code: masterPlanDetails?.code || '' } : { code: '' }),
+        planDate: [masterPlanDetails.dateFrom, masterPlanDetails.dateTo],
+        soId: masterPlanDetails?.saleOrderSchedules.map((saleOrderSchedule) => {
+          return {
+            ...saleOrderSchedule,
+            id: saleOrderSchedule.saleOrderId,
+          }
+        }),
+        factoryId:
+          masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
+      }
+    : {
+        code: '',
+        name: '',
+        soId: [],
+        factoryId: null,
+        description: '',
+        planDate: null,
+        dateFromSo: null,
+        dateCompletion: 0,
+      }
 
-  const handleChangeSoId = (id, setFieldValue) => {
-    actionSaleOrder.getSaleOrderDetailsByIds({ ids: id.join(',') }, (data) => {
-      const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
-      const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
-      setFieldValue('planDate', [dateFrom, dateTo])
-    })
+  const handleChangeSoId = (val, setFieldValue) => {
+    if (!isEmpty(val)) {
+      actionSaleOrder.getSaleOrderDetailsByIds(
+        { ids: val?.map((i) => i?.id).join(',') },
+        (data) => {
+          const dateFrom = orderBy(data, ['orderedAt'], ['asc'])[0]?.orderedAt
+          const dateTo = orderBy(data, ['deadline'], ['asc'])[0]?.deadline
+          setFieldValue('planDate', [dateFrom, dateTo])
+        },
+      )
+    }
   }
 
   return (
@@ -237,194 +253,109 @@ const DefineMasterPlanForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {isDetail && !isNil(masterPlanDetails?.status) && (
-                    <Grid item xs={12}>
-                      <LabelValue
-                        label={t('defineBOM.status')}
-                        value={
-                          <Status
-                            options={MASTER_PLAN_STATUS_OPTIONS}
-                            value={masterPlanDetails?.status}
-                          />
-                        }
-                      />
-                    </Grid>
-                  )}
-
                   <Grid item lg={6} xs={12}>
-                    {isDetail ? (
-                      <LabelValue
-                        label={t('defineMasterPlan.code')}
-                        value={masterPlanDetails?.code}
-                      />
-                    ) : (
-                      <Field.TextField
-                        label={t('defineMasterPlan.code')}
-                        name="code"
-                        placeholder={t('defineMasterPlan.code')}
-                        disabled={isUpdate}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        required
-                      />
-                    )}
+                    <Field.TextField
+                      label={t('defineMasterPlan.code')}
+                      name="code"
+                      placeholder={t('defineMasterPlan.code')}
+                      disabled={isUpdate}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                      }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      required
+                      {...(cloneId ? { autoFocus: true } : {})}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isDetail ? (
-                      <LabelValue
-                        label={t('defineMasterPlan.saleOrderName')}
-                        value={masterPlanDetails.saleOrderSchedules
-                          ?.map(
-                            (saleOrderSchedule) =>
-                              saleOrderSchedule.saleOrderName,
-                          )
-                          .join(', ')}
-                      />
-                    ) : (
-                      (!isEmpty(masterPlanDetails) ||
-                        (!isUpdate && !isDetail)) && (
-                        <Field.Autocomplete
-                          label={t('defineMasterPlan.saleOrder')}
-                          name="soId"
-                          placeholder={t('defineMasterPlan.saleOrder')}
-                          required
-                          options={soList}
-                          getOptionLabel={(opt) =>
-                            `${opt?.code} - ${opt?.name}`
-                          }
-                          filterOptions={createFilterOptions({
-                            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                          })}
-                          getOptionValue={(option) => option?.id}
-                          multiple
-                          onChange={(id) => {
-                            handleChangeSoId(id, setFieldValue)
-                          }}
-                        />
-                      )
-                    )}
+                    <Field.Autocomplete
+                      label={t('defineMasterPlan.saleOrder')}
+                      name="soId"
+                      placeholder={t('defineMasterPlan.saleOrder')}
+                      required
+                      getOptionLabel={(opt) => opt?.code || opt?.saleOrderCode}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchSaleOrdersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: SALE_ORDER_STATUS.CONFIRMED,
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      multiple
+                      onChange={(val) => {
+                        handleChangeSoId(val, setFieldValue)
+                      }}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isDetail ? (
-                      <LabelValue
-                        label={t('defineMasterPlan.planName')}
-                        value={masterPlanDetails?.name}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="name"
-                        label={t('defineMasterPlan.planName')}
-                        placeholder={t('defineMasterPlan.planName')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-                        }}
-                        required
-                      />
-                    )}
+                    <Field.TextField
+                      name="name"
+                      label={t('defineMasterPlan.planName')}
+                      placeholder={t('defineMasterPlan.planName')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
+                      required
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isDetail ? (
-                      <LabelValue
-                        label={t('defineMasterPlan.moFactory')}
-                        value={masterPlanDetails?.factory?.name}
-                      />
-                    ) : (
-                      (!isEmpty(masterPlanDetails) ||
-                        (!isUpdate && !isDetail)) && (
-                        <Field.Autocomplete
-                          name="factoryId"
-                          label={t('defineMasterPlan.moFactory')}
-                          placeholder={t('defineMasterPlan.moFactory')}
-                          required
-                          options={factoryList?.items || []}
-                          getOptionLabel={(option) => option?.name || ''}
-                          filterOptions={createFilterOptions({
-                            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                          })}
-                          getOptionValue={(option) => option?.id}
-                        />
-                      )
-                    )}
+                    <Field.Autocomplete
+                      name="factoryId"
+                      label={t('defineMasterPlan.moFactory')}
+                      placeholder={t('defineMasterPlan.moFactory')}
+                      required
+                      options={factoryList?.items || []}
+                      getOptionLabel={(option) => option?.name || ''}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
+                      getOptionValue={(option) => option?.id || ''}
+                      disabled={!values?.soId?.length}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isDetail ? (
-                      <LabelValue label={t('defineMasterPlan.planDate')}>
-                        {formatDateTimeUtc(
-                          masterPlanDetails?.dateFrom,
-                          DATE_FORMAT,
-                        )}{' '}
-                        -{' '}
-                        {formatDateTimeUtc(
-                          masterPlanDetails?.dateTo,
-                          DATE_FORMAT,
-                        )}
-                      </LabelValue>
-                    ) : (
-                      <Field.DateRangePicker
-                        name="planDate"
-                        label={t('defineMasterPlan.planDate')}
-                        placeholder={t('defineMasterPlan.planDate')}
-                      />
-                    )}
+                    <Field.DateRangePicker
+                      name="planDate"
+                      label={t('defineMasterPlan.planDate')}
+                      placeholder={t('defineMasterPlan.planDate')}
+                      required
+                    />
                   </Grid>
-                  {isDetail && (
-                    <Grid item lg={6} xs={12}>
-                      <LabelValue
-                        label={t('defineMasterPlan.createdBy')}
-                        value={masterPlanDetails?.createdBy?.fullname}
-                      />
-                    </Grid>
-                  )}
-                  {isDetail && (
-                    <Grid item lg={6} xs={12}>
-                      <LabelValue
-                        label={t('defineMasterPlan.createdAt')}
-                        value={formatDateTimeUtc(masterPlanDetails?.createdAt)}
-                      />
-                    </Grid>
-                  )}
                   <Grid item xs={12}>
-                    {isDetail ? (
-                      <TextField
-                        name="description"
-                        label={t('defineMasterPlan.descriptionInput')}
-                        multiline
-                        value={masterPlanDetails?.description}
-                        rows={3}
-                        readOnly
-                        sx={{
-                          'label.MuiFormLabel-root': {
-                            color: (theme) => theme.palette.subText.main,
-                          },
-                        }}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="description"
-                        label={t('defineMasterPlan.descriptionInput')}
-                        placeholder={t('defineMasterPlan.descriptionInput')}
-                        multiline
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                        }}
-                        rows={3}
-                      />
-                    )}
+                    <Field.TextField
+                      name="description"
+                      label={t('defineMasterPlan.descriptionInput')}
+                      placeholder={t('defineMasterPlan.descriptionInput')}
+                      multiline
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
+                      rows={3}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
             <DetailTab
-              soId={values.soId}
+              soId={isUpdate || cloneId ? soId : values?.soId}
               planDate={values.planDate}
               isDetail={true}
-              isView={isDetail}
               isUpdate={isUpdate}
+              updateSaleOrderObject={setSaleOrderDetails}
             />
 
-            {renderActionBar(resetForm)}
+            {renderActionBar(() => {
+              resetForm()
+              setSoId((prevSoId) =>
+                prevSoId.filter(
+                  (i) => !values?.soId?.includes((val) => val?.id === i),
+                ),
+              )
+            })}
           </Form>
         )}
       </Formik>

@@ -47,6 +47,12 @@ import {
   GET_QC_CHECK_ITEM_BY_SO_FAIL,
   GET_QC_CHECK_ITEM_BY_SO_START,
   GET_QC_CHECK_ITEM_BY_SO_SUCCESS,
+  GET_QC_CHECK_ITEM_BY_IMO_FAIL,
+  GET_QC_CHECK_ITEM_BY_IMO_START,
+  GET_QC_CHECK_ITEM_BY_IMO_SUCCESS,
+  GET_QC_CHECK_ITEM_BY_EXO_FAIL,
+  GET_QC_CHECK_ITEM_BY_EXO_START,
+  GET_QC_CHECK_ITEM_BY_EXO_SUCCESS,
   GET_QC_PROGRESS_DASHBOARD_FAIL,
   GET_QC_PROGRESS_DASHBOARD_START,
   GET_QC_PROGRESS_DASHBOARD_SUCCESS,
@@ -370,6 +376,40 @@ export default function dashboard(state = initialState, action) {
         isLoading: false,
       }
     case GET_QC_CHECK_ITEM_BY_PRO_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    /** Get QC check item by IMO **/
+    case GET_QC_CHECK_ITEM_BY_IMO_START:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_QC_CHECK_ITEM_BY_IMO_SUCCESS:
+      return {
+        ...state,
+        itemList: action.payload,
+        isLoading: false,
+      }
+    case GET_QC_CHECK_ITEM_BY_IMO_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    /** Get QC check item by EXO **/
+    case GET_QC_CHECK_ITEM_BY_EXO_START:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case GET_QC_CHECK_ITEM_BY_EXO_SUCCESS:
+      return {
+        ...state,
+        itemList: action.payload,
+        isLoading: false,
+      }
+    case GET_QC_CHECK_ITEM_BY_EXO_FAIL:
       return {
         ...state,
         isLoading: false,

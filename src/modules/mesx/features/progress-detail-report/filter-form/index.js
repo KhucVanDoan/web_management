@@ -129,7 +129,7 @@ function ProgressDetailReport() {
                     placeholder={t('ProgessDetailReport.itemName')}
                     options={listItem}
                     getOptionValue={(opt) => opt?.itemId}
-                    getOptionLabel={(opt) => opt?.itemId || opt?.item?.name}
+                    getOptionLabel={(opt) => opt?.itemName || opt?.item?.name}
                     onChange={(id) => handleChangeItem(id)}
                   />
                 </Grid>
@@ -156,7 +156,7 @@ function ProgressDetailReport() {
                 </Grid>
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button type="submit">{t('common.search')}</Button>
+                    <Button type="submit">{t('general:common.search')}</Button>
                   </Box>
                 </Grid>
               </Grid>

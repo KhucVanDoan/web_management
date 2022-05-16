@@ -16,7 +16,7 @@ import TextField from '~/components/TextField'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import BreakTimeTable from '../form/break-time'
 import ShiftTable from '../form/work-center-shifts'
@@ -192,10 +192,7 @@ const FormDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('workCenter.dateCreate')}
-                value={formatDateTimeUtc(
-                  wcDetails?.createdAt,
-                  'dd/MM/yyyy HH:MM:SS',
-                )}
+                value={convertUtcDateTimeToLocalTz(wcDetails?.createdAt)}
               />
             </Grid>
 

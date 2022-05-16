@@ -1,4 +1,4 @@
-const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN
+const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN || ''
 
 export const LANG_OPTIONS = {
   VI: 'vi',
@@ -89,23 +89,23 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
 export const NUMBER_FIELD_REQUIRED_SIZE = {
   AMOUNT_INTEGER: {
     MIN: 1,
-    MAX: 99999999999,
+    MAX: 99999999,
   },
   INTEGER_100K: {
-    MIN: 0,
-    MAX: 99999,
+    MIN: 1,
+    MAX: 100000,
   },
   AMOUNT_DECIMAL: {
     MIN: 0.0000001,
     MAX: 99999999999,
   },
   PERCENT: {
-    MIN: 0,
+    MIN: 0.01,
     MAX: 100,
   },
   QUANTITY: {
-    MIN: 0,
-    MAX: 999999999,
+    MIN: 1,
+    MAX: 99999,
   },
   WATTAGE: {
     MIN: 0,
@@ -115,10 +115,23 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 100000000000,
   },
+  PRICE_ITEM_SALE_ORDER: {
+    MIN: 0,
+    MAX: 99999999,
+  },
+  ITEM_QUANLITY: {
+    MIN: 1,
+    MAX: 10000,
+  },
+  PO_QUANTITY: {
+    MIN: 0,
+    MAX: 9999999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
   NUMERIC: /[^0-9]/g,
+  POSITIVE_DECIMAL: /[^0-9.]/g,
   ALPHABET: /[^a-zA-Z]/g,
   ALPHANUMERIC: /[^0-9a-zA-Z]/g,
   ALPHANUMERIC_SPECIALS:
@@ -128,20 +141,28 @@ export const TEXTFIELD_ALLOW = {
 
 export const TEXTFIELD_PREVENT = {
   [TEXTFIELD_ALLOW.NUMERIC]: [',', '.', '-', '+', 'e', 'E'],
+  [TEXTFIELD_ALLOW.POSITIVE_DECIMAL]: [',', '-', '+', 'e', 'E'],
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
 export const ASYNC_SEARCH_LIMIT = 100
-export const ASYNC_SEARCH_STATUS = '1'
-export const DEFAULT_DATE_TIME_FORMAT = 'dd/MM/yyyy HH:mm:ss'
 
-export const DATE_FORMAT = 'dd/MM/yyyy'
+export const DATE_TIME_FORMAT_BY_LANG = {
+  [LANG_OPTIONS.VI]: 'dd/MM/yyyy HH:mm:ss',
+  [LANG_OPTIONS.EN]: 'MMM dd, yyyy HH:mm:ss',
+  [LANG_OPTIONS.JP]: 'yyyy/MM/dd HH:mm:ss',
+}
 
-export const DEFAULT_DATE_TIME_FORMAT_VN = 'dd-MM-yyyy hh:mm a'
+export const DATE_FORMAT_BY_LANG = {
+  [LANG_OPTIONS.VI]: 'dd/MM/yyyy',
+  [LANG_OPTIONS.EN]: 'MMM dd, yyyy',
+  [LANG_OPTIONS.JP]: 'yyyy/MM/dd',
+}
 
-export const DATE_FORMAT_3 = 'yyyy-MM-dd'
+export const UNSAFE_DATE_FORMAT_3 = 'yyyy-MM-dd'
+export const UNSAFE_DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
+export const IMPORT_EXPORT_DATE_FORMAT = 'dd-MM-yyyy_HH_mm_SS'
 
-export const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm'
 export const DEFAULT_TIME = '00:00'
 
 export const QR_CODE_TYPE = {
@@ -171,11 +192,6 @@ export const CODE_SETTINGS = {
   },
 }
 
-export const IMPORT_SETTING = {
-  FILE_SIZE_LIMIT: 5242880,
-  NUMBER_OF_FILE: 1,
-}
-
 export const FILE_TYPE = {
   XLSX: {
     NAME: 'XLSX',
@@ -183,6 +199,12 @@ export const FILE_TYPE = {
     MIME_TYPE:
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   },
+}
+
+export const IMPORT_SETTING = {
+  FILE_SIZE_LIMIT: 2097152,
+  NUMBER_OF_FILE: 1,
+  FILE_NAME: '{0}_{1}{2}' + FILE_TYPE.XLSX.EXT,
 }
 
 export const IMPORT_EXPORT_MODE = {
@@ -206,3 +228,19 @@ export const CONFIG_COOKIES = {
   path: '/',
   domain: VTI_DOMAIN,
 }
+
+export const HTTP_STATUS_CODE = {
+  SUCCESS: 200,
+  BAD_REQUEST: 400,
+  INTERNAL_SERVER_ERROR: 500,
+  NOT_ACCEPTABLE: 406,
+}
+
+export const INVENTORY_STATUS_OPTIONS = [
+  { id: 1, name: 'inventoryStatus.pending', color: 'created' },
+  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
+  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
+  { id: 5, name: 'inventoryStatus.inProgress', color: 'inProgress' },
+  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
+]
+export const MATERIAL_CODE = '00'

@@ -3,16 +3,23 @@ import Box from '@mui/material/Box'
 import { isAfter } from 'date-fns'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
+import { WORK_CENTER_STATUS } from '~/modules/mesx/constants'
 import { scrollToBottom } from '~/utils'
+import qs from '~/utils/qs'
 
-const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
+const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
+
+  const isDisabledField = !cloneId && status === WORK_CENTER_STATUS.IN_PROGRESS
   const getColumns = () => {
     return [
       // {
@@ -39,6 +46,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
             <Field.TextField
               name={`shifts[${index}].shiftName`}
               inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+              disabled={isDisabledField}
             />
           )
         },
@@ -56,7 +64,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
             <>{shiftObject?.startAt}</>
           ) : (
             <Box flex={1} alignItems="center" key={`startAt${id}`}>
-              <Field.TimePicker name={`shifts[${index}].startAt`} />
+              <Field.TimePicker
+                name={`shifts[${index}].startAt`}
+                disabled={isDisabledField}
+              />
               {startAt && endAt && isAfter(startAt, endAt) && (
                 <FormHelperText error>
                   {t('form.invalidTimeRange')}
@@ -78,7 +89,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
           return isView ? (
             <>{shiftObject?.endAt}</>
           ) : (
-            <Field.TimePicker name={`shifts[${index}].endAt`} />
+            <Field.TimePicker
+              name={`shifts[${index}].endAt`}
+              disabled={isDisabledField}
+            />
           )
         },
       },
@@ -101,7 +115,9 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
               numberProps={{
                 thousandSeparator: true,
                 decimalScale: 3,
+                allowNegative: false,
               }}
+              disabled={isDisabledField}
             />
           )
         },
@@ -120,7 +136,7 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={shifts?.length === 1}
+              disabled={shifts?.length === 1 || isDisabledField}
             >
               <Icon name="remove" />
             </IconButton>
@@ -168,8 +184,10 @@ const ShiftTable = ({ mode, shifts, arrayHelpers }) => {
                   },
                 ],
               })
+
               scrollToBottom()
             }}
+            disabled={isDisabledField}
             icon="add"
           >
             {t('workCenter.addWorkCenterShift')}

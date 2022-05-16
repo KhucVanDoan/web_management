@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { Typography } from '@mui/material'
+import { FormHelperText, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
@@ -9,12 +10,12 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 
 const ItemsSettingTable = (props) => {
   const { isView, moDetails } = props
+  const { errors, touched } = useFormikContext() ?? {}
   const { t } = useTranslation(['mesx'])
   const [items, setItems] = useState([])
   const [pageSize] = useState(20)
   const [page] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
-
   const {
     data: { itemList },
     actions,
@@ -23,14 +24,12 @@ const ItemsSettingTable = (props) => {
   useEffect(() => {
     actions.getItems({})
   }, [])
-
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
-
   const columns = [
     {
-      field: 'id',
+      field: 'itemCode',
       headerName: t('Mo.item.code'),
       width: 50,
       sortable: false,
@@ -75,7 +74,7 @@ const ItemsSettingTable = (props) => {
       align: 'center',
       renderCell: (params) => {
         const { row } = params
-        return row?.item?.code
+        return row?.item?.code || row?.item?.itemCode
       },
     },
     {
@@ -128,6 +127,7 @@ const ItemsSettingTable = (props) => {
         id: item.itemId,
         index,
         itemName: item.itemName,
+        itemCode: item.itemCode || item.code,
         itemUnitName: item.itemUnitName,
         quantity: item.quantity,
       })
@@ -135,24 +135,31 @@ const ItemsSettingTable = (props) => {
 
     return itemsInSaleOrder
   }
-
-  const onChangeSelectedRows = (selected) => {
+  const onSelectionChange = (selected) => {
     setSelectedRows([...selected])
     props.updateSelectedItems(selected.map((item) => item.id))
   }
+
   return (
     <>
       <Box
         sx={{
-          display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           mb: 2,
         }}
       >
-        <Typography variant="h4" component="span">
+        <Typography variant="h4" component="span" required>
           {t('Mo.itemDetails')}
+          {!isView && (
+            <Typography color="error" component="span" ml={0.5}>
+              *
+            </Typography>
+          )}
         </Typography>
+        {!isView && errors?.itemIds && touched?.itemIds && (
+          <FormHelperText error>{errors?.itemIds}</FormHelperText>
+        )}
       </Box>
       <DataTable
         columns={isView ? columnsDetail : columns}
@@ -161,9 +168,12 @@ const ItemsSettingTable = (props) => {
         hideSetting
         pageSize={pageSize}
         page={page}
-        checkboxSelection={!isView}
         selected={selectedRows}
-        onChangeSelectedRows={onChangeSelectedRows}
+        {...(isView
+          ? {}
+          : {
+              onSelectionChange: onSelectionChange,
+            })}
       />
     </>
   )

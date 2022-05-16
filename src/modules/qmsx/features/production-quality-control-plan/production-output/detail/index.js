@@ -5,7 +5,7 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -17,7 +17,7 @@ import {
 } from '~/modules/qmsx/constants'
 import useProductionQualityControlPlan from '~/modules/qmsx/redux/hooks/useProductionQualityControlPlan'
 import { ROUTE } from '~/modules/qmsx/routes/config'
-import { formatDateTimeUtc } from '~/utils/date-time'
+import { convertUtcDateToLocalTz } from '~/utils/date-time'
 
 import PlanDetailTable from '../plan-detail-table'
 
@@ -52,7 +52,7 @@ function ProductionOutputQualityControlPlanDetail() {
       id: id,
       endpointPatch: ENDPOINT_PATCH_GET_DETAIL_PRODUCTION_OUTPUT,
     }
-    actions.getProductionQcPlanDetailById(paramsGetdetail)
+    actions.getProductionQcPlanDetailById(paramsGetdetail, _, backToList)
     return () => {
       actions.resetProductionQcPlanDetailState()
     }
@@ -121,12 +121,10 @@ function ProductionOutputQualityControlPlanDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('productionQualityControlPlan.moPlanDate')}
-                value={`${formatDateTimeUtc(
+                value={`${convertUtcDateToLocalTz(
                   productionQcPlanDetail?.mo?.planFrom,
-                  DATE_FORMAT,
-                )} - ${formatDateTimeUtc(
+                )} - ${convertUtcDateToLocalTz(
                   productionQcPlanDetail?.mo?.planTo,
-                  DATE_FORMAT,
                 )} `}
               />
             </Grid>
@@ -152,23 +150,23 @@ function ProductionOutputQualityControlPlanDetail() {
               />
             </Grid>
           </Grid>
-          <Grid
-            container
-            rowSpacing={5 / 3}
-            columnSpacing={{ xl: 8, xs: 4 }}
-            sx={{ my: 2 }}
-          >
-            {/* Table */}
-            <Grid item lg={12} xs={12}>
-              <PlanDetailTable
-                items={productionQcPlanDetail?.planBomOutputs}
-                mode={MODAL_MODE.DETAIL}
-              />
-            </Grid>
-          </Grid>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Grid
+        container
+        rowSpacing={5 / 3}
+        columnSpacing={{ xl: 8, xs: 4 }}
+        sx={{ my: 2 }}
+      >
+        {/* Table */}
+        <Grid item lg={12} xs={12}>
+          <PlanDetailTable
+            items={productionQcPlanDetail?.planBomOutputs}
+            mode={MODAL_MODE.DETAIL}
+          />
+        </Grid>
+      </Grid>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

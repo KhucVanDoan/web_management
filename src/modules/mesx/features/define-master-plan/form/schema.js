@@ -4,21 +4,13 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const validationSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.validCode')),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
-        TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
     description: Yup.string().max(
@@ -27,17 +19,21 @@ export const validationSchema = (t) =>
         max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       }),
     ),
-    soId: Yup.number()
-      .typeError(t('general:form.required'))
-      .required(t('general:form.required')),
+    soId: Yup.array().nullable().required().min(1, t('general:form.required')),
     factoryId: Yup.number()
       .typeError(t('general:form.required'))
       .required(t('general:form.required')),
     planDate: Yup.array()
       .nullable()
-      .of(Yup.string().nullable().required(t('general:form.required')))
+      .of(Yup.string().nullable())
       .test({
         message: t('general:form.required'),
-        test: (arr) => arr?.length === 2,
+        test: (arr) => {
+          const filterNull = arr?.filter((x) => x)
+          if (filterNull < 2) {
+            return false
+          }
+          return true
+        },
       }),
   })

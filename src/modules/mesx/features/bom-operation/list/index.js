@@ -127,7 +127,7 @@ function BomProducingStep() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -188,9 +188,10 @@ function BomProducingStep() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, routingName: filters?.routingName?.name },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
 
@@ -232,7 +233,7 @@ function BomProducingStep() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -254,8 +255,8 @@ function BomProducingStep() {
         page={page}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         sort={sort}
         total={total}
         filters={{
@@ -265,15 +266,14 @@ function BomProducingStep() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={isOpenDeleteModal}
         title={t('bomProducingStep.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         onSubmit={onSubmitDelete}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -293,15 +293,15 @@ function BomProducingStep() {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenConfirmModal(false)}
         onSubmit={onSubmitConfirm}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('bomProducingStep.code')}
           value={tempItem?.bomCode}

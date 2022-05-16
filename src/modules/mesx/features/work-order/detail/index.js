@@ -2,10 +2,8 @@ import { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { isNil } from 'lodash'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { useParams, useLocation } from 'react-router-dom'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
@@ -15,7 +13,8 @@ import TextField from '~/components/TextField'
 import { WORK_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
+import qs from '~/utils/qs'
 const breadcrumbs = [
   {
     title: 'plan',
@@ -92,9 +91,9 @@ function workOrderDetail() {
                   mt={4 / 3}
                 />
                 <LV label={t('workOrder.datePlan')} mt={4 / 3}>
-                  {formatDateTimeUtc(workOrderDetails?.planFrom)}
+                  {convertUtcDateTimeToLocalTz(workOrderDetails?.planFrom)}
                   {' - '}
-                  {formatDateTimeUtc(workOrderDetails?.planTo)}
+                  {convertUtcDateTimeToLocalTz(workOrderDetails?.planTo)}
                 </LV>
               </Grid>
               <Grid item xl={6} xs={12}>
@@ -164,9 +163,9 @@ function workOrderDetail() {
                   mt={4 / 3}
                 />
                 <LV label={t('workOrder.planCV')} mt={4 / 3}>
-                  {formatDateTimeUtc(workOrderDetails?.planFrom)}
+                  {convertUtcDateTimeToLocalTz(workOrderDetails?.planFrom)}
                   {' - '}
-                  {formatDateTimeUtc(workOrderDetails?.planTo)}
+                  {convertUtcDateTimeToLocalTz(workOrderDetails?.planTo)}
                 </LV>
               </Grid>
               <Grid item xl={6} xs={12}>

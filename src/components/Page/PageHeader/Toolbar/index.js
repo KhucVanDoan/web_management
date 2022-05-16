@@ -10,6 +10,7 @@ import LanguageSwitcher from '~/components/LanguageSwitcher'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { useClasses } from '~/themes'
 
+import Notification from '../Notification'
 import style from './style'
 
 const Toolbar = () => {
@@ -28,21 +29,7 @@ const Toolbar = () => {
   return (
     <Box className={classes.root}>
       <Button className={classes.btn} icon="setting" color="grayEE" />
-      <Button
-        className={classes.btn}
-        icon="notification"
-        color="grayEE"
-        sx={{
-          width: 40,
-          minWidth: 40,
-          padding: '9px 21px',
-          '.MuiButton-startIcon': {
-            margin: 0,
-          },
-        }}
-      >
-        <Box className={classes.badge}>{2}</Box>
-      </Button>
+      <Notification />
       <LanguageSwitcher />
       <Dropdown
         options={options}

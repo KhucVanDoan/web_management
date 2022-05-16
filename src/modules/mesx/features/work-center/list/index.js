@@ -12,7 +12,9 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import {
+  WORK_CENTER_STATUS_CONFIRM_TO_EDIT,
   WORK_CENTER_STATUS_OPTIONS,
   WORK_CENTER_STATUS_TO_CONFIRM,
   WORK_CENTER_STATUS_TO_DELETE,
@@ -23,11 +25,10 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from '../form-fillter'
-import { filterSchema } from '../form-fillter/schema'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.WORK_CENTER.LIST.PATH,
@@ -67,11 +68,13 @@ const WorkCenter = () => {
     data: { isLoading, wcList, total },
     actions,
   } = useWorkCenter()
-
+  const { actions: factoryAction } = useDefineFactory()
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
-
+  useEffect(() => {
+    factoryAction.searchFactories({ isGetAll: 1 })
+  }, [])
   const columns = useMemo(() => [
     // {
     //   field: 'id',
@@ -132,6 +135,8 @@ const WorkCenter = () => {
         const { id, status } = params.row
         const canConfirm = WORK_CENTER_STATUS_TO_CONFIRM.includes(status)
         const canEdit = WORK_CENTER_STATUS_TO_EDIT.includes(status)
+        const canEditConfirm =
+          WORK_CENTER_STATUS_CONFIRM_TO_EDIT.includes(status)
         const canDelete = WORK_CENTER_STATUS_TO_DELETE.includes(status)
         return (
           <div>
@@ -146,7 +151,7 @@ const WorkCenter = () => {
             </IconButton>
 
             <>
-              {canEdit && (
+              {canEdit || canEditConfirm ? (
                 <IconButton
                   onClick={() =>
                     history.push(
@@ -156,6 +161,8 @@ const WorkCenter = () => {
                 >
                   <Icon name="edit" />
                 </IconButton>
+              ) : (
+                ''
               )}
               {canDelete && (
                 <IconButton onClick={() => onClickDelete(params.row)}>
@@ -167,6 +174,13 @@ const WorkCenter = () => {
                   <Icon name="tick" />
                 </IconButton>
               )}
+              <IconButton
+                onClick={() =>
+                  history.push(`${ROUTE.WORK_CENTER.CREATE.PATH}?cloneId=${id}`)
+                }
+              >
+                <Icon name="clone" />
+              </IconButton>
             </>
           </div>
         )
@@ -227,7 +241,7 @@ const WorkCenter = () => {
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -250,8 +264,8 @@ const WorkCenter = () => {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -259,17 +273,15 @@ const WorkCenter = () => {
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
-          validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={isOpenDeleteModal}
         title={t('workCenter.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBotttom
         submitProps={{
           color: 'error',
@@ -290,15 +302,15 @@ const WorkCenter = () => {
       </Dialog>
       <Dialog
         open={isOpenConfirmModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         onCancel={() => setIsOpenConfirmModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
         noBorderBotttom
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('workCenter.code')}
           value={tempItem?.code}

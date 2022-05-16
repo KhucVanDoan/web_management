@@ -5,7 +5,12 @@ import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   TEXTFIELD_REQUIRED_LENGTH,
@@ -18,6 +23,7 @@ import Page from '~/components/Page'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { validationSchema } from './schema'
@@ -35,7 +41,20 @@ function RoutingForm() {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const params = useParams()
-  const { actions: producingStepActions } = useProducingStep()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
+  const MODE_MAP = {
+    [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
+  }
+
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
+
+  const {
+    data: { list },
+    actions: producingStepActions,
+  } = useProducingStep()
 
   const {
     data: { routingDetails, isLoading },
@@ -51,37 +70,51 @@ function RoutingForm() {
       }
     : {
         ...routingDetails,
+        code: isUpdate ? routingDetails?.code : '',
         items: routingDetails.producingSteps.map((item) => ({
           id: item.id,
-          itemId: item.id,
+          itemId: {
+            id: item.id,
+            code: list?.find((e) => e?.id === item.id)?.code,
+          },
           stepNumber: item.stepNumber,
         })),
       }
 
-  const MODE_MAP = {
-    [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
-
   useEffect(() => {
     const id = params?.id
-    routingActions.getRoutingDetailsById(id)
+    if (id) {
+      routingActions.getRoutingDetailsById(id)
+    }
+    if (cloneId) {
+      routingActions.getRoutingDetailsById(cloneId)
+    }
     producingStepActions.getProducingSteps()
 
     return () => {
       routingActions.resetRoutingDetailState()
+    }
+  }, [params?.id, cloneId])
+
+  useEffect(() => {
+    producingStepActions.getProducingSteps({ isGetAll: 1 })
+    return () => {
       producingStepActions.resetProducingStepState()
     }
-  }, [params?.id])
+  }, [])
 
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      items: (values?.items || []).map((e) => ({
+        id: e?.id,
+        itemId: e?.itemId?.id,
+        max: e?.max,
+        min: e?.min,
+        stepNumber: e?.stepNumber,
+      })),
       producingSteps: values.items?.map((item) => ({
-        id: item?.itemId,
+        id: item?.itemId?.id,
         stepNumber: Number(item?.stepNumber),
       })),
     }
@@ -192,6 +225,7 @@ function RoutingForm() {
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
+                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

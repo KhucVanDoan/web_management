@@ -61,6 +61,12 @@ import OutputQualityTransactionHistoryDetail from '~/modules/qmsx/features/trans
 import ProductionInputQualityMaterialDetail from '~/modules/qmsx/features/transaction-history/production-input-quality-material/detail'
 import ProductionInputQualityProductPreviousDetail from '~/modules/qmsx/features/transaction-history/production-input-quality-product-previous/detail'
 import ProductionOutputQualityDetail from '~/modules/qmsx/features/transaction-history/production-output-quality/detail'
+//Quản lý user
+import UserManagement from '~/modules/qmsx/features/user-management'
+import UserManagementDetail from '~/modules/qmsx/features/user-management/user-detail'
+import UserManagementForm from '~/modules/qmsx/features/user-management/user-form'
+//Quyền user
+import UserPermission from '~/modules/qmsx/features/user-permission'
 
 import { ROUTE } from './config'
 
@@ -87,21 +93,18 @@ const routes = [
           {
             name: ROUTE.INPUT_QUALITY_CONTROL_PLAN.CREATE.TITLE,
             path: ROUTE.INPUT_QUALITY_CONTROL_PLAN.CREATE.PATH,
-            pathActive: ROUTE.INPUT_QUALITY_CONTROL_PLAN.CREATE.PATH,
             component: InputQualityControlPlanForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.INPUT_QUALITY_CONTROL_PLAN.DETAIL.TITLE,
             path: ROUTE.INPUT_QUALITY_CONTROL_PLAN.DETAIL.PATH,
-            pathActive: ROUTE.INPUT_QUALITY_CONTROL_PLAN.DETAIL.PATH,
             component: InputQualityControlPlanDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.INPUT_QUALITY_CONTROL_PLAN.EDIT.TITLE,
             path: ROUTE.INPUT_QUALITY_CONTROL_PLAN.EDIT.PATH,
-            pathActive: ROUTE.INPUT_QUALITY_CONTROL_PLAN.EDIT.PATH,
             component: InputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -117,21 +120,18 @@ const routes = [
           {
             name: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.CREATE.TITLE,
             path: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.CREATE.PATH,
-            pathActive: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.CREATE.PATH,
             component: OutputQualityControlPlanForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.DETAIL.TITLE,
             path: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.DETAIL.PATH,
-            pathActive: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.DETAIL.PATH,
             component: OutputQualityControlPlanDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.EDIT.TITLE,
             path: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.EDIT.PATH,
-            pathActive: ROUTE.OUTPUT_QUALITY_CONTROL_PLAN.EDIT.PATH,
             component: OutputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -150,9 +150,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.CREATE_PRODUCTION_INPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.CREATE_PRODUCTION_INPUT
-                .PATH,
             component: ProductionInputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -161,9 +158,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.DETAIL_PRODUCTION_INPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.DETAIL_PRODUCTION_INPUT
-                .PATH,
             component: ProductionInputQualityControlPlanDetail,
             isInSidebar: false,
           },
@@ -172,8 +166,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.EDIT_PRODUCTION_INPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.EDIT_PRODUCTION_INPUT.PATH,
             component: ProductionInputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -183,9 +175,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.CREATE_PRODUCTION_OUTPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.CREATE_PRODUCTION_OUTPUT
-                .PATH,
             component: ProductionOutputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -194,9 +183,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.DETAIL_PRODUCTION_OUTPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.DETAIL_PRODUCTION_OUTPUT
-                .PATH,
             component: ProductionOutputQualityControlPlanDetail,
             isInSidebar: false,
           },
@@ -205,8 +191,6 @@ const routes = [
               .TITLE,
             path: ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.EDIT_PRODUCTION_OUTPUT
               .PATH,
-            pathActive:
-              ROUTE.PRODUCTION_QUALITY_CONTROL_PLAN.EDIT_PRODUCTION_OUTPUT.PATH,
             component: ProductionOutputQualityControlPlanForm,
             isInSidebar: false,
           },
@@ -214,37 +198,30 @@ const routes = [
           {
             name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.LIST.TITLE,
             path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.LIST.PATH,
-            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.LIST.PATH,
             component: WorkCenterQualityControlPlanList,
             isInSidebar: false,
           },
           {
             name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.TITLE,
             path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH,
-            pathActive:
-              ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_OUTPUT.PATH,
             component: WorkCenterQualityControlPlanProductionOuputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.TITLE,
             path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.PATH,
-            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_OUTPUT.PATH,
             component: WorkCenterQualityControlPlanProductionOuputForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.TITLE,
             path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.PATH,
-            pathActive:
-              ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.DETAIL_INPUT.PATH,
             component: WorkCenterQualityControlPlanProductionInputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.TITLE,
             path: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.PATH,
-            pathActive: ROUTE.WORK_CENTER_QUALITY_CONTROL_PLAN.EDIT_INPUT.PATH,
             component: WorkCenterQualityControlPlanProductionInputForm,
             isInSidebar: false,
           },
@@ -267,21 +244,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_ERROR_GROUP.CREATE.TITLE,
             path: ROUTE.DEFINE_ERROR_GROUP.CREATE.PATH,
-            pathActive: ROUTE.DEFINE_ERROR_GROUP.CREATE.PATH,
             component: DefineErrorGroupForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_ERROR_GROUP.DETAIL.TITLE,
             path: ROUTE.DEFINE_ERROR_GROUP.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_ERROR_GROUP.DETAIL.PATH,
             component: DefineErrorGroupDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_ERROR_GROUP.EDIT.TITLE,
             path: ROUTE.DEFINE_ERROR_GROUP.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_ERROR_GROUP.EDIT.PATH,
             component: DefineErrorGroupForm,
             isInSidebar: false,
           },
@@ -297,21 +271,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_ACTION_GROUP.CREATE.TITLE,
             path: ROUTE.DEFINE_ACTION_GROUP.CREATE.PATH,
-            pathActive: ROUTE.DEFINE_ACTION_GROUP.CREATE.PATH,
             component: DefineActionGroupForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_ACTION_GROUP.DETAIL.TITLE,
             path: ROUTE.DEFINE_ACTION_GROUP.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_ACTION_GROUP.DETAIL.PATH,
             component: DefineActionGroupDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_ACTION_GROUP.EDIT.TITLE,
             path: ROUTE.DEFINE_ACTION_GROUP.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_ACTION_GROUP.EDIT.PATH,
             component: DefineActionGroupForm,
             isInSidebar: false,
           },
@@ -327,21 +298,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_CAUSE_GROUP.CREATE.TITLE,
             path: ROUTE.DEFINE_CAUSE_GROUP.CREATE.PATH,
-            pathActive: ROUTE.DEFINE_CAUSE_GROUP.CREATE.PATH,
             component: DefineCauseGroupForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_CAUSE_GROUP.DETAIL.TITLE,
             path: ROUTE.DEFINE_CAUSE_GROUP.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_CAUSE_GROUP.DETAIL.PATH,
             component: DefineCauseGroupDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_CAUSE_GROUP.EDIT.TITLE,
             path: ROUTE.DEFINE_CAUSE_GROUP.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_CAUSE_GROUP.EDIT.PATH,
             component: DefineCauseGroupForm,
             isInSidebar: false,
           },
@@ -364,21 +332,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_CHECK_LIST.CREATE.TITLE,
             path: ROUTE.DEFINE_CHECK_LIST.CREATE.PATH,
-            pathActive: ROUTE.DEFINE_CHECK_LIST.CREATE.PATH,
             component: DefineCheckListForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_CHECK_LIST.DETAIL.TITLE,
             path: ROUTE.DEFINE_CHECK_LIST.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_CHECK_LIST.DETAIL.PATH,
             component: DefineCheckListDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_CHECK_LIST.EDIT.TITLE,
             path: ROUTE.DEFINE_CHECK_LIST.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_CHECK_LIST.EDIT.PATH,
             component: DefineCheckListForm,
             isInSidebar: false,
           },
@@ -394,21 +359,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_QUALITY_POINT.CREATE.TITLE,
             path: ROUTE.DEFINE_QUALITY_POINT.CREATE.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_POINT.CREATE.PATH,
             component: DefineQualityPointForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_POINT.DETAIL.TITLE,
             path: ROUTE.DEFINE_QUALITY_POINT.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_POINT.DETAIL.PATH,
             component: DefineQualityPointDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_POINT.EDIT.TITLE,
             path: ROUTE.DEFINE_QUALITY_POINT.EDIT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_POINT.EDIT.PATH,
             component: DefineQualityPointForm,
             isInSidebar: false,
           },
@@ -424,7 +386,6 @@ const routes = [
           {
             name: ROUTE.DEFINE_ERROR_REPORT.DETAIL.TITLE,
             path: ROUTE.DEFINE_ERROR_REPORT.DETAIL.PATH,
-            pathActive: ROUTE.DEFINE_ERROR_REPORT.DETAIL.PATH,
             component: DefineErrorReportDetail,
             isInSidebar: false,
           },
@@ -441,21 +402,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_INPUT.PATH,
             component: DefineQualityAlertProductionInputForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_INPUT.PATH,
             component: DefineQualityAlertProductionInputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_INPUT.PATH,
             component: DefineQualityAlertProductionInputForm,
             isInSidebar: false,
           },
@@ -463,23 +421,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_OUTPUT.PATH,
-            pathActive:
-              ROUTE.DEFINE_QUALITY_ALERT.CREATE_PRODUCTION_OUTPUT.PATH,
             component: DefineQualityAlertProductionOutputForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_OUTPUT.PATH,
-            pathActive:
-              ROUTE.DEFINE_QUALITY_ALERT.DETAIL_PRODUCTION_OUTPUT.PATH,
             component: DefineQualityAlertProductionOutputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_OUTPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.EDIT_PRODUCTION_OUTPUT.PATH,
             component: DefineQualityAlertProductionOutputForm,
             isInSidebar: false,
           },
@@ -487,21 +440,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.CREATE_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.CREATE_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.CREATE_INPUT.PATH,
             component: DefineQualityAlertInputForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_INPUT.PATH,
             component: DefineQualityAlertInputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.EDIT_INPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.EDIT_INPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.EDIT_INPUT.PATH,
             component: DefineQualityAlertInputForm,
             isInSidebar: false,
           },
@@ -509,21 +459,18 @@ const routes = [
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.CREATE_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.CREATE_OUTPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.CREATE_OUTPUT.PATH,
             component: DefineQualityAlertOutputForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_OUTPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.DETAIL_OUTPUT.PATH,
             component: DefineQualityAlertOutputDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_QUALITY_ALERT.EDIT_OUTPUT.TITLE,
             path: ROUTE.DEFINE_QUALITY_ALERT.EDIT_OUTPUT.PATH,
-            pathActive: ROUTE.DEFINE_QUALITY_ALERT.EDIT_OUTPUT.PATH,
             component: DefineQualityAlertOutputForm,
             isInSidebar: false,
           },
@@ -536,6 +483,7 @@ const routes = [
     icon: 'key',
     isInSidebar: true,
     subMenu: [
+      //Phân tích & báo cáo
       {
         name: ROUTE.QUALITY_REPORT.LIST.TITLE,
         path: ROUTE.QUALITY_REPORT.LIST.PATH,
@@ -550,6 +498,7 @@ const routes = [
     name: 'setting',
     isInSidebar: true,
     subMenu: [
+      //Lịch sử giao dịch
       {
         name: ROUTE.TRANSACTION_HISTORY.LIST.TITLE,
         path: ROUTE.TRANSACTION_HISTORY.LIST.PATH,
@@ -559,14 +508,12 @@ const routes = [
           {
             name: ROUTE.TRANSACTION_HISTORY.INPUT_QUALITY_DETAIL.TITLE,
             path: ROUTE.TRANSACTION_HISTORY.INPUT_QUALITY_DETAIL.PATH,
-            pathActive: ROUTE.TRANSACTION_HISTORY.INPUT_QUALITY_DETAIL.PATH,
             component: InputQualityTransactionHistoryDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.TRANSACTION_HISTORY.OUTPUT_QUALITY_DETAIL.TITLE,
             path: ROUTE.TRANSACTION_HISTORY.OUTPUT_QUALITY_DETAIL.PATH,
-            pathActive: ROUTE.TRANSACTION_HISTORY.OUTPUT_QUALITY_DETAIL.PATH,
             component: OutputQualityTransactionHistoryDetail,
             isInSidebar: false,
           },
@@ -575,9 +522,6 @@ const routes = [
               .PRODUCTION_INPUT_QUALITY_PRODUCT_PREVIOUS_DETAIL.TITLE,
             path: ROUTE.TRANSACTION_HISTORY
               .PRODUCTION_INPUT_QUALITY_PRODUCT_PREVIOUS_DETAIL.PATH,
-            pathActive:
-              ROUTE.TRANSACTION_HISTORY
-                .PRODUCTION_INPUT_QUALITY_PRODUCT_PREVIOUS_DETAIL.PATH,
             component: ProductionInputQualityProductPreviousDetail,
             isInSidebar: false,
           },
@@ -586,9 +530,6 @@ const routes = [
               .PRODUCTION_INPUT_QUALITY_MATERIAL_DETAIL.TITLE,
             path: ROUTE.TRANSACTION_HISTORY
               .PRODUCTION_INPUT_QUALITY_MATERIAL_DETAIL.PATH,
-            pathActive:
-              ROUTE.TRANSACTION_HISTORY.PRODUCTION_INPUT_QUALITY_MATERIAL_DETAIL
-                .PATH,
             component: ProductionInputQualityMaterialDetail,
             isInSidebar: false,
           },
@@ -597,12 +538,44 @@ const routes = [
               .TITLE,
             path: ROUTE.TRANSACTION_HISTORY.PRODUCTION_OUTPUT_QUALITY_DETAIL
               .PATH,
-            pathActive:
-              ROUTE.TRANSACTION_HISTORY.PRODUCTION_OUTPUT_QUALITY_DETAIL.PATH,
             component: ProductionOutputQualityDetail,
             isInSidebar: false,
           },
         ],
+      },
+      //Quản lý người dùng
+      {
+        name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.USER_MANAGEMENT.LIST.PATH,
+        component: UserManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
+            component: UserManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      //Quản lý quyền
+      {
+        name: ROUTE.USER_PERMISSION.TITLE,
+        path: ROUTE.USER_PERMISSION.PATH,
+        component: UserPermission,
+        isInSidebar: true,
       },
     ],
   },

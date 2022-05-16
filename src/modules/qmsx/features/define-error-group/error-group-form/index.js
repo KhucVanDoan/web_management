@@ -6,7 +6,11 @@ import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -134,6 +138,10 @@ function DefineErrorGroupForm() {
                       label={t('defineErrorGroup.code')}
                       placeholder={t('defineErrorGroup.code')}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -142,6 +150,9 @@ function DefineErrorGroupForm() {
                       name="name"
                       label={t('defineErrorGroup.name')}
                       placeholder={t('defineErrorGroup.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -150,6 +161,9 @@ function DefineErrorGroupForm() {
                       name="description"
                       label={t('defineErrorGroup.description')}
                       placeholder={t('defineErrorGroup.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />

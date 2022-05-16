@@ -10,6 +10,7 @@ import Loading from '~/components/Loading'
 import InputQualityFilterForm from '~/modules/qmsx/features/quality-report/input-quality/filter-form'
 import useQualityReport from '~/modules/qmsx/redux/hooks/useQualityReport'
 import { ROUTE } from '~/modules/qmsx/routes/config'
+import { getRowNumber } from '~/modules/qmsx/utils'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 function InputQuality() {
@@ -35,11 +36,21 @@ function InputQuality() {
   const transKey = 'qualityReport'
 
   const columns = [
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
-      field: 'id',
+      field: 'rowNumber',
       headerName: '#',
       width: 50,
       sortable: false,
+      fixed: true,
+      renderCell: (_, index) => {
+        return getRowNumber(index, page, pageSize)
+      },
     },
     {
       field: 'stageName',
@@ -101,6 +112,7 @@ function InputQuality() {
           <Button
             variant="text"
             size="small"
+            bold={false}
             component={Link}
             to={`${ROUTE.DEFINE_ERROR_REPORT.LIST.PATH}?errorReportId=${errorReportId}`}
           >
@@ -141,11 +153,12 @@ function InputQuality() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         tableSettingKey="qcInput"
+        indexCol="rowNumber"
         filters={{
           form: <InputQualityFilterForm />,
           values: filters,

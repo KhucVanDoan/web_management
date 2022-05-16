@@ -130,18 +130,18 @@ const QualityReports = () => {
       },
     },
     {
-      field: 'confirmedQuantity',
+      field: 'quantityNeedQC',
       headerName: t('qualityReport.quantityNeed'),
       width: 100,
       align: 'right',
       renderCell: (params) => {
         const { row } = params
-        return row?.confirmedQuantity ? row?.confirmedQuantity : '0.00'
+        return row?.quantityNeedQC ? row?.quantityNeedQC : '0.00'
       },
     },
     {
       field: 'qcPassQuantity',
-      headerName: t('qualityReport.quantityDone'),
+      headerName: t('qualityReport.quantityPass'),
       width: 100,
       align: 'right',
 
@@ -213,8 +213,8 @@ const QualityReports = () => {
         page={page}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{

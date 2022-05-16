@@ -11,9 +11,9 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
 import useUserPermission from '~/modules/mesx/redux/hooks/useUserPermission'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { useAppStore } from '~/modules/shared/redux/hooks/useAppStore'
 
 const breadcrumbs = [
   {

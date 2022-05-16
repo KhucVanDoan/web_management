@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { FieldArray, Formik, Form } from 'formik'
 import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { CHECK_LIST_STATUS } from '~/modules/qmsx/constants'
+import {
+  CHECK_LIST_STATUS,
+  CHECK_LIST_STATUS_OPTIONS,
+} from '~/modules/qmsx/constants'
 import useDefineCheckList from '~/modules/qmsx/redux/hooks/useDefineCheckList'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 
@@ -95,7 +102,17 @@ function DefineCheckListForm() {
       const payload = {
         id: params?.id || history?.location?.state,
       }
-      actions.getCheckListDetailById(payload)
+      actions.getCheckListDetailById(
+        payload,
+        (data) => {
+          if (
+            mode === MODAL_MODE.UPDATE &&
+            +data.status !== CHECK_LIST_STATUS_OPTIONS.PENDING
+          )
+            return backToList()
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate || isClone) actions.resetCheckListDetailState()
@@ -160,16 +177,16 @@ function DefineCheckListForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValuesForm}
-            validationSchema={defineCheckListSchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, setFieldValue, values }) => (
-              <Form>
+      <Formik
+        initialValues={initialValuesForm}
+        validationSchema={defineCheckListSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, setFieldValue, values }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -194,6 +211,10 @@ function DefineCheckListForm() {
                       name="code"
                       label={t('defineCheckList.code')}
                       placeholder={t('defineCheckList.code')}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
                       disabled={isUpdate}
                       required
                     />
@@ -203,6 +224,9 @@ function DefineCheckListForm() {
                       name="name"
                       label={t('defineCheckList.name')}
                       placeholder={t('defineCheckList.name')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -211,42 +235,34 @@ function DefineCheckListForm() {
                       name="description"
                       label={t('defineCheckList.description')}
                       placeholder={t('defineCheckList.description')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
-                >
-                  {/* Table */}
-                  <Grid item lg={12} xs={12}>
-                    <FieldArray
-                      name="checkListDetails"
-                      render={(arrayHelpers) => (
-                        <CheckListDetailTable
-                          items={values?.checkListDetails || []}
-                          mode={mode}
-                          arrayHelpers={arrayHelpers}
-                          setFieldValue={setFieldValue}
-                        />
-                      )}
-                    />
-                  </Grid>
-                </Grid>
-                <ActionBar
-                  onBack={backToList}
-                  onCancel={handleReset}
-                  mode={mode}
-                />
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ mt: 3 }}>
+              <FieldArray
+                name="checkListDetails"
+                render={(arrayHelpers) => (
+                  <CheckListDetailTable
+                    items={values?.checkListDetails || []}
+                    mode={mode}
+                    arrayHelpers={arrayHelpers}
+                    setFieldValue={setFieldValue}
+                  />
+                )}
+              />
+            </Box>
+            <ActionBar onBack={backToList} onCancel={handleReset} mode={mode} />
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

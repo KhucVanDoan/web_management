@@ -120,7 +120,7 @@ function InputQualityControlPlan() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -229,9 +229,6 @@ function InputQualityControlPlan() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download">
-          {t('menu.importExportData')}
-        </Button>
         <Button
           onClick={() =>
             history.push(ROUTE.INPUT_QUALITY_CONTROL_PLAN.CREATE.PATH)
@@ -239,7 +236,7 @@ function InputQualityControlPlan() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -262,8 +259,8 @@ function InputQualityControlPlan() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
@@ -272,9 +269,9 @@ function InputQualityControlPlan() {
         open={modalDelete.isOpenDeleteModal}
         title={t('inputQualityControlPlan.modalDeleteTitle')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}
@@ -286,9 +283,9 @@ function InputQualityControlPlan() {
         open={modalConfirm.isOpenConfirmModal}
         title={t('inputQualityControlPlan.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('inputQualityControlPlan.modalConfirmContent')}

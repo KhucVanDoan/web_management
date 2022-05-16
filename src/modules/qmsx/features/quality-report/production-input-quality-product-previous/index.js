@@ -40,7 +40,7 @@ function ProductionInputQualityProductPrevious() {
       width: 50,
       sortable: false,
       fixed: true,
-      renderCell: (params, index) => {
+      renderCell: (_, index) => {
         return getRowNumber(index, page, pageSize)
       },
     },
@@ -156,8 +156,8 @@ function ProductionInputQualityProductPrevious() {
       columns={columns}
       onPageChange={setPage}
       onPageSizeChange={setPageSize}
-      onChangeFilter={setFilters}
-      onChangeSort={setSort}
+      onFilterChange={setFilters}
+      onSortChange={setSort}
       total={total}
       sort={sort}
       tableSettingKey="qcProductionInputProductPrevious"

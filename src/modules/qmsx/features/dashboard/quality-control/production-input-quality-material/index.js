@@ -1,20 +1,18 @@
 import { useEffect } from 'react'
 
 import { DualAxes } from '@ant-design/plots'
-import {Box, Typography, Card, Grid} from '@mui/material'
+import { Box, Typography, Card, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import ProductionInputQualityMaterialFilterForm from '~/modules/qmsx/features/dashboard/quality-control/production-input-quality-material/filter-form';
+import ProductionInputQualityMaterialFilterForm from '~/modules/qmsx/features/dashboard/quality-control/production-input-quality-material/filter-form'
 import { useDashboardProductionInputQualityMaterial } from '~/modules/qmsx/redux/hooks/useDashboard'
 
 function ProductionInputQualityMaterial() {
   const { t } = useTranslation('qmsx')
   const transKey = 'dashboard.qualityControl'
 
-  const {
-    actions,
-    data: productionInputQualityMaterial,
-  } = useDashboardProductionInputQualityMaterial()
+  const { actions, data: productionInputQualityMaterial } =
+    useDashboardProductionInputQualityMaterial()
 
   useEffect(() => {
     actions.getProductionInputQualityMaterialDashboard()
@@ -23,11 +21,6 @@ function ProductionInputQualityMaterial() {
   const columnData = []
   const lineData = []
 
-  const producedQuantityData = productionInputQualityMaterial.map((i) => ({
-    colName: t(`${transKey}.importQuantity`),
-    time: i?.date,
-    colValue: i?.importQuantity,
-  }))
   const qcRejectQuantityData = productionInputQualityMaterial.map((i) => ({
     colName: t(`${transKey}.qcDoneQuantity`),
     time: i?.date,
@@ -55,7 +48,6 @@ function ProductionInputQualityMaterial() {
   }))
 
   columnData.push(
-    ...producedQuantityData,
     ...qcRejectQuantityData,
     ...needRepairQuantityData,
     ...qcNeedQuantityData,
@@ -89,7 +81,7 @@ function ProductionInputQualityMaterial() {
     },
     animation: false,
   }
-  
+
   return (
     <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>

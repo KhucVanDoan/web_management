@@ -30,6 +30,10 @@ export const globalStyles = (theme) => ({
       // borderRadius: 4,
       backgroundColor: theme.palette.bgPrimaryOpacity,
     },
+
+    '> iframe': {
+      pointerEvents: 'none',
+    },
   },
 
   '#root': {

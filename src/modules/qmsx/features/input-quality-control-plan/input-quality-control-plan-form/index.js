@@ -6,7 +6,11 @@ import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -28,6 +32,7 @@ import { InputQualityControlPlanSchema } from './schema'
 const ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID = {
   PO: 'detail-po',
   PRO: 'detail-pro',
+  IMO: 'detail-imo',
 }
 
 export const DEFAULT_ROW_TABLE = {
@@ -56,10 +61,6 @@ function InputQualityControlPlanForm() {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-  const canUpdateQuantity =
-    mode === MODAL_MODE.UPDATE &&
-    (inputQcPlanDetail?.status === INPUT_QC_PLAN_STATUS_OPTIONS.CONFIRMED ||
-      inputQcPlanDetail?.status === INPUT_QC_PLAN_STATUS_OPTIONS.INPROGRESS)
 
   const initialValues = {
     status: null,
@@ -73,7 +74,6 @@ function InputQualityControlPlanForm() {
   const [initialValuesForm, setInitialValuesForm] = useState(initialValues)
   const [saveInitialValuesDetailForm, setSaveInitialValuesDetailForm] =
     useState({})
-  const [formValue, setForm] = useState([])
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -106,10 +106,15 @@ function InputQualityControlPlanForm() {
 
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
-      actions.getInputQcPlanDetailById(params, (data) => {
-        getInputOrder(data?.qcStageId)
-        getFormData(data?.qualityPlanIOqcs)
-      })
+      actions.getInputQcPlanDetailById(
+        params,
+        (data) => {
+          if (+data.status !== INPUT_QC_PLAN_STATUS_OPTIONS.PENDING)
+            return backToList()
+          getInputOrder(data?.qcStageId)
+        },
+        backToList,
+      )
     }
     return () => {
       if (isUpdate) actions.resetInputQcPlanDetailState()
@@ -264,7 +269,7 @@ function InputQualityControlPlanForm() {
           : null,
       ],
     }))
-    setForm(result)
+    return result
   }
 
   useEffect(() => {
@@ -276,12 +281,12 @@ function InputQualityControlPlanForm() {
         stageQc: inputQcPlanDetail?.qcStageId,
         order: inputQcPlanDetail?.order?.id,
         description: inputQcPlanDetail?.description,
-        qualityPlanIOqcs: formValue,
+        qualityPlanIOqcs: getFormData(inputQcPlanDetail?.qualityPlanIOqcs),
       }
       setInitialValuesForm(initDetail)
       setSaveInitialValuesDetailForm(initDetail)
     }
-  }, [inputQcPlanDetail, formValue])
+  }, [inputQcPlanDetail])
 
   //Handle onChange Autocomplete
   const onChangeStageQc = (stageQcValue, setFieldValue) => {
@@ -289,16 +294,25 @@ function InputQualityControlPlanForm() {
       getInputOrder(stageQcValue)
     } else {
       setFieldValue('order', null)
-      setFieldValue('qualityPlanIOqcs', [])
       setInputOrderList([])
+      setInitialValuesForm((prev) => ({
+        ...prev,
+        stageQc: null,
+        order: null,
+        qualityPlanIOqcs: [],
+      }))
     }
   }
 
-  const onChangeOrder = (stageQcValue, inputOrderId, setFieldValue, values) => {
+  const onChangeOrder = (stageQcValue, inputOrderId, values) => {
     if (!isNil(inputOrderId) && !isNil(stageQcValue)) {
       getInputPlan(stageQcValue, inputOrderId, values)
     } else {
-      setFieldValue('qualityPlanIOqcs', [])
+      setInitialValuesForm((prev) => ({
+        ...prev,
+        order: null,
+        qualityPlanIOqcs: [],
+      }))
     }
   }
 
@@ -313,50 +327,29 @@ function InputQualityControlPlanForm() {
   }
 
   const getInputPlan = (stageQcValue, inputOrderId, values) => {
+    let endpointPatch = null
+    switch (+stageQcValue) {
+      case STAGE_OPTION.PO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PO
+        break
+      case STAGE_OPTION.PRO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PRO
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        endpointPatch = ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.IMO
+        break
+      default:
+        break
+    }
     const params = {
-      endpointPatch:
-        +stageQcValue === STAGE_OPTION.PO_IMPORT
-          ? ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PO
-          : ENDPOINT_PATCH_GET_INPUT_PLAN_BY_ORDER_ID.PRO,
+      endpointPatch: endpointPatch,
       id: inputOrderId,
     }
     actions.getInputPlanByOrderId(params, (data) => {
       setInitialValuesForm({
         ...values,
         order: inputOrderId,
-        qualityPlanIOqcs: data?.qualityPlanIOqcs.map((x) => ({
-          ...x,
-          planErrorRate: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.planErrorRate
-            : null,
-          qcPlanQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.planQcQuantity
-            : null,
-          qcDoneQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.qcDoneQuantity
-            : null,
-          qcPassQuantity: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? +x?.qualityPlanIOqcDetails[0]?.qcPassQuantity
-            : null,
-          userQc1st: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.qualityPlanIOqcQualityPointUser1s.map(
-                (i) => i?.userId,
-              )
-            : [],
-          userQc2nd: !isEmpty(x?.qualityPlanIOqcDetails)
-            ? x?.qualityPlanIOqcDetails[0]?.qualityPlanIOqcQualityPointUser2s.map(
-                (i) => i?.userId,
-              )
-            : [],
-          qcPlanDate: [
-            !isEmpty(x?.qualityPlanIOqcDetails)
-              ? x?.qualityPlanIOqcDetails[0]?.planFrom
-              : null,
-            !isEmpty(x?.qualityPlanIOqcDetails)
-              ? x?.qualityPlanIOqcDetails[0]?.planTo
-              : null,
-          ],
-        })),
+        qualityPlanIOqcs: getFormData(data?.qualityPlanIOqcs),
       })
     })
   }
@@ -368,25 +361,24 @@ function InputQualityControlPlanForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValuesForm}
-            validationSchema={InputQualityControlPlanSchema(
-              t,
-              mode,
-              inputQcPlanDetail?.status,
-            )}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, setFieldValue, values }) => (
-              <Form>
+      <Formik
+        initialValues={initialValuesForm}
+        validationSchema={InputQualityControlPlanSchema(
+          t,
+          mode,
+          inputQcPlanDetail?.status,
+        )}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, setFieldValue, values }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
                 >
                   {!isNil(values?.status) && (
                     <Grid item xs={12}>
@@ -406,7 +398,11 @@ function InputQualityControlPlanForm() {
                       name="code"
                       label={t('inputQualityControlPlan.code')}
                       placeholder={t('inputQualityControlPlan.code')}
-                      disabled={isUpdate || canUpdateQuantity}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                      }}
+                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -415,7 +411,9 @@ function InputQualityControlPlanForm() {
                       name="name"
                       label={t('inputQualityControlPlan.name')}
                       placeholder={t('inputQualityControlPlan.name')}
-                      disabled={canUpdateQuantity}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       required
                     />
                   </Grid>
@@ -425,7 +423,6 @@ function InputQualityControlPlanForm() {
                       label={t('inputQualityControlPlan.stageQc')}
                       placeholder={t('inputQualityControlPlan.stageQc')}
                       required
-                      disabled={canUpdateQuantity}
                       options={STAGES_INPUT}
                       getOptionValue={(option) => option?.value}
                       getOptionLabel={(option) => t(option?.text)}
@@ -440,17 +437,11 @@ function InputQualityControlPlanForm() {
                       label={t('inputQualityControlPlan.orderName')}
                       placeholder={t('inputQualityControlPlan.orderName')}
                       required
-                      disabled={canUpdateQuantity}
                       options={inputOrderList}
                       getOptionValue={(option) => option?.id}
                       getOptionLabel={(option) => option?.name}
                       onChange={(value) =>
-                        onChangeOrder(
-                          values?.stageQc,
-                          value,
-                          setFieldValue,
-                          values,
-                        )
+                        onChangeOrder(values?.stageQc, value, values)
                       }
                     />
                   </Grid>
@@ -459,36 +450,38 @@ function InputQualityControlPlanForm() {
                       name="description"
                       label={t('inputQualityControlPlan.description')}
                       placeholder={t('inputQualityControlPlan.description')}
-                      disabled={canUpdateQuantity}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
                       multiline
                       rows={3}
                     />
                   </Grid>
                 </Grid>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                  sx={{ my: 2 }}
-                >
-                  {/* Plan detail table */}
-                  <Grid item lg={12} xs={12}>
-                    <PlanDetailTable
-                      qualityPlanIOqcs={values?.qualityPlanIOqcs}
-                      mode={mode}
-                      setFieldValue={setFieldValue}
-                    />
-                  </Grid>
-                </Grid>
-                <ActionBar
-                  onBack={backToList}
-                  elAfter={renderActionButtons({ handleReset })}
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              rowSpacing={4 / 3}
+              columnSpacing={{ xl: 8, xs: 4 }}
+              sx={{ my: 2 }}
+            >
+              {/* Plan detail table */}
+              <Grid item lg={12} xs={12}>
+                <PlanDetailTable
+                  qualityPlanIOqcs={values?.qualityPlanIOqcs}
+                  mode={mode}
+                  setFieldValue={setFieldValue}
                 />
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+              </Grid>
+            </Grid>
+            <ActionBar
+              onBack={backToList}
+              elAfter={renderActionButtons({ handleReset })}
+            />
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

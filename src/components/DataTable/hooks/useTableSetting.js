@@ -8,10 +8,10 @@ const useTableSetting = (tableSettingKey) => {
   const storageKey = `TABLE_SETTING${pathname
     .replace(/\//g, '_')
     .toUpperCase()}${suffix}`
-  const tableSetting = storage.sessionGet(storageKey)
+  const tableSetting = storage.getSessionItem(storageKey)
 
   const updateTableSetting = (newSetting) => {
-    storage.sessionSet(storageKey, newSetting)
+    storage.setSessionItem(storageKey, newSetting)
   }
 
   return { tableSetting, updateTableSetting }

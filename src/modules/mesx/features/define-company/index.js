@@ -11,17 +11,17 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/database/routes/config'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.DEFINE_COMPANY.LIST.PATH,
     title: ROUTE.DEFINE_COMPANY.LIST.TITLE,
@@ -123,7 +123,7 @@ function DefineCompany() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -151,6 +151,15 @@ function DefineCompany() {
             </IconButton>
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.DEFINE_COMPANY.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
             </IconButton>
           </div>
         )
@@ -201,7 +210,7 @@ function DefineCompany() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -224,8 +233,8 @@ function DefineCompany() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -235,15 +244,14 @@ function DefineCompany() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={modal.isOpenDeleteModal}
         title={t('defineCompany.defineCompanyDelete')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

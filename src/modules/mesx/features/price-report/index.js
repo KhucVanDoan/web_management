@@ -168,7 +168,7 @@ const PriceReport = () => {
         title={t('menu.priceReport')}
         rows={priceReport}
         columns={columns}
-        onChangeFilter={setFilters}
+        onFilterChange={setFilters}
         total={priceReport?.length}
         filters={{
           form: <FilterForm />,

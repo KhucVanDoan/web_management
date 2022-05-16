@@ -1,16 +1,26 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, createFilterOptions, Grid, Typography } from '@mui/material'
+import {
+  Box,
+  createFilterOptions,
+  Grid,
+  InputAdornment,
+  Typography,
+} from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
-  ASYNC_SEARCH_STATUS,
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -19,29 +29,38 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
-import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  PRODUCING_STEP_STATUS,
+  WORK_CENTER_STATUS,
+  WORK_CENTER_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users.saga'
+import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
+import qs from '~/utils/qs'
 
 import BreakTimeTable from './break-time'
 import { WorkCenterSchema } from './schema'
 import ShiftTable from './work-center-shifts'
+
 const WorkCenterForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const MODE_MAP = {
     [ROUTE.WORK_CENTER.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WORK_CENTER.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+
   const {
     data: { isLoading, wcDetails },
     actions,
@@ -55,6 +74,9 @@ const WorkCenterForm = () => {
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
+    }
+    if (cloneId) {
+      actions.getWorkCenterDetailsById(cloneId)
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
     commonManagementActions.getFactories({ isGetAll: 1 })
@@ -94,7 +116,7 @@ const WorkCenterForm = () => {
 
   const initialValues = useMemo(
     () => ({
-      code: wcDetails?.code || '',
+      code: isUpdate ? wcDetails?.code : '',
       name: wcDetails?.name || '',
       description: wcDetails?.description || '',
       members: wcDetails?.members || [],
@@ -360,13 +382,20 @@ const WorkCenterForm = () => {
                       <Field.TextField
                         name="code"
                         label={t('workCenter.code')}
+                        ss
                         placeholder={t('workCenter.code')}
-                        disabled={isUpdate}
+                        disabled={
+                          !cloneId &&
+                          (isUpdate ||
+                            wcDetails?.status ===
+                              WORK_CENTER_STATUS.IN_PROGRESS)
+                        }
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
+                        {...(cloneId ? { autoFocus: true } : {})}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -374,6 +403,10 @@ const WorkCenterForm = () => {
                         name="name"
                         label={t('workCenter.name')}
                         placeholder={t('workCenter.name')}
+                        disabled={
+                          !cloneId &&
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
@@ -391,6 +424,9 @@ const WorkCenterForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
                         getOptionSubLabel={(opt) => opt?.code}
+                        getOptionDisabled={(opt) =>
+                          values?.members?.some((i) => i?.id === opt?.id)
+                        }
                         onChange={(val) => {
                           if (
                             val.filter((v) => v?.id === values?.leaderId)
@@ -408,8 +444,12 @@ const WorkCenterForm = () => {
                         name="factoryId"
                         label={t('workCenter.factoryName')}
                         placeholder={t('workCenter.factoryName')}
+                        disabled={
+                          !cloneId &&
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         options={factoryList?.items}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name}
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
@@ -435,12 +475,16 @@ const WorkCenterForm = () => {
                         name="producingStepId"
                         label={t('workCenter.producingStep')}
                         placeholder={t('workCenter.producingStep')}
+                        disabled={
+                          !cloneId &&
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         asyncRequest={(s) =>
                           searchProducingStepsApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: ASYNC_SEARCH_STATUS,
+                              status: PRODUCING_STEP_STATUS.CONFIRMED,
                             }),
                           })
                         }
@@ -490,9 +534,23 @@ const WorkCenterForm = () => {
                       <Field.TextField
                         label={t('workCenter.oeeGoal')}
                         placeholder={t('workCenter.oeeGoal')}
+                        disabled={
+                          !cloneId &&
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         name="oeeTarget"
                         numberProps={{
                           decimalScale: 3,
+                        }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
+                              {t('workCenter.percent')}
+                            </InputAdornment>
+                          ),
                         }}
                         required
                       />
@@ -503,6 +561,10 @@ const WorkCenterForm = () => {
                         label={t('workCenter.workCapacity')}
                         name="workCapacity"
                         placeholder={t('workCenter.workCapacity')}
+                        disabled={
+                          !cloneId &&
+                          wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
+                        }
                         type="number"
                         numberProps={{
                           decimalScale: 3,
@@ -522,6 +584,7 @@ const WorkCenterForm = () => {
                         shifts={values.shifts || []}
                         mode={mode}
                         arrayHelpers={arrayHelpers}
+                        status={wcDetails?.status}
                       />
                     )}
                   />
@@ -535,6 +598,7 @@ const WorkCenterForm = () => {
                           breakTimes={values.breakTimes || []}
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
+                          status={wcDetails?.status}
                         />
                       )}
                     />

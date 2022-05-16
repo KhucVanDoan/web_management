@@ -5,12 +5,11 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { DEFAULT_DATE_TIME_FORMAT_VN } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -20,11 +19,12 @@ import {
   STAGE_OPTION,
 } from '~/modules/qmsx/constants'
 import useDefineErrorReport from '~/modules/qmsx/redux/hooks/useDefineErrorReport'
+import getExportErrorReportApi from '~/modules/qmsx/redux/sagas/define-error-report/export-error-report'
 import { ROUTE } from '~/modules/qmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 import qs from '~/utils/qs'
 
@@ -80,13 +80,16 @@ function DefineErrorReport() {
     isOpenRejectModal: false,
   })
 
+  const [selectedRows, setSelectedRows] = useState([])
+  const [columnsSettings, setColumnsSettings] = useState([])
+
   const columns = [
-    {
-      field: 'id',
-      headerName: '#',
-      width: 50,
-      sortable: false,
-    },
+    // {
+    //   field: 'id',
+    //   headerName: '#',
+    //   width: 50,
+    //   sortable: false,
+    // },
     {
       field: 'code',
       headerName: t('defineErrorReport.code'),
@@ -126,7 +129,7 @@ function DefineErrorReport() {
       sortable: true,
       renderCell: (params) => {
         const { createdAt } = params?.row
-        return formatDateTimeUtc(createdAt, DEFAULT_DATE_TIME_FORMAT_VN)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -154,7 +157,7 @@ function DefineErrorReport() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -231,6 +234,7 @@ function DefineErrorReport() {
       ]),
       sort: convertSortParams(sort),
     }
+    setSelectedRows([])
     actions.searchErrorReport(params)
   }
 
@@ -302,11 +306,28 @@ function DefineErrorReport() {
     }
   }
 
+  //handle: selected checkbox
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected)
+  }
+
   const renderHeaderRight = () => {
     return (
-      <Button variant="outlined" icon="download">
-        {t('menu.exportData')}
-      </Button>
+      <ImportExport
+        name={t('importExport.errorReport')}
+        onExport={() =>
+          getExportErrorReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }
+        onRefresh={refreshData}
+      />
     )
   }
 
@@ -327,19 +348,22 @@ function DefineErrorReport() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
+        onSelectionChange={onSelectionChange}
+        selected={selectedRows}
+        onSettingChange={(settings) => setColumnsSettings(settings)}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog
         open={modalConfirm.isOpenConfirmModal}
         title={t('defineErrorReport.modalConfirmTitle')}
         onCancel={onCloseConfirmModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineErrorReport.modalConfirmContent')}
@@ -348,9 +372,9 @@ function DefineErrorReport() {
         open={modalReject.isOpenRejectModal}
         title={t('defineErrorReport.modalRejectTitle')}
         onCancel={onCloseRejectModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitReject}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
         {t('defineErrorReport.modalRejectContent')}

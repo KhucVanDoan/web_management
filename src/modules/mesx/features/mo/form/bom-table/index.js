@@ -80,7 +80,7 @@ function BomTable(props) {
       align: 'center',
     },
     {
-      field: 'needInputQuantity',
+      field: 'manufactureQuantity',
       headerName: t('Mo.item.needInputQuantity'),
       width: 50,
       align: 'center',

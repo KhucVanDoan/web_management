@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Box, createFilterOptions } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isNil } from 'lodash'
-import qs from 'query-string'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -13,30 +12,25 @@ import {
 } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
-import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
-import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
-import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import {
-  MO_STATUS_OPTIONS,
-  MASTER_PLAN_STATUS,
-  MO_STATUS,
-} from '~/modules/mesx/constants'
+import useItemType from '~/modules/database/redux/hooks/useItemType'
+import { MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
-import useItemType from '~/modules/mesx/redux/hooks/useItemType'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
+import { getMasterPlanDetailsApi } from '~/modules/mesx/redux/sagas/define-master-plan/get-master-plan-details'
+import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc, convertFilterParams } from '~/utils'
+import { convertFilterParams } from '~/utils'
+import qs from '~/utils/qs'
 
 import BomProducingStepTable from './bom-producing-step-table'
 import BomTable from './bom-table'
@@ -57,25 +51,21 @@ const MOForm = () => {
   const [saleOrder, setSaleOrder] = useState({})
   const [moFactory, setMoFactory] = useState()
   const [dataPlan, setDataPlan] = useState()
-  const [isOpenCreatePO, setIsOpenCreatePO] = useState(false)
-  const [isOpenEnoughMaterial, setIsOpenEnoughMaterial] = useState(false)
-  // const [isDisable, setIsDisable] = useState(false)
   const masterPlanId = +urlSearchParams.masterPlanId
+  const { cloneId } = urlSearchParams
   const [isSubmitForm] = useState(false)
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.MO.DETAIL.PATH]: MODAL_MODE.DETAIL,
     [ROUTE.MO.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const isUpdate = mode === MODAL_MODE.UPDATE
-  const isView = mode === MODAL_MODE.DETAIL
 
   const {
-    data: { masterPlanList },
+    data: { masterPlanDetails },
     actions: masterPlanActions,
   } = useDefineMasterPlan()
   const {
-    data: { isLoading, moDetails, BOMStructure, PriceStructure, materialCheck },
+    data: { isLoading, moDetails, BOMStructure, PriceStructure },
     actions,
   } = useMo()
 
@@ -84,67 +74,27 @@ const MOForm = () => {
     actions: actionsItemType,
   } = useItemType()
 
-  const {
-    data: { requestBuyMaterialList },
-    actions: actionRequest,
-  } = useRequestBuyMaterial()
-
   useEffect(() => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
-    masterPlanActions.searchMasterPlans({
-      isGetAll: 1,
-      filter: convertFilterParams({
-        status: [
-          MASTER_PLAN_STATUS.CONFIRMED,
-          MASTER_PLAN_STATUS.IN_PROGRESS,
-        ].join(','),
-      }),
-    })
   }, [])
 
   useEffect(() => {
-    if (isUpdate || isView) {
-      actions.getMODetailsById(id)
-      actions.getBOMProducingStepStructureById(id)
-      actions.getPriceStructureById(id)
+    if (isUpdate || cloneId) {
+      const moId = id || cloneId
+      actions.getMODetailsById(moId)
+      actions.getBOMProducingStepStructureById(moId)
+      actions.getPriceStructureById(moId)
       actionsItemType.searchItemTypes({ isGetAll: 1 })
-      actionRequest.searchRequestBuyMaterials({ isGetAll: 1 })
     }
+
     return () => {
       actions.resetMoDetail()
+      masterPlanActions.resetMasterPlanDetails()
     }
-  }, [mode])
+  }, [mode, cloneId])
 
   const backToList = () => {
     history.push(ROUTE.MO.LIST.PATH)
-  }
-
-  const handleCheckMaterial = () => {
-    const idx = requestBuyMaterialList?.find(
-      (i) => i?.manufacturingOrder?.id === Number(id),
-    )?.id
-    if (idx) {
-      history.push(
-        ROUTE.REQUEST_BUY_MATERIAL.DETAIL.PATH.replace(':id', `${idx}`),
-      )
-    } else {
-      actions.checkMaterialPlanById(moDetails?.materialPlan?.id)
-      if (materialCheck) {
-        setIsOpenCreatePO(true)
-      } else {
-        setIsOpenEnoughMaterial(true)
-      }
-    }
-  }
-
-  const createRequestBuyMaterial = () => {
-    const params = {
-      ...materialCheck,
-    }
-    actionRequest.createRequestBuyMaterial(params, () => {
-      setIsOpenCreatePO(false)
-      history.push(ROUTE.REQUEST_BUY_MATERIAL.LIST.PATH)
-    })
   }
 
   const getMasterDetail = () => {
@@ -156,7 +106,6 @@ const MOForm = () => {
           (so) => so.saleOrderId === moDetails?.saleOrderId,
         )
         setSaleOrder(saleOrder)
-        setMoFactory(data?.factory?.name)
       },
     )
   }
@@ -181,8 +130,13 @@ const MOForm = () => {
             onBack={backToList}
             onCancel={() => {
               handleReset()
-              setSaleOrders([])
-              setSaleOrder({})
+              setSaleOrders(masterPlanDetails?.saleOrderSchedules)
+              if (!cloneId) {
+                setSaleOrder({})
+              } else {
+                getMasterDetail()
+              }
+              setMoFactory(masterPlanDetails?.factory?.name)
             }}
             mode={MODAL_MODE.CREATE}
           />
@@ -194,32 +148,15 @@ const MOForm = () => {
             onCancel={() => {
               handleReset()
               getMasterDetail()
+              setMoFactory(moDetails?.factory?.name)
             }}
             mode={MODAL_MODE.UPDATE}
-          />
-        )
-      case MODAL_MODE.DETAIL:
-        return (
-          <ActionBar
-            onBack={backToList}
-            elBefore={
-              moDetails?.status !== MO_STATUS.PENDING && (
-                <Button
-                  variant="outlined"
-                  onClick={() => handleCheckMaterial()}
-                  sx={{ mr: 'auto' }}
-                >
-                  {t('Mo.requestBuyMetarial')}
-                </Button>
-              )
-            }
           />
         )
       default:
         break
     }
   }
-
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
@@ -259,8 +196,6 @@ const MOForm = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
         return ROUTE.MO.CREATE.TITLE
-      case MODAL_MODE.DETAIL:
-        return ROUTE.MO.DETAIL.TITLE
       case MODAL_MODE.UPDATE:
         return ROUTE.MO.EDIT.TITLE
       default:
@@ -268,10 +203,22 @@ const MOForm = () => {
   }
 
   useEffect(() => {
-    if (isUpdate) {
+    if ((isUpdate || cloneId) && moDetails?.masterPlan?.id) {
       getMasterDetail()
     }
   }, [moDetails?.masterPlan?.id])
+
+  useEffect(() => {
+    if (!isEmpty(moDetails)) {
+      setMoFactory(moDetails?.factory?.name)
+    }
+  }, [moDetails])
+
+  useEffect(() => {
+    if (masterPlanId) {
+      masterPlanActions.getMasterPlanDetailsById(masterPlanId)
+    }
+  }, [masterPlanId])
 
   useEffect(() => {
     if (mode === MODAL_MODE.CREATE && masterPlanId) {
@@ -279,33 +226,40 @@ const MOForm = () => {
     }
   }, [masterPlanId])
 
-  const handleChangePlan = (id, setFieldValue) => {
+  const handleChangePlan = async (id, setFieldValue) => {
     setSaleOrder({})
-
-    masterPlanActions.getMasterPlanDetailsById(id, (response) => {
-      setSaleOrders(response.saleOrderSchedules)
-      setFieldValue('moPlan', [response.dateFrom, response.dateTo])
-      setMoFactory(response.factory?.name)
-    })
+    if (id) {
+      const res = await getMasterPlanDetailsApi(id)
+      setSaleOrders(res?.data?.saleOrderSchedules)
+      setFieldValue('moPlan', [res?.data?.dateFrom, res?.data?.dateTo])
+      setMoFactory(res?.data?.factory?.name)
+    } else {
+      setMoFactory('')
+      setSaleOrders([])
+    }
   }
 
-  const handleChangeSaleOrder = (value) => {
+  const handleChangeSaleOrder = (value, setFieldValue) => {
     const saleOrder = saleOrders.find((so) => so.saleOrderId === value)
     setSaleOrder(saleOrder)
+    if (!value) {
+      setFieldValue('itemIds', [])
+    }
   }
-
   const initialValues = {
-    code: moDetails?.code || '',
+    code: isUpdate ? moDetails?.code : '',
     name: moDetails?.name || '',
     moPlan:
-      mode === MODAL_MODE.CREATE
-        ? [dataPlan?.dateFrom, dataPlan?.dateTo]
-        : [moDetails?.planFrom, moDetails?.planTo],
+      isUpdate || cloneId
+        ? [moDetails?.planFrom, moDetails?.planTo]
+        : [dataPlan?.dateFrom, dataPlan?.dateTo],
     description: moDetails?.description || '',
     itemIds: [],
-    masterPlanId: moDetails?.masterPlan?.id || masterPlanId,
-    saleOrderId: moDetails?.saleOrderId || null,
-    moFactory: '',
+    masterPlanId:
+      moDetails?.masterPlan ||
+      (isEmpty(masterPlanDetails) ? null : masterPlanDetails) ||
+      null,
+    saleOrderId: moDetails?.saleOrderId || '',
   }
 
   const handleSubmit = (values) => {
@@ -315,7 +269,7 @@ const MOForm = () => {
       itemIds: values?.itemIds,
       description: values?.description,
       saleOrderId: values?.saleOrderId,
-      masterPlanId: values?.masterPlanId,
+      masterPlanId: values?.masterPlanId?.id,
       planFrom: values?.moPlan ? values?.moPlan[0] : '',
       planTo: values?.moPlan ? values?.moPlan[1] : '',
     }
@@ -350,176 +304,100 @@ const MOForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {isView && !isNil(moDetails?.status) && (
-                    <Grid item xs={12}>
-                      <LabelValue
-                        label={t('defineBOM.status')}
-                        value={
-                          <Status
-                            options={MO_STATUS_OPTIONS}
-                            value={moDetails?.status}
-                          />
-                        }
-                      />
-                    </Grid>
-                  )}
-
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue
-                        label={t('Mo.moCode')}
-                        value={moDetails?.code}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="code"
-                        label={t('Mo.moCode')}
-                        placeholder={t('Mo.moCode')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        disabled={isUpdate}
-                        required
-                      />
-                    )}
+                    <Field.TextField
+                      name="code"
+                      label={t('Mo.moCode')}
+                      placeholder={t('Mo.moCode')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                      }}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      disabled={isUpdate}
+                      required
+                      {...(cloneId ? { autoFocus: true } : {})}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue
-                        label={t('Mo.planName')}
-                        value={moDetails?.masterPlan?.name}
-                      />
-                    ) : (
-                      <Field.Autocomplete
-                        name="masterPlanId"
-                        label={t('Mo.planName')}
-                        placeholder={t('Mo.planName')}
-                        options={masterPlanList || []}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        getOptionValue={(option) => option?.id}
-                        required
-                        onChange={(id) => {
-                          handleChangePlan(id, setFieldValue)
-                          setFieldValue('itemIds', [])
-                        }}
-                      />
-                    )}
+                    <Field.Autocomplete
+                      name="masterPlanId"
+                      label={t('Mo.planName')}
+                      placeholder={t('Mo.planName')}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchMasterPlansApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: [
+                              MASTER_PLAN_STATUS.CONFIRMED,
+                              MASTER_PLAN_STATUS.IN_PROGRESS,
+                            ].join(','),
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.masterPlans}
+                      required
+                      onChange={(val) => {
+                        handleChangePlan(val?.id, setFieldValue)
+                        setFieldValue('itemIds', [])
+                      }}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue
-                        label={t('Mo.moName')}
-                        value={moDetails?.name}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="name"
-                        label={t('Mo.moName')}
-                        placeholder={t('Mo.moName')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                        }}
-                        required
-                      />
-                    )}
+                    <Field.TextField
+                      name="name"
+                      label={t('Mo.moName')}
+                      placeholder={t('Mo.moName')}
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
+                      required
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue
-                        label={t('Mo.moFactory')}
-                        value={moDetails?.factory?.name}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="moFactory"
-                        label={t('Mo.moFactory')}
-                        placeholder={t('Mo.moFactory')}
-                        disabled={true}
-                        value={moFactory}
-                      />
-                    )}
+                    <TextField
+                      name="moFactory"
+                      label={t('Mo.moFactory')}
+                      placeholder={t('Mo.moFactory')}
+                      disabled={true}
+                      value={moFactory}
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue label={t('Mo.moPlan')}>
-                        {formatDateTimeUtc(moDetails?.planFrom)} -{' '}
-                        {formatDateTimeUtc(moDetails?.planTo)}
-                      </LabelValue>
-                    ) : (
-                      <Field.DateRangePicker
-                        name="moPlan"
-                        label={t('Mo.moPlan')}
-                        placeholder={t('definePlanBasis.moPlan')}
-                        required
-                      />
-                    )}
+                    <Field.DateRangePicker
+                      name="moPlan"
+                      label={t('Mo.moPlan')}
+                      placeholder={t('definePlanBasis.moPlan')}
+                      required
+                    />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    {isView ? (
-                      <LabelValue
-                        label={t('saleOrder.name')}
-                        value={moDetails?.saleOrder?.name}
-                      />
-                    ) : (
-                      <Field.Autocomplete
-                        name="saleOrderId"
-                        label={t('saleOrder.name')}
-                        placeholder={t('saleOrder.name')}
-                        options={saleOrders || []}
-                        getOptionLabel={(option) => option?.saleOrderName || ''}
-                        getOptionValue={(option) => option?.saleOrderId}
-                        required
-                        onChange={handleChangeSaleOrder}
-                      />
-                    )}
+                    <Field.Autocomplete
+                      name="saleOrderId"
+                      label={t('Mo.soName')}
+                      placeholder={t('Mo.soName')}
+                      options={saleOrders}
+                      getOptionLabel={(option) => option?.saleOrderName || ''}
+                      getOptionValue={(option) => option?.saleOrderId || ''}
+                      required
+                      onChange={(val) =>
+                        handleChangeSaleOrder(val, setFieldValue)
+                      }
+                    />
                   </Grid>
-                  {isView && (
-                    <Grid item lg={6} xs={12}>
-                      <LabelValue
-                        label={t('Mo.creator')}
-                        value={moDetails?.createdByUser?.fullName}
-                      />
-                    </Grid>
-                  )}
-                  {isView && (
-                    <Grid item lg={6} xs={12}>
-                      <LabelValue
-                        label={t('Mo.createAt')}
-                        value={formatDateTimeUtc(moDetails?.createdAt)}
-                      />
-                    </Grid>
-                  )}
                   <Grid item xs={12}>
-                    {isView ? (
-                      <TextField
-                        name="description"
-                        label={t('Mo.descriptionInput')}
-                        multiline
-                        value={moDetails?.description}
-                        rows={3}
-                        readOnly
-                        sx={{
-                          'label.MuiFormLabel-root': {
-                            color: (theme) => theme.palette.subText.main,
-                          },
-                        }}
-                      />
-                    ) : (
-                      <Field.TextField
-                        name="description"
-                        label={t('Mo.descriptionInput')}
-                        placeholder={t('Mo.descriptionInput')}
-                        multiline
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                        }}
-                        rows={3}
-                      />
-                    )}
+                    <Field.TextField
+                      name="description"
+                      label={t('Mo.descriptionInput')}
+                      placeholder={t('Mo.descriptionInput')}
+                      multiline
+                      inputProps={{
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                      }}
+                      rows={3}
+                    />
                   </Grid>
                 </Grid>
               </Grid>
@@ -535,63 +413,44 @@ const MOForm = () => {
                 />
               </Box>
             ) : (
-              <Tabs
-                list={[
-                  t('Mo.itemDetails'),
-                  t('Mo.bom'),
-                  t('Mo.bomProducingStep'),
-                  t('Mo.priceBom'),
-                ]}
-              >
-                <ItemsSettingTable
-                  saleOrder={saleOrder}
-                  isSubmitForm={isSubmitForm}
-                  updateSelectedItems={(itemIds) =>
-                    setFieldValue('itemIds', itemIds)
-                  }
-                  isView={isView}
-                  isUpdate={isUpdate}
-                  moDetails={moDetails}
-                />
-                <BomTable
-                  BOMStructure={BOMStructure}
-                  itemTypeList={itemTypeList}
-                />
-                <BomProducingStepTable
-                  BOMStructure={BOMStructure}
-                  itemTypeList={itemTypeList}
-                />
-                <PriceTable
-                  PriceStructure={PriceStructure}
-                  itemTypeList={itemTypeList}
-                />
-              </Tabs>
+              <Box sx={{ mt: 3 }}>
+                <Tabs
+                  list={[
+                    t('Mo.itemDetails'),
+                    t('Mo.bom'),
+                    t('Mo.bomProducingStep'),
+                    t('Mo.priceBom'),
+                  ]}
+                >
+                  <ItemsSettingTable
+                    saleOrder={saleOrder}
+                    isSubmitForm={isSubmitForm}
+                    updateSelectedItems={(itemIds) =>
+                      setFieldValue('itemIds', itemIds)
+                    }
+                    isUpdate={isUpdate}
+                    moDetails={moDetails}
+                  />
+                  <BomTable
+                    BOMStructure={BOMStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                  <BomProducingStepTable
+                    BOMStructure={BOMStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                  <PriceTable
+                    PriceStructure={PriceStructure}
+                    itemTypeList={itemTypeList}
+                  />
+                </Tabs>
+              </Box>
             )}
 
             {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>
-      <Dialog
-        open={isOpenCreatePO}
-        title={t('Mo.notification')}
-        onCancel={() => {
-          setIsOpenCreatePO(false)
-        }}
-        cancelLabel={t('common.no')}
-        onSubmit={createRequestBuyMaterial}
-        submitLabel={t('common.yes')}
-      >
-        {t('Mo.createPlan')}
-      </Dialog>
-      <Dialog
-        open={isOpenEnoughMaterial}
-        title={t('Mo.notification')}
-        onSubmit={() => setIsOpenEnoughMaterial(false)}
-        submitLabel={t('modal.btnSubmit')}
-      >
-        {t('Mo.planFull')}
-      </Dialog>
     </Page>
   )
 }

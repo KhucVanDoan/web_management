@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -13,6 +12,8 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import {
   MO_STATUS_OPTIONS,
   MO_STATUS_TO_CONFIRM,
@@ -20,13 +21,11 @@ import {
   MO_STATUS_TO_DELETE,
   MO_STATUS,
 } from '~/modules/mesx/constants'
-import useDefineFactory from '~/modules/mesx/redux/hooks/useDefineFactory'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -129,9 +128,9 @@ const Mo = () => {
       filterFormat: 'date',
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row.planTo)
         )
       },
     },
@@ -176,7 +175,7 @@ const Mo = () => {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 200,
       align: 'center',
       renderCell: (params) => {
@@ -209,6 +208,13 @@ const Mo = () => {
                 <Icon name="tick" />
               </IconButton>
             )}
+            <IconButton
+              onClick={() =>
+                history.push(`${ROUTE.MO.CREATE.PATH}?cloneId=${id}`)
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },
@@ -220,7 +226,14 @@ const Mo = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          code: filters?.code?.code,
+          saleOrderId: filters?.saleOrderId?.name,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchMO(params)
@@ -274,7 +287,7 @@ const Mo = () => {
    * Handle change filter
    * @param {array} filters
    */
-  const onChangeFilter = (filters) => {
+  const onFilterChange = (filters) => {
     setFilters(filters)
   }
 
@@ -300,7 +313,7 @@ const Mo = () => {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -324,23 +337,22 @@ const Mo = () => {
           page={page}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeSort={setSort}
+          onSortChange={setSort}
           total={total}
           sort={sort}
           filters={{
             form: <FilterForm />,
             values: filters,
-            onApply: onChangeFilter,
+            onApply: onFilterChange,
           }}
-          checkboxSelection
         />
         <Dialog
           open={isOpenDeleteModal}
           title={t('Mo.deleteModalTitle')}
           onCancel={() => setIsOpenDeleteModal(false)}
           onSubmit={onSubmitDelete}
-          cancelLabel={t('common.no')}
-          submitLabel={t('common.yes')}
+          cancelLabel={t('general:common.no')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -360,15 +372,15 @@ const Mo = () => {
         </Dialog>
         <Dialog
           open={isOpenConfirmModal}
-          title={t('common.notify')}
+          title={t('general:common.notify')}
           maxWidth="sm"
           onCancel={() => setIsOpenConfirmModal(false)}
           onSubmit={onSubmitConfirm}
-          cancelLabel={t('common.no')}
-          submitLabel={t('common.yes')}
+          cancelLabel={t('general:common.no')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
-          {t('common.confirmMessage.confirm')}
+          {t('general:common.confirmMessage.confirm')}
           <LV
             label={t('Mo.moCode')}
             value={tempItem?.code}

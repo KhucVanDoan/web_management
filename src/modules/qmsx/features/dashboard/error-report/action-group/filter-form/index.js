@@ -49,13 +49,17 @@ function ActionGroupFilterForm() {
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_EXPORT:
+      case STAGE_OPTION.IMO_IMPORT:
+      case STAGE_OPTION.EXO_EXPORT:
         qualityReportActions.getOrderListByStage({ stage: id }, (data) =>
           setOrderList(data),
         )
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        dashboardActions.getInProgressMoListDashboard()
+        dashboardActions.getInProgressMoListDashboard((data) => {
+          setOrderList(data)
+        })
         break
       default:
         break
@@ -76,7 +80,13 @@ function ActionGroupFilterForm() {
         dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
         break
       case STAGE_OPTION.SO_EXPORT:
-        dashboardActions.getQcCheckItemByPo({ poId: id }, setDataToState)
+        dashboardActions.getQcCheckItemBySo({ soId: id }, setDataToState)
+        break
+      case STAGE_OPTION.IMO_IMPORT:
+        dashboardActions.getQcCheckItemByImo({ imoId: id }, setDataToState)
+        break
+      case STAGE_OPTION.EXO_EXPORT:
+        dashboardActions.getQcCheckItemByExo({ exoId: id }, setDataToState)
         break
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
@@ -122,20 +132,25 @@ function ActionGroupFilterForm() {
       case STAGE_OPTION.SO_EXPORT:
       case STAGE_OPTION.PRO_IMPORT:
       case STAGE_OPTION.PRO_EXPORT:
-        params.itemId = itemId
-        params.orderId = orderId
+        params.ioQcFilter = {
+          itemId,
+          orderId,
+        }
 
         dashboardActions.getActionGroupDashboard(params)
         break
       case STAGE_OPTION.PRODUCTION_INPUT:
       case STAGE_OPTION.PRODUCTION_OUTPUT:
-        params.moId = orderId
-        params.itemId = itemId
-        params.producingStepId = producingStepId
+        params.produceStepQcFilter = {
+          moId: orderId,
+          itemId,
+          producingStepId,
+        }
 
         dashboardActions.getActionGroupDashboard(params)
         break
       default:
+        dashboardActions.getActionGroupDashboard(params)
         break
     }
   }

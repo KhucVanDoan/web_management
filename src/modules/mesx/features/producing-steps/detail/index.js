@@ -21,7 +21,7 @@ import TextField from '~/components/TextField'
 import { PRODUCING_STEP_OPTIONS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const ProducingStepDetail = () => {
   const { t } = useTranslation(['mesx'])
@@ -220,7 +220,7 @@ const ProducingStepDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('producingStep.createdAt')}
-                  value={formatDateTimeUtc(details?.createdAt)}
+                  value={convertUtcDateTimeToLocalTz(details?.createdAt)}
                 />
               </Grid>
               <Grid item xs={12}>

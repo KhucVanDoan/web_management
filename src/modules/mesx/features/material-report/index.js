@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import useItemType from '~/modules/database/redux/hooks/useItemType'
+import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -41,10 +40,9 @@ function MaterialReport() {
   }
 
   const {
-    appStore: { itemTypes },
-    actions: actionAppstore,
-  } = useAppStore()
-
+    data: { itemTypeList },
+    actions: ItemTypeAction,
+  } = useItemType()
   const {
     data: { isLoading, total, moList },
     actions,
@@ -114,9 +112,9 @@ function MaterialReport() {
       sortable: true,
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row?.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row?.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row?.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row?.planTo)
         )
       },
     },
@@ -207,7 +205,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypes.find((i) => i.id === item.itemTypeId)?.name
+        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
       },
     },
     {
@@ -269,7 +267,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypes.find((i) => i.id === item.itemTypeId)?.name
+        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
       },
     },
     {
@@ -301,9 +299,9 @@ function MaterialReport() {
       renderCell: (params) => {
         const { planFrom, planTo } = params.row
         return (
-          formatDateTimeUtc(planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(planFrom) +
           ' - ' +
-          formatDateTimeUtc(planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(planTo)
         )
       },
     },
@@ -322,7 +320,7 @@ function MaterialReport() {
 
   useEffect(() => {
     refreshData()
-    actionAppstore.getAppStore()
+    ItemTypeAction.searchItemTypes({ isGetAll: 1 })
     actionSaleOrder.searchSaleOrders({ isGetAll: 1 })
   }, [pageSize, page, filters, sort, filters, keyword])
 
@@ -400,8 +398,8 @@ function MaterialReport() {
           isView={true}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           materialReport={true}
           title={t('materialReport.title')}

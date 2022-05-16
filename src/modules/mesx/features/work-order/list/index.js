@@ -3,12 +3,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
-import qs from 'query-string'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { useHistory, useLocation } from 'react-router-dom'
 
-import { QR_CODE_TYPE, DATE_FORMAT } from '~/common/constants'
+import { QR_CODE_TYPE } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -16,15 +14,16 @@ import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import { useAppStore } from '~/modules/auth/redux/hooks/useAppStore'
+import useItemUnit from '~/modules/database/redux/hooks/useItemUnit'
 import { WORK_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
+import qs from '~/utils/qs'
 
 import FilterForm from './filter-form'
 import { validationSchema } from './schema'
@@ -46,9 +45,12 @@ const WorkOrder = () => {
     data: { isLoading, workOrderList, total },
     actions: workOrderActions,
   } = useWorkOrder()
+
   const {
-    appStore: { itemUnits },
-  } = useAppStore()
+    data: { itemUnitList },
+    actions: itemUnitAction,
+  } = useItemUnit()
+
   const location = useLocation()
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
@@ -70,7 +72,6 @@ const WorkOrder = () => {
   } = useQueryState({
     filters: { moId: moId },
   })
-
   const columns = useMemo(() => [
     {
       field: 'code',
@@ -139,9 +140,9 @@ const WorkOrder = () => {
       filterFormat: 'date',
       renderCell: (params) => {
         return (
-          formatDateTimeUtc(params.row.planFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(params.row.planFrom) +
           ' - ' +
-          formatDateTimeUtc(params.row.planTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(params.row.planTo)
         )
       },
     },
@@ -176,13 +177,14 @@ const WorkOrder = () => {
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return itemUnits?.find((item) => item.id === row?.moDetail?.itemUnitId)
-          ?.name
+        return itemUnitList?.find(
+          (item) => item.id === row?.moDetail?.itemUnitId,
+        )?.name
       },
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       disableClickEventBubbling: true,
       width: 160,
       align: 'center',
@@ -242,12 +244,14 @@ const WorkOrder = () => {
     }
     workOrderActions.searchWorkOrders(params)
   }
-
+  useEffect(() => {
+    itemUnitAction.searchItemUnits({ isGetAll: 1 })
+  }, [])
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort])
 
-  const onChangeSelectedRows = (selected) => {
+  const onSelectionChange = (selected) => {
     setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
   }
 
@@ -292,12 +296,12 @@ const WorkOrder = () => {
         }}
       >
         <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
-          {t('common.close')}
+          {t('general:common.close')}
         </Button>
         <Button variant="outlined" color="subText" onClick={resetForm}>
-          {t('common.cancel')}
+          {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('common.print')}</Button>
+        <Button type="submit">{t('general:common.print')}</Button>
       </Box>
     )
   }
@@ -348,11 +352,10 @@ const WorkOrder = () => {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeSelectedRows={onChangeSelectedRows}
+        onSelectionChange={onSelectionChange}
         sort={sort}
-        onChangeSort={setSort}
+        onSortChange={setSort}
         total={total}
-        checkboxSelection
         selected={selectedRows}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />

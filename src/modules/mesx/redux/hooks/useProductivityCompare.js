@@ -4,7 +4,7 @@ import { get } from 'lodash'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import productivityCompareAction from '../actions/productivity-compare'
+import productivityCompareAction from '../actions/productivity-compare-report'
 
 const useProductivityCompare = () => {
   const data = useSelector((state) =>

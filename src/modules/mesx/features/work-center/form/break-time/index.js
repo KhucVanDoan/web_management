@@ -5,13 +5,16 @@ import Box from '@mui/material/Box'
 import { flatMap, uniqBy } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { WORK_CENTER_STATUS } from '~/modules/mesx/constants'
 import { scrollToBottom } from '~/utils'
+import qs from '~/utils/qs'
 
 const BreakTimeTable = ({
   breakTimes,
@@ -19,9 +22,14 @@ const BreakTimeTable = ({
   mode,
   arrayHelpers,
   setFieldValue,
+  status,
 }) => {
   const { t } = useTranslation(['mesx'])
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const isView = mode === MODAL_MODE.DETAIL
+  const isDisabledField = !cloneId && status === WORK_CENTER_STATUS.IN_PROGRESS
+
   const getColumns = useCallback(() => {
     const columns = [
       {
@@ -37,6 +45,7 @@ const BreakTimeTable = ({
             <>{name}</>
           ) : (
             <Field.TextField
+              disabled={isDisabledField}
               name={`breakTimes[${index}].breakTimeName`}
               variant="outlined"
               margin="dense"
@@ -73,6 +82,7 @@ const BreakTimeTable = ({
                 <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].from`}
+                    disabled={isDisabledField}
                   />
                 </Box>
                 <Box
@@ -86,6 +96,7 @@ const BreakTimeTable = ({
                 <Box sx={{ width: 200 }}>
                   <Field.TimePicker
                     name={`breakTimes[${index}].shifts[${shiftIndex}].to`}
+                    disabled={isDisabledField}
                   />
                 </Box>
               </Box>
@@ -109,7 +120,7 @@ const BreakTimeTable = ({
               onClick={() => {
                 arrayHelpers.remove(index)
               }}
-              disabled={index === 0}
+              disabled={breakTimes?.length === 1}
             >
               <Icon name="remove" />
             </IconButton>
@@ -118,7 +129,7 @@ const BreakTimeTable = ({
       },
     ]
     return columns.concat(removeColumns)
-  }, [shifts])
+  }, [shifts, breakTimes?.length])
 
   useEffect(() => {
     const newBreakTimes = breakTimes?.map((item) => {
@@ -171,6 +182,7 @@ const BreakTimeTable = ({
               })
               scrollToBottom()
             }}
+            disabled={isDisabledField}
           >
             {t('workCenter.addWorkCenterBreakTimes')}
           </Button>

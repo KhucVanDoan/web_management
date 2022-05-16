@@ -1,34 +1,14 @@
 import { isNil } from 'lodash'
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import { INPUT_QC_PLAN_STATUS_OPTIONS } from '~/modules/qmsx/constants'
 
 export const InputQualityControlPlanSchema = (t, mode, status) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        }),
-      )
-      .matches(/^[0-9A-Za-z]+$/, t('general:form.special')),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    code: Yup.string().required(t('general:form.required')),
+    name: Yup.string().required(t('general:form.required')),
+    description: Yup.string(),
     stageQc: Yup.number().nullable().required(t('general:form.required')),
     order: Yup.number().nullable().required(t('general:form.required')),
     qualityPlanIOqcs: Yup.array().of(

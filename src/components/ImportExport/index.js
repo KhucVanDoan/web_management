@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+/* eslint-disable no-param-reassign */
+import { useRef, useState } from 'react'
 
 import {
   Box,
   CircularProgress,
   Grid,
+  IconButton,
   Link as MuiLink,
   Typography,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { isEmpty, isNil } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -16,51 +19,47 @@ import TruncateMarkup from 'react-truncate-markup'
 
 import {
   FILE_TYPE,
+  HTTP_STATUS_CODE,
+  IMPORT_EXPORT_DATE_FORMAT,
   IMPORT_EXPORT_MODE,
   IMPORT_EXPORT_MODE_OPTIONS,
   IMPORT_SETTING,
+  NOTIFICATION_TYPE,
 } from '~/common/constants'
 import Dialog from '~/components/Dialog'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import palette from '~/themes/palette'
-import { formatFileSize, isValidFileType } from '~/utils/file'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { downloadFile, formatFileSize, isValidFileType } from '~/utils/file'
+import addNotification from '~/utils/toast'
 
 import Button from '../Button'
 
-/** @TODO:
- * Tên file đang ko truncate sau khi kéo thả
- * Nút (X) cần bị disable khi đang import
- * Tách riêng menu và import dialog
- **/
-
 const ImportExport = ({
+  name,
   onDownloadTemplate,
-  onDownloadLog,
   onImport,
   onExport,
-  importFile,
-  setImportFile,
-  mode,
+  onRefresh,
   ...props
 }) => {
   const { t } = useTranslation()
+  const theme = useTheme()
 
-  const [validationError, setValidationError] = useState(null)
   const [importing, setImporting] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [openImport, setOpenImport] = useState(false)
+  const [importFile, setImportFile] = useState(null)
   const [importResult, setImportResult] = useState(null)
   const [importError, setImportError] = useState(null)
+  const [exportWarning, setExportWarning] = useState(null)
 
   const inputFileRef = useRef()
 
-  useEffect(() => {
-    if (importResult) setOpen(false)
-  }, [importResult])
+  let mode
 
-  useEffect(() => {
-    setImporting(false)
-  }, [importError])
+  if (onImport && onExport) mode = IMPORT_EXPORT_MODE.BOTH
+  else if (onImport) mode = IMPORT_EXPORT_MODE.IMPORT_ONLY
+  else if (onExport) mode = IMPORT_EXPORT_MODE.EXPORT_ONLY
 
   const { FILE_SIZE_LIMIT, NUMBER_OF_FILE } = IMPORT_SETTING
   const { XLSX } = FILE_TYPE
@@ -69,7 +68,7 @@ const ImportExport = ({
     const file = files[0]
 
     if (files.length > NUMBER_OF_FILE)
-      setValidationError(
+      setImportError(
         `${t('fileUpload.error.invalidNumberOfFiles')} ${NUMBER_OF_FILE}`,
       )
     else if (files.length === NUMBER_OF_FILE) {
@@ -88,7 +87,7 @@ const ImportExport = ({
         msg.push(`${t('fileUpload.error.invalidType')} ${XLSX.NAME}.`)
       }
 
-      setValidationError(msg.join('\n').trim())
+      setImportError(msg.join('\n').trim())
     }
   }
 
@@ -110,20 +109,34 @@ const ImportExport = ({
     return setImportFile(files[0])
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setImporting(true)
 
-    if (!onImport) return
+    try {
+      const res = await onImport(importFile)
 
-    const { result, error } = onImport()
-
-    result && setImportResult(result)
-    error && setImportError(error)
+      if (res.statusCode === 200) {
+        setOpenImport(false)
+        setImportResult(res.data)
+      } else {
+        setImportError(res.message)
+      }
+    } catch (err) {
+      setImportError(err)
+    } finally {
+      setImporting(false)
+    }
   }
 
-  const onCancel = () => {
+  const onResultCancel = () => {
     resetImportState()
-    setOpen && setOpen(false)
+    onRefresh && onRefresh()
+    setOpenImport && setOpenImport(false)
+  }
+
+  const onImportCancel = () => {
+    resetImportState()
+    setOpenImport && setOpenImport(false)
   }
 
   const onClickDropzone = () => {
@@ -132,40 +145,128 @@ const ImportExport = ({
 
   const onImportAgain = () => {
     resetImportState()
-    setOpen && setOpen(true)
+    onRefresh && onRefresh()
+    setOpenImport && setOpenImport(true)
+  }
+
+  /**
+   * Convert raw int array in json response to JS Uint8Array
+   * @param rawArr
+   * @param fileName
+   * @return {Promise<void>}
+   */
+  const downloadInt8Arr = async (rawArr, fileName) => {
+    const uint8Arr = new Uint8Array(rawArr)
+
+    await downloadFile(uint8Arr, fileName, XLSX.MIME_TYPE, [XLSX.EXT])
+  }
+
+  const onDownloadLog = async () => {
+    await downloadInt8Arr(
+      importResult.log.data,
+      format(
+        IMPORT_SETTING.FILE_NAME,
+        t('import.prefix.importLog'),
+        name,
+        '_' +
+          convertUtcDateTimeToLocalTz(new Date(), IMPORT_EXPORT_DATE_FORMAT),
+      ),
+    )
+  }
+
+  const onClickDownloadTemplate = async () => {
+    let res
+
+    try {
+      res = await onDownloadTemplate()
+    } catch (err) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+    }
+
+    if (!res) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      return
+    }
+
+    if (res.statusCode === 200) {
+      const rawArr = res.data.data
+
+      await downloadInt8Arr(
+        rawArr,
+        format(
+          IMPORT_SETTING.FILE_NAME,
+          t('import.prefix.importTemplate'),
+          name,
+          '',
+        ),
+      )
+    } else {
+      addNotification(res.message, NOTIFICATION_TYPE.ERROR)
+    }
+  }
+
+  const onClickExport = async () => {
+    let res
+
+    try {
+      res = await onExport()
+    } catch (err) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+    }
+
+    if (!res) {
+      addNotification(t('toast.defaultError'), NOTIFICATION_TYPE.ERROR)
+      return
+    }
+
+    const { message, statusCode, data } = res
+
+    if (statusCode === HTTP_STATUS_CODE.SUCCESS) {
+      const rawArr = data.data
+
+      await downloadInt8Arr(
+        rawArr,
+        `${name}_${convertUtcDateTimeToLocalTz(
+          new Date(),
+          IMPORT_EXPORT_DATE_FORMAT,
+        )}`,
+      )
+
+      addNotification(message, NOTIFICATION_TYPE.SUCCESS)
+    } else if (statusCode === HTTP_STATUS_CODE.NOT_ACCEPTABLE) {
+      setExportWarning(message)
+    } else {
+      addNotification(message, NOTIFICATION_TYPE.ERROR)
+    }
   }
 
   const resetImportState = () => {
     setImportFile(null)
-    setValidationError(null)
     setImportError(null)
     setImportResult(null)
     setImporting(false)
   }
 
   const isSubmitDisabled = () =>
-    isNil(importFile) ||
-    !isEmpty(validationError) ||
-    !isEmpty(importError) ||
-    importing
+    isNil(importFile) || !isEmpty(importError) || importing
 
   const getColor = (prevColor) =>
-    isEmpty(validationError) && isEmpty(importError)
-      ? prevColor
-      : palette.error.main
+    isEmpty(importError) ? prevColor : theme.palette.error.main
 
   const handleMenuItemClick = (option) => {
     switch (option) {
       case IMPORT_EXPORT_MODE.IMPORT_ONLY:
-        return setOpen(true)
+        setOpenImport(true)
+        break
       case IMPORT_EXPORT_MODE.EXPORT_ONLY:
-        return onExport()
+        onClickExport()
+        break
       default:
-        return null
+        break
     }
   }
 
-  const Dropzone = (
+  const Dropzone = () => (
     <Grid
       container
       flexDirection="column"
@@ -190,55 +291,54 @@ const ImportExport = ({
         <Typography component="span">
           {t('import.stepUploadData.support')}
         </Typography>
-        <Typography color={palette.primary.main} variant="h5" component="span">
+        <Typography
+          color={theme.palette.primary.main}
+          variant="h5"
+          component="span"
+        >
           {t('import.stepUploadData.fileType')}
         </Typography>
       </Grid>
     </Grid>
   )
 
-  const FileInfo = (
-    <Grid container flexDirection="column" minHeight={150}>
+  const FileInfo = () => (
+    <Grid container flexDirection="column" minHeight={138}>
       <Grid item flex={1}>
         <Grid container columnSpacing={2}>
           <Grid item>
             <Icon
               name="paper"
               size="100%"
-              fill={getColor(palette.primary.main)}
+              fill={getColor(theme.palette.primary.main)}
             />
           </Grid>
           <Grid item flex={1}>
             <TruncateMarkup lines={1} ellipsis={() => '...'}>
-              <Typography color={getColor(palette.text.main)}>
+              <Typography color={getColor(theme.palette.text.main)}>
                 {importFile?.name}
               </Typography>
             </TruncateMarkup>
 
-            <Typography color={palette.grayF4.contrastText}>
+            <Typography color={theme.palette.grayF4.contrastText}>
               {formatFileSize(importFile?.size)}
             </Typography>
           </Grid>
           <Grid item alignSelf="center">
-            <Button
-              variant="text"
-              onClick={resetImportState}
-              sx={{ p: 0, minWidth: 0 }}
-              disabled={importing}
-            >
-              <Icon name="delete" size="auto" />
-            </Button>
+            <IconButton onClick={resetImportState} disabled={importing}>
+              <Icon name="delete" />
+            </IconButton>
           </Grid>
         </Grid>
       </Grid>
 
       <Grid item>
-        {!isEmpty(validationError || importError) && (
+        {!isEmpty(importError) && (
           <Typography
             sx={{ whiteSpace: 'pre-line' }}
-            color={palette.subText.main}
+            color={theme.palette.subText.main}
           >
-            {!isEmpty(validationError) ? validationError : importError}
+            {importError}
           </Typography>
         )}
         {importing && (
@@ -250,11 +350,11 @@ const ImportExport = ({
     </Grid>
   )
 
-  const ResultDialog = (
+  const ResultDialog = () => (
     <Dialog
       open={!isNil(importResult)}
       title={t('import.title')}
-      onCancel={onCancel}
+      onCancel={onResultCancel}
       cancelLabel={t('actionBar.closeNotification')}
       onSubmit={onImportAgain}
       submitLabel={t('actionBar.importAgain')}
@@ -265,14 +365,14 @@ const ImportExport = ({
           {format(
             t('import.result'),
             <Typography
-              color={palette.success.main}
+              color={theme.palette.success.main}
               variant="h5"
               component="span"
             >
               {importResult?.success}
             </Typography>,
             <Typography
-              color={palette.error.main}
+              color={theme.palette.error.main}
               variant="h5"
               component="span"
             >
@@ -292,13 +392,13 @@ const ImportExport = ({
     </Dialog>
   )
 
-  const ImportDialog = (
+  const ImportDialog = () => (
     <Dialog
-      open={open}
+      open={openImport}
       maxWidth="lg"
       fullWidth={true}
       title={t('import.title')}
-      onCancel={onCancel}
+      onCancel={onImportCancel}
       cancelLabel={t('actionBar.cancel')}
       cancelProps={{
         disabled: importing,
@@ -334,7 +434,7 @@ const ImportExport = ({
           lg={6}
           pt={2}
           borderRight={1}
-          borderColor={palette.divider}
+          borderColor={theme.palette.divider}
         >
           <Typography variant="h5">
             {t('import.stepDownloadTemplate.title')}
@@ -342,7 +442,7 @@ const ImportExport = ({
           <Button
             icon="downloadAlt"
             sx={{ my: 2, ml: 0, mr: 1 }}
-            onClick={onDownloadTemplate}
+            onClick={onClickDownloadTemplate}
           >
             {t('import.downloadTemplate')}
           </Button>
@@ -354,96 +454,135 @@ const ImportExport = ({
           <Typography variant="h5">
             {t('import.stepUploadData.title')}
           </Typography>
-          <Box
-            my={3}
-            py={3}
-            px={5}
-            bgcolor={palette.grayF5.main}
-            onClick={onClickDropzone}
-            minHeight={150}
-            border={1}
-            borderColor={getColor(palette.grayF5.main)}
-            onDrop={onDropFile}
-            onDragOver={(event) => event.preventDefault()}
-          >
-            {isNil(importFile) ? Dropzone : FileInfo}
-          </Box>
+
+          {isNil(importFile) ? (
+            <Box
+              onClick={onClickDropzone}
+              onDrop={onDropFile}
+              onDragEnter={(event) => {
+                event.currentTarget.style.border = `1px dashed ${theme.palette.primary.main}`
+              }}
+              onDragOver={(event) => {
+                event.preventDefault()
+              }}
+              onDragLeave={(event) => {
+                event.currentTarget.style.border = ''
+              }}
+              sx={{
+                my: 3,
+                bgcolor: theme.palette.grayF5.main,
+                borderRadius: 1,
+                border: 1,
+                borderColor: getColor(theme.palette.grayF5.main),
+                cursor: 'pointer',
+                '&:hover': {
+                  border: `1px dashed ${theme.palette.primary.main}`,
+                },
+              }}
+            >
+              <Box sx={{ p: 3, pointerEvents: 'none' }}>
+                <Dropzone />
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                my: 3,
+                py: 3,
+                px: 5,
+                bgcolor: theme.palette.grayF5.main,
+                borderRadius: 1,
+                border: 1,
+                borderColor: getColor(theme.palette.grayF5.main),
+              }}
+            >
+              <FileInfo />
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Dialog>
   )
 
-  const render = () => {
-    const res = []
+  const ImportExportDropdown = () => (
+    <Dropdown
+      icon="download"
+      title={t('importExportMenu.importExport')}
+      options={IMPORT_EXPORT_MODE_OPTIONS}
+      handleMenuItemClick={(option) => handleMenuItemClick(option.value)}
+      getOptionLabel={(option) => t(option.text) || ''}
+      variant="outlined"
+    />
+  )
 
-    switch (mode) {
-      case IMPORT_EXPORT_MODE.BOTH:
-        res.push(
-          <Dropdown
-            icon="download"
-            title={t('importExportMenu.importExport')}
-            options={IMPORT_EXPORT_MODE_OPTIONS}
-            handleMenuItemClick={(option) => handleMenuItemClick(option.value)}
-            getOptionLabel={(option) => t(option.text) || ''}
-            variant="outlined"
-          />,
-        )
-        break
-      case IMPORT_EXPORT_MODE.IMPORT_ONLY:
-        res.push(
-          <Button
-            variant="outlined"
-            icon="upload"
-            onClick={() => handleMenuItemClick(mode)}
-          >
-            {t('importExportMenu.import')}
-          </Button>,
-        )
-        break
-      case IMPORT_EXPORT_MODE.EXPORT_ONLY:
-        res.push(
-          <Button
-            variant="outlined"
-            icon="downloadAlt"
-            onClick={() => handleMenuItemClick(mode)}
-          >
-            {t('importExportMenu.export')}
-          </Button>,
-        )
-        break
-      default:
-        return null
-    }
+  const ImportButton = () => (
+    <Button
+      variant="outlined"
+      icon="upload"
+      onClick={() => handleMenuItemClick(mode)}
+    >
+      {t('importExportMenu.import')}
+    </Button>
+  )
 
-    if (
-      mode === IMPORT_EXPORT_MODE.BOTH ||
-      mode === IMPORT_EXPORT_MODE.IMPORT_ONLY
-    ) {
-      res.push(ImportDialog)
+  const ExportButton = () => (
+    <Button
+      variant="outlined"
+      icon="downloadAlt"
+      onClick={() => handleMenuItemClick(mode)}
+    >
+      {t('importExportMenu.export')}
+    </Button>
+  )
 
-      if (importResult) {
-        res.push(ResultDialog)
-      }
-    }
+  const ExportWarningDialog = () => (
+    <Dialog
+      title={t('importExportMenu.export')}
+      open={!isEmpty(exportWarning)}
+      onCancel={() => setExportWarning(null)}
+    >
+      <Typography>{exportWarning}</Typography>
+    </Dialog>
+  )
 
-    return res
+  switch (mode) {
+    case IMPORT_EXPORT_MODE.BOTH:
+      return (
+        <>
+          <ImportExportDropdown />
+          <ImportDialog />
+          <ResultDialog />
+          <ExportWarningDialog />
+        </>
+      )
+    case IMPORT_EXPORT_MODE.IMPORT_ONLY:
+      return (
+        <>
+          <ImportButton />
+          <ImportDialog />
+          <ResultDialog />
+        </>
+      )
+    case IMPORT_EXPORT_MODE.EXPORT_ONLY:
+      return (
+        <>
+          <ExportButton />
+          <ExportWarningDialog />
+        </>
+      )
+    default:
+      return null
   }
-
-  return render()
 }
 
-ImportExport.defaultProps = {
-  mode: IMPORT_EXPORT_MODE.BOTH,
-}
+ImportExport.defaultProps = {}
 
 ImportExport.propTypes = {
+  name: PropTypes.string,
   onDownloadTemplate: PropTypes.func,
-  onDownloadLog: PropTypes.func,
   onImport: PropTypes.func,
   onExport: PropTypes.func,
-  importFile: PropTypes.shape(),
-  setImportFile: PropTypes.func,
-  mode: PropTypes.string,
+  onRefresh: PropTypes.func,
 }
 
 export default ImportExport

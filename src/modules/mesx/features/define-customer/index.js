@@ -114,7 +114,7 @@ function DefineCustomer() {
     },
     {
       field: 'action',
-      headerName: t('common.action'),
+      headerName: t('general:common.action'),
       width: 150,
       sortable: false,
       align: 'center',
@@ -142,6 +142,15 @@ function DefineCustomer() {
             </IconButton>
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.DEFINE_CUSTOMER.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
             </IconButton>
           </div>
         )
@@ -192,7 +201,7 @@ function DefineCustomer() {
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
-          {t('common.create')}
+          {t('general:common.create')}
         </Button>
       </>
     )
@@ -215,8 +224,8 @@ function DefineCustomer() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onChangeFilter={setFilters}
-        onChangeSort={setSort}
+        onFilterChange={setFilters}
+        onSortChange={setSort}
         total={total}
         sort={sort}
         filters={{
@@ -226,15 +235,14 @@ function DefineCustomer() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        checkboxSelection
       />
       <Dialog
         open={modal.isOpenDeleteModal}
         title={t('defineCustomer.defineCustomerDelete')}
         onCancel={onCloseDeleteModal}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

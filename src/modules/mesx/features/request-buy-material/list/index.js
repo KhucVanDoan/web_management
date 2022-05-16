@@ -12,15 +12,16 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+} from '~/modules/database/constants'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
-import useSaleOrder from '~/modules/mesx/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  formatDateTimeUtc,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -72,17 +73,6 @@ function RequestBuyMaterial() {
     actions,
   } = useRequestBuyMaterial()
 
-  const { actions: moAction } = useMo()
-  const { actions: saleOrderAction } = useSaleOrder()
-
-  useEffect(() => {
-    moAction.searchMO({ isGetAll: 1 })
-    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
-    return () => {
-      saleOrderAction.resetSaleOrderListState()
-    }
-  }, [])
-
   const columns = [
     {
       field: 'code',
@@ -127,7 +117,7 @@ function RequestBuyMaterial() {
       filterFormat: 'date',
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return formatDateTimeUtc(createdAt)
+        return convertUtcDateTimeToLocalTz(createdAt)
       },
     },
     {
@@ -137,7 +127,7 @@ function RequestBuyMaterial() {
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
-        return formatDateTimeUtc(updatedAt)
+        return convertUtcDateTimeToLocalTz(updatedAt)
       },
     },
     {
@@ -237,7 +227,14 @@ function RequestBuyMaterial() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          saleOrderCode: filters?.saleOrderCode?.code,
+          code: filters?.code?.code,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchRequestBuyMaterials(params)
@@ -277,8 +274,8 @@ function RequestBuyMaterial() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onChangeFilter={setFilters}
-          onChangeSort={setSort}
+          onFilterChange={setFilters}
+          onSortChange={setSort}
           total={total}
           title={t('requestBuyMaterial.title')}
           filters={{
@@ -289,15 +286,14 @@ function RequestBuyMaterial() {
             validationSchema: filterSchema(t),
           }}
           sort={sort}
-          checkboxSelection
         />
         <Dialog
           open={deleteModal}
           title={t('requestBuyMaterial.deleteTitle')}
           onCancel={() => setDeleteModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitDelete}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           submitProps={{
             color: 'error',
           }}
@@ -319,9 +315,9 @@ function RequestBuyMaterial() {
           open={confirmModal}
           title={t('requestBuyMaterial.confirmTitle')}
           onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('common.no')}
+          cancelLabel={t('general:common.no')}
           onSubmit={onSubmitConfirm}
-          submitLabel={t('common.yes')}
+          submitLabel={t('general:common.yes')}
           noBorderBottom
         >
           {t('requestBuyMaterial.confirmBody')}

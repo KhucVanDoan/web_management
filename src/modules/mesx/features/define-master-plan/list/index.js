@@ -2,9 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
+import { useHistory } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
@@ -20,7 +19,7 @@ import {
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
-  formatDateTimeUtc,
+  convertUtcDateToLocalTz,
   convertFilterParams,
   convertSortParams,
 } from '~/utils'
@@ -114,9 +113,9 @@ const DefineMasterPlan = () => {
         sortable: true,
         renderCell: (params) => {
           return (
-            formatDateTimeUtc(params.row.dateFrom, DATE_FORMAT) +
+            convertUtcDateToLocalTz(params.row.dateFrom) +
             ' - ' +
-            formatDateTimeUtc(params.row.dateTo, DATE_FORMAT)
+            convertUtcDateToLocalTz(params.row.dateTo)
           )
         },
       },
@@ -164,7 +163,7 @@ const DefineMasterPlan = () => {
       {
         field: 'action',
         headerName: t('defineMasterPlan.action'),
-        width: 250,
+        width: 280,
         align: 'center',
         renderCell: (params) => {
           const { id, status } = params.row
@@ -222,6 +221,13 @@ const DefineMasterPlan = () => {
                   <Icon name="remove" />
                 </IconButton>
               )}
+              <IconButton
+                onClick={() =>
+                  history.push(`${ROUTE.MASTER_PLAN.CREATE.PATH}?cloneId=${id}`)
+                }
+              >
+                <Icon name="clone" />
+              </IconButton>
             </>
           )
         },
@@ -253,9 +259,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(dateFrom) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(dateTo)
         )
       },
     },
@@ -265,7 +271,7 @@ const DefineMasterPlan = () => {
       width: 200,
       renderCell: (params) => {
         const { startAt } = params.row
-        return formatDateTimeUtc(startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(startAt)
       },
     },
     {
@@ -274,7 +280,7 @@ const DefineMasterPlan = () => {
       width: 200,
       renderCell: (params) => {
         const { endAt } = params.row
-        return formatDateTimeUtc(endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(endAt)
       },
     },
     {
@@ -344,9 +350,9 @@ const DefineMasterPlan = () => {
       renderCell: (params) => {
         const { dateFrom, dateTo } = params.row
         return (
-          formatDateTimeUtc(dateFrom, DATE_FORMAT) +
+          convertUtcDateToLocalTz(dateFrom) +
           ' - ' +
-          formatDateTimeUtc(dateTo, DATE_FORMAT)
+          convertUtcDateToLocalTz(dateTo)
         )
       },
     },
@@ -355,7 +361,7 @@ const DefineMasterPlan = () => {
       headerName: t('defineMasterPlan.executeDate'),
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.startAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.startAt)
       },
     },
     {
@@ -363,7 +369,7 @@ const DefineMasterPlan = () => {
       headerName: t('defineMasterPlan.endDate'),
       renderCell: (params) => {
         const { planBom } = params.row
-        return formatDateTimeUtc(planBom?.endAt, DATE_FORMAT)
+        return convertUtcDateToLocalTz(planBom?.endAt)
       },
     },
     {
@@ -444,7 +450,7 @@ const DefineMasterPlan = () => {
    * Handle change filter
    * @param {array} filters
    */
-  const onChangeFilter = (filters) => {
+  const onFilterChange = (filters) => {
     setFilters(filters)
   }
 
@@ -452,7 +458,7 @@ const DefineMasterPlan = () => {
    * Handle change sort
    * @param {object} sort
    */
-  const onChangeSort = (sort) => {
+  const onSortChange = (sort) => {
     setSort(sort)
   }
 
@@ -559,7 +565,7 @@ const DefineMasterPlan = () => {
         isView={true}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
-        onChangeSort={onChangeSort}
+        onSortChange={onSortChange}
         total={total}
         title={t('defineMasterPlan.tableTitle')}
         sort={sort}
@@ -568,20 +574,20 @@ const DefineMasterPlan = () => {
           values: filters,
           validationSchema: validationSchema(t),
           defaultValue: DEFAULT_FILTERS,
-          onApply: onChangeFilter,
+          onApply: onFilterChange,
         }}
       />
       <Dialog
         open={isOpenApproveModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenApproveModal(false)}
         onSubmit={onSubmitApprove}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.confirm')}
+        {t('general:common.confirmMessage.confirm')}
         <LV
           label={t('defineMasterPlan.code')}
           value={tempItem?.code}
@@ -595,15 +601,15 @@ const DefineMasterPlan = () => {
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
-        title={t('common.notify')}
+        title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenRejectModal(false)}
         onSubmit={onSubmitReject}
-        cancelLabel={t('common.no')}
-        submitLabel={t('common.yes')}
+        cancelLabel={t('general:common.no')}
+        submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('common.confirmMessage.reject')}
+        {t('general:common.confirmMessage.reject')}
         <LV
           label={t('defineMasterPlan.code')}
           value={tempItem?.code}
@@ -619,9 +625,9 @@ const DefineMasterPlan = () => {
         open={deleteModal}
         title={t('defineBOM.deleteModalTitle')}
         onCancel={() => setDeleteModal(false)}
-        cancelLabel={t('common.no')}
+        cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
-        submitLabel={t('common.yes')}
+        submitLabel={t('general:common.yes')}
         submitProps={{
           color: 'error',
         }}

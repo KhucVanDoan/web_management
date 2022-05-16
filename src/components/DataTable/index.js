@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Box } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
@@ -6,10 +6,12 @@ import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import clsx from 'clsx'
+import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import TruncateMarkup from 'react-truncate-markup'
 
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { withClasses } from '~/themes'
 
@@ -27,7 +29,6 @@ const DataTable = (props) => {
   const {
     rows,
     classes,
-    checkboxSelection,
     columns: rawColumns,
     height,
     total,
@@ -43,22 +44,25 @@ const DataTable = (props) => {
     sort,
     selected,
     filters,
-    onChangeSort,
+    onSortChange,
     onPageChange,
     onPageSizeChange,
-    onChangeSelectedRows,
+    onSelectionChange,
     tableSettingKey,
+    onSettingChange,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
   const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
   const indexCol = props.indexCol || 'id'
+  const checkboxSelection = typeof onSelectionChange === 'function'
 
   /**
    * Handle select all
    * @param {*} event
    */
   const handleSelectAllClick = (event) => {
+    if (!checkboxSelection) return
     if (event.target.checked) {
       const concatSelected = [...selected, ...rows]
       const uniqueIndexValues = [
@@ -67,12 +71,12 @@ const DataTable = (props) => {
       const newSelected = uniqueIndexValues.map((indexValue) =>
         concatSelected.find((item) => item[indexCol] === indexValue),
       )
-      onChangeSelectedRows(newSelected)
+      onSelectionChange(newSelected)
     } else {
       const newSelected = selected.filter(
         (item) => !rows.find((e) => e[indexCol] === item[indexCol]),
       )
-      onChangeSelectedRows(newSelected)
+      onSelectionChange(newSelected)
     }
   }
 
@@ -103,7 +107,7 @@ const DataTable = (props) => {
       )
     }
 
-    onChangeSelectedRows(newSelected)
+    onSelectionChange(newSelected)
   }
 
   /**
@@ -117,7 +121,6 @@ const DataTable = (props) => {
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
-
     if (!hideSetting) {
       updateTableSetting(cols)
     }
@@ -133,6 +136,14 @@ const DataTable = (props) => {
 
     handleApplySetting(initVisibleColumns)
   }, [rawColumns, handleApplySetting])
+
+  const tableSettingRef = useRef(null)
+  useEffect(() => {
+    if (!isEqual(tableSetting, tableSettingRef?.current)) {
+      onSettingChange(tableSetting)
+      tableSettingRef.current = tableSetting
+    }
+  }, [tableSetting])
 
   const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
 
@@ -152,6 +163,7 @@ const DataTable = (props) => {
       )}
       <TableContainer
         sx={{
+          maxHeight: 'calc(100vh - 160px)',
           ...(height ? { maxHeight: height } : { flex: 1, overflow: 'auto' }),
         }}
       >
@@ -163,7 +175,7 @@ const DataTable = (props) => {
             rows={rows}
             order={sort?.order}
             orderBy={sort?.orderBy}
-            onChangeSort={onChangeSort}
+            onSortChange={onSortChange}
             onSelectAllClick={handleSelectAllClick}
             checkboxSelection={checkboxSelection}
             columns={columns}
@@ -311,13 +323,13 @@ DataTable.defaultProps = {
   hover: false,
   hideSetting: false,
   page: 1,
-  pageSize: 20,
+  pageSize: ROWS_PER_PAGE_OPTIONS[0],
   sort: {},
   selected: [],
-  onChangeSort: () => {},
+  onSortChange: () => {},
   onPageChange: () => {},
   onPageSizeChange: () => {},
-  onChangeSelectedRows: () => {},
+  onSettingChange: () => {},
 }
 
 DataTable.propsTypes = {
@@ -329,24 +341,23 @@ DataTable.propsTypes = {
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       sortable: PropTypes.bool,
       hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']), // default left
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']), // default center
-      renderCell: PropTypes.func, // renderCell and replace valueGetter
+      align: PropTypes.oneOf(['left', 'center', 'right']),
+      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
+      renderCell: PropTypes.func,
       fixed: PropTypes.bool,
     }),
   ),
   indexCol: PropTypes.string,
-  checkboxSelection: PropTypes.bool, // default: false
   total: PropTypes.number,
-  pageSize: PropTypes.number, // default: 20
+  pageSize: PropTypes.number,
   page: PropTypes.number,
-  height: PropTypes.number, // default: 500px
+  height: PropTypes.number,
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
-  onChangeSelectedRows: PropTypes.func,
-  onChangeSort: PropTypes.func,
+  onSelectionChange: PropTypes.func,
+  onSortChange: PropTypes.func,
   hideFooter: PropTypes.bool,
-  reorderable: PropTypes.bool, // default false
+  reorderable: PropTypes.bool,
   striped: PropTypes.bool,
   hover: PropTypes.bool,
   title: PropTypes.string,
@@ -355,6 +366,7 @@ DataTable.propsTypes = {
   selected: PropTypes.array,
   filters: PropTypes.shape(),
   tableSettingKey: PropTypes.string,
+  onSettingChange: PropTypes.func,
 }
 
 export default withTranslation()(withClasses(style)(DataTable))

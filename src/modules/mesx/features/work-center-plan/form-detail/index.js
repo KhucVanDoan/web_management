@@ -6,7 +6,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { DATE_FORMAT } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -15,7 +14,7 @@ import Status from '~/components/Status'
 import { WORK_CENTER_PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useWorkCenterPlan from '~/modules/mesx/redux/hooks/useWorkCenterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { formatDateTimeUtc } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const DetailWorkCenterPlan = () => {
   const history = useHistory()
@@ -63,7 +62,7 @@ const DetailWorkCenterPlan = () => {
       wcpStructure?.workCenterScheduleDetails?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
@@ -168,7 +167,7 @@ const DetailWorkCenterPlan = () => {
       wcpStructure?.defaultScheduleQcDetails?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
@@ -276,7 +275,7 @@ const DetailWorkCenterPlan = () => {
       wcpStructure?.workCenterRepairScheduleDetails?.forEach((e) => {
         columns.push({
           field: e.executionDay,
-          headerName: formatDateTimeUtc(e?.executionDay, DATE_FORMAT),
+          headerName: convertUtcDateToLocalTz(e?.executionDay),
           align: 'center',
         })
       })
