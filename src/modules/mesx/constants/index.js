@@ -843,9 +843,9 @@ export const PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION = [
     color: 'confirmed',
   },
   {
-    id: 2,
-    text: 'progressManufacturingByOrderStatus.rejected',
-    color: 'rejected',
+    id: 3,
+    text: 'progressManufacturingByOrderStatus.inProgress',
+    color: 'inprogress',
   },
   {
     id: 4,
@@ -853,9 +853,9 @@ export const PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION = [
     color: 'completed',
   },
   {
-    id: 3,
-    text: 'progressManufacturingByOrderStatus.inProgress',
-    color: 'inprogress',
+    id: 2,
+    text: 'progressManufacturingByOrderStatus.rejected',
+    color: 'rejected',
   },
 ]
 export const DETAIL_SCHEDULE_STATUS_MAP = {
