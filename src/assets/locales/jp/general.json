@@ -118,5 +118,10 @@
   "minutes": "分",
   "months": "月",
   "weeks": "週",
-  "years": "年"
+  "years": "年",
+  "ganttChart": {
+    "taskName": "作業名",
+    "completed": "完了",
+    "time": "時間"
+  }
 }
