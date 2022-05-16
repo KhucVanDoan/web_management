@@ -597,6 +597,12 @@
     "rejected": "Reject",
     "completed": "Complete"
   },
+  "planProgress": {
+    "late": "Late",
+    "normal": "Normal",
+    "done": "Done",
+    "nothing": "N/A"
+  },
   "workOrder": {
     "codeCV": "Job code",
     "codeKH": "Plan code",

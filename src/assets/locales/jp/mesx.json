@@ -596,6 +596,12 @@
     "rejected": "拒否",
     "completed": "完了"
   },
+  "planProgress": {
+    "late": "遅い",
+    "normal": "正常",
+    "done": "終わり",
+    "nothing": "N/A"
+  },
   "workOrder": {
     "codeCV": "作業コード",
     "codeKH": "計画コード",

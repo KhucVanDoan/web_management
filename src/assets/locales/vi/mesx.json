@@ -767,6 +767,12 @@
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },
+  "planProgress": {
+    "late": "Chậm",
+    "normal": "Đúng tiến độ",
+    "done": "Hoàn thành",
+    "nothing": "N/A"
+  },
   "defineCustomer": {
     "title": "Định nghĩa khách hàng",
     "customerList": "Danh sách khách hàng",

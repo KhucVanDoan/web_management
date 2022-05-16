@@ -534,12 +534,26 @@ export const PLAN_STATUS = {
   COMPLETED: 4,
 }
 
+export const PLAN_PROGRESS = {
+  LATE: 1,
+  NORMAL: 2,
+  DONE: 3,
+  NOTHING: 4,
+}
+
 export const PLAN_STATUS_MAP = {
   [PLAN_STATUS.REJECTED]: 'planStatus.rejected',
   [PLAN_STATUS.CREATED]: 'planStatus.created',
   [PLAN_STATUS.CONFIRMED]: 'planStatus.confirmed',
   [PLAN_STATUS.IN_PROGRESS]: 'planStatus.inProgress',
   [PLAN_STATUS.COMPLETED]: 'planStatus.completed',
+}
+
+export const PLAN_PROGRESS_MAP = {
+  [PLAN_PROGRESS.LATE]: 'planProgress.late',
+  [PLAN_PROGRESS.NORMAL]: 'planProgress.normal',
+  [PLAN_PROGRESS.DONE]: 'planProgress.done',
+  [PLAN_PROGRESS.NOTHING]: 'planProgress.nothing',
 }
 
 export const PLAN_STATUS_OPTIONS = [
