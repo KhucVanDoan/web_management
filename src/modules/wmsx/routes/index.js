@@ -1,10 +1,16 @@
 import Dashboard from '~/modules/wmsx/features/dashboard'
+import DefineCustomerDetail from '~/modules/wmsx/features/define-customer/detail'
+import DefineCustomerForm from '~/modules/wmsx/features/define-customer/form'
+import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
 import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
 import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
 import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
+import InventoryCalendarDetail from '~/modules/wmsx/features/inventory-calendar/detail'
+import InventoryCalendarForm from '~/modules/wmsx/features/inventory-calendar/form'
+import InventoryCalendar from '~/modules/wmsx/features/inventory-calendar/list'
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
 import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
@@ -23,6 +29,8 @@ import DefineWarehouseFrom from '../features/define-warehouse/form'
 import InventoryLimit from '../features/inventory-limit'
 import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
+import InventoryDetail from '../features/inventory/detail'
+import Inventory from '../features/inventory/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
@@ -38,6 +46,39 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.ORDER_MANAGEMENT.TITLE,
+    isInSidebar: true,
+    icon: 'home',
+    subMenu: [
+      {
+        name: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
+        path: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
+        component: InventoryCalendar,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_CALENDAR.CREATE.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.CREATE.PATH,
+            component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH,
+            component: InventoryCalendarDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
+            component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.WAREHOUSE_SETUP.TITLE,
@@ -121,6 +162,21 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
+    component: WarehouseImport,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
+        component: WarehouseImportDetail,
+        isInSidebar: false,
       },
     ],
   },
@@ -219,6 +275,20 @@ const routes = [
         isInSidebar: true,
       },
       {
+        name: ROUTE.INVENTORY.LIST.TITLE,
+        path: ROUTE.INVENTORY.LIST.PATH,
+        component: Inventory,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY.DETAIL.TITLE,
+            path: ROUTE.INVENTORY.DETAIL.PATH,
+            component: InventoryDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
         path: ROUTE.INVENTORY_DEADLINE_WARNING.PATH,
         name: ROUTE.INVENTORY_DEADLINE_WARNING.TITLE,
         component: InventoryDeadlineWarning,
@@ -229,21 +299,6 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
-      },
-    ],
-  },
-  {
-    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
-    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
-    component: WarehouseImport,
-    icon: 'home',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
-        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
-        component: WarehouseImportDetail,
-        isInSidebar: false,
       },
     ],
   },
@@ -274,6 +329,32 @@ const routes = [
             name: ROUTE.DEFINE_VENDEOR.DETAIL.TITLE,
             path: ROUTE.DEFINE_VENDEOR.DETAIL.PATH,
             component: DefineVendorDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CUSTOMER.LIST.TITLE,
+        path: ROUTE.DEFINE_CUSTOMER.LIST.PATH,
+        component: DefineCustomer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CUSTOMER.CREATE.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.CREATE.PATH,
+            component: DefineCustomerForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.EDIT.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.EDIT.PATH,
+            component: DefineCustomerForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER.DETAIL.PATH,
+            component: DefineCustomerDetail,
             isInSidebar: true,
           },
         ],

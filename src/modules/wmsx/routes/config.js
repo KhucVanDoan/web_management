@@ -6,6 +6,32 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+  ORDER_MANAGEMENT: {
+    TITLE: 'orderManagement',
+  },
+  WAREHOUSE_MANAGEMENT: {
+    TITLE: 'warehouseManagement',
+  },
+  INVENTORY: {
+    LIST: {
+      PATH: '/wmsx/inventory',
+      TITLE: 'inventory',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory/:id/detail/:warehouseId',
+      TITLE: 'inventoryDetail',
+    },
+  },
+  INVENTORY_STATISTIC: {
+    LIST: {
+      PATH: '/wmsx/inventory-statistics',
+      TITLE: 'inventoryStatistics',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-statistics/:id/detail/:warehouseId',
+      TITLE: 'inventoryStatisticsDetail',
+    },
+  },
   DEFINE_TEMPLATE_SHELF: {
     LIST: {
       PATH: '/wmsx/define-template-shelf',
@@ -190,5 +216,41 @@ export const ROUTE = {
   INVENTORY_STATISTICS: {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',
+  },
+  DEFINE_CUSTOMER: {
+    LIST: {
+      PATH: '/wmsx/define-customer',
+      TITLE: 'defineCustomer',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-customer/create',
+      TITLE: 'defineCustomerCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-customer/:id/edit',
+      TITLE: 'defineCustomerEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-customer/:id/detail',
+      TITLE: 'defineCustomerDetail',
+    },
+  },
+  INVENTORY_CALENDAR: {
+    LIST: {
+      PATH: '/wmsx/inventory-calendar',
+      TITLE: 'inventoryCalendar',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-calendar/create',
+      TITLE: 'inventoryCalendarCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-calendar/:id/detail',
+      TITLE: 'inventoryCalendarDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-calendar/:id/edit',
+      TITLE: 'inventoryCalendarEdit',
+    },
   },
 }

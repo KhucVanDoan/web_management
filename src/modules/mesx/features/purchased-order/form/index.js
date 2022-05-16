@@ -219,10 +219,10 @@ function PurchasedOrderForm() {
     const requestBuySelected = requestBuyMaterialList.find(
       (request) => request.id === val,
     )
-    setMoSelected(requestBuySelected.manufacturingOrder.id)
+    setMoSelected(requestBuySelected?.manufacturingOrder?.id)
     setFieldValue(
       'manufacturingOrderId',
-      requestBuySelected.manufacturingOrder.code,
+      requestBuySelected?.manufacturingOrder?.code,
     )
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
   }

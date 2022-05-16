@@ -7,7 +7,7 @@ import Button from '~/components/Button'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { PLAN_STATUS_MAP, SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
@@ -120,8 +120,9 @@ function PlanReport() {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        const { planBom } = params.row
+        return planBom?.status
+        // return t(PLAN_STATUS_MAP[status]) // TODO BE return enum
       },
     },
     {
@@ -200,7 +201,8 @@ function PlanReport() {
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        return status
+        // return t(PLAN_STATUS_MAP[status]) TODO BE change status to enum
       },
     },
     {
@@ -252,7 +254,7 @@ function PlanReport() {
       renderCell: (params) => {
         const { planBom } = params.row
         return planBom?.planningQuantity
-      }
+      },
     },
     {
       field: 'actualQuantity',
@@ -262,7 +264,7 @@ function PlanReport() {
       renderCell: (params) => {
         const { planBom } = params.row
         return planBom?.actualQuantity
-      }
+      },
     },
     {
       field: 'unit',
@@ -316,8 +318,9 @@ function PlanReport() {
       align: 'center',
       sortable: true,
       renderCell: (params) => {
-        const { status } = params.row
-        return t(PLAN_STATUS_MAP[status])
+        const { planBom } = params.row
+        return planBom?.status
+        // return t(PLAN_STATUS_MAP[status])
       },
     },
     {

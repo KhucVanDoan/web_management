@@ -166,11 +166,11 @@ export const INVENTORY_STATUS_MAP = {
 }
 
 export const INVENTORY_STATUS_OPTIONS = [
-  { id: 1, name: 'inventoryStatus.pending' },
-  { id: 2, name: 'inventoryStatus.confirmed' },
-  { id: 3, name: 'inventoryStatus.reject' },
-  { id: 5, name: 'inventoryStatus.inProgress' },
-  { id: 4, name: 'inventoryStatus.complete' },
+  { id: 1, name: 'inventoryStatus.pending', color: 'created' },
+  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
+  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
+  { id: 5, name: 'inventoryStatus.inProgress', color: 'inProgress' },
+  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const WORK_ORDER_STATUS = {
   REJECTED: 2,
