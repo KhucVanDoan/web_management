@@ -34,16 +34,18 @@
     "validTime": "Time is invalid"
   },
   "toast": {
-    "notificationTitle": "Notification"
+    "notificationTitle": "Notification",
+    "defaultError": "Error occured"
   },
   "dataTable": {
     "search": "Search",
     "noData": "No data.",
-    "cancel": "Cancel",
-    "filterButton": "Search",
+    "visibleColumns": "Display selected categories",
     "filterTitle": "Search",
+    "filterButton": "Search",
+    "cancel": "Cancel",
     "title": "List",
-    "visibleColumns": "Show selected"
+    "showAllColumns": "All"
   },
   "pagination": {
     "rowsPerPage": "Rows per page",
@@ -97,24 +99,82 @@
   "weeks": "Week",
   "months": "Months",
   "years": "Years",
-  "actionBar": {
-    "back": "Back",
-    "cancel": "Cancel",
-    "create": "Create",
-    "save": "Save"
+  "autocomplete": {
+    "noOptionsText": "No data",
+    "loadingText": "Loading data...",
+    "hint": "Enter keywords"
   },
-  "autocomplete": { "loadingText": "Loading...", "noOptionsText": "No data" },
+  "dateRangePicker": { "from": "From date", "to": "To date" },
   "date": {
     "maxToday": "Date of birth must be less than to day",
     "minToday": "Canoot selected before current date"
   },
-  "dateRangePicker": { "from": "From", "to": "To" },
   "page": {
     "copyright": "A product of VTI - Solution ©2021",
     "goBack": "Back",
     "logout": "Logout",
     "searchButton": "Search",
     "searchPlaceholder": "Search"
+  },
+  "actionBar": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "create": "Create new",
+    "save": "Save",
+    "import": "Enter",
+    "closeNotification": "Close",
+    "importAgain": "Enter again"
+  },
+  "importExportMenu": {
+    "import": "Import",
+    "export": "Export",
+    "importExport": "Import/Export"
+  },
+  "import": {
+    "title": "Import",
+    "stepDownloadTemplate": {
+      "title": "Step 1: Download template",
+      "description": "and fill in as instruction"
+    },
+    "downloadTemplate": "Download template",
+    "stepUploadData": {
+      "title": "Step 2: Upload full information",
+      "description": "Select or drop a file in this area to import",
+      "support": "Support file ",
+      "fileType": "XLSX"
+    },
+    "result": "Successfully entered {0} rows {1} rows failed,",
+    "log": "Click here to download import result",
+    "unexpectedError": "Error occured when import",
+    "prefix": { "importLog": "ImportLog", "importTemplate": "ImportTemplate" }
+  },
+  "fileUpload": {
+    "error": {
+      "invalidType": "The uploaded file format is invalid. Please upload files with format",
+      "invalidSize": "File size is invalid. Limited size is",
+      "invalidNumberOfFiles": "Import file quantity must not exceed"
+    }
+  },
+  "notification": {
+    "heading": "Notification",
+    "readOne": "Mark as read",
+    "noData": "No notifications",
+    "readAll": "All read",
+    "turnOff": "Turn off notification",
+    "hoursAgo": "{{time}} hours ago",
+    "minutesAgo": "{{time}} minutes ago",
+    "action": { "confirm": "Confirm", "reject": "Reject" }
+  },
+  "message": {
+    "fieldIsRequired": "This field is required",
+    "unknownError": "Error occured please try again,",
+    "noData": "No data",
+    "lessThan": "Value must be smaller than {{max}}"
+  },
+  "modal": {
+    "btnSubmit": "Confirm",
+    "btnCancel": "Cancel",
+    "btnClose": "Close"
   },
   "common": {
     "yes": "Yes",
@@ -123,20 +183,20 @@
     "close": "Close",
     "back": "Back",
     "action": "Action",
-    "create": "Create",
+    "create": "Create new",
     "update": "Update",
     "save": "Save",
     "print": "Print",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa",
-    "accept": "Accept",
+    "createdAt": "Created date",
+    "updatedAt": "Updated date",
+    "accept": "Confirm",
     "reject": "Reject",
-    "notify": "Thông báo",
+    "notify": "Notification",
     "confirmMessage": {
-      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
-      "reject": "Bạn có chắc chắn muốn từ chối không?"
+      "confirm": "Are you sure to confirm?",
+      "reject": "Are you sure to reject?"
     },
-    "creator": "Người tạo",
+    "creator": "Created by",
     "search": "Search",
     "filter": "Filter"
   }
