@@ -188,7 +188,7 @@ const WorkOrder = () => {
       field: 'changeWorkOrder',
       headerName: t('Mo.changeWorkOrder'),
       renderCell: (params) => {
-        return (
+        return params.row?.status === WORK_ORDER_STATUS.CONFIRMED && (
           <Button
             variant="text"
             size="small"
