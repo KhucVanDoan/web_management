@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -7,13 +7,14 @@ import { useHistory } from 'react-router-dom'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useWorkCenterPlan from '~/modules/mesx/redux/hooks/useWorkCenterPlan'
+import { exportWorkCenterPlanApi } from '~/modules/mesx/redux/sagas/work-center-plan/import-export-work-center-plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './form-filter'
-
 const breadcrumbs = [
   {
     title: 'database',
@@ -54,6 +55,9 @@ const WorkCenterPlanList = () => {
     data: { wcpList, isLoading },
     actions,
   } = useWorkCenterPlan()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const columns = useMemo(() => [
     // {
     //   field: 'id',
@@ -137,6 +141,11 @@ const WorkCenterPlanList = () => {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, keyword, filters])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -151,12 +160,33 @@ const WorkCenterPlanList = () => {
     actions.searchWorkCenterPlan({ params })
   }
 
+  const renderHeaderRight = () => {
+    return (
+      <ImportExport
+        name={t('workCenterPlan.import')}
+        onExport={() => {
+          exportWorkCenterPlanApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        disabled
+      />
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.workCenterPlan')}
       onSearch={setKeyword}
       placeholder={t('workCenterPlan.searchPlaceHolder')}
+      renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
@@ -169,6 +199,9 @@ const WorkCenterPlanList = () => {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={wcpList?.meta?.total}
         sort={sort}
         filters={{

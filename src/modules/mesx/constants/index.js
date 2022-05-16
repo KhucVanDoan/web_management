@@ -1211,3 +1211,9 @@ export const PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+
+export const TYPE_ENUM_EXPORT = {
+  // @TODO: <linh.taquang> add type number export
+  COMPANY: 1,
+  FACTORY: 2,
+}

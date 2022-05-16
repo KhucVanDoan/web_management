@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemUnit from '~/modules/database/redux/hooks/useItemUnit'
@@ -19,6 +20,11 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import {
+  exportItemUnitSettingApi,
+  getItemUnitSettingTemplateApi,
+  importItemUnitSettingApi,
+} from '../../redux/sagas/item-unit-setting/import-export-item-unit'
 import FilterForm from './filter-form'
 
 const breadcrumbs = [
@@ -46,6 +52,8 @@ function ItemUnitSetting() {
 
   const [deleteModal, setDeleteModal] = useState(false)
   const [tempItem, setTempItem] = useState()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -148,7 +156,7 @@ function ItemUnitSetting() {
     },
   ])
 
-  useEffect(() => {
+  const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page: page,
@@ -157,7 +165,15 @@ function ItemUnitSetting() {
       sort: convertSortParams(sort),
     }
     actions.searchItemUnits(params)
+  }
+
+  useEffect(() => {
+    refreshData()
   }, [page, pageSize, sort, filters, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
 
   const handleDeleteOpenModal = (tempItem) => {
     setTempItem(tempItem)
@@ -172,11 +188,28 @@ function ItemUnitSetting() {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* TODO: <linh.taquang> handle import export */}
-        <Button variant="outlined" disabled icon="download">
-          {t('itemUnitDefine.import')}
-        </Button>
-
+        <ImportExport
+          name={t('itemUnitDefine.import')}
+          onImport={(params) => {
+            importItemUnitSettingApi(params)
+          }}
+          onExport={() => {
+            exportItemUnitSettingApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getItemUnitSettingTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.ITEM_UNIT.CREATE.PATH)}
           icon="add"
@@ -208,6 +241,9 @@ function ItemUnitSetting() {
           onPageSizeChange={setPageSize}
           onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

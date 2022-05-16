@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -21,6 +22,11 @@ import {
   WORK_CENTER_STATUS_TO_EDIT,
 } from '~/modules/mesx/constants'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import {
+  exportWorkCenterApi,
+  getWorkCenterTemplateApi,
+  importWorkCenterApi,
+} from '~/modules/mesx/redux/sagas/work-center/import-export-work-center'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -48,6 +54,8 @@ const WorkCenter = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -72,6 +80,11 @@ const WorkCenter = () => {
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   useEffect(() => {
     factoryAction.searchFactories({ isGetAll: 1 })
   }, [])
@@ -232,10 +245,28 @@ const WorkCenter = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: <doan.khucvan> handle import/export */}
-        <Button variant="outlined" disabled icon="download">
-          {t('workCenter.import')}
-        </Button>
+        <ImportExport
+          name={t('workCenter.import')}
+          onImport={(params) => {
+            importWorkCenterApi(params)
+          }}
+          onExport={() => {
+            exportWorkCenterApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getWorkCenterTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.WORK_CENTER.CREATE.PATH)}
           icon="add"
@@ -266,6 +297,9 @@ const WorkCenter = () => {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{
