@@ -11,9 +11,9 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserPermission from '~/modules/mesx/redux/hooks/useUserPermission'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { useAppStore } from '~/modules/shared/redux/hooks/useAppStore'
 
 const breadcrumbs = [
   {
@@ -27,7 +27,6 @@ const breadcrumbs = [
 
 function UserPermission() {
   const { t } = useTranslation(['mesx'])
-  const { appStore } = useAppStore()
   const [bomTree, setBomTree] = useState([])
   const [departmentId, setDepartmentId] = useState(null)
   const [userRoleId, setUserRoleId] = useState(null)
@@ -39,8 +38,18 @@ function UserPermission() {
     actions,
   } = useUserPermission()
 
+  const {
+    data: { groupPermissions, departments },
+    actions: commonManagementActions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    commonManagementActions.getGroupPermissions()
+    commonManagementActions.getDepartmentsRole()
+  }, [])
+
   const listRole = flatten(
-    map(appStore.groupPermisions, (per) => per.permissionSetting),
+    map(groupPermissions, (per) => per.permissionSetting),
   )
 
   const initialValues = {
@@ -63,7 +72,6 @@ function UserPermission() {
   }, [departmentId, userRoleId])
 
   const refreshData = () => {
-    const groupPermissions = appStore.groupPermisions || []
     const total = groupPermissions.length
     const start = total ? pageSize * (page - 1) : 0
     const end = total ? Math.min(pageSize * page, total) : 0
@@ -73,7 +81,7 @@ function UserPermission() {
 
   useEffect(() => {
     refreshData()
-  }, [appStore.groupPermisions, page, pageSize])
+  }, [groupPermissions, page, pageSize])
 
   useEffect(() => {
     const newArr = listRole?.map((item) => {
@@ -260,7 +268,7 @@ function UserPermission() {
                       name="departmentId"
                       label={t('userPermission.department')}
                       placeholder={t('userPermission.department')}
-                      options={appStore.deparments}
+                      options={departments}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       onChange={(val) => setDepartmentId(val)}
@@ -272,7 +280,7 @@ function UserPermission() {
                       label={t('userPermission.role')}
                       placeholder={t('userPermission.role')}
                       options={
-                        appStore.deparments.find(
+                        departments.find(
                           (item) => item.id === values.departmentId,
                         )?.role
                       }
@@ -320,7 +328,7 @@ function UserPermission() {
                   type={'list'}
                   onPageChange={setPage}
                   onPageSizeChange={setPageSize}
-                  total={appStore?.groupPermisions?.length}
+                  total={groupPermissions?.length}
                   hideSetting
                 />
               </Box>
