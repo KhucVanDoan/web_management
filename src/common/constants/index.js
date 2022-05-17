@@ -69,6 +69,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   CODE_8: {
     MAX: 8,
   },
+  CODE_9: {
+    MAX: 9,
+  },
   CODE_10: {
     MAX: 10,
   },
