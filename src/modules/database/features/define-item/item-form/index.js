@@ -388,6 +388,11 @@ function DefineItemForm() {
                             getOptionSubLabel={(opt) => opt?.name}
                             subLabelWidth="70%"
                             required
+                            options={
+                              itemDetails?.itemGroup?.code
+                                ? [itemDetails?.itemGroup]
+                                : []
+                            }
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>
@@ -411,6 +416,11 @@ function DefineItemForm() {
                             }
                             asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.name}
+                            options={
+                              itemDetails?.itemUnit?.id
+                                ? [itemDetails?.itemUnit]
+                                : []
+                            }
                             required
                           />
                         </Grid>
