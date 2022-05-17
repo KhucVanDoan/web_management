@@ -148,7 +148,7 @@ export const TEXTFIELD_PREVENT = {
 }
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100]
-export const ASYNC_SEARCH_LIMIT = 100
+export const ASYNC_SEARCH_LIMIT = 50
 
 export const DATE_TIME_FORMAT_BY_LANG = {
   [LANG_OPTIONS.VI]: 'dd/MM/yyyy HH:mm:ss',
@@ -239,6 +239,10 @@ export const HTTP_STATUS_CODE = {
   NOT_ACCEPTABLE: 406,
 }
 
+export const ORDER_DIRECTION = {
+  ASC: 'asc',
+  DESC: 'desc',
+}
 export const INVENTORY_STATUS_OPTIONS = [
   { id: 1, name: 'inventoryStatus.pending', color: 'created' },
   { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },

@@ -17,6 +17,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_LIMIT,
+  ORDER_DIRECTION,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
@@ -26,6 +27,7 @@ import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/database/routes/config'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { searchCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/search-customers'
+import { convertSortParams } from '~/utils'
 import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
@@ -307,11 +309,19 @@ function SaleOrderForm() {
                           searchCustomersApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
+                            sort: convertSortParams({
+                              order: ORDER_DIRECTION.ASC,
+                              orderBy: 'name',
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
                         getOptionSubLabel={(opt) => opt?.code}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        options={
+                          saleOrder?.customer?.id ? [saleOrder?.customer] : []
+                        }
                         required
                       />
                     </Box>
