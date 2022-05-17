@@ -300,6 +300,7 @@ const WorkOrder = () => {
           ...isExecutingAutocompleteWorkOrder,
           [id]: false
         })
+        refreshData()
       },
       () => {
         setIsExecutingAutocompleteWorkOrder({
