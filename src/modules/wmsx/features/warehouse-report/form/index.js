@@ -131,7 +131,7 @@ const WarehouseReportForm = () => {
                       name="code"
                       placeholder={t('warehouseReport.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
