@@ -187,7 +187,7 @@ const WarehouseReportForm = () => {
                   <Grid item xs={12} lg={6} />
                   <Grid item xs={12}>
                     <Field.TextField
-                      name="description"
+                      name="note"
                       label={t('warehouseReport.description')}
                       placeholder={t('warehouseReport.description')}
                       inputProps={{
