@@ -120,7 +120,7 @@ function WarehouseTransferMovements() {
     {
       field: 'status',
       headerName: t('warehouseTransferMovement.transactionStatus'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         const { status } = params.row
         return (
@@ -131,7 +131,7 @@ function WarehouseTransferMovements() {
     {
       field: 'action',
       headerName: t('defineWarehouse.action'),
-      width: 150,
+      width: 50,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
