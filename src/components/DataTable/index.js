@@ -309,7 +309,7 @@ const DataTable = (props) => {
         <Pagination
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
-          total={total}
+          total={parseInt(total) || 0}
           pageSize={pageSize}
           page={page}
         />
