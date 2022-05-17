@@ -66,6 +66,9 @@ function BomTable(props) {
       headerName: t('Mo.item.remainingQuantity'),
       width: 50,
       align: 'center',
+      renderCell: (params) => {
+        return Number(params.row?.item?.remainingQuantity)
+      }
     },
     {
       field: 'remainningMinQuantity',
@@ -78,6 +81,9 @@ function BomTable(props) {
       headerName: t('Mo.item.planningQuantity'),
       width: 50,
       align: 'center',
+      renderCell: (params) => {
+        return Number(params.row?.item?.planningQuantity)
+      }
     },
     {
       field: 'manufactureQuantity',
