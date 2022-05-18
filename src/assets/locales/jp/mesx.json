@@ -131,7 +131,8 @@
     "purchasedOrderDetail": "発注書詳細",
     "statistical": "統計",
     "progressManufacturingByWorkCenter": "受注書の製造",
-    "progressManufacturingByOrder": "ワークセンターの製造"
+    "progressManufacturingByOrder": "ワークセンターの製造",
+    "progressDetailReport": "詳細の製造報告"
   },
   "userManagement": {
     "title": "ユーザ一覧",
@@ -1846,5 +1847,21 @@
     "approved": "承認済み",
     "rejected": "拒否",
     "completed": "完了"
+  },
+  "ProgessDetailReport": {
+    "title": "詳細の製造報告",
+    "moCode": "製造指図番号",
+    "workCenter": "作業場名",
+    "itemName": "商品名",
+    "producingSteps": "工程名",
+    "actualQuantity": "製造数量",
+    "moderationQuantity": "適切な数量",
+    "delayQuantity": "遅延数量",
+    "accumlateQuantity": "計画（累計）",
+    "accumlateDelayQuantity": "遅延数量（累計）",
+    "accumlateActualQuantity": "進捗（累計）",
+    "quantity": "計画数量",
+    "plan": "計画",
+    "export": "データ出力"
   }
 }
