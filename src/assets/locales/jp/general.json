@@ -129,33 +129,34 @@
     "database": "マスターデータ",
     "other": "Other"
   },
-  "common": {
-    "yes": "Có",
-    "no": "Không",
-    "cancel": "Huỷ",
-    "close": "Đóng",
-    "back": "Quay lại",
-    "action": "Hành động",
-    "create": "新規作成",
-    "update": "Cập nhật",
-    "save": "Lưu",
-    "print": "In",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa",
-    "accept": "Xác nhận",
-    "reject": "Từ chối",
-    "notify": "Thông báo",
-    "confirmMessage": {
-      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
-      "reject": "Bạn có chắc chắn muốn từ chối không?"
-    },
-    "creator": "Người tạo",
-    "search": "Tìm kiếm",
-    "filter": "Lọc"
-  },
   "importExportMenu": {
     "import": "データ入力",
     "export": "データ出力",
-    "importExport": "データ入出力"
+    "importExport": "データ入出力",
+    "solution": "解決"
+  },
+  "common": {
+    "yes": "はい",
+    "no": "いいえ",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "back": "戻る",
+    "action": "操作",
+    "create": "新規作成",
+    "update": "更新",
+    "save": "保存",
+    "print": "印刷",
+    "createdAt": "作成日",
+    "updatedAt": "編集日",
+    "accept": "確認",
+    "reject": "拒否",
+    "notify": "通知",
+    "confirmMessage": {
+      "confirm": "確認します。よろしいですか。",
+      "reject": "拒否します。よろしですか。"
+    },
+    "creator": "作成者",
+    "search": "検索",
+    "filter": "検索"
   }
 }
