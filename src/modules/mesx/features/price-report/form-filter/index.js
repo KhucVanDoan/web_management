@@ -4,11 +4,13 @@ import { Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
   const { values } = useFormikContext()
@@ -65,14 +67,18 @@ const FilterForm = () => {
           name="moCode"
           label={t('qualityReport.moName')}
           placeholder={t('qualityReport.moName')}
-          options={
-            values?.soName
-              ? moList.filter((mo) => mo?.saleOrderId === values?.soName)
-              : moList
+          asyncRequest={(s) =>
+            searchMOApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+              filter: values?.saleOrderIds
+                ? JSON.stringify([{ column: 'soName', text: [values?.soName] }])
+                : [],
+            })
           }
-          getOptionValue={(opt) => opt?.id}
-          getOptionLabel={(opt) => opt?.code}
-          onChange={(id) => moActions.getMoItemsById(id)}
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={(val) => moActions.getMoItemsById(val?.id)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -80,7 +86,11 @@ const FilterForm = () => {
           name="soName"
           label={t('qualityReport.saleOrder')}
           placeholder={t('qualityReport.saleOrder')}
-          options={values?.moCode ? getDataSaleOder() : saleOrderList}
+          options={
+            values?.moCode && values?.soName === ''
+              ? getDataSaleOder()
+              : saleOrderList
+          }
           getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.name}
         />

@@ -4,7 +4,7 @@
     "dashboard": "ダッシュボード",
     "plan": "計画",
     "import": "入庫",
-    "database": "データベース",
+    "database": "マスターデータ",
     "definePlan": "製造計画",
     "definePlanCreate": "計画作成",
     "definePlanEdit": "計画編集",
@@ -128,7 +128,10 @@
     "purchasedOrder": "発注書登録",
     "purchasedOrderCreate": "発注書作成",
     "purchasedOrderEdit": "発注書編集",
-    "purchasedOrderDetail": "発注書詳細"
+    "purchasedOrderDetail": "発注書詳細",
+    "statistical": "統計",
+    "progressManufacturingByWorkCenter": "受注書の製造",
+    "progressManufacturingByOrder": "ワークセンターの製造"
   },
   "userManagement": {
     "title": "ユーザ一覧",
@@ -542,6 +545,7 @@
     "toDoQuantity": "未製造数量",
     "producedQuantity": "製造完了数量",
     "producingStepName": "工程名",
+    "planQuantity": "計画数量",
     "saleOrderReport": {
       "title": "入出庫数量"
     },
@@ -1834,5 +1838,13 @@
     "validatePurchasedAt": "注文日は納品日より前でなければなりません。",
     "validateDeadline": "注文日は納品日より前でなければなりません。",
     "reason": "理由"
+  },
+  "orderStatus": {
+    "pending": "確認待ち",
+    "confirmed": "確認",
+    "inProgress": "実行中",
+    "approved": "承認済み",
+    "rejected": "拒否",
+    "completed": "完了"
   }
 }

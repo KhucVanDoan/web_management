@@ -111,9 +111,9 @@ function warehouseReportDetail() {
                 label={t('warehouseReport.warehouseName')}
                 value={
                   !isEmpty(warehouseReportDetails?.warehouses) &&
-                  warehouseReportDetails?.warehouses?.map(
-                    (warehouse) => warehouse.name,
-                  )
+                  warehouseReportDetails?.warehouses
+                    ?.map((warehouse) => warehouse.name)
+                    ?.join(', ')
                 }
               />
             </Grid>
@@ -125,7 +125,7 @@ function warehouseReportDetail() {
                 multiline
                 readOnly
                 rows={3}
-                value={warehouseReportDetails.description}
+                value={warehouseReportDetails.note}
                 sx={{
                   'label.MuiFormLabel-root': {
                     color: (theme) => theme.palette.subText.main,

@@ -167,6 +167,7 @@ function InventoryDeadlineWarning() {
       limit: pageSize,
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
+      isExpireDay: 1,
     }
     actions.searchInventoryDeadlineWarning(params)
   }
@@ -180,6 +181,7 @@ function InventoryDeadlineWarning() {
       </>
     )
   }
+
   return (
     <>
       <Page
@@ -191,6 +193,8 @@ function InventoryDeadlineWarning() {
         loading={isLoading}
       >
         <DataTable
+          //@TODO: <khanh.nguyenvan> work around for indexCol is not uniq
+          indexCol="_"
           title={t('inventoryDeadlineWarning.title')}
           rows={inventoryDeadlineWarningList}
           pageSize={pageSize}

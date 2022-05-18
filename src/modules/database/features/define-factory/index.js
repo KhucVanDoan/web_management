@@ -9,13 +9,20 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/database/routes/config'
+import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
+import {
+  exportFactoryApi,
+  getFactoryTemplateApi,
+  importFactoryApi,
+} from '../../redux/sagas/factory/import-export-factory'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -70,6 +77,8 @@ function DefineFactory() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -180,6 +189,10 @@ function DefineFactory() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
   }
@@ -198,9 +211,29 @@ function DefineFactory() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('defineFactory.import')}
+          onImport={(params) => {
+            importFactoryApi(params)
+          }}
+          onExport={() => {
+            exportFactoryApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+              type: TYPE_ENUM_EXPORT.FACTORY,
+            })
+          }}
+          onDownloadTemplate={getFactoryTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_FACTORY.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -231,6 +264,9 @@ function DefineFactory() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

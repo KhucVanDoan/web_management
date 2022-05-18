@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   items: [],
-  total: 11,
+  total: 0,
   totalUnread: 0,
   isLoading: false,
 }
@@ -36,16 +36,17 @@ export default function notification(state = initialState, action) {
       }
     case GET_NOTIFICATIONS_SUCCESS:
       return {
-        items: [...state.items, action.payload?.items],
+        items: [...state.items, ...(action.payload?.items || [])],
         total: action.payload?.meta?.total,
         totalUnread: action.payload?.meta?.totalUnread,
         isLoading: false,
       }
     case SEEN_ONE_NOTIFICATION_SUCCESS:
+      // @TODO: check seenone handle
       let newItems = [...state.items]
 
       const index = state.items.findIndex(
-        (item) => item?.notificationId === action.payload?.notificationId,
+        (item) => item?._id === action.payload?._id,
       )
 
       if (index !== -1) {

@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -26,6 +27,11 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import {
+  exportProducingStepApi,
+  getProducingStepTemplateApi,
+  importProducingStepApi,
+} from '../../redux/sagas/producing-steps/import-export'
 import FilterForm from './filter'
 
 const breadcrumbs = [
@@ -53,6 +59,8 @@ function ProducingStep() {
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -206,6 +214,10 @@ function ProducingStep() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -220,9 +232,28 @@ function ProducingStep() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" disabled icon="download">
-          {t('producingStep.import')}
-        </Button>
+        <ImportExport
+          name={t('itemUnitDefine.import')}
+          onImport={(params) => {
+            importProducingStepApi(params)
+          }}
+          onExport={() => {
+            exportProducingStepApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getProducingStepTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.PRODUCING_STEP.CREATE.PATH)}
           icon="add"
@@ -263,6 +294,9 @@ function ProducingStep() {
           onPageSizeChange={setPageSize}
           onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           title={t('producingStep.title')}
           filters={{

@@ -6,13 +6,15 @@ import { useHistory } from 'react-router-dom'
 
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
+import { exportPriceReportApi } from '~/modules/mesx/redux/sagas/price-report/import-export-price-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { useMo } from '../../redux/hooks/useMo'
 import FilterForm from './form-filter'
 import { filterSchema } from './form-filter/schema'
-
 const breadcrumbs = [
   {
     title: 'database',
@@ -35,6 +37,8 @@ const PriceReport = () => {
   const [priceReport, setPriceReport] = useState([])
   const history = useHistory()
   const { actions } = useMo()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -135,7 +139,7 @@ const PriceReport = () => {
                   history.push(
                     ROUTE.PRICE_REPORT.DETAIL.PATH.replace(
                       ':id',
-                      `${filters.moCode}`,
+                      `${filters.moCode?.id}`,
                     ),
                   )
                 }
@@ -150,12 +154,32 @@ const PriceReport = () => {
 
   useEffect(() => {
     refreshData()
+    setSelectedRows([])
   }, [filters])
 
   const refreshData = () => {
-    actions.getPriceStructureById(filters.moCode, (res) => {
+    actions.getPriceStructureById(filters.moCode?.id, (res) => {
       setPriceReport(res)
     })
+  }
+
+  const renderHeaderRight = () => {
+    return (
+      <ImportExport
+        name={t('planReport.export')}
+        onExport={() => {
+          exportPriceReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
   }
 
   return (
@@ -163,12 +187,16 @@ const PriceReport = () => {
       breadcrumbs={breadcrumbs}
       title={t('menu.priceReport')}
       placeholder={t('priceReport.searchPlacehoder')}
+      renderHeaderRight={renderHeaderRight}
     >
       <DataTable
         title={t('menu.priceReport')}
         rows={priceReport}
         columns={columns}
         onFilterChange={setFilters}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={priceReport?.length}
         filters={{
           form: <FilterForm />,

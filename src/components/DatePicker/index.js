@@ -174,7 +174,7 @@ DatePicker.defaultProps = {
 DatePicker.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.shape(),
+  value: PropTypes.string,
   onChange: PropTypes.func,
   onTouch: PropTypes.func,
   error: PropTypes.bool,

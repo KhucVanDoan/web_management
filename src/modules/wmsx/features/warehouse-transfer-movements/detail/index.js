@@ -202,7 +202,7 @@ function WarehouseTransferMovementsDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('warehouseTransferMovement.calendar.inventoryCode')}
-                value={warehouseTransferMovementDetail?.order?.id}
+                value={warehouseTransferMovementDetail?.order?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12} />
@@ -230,8 +230,8 @@ function WarehouseTransferMovementsDetail() {
                   factoryList?.find(
                     (f) =>
                       f.id ===
-                      warehouseTransferMovementDetail?.order?.sourceWarehouse
-                        ?.factoryId,
+                      warehouseTransferMovementDetail?.order
+                        ?.destinationWarehouse?.factoryId,
                   )?.name
                 }
               />

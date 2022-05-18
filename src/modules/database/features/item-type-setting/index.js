@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
@@ -19,6 +20,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import { exportItemTypeApi } from '../../redux/sagas/item-type-setting/import-export-item-type'
 import FilterForm from './filter-form'
 
 const breadcrumbs = [
@@ -42,6 +44,8 @@ function ItemTypeSetting() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -156,6 +160,10 @@ function ItemTypeSetting() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -180,9 +188,25 @@ function ItemTypeSetting() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('itemTypeSetting.export')}
+          onExport={() => {
+            exportItemTypeApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
+
         <Button
           onClick={() => history.push(ROUTE.ITEM_TYPE.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -212,6 +236,9 @@ function ItemTypeSetting() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

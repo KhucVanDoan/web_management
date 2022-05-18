@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { isArray, isEqual, isNil, last } from 'lodash'
+import { isArray, isEqual, last } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -86,20 +86,7 @@ const Autocomplete = ({
     return opts.find((opt) => isOptEqual(opt, val)) || null
   }
 
-  const resetOptions = () => {
-    if (multiple) {
-      setOptions(!isNil(value) ? value : rawOptions)
-    } else {
-      setOptions(!isNil(value) ? [value] : rawOptions)
-    }
-  }
-
-  const fetchOptions = async (keyword) => {
-    if (!keyword) {
-      resetOptions()
-      setLoading(false)
-      return
-    }
+  const fetchOptions = async (keyword = '') => {
     setLoading(true)
     try {
       const response = await asyncRequest(keyword)
@@ -122,7 +109,7 @@ const Autocomplete = ({
   }
 
   useEffect(() => {
-    if (isAsync) {
+    if (isAsync && debouncedInputValue !== undefined) {
       fetchOptions(debouncedInputValue)
     }
   }, [debouncedInputValue, isAsync])
@@ -355,9 +342,7 @@ const Autocomplete = ({
             ? {
                 onChange: (e) => {
                   setInputValue(e.target.value)
-                  if (isAsync && !loading) {
-                    setLoading(true)
-                  }
+                  setLoading(true)
                 },
               }
             : {})}
@@ -374,11 +359,7 @@ const Autocomplete = ({
             value,
             options,
             filterOptions: (opts) => opts,
-            onClose: () => {
-              setInputValue('')
-              resetOptions()
-            },
-            onChange: (_, newVal) => onChange(newVal),
+            isOptionEqualToValue: isOptEqual,
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
             noOptionsText: inputValue ? (
               noOptionsText || t('autocomplete.noOptionsText')
@@ -388,6 +369,75 @@ const Autocomplete = ({
                 {t('autocomplete.hint')}
               </Box>
             ),
+            ...(multiple
+              ? {
+                  // async multiple
+                  onChange: (_, newVal, reason) => {
+                    onChange(newVal)
+
+                    if (
+                      reason === 'clear' ||
+                      (reason === 'removeOption' && !newVal?.length)
+                    ) {
+                      if (inputValue) {
+                        setInputValue('')
+                      } else {
+                        fetchOptions()
+                      }
+                    }
+                  },
+                  onClose: () => {
+                    if (Array.isArray(value) && value?.length) {
+                      setOptions(value)
+
+                      if (inputValue) {
+                        setInputValue(undefined)
+                      }
+                    } else if (inputValue) {
+                      setInputValue('')
+                    } else if (!options?.length && !loading) {
+                      fetchOptions()
+                    }
+                  },
+                }
+              : {
+                  // async single
+                  onChange: (_, newVal, reason) => {
+                    onChange(newVal)
+
+                    if (
+                      reason === 'clear' ||
+                      (reason === 'removeOption' && !newVal)
+                    ) {
+                      if (inputValue) {
+                        setInputValue('')
+                      } else {
+                        fetchOptions()
+                      }
+                    }
+                  },
+                  onClose: (_, reason) => {
+                    if (
+                      reason === 'blur' ||
+                      reason === 'escape' ||
+                      reason === 'toggleInput'
+                    ) {
+                      if (value) {
+                        if (
+                          !options?.length ||
+                          (options?.length &&
+                            options?.every((opt) => !isOptEqual(opt, value)))
+                        ) {
+                          setOptions([value])
+                        }
+                      } else if (inputValue) {
+                        setInputValue('')
+                      } else if (!options?.length && !loading) {
+                        fetchOptions()
+                      }
+                    }
+                  },
+                }),
           }
         : {
             ...(uncontrolled ? {} : { value: parseValue(value, rawOptions) }),

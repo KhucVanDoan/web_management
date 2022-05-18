@@ -1,6 +1,6 @@
 {
   "menu": {
-    "database": "Database",
+    "database": "Master data",
     "itemGroupDefine": "Define item group",
     "itemGroupCreate": "Create item group",
     "itemGroupDetail": "Item group detail",

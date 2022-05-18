@@ -41,6 +41,7 @@ const ImportExport = ({
   onImport,
   onExport,
   onRefresh,
+  disabled,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -512,6 +513,7 @@ const ImportExport = ({
       handleMenuItemClick={(option) => handleMenuItemClick(option.value)}
       getOptionLabel={(option) => t(option.text) || ''}
       variant="outlined"
+      disabled={disabled}
     />
   )
 
@@ -520,6 +522,7 @@ const ImportExport = ({
       variant="outlined"
       icon="upload"
       onClick={() => handleMenuItemClick(mode)}
+      disabled={disabled}
     >
       {t('importExportMenu.import')}
     </Button>
@@ -530,6 +533,7 @@ const ImportExport = ({
       variant="outlined"
       icon="downloadAlt"
       onClick={() => handleMenuItemClick(mode)}
+      disabled={disabled}
     >
       {t('importExportMenu.export')}
     </Button>
@@ -575,7 +579,9 @@ const ImportExport = ({
   }
 }
 
-ImportExport.defaultProps = {}
+ImportExport.defaultProps = {
+  disabled: false,
+}
 
 ImportExport.propTypes = {
   name: PropTypes.string,
@@ -583,6 +589,7 @@ ImportExport.propTypes = {
   onImport: PropTypes.func,
   onExport: PropTypes.func,
   onRefresh: PropTypes.func,
+  disabled: PropTypes.bool,
 }
 
 export default ImportExport

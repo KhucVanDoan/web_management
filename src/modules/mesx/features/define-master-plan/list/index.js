@@ -8,6 +8,7 @@ import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,6 +19,7 @@ import {
   PLAN_PROGRESS_MAP,
 } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
+import { exportMasterPlanApi } from '~/modules/mesx/redux/sagas/define-master-plan/import-export-master-plan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertUtcDateToLocalTz,
@@ -56,6 +58,7 @@ const DefineMasterPlan = () => {
   const [deleteModal, setDeleteModal] = useState(false)
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
 
   const {
     page,
@@ -515,7 +518,22 @@ const DefineMasterPlan = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined">{t('defineMasterPlan.export')}</Button>
+        <ImportExport
+          name={t('masterPlanDefine.export')}
+          onExport={(params) => {
+            exportMasterPlanApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(params?.map((x) => ({ id: x?.id }))),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button onClick={handleCreate} icon="add" sx={{ ml: 4 / 3 }}>
           {t('defineMasterPlan.createButton')}
         </Button>
@@ -569,6 +587,7 @@ const DefineMasterPlan = () => {
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
         onSortChange={onSortChange}
+        onSettingChange={setColumnsSettings}
         total={total}
         title={t('defineMasterPlan.tableTitle')}
         sort={sort}

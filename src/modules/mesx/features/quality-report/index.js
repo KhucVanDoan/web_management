@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useQualityReport from '~/modules/mesx/redux/hooks/useQualityReport'
+import { exportQualityReportApi } from '~/modules/mesx/redux/sagas/quality-report/import-export-quality-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
-
 const breadcrumbs = [
   {
     title: 'database',
@@ -47,6 +48,8 @@ const QualityReports = () => {
     data: { isLoading, transactions, total },
     actions,
   } = useQualityReport()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -183,6 +186,11 @@ const QualityReports = () => {
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword?.trim(),
@@ -197,6 +205,27 @@ const QualityReports = () => {
     actions.getQualityReports(params)
   }
 
+  const renderHeaderRight = () => {
+    return (
+      <ImportExport
+        name={t('qualityReport.export')}
+        onExport={() => {
+          exportQualityReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -204,6 +233,7 @@ const QualityReports = () => {
       onSearch={setKeyword}
       placeholder={t('qualityReport.searchPlacehoder')}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
     >
       <DataTable
         title={t('qualityReport.title')}
@@ -215,6 +245,9 @@ const QualityReports = () => {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

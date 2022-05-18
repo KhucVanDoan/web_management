@@ -45,7 +45,6 @@ const progressManufacturingByOrder = () => {
     data: { isLoading, progressByOrderList },
     actions,
   } = useProgressManufacturingByOrder()
-
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
@@ -140,10 +139,11 @@ const progressManufacturingByOrder = () => {
       field: 'masterPlanIds',
       headerName: t('progressManufacturingByOrder.planManufacturing'),
       width: 200,
+      filterFormat: 'multiple',
       sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return row?.masterPlan?.name
+        return row?.masterPlan?.code
       },
     },
     {
@@ -160,6 +160,7 @@ const progressManufacturingByOrder = () => {
       field: 'planDate',
       headerName: t('progressManufacturingByOrder.datePlan'),
       width: 200,
+      filterFormat: 'date',
       sortable: true,
       align: 'left',
       renderCell: (params) => {
@@ -210,15 +211,21 @@ const progressManufacturingByOrder = () => {
       keyword: keyword.trim(),
       page: page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        ...columns,
+      filter: convertFilterParams(
         {
-          field: 'soIds',
+          ...filters,
+          masterPlanIds: filters?.masterPlanIds?.map((e) => e?.id),
         },
-        {
-          field: 'isHasPlan',
-        },
-      ]),
+        [
+          ...columns,
+          {
+            field: 'soIds',
+          },
+          {
+            field: 'isHasPlan',
+          },
+        ],
+      ),
       sort: convertSortParams(sort),
     }
     actions.getProgressManufacturingByOrder(params)

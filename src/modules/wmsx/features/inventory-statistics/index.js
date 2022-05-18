@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { Typography, Box } from '@mui/material'
+import { omit } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
@@ -149,11 +150,14 @@ function InventoryStatistics() {
       field: 'lotNumber',
       headerName: t('inventoryStatistics.lotNumber'),
       width: 150,
+      sortable: true,
     },
     {
       field: 'package',
       headerName: t('inventoryStatistics.packageCode'),
       width: 150,
+      sortable: true,
+
       renderCell: (params) => {
         const packages = params?.row?.packages
         return packages?.map((pk) => pk?.code || '')?.join('; ')
@@ -179,16 +183,6 @@ function InventoryStatistics() {
         return params?.row?.checkWarning ? <Icon name="tick" /> : ''
       },
     },
-    {
-      field: 'warehouseTypes',
-      headerName: t('inventoryWarning.warehouseType'),
-      width: 150,
-      sortable: true,
-      renderCell: (params) => {
-        const warehouseTypes = params?.row?.warehouseTypes
-        return warehouseTypes?.map((item) => item.name)?.join('; ')
-      },
-    },
   ]
 
   useEffect(() => {
@@ -200,7 +194,7 @@ function InventoryStatistics() {
       page,
       reportDate: filters?.reportDate,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(omit(filters, ['reportDate']), columns),
       sort: convertSortParams(sort),
     }
     actions.searchInventoryStatistics(params)
