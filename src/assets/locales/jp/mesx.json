@@ -1147,7 +1147,9 @@
       "planningQuantity": "原材料の計画済数量",
       "inputQuantity": "原材料の要購入・要入庫数量",
       "unit": "単位"
-    }
+    },
+    "changeWorkOrder": "工程移動",
+    "triggerChangeWorkOrder": "実行"
   },
   "planCalendar": {
     "createEvent": "イベント作成",
