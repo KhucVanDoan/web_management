@@ -211,5 +211,9 @@
     "creator": "Người tạo",
     "search": "Tìm kiếm",
     "filter": "Lọc"
+  },
+  "moduleMenu": {
+    "database": "Cơ sở dữ liệu",
+    "other": "Giải pháp"
   }
 }
