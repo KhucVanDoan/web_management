@@ -361,25 +361,8 @@ function PlanReport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: JSON.stringify([
-        filters?.moName?.id
-          ? {
-              column: 'moName',
-              text: filters?.moName?.name,
-            }
-          : {},
-        filters?.saleOrderIds
-          ? {
-              column: 'saleOrderIds',
-              text: filters?.saleOrderIds,
-            }
-          : {},
-        filters?.plan
-          ? {
-              column: 'plan',
-              text: `${filters?.plan[0].toISOString()}|${filters?.plan[1].toISOString()}`,
-            }
-          : {},
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
       ]),
       sort: convertSortParams(sort),
     }

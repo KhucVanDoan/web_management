@@ -158,7 +158,7 @@ function MaterialReport() {
       sortable: false,
     },
     {
-      field: 'producedQuantity',
+      field: 'manufactureQuantity',
       headerName: t('materialReport.producedQuantity'),
       align: 'center',
       sortable: false,

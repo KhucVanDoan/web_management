@@ -91,7 +91,7 @@ const FilterForm = () => {
               ? getDataSaleOder()
               : saleOrderList
           }
-          getOptionValue={(opt) => opt?.id}
+          getOptionValue={(opt) => opt?.name}
           getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
