@@ -223,22 +223,27 @@ export const TRANSFER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'warehouseTransfer.transferStatus.pending',
+    color: 'pending',
   },
   {
     id: 2,
     text: 'warehouseTransfer.transferStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'warehouseTransfer.transferStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'warehouseTransfer.transferStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 5,
     text: 'warehouseTransfer.transferStatus.exporting',
+    color: 'exporting',
   },
 ]
 

@@ -6,6 +6,7 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },
@@ -214,6 +215,28 @@ export const ROUTE = {
   INVENTORY_STATISTICS: {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',
+  },
+  COMMAND_MANAGEMENT: {
+    PATH: '/wmsx/command-management',
+    TITLE: 'commandManagement',
+  },
+  WAREHOUSE_TRANSFERS: {
+    LIST: {
+      PATH: '/wmsx/warehouse-transfer',
+      TITLE: 'warehouseTransfers',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-transfer/create',
+      TITLE: 'warehouseTransfersCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-transfer/:id/details',
+      TITLE: 'warehouseTransfersDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-transfer/:id/edit',
+      TITLE: 'warehouseTransfersEdit',
+    },
   },
   DEFINE_CUSTOMER: {
     LIST: {

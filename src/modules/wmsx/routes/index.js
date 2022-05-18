@@ -44,6 +44,9 @@ import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
+import warehouseTransferDetail from '../features/warehouse-transfer/detail'
+import warehouseTransferForm from '../features/warehouse-transfer/form'
+import warehouseTransfer from '../features/warehouse-transfer/list'
 import { ROUTE } from './config'
 const routes = [
   {
@@ -140,6 +143,32 @@ const routes = [
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
             isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_TRANSFERS.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
+        component: warehouseTransfer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.CREATE.PATH,
+            component: warehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH,
+            component: warehouseTransferForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.PATH,
+            component: warehouseTransferDetail,
+            isInSidebar: true,
           },
         ],
       },
