@@ -128,7 +128,10 @@
     "purchasedOrder": "発注書登録",
     "purchasedOrderCreate": "発注書作成",
     "purchasedOrderEdit": "発注書編集",
-    "purchasedOrderDetail": "発注書詳細"
+    "purchasedOrderDetail": "発注書詳細",
+    "statistical": "統計",
+    "progressManufacturingByWorkCenter": "受注書の製造",
+    "progressManufacturingByOrder": "ワークセンターの製造"
   },
   "userManagement": {
     "title": "ユーザ一覧",
