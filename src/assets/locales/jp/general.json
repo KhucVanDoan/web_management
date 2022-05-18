@@ -158,5 +158,10 @@
     "creator": "作成者",
     "search": "検索",
     "filter": "検索"
+  },
+  "modal": {
+    "btnSubmit": "確認",
+    "btnCancel": "キャンセル",
+    "btnClose": "閉じる"
   }
 }
