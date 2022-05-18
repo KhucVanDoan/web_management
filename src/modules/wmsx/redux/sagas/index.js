@@ -79,6 +79,16 @@ import watchSearchWarehouseSetting from './warehouse-setting/search-warehouse-se
 import watchUpdateWarehouseSetting from './warehouse-setting/update-warehouse-setting'
 import watchGetWarehouseTransferMovementsDetails from './warehouse-transfer-movements/get-movement-details'
 import watchSearchWarehouseTransferMovements from './warehouse-transfer-movements/search-movements'
+import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer.saga'
+import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer.saga'
+import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer.saga'
+import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item-warehouse-stock.saga'
+import watchGetLotNumberListWarehouseTransfer from './warehouse-transfer/get-lot-number-list.saga'
+import watchGetStockByItemAndLotNumber from './warehouse-transfer/get-stock-by-item-and-lot.saga'
+import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-details.saga'
+import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer.saga'
+import watchSearchWarehouseTransfers from './warehouse-transfer/search-warehouse-transfer.saga'
+import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-transfer.saga'
 
 /**
  * Root saga
@@ -148,6 +158,17 @@ export default function* sagas() {
     watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
+    // warehouse transfer
+    watchConfirmWarehouseTransfer(),
+    watchCreateWarehouseTransfer(),
+    watchDeleteWarehouseTransfer(),
+    watchGetListItemWarehouseStock(),
+    watchGetLotNumberListWarehouseTransfer(),
+    watchGetStockByItemAndLotNumber(),
+    watchGetWarehouseTransferDetails(),
+    watchRejectWarehouseTransfer(),
+    watchSearchWarehouseTransfers(),
+    watchUpdateWarehouseTransfer(),
     // define customer
     watchCreateCustomer(),
     watchDeleteCustomer(),
