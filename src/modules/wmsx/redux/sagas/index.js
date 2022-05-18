@@ -12,6 +12,11 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchCreatePackage from './define-package/create-package'
+import watchDeletePackage from './define-package/delete-package'
+import watchGetPackageDetails from './define-package/get-package-details'
+import watchSearchPackages from './define-package/search-packages'
+import watchUpdatePackage from './define-package/update-package'
 import watchCreateTemplateShelf from './define-template-shelf/create-template-shelf'
 import watchDeleteTemplateShelf from './define-template-shelf/delete-template-shelf'
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
@@ -154,5 +159,12 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+
+    //define-package
+    watchCreatePackage(),
+    watchDeletePackage(),
+    watchSearchPackages(),
+    watchUpdatePackage(),
+    watchGetPackageDetails(),
   ])
 }

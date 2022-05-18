@@ -1,19 +1,19 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getItemsFailed,
-  getItemsSuccess,
-  GET_ITEMS_START,
-} from '~/modules/mesx/redux/actions/common'
+  searchPackagesFailed,
+  searchPackagesSuccess,
+  SEARCH_PACKAGES_START,
+} from '~/modules/wmsx/redux/actions/define-package'
 import { api } from '~/services/api'
 
 /**
- * Get all items API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getItemsApi = (params) => {
-  const uri = `/v1/items/list`
+const searchPackagesApi = (params) => {
+  const uri = `/v1/items/packages/list`
   return api.get(uri, params)
 }
 
@@ -21,18 +21,16 @@ export const getItemsApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGetItems(action) {
+function* doSearchPackages(action) {
   try {
-    const payload = {
-      keyword: '',
-      withItemDetails: [],
-      filter: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getItemsApi, payload)
+    const response = yield call(searchPackagesApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getItemsSuccess(response.data.items))
+      const payload = {
+        list: response.data.items,
+        total: response.data.meta.total,
+      }
+      yield put(searchPackagesSuccess(payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -42,7 +40,7 @@ function* doGetItems(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getItemsFailed())
+    yield put(searchPackagesFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -51,8 +49,8 @@ function* doGetItems(action) {
 }
 
 /**
- * Watch get all items
+ * Watch search users
  */
-export default function* watchGetItems() {
-  yield takeLatest(GET_ITEMS_START, doGetItems)
+export default function* watchSearchPackages() {
+  yield takeLatest(SEARCH_PACKAGES_START, doSearchPackages)
 }

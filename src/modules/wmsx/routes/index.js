@@ -5,6 +5,9 @@ import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
+import DefinePackageDetail from '~/modules/wmsx/features/define-package/detail'
+import DefinePackageForm from '~/modules/wmsx/features/define-package/form'
+import DefinePackage from '~/modules/wmsx/features/define-package/list'
 import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
 import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
 import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
@@ -46,6 +49,65 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.DEFINE_CATEGORY.TITLE,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFINE_DETAIL.LIST.TITLE,
+        path: ROUTE.DEFINE_DETAIL.LIST.PATH,
+        component: DefineDetail,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_DETAIL.CREATE.TITLE,
+            path: ROUTE.DEFINE_DETAIL.CREATE.PATH,
+            component: DefineDetailForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_DETAIL.DETAIL.TITLE,
+            path: ROUTE.DEFINE_DETAIL.DETAIL.PATH,
+            component: DefineDetailDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_DETAIL.EDIT.TITLE,
+            path: ROUTE.DEFINE_DETAIL.EDIT.PATH,
+            component: DefineDetailForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PACKAGE.LIST.TITLE,
+        path: ROUTE.DEFINE_PACKAGE.LIST.PATH,
+        component: DefinePackage,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PACKAGE.CREATE.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.CREATE.PATH,
+            component: DefinePackageForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PACKAGE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.DETAIL.PATH,
+            component: DefinePackageDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PACKAGE.EDIT.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.EDIT.PATH,
+            component: DefinePackageForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.ORDER_MANAGEMENT.TITLE,
@@ -207,39 +269,6 @@ const routes = [
         path: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.DETAIL.PATH,
         component: WarehouseTransferMovementsDetail,
         isInSidebar: false,
-      },
-    ],
-  },
-  {
-    name: ROUTE.DEFINE_CATEGORY.TITLE,
-    icon: 'home',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.DEFINE_DETAIL.LIST.TITLE,
-        path: ROUTE.DEFINE_DETAIL.LIST.PATH,
-        component: DefineDetail,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_DETAIL.CREATE.TITLE,
-            path: ROUTE.DEFINE_DETAIL.CREATE.PATH,
-            component: DefineDetailForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_DETAIL.DETAIL.TITLE,
-            path: ROUTE.DEFINE_DETAIL.DETAIL.PATH,
-            component: DefineDetailDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_DETAIL.EDIT.TITLE,
-            path: ROUTE.DEFINE_DETAIL.EDIT.PATH,
-            component: DefineDetailForm,
-            isInSidebar: false,
-          },
-        ],
       },
     ],
   },
