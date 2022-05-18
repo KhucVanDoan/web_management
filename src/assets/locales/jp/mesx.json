@@ -564,7 +564,8 @@
   },
   "itemType": {
     "material": "原材料",
-    "product": "完成"
+    "product": "完成品",
+    "semi": "半製品"
   },
   "definePlan": {
     "name": "商品名",
