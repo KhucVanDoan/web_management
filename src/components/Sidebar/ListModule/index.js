@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Hidden, List, Typography, Box, IconButton } from '@mui/material'
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
 import logo from '~/assets/images/logo.svg'
@@ -17,6 +18,7 @@ import ListModuleStyled from './style'
 const ModuleList = () => {
   const { pathname } = useLocation()
   const { isMinimal, setIsMinimal } = useSidebar()
+  const { t } = useTranslation(['general'])
 
   return (
     <List
@@ -85,7 +87,7 @@ const ModuleList = () => {
             variant="h5"
             sx={{ fontWeight: '800', color: '#fff', marginTop: '5px' }}
           >
-            {item.title}
+            {typeof item.title === 'function' ? item.title(t) : item.title}
           </Typography>
         </ListModuleStyled>
       ))}

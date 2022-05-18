@@ -123,5 +123,9 @@
     "taskName": "作業名",
     "completed": "完了",
     "time": "時間"
+  },
+  "moduleMenu": {
+    "database": "マスターデータ",
+    "solution": "解決"
   }
 }
