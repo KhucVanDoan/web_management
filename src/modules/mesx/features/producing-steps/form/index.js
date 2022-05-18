@@ -110,12 +110,12 @@ function ProducingStepForm() {
       qcQuantityRule: Number(values.qcQuantityRule),
       productionTimePerItem: Number(values.productionTimePerItem),
       inputQc: {
-        qcCriteriaId: values.qcCriteriaInput.id,
+        qcCriteriaId: values?.qcCriteriaInput?.id,
         itemPerMemberTime:
           values.timeQcInput === null ? null : Number(values.timeQcInput),
       },
       outputQc: {
-        qcCriteriaId: values.qcCriteriaOutput.id,
+        qcCriteriaId: values?.qcCriteriaOutput?.id,
         itemPerMemberTime:
           values.timeQcOutput === null ? null : Number(values.timeQcOutput),
       },
