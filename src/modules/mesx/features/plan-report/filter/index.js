@@ -75,7 +75,7 @@ const FilterForm = () => {
               ? getDataSaleOder()
               : saleOrderList
           }
-          getOptionValue={(opt) => [opt?.id]}
+          getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
