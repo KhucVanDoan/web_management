@@ -1,4 +1,7 @@
 import Dashboard from '~/modules/wmsx/features/dashboard'
+import DefineBlockDetail from '~/modules/wmsx/features/define-block/detail'
+import DefineBlockForm from '~/modules/wmsx/features/define-block/form'
+import DefineBlock from '~/modules/wmsx/features/define-block/list'
 import DefineCustomerDetail from '~/modules/wmsx/features/define-customer/detail'
 import DefineCustomerForm from '~/modules/wmsx/features/define-customer/form'
 import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
@@ -84,6 +87,31 @@ const routes = [
             path: ROUTE.DEFINE_DETAIL.EDIT.PATH,
             component: DefineDetailForm,
             isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_BLOCK.LIST.TITLE,
+        path: ROUTE.DEFINE_BLOCK.LIST.PATH,
+        component: DefineBlock,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BLOCK.CREATE.TITLE,
+            path: ROUTE.DEFINE_BLOCK.CREATE.PATH,
+            component: DefineBlockForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BLOCK.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BLOCK.DETAIL.PATH,
+            component: DefineBlockDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BLOCK.EDIT.TITLE,
+            path: ROUTE.DEFINE_BLOCK.EDIT.PATH,
+            component: DefineBlockForm,
           },
         ],
       },

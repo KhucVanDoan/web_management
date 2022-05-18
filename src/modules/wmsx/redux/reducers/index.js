@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import defineBlock from './define-block'
 import defineCustomer from './define-customer'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
@@ -40,6 +41,7 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  defineBlock,
   productionOrder,
   definePackage,
 })
