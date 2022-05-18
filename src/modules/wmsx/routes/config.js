@@ -251,6 +251,24 @@ export const ROUTE = {
       TITLE: 'inventoryCalendarEdit',
     },
   },
+  PRODUCTION_ORDER: {
+    LIST: {
+      PATH: '/wmsx/production-orders',
+      TITLE: 'productionOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/production-orders/create',
+      TITLE: 'productionOrderCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/production-orders/:id/detail',
+      TITLE: 'productionOrderDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/production-orders/:id/edit',
+      TITLE: 'productionOrderEdit',
+    },
+  },
   DEFINE_PACKAGE: {
     LIST: {
       PATH: '/wmsx/define-package',

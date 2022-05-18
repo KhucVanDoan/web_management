@@ -34,6 +34,9 @@ import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
 import InventoryDetail from '../features/inventory/detail'
 import Inventory from '../features/inventory/list'
+import ProductionOrder from '../features/production-orders'
+import ProductionOrderDetail from '../features/production-orders/detail'
+import ProductionOrderForm from '../features/production-orders/form'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
@@ -136,6 +139,32 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.PRODUCTION_ORDER.LIST.TITLE,
+        path: ROUTE.PRODUCTION_ORDER.LIST.PATH,
+        component: ProductionOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.PRODUCTION_ORDER.CREATE.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.CREATE.PATH,
+            component: ProductionOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.DETAIL.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.DETAIL.PATH,
+            component: ProductionOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.EDIT.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.EDIT.PATH,
+            component: ProductionOrderForm,
             isInSidebar: false,
           },
         ],
