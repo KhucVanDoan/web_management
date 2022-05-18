@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import en from '@fullcalendar/core/locales/en-au'
+import ja from '@fullcalendar/core/locales/ja'
 import vi from '@fullcalendar/core/locales/vi'
 // eslint-disable-next-line import/order
 import FullCalendar from '@fullcalendar/react' // must go before plugins
@@ -44,6 +46,18 @@ export const DAY_OF_WEEK = {
 
 const PlanCalendar = () => {
   const { t } = useTranslation(['mesx'])
+  const lang = localStorage.getItem('language')
+  let locale = vi
+  switch (lang) {
+    case 'jp':
+      locale = ja
+      break
+    case 'en':
+      locale = en
+      break
+    default:
+      break
+  }
   const breadcrumbs = [
     {
       title: ROUTE.PLAN.CALENDAR.TITLE,
@@ -54,7 +68,6 @@ const PlanCalendar = () => {
     actions,
     data: { factoryEvent, isLoading, factoryCalendar },
   } = useCalendar()
-
   const {
     actions: commonAction,
     data: {
@@ -284,7 +297,7 @@ const PlanCalendar = () => {
             center: 'title',
             right: 'today',
           }}
-          locale={vi}
+          locale={locale}
           dayMaxEventRows={2}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"

@@ -53,7 +53,8 @@
     "filterButton": "検索",
     "filterTitle": "検索",
     "title": "一覧",
-    "visibleColumns": "選択した項目を表示"
+    "visibleColumns": "選択した項目を表示",
+    "showAllColumns": "全て"
   },
   "date": {
     "maxToday": "生年月日は現在日付より前でなければなりません。",
@@ -126,6 +127,36 @@
   },
   "moduleMenu": {
     "database": "マスターデータ",
+    "other": "Other"
+  },
+  "importExportMenu": {
+    "import": "データ入力",
+    "export": "データ出力",
+    "importExport": "データ入出力",
     "solution": "解決"
+  },
+  "common": {
+    "yes": "はい",
+    "no": "いいえ",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "back": "戻る",
+    "action": "操作",
+    "create": "新規作成",
+    "update": "更新",
+    "save": "保存",
+    "print": "印刷",
+    "createdAt": "作成日",
+    "updatedAt": "編集日",
+    "accept": "確認",
+    "reject": "拒否",
+    "notify": "通知",
+    "confirmMessage": {
+      "confirm": "確認します。よろしいですか。",
+      "reject": "拒否します。よろしですか。"
+    },
+    "creator": "作成者",
+    "search": "検索",
+    "filter": "検索"
   }
 }
