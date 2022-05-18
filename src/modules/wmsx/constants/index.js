@@ -193,6 +193,17 @@ export const ORDER_STATUS_OPTIONS = [
   },
 ]
 
+export const ORDER_TYPE = [
+  {
+    id: 0,
+    name: 'orderType.import',
+  },
+  {
+    id: 1,
+    name: 'orderType.export',
+  },
+]
+
 export const TRANSFER_STATUS = {
   PENDING: 0,
   COMPLETED: 2,

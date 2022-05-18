@@ -13,6 +13,7 @@ import inventoryLimitSetting from './inventory-limit'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import movementManagement from './movements'
+import productionOrder from './production-order'
 import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
@@ -37,5 +38,6 @@ export default combineReducers({
   inventoryStatistics,
   defineCustomer,
   inventoryCalendar,
+  productionOrder,
   definePackage,
 })

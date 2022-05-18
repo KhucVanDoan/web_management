@@ -55,6 +55,15 @@ import watchGetWarehouseType from './inventory/get-warehouse-types'
 import watchSearchInventory from './inventory/search-inventory'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements.saga'
+import watchConfirmProductionOrder from './production-order/confirm-production-order'
+import watchCreateProductionOrder from './production-order/create-production-order'
+import watchDeleteProductionOrder from './production-order/delete-production-order'
+import watchGetExportLotNumber from './production-order/get-export-lot-number'
+import watchGetImportLotNumber from './production-order/get-import-lot-number'
+import watchGetProductionOrderDetails from './production-order/get-production-order-details'
+import watchRejectProductionOrder from './production-order/reject-production-order'
+import watchSearchProductionOrders from './production-order/search-production-orders'
+import watchUpdateProductionOrder from './production-order/update-production-order'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
@@ -159,6 +168,16 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    // producion-order
+    watchConfirmProductionOrder(),
+    watchDeleteProductionOrder(),
+    watchCreateProductionOrder(),
+    watchGetExportLotNumber(),
+    watchGetImportLotNumber(),
+    watchGetProductionOrderDetails(),
+    watchRejectProductionOrder(),
+    watchSearchProductionOrders(),
+    watchUpdateProductionOrder(),
 
     //define-package
     watchCreatePackage(),
