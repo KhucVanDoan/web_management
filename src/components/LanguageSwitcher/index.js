@@ -55,6 +55,7 @@ const LanguageSwitcher = () => {
       handleMenuItemClick={(opt) => {
         i18n.changeLanguage(opt.value)
         window.localStorage.setItem('language', opt.value)
+        window.location.reload()
       }}
       sx={{
         minWidth: 80,
