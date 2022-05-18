@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
@@ -11,6 +11,7 @@ import { SALE_ORDER_STATUS, PLAN_PROGRESS_MAP } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
+import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
@@ -19,7 +20,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
-
 const breadcrumbs = [
   {
     title: 'report',
@@ -54,7 +54,6 @@ function PlanReport() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-
   const {
     data: { isLoading, total, planList },
     actions: actionPlan,
@@ -63,6 +62,7 @@ function PlanReport() {
   const { actions: actionMo } = useMo()
   const { actions: actionSaleOrder } = useSaleOrder()
   const { actions: actionPlanReport } = usePlanReport()
+  const [columnsSettings, setColumnsSettings] = useState([])
 
   const columns = [
     {
@@ -361,7 +361,9 @@ function PlanReport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actionPlan.searchPlans(params)
@@ -384,20 +386,24 @@ function PlanReport() {
     })
   }
 
-  // @TODO: <linh.taquang> handleExport plan report
-  // const handleExportFile = () => {
-  //   const url = file
-  //   const str = url.substring(url.indexOf(';') + 1)
-  //   return `data:text/csv;base64,${str}`
-  // }
   const renderHeaderRight = () => {
     return (
-      <>
-        {/* @TODO: <linh.tauquang> handle export */}
-        <Button variant="outlined" disabled icon="download">
-          {t('qualityReport.export')}
-        </Button>
-      </>
+      <ImportExport
+        name={t('planReport.export')}
+        onExport={(params) => {
+          exportPlanReportApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(params?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -426,6 +432,7 @@ function PlanReport() {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onFilterChange={setFilters}
+          onSettingChange={setColumnsSettings}
           sort={sort}
           total={total}
           filters={{

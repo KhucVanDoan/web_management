@@ -30,7 +30,7 @@ const style = (theme) => ({
   },
   list: {
     minHeight: 100,
-    maxHeight: '60vh',
+    maxHeight: 'calc(100vh - 200px)',
     overflow: 'auto',
     padding: 0,
     position: 'relative',

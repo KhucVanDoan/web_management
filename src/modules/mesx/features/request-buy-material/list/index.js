@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -17,6 +17,7 @@ import {
   ORDER_STATUS_OPTIONS,
 } from '~/modules/database/constants'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
+import { exportRequestBuyMaterialApi } from '~/modules/mesx/redux/sagas/request-buy-material/import-export-request-buy-material'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
@@ -26,7 +27,6 @@ import {
 
 import FilterForm from './filter'
 import filterSchema from './filter/schema'
-
 const breadcrumbs = [
   {
     title: 'plan',
@@ -52,6 +52,8 @@ function RequestBuyMaterial() {
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -222,6 +224,10 @@ function RequestBuyMaterial() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -251,9 +257,24 @@ function RequestBuyMaterial() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" disabled icon="download">
-          {t('requestBuyMaterial.export')}
-        </Button>
+        <ImportExport
+          name={t('requestBuyMaterial.export')}
+          onExport={() => {
+            exportRequestBuyMaterialApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
       </>
     )
   }
@@ -276,6 +297,9 @@ function RequestBuyMaterial() {
           onPageSizeChange={setPageSize}
           onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           title={t('requestBuyMaterial.title')}
           filters={{

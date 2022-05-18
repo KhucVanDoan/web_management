@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,6 +19,11 @@ import {
 } from '~/modules/database/constants'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/database/routes/config'
+import {
+  exportSaleOrderApi,
+  getSaleOrderTemplateApi,
+  importSaleOrderApi,
+} from '~/modules/mesx/redux/sagas/sale-order/import-export-sale-order'
 import {
   convertUtcDateTimeToLocalTz,
   convertFilterParams,
@@ -55,6 +61,8 @@ function SaleOrder() {
   const [deleteModal, setDeleteModal] = useState(false)
   const [confirmModal, setConfirmModal] = useState(false)
   const [tempItem, setTempItem] = useState()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -199,6 +207,10 @@ function SaleOrder() {
     refreshData()
   }, [sort, keyword, filters, page, pageSize])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickViewDetails = (id) => {
     history.push(ROUTE.SALE_ORDER.DETAILS.PATH.replace(':id', `${id}`))
   }
@@ -234,10 +246,28 @@ function SaleOrder() {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: <linh.taquang> handle import export */}
-        <Button variant="outlined" disabled icon="download" sx={{ ml: 4 / 3 }}>
-          {t('saleOrder.import')}
-        </Button>
+        <ImportExport
+          name={t('saleOrderDefine.import')}
+          onImport={(params) => {
+            importSaleOrderApi(params)
+          }}
+          onExport={() => {
+            exportSaleOrderApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getSaleOrderTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.SALE_ORDER.CREATE.PATH)}
           startIcon={<Icon name="add" />}
@@ -269,6 +299,9 @@ function SaleOrder() {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onFilterChange={setFilters}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

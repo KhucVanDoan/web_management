@@ -9,7 +9,7 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION } from '~/modules/mesx/constants'
+import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 const ProgressManufacturingFilter = ({ setFilters }) => {
   const { t } = useTranslation(['mesx'])
@@ -20,7 +20,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
     status: '',
     deliveryDate: '',
     isHasPlan: '',
-    planManufacturing: {},
+    masterPlanIds: [],
   }
   const onSubmit = (values) => {
     setFilters(values)
@@ -55,7 +55,6 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       label={t('progressManufacturingByOrder.saleOrder')}
                       placeholder={t('progressManufacturingByOrder.saleOrder')}
                       options={saleOrderList}
-                      multiple
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
                       filterOptions={createFilterOptions({
@@ -75,7 +74,8 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       name="status"
                       label={t('progressManufacturingByOrder.status')}
                       placeholder={t('progressManufacturingByOrder.status')}
-                      options={PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION}
+                      options={ORDER_STATUS_OPTIONS}
+                      multiple
                       getOptionValue={(opt) => opt?.id?.toString()}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
@@ -97,7 +97,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                             <Field.Checkbox
                               onChange={(checked) => {
                                 if (!checked) {
-                                  setFieldValue('planManufacturing', {})
+                                  setFieldValue('masterPlanIds', [])
                                 }
                               }}
                               name="isHasPlan"
@@ -108,7 +108,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       }
                       value={
                         <Field.Autocomplete
-                          name="planManufacturing"
+                          name="masterPlanIds"
                           disabled={!values.isHasPlan}
                           getOptionLabel={(opt) => opt?.code}
                           getOptionSubLabel={(opt) => opt?.name}
@@ -118,6 +118,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                               limit: ASYNC_SEARCH_LIMIT,
                             })
                           }
+                          multiple
                           asyncRequestHelper={(res) => res?.data?.masterPlans}
                           placeholder={t(
                             'progressManufacturingByOrder.planManufacturing',

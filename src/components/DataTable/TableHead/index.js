@@ -9,14 +9,10 @@ import { Box } from '@mui/system'
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 
+import { ORDER_DIRECTION } from '~/common/constants'
 import { useClasses } from '~/themes'
 
 import style from './style'
-
-const ORDER_DIRECTION = {
-  ASC: 'asc',
-  DESC: 'desc',
-}
 
 /**
  *

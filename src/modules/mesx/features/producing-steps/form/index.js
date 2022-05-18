@@ -14,6 +14,7 @@ import {
 } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
   TEXTFIELD_ALLOW,
@@ -24,9 +25,10 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { STAGES_OPTION } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
+import { searchQualityPointsApi } from '~/modules/mesx/redux/sagas/common/search-quality-points'
 import { ROUTE } from '~/modules/mesx/routes/config'
+import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
@@ -42,10 +44,6 @@ function ProducingStepForm() {
   const [checked, setChecked] = useState(false)
   const [checkedUpdate, setCheckedUpdate] = useState(true)
 
-  const {
-    data: { qcList = [] },
-    actions: actionCommon,
-  } = useCommonManagement()
   const {
     data: { isLoading, details },
     actions,
@@ -112,12 +110,12 @@ function ProducingStepForm() {
       qcQuantityRule: Number(values.qcQuantityRule),
       productionTimePerItem: Number(values.productionTimePerItem),
       inputQc: {
-        qcCriteriaId: values.qcCriteriaInput,
+        qcCriteriaId: values?.qcCriteriaInput?.id,
         itemPerMemberTime:
           values.timeQcInput === null ? null : Number(values.timeQcInput),
       },
       outputQc: {
-        qcCriteriaId: values.qcCriteriaOutput,
+        qcCriteriaId: values?.qcCriteriaOutput?.id,
         itemPerMemberTime:
           values.timeQcOutput === null ? null : Number(values.timeQcOutput),
       },
@@ -177,9 +175,9 @@ function ProducingStepForm() {
       false,
     inputQc: Boolean(details?.inputQc?.qcCriteriaId) || false,
     outputQc: Boolean(details?.outputQc?.qcCriteriaId) || false,
-    qcCriteriaInput: details?.inputQc?.qcCriteriaId || null,
+    qcCriteriaInput: details?.inputQc || null,
     timeQcInput: details?.inputQc?.itemPerMemberTime || null,
-    qcCriteriaOutput: details?.outputQc?.qcCriteriaId || null,
+    qcCriteriaOutput: details?.outputQc || null,
     timeQcOutput: details?.outputQc?.itemPerMemberTime || null,
   }
 
@@ -190,7 +188,6 @@ function ProducingStepForm() {
     if (cloneId) {
       actions.getProducingStepDetailsById(cloneId)
     }
-    actionCommon.searchQualityPoints()
     return () => actions.resetProducingStepState()
   }, [id, cloneId])
 
@@ -363,10 +360,16 @@ function ProducingStepForm() {
                         name="qcCriteriaInput"
                         label={t('producingStep.qcCriteria')}
                         placeholder={t('producingStep.qcCriteria')}
-                        options={qcList.filter(
-                          (i) => i.stage === STAGES_OPTION.PRODUCTION_INPUT,
-                        )}
-                        getOptionValue={(opt) => opt?.id || ''}
+                        asyncRequest={(s) =>
+                          searchQualityPointsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              stageId: STAGES_OPTION.PRODUCTION_INPUT,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.inputQc}
                         required={values.inputQc}
@@ -419,10 +422,16 @@ function ProducingStepForm() {
                         name="qcCriteriaOutput"
                         label={t('producingStep.qcCriteria')}
                         placeholder={t('producingStep.qcCriteria')}
-                        options={qcList.filter(
-                          (i) => i.stage === STAGES_OPTION.PRODUCTION_OUTPUT,
-                        )}
-                        getOptionValue={(opt) => opt?.id || ''}
+                        asyncRequest={(s) =>
+                          searchQualityPointsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              stageId: STAGES_OPTION.PRODUCTION_OUTPUT,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
                         disabled={!values.outputQc}
                         required={values.outputQc}

@@ -388,6 +388,11 @@ function DefineItemForm() {
                             getOptionSubLabel={(opt) => opt?.name}
                             subLabelWidth="70%"
                             required
+                            options={
+                              itemDetails?.itemGroup?.code
+                                ? [itemDetails?.itemGroup]
+                                : []
+                            }
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>
@@ -411,6 +416,11 @@ function DefineItemForm() {
                             }
                             asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.name}
+                            options={
+                              itemDetails?.itemUnit?.id
+                                ? [itemDetails?.itemUnit]
+                                : []
+                            }
                             required
                           />
                         </Grid>
@@ -477,7 +487,17 @@ function DefineItemForm() {
                       >
                         <Grid item xs={12}>
                           <FormControlLabel
-                            control={<Field.Checkbox name="hasStorageSpace" />}
+                            control={
+                              <Field.Checkbox
+                                name="hasStorageSpace"
+                                onChange={() => {
+                                  setFieldValue('long', { value: 1, unit: 3 })
+                                  setFieldValue('width', { value: 1, unit: 3 })
+                                  setFieldValue('height', { value: 1, unit: 3 })
+                                  setFieldValue('weight', { value: 1, unit: 1 })
+                                }}
+                              />
+                            }
                             label={t('defineItem.storage')}
                           />
                         </Grid>

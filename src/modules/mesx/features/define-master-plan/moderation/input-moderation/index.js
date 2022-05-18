@@ -101,6 +101,7 @@ const InputModeration = () => {
       const data = moderationSuggestSpread
         ?.map((producingStep) => ({
           [producingStep.id.toString()]: {
+            id: producingStep.id,
             producingStepName: producingStep.producingStepName,
             itemId: producingStep.itemScheduleId,
             workCenterSchedule: groupWorkCenterSchedule(
@@ -213,6 +214,7 @@ const InputModeration = () => {
                       style={{ width: 140 }}
                       name={`${producingStepId}_${params.row?.workCenterId}_${params.row[date]?.id}_${date}`}
                       type="number"
+                      disabled={new Date(date) <= new Date()}
                     />
                   )
                 } else {
@@ -270,12 +272,13 @@ const InputModeration = () => {
 
         let quantity = currentWorkCenterScheduleDetail.quantity
         const fixedQuantity = Number(values[key])
+        const date = key.split('_')[3]
         let tmpTotalQuantity = 0
         let tmpMinusQuantity = 0
 
         const minusQuantity = quantity - fixedQuantity
 
-        if (fixedQuantity > 0) {
+        if (fixedQuantity > 0 && new Date(date) > new Date()) {
           result.push(
             ...currentWorkCenterScheduleDetail.workCenterDetailSchedules.map(
               (workCenterDetailSchedule, i) => {
@@ -308,19 +311,11 @@ const InputModeration = () => {
                       : minusQuantity
                 }
                 
-                if (isNaN(workCenterDetailSchedule.id) && isNaN(currentWorkCenterScheduleDetail.id)) {
-                  return {
-                    workCenterShiftScheduleId: workCenterDetailSchedule.workCenterShiftScheduleId,
-                    workCenterId: currentWorkCenterSchedule.workCenterId,
-                    date: key.split('_')[3],
-                    quantity: tmpQuantity,
-                  }
-                } else {
-                  return {
-                    id: workCenterDetailSchedule.id,
-                    workCenterScheduleId: currentWorkCenterScheduleDetail.id,
-                    quantity: tmpQuantity,
-                  }
+                return {
+                  workCenterId: currentWorkCenterSchedule.workCenterId,
+                  workCenterShiftScheduleId: workCenterDetailSchedule.workCenterShiftScheduleId,
+                  date: date,
+                  quantity: tmpQuantity,
                 }
               },
             ),
@@ -332,7 +327,7 @@ const InputModeration = () => {
 
   const handleSubmit = async (values) => {
     const itemSchedules = Object.keys(tableData).map((producingStepId) => ({
-      itemId: tableData[producingStepId]?.itemId,
+      producingStepScheduleId: tableData[producingStepId]?.id,
       workCenterDetailSchedules: calculateFixedWorkCenterDailSchedules(
         producingStepId,
         values,
@@ -341,10 +336,9 @@ const InputModeration = () => {
     }))
     const payload = {
       id: id,
-      items: itemSchedules.filter(
+      producingStepSchedules: itemSchedules.filter(
         (itemSchedule) => !isEmpty(itemSchedule.workCenterDetailSchedules),
       ),
-      modeType: 3,
     }
 
     await actions.submitModerationInput(payload)

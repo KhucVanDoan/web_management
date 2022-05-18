@@ -3,9 +3,10 @@ import React from 'react'
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import Button from '~/components/Button'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
+import { exportProductivityReportApi } from '~/modules/mesx/redux/sagas/productivity-report/import-export-productivity-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ProductivityChart from './chart/detail-productivity'
@@ -23,12 +24,16 @@ const breadcrumbs = [
 
 function ProductivityReport() {
   const { t } = useTranslation(['mesx'])
+
   const renderHeaderRight = () => {
-    // @TODO: <linh.taquang> handle export
     return (
-      <Button variant="outlined" disabled icon="download">
-        {t('productivityReport.export')}
-      </Button>
+      <ImportExport
+        name={t('planReport.export')}
+        onExport={() => {
+          exportProductivityReportApi({})
+        }}
+        disabled
+      />
     )
   }
   return (
