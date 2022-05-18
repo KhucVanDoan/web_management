@@ -53,7 +53,8 @@
     "filterButton": "検索",
     "filterTitle": "検索",
     "title": "一覧",
-    "visibleColumns": "選択した項目を表示"
+    "visibleColumns": "選択した項目を表示",
+    "showAllColumns": "全て"
   },
   "date": {
     "maxToday": "生年月日は現在日付より前でなければなりません。",
@@ -126,6 +127,35 @@
   },
   "moduleMenu": {
     "database": "マスターデータ",
-    "solution": "解決"
+    "other": "Other"
+  },
+  "common": {
+    "yes": "Có",
+    "no": "Không",
+    "cancel": "Huỷ",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "action": "Hành động",
+    "create": "新規作成",
+    "update": "Cập nhật",
+    "save": "Lưu",
+    "print": "In",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "accept": "Xác nhận",
+    "reject": "Từ chối",
+    "notify": "Thông báo",
+    "confirmMessage": {
+      "confirm": "Bạn có chắc chắn muốn xác nhận không?",
+      "reject": "Bạn có chắc chắn muốn từ chối không?"
+    },
+    "creator": "Người tạo",
+    "search": "Tìm kiếm",
+    "filter": "Lọc"
+  },
+  "importExportMenu": {
+    "import": "データ入力",
+    "export": "データ出力",
+    "importExport": "データ入出力"
   }
 }

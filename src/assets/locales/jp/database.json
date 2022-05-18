@@ -116,7 +116,8 @@
     "storage": "保管スペース",
     "storageInfo": "保管情報",
     "storageLocation": "保管ロケーション",
-    "user": "作成者"
+    "user": "作成者",
+    "day": "日"
   },
   "defineFactory": {
     "code": "工場コード",
@@ -155,7 +156,9 @@
     "confirmDelete": "指定された商品グループを削除します。よろしいですか。",
     "deleteItemGroupSuccess": "商品グループ削除に成功しました。",
     "createItemGroupSuccess": "商品グループ作成に成功しました。",
-    "updateItemGroupSuccess": "商品グループ更新に成功しました。"
+    "updateItemGroupSuccess": "商品グループ更新に成功しました。",
+    "import": "データ入出力",
+    "creator": "作成者"
   },
   "itemTypeSetting": {
     "itemDetails": "商品詳細",
@@ -205,7 +208,8 @@
     "confirmDelete": "指定された商品単位を削除します。よろしいですか。",
     "deleteItemUnitSuccess": "商品単位削除に成功しました。",
     "createItemUnitSuccess": "商品単位作成に成功しました。",
-    "updateItemUnitSuccess": "商品単位更新に成功しました。"
+    "updateItemUnitSuccess": "商品単位更新に成功しました。",
+    "creator": "作成者"
   },
   "itemType": {
     "material": "原材料",
