@@ -244,3 +244,8 @@ export const INVENTORY_STATUS_OPTIONS = [
   { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const MATERIAL_CODE = '00'
+
+export const ENUM_BOOLEAN = {
+  true: 1,
+  false: 0,
+}

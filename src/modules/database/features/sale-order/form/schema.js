@@ -32,8 +32,8 @@ export const saleOrderSchema = (t) => {
       .min(new Date(), t('general:date.minToday')),
     items: Yup.array().of(
       Yup.object().shape({
-        itemId: Yup.number().nullable().required(t('general:form.required')),
-        itemPrice: Yup.string()
+        item: Yup.object().nullable().required(t('general:form.required')),
+        price: Yup.string()
           .nullable()
           .required(t('general:form.required'))
           .max(
