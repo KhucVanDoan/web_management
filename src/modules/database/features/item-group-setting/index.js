@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useItemGroup from '~/modules/database/redux/hooks/useItemGroup'
@@ -19,6 +20,11 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import {
+  exportItemGroupApi,
+  getItemGroupTemplateApi,
+  importItemGroupApi,
+} from '../../redux/sagas/item-group-setting/import-export-item-group'
 import FilterForm from './filter-form'
 const breadcrumbs = [
   // {
@@ -38,6 +44,8 @@ const ItemGroupSetting = () => {
   } = useItemGroup()
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -159,6 +167,10 @@ const ItemGroupSetting = () => {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleDeleteOpenModal = (tempItem) => {
     setTempItem(tempItem)
     setDeleteModal(true)
@@ -174,10 +186,28 @@ const ItemGroupSetting = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: <linh.taquang> handle import/export */}
-        <Button variant="outlined" disabled icon="download">
-          {t('itemGroupDefine.import')}
-        </Button>
+        <ImportExport
+          name={t('itemGroupDefine.import')}
+          onImport={(params) => {
+            importItemGroupApi(params)
+          }}
+          onExport={() => {
+            exportItemGroupApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getItemGroupTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.ITEM_GROUP.CREATE.PATH)}
           icon="add"
@@ -213,6 +243,9 @@ const ItemGroupSetting = () => {
           onPageSizeChange={setPageSize}
           onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

@@ -28,7 +28,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             <Field.Autocomplete
               name={`items[${index}].detailId`}
               label={t('defineItem.detailName')}
-              options={items}
               asyncRequest={(s) =>
                 getDetailsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
               }
@@ -45,7 +44,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
       },
       {
         field: 'quantity',
-        width: 100,
+        width: 250,
         align: 'center',
         renderCell: (params, index) => {
           return (

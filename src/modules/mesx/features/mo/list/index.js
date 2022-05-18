@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -23,6 +24,11 @@ import {
 } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import {
+  importMoApi,
+  exportMoApi,
+  getMoTemplateApi,
+} from '~/modules/mesx/redux/sagas/mo/import-export-mo'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertUtcDateToLocalTz,
@@ -31,7 +37,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-
 const breadcrumbs = [
   {
     title: 'plan',
@@ -49,6 +54,8 @@ const Mo = () => {
 
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -94,11 +101,9 @@ const Mo = () => {
       headerName: t('Mo.planCode'),
       width: 120,
       sortable: true,
-      //TODO: <anh.nth> get planCode (now planList nodata)
-      // renderCell: (params) => {
-      //   const { id } = params.row
-      //   return planList.find((plan) => plan.id === id).code
-      // },
+      renderCell: (params) => {
+        return params?.row?.masterPlan?.code
+      },
     },
     {
       field: 'factoryName',
@@ -249,6 +254,10 @@ const Mo = () => {
     refreshData()
   }, [keyword, page, pageSize, sort, filters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   /**
    * onClickViewDetails
    * @param {int} id
@@ -305,9 +314,28 @@ const Mo = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('moDefine.import')}
+          onImport={(params) => {
+            importMoApi(params)
+          }}
+          onExport={() => {
+            exportMoApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getMoTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.MO.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -338,6 +366,9 @@ const Mo = () => {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           sort={sort}
           filters={{

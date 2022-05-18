@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -6,12 +6,21 @@ import { useTranslation } from 'react-i18next'
 import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
-  MOVEMENT_STATUS,
+  ORDER_STATUS_OPTIONS,
   TRANSFER_MOVEMENT_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
+import useInventory from '~/modules/wmsx/redux/hooks/useInventory'
 
 const FilterForm = () => {
   const { t } = useTranslation(['wmsx'])
+  const {
+    data: { warehouseType },
+    actions,
+  } = useInventory()
+  useEffect(() => {
+    actions.getWarehouseType()
+  }, [])
+
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -33,10 +42,13 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="warehouseTypes"
+        <Field.Autocomplete
+          name="warehouseTypeId"
           label={t('warehouseTransferMovement.warehouseType')}
           placeholder={t('warehouseTransferMovement.warehouseType')}
+          options={warehouseType}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.name)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -54,14 +66,14 @@ const FilterForm = () => {
           name="orderStatus"
           label={t('warehouseTransferMovement.letterStatus')}
           placeholder={t('warehouseTransferMovement.letterStatus')}
-          options={MOVEMENT_STATUS}
+          options={ORDER_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="createdAt"
+          name="postedAt"
           label={t('warehouseTransferMovement.transferOn')}
         />
       </Grid>
@@ -77,6 +89,13 @@ const FilterForm = () => {
           name="sourceWarehouseName"
           label={t('warehouseTransferMovement.sourceWarehouseName')}
           placeholder={t('warehouseTransferMovement.sourceWarehouseName')}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="destinationWarehouseName"
+          label={t('warehouseTransferMovement.destinationWarehouseName')}
+          placeholder={t('warehouseTransferMovement.destinationWarehouseName')}
         />
       </Grid>
       <Grid item xs={12}>

@@ -9,12 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/database/routes/config'
 import useDefineCompany from '~/modules/mesx/redux/hooks/useDefineCompany'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
+import { TYPE_ENUM_EXPORT } from '../../constants'
+import { exportCompanyApi } from '../../redux/sagas/define-company/import-export-company'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -63,6 +66,8 @@ function DefineCompany() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     // {
@@ -184,6 +189,10 @@ function DefineCompany() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
   }
@@ -202,9 +211,25 @@ function DefineCompany() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('defineCompany.export')}
+          onExport={() => {
+            exportCompanyApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+              type: TYPE_ENUM_EXPORT.COMPANY,
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_COMPANY.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -235,6 +260,9 @@ function DefineCompany() {
         onPageSizeChange={setPageSize}
         onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

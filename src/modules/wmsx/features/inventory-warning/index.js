@@ -168,6 +168,7 @@ function InventoryWarning() {
       limit: pageSize,
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
+      isExpireDay: 0,
     }
     actions.searchInventoryWarning(params)
   }
@@ -187,6 +188,8 @@ function InventoryWarning() {
         renderHeaderRight={renderHeaderRight}
       >
         <DataTable
+          //@TODO: <khanh.nguyenvan> work around for indexCol is not uniq
+          indexCol="_"
           title={t('inventoryWarning.title')}
           rows={inventoryWarningList}
           pageSize={pageSize}

@@ -11,7 +11,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchQualityPointsApi = (params) => {
+export const searchQualityPointsApi = (params) => {
   const uri = `/v1/quality-controls/quality-points/list`
   return api.get(uri, params)
 }

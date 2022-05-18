@@ -45,7 +45,7 @@ export const validationSchema = (t) =>
       .required(t('general:form.required')),
     inputQc: Yup.boolean(),
     outputQc: Yup.boolean(),
-    qcCriteriaInput: Yup.string()
+    qcCriteriaInput: Yup.object()
       .nullable()
       .when('inputQc', {
         is: true,
@@ -69,7 +69,7 @@ export const validationSchema = (t) =>
         is: true,
         then: Yup.number().nullable().required(t('general:form.required')),
       }),
-    qcCriteriaOutput: Yup.string()
+    qcCriteriaOutput: Yup.object()
       .nullable()
       .when('outputQc', {
         is: true,

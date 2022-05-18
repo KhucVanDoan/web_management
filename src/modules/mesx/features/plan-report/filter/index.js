@@ -4,16 +4,19 @@ import { Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
   const { values } = useFormikContext()
   const {
     data: { moList },
+    actions: moActions,
   } = useMo()
 
   const {
@@ -32,12 +35,13 @@ const FilterForm = () => {
 
   const getDataSaleOder = () => {
     const saleOrderLists = []
-    const soId = moList?.find((mo) => mo?.code === values?.moName)?.saleOrderId
+    const soId = moList?.find(
+      (mo) => mo?.id === values?.moName?.id,
+    )?.saleOrderId
     const saleOrders = saleOrderList?.find((so) => so?.id === soId)
     saleOrderLists.push(saleOrders)
     return saleOrderLists
   }
-
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -45,15 +49,20 @@ const FilterForm = () => {
           name="moName"
           label={t('planReport.moName')}
           placeholder={t('planReport.moName')}
-          options={
-            values?.saleOrderIds
-              ? moList.filter(
-                  (mo) => mo?.saleOrderId === values?.saleOrderIds[0],
-                )
-              : moList
+          asyncRequest={(s) =>
+            searchMOApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+              filter: values?.saleOrderIds
+                ? JSON.stringify([
+                    { column: 'saleOrderIds', text: values?.saleOrderIds },
+                  ])
+                : [],
+            })
           }
-          getOptionValue={(opt) => opt?.name}
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
+          onChange={(val) => moActions.getMoItemsById(val?.id)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -61,7 +70,11 @@ const FilterForm = () => {
           name="saleOrderIds"
           label={t('planReport.saleOrder')}
           placeholder={t('planReport.saleOrder')}
-          options={values?.moName ? getDataSaleOder() : saleOrderList}
+          options={
+            values?.moName && values?.saleOrderIds === ''
+              ? getDataSaleOder()
+              : saleOrderList
+          }
           getOptionValue={(opt) => [opt?.id]}
           getOptionLabel={(opt) => opt?.name}
         />

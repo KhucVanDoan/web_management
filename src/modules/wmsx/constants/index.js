@@ -169,27 +169,27 @@ export const ORDER_STATUS_OPTIONS = [
   },
   {
     id: 6,
-    text: 'orderStatus.InReceiving',
+    text: 'orderStatus.inReceiving',
   },
   {
     id: 7,
-    text: 'orderStatus.Received',
+    text: 'orderStatus.received',
   },
   {
     id: 8,
-    text: 'orderStatus.Delivered',
+    text: 'orderStatus.delivered',
   },
   {
     id: 9,
-    text: 'orderStatus.InCollecting',
+    text: 'orderStatus.inCollecting',
   },
   {
     id: 10,
-    text: 'orderStatus.Collected',
+    text: 'orderStatus.collected',
   },
   {
     id: 11,
-    text: 'orderStatus.Exported',
+    text: 'orderStatus.exported',
   },
 ]
 

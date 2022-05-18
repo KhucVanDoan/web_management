@@ -50,7 +50,7 @@ const Notification = () => {
     enabled: !isLoading && loadable,
   })
 
-  const getExecutionDate = (date) => {
+  const getCreatedDate = (date) => {
     if (!date) return ''
 
     if (differenceInDays(new Date(), parseISO(date)) > 0) {
@@ -58,7 +58,7 @@ const Notification = () => {
     }
 
     if (differenceInHours(new Date(), parseISO(date)) > 0) {
-      return t('notification.hourssAgo', {
+      return t('notification.hoursAgo', {
         time: differenceInHours(new Date(), parseISO(date)),
       })
     }
@@ -83,16 +83,21 @@ const Notification = () => {
   return (
     <List className={classes.list} ref={rootRef}>
       {(items || []).map((noti) => (
-        <ListItem key={noti.id} disablePadding className={classes.listItem}>
+        <ListItem key={noti?._id} disablePadding className={classes.listItem}>
           <Box className={classes.readOneContainer}>
-            <IconButton
-              className={classes.readOne}
-              title={t('notification.readOne')}
-            ></IconButton>
+            {!noti?.readAt && (
+              <IconButton
+                className={classes.readOne}
+                title={t('notification.readOne')}
+                onClick={() => {
+                  actions.seenOneNotification(noti?._id)
+                }}
+              ></IconButton>
+            )}
           </Box>
           <Box className={classes.listItemButton}>
-            <Typography variant="h5">{noti.title}</Typography>
-            <Typography sx={{ mt: 2 / 3 }}>{noti.content}</Typography>
+            <Typography variant="h5">{noti?.title}</Typography>
+            <Typography sx={{ mt: 2 / 3 }}>{noti?.content}</Typography>
 
             {/* <Box className={classes.actions}>
                     <Button
@@ -107,7 +112,7 @@ const Notification = () => {
                     <Button>{t('notification.action.confirm')}</Button>
                   </Box> */}
             <Typography variant="body2" sx={{ mt: 2 / 3 }}>
-              {getExecutionDate(noti.executionDate)}
+              {getCreatedDate(noti?.createdAt)}
             </Typography>
           </Box>
         </ListItem>
