@@ -1,10 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getItemDetailsByIdFailed,
-  getItemDetailsByIdSuccess,
-  GET_ITEM_DETAILS_START,
-} from '~/modules/database/redux/actions/define-item'
+  getBlockDetailsByIdFailed,
+  getBlockDetailsByIdSuccess,
+  GET_BLOCK_DETAILS_START,
+} from '~/modules/wmsx/redux/actions/define-block'
 import { api } from '~/services/api'
 
 /**
@@ -12,8 +12,8 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getItemDetailsApi = (params) => {
-  const uri = `/v1/items/${params}`
+const getBlockDetailsApi = (params) => {
+  const uri = `/v1/items/blocks/${params}`
   return api.get(uri)
 }
 
@@ -21,12 +21,12 @@ export const getItemDetailsApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGetItemDetails(action) {
+function* doGetBlockDetails(action) {
   try {
-    const response = yield call(getItemDetailsApi, action?.payload)
+    const response = yield call(getBlockDetailsApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getItemDetailsByIdSuccess(response.data))
+      yield put(getBlockDetailsByIdSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -36,7 +36,7 @@ function* doGetItemDetails(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getItemDetailsByIdFailed())
+    yield put(getBlockDetailsByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -47,6 +47,6 @@ function* doGetItemDetails(action) {
 /**
  * Watch search users
  */
-export default function* watchGetItemDetails() {
-  yield takeLatest(GET_ITEM_DETAILS_START, doGetItemDetails)
+export default function* watchGetBlockDetails() {
+  yield takeLatest(GET_BLOCK_DETAILS_START, doGetBlockDetails)
 }

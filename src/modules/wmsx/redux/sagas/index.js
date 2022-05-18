@@ -1,5 +1,10 @@
 import { all } from 'redux-saga/effects'
 
+import watchCreateBlock from './define-block/create-block'
+import watchDeleteBlock from './define-block/delete-block'
+import watchGetBlockDetails from './define-block/get-block-details'
+import watchSearchBlocks from './define-block/search-blocks'
+import watchUpdateBlock from './define-block/update-block'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
@@ -189,6 +194,13 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+
+    //define-block
+    watchCreateBlock(),
+    watchDeleteBlock(),
+    watchSearchBlocks(),
+    watchUpdateBlock(),
+    watchGetBlockDetails(),
     // producion-order
     watchConfirmProductionOrder(),
     watchDeleteProductionOrder(),

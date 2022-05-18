@@ -274,6 +274,24 @@ export const ROUTE = {
       TITLE: 'inventoryCalendarEdit',
     },
   },
+  DEFINE_BLOCK: {
+    LIST: {
+      PATH: '/wmsx/define-block',
+      TITLE: 'defineBlock',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-block/create',
+      TITLE: 'defineBlockCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-block/:id/detail',
+      TITLE: 'defineBlockDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-block/:id/edit',
+      TITLE: 'defineBlockEdit',
+    },
+  },
   PRODUCTION_ORDER: {
     LIST: {
       PATH: '/wmsx/production-orders',
