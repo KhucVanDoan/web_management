@@ -199,5 +199,9 @@
     "creator": "Created by",
     "search": "Search",
     "filter": "Filter"
+  },
+  "moduleMenu": {
+    "database": "Master data",
+    "other": "Other"
   }
 }

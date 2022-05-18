@@ -58,9 +58,9 @@ const modules = [
     name: 'database',
     path: process.env.REACT_APP_DATABASE_URL || 'database',
     icon: mesx_icon,
-    title: (
+    title: (t) => (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
-        Cơ sở dữ liệu
+        {t('moduleMenu.database')}
       </Typography>
     ),
   },
@@ -68,9 +68,9 @@ const modules = [
     name: 'solution',
     // path: process.env.REACT_APP_SOLUTION_URL || 'solution',
     icon: solution_icon,
-    title: (
+    title: (t) => (
       <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
-        Giải pháp
+        {t('moduleMenu.other')}
       </Typography>
     ),
   },
