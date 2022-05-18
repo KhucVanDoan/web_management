@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import defineCustomer from './define-customer'
 import defineDetail from './define-detail'
+import definePackage from './define-package'
 import defineTemplateShelf from './define-template-shelf'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
@@ -36,4 +37,5 @@ export default combineReducers({
   inventoryStatistics,
   defineCustomer,
   inventoryCalendar,
+  definePackage,
 })

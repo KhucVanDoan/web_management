@@ -50,7 +50,6 @@ export const ROUTE = {
       TITLE: 'defineTemplateShelfEdit',
     },
   },
-
   WAREHOUSE_SETTING: {
     LIST: {
       PATH: '/wmsx/warehouse-setting',
@@ -111,7 +110,6 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
-
   WAREHOUSE_REPORT_MANAGEMENT: {
     PATH: '/wmsx/warehouse-report-management',
     TITLE: 'warehouseReportManagement',
@@ -251,6 +249,24 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/inventory-calendar/:id/edit',
       TITLE: 'inventoryCalendarEdit',
+    },
+  },
+  DEFINE_PACKAGE: {
+    LIST: {
+      PATH: '/wmsx/define-package',
+      TITLE: 'definePackage',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-package/create',
+      TITLE: 'definePackageCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-package/:id/detail',
+      TITLE: 'definePackageDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-package/:id/edit',
+      TITLE: 'definePackageEdit',
     },
   },
 }
