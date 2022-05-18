@@ -1625,7 +1625,8 @@
       "quantityPlan": "予定数量",
       "routingName": "プロセスコード",
       "saleOrder": "受注書名",
-      "unit": "単位"
+      "unit": "単位",
+      "saleOrderName": "発注書名"
     },
     "itemName": "商品名",
     "itemsDetails": "詳細計画設定",

@@ -3,7 +3,6 @@ import * as Yup from 'yup'
 
 import {
   TEXTFIELD_REQUIRED_LENGTH,
-  NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
 
 export const validationSchema = (t) =>
@@ -27,11 +26,10 @@ export const validationSchema = (t) =>
         producingStepData: Yup.array().of(
           Yup.object().shape({
             quantity: Yup.number()
-              .required(t('general:form.required'))
               .min(
-                NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+                0, // hotfix
                 t('general:form.minNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+                  min: 0, // hotfix
                 }),
               )
               .test('quantity_total', '', function () {
