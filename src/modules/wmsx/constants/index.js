@@ -313,6 +313,66 @@ export const TRANSFER_STATUS_OPTIONS = [
   },
 ]
 
+export const DEFINE_CURRENCY_UNIT_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const DEFINE_CURRENCY_UNIT_STATUS_MAP = {
+  [DEFINE_CURRENCY_UNIT_STATUS.PENDING]: 'defineCurrencyUnit.pending',
+  [DEFINE_CURRENCY_UNIT_STATUS.ACTIVE]: 'defineCurrencyUnit.active',
+  [DEFINE_CURRENCY_UNIT_STATUS.DISABLED]: 'defineCurrencyUnit.disabled',
+}
+
+export const DEFINE_CURRENCY_UNIT_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineCurrencyUnit.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineCurrencyUnit.active',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'defineCurrencyUnit.disabled',
+    color: 'rejected',
+  },
+]
+
+export const DEFINE_TYPE_UNIT_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const DEFINE_TYPE_UNIT_STATUS_MAP = {
+  [DEFINE_TYPE_UNIT_STATUS.PENDING]: 'defineTypeUnit.pending',
+  [DEFINE_TYPE_UNIT_STATUS.ACTIVE]: 'defineTypeUnit.active',
+  [DEFINE_TYPE_UNIT_STATUS.DISABLED]: 'defineTypeUnit.disabled',
+}
+
+export const DEFINE_TYPE_UNIT_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineTypeUnit.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineTypeUnit.active',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'defineTypeUnit.disabled',
+    color: 'rejected',
+  },
+]
+
 export const TRANSFER_MOVEMENT_TYPE_OPTIONS = [
   {
     id: 6,

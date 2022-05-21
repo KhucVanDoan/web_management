@@ -2,10 +2,12 @@ import { combineReducers } from 'redux'
 
 import commonManagement from './common'
 import defineBlock from './define-block'
+import defineCurrencyUnit from './define-currency-unit'
 import defineCustomer from './define-customer'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
 import defineTemplateShelf from './define-template-shelf'
+import defineTypeUnit from './define-type-unit'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import importManufacturingOrder from './import-manufacturing-order'
@@ -26,6 +28,8 @@ import warehouseTransferMovements from './warehouse-transfer-movements'
 export default combineReducers({
   commonManagement,
   defineTemplateShelf,
+  defineTypeUnit,
+  defineCurrencyUnit,
   warehouseSetting,
   defineDetail,
   defineWarehouse,

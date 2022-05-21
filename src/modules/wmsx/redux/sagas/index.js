@@ -9,6 +9,14 @@ import watchDeleteBlock from './define-block/delete-block'
 import watchGetBlockDetails from './define-block/get-block-details'
 import watchSearchBlocks from './define-block/search-blocks'
 import watchUpdateBlock from './define-block/update-block'
+import watchConfirmCurrencyUnit from './define-currency-unit/confirm-currency-unit'
+import watchCreateCurrencyUnit from './define-currency-unit/create-currency-unit'
+import watchDeleteCurrencyUnit from './define-currency-unit/delete-currency-unit'
+import watchGetCurrencyUnitDetails from './define-currency-unit/get-currency-unit-details'
+import watchImportCurrencyUnit from './define-currency-unit/import-currency-unit'
+import watchRejectCurrencyUnit from './define-currency-unit/reject-currency-unit'
+import watchSearchCurrencyUnits from './define-currency-unit/search-currency-unit'
+import watchUpdateCurrencyUnit from './define-currency-unit/update-currency-unit'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
@@ -31,6 +39,13 @@ import watchDeleteTemplateShelf from './define-template-shelf/delete-template-sh
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
 import watchSearchTemplateShelfs from './define-template-shelf/search-template-shelfs'
 import watchUpdateTemplateShelf from './define-template-shelf/update-template-shelf'
+import watchConfirmTypeUnit from './define-type-unit/confirm-define-type-unit'
+import watchCreateTypeUnit from './define-type-unit/create-define-type-unit'
+import watchDeleteTypeUnit from './define-type-unit/delete-define-type-unit'
+import watchGetTypeUnitDetails from './define-type-unit/get-define-type-unit-details'
+import watchImportTypeUnit from './define-type-unit/import-type-unit'
+import watchSearchTypeUnits from './define-type-unit/search-define-type-units'
+import watchUpdateTypeUnit from './define-type-unit/update-define-type-unit'
 import watchCreateVendor from './define-vendor/create-vendor.saga'
 import watchDeleteVendor from './define-vendor/delete-vendor.saga'
 import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
@@ -129,6 +144,23 @@ export default function* sagas() {
     watchGetWarehouseSettingDetails(),
     watchSearchWarehouseSetting(),
     watchUpdateWarehouseSetting(),
+    // rent warehouse cost
+    watchConfirmTypeUnit(),
+    watchCreateTypeUnit(),
+    watchDeleteTypeUnit(),
+    watchGetTypeUnitDetails(),
+    watchImportTypeUnit(),
+    watchSearchTypeUnits(),
+    watchUpdateTypeUnit(),
+
+    watchConfirmCurrencyUnit(),
+    watchCreateCurrencyUnit(),
+    watchDeleteCurrencyUnit(),
+    watchGetCurrencyUnitDetails(),
+    watchImportCurrencyUnit(),
+    watchRejectCurrencyUnit(),
+    watchSearchCurrencyUnits(),
+    watchUpdateCurrencyUnit(),
     // define-detail
     watchCreateDetail(),
     watchDeleteDetail(),
