@@ -274,6 +274,28 @@ export const ROUTE = {
       TITLE: 'inventoryCalendarEdit',
     },
   },
+  IMPORT_MANUFACTURING_ORDER: {
+    LIST: {
+      PATH: '/wmsx/import-manufacturing-order',
+      TITLE: 'importManufacturingOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/import-manufacturing-order/create',
+      TITLE: 'createImportManufacturingOrder',
+    },
+    EDIT: {
+      PATH: '/wmsx/import-manufacturing-order/:id/edit',
+      TITLE: 'editImportManufacturingOrder',
+    },
+    DETAIL: {
+      PATH: '/wmsx/import-manufacturing-order/:id/detail',
+      TITLE: 'importManufacturingOrderDetail',
+    },
+    MOVEMENTS: {
+      PATH: '/wmsx/import-manufacturing-order/movements/:id',
+      TITLE: 'importManufacturingOrderMovement',
+    },
+  },
   DEFINE_BLOCK: {
     LIST: {
       PATH: '/wmsx/define-block',

@@ -1,5 +1,9 @@
 import { all } from 'redux-saga/effects'
 
+import watchGetSupplyRequest from './common/get-all-supply-request'
+import watchGetItemQualityPoint from './common/get-item-quality-point'
+import watchGetItems from './common/get-items'
+import watchGetWarehouses from './common/get-warehouses'
 import watchCreateBlock from './define-block/create-block'
 import watchDeleteBlock from './define-block/delete-block'
 import watchGetBlockDetails from './define-block/get-block-details'
@@ -40,6 +44,14 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchImportWarehouse from './define-warehouse/import-warehouse'
 import watchSearchWarehouses from './define-warehouse/search-warehouses'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmImportManufacturingOrder from './import-manufacturing-order/confirm-import-manufacturing-order'
+import watchCreateImportManufacturingOrder from './import-manufacturing-order/create-import-manufacturing-order'
+import watchDeleteImportManufacturingOrder from './import-manufacturing-order/delete-import-manufacturing-order'
+import watchGetImportManufacturingOrderDetails from './import-manufacturing-order/get-import-manufacturing-order'
+import watchGetLotNumberList from './import-manufacturing-order/get-lot-number-list'
+import watchRejectImportManufacturingOrder from './import-manufacturing-order/reject-import-manufacturing-order'
+import watchSearchImportManufacturingOrders from './import-manufacturing-order/search-import-manufacturing-order'
+import watchUpdateImportManufacturingOrder from './import-manufacturing-order/update-import-manufacturing-order'
 import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
 import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
 import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
@@ -100,6 +112,11 @@ import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-
  */
 export default function* sagas() {
   yield all([
+    //common
+    watchGetItemQualityPoint(),
+    watchGetItems(),
+    watchGetWarehouses(),
+    watchGetSupplyRequest(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -194,6 +211,15 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    // import manufacturing order
+    watchConfirmImportManufacturingOrder(),
+    watchCreateImportManufacturingOrder(),
+    watchUpdateImportManufacturingOrder(),
+    watchSearchImportManufacturingOrders(),
+    watchDeleteImportManufacturingOrder(),
+    watchRejectImportManufacturingOrder(),
+    watchGetImportManufacturingOrderDetails(),
+    watchGetLotNumberList(),
 
     //define-block
     watchCreateBlock(),

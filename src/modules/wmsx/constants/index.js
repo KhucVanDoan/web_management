@@ -13,6 +13,72 @@ export const DEFAULT_UNITS = [
   },
 ]
 
+export const TRANSACTION_TYPE_ENUM = {
+  IMPORT: 0,
+  EXPORT: 1,
+}
+
+export const END_OF_DAY = {
+  HOUR: 23,
+  MINUTE: 59,
+  SECOND: 59,
+}
+
+export const START_OF_DAY = {
+  HOUR: 0,
+  MINUTE: 0,
+  SECOND: 0,
+}
+
+export const BOOLEAN_ENUM = {
+  FALSE: '0',
+  TRUE: '1',
+}
+
+export const CODE_SETTINGS = {
+  ITEM: {
+    DOMAIN: 'ITEM',
+    PREFIX: '02',
+    MAX_LENGTH: 7,
+    FILLED_CHARACTER: '0',
+  },
+  BLOCK: {
+    DOMAIN: 'BLOCK',
+    PREFIX: '03',
+    MAX_LENGTH: 12,
+    FILLED_CHARACTER: '0',
+  },
+  PACKAGE: {
+    DOMAIN: 'PACKAGE',
+    PREFIX: '04',
+    MAX_LENGTH: 12,
+    FILLED_CHARACTER: '0',
+  },
+  PRODUCTION_ORDER: {
+    DOMAIN: 'PRODUCTION_ORDER',
+    PREFIX: 'PR',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  PURCHASED_ORDER_IMPORT: {
+    DOMAIN: 'PURCHASED_ORDER_IMPORT',
+    PREFIX: 'PO',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  IMPORT_MANUFACTURING_ORDER: {
+    DOMAIN: 'IMPORT_MANUFACTURING_ORDER',
+    PREFIX: 'IM',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+}
+
+export const QC_CHECK = {
+  TRUE: 1,
+  FALSE: 0,
+}
+
 export const DEFAULT_UNITS_MAP = {
   1: 'cm',
   2: 'dm',
