@@ -14,6 +14,9 @@ import DefinePackage from '~/modules/wmsx/features/define-package/list'
 import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
 import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
 import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
+import ImportManufacturingOrderDetail from '~/modules/wmsx/features/import-manufacturing-order/detail'
+import ImportManufacturingOrderForm from '~/modules/wmsx/features/import-manufacturing-order/form'
+import ImportManufacturingOrder from '~/modules/wmsx/features/import-manufacturing-order/list'
 import InventoryCalendarDetail from '~/modules/wmsx/features/inventory-calendar/detail'
 import InventoryCalendarForm from '~/modules/wmsx/features/inventory-calendar/form'
 import InventoryCalendar from '~/modules/wmsx/features/inventory-calendar/list'
@@ -170,6 +173,38 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.TITLE,
+        path: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.PATH,
+        component: ImportManufacturingOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.PATH,
+            component: ImportManufacturingOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.DETAIL.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.DETAIL.PATH,
+            component: ImportManufacturingOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.PATH,
+            component: ImportManufacturingOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.PATH,
+            component: ImportManufacturingOrderDetail,
             isInSidebar: false,
           },
         ],
