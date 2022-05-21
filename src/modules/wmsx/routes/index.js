@@ -29,6 +29,12 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
+import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
+import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefineTypeUnitDetail from '../features/define-type-unit/detail'
+import DefineTypeUnitForm from '../features/define-type-unit/form'
+import DefineTypeUnit from '../features/define-type-unit/list'
 import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
@@ -449,6 +455,65 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.RENT_WAREHOUSE_COST_MANAGEMENT.TITLE,
+    isInSidebar: true,
+    icon: 'home',
+    subMenu: [
+      {
+        name: ROUTE.TYPE_UNIT.LIST.TITLE,
+        path: ROUTE.TYPE_UNIT.LIST.PATH,
+        component: DefineTypeUnit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TYPE_UNIT.CREATE.TITLE,
+            path: ROUTE.TYPE_UNIT.CREATE.PATH,
+            component: DefineTypeUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_UNIT.EDIT.TITLE,
+            path: ROUTE.TYPE_UNIT.EDIT.PATH,
+            component: DefineTypeUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_UNIT.DETAIL.TITLE,
+            path: ROUTE.TYPE_UNIT.DETAIL.PATH,
+            component: DefineTypeUnitDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CURRENCY_UNIT.LIST.TITLE,
+        path: ROUTE.DEFINE_CURRENCY_UNIT.LIST.PATH,
+        component: DefineCurrencyUnit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.CREATE.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.CREATE.PATH,
+            component: DefineCurrencyUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.EDIT.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.EDIT.PATH,
+            component: DefineCurrencyUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.PATH,
+            component: DefineCurrencyUnitDetail,
+            isInSidebar: true,
+          },
+        ],
       },
     ],
   },

@@ -13,6 +13,9 @@ export const ROUTE = {
   WAREHOUSE_MANAGEMENT: {
     TITLE: 'warehouseManagement',
   },
+  RENT_WAREHOUSE_COST_MANAGEMENT: {
+    TITLE: 'rentWarehouseCostManagement',
+  },
   INVENTORY: {
     LIST: {
       PATH: '/wmsx/inventory',
@@ -330,6 +333,42 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/production-orders/:id/edit',
       TITLE: 'productionOrderEdit',
+    },
+  },
+  TYPE_UNIT: {
+    LIST: {
+      PATH: '/wmsx/type-unit',
+      TITLE: 'defineTypeUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/type-unit/create',
+      TITLE: 'typeUnitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/type-unit/:id/detail',
+      TITLE: 'typeUnitDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/type-unit/:id/edit',
+      TITLE: 'typeUnitEdit',
+    },
+  },
+  DEFINE_CURRENCY_UNIT: {
+    LIST: {
+      PATH: '/wmsx/currency-unit',
+      TITLE: 'defineCurrencyUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/currency-unit/create',
+      TITLE: 'createCurrencyUnit',
+    },
+    EDIT: {
+      PATH: '/wmsx/currency-unit/:id/edit',
+      TITLE: 'editCurrencyUnit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/currency-unit/:id/detail',
+      TITLE: 'currencyUnitDetail',
     },
   },
   DEFINE_PACKAGE: {
