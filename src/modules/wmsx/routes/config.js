@@ -400,6 +400,12 @@ export const ROUTE = {
       TITLE: 'definePackageEdit',
     },
   },
+  RENT_WAREHOUSE_DASHBOARD: {
+    LIST: {
+      PATH: '/wmsx/rent-warehouse-dashboard',
+      TITLE: 'rentWarehouseDashboard',
+    },
+  },
   DEFINE_VOUCHER: {
     LIST: {
       PATH: '/wmsx/voucher',

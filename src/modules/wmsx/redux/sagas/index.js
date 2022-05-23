@@ -96,6 +96,7 @@ import watchGetProductionOrderDetails from './production-order/get-production-or
 import watchRejectProductionOrder from './production-order/reject-production-order'
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
 import watchDeleteVoucher from './voucher/delete-voucher'
@@ -290,6 +291,8 @@ export default function* sagas() {
     watchUpdatePackage(),
     watchGetPackageDetails(),
 
+    // rent warehouse dashboard
+    watchGetRentWarehouseDashboardList(),
     // define voucher
     watchConfirmVoucher(),
     watchCreateVoucher(),
