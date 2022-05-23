@@ -310,7 +310,6 @@ function PurchasedOrder() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         sort={sort}

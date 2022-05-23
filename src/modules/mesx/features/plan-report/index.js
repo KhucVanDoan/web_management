@@ -431,7 +431,6 @@ function PlanReport() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
-          onFilterChange={setFilters}
           onSettingChange={setColumnsSettings}
           sort={sort}
           total={total}

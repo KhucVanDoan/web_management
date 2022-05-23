@@ -298,7 +298,6 @@ function SaleOrder() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
-          onFilterChange={setFilters}
           onSettingChange={setColumnsSettings}
           onSelectionChange={setSelectedRows}
           selected={selectedRows}

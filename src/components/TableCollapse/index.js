@@ -14,7 +14,7 @@ import TableRow from '@mui/material/TableRow'
 import clsx from 'clsx'
 import isAfter from 'date-fns/isAfter'
 import isBefore from 'date-fns/isBefore'
-import { isEmpty, isEqual } from 'lodash'
+import { indexOf, isEmpty, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
@@ -70,7 +70,7 @@ const TableCollapse = (props) => {
   const [sort, setSort] = useState(null)
   const [visibleColumns, setVisibleColumns] = useState([])
   const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
-  const indexCol = props.indexCol || 'id'
+  const uniqKey = props.uniqKey ?? 'id'
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
@@ -313,7 +313,7 @@ const TableCollapse = (props) => {
           {columns && (
             <TableHead
               classes={classes}
-              indexCol={indexCol}
+              uniqKey={uniqKey}
               pageSize={pageSize}
               rows={rows}
               order={sort?.order}
@@ -353,7 +353,7 @@ const TableCollapse = (props) => {
                   <React.Fragment>
                     <TableRow
                       tabIndex={-1}
-                      key={row[indexCol]}
+                      key={row[uniqKey] || index}
                       className={clsx(
                         classes.tableRow,
                         classes.tableRowBorder,
@@ -610,14 +610,13 @@ TableCollapse.propsTypes = {
       renderCell: PropTypes.func,
     }),
   ),
-  indexCol: PropTypes.string,
+  uniqKey: PropTypes.string,
   total: PropTypes.number,
   pageSize: PropTypes.number,
   page: PropTypes.number,
   height: PropTypes.number,
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
-  onFilterChange: PropTypes.func,
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
