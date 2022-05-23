@@ -499,3 +499,17 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+export const SPACE_UNITS = [
+  {
+    id: 1,
+    name: 'cm',
+  },
+  {
+    id: 2,
+    name: 'dm',
+  },
+  {
+    id: 3,
+    name: 'm',
+  },
+]

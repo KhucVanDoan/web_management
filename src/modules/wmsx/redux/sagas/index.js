@@ -96,6 +96,8 @@ import watchGetProductionOrderDetails from './production-order/get-production-or
 import watchRejectProductionOrder from './production-order/reject-production-order'
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchGetWarehouseAreaDetail from './warehouse-area/get-warehouse-area-detail.saga'
+import watchSearchWarehouseAreas from './warehouse-area/search-warehouse-areas.saga'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
@@ -243,6 +245,9 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //warehouse-area
+    watchGetWarehouseAreaDetail(),
+    watchSearchWarehouseAreas(),
     // import manufacturing order
     watchConfirmImportManufacturingOrder(),
     watchCreateImportManufacturingOrder(),

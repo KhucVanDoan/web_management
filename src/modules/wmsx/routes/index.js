@@ -49,6 +49,8 @@ import Inventory from '../features/inventory/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
+import WarehouseAreaDetail from '../features/warehouse-area/detail'
+import WarehouseArea from '../features/warehouse-area/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
@@ -348,6 +350,20 @@ const routes = [
             name: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.TITLE,
             path: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.PATH,
             component: DefineTemplateShelfForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_AREA.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_AREA.LIST.PATH,
+        component: WarehouseArea,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_AREA.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,
+            component: WarehouseAreaDetail,
             isInSidebar: false,
           },
         ],

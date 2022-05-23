@@ -93,6 +93,8 @@
     "inventoryCalendarCreate": "Tạo lệnh kiểm kê",
     "inventoryCalendarEdit": "Sửa lệnh kiểm kê",
     "inventoryCalendarDetail": "Chi tiết lệnh kiểm kê",
+    "warehouseArea": "Định nghĩa khu vực",
+    "warehouseAreaDetail": "Chi tiết khu vực",
     "productionOrder": "Lệnh xuất nhập trong sản xuất",
     "productionOrderDetail": "Chi tiết lệnh xuất nhập trong sản xuất",
     "productionOrderCreate": "Tạo lệnh xuất nhập trong sản xuất",
@@ -807,10 +809,6 @@
     "totalCost": "Tổng chi phí tồn kho",
     "reportDate": "Ngày báo cáo"
   },
-  "orderType": {
-    "import": "Nhập kho",
-    "export": "Xuất kho"
-  },
   "soExport": {
     "exportWarehouse": "Kho xuất",
     "exportWarehousePlaceholder": "Chọn kho xuất",
@@ -991,6 +989,36 @@
     "inventoryCalendarDelete": "Xóa lệnh kiểm kê",
     "delete": "Xóa lệnh",
     "movementList": "Danh sách giao dịch"
+  },
+  "warehouseArea": {
+    "title": "Danh sách khu vực kho",
+    "createModalTitle": "Tạo khu vực ",
+    "searchPlaceholder": "Tìm kiếm khu vực theo mã hoặc tên",
+    "orderId": "#",
+    "code": "Mã khu vực",
+    "name": "Tên khu vực",
+    "warehouseName": "Tên kho",
+    "createdAt": "Ngày tạo",
+    "status": "Trạng thái",
+    "actions": "Hành động",
+    "factoryName": "Tên nhà máy",
+    "description": "Mô tả vể khu vực",
+    "meters": "m",
+    "storageSpace": {
+      "title": "Không gian lưu trữ",
+      "long": "Chiều dài",
+      "width": "Chiều rộng",
+      "height": "Chiều cao"
+    },
+    "sortDistance": {
+      "title": "Khoảng cách sắp xếp",
+      "front": "Trước",
+      "behind": "Sau",
+      "left": "Trái",
+      "right": "Phải",
+      "top": "Trên",
+      "bottom": "Dưới"
+    }
   },
   "defineBlock": {
     "title": "Danh sách kiện",

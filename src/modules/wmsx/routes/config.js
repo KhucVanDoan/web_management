@@ -277,6 +277,17 @@ export const ROUTE = {
       TITLE: 'inventoryCalendarEdit',
     },
   },
+  WAREHOUSE_AREA: {
+    LIST: {
+      PATH: '/wmsx/warehouse-area',
+      TITLE: 'warehouseArea',
+    },
+
+    DETAIL: {
+      PATH: '/wmsx/warehouse-area/:id/detail',
+      TITLE: 'warehouseAreaDetail',
+    },
+  },
   IMPORT_MANUFACTURING_ORDER: {
     LIST: {
       PATH: '/wmsx/import-manufacturing-order',

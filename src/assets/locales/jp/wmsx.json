@@ -559,6 +559,43 @@
     "inventoryCost": "在庫コスト",
     "warningInventory": "在庫警告"
   },
+  "warehouseArea": {
+    "title": "倉庫エリア一覧",
+    "createModalTitle": "エリア作成",
+    "orderId": "#",
+    "code": "エリアコード",
+    "name": "エリア名",
+    "warehouseName": "倉庫名",
+    "createdAt": "作成日",
+    "status": "ステータス",
+    "deleteModalTitle": "エリア削除",
+    "confirmDelete": "指定されたエリアを削除します。よろしいですか。削除すると、元に戻すことはできませんので、注意が必要です。",
+    "deleteButton": "エリア削除",
+    "factoryName": "工場名",
+    "description": "エリア説明",
+    "createWarehouseAreaSuccess": "エリア作成に成功しました。",
+    "deleteWarehouseAreaSuccess": "エリア削除に成功しました。",
+    "updateWarehouseAreaSuccess": "エリア更新に成功しました。",
+    "confirmWarehouseAreaSuccess": "エリア確認に成功しました。",
+    "viewModalTitle": "エリア詳細",
+    "updateModalTitle": "エリア編集",
+    "meters": "m",
+    "storageSpace": {
+      "title": "保管スペース",
+      "long": "長辺",
+      "width": "短辺",
+      "height": "厚さ"
+    },
+    "sortDistance": {
+      "title": "配置距離",
+      "front": "前",
+      "behind": "後",
+      "left": "左",
+      "right": "右",
+      "top": "上",
+      "bottom": "下"
+    }
+  },
   "defineBlock": {
     "title": "ブロック一覧",
     "codeInput": "ブロックコードを入力",

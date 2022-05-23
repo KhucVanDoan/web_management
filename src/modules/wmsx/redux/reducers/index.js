@@ -19,6 +19,7 @@ import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import movementManagement from './movements'
 import productionOrder from './production-order'
+import warehouseArea from './warehouse-area'
 import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
@@ -47,6 +48,7 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  warehouseArea,
   importManufacturingOrder,
   defineBlock,
   productionOrder,
