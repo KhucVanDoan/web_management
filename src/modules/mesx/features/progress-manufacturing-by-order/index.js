@@ -251,7 +251,6 @@ const progressManufacturingByOrder = () => {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
-          onFilterChange={setFilters}
           total={progressByOrderList?.meta?.total}
           sort={sort}
           hideSetting

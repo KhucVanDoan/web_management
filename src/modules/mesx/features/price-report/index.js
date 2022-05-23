@@ -193,7 +193,6 @@ const PriceReport = () => {
         title={t('menu.priceReport')}
         rows={priceReport}
         columns={columns}
-        onFilterChange={setFilters}
         onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}

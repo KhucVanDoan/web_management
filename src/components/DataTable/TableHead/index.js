@@ -29,7 +29,7 @@ const TableHead = (props) => {
     columns,
     selected,
     rows,
-    indexCol,
+    uniqKey,
     pageSize,
     reorderable,
   } = props
@@ -69,11 +69,10 @@ const TableHead = (props) => {
   const isSelectedAllCurrentPage = () => {
     return (
       rows.length > 0 &&
-      rows.every(
-        (item) =>
-          !!selected.find(
-            (selectedItem) => selectedItem[indexCol] === item[indexCol],
-          ),
+      rows.every((item) =>
+        selected?.some(
+          (selectedItem) => selectedItem[uniqKey] === item[uniqKey],
+        ),
       )
     )
   }
@@ -83,11 +82,8 @@ const TableHead = (props) => {
    * @returns {bool}
    */
   const isSelectedSomeCurrentPage = () => {
-    const currentPageSelectedRows = rows.filter(
-      (item) =>
-        !!selected.find(
-          (selectedItem) => selectedItem[indexCol] === item[indexCol],
-        ),
+    const currentPageSelectedRows = rows.filter((item) =>
+      selected?.some((selectedItem) => selectedItem[uniqKey] === item[uniqKey]),
     )
     return (
       rows.length > 0 &&

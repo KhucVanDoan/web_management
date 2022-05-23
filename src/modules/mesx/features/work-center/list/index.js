@@ -295,7 +295,6 @@ const WorkCenter = () => {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
