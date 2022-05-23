@@ -2,6 +2,9 @@ import Dashboard from '~/modules/wmsx/features/dashboard'
 import DefineBlockDetail from '~/modules/wmsx/features/define-block/detail'
 import DefineBlockForm from '~/modules/wmsx/features/define-block/form'
 import DefineBlock from '~/modules/wmsx/features/define-block/list'
+import DefineCustomerLevelDetail from '~/modules/wmsx/features/define-customer-level/detail'
+import DefineCustomerLevelForm from '~/modules/wmsx/features/define-customer-level/form'
+import DefineCustomerLevel from '~/modules/wmsx/features/define-customer-level/list'
 import DefineCustomerDetail from '~/modules/wmsx/features/define-customer/detail'
 import DefineCustomerForm from '~/modules/wmsx/features/define-customer/form'
 import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
@@ -532,6 +535,32 @@ const routes = [
             path: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.PATH,
             component: DefineCurrencyUnitDetail,
             isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.TITLE,
+        path: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.PATH,
+        component: DefineCustomerLevel,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.CREATE.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.CREATE.PATH,
+            component: DefineCustomerLevelForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.DETAIL.PATH,
+            component: DefineCustomerLevelDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.EDIT.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.EDIT.PATH,
+            component: DefineCustomerLevelForm,
+            isInSidebar: false,
           },
         ],
       },

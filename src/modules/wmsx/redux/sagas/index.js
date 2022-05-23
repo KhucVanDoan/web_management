@@ -17,6 +17,12 @@ import watchImportCurrencyUnit from './define-currency-unit/import-currency-unit
 import watchRejectCurrencyUnit from './define-currency-unit/reject-currency-unit'
 import watchSearchCurrencyUnits from './define-currency-unit/search-currency-unit'
 import watchUpdateCurrencyUnit from './define-currency-unit/update-currency-unit'
+import watchConfirmCustomerLevel from './define-customer-level/confirm-customer-level'
+import watchCreateCustomerLevel from './define-customer-level/create-customer-level'
+import watchDeleteCustomerLevel from './define-customer-level/delete-customer-level'
+import watchGetCustomerLevelDetails from './define-customer-level/get-customer-level-details'
+import watchSearchCustomerLevels from './define-customer-level/search-customer-levels'
+import watchUpdateCustomerLevel from './define-customer-level/update-customer-level'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
@@ -291,6 +297,13 @@ export default function* sagas() {
     watchUpdatePackage(),
     watchGetPackageDetails(),
 
+    //define-customer-level
+    watchConfirmCustomerLevel(),
+    watchCreateCustomerLevel(),
+    watchDeleteCustomerLevel(),
+    watchSearchCustomerLevels(),
+    watchUpdateCustomerLevel(),
+    watchGetCustomerLevelDetails(),
     // rent warehouse dashboard
     watchGetRentWarehouseDashboardList(),
     // define voucher
