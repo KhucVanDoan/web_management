@@ -19,6 +19,7 @@ import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import movementManagement from './movements'
 import productionOrder from './production-order'
+import voucher from './voucher'
 import warehouseArea from './warehouse-area'
 import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
@@ -53,4 +54,5 @@ export default combineReducers({
   defineBlock,
   productionOrder,
   definePackage,
+  voucher,
 })

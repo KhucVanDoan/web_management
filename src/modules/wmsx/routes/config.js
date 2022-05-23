@@ -400,4 +400,22 @@ export const ROUTE = {
       TITLE: 'definePackageEdit',
     },
   },
+  DEFINE_VOUCHER: {
+    LIST: {
+      PATH: '/wmsx/voucher',
+      TITLE: 'defineVoucher',
+    },
+    CREATE: {
+      PATH: '/wmsx/voucher/create',
+      TITLE: 'defineVoucherCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/voucher/:id/detail',
+      TITLE: 'defineVoucherDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/voucher/:id/edit',
+      TITLE: 'defineVoucherEdit',
+    },
+  },
 }

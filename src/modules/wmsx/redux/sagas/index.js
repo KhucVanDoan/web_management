@@ -96,6 +96,14 @@ import watchGetProductionOrderDetails from './production-order/get-production-or
 import watchRejectProductionOrder from './production-order/reject-production-order'
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchConfirmVoucher from './voucher/confirm-voucher'
+import watchCreateVoucher from './voucher/create-voucher'
+import watchDeleteVoucher from './voucher/delete-voucher'
+import watchGetVoucher from './voucher/get-voucher-detail'
+import watchImportVoucher from './voucher/import-voucher'
+import watchRejectVoucher from './voucher/reject-voucher'
+import watchSearchVouchers from './voucher/search-voucher'
+import watchUpdateVoucher from './voucher/update-voucher'
 import watchGetWarehouseAreaDetail from './warehouse-area/get-warehouse-area-detail.saga'
 import watchSearchWarehouseAreas from './warehouse-area/search-warehouse-areas.saga'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
@@ -281,5 +289,15 @@ export default function* sagas() {
     watchSearchPackages(),
     watchUpdatePackage(),
     watchGetPackageDetails(),
+
+    // define voucher
+    watchConfirmVoucher(),
+    watchCreateVoucher(),
+    watchDeleteVoucher(),
+    watchGetVoucher(),
+    watchImportVoucher(),
+    watchRejectVoucher(),
+    watchSearchVouchers(),
+    watchUpdateVoucher(),
   ])
 }
