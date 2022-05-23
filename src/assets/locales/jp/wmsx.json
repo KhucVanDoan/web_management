@@ -37,6 +37,7 @@
     "productionOrderCreate": "製造指図作成",
     "productionOrderEdit": "製造指図編集",
     "productionOrder": "製造指図登録",
+    "rentWarehouseDashboard": "賃貸倉庫レポート",
     "defineVoucher": "割引コード",
     "defineVoucherCreate": "割引コード作成",
     "defineVoucherDetail": "割引コード詳細",

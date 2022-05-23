@@ -49,6 +49,7 @@ import Inventory from '../features/inventory/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
+import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
 import DefineVoucher from '../features/voucher'
 import DefineVoucherDetail from '../features/voucher/detail'
 import DefineVoucherForm from '../features/voucher/form'
@@ -533,6 +534,12 @@ const routes = [
             isInSidebar: true,
           },
         ],
+      },
+      {
+        name: ROUTE.RENT_WAREHOUSE_DASHBOARD.LIST.TITLE,
+        path: ROUTE.RENT_WAREHOUSE_DASHBOARD.LIST.PATH,
+        component: RentWarehouseDashboard,
+        isInSidebar: true,
       },
       {
         name: ROUTE.DEFINE_VOUCHER.LIST.TITLE,

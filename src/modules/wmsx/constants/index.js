@@ -500,6 +500,29 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
   },
 ]
 
+export const DEFINE_BILL_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineBill.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineBill.waitForPay',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'defineBill.paid',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'defineBill.rejected',
+    color: 'rejected',
+  },
+]
+
 export const DEFINE_VOUCHER_STATUS = {
   PENDING: 0,
   ACTIVE: 1,
