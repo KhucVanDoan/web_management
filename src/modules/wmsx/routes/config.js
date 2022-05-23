@@ -400,6 +400,24 @@ export const ROUTE = {
       TITLE: 'definePackageEdit',
     },
   },
+  DEFINE_CUSTOMER_LEVEL: {
+    LIST: {
+      PATH: '/wmsx/define-customer-level',
+      TITLE: 'defineCustomerLevel',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-customer-level/create',
+      TITLE: 'defineCustomerLevelCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-customer-level/:id/detail',
+      TITLE: 'defineCustomerLevelDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-customer-level/:id/edit',
+      TITLE: 'defineCustomerLevelEdit',
+    },
+  },
   RENT_WAREHOUSE_DASHBOARD: {
     LIST: {
       PATH: '/wmsx/rent-warehouse-dashboard',

@@ -528,6 +528,7 @@ export const DEFINE_VOUCHER_STATUS = {
   ACTIVE: 1,
   DISABLED: 2,
 }
+
 export const SPACE_UNITS = [
   {
     id: 1,
@@ -540,5 +541,33 @@ export const SPACE_UNITS = [
   {
     id: 3,
     name: 'm',
+  },
+]
+
+export const CUSTOMER_LEVEL_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+export const CUSTOMER_LEVEL_STATUS_MAP = {
+  [CUSTOMER_LEVEL_STATUS.PENDING]: 'defineCustomerLevel.pending',
+  [CUSTOMER_LEVEL_STATUS.ACTIVE]: 'defineCustomerLevel.active',
+  [CUSTOMER_LEVEL_STATUS.DISABLED]: 'defineCustomerLevel.disabled',
+}
+export const CUSTOMER_LEVEL_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineCustomerLevel.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineCustomerLevel.active',
+    color: 'active',
+  },
+  {
+    id: 2,
+    text: 'defineCustomerLevel.disabled',
+    color: 'tempLocked',
   },
 ]

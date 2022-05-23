@@ -4,6 +4,7 @@ import commonManagement from './common'
 import defineBlock from './define-block'
 import defineCurrencyUnit from './define-currency-unit'
 import defineCustomer from './define-customer'
+import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
 import defineTemplateShelf from './define-template-shelf'
@@ -55,6 +56,7 @@ export default combineReducers({
   defineBlock,
   productionOrder,
   definePackage,
+  defineCustomerLevel,
   rentWarehouseDashboard,
   voucher,
 })

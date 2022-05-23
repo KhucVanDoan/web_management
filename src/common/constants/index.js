@@ -130,6 +130,14 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 9999999,
   },
+  DISCOUNT: {
+    MIN: 0,
+    MAX: 100,
+  },
+  JOINED_DAY: {
+    MIN: 0,
+    MAX: 99999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
