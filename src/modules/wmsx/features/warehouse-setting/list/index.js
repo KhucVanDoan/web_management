@@ -20,10 +20,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-
-// import FilterForm from './filter-form'
-// import { filterSchema } from './filter-form/schema'
-
 const breadcrumbs = [
   {
     title: 'warehouseSetup',

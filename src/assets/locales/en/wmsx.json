@@ -581,6 +581,43 @@
     "inventoryCost": "Inventory cost",
     "warningInventory": "Inventory warning"
   },
+  "warehouseArea": {
+    "title": "Warehouse sector list",
+    "createModalTitle": "Create warehouse sector",
+    "orderId": "#",
+    "code": "Warehouse sector code",
+    "name": "Warehouse sector name",
+    "warehouseName": "Warehouse name",
+    "createdAt": "Created date",
+    "status": "Status",
+    "deleteModalTitle": "Delete warehouse sector",
+    "confirmDelete": "Are you sure you want to delete this warehouse sector? Warning, you can't undo after confirm delete.",
+    "deleteButton": "Delete warehouse sector",
+    "factoryName": "Factory name",
+    "description": "Warehouse sector description",
+    "createWarehouseAreaSuccess": "Create warehouse sector successfully",
+    "deleteWarehouseAreaSuccess": "Delete warehouse sector successfully",
+    "updateWarehouseAreaSuccess": "Update warehouse sector successfully",
+    "confirmWarehouseAreaSuccess": "Confirm warehouse sector successfully",
+    "viewModalTitle": "Warehouse sector details",
+    "updateModalTitle": "Edit warehouse sector",
+    "meters": "m",
+    "storageSpace": {
+      "title": "Storaging space",
+      "long": "Long",
+      "width": "Width",
+      "height": "Height"
+    },
+    "sortDistance": {
+      "title": "Sort distance",
+      "front": "Front",
+      "behind": "Behind",
+      "left": "Left",
+      "right": "Right",
+      "top": "Above",
+      "bottom": "Under"
+    }
+  },
   "defineBlock": {
     "title": "Block list",
     "codeInput": "Block code input",
