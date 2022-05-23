@@ -499,6 +499,12 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+
+export const DEFINE_VOUCHER_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
 export const SPACE_UNITS = [
   {
     id: 1,

@@ -49,6 +49,9 @@ import Inventory from '../features/inventory/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
+import DefineVoucher from '../features/voucher'
+import DefineVoucherDetail from '../features/voucher/detail'
+import DefineVoucherForm from '../features/voucher/form'
 import WarehouseAreaDetail from '../features/warehouse-area/detail'
 import WarehouseArea from '../features/warehouse-area/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
@@ -527,6 +530,32 @@ const routes = [
             name: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.TITLE,
             path: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.PATH,
             component: DefineCurrencyUnitDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_VOUCHER.LIST.TITLE,
+        path: ROUTE.DEFINE_VOUCHER.LIST.PATH,
+        component: DefineVoucher,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_VOUCHER.CREATE.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.CREATE.PATH,
+            component: DefineVoucherForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VOUCHER.EDIT.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.EDIT.PATH,
+            component: DefineVoucherForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VOUCHER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.DETAIL.PATH,
+            component: DefineVoucherDetail,
             isInSidebar: true,
           },
         ],
