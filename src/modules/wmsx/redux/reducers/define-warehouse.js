@@ -24,6 +24,7 @@ import {
   WMSX_UPDATE_WAREHOUSE_START,
   WMSX_UPDATE_WAREHOUSE_SUCCESS,
   WMSX_RESET_WAREHOUSE_DETAIL_STATE,
+  WMSX_RESET_WAREHOUSE_LIST_STATE,
 } from '../actions/define-warehouse'
 
 const initialState = {
@@ -105,6 +106,11 @@ export default function defineWarehouse(state = initialState, action) {
       return {
         ...state,
         warehouseDetails: {},
+      }
+    case WMSX_RESET_WAREHOUSE_LIST_STATE:
+      return {
+        ...state,
+        warehouseList: [],
       }
     default:
       return state

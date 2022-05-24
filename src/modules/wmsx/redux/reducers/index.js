@@ -28,6 +28,7 @@ import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
 import warehouseSetting from './warehouse-setting'
+import warehouseSpaceReport from './warehouse-space-report'
 import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
 export default combineReducers({
@@ -52,6 +53,7 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  warehouseSpaceReport,
   warehouseArea,
   importManufacturingOrder,
   defineBlock,

@@ -19,6 +19,13 @@
     "warehouseTransferMovementDetail": "倉庫転送統計の詳細",
     "defineCustomer": "顧客登録",
     "warehouseExport": "出庫",
+    "inventoryStatistics": "在庫統計",
+    "warehouseSpaceReport": "フリーロケーション確認"
+  },
+  "warehouseSpaceReport": {
+    "title": "フリーロケーション確認",
+    "factory": "工場",
+    "warehouseName": "倉庫名",
     "rentWarehouseCostManagement": "倉庫賃料管理",
     "defineTypeUnit": "計算単位",
     "typeUnitDetail": "計算単位詳細",

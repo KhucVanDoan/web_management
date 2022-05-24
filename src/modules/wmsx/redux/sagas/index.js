@@ -128,6 +128,8 @@ import watchDeleteWarehouseSetting from './warehouse-setting/delete-warehouse-se
 import watchGetWarehouseSettingDetails from './warehouse-setting/get-detail-warehouse-setting'
 import watchSearchWarehouseSetting from './warehouse-setting/search-warehouse-setting'
 import watchUpdateWarehouseSetting from './warehouse-setting/update-warehouse-setting'
+import watchGetFactories from './warehouse-space-report/get-factories'
+import watchGetDataWarehouseSpaceReport from './warehouse-space-report/search'
 import watchGetWarehouseTransferMovementsDetails from './warehouse-transfer-movements/get-movement-details'
 import watchSearchWarehouseTransferMovements from './warehouse-transfer-movements/search-movements'
 import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer.saga'
@@ -262,6 +264,9 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //warehouse-space-report
+    watchGetFactories(),
+    watchGetDataWarehouseSpaceReport(),
     //warehouse-area
     watchGetWarehouseAreaDetail(),
     watchSearchWarehouseAreas(),
