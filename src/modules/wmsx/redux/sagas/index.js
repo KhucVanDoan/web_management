@@ -58,6 +58,8 @@ import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
 import watchImportVendor from './define-vendor/import-vendor.saga'
 import watchSearchVendors from './define-vendor/search-vendors.saga'
 import watchUpdateVendor from './define-vendor/updata-vendor.saga'
+import watchGetDefineWarehousePallet from './define-warehouse-pallet/get-define-warehouse-pallet.saga'
+import watchSearchDefineWarehousePallet from './define-warehouse-pallet/search-define-warehouse-pallet.saga'
 import watchGetDefineWarehouseShelf from './define-warehouse-shelf/get-define-warehouse-shelf.saga'
 import watchSearchDefineWarehouseShelf from './define-warehouse-shelf/search-define-warehouse-shelf.saga'
 import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
@@ -325,5 +327,8 @@ export default function* sagas() {
     watchRejectVoucher(),
     watchSearchVouchers(),
     watchUpdateVoucher(),
+    //define warehouse pallet
+    watchSearchDefineWarehousePallet(),
+    watchGetDefineWarehousePallet(),
   ])
 }

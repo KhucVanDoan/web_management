@@ -11,6 +11,7 @@ import defineTemplateShelf from './define-template-shelf'
 import defineTypeUnit from './define-type-unit'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
+import defineWarehousePallet from './define-warehouse-pallet'
 import defineWarehouseShelf from './define-warehouse-shelf'
 import importManufacturingOrder from './import-manufacturing-order'
 import inventory from './inventory'
@@ -63,4 +64,5 @@ export default combineReducers({
   defineCustomerLevel,
   rentWarehouseDashboard,
   voucher,
+  defineWarehousePallet,
 })
