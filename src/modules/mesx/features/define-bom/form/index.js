@@ -361,7 +361,7 @@ function BOMForm() {
                         name="itemName"
                         label={t('defineBOM.item.name')}
                         placeholder={t('defineBOM.item.name')}
-                        value={getItemObject(values.itemId)?.name || ''}
+                        value={getItemObject(values.itemId?.id)?.name || ''}
                         required
                         disabled
                       />
