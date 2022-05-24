@@ -151,6 +151,7 @@
     "description": "Mô tả về kệ mẫu",
     "confirmTemplateShelfSuccess": "Xác nhận kệ mẫu thành công",
     "saveTemplateSectorTemplateShelfSuccess": "Lưu kệ trong khu vực mẫu thành công",
+    "addFloorButton": "Thêm tầng",
     "storageSpace": {
       "title": "Không gian lưu trữ",
       "long": "Chiều dài",
@@ -171,7 +172,9 @@
       "weightLoad": "Trọng tải",
       "totalFloorHeightIsOverShelfHeight": "Tổng chiều cao các tầng lớn hơn chiều cao kệ",
       "totalFloorWeightLoadIsOverShelfWeightLoad": "Tổng trọng tải của các tầng lớn hơn trọng tải của kệ"
-    }
+    },
+    "heightNotEqual": "Tổng chiều cao của các tầng phải bằng chiều cao của kệ",
+    "weightNotEqual": "Tổng trọng tải của các tầng phải bằng trọng tải của kệ"
   },
   "inventoryStatus": {
     "pending": "Chờ xác nhận",
