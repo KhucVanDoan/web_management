@@ -42,6 +42,8 @@ import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
 import DefineWarehouse from '../features/define-warehouse'
+import DefineWarehousePalletDetail from '../features/define-warehouse-pallet/detail'
+import DefineWarehousePallet from '../features/define-warehouse-pallet/list'
 import DefineWarehouseShelfDetail from '../features/define-warehouse-shelf/detail'
 import DefineWarehouseShelf from '../features/define-warehouse-shelf/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
@@ -388,6 +390,20 @@ const routes = [
             name: ROUTE.WAREHOUSE_AREA.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,
             component: WarehouseAreaDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_PALLET.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_PALLET.LIST.PATH,
+        component: DefineWarehousePallet,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_PALLET.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_PALLET.DETAIL.PATH,
+            component: DefineWarehousePalletDetail,
             isInSidebar: false,
           },
         ],

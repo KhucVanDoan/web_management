@@ -113,7 +113,9 @@
     "defineVoucher": "Định nghĩa mã giảm giá",
     "defineVoucherCreate": "Tạo Mã giảm giá",
     "defineVoucherDetail": "Chi tiết Mã giảm giá",
-    "defineVoucherEdit": "Sửa Mã giảm giá"
+    "defineVoucherEdit": "Sửa Mã giảm giá",
+    "defineWarehousePallet": "Định nghĩa tầng",
+    "defineWarehousePalletDetail": "Chi tiết tầng"
   },
   "warehouseSpaceReport": {
     "title": "Kiểm tra khoảng trống kho",
@@ -1445,5 +1447,35 @@
     "disabled": "Vô hiệu hóa",
     "createdBy": "Người tạo",
     "createdAt": "Ngày tạo"
+  },
+  "defineWarehousePallet": {
+    "title": "Danh sách tầng",
+    "code": "Mã tầng",
+    "name": "Tên tầng",
+    "warehouse": "Tên kho",
+    "warehouseArea": "Tên khu vực",
+    "warehouseShelf": "Tên kệ",
+    "status": "Trạng thái",
+    "action": "Hành động",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
+    "actions": "Hành động",
+    "viewTitle": "Chi tiết tầng",
+    "storageSpace": "Không gian lưu trữ",
+    "top": "Trên",
+    "bottom": "Dưới",
+    "load": "Chịu trọng lượng tối đa",
+    "kilograms": "Kg",
+    "sortDistance": "Khoảng cách sắp xếp",
+    "description": "Mô tả về tầng",
+    "width": "Chiều rộng",
+    "height": "Chiều cao",
+    "long": "Chiều dài",
+    "meters": "m",
+    "front": "Trước",
+    "behind": "Sau",
+    "left": "Trái",
+    "right": "Phải",
+    "above": "Trên",
+    "under": "Dưới"
   }
 }
