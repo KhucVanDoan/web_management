@@ -450,43 +450,36 @@ export const WAREHOUSE_EXPORT_STATUS_OPTIONS = [
 ]
 
 export const INVENTORY_CALENDAR_STATUS = {
-  PENDING: 0,
-  CONFIRMED: 1,
-  IN_PROGRESS: 2,
-  APPROVED: 3,
+  PENDING: 1,
+  CONFIRMED: 2,
+  IN_PROGRESS: 5,
   COMPLETED: 4,
-  REJECTED: 5,
+  REJECTED: 3,
 }
 
 export const INVENTORY_CALENDAR_STATUS_MAP = {
   [ORDER_STATUS.PENDING]: 'orderStatus.pending',
   [ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
   [ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
-  [ORDER_STATUS.APPROVED]: 'orderStatus.approved',
   [ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
   [ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
 }
 
 export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
   {
-    id: 0,
+    id: 1,
     text: 'orderStatus.pending',
     color: 'pending',
   },
   {
-    id: 1,
+    id: 2,
     text: 'orderStatus.confirmed',
     color: 'confirmed',
   },
   {
-    id: 2,
+    id: 5,
     text: 'orderStatus.inProgress',
     color: 'inProgress',
-  },
-  {
-    id: 3,
-    text: 'orderStatus.approved',
-    color: 'approved',
   },
   {
     id: 4,
@@ -494,7 +487,7 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
     color: 'completed',
   },
   {
-    id: 5,
+    id: 3,
     text: 'orderStatus.rejected',
     color: 'rejected',
   },
