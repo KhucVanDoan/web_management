@@ -6,11 +6,15 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },
   WAREHOUSE_MANAGEMENT: {
     TITLE: 'warehouseManagement',
+  },
+  RENT_WAREHOUSE_COST_MANAGEMENT: {
+    TITLE: 'rentWarehouseCostManagement',
   },
   INVENTORY: {
     LIST: {
@@ -50,7 +54,6 @@ export const ROUTE = {
       TITLE: 'defineTemplateShelfEdit',
     },
   },
-
   WAREHOUSE_SETTING: {
     LIST: {
       PATH: '/wmsx/warehouse-setting',
@@ -111,7 +114,6 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
-
   WAREHOUSE_REPORT_MANAGEMENT: {
     PATH: '/wmsx/warehouse-report-management',
     TITLE: 'warehouseReportManagement',
@@ -217,6 +219,28 @@ export const ROUTE = {
     PATH: '/wmsx/inventory-statistics',
     TITLE: 'inventoryStatistics',
   },
+  COMMAND_MANAGEMENT: {
+    PATH: '/wmsx/command-management',
+    TITLE: 'commandManagement',
+  },
+  WAREHOUSE_TRANSFERS: {
+    LIST: {
+      PATH: '/wmsx/warehouse-transfer',
+      TITLE: 'warehouseTransfers',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-transfer/create',
+      TITLE: 'warehouseTransfersCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-transfer/:id/details',
+      TITLE: 'warehouseTransfersDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-transfer/:id/edit',
+      TITLE: 'warehouseTransfersEdit',
+    },
+  },
   DEFINE_CUSTOMER: {
     LIST: {
       PATH: '/wmsx/define-customer',
@@ -251,6 +275,171 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/inventory-calendar/:id/edit',
       TITLE: 'inventoryCalendarEdit',
+    },
+  },
+  WAREHOUSE_AREA: {
+    LIST: {
+      PATH: '/wmsx/warehouse-area',
+      TITLE: 'warehouseArea',
+    },
+
+    DETAIL: {
+      PATH: '/wmsx/warehouse-area/:id/detail',
+      TITLE: 'warehouseAreaDetail',
+    },
+  },
+  IMPORT_MANUFACTURING_ORDER: {
+    LIST: {
+      PATH: '/wmsx/import-manufacturing-order',
+      TITLE: 'importManufacturingOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/import-manufacturing-order/create',
+      TITLE: 'createImportManufacturingOrder',
+    },
+    EDIT: {
+      PATH: '/wmsx/import-manufacturing-order/:id/edit',
+      TITLE: 'editImportManufacturingOrder',
+    },
+    DETAIL: {
+      PATH: '/wmsx/import-manufacturing-order/:id/detail',
+      TITLE: 'importManufacturingOrderDetail',
+    },
+    MOVEMENTS: {
+      PATH: '/wmsx/import-manufacturing-order/movements/:id',
+      TITLE: 'importManufacturingOrderMovement',
+    },
+  },
+  DEFINE_BLOCK: {
+    LIST: {
+      PATH: '/wmsx/define-block',
+      TITLE: 'defineBlock',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-block/create',
+      TITLE: 'defineBlockCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-block/:id/detail',
+      TITLE: 'defineBlockDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-block/:id/edit',
+      TITLE: 'defineBlockEdit',
+    },
+  },
+  PRODUCTION_ORDER: {
+    LIST: {
+      PATH: '/wmsx/production-orders',
+      TITLE: 'productionOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/production-orders/create',
+      TITLE: 'productionOrderCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/production-orders/:id/detail',
+      TITLE: 'productionOrderDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/production-orders/:id/edit',
+      TITLE: 'productionOrderEdit',
+    },
+  },
+  TYPE_UNIT: {
+    LIST: {
+      PATH: '/wmsx/type-unit',
+      TITLE: 'defineTypeUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/type-unit/create',
+      TITLE: 'typeUnitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/type-unit/:id/detail',
+      TITLE: 'typeUnitDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/type-unit/:id/edit',
+      TITLE: 'typeUnitEdit',
+    },
+  },
+  DEFINE_CURRENCY_UNIT: {
+    LIST: {
+      PATH: '/wmsx/currency-unit',
+      TITLE: 'defineCurrencyUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/currency-unit/create',
+      TITLE: 'createCurrencyUnit',
+    },
+    EDIT: {
+      PATH: '/wmsx/currency-unit/:id/edit',
+      TITLE: 'editCurrencyUnit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/currency-unit/:id/detail',
+      TITLE: 'currencyUnitDetail',
+    },
+  },
+  DEFINE_PACKAGE: {
+    LIST: {
+      PATH: '/wmsx/define-package',
+      TITLE: 'definePackage',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-package/create',
+      TITLE: 'definePackageCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-package/:id/detail',
+      TITLE: 'definePackageDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-package/:id/edit',
+      TITLE: 'definePackageEdit',
+    },
+  },
+  DEFINE_CUSTOMER_LEVEL: {
+    LIST: {
+      PATH: '/wmsx/define-customer-level',
+      TITLE: 'defineCustomerLevel',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-customer-level/create',
+      TITLE: 'defineCustomerLevelCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-customer-level/:id/detail',
+      TITLE: 'defineCustomerLevelDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-customer-level/:id/edit',
+      TITLE: 'defineCustomerLevelEdit',
+    },
+  },
+  RENT_WAREHOUSE_DASHBOARD: {
+    LIST: {
+      PATH: '/wmsx/rent-warehouse-dashboard',
+      TITLE: 'rentWarehouseDashboard',
+    },
+  },
+  DEFINE_VOUCHER: {
+    LIST: {
+      PATH: '/wmsx/voucher',
+      TITLE: 'defineVoucher',
+    },
+    CREATE: {
+      PATH: '/wmsx/voucher/create',
+      TITLE: 'defineVoucherCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/voucher/:id/detail',
+      TITLE: 'defineVoucherDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/voucher/:id/edit',
+      TITLE: 'defineVoucherEdit',
     },
   },
 }

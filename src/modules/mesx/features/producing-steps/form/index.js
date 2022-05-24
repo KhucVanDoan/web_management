@@ -175,9 +175,11 @@ function ProducingStepForm() {
       false,
     inputQc: Boolean(details?.inputQc?.qcCriteriaId) || false,
     outputQc: Boolean(details?.outputQc?.qcCriteriaId) || false,
-    qcCriteriaInput: details?.inputQc || null,
+    qcCriteriaInput:
+      { ...details?.inputQc, id: details?.inputQc?.qcCriteriaId } || null,
     timeQcInput: details?.inputQc?.itemPerMemberTime || null,
-    qcCriteriaOutput: details?.outputQc || null,
+    qcCriteriaOutput:
+      { ...details?.outputQc, id: details?.outputQc?.qcCriteriaId } || null,
     timeQcOutput: details?.outputQc?.itemPerMemberTime || null,
   }
 
@@ -370,7 +372,7 @@ function ProducingStepForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => opt?.name || opt?.qcName}
                         disabled={!values.inputQc}
                         required={values.inputQc}
                       />
@@ -432,7 +434,7 @@ function ProducingStepForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
+                        getOptionLabel={(opt) => opt?.name || opt?.qcName}
                         disabled={!values.outputQc}
                         required={values.outputQc}
                       />

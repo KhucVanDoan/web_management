@@ -151,12 +151,11 @@ function OutputQuality() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         sort={sort}
         tableSettingKey="qcOutput"
-        indexCol="rowNumber"
+        uniqKey="rowNumber"
         filters={{
           form: <OutputQualityFilterForm />,
           values: filters,

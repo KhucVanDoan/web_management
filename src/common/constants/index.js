@@ -130,6 +130,14 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0,
     MAX: 9999999,
   },
+  DISCOUNT: {
+    MIN: 0,
+    MAX: 100,
+  },
+  JOINED_DAY: {
+    MIN: 0,
+    MAX: 99999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
@@ -251,3 +259,8 @@ export const INVENTORY_STATUS_OPTIONS = [
   { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const MATERIAL_CODE = '00'
+
+export const ENUM_BOOLEAN = {
+  true: 1,
+  false: 0,
+}

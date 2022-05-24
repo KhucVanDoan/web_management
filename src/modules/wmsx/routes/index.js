@@ -1,13 +1,25 @@
 import Dashboard from '~/modules/wmsx/features/dashboard'
+import DefineBlockDetail from '~/modules/wmsx/features/define-block/detail'
+import DefineBlockForm from '~/modules/wmsx/features/define-block/form'
+import DefineBlock from '~/modules/wmsx/features/define-block/list'
+import DefineCustomerLevelDetail from '~/modules/wmsx/features/define-customer-level/detail'
+import DefineCustomerLevelForm from '~/modules/wmsx/features/define-customer-level/form'
+import DefineCustomerLevel from '~/modules/wmsx/features/define-customer-level/list'
 import DefineCustomerDetail from '~/modules/wmsx/features/define-customer/detail'
 import DefineCustomerForm from '~/modules/wmsx/features/define-customer/form'
 import DefineCustomer from '~/modules/wmsx/features/define-customer/list'
 import DefineDetailDetail from '~/modules/wmsx/features/define-detail/detail'
 import DefineDetailForm from '~/modules/wmsx/features/define-detail/form'
 import DefineDetail from '~/modules/wmsx/features/define-detail/list'
+import DefinePackageDetail from '~/modules/wmsx/features/define-package/detail'
+import DefinePackageForm from '~/modules/wmsx/features/define-package/form'
+import DefinePackage from '~/modules/wmsx/features/define-package/list'
 import DefineTemplateShelfDetail from '~/modules/wmsx/features/define-template-shelf/detail'
 import DefineTemplateShelfForm from '~/modules/wmsx/features/define-template-shelf/form'
 import DefineTemplateShelf from '~/modules/wmsx/features/define-template-shelf/list'
+import ImportManufacturingOrderDetail from '~/modules/wmsx/features/import-manufacturing-order/detail'
+import ImportManufacturingOrderForm from '~/modules/wmsx/features/import-manufacturing-order/form'
+import ImportManufacturingOrder from '~/modules/wmsx/features/import-manufacturing-order/list'
 import InventoryCalendarDetail from '~/modules/wmsx/features/inventory-calendar/detail'
 import InventoryCalendarForm from '~/modules/wmsx/features/inventory-calendar/form'
 import InventoryCalendar from '~/modules/wmsx/features/inventory-calendar/list'
@@ -20,6 +32,12 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
+import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
+import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefineTypeUnitDetail from '../features/define-type-unit/detail'
+import DefineTypeUnitForm from '../features/define-type-unit/form'
+import DefineTypeUnit from '../features/define-type-unit/list'
 import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
@@ -31,6 +49,15 @@ import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
 import InventoryDetail from '../features/inventory/detail'
 import Inventory from '../features/inventory/list'
+import ProductionOrder from '../features/production-orders'
+import ProductionOrderDetail from '../features/production-orders/detail'
+import ProductionOrderForm from '../features/production-orders/form'
+import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
+import DefineVoucher from '../features/voucher'
+import DefineVoucherDetail from '../features/voucher/detail'
+import DefineVoucherForm from '../features/voucher/form'
+import WarehouseAreaDetail from '../features/warehouse-area/detail'
+import WarehouseArea from '../features/warehouse-area/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
@@ -38,6 +65,9 @@ import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
+import warehouseTransferDetail from '../features/warehouse-transfer/detail'
+import warehouseTransferForm from '../features/warehouse-transfer/form'
+import warehouseTransfer from '../features/warehouse-transfer/list'
 import { ROUTE } from './config'
 const routes = [
   {
@@ -46,6 +76,90 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.DEFINE_CATEGORY.TITLE,
+    icon: 'home',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFINE_DETAIL.LIST.TITLE,
+        path: ROUTE.DEFINE_DETAIL.LIST.PATH,
+        component: DefineDetail,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_DETAIL.CREATE.TITLE,
+            path: ROUTE.DEFINE_DETAIL.CREATE.PATH,
+            component: DefineDetailForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_DETAIL.DETAIL.TITLE,
+            path: ROUTE.DEFINE_DETAIL.DETAIL.PATH,
+            component: DefineDetailDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_DETAIL.EDIT.TITLE,
+            path: ROUTE.DEFINE_DETAIL.EDIT.PATH,
+            component: DefineDetailForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_BLOCK.LIST.TITLE,
+        path: ROUTE.DEFINE_BLOCK.LIST.PATH,
+        component: DefineBlock,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BLOCK.CREATE.TITLE,
+            path: ROUTE.DEFINE_BLOCK.CREATE.PATH,
+            component: DefineBlockForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BLOCK.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BLOCK.DETAIL.PATH,
+            component: DefineBlockDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BLOCK.EDIT.TITLE,
+            path: ROUTE.DEFINE_BLOCK.EDIT.PATH,
+            component: DefineBlockForm,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PACKAGE.LIST.TITLE,
+        path: ROUTE.DEFINE_PACKAGE.LIST.PATH,
+        component: DefinePackage,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PACKAGE.CREATE.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.CREATE.PATH,
+            component: DefinePackageForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PACKAGE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.DETAIL.PATH,
+            component: DefinePackageDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PACKAGE.EDIT.TITLE,
+            path: ROUTE.DEFINE_PACKAGE.EDIT.PATH,
+            component: DefinePackageForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.ORDER_MANAGEMENT.TITLE,
@@ -74,6 +188,90 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.TITLE,
+        path: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.PATH,
+        component: ImportManufacturingOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.PATH,
+            component: ImportManufacturingOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.DETAIL.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.DETAIL.PATH,
+            component: ImportManufacturingOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.PATH,
+            component: ImportManufacturingOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.PATH,
+            component: ImportManufacturingOrderDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_TRANSFERS.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
+        component: warehouseTransfer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.CREATE.PATH,
+            component: warehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH,
+            component: warehouseTransferForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.PATH,
+            component: warehouseTransferDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.PRODUCTION_ORDER.LIST.TITLE,
+        path: ROUTE.PRODUCTION_ORDER.LIST.PATH,
+        component: ProductionOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.PRODUCTION_ORDER.CREATE.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.CREATE.PATH,
+            component: ProductionOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.DETAIL.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.DETAIL.PATH,
+            component: ProductionOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.EDIT.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.EDIT.PATH,
+            component: ProductionOrderForm,
             isInSidebar: false,
           },
         ],
@@ -163,6 +361,20 @@ const routes = [
           },
         ],
       },
+      {
+        name: ROUTE.WAREHOUSE_AREA.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_AREA.LIST.PATH,
+        component: WarehouseArea,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_AREA.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,
+            component: WarehouseAreaDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
     ],
   },
   {
@@ -207,39 +419,6 @@ const routes = [
         path: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.DETAIL.PATH,
         component: WarehouseTransferMovementsDetail,
         isInSidebar: false,
-      },
-    ],
-  },
-  {
-    name: ROUTE.DEFINE_CATEGORY.TITLE,
-    icon: 'home',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.DEFINE_DETAIL.LIST.TITLE,
-        path: ROUTE.DEFINE_DETAIL.LIST.PATH,
-        component: DefineDetail,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_DETAIL.CREATE.TITLE,
-            path: ROUTE.DEFINE_DETAIL.CREATE.PATH,
-            component: DefineDetailForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_DETAIL.DETAIL.TITLE,
-            path: ROUTE.DEFINE_DETAIL.DETAIL.PATH,
-            component: DefineDetailDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_DETAIL.EDIT.TITLE,
-            path: ROUTE.DEFINE_DETAIL.EDIT.PATH,
-            component: DefineDetailForm,
-            isInSidebar: false,
-          },
-        ],
       },
     ],
   },
@@ -299,6 +478,123 @@ const routes = [
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.RENT_WAREHOUSE_COST_MANAGEMENT.TITLE,
+    isInSidebar: true,
+    icon: 'home',
+    subMenu: [
+      {
+        name: ROUTE.TYPE_UNIT.LIST.TITLE,
+        path: ROUTE.TYPE_UNIT.LIST.PATH,
+        component: DefineTypeUnit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TYPE_UNIT.CREATE.TITLE,
+            path: ROUTE.TYPE_UNIT.CREATE.PATH,
+            component: DefineTypeUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_UNIT.EDIT.TITLE,
+            path: ROUTE.TYPE_UNIT.EDIT.PATH,
+            component: DefineTypeUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_UNIT.DETAIL.TITLE,
+            path: ROUTE.TYPE_UNIT.DETAIL.PATH,
+            component: DefineTypeUnitDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CURRENCY_UNIT.LIST.TITLE,
+        path: ROUTE.DEFINE_CURRENCY_UNIT.LIST.PATH,
+        component: DefineCurrencyUnit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.CREATE.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.CREATE.PATH,
+            component: DefineCurrencyUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.EDIT.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.EDIT.PATH,
+            component: DefineCurrencyUnitForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.PATH,
+            component: DefineCurrencyUnitDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.TITLE,
+        path: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.PATH,
+        component: DefineCustomerLevel,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.CREATE.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.CREATE.PATH,
+            component: DefineCustomerLevelForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.DETAIL.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.DETAIL.PATH,
+            component: DefineCustomerLevelDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_CUSTOMER_LEVEL.EDIT.TITLE,
+            path: ROUTE.DEFINE_CUSTOMER_LEVEL.EDIT.PATH,
+            component: DefineCustomerLevelForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.RENT_WAREHOUSE_DASHBOARD.LIST.TITLE,
+        path: ROUTE.RENT_WAREHOUSE_DASHBOARD.LIST.PATH,
+        component: RentWarehouseDashboard,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.DEFINE_VOUCHER.LIST.TITLE,
+        path: ROUTE.DEFINE_VOUCHER.LIST.PATH,
+        component: DefineVoucher,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_VOUCHER.CREATE.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.CREATE.PATH,
+            component: DefineVoucherForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VOUCHER.EDIT.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.EDIT.PATH,
+            component: DefineVoucherForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VOUCHER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_VOUCHER.DETAIL.PATH,
+            component: DefineVoucherDetail,
+            isInSidebar: true,
+          },
+        ],
       },
     ],
   },

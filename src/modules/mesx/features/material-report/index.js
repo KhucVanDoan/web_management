@@ -428,7 +428,6 @@ function MaterialReport() {
           isView={true}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onFilterChange={setFilters}
           onSortChange={setSort}
           onSettingChange={setColumnsSettings}
           total={total}

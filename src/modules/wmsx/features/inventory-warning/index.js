@@ -188,8 +188,7 @@ function InventoryWarning() {
         renderHeaderRight={renderHeaderRight}
       >
         <DataTable
-          //@TODO: <khanh.nguyenvan> work around for indexCol is not uniq
-          indexCol="_"
+          uniqKey=""
           title={t('inventoryWarning.title')}
           rows={inventoryWarningList}
           pageSize={pageSize}
@@ -197,7 +196,6 @@ function InventoryWarning() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onFilterChange={setFilters}
           onSortChange={setSort}
           total={total}
           filters={{
