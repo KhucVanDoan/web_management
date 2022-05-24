@@ -199,7 +199,7 @@ function BOMForm() {
       name: values?.name,
       description: values?.description,
       routingId: values?.routingId?.id,
-      itemId: Number(values?.itemId?.itemId),
+      itemId: Number(values?.itemId?.id),
       bomItems: values?.items?.map((item) => ({
         id: item?.itemId,
         quantity: Number(item?.quantity),
