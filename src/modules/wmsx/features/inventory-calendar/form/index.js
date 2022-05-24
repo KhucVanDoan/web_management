@@ -109,6 +109,7 @@ const InventoryCalendarForm = () => {
     const convertValues = {
       ...values,
       id,
+      warehouseIds: values?.warehouses?.map((w) => w.id),
     }
 
     if (mode === MODAL_MODE.CREATE) {
