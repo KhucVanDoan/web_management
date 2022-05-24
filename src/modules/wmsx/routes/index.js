@@ -42,6 +42,8 @@ import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
 import DefineWarehouse from '../features/define-warehouse'
+import DefineWarehouseShelfDetail from '../features/define-warehouse-shelf/detail'
+import DefineWarehouseShelf from '../features/define-warehouse-shelf/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
 import InventoryLimit from '../features/inventory-limit'
@@ -357,6 +359,20 @@ const routes = [
             name: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.TITLE,
             path: ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.PATH,
             component: DefineTemplateShelfForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_SHELF.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_SHELF.LIST.PATH,
+        component: DefineWarehouseShelf,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_SHELF.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_SHELF.DETAIL.PATH,
+            component: DefineWarehouseShelfDetail,
             isInSidebar: false,
           },
         ],
