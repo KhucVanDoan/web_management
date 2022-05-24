@@ -13,6 +13,72 @@ export const DEFAULT_UNITS = [
   },
 ]
 
+export const TRANSACTION_TYPE_ENUM = {
+  IMPORT: 0,
+  EXPORT: 1,
+}
+
+export const END_OF_DAY = {
+  HOUR: 23,
+  MINUTE: 59,
+  SECOND: 59,
+}
+
+export const START_OF_DAY = {
+  HOUR: 0,
+  MINUTE: 0,
+  SECOND: 0,
+}
+
+export const BOOLEAN_ENUM = {
+  FALSE: '0',
+  TRUE: '1',
+}
+
+export const CODE_SETTINGS = {
+  ITEM: {
+    DOMAIN: 'ITEM',
+    PREFIX: '02',
+    MAX_LENGTH: 7,
+    FILLED_CHARACTER: '0',
+  },
+  BLOCK: {
+    DOMAIN: 'BLOCK',
+    PREFIX: '03',
+    MAX_LENGTH: 12,
+    FILLED_CHARACTER: '0',
+  },
+  PACKAGE: {
+    DOMAIN: 'PACKAGE',
+    PREFIX: '04',
+    MAX_LENGTH: 12,
+    FILLED_CHARACTER: '0',
+  },
+  PRODUCTION_ORDER: {
+    DOMAIN: 'PRODUCTION_ORDER',
+    PREFIX: 'PR',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  PURCHASED_ORDER_IMPORT: {
+    DOMAIN: 'PURCHASED_ORDER_IMPORT',
+    PREFIX: 'PO',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  IMPORT_MANUFACTURING_ORDER: {
+    DOMAIN: 'IMPORT_MANUFACTURING_ORDER',
+    PREFIX: 'IM',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+}
+
+export const QC_CHECK = {
+  TRUE: 1,
+  FALSE: 0,
+}
+
 export const DEFAULT_UNITS_MAP = {
   1: 'cm',
   2: 'dm',
@@ -193,6 +259,17 @@ export const ORDER_STATUS_OPTIONS = [
   },
 ]
 
+export const ORDER_TYPE = [
+  {
+    id: 0,
+    name: 'orderType.import',
+  },
+  {
+    id: 1,
+    name: 'orderType.export',
+  },
+]
+
 export const TRANSFER_STATUS = {
   PENDING: 0,
   COMPLETED: 2,
@@ -212,22 +289,87 @@ export const TRANSFER_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'warehouseTransfer.transferStatus.pending',
+    color: 'pending',
   },
   {
     id: 2,
     text: 'warehouseTransfer.transferStatus.completed',
+    color: 'completed',
   },
   {
     id: 3,
     text: 'warehouseTransfer.transferStatus.rejected',
+    color: 'rejected',
   },
   {
     id: 4,
     text: 'warehouseTransfer.transferStatus.confirmed',
+    color: 'confirmed',
   },
   {
     id: 5,
     text: 'warehouseTransfer.transferStatus.exporting',
+    color: 'exporting',
+  },
+]
+
+export const DEFINE_CURRENCY_UNIT_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const DEFINE_CURRENCY_UNIT_STATUS_MAP = {
+  [DEFINE_CURRENCY_UNIT_STATUS.PENDING]: 'defineCurrencyUnit.pending',
+  [DEFINE_CURRENCY_UNIT_STATUS.ACTIVE]: 'defineCurrencyUnit.active',
+  [DEFINE_CURRENCY_UNIT_STATUS.DISABLED]: 'defineCurrencyUnit.disabled',
+}
+
+export const DEFINE_CURRENCY_UNIT_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineCurrencyUnit.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineCurrencyUnit.active',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'defineCurrencyUnit.disabled',
+    color: 'rejected',
+  },
+]
+
+export const DEFINE_TYPE_UNIT_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const DEFINE_TYPE_UNIT_STATUS_MAP = {
+  [DEFINE_TYPE_UNIT_STATUS.PENDING]: 'defineTypeUnit.pending',
+  [DEFINE_TYPE_UNIT_STATUS.ACTIVE]: 'defineTypeUnit.active',
+  [DEFINE_TYPE_UNIT_STATUS.DISABLED]: 'defineTypeUnit.disabled',
+}
+
+export const DEFINE_TYPE_UNIT_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineTypeUnit.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineTypeUnit.active',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'defineTypeUnit.disabled',
+    color: 'rejected',
   },
 ]
 
@@ -355,5 +497,77 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
     id: 5,
     text: 'orderStatus.rejected',
     color: 'rejected',
+  },
+]
+
+export const DEFINE_BILL_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineBill.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineBill.waitForPay',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'defineBill.paid',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'defineBill.rejected',
+    color: 'rejected',
+  },
+]
+
+export const DEFINE_VOUCHER_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const SPACE_UNITS = [
+  {
+    id: 1,
+    name: 'cm',
+  },
+  {
+    id: 2,
+    name: 'dm',
+  },
+  {
+    id: 3,
+    name: 'm',
+  },
+]
+
+export const CUSTOMER_LEVEL_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+export const CUSTOMER_LEVEL_STATUS_MAP = {
+  [CUSTOMER_LEVEL_STATUS.PENDING]: 'defineCustomerLevel.pending',
+  [CUSTOMER_LEVEL_STATUS.ACTIVE]: 'defineCustomerLevel.active',
+  [CUSTOMER_LEVEL_STATUS.DISABLED]: 'defineCustomerLevel.disabled',
+}
+export const CUSTOMER_LEVEL_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineCustomerLevel.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineCustomerLevel.active',
+    color: 'active',
+  },
+  {
+    id: 2,
+    text: 'defineCustomerLevel.disabled',
+    color: 'tempLocked',
   },
 ]

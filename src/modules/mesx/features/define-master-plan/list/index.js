@@ -453,14 +453,6 @@ const DefineMasterPlan = () => {
   }
 
   /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  const onFilterChange = (filters) => {
-    setFilters(filters)
-  }
-
-  /**
    * Handle change sort
    * @param {object} sort
    */
@@ -596,7 +588,7 @@ const DefineMasterPlan = () => {
           values: filters,
           validationSchema: validationSchema(t),
           defaultValue: DEFAULT_FILTERS,
-          onApply: onFilterChange,
+          onApply: setFilters,
         }}
       />
       <Dialog

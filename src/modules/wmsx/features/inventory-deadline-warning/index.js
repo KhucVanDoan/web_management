@@ -193,8 +193,7 @@ function InventoryDeadlineWarning() {
         loading={isLoading}
       >
         <DataTable
-          //@TODO: <khanh.nguyenvan> work around for indexCol is not uniq
-          indexCol="_"
+          uniqKey=""
           title={t('inventoryDeadlineWarning.title')}
           rows={inventoryDeadlineWarningList}
           pageSize={pageSize}
@@ -202,7 +201,6 @@ function InventoryDeadlineWarning() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onFilterChange={setFilters}
           onSortChange={setSort}
           total={total}
           filters={{

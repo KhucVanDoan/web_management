@@ -1,5 +1,28 @@
 import { all } from 'redux-saga/effects'
 
+import watchGetSupplyRequest from './common/get-all-supply-request'
+import watchGetItemQualityPoint from './common/get-item-quality-point'
+import watchGetItems from './common/get-items'
+import watchGetWarehouses from './common/get-warehouses'
+import watchCreateBlock from './define-block/create-block'
+import watchDeleteBlock from './define-block/delete-block'
+import watchGetBlockDetails from './define-block/get-block-details'
+import watchSearchBlocks from './define-block/search-blocks'
+import watchUpdateBlock from './define-block/update-block'
+import watchConfirmCurrencyUnit from './define-currency-unit/confirm-currency-unit'
+import watchCreateCurrencyUnit from './define-currency-unit/create-currency-unit'
+import watchDeleteCurrencyUnit from './define-currency-unit/delete-currency-unit'
+import watchGetCurrencyUnitDetails from './define-currency-unit/get-currency-unit-details'
+import watchImportCurrencyUnit from './define-currency-unit/import-currency-unit'
+import watchRejectCurrencyUnit from './define-currency-unit/reject-currency-unit'
+import watchSearchCurrencyUnits from './define-currency-unit/search-currency-unit'
+import watchUpdateCurrencyUnit from './define-currency-unit/update-currency-unit'
+import watchConfirmCustomerLevel from './define-customer-level/confirm-customer-level'
+import watchCreateCustomerLevel from './define-customer-level/create-customer-level'
+import watchDeleteCustomerLevel from './define-customer-level/delete-customer-level'
+import watchGetCustomerLevelDetails from './define-customer-level/get-customer-level-details'
+import watchSearchCustomerLevels from './define-customer-level/search-customer-levels'
+import watchUpdateCustomerLevel from './define-customer-level/update-customer-level'
 import watchCreateCustomer from './define-customer/create-customer'
 import watchDeleteCustomer from './define-customer/delete-customer'
 import watchGetCustomerDetails from './define-customer/get-customer-details'
@@ -12,11 +35,23 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchCreatePackage from './define-package/create-package'
+import watchDeletePackage from './define-package/delete-package'
+import watchGetPackageDetails from './define-package/get-package-details'
+import watchSearchPackages from './define-package/search-packages'
+import watchUpdatePackage from './define-package/update-package'
 import watchCreateTemplateShelf from './define-template-shelf/create-template-shelf'
 import watchDeleteTemplateShelf from './define-template-shelf/delete-template-shelf'
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
 import watchSearchTemplateShelfs from './define-template-shelf/search-template-shelfs'
 import watchUpdateTemplateShelf from './define-template-shelf/update-template-shelf'
+import watchConfirmTypeUnit from './define-type-unit/confirm-define-type-unit'
+import watchCreateTypeUnit from './define-type-unit/create-define-type-unit'
+import watchDeleteTypeUnit from './define-type-unit/delete-define-type-unit'
+import watchGetTypeUnitDetails from './define-type-unit/get-define-type-unit-details'
+import watchImportTypeUnit from './define-type-unit/import-type-unit'
+import watchSearchTypeUnits from './define-type-unit/search-define-type-units'
+import watchUpdateTypeUnit from './define-type-unit/update-define-type-unit'
 import watchCreateVendor from './define-vendor/create-vendor.saga'
 import watchDeleteVendor from './define-vendor/delete-vendor.saga'
 import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
@@ -30,6 +65,14 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchImportWarehouse from './define-warehouse/import-warehouse'
 import watchSearchWarehouses from './define-warehouse/search-warehouses'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmImportManufacturingOrder from './import-manufacturing-order/confirm-import-manufacturing-order'
+import watchCreateImportManufacturingOrder from './import-manufacturing-order/create-import-manufacturing-order'
+import watchDeleteImportManufacturingOrder from './import-manufacturing-order/delete-import-manufacturing-order'
+import watchGetImportManufacturingOrderDetails from './import-manufacturing-order/get-import-manufacturing-order'
+import watchGetLotNumberList from './import-manufacturing-order/get-lot-number-list'
+import watchRejectImportManufacturingOrder from './import-manufacturing-order/reject-import-manufacturing-order'
+import watchSearchImportManufacturingOrders from './import-manufacturing-order/search-import-manufacturing-order'
+import watchUpdateImportManufacturingOrder from './import-manufacturing-order/update-import-manufacturing-order'
 import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
 import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
 import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
@@ -50,6 +93,26 @@ import watchGetWarehouseType from './inventory/get-warehouse-types'
 import watchSearchInventory from './inventory/search-inventory'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements.saga'
+import watchConfirmProductionOrder from './production-order/confirm-production-order'
+import watchCreateProductionOrder from './production-order/create-production-order'
+import watchDeleteProductionOrder from './production-order/delete-production-order'
+import watchGetExportLotNumber from './production-order/get-export-lot-number'
+import watchGetImportLotNumber from './production-order/get-import-lot-number'
+import watchGetProductionOrderDetails from './production-order/get-production-order-details'
+import watchRejectProductionOrder from './production-order/reject-production-order'
+import watchSearchProductionOrders from './production-order/search-production-orders'
+import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchConfirmVoucher from './voucher/confirm-voucher'
+import watchCreateVoucher from './voucher/create-voucher'
+import watchDeleteVoucher from './voucher/delete-voucher'
+import watchGetVoucher from './voucher/get-voucher-detail'
+import watchImportVoucher from './voucher/import-voucher'
+import watchRejectVoucher from './voucher/reject-voucher'
+import watchSearchVouchers from './voucher/search-voucher'
+import watchUpdateVoucher from './voucher/update-voucher'
+import watchGetWarehouseAreaDetail from './warehouse-area/get-warehouse-area-detail.saga'
+import watchSearchWarehouseAreas from './warehouse-area/search-warehouse-areas.saga'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
@@ -65,12 +128,27 @@ import watchSearchWarehouseSetting from './warehouse-setting/search-warehouse-se
 import watchUpdateWarehouseSetting from './warehouse-setting/update-warehouse-setting'
 import watchGetWarehouseTransferMovementsDetails from './warehouse-transfer-movements/get-movement-details'
 import watchSearchWarehouseTransferMovements from './warehouse-transfer-movements/search-movements'
+import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer.saga'
+import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer.saga'
+import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer.saga'
+import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item-warehouse-stock.saga'
+import watchGetLotNumberListWarehouseTransfer from './warehouse-transfer/get-lot-number-list.saga'
+import watchGetStockByItemAndLotNumber from './warehouse-transfer/get-stock-by-item-and-lot.saga'
+import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-details.saga'
+import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer.saga'
+import watchSearchWarehouseTransfers from './warehouse-transfer/search-warehouse-transfer.saga'
+import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-transfer.saga'
 
 /**
  * Root saga
  */
 export default function* sagas() {
   yield all([
+    //common
+    watchGetItemQualityPoint(),
+    watchGetItems(),
+    watchGetWarehouses(),
+    watchGetSupplyRequest(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -83,6 +161,23 @@ export default function* sagas() {
     watchGetWarehouseSettingDetails(),
     watchSearchWarehouseSetting(),
     watchUpdateWarehouseSetting(),
+    // rent warehouse cost
+    watchConfirmTypeUnit(),
+    watchCreateTypeUnit(),
+    watchDeleteTypeUnit(),
+    watchGetTypeUnitDetails(),
+    watchImportTypeUnit(),
+    watchSearchTypeUnits(),
+    watchUpdateTypeUnit(),
+
+    watchConfirmCurrencyUnit(),
+    watchCreateCurrencyUnit(),
+    watchDeleteCurrencyUnit(),
+    watchGetCurrencyUnitDetails(),
+    watchImportCurrencyUnit(),
+    watchRejectCurrencyUnit(),
+    watchSearchCurrencyUnits(),
+    watchUpdateCurrencyUnit(),
     // define-detail
     watchCreateDetail(),
     watchDeleteDetail(),
@@ -134,6 +229,17 @@ export default function* sagas() {
     watchGetMovementsDetails(),
     // inventory statistic
     watchSearchInventoryStatistics(),
+    // warehouse transfer
+    watchConfirmWarehouseTransfer(),
+    watchCreateWarehouseTransfer(),
+    watchDeleteWarehouseTransfer(),
+    watchGetListItemWarehouseStock(),
+    watchGetLotNumberListWarehouseTransfer(),
+    watchGetStockByItemAndLotNumber(),
+    watchGetWarehouseTransferDetails(),
+    watchRejectWarehouseTransfer(),
+    watchSearchWarehouseTransfers(),
+    watchUpdateWarehouseTransfer(),
     // define customer
     watchCreateCustomer(),
     watchDeleteCustomer(),
@@ -154,5 +260,60 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //warehouse-area
+    watchGetWarehouseAreaDetail(),
+    watchSearchWarehouseAreas(),
+    // import manufacturing order
+    watchConfirmImportManufacturingOrder(),
+    watchCreateImportManufacturingOrder(),
+    watchUpdateImportManufacturingOrder(),
+    watchSearchImportManufacturingOrders(),
+    watchDeleteImportManufacturingOrder(),
+    watchRejectImportManufacturingOrder(),
+    watchGetImportManufacturingOrderDetails(),
+    watchGetLotNumberList(),
+
+    //define-block
+    watchCreateBlock(),
+    watchDeleteBlock(),
+    watchSearchBlocks(),
+    watchUpdateBlock(),
+    watchGetBlockDetails(),
+    // producion-order
+    watchConfirmProductionOrder(),
+    watchDeleteProductionOrder(),
+    watchCreateProductionOrder(),
+    watchGetExportLotNumber(),
+    watchGetImportLotNumber(),
+    watchGetProductionOrderDetails(),
+    watchRejectProductionOrder(),
+    watchSearchProductionOrders(),
+    watchUpdateProductionOrder(),
+
+    //define-package
+    watchCreatePackage(),
+    watchDeletePackage(),
+    watchSearchPackages(),
+    watchUpdatePackage(),
+    watchGetPackageDetails(),
+
+    //define-customer-level
+    watchConfirmCustomerLevel(),
+    watchCreateCustomerLevel(),
+    watchDeleteCustomerLevel(),
+    watchSearchCustomerLevels(),
+    watchUpdateCustomerLevel(),
+    watchGetCustomerLevelDetails(),
+    // rent warehouse dashboard
+    watchGetRentWarehouseDashboardList(),
+    // define voucher
+    watchConfirmVoucher(),
+    watchCreateVoucher(),
+    watchDeleteVoucher(),
+    watchGetVoucher(),
+    watchImportVoucher(),
+    watchRejectVoucher(),
+    watchSearchVouchers(),
+    watchUpdateVoucher(),
   ])
 }

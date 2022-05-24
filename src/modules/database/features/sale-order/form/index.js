@@ -56,7 +56,8 @@ function SaleOrderForm() {
     id: new Date().getTime(),
     itemId: null,
     quantity: 0,
-    itemPrice: null,
+    price: null,
+    item: null,
   }
 
   const MODE_MAP = {
@@ -96,9 +97,9 @@ function SaleOrderForm() {
       ...values,
       customerId: values?.customerId?.id,
       items: values?.items?.map((item) => ({
-        id: item?.itemId,
+        id: item?.itemId || item?.item?.id,
         quantity: Number(item?.quantity),
-        price: +item?.itemPrice,
+        price: +item?.price,
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -178,12 +179,7 @@ function SaleOrderForm() {
       companyId: saleOrder?.companyId || '',
       orderedAt: saleOrder?.orderedAt || null,
       deadline: saleOrder?.deadline || null,
-      items: saleOrder?.saleOrderDetails?.map((e) => ({
-        id: e?.id,
-        itemId: e?.itemId,
-        quantity: e?.quantity,
-        itemPrice: e?.price,
-      })) || [{ ...DEFAULT_ITEM }],
+      items: saleOrder?.saleOrderDetails || [{ ...DEFAULT_ITEM }],
     }),
     [saleOrder],
   )

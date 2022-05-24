@@ -60,7 +60,7 @@ const TableMaterialsCollapse = (props) => {
   const [sort, setSort] = useState(null)
   const [visibleColumns, setVisibleColumns] = useState([])
   const { tableSetting, updateTableSetting } = useTableSetting()
-  const indexCol = props.indexCol || 'id'
+  const uniqKey = props.uniqKey ?? 'id'
 
   const handleApplySetting = useCallback((cols = []) => {
     setVisibleColumns(cols)
@@ -143,7 +143,7 @@ const TableMaterialsCollapse = (props) => {
           {columns && (
             <TableHead
               classes={classes}
-              indexCol={indexCol}
+              uniqKey={uniqKey}
               pageSize={pageSize}
               rows={rows}
               order={sort?.order}
@@ -166,7 +166,7 @@ const TableMaterialsCollapse = (props) => {
                   <React.Fragment>
                     <TableRow
                       tabIndex={-1}
-                      key={row[indexCol]}
+                      key={row[uniqKey] || index}
                       className={clsx(
                         classes.tableRow,
                         classes.tableRowBorder,
@@ -380,14 +380,13 @@ TableMaterialsCollapse.propsTypes = {
       renderCell: PropTypes.func, // renderCell and replace valueGetter
     }),
   ),
-  indexCol: PropTypes.string,
+  uniqKey: PropTypes.string,
   total: PropTypes.number,
   pageSize: PropTypes.number, // default: 20
   page: PropTypes.number,
   height: PropTypes.number, // default: 500px
   onPageChange: PropTypes.func,
   onPageSizeChange: PropTypes.func,
-  onFilterChange: PropTypes.func,
   hideFooter: PropTypes.bool,
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
