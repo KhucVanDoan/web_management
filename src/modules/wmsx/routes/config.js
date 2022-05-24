@@ -400,6 +400,17 @@ export const ROUTE = {
       TITLE: 'definePackageEdit',
     },
   },
+  WAREHOUSE_SHELF: {
+    LIST: {
+      PATH: '/wmsx/warehouse-shelf',
+      TITLE: 'warehouseShelf',
+    },
+
+    DETAIL: {
+      PATH: '/wmsx/warehouse-shelf/:id/detail',
+      TITLE: 'defineWarehouseShelfDetail',
+    },
+  },
   DEFINE_CUSTOMER_LEVEL: {
     LIST: {
       PATH: '/wmsx/define-customer-level',
