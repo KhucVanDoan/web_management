@@ -65,6 +65,7 @@ import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
+import WarehouseSpaceReport from '../features/warehouse-space-report'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
 import warehouseTransferDetail from '../features/warehouse-transfer/detail'
@@ -493,6 +494,12 @@ const routes = [
         path: ROUTE.INVENTORY_WARNING.PATH,
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.WAREHOUSE_SPACE_REPORT.TITLE,
+        path: ROUTE.WAREHOUSE_SPACE_REPORT.PATH,
+        component: WarehouseSpaceReport,
         isInSidebar: true,
       },
     ],

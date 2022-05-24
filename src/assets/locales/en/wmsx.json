@@ -28,6 +28,13 @@
     "editCurrencyUnit": "Edit currency unit",
     "createCurrencyUnit": "Create currency unit",
     "warehouseExport": "Warehouse export",
+    "inventoryStatistics": "Inventory Statistics",
+    "warehouseSpaceReport": "Warehouse Space Report"
+  },
+  "warehouseSpaceReport": {
+    "title": "Warehouse space report",
+    "factory": "Factory",
+    "warehouseName": "Warehouse name",
     "importManufacturingOrder": "Import Manufacturing Order",
     "importManufacturingOrderDetail": "Import manufacturing order details",
     "createImportManufacturingOrder": "Create import manufacturing order",

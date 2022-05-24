@@ -26,6 +26,10 @@ export const ROUTE = {
       TITLE: 'inventoryDetail',
     },
   },
+  WAREHOUSE_SPACE_REPORT: {
+    PATH: '/wmsx/warehouse-space-report',
+    TITLE: 'warehouseSpaceReport',
+  },
   INVENTORY_STATISTIC: {
     LIST: {
       PATH: '/wmsx/inventory-statistics',

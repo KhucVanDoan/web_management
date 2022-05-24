@@ -32,6 +32,7 @@
     "warehouseSetup": "Thiếp lập kho",
     "inventory": "Thống kê về kiểm kê",
     "inventoryDetail": "Phiếu kiểm kê",
+    "warehouseSpaceReport": "Kiểm tra khoảng trống kho",
     "warehouseManagement": "Quản lý tồn kho",
     "rentWarehouseCostManagement": "Quản lý thuê kho",
     "defineTypeUnit": "Thiết lập đơn vị tính",
@@ -113,6 +114,11 @@
     "defineVoucherCreate": "Tạo Mã giảm giá",
     "defineVoucherDetail": "Chi tiết Mã giảm giá",
     "defineVoucherEdit": "Sửa Mã giảm giá"
+  },
+  "warehouseSpaceReport": {
+    "title": "Kiểm tra khoảng trống kho",
+    "factory": "Nhà máy",
+    "warehouseName": "Tên kho"
   },
   "defineTemplateShelf": {
     "searchPlaceholder": "Tìm kiếm kệ mẫu theo mã hoặc tên",
