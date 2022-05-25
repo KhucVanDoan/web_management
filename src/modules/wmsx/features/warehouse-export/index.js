@@ -79,6 +79,10 @@ function WarehouseExport() {
       headerName: t('movements.importExport.orderName'),
       width: 120,
       sortable: false,
+      renderCell: (params) => {
+        const { order } = params?.row
+        return order?.name || ''
+      },
     },
     {
       field: 'orderType',
@@ -163,7 +167,10 @@ function WarehouseExport() {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, movementType: [1, 3, 5] },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExport(params)
