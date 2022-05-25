@@ -19,7 +19,7 @@ import FilterForm from './form-filters'
 
 const breadcrumbs = [
   {
-    title: 'defineVendor',
+    title: ROUTE.PRODUCTION_INFORMATION_MANAGENMENT.TITLE,
   },
   {
     route: ROUTE.DEFINE_VENDEOR.LIST.PATH,
@@ -70,13 +70,12 @@ function DefineVendor() {
       field: 'supplierCapacity',
       headerName: t('defineVendor.supplierCapacity'),
       width: 200,
-      sortable: true,
     },
     {
       field: 'email',
       headerName: t('defineVendor.email'),
       width: 200,
-      sortable: false,
+      sortable: true,
     },
     {
       field: 'phone',
@@ -89,14 +88,12 @@ function DefineVendor() {
       field: 'fax',
       headerName: t('defineVendor.faxColumn'),
       width: 100,
-      sortable: true,
     },
     {
       field: 'address',
       headerName: t('defineVendor.addressColumn'),
       filterFormat: 'date',
       width: 200,
-      sortable: true,
     },
     {
       field: 'action',
