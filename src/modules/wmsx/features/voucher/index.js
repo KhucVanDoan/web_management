@@ -220,7 +220,6 @@ function DefineVoucher() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         filters={{
