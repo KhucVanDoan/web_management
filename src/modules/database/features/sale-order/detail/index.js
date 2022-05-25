@@ -10,6 +10,7 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
 import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
@@ -17,6 +18,7 @@ import { ROUTE } from '~/modules/database/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
+import TableInfo from '../form/table-info'
 
 function SaleOrderDetail() {
   const history = useHistory()
@@ -153,7 +155,10 @@ function SaleOrderDetail() {
           </Grid>
         </Grid>
         <Box sx={{ mt: 3 }}>
-          <ItemsSettingTable items={saleOrderDetails} mode={mode} />
+          <Tabs list={[t('saleOrder.itemsDetails'), t('saleOrder.itemsInfo')]}>
+            <ItemsSettingTable items={saleOrderDetails} mode={mode} />
+            <TableInfo mode={mode} />
+          </Tabs>
         </Box>
         <ActionBar onBack={backToList} />
       </Page>

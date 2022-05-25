@@ -22,6 +22,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/database/routes/config'
@@ -32,6 +33,7 @@ import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { saleOrderSchema } from './schema'
+import TableInfo from './table-info'
 
 function SaleOrderForm() {
   const { t } = useTranslation(['database'])
@@ -79,7 +81,6 @@ function SaleOrderForm() {
       isGetAll: 1,
     }
     defineBoqAction.searchBOQ(params)
-    // actionCommon.getCustomers()
     if (isUpdate) {
       saleOrderAction.getSaleOrderDetailsById(id)
     }
@@ -359,17 +360,22 @@ function SaleOrderForm() {
             </Grid>
 
             <Box sx={{ mt: 3 }}>
-              <FieldArray
-                name="items"
-                render={(arrayHelpers) => (
-                  <ItemsSettingTable
-                    items={values?.items || []}
-                    mode={mode}
-                    arrayHelpers={arrayHelpers}
-                    setFieldValue={setFieldValue}
-                  />
-                )}
-              />
+              <Tabs
+                list={[t('saleOrder.itemsDetails'), t('saleOrder.itemsInfo')]}
+              >
+                <FieldArray
+                  name="items"
+                  render={(arrayHelpers) => (
+                    <ItemsSettingTable
+                      items={values?.items || []}
+                      mode={mode}
+                      arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
+                    />
+                  )}
+                />
+                <TableInfo items={values?.items || []} mode={mode} />
+              </Tabs>
             </Box>
             {renderActionBar(handleReset)}
           </Form>
