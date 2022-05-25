@@ -40,6 +40,13 @@ import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
+import watchConfirmPaymentType from './define-payment-type/confirm-payment-type.saga'
+import watchCreatePaymentType from './define-payment-type/create-payment-type.saga'
+import watchDeletePaymentType from './define-payment-type/delete-payment-type.saga'
+import watchGetPaymentTypeDetails from './define-payment-type/get-payment-type-details.saga'
+import watchImportPaymentType from './define-payment-type/import-payment-type'
+import watchSearchPaymentTypes from './define-payment-type/search-payment-type.saga'
+import watchUpdatePaymentType from './define-payment-type/update-payment-type.saga'
 import watchCreateTemplateSector from './define-template-sector/create-template-sector'
 import watchDeleteTemplateSector from './define-template-sector/delete-template-sector'
 import watchGetTemplateDetails from './define-template-sector/get-detail-template-sector'
@@ -344,5 +351,13 @@ export default function* sagas() {
     //define warehouse pallet
     watchSearchDefineWarehousePallet(),
     watchGetDefineWarehousePallet(),
+    //define payment type
+    watchConfirmPaymentType(),
+    watchCreatePaymentType(),
+    watchDeletePaymentType(),
+    watchGetPaymentTypeDetails(),
+    watchImportPaymentType(),
+    watchSearchPaymentTypes(),
+    watchUpdatePaymentType(),
   ])
 }

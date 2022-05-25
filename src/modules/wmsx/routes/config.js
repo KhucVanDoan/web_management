@@ -485,4 +485,22 @@ export const ROUTE = {
       TITLE: 'defineVoucherEdit',
     },
   },
+  DEFINE_PAYMENT_TYPE: {
+    LIST: {
+      PATH: '/wmsx/payment-type',
+      TITLE: 'definePaymentType',
+    },
+    CREATE: {
+      PATH: '/wmsx/payment-type/create',
+      TITLE: 'createPaymentType',
+    },
+    DETAIL: {
+      PATH: '/wmsx/payment-type/:id/detail',
+      TITLE: 'paymentTypeDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/payment-type/:id/edit',
+      TITLE: 'editPaymentType',
+    },
+  },
 }

@@ -564,3 +564,20 @@ export const CUSTOMER_LEVEL_STATUS_OPTIONS = [
     color: 'tempLocked',
   },
 ]
+export const DEFINE_PAYMENT_TYPE_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+export const DEFINE_PAYMENT_TYPE_STATUS_MAP = [
+  {
+    id: 0,
+    text: 'definePaymentType.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'definePaymentType.confirmed',
+    color: 'confirmed',
+  },
+]

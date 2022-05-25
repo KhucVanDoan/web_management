@@ -7,6 +7,7 @@ import defineCustomer from './define-customer'
 import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
+import definePaymentType from './define-payment-type'
 import templateSector from './define-template-sector'
 import defineTemplateShelf from './define-template-shelf'
 import defineTypeUnit from './define-type-unit'
@@ -69,4 +70,5 @@ export default combineReducers({
   voucher,
   templateSectorTemplateShelf,
   defineWarehousePallet,
+  definePaymentType,
 })
