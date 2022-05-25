@@ -119,7 +119,11 @@
     "defineVoucherDetail": "Chi tiết Mã giảm giá",
     "defineVoucherEdit": "Sửa Mã giảm giá",
     "defineWarehousePallet": "Định nghĩa tầng",
-    "defineWarehousePalletDetail": "Chi tiết tầng"
+    "defineWarehousePalletDetail": "Chi tiết tầng",
+    "definePaymentType": "Định nghĩa hình thức thanh toán",
+    "createPaymentType": "Tạo hình thức thanh toán",
+    "paymentTypeDetails": "Chi tiết hình thức thanh toán",
+    "editPaymentType": "Sửa hình thức thanh toán"
   },
   "warehouseSpaceReport": {
     "title": "Kiểm tra khoảng trống kho",
@@ -1513,5 +1517,31 @@
     "right": "Phải",
     "above": "Trên",
     "under": "Dưới"
+  },
+  "definePaymentType": {
+    "title": "Danh sách hình thức thanh toán",
+    "orderNumber": "#",
+    "code": "Mã hình thức thanh toán",
+    "name": "Tên hình thức thanh toán",
+    "createModalTitle": "Tạo hình thức thanh toán",
+    "description": "Mô tả",
+    "addNewInfoField": "Thêm mới trường thông tin",
+    "add": "Thêm",
+    "deleteModalTitle": "Xóa hình thức thanh toán",
+    "confirmModalTitle": "Xác nhận hình thức thanh toán",
+    "confirmBody": "Bạn có muốn xác nhận hình thức thanh toán này không? ",
+    "deleteConfirm": "Bạn có muốn xóa hình thức thanh toán không? Chú ý, bạn không thể hoàn tác khi đồng ý xóa hình thức thanh toán này.",
+    "delete": "Xóa hình thức thanh toán",
+    "duplicate": "Trường này đã tồn tại",
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "disabled": "Vô hiệu hóa",
+    "percentage": "% chiết khấu",
+    "date": "Khoảng thời gian chiết khấu",
+    "createAt": "Ngày tạo",
+    "updateAt": "Ngày sửa",
+    "createdBy": "Người tạo",
+    "updatedBy": "Người sửa",
+    "status": "Trạng thái "
   }
 }

@@ -35,6 +35,9 @@ import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefinePaymentTypeDetail from '../features/define-payment-type/detail'
+import DefinePaymentTypeForm from '../features/define-payment-type/form'
+import DefinePaymentType from '../features/define-payment-type/list'
 import TemplateSectorDetail from '../features/define-template-sector/detail'
 import TemplateSectorForm from '../features/define-template-sector/form'
 import TemplateSector from '../features/define-template-sector/list'
@@ -660,6 +663,32 @@ const routes = [
             name: ROUTE.DEFINE_VOUCHER.DETAIL.TITLE,
             path: ROUTE.DEFINE_VOUCHER.DETAIL.PATH,
             component: DefineVoucherDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PAYMENT_TYPE.LIST.TITLE,
+        path: ROUTE.DEFINE_PAYMENT_TYPE.LIST.PATH,
+        component: DefinePaymentType,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.CREATE.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.CREATE.PATH,
+            component: DefinePaymentTypeForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.EDIT.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.EDIT.PATH,
+            component: DefinePaymentTypeForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.PATH,
+            component: DefinePaymentTypeDetail,
             isInSidebar: true,
           },
         ],
