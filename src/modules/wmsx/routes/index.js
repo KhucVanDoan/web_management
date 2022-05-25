@@ -35,6 +35,9 @@ import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import TemplateSectorDetail from '../features/define-template-sector/detail'
+import TemplateSectorForm from '../features/define-template-sector/form'
+import TemplateSector from '../features/define-template-sector/list'
 import DefineTypeUnitDetail from '../features/define-type-unit/detail'
 import DefineTypeUnitForm from '../features/define-type-unit/form'
 import DefineTypeUnit from '../features/define-type-unit/list'
@@ -310,6 +313,32 @@ const routes = [
             name: ROUTE.WAREHOUSE_SETTING.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_SETTING.DETAIL.PATH,
             component: WarehouseSettingDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.TEMPLATE_SECTOR.LIST.TITLE,
+        path: ROUTE.TEMPLATE_SECTOR.LIST.PATH,
+        component: TemplateSector,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TEMPLATE_SECTOR.CREATE.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.CREATE.PATH,
+            component: TemplateSectorForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.TEMPLATE_SECTOR.EDIT.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.EDIT.PATH,
+            component: TemplateSectorForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TEMPLATE_SECTOR.DETAIL.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.DETAIL.PATH,
+            component: TemplateSectorDetail,
             isInSidebar: true,
           },
         ],

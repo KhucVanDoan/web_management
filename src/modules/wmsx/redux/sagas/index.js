@@ -40,6 +40,11 @@ import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
+import watchCreateTemplateSector from './define-template-sector/create-template-sector'
+import watchDeleteTemplateSector from './define-template-sector/delete-template-sector'
+import watchGetTemplateDetails from './define-template-sector/get-detail-template-sector'
+import watchSearchTemplateSector from './define-template-sector/search-template-sector'
+import watchUpdateTemplateSector from './define-template-sector/update-template-sector'
 import watchCreateTemplateShelf from './define-template-shelf/create-template-shelf'
 import watchDeleteTemplateShelf from './define-template-shelf/delete-template-shelf'
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
@@ -107,6 +112,7 @@ import watchRejectProductionOrder from './production-order/reject-production-ord
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf.saga'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
 import watchDeleteVoucher from './voucher/delete-voucher'
@@ -191,6 +197,12 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+    //define-template-sector
+    watchCreateTemplateSector(),
+    watchDeleteTemplateSector(),
+    watchGetTemplateDetails(),
+    watchSearchTemplateSector(),
+    watchUpdateTemplateSector(),
     // define warehouse
     watchConfirmWarehouse(),
     watchCreateWarehouse(),
@@ -327,6 +339,8 @@ export default function* sagas() {
     watchRejectVoucher(),
     watchSearchVouchers(),
     watchUpdateVoucher(),
+    //template sector template shelf
+    watchSaveTemplateSectorTemplateShelf(),
     //define warehouse pallet
     watchSearchDefineWarehousePallet(),
     watchGetDefineWarehousePallet(),
