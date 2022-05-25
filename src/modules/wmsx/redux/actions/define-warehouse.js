@@ -35,6 +35,7 @@ export const WMSX_IMPORT_WAREHOUSE_SUCCESS = 'WMSX_IMPORT_WAREHOUSE_SUCCESS'
 export const WMSX_IMPORT_WAREHOUSE_FAILED = 'WMSX_IMPORT_WAREHOUSE_FAILED'
 export const WMSX_RESET_WAREHOUSE_DETAIL_STATE =
   'WMSX_RESET_WAREHOUSE_DETAIL_STATE'
+export const WMSX_RESET_WAREHOUSE_LIST_STATE = 'WMSX_RESET_WAREHOUSE_LIST_STATE'
 
 /**
  * Search warehouse
@@ -344,6 +345,12 @@ export function resetWarehouseState() {
   }
 }
 
+export function resetWarehouseListState() {
+  return {
+    type: WMSX_RESET_WAREHOUSE_LIST_STATE,
+  }
+}
+
 export default {
   searchWarehouses,
   searchWarehousesSuccess,
@@ -370,4 +377,5 @@ export default {
   importWarehouseSuccess,
   importWarehouseFailed,
   resetWarehouseState,
+  resetWarehouseListState,
 }

@@ -1,6 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
-import { createFilterOptions, Grid, Typography } from '@mui/material'
+import {
+  createFilterOptions,
+  Grid,
+  InputAdornment,
+  Typography,
+} from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
@@ -13,6 +18,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { CUSTOMER_LEVEL_STATUS } from '~/modules/wmsx/constants'
 import useDefineCurrencyUnit from '~/modules/wmsx/redux/hooks/useDefineCurrencyUnit'
 import useDefineCustomerLevel from '~/modules/wmsx/redux/hooks/useDefineCustomerLevel'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -24,6 +30,8 @@ const DefineCustomerLevelForm = () => {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
+  const [minDays, setMinDays] = useState()
+  const [minAmount, setMinAmount] = useState()
 
   const MODE_MAP = {
     [ROUTE.DEFINE_CUSTOMER_LEVEL.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -170,126 +178,166 @@ const DefineCustomerLevelForm = () => {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={defineCustomerLevelSchema(t)}
+            validationSchema={defineCustomerLevelSchema(t, minDays, minAmount)}
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('defineCustomerLevel.code')}
-                      name="code"
-                      placeholder={t('defineCustomerLevel.code')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                      }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      disabled={isUpdate}
-                      required
-                    />
+            {({ handleReset, values }) => {
+              const newMinDays = Number(values.minJoinedDays) + 1
+              const newMinAmount = Number(values.amountFrom) + 1
+              setMinDays(newMinDays)
+              setMinAmount(newMinAmount)
+              return (
+                <Form>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        label={t('defineCustomerLevel.code')}
+                        name="code"
+                        placeholder={t('defineCustomerLevel.code')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        disabled={isUpdate}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="name"
+                        label={t('defineCustomerLevel.name')}
+                        placeholder={t('defineCustomerLevel.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h4">
+                        {t('defineCustomerLevel.date')}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="minJoinedDays"
+                        label={t('defineCustomerLevel.minJoinedDays')}
+                        placeholder={t('defineCustomerLevel.minJoinedDays')}
+                        type="number"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
+                              {t('general:days')}
+                            </InputAdornment>
+                          ),
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="maxJoinedDays"
+                        label={t('defineCustomerLevel.maxJoinedDays')}
+                        placeholder={t('defineCustomerLevel.maxJoinedDays')}
+                        type="number"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
+                              {t('general:days')}
+                            </InputAdornment>
+                          ),
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h4">
+                        {t('defineCustomerLevel.cost')}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="amountFrom"
+                        label={t('defineCustomerLevel.amountFrom')}
+                        placeholder={t('defineCustomerLevel.amountFrom')}
+                        type="number"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="amountTo"
+                        label={t('defineCustomerLevel.amountTo')}
+                        placeholder={t('defineCustomerLevel.amountTo')}
+                        type="number"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="currencyUnitId"
+                        label={t('defineCustomerLevel.unit')}
+                        placeholder={t('defineCustomerLevel.unit')}
+                        options={currencyUnitList.filter(
+                          (unit) =>
+                            unit.status !== CUSTOMER_LEVEL_STATUS.PENDING,
+                        )}
+                        getOptionValue={(opt) => opt?.id || ''}
+                        getOptionLabel={(opt) => opt?.name || opt?.code}
+                        filterOptions={createFilterOptions({
+                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                        })}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="discount"
+                        label={t('defineCustomerLevel.discount')}
+                        placeholder={t('defineCustomerLevel.discount')}
+                        type="number"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment
+                              position="end"
+                              sx={{ ml: 0, pr: 1 }}
+                            >
+                              %
+                            </InputAdornment>
+                          ),
+                        }}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="description"
+                        label={t('defineCustomerLevel.description')}
+                        placeholder={t('defineCustomerLevel.description')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="name"
-                      label={t('defineCustomerLevel.name')}
-                      placeholder={t('defineCustomerLevel.name')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h4">
-                      {t('defineCustomerLevel.date')}
-                    </Typography>
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="minJoinedDays"
-                      label={t('defineCustomerLevel.minJoinedDays')}
-                      placeholder={t('defineCustomerLevel.minJoinedDays')}
-                      type="number"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="maxJoinedDays"
-                      label={t('defineCustomerLevel.maxJoinedDays')}
-                      placeholder={t('defineCustomerLevel.maxJoinedDays')}
-                      type="number"
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h4">
-                      {t('defineCustomerLevel.cost')}
-                    </Typography>
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="amountFrom"
-                      label={t('defineCustomerLevel.amountFrom')}
-                      placeholder={t('defineCustomerLevel.amountFrom')}
-                      type="number"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="amountTo"
-                      label={t('defineCustomerLevel.amountTo')}
-                      placeholder={t('defineCustomerLevel.amountTo')}
-                      type="number"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="discount"
-                      label={t('defineCustomerLevel.discount')}
-                      placeholder={t('defineCustomerLevel.discount')}
-                      type="number"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="currencyUnitId"
-                      label={t('defineCustomerLevel.unit')}
-                      placeholder={t('defineCustomerLevel.unit')}
-                      options={currencyUnitList}
-                      getOptionValue={(opt) => opt?.id || ''}
-                      getOptionLabel={(opt) => opt?.name || opt?.code}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="description"
-                      label={t('defineCustomerLevel.description')}
-                      placeholder={t('defineCustomerLevel.description')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
+                  {renderActionBar(handleReset)}
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>
