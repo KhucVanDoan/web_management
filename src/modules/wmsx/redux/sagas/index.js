@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
+import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
 import watchCreateBlock from './define-block/create-block'
 import watchDeleteBlock from './define-block/delete-block'
@@ -47,6 +48,14 @@ import watchGetPaymentTypeDetails from './define-payment-type/get-payment-type-d
 import watchImportPaymentType from './define-payment-type/import-payment-type'
 import watchSearchPaymentTypes from './define-payment-type/search-payment-type.saga'
 import watchUpdatePaymentType from './define-payment-type/update-payment-type.saga'
+import watchConfirmService from './define-service/confirm-service'
+import watchCreateService from './define-service/create-service'
+import watchDeleteService from './define-service/delete-service'
+import watchGetAllServicesDetail from './define-service/get-all-services-detail'
+import watchGetServiceDetail from './define-service/get-service-detail'
+import watchRejectService from './define-service/reject-service'
+import watchSearchServices from './define-service/search-services'
+import watchUpdateService from './define-service/update-service'
 import watchCreateTemplateSector from './define-template-sector/create-template-sector'
 import watchDeleteTemplateSector from './define-template-sector/delete-template-sector'
 import watchGetTemplateDetails from './define-template-sector/get-detail-template-sector'
@@ -168,6 +177,7 @@ export default function* sagas() {
     watchGetItems(),
     watchGetWarehouses(),
     watchGetSupplyRequest(),
+    watchGetTypeServices(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -188,6 +198,14 @@ export default function* sagas() {
     watchImportTypeUnit(),
     watchSearchTypeUnits(),
     watchUpdateTypeUnit(),
+    watchConfirmService(),
+    watchCreateService(),
+    watchDeleteService(),
+    watchGetServiceDetail(),
+    watchGetAllServicesDetail(),
+    watchRejectService(),
+    watchSearchServices(),
+    watchUpdateService(),
 
     watchConfirmCurrencyUnit(),
     watchCreateCurrencyUnit(),

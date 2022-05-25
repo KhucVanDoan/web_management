@@ -343,6 +343,36 @@ export const DEFINE_CURRENCY_UNIT_OPTIONS = [
   },
 ]
 
+export const DEFINE_SERVICE_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
+export const DEFINE_SERVICE_STATUS_MAP = {
+  [DEFINE_CURRENCY_UNIT_STATUS.PENDING]: 'defineService.pending',
+  [DEFINE_CURRENCY_UNIT_STATUS.ACTIVE]: 'defineService.active',
+  [DEFINE_CURRENCY_UNIT_STATUS.DISABLED]: 'defineService.disabled',
+}
+
+export const DEFINE_SERVICE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineService.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'defineService.active',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'defineService.disabled',
+    color: 'rejected',
+  },
+]
+
 export const DEFINE_TYPE_UNIT_STATUS = {
   PENDING: 0,
   ACTIVE: 1,

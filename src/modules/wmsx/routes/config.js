@@ -404,6 +404,24 @@ export const ROUTE = {
       TITLE: 'currencyUnitDetail',
     },
   },
+  DEFINE_SERVICE: {
+    LIST: {
+      PATH: '/wmsx/services',
+      TITLE: 'defineService',
+    },
+    CREATE: {
+      PATH: '/wmsx/service/create',
+      TITLE: 'serviceCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/service/:id/detail',
+      TITLE: 'serviceDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/service/:id/edit',
+      TITLE: 'serviceEdit',
+    },
+  },
   DEFINE_PACKAGE: {
     LIST: {
       PATH: '/wmsx/define-package',

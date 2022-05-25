@@ -38,6 +38,9 @@ import DefineCurrencyUnit from '../features/define-currency-unit/list'
 import DefinePaymentTypeDetail from '../features/define-payment-type/detail'
 import DefinePaymentTypeForm from '../features/define-payment-type/form'
 import DefinePaymentType from '../features/define-payment-type/list'
+import DefineServiceDetail from '../features/define-service/detail'
+import DefineServiceForm from '../features/define-service/form'
+import DefineService from '../features/define-service/list'
 import TemplateSectorDetail from '../features/define-template-sector/detail'
 import TemplateSectorForm from '../features/define-template-sector/form'
 import TemplateSector from '../features/define-template-sector/list'
@@ -605,6 +608,32 @@ const routes = [
             name: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.TITLE,
             path: ROUTE.DEFINE_CURRENCY_UNIT.DETAIL.PATH,
             component: DefineCurrencyUnitDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_SERVICE.LIST.TITLE,
+        path: ROUTE.DEFINE_SERVICE.LIST.PATH,
+        component: DefineService,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_SERVICE.CREATE.TITLE,
+            path: ROUTE.DEFINE_SERVICE.CREATE.PATH,
+            component: DefineServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_SERVICE.EDIT.TITLE,
+            path: ROUTE.DEFINE_SERVICE.EDIT.PATH,
+            component: DefineServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_SERVICE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_SERVICE.DETAIL.PATH,
+            component: DefineServiceDetail,
             isInSidebar: true,
           },
         ],

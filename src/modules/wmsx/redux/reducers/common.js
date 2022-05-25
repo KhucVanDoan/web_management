@@ -11,6 +11,9 @@ import {
   WMSX_GET_ALL_SUPPLY_REQUEST_START,
   WMSX_GET_ALL_SUPPLY_REQUEST_SUCCESS,
   WMSX_GET_ALL_SUPPLY_REQUEST_FAILED,
+  WMSX_GET_TYPE_SERVICES_START,
+  WMSX_GET_TYPE_SERVICES_SUCCESS,
+  WMSX_GET_TYPE_SERVICES_FAILED,
 } from '~/modules/wmsx/redux/actions/common'
 
 const initialState = {
@@ -19,6 +22,7 @@ const initialState = {
   warehouseList: [],
   itemQualityPoint: [],
   supplyRequestList: [],
+  typeServiceList: [],
   multipleMessage: '',
 }
 
@@ -42,6 +46,7 @@ export default function commonManagement(state = initialState, action) {
         supplyRequestList: [],
       }
     case WMSX_GET_ITEMS_START:
+    case WMSX_GET_TYPE_SERVICES_START:
     case WMSX_GET_WAREHOUSES_START:
       return {
         ...state,
@@ -87,6 +92,18 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         warehouseList: [],
+        isLoading: false,
+      }
+    case WMSX_GET_TYPE_SERVICES_SUCCESS:
+      return {
+        ...state,
+        typeServiceList: action.payload,
+        isLoading: false,
+      }
+    case WMSX_GET_TYPE_SERVICES_FAILED:
+      return {
+        ...state,
+        typeServiceList: [],
         isLoading: false,
       }
 
