@@ -68,6 +68,12 @@ const warehouseSetting = () => {
       //   fixed: true,
       // },
       {
+        field: 'code',
+        headerName: t('warehouseSetting.code'),
+        width: 150,
+        sortable: true,
+      },
+      {
         field: 'name',
         headerName: t('warehouseSetting.name'),
         width: 150,
@@ -78,19 +84,14 @@ const warehouseSetting = () => {
         field: 'description',
         headerName: t('warehouseSetting.description'),
         width: 150,
-        sortable: true,
       },
-      {
-        field: 'code',
-        headerName: t('warehouseSetting.code'),
-        width: 150,
-        sortable: true,
-      },
+
       {
         field: 'createdAt',
         headerName: t('warehouseSetting.createdAt'),
         width: 200,
-        sortable: true,
+        filterFormat: 'date',
+
         fixed: true,
         renderCell: (params) => {
           return convertUtcDateToLocalTz(params?.row?.createdAt)
@@ -100,7 +101,7 @@ const warehouseSetting = () => {
         field: 'updatedAt',
         headerName: t('warehouseSetting.updatedAt'),
         width: 200,
-        sortable: true,
+
         renderCell: (params) => {
           return convertUtcDateToLocalTz(params?.row?.updatedAt)
         },
@@ -174,10 +175,6 @@ const warehouseSetting = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('warehouseSetting.import')}
-        </Button>
         <Button
           onClick={() => history.push(ROUTE.WAREHOUSE_SETTING.CREATE.PATH)}
           icon="add"
