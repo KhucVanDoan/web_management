@@ -58,6 +58,10 @@ import watchGetVendorDetails from './define-vendor/get-vendor-details.saga'
 import watchImportVendor from './define-vendor/import-vendor.saga'
 import watchSearchVendors from './define-vendor/search-vendors.saga'
 import watchUpdateVendor from './define-vendor/updata-vendor.saga'
+import watchGetDefineWarehousePallet from './define-warehouse-pallet/get-define-warehouse-pallet.saga'
+import watchSearchDefineWarehousePallet from './define-warehouse-pallet/search-define-warehouse-pallet.saga'
+import watchGetDefineWarehouseShelf from './define-warehouse-shelf/get-define-warehouse-shelf.saga'
+import watchSearchDefineWarehouseShelf from './define-warehouse-shelf/search-define-warehouse-shelf.saga'
 import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
 import watchCreateWarehouse from './define-warehouse/create-warehouse'
 import watchDeleteWarehouse from './define-warehouse/delete-warehouse'
@@ -126,6 +130,8 @@ import watchDeleteWarehouseSetting from './warehouse-setting/delete-warehouse-se
 import watchGetWarehouseSettingDetails from './warehouse-setting/get-detail-warehouse-setting'
 import watchSearchWarehouseSetting from './warehouse-setting/search-warehouse-setting'
 import watchUpdateWarehouseSetting from './warehouse-setting/update-warehouse-setting'
+import watchGetFactories from './warehouse-space-report/get-factories'
+import watchGetDataWarehouseSpaceReport from './warehouse-space-report/search'
 import watchGetWarehouseTransferMovementsDetails from './warehouse-transfer-movements/get-movement-details'
 import watchSearchWarehouseTransferMovements from './warehouse-transfer-movements/search-movements'
 import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer.saga'
@@ -260,6 +266,9 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //warehouse-space-report
+    watchGetFactories(),
+    watchGetDataWarehouseSpaceReport(),
     //warehouse-area
     watchGetWarehouseAreaDetail(),
     watchSearchWarehouseAreas(),
@@ -296,6 +305,9 @@ export default function* sagas() {
     watchSearchPackages(),
     watchUpdatePackage(),
     watchGetPackageDetails(),
+    //define-warehouse-shelf
+    watchGetDefineWarehouseShelf(),
+    watchSearchDefineWarehouseShelf(),
 
     //define-customer-level
     watchConfirmCustomerLevel(),
@@ -315,5 +327,8 @@ export default function* sagas() {
     watchRejectVoucher(),
     watchSearchVouchers(),
     watchUpdateVoucher(),
+    //define warehouse pallet
+    watchSearchDefineWarehousePallet(),
+    watchGetDefineWarehousePallet(),
   ])
 }

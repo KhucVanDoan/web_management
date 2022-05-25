@@ -42,6 +42,10 @@ import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
 import DefineWarehouse from '../features/define-warehouse'
+import DefineWarehousePalletDetail from '../features/define-warehouse-pallet/detail'
+import DefineWarehousePallet from '../features/define-warehouse-pallet/list'
+import DefineWarehouseShelfDetail from '../features/define-warehouse-shelf/detail'
+import DefineWarehouseShelf from '../features/define-warehouse-shelf/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
 import InventoryLimit from '../features/inventory-limit'
@@ -63,6 +67,7 @@ import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
 import WarehouseSettingForm from '../features/warehouse-setting/form'
 import WarehouseSetting from '../features/warehouse-setting/list'
+import WarehouseSpaceReport from '../features/warehouse-space-report'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
 import warehouseTransferDetail from '../features/warehouse-transfer/detail'
@@ -362,6 +367,20 @@ const routes = [
         ],
       },
       {
+        name: ROUTE.WAREHOUSE_SHELF.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_SHELF.LIST.PATH,
+        component: DefineWarehouseShelf,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_SHELF.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_SHELF.DETAIL.PATH,
+            component: DefineWarehouseShelfDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
         name: ROUTE.WAREHOUSE_AREA.LIST.TITLE,
         path: ROUTE.WAREHOUSE_AREA.LIST.PATH,
         component: WarehouseArea,
@@ -371,6 +390,20 @@ const routes = [
             name: ROUTE.WAREHOUSE_AREA.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,
             component: WarehouseAreaDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_PALLET.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_PALLET.LIST.PATH,
+        component: DefineWarehousePallet,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_PALLET.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_PALLET.DETAIL.PATH,
+            component: DefineWarehousePalletDetail,
             isInSidebar: false,
           },
         ],
@@ -477,6 +510,12 @@ const routes = [
         path: ROUTE.INVENTORY_WARNING.PATH,
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.WAREHOUSE_SPACE_REPORT.TITLE,
+        path: ROUTE.WAREHOUSE_SPACE_REPORT.PATH,
+        component: WarehouseSpaceReport,
         isInSidebar: true,
       },
     ],

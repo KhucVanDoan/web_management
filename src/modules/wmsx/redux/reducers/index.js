@@ -11,6 +11,8 @@ import defineTemplateShelf from './define-template-shelf'
 import defineTypeUnit from './define-type-unit'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
+import defineWarehousePallet from './define-warehouse-pallet'
+import defineWarehouseShelf from './define-warehouse-shelf'
 import importManufacturingOrder from './import-manufacturing-order'
 import inventory from './inventory'
 import inventoryCalendar from './inventory-calendar'
@@ -27,6 +29,7 @@ import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
 import warehouseSetting from './warehouse-setting'
+import warehouseSpaceReport from './warehouse-space-report'
 import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
 export default combineReducers({
@@ -51,12 +54,15 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  warehouseSpaceReport,
   warehouseArea,
   importManufacturingOrder,
   defineBlock,
   productionOrder,
   definePackage,
+  defineWarehouseShelf,
   defineCustomerLevel,
   rentWarehouseDashboard,
   voucher,
+  defineWarehousePallet,
 })

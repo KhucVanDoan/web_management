@@ -26,6 +26,10 @@ export const ROUTE = {
       TITLE: 'inventoryDetail',
     },
   },
+  WAREHOUSE_SPACE_REPORT: {
+    PATH: '/wmsx/warehouse-space-report',
+    TITLE: 'warehouseSpaceReport',
+  },
   INVENTORY_STATISTIC: {
     LIST: {
       PATH: '/wmsx/inventory-statistics',
@@ -282,7 +286,6 @@ export const ROUTE = {
       PATH: '/wmsx/warehouse-area',
       TITLE: 'warehouseArea',
     },
-
     DETAIL: {
       PATH: '/wmsx/warehouse-area/:id/detail',
       TITLE: 'warehouseAreaDetail',
@@ -398,6 +401,27 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/define-package/:id/edit',
       TITLE: 'definePackageEdit',
+    },
+  },
+  WAREHOUSE_SHELF: {
+    LIST: {
+      PATH: '/wmsx/warehouse-shelf',
+      TITLE: 'warehouseShelf',
+    },
+
+    DETAIL: {
+      PATH: '/wmsx/warehouse-shelf/:id/detail',
+      TITLE: 'defineWarehouseShelfDetail',
+    },
+  },
+  WAREHOUSE_PALLET: {
+    LIST: {
+      PATH: '/wmsx/warehouse-pallet',
+      TITLE: 'defineWarehousePallet',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-pallet/:id/detail',
+      TITLE: 'defineWarehousePalletDetail',
     },
   },
   DEFINE_CUSTOMER_LEVEL: {

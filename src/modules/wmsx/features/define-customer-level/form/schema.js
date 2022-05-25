@@ -2,7 +2,7 @@ import * as Yup from 'yup'
 
 import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 
-export const defineCustomerLevelSchema = (t) =>
+export const defineCustomerLevelSchema = (t, minDays, minAmount) =>
   Yup.object().shape({
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
@@ -25,9 +25,9 @@ export const defineCustomerLevelSchema = (t) =>
       .nullable()
       .required(t('general:form.required'))
       .min(
-        NUMBER_FIELD_REQUIRED_SIZE.JOINED_DAY.MIN,
+        minDays,
         t('general:form.minNumber', {
-          min: NUMBER_FIELD_REQUIRED_SIZE.JOINED_DAY.MIN,
+          min: minDays,
         }),
       )
       .max(
@@ -48,7 +48,15 @@ export const defineCustomerLevelSchema = (t) =>
           min: NUMBER_FIELD_REQUIRED_SIZE.PRICE.MIN,
         }),
       ),
-    amountTo: Yup.number().nullable().required(t('general:form.required')),
+    amountTo: Yup.number()
+      .nullable()
+      .required(t('general:form.required'))
+      .min(
+        minAmount,
+        t('general:form.minNumber', {
+          min: minAmount,
+        }),
+      ),
     discount: Yup.number()
       .required(t('general:form.required'))
       .min(

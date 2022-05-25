@@ -71,7 +71,7 @@ function ItemSettingTable(props) {
                     },
                     {
                       column: 'isProductionObject',
-                      text: ENUM_BOOLEAN.false,
+                      text: ENUM_BOOLEAN.true,
                     },
                     {
                       column: 'itemTypeCode',
@@ -148,11 +148,11 @@ function ItemSettingTable(props) {
         renderCell: (params, index) => {
           const item = params?.row?.item
           return isView ? (
-            <>{item?.itemUnit || ''}</>
+            <>{item?.itemUnit?.name || ''}</>
           ) : (
             <Field.TextField
               name={`items[${index}].item.itemUnit`}
-              value={item?.itemUnit || ''}
+              value={item?.itemUnit?.name || ''}
               disabled={true}
             />
           )
