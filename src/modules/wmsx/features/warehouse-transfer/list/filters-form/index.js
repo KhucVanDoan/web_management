@@ -41,13 +41,6 @@ const FilterForm = () => {
           getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('warehouseTransfer.createdAt')}
-          placeholder={t('warehouseTransfer.createdAt')}
-        />
-      </Grid>
     </Grid>
   )
 }
