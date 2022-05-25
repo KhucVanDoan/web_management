@@ -2,6 +2,7 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 import enAuth from '~/assets/locales/en/auth.json'
+import enConfiguration from '~/assets/locales/en/configuration.json'
 import enDatabase from '~/assets/locales/en/database.json'
 import enGeneral from '~/assets/locales/en/general.json'
 import enMesx from '~/assets/locales/en/mesx.json'
@@ -9,6 +10,7 @@ import enMmsx from '~/assets/locales/en/mmsx.json'
 import enQmsx from '~/assets/locales/en/qmsx.json'
 import enWmsx from '~/assets/locales/en/wmsx.json'
 import jpAuth from '~/assets/locales/jp/auth.json'
+import jpConfiguration from '~/assets/locales/jp/configuration.json'
 import jpDatabase from '~/assets/locales/jp/database.json'
 import jpGeneral from '~/assets/locales/jp/general.json'
 import jpMesx from '~/assets/locales/jp/mesx.json'
@@ -16,6 +18,7 @@ import jpMmsx from '~/assets/locales/jp/mmsx.json'
 import jpQmsx from '~/assets/locales/jp/qmsx.json'
 import jpWmsx from '~/assets/locales/jp/wmsx.json'
 import viAuth from '~/assets/locales/vi/auth.json'
+import viConfiguration from '~/assets/locales/vi/configuration.json'
 import viDatabase from '~/assets/locales/vi/database.json'
 import viGeneral from '~/assets/locales/vi/general.json'
 import viMesx from '~/assets/locales/vi/mesx.json'
@@ -30,6 +33,7 @@ const resources = {
     auth: viAuth,
     mesx: viMesx,
     database: viDatabase,
+    configuration: viConfiguration,
     mmsx: viMmsx,
     qmsx: viQmsx,
     wmsx: viWmsx,
@@ -40,6 +44,7 @@ const resources = {
     mesx: enMesx,
     mmsx: enMmsx,
     qmsx: enQmsx,
+    configuration: enConfiguration,
     database: enDatabase,
     wmsx: enWmsx,
   },
@@ -50,6 +55,7 @@ const resources = {
     mmsx: jpMmsx,
     qmsx: jpQmsx,
     wmsx: jpWmsx,
+    configuration: jpConfiguration,
     database: jpDatabase,
   },
 }
@@ -69,7 +75,16 @@ i18n.use(initReactI18next).init({
   resources: resources,
   lng: getCurrentLang(),
   fallbackLng: DEFAULT_LANG,
-  ns: ['general', 'auth', 'mesx', 'mmsx', 'qmsx', 'wmsx', 'database'],
+  ns: [
+    'general',
+    'auth',
+    'mesx',
+    'mmsx',
+    'qmsx',
+    'wmsx',
+    'database',
+    'configuration',
+  ],
   defaultNS: ['general'],
   interpolation: {
     escapeValue: false,

@@ -214,6 +214,7 @@
   },
   "moduleMenu": {
     "database": "Cơ sở dữ liệu",
+    "configuration": "Thiết lập",
     "other": "Giải pháp"
   }
 }
