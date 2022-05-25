@@ -19,7 +19,11 @@ const DefineWarehousePalletDetail = () => {
 
   const breadcrumbs = [
     {
-      title: 'warehouseSetup',
+      title: ROUTE.WAREHOUSE_SETUP.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_PALLET.LIST.PATH,
+      title: ROUTE.WAREHOUSE_PALLET.LIST.TITLE,
     },
     {
       route: ROUTE.WAREHOUSE_PALLET.DETAIL.PATH,
