@@ -118,6 +118,25 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
+  TEMPLATE_SECTOR: {
+    LIST: {
+      PATH: '/wmsx/template-sector',
+      TITLE: 'templateSector',
+    },
+    CREATE: {
+      PATH: '/wmsx/template-sector/create',
+      TITLE: 'templateSectorCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/template-sector/:id/edit',
+      TITLE: 'templateSectorEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/template-sector/:id/detail',
+      TITLE: 'templateSectorDetail',
+    },
+  },
+
   WAREHOUSE_REPORT_MANAGEMENT: {
     PATH: '/wmsx/warehouse-report-management',
     TITLE: 'warehouseReportManagement',
