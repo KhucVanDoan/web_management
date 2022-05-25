@@ -127,6 +127,7 @@
   },
   "moduleMenu": {
     "database": "マスターデータ",
+    "configuration": "Configuration",
     "other": "Other"
   },
   "importExportMenu": {

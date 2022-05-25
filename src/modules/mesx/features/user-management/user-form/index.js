@@ -22,12 +22,12 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
+import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
@@ -144,7 +144,7 @@ function UserManagementForm() {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'setting',
+        title: 'configuration',
       },
       {
         route: ROUTE.USER_MANAGEMENT.LIST.PATH,
