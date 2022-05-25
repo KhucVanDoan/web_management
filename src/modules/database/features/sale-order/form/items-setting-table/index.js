@@ -148,11 +148,11 @@ function ItemSettingTable(props) {
         renderCell: (params, index) => {
           const item = params?.row?.item
           return isView ? (
-            <>{item?.itemUnit?.name || ''}</>
+            <>{item?.itemUnit || ''}</>
           ) : (
             <Field.TextField
               name={`items[${index}].item.itemUnit`}
-              value={item?.itemUnit?.name || ''}
+              value={item?.itemUnit.name || item?.itemUnit || ''}
               disabled={true}
             />
           )
@@ -206,6 +206,7 @@ function ItemSettingTable(props) {
       },
     ]
   }
+
   return (
     <>
       <Box
