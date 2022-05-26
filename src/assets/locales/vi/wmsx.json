@@ -124,6 +124,8 @@
     "defineVoucherEdit": "Sửa Mã giảm giá",
     "defineWarehousePallet": "Định nghĩa tầng",
     "defineWarehousePalletDetail": "Chi tiết tầng",
+    "movements": "Các giao dịch",
+    "movementDetail": "Chi tiết giao dịch",
     "warehouseSettingDetail": "Chi tiết thông tin loại kho",
     "definePaymentType": "Định nghĩa hình thức thanh toán",
     "createPaymentType": "Tạo hình thức thanh toán",
@@ -797,11 +799,13 @@
     "breadcrumbTitle": "Phiếu giao dịch",
     "formTitle": "Phiếu giao dịch",
     "title": "Danh sách giao dịch",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "import": "Nhập kho",
     "export": "Xuất kho",
     "orderNumber": "#",
     "code": "Mã giao dịch",
     "warehouseType": "Loại kho",
+    "letterCode": "Mã đơn từ",
     "orderStatus": "Trạng thái đơn từ",
     "approveDate": "Ngày chứng từ",
     "createdByUser": "Người tạo",
@@ -814,6 +818,7 @@
     "transferOrder": "Lệnh chuyển kho",
     "movementType": "Loại lệnh",
     "action": "Hành động",
+    "createTime": "Thời gian tạo",
     "importExport": {
       "formTitle": "Phiếu giao dịch",
       "movementCode": "Mã giao dịch",
@@ -854,6 +859,9 @@
       "lotNumber": "Số lô",
       "packageCode": "Mã package",
       "warehouseName": "Tên kho",
+      "warehouseSectorName": "Tên khu vực",
+      "warehouseShelfName": "Tên kệ",
+      "warehousePalletName": "Tên tầng",
       "planQuantity": "Số lượng dự kiến",
       "actualQuantity": "Số lượng giao dịch"
     },
@@ -1284,7 +1292,8 @@
       "productCode": "Chọn mã sản phẩm",
       "warehouseName": "Chọn tên kho",
       "itemName": "Chọn sản phẩm"
-    }
+    },
+    "transactions": "Các giao dịch"
   },
   "definePackage": {
     "title": "Danh sách package",
@@ -1577,6 +1586,10 @@
     "right": "Phải",
     "above": "Trên",
     "under": "Dưới"
+  },
+  "orderType": {
+    "import": "Nhập kho",
+    "export": "Xuất kho"
   },
   "definePaymentType": {
     "title": "Danh sách hình thức thanh toán",

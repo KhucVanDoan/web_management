@@ -79,6 +79,7 @@ const progressManufacturingByOrder = () => {
               )
             }
             size="small"
+            bold={false}
           >
             {row?.saleOrder?.code}
           </Button>

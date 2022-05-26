@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
@@ -68,7 +68,7 @@ function ImportManufacturingOrder() {
     {
       field: 'code',
       headerName: t('importManufacturingOrder.codeList'),
-      width: 150,
+      width: 120,
       sortable: true,
       fixed: true,
     },
@@ -92,13 +92,13 @@ function ImportManufacturingOrder() {
     {
       field: 'description',
       headerName: t('importManufacturingOrder.description'),
-      width: 200,
+      width: 150,
       sortable: false,
     },
     {
       field: 'status',
       headerName: t('importManufacturingOrder.status'),
-      width: 150,
+      width: 120,
       sortable: true,
       renderCell: (params) => {
         const status = Number(params?.row.status)
@@ -136,7 +136,7 @@ function ImportManufacturingOrder() {
     {
       field: 'action',
       headerName: t('importManufacturingOrder.action'),
-      width: 200,
+      width: 180,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
@@ -194,11 +194,21 @@ function ImportManufacturingOrder() {
               </IconButton>
             )}
             {hasTransaction && (
-              <Link
-                to={ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.PATH + `/${id}`}
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() =>
+                  history.push(
+                    `${ROUTE.IMPORT_MANUFACTURING_ORDER.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
+                  )
+                }
               >
                 {t('importManufacturingOrder.transactionList')}
-              </Link>
+              </Button>
             )}
           </div>
         )

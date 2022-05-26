@@ -30,7 +30,7 @@ const breadcrumbs = [
   },
 ]
 
-const warehouseTransferDetail = () => {
+const WarehouseTransferDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
@@ -189,4 +189,4 @@ const warehouseTransferDetail = () => {
   )
 }
 
-export default warehouseTransferDetail
+export default WarehouseTransferDetail
