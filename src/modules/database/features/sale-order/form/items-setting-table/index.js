@@ -152,7 +152,7 @@ function ItemSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].item.itemUnit`}
-              value={item?.itemUnit?.name || ''}
+              value={item?.itemUnit.name || item?.itemUnit || ''}
               disabled={true}
             />
           )
@@ -206,6 +206,7 @@ function ItemSettingTable(props) {
       },
     ]
   }
+
   return (
     <>
       <Box

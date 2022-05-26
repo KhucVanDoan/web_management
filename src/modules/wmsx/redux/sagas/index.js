@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
+import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
 import watchCreateBlock from './define-block/create-block'
 import watchDeleteBlock from './define-block/delete-block'
@@ -40,6 +41,26 @@ import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
+import watchConfirmPaymentType from './define-payment-type/confirm-payment-type.saga'
+import watchCreatePaymentType from './define-payment-type/create-payment-type.saga'
+import watchDeletePaymentType from './define-payment-type/delete-payment-type.saga'
+import watchGetPaymentTypeDetails from './define-payment-type/get-payment-type-details.saga'
+import watchImportPaymentType from './define-payment-type/import-payment-type'
+import watchSearchPaymentTypes from './define-payment-type/search-payment-type.saga'
+import watchUpdatePaymentType from './define-payment-type/update-payment-type.saga'
+import watchConfirmService from './define-service/confirm-service'
+import watchCreateService from './define-service/create-service'
+import watchDeleteService from './define-service/delete-service'
+import watchGetAllServicesDetail from './define-service/get-all-services-detail'
+import watchGetServiceDetail from './define-service/get-service-detail'
+import watchRejectService from './define-service/reject-service'
+import watchSearchServices from './define-service/search-services'
+import watchUpdateService from './define-service/update-service'
+import watchCreateTemplateSector from './define-template-sector/create-template-sector'
+import watchDeleteTemplateSector from './define-template-sector/delete-template-sector'
+import watchGetTemplateDetails from './define-template-sector/get-detail-template-sector'
+import watchSearchTemplateSector from './define-template-sector/search-template-sector'
+import watchUpdateTemplateSector from './define-template-sector/update-template-sector'
 import watchCreateTemplateShelf from './define-template-shelf/create-template-shelf'
 import watchDeleteTemplateShelf from './define-template-shelf/delete-template-shelf'
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
@@ -107,6 +128,7 @@ import watchRejectProductionOrder from './production-order/reject-production-ord
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf.saga'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
 import watchDeleteVoucher from './voucher/delete-voucher'
@@ -155,6 +177,7 @@ export default function* sagas() {
     watchGetItems(),
     watchGetWarehouses(),
     watchGetSupplyRequest(),
+    watchGetTypeServices(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -175,6 +198,14 @@ export default function* sagas() {
     watchImportTypeUnit(),
     watchSearchTypeUnits(),
     watchUpdateTypeUnit(),
+    watchConfirmService(),
+    watchCreateService(),
+    watchDeleteService(),
+    watchGetServiceDetail(),
+    watchGetAllServicesDetail(),
+    watchRejectService(),
+    watchSearchServices(),
+    watchUpdateService(),
 
     watchConfirmCurrencyUnit(),
     watchCreateCurrencyUnit(),
@@ -191,6 +222,12 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+    //define-template-sector
+    watchCreateTemplateSector(),
+    watchDeleteTemplateSector(),
+    watchGetTemplateDetails(),
+    watchSearchTemplateSector(),
+    watchUpdateTemplateSector(),
     // define warehouse
     watchConfirmWarehouse(),
     watchCreateWarehouse(),
@@ -327,8 +364,18 @@ export default function* sagas() {
     watchRejectVoucher(),
     watchSearchVouchers(),
     watchUpdateVoucher(),
+    //template sector template shelf
+    watchSaveTemplateSectorTemplateShelf(),
     //define warehouse pallet
     watchSearchDefineWarehousePallet(),
     watchGetDefineWarehousePallet(),
+    //define payment type
+    watchConfirmPaymentType(),
+    watchCreatePaymentType(),
+    watchDeletePaymentType(),
+    watchGetPaymentTypeDetails(),
+    watchImportPaymentType(),
+    watchSearchPaymentTypes(),
+    watchUpdatePaymentType(),
   ])
 }

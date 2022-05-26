@@ -35,6 +35,15 @@ import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefinePaymentTypeDetail from '../features/define-payment-type/detail'
+import DefinePaymentTypeForm from '../features/define-payment-type/form'
+import DefinePaymentType from '../features/define-payment-type/list'
+import DefineServiceDetail from '../features/define-service/detail'
+import DefineServiceForm from '../features/define-service/form'
+import DefineService from '../features/define-service/list'
+import TemplateSectorDetail from '../features/define-template-sector/detail'
+import TemplateSectorForm from '../features/define-template-sector/form'
+import TemplateSector from '../features/define-template-sector/list'
 import DefineTypeUnitDetail from '../features/define-type-unit/detail'
 import DefineTypeUnitForm from '../features/define-type-unit/form'
 import DefineTypeUnit from '../features/define-type-unit/list'
@@ -245,13 +254,13 @@ const routes = [
             name: ROUTE.WAREHOUSE_TRANSFERS.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH,
             component: warehouseTransferForm,
-            isInSidebar: true,
+            isInSidebar: false,
           },
           {
             name: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.PATH,
             component: warehouseTransferDetail,
-            isInSidebar: true,
+            isInSidebar: false,
           },
         ],
       },
@@ -310,6 +319,32 @@ const routes = [
             name: ROUTE.WAREHOUSE_SETTING.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_SETTING.DETAIL.PATH,
             component: WarehouseSettingDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.TEMPLATE_SECTOR.LIST.TITLE,
+        path: ROUTE.TEMPLATE_SECTOR.LIST.PATH,
+        component: TemplateSector,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TEMPLATE_SECTOR.CREATE.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.CREATE.PATH,
+            component: TemplateSectorForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.TEMPLATE_SECTOR.EDIT.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.EDIT.PATH,
+            component: TemplateSectorForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TEMPLATE_SECTOR.DETAIL.TITLE,
+            path: ROUTE.TEMPLATE_SECTOR.DETAIL.PATH,
+            component: TemplateSectorDetail,
             isInSidebar: true,
           },
         ],
@@ -578,6 +613,32 @@ const routes = [
         ],
       },
       {
+        name: ROUTE.DEFINE_SERVICE.LIST.TITLE,
+        path: ROUTE.DEFINE_SERVICE.LIST.PATH,
+        component: DefineService,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_SERVICE.CREATE.TITLE,
+            path: ROUTE.DEFINE_SERVICE.CREATE.PATH,
+            component: DefineServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_SERVICE.EDIT.TITLE,
+            path: ROUTE.DEFINE_SERVICE.EDIT.PATH,
+            component: DefineServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_SERVICE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_SERVICE.DETAIL.PATH,
+            component: DefineServiceDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
         name: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.TITLE,
         path: ROUTE.DEFINE_CUSTOMER_LEVEL.LIST.PATH,
         component: DefineCustomerLevel,
@@ -631,6 +692,32 @@ const routes = [
             name: ROUTE.DEFINE_VOUCHER.DETAIL.TITLE,
             path: ROUTE.DEFINE_VOUCHER.DETAIL.PATH,
             component: DefineVoucherDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PAYMENT_TYPE.LIST.TITLE,
+        path: ROUTE.DEFINE_PAYMENT_TYPE.LIST.PATH,
+        component: DefinePaymentType,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.CREATE.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.CREATE.PATH,
+            component: DefinePaymentTypeForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.EDIT.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.EDIT.PATH,
+            component: DefinePaymentTypeForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.PATH,
+            component: DefinePaymentTypeDetail,
             isInSidebar: true,
           },
         ],

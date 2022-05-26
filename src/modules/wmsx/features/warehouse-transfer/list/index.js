@@ -28,7 +28,7 @@ import FilterForm from './filters-form'
 
 const breadcrumbs = [
   {
-    title: 'warehouseSetup',
+    title: 'orderManagement',
   },
   {
     route: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
@@ -89,10 +89,24 @@ const warehouseTransfer = () => {
         fixed: true,
       },
       {
-        field: 'certifyAt',
-        headerName: t('warehouseTransfer.certifyAt'),
+        field: 'sourceWarehouseName',
+        headerName: t('warehouseTransfer.sourceWarehouseName'),
         width: 150,
-        sortable: true,
+      },
+      {
+        field: 'sourceWarehouseName',
+        headerName: t('warehouseTransfer.sourceFactoryName'),
+        width: 150,
+      },
+      {
+        field: 'sourceWarehouseName',
+        headerName: t('warehouseTransfer.destinationWarehouseName'),
+        width: 150,
+      },
+      {
+        field: 'sourceWarehouseName',
+        headerName: t('warehouseTransfer.destinationFactoryName'),
+        width: 150,
       },
       {
         field: 'createdAt',
@@ -138,7 +152,7 @@ const warehouseTransfer = () => {
           const { id, status } = params?.row
           const isEdit = status === TRANSFER_STATUS.PENDING
           const isConfirmed = status === TRANSFER_STATUS.PENDING
-          //const isRejected = status === TRANSFER_STATUS.REJECTED
+          const isRejected = status === TRANSFER_STATUS.REJECTED
           const isDelete =
             status === TRANSFER_STATUS.PENDING ||
             status === TRANSFER_STATUS.REJECTED
@@ -160,20 +174,21 @@ const warehouseTransfer = () => {
               >
                 <Icon name="show" />
               </IconButton>
-              {isEdit && (
-                <IconButton
-                  onClick={() =>
-                    history.push(
-                      ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-              )}
+              {isEdit ||
+                (isRejected && (
+                  <IconButton
+                    onClick={() =>
+                      history.push(
+                        ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH.replace(
+                          ':id',
+                          `${id}`,
+                        ),
+                      )
+                    }
+                  >
+                    <Icon name="edit" />
+                  </IconButton>
+                ))}
               {isDelete && (
                 <IconButton onClick={() => onClickDelete(params.row)}>
                   <Icon name="delete" />

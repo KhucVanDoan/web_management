@@ -65,6 +65,16 @@ const modules = [
     ),
   },
   {
+    name: 'configuration',
+    path: process.env.REACT_APP_CONFIGURATION_URL || 'configuration',
+    icon: mesx_icon,
+    title: (t) => (
+      <Typography component="span" sx={{ fontSize: 11, fontWeight: 500 }}>
+        {t('moduleMenu.configuration')}
+      </Typography>
+    ),
+  },
+  {
     name: 'solution',
     // path: process.env.REACT_APP_SOLUTION_URL || 'solution',
     icon: solution_icon,

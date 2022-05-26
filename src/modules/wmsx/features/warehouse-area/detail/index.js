@@ -20,7 +20,11 @@ const WarehouseAreaDetail = () => {
 
   const breadcrumbs = [
     {
-      title: 'warehouseSetup',
+      title: ROUTE.WAREHOUSE_SETUP.TITLE,
+    },
+    {
+      route: ROUTE.WAREHOUSE_AREA.LIST.PATH,
+      title: ROUTE.WAREHOUSE_AREA.LIST.TITLE,
     },
     {
       route: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,

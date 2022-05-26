@@ -29,7 +29,11 @@
     "createCurrencyUnit": "Create currency unit",
     "warehouseExport": "Warehouse export",
     "inventoryStatistics": "Inventory Statistics",
-    "warehouseSpaceReport": "Warehouse Space Report"
+    "warehouseSpaceReport": "Warehouse Space Report",
+    "definePaymentType": "Define Payment Type",
+    "createPaymentType": "Create payment type",
+    "paymentTypeDetails": "Payment type detail",
+    "editPaymentType": "Edit payment type"
   },
   "warehouseSpaceReport": {
     "title": "Warehouse space report",
@@ -56,6 +60,10 @@
     "defineCustomerLevel": "Define Customer Level",
     "rentWarehouseDashboard": "Rent warehouse report",
     "rentWarehouseDashboardDetail": "Rent warehouse report detail",
+    "defineService": "Define service",
+    "serviceCreate": "Create service",
+    "serviceDetail": "Service detail",
+    "serviceEdit": "Edit service",
     "defineVoucher": "Define Voucher",
     "defineVoucherCreate": "Create Voucher",
     "defineVoucherDetail": "Detail Voucher",
@@ -122,6 +130,46 @@
       "description": "Inventory form description",
       "itemDetails": "Item details"
     }
+  },
+  "defineService": {
+    "orderId": "#",
+    "code": "Service code",
+    "name": "Service name",
+    "serviceType": "Service type",
+    "rentCost": "Rent cost",
+    "currencyUnit": "Currency unit",
+    "deadline": "Deadline",
+    "createModalTitle": "Create service",
+    "pricePerMonth": "Unit price/month",
+    "codeInput": "Enter service code",
+    "nameInput": "Enter service name",
+    "descriptionInput": "Service description",
+    "rentUnit": "Unit",
+    "discountCode": "Coupon code",
+    "pricePerDay": "Unit price/day",
+    "pricePerQuarter": "Unit price/quarter",
+    "pricePerYear": "Unit price/year",
+    "newInfoFieldName": "Information field name",
+    "confirmServiceSuccess": "Successfully confirm service",
+    "createServiceSuccess": "Successfully create service",
+    "deleteServiceSuccess": "Successfully delete service",
+    "updateServiceSuccess": "Successfully update service",
+    "duplicate": "Field already existed",
+    "deleteModalTitle": "Delete service",
+    "confirmDelete": "Are you sure to delete this service? Please note that this action cannot be undone when you agree to delete this service.",
+    "deleteButton": "Delete service",
+    "mustBiggerThanPricePerDay": "Unit price/month must be higher than unit price/day",
+    "mustBiggerThanPricePerMonth": "Unit price/quarter must be higher than unit price/month",
+    "mustBiggerThanPricePerQuarter": "Unit price/year must be higher than unit price/quarter",
+    "serviceStatus": {
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "rejected": "rejected"
+    },
+    "day": " / day",
+    "month": " / month",
+    "quarter": " / quarter",
+    "year": " / year"
   },
   "inventoryStatus": {
     "pending": "Pending",
@@ -1140,5 +1188,25 @@
     "pending": "Pending",
     "confirmed": "Confirmed",
     "confirmDefineWarehousePalletSuccess": "Confirm warehouse floor successfully"
+  },
+  "definePaymentType": {
+    "title": "Payment type list",
+    "orderNumber": "#",
+    "code": "Payment type code",
+    "name": "Payment type name",
+    "createModalTitle": "Create payment type",
+    "description": "Description",
+    "add": "Add",
+    "deleteModalTitle": "Delete payment type",
+    "deleteConfirm": "Are you sure you want to delete this payment type? Warning, you can't undo after confirm.",
+    "delete": "Delete payment type",
+    "confirmPaymentTypeSuccess": "Confirm payment type successfully",
+    "createPaymentTypeSuccess": "Create payment type successfully",
+    "deletePaymentTypeSuccess": "Delete payment type successfully",
+    "updatePaymentTypeSuccess": "Edit payment type successfully",
+    "duplicate": "This field exists",
+    "pending": "Pending",
+    "active": "Confirmed",
+    "disabled": "Disabled"
   }
 }

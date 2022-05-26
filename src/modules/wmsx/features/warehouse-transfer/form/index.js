@@ -90,7 +90,7 @@ const warehouseTransferForm = () => {
         itemType: item?.item?.itemType?.name,
         mfg: item?.mfg,
         packageId: item?.packageId,
-        planQuantity: item?.planQuantity,
+        planQuantity: +item?.planQuantity,
         unitType: item?.item?.itemUnit?.name,
       }),
     ) || [{ ...DEFAULT_ITEM }],
@@ -98,14 +98,14 @@ const warehouseTransferForm = () => {
   const onSubmit = (values) => {
     const params = {
       code: values?.code,
-      destinationWarehouseId: values?.destinationFactoryName,
+      destinationWarehouseId: +values?.sourceWarehouseName,
       isSameWarehouse: values?.isSameWarehouse ? 1 : 0,
       name: values?.name,
-      sourceWarehouseId: values?.sourceWarehouseName,
+      sourceWarehouseId: +values?.destinationWarehouseName,
       transferOn: values?.estimationDay,
       type: 1,
       description: values?.description?.trim(),
-      items: values?.items.map((item) => ({
+      items: values?.items?.map((item) => ({
         itemId: item.itemId,
         quantity: +item.planQuantity,
         lotNumber: item.lotNumber,
@@ -123,6 +123,9 @@ const warehouseTransferForm = () => {
   }
   const getBreadcrumb = () => {
     const breadcrumbs = [
+      {
+        title: 'orderManagement',
+      },
       {
         route: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
         title: ROUTE.WAREHOUSE_TRANSFERS.LIST.TITLE,
@@ -211,6 +214,27 @@ const warehouseTransferForm = () => {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('warehouseTransfer.code')}
+                        name="code"
+                        placeholder={t('warehouseTransfer.code')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        disabled={isUpdate}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('warehouseTransfer.name')}
+                        name="name"
+                        placeholder={t('warehouseTransfer.name')}
+                        required
+                      />
+                    </Grid>
                     <Grid item lg={6} xs={12}>
                       <FormControlLabel
                         control={
@@ -237,27 +261,6 @@ const warehouseTransferForm = () => {
                       />
                     </Grid>
                     <Grid item xs={12} lg={6}></Grid>
-                    <Grid item xs={12} lg={6}>
-                      <Field.TextField
-                        label={t('warehouseTransfer.code')}
-                        name="code"
-                        placeholder={t('warehouseTransfer.code')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        disabled={isUpdate}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <Field.TextField
-                        label={t('warehouseTransfer.name')}
-                        name="name"
-                        placeholder={t('warehouseTransfer.name')}
-                        required
-                      />
-                    </Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.Autocomplete
                         label={t('warehouseTransfer.destinationFactoryName')}

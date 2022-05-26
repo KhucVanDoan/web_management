@@ -1,12 +1,6 @@
 import React, { useEffect } from 'react'
 
-import {
-  Button,
-  createFilterOptions,
-  IconButton,
-  InputAdornment,
-  Typography,
-} from '@mui/material'
+import { Button, IconButton, InputAdornment, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { map } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -92,12 +86,8 @@ const ItemSettingTable = (props) => {
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               options={itemId}
-              disabled={isView}
+              disabled={isView || !values?.sourceWarehouseName}
               getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
-              filterOptions={createFilterOptions({
-                stringify: (opt) => `${opt?.code}|${opt?.name}`,
-              })}
               getOptionValue={(option) => option?.id || ''}
             />
           )

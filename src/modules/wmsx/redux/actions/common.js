@@ -20,6 +20,10 @@ export const WMSX_GET_ALL_SUPPLY_REQUEST_SUCCESS =
 export const WMSX_GET_ALL_SUPPLY_REQUEST_FAILED =
   'WMSX_GET_ALL_SUPPLY_REQUEST_FAILED'
 
+export const WMSX_GET_TYPE_SERVICES_START = 'WMSX_GET_TYPE_SERVICES_START'
+export const WMSX_GET_TYPE_SERVICES_SUCCESS = 'WMSX_GET_TYPE_SERVICES_SUCCESS'
+export const WMSX_GET_TYPE_SERVICES_FAILED = 'WMSX_GET_TYPE_SERVICES_FAILED'
+
 /**
  * Get device request
  * @param {int} payload
@@ -164,6 +168,44 @@ export function getWarehousesFailed() {
   }
 }
 
+/**
+ * Get type service
+ * @param {object} payload
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getTypeServices(payload, onSuccess, onError) {
+  return {
+    type: WMSX_GET_TYPE_SERVICES_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get warehouses success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getTypeServicesSuccess(payload) {
+  return {
+    type: WMSX_GET_TYPE_SERVICES_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get warehouses failed action
+ * @returns {object}
+ */
+export function getTypeServicesFailed() {
+  return {
+    type: WMSX_GET_TYPE_SERVICES_FAILED,
+  }
+}
+
 export default {
   getItems,
   getItemsSuccess,
@@ -177,4 +219,7 @@ export default {
   getSupplyRequest,
   getSupplyRequestFailed,
   getSupplyRequestSuccess,
+  getTypeServices,
+  getTypeServicesFailed,
+  getTypeServicesSuccess,
 }

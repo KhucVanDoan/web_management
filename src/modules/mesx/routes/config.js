@@ -296,29 +296,6 @@ export const ROUTE = {
       TITLE: 'bomProducingStepEdit',
     },
   },
-  USER_MANAGEMENT: {
-    LIST: {
-      PATH: '/mesx/user-management',
-      TITLE: 'userManagement',
-    },
-    CREATE: {
-      PATH: '/mesx/user-management/create',
-      TITLE: 'userManagementCreate',
-    },
-    DETAIL: {
-      PATH: '/mesx/user-management/:id/detail',
-      TITLE: 'userManagementDetail',
-    },
-    EDIT: {
-      PATH: '/mesx/user-management/:id/edit',
-      TITLE: 'userManagementEdit',
-    },
-  },
-  USER_PERMISSION: {
-    PATH: '/mesx/user-permission',
-    TITLE: 'userPermission',
-  },
-
   QUALITY_REPORT: {
     LIST: {
       PATH: '/mesx/qualityreport',

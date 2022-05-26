@@ -20,7 +20,11 @@
     "defineCustomer": "顧客登録",
     "warehouseExport": "出庫",
     "inventoryStatistics": "在庫統計",
-    "warehouseSpaceReport": "フリーロケーション確認"
+    "warehouseSpaceReport": "フリーロケーション確認",
+    "definePaymentType": "決済方法登録",
+    "createPaymentType": "決済方法作成",
+    "paymentTypeDetails": "決済方法詳細",
+    "editPaymentType": "決済方法編集"
   },
   "warehouseSpaceReport": {
     "title": "フリーロケーション確認",
@@ -46,6 +50,10 @@
     "productionOrder": "製造指図登録",
     "defineCustomerLevel": "顧客ランク登録",
     "rentWarehouseDashboard": "賃貸倉庫レポート",
+    "defineService": "サービス登録",
+    "typeServiceDetail": "サービスタイプ詳細",
+    "typeServiceCreate": "サービスタイプ作成",
+    "typeServiceEdit": "サービスタイプ編集",
     "defineVoucher": "割引コード",
     "defineVoucherCreate": "割引コード作成",
     "defineVoucherDetail": "割引コード詳細",
@@ -112,6 +120,46 @@
       "description": "棚卸伝票説明",
       "itemDetails": "商品詳細"
     }
+  },
+  "defineService": {
+    "orderId": "#",
+    "code": "サービスコード",
+    "name": "サービス名",
+    "serviceType": "サービスタイプ",
+    "rentCost": "レンタルコスト",
+    "currencyUnit": "通貨単位",
+    "deadline": "期限",
+    "createModalTitle": "サービス作成",
+    "pricePerMonth": "単価/月",
+    "codeInput": "サービスコードを入力",
+    "nameInput": "サービス名を入力",
+    "descriptionInput": "サービス説明",
+    "rentUnit": "計算単位",
+    "discountCode": "割引コード",
+    "pricePerDay": "単価/日",
+    "pricePerQuarter": "単価/四半期",
+    "pricePerYear": "単価/年",
+    "newInfoFieldName": "情報フィールド名",
+    "confirmServiceSuccess": "サービス確認に成功しました。",
+    "createServiceSuccess": "サービス作成に成功しました。",
+    "deleteServiceSuccess": "サービス削除に成功しました。",
+    "updateServiceSuccess": "サービス更新に成功しました。",
+    "duplicate": "ご指定のフィールドは既に存在しています。",
+    "deleteModalTitle": "サービス削除",
+    "confirmDelete": "サービスを削除します。よろしいですか。削除すると、元に戻すことはできませんので、注意が必要です。",
+    "deleteButton": "サービス削除",
+    "mustBiggerThanPricePerDay": "単価/月が単価/日より大きい値でなければなりません。",
+    "mustBiggerThanPricePerMonth": "単価/四半期が単価/月より大きい値でなければなりません。",
+    "mustBiggerThanPricePerQuarter": "単価/年が単価/四半期より大きい値でなければなりません。",
+    "serviceStatus": {
+      "pending": "確認待ち",
+      "confirmed": "確認",
+      "rejected": "拒否"
+    },
+    "day": "/日",
+    "month": "/月",
+    "quarter": "/四半期",
+    "year": "/年"
   },
   "inventoryStatus": {
     "pending": "確認待ち",
@@ -997,5 +1045,26 @@
     "pending": "確認待ち",
     "confirmed": "確認済み",
     "confirmDefineWarehousePalletSuccess": "パレット確認に成功しました。"
+  },
+  "definePaymentType": {
+    "title": "決済方法一覧",
+    "orderNumber": "#",
+    "code": "決済方法コード",
+    "name": "決済方法名",
+    "createModalTitle": "決済方法作成",
+    "description": "説明",
+    "addNewInfoField": "情報フィールド新規追加",
+    "add": "追加",
+    "deleteModalTitle": "決済方法削除",
+    "deleteConfirm": "決済方法を削除します。よろしいですか。削除すると、元に戻すことはできませんので、注意が必要です。",
+    "delete": "決済方法削除",
+    "confirmPaymentTypeSuccess": "決済方法確認に成功しました。",
+    "createPaymentTypeSuccess": "決済方法作成に成功しました。",
+    "deletePaymentTypeSuccess": "決済方法削除に成功しました。",
+    "updatePaymentTypeSuccess": "決済方法更新に成功しました。",
+    "duplicate": "ご指定のフィールドは既に存在しています。",
+    "pending": "確認待ち",
+    "active": "確認",
+    "disabled": "無効化"
   }
 }

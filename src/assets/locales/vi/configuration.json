@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "configuration": "Thiết lập",
+    "userManagement": "Quản lý người dùng",
+    "userManagementCreate": "Tạo người dùng",
+    "userManagementEdit": "Sửa người dùng",
+    "userManagementDetail": "Chi tiết người dùng",
+    "userPermission": "Phân quyền"
+  }
+}

@@ -118,6 +118,25 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
+  TEMPLATE_SECTOR: {
+    LIST: {
+      PATH: '/wmsx/template-sector',
+      TITLE: 'templateSector',
+    },
+    CREATE: {
+      PATH: '/wmsx/template-sector/create',
+      TITLE: 'templateSectorCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/template-sector/:id/edit',
+      TITLE: 'templateSectorEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/template-sector/:id/detail',
+      TITLE: 'templateSectorDetail',
+    },
+  },
+
   WAREHOUSE_REPORT_MANAGEMENT: {
     PATH: '/wmsx/warehouse-report-management',
     TITLE: 'warehouseReportManagement',
@@ -385,6 +404,24 @@ export const ROUTE = {
       TITLE: 'currencyUnitDetail',
     },
   },
+  DEFINE_SERVICE: {
+    LIST: {
+      PATH: '/wmsx/services',
+      TITLE: 'defineService',
+    },
+    CREATE: {
+      PATH: '/wmsx/service/create',
+      TITLE: 'serviceCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/service/:id/detail',
+      TITLE: 'serviceDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/service/:id/edit',
+      TITLE: 'serviceEdit',
+    },
+  },
   DEFINE_PACKAGE: {
     LIST: {
       PATH: '/wmsx/define-package',
@@ -464,6 +501,24 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/voucher/:id/edit',
       TITLE: 'defineVoucherEdit',
+    },
+  },
+  DEFINE_PAYMENT_TYPE: {
+    LIST: {
+      PATH: '/wmsx/payment-type',
+      TITLE: 'definePaymentType',
+    },
+    CREATE: {
+      PATH: '/wmsx/payment-type/create',
+      TITLE: 'createPaymentType',
+    },
+    DETAIL: {
+      PATH: '/wmsx/payment-type/:id/detail',
+      TITLE: 'paymentTypeDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/payment-type/:id/edit',
+      TITLE: 'editPaymentType',
     },
   },
 }

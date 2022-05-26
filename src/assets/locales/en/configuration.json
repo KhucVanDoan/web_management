@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "configuration": "Configuration",
+    "userManagement": "User management",
+    "userManagementCreate": "Create user",
+    "userManagementDetail": "User details",
+    "userManagementEdit": "Edit user",
+    "userPermission": "Decentralize"
+  }
+}
