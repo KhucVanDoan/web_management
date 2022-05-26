@@ -13,6 +13,7 @@ import Status from '~/components/Status'
 import {
   ORDER_STATUS_OPTIONS,
   WAREHOUSE_IMPORT_STATUS_MAP,
+  MOVEMENT_TYPE,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -159,7 +160,14 @@ function WarehouseImport() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, movementType: [0, 2, 4] },
+        {
+          ...filters,
+          movementType: [
+            MOVEMENT_TYPE.PO_IMPORT,
+            MOVEMENT_TYPE.PRO_IMPORT,
+            MOVEMENT_TYPE.SO_IMPORT,
+          ],
+        },
         columns,
       ),
       sort: convertSortParams(sort),
