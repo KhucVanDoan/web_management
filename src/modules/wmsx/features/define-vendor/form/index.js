@@ -3,7 +3,12 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
+import {
+  useParams,
+  useRouteMatch,
+  useHistory,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -15,6 +20,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import qs from '~/utils/qs'
 
 import defineVendorSchema from './schema'
 
@@ -22,6 +28,8 @@ const DefineVendorForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const { t } = useTranslation(['wmsx'])
   const MODE_MAP = {
     [ROUTE.DEFINE_VENDEOR.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -34,7 +42,7 @@ const DefineVendorForm = () => {
     actions,
   } = useDefineVendor()
   const initialValues = {
-    code: vendorDetails?.code || '',
+    code: isUpdate ? vendorDetails?.code : '',
     name: vendorDetails?.name || '',
     phone: vendorDetails?.phone || '',
     email: vendorDetails?.email || '',
@@ -46,8 +54,11 @@ const DefineVendorForm = () => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getVendorDetailsById(id)
     }
+    if (cloneId) {
+      actions.getVendorDetailsById(cloneId)
+    }
     return () => actions.resetDetailVendorState()
-  }, [mode])
+  }, [mode, cloneId])
 
   const onSubmit = (values) => {
     const params = {
