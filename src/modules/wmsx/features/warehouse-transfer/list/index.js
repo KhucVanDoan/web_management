@@ -36,7 +36,7 @@ const breadcrumbs = [
   },
 ]
 
-const warehouseTransfer = () => {
+const WarehouseTransfer = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -202,8 +202,16 @@ const warehouseTransfer = () => {
               {hasTransaction && (
                 <Button
                   variant="text"
-                  // onClick={() => history.push()}
                   size="small"
+                  bold={false}
+                  onClick={() =>
+                    history.push(
+                      `${ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.LIST.PATH.replace(
+                        ':parentId',
+                        `${id}`,
+                      )}`,
+                    )
+                  }
                 >
                   {t('warehouseTransfer.transactions')}
                 </Button>
@@ -346,4 +354,4 @@ const warehouseTransfer = () => {
   )
 }
 
-export default warehouseTransfer
+export default WarehouseTransfer

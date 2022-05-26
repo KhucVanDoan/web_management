@@ -20,7 +20,11 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '../../constants'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+  TRANSFER_STATUS,
+} from '../../constants'
 import useProductionOrder from '../../redux/hooks/useProductionOrder'
 import FilterForm from './filter'
 const breadcrumbs = [
@@ -143,6 +147,9 @@ function ProductionOrder() {
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isDelete =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+        const hasTransaction =
+          status === TRANSFER_STATUS.COMPLETED ||
+          status === TRANSFER_STATUS.EXPORTING
         return (
           <>
             <IconButton
@@ -186,6 +193,23 @@ function ProductionOrder() {
               >
                 <Icon name="remove" />
               </IconButton>
+            )}
+            {hasTransaction && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() =>
+                  history.push(
+                    `${ROUTE.PRODUCTION_ORDER.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
+                  )
+                }
+              >
+                {t('productionOrder.transactions')}
+              </Button>
             )}
           </>
         )

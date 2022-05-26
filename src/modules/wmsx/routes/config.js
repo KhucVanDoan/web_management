@@ -263,6 +263,16 @@ export const ROUTE = {
       PATH: '/wmsx/warehouse-transfer/:id/edit',
       TITLE: 'warehouseTransfersEdit',
     },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/warehouse-transfer/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/warehouse-transfer/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
+    },
   },
   DEFINE_CUSTOMER: {
     LIST: {
@@ -327,9 +337,15 @@ export const ROUTE = {
       PATH: '/wmsx/import-manufacturing-order/:id/detail',
       TITLE: 'importManufacturingOrderDetail',
     },
-    MOVEMENTS: {
-      PATH: '/wmsx/import-manufacturing-order/movements/:id',
-      TITLE: 'importManufacturingOrderMovement',
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/import-manufacturing-order/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/import-manufacturing-order/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
     },
   },
   DEFINE_BLOCK: {
@@ -366,6 +382,16 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/production-orders/:id/edit',
       TITLE: 'productionOrderEdit',
+    },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/production-orders/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/production-orders/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
     },
   },
   TYPE_UNIT: {

@@ -12,7 +12,10 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { INVENTORY_CALENDAR_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  INVENTORY_CALENDAR_STATUS,
+  INVENTORY_CALENDAR_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
@@ -40,10 +43,9 @@ function InventoryCalendar() {
     actions,
   } = useInventoryCalendar()
 
-  const [modal, setModal] = useState({
-    tempItem: null,
-    isOpenDeleteModal: false,
-  })
+  const [tempItem, setTempItem] = useState(null)
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
   const {
     page,
@@ -125,7 +127,16 @@ function InventoryCalendar() {
       sortable: false,
       align: 'center',
       renderCell: (params) => {
-        const { id } = params.row
+        const { status, id } = params.row
+        const warehouseId = params.row.warehouses?.[0]?.id
+        const isEdit = status === INVENTORY_CALENDAR_STATUS.PENDING
+        const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
+        const isDelete =
+          status === INVENTORY_CALENDAR_STATUS.PENDING ||
+          status === INVENTORY_CALENDAR_STATUS.REJECTED
+        const hasTransaction =
+          status === INVENTORY_CALENDAR_STATUS.COMPLETED ||
+          status === INVENTORY_CALENDAR_STATUS.IN_PROGRESS
         return (
           <div>
             <IconButton
@@ -137,18 +148,42 @@ function InventoryCalendar() {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
+            {isEdit && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            )}
+            {isDelete && (
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+            )}
+            {isConfirmed && (
+              <IconButton onClick={() => onClickConfirmed(params.row)}>
+                <Icon name="tick" />
+              </IconButton>
+            )}
+            {hasTransaction && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() => {
+                  history.replace({
+                    pathname: ROUTE.INVENTORY.DETAIL.PATH,
+                    state: { id, warehouseId },
+                  })
+                }}
+              >
+                {t('inventoryCalendar.transactionList')}
+              </Button>
+            )}
           </div>
         )
       },
@@ -170,25 +205,29 @@ function InventoryCalendar() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
-  const handleOpenDeleteModal = (tempItem) => {
-    setModal({
-      tempItem,
-      isOpenDeleteModal: true,
-    })
+  const onClickDelete = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenDeleteModal(true)
   }
-
-  const onSubmitDeleteModal = () => {
-    actions.deleteDetail(modal?.tempItem?.id, () => {
+  const onSubmitDelete = () => {
+    actions.deleteInventoryCalendar(tempItem?.id, () => {
       refreshData()
     })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+    setTempItem(null)
+    setIsOpenDeleteModal(false)
   }
 
-  const onCloseDeleteModal = () => {
-    setModal({
-      tempItem: null,
-      isOpenDeleteModal: false,
+  const onClickConfirmed = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenConfirmModal(true)
+  }
+
+  const submitConfirm = () => {
+    actions.confirmInventoryCalendarById(tempItem?.id, () => {
+      refreshData()
     })
+    setTempItem(null)
+    setIsOpenConfirmModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -230,26 +269,49 @@ function InventoryCalendar() {
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('inventoryCalendar.inventoryCalendarDelete')}
-        onCancel={onCloseDeleteModal}
+        open={isOpenDeleteModal}
+        title={t('warehouseTransfer.deleteModalTitle')}
+        onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDeleteModal}
+        onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
+        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
         noBorderBottom
       >
-        {t('inventoryCalendar.confirmDelete')}
+        {t('warehouseTransfer.deleteConfirm')}
         <LV
-          label={t('inventoryCalendar.code')}
-          value={modal?.tempItem?.code}
+          label={t('warehouseTransfer.code')}
+          value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('inventoryCalendar.name')}
-          value={modal?.tempItem?.name}
+          label={t('warehouseTransfer.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('general:common.notify')}
+        onCancel={() => setIsOpenConfirmModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitConfirm}
+        noBorderBotttom
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('warehouseTransfer.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('warehouseTransfer.name')}
+          value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>

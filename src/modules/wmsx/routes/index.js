@@ -57,6 +57,10 @@ import DefineWarehouseShelfDetail from '../features/define-warehouse-shelf/detai
 import DefineWarehouseShelf from '../features/define-warehouse-shelf/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
+import {
+  Transactions as ImportManufacturingOrderTransactions,
+  TransactionDetail as ImportManufacturingOrderTransactionDetail,
+} from '../features/import-manufacturing-order/transactions'
 import InventoryLimit from '../features/inventory-limit'
 import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
@@ -68,6 +72,10 @@ import InvoiceTypeForm from '../features/invoice-type/form'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
+import {
+  Transactions as ProductionOrderTransactions,
+  TransactionDetail as ProductionOrderTransactionDetail,
+} from '../features/production-orders/transactions'
 import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
 import DefineVoucher from '../features/voucher'
 import DefineVoucherDetail from '../features/voucher/detail'
@@ -82,10 +90,15 @@ import WarehouseSetting from '../features/warehouse-setting/list'
 import WarehouseSpaceReport from '../features/warehouse-space-report'
 import WarehouseTransferMovements from '../features/warehouse-transfer-movements'
 import WarehouseTransferMovementsDetail from '../features/warehouse-transfer-movements/detail'
-import warehouseTransferDetail from '../features/warehouse-transfer/detail'
-import warehouseTransferForm from '../features/warehouse-transfer/form'
-import warehouseTransfer from '../features/warehouse-transfer/list'
+import WarehouseTransferDetail from '../features/warehouse-transfer/detail'
+import WarehouseTransferForm from '../features/warehouse-transfer/form'
+import WarehouseTransfer from '../features/warehouse-transfer/list'
+import {
+  Transactions as WarehouseTransferTransactions,
+  TransactionDetail as WarehouseTransferTransactionDetail,
+} from '../features/warehouse-transfer/transactions'
 import { ROUTE } from './config'
+
 const routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
@@ -234,9 +247,15 @@ const routes = [
             isInSidebar: false,
           },
           {
-            name: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.TITLE,
-            path: ROUTE.IMPORT_MANUFACTURING_ORDER.MOVEMENTS.PATH,
-            component: ImportManufacturingOrderDetail,
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.TRANSACTIONS.LIST.PATH,
+            component: ImportManufacturingOrderTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.IMPORT_MANUFACTURING_ORDER.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.IMPORT_MANUFACTURING_ORDER.TRANSACTIONS.DETAIL.PATH,
+            component: ImportManufacturingOrderTransactionDetail,
             isInSidebar: false,
           },
         ],
@@ -244,25 +263,37 @@ const routes = [
       {
         name: ROUTE.WAREHOUSE_TRANSFERS.LIST.TITLE,
         path: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
-        component: warehouseTransfer,
+        component: WarehouseTransfer,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.WAREHOUSE_TRANSFERS.CREATE.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFERS.CREATE.PATH,
-            component: warehouseTransferForm,
+            component: WarehouseTransferForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.WAREHOUSE_TRANSFERS.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH,
-            component: warehouseTransferForm,
+            component: WarehouseTransferForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFERS.DETAIL.PATH,
-            component: warehouseTransferDetail,
+            component: WarehouseTransferDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.LIST.PATH,
+            component: WarehouseTransferTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.DETAIL.PATH,
+            component: WarehouseTransferTransactionDetail,
             isInSidebar: false,
           },
         ],
@@ -289,6 +320,18 @@ const routes = [
             name: ROUTE.PRODUCTION_ORDER.EDIT.TITLE,
             path: ROUTE.PRODUCTION_ORDER.EDIT.PATH,
             component: ProductionOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.LIST.PATH,
+            component: ProductionOrderTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.DETAIL.PATH,
+            component: ProductionOrderTransactionDetail,
             isInSidebar: false,
           },
         ],

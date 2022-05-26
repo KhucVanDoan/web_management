@@ -30,6 +30,7 @@
     "warehouseExport": "Warehouse export",
     "inventoryStatistics": "Inventory Statistics",
     "warehouseSpaceReport": "Warehouse Space Report",
+    "movements": "Transactions",
     "definePaymentType": "Define Payment Type",
     "createPaymentType": "Create payment type",
     "paymentTypeDetails": "Payment type detail",

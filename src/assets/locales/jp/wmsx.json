@@ -21,6 +21,7 @@
     "warehouseExport": "出庫",
     "inventoryStatistics": "在庫統計",
     "warehouseSpaceReport": "フリーロケーション確認",
+    "movements": "取引項目",
     "definePaymentType": "決済方法登録",
     "createPaymentType": "決済方法作成",
     "paymentTypeDetails": "決済方法詳細",
