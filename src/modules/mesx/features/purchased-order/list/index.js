@@ -130,7 +130,7 @@ function PurchasedOrder() {
     },
     {
       field: 'createdAt',
-      headerName: t('saleOrder.createdAt'),
+      headerName: t('purchasedOrder.createdAt'),
       width: 150,
       sortable: true,
       filterFormat: 'date',
@@ -141,7 +141,7 @@ function PurchasedOrder() {
     },
     {
       field: 'deadline',
-      headerName: t('saleOrder.deadline'),
+      headerName: t('purchasedOrder.deadline'),
       width: 150,
       sortable: true,
       filterFormat: 'date',

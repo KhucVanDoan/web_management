@@ -13,7 +13,7 @@ import Icon from '~/components/Icon'
 import { getItemsApi } from '~/modules/mesx/redux/sagas/common/get-items'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 
-const ItemSettingTable = ({ items, arrayHelpers }) => {
+const ItemSettingTable = ({ items, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
 
   const columns = useMemo(
@@ -34,9 +34,10 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
                   filter: convertFilterParams({
-                    hasItemDetail: true,
+                    hasItemDetail: 1,
                     isGetAll: 1,
                   }),
+                  withItemDetail: 1,
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
@@ -45,25 +46,25 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id)
               }
+              onChange={() => setFieldValue(`items[${index}].itemDetailId`, [])}
               required
             />
           )
         },
       },
       {
-        field: 'detailId',
+        field: 'itemDetailId',
         width: 400,
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
+          const detailList = items.map((i) => i.itemDetailId)
           return (
             <Field.Autocomplete
-              name={`items[${index}].detailId`}
+              name={`items[${index}].itemDetailId`}
               label={t('defineBlock.details')}
-              options={[]}
+              options={itemId?.itemDetails || detailList}
               placeholder={t('defineBlock.details')}
               getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
-              required
               disabled={itemId ? false : true}
             />
           )
@@ -87,7 +88,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         field: 'action',
         width: 100,
         renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+          const idx = items.findIndex(
+            (item) => item?.itemId?.id === params.row?.itemId?.id,
+          )
           return (
             <IconButton
               onClick={() => {
@@ -125,7 +128,8 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
           variant="outlined"
           onClick={() => {
             arrayHelpers.push({
-              detailId: '',
+              itemId: '',
+              itemDetailId: '',
               quantity: 1,
             })
             scrollToBottom()
@@ -136,11 +140,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
       </Box>
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {
