@@ -153,7 +153,7 @@ const DefineCustomerForm = () => {
                       placeholder={t('defineCustomer.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -209,6 +209,7 @@ const DefineCustomerForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -227,8 +228,9 @@ const DefineCustomerForm = () => {
                       name="bankAccount"
                       placeholder={t('defineCustomer.bankAccount')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
