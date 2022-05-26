@@ -62,6 +62,9 @@ import InventoryLimitDetail from '../features/inventory-limit/detail'
 import InventoryLimitForm from '../features/inventory-limit/form'
 import InventoryDetail from '../features/inventory/detail'
 import Inventory from '../features/inventory/list'
+import InvoiceType from '../features/invoice-type'
+import InvoiceTypeDetail from '../features/invoice-type/detail'
+import InvoiceTypeForm from '../features/invoice-type/form'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
@@ -719,6 +722,32 @@ const routes = [
             path: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.PATH,
             component: DefinePaymentTypeDetail,
             isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.INVOICE_TYPE.LIST.TITLE,
+        path: ROUTE.INVOICE_TYPE.LIST.PATH,
+        component: InvoiceType,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVOICE_TYPE.CREATE.TITLE,
+            path: ROUTE.INVOICE_TYPE.CREATE.PATH,
+            component: InvoiceTypeForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVOICE_TYPE.EDIT.TITLE,
+            path: ROUTE.INVOICE_TYPE.EDIT.PATH,
+            component: InvoiceTypeForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVOICE_TYPE.DETAIL.TITLE,
+            path: ROUTE.INVOICE_TYPE.DETAIL.PATH,
+            component: InvoiceTypeDetail,
+            isInSidebar: false,
           },
         ],
       },

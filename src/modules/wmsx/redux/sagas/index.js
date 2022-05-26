@@ -116,6 +116,14 @@ import watchSearchInventoryWarning from './inventory-warning/search-inventory-wa
 import watchSearchInventoryDetail from './inventory/detail-inventory'
 import watchGetWarehouseType from './inventory/get-warehouse-types'
 import watchSearchInventory from './inventory/search-inventory'
+import watchConfirmInvoiceType from './invoice-type/confirm-invoice-type'
+import watchCreateInvoiceType from './invoice-type/create-invoice-type'
+import watchDeleteInvoiceType from './invoice-type/delete-invoice-type'
+import watchGetInvoiceTypeDetail from './invoice-type/get-invoice-type-detail'
+import watchImportInvoiceType from './invoice-type/import-invoice-type'
+import watchRejectInvoiceType from './invoice-type/reject-invoice-type'
+import watchSearchInvoiceTypes from './invoice-type/search-invoice-type'
+import watchUpdateInvoiceType from './invoice-type/update-invoice-type'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements.saga'
 import watchConfirmProductionOrder from './production-order/confirm-production-order'
@@ -377,5 +385,14 @@ export default function* sagas() {
     watchImportPaymentType(),
     watchSearchPaymentTypes(),
     watchUpdatePaymentType(),
+    // invoice type
+    watchUpdateInvoiceType(),
+    watchSearchInvoiceTypes(),
+    watchRejectInvoiceType(),
+    watchImportInvoiceType(),
+    watchGetInvoiceTypeDetail(),
+    watchDeleteInvoiceType(),
+    watchCreateInvoiceType(),
+    watchConfirmInvoiceType(),
   ])
 }

@@ -128,7 +128,11 @@
     "definePaymentType": "Định nghĩa hình thức thanh toán",
     "createPaymentType": "Tạo hình thức thanh toán",
     "paymentTypeDetails": "Chi tiết hình thức thanh toán",
-    "editPaymentType": "Sửa hình thức thanh toán"
+    "editPaymentType": "Sửa hình thức thanh toán",
+    "invoiceType": "Thiết lập loại hoá đơn",
+    "invoiceTypeDetail": "Chi tiết loại hoá đơn",
+    "editInvoiceType": "Sửa loại hoá đơn",
+    "createInvoiceType": "Tạo loại hoá đơn"
   },
   "warehouseSpaceReport": {
     "title": "Kiểm tra khoảng trống kho",
@@ -1599,5 +1603,36 @@
     "createdBy": "Người tạo",
     "updatedBy": "Người sửa",
     "status": "Trạng thái "
+  },
+  "invoiceType": {
+    "title": "Danh sách loại hoá đơn",
+    "searchPlaceHolder": "Tìm kiếm thông tin....",
+    "status": "Trạng thái",
+    "orderNumber": "#",
+    "code": "Mã loại hoá đơn",
+    "name": "Tên loại hoá đơn",
+    "codeInput": "Nhập mã loại hóa đơn",
+    "nameInput": "Nhập tên loại hóa đơn",
+    "createModalTitle": "Tạo loại hoá đơn",
+    "description": "Mô tả",
+    "newInfoFieldName": "Tên trường thông tin",
+    "add": "Thêm",
+    "deleteModalTitle": "Xóa loại hoá đơn",
+    "confirmDelete": "Bạn có muốn loại hoá đơn không? Chú ý, bạn không thể hoàn tác khi đồng ý xóa loại hoá đơn này.",
+    "deleteButton": "Xóa loại hoá đơn",
+    "confirmInvoiceTypeSuccess": "Xác nhận loại hoá đơn thành công",
+    "createInvoiceTypeSuccess": "Tạo loại hoá đơn thành công",
+    "deleteInvoiceTypeSuccess": "Xóa loại hoá đơn thành công",
+    "updateInvoiceTypeSuccess": "Cập nhật loại hoá đơn thành công",
+    "duplicate": "Trường này đã tồn tại",
+    "invoiceTypeStatus": {
+      "pending": "Chờ xác nhận",
+      "active": "Xác nhận",
+      "disabled": "Vô hiệu hóa"
+    },
+    "createAt": "Ngày tạo",
+    "createdBy": "Người tạo",
+    "updateAt": "Ngày sửa",
+    "updatedBy": "Người sửa"
   }
 }

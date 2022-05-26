@@ -23,6 +23,7 @@ import inventoryDeadlineWarning from './inventory-deadline-warning'
 import inventoryLimitSetting from './inventory-limit'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
+import invoiceType from './invoice-type'
 import movementManagement from './movements'
 import productionOrder from './production-order'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
@@ -73,4 +74,5 @@ export default combineReducers({
   templateSectorTemplateShelf,
   defineWarehousePallet,
   definePaymentType,
+  invoiceType,
 })

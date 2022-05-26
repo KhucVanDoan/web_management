@@ -611,3 +611,20 @@ export const DEFINE_PAYMENT_TYPE_STATUS_MAP = [
     color: 'confirmed',
   },
 ]
+export const DEFINE_INVOICE_TYPE_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+export const DEFINE_INVOICE_TYPE_STATUS_OPTION = [
+  {
+    id: 0,
+    text: 'definePaymentType.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'definePaymentType.confirmed',
+    color: 'confirmed',
+  },
+]
