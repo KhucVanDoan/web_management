@@ -5,7 +5,11 @@ import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -234,6 +238,9 @@ const TemplateSectorForm = () => {
                         name="name"
                         placeholder={t('templateSector.name')}
                         disabled={isUpdate}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -261,7 +268,11 @@ const TemplateSectorForm = () => {
                         name="long"
                         label={t('templateSector.long')}
                         placeholder={t('templateSector.long')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                         type="number"
+                        numberProps={{
+                          decimalScale: 3,
+                        }}
                         required
                       />
                     </Grid>
@@ -270,7 +281,11 @@ const TemplateSectorForm = () => {
                         name="width"
                         label={t('templateSector.width')}
                         placeholder={t('templateSector.width')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                         type="number"
+                        numberProps={{
+                          decimalScale: 3,
+                        }}
                         required
                       />
                     </Grid>
@@ -279,7 +294,11 @@ const TemplateSectorForm = () => {
                         name="height"
                         label={t('templateSector.height')}
                         placeholder={t('templateSector.height')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                         type="number"
+                        numberProps={{
+                          decimalScale: 3,
+                        }}
                         required
                       />
                     </Grid>
@@ -299,6 +318,15 @@ const TemplateSectorForm = () => {
                         options={templateShelfList}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) =>
+                          `D*R*C:${opt?.long?.value}* ${opt?.width?.value}* ${
+                            opt?.height?.value
+                          }(${
+                            DEFAULT_UNITS?.find(
+                              (unit) => unit.id === opt?.width?.unit,
+                            )?.name
+                          })`
+                        }
                       />
                     </Grid>
                     <Grid item xs={12}>
