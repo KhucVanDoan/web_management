@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -24,6 +25,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             <Field.TextField
               name={`items[${index}].nameSheft`}
               label={t('templateSector.nameSheft')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
               required
             />
           )
