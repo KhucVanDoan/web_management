@@ -521,4 +521,22 @@ export const ROUTE = {
       TITLE: 'editPaymentType',
     },
   },
+  INVOICE_TYPE: {
+    LIST: {
+      PATH: '/wmsx/invoice-type',
+      TITLE: 'invoiceType',
+    },
+    CREATE: {
+      PATH: '/wmsx/invoice-type/create',
+      TITLE: 'createInvoiceType',
+    },
+    DETAIL: {
+      PATH: '/wmsx/invoice-type/:id/detail',
+      TITLE: 'invoiceTypeDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/invoice-type/:id/edit',
+      TITLE: 'editInvoiceType',
+    },
+  },
 }

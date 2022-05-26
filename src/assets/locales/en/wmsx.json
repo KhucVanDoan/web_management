@@ -33,7 +33,12 @@
     "definePaymentType": "Define Payment Type",
     "createPaymentType": "Create payment type",
     "paymentTypeDetails": "Payment type detail",
-    "editPaymentType": "Edit payment type"
+    "editPaymentType": "Edit payment type",
+    "invoiceType": "Define invoice type",
+    "invoiceTypeDetail": "Invoice type detail",
+    "editInvoiceType": "Edit invoice type",
+    "createInvoiceType": "Create invoice type",
+    "defineVoucher": "Define Voucher"
   },
   "warehouseSpaceReport": {
     "title": "Warehouse space report",
@@ -1208,5 +1213,32 @@
     "pending": "Pending",
     "active": "Confirmed",
     "disabled": "Disabled"
+  },
+  "invoiceType": {
+    "title": "Invoice type list",
+    "orderNumber": "#",
+    "searchPlaceHolder": "Search....",
+    "code": "Invoice type code",
+    "name": "Invoice type name",
+    "createModalTitle": "Create invoice type",
+    "description": "Description",
+    "newInfoFieldName": "Field name",
+    "deleteModalTitle": "Delete invoice type",
+    "confirmDelete": "Are you sure you want to delete this invoice type? Warning, you can't undo after confirm.",
+    "deleteButton": "Delete invoice type",
+    "confirmInvoiceTypeSuccess": "Confirm invoice type successfully",
+    "createInvoiceTypeSuccess": "Create invoice type successfully",
+    "deleteInvoiceTypeSuccess": "Delete invoice tupe successfully",
+    "updateInvoiceTypeSuccess": "Update invoice type successfully",
+    "duplicate": "This fields already exists",
+    "invoiceTypeStatus": {
+      "pending": "Pending",
+      "active": "Confirmed",
+      "disabled": "Disabled"
+    },
+    "createAt": "Created date",
+    "createdBy": "User created",
+    "updateAt": "Updated date",
+    "updatedBy": "User updated"
   }
 }
