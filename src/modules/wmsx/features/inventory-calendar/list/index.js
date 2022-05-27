@@ -128,7 +128,6 @@ function InventoryCalendar() {
       align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
-        const warehouseId = params.row.warehouses?.[0]?.id
         const isEdit = status === INVENTORY_CALENDAR_STATUS.PENDING
         const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
         const isDelete =
@@ -175,10 +174,9 @@ function InventoryCalendar() {
                 size="small"
                 bold={false}
                 onClick={() => {
-                  history.replace({
-                    pathname: ROUTE.INVENTORY.DETAIL.PATH,
-                    state: { id, warehouseId },
-                  })
+                  history.push(
+                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                  )
                 }}
               >
                 {t('inventoryCalendar.transactionList')}

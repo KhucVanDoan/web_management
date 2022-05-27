@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -67,91 +67,77 @@ const Inventory = () => {
     actions.getWarehouseType()
   }, [])
 
-  const columns = useMemo(
-    () => [
-      {
-        field: 'id',
-        headerName: '#',
-        width: 30,
-        fixed: true,
+  const columns = [
+    {
+      field: 'code',
+      headerName: t('inventories.code'),
+      width: 150,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'executionDay',
+      headerName: t('inventories.inventoryExecutionDay'),
+      filterFormat: 'date',
+      width: 150,
+      sortable: true,
+    },
+    {
+      field: 'createdByUser',
+      headerName: t('inventories.createdByUser'),
+      width: 150,
+      sortable: false,
+    },
+    {
+      field: 'warehouseName',
+      headerName: t('inventories.warehouseName'),
+      width: 200,
+      sortable: false,
+    },
+    {
+      field: 'warehouseType',
+      headerName: t('inventories.warehouseType'),
+      width: 150,
+      sortable: false,
+    },
+    {
+      field: 'status',
+      headerName: t('inventories.inventoryStatus'),
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        const { status } = params.row
+        return (
+          <Status
+            options={INVENTORY_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
-      {
-        field: 'code',
-        headerName: t('inventories.code'),
-        width: 150,
-        sortable: true,
-        fixed: true,
+    },
+    {
+      field: 'action',
+      headerName: t('inventories.action'),
+      width: 100,
+      renderCell: (params) => {
+        const { id } = params?.row
+        return (
+          <div>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+          </div>
+        )
       },
-      {
-        field: 'executionDay',
-        headerName: t('inventories.inventoryExecutionDay'),
-        width: 150,
-        sortable: true,
-        filterFormat: 'date',
-      },
-      {
-        field: 'createdByUser',
-        headerName: t('inventories.createdByUser'),
-        width: 150,
-        sortable: true,
-      },
-      {
-        field: 'warehouseName',
-        headerName: t('inventories.warehouseName'),
-        width: 200,
-        sortable: true,
-        fixed: true,
-      },
-      {
-        field: 'warehouseType',
-        headerName: t('inventories.warehouseType'),
-        width: 150,
-        sortable: true,
-      },
-      {
-        field: 'status',
-        headerName: t('inventories.inventoryStatus'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          const { status } = params.row
-          return (
-            <Status
-              options={INVENTORY_STATUS_OPTIONS}
-              value={status}
-              variant="text"
-            />
-          )
-        },
-      },
-      {
-        field: 'action',
-        headerName: t('inventories.action'),
-        width: 100,
-        align: 'center',
-        renderCell: (params) => {
-          const { id, warehouseId } = params?.row
-          return (
-            <div>
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`).replace(
-                      ':warehouseId',
-                      `${warehouseId}`,
-                    ),
-                  )
-                }
-              >
-                <Icon name="show" />
-              </IconButton>
-            </div>
-          )
-        },
-      },
-    ],
-    [],
-  )
+    },
+  ]
 
   const formattedData = inventoryStatistic?.map((item) => ({
     id: item?.id,
@@ -197,14 +183,14 @@ const Inventory = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.inventoryStatistics')}
+      title={t('menu.inventory')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('warehouseSetting.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
-        title={t('inventoryStatistics.title')}
+        title={t('inventories.title')}
         columns={columns}
         rows={formattedData}
         pageSize={pageSize}

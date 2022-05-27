@@ -22,7 +22,7 @@ export const ROUTE = {
       TITLE: 'inventory',
     },
     DETAIL: {
-      PATH: '/wmsx/inventory/:id/detail/:warehouseId',
+      PATH: '/wmsx/inventory/:id/detail',
       TITLE: 'inventoryDetail',
     },
   },
