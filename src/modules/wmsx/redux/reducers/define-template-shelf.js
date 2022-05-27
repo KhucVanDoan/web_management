@@ -5,6 +5,7 @@ import {
   GET_TEMPLATE_SHELF_DETAIL_FAILED,
   GET_TEMPLATE_SHELF_DETAIL_START,
   GET_TEMPLATE_SHELF_DETAIL_SUCCESS,
+  RESET_TEMPLATE_SHELF_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/define-template-shelf'
 const initialState = {
   isLoading: false,
@@ -54,7 +55,11 @@ export default function defineTemplateShelf(state = initialState, action) {
         templateShelfDetails: {},
         isLoading: false,
       }
-
+    case RESET_TEMPLATE_SHELF_DETAILS_STATE:
+      return {
+        ...state,
+        templateShelfDetails: {},
+      }
     default:
       return state
   }

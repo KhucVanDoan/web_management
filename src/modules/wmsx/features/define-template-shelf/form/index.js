@@ -5,7 +5,11 @@ import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -40,7 +44,7 @@ const DefineTemplateShelfForm = () => {
     () => ({
       name: templateShelfDetails?.name || '',
       unitStorageSpace: templateShelfDetails?.height?.unit || null,
-      unitWeigthLoad: templateShelfDetails?.weightLoad?.unit || null,
+      unitWeigthLoad: templateShelfDetails?.weightLoad?.unit || '',
       long: templateShelfDetails?.long?.value || 0,
       width: templateShelfDetails?.width?.value || 0,
       height: templateShelfDetails?.height?.value || 0,
@@ -57,7 +61,6 @@ const DefineTemplateShelfForm = () => {
     [ROUTE.DEFINE_TEMPLATE_SHELF.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -89,12 +92,10 @@ const DefineTemplateShelfForm = () => {
   }
 
   useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
-      const id = params?.id
-      actions.getTemplateShelfDetailById(id)
-    }
+    const id = params?.id
+    actions.getTemplateShelfDetailById(id)
     return () => {
-      if (isUpdate) actions.resetTemplateShelfDetailsState()
+      actions.resetTemplateShelfDetailsState()
     }
   }, [params?.id])
 
@@ -243,6 +244,8 @@ const DefineTemplateShelfForm = () => {
                         name="long"
                         label={t('defineTemplateShelf.long')}
                         placeholder={t('defineTemplateShelf.long')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                        type="number"
                         numberProps={{
                           decimalScale: 3,
                         }}
@@ -254,6 +257,8 @@ const DefineTemplateShelfForm = () => {
                         name="width"
                         label={t('defineTemplateShelf.width')}
                         placeholder={t('defineTemplateShelf.width')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                        type="number"
                         numberProps={{
                           decimalScale: 3,
                         }}
@@ -265,6 +270,8 @@ const DefineTemplateShelfForm = () => {
                         name="height"
                         label={t('defineTemplateShelf.height')}
                         placeholder={t('defineTemplateShelf.height')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                        type="number"
                         numberProps={{
                           decimalScale: 3,
                         }}
@@ -296,6 +303,8 @@ const DefineTemplateShelfForm = () => {
                         name="weightLoad"
                         label={t('defineTemplateShelf.weightLoad')}
                         placeholder={t('defineTemplateShelf.weightLoad')}
+                        allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                        type="number"
                         numberProps={{
                           decimalScale: 3,
                         }}

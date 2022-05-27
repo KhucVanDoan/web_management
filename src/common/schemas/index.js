@@ -35,3 +35,18 @@ export const passwordSchema = (t) =>
       min: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MIN,
     }),
   )
+
+export const unitSchema = (t) =>
+  Yup.number()
+    .min(
+      NUMBER_FIELD_REQUIRED_SIZE.UNIT.MIN,
+      t('general:form.minNumber', {
+        min: NUMBER_FIELD_REQUIRED_SIZE.UNIT.MIN,
+      }),
+    )
+    .max(
+      NUMBER_FIELD_REQUIRED_SIZE.UNIT.MAX,
+      t('general:form.maxNumber', {
+        max: NUMBER_FIELD_REQUIRED_SIZE.UNIT.MAX,
+      }),
+    )
