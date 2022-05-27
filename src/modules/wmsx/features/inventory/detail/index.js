@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { INVENTORY_STATUS_OPTIONS } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import DataTable from '~/components/DataTable'
-import LabelValue from '~/components/LabelValue'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
@@ -16,13 +15,19 @@ import useInventory from '~/modules/wmsx/redux/hooks/useInventory'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
+import ItemsSettingTable from './items-setting-table'
+
 const InventoryStatisticDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['wmsx'])
-  const { id, warehouseId } = useParams()
+  const { id } = useParams()
   const breadcrumbs = [
     {
       title: 'warehouseManagement',
+    },
+    {
+      route: ROUTE.INVENTORY.LIST.PATH,
+      title: ROUTE.INVENTORY.LIST.TITLE,
     },
     {
       route: ROUTE.INVENTORY.DETAIL.PATH,
@@ -39,97 +44,11 @@ const InventoryStatisticDetail = () => {
   } = useInventory()
 
   useEffect(() => {
-    if (id) {
-      actions.getInventoryDetail({ id: id, warehouseId: warehouseId })
-    }
+    actions.getInventoryDetail(id)
     return () => {
       actions.resetInventoryDetailsState()
     }
   }, [id])
-
-  const formattedData = () => {
-    const itemIds =
-      inventoryStatisticDetail?.warehouseItems?.map((item) => item.itemId) || []
-    const uniqueIds = itemIds.filter(
-      (item, index) => itemIds.indexOf(item) === index,
-    )
-    const items = []
-    uniqueIds.forEach((id, index) => {
-      const itemsWithIdList = inventoryStatisticDetail.warehouseItems.filter(
-        (i) => i.itemId === id,
-      )
-      items.push({
-        id: '',
-        code: itemsWithIdList[0].code,
-        name: itemsWithIdList[0].name,
-        itemType: '',
-        quantity: itemsWithIdList.reduce(
-          (total, item) => total + +item.planQuantity,
-          0,
-        ),
-        inventoriesQuantity: itemsWithIdList.reduce(
-          (total, item) => total + +item.actualQuantity,
-          0,
-        ),
-      })
-      itemsWithIdList?.forEach((item) => {
-        items.push({
-          id: items.length - index,
-          code: item?.code,
-          name: item?.name,
-          itemType: item?.itemType?.name,
-          warehouseName: item?.warehouseName,
-          warehouseSectorName: item?.warehouseSector?.name,
-          warehouseShelfName: item?.warehouseShelf?.name,
-          warehousePalletName: item?.warehouseShelfFloor?.name,
-          lotNumber: item?.lotNumber,
-          packageCode: item?.packages.map((pk) => pk.code).join(','),
-          inventoriesQuantity: +item?.actualQuantity,
-          quantity: +item?.planQuantity,
-          itemUnitId: item?.itemUnitId,
-        })
-      })
-    })
-    return items
-  }
-  const columns = [
-    {
-      field: 'id',
-      headerName: t('inventories.item.orderNumber'),
-      align: 'left',
-      sortable: false,
-    },
-    {
-      field: 'code',
-      headerName: t('inventories.item.code'),
-      sortable: false,
-    },
-    {
-      field: 'name',
-      headerName: t('inventories.item.name'),
-      sortable: false,
-    },
-    {
-      field: 'itemType',
-      headerName: t('inventories.item.type'),
-      sortable: false,
-    },
-    {
-      field: 'lotNumber',
-      headerName: t('inventories.item.lotNumber'),
-      sortable: false,
-    },
-    {
-      field: 'packageCode',
-      headerName: t('inventories.item.packageCode'),
-      sortable: false,
-    },
-    {
-      field: 'warehouseName',
-      headerName: t('inventories.item.warehouseName'),
-      sortable: false,
-    },
-  ]
 
   return (
     <Page
@@ -143,7 +62,7 @@ const InventoryStatisticDetail = () => {
           <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
             {!isNil(inventoryStatisticDetail?.status) && (
               <Grid item xs={12}>
-                <LabelValue
+                <LV
                   label={t('inventories.status')}
                   value={
                     <Status
@@ -155,25 +74,25 @@ const InventoryStatisticDetail = () => {
               </Grid>
             )}
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.inventoryCalendar.inventoryPaperCode')}
                 value={inventoryStatisticDetail?.id}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.inventoryCalendar.inventoryCode')}
                 value={inventoryStatisticDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.inventoryCalendar.inventoryName')}
                 value={inventoryStatisticDetail?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.inventoryCalendar.planInventoryDate')}
                 value={convertUtcDateToLocalTz(
                   inventoryStatisticDetail?.executionDay,
@@ -181,19 +100,23 @@ const InventoryStatisticDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.warehouseCode')}
-                value={inventoryStatisticDetail?.warehouse?.id}
+                value={inventoryStatisticDetail?.warehouses
+                  ?.map((w) => w?.id)
+                  ?.join('; ')}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.warehouseName')}
-                value={inventoryStatisticDetail?.warehouse?.name}
+                value={inventoryStatisticDetail?.warehouses
+                  ?.map((w) => w?.name)
+                  ?.join('; ')}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.createdUser')}
                 value={
                   inventoryStatisticDetail?.createdByUser?.fullName ||
@@ -202,7 +125,7 @@ const InventoryStatisticDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.inventoryDate')}
                 value={convertUtcDateToLocalTz(
                   inventoryStatisticDetail?.createdAt,
@@ -210,24 +133,24 @@ const InventoryStatisticDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.confirmUser')}
                 value={
-                  inventoryStatisticDetail?.approver?.fullName ||
-                  inventoryStatisticDetail?.approver?.username
+                  inventoryStatisticDetail?.confirmer?.fullName ||
+                  inventoryStatisticDetail?.confirmer?.username
                 }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('inventories.confirmDate')}
                 value={
-                  inventoryStatisticDetail?.approvedAt
+                  inventoryStatisticDetail?.executionDay
                     ? convertUtcDateToLocalTz(
-                        inventoryStatisticDetail?.approvedAt,
+                        inventoryStatisticDetail?.executionDay,
                       )
                     : convertUtcDateToLocalTz(
-                        inventoryStatisticDetail?.postedAt,
+                        inventoryStatisticDetail?.executionDay,
                       )
                 }
               />
@@ -250,24 +173,11 @@ const InventoryStatisticDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 2,
-        }}
-      >
-        <Typography variant="h4" component="span">
-          {t('inventories.itemDetails')}
-        </Typography>
+      <Box sx={{ mt: 3 }}>
+        <ItemsSettingTable
+          items={inventoryStatisticDetail?.warehouseItems || []}
+        />
       </Box>
-      <DataTable
-        rows={formattedData}
-        columns={columns}
-        hideSetting
-        hideFooter
-      />
       <ActionBar onBack={backToList} />
     </Page>
   )
