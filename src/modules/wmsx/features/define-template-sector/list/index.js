@@ -78,7 +78,6 @@ const defineTemplateSector = () => {
         field: 'size',
         headerName: t('templateSector.size'),
         width: 150,
-        sortable: true,
         renderCell: (params) => {
           return `${params?.row?.long?.value} * ${
             params?.row?.width?.value
@@ -205,7 +204,7 @@ const defineTemplateSector = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={total?.total}
+        total={total}
         sort={sort}
         filters={{
           form: <FilterForm />,

@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react'
 import { Grid, Typography, InputAdornment } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -19,12 +24,15 @@ import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-compan
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import qs from '~/utils/qs'
 
 import { warehouseSchema } from './schema'
 
 function DefineWarehouseFrom() {
   const { t } = useTranslation(['wmsx'])
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const [factories, setFactories] = useState([])
@@ -82,11 +90,14 @@ function DefineWarehouseFrom() {
     if (isUpdate) {
       actions.getWarehouseDetailsById(id)
     }
+    if (cloneId) {
+      actions.getWarehouseDetailsById(cloneId)
+    }
     return () => actions.resetWarehouseState()
-  }, [id])
+  }, [id, cloneId])
 
   const initialValues = {
-    code: warehouseDetails?.code || '',
+    code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
     companyId: warehouseDetails?.companyId || null,

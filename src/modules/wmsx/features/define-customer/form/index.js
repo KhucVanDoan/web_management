@@ -3,7 +3,12 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
+import {
+  useParams,
+  useRouteMatch,
+  useHistory,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -15,6 +20,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/wmsx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import qs from '~/utils/qs'
 
 import defineCustomerSchema from './schema'
 
@@ -22,6 +28,8 @@ const DefineCustomerForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const { t } = useTranslation(['wmsx'])
   const MODE_MAP = {
     [ROUTE.DEFINE_CUSTOMER.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -34,7 +42,7 @@ const DefineCustomerForm = () => {
     actions,
   } = useDefineCustomer()
   const initialValues = {
-    code: customerDetails?.code || '',
+    code: isUpdate ? customerDetails?.code : '',
     name: customerDetails?.name || '',
     phone: customerDetails?.phone || '',
     email: customerDetails?.email || '',
@@ -49,8 +57,11 @@ const DefineCustomerForm = () => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getCustomerDetailsById(id)
     }
+    if (cloneId) {
+      actions.getCustomerDetailsById(cloneId)
+    }
     return () => actions.resetCustomerDetails()
-  }, [mode])
+  }, [mode, cloneId])
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
@@ -153,7 +164,7 @@ const DefineCustomerForm = () => {
                       placeholder={t('defineCustomer.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -209,6 +220,7 @@ const DefineCustomerForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -227,8 +239,9 @@ const DefineCustomerForm = () => {
                       name="bankAccount"
                       placeholder={t('defineCustomer.bankAccount')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

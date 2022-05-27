@@ -9,26 +9,31 @@ import { useClasses } from '~/themes'
 
 import style from './style'
 
-const GoBack = ({ onBack }) => {
+const GoBack = ({ onBack, hasSearchBox }) => {
   const classes = useClasses(style)
   const { t } = useTranslation()
 
   return (
     <Box className={classes.root}>
       <Button icon="back" color="grayEE" onClick={onBack} />
-      <Typography variant="body1" sx={{ ml: 4 / 3 }}>
-        {t('page.goBack')}
-      </Typography>
+
+      {!hasSearchBox && (
+        <Typography variant="body1" sx={{ ml: 4 / 3 }}>
+          {t('page.goBack')}
+        </Typography>
+      )}
     </Box>
   )
 }
 
 GoBack.defaultProps = {
   onBack: () => {},
+  hasSearchBox: false,
 }
 
 GoBack.propTypes = {
   onBack: PropTypes.func,
+  hasSearchBox: PropTypes.bool,
 }
 
 export default GoBack

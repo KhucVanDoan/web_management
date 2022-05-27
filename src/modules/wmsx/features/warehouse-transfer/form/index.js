@@ -31,7 +31,7 @@ const DEFAULT_ITEM = {
   planQuantity: 1,
   unitType: '',
 }
-const warehouseTransferForm = () => {
+const WarehouseTransferForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
@@ -377,4 +377,4 @@ const warehouseTransferForm = () => {
   )
 }
 
-export default warehouseTransferForm
+export default WarehouseTransferForm

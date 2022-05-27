@@ -24,7 +24,7 @@ import { defineBlockSchema } from './schema'
 
 const DEFAULT_ITEM = {
   itemId: '',
-  detailId: '',
+  itemDetailId: '',
   quantity: 1,
 }
 const DefineBlockForm = () => {
@@ -91,8 +91,9 @@ const DefineBlockForm = () => {
       ...values,
       id,
       itemDetails: values.items.map((item) => ({
-        itemDetailId: 127,
         itemId: item.itemId?.id,
+        itemDetailId:
+          item?.itemDetailId?.id || item?.itemDetailId?.itemDetailId,
         quantity: item.quantity,
       })),
     }

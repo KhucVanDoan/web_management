@@ -21,10 +21,15 @@
     "warehouseExport": "出庫",
     "inventoryStatistics": "在庫統計",
     "warehouseSpaceReport": "フリーロケーション確認",
+    "movements": "取引項目",
     "definePaymentType": "決済方法登録",
     "createPaymentType": "決済方法作成",
     "paymentTypeDetails": "決済方法詳細",
-    "editPaymentType": "決済方法編集"
+    "editPaymentType": "決済方法編集",
+    "invoiceType": "請求書種類登録",
+    "invoiceTypeDetail": "請求書種類詳細",
+    "editInvoiceType": "請求書種類編集",
+    "createInvoiceType": "請求書種類作成"
   },
   "warehouseSpaceReport": {
     "title": "フリーロケーション確認",
@@ -1066,5 +1071,31 @@
     "pending": "確認待ち",
     "active": "確認",
     "disabled": "無効化"
+  },
+  "invoiceType": {
+    "title": "請求書種類一覧",
+    "orderNumber": "#",
+    "code": "請求書種類コード",
+    "searchPlaceHolder": "データを検索",
+    "name": "請求書種類名",
+    "createModalTitle": "請求書種類作成",
+    "description": "説明",
+    "newInfoFieldName": "情報フィールド名",
+    "add": "追加",
+    "deleteModalTitle": "請求書種類削除",
+    "confirmDelete": "請求書種類を削除します。よろしいですか。削除すると、元に戻すことはできませんので、注意が必要です。",
+    "deleteButton": "請求書種類削除",
+    "confirmInvoiceTypeSuccess": "請求書種類確認に成功しました。",
+    "createInvoiceTypeSuccess": "請求書種類作成に成功しました。",
+    "deleteInvoiceTypeSuccess": "請求書種類削除に成功しました。",
+    "updateInvoiceTypeSuccess": "請求書種類更新に成功しました。",
+    "duplicate": "ご指定のフィールドは既に存在しています。",
+    "pending": "確認待ち",
+    "active": "確認",
+    "disabled": "無効化",
+    "createAt": "作成日",
+    "createdBy": "作成者",
+    "updateAt": "編集日",
+    "updatedBy": "編集者"
   }
 }
