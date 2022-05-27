@@ -44,6 +44,9 @@ import DefineService from '../features/define-service/list'
 import TemplateSectorDetail from '../features/define-template-sector/detail'
 import TemplateSectorForm from '../features/define-template-sector/form'
 import TemplateSector from '../features/define-template-sector/list'
+import DefineTypeServiceDetail from '../features/define-type-service/detail'
+import DefineTypeServiceForm from '../features/define-type-service/form'
+import DefineTypeService from '../features/define-type-service/list'
 import DefineTypeUnitDetail from '../features/define-type-unit/detail'
 import DefineTypeUnitForm from '../features/define-type-unit/form'
 import DefineTypeUnit from '../features/define-type-unit/list'
@@ -606,6 +609,32 @@ const routes = [
     isInSidebar: true,
     icon: 'home',
     subMenu: [
+      {
+        name: ROUTE.TYPE_SERVICE.LIST.TITLE,
+        path: ROUTE.TYPE_SERVICE.LIST.PATH,
+        component: DefineTypeService,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TYPE_SERVICE.CREATE.TITLE,
+            path: ROUTE.TYPE_SERVICE.CREATE.PATH,
+            component: DefineTypeServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_SERVICE.EDIT.TITLE,
+            path: ROUTE.TYPE_SERVICE.EDIT.PATH,
+            component: DefineTypeServiceForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.TYPE_SERVICE.DETAILS.TITLE,
+            path: ROUTE.TYPE_SERVICE.DETAILS.PATH,
+            component: DefineTypeServiceDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
       {
         name: ROUTE.TYPE_UNIT.LIST.TITLE,
         path: ROUTE.TYPE_UNIT.LIST.PATH,

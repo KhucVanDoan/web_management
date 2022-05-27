@@ -379,10 +379,22 @@ export const DEFINE_TYPE_UNIT_STATUS = {
   DISABLED: 2,
 }
 
+export const DEFINE_TYPE_SERVICE_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
 export const DEFINE_TYPE_UNIT_STATUS_MAP = {
   [DEFINE_TYPE_UNIT_STATUS.PENDING]: 'defineTypeUnit.pending',
   [DEFINE_TYPE_UNIT_STATUS.ACTIVE]: 'defineTypeUnit.active',
   [DEFINE_TYPE_UNIT_STATUS.DISABLED]: 'defineTypeUnit.disabled',
+}
+
+export const DEFINE_TYPE_SERVICE_STATUS_MAP = {
+  [DEFINE_TYPE_SERVICE_STATUS.PENDING]: 'defineTypeService.pending',
+  [DEFINE_TYPE_SERVICE_STATUS.ACTIVE]: 'defineTypeService.active',
+  [DEFINE_TYPE_SERVICE_STATUS.DISABLED]: 'defineTypeService.disabled',
 }
 
 export const DEFINE_TYPE_UNIT_OPTIONS = [
