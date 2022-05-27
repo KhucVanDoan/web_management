@@ -11,9 +11,9 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ORDER_STATUS_OPTIONS,
-  WAREHOUSE_EXPORT_STATUS_MAP,
   MOVEMENT_TYPE,
+  WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
+  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -91,7 +91,7 @@ function WarehouseExport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_EXPORT_STATUS_MAP[params.row?.orderType])}`
+        return `${t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])}`
       },
     },
     {
@@ -132,7 +132,7 @@ function WarehouseExport() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={WAREHOUSE_MOVEMENT_STATUS_OPTIONS}
             value={status}
             variant="text"
           />

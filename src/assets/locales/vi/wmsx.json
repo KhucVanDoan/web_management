@@ -134,7 +134,8 @@
     "invoiceType": "Thiết lập loại hoá đơn",
     "invoiceTypeDetail": "Chi tiết loại hoá đơn",
     "editInvoiceType": "Sửa loại hoá đơn",
-    "createInvoiceType": "Tạo loại hoá đơn"
+    "createInvoiceType": "Tạo loại hoá đơn",
+    "warehouseExportDetail": "Phiếu giao dịch"
   },
   "warehouseSpaceReport": {
     "title": "Kiểm tra khoảng trống kho",
@@ -866,17 +867,38 @@
       "actualQuantity": "Số lượng giao dịch"
     },
     "movementsStatus": {
+      "poi": "Lệnh nhập theo đơn",
       "po": "Lệnh đặt hàng",
       "pro": "Lệnh sản xuất",
       "so": "Lệnh bán hàng",
-      "transfer": "Lệnh xuất nhập khác"
+      "transfer": "Lệnh chuyển kho",
+      "imo": "Lệnh xuất nhập khác",
+      "exo": "Lệnh xuất nhập khác"
     }
   },
   "movementsStatus": {
+    "poi": "Lệnh nhập theo đơn",
     "po": "Lệnh đặt hàng",
     "pro": "Lệnh sản xuất",
     "so": "Lệnh bán hàng",
-    "transfer": "Lệnh xuất nhập khác"
+    "transfer": "Lệnh chuyển kho",
+    "imo": "Lệnh xuất nhập khác",
+    "exo": "Lệnh xuất nhập khác"
+  },
+  "warehouseMovementOrderType": {
+    "poi": "Lệnh nhập theo đơn",
+    "po": "Lệnh đặt hàng",
+    "pro": "Lệnh sản xuất",
+    "so": "Lệnh bán hàng",
+    "transfer": "Lệnh chuyển kho",
+    "imo": "Lệnh xuất nhập khác",
+    "exo": "Lệnh xuất nhập khác"
+  },
+  "warehouseMovementStatus": {
+    "created": "Chờ xác nhận",
+    "approved": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "completed": "Hoàn thành"
   },
   "defineCustomer": {
     "code": "Mã khách hàng",
