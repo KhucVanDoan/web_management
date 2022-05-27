@@ -11,6 +11,7 @@ import definePaymentType from './define-payment-type'
 import defineService from './define-service'
 import templateSector from './define-template-sector'
 import defineTemplateShelf from './define-template-shelf'
+import defineTypeService from './define-type-service'
 import defineTypeUnit from './define-type-unit'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
@@ -74,5 +75,6 @@ export default combineReducers({
   templateSectorTemplateShelf,
   defineWarehousePallet,
   definePaymentType,
+  defineTypeService,
   invoiceType,
 })
