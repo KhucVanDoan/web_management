@@ -9,9 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
+import {
+  exportPackageApi,
+  getPackageTemplateApi,
+  importPackageApi,
+} from '~/modules/wmsx/redux/sagas/define-package/import-export-package'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -42,6 +48,8 @@ function DefinePackage() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -140,6 +148,10 @@ function DefinePackage() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -164,9 +176,28 @@ function DefinePackage() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importPackageApi(params)
+          }}
+          onExport={() => {
+            exportPackageApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getPackageTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_PACKAGE.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -195,6 +226,9 @@ function DefinePackage() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

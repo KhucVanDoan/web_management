@@ -1,17 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { DEFINE_BILL_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useRentWarehouseDashboard from '~/modules/wmsx/redux/hooks/useRentWarehouseDashboard'
+import { exportRentWarehouseApi } from '~/modules/wmsx/redux/sagas/rent-warehouse-dashboard/import-export-rent-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -32,6 +33,9 @@ const breadcrumbs = [
 function RentWarehouseDashboard() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     customerName: '',
     billCode: '',
@@ -145,6 +149,10 @@ function RentWarehouseDashboard() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters, keyword])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -158,12 +166,21 @@ function RentWarehouseDashboard() {
 
   const renderHeaderRight = () => {
     return (
-      <>
-        {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('rentWarehouseDashboard.import')}
-        </Button>
-      </>
+      <ImportExport
+        name={t('menu.importExportData')}
+        onExport={() => {
+          exportRentWarehouseApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -185,6 +202,9 @@ function RentWarehouseDashboard() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         filters={{
           form: <FilterForm />,

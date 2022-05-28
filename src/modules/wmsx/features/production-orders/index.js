@@ -9,10 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ORDER_TYPE_MAP } from '~/modules/mesx/constants'
+import {
+  getProductionOrderTemplateApi,
+  importProductionOrderApi,
+} from '~/modules/wmsx/redux/sagas/production-order/import-export-production-order'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -43,6 +48,8 @@ function ProductionOrder() {
   const [confirmModal, setConfirmModal] = useState(false)
   // const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -221,6 +228,10 @@ function ProductionOrder() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -262,9 +273,15 @@ function ProductionOrder() {
     return (
       <>
         {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('productionOrder.import')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importProductionOrderApi(params)
+          }}
+          onDownloadTemplate={getProductionOrderTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.PRODUCTION_ORDER.CREATE.PATH)}
           icon="add"
@@ -293,6 +310,8 @@ function ProductionOrder() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         filters={{
           form: <FilterForm />,

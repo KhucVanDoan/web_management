@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useInventoryWarning from '~/modules/wmsx/redux/hooks/useInventoryWarning'
+import { exportInventoryWarningApi } from '~/modules/wmsx/redux/sagas/inventory-warning/import-export-inventory-warning'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -26,6 +28,8 @@ const breadcrumbs = [
 ]
 function InventoryWarning() {
   const { t } = useTranslation(['wmsx'])
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     itemCode: '',
@@ -161,6 +165,10 @@ function InventoryWarning() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters, keyword])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -174,7 +182,24 @@ function InventoryWarning() {
   }
 
   const renderHeaderRight = () => {
-    return <></>
+    return (
+      <ImportExport
+        name={t('menu.importExportData')}
+        onExport={() => {
+          exportInventoryWarningApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
   }
 
   return (
@@ -188,6 +213,7 @@ function InventoryWarning() {
         renderHeaderRight={renderHeaderRight}
       >
         <DataTable
+          // @TODO: <yen.nguyenhai> need BE return a unique key for each record, it affects to checkbox selection
           uniqKey=""
           title={t('inventoryWarning.title')}
           rows={inventoryWarningList}
@@ -197,6 +223,9 @@ function InventoryWarning() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,
