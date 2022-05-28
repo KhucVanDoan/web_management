@@ -9,9 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
+import {
+  exportVendorApi,
+  getVendorTemplateApi,
+  importVendorApi,
+} from '~/modules/wmsx/redux/sagas/define-vendor/import-export-vendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -38,6 +44,9 @@ function DefineVendor() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     page,
     pageSize,
@@ -156,6 +165,10 @@ function DefineVendor() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -180,6 +193,28 @@ function DefineVendor() {
   const renderHeaderRight = () => {
     return (
       <>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importVendorApi(params)
+          }}
+          onExport={() => {
+            exportVendorApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getVendorTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_VENDEOR.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -208,6 +243,9 @@ function DefineVendor() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Typography, Box } from '@mui/material'
 import { omit } from 'lodash'
@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import NumberFormatText from '~/components/NumberFormat'
 import Page from '~/components/Page'
 import useInventoryStatistics from '~/modules/wmsx/redux/hooks/useInventoryStatistics'
+import { exportInventoryStatisticsApi } from '~/modules/wmsx/redux/sagas/inventory-statistics/import-export-inventory-statistics'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -26,6 +28,8 @@ const breadcrumbs = [
 ]
 function InventoryStatistics() {
   const { t } = useTranslation(['wmsx'])
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     itemName: '',
@@ -189,6 +193,10 @@ function InventoryStatistics() {
     refreshData()
   }, [page, pageSize, sort, filters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const refreshData = () => {
     const params = {
       page,
@@ -201,7 +209,23 @@ function InventoryStatistics() {
   }
 
   const renderHeaderRight = () => {
-    return <></>
+    return (
+      <ImportExport
+        name={t('menu.importExportData')}
+        onExport={() => {
+          exportInventoryStatisticsApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
   }
 
   return (
@@ -251,6 +275,9 @@ function InventoryStatistics() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

@@ -9,8 +9,14 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import {
+  exportVoucherApi,
+  getVoucherTemplateApi,
+  importVoucherApi,
+} from '~/modules/wmsx/redux/sagas/voucher/import-export-voucher'
 import {
   convertFilterParams,
   convertSortParams,
@@ -37,6 +43,9 @@ function DefineVoucher() {
   const [confirmModal, setConfirmModal] = useState(false)
   // const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -149,6 +158,10 @@ function DefineVoucher() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -190,9 +203,28 @@ function DefineVoucher() {
     return (
       <>
         {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('defineVoucher.import')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importVoucherApi(params)
+          }}
+          onExport={() => {
+            exportVoucherApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getVoucherTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_VOUCHER.CREATE.PATH)}
           icon="add"
@@ -221,6 +253,9 @@ function DefineVoucher() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         filters={{
           form: <FilterForm />,

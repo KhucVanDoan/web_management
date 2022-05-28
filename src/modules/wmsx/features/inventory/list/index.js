@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -6,12 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 import { INVENTORY_STATUS_OPTIONS } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useInventory from '~/modules/wmsx/redux/hooks/useInventory'
+import { exportInventoryApi } from '~/modules/wmsx/redux/sagas/inventory/import-export-inventory'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -38,6 +39,9 @@ const Inventory = () => {
   } = useInventory()
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -169,13 +173,32 @@ const Inventory = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters, keyword])
+
   const renderHeaderRight = () => {
     return (
       <>
         {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download">
-          {t('warehouseSetting.import')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {
+            exportInventoryApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
       </>
     )
   }
@@ -198,6 +221,9 @@ const Inventory = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -7,9 +7,11 @@ import { useHistory } from 'react-router-dom'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useWarehouseTransferMovements from '~/modules/wmsx/redux/hooks/useWarehouseTransferMovements'
+import { exportWarehouseTransferMovementApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer-movements/import-export-warehouse-transfer-movement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -36,6 +38,8 @@ const breadcrumbs = [
 function WarehouseTransferMovements() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     id: '',
@@ -161,6 +165,10 @@ function WarehouseTransferMovements() {
     refreshData()
   }, [page, pageSize, sort, filters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const refreshData = () => {
     const params = {
       page,
@@ -194,11 +202,36 @@ function WarehouseTransferMovements() {
     })
   }, [warehouseTransferMovementList])
 
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {
+            exportWarehouseTransferMovementApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
+      </>
+    )
+  }
+
   return (
     <>
       <Page
         breadcrumbs={breadcrumbs}
         title={t('menu.warehouseTransfer')}
+        renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
         <DataTable
@@ -210,6 +243,9 @@ function WarehouseTransferMovements() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useTranslation } from 'react-i18next'
 
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useWarehouseSpaceReport from '~/modules/wmsx/redux/hooks/useWarehouseSpaceReport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -26,11 +27,24 @@ const warehouseSetting = () => {
 
   const { t } = useTranslation(['wmsx'])
 
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {}}
+          disabled
+        />
+      </>
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseSpaceReport')}
       placeholder={t('warehouseSpaceReport.searchPlaceholder')}
+      renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <FilterForm />
