@@ -32,6 +32,9 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import DefineBill from '../features/define-bill'
+import DefineBillDetail from '../features/define-bill/detail'
+import DefineBillForm from '../features/define-bill/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
@@ -793,6 +796,31 @@ const routes = [
             name: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.TITLE,
             path: ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.PATH,
             component: DefinePaymentTypeDetail,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_BILL.LIST.TITLE,
+        path: ROUTE.DEFINE_BILL.LIST.PATH,
+        component: DefineBill,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BILL.CREATE.TITLE,
+            path: ROUTE.DEFINE_BILL.CREATE.PATH,
+            component: DefineBillForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_BILL.EDIT.TITLE,
+            path: ROUTE.DEFINE_BILL.EDIT.PATH,
+            component: DefineBillForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_BILL.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BILL.DETAIL.PATH,
+            component: DefineBillDetail,
             isInSidebar: true,
           },
         ],

@@ -584,4 +584,22 @@ export const ROUTE = {
       TITLE: 'editInvoiceType',
     },
   },
+  DEFINE_BILL: {
+    LIST: {
+      PATH: '/wmsx/define-bill/list',
+      TITLE: 'defineBill',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-bill/create',
+      TITLE: 'defineBillCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-bill/:id/edit',
+      TITLE: 'defineBillEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-bill/:id/details',
+      TITLE: 'defineBillDetails',
+    },
+  },
 }

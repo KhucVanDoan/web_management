@@ -136,6 +136,10 @@
     "invoiceTypeDetail": "Chi tiết loại hoá đơn",
     "editInvoiceType": "Sửa loại hoá đơn",
     "createInvoiceType": "Tạo loại hoá đơn",
+    "defineBill": "Định nghĩa hóa đơn",
+    "defineBillCreate": "Tạo mới hóa đơn",
+    "defineBillDetails": "Chi tiết hóa đơn",
+    "defineBillEdit": "Chỉnh sửa hóa đơn",
     "warehouseExportDetail": "Phiếu giao dịch"
   },
   "defineTypeService": {
@@ -1490,6 +1494,7 @@
   },
   "defineBill": {
     "orderNumber": "#",
+    "searchPlaceholder": "Tìm hiếm thông tin",
     "code": "Mã hóa đơn",
     "name": "Tên hóa đơn",
     "type": "Loại hóa đơn",
