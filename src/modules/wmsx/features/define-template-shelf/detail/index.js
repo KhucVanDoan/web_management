@@ -7,7 +7,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { DEFAULT_UNITS_MAP } from '~/modules/wmsx/constants'
+import { DEFAULT_UNITS_MAP, WEIGHT_UNITS_MAP } from '~/modules/wmsx/constants'
 import useDefineTemplateShelf from '~/modules/wmsx/redux/hooks/useDefineTemplateShelf'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -99,7 +99,7 @@ const DefineTemplateShelfDetail = () => {
               <LV
                 label={t('defineTemplateShelf.weightLoadSection.unitName')}
                 value={t(
-                  DEFAULT_UNITS_MAP[templateShelfDetails.weightLoad?.unit],
+                  WEIGHT_UNITS_MAP[templateShelfDetails.weightLoad?.unit],
                 )}
               />
             </Grid>

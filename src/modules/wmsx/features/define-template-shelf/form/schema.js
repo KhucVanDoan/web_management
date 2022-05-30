@@ -2,19 +2,21 @@
 
 import * as Yup from 'yup'
 
+import { unitSchema } from '~/common/schemas'
+
 export const defineTemplateShelfSchema = (t, heightTotal, weightTotal) =>
   Yup.object().shape({
     name: Yup.string().required(t('general:form.required')),
-    unitStorageSpace: Yup.number()
+    unitStorageSpace: Yup.string()
       .nullable()
       .required(t('general:form.required')),
-    long: Yup.number().nullable().required(t('general:form.required')),
-    width: Yup.number().nullable().required(t('general:form.required')),
-    height: Yup.number().nullable().required(t('general:form.required')),
+    long: unitSchema(t).nullable().required(t('general:form.required')),
+    width: unitSchema(t).nullable().required(t('general:form.required')),
+    height: unitSchema(t).nullable().required(t('general:form.required')),
     unitWeigthLoad: Yup.number()
       .nullable()
       .required(t('general:form.required')),
-    weightLoad: Yup.number().nullable().required(t('general:form.required')),
+    weightLoad: unitSchema(t).nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         name: Yup.string().required(t('general:form.required')),
