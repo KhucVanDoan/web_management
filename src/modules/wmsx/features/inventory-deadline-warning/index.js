@@ -1,12 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useInventoryDeadlineWarning from '~/modules/wmsx/redux/hooks/useInventoryDeadlineWarning'
+import {
+  exportInventoryDeadlineWarningApi,
+  getInventoryDeadlineWarningTemplateApi,
+  importInventoryDeadlineWarningApi,
+} from '~/modules/wmsx/redux/sagas/inventory-deadline-warning/import-export-inventory-deadline-warning'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -27,6 +32,8 @@ const breadcrumbs = [
 ]
 function InventoryDeadlineWarning() {
   const { t } = useTranslation(['wmsx'])
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     itemCode: '',
@@ -160,6 +167,10 @@ function InventoryDeadlineWarning() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -174,11 +185,26 @@ function InventoryDeadlineWarning() {
 
   const renderHeaderRight = () => {
     return (
-      <>
-        <Button variant="outlined" disabled icon="download">
-          {t('inventoryDeadlineWarning.import')}
-        </Button>
-      </>
+      <ImportExport
+        name={t('menu.importExportData')}
+        onImport={(params) => {
+          importInventoryDeadlineWarningApi(params)
+        }}
+        onExport={() => {
+          exportInventoryDeadlineWarningApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onDownloadTemplate={getInventoryDeadlineWarningTemplateApi}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -193,6 +219,7 @@ function InventoryDeadlineWarning() {
         loading={isLoading}
       >
         <DataTable
+          // @TODO: <yen.nguyenhai> need BE return a unique key for each record, it affects to checkbox selection
           uniqKey=""
           title={t('inventoryDeadlineWarning.title')}
           rows={inventoryDeadlineWarningList}
@@ -202,6 +229,9 @@ function InventoryDeadlineWarning() {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

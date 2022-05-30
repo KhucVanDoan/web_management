@@ -379,10 +379,22 @@ export const DEFINE_TYPE_UNIT_STATUS = {
   DISABLED: 2,
 }
 
+export const DEFINE_TYPE_SERVICE_STATUS = {
+  PENDING: 0,
+  ACTIVE: 1,
+  DISABLED: 2,
+}
+
 export const DEFINE_TYPE_UNIT_STATUS_MAP = {
   [DEFINE_TYPE_UNIT_STATUS.PENDING]: 'defineTypeUnit.pending',
   [DEFINE_TYPE_UNIT_STATUS.ACTIVE]: 'defineTypeUnit.active',
   [DEFINE_TYPE_UNIT_STATUS.DISABLED]: 'defineTypeUnit.disabled',
+}
+
+export const DEFINE_TYPE_SERVICE_STATUS_MAP = {
+  [DEFINE_TYPE_SERVICE_STATUS.PENDING]: 'defineTypeService.pending',
+  [DEFINE_TYPE_SERVICE_STATUS.ACTIVE]: 'defineTypeService.active',
+  [DEFINE_TYPE_SERVICE_STATUS.DISABLED]: 'defineTypeService.disabled',
 }
 
 export const DEFINE_TYPE_UNIT_OPTIONS = [
@@ -644,5 +656,93 @@ export const DEFINE_INVOICE_TYPE_STATUS_OPTION = [
     id: 1,
     text: 'definePaymentType.confirmed',
     color: 'confirmed',
+  },
+]
+
+export const WAREHOUSE_MOVEMENT_ORDER_TYPE = {
+  POI: 0,
+  PO: 1,
+  PRO: 2,
+  SO: 3,
+  TRANSFER: 4,
+  IMO: 5,
+  EXO: 6,
+}
+
+export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.POI]: 'warehouseMovementOrderType.poi',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.PO]: 'warehouseMovementOrderType.po',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.PRO]: 'warehouseMovementOrderType.pro',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.SO]: 'warehouseMovementOrderType.so',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.TRANSFER]: 'warehouseMovementOrderType.transfer',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.IMO]: 'warehouseMovementOrderType.imo',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.EXO]: 'warehouseMovementOrderType.exo'
+}
+
+export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseMovementOrderType.poi',
+  },
+  {
+    id: 1,
+    text: 'warehouseMovementOrderType.po',
+  },
+  {
+    id: 2,
+    text: 'warehouseMovementOrderType.pro',
+  },
+  {
+    id: 3,
+    text: 'warehouseMovementOrderType.so',
+  },
+  {
+    id: 4,
+    text: 'warehouseMovementOrderType.transfer',
+  },
+  {
+    id: 5,
+    text: 'warehouseMovementOrderType.imo',
+  },
+  {
+    id: 6,
+    text: 'warehouseMovementOrderType.exo',
+  },
+]
+
+export const WAREHOUSE_MOVEMENT_STATUS = {
+  CREATED: 0,
+  APPROVED: 1,
+  IN_PROGRESS: 2,
+  COMPLETED: 4
+}
+
+export const WAREHOUSE_MOVEMENT_STATUS_MAP = {
+  [WAREHOUSE_MOVEMENT_STATUS.CREATED]: 'warehouseMovementStatus.created',
+  [WAREHOUSE_MOVEMENT_STATUS.APPROVED]: 'warehouseMovementStatus.approved',
+  [WAREHOUSE_MOVEMENT_STATUS.IN_PROGRESS]: 'warehouseMovementStatus.inProgress',
+  [WAREHOUSE_MOVEMENT_STATUS.COMPLETED]: 'warehouseMovementStatus.completed',
+}
+
+export const WAREHOUSE_MOVEMENT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'warehouseMovementStatus.created',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseMovementStatus.approved',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'warehouseMovementStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'warehouseMovementStatus.completed',
+    color: 'completed',
   },
 ]

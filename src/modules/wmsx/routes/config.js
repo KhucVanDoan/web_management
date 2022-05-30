@@ -16,13 +16,14 @@ export const ROUTE = {
   RENT_WAREHOUSE_COST_MANAGEMENT: {
     TITLE: 'rentWarehouseCostManagement',
   },
+
   INVENTORY: {
     LIST: {
       PATH: '/wmsx/inventory',
       TITLE: 'inventory',
     },
     DETAIL: {
-      PATH: '/wmsx/inventory/:id/detail/:warehouseId',
+      PATH: '/wmsx/inventory/:id/detail',
       TITLE: 'inventoryDetail',
     },
   },
@@ -392,6 +393,24 @@ export const ROUTE = {
         PATH: '/wmsx/production-orders/:parentId/transactions/:id',
         TITLE: 'movementDetail',
       },
+    },
+  },
+  TYPE_SERVICE: {
+    LIST: {
+      PATH: '/wmsx/type-service',
+      TITLE: 'defineTypeService',
+    },
+    CREATE: {
+      PATH: '/wmsx/type-service/create',
+      TITLE: 'typeServiceCreate',
+    },
+    DETAILS: {
+      PATH: '/wmsx/type-service/:id/detail',
+      TITLE: 'typeServiceDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/type-service/:id/edit',
+      TITLE: 'typeServiceEdit',
     },
   },
   TYPE_UNIT: {

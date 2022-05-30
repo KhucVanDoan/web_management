@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getInventoryApiDetail = (params) => {
-  const uri = `/v1/warehouses/inventories/${params.id}/histories/${params.warehouseId}`
+  const uri = `/v1/warehouses/inventories/${params}`
   return api.get(uri)
 }
 

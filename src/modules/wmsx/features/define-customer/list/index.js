@@ -9,9 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineCustomer from '~/modules/wmsx/redux/hooks/useDefineCustomer'
+import {
+  exportCustomerApi,
+  getCustomerTemplateApi,
+  importCustomerApi,
+} from '~/modules/wmsx/redux/sagas/define-customer/import-export-customer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -38,6 +44,9 @@ const DefineCustomer = () => {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     page,
     pageSize,
@@ -161,6 +170,10 @@ const DefineCustomer = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -185,6 +198,28 @@ const DefineCustomer = () => {
   const renderHeaderRight = () => {
     return (
       <>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importCustomerApi(params)
+          }}
+          onExport={() => {
+            exportCustomerApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getCustomerTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CUSTOMER.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -214,6 +249,9 @@ const DefineCustomer = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

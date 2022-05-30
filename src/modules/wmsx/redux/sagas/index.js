@@ -66,6 +66,13 @@ import watchDeleteTemplateShelf from './define-template-shelf/delete-template-sh
 import watchGetTemplateShelfDetail from './define-template-shelf/get-template-shelf-detail'
 import watchSearchTemplateShelfs from './define-template-shelf/search-template-shelfs'
 import watchUpdateTemplateShelf from './define-template-shelf/update-template-shelf'
+import watchConfirmTypeService from './define-type-service/confirm-define-type-service.saga'
+import watchCreateTypeService from './define-type-service/create-define-type-service.saga'
+import watchDeleteTypeService from './define-type-service/delete-define-type-service.saga'
+import watchGetTypeServiceDetails from './define-type-service/get-define-type-service-details.saga'
+import watchImportTypeService from './define-type-service/import-type-service'
+import watchSearchTypeServices from './define-type-service/search-define-type-services.saga'
+import watchUpdateTypeService from './define-type-service/update-define-type-service.saga'
 import watchConfirmTypeUnit from './define-type-unit/confirm-define-type-unit'
 import watchCreateTypeUnit from './define-type-unit/create-define-type-unit'
 import watchDeleteTypeUnit from './define-type-unit/delete-define-type-unit'
@@ -385,6 +392,14 @@ export default function* sagas() {
     watchImportPaymentType(),
     watchSearchPaymentTypes(),
     watchUpdatePaymentType(),
+    //define type service
+    watchConfirmTypeService(),
+    watchCreateTypeService(),
+    watchDeleteTypeService(),
+    watchGetTypeServiceDetails(),
+    watchImportTypeService(),
+    watchSearchTypeServices(),
+    watchUpdateTypeService(),
     // invoice type
     watchUpdateInvoiceType(),
     watchSearchInvoiceTypes(),

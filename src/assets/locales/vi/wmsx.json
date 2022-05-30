@@ -35,6 +35,7 @@
     "warehouseSpaceReport": "Kiểm tra khoảng trống kho",
     "warehouseManagement": "Quản lý tồn kho",
     "rentWarehouseCostManagement": "Quản lý thuê kho",
+    "defineTypeService": "Thiết lập loại dịch vụ",
     "defineTypeUnit": "Thiết lập đơn vị tính",
     "typeUnitDetail": "Chi tiết đơn vị tính",
     "typeUnitCreate": "Tạo đơn vị tính",
@@ -134,7 +135,53 @@
     "invoiceType": "Thiết lập loại hoá đơn",
     "invoiceTypeDetail": "Chi tiết loại hoá đơn",
     "editInvoiceType": "Sửa loại hoá đơn",
-    "createInvoiceType": "Tạo loại hoá đơn"
+    "createInvoiceType": "Tạo loại hoá đơn",
+    "warehouseExportDetail": "Phiếu giao dịch"
+  },
+  "defineTypeService": {
+    "orderNumber": "#",
+    "title": "Danh sách loại dịch vụ",
+    "code": "Mã loại dịch vụ",
+    "name": "Tên loại dịch vụ",
+    "isItemUnitDetail": "Có chi tiết không",
+    "description": "Mô tả về loại dịch vụ",
+    "createItemUnit": "Tạo loại dịch vụ",
+    "searchPlaceholder": "Tìm kiếm loại dịch vụ theo mã hoặc tên",
+    "unitCode": "Mã đơn vị",
+    "unitName": "Tên đơn vị",
+    "unitNote": "Mô tả",
+    "createButton": "Tạo loại dịch vụ",
+    "createDate": "Ngày tạo",
+    "updateDate": "Ngày sửa",
+    "action": "Hành động",
+    "createTitle": "Tạo loại dịch vụ",
+    "updateTitle": "Chỉnh sửa loại dịch vụ",
+    "viewTitle": "Chi tiết loại dịch vụ",
+    "deleteTitle": "Xóa loại dịch vụ",
+    "confirmDelete": "Bạn có muốn xóa loại dịch vụ không? Chú ý, bạn sẽ không thể hoàn tác khi đồng ý xóa loại dịch vụ này.",
+    "deleteTypeServiceSuccess": "Xóa loại dịch vụ thành công",
+    "createTypeServiceSuccess": "Tạo loại dịch vụ thành công",
+    "updateTypeServiceSuccess": "Cập nhật loại dịch vụ thành công",
+    "delete": "Xóa loại dịch vụ",
+    "deleteButton": "Xóa loại dịch vụ",
+    "disableTitle": "Vô hiêu hóa loại dịch vụ",
+    "disable": "Vô hiệu hóa",
+    "unDisable": "Hủy vô hiệu hóa",
+    "unDisableTitle": "Hủy vô hiêu hóa loại dịch vụ",
+    "confirmDisabled": "Bạn có muốn vô hiệu hóa loại dịch vụ không?",
+    "confirmUnDisabled": "Bạn có muốn hủy vô hiệu hóa loại dịch vụ không?",
+    "typeServiceDetail": "Chi tiết loại dịch vụ",
+    "typeServiceCreate": "Tạo loại dịch vụ",
+    "typeServiceEdit": "Chỉnh sửa loại dịch vụ",
+    "codeInput": "Nhập mã loại dich vụ",
+    "nameInput": "Nhập tên loại dịch vụ",
+    "descriptionInput": "Nhập mô tả",
+    "status": "Trạng thái",
+    "confirmTypeServiceSuccess": "Xác nhận loại dịch vụ thành công",
+    "add": "Thêm",
+    "pending": "Chờ xác nhận",
+    "active": "Xác nhận",
+    "disabled": "Vô hiệu hóa"
   },
   "warehouseSpaceReport": {
     "title": "Kiểm tra khoảng trống kho",
@@ -866,17 +913,38 @@
       "actualQuantity": "Số lượng giao dịch"
     },
     "movementsStatus": {
+      "poi": "Lệnh nhập theo đơn",
       "po": "Lệnh đặt hàng",
       "pro": "Lệnh sản xuất",
       "so": "Lệnh bán hàng",
-      "transfer": "Lệnh xuất nhập khác"
+      "transfer": "Lệnh chuyển kho",
+      "imo": "Lệnh xuất nhập khác",
+      "exo": "Lệnh xuất nhập khác"
     }
   },
   "movementsStatus": {
+    "poi": "Lệnh nhập theo đơn",
     "po": "Lệnh đặt hàng",
     "pro": "Lệnh sản xuất",
     "so": "Lệnh bán hàng",
-    "transfer": "Lệnh xuất nhập khác"
+    "transfer": "Lệnh chuyển kho",
+    "imo": "Lệnh xuất nhập khác",
+    "exo": "Lệnh xuất nhập khác"
+  },
+  "warehouseMovementOrderType": {
+    "poi": "Lệnh nhập theo đơn",
+    "po": "Lệnh đặt hàng",
+    "pro": "Lệnh sản xuất",
+    "so": "Lệnh bán hàng",
+    "transfer": "Lệnh chuyển kho",
+    "imo": "Lệnh xuất nhập khác",
+    "exo": "Lệnh xuất nhập khác"
+  },
+  "warehouseMovementStatus": {
+    "created": "Chờ xác nhận",
+    "approved": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "completed": "Hoàn thành"
   },
   "defineCustomer": {
     "code": "Mã khách hàng",

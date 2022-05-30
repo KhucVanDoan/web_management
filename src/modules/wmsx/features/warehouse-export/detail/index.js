@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import {
   MOVEMENT_TYPE_MAP,
-  WAREHOUSE_EXPORT_STATUS_MAP,
+  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -87,7 +87,7 @@ const WarehouseExportDetail = () => {
               <LV
                 label={t('movements.importExport.letterType')}
                 value={t(
-                  WAREHOUSE_EXPORT_STATUS_MAP[
+                  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[
                     warehouseExportDetail?.movementType
                   ],
                 )}
