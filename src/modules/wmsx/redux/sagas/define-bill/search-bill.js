@@ -1,22 +1,26 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { NOTIFICATION_TYPE } from '~/common/constants'
 import { api } from '~/services/api'
-import addNotification from '~/utils/toast'
 
 import {
-  searchVoucherFailed,
-  searchVoucherSuccess,
-  WMSX_SEARCH_VOUCHER_START,
-} from '../../actions/voucher'
+  searchBillsFailed,
+  searchBillsSuccess,
+  WMSX_SEARCH_BILL_START,
+} from '../../actions/define-bill'
 
 /**
- * Search voucher api
+ * Search bill API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const searchVoucherApi = (params) => {
-  const uri = `/v1/warehouse-yard/vouchers/list`
+// @TODO: waiting feature define service
+export const getAllServicesDetailApi = (params) => {
+  const uri = `/v1/warehouse-yard/bills/services`
+  return api.get(uri, params)
+}
+
+const searchBillsApi = (params) => {
+  const uri = `/v1/warehouse-yard/bills/list`
   return api.get(uri, params)
 }
 
@@ -24,31 +28,26 @@ export const searchVoucherApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doSearchVoucher(action) {
+function* doSearchBills(action) {
   try {
-    const response = yield call(searchVoucherApi, action?.payload)
+    const response = yield call(searchBillsApi, action?.payload)
 
     if (response?.statusCode === 200) {
       const payload = {
         list: response.data.items,
         total: response.data.meta.total,
       }
-      yield put(searchVoucherSuccess(payload))
+      yield put(searchBillsSuccess(payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
     } else {
-      addNotification(
-        response?.message || response?.statusText,
-        NOTIFICATION_TYPE.ERROR,
-      )
-
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(searchVoucherFailed())
+    yield put(searchBillsFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -57,8 +56,8 @@ function* doSearchVoucher(action) {
 }
 
 /**
- * Watch Voucher
+ * Watch search bill
  */
-export default function* watchSearchVouchers() {
-  yield takeLatest(WMSX_SEARCH_VOUCHER_START, doSearchVoucher)
+export default function* watchSearchBills() {
+  yield takeLatest(WMSX_SEARCH_BILL_START, doSearchBills)
 }

@@ -210,7 +210,8 @@
     },
     "creator": "Người tạo",
     "search": "Tìm kiếm",
-    "filter": "Lọc"
+    "filter": "Lọc",
+    "percent": "%"
   },
   "moduleMenu": {
     "database": "Cơ sở dữ liệu",

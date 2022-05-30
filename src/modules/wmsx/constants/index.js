@@ -553,6 +553,13 @@ export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
   },
 ]
 
+export const DEFINE_BILL_STATUS = {
+  PENDING: 0,
+  WAIT_FOR_PAY: 1,
+  PAID: 2,
+  REJECTED: 3,
+}
+
 export const DEFINE_BILL_STATUS_OPTIONS = [
   {
     id: 0,
@@ -658,6 +665,12 @@ export const DEFINE_INVOICE_TYPE_STATUS_OPTION = [
     color: 'confirmed',
   },
 ]
+export const SERVICE_PRICE_TYPE = [
+  { value: 0, suffix: 'defineService.day' },
+  { value: 1, suffix: 'defineService.month' },
+  { value: 2, suffix: 'defineService.quarter' },
+  { value: 3, suffix: 'defineService.year' },
+]
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE = {
   POI: 0,
@@ -674,9 +687,10 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.PO]: 'warehouseMovementOrderType.po',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.PRO]: 'warehouseMovementOrderType.pro',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.SO]: 'warehouseMovementOrderType.so',
-  [WAREHOUSE_MOVEMENT_ORDER_TYPE.TRANSFER]: 'warehouseMovementOrderType.transfer',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.TRANSFER]:
+    'warehouseMovementOrderType.transfer',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.IMO]: 'warehouseMovementOrderType.imo',
-  [WAREHOUSE_MOVEMENT_ORDER_TYPE.EXO]: 'warehouseMovementOrderType.exo'
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.EXO]: 'warehouseMovementOrderType.exo',
 }
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
@@ -714,7 +728,7 @@ export const WAREHOUSE_MOVEMENT_STATUS = {
   CREATED: 0,
   APPROVED: 1,
   IN_PROGRESS: 2,
-  COMPLETED: 4
+  COMPLETED: 4,
 }
 
 export const WAREHOUSE_MOVEMENT_STATUS_MAP = {
