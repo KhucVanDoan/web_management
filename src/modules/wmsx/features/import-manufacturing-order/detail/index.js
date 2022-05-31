@@ -182,12 +182,12 @@ const ImportManufacturingOrderDetail = () => {
               />
             </Grid>
           </Grid>
-          <Box sx={{ mt: 3 }}>
-            <ItemsSettingTable items={items || []} mode={MODAL_MODE.DETAIL} />
-          </Box>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Box sx={{ mt: 3 }}>
+        <ItemsSettingTable items={items || []} mode={MODAL_MODE.DETAIL} />
+      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }
