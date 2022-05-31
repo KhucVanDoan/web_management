@@ -27,7 +27,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               label={t('definePackage.productName')}
-              options={items}
               asyncRequest={(s) =>
                 getItemsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
               }
@@ -60,7 +59,9 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         field: 'action',
         width: 100,
         renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+          const idx = items.findIndex(
+            (item) => item?.itemId?.id === params.row?.itemId?.id,
+          )
           return (
             <IconButton
               onClick={() => {
