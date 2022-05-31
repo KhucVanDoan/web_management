@@ -140,7 +140,11 @@
     "defineBillCreate": "Tạo mới hóa đơn",
     "defineBillDetails": "Chi tiết hóa đơn",
     "defineBillEdit": "Chỉnh sửa hóa đơn",
-    "warehouseExportDetail": "Phiếu giao dịch"
+    "warehouseExportDetail": "Phiếu giao dịch",
+    "soExport": "Lệnh xuất theo đơn bán hàng",
+    "soExportCreate": "Tạo lệnh xuất theo đơn bán",
+    "soExportEdit": "Sửa lệnh xuất theo đơn bán",
+    "soExportDetail": "Chi tiết lệnh xuất theo đơn bán"
   },
   "defineTypeService": {
     "orderNumber": "#",
@@ -1077,7 +1081,10 @@
       "addItem": "Thêm sản phẩm",
       "itemPrice": "Giá sản phẩm",
       "qcCheck": "QC ?",
-      "qcCriteria": "Tiêu chí QC"
+      "qcCriteria": "Tiêu chí QC",
+      "mfg": "Ngày sản xuất",
+      "lotNumber": "Số lô",
+      "packageCode": "Mã package"
     }
   },
   "importManufacturingOrder": {
@@ -1720,5 +1727,19 @@
     "createdBy": "Người tạo",
     "updateAt": "Ngày sửa",
     "updatedBy": "Người sửa"
+  },
+  "orderStatusSoExport": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành",
+    "inReceiving": "Đang nhận",
+    "received": "Đã nhận",
+    "delivered": "Đã cất",
+    "inCollecting": "Nhặt hàng",
+    "collected": "Chờ xuất kho",
+    "exported": "Hoàn thành"
   }
 }

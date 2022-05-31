@@ -152,6 +152,14 @@ import watchRejectProductionOrder from './production-order/reject-production-ord
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchConfirmSOExport from './so-export/confirm-so-export'
+import watchCreateSOExport from './so-export/create-so-export'
+import watchDeleteSOExport from './so-export/delete-so-export'
+import watchGetLotNumberListSOExport from './so-export/get-lot-number-list'
+import watchGetSOExportDetails from './so-export/get-so-export-details'
+import watchRejectSOExport from './so-export/reject-so-export'
+import watchSearchSOExport from './so-export/search-so-export'
+import watchUpdateSOExport from './so-export/update-so-export'
 import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf.saga'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
@@ -428,5 +436,14 @@ export default function* sagas() {
     watchRejectBill(),
     watchSearchBills(),
     watchUpdateBill(),
+    // so export
+    watchConfirmSOExport(),
+    watchCreateSOExport(),
+    watchDeleteSOExport(),
+    watchGetLotNumberListSOExport(),
+    watchGetSOExportDetails(),
+    watchRejectSOExport(),
+    watchSearchSOExport(),
+    watchUpdateSOExport(),
   ])
 }
