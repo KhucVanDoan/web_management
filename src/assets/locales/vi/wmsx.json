@@ -844,6 +844,9 @@
     "createButton": "Tạo cài đặt",
     "deleteSetting": "Xóa tồn kho"
   },
+  "warehouseImport": {
+    "searchPlaceholder": "Tìm kiếm giao dịch theo mã lệnh hoặc tên lệnh"
+  },
   "warehouseExport": {
     "title": "Giao dịch xuất kho",
     "breadcrumbTitle": "Phiếu giao dịch",
