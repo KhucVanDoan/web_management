@@ -50,19 +50,19 @@ const DefineBlockForm = () => {
       code: isUpdate ? blockDetails?.code : CODE_SETTINGS.BLOCK.PREFIX,
       description: blockDetails?.description || '',
       long: {
-        value: blockDetails?.long?.value || 1,
+        value: blockDetails?.long?.value || null,
         unit: blockDetails?.long?.unit || 3,
       },
       width: {
-        value: blockDetails?.width?.value || 1,
+        value: blockDetails?.width?.value || null,
         unit: blockDetails?.width?.unit || 3,
       },
       height: {
-        value: blockDetails?.height?.value || 1,
+        value: blockDetails?.height?.value || null,
         unit: blockDetails?.height?.unit || 3,
       },
       weight: {
-        value: blockDetails?.weight?.value || 1,
+        value: blockDetails?.weight?.value || null,
         unit: blockDetails?.weight?.unit || 1,
       },
       items: blockDetails?.blockItemDetails?.map((p) => ({
@@ -286,7 +286,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -311,7 +311,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -338,7 +338,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -363,7 +363,7 @@ const DefineBlockForm = () => {
                                 options={WEIGHT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
