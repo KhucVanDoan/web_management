@@ -200,7 +200,6 @@ function ProductionOrderForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
                   </Grid>

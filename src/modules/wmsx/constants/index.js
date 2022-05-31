@@ -760,3 +760,76 @@ export const WAREHOUSE_MOVEMENT_STATUS_OPTIONS = [
     color: 'completed',
   },
 ]
+
+export const ORDER_STATUS_SO_EXPORT = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  APPROVED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+  INRECEIVING: 6,
+  RECEIVED: 7,
+  DELIVERED: 8,
+  INCOLLECTING: 9,
+  COLLECTED: 10,
+  EXPORTED: 11,
+}
+
+export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatusSoExport.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatusSoExport.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatusSoExport.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'orderStatusSoExport.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'orderStatusSoExport.rejected',
+    color: 'rejected',
+  },
+  {
+    id: 6,
+    text: 'orderStatusSoExport.inReceiving',
+    color: 'InReceiving',
+  },
+  {
+    id: 7,
+    text: 'orderStatusSoExport.received',
+    color: 'pending',
+  },
+  {
+    id: 8,
+    text: 'orderStatusSoExport.delivered',
+    color: 'Delivered',
+  },
+  {
+    id: 9,
+    text: 'orderStatusSoExport.inCollecting',
+    color: 'InCollecting',
+  },
+  {
+    id: 10,
+    text: 'orderStatusSoExport.collected',
+    color: 'Collected',
+  },
+  {
+    id: 11,
+    text: 'orderStatusSoExport.exported',
+    color: 'Exported',
+  },
+]

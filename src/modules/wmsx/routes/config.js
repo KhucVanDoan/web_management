@@ -602,4 +602,22 @@ export const ROUTE = {
       TITLE: 'defineBillDetails',
     },
   },
+  SO_EXPORT: {
+    LIST: {
+      PATH: '/wmsx/so-export',
+      TITLE: 'soExport',
+    },
+    CREATE: {
+      PATH: '/wmsx/so-export/create',
+      TITLE: 'soExportCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/so-export/:id/detail',
+      TITLE: 'soExportDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/so-export/:id/edit',
+      TITLE: 'soExportEdit',
+    },
+  },
 }

@@ -29,6 +29,7 @@ import invoiceType from './invoice-type'
 import movementManagement from './movements'
 import productionOrder from './production-order'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
+import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
 import warehouseArea from './warehouse-area'
@@ -79,4 +80,5 @@ export default combineReducers({
   defineTypeService,
   invoiceType,
   bill,
+  soExport,
 })
