@@ -126,7 +126,7 @@ const progressManufacturingByOrder = () => {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        const { status } = params.row?.saleOrder
+        const { status } = params.row
         return (
           <Status
             options={PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION}
