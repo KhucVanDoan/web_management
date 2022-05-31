@@ -6,5 +6,9 @@
     "userManagementEdit": "Sửa người dùng",
     "userManagementDetail": "Chi tiết người dùng",
     "userPermission": "Phân quyền"
+  },
+  "userStatus": {
+    "active": "Hoạt động",
+    "tempLocked": "Tạm khóa"
   }
 }
