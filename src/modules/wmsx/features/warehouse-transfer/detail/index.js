@@ -179,12 +179,12 @@ const WarehouseTransferDetail = () => {
               />
             </Grid>
           </Grid>
-          <Box sx={{ mt: 3 }}>
-            <ItemSettingTable items={getDataItem()} mode={mode} />
-          </Box>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
+      <Box sx={{ mt: 3 }}>
+        <ItemSettingTable items={getDataItem()} mode={mode} />
+      </Box>
+      <ActionBar onBack={backToList} />
     </Page>
   )
 }

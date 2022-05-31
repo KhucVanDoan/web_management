@@ -28,6 +28,7 @@ import inventoryWarning from './inventory-warning'
 import invoiceType from './invoice-type'
 import movementManagement from './movements'
 import productionOrder from './production-order'
+import purchasedOrdersImport from './purchased-orders-import'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
 import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
@@ -64,6 +65,7 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  purchasedOrdersImport,
   warehouseSpaceReport,
   warehouseArea,
   importManufacturingOrder,

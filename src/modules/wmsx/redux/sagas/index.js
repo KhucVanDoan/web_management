@@ -151,6 +151,15 @@ import watchGetProductionOrderDetails from './production-order/get-production-or
 import watchRejectProductionOrder from './production-order/reject-production-order'
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchConfirmPOImport from './purchased-orders-import/confirm-purchased-order-imp'
+import watchCreatePOSImport from './purchased-orders-import/create-purchased-order-imp'
+import watchDeletePOSImport from './purchased-orders-import/delete-purchased-order-imp'
+import watchGetPOImpLotNumberList from './purchased-orders-import/get-lot-number-list'
+import watchGetPOSImportDetails from './purchased-orders-import/get-purchased-order-imp-details'
+import watchGetPurchasedOrderNotCreatePOimp from './purchased-orders-import/get-purchased-order-not-poimp'
+import watchRejectPOSImport from './purchased-orders-import/reject-purchased-order-imp'
+import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
+import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
 import watchConfirmSOExport from './so-export/confirm-so-export'
 import watchCreateSOExport from './so-export/create-so-export'
@@ -335,6 +344,16 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //purchased orders import
+    watchUpdatePOImport(),
+    watchSearchPOImport(),
+    watchRejectPOSImport(),
+    watchGetPOSImportDetails(),
+    watchGetPOImpLotNumberList(),
+    watchDeletePOSImport(),
+    watchCreatePOSImport(),
+    watchConfirmPOImport(),
+    watchGetPurchasedOrderNotCreatePOimp(),
     //warehouse-space-report
     watchGetFactories(),
     watchGetDataWarehouseSpaceReport(),

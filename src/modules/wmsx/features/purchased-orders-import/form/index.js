@@ -13,55 +13,50 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import {
-  ORDER_TYPE,
-  CODE_SETTINGS,
-  TRANSACTION_TYPE_ENUM,
-  QC_CHECK,
-  BOOLEAN_ENUM,
-} from '~/modules/wmsx/constants'
+import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
+import { CODE_SETTINGS, QC_CHECK } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportManufacturingOrder'
+import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import ItemsSettingTable from '../items-setting-table'
-import { importManufacturingOrderSchema } from './schema'
+import ItemSettingTable from '../item-setting-table'
+import { schema } from './schema'
 
-const ImportManufacturingOrderForm = () => {
+const POForm = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
 
   const {
-    data: { importManufacturingOrderDetails, isLoading },
+    data: { poImportDetails, purchasedOrderNotCreatePOImpList, isLoading },
     actions,
-  } = useImportManufacturingOrder()
+  } = usePurchasedOrdersImport()
 
   const {
-    data: { supplyRequestList, itemList, itemQualityPoint },
+    data: { warehouseList, itemQualityPoint },
     actions: commonActions,
   } = useCommonManagement()
 
+  const { actions: actionsPurchasedOrderDetails } = usePurchasedOrder()
+
   const [itemsFilter, setItemsFilter] = useState([])
 
+  useEffect(() => {}, [poImportDetails])
+
   useEffect(() => {
-    commonActions.getSupplyRequest({})
+    commonActions.getWarehouses({})
     commonActions.getItems({})
     commonActions.getItemQualityPoint({})
+    actions.getPurchasedOrderNotCreatePOimp({
+      filter: JSON.stringify([
+        {
+          column: 'poHaveNotPoimp',
+          text: mode === MODAL_MODE.CREATE ? '' : params?.id,
+        },
+      ]),
+    })
   }, [])
-
-  useEffect(() => {
-    if (importManufacturingOrderDetails?.request) {
-      setItemsFilter(
-        supplyRequestList?.find(
-          (supplyRequest) =>
-            supplyRequest.id === importManufacturingOrderDetails?.request?.id,
-        )?.items,
-      )
-    }
-  }, [importManufacturingOrderDetails, supplyRequestList])
-
   const initCode = (domainName) => {
     const domain = CODE_SETTINGS[domainName]
     let newCode = domain.PREFIX
@@ -72,38 +67,34 @@ const ImportManufacturingOrderForm = () => {
   }
 
   const DEFAULT_ITEM = {
-    id: new Date().getTime(),
-    itemId: '',
+    id: 0,
+    itemId: null,
     warehouseId: null,
     quantity: 1,
     qcCheck: false,
     qcCriteriaId: null,
-    lotNumber: initCode(CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN),
+    lotNumber: initCode(CODE_SETTINGS.PURCHASED_ORDER_IMPORT.DOMAIN),
     packageId: null,
-    mfg: '',
+    mfg: null,
+    storedQuantity: 1,
   }
 
   const importOrderWarehouseDetails = useMemo(
-    () => importManufacturingOrderDetails?.importOrderWarehouseDetails || [],
-    [importManufacturingOrderDetails],
+    () => poImportDetails?.importOrderWarehouseDetails || [],
+    [poImportDetails],
   )
-
   const initialValues = useMemo(
     () => ({
-      code: importManufacturingOrderDetails?.code || '',
-      name: importManufacturingOrderDetails?.name || '',
-      requestId: importManufacturingOrderDetails?.request?.id || '',
-      requestName: importManufacturingOrderDetails?.request?.name || '',
-      type: importManufacturingOrderDetails?.type,
-      planDate: importManufacturingOrderDetails.planAt
-        ? [
-            importManufacturingOrderDetails.planAt,
-            importManufacturingOrderDetails.deadline,
-          ]
-        : '',
-      description: importManufacturingOrderDetails?.description || '',
-      items: importManufacturingOrderDetails?.importOrderWarehouseLots
-        ? importManufacturingOrderDetails?.importOrderWarehouseLots?.map(
+      code: poImportDetails?.code || '',
+      name: poImportDetails?.name || '',
+      description: poImportDetails?.description?.trim() || '',
+      type: poImportDetails?.type,
+      purchasedOrderId: poImportDetails?.purchasedOrder?.id,
+      warehouseId: poImportDetails?.warehouseId,
+      purchasedAt: poImportDetails.purchasedAt || '',
+      deliveredAt: poImportDetails.deliveredAt || '',
+      items: poImportDetails?.purchasedOrderImportWarehouseLots
+        ? poImportDetails?.purchasedOrderImportWarehouseLots?.map(
             (detailLot, index) => ({
               id: index,
               itemId: detailLot.itemId,
@@ -139,12 +130,12 @@ const ImportManufacturingOrderForm = () => {
           )
         : [{ ...DEFAULT_ITEM }],
     }),
-    [importManufacturingOrderDetails],
+    [poImportDetails],
   )
 
   const MODE_MAP = {
-    [ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.PURCHASED_ORDER_IMPORT.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.PURCHASED_ORDER_IMPORT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
@@ -155,21 +146,21 @@ const ImportManufacturingOrderForm = () => {
         title: 'orderManagement',
       },
       {
-        route: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.PATH,
-        title: ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.TITLE,
+        route: ROUTE.PURCHASED_ORDER_IMPORT.LIST.PATH,
+        title: ROUTE.PURCHASED_ORDER_IMPORT.LIST.TITLE,
       },
     ]
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumbs.push({
-          route: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.PATH,
-          title: ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.TITLE,
+          route: ROUTE.PURCHASED_ORDER_IMPORT.CREATE.PATH,
+          title: ROUTE.PURCHASED_ORDER_IMPORT.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumbs.push({
-          route: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.PATH,
-          title: ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.TITLE,
+          route: ROUTE.PURCHASED_ORDER_IMPORT.EDIT.PATH,
+          title: ROUTE.PURCHASED_ORDER_IMPORT.EDIT.TITLE,
         })
         break
       default:
@@ -181,26 +172,24 @@ const ImportManufacturingOrderForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
-      actions.getImportManufacturingOrderDetailsById(id)
+      actions.getPOImportDetailsById(id)
     }
-    return () => {
-      if (isUpdate) actions.resetImportManufacturingOrder()
-    }
+    return () => actions.resetPODetailsState()
   }, [params?.id])
 
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.IMPORT_MANUFACTURING_ORDER.CREATE.TITLE
+        return ROUTE.PURCHASED_ORDER_IMPORT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.IMPORT_MANUFACTURING_ORDER.EDIT.TITLE
+        return ROUTE.PURCHASED_ORDER_IMPORT.EDIT.TITLE
       default:
         break
     }
   }
 
   const backToList = () => {
-    history.push(ROUTE.IMPORT_MANUFACTURING_ORDER.LIST.PATH)
+    history.push(ROUTE.PURCHASED_ORDER_IMPORT.LIST.PATH)
   }
 
   const onSubmit = (values) => {
@@ -208,29 +197,27 @@ const ImportManufacturingOrderForm = () => {
       code: values?.code,
       name: values?.name?.trim(),
       description: values?.description?.trim() || '',
-      type: values?.type,
-      deadline: values?.planDate[1],
-      planAt: values?.planDate[0],
+      type: poImportDetails?.type,
+      purchasedOrderId: values?.purchasedOrderId,
+      purchasedAt: values?.purchasedAt,
+      deliveredAt: values?.deliveredAt,
+      warehouseId: values?.warehouseId,
       items: values?.items?.map((item) => ({
         id: item.itemId,
-        warehouseId: item.warehouseId,
+        warehouseId: values?.warehouseId,
         quantity: +item.quantity,
         lotNumber: item.lotNumber,
-        qcCheck: item.qcCheck ? BOOLEAN_ENUM.TRUE : BOOLEAN_ENUM.FALSE,
+        qcCheck: +item.qcCheck ? true : false,
         qcCriteriaId: item.qcCriteriaId,
         mfg: item.mfg,
         packageId: item.packageId,
+        storedQuantity: +item?.storedQuantity,
       })),
-      ...(values?.requestId ? { requestId: values?.requestId } : {}),
     }
-
     if (mode === MODAL_MODE.CREATE) {
-      actions.createImportManufacturingOrder(convertValue, backToList)
+      actions.createPOImport(convertValue, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateImportManufacturingOrder(
-        { ...convertValue, id: +params?.id },
-        backToList,
-      )
+      actions.updatePOImport({ ...convertValue, id: +params?.id }, backToList)
     }
   }
 
@@ -257,52 +244,32 @@ const ImportManufacturingOrderForm = () => {
     }
   }
 
-  const onChangeRequestCode = (value, setFieldValue) => {
-    const requestSelected = supplyRequestList?.find((e) => e.id === value)
-    if (requestSelected) {
-      const { planFrom, planTo, name, id, type } = requestSelected
-      const requestItemList = requestSelected?.items
-      const typeTransaction =
-        +type === TRANSACTION_TYPE_ENUM.EXPORT
-          ? TRANSACTION_TYPE_ENUM.IMPORT
-          : TRANSACTION_TYPE_ENUM.EXPORT
-      setItemsFilter(requestItemList)
-      setFieldValue('requestId', id)
-      setFieldValue('requestName', name)
-      setFieldValue('type', typeTransaction)
-      setFieldValue('planDate', [planTo, planFrom])
-      const items = requestItemList?.map((requestItem, index) => ({
-        id: index,
-        itemId: itemList.find((item) => item.code === requestItem.code)?.id,
-        warehouseId: null,
-        lotNumber:
-          +type === TRANSACTION_TYPE_ENUM.EXPORT
-            ? DEFAULT_ITEM.lotNumber
-            : null,
-        quantity: requestItem.planQuantity,
-        planQuantity: requestItem.planQuantity,
-        qcCheck: false,
-        qcCriteriaId: null,
-        packageId: null,
-        mfg: null,
-      }))
-      setFieldValue('items', items)
-      actions.getLotNumberList({
-        itemIds: requestItemList
-          .map(
-            (requestItem) =>
-              itemList.find((item) => item.code === requestItem.code)?.id,
-          )
-          .join(','),
-      })
-    } else {
-      setFieldValue('requestId', '')
-      setFieldValue('requestName', '')
-      setFieldValue('type', '')
-      setFieldValue('planDate', '')
-      setFieldValue('items', [{ ...DEFAULT_ITEM }])
-      setItemsFilter([])
-    }
+  const onChangePo = (value, setFieldValue) => {
+    actionsPurchasedOrderDetails.getPurchasedOrderDetailsById(value, (data) => {
+      const { code, purchasedAt, deadline, purchasedOrderDetails } = data
+      setItemsFilter(purchasedOrderDetails)
+      setFieldValue('codePO', code)
+      setFieldValue('purchasedAt', purchasedAt)
+      setFieldValue('deliveredAt', deadline)
+      setFieldValue('purchasedOrderId', value)
+      setFieldValue(
+        'items',
+
+        purchasedOrderDetails?.map((detailLot, index) => ({
+          id: index,
+          itemId: detailLot.itemId,
+          quantity: detailLot.quantity,
+          actualQuantity: 0,
+          lotNumber: DEFAULT_ITEM.lotNumber,
+          mfg: null,
+          packageId: detailLot?.packageId,
+          qcCheck: false,
+          qcCriteriaId: null,
+          qcCriteria: null,
+          storedQuantity: 0,
+        })),
+      )
+    })
   }
 
   return (
@@ -314,7 +281,7 @@ const ImportManufacturingOrderForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={importManufacturingOrderSchema(t)}
+        validationSchema={schema(t)}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -329,67 +296,63 @@ const ImportManufacturingOrderForm = () => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('importManufacturingOrder.code')}
+                      label={t('purchasedOrderImport.codePOimp')}
                       name="code"
-                      placeholder={t('importManufacturingOrder.code')}
+                      placeholder={t('purchasedOrderImport.codePOimp')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="name"
-                      label={t('importManufacturingOrder.name')}
-                      placeholder={t('importManufacturingOrder.name')}
+                      label={t('purchasedOrderImport.namePOimp')}
+                      required
+                      placeholder={t('purchasedOrderImport.namePOimp')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="requestId"
-                      label={t('importManufacturingOrder.requestCode')}
-                      placeholder={t('importManufacturingOrder.requestCode')}
-                      options={supplyRequestList}
-                      getOptionLabel={(opt) => opt?.code || ''}
+                      name="purchasedOrderId"
+                      label={t('purchasedOrderImport.codePO')}
+                      placeholder={t('purchasedOrderImport.codePO')}
+                      options={purchasedOrderNotCreatePOImpList}
+                      getOptionLabel={(opt) => t(opt.code) || ''}
                       getOptionValue={(opt) => opt?.id || ''}
-                      onChange={(id) => onChangeRequestCode(id, setFieldValue)}
+                      onChange={(id) => onChangePo(id, setFieldValue)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="requestName"
-                      label={t('importManufacturingOrder.requestName')}
-                      placeholder={t('importManufacturingOrder.requestName')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      disabled
+                    <Field.DatePicker
+                      name="purchasedAt"
+                      label={t('purchasedOrder.purchasedAt')}
+                      placeholder={t('purchasedOrder.choosePurchasedAt')}
+                      required
+                      disabled={isUpdate}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="type"
-                      label={t('importManufacturingOrder.type')}
-                      placeholder={t('importManufacturingOrder.type')}
-                      options={ORDER_TYPE}
-                      getOptionLabel={(opt) => t(opt?.name)}
-                      getOptionValue={(opt) => opt?.id}
+                      name="warehouseId"
+                      label={t('purchasedOrderImport.importWarehouse')}
+                      placeholder={t('purchasedOrderImport.importWarehouse')}
+                      options={warehouseList}
                       required
-                      disabled={values?.requestId}
+                      getOptionLabel={(opt) => opt?.name || ''}
+                      getOptionValue={(opt) => opt?.id || ''}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.DateRangePicker
-                      name="planDate"
-                      label={t('importManufacturingOrder.planDate')}
-                      placeholder={t('importManufacturingOrder.planDate')}
+                    <Field.DatePicker
+                      name="deliveredAt"
+                      label={t('purchasedOrder.deadline')}
+                      placeholder={t('purchasedOrder.chooseDeadline')}
                       required
                       disabled={values?.requestId}
                     />
@@ -397,8 +360,8 @@ const ImportManufacturingOrderForm = () => {
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
-                      label={t('importManufacturingOrder.description')}
-                      placeholder={t('importManufacturingOrder.description')}
+                      label={t('purchasedOrderImport.description')}
+                      placeholder={t('purchasedOrderImport.descriptionInput')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -409,18 +372,17 @@ const ImportManufacturingOrderForm = () => {
                 </Grid>
               </Grid>
             </Grid>
-
             <Box sx={{ mt: 3 }}>
               <FieldArray
                 name="items"
                 render={(arrayHelpers) => (
-                  <ItemsSettingTable
+                  <ItemSettingTable
                     items={values?.items || []}
                     itemsFilter={itemsFilter}
                     mode={mode}
                     arrayHelpers={arrayHelpers}
                     initialLotNumber={initCode(
-                      CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN,
+                      CODE_SETTINGS.PURCHASED_ORDER_IMPORT.DOMAIN,
                     )}
                     type={values?.type}
                     setFieldValue={setFieldValue}
@@ -436,4 +398,4 @@ const ImportManufacturingOrderForm = () => {
   )
 }
 
-export default ImportManufacturingOrderForm
+export default POForm
