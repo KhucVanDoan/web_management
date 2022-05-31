@@ -400,6 +400,7 @@
     "disabled": "Vô hiệu hóa"
   },
   "inventories": {
+    "searchPlaceholder": "Tìm kiếm thông tin theo mã kiểm kê",
     "action": "Hành động",
     "status": "Trạng thái",
     "breadcrumbTitle": "Phiếu kiểm kê",
