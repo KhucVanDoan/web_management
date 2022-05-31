@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import commonManagement from './common'
+import bill from './define-bill'
 import defineBlock from './define-block'
 import defineCurrencyUnit from './define-currency-unit'
 import defineCustomer from './define-customer'
@@ -77,4 +78,5 @@ export default combineReducers({
   definePaymentType,
   defineTypeService,
   invoiceType,
+  bill,
 })

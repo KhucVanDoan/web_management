@@ -15,7 +15,7 @@ import {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchInvoiceTypesApi = (params) => {
+export const searchInvoiceTypesApi = (params) => {
   const uri = `/v1/warehouse-yard/invoice-types/list`
   return api.get(uri, params)
 }

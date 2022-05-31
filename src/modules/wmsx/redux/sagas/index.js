@@ -5,6 +5,15 @@ import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchCompleteBill from './define-bill/complete-bill'
+import watchConfirmBill from './define-bill/confirm-bill'
+import watchCreateBill from './define-bill/create-bill'
+import watchDeleteBill from './define-bill/delete-bill'
+import watchGetBillDetails from './define-bill/get-bill-details'
+import watchImportBill from './define-bill/import-bill'
+import watchRejectBill from './define-bill/reject-bill'
+import watchSearchBills from './define-bill/search-bill'
+import watchUpdateBill from './define-bill/update-bill'
 import watchCreateBlock from './define-block/create-block'
 import watchDeleteBlock from './define-block/delete-block'
 import watchGetBlockDetails from './define-block/get-block-details'
@@ -409,5 +418,15 @@ export default function* sagas() {
     watchDeleteInvoiceType(),
     watchCreateInvoiceType(),
     watchConfirmInvoiceType(),
+    // define bill
+    watchCompleteBill(),
+    watchConfirmBill(),
+    watchCreateBill(),
+    watchDeleteBill(),
+    watchGetBillDetails(),
+    watchImportBill(),
+    watchRejectBill(),
+    watchSearchBills(),
+    watchUpdateBill(),
   ])
 }

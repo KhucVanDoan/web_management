@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 
-const searchPaymentTypesApi = (params) => {
+export const searchPaymentTypesApi = (params) => {
   const uri = `/v1/warehouse-yard/payment-types/list`
   return api.get(uri, params)
 }

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { IconButton } from '@mui/material'
-import Box from '@mui/material/Box'
+import { Grid, Hidden, IconButton } from '@mui/material'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -14,12 +13,10 @@ import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
-
   const columns = useMemo(
     () => [
       {
         field: 'name',
-        width: 400,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -36,7 +33,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
       },
       {
         field: 'height',
-        width: 100,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -53,7 +49,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
       },
       {
         field: 'weightLoad',
-        width: 100,
         renderCell: (params, index) => {
           return (
             <Field.TextField
@@ -70,8 +65,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
       },
       {
         field: 'action',
-        width: 100,
-        align: 'center',
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return (
@@ -92,6 +85,35 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
 
   return (
     <>
+      <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+        <Grid item lg={4} xs={12}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              arrayHelpers.push({
+                name: '',
+                height: 0,
+                weightLoad: 0,
+              })
+              scrollToBottom()
+            }}
+          >
+            {t('defineTemplateShelf.addFloorButton')}
+          </Button>
+        </Grid>
+        <Hidden lgDown>
+          <Grid item lg={4} xs={12}></Grid>
+        </Hidden>
+        <Grid item lg={4} xs={12}>
+          <Field.TextField
+            name="numberOfFloors"
+            value={(items || []).length}
+            label={t('defineTemplateShelf.shelfFloor.numberOfFloors')}
+            sx={{ flex: 1 }}
+            disabled
+          />
+        </Grid>
+      </Grid>
       <DataTable
         rows={items}
         columns={columns}
@@ -100,21 +122,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         hideSetting
         hideFooter
       />
-      <Box mt={1}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            arrayHelpers.push({
-              name: '',
-              height: 0,
-              weightLoad: 0,
-            })
-            scrollToBottom()
-          }}
-        >
-          {t('defineTemplateShelf.addFloorButton')}
-        </Button>
-      </Box>
     </>
   )
 }
