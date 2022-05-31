@@ -144,9 +144,6 @@ function UserManagementForm() {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'configuration',
-      },
-      {
         route: ROUTE.USER_MANAGEMENT.LIST.PATH,
         title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
       },
