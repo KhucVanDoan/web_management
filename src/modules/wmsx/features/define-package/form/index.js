@@ -50,19 +50,19 @@ const DefinePackageForm = () => {
       description: packageDetails?.description || '',
 
       long: {
-        value: packageDetails?.long?.value || 1,
+        value: packageDetails?.long?.value || null,
         unit: packageDetails?.long?.unit || 3,
       },
       width: {
-        value: packageDetails?.width?.value || 1,
+        value: packageDetails?.width?.value || null,
         unit: packageDetails?.width?.unit || 3,
       },
       height: {
-        value: packageDetails?.height?.value || 1,
+        value: packageDetails?.height?.value || null,
         unit: packageDetails?.height?.unit || 3,
       },
       weight: {
-        value: packageDetails?.weight?.value || 1,
+        value: packageDetails?.weight?.value || null,
         unit: packageDetails?.weight?.unit || 1,
       },
       items: packageDetails?.packageItems?.map((p) => ({
