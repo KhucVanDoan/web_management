@@ -35,10 +35,13 @@ import { ReactComponent as Upload } from '~/assets/images/icons/upload.svg'
 import { ReactComponent as User } from '~/assets/images/icons/user.svg'
 import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
 // menu
+import { ReactComponent as Chevron } from '~/assets/images/menu/chevron.svg'
 import { ReactComponent as Database } from '~/assets/images/menu/database.svg'
 import { ReactComponent as Drawer } from '~/assets/images/menu/drawer.svg'
+import { ReactComponent as Export } from '~/assets/images/menu/export.svg'
 import { ReactComponent as Home } from '~/assets/images/menu/home.svg'
 import { ReactComponent as Key } from '~/assets/images/menu/key.svg'
+import { ReactComponent as Keylock } from '~/assets/images/menu/keylock.svg'
 import { ReactComponent as Plan } from '~/assets/images/menu/plan.svg'
 import { ReactComponent as PrettyBag } from '~/assets/images/menu/prettyBag.svg'
 
@@ -84,6 +87,9 @@ const icons = {
   plan: <Plan />,
   key: <Key />,
   prettyBag: <PrettyBag />,
+  export: <Export />,
+  chevron: <Chevron />,
+  keylock: <Keylock />,
 }
 
 const Icon = ({ name, fill, size, sx, ...props }) => {

@@ -125,7 +125,7 @@ const routes = [
   },
   {
     name: ROUTE.DEFINE_CATEGORY.TITLE,
-    icon: 'home',
+    icon: 'database',
     isInSidebar: true,
     subMenu: [
       {
@@ -210,7 +210,7 @@ const routes = [
   {
     name: ROUTE.ORDER_MANAGEMENT.TITLE,
     isInSidebar: true,
-    icon: 'home',
+    icon: 'prettyBag',
     subMenu: [
       {
         name: ROUTE.PURCHASED_ORDER_IMPORT.LIST.TITLE,
@@ -422,7 +422,7 @@ const routes = [
   {
     name: ROUTE.WAREHOUSE_SETUP.TITLE,
     isInSidebar: true,
-    icon: 'setting',
+    icon: 'database',
     subMenu: [
       {
         name: ROUTE.WAREHOUSE_SETTING.LIST.TITLE,
@@ -576,7 +576,7 @@ const routes = [
     name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
     path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
     component: WarehouseImport,
-    icon: 'home',
+    icon: 'key',
     isInSidebar: true,
     subMenu: [
       {
@@ -591,7 +591,7 @@ const routes = [
     name: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
     path: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
     component: WarehouseExport,
-    icon: 'home',
+    icon: 'export',
     isInSidebar: true,
     subMenu: [
       {
@@ -606,7 +606,7 @@ const routes = [
     name: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.LIST.TITLE,
     path: ROUTE.WAREHOUSE_TRANSFER_MOVEMENTS.LIST.PATH,
     component: WarehouseTransferMovements,
-    icon: 'home',
+    icon: 'chevron',
     isInSidebar: true,
     subMenu: [
       {
@@ -619,7 +619,7 @@ const routes = [
   },
   {
     name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
-    icon: 'home',
+    icon: 'keylock',
     isInSidebar: true,
     subMenu: [
       {
@@ -685,7 +685,7 @@ const routes = [
   {
     name: ROUTE.RENT_WAREHOUSE_COST_MANAGEMENT.TITLE,
     isInSidebar: true,
-    icon: 'home',
+    icon: 'database',
     subMenu: [
       {
         name: ROUTE.TYPE_SERVICE.LIST.TITLE,
@@ -931,7 +931,7 @@ const routes = [
   {
     name: ROUTE.PRODUCTION_INFORMATION_MANAGENMENT.TITLE,
     isInSidebar: true,
-    icon: 'setting',
+    icon: 'prettyBag',
     subMenu: [
       {
         name: ROUTE.DEFINE_VENDEOR.LIST.TITLE,
