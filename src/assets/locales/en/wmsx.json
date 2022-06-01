@@ -46,6 +46,35 @@
     "createInvoiceType": "Create invoice type",
     "defineVoucher": "Define Voucher"
   },
+  "dashboard": {
+    "chart": {
+      "viewMore": "View more",
+      "thisPeriod": "This period",
+      "import": "Import",
+      "export": "Export",
+      "transfer": "Warehouse transfer",
+      "inventorySpaceTitle": "Warehouse inventory space"
+    },
+    "title": "Dashboard",
+    "material": "Material",
+    "product": "Product",
+    "choiseSaleOrderType": "Choose transaction type",
+    "choiseItemType": "Choose inventory type",
+    "wareHouseA": "Warehouse A",
+    "wareHouseB": "Warehouse B",
+    "wareHouseC": "Warehouse C",
+    "saleOrderReport": {
+      "title": "Transaction quantity"
+    },
+    "itemReport": {
+      "title": "Inventory quantity",
+      "total": "All categories",
+      "other": "Other category"
+    },
+    "movementReport": {
+      "title": "Transaction quantity per month"
+    }
+  },
   "warehouseSpaceReport": {
     "title": "Warehouse space report",
     "factory": "Factory",

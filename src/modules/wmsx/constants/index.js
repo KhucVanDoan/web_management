@@ -13,6 +13,72 @@ export const DEFAULT_UNITS = [
   },
 ]
 
+export const DEFAULT_ITEM_TYPE_ENUM = {
+  MATERIAL: {
+    id: 1,
+    code: '00',
+    name: 'itemType.material',
+  },
+  PRODUCT: {
+    id: 2,
+    code: '01',
+    name: 'itemType.product',
+  },
+  SEMI_PRODUCT: {
+    id: 3,
+    code: '03',
+    name: 'itemType.semiProduct',
+  },
+  DEVICE: {
+    id: 4,
+    code: '04',
+    name: 'itemType.device',
+  },
+  SUPPLY: {
+    id: 5,
+    code: '05',
+    name: 'itemType.supply',
+  },
+  ACCESSORY: {
+    id: 6,
+    code: '06',
+    name: 'itemType.accessory',
+  },
+}
+
+export const PIE_CHART_COLORS = [
+  '#0761AD',
+  '#FF9054',
+  '#B2DF8A',
+  '#ff6361',
+  '#58508d',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+]
+
+export const LANGUAGES_ENUM = {
+  VI: 0,
+  EN: 1,
+  JP: 2,
+}
+
+export const LANGUAGES_ENUM_MAP = {
+  [LANGUAGES_ENUM.VI]: 'vi',
+  [LANGUAGES_ENUM.EN]: 'en',
+  [LANGUAGES_ENUM.JP]: 'jp',
+}
+
+export const DEFAULT_LANGUAGE = LANGUAGES_ENUM.VI
+
+export const ORDER_TYPE_ENUM = {
+  PO: 1,
+  PRO: 2,
+  SO: 3,
+  Transfer: 4,
+  IMO: 5,
+}
+
 export const TRANSACTION_TYPE_ENUM = {
   IMPORT: 0,
   EXPORT: 1,
