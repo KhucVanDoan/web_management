@@ -647,5 +647,15 @@ export const ROUTE = {
       PATH: '/wmsx/so-export/:id/edit',
       TITLE: 'soExportEdit',
     },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/so-export/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/so-export/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
+    },
   },
 }

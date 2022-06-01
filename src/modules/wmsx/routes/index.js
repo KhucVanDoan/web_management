@@ -93,6 +93,10 @@ import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
 import SOExport from '../features/so-export'
 import SOExportDetail from '../features/so-export/detail'
 import SOExportForm from '../features/so-export/form'
+import {
+  Transactions as SOExportTransactions,
+  TransactionDetail as SOExportTransactionDetail,
+} from '../features/so-export/transactions'
 import DefineVoucher from '../features/voucher'
 import DefineVoucherDetail from '../features/voucher/detail'
 import DefineVoucherForm from '../features/voucher/form'
@@ -413,6 +417,18 @@ const routes = [
             name: ROUTE.SO_EXPORT.EDIT.TITLE,
             path: ROUTE.SO_EXPORT.EDIT.PATH,
             component: SOExportForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SO_EXPORT.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.SO_EXPORT.TRANSACTIONS.LIST.PATH,
+            component: SOExportTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SO_EXPORT.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.SO_EXPORT.TRANSACTIONS.DETAIL.PATH,
+            component: SOExportTransactionDetail,
             isInSidebar: false,
           },
         ],

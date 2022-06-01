@@ -286,6 +286,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
+                                disableClearable
                               />
                             </FormControl>
                           </Grid>
@@ -311,6 +312,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
+                                disableClearable
                               />
                             </FormControl>
                           </Grid>
@@ -338,6 +340,7 @@ const DefineBlockForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
+                                disableClearable
                               />
                             </FormControl>
                           </Grid>
@@ -363,6 +366,7 @@ const DefineBlockForm = () => {
                                 options={WEIGHT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
+                                disableClearable
                               />
                             </FormControl>
                           </Grid>
