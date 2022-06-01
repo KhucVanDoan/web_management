@@ -285,7 +285,7 @@ function PurchasedOrderForm() {
                       onChange={(val) => {
                         handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
-                      required
+                      // required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
