@@ -21,7 +21,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -52,11 +52,12 @@ function WarehouseImport() {
     setPageSize,
     setSort,
     setFilters,
+    setKeyword,
   } = useQueryState()
 
   const columns = [
     {
-      field: 'code',
+      field: 'id',
       headerName: t('movements.code'),
       width: 120,
       sortable: true,
@@ -90,7 +91,7 @@ function WarehouseImport() {
     {
       field: 'warehouseName',
       headerName: t('movements.importExport.warehouseName'),
-      width: 150,
+      width: 120,
       sortable: false,
       renderCell: (params) => {
         return params?.row?.warehouse?.name
@@ -100,11 +101,11 @@ function WarehouseImport() {
       field: 'createdAt',
       headerName: t('movements.importExport.executeDate'),
       filterFormat: 'date',
-      width: 150,
-      sortable: true,
+      width: 120,
+      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+        return convertUtcDateToLocalTz(createdAt)
       },
     },
     {
@@ -113,14 +114,14 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.username
+        return params?.row?.user?.fullName
       },
     },
     {
       field: 'movementStatus',
       headerName: t('movements.movementStatus'),
       width: 120,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
@@ -214,6 +215,8 @@ function WarehouseImport() {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseImport')}
+      onSearch={setKeyword}
+      placeholder={t('warehouseImport.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >

@@ -50,7 +50,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseType"
+          name="warehouseTypeId"
           label={t('inventories.warehouseType')}
           placeholder={t('inventories.warehouseType')}
           options={warehouseType}

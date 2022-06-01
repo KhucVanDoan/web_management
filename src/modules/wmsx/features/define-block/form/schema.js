@@ -4,7 +4,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
-import { numberSchema } from '~/common/schemas'
+import { unitSchema } from '~/common/schemas'
 
 export const defineBlockSchema = (t) =>
   Yup.object().shape({
@@ -19,19 +19,19 @@ export const defineBlockSchema = (t) =>
     name: Yup.string().required(t('general:form.required')),
     description: Yup.string(),
     long: Yup.object().shape({
-      value: numberSchema(t).required(t('general:form.required')),
-      unit: Yup.string().required(t('general:form.required')),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
+      unit: Yup.number().nullable().required(t('general:form.required')),
     }),
     width: Yup.object().shape({
-      value: numberSchema(t).required(t('general:form.required')),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     height: Yup.object().shape({
-      value: numberSchema(t).required(t('general:form.required')),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     weight: Yup.object().shape({
-      value: numberSchema(t).required(t('general:form.required')),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
       unit: Yup.string().required(t('general:form.required')),
     }),
     items: Yup.array().of(

@@ -5,6 +5,7 @@ import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchDashboard from './dashboard'
 import watchCompleteBill from './define-bill/complete-bill'
 import watchConfirmBill from './define-bill/confirm-bill'
 import watchCreateBill from './define-bill/create-bill'
@@ -151,7 +152,24 @@ import watchGetProductionOrderDetails from './production-order/get-production-or
 import watchRejectProductionOrder from './production-order/reject-production-order'
 import watchSearchProductionOrders from './production-order/search-production-orders'
 import watchUpdateProductionOrder from './production-order/update-production-order'
+import watchConfirmPOImport from './purchased-orders-import/confirm-purchased-order-imp'
+import watchCreatePOSImport from './purchased-orders-import/create-purchased-order-imp'
+import watchDeletePOSImport from './purchased-orders-import/delete-purchased-order-imp'
+import watchGetPOImpLotNumberList from './purchased-orders-import/get-lot-number-list'
+import watchGetPOSImportDetails from './purchased-orders-import/get-purchased-order-imp-details'
+import watchGetPurchasedOrderNotCreatePOimp from './purchased-orders-import/get-purchased-order-not-poimp'
+import watchRejectPOSImport from './purchased-orders-import/reject-purchased-order-imp'
+import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
+import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchConfirmSOExport from './so-export/confirm-so-export'
+import watchCreateSOExport from './so-export/create-so-export'
+import watchDeleteSOExport from './so-export/delete-so-export'
+import watchGetLotNumberListSOExport from './so-export/get-lot-number-list'
+import watchGetSOExportDetails from './so-export/get-so-export-details'
+import watchRejectSOExport from './so-export/reject-so-export'
+import watchSearchSOExport from './so-export/search-so-export'
+import watchUpdateSOExport from './so-export/update-so-export'
 import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf.saga'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
@@ -202,6 +220,8 @@ export default function* sagas() {
     watchGetWarehouses(),
     watchGetSupplyRequest(),
     watchGetTypeServices(),
+    // Dashboard
+    watchDashboard(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -327,6 +347,16 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    //purchased orders import
+    watchUpdatePOImport(),
+    watchSearchPOImport(),
+    watchRejectPOSImport(),
+    watchGetPOSImportDetails(),
+    watchGetPOImpLotNumberList(),
+    watchDeletePOSImport(),
+    watchCreatePOSImport(),
+    watchConfirmPOImport(),
+    watchGetPurchasedOrderNotCreatePOimp(),
     //warehouse-space-report
     watchGetFactories(),
     watchGetDataWarehouseSpaceReport(),
@@ -428,5 +458,14 @@ export default function* sagas() {
     watchRejectBill(),
     watchSearchBills(),
     watchUpdateBill(),
+    // so export
+    watchConfirmSOExport(),
+    watchCreateSOExport(),
+    watchDeleteSOExport(),
+    watchGetLotNumberListSOExport(),
+    watchGetSOExportDetails(),
+    watchRejectSOExport(),
+    watchSearchSOExport(),
+    watchUpdateSOExport(),
   ])
 }

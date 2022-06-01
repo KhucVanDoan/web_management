@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import commonManagement from './common'
+import dashboard from './dashboard'
 import bill from './define-bill'
 import defineBlock from './define-block'
 import defineCurrencyUnit from './define-currency-unit'
@@ -28,7 +29,9 @@ import inventoryWarning from './inventory-warning'
 import invoiceType from './invoice-type'
 import movementManagement from './movements'
 import productionOrder from './production-order'
+import purchasedOrdersImport from './purchased-orders-import'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
+import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
 import warehouseArea from './warehouse-area'
@@ -41,6 +44,7 @@ import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
 export default combineReducers({
   commonManagement,
+  dashboard,
   defineTemplateShelf,
   defineTypeUnit,
   defineCurrencyUnit,
@@ -63,6 +67,7 @@ export default combineReducers({
   defineWarehouseTransfer,
   defineCustomer,
   inventoryCalendar,
+  purchasedOrdersImport,
   warehouseSpaceReport,
   warehouseArea,
   importManufacturingOrder,
@@ -79,4 +84,5 @@ export default combineReducers({
   defineTypeService,
   invoiceType,
   bill,
+  soExport,
 })

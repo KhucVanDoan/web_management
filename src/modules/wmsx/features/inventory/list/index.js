@@ -209,10 +209,11 @@ const Inventory = () => {
       title={t('menu.inventory')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
-      placeholder={t('warehouseSetting.searchPlaceholder')}
+      placeholder={t('inventories.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
+        uniqKey=""
         title={t('inventories.title')}
         columns={columns}
         rows={formattedData}

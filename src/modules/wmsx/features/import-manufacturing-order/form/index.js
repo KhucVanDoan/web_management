@@ -312,16 +312,16 @@ const ImportManufacturingOrderForm = () => {
       onBack={backToList}
       loading={isLoading}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={importManufacturingOrderSchema(t)}
-            onSubmit={onSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, values, setFieldValue }) => (
-              <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={importManufacturingOrderSchema(t)}
+        onSubmit={onSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, values, setFieldValue }) => (
+          <Form>
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
                 <Grid
                   container
                   rowSpacing={4 / 3}
@@ -407,30 +407,31 @@ const ImportManufacturingOrderForm = () => {
                     />
                   </Grid>
                 </Grid>
-                <Box sx={{ mt: 3 }}>
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemsSettingTable
-                        items={values?.items || []}
-                        itemsFilter={itemsFilter}
-                        mode={mode}
-                        arrayHelpers={arrayHelpers}
-                        initialLotNumber={initCode(
-                          CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN,
-                        )}
-                        type={values?.type}
-                        setFieldValue={setFieldValue}
-                      />
+              </Grid>
+            </Grid>
+
+            <Box sx={{ mt: 3 }}>
+              <FieldArray
+                name="items"
+                render={(arrayHelpers) => (
+                  <ItemsSettingTable
+                    items={values?.items || []}
+                    itemsFilter={itemsFilter}
+                    mode={mode}
+                    arrayHelpers={arrayHelpers}
+                    initialLotNumber={initCode(
+                      CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN,
                     )}
+                    type={values?.type}
+                    setFieldValue={setFieldValue}
                   />
-                </Box>
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
-          </Formik>
-        </Grid>
-      </Grid>
+                )}
+              />
+            </Box>
+            {renderActionBar(handleReset)}
+          </Form>
+        )}
+      </Formik>
     </Page>
   )
 }

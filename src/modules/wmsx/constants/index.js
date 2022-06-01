@@ -13,6 +13,72 @@ export const DEFAULT_UNITS = [
   },
 ]
 
+export const DEFAULT_ITEM_TYPE_ENUM = {
+  MATERIAL: {
+    id: 1,
+    code: '00',
+    name: 'itemType.material',
+  },
+  PRODUCT: {
+    id: 2,
+    code: '01',
+    name: 'itemType.product',
+  },
+  SEMI_PRODUCT: {
+    id: 3,
+    code: '03',
+    name: 'itemType.semiProduct',
+  },
+  DEVICE: {
+    id: 4,
+    code: '04',
+    name: 'itemType.device',
+  },
+  SUPPLY: {
+    id: 5,
+    code: '05',
+    name: 'itemType.supply',
+  },
+  ACCESSORY: {
+    id: 6,
+    code: '06',
+    name: 'itemType.accessory',
+  },
+}
+
+export const PIE_CHART_COLORS = [
+  '#0761AD',
+  '#FF9054',
+  '#B2DF8A',
+  '#ff6361',
+  '#58508d',
+  '#00C49F',
+  '#FFBB28',
+  '#FF8042',
+]
+
+export const LANGUAGES_ENUM = {
+  VI: 0,
+  EN: 1,
+  JP: 2,
+}
+
+export const LANGUAGES_ENUM_MAP = {
+  [LANGUAGES_ENUM.VI]: 'vi',
+  [LANGUAGES_ENUM.EN]: 'en',
+  [LANGUAGES_ENUM.JP]: 'jp',
+}
+
+export const DEFAULT_LANGUAGE = LANGUAGES_ENUM.VI
+
+export const ORDER_TYPE_ENUM = {
+  PO: 1,
+  PRO: 2,
+  SO: 3,
+  Transfer: 4,
+  IMO: 5,
+}
+
 export const TRANSACTION_TYPE_ENUM = {
   IMPORT: 0,
   EXPORT: 1,
@@ -758,5 +824,78 @@ export const WAREHOUSE_MOVEMENT_STATUS_OPTIONS = [
     id: 4,
     text: 'warehouseMovementStatus.completed',
     color: 'completed',
+  },
+]
+
+export const ORDER_STATUS_SO_EXPORT = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  APPROVED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+  INRECEIVING: 6,
+  RECEIVED: 7,
+  DELIVERED: 8,
+  INCOLLECTING: 9,
+  COLLECTED: 10,
+  EXPORTED: 11,
+}
+
+export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
+  {
+    id: 0,
+    text: 'orderStatusSoExport.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'orderStatusSoExport.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'orderStatusSoExport.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'orderStatusSoExport.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'orderStatusSoExport.rejected',
+    color: 'rejected',
+  },
+  {
+    id: 6,
+    text: 'orderStatusSoExport.inReceiving',
+    color: 'InReceiving',
+  },
+  {
+    id: 7,
+    text: 'orderStatusSoExport.received',
+    color: 'pending',
+  },
+  {
+    id: 8,
+    text: 'orderStatusSoExport.delivered',
+    color: 'Delivered',
+  },
+  {
+    id: 9,
+    text: 'orderStatusSoExport.inCollecting',
+    color: 'InCollecting',
+  },
+  {
+    id: 10,
+    text: 'orderStatusSoExport.collected',
+    color: 'Collected',
+  },
+  {
+    id: 11,
+    text: 'orderStatusSoExport.exported',
+    color: 'Exported',
   },
 ]

@@ -26,6 +26,9 @@ import InventoryCalendar from '~/modules/wmsx/features/inventory-calendar/list'
 import InventoryDeadlineWarning from '~/modules/wmsx/features/inventory-deadline-warning'
 import InventoryStatistics from '~/modules/wmsx/features/inventory-statistics'
 import InventoryWarning from '~/modules/wmsx/features/inventory-warning'
+import PurchasedOrdersImportDetail from '~/modules/wmsx/features/purchased-orders-import/detail'
+import PurchasedOrdersImportForm from '~/modules/wmsx/features/purchased-orders-import/form'
+import PurchasedOrdersImport from '~/modules/wmsx/features/purchased-orders-import/list'
 import WarehouseExport from '~/modules/wmsx/features/warehouse-export'
 import WarehouseExportDetail from '~/modules/wmsx/features/warehouse-export/detail'
 import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
@@ -82,7 +85,14 @@ import {
   Transactions as ProductionOrderTransactions,
   TransactionDetail as ProductionOrderTransactionDetail,
 } from '../features/production-orders/transactions'
+import {
+  Transactions as PurchasedOrdersImportTransactions,
+  TransactionDetail as PurchasedOrdersImportTransactionDetail,
+} from '../features/purchased-orders-import/transactions'
 import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
+import SOExport from '../features/so-export'
+import SOExportDetail from '../features/so-export/detail'
+import SOExportForm from '../features/so-export/form'
 import DefineVoucher from '../features/voucher'
 import DefineVoucherDetail from '../features/voucher/detail'
 import DefineVoucherForm from '../features/voucher/form'
@@ -202,6 +212,45 @@ const routes = [
     isInSidebar: true,
     icon: 'home',
     subMenu: [
+      {
+        name: ROUTE.PURCHASED_ORDER_IMPORT.LIST.TITLE,
+        path: ROUTE.PURCHASED_ORDER_IMPORT.LIST.PATH,
+        component: PurchasedOrdersImport,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.PURCHASED_ORDER_IMPORT.CREATE.TITLE,
+            path: ROUTE.PURCHASED_ORDER_IMPORT.CREATE.PATH,
+            component: PurchasedOrdersImportForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PURCHASED_ORDER_IMPORT.DETAIL.TITLE,
+            path: ROUTE.PURCHASED_ORDER_IMPORT.DETAIL.PATH,
+            component: PurchasedOrdersImportDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PURCHASED_ORDER_IMPORT.EDIT.TITLE,
+            path: ROUTE.PURCHASED_ORDER_IMPORT.EDIT.PATH,
+            component: PurchasedOrdersImportForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PURCHASED_ORDER_IMPORT.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.PURCHASED_ORDER_IMPORT.TRANSACTIONS.LIST.PATH,
+            component: PurchasedOrdersImportTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.PURCHASED_ORDER_IMPORT.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.PURCHASED_ORDER_IMPORT.TRANSACTIONS.DETAIL.PATH,
+            component: PurchasedOrdersImportTransactionDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+
       {
         name: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
         path: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
@@ -338,6 +387,32 @@ const routes = [
             name: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.DETAIL.TITLE,
             path: ROUTE.PRODUCTION_ORDER.TRANSACTIONS.DETAIL.PATH,
             component: ProductionOrderTransactionDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.SO_EXPORT.LIST.TITLE,
+        path: ROUTE.SO_EXPORT.LIST.PATH,
+        component: SOExport,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.SO_EXPORT.CREATE.TITLE,
+            path: ROUTE.SO_EXPORT.CREATE.PATH,
+            component: SOExportForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SO_EXPORT.DETAIL.TITLE,
+            path: ROUTE.SO_EXPORT.DETAIL.PATH,
+            component: SOExportDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SO_EXPORT.EDIT.TITLE,
+            path: ROUTE.SO_EXPORT.EDIT.PATH,
+            component: SOExportForm,
             isInSidebar: false,
           },
         ],

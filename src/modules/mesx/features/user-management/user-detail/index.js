@@ -17,9 +17,6 @@ import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
-    title: 'configuration',
-  },
-  {
     route: ROUTE.USER_MANAGEMENT.LIST.PATH,
     title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
   },

@@ -119,6 +119,34 @@ export const ROUTE = {
       TITLE: 'defineDetailEdit',
     },
   },
+  PURCHASED_ORDER_IMPORT: {
+    LIST: {
+      PATH: '/wmsx/purchased-orders-import',
+      TITLE: 'purchasedOrderImport',
+    },
+    CREATE: {
+      PATH: '/wmsx/purchased-orders-import/create',
+      TITLE: 'purchasedOrderImportCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/purchased-orders-import/:id/detail',
+      TITLE: 'purchasedOrderImportDetails',
+    },
+    EDIT: {
+      PATH: '/wmsx/purchased-orders-import/:id/edit',
+      TITLE: 'purchasedOrderImportEdit',
+    },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/purchased-orders-import/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/purchased-orders-import/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
+    },
+  },
   TEMPLATE_SECTOR: {
     LIST: {
       PATH: '/wmsx/template-sector',
@@ -600,6 +628,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/wmsx/define-bill/:id/details',
       TITLE: 'defineBillDetails',
+    },
+  },
+  SO_EXPORT: {
+    LIST: {
+      PATH: '/wmsx/so-export',
+      TITLE: 'soExport',
+    },
+    CREATE: {
+      PATH: '/wmsx/so-export/create',
+      TITLE: 'soExportCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/so-export/:id/detail',
+      TITLE: 'soExportDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/so-export/:id/edit',
+      TITLE: 'soExportEdit',
     },
   },
 }

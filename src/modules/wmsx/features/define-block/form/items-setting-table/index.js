@@ -28,7 +28,6 @@ const ItemSettingTable = ({ items, arrayHelpers, setFieldValue }) => {
               name={`items[${index}].itemId`}
               label={t('defineBlock.productName')}
               placeholder={t('defineBlock.productName')}
-              options={items}
               asyncRequest={(s) =>
                 getItemsApi({
                   keyword: s,

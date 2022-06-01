@@ -29,9 +29,6 @@ import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'configuration',
-  },
-  {
     route: ROUTE.USER_MANAGEMENT.LIST.PATH,
     title: ROUTE.USER_MANAGEMENT.LIST.TITLE,
   },
