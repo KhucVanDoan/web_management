@@ -32,6 +32,35 @@
     "editPaymentType": "決済方法編集",
     "defineTypeService": "サービスタイプ登録"
   },
+  "dashboard": {
+    "chart": {
+      "viewMore": "もっと見る",
+      "thisPeriod": "当期",
+      "import": "出庫",
+      "export": "入庫",
+      "transfer": "倉庫移動",
+      "inventorySpaceTitle": "フリーロケーション"
+    },
+    "title": "ダッシュボード",
+    "material": "原材料",
+    "product": "完成品",
+    "choiseSaleOrderType": "取引分類選択",
+    "choiseItemType": "在庫商品タイプ",
+    "wareHouseA": "倉庫A",
+    "wareHouseB": "倉庫B",
+    "wareHouseC": "倉庫C",
+    "saleOrderReport": {
+      "title": "取引数量"
+    },
+    "itemReport": {
+      "title": "在庫数量",
+      "total": "カテゴリ全件数",
+      "other": "そのたカテゴリ"
+    },
+    "movementReport": {
+      "title": "月次取引数量"
+    }
+  },
   "defineTypeService": {
     "orderNumber": "#",
     "title": "サービスタイプ一覧",

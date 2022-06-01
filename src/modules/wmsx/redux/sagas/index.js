@@ -5,6 +5,7 @@ import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchDashboard from './dashboard'
 import watchCompleteBill from './define-bill/complete-bill'
 import watchConfirmBill from './define-bill/confirm-bill'
 import watchCreateBill from './define-bill/create-bill'
@@ -219,6 +220,8 @@ export default function* sagas() {
     watchGetWarehouses(),
     watchGetSupplyRequest(),
     watchGetTypeServices(),
+    // Dashboard
+    watchDashboard(),
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),

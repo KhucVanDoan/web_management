@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import commonManagement from './common'
+import dashboard from './dashboard'
 import bill from './define-bill'
 import defineBlock from './define-block'
 import defineCurrencyUnit from './define-currency-unit'
@@ -43,6 +44,7 @@ import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
 export default combineReducers({
   commonManagement,
+  dashboard,
   defineTemplateShelf,
   defineTypeUnit,
   defineCurrencyUnit,

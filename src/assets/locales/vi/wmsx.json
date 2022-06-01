@@ -150,6 +150,50 @@
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
     "soExportDetail": "Chi tiết lệnh xuất theo đơn bán"
   },
+  "dashboard": {
+    "chart": {
+      "viewMore": "Xem đầy đủ",
+      "thisPeriod": "kỳ này",
+      "import": "Nhập",
+      "export": "Xuất",
+      "transfer": "Chuyển kho",
+      "inventorySpaceTitle": "Khoảng trống kho"
+    },
+    "title": "Dashboard",
+    "material": "Nguyên vật liệu",
+    "product": "Thành phẩm",
+    "choiseSaleOrderType": "Chọn loại giao dịch",
+    "choiseItemType": "Chọn loại hàng tồn kho",
+    "wareHouseA": "Kho A",
+    "wareHouseB": "Kho B",
+    "wareHouseC": "Kho C",
+    "saleOrderReport": {
+      "title": "Lượng hàng giao dịch"
+    },
+    "itemReport": {
+      "title": "Lượng hàng tồn kho",
+      "total": "Tất cả danh mục",
+      "other": "Danh mục khác"
+    },
+    "day": "Ngày",
+    "week": "Tuần",
+    "month": "Tháng",
+    "quarter": "Quý",
+    "export": "Xuất",
+    "import": "Nhập",
+    "transfer": "Chuyển kho",
+    "stock": "Tồn kho",
+    "dayOfWeeks0": "Chủ nhật",
+    "dayOfWeeks1": "Thứ 2",
+    "dayOfWeeks2": "Thứ 3",
+    "dayOfWeeks3": "Thứ 4",
+    "dayOfWeeks4": "Thứ 5",
+    "dayOfWeeks5": "Thứ 6",
+    "dayOfWeeks6": "Thứ 7",
+    "movementReport": {
+      "title": "Số lượng giao dịch trong tháng"
+    }
+  },
   "defineTypeService": {
     "orderNumber": "#",
     "title": "Danh sách loại dịch vụ",
