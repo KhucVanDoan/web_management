@@ -5,7 +5,6 @@ import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -16,7 +15,7 @@ import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTable from '../form/item-setting-table'
+import ItemSettingTableDetail from './item-table-detail'
 
 const breadcrumbs = [
   {
@@ -127,9 +126,8 @@ function ProductionOrderDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTable
-          items={productionOrderDetails?.productionOrderDetails}
-          mode={MODAL_MODE.DETAIL}
+        <ItemSettingTableDetail
+          items={productionOrderDetails?.productionOrderWarehouseLots}
         />
       </Box>
       <ActionBar onBack={backToList} />
