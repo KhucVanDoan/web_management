@@ -178,7 +178,10 @@ function DefineWarehouse() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, factoryIds: filters?.factoryIds?.id },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouses(params)
