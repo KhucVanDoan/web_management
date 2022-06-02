@@ -59,7 +59,6 @@ export default function inventoryLimitSetting(state = initialState, action) {
     case WMSX_GET_INVENTORY_LIMIT_DETAILS_FAILED:
       return {
         ...state,
-        inventoryLimitDetails: {},
         isLoading: false,
       }
     case WMSX_GET_INVENTORY_LIMIT_DETAILS_SUCCESS:
