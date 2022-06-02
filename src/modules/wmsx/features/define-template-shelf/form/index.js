@@ -236,6 +236,7 @@ const DefineTemplateShelfForm = () => {
                         options={DEFAULT_UNITS}
                         getOptionLabel={(opt) => opt?.name}
                         getOptionValue={(opt) => opt?.id}
+                        disableClearable
                         required
                       />
                     </Grid>
@@ -295,6 +296,7 @@ const DefineTemplateShelfForm = () => {
                         options={WEIGHT_UNITS}
                         getOptionLabel={(opt) => opt?.name}
                         getOptionValue={(opt) => opt?.id}
+                        disableClearable
                         required
                       />
                     </Grid>

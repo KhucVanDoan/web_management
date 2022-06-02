@@ -135,6 +135,10 @@ function SOExport() {
         const isDelete =
           status === ORDER_STATUS_SO_EXPORT.PENDING ||
           status === ORDER_STATUS_SO_EXPORT.REJECTED
+
+        const hasTransaction =
+          status === ORDER_STATUS_SO_EXPORT.IN_PROGRESS ||
+          status === ORDER_STATUS_SO_EXPORT.EXPORTED
         return (
           <>
             <IconButton
@@ -178,6 +182,23 @@ function SOExport() {
               >
                 <Icon name="remove" />
               </IconButton>
+            )}
+            {hasTransaction && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() =>
+                  history.push(
+                    `${ROUTE.SO_EXPORT.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
+                  )
+                }
+              >
+                {t('soExport.transactionList')}
+              </Button>
             )}
           </>
         )
