@@ -1,10 +1,21 @@
 {
   "menu": {
     "configuration": "Configuration",
+    "companyCustomerSetting": "Setup General Information",
     "userManagement": "User management",
     "userManagementCreate": "Create user",
     "userManagementDetail": "User details",
     "userManagementEdit": "Edit user",
     "userPermission": "Decentralize"
+  },
+  "companyCustomerSetting": {
+    "nameCustomer": "Customer company name",
+    "Logo": "Logo",
+    "colorBrand": "Brand color",
+    "email": "Contact email",
+    "phoneNumber": "Contact phone number",
+    "address": "Contact address",
+    "btnSave": "Save settings",
+    "canner": "Cancel"
   }
 }

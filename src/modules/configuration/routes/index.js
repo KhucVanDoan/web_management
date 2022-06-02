@@ -3,6 +3,7 @@ import UserManagementDetail from '~/modules/mesx/features/user-management/user-d
 import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
 import UserPermission from '~/modules/mesx/features/user-permission'
 
+import CompanyCustomerSetting from '../feature/company-customer-setting'
 import { ROUTE } from './config'
 
 const routes = [
@@ -12,6 +13,12 @@ const routes = [
     path: ROUTE.CONFIGURATION.PATH,
     component: UserManagement,
     isInSidebar: false,
+  },
+  {
+    name: ROUTE.COMPANY_CUSTOMER_SETTING.TITLE,
+    path: ROUTE.COMPANY_CUSTOMER_SETTING.PATH,
+    component: CompanyCustomerSetting,
+    isInSidebar: true,
   },
   {
     name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
