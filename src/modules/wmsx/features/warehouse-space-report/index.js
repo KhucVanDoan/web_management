@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useTranslation } from 'react-i18next'
 
@@ -23,9 +23,13 @@ const breadcrumbs = [
 const warehouseSetting = () => {
   const {
     data: { warehouseSpace, isLoading },
+    actions,
   } = useWarehouseSpaceReport()
-
   const { t } = useTranslation(['wmsx'])
+
+  useEffect(() => {
+    actions.getDataWarehouseSpaceReport(null)
+  }, [])
 
   const renderHeaderRight = () => {
     return (
@@ -48,7 +52,7 @@ const warehouseSetting = () => {
       loading={isLoading}
     >
       <FilterForm />
-      <WarehouseSpaceTable data={warehouseSpace} />
+      <WarehouseSpaceTable data={warehouseSpace || []} />
     </Page>
   )
 }

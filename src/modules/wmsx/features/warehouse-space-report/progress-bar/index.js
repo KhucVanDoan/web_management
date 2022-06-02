@@ -30,7 +30,7 @@ const ProgressBar = (props) => {
   const containerStyles = {
     height: 40,
     minWidth: 154,
-    backgroundColor: `1px solid ${theme.palette.secondary.a4}`,
+    backgroundColor: theme.palette.secondary.a4,
     margin: '5px 5px 5px 0px',
     borderRadius: '3px',
     display: 'flex',
@@ -48,14 +48,10 @@ const ProgressBar = (props) => {
   }
 
   const labelStyles = {
-    color: '#FFFFFF',
-    marginLeft: '12px',
-  }
-
-  const labelStyle2 = {
     color: theme.palette.text.main,
     marginLeft: '12px',
   }
+
   return (
     <div style={progressBar}>
       <div style={positionStyles}>
@@ -63,9 +59,7 @@ const ProgressBar = (props) => {
       </div>
       <div style={containerStyles}>
         <div style={fillerStyles}>
-          <span
-            style={+completed === 0 ? labelStyle2 : labelStyles}
-          >{`${completed}%`}</span>
+          <span style={labelStyles}>{`${completed}%`}</span>
         </div>
       </div>
     </div>
