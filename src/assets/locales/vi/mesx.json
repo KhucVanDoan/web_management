@@ -200,10 +200,9 @@
   "orderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
-    "approved": "Đã được chấp nhận",
-    "rejected": "Từ chối",
-    "completed": "Hoàn thành"
+    "completed": "Đã xuất hàng",
+    "inProducing": "Đang sản xuất",
+    "produced": "Hoàn thành sản xuất"
   },
   "producingStepStatus": {
     "pending": "Chờ xác nhận",
