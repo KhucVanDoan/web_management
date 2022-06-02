@@ -79,7 +79,7 @@ function InventoryCalendar() {
       field: 'warehouses',
       headerName: t('inventoryCalendar.warehouses'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const warehousesName = params.row.warehouses
           ?.map((warehouse) => warehouse?.name)
@@ -98,7 +98,7 @@ function InventoryCalendar() {
       headerName: t('inventoryCalendar.planExecutionDay'),
       filterFormat: 'date',
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return convertUtcDateTimeToLocalTz(createdAt)
@@ -108,7 +108,7 @@ function InventoryCalendar() {
       field: 'status',
       headerName: t('inventoryCalendar.status'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
