@@ -99,6 +99,10 @@ export const DEFAULT_ITEM_TYPES = {
   code: ['00', '04', '05', '06'],
 }
 
+export const ITEM_TYPES_TO_INT = {
+  code: ['04', '06', '01', '02'],
+}
+
 export const DEFAULT_UNITS = [
   {
     id: 1,

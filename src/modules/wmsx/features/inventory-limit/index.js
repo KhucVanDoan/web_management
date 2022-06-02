@@ -59,16 +59,6 @@ function InventoryLimit() {
 
   const columns = [
     {
-      field: 'code',
-      headerName: t('inventoryLimit.code'),
-      width: 80,
-      fixed: true,
-      sortable: true,
-      renderCell: (params) => {
-        return params?.row?.id
-      },
-    },
-    {
       field: 'itemCode',
       headerName: t('inventoryLimit.itemCode'),
       width: 150,
