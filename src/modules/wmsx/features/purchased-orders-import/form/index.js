@@ -13,6 +13,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { ORDER_STATUS } from '~/modules/mesx/constants'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
 import { CODE_SETTINGS, QC_CHECK } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
@@ -29,7 +30,7 @@ const POForm = () => {
   const routeMatch = useRouteMatch()
 
   const {
-    data: { poImportDetails, purchasedOrderNotCreatePOImpList, isLoading },
+    data: { poImportDetails, poImportList, isLoading },
     actions,
   } = usePurchasedOrdersImport()
 
@@ -48,13 +49,8 @@ const POForm = () => {
     commonActions.getWarehouses({})
     commonActions.getItems({})
     commonActions.getItemQualityPoint({})
-    actions.getPurchasedOrderNotCreatePOimp({
-      filter: JSON.stringify([
-        {
-          column: 'poHaveNotPoimp',
-          text: mode === MODAL_MODE.CREATE ? '' : params?.id,
-        },
-      ]),
+    actions.searchPOImports({
+      isGetAll: 1,
     })
   }, [])
   const initCode = (domainName) => {
@@ -322,7 +318,11 @@ const POForm = () => {
                       name="purchasedOrderId"
                       label={t('purchasedOrderImport.codePO')}
                       placeholder={t('purchasedOrderImport.codePO')}
-                      options={purchasedOrderNotCreatePOImpList}
+                      options={
+                        poImportList?.filter(
+                          (item) => item?.status === ORDER_STATUS.CONFIRMED,
+                        ) || []
+                      }
                       getOptionLabel={(opt) => t(opt.code) || ''}
                       getOptionValue={(opt) => opt?.id || ''}
                       onChange={(id) => onChangePo(id, setFieldValue)}
