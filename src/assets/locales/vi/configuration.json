@@ -1,11 +1,22 @@
 {
   "menu": {
     "configuration": "Thiết lập",
+    "companyCustomerSetting": "Cài đặt thông tin chung",
     "userManagement": "Quản lý người dùng",
     "userManagementCreate": "Tạo người dùng",
     "userManagementEdit": "Sửa người dùng",
     "userManagementDetail": "Chi tiết người dùng",
     "userPermission": "Phân quyền"
+  },
+  "companyCustomerSetting": {
+    "nameCustomer": "Tên công ty khách hàng",
+    "logo": "Logo",
+    "colorBrand": "Màu thương hiệu",
+    "email": "Email liên hệ",
+    "phoneNumber": "Số điện thoại liên hệ",
+    "address": "Địa chỉ liên hệ",
+    "btnSave": "Lưu cài đặt",
+    "canner": "Hủy"
   },
   "userStatus": {
     "active": "Hoạt động",
