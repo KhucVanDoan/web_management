@@ -78,6 +78,7 @@ const ItemGroupStockReport = () => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t('dashboard.itemReport.title')}</Typography>
         <Autocomplete
+          disableClearable
           options={options}
           value={filterBy}
           getOptionValue={(opt) => opt?.id}
@@ -86,7 +87,7 @@ const ItemGroupStockReport = () => {
           sx={{ width: '50%' }}
         />
       </Box>
-      <Box sx={{ height: 360 }}>
+      <Box sx={{ height: 280 }}>
         <Pie {...config} data={dataChart} />
       </Box>
     </Card>
