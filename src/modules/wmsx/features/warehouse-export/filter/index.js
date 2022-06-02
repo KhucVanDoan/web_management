@@ -48,7 +48,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseName"
+          name="warehouseId"
           label={t('movements.importExport.warehouseName')}
           placeholder={t('movements.importExport.warehouseName')}
           options={warehouseList}
@@ -71,7 +71,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="orderType"
+          name="movementType"
           label={t('movements.importExport.orderType')}
           placeholder={t('movements.importExport.orderType')}
           options={WAREHOUSE_EXPORT_STATUS_OPTIONS}

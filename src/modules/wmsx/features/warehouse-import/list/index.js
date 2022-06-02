@@ -13,7 +13,7 @@ import Status from '~/components/Status'
 import {
   MOVEMENT_TYPE,
   WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
-  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
+  WAREHOUSE_IMPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
 import { exportWarehouseImportApi } from '~/modules/wmsx/redux/sagas/warehouse-import/import-export-warehouse-import'
@@ -42,6 +42,19 @@ function WarehouseImport() {
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
+  const DEFAULT_FILTERS = {
+    code: '',
+    createdAt: '',
+    createdByUser: '',
+    status: '',
+    warehouseId: '',
+    movementType: [
+      MOVEMENT_TYPE.PO_IMPORT,
+      MOVEMENT_TYPE.PRO_IMPORT,
+      MOVEMENT_TYPE.SO_IMPORT,
+    ],
+  }
+
   const {
     page,
     pageSize,
@@ -53,7 +66,9 @@ function WarehouseImport() {
     setSort,
     setFilters,
     setKeyword,
-  } = useQueryState()
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = [
     {
@@ -85,7 +100,7 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])}`
+        return `${t(WAREHOUSE_IMPORT_STATUS_MAP[params.row?.movementType])}`
       },
     },
     {
@@ -163,17 +178,7 @@ function WarehouseImport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(
-        {
-          ...filters,
-          movementType: [
-            MOVEMENT_TYPE.PO_IMPORT,
-            MOVEMENT_TYPE.PRO_IMPORT,
-            MOVEMENT_TYPE.SO_IMPORT,
-          ],
-        },
-        columns,
-      ),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.getWarehouseImportMovements(params)
