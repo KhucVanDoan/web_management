@@ -13,7 +13,7 @@ import Status from '~/components/Status'
 import {
   MOVEMENT_TYPE,
   WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
-  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
+  WAREHOUSE_EXPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { exportWarehouseExportApi } from '~/modules/wmsx/redux/sagas/warehouse-export/import-export-warehouse-export'
@@ -21,7 +21,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -45,9 +45,13 @@ function WarehouseExport() {
     code: '',
     createdByUser: '',
     createdAt: '',
-    warehouseName: '',
+    warehouseId: '',
     status: '',
-    orderType: '',
+    movementType: [
+      MOVEMENT_TYPE.PO_EXPORT,
+      MOVEMENT_TYPE.PRO_EXPORT,
+      MOVEMENT_TYPE.SO_EXPORT,
+    ],
   }
 
   const {
@@ -65,7 +69,7 @@ function WarehouseExport() {
 
   const columns = [
     {
-      field: 'code',
+      field: 'id',
       headerName: t('movements.code'),
       width: 120,
       sortable: true,
@@ -94,13 +98,13 @@ function WarehouseExport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])}`
+        return `${t(WAREHOUSE_EXPORT_STATUS_MAP[params.row?.movementType])}`
       },
     },
     {
       field: 'warehouseName',
       headerName: t('movements.importExport.warehouseName'),
-      width: 150,
+      width: 120,
       sortable: false,
       renderCell: (params) => {
         return params?.row?.warehouse?.name
@@ -110,11 +114,11 @@ function WarehouseExport() {
       field: 'createdAt',
       headerName: t('movements.importExport.executeDate'),
       filterFormat: 'date',
-      width: 150,
-      sortable: true,
+      width: 120,
+      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+        return convertUtcDateToLocalTz(createdAt)
       },
     },
     {
@@ -130,7 +134,7 @@ function WarehouseExport() {
       field: 'movementStatus',
       headerName: t('movements.movementStatus'),
       width: 120,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
@@ -171,17 +175,7 @@ function WarehouseExport() {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams(
-        {
-          ...filters,
-          movementType: [
-            MOVEMENT_TYPE.PO_EXPORT,
-            MOVEMENT_TYPE.PRO_EXPORT,
-            MOVEMENT_TYPE.SO_EXPORT,
-          ],
-        },
-        columns,
-      ),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExport(params)

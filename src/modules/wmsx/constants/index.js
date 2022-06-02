@@ -239,6 +239,17 @@ export const MOVEMENT_TYPE_MAP = {
   [MOVEMENT_TYPE.EMO_EXPORT]: 'movements.export',
 }
 
+export const MOVEMENT_ORDER_TYPE_MAP = {
+  [MOVEMENT_TYPE.PO_IMPORT]: 'movements.purchasedOrder',
+  [MOVEMENT_TYPE.PO_EXPORT]: 'movements.purchasedOrder',
+  [MOVEMENT_TYPE.PRO_IMPORT]: 'movements.productionOrder',
+  [MOVEMENT_TYPE.PRO_EXPORT]: 'movements.productionOrder',
+  [MOVEMENT_TYPE.SO_IMPORT]: 'movements.saleOrder',
+  [MOVEMENT_TYPE.SO_EXPORT]: 'movements.saleOrder',
+  [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'movements.transferOrder',
+  [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'movements.transferOrder',
+}
+
 export const MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT = {
   [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'warehouseTransferMovement.transferImport',
   [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'warehouseTransferMovement.transferExport',
@@ -493,31 +504,21 @@ export const TRANSFER_MOVEMENT_TYPE_OPTIONS = [
 ]
 
 export const WAREHOUSE_IMPORT_STATUS = {
-  POI: 0,
-  PO: 1,
+  PO: 0,
   PRO: 2,
-  SO: 3,
-  TRANSFER: 4,
-  IMO: 5,
-  EXO: 6,
+  TRANSFER: 6,
+  IMO: 8,
 }
 
 export const WAREHOUSE_IMPORT_STATUS_MAP = {
-  [WAREHOUSE_IMPORT_STATUS.POI]: 'movementsStatus.poi',
   [WAREHOUSE_IMPORT_STATUS.PO]: 'movementsStatus.po',
   [WAREHOUSE_IMPORT_STATUS.PRO]: 'movementsStatus.pro',
-  [WAREHOUSE_IMPORT_STATUS.SO]: 'movementsStatus.so',
   [WAREHOUSE_IMPORT_STATUS.TRANSFER]: 'movementsStatus.transfer',
   [WAREHOUSE_IMPORT_STATUS.IMO]: 'movementsStatus.imo',
-  [WAREHOUSE_IMPORT_STATUS.EXO]: 'movementsStatus.exo',
 }
 export const WAREHOUSE_IMPORT_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'movementsStatus.poi',
-  },
-  {
-    id: 1,
     text: 'movementsStatus.po',
   },
   {
@@ -525,53 +526,45 @@ export const WAREHOUSE_IMPORT_STATUS_OPTIONS = [
     text: 'movementsStatus.pro',
   },
   {
-    id: 3,
-    text: 'movementsStatus.so',
-  },
-  {
-    id: 4,
+    id: 6,
     text: 'movementsStatus.transfer',
   },
   {
-    id: 5,
+    id: 8,
     text: 'movementsStatus.imo',
-  },
-  {
-    id: 6,
-    text: 'movementsStatus.exo',
   },
 ]
 
 export const WAREHOUSE_EXPORT_STATUS = {
-  PO: 0,
-  PRO: 1,
-  SO: 2,
-  TRANSFER: 3,
+  PRO: 3,
+  SO: 5,
+  TRANSFER: 7,
+  EXO: 9,
 }
 
 export const WAREHOUSE_EXPORT_STATUS_MAP = {
-  [WAREHOUSE_EXPORT_STATUS.PO]: 'movementsStatus.po',
   [WAREHOUSE_EXPORT_STATUS.PRO]: 'movementsStatus.pro',
   [WAREHOUSE_EXPORT_STATUS.SO]: 'movementsStatus.so',
   [WAREHOUSE_EXPORT_STATUS.TRANSFER]: 'movementsStatus.transfer',
+  [WAREHOUSE_EXPORT_STATUS.EXO]: 'movementsStatus.exo',
 }
 
 export const WAREHOUSE_EXPORT_STATUS_OPTIONS = [
   {
-    id: 0,
-    text: 'movementsStatus.po',
-  },
-  {
-    id: 1,
+    id: 3,
     text: 'movementsStatus.pro',
   },
   {
-    id: 2,
+    id: 5,
     text: 'movementsStatus.so',
   },
   {
-    id: 3,
+    id: 7,
     text: 'movementsStatus.transfer',
+  },
+  {
+    id: 9,
+    text: 'movementsStatus.exo',
   },
 ]
 
@@ -777,7 +770,7 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
     text: 'warehouseMovementOrderType.so',
   },
   {
-    id: 4,
+    id: 6,
     text: 'warehouseMovementOrderType.transfer',
   },
   {
@@ -785,7 +778,7 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
     text: 'warehouseMovementOrderType.imo',
   },
   {
-    id: 6,
+    id: 7,
     text: 'warehouseMovementOrderType.exo',
   },
 ]
