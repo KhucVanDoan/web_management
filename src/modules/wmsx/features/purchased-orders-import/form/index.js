@@ -43,8 +43,6 @@ const POForm = () => {
 
   const [itemsFilter, setItemsFilter] = useState([])
 
-  useEffect(() => {}, [poImportDetails])
-
   useEffect(() => {
     commonActions.getWarehouses({})
     commonActions.getItems({})

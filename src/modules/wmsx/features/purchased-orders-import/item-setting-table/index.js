@@ -18,8 +18,7 @@ import { scrollToBottom } from '~/utils'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, status, itemsFilter, initialLotNumber } =
-    props
+  const { items, mode, arrayHelpers, status, itemsFilter } = props
   const hideCols = ![
     ORDER_STATUS.IN_PROGRESS,
     ORDER_STATUS.APPROVED,
@@ -113,10 +112,7 @@ function ItemSettingTable(props) {
         return isView ? (
           <>{lotNumber}</>
         ) : (
-          <Field.TextField
-            name={`items[${index}].lotNumber`}
-            value={initialLotNumber || ''}
-          />
+          <Field.TextField name={`items[${index}].lotNumber`} />
         )
       },
     },
