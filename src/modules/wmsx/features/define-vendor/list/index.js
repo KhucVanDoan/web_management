@@ -75,11 +75,7 @@ function DefineVendor() {
       sortable: true,
       fixed: true,
     },
-    {
-      field: 'supplierCapacity',
-      headerName: t('defineVendor.supplierCapacity'),
-      width: 200,
-    },
+
     {
       field: 'email',
       headerName: t('defineVendor.email'),

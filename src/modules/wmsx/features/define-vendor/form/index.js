@@ -65,7 +65,7 @@ const DefineVendorForm = () => {
       code: values?.code,
       name: values?.name,
       phone: values?.phone,
-      email: values?.email,
+      email: values?.email || null,
       fax: values?.fax,
       address: values?.address,
       description: values?.description || '',
@@ -228,7 +228,6 @@ const DefineVendorForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
-                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
