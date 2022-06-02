@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Grid, Typography, InputAdornment } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -100,7 +101,7 @@ function DefineWarehouseFrom() {
     code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
-    companyId: warehouseDetails?.companyId || null,
+    companyId: warehouseDetails?.company || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
     long: warehouseDetails?.long?.value || null,
@@ -223,7 +224,6 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       sx={{ mt: 4 / 3 }}
                       required
                     />
@@ -265,7 +265,7 @@ function DefineWarehouseFrom() {
                       name="factoryId"
                       label={t('defineWarehouse.factory')}
                       placeholder={t('defineWarehouse.factory')}
-                      options={factories}
+                      options={!isEmpty(factories) ? factories : factoryList}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
@@ -279,7 +279,6 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       sx={{ mt: 4 / 3 }}
                       required
                     />
@@ -302,6 +301,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />
                     <Field.TextField
@@ -316,6 +316,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       type="number"
                       required
                     />
@@ -331,6 +332,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       type="number"
                       required
                     />
