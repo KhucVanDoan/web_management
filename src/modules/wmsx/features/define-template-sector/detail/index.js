@@ -104,7 +104,7 @@ const TemplateSectorDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('templateSector.quantitySector')}
+                label={t('templateSector.numberOfShelfs')}
                 value={templateSectorDetails?.templateShelfs?.length}
               />
             </Grid>

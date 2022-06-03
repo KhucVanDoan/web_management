@@ -88,18 +88,19 @@ const defineTemplateSector = () => {
         },
       },
       {
-        field: 'quantitySector',
-        headerName: t('templateSector.quantitySector'),
+        field: 'numberOfShelfs',
+        headerName: t('templateSector.numberOfShelfs'),
         width: 150,
         sortable: true,
         renderCell: (params) => {
-          return params?.row?.totalShelfsInSector
+          return params?.row?.totalShelfsInSector || 0
         },
       },
       {
         field: 'createdAt',
         headerName: t('templateSector.createdAt'),
         width: 200,
+        filterFormat: 'date',
         sortable: true,
         fixed: true,
         renderCell: (params) => {

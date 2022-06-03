@@ -13,6 +13,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import TextField from '~/components/TextField'
 import { DEFAULT_UNITS } from '~/modules/wmsx/constants'
 import { useTemplateSector } from '~/modules/wmsx/redux/hooks/useDefineTemplateSector'
 import useDefineTemplateShelf from '~/modules/wmsx/redux/hooks/useDefineTemplateShelf'
@@ -57,15 +58,18 @@ const TemplateSectorForm = () => {
     height: templateSectorDetails?.height?.value || '',
     templateSheft:
       templateSectorDetails?.templateShelfs?.length > 0
-        ? templateSectorDetails?.templateShelfs[0]?.id
-        : '' || '',
-
+        ? templateShelfList.find(
+            (shelf) =>
+              shelf?.id === templateSectorDetails?.templateShelfs[0]?.id,
+          )
+        : null,
     items:
       templateSectorDetails?.templateShelfs?.map((item, index) => ({
         id: index,
         nameSheft: item?.name,
       })) || DEFAULT_ITEM,
   }
+
   useEffect(() => {
     defineTemplateShelfAction.searchTemplateShelfs({ isGetAll: 1 })
   }, [])
@@ -75,6 +79,7 @@ const TemplateSectorForm = () => {
     }
     return () => actions.resetTemplateSectorState()
   }, [mode])
+
   const onSubmit = (values) => {
     const params = {
       name: values?.name,
@@ -95,7 +100,7 @@ const TemplateSectorForm = () => {
       actions.createTemplateSector(params, (data) => {
         saveTemplateShelfInSector(
           data?.id,
-          values?.templateSheft,
+          values?.templateSheft?.id,
           values?.items,
           values?.long,
         )
@@ -105,7 +110,7 @@ const TemplateSectorForm = () => {
       actions.updateTemplateSector(params, (data) => {
         saveTemplateShelfInSector(
           data?.id,
-          values?.templateSheft,
+          values?.templateSheft?.id,
           values?.items,
           values?.long,
         )
@@ -244,14 +249,13 @@ const TemplateSectorForm = () => {
                         required
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}></Grid>
-                    <Grid item xs={12} lg={6}>
+
+                    <Grid item xs={12}>
                       <Typography variant="h4" component="span">
                         {t('templateSector.storage')}
                       </Typography>
                     </Grid>
 
-                    <Grid item xs={12} lg={6}></Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.Autocomplete
                         label={t('templateSector.unit')}
@@ -303,13 +307,12 @@ const TemplateSectorForm = () => {
                         required
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12}>
                       <Typography variant="h4" component="span">
                         {t('templateSector.sheftInArea')}
                       </Typography>
                     </Grid>
 
-                    <Grid item xs={12} lg={6}></Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.Autocomplete
                         label={t('templateSector.templateSheft')}
@@ -317,7 +320,7 @@ const TemplateSectorForm = () => {
                         placeholder={t('templateSector.templateSheft')}
                         required
                         options={templateShelfList}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt}
                         getOptionLabel={(opt) => opt?.name}
                         getOptionSubLabel={(opt) =>
                           `D*R*C:${opt?.long?.value}* ${opt?.width?.value}* ${
@@ -328,19 +331,35 @@ const TemplateSectorForm = () => {
                             )?.name
                           })`
                         }
+                        disableClearable
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <FieldArray
-                        name="items"
-                        render={(arrayHelpers) => (
-                          <ItemSettingTable
-                            items={values?.items || []}
-                            arrayHelpers={arrayHelpers}
+
+                    {values?.templateSheft?.id && (
+                      <>
+                        <Grid item lg={6} xs={12}>
+                          <TextField
+                            name="numberOfSector"
+                            value={(values?.items || []).length}
+                            label={t('templateSector.numberOfShelfs')}
+                            sx={{ flex: 1 }}
+                            disabled
                           />
-                        )}
-                      />
-                    </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <FieldArray
+                            name="items"
+                            render={(arrayHelpers) => (
+                              <ItemSettingTable
+                                items={values?.items || []}
+                                arrayHelpers={arrayHelpers}
+                                values={values}
+                              />
+                            )}
+                          />
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
