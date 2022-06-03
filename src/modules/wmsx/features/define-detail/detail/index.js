@@ -62,8 +62,12 @@ const DefineDetailDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV label={t('defineDetail.name')} value={detailDetails.name} />
             </Grid>
-            label={t('defineDetail.createdAt')}
-            value={convertUtcDateTimeToLocalTz(detailDetails.createdAt)}
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('defineDetail.createdAt')}
+                value={convertUtcDateTimeToLocalTz(detailDetails.createdAt)}
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineDetail.updatedAt')}

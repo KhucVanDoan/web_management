@@ -209,7 +209,7 @@ const DefinePackageForm = () => {
                           }}
                           disabled={isUpdate}
                           required
-                          allow={TEXTFIELD_ALLOW.NUMERIC}
+                          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                           onInput={(val) => {
                             if (
                               val?.indexOf(CODE_SETTINGS.PACKAGE.PREFIX) !== 0
