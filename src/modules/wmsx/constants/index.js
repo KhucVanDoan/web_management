@@ -892,3 +892,9 @@ export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
     color: 'Exported',
   },
 ]
+export const UNIT_ENUM = {
+  M: 3,
+  DM: 2,
+  CM: 1,
+}
+export const CM_TO_PIXEL = 37.7952755906

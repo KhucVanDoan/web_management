@@ -1,84 +1,100 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
-import { IconButton } from '@mui/material'
-import Box from '@mui/material/Box'
+import AddIcon from '@mui/icons-material/Add'
+import { Box, Grid, IconButton } from '@mui/material'
+import Big from 'big.js'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  NOTIFICATION_TYPE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
-import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { scrollToBottom } from '~/utils'
+import addNotification from '~/utils/toast'
 
-const ItemSettingTable = ({ items, arrayHelpers }) => {
+const ItemSettingTable = ({ items, arrayHelpers, values }) => {
   const { t } = useTranslation(['wmsx'])
-  const columns = useMemo(
-    () => [
-      {
-        field: 'nameSheft',
-        width: 200,
-        align: 'center',
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].nameSheft`}
-              label={t('templateSector.nameSheft')}
-              inputProps={{
-                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              }}
-              required
-            />
-          )
-        },
-      },
-      {
-        field: 'action',
-        width: 100,
-        align: 'center',
-        renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
-          return (
-            <IconButton
-              onClick={() => {
-                arrayHelpers.remove(idx)
-              }}
-              disabled={items?.length === 1}
-            >
-              <Icon name="remove" />
-            </IconButton>
-          )
-        },
-      },
-    ],
-    [items],
-  )
-
+  const validateName = (name, index) => {
+    let error = ''
+    if (
+      items?.some(
+        (item, itemIndex) => item?.nameSheft === name && itemIndex !== index,
+      )
+    ) {
+      error = t('templateSector.duplicateName')
+    }
+    return error
+  }
+  const validateNumberOfShelfsInSector = () => {
+    const nextQty = (items?.length || 0) + 1
+    if (
+      values?.templateSheft &&
+      Big(nextQty).mul(Big(values?.templateSheft?.long?.value || 0)) <=
+        (values?.long || 0)
+    ) {
+      return true
+    }
+    return false
+  }
   return (
     <>
-      <Box mt={1}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          mb: 1,
+        }}
+      >
         <Button
           variant="outlined"
           onClick={() => {
-            arrayHelpers.push({
-              id: new Date().getTime(),
-              nameSheft: '',
-            })
-            scrollToBottom()
+            if (validateNumberOfShelfsInSector()) {
+              arrayHelpers.push({
+                id: new Date().getTime(),
+                nameSheft: '',
+              })
+            } else {
+              addNotification(
+                t('templateSector.messageNumberOfShelfsExceed'),
+                NOTIFICATION_TYPE.ERROR,
+              )
+            }
           }}
+          disabled={!values?.templateSheft?.id}
         >
-          {t('templateSector.addDetailButton')}
+          <AddIcon fontSize="small" /> {t('templateSector.addDetailButton')}
         </Button>
       </Box>
-      <DataTable
-        rows={items}
-        columns={columns}
-        total={items.length}
-        striped={false}
-        hideSetting
-        hideFooter
-      />
+      <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
+        {items?.map((item, index) => (
+          <Grid item xs={12} lg={6} key={item?.id}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+              <Field.TextField
+                name={`items[${index}].nameSheft`}
+                label={`${t('templateSector.nameSheft')} ${index + 1}`}
+                inputProps={{
+                  maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                }}
+                required
+                validate={(name) => validateName(name, index)}
+                sx={{ flex: 1 }}
+                placeholder={`${t('templateSector.nameSheft')} ${index + 1}`}
+              />
+              <IconButton
+                onClick={() => {
+                  arrayHelpers.remove(index)
+                }}
+                disabled={items?.length === 1}
+              >
+                <Icon name="remove" />
+              </IconButton>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
     </>
   )
 }

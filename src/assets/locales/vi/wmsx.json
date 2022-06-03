@@ -651,7 +651,9 @@
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
     "size": "Kích thước D*R*C ",
-    "quantitySector": "Số lượng kệ",
+    "numberOfShelfs": "Số lượng kệ",
+    "numberOfShelfsIsInvalid": "Tổng chiều dài các kệ không được lớn hơn chiều dài của khu vực",
+    "sizeOfShelfIsOverSector": "Kích thước kệ không được lớn hơn kích thước khu vực",
     "create": "Tạo mới",
     "action": "Hành động",
     "cm": "cm",
@@ -671,7 +673,9 @@
     "defineWarehouseDetail": "Chi tiết kho",
     "defineWarehouseCreate": "Tạo kho",
     "defineWarehouseEdit": "Sửa kho",
-    "addDetailButton": "Thêm Kệ"
+    "addDetailButton": "Thêm Kệ",
+    "duplicateName": "Tên kệ bị trùng",
+    "messageNumberOfShelfsExceed": "Số lượng kệ đã đạt đến giới hạn của không gian lưu trữ"
   },
   "warehouseReport": {
     "title": "Danh sách báo cáo tồn kho",
