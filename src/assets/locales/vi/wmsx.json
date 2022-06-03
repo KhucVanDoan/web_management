@@ -368,7 +368,8 @@
       "totalFloorWeightLoadIsOverShelfWeightLoad": "Tổng trọng tải của các tầng lớn hơn trọng tải của kệ"
     },
     "heightNotEqual": "Tổng chiều cao của các tầng phải bằng chiều cao của kệ",
-    "weightNotEqual": "Tổng trọng tải của các tầng phải bằng trọng tải của kệ"
+    "weightNotEqual": "Tổng trọng tải của các tầng phải bằng trọng tải của kệ",
+    "shelfFloorNameIsDuplicated": "Tên tầng bị trùng"
   },
   "defineService": {
     "title": "Danh sách dịch vụ",
