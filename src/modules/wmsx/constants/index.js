@@ -869,27 +869,27 @@ export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
   {
     id: 7,
     text: 'orderStatusSoExport.received',
-    color: 'pending',
+    color: 'received',
   },
   {
     id: 8,
     text: 'orderStatusSoExport.delivered',
-    color: 'Delivered',
+    color: 'delivered',
   },
   {
     id: 9,
     text: 'orderStatusSoExport.inCollecting',
-    color: 'InCollecting',
+    color: 'inCollecting',
   },
   {
     id: 10,
     text: 'orderStatusSoExport.collected',
-    color: 'Collected',
+    color: 'collected',
   },
   {
     id: 11,
     text: 'orderStatusSoExport.exported',
-    color: 'Exported',
+    color: 'exported',
   },
 ]
 export const UNIT_ENUM = {

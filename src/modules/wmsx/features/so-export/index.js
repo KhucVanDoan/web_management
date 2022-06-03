@@ -130,7 +130,9 @@ function SOExport() {
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row
-        const isEdit = status === ORDER_STATUS_SO_EXPORT.PENDING
+        const isEdit =
+          status === ORDER_STATUS_SO_EXPORT.PENDING ||
+          status === ORDER_STATUS_SO_EXPORT.REJECTED
         const isConfirmed = status === ORDER_STATUS_SO_EXPORT.PENDING
         const isDelete =
           status === ORDER_STATUS_SO_EXPORT.PENDING ||

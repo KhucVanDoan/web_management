@@ -156,6 +156,36 @@ const palette = {
       background: '#0761AD',
       contrastText: '#FFF',
     },
+    inReceiving: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
+    received: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
+    delivered: {
+      text: '#0FA44A',
+      background: '#0FA44A',
+      contrastText: '#FFF',
+    },
+    inCollecting: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
+    collected: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
+    exported: {
+      text: '#0FA44A',
+      background: '#0FA44A',
+      contrastText: '#FFF',
+    },
   },
   borderField: '#0761AD',
   bgPrimaryOpacity: '#DAE7F3',

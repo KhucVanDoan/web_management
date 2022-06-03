@@ -118,11 +118,13 @@ function POList() {
       align: 'center',
       renderCell: (params) => {
         const { id, status } = params.row
-        const isEdit = status === ORDER_STATUS.PENDING
+        const isEdit =
+          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isDelete =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
-        const isRejected = status === ORDER_STATUS.REJECTED
+        const isRejected =
+          status === ORDER_STATUS.REJECTED || status === ORDER_STATUS.PENDING
         const hasTransaction =
           status === ORDER_STATUS.COMPLETED ||
           status === ORDER_STATUS.IN_PROGRESS
