@@ -92,21 +92,33 @@ const WarehouseTransfer = () => {
         field: 'sourceWarehouseName',
         headerName: t('warehouseTransfer.sourceWarehouseName'),
         width: 150,
+        renderCell: (params) => {
+          return params?.row?.sourceWarehouse?.name
+        },
       },
       {
-        field: 'sourceWarehouseName',
+        field: 'sourceFactoryName',
         headerName: t('warehouseTransfer.sourceFactoryName'),
         width: 150,
+        renderCell: (params) => {
+          return params?.row?.sourceWarehouse?.factory?.name
+        },
       },
       {
-        field: 'sourceWarehouseName',
+        field: 'destinationWarehouseName',
         headerName: t('warehouseTransfer.destinationWarehouseName'),
         width: 150,
+        renderCell: (params) => {
+          return params?.row?.destinationWarehouse?.name
+        },
       },
       {
-        field: 'sourceWarehouseName',
+        field: 'destinationFactoryName',
         headerName: t('warehouseTransfer.destinationFactoryName'),
         width: 150,
+        renderCell: (params) => {
+          return params?.row?.destinationWarehouse?.factory?.name
+        },
       },
       {
         field: 'createdAt',
