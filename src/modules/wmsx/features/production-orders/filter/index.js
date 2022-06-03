@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  ORDER_STATUS_OPTIONS,
+  ORDER_TYPE_OPTIONS,
+} from '~/modules/mesx/constants'
 
 function FilterForm() {
   const { t } = useTranslation(['wmsx'])
@@ -26,11 +29,13 @@ function FilterForm() {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
+        <Field.Autocomplete
           name="type"
-          label={t('productionOrder.type')}
-          placeholder={t('productionOrder.type')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          label={t('productionOrder.typeList')}
+          placeholder={t('productionOrder.typeList')}
+          options={ORDER_TYPE_OPTIONS}
+          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.name)}
         />
       </Grid>
       <Grid item xs={12}>

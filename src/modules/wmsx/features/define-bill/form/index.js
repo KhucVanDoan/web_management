@@ -19,7 +19,7 @@ import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-compan
 import { searchCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/search-customers'
 import useBill from '~/modules/wmsx/redux/hooks/useBill'
 import useDefineCurrencyUnit from '~/modules/wmsx/redux/hooks/useDefineCurrencyUnit'
-import { searchPaymentTypesApi } from '~/modules/wmsx/redux/sagas/define-payment-type/search-payment-type.saga'
+import { searchPaymentTypesApi } from '~/modules/wmsx/redux/sagas/define-payment-type/search-payment-type'
 import { searchInvoiceTypesApi } from '~/modules/wmsx/redux/sagas/invoice-type/search-invoice-type'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 

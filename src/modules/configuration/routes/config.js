@@ -25,4 +25,8 @@ export const ROUTE = {
     PATH: '/configuration/user-permission',
     TITLE: 'userPermission',
   },
+  COMPANY_CUSTOMER_SETTING: {
+    PATH: '/configuration/company-customer-setting',
+    TITLE: 'companyCustomerSetting',
+  },
 }

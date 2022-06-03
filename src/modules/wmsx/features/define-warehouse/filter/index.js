@@ -3,8 +3,13 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 
 const FilterForm = () => {
   const { t } = useTranslation(['wmsx'])
@@ -28,11 +33,18 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="factoryId"
+        <Field.Autocomplete
+          name="factoryIds"
           label={t('defineWarehouse.factory')}
           placeholder={t('defineWarehouse.factory')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          asyncRequest={(s) =>
+            searchFactoriesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>

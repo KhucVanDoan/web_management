@@ -10,9 +10,9 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
+  MOVEMENT_ORDER_TYPE_MAP,
   MOVEMENT_TYPE_MAP,
   ORDER_STATUS_OPTIONS,
-  WAREHOUSE_IMPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -63,7 +63,7 @@ const WarehouseImportDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item xs={12}>
               <LV
-                label={t('inventoryCalendar.status')}
+                label={t('movements.movementStatus')}
                 value={
                   <Status
                     options={ORDER_STATUS_OPTIONS}
@@ -93,9 +93,7 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.letterType')}
-                value={t(
-                  WAREHOUSE_IMPORT_STATUS_MAP[movementDetail?.movementType],
-                )}
+                value={t(MOVEMENT_ORDER_TYPE_MAP[movementDetail?.movementType])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

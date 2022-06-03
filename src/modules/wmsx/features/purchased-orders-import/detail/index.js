@@ -49,12 +49,13 @@ const PODetail = () => {
   } = usePurchasedOrder()
 
   const {
-    data: { itemQualityPoint },
+    data: { itemQualityPoint, warehouseList },
     actions: commonActions,
   } = useCommonManagement()
 
   useEffect(() => {
     commonActions.getItemQualityPoint()
+    commonActions.getWarehouses({})
   }, [])
   useEffect(() => {
     if (id) {
@@ -143,17 +144,17 @@ const PODetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('purchasedOrderImport.codePO')}
-                value={poImportDetails?.purchasedOrder?.purchasedOrderNotCreatePOImpList
-                  ?.map((item) => t(item?.code))
-                  .join('; ')}
+                value={poImportDetails?.purchasedOrder?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('purchasedOrderImport.importWarehouse')}
-                value={poImportDetails.warehouseList
-                  ?.map((w) => w?.name)
-                  .join('; ')}
+                value={
+                  warehouseList?.find(
+                    (item) => item?.id === poImportDetails?.warehouseId,
+                  )?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>

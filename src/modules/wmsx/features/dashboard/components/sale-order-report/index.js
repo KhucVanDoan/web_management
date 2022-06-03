@@ -7,7 +7,9 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { format, getDay, parse } from 'date-fns'
+import { isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
@@ -53,6 +55,7 @@ const filterOption = [
 
 const SaleOrderReport = () => {
   const { t } = useTranslation(['wmsx'])
+  const theme = useTheme()
 
   const { data, actions } = useDashboardTransferReport()
 
@@ -125,7 +128,9 @@ const SaleOrderReport = () => {
   }
 
   const handleChangeGroupBy = (_, id) => {
-    setGroupBy(id)
+    if (!isNull(id)) {
+      setGroupBy(id)
+    }
   }
 
   const handleChangeSelect = (value) => {
@@ -149,7 +154,6 @@ const SaleOrderReport = () => {
         </Typography>
         <ToggleButtonGroup
           color="primary"
-          variant="contained"
           size="small"
           value={groupBy}
           exclusive
@@ -159,7 +163,18 @@ const SaleOrderReport = () => {
             <ToggleButton
               key={group.value}
               value={group.value}
-              sx={{ textTransform: 'capitalize' }}
+              sx={{
+                textTransform: 'capitalize',
+                color: theme.palette.text.main,
+                width: 55,
+                '&.Mui-selected': {
+                  color: theme.palette.primary.contrastText,
+                  backgroundColor: theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.main,
+                  },
+                },
+              }}
             >
               {t(`dashboard.${group.name}`)}
             </ToggleButton>
@@ -173,6 +188,7 @@ const SaleOrderReport = () => {
           getOptionValue={(opt) => opt?.value}
           getOptionLabel={(opt) => t(`movements.${opt.name}`)}
           onChange={handleChangeSelect}
+          disableClearable
         />
       </Box>
       <Box sx={{ height: 360 }}>

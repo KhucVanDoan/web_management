@@ -170,7 +170,7 @@ const InventoryCalendarForm = () => {
                       name="code"
                       placeholder={t('inventoryCalendar.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}

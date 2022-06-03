@@ -260,6 +260,7 @@ const TemplateSectorForm = () => {
                         options={DEFAULT_UNITS}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.name}
+                        disableClearable
                         required
                       />
                     </Grid>

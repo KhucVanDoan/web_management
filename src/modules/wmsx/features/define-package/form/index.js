@@ -285,7 +285,8 @@ const DefinePackageForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                                disableClearable
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -310,7 +311,8 @@ const DefinePackageForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                                disableClearable
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -337,7 +339,8 @@ const DefinePackageForm = () => {
                                 options={DEFAULT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                                disableClearable
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -362,7 +365,8 @@ const DefinePackageForm = () => {
                                 options={WEIGHT_UNITS}
                                 getOptionLabel={(opt) => opt?.name}
                                 getOptionValue={(opt) => opt?.id}
-                              ></Field.Autocomplete>
+                                disableClearable
+                              />
                             </FormControl>
                           </Grid>
                         </Grid>

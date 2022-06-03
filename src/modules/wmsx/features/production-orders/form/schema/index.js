@@ -23,7 +23,7 @@ export const validateShema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    type: Yup.string().required(t('general:form.required')),
+    moCode: Yup.object().nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),

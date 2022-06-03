@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
@@ -11,26 +12,40 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { scrollToBottom } from '~/utils'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  scrollToBottom,
+} from '~/utils'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers } = props
+  const { items, mode, arrayHelpers, values, setFieldValue } = props
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { itemList, warehouseList },
     actions,
   } = useCommonManagement()
+
+  const {
+    data: { itemQualityPoint },
+    actions: commonActions,
+  } = useCommonManagement()
+
+  const {
+    data: { lotNumberList },
+    actions: warehouseTransferAction,
+  } = useWarehouseTransfer()
+
   useEffect(() => {
     actions.getItems({})
     actions.getWarehouses({})
     actions.getBoms({ isGetAll: 1 })
+    warehouseTransferAction.getLotNumberListWarehouseTransfer({ isGetAll: 1 })
   }, [])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
-  }
-  const getWarehouseObject = (id) => {
-    return warehouseList?.find((item) => item?.id === id)
   }
   const getWarehouseTypeNames = (warehouseId) => {
     const warehouse = warehouseList?.find((item) => item?.id === warehouseId)
@@ -40,7 +55,16 @@ function ItemSettingTable(props) {
           ?.join(', ')
       : ''
   }
-
+  const handleCheckQc = (itemId) => {
+    const params = {
+      page: 1,
+      limit: 20,
+      filter: convertFilterParams({
+        itemId: itemId,
+      }),
+    }
+    commonActions.getItemQualityPoint(params)
+  }
   const columns = [
     {
       field: 'id',
@@ -52,23 +76,25 @@ function ItemSettingTable(props) {
       },
     },
     {
-      field: 'code',
-      headerName: t('productionOrder.item.code'),
+      field: 'name',
+      headerName: t('productionOrder.item.name'),
       width: 250,
 
       renderCell: (params, index) => {
-        // @TODO: wait BA confirm
-        const { itemId } = params.row
         const itemIdCodeList = items.map((item) => item.itemId)
-        return isView ? (
-          <>{getItemObject(itemId)?.code || ''}</>
-        ) : (
+        const listItemId = values?.moCode?.manufacturingOrderDetails?.map(
+          (item) => item.id,
+        )
+        const listItems = listItemId?.map((e) =>
+          itemList?.filter((item) => item?.id === e),
+        )
+        return (
           <Field.Autocomplete
             name={`items[${index}].itemId`}
-            options={itemList}
-            disabled={isView}
-            getOptionLabel={(opt) => opt?.code}
-            getOptionSubLabel={(opt) => opt?.name}
+            options={listItems?.length > 0 ? first(listItems) : itemList}
+            disabled={isView || !values?.moCode}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
             filterOptions={createFilterOptions({
               stringify: (opt) => `${opt?.code}|${opt?.name}`,
             })}
@@ -81,18 +107,15 @@ function ItemSettingTable(props) {
       },
     },
     {
-      field: 'itemName',
-      headerName: t('productionOrder.item.name'),
+      field: 'itemCode',
+      headerName: t('productionOrder.item.code'),
       width: 180,
-
       renderCell: (params, index) => {
         const itemId = params.row?.itemId
-        return isView ? (
-          <>{getItemObject(itemId)?.name || ''}</>
-        ) : (
+        return (
           <Field.TextField
-            name={`items[${index}].name`}
-            value={getItemObject(itemId)?.name || ''}
+            name={`items[${index}].code`}
+            value={getItemObject(itemId)?.code || ''}
             disabled={true}
           />
         )
@@ -102,12 +125,9 @@ function ItemSettingTable(props) {
       field: 'itemType',
       headerName: t('productionOrder.item.type'),
       width: 180,
-
       renderCell: (params, index) => {
         const { itemId } = params.row
-        return isView ? (
-          <>{getItemObject(itemId)?.itemType?.name || ''}</>
-        ) : (
+        return (
           <Field.TextField
             name={`items[${index}].unitType`}
             value={getItemObject(itemId)?.itemType?.name || ''}
@@ -122,16 +142,12 @@ function ItemSettingTable(props) {
       width: 180,
 
       renderCell: (params, index) => {
-        const { warehouseName } = params?.row
-        return isView ? (
-          <>{getWarehouseObject(warehouseName)?.name || ''}</>
-        ) : (
+        return (
           <Field.Autocomplete
             name={`items[${index}].warehouseName`}
             options={warehouseList}
             disabled={isView}
-            getOptionLabel={(opt) => opt?.code}
-            getOptionSubLabel={(opt) => opt?.name}
+            getOptionLabel={(opt) => opt?.name}
             filterOptions={createFilterOptions({
               stringify: (opt) => `${opt?.code}|${opt?.name}`,
             })}
@@ -148,9 +164,7 @@ function ItemSettingTable(props) {
       renderCell: (params, index) => {
         const { warehouseName } = params.row
 
-        return isView ? (
-          <>{getWarehouseTypeNames(warehouseName)?.name || ''}</>
-        ) : (
+        return (
           <Field.TextField
             name={`items[${index}].warehouseType`}
             value={getWarehouseTypeNames(warehouseName) || ''}
@@ -163,33 +177,66 @@ function ItemSettingTable(props) {
       field: 'lotNumber',
       headerName: t('productionOrder.item.lotNumber'),
       width: 180,
-
-      // @TODO: wait confirm BA
+      renderCell: (params, index) => {
+        const { itemId } = params?.row
+        const lotList = lotNumberList.find((item) => item.itemId === itemId)
+        return (
+          <Field.Autocomplete
+            name={`items[${index}].lotNumber`}
+            options={lotList?.lotNumbers}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.lotNumber}
+            getOptionValue={(option) => option?.lotNumber || ''}
+            onChange={(val) => {
+              const data = lotNumberList
+                .find((i) => i.itemId === itemId)
+                ?.lotNumbers?.find((j) => j.lotNumber === val)?.mfg
+              setFieldValue(`items[${index}].mfg`, data)
+            }}
+          />
+        )
+      },
     },
     {
       field: 'mfg',
       headerName: t('productionOrder.item.mfg'),
       width: 180,
-
-      // @TODO: wait confirm BA
+      renderCell: (params, index) => {
+        const { itemId } = params?.row
+        return (
+          <Field.TextField
+            name={`items[${index}].mfg`}
+            disabled={true}
+            value={convertUtcDateToLocalTz(
+              values?.items?.find((item) => item.itemId === itemId)?.mfg,
+            )}
+          />
+        )
+      },
     },
     {
       field: 'packageId',
       headerName: t('productionOrder.item.packageCode'),
       width: 180,
-
-      // @TODO: wait confirm BA
+      renderCell: (params, index) => {
+        const { itemId } = params?.row
+        return (
+          <Field.Autocomplete
+            name={`items[${index}].packageId`}
+            options={getItemObject(itemId)?.packages}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.lotNumber}
+            getOptionValue={(option) => option?.lotNumber || null}
+          />
+        )
+      },
     },
     {
       field: 'quantity',
       headerName: t('productionOrder.item.quantity'),
       width: 180,
-
       renderCell: (params, index) => {
-        const { quantity } = params.row
-        return isView ? (
-          <>{+quantity}</>
-        ) : (
+        return (
           <Field.TextField
             name={`items[${index}].quantity`}
             type="number"
@@ -199,28 +246,13 @@ function ItemSettingTable(props) {
         )
       },
     },
-    // {
-    //   field: 'remainQuantity',
-    //   headerName: t('productionOrder.item.remainQuantity'),
-    //   width: 180,
-    //
-    // },
-    // {
-    //   field: 'actualQuantity',
-    //   headerName: t('productionOrder.item.actualQuantity'),
-    //   width: 180,
-    //
-    // },
     {
       field: 'unitType',
       headerName: t('productionOrder.item.unitType'),
       width: 180,
-
       renderCell: (params, index) => {
         const { itemId } = params.row
-        return isView ? (
-          <>{getItemObject(itemId)?.itemUnit?.name || ''}</>
-        ) : (
+        return (
           <Field.TextField
             name={`items[${index}].unitType`}
             value={getItemObject(itemId)?.itemUnit?.name || ''}
@@ -233,22 +265,31 @@ function ItemSettingTable(props) {
       field: 'qcCheck',
       headerName: t('productionOrder.item.qcCheck'),
       width: 180,
-
-      // @TODO: wait confirm BA
+      renderCell: (params, index) => {
+        const { itemId } = params.row
+        return (
+          <Field.Checkbox
+            name={`items[${index}].qcCheck`}
+            onChange={() => handleCheckQc(itemId)}
+          />
+        )
+      },
     },
     {
       field: 'qcCriteriaId',
       headerName: t('productionOrder.item.qcCriteria'),
       width: 180,
-
-      // @TODO: wait confirm BA
+      renderCell: (params) => {
+        const { qcCheck, itemId } = params.row
+        return qcCheck
+          ? itemQualityPoint?.map((i) => i?.itemId === itemId)?.name
+          : ''
+      },
     },
     {
       field: 'remove',
       headerName: '',
       width: 50,
-
-      hide: isView,
       renderCell: (params) => {
         const idx = items.findIndex((item) => item.id === params.row.id)
         return isView ? null : (
@@ -277,32 +318,29 @@ function ItemSettingTable(props) {
           {t('productionOrder.itemsDetails')}
         </Typography>
         <Box>
-          {!isView && (
-            <Button
-              variant="outlined"
-              onClick={() => {
-                arrayHelpers.push({
-                  id: new Date().getTime(),
-                  itemId: null,
-                  warehouseId: null,
-                  quantity: 1,
-                  qcCheck: false,
-                  lotNumber: '',
-                  mfg: null,
-                  packageId: null,
-                })
-                scrollToBottom()
-              }}
-            >
-              {t('productionOrder.item.addItem')}
-            </Button>
-          )}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              arrayHelpers.push({
+                id: new Date().getTime(),
+                itemId: null,
+                warehouseId: null,
+                quantity: 1,
+                qcCheck: false,
+                lotNumber: '',
+                mfg: null,
+                packageId: null,
+              })
+              scrollToBottom()
+            }}
+          >
+            {t('productionOrder.item.addItem')}
+          </Button>
         </Box>
       </Box>
       <DataTable
         rows={items}
         columns={columns}
-        total={100}
         hideSetting
         hideFooter
         striped={false}

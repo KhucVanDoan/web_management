@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -45,29 +46,37 @@ function ProductionOrderForm() {
     id: new Date().getTime(),
     itemId: null,
     warehouseId: null,
-    quantity: 0,
-    type: null,
+    quantity: 1,
+    qcCheck: false,
   }
 
-  const initialValues = {
-    code: productionOrderDetails?.code || '',
-    name: productionOrderDetails?.name || '',
-    moCode: productionOrderDetails?.manufacturingOrder || null,
-    moName: productionOrderDetails?.manufacturingOrder?.name || '',
-    type: productionOrderDetails?.type || null,
-    planDate:
-      [
-        productionOrderDetails?.manufacturingOrder?.planFrom,
-        productionOrderDetails?.manufacturingOrder?.planTo,
-      ] || null,
-    description: productionOrderDetails?.description || '',
-    items: productionOrderDetails?.productionOrderDetails?.map((e) => ({
-      id: e?.id,
-      itemId: e?.itemId,
-      quantity: e?.quantity,
-      type: e?.type,
-    })) || [{ ...DEFAULT_ITEM }],
-  }
+  const initialValues = useMemo(
+    () => ({
+      code: productionOrderDetails?.code || '',
+      name: productionOrderDetails?.name || '',
+      moCode: productionOrderDetails?.manufacturingOrder || null,
+      moName: productionOrderDetails?.manufacturingOrder?.name || '',
+      type: productionOrderDetails?.type || 0,
+      planDate: !isEmpty(productionOrderDetails)
+        ? [
+            productionOrderDetails?.manufacturingOrder?.planFrom,
+            productionOrderDetails?.manufacturingOrder?.planTo,
+          ]
+        : null,
+      description: productionOrderDetails?.description || '',
+      items: productionOrderDetails?.productionOrderWarehouseLots?.map((e) => ({
+        id: e?.id,
+        itemId: e?.itemId,
+        quantity: Number(e?.quantity),
+        warehouseName: e?.warehouseId,
+        qcCheck: Boolean(e?.qcCheck),
+        lotNumber: e?.lotNumber,
+        mfg: e?.mfg,
+        packageId: e?.packageId,
+      })) || [{ ...DEFAULT_ITEM }],
+    }),
+    [productionOrderDetails],
+  )
 
   useEffect(() => {
     actions.getProductionOrderDetailsById(id)
@@ -82,12 +91,19 @@ function ProductionOrderForm() {
     const params = {
       code: val?.code,
       name: val?.name,
+      manufacturingOrderId: val?.moCode?.id,
       description: val?.description,
       type: val?.type,
       deadline: val?.planDate[1],
       items: val?.items?.map((item) => ({
-        id: Number(item?.id),
-        planQuantity: item?.quantity,
+        id: Number(item?.itemId),
+        quantity: item?.quantity,
+        qcCheck: item.qcCheck,
+        warehouseId: item?.warehouseName,
+        lotNumber: item.lotNumber,
+        mfg: item?.mfg,
+        qcCriteriaId: item?.qcCriteriaId || null,
+        packageId: item.packageId || null,
       })),
     }
     if (isUpdate) {
@@ -156,7 +172,15 @@ function ProductionOrderForm() {
         break
     }
   }
-
+  const handleChange = (val, setFieldValue) => {
+    if (val) {
+      setFieldValue('moName', val?.name)
+      setFieldValue('planDate', [val?.planFrom, val?.planTo])
+    } else {
+      setFieldValue('moName', '')
+      setFieldValue('planDate', '')
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -186,7 +210,7 @@ function ProductionOrderForm() {
                       placeholder={t('productionOrder.codeList')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -215,8 +239,9 @@ function ProductionOrderForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      onChange={(val) => handleChange(val, setFieldValue)}
                       required
                     />
                   </Grid>
@@ -235,6 +260,7 @@ function ProductionOrderForm() {
                       name="type"
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.name)}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -269,6 +295,7 @@ function ProductionOrderForm() {
                     mode={mode}
                     arrayHelpers={arrayHelpers}
                     setFieldValue={setFieldValue}
+                    values={values}
                   />
                 )}
               />

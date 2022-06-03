@@ -55,6 +55,7 @@ const InventorySpace = () => {
           {t('dashboard.chart.inventorySpaceTitle')}
         </Typography>
         <Autocomplete
+          disableClearable
           options={warehouseList}
           value={filterBy}
           getOptionValue={(opt) => opt?.id}
@@ -66,7 +67,7 @@ const InventorySpace = () => {
 
       <Box
         sx={{
-          height: 340,
+          height: 260,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -150,7 +150,10 @@ function ProductionOrder() {
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row
-        const isEdit = status === ORDER_STATUS.PENDING
+        const isEdit =
+          status === ORDER_STATUS.PENDING ||
+          ORDER_STATUS.IN_PROGRESS ||
+          ORDER_STATUS.COMPLETED
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isDelete =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
