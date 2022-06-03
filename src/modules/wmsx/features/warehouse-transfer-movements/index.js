@@ -102,8 +102,9 @@ function WarehouseTransferMovements() {
       width: 150,
     },
     {
-      field: 'createdAt',
+      field: 'postedAt',
       headerName: t('warehouseTransferMovement.transferOn'),
+      filterFormat: 'date',
       width: 150,
     },
     {
@@ -189,6 +190,7 @@ function WarehouseTransferMovements() {
         orderCode: movement?.transfer?.code,
         status: parseInt(movement.status),
         createdAt: convertUtcDateToLocalTz(movement.createdAt),
+        postedAt: convertUtcDateToLocalTz(movement.createdAt),
         createdBy: movement.user?.fullName ?? movement?.user?.username ?? '',
         sourceWarehouseName: movement.transfer?.sourceWarehouseName,
         orderStatus: t(TRANSFER_STATUS_MAP[movement.transfer?.status]),
