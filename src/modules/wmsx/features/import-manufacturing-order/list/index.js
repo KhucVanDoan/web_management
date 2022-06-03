@@ -164,7 +164,7 @@ function ImportManufacturingOrder() {
             >
               <Icon name="show" />
             </IconButton>
-            {isEdit && (
+            {(isEdit || isRejected) && (
               <IconButton
                 onClick={() =>
                   history.push(
@@ -188,7 +188,7 @@ function ImportManufacturingOrder() {
                 <Icon name="tick" />
               </IconButton>
             )}
-            {isRejected && (
+            {isEdit && (
               <IconButton onClick={() => handleOpenRejectModal(params.row)}>
                 <Icon name="remove" />
               </IconButton>
