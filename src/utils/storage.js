@@ -3,8 +3,14 @@ export const getSessionItem = (key) =>
 export const setSessionItem = (key, value) => {
   window.sessionStorage.setItem(key, JSON.stringify(value))
 }
-export const getLocalItem = (key) =>
-  JSON.parse(window.localStorage.getItem(key))
+
+export const getLocalItem = (key) => {
+  const data = window.localStorage.getItem(key)
+
+  if (data) return JSON.parse(data)
+  return data
+}
+
 export const setLocalItem = (key, value) => {
   window.localStorage.setItem(key, JSON.stringify(value))
 }
