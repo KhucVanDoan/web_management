@@ -1328,5 +1328,17 @@
     "createdBy": "作成者",
     "updateAt": "編集日",
     "updatedBy": "編集者"
+  },
+  "warehouseDesign": {
+    "designButton": "設計",
+    "addShelf": "棚追加",
+    "addPallet": "パレット追加",
+    "addArea": "エリア追加",
+    "selectArea": "エリア選択",
+    "selectPallet": "パレット選択",
+    "selectShelf": "棚選択",
+    "selectWarehouse": "倉庫選択",
+    "design": "設計",
+    "updateWarehouseDesignSuccess": "倉庫設計更新に成功しました。"
   }
 }

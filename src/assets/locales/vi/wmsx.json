@@ -148,7 +148,8 @@
     "soExport": "Lệnh xuất theo đơn bán hàng",
     "soExportCreate": "Tạo lệnh xuất theo đơn bán",
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
-    "soExportDetail": "Chi tiết lệnh xuất theo đơn bán"
+    "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
+    "warehouseDesign": "Thiết kế kho"
   },
   "dashboard": {
     "chart": {
@@ -1950,5 +1951,43 @@
     "inCollecting": "Nhặt hàng",
     "collected": "Chờ xuất kho",
     "exported": "Hoàn thành"
+  },
+  "warehouseDesign": {
+    "designButton": "Thiết kế",
+    "addShelf": "Thêm kệ",
+    "addPallet": "Thêm tầng",
+    "addArea": "Thêm khu vực",
+    "updateArea": "Sửa tên khu vực",
+    "selectArea": "Chọn khu vực",
+    "area": "Tên khu vực",
+    "selectPallet": "Chọn tầng",
+    "selectShelf": "Chọn kệ",
+    "selectWarehouse": "Chọn kho",
+    "design": "Thiết kế",
+    "hasArea": "Tên khu vực đã tồn tại",
+    "updateWarehouseDesignSuccess": "Cập nhật thiết kế kho thành công",
+    "areasCannotOverlap": "Khu vực không được trùng nhau",
+    "areaCannotOutsideOfWarehouse": "Không được kéo khu vực ra ngoài kho",
+    "shelfsBelongArea": "Kệ phải thuộc khu vực",
+    "shelfsCannotOverlap": "Kệ không được trùng nhau",
+    "doorCanotOverlap": "Cửa không được trùng nhau",
+    "edgeDoor": "Cửa phải sát viền",
+    "sectorCannotOverlapDoor": "Khu vực không được trùng cửa",
+    "shelfCannotOverlapDoor": "Kệ không được trùng cửa",
+    "doorCannotOverlapSectorOrShelf": "Cửa không được trùng khu vực, kệ",
+    "sector": "Khu vực",
+    "shelf": "Kệ",
+    "shelfFloor": "Tầng",
+    "door": "Cửa",
+    "size": "Kích thước",
+    "weightLoad": "Chịu tải",
+    "cancel": "Huỷ",
+    "save": "Lưu",
+    "updateSuccess": "Cập nhật thành công",
+    "searchSector": "Tìm kiếm khu vực",
+    "notFoundSector": "Không tìm thấy khu vực",
+    "spaceAroundSectorIsNotEnough": "Khoảng trống xung quanh khu vực không đủ",
+    "updateModalTitle": "Sửa khu vực",
+    "sectorNameDuplicate": "Khu vực {{name}} bị trùng tên"
   }
 }

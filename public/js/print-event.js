@@ -1,3 +1,4 @@
+
 var available_printers = null;
 var selected_category = null;
 var default_printer = null;

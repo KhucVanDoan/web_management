@@ -35,6 +35,7 @@ import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
 import warehouseArea from './warehouse-area'
+import warehouseDesign from './warehouse-design'
 import warehouseExport from './warehouse-export'
 import warehouseImport from './warehouse-import'
 import warehouseReport from './warehouse-report'
@@ -85,4 +86,5 @@ export default combineReducers({
   invoiceType,
   bill,
   soExport,
+  warehouseDesign,
 })
