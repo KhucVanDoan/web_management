@@ -172,6 +172,7 @@
     "turnOff": "Tắt thông báo",
     "hoursAgo": "{{time}} giờ trước",
     "minutesAgo": "{{time}} phút trước",
+    "created": "đã tạo",
     "action": {
       "confirm": "Xác nhận",
       "reject": "Từ chối"
