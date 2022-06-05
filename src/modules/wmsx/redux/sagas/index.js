@@ -104,6 +104,7 @@ import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
 import watchCreateWarehouse from './define-warehouse/create-warehouse'
 import watchDeleteWarehouse from './define-warehouse/delete-warehouse'
 import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
+import watchGetWarehouseDetailsCanvas from './define-warehouse/get-warehouse-details-canvas'
 import watchImportWarehouse from './define-warehouse/import-warehouse'
 import watchSearchWarehouses from './define-warehouse/search-warehouses'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
@@ -181,6 +182,8 @@ import watchSearchVouchers from './voucher/search-voucher'
 import watchUpdateVoucher from './voucher/update-voucher'
 import watchGetWarehouseAreaDetail from './warehouse-area/get-warehouse-area-detail'
 import watchSearchWarehouseAreas from './warehouse-area/search-warehouse-areas'
+import watchGetWarehouseDesign from './warehouse-design/get-detail'
+import watchUpdateWarehouseDesign from './warehouse-design/update'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
@@ -280,6 +283,7 @@ export default function* sagas() {
     watchImportWarehouse(),
     watchSearchWarehouses(),
     watchUpdateWarehouse(),
+    watchGetWarehouseDetailsCanvas(),
     //  warehouseReportManagement
     watchSearchInventoryDeadlineWarning(),
     watchSearchInventoryWarning(),
@@ -467,5 +471,8 @@ export default function* sagas() {
     watchRejectSOExport(),
     watchSearchSOExport(),
     watchUpdateSOExport(),
+    // warehouse design
+    watchGetWarehouseDesign(),
+    watchUpdateWarehouseDesign(),
   ])
 }

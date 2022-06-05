@@ -1473,5 +1473,17 @@
     "createdBy": "User created",
     "updateAt": "Updated date",
     "updatedBy": "User updated"
+  },
+  "warehouseDesign": {
+    "designButton": "Design",
+    "addShelf": "Add shelf",
+    "addPallet": "Add floor",
+    "addArea": "Add area",
+    "selectArea": "Choose area",
+    "selectPallet": "Choose floor",
+    "selectShelf": "Choose shelf",
+    "selectWarehouse": "Choose warehouse",
+    "design": "Design",
+    "updateWarehouseDesignSuccess": "Update warehouse design successfully"
   }
 }

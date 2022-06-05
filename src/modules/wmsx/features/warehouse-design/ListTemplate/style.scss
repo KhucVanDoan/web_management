@@ -1,0 +1,39 @@
+.search-input {
+  margin-bottom: 15px;
+  .MuiOutlinedInput-root {
+    height: 40px;
+  }
+}
+
+.door {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #edf0f4;
+  border-radius: 6px;
+  cursor: move;
+}
+
+.list-template {
+  position: sticky;
+  top: 24px;
+}
+.MuiTreeItem-root {
+  margin: 5px 5px 0 -10px;
+}
+.MuiAccordion-root {
+  .MuiButtonBase-root {
+    min-height: unset;
+    height: 30px;
+    border: none;
+    padding: 0 0 24px 0;
+  }
+  .MuiAccordionSummary-content {
+    margin: 0;
+  }
+  .MuiAccordionDetails-root {
+    padding: 0 24px 0;
+  }
+}
+.MuiAccordion-root:before {
+  position: relative;
+}

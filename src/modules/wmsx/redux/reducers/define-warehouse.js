@@ -25,6 +25,12 @@ import {
   WMSX_UPDATE_WAREHOUSE_SUCCESS,
   WMSX_RESET_WAREHOUSE_DETAIL_STATE,
   WMSX_RESET_WAREHOUSE_LIST_STATE,
+  GET_WAREHOUSE_DETAILS_CANVAS_FAILED,
+  GET_WAREHOUSE_DETAILS_CANVAS_START,
+  GET_WAREHOUSE_DETAILS_CANVAS_SUCCESS,
+  UPDATE_WAREHOUSE_CANVAS_FAILED,
+  UPDATE_WAREHOUSE_CANVAS_START,
+  UPDATE_WAREHOUSE_CANVAS_SUCCESS,
 } from '../actions/define-warehouse'
 
 const initialState = {
@@ -45,6 +51,8 @@ export default function defineWarehouse(state = initialState, action) {
     case WMSX_GET_WAREHOUSE_DETAILS_START:
     case WMSX_IMPORT_WAREHOUSE_START:
     case WMSX_PRINT_QR_WAREHOUSES_START:
+    case UPDATE_WAREHOUSE_CANVAS_START:
+    case GET_WAREHOUSE_DETAILS_CANVAS_START:
       return {
         ...state,
         isLoading: true,
@@ -74,6 +82,8 @@ export default function defineWarehouse(state = initialState, action) {
     case WMSX_DELETE_WAREHOUSE_FAILED:
     case WMSX_PRINT_QR_WAREHOUSES_SUCCESS:
     case WMSX_PRINT_QR_WAREHOUSES_FAILED:
+    case UPDATE_WAREHOUSE_CANVAS_SUCCESS:
+    case UPDATE_WAREHOUSE_CANVAS_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -111,6 +121,18 @@ export default function defineWarehouse(state = initialState, action) {
       return {
         ...state,
         warehouseList: [],
+      }
+    case GET_WAREHOUSE_DETAILS_CANVAS_SUCCESS:
+      return {
+        ...state,
+        warehouseDetails: action.payload,
+        isLoading: false,
+      }
+    case GET_WAREHOUSE_DETAILS_CANVAS_FAILED:
+      return {
+        ...state,
+        warehouseDetails: {},
+        isLoading: false,
       }
     default:
       return state
