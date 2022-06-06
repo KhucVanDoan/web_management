@@ -23,7 +23,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
     dateSell: '',
     status: '',
     deliveryDate: '',
-    isHasPlan: true,
+    isHasPlan: false,
     masterPlanIds: [],
   }
   const onSubmit = (values) => {
@@ -82,7 +82,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       placeholder={t('progressManufacturingByOrder.status')}
                       options={PROGRESS_ORDER_STATUS_OPTIONS}
                       multiple
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
