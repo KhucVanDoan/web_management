@@ -56,7 +56,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       field: 'warehouseType',
       headerName: t('movements.warehouseType'),
       width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params?.row?.warehouse?.warehouseTypes
           ?.map((w) => w?.name)
@@ -90,7 +89,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       headerName: t('movements.approveDate'),
       filterFormat: 'date',
       width: 150,
-      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return convertUtcDateTimeToLocalTz(createdAt)
@@ -100,7 +98,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       field: 'createdByUser',
       headerName: t('movements.createdByUser'),
       width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params?.row?.user?.fullName
       },
@@ -109,7 +106,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       field: 'movementStatus',
       headerName: t('movements.movementStatus'),
       width: 150,
-      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
@@ -125,7 +121,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       field: 'action',
       headerName: t('movements.action'),
       width: 100,
-      sortable: false,
       align: 'center',
       renderCell: (params) => {
         const { id } = params.row

@@ -800,43 +800,43 @@ export const PURCHASED_ORDER_STATUS = {
 }
 
 export const PURCHASED_ORDER_STATUS_MAP = {
-  [PURCHASED_ORDER_STATUS.PENDING]: 'orderStatus.pending',
-  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
-  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
-  [PURCHASED_ORDER_STATUS.APPROVED]: 'orderStatus.approved',
-  [PURCHASED_ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
-  [PURCHASED_ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+  [PURCHASED_ORDER_STATUS.PENDING]: 'purchasedOrderStatus.pending',
+  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'purchasedOrderStatus.confirmed',
+  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'purchasedOrderStatus.inProgress',
+  [PURCHASED_ORDER_STATUS.APPROVED]: 'purchasedOrderStatus.approved',
+  [PURCHASED_ORDER_STATUS.COMPLETED]: 'purchasedOrderStatus.completed',
+  [PURCHASED_ORDER_STATUS.REJECTED]: 'purchasedOrderStatus.rejected',
 }
 
 export const PURCHASED_ORDER_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'orderStatus.pending',
+    text: 'purchasedOrderStatus.pending',
     color: 'pending',
   },
   {
     id: 1,
-    text: 'orderStatus.confirmed',
+    text: 'purchasedOrderStatus.confirmed',
     color: 'confirmed',
   },
   {
     id: 2,
-    text: 'orderStatus.inProgress',
+    text: 'purchasedOrderStatus.inProgress',
     color: 'inProgress',
   },
   {
     id: 3,
-    text: 'orderStatus.approved',
+    text: 'purchasedOrderStatus.approved',
     color: 'approved',
   },
   {
     id: 4,
-    text: 'orderStatus.completed',
+    text: 'purchasedOrderStatus.completed',
     color: 'completed',
   },
   {
     id: 5,
-    text: 'orderStatus.rejected',
+    text: 'purchasedOrderStatus.rejected',
     color: 'rejected',
   },
 ]

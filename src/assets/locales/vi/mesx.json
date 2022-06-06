@@ -1271,6 +1271,7 @@
     "materialName": "Tên nguyên vật liệu",
     "total": "Tổng số lượng",
     "createDate": "Ngày tạo",
+    "createTime": "Thời gian tạo",
     "user": "Người tạo"
   },
   "bomProducingStepStatus": {
@@ -1489,6 +1490,14 @@
     "validatePurchasedAt": "Ngày đặt hàng phải trước ngày giao hàng",
     "validateDeadline": "Ngày giao hàng phải sau ngày đặt hàng",
     "reason": "Lý do"
+  },
+  "purchasedOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
   },
   "progressManufacturingByWorkCenter": {
     "export": "Xuất dữ liệu",

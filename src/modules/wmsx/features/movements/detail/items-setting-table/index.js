@@ -76,6 +76,7 @@ const ItemSettingTable = ({ items }) => {
       field: 'planQuantity',
       headerName: t('movements.itemDetails.planQuantity'),
       width: 120,
+      align: 'right',
       renderCell: (params) => {
         return Number(params.row?.planQuantity)
       },
@@ -84,6 +85,7 @@ const ItemSettingTable = ({ items }) => {
       field: 'actualQuantity',
       headerName: t('movements.itemDetails.actualQuantity'),
       width: 120,
+      align: 'right',
       renderCell: (params) => {
         return Number(params.row?.quantity)
       },

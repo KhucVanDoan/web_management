@@ -15,7 +15,6 @@ const ItemTable = ({ items }) => {
       field: 'id',
       headerName: '#',
       width: 50,
-      align: 'center',
       renderCell: (_, index) => {
         return index + 1
       },
@@ -24,7 +23,6 @@ const ItemTable = ({ items }) => {
       field: 'itemCode',
       headerName: t('movements.itemDetails.itemCode'),
       width: 150,
-      align: 'center',
       renderCell: (params) => {
         return params.row?.code
       },
@@ -33,7 +31,6 @@ const ItemTable = ({ items }) => {
       field: 'itemName',
       headerName: t('movements.itemDetails.itemName'),
       width: 120,
-      align: 'center',
       renderCell: (params) => {
         return params.row?.name
       },
@@ -42,13 +39,11 @@ const ItemTable = ({ items }) => {
       field: 'itemType',
       headerName: t('movements.itemDetails.itemType'),
       width: 120,
-      align: 'center',
     },
     {
       field: 'lotNumber',
       headerName: t('movements.itemDetails.lotNumber'),
       width: 120,
-      align: 'center',
       renderCell: (params) => {
         return params.row?.lots?.[0]?.lotNumber
       },
@@ -57,14 +52,12 @@ const ItemTable = ({ items }) => {
       field: 'packageCode',
       headerName: t('movements.itemDetails.packageCode'),
       width: 120,
-      align: 'center',
       renderCell: () => {},
     },
     {
       field: 'warehouseName',
       headerName: t('movements.itemDetails.warehouseName'),
       width: 120,
-      align: 'center',
       renderCell: (params) => {
         return params.row?.lots?.[0]?.warehouse?.name
       },
@@ -73,7 +66,7 @@ const ItemTable = ({ items }) => {
       field: 'planQuantity',
       headerName: t('movements.itemDetails.planQuantity'),
       width: 120,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         return Number(params.row?.planQuantity)
       },
@@ -82,7 +75,7 @@ const ItemTable = ({ items }) => {
       field: 'actualQuantity',
       headerName: t('movements.itemDetails.actualQuantity'),
       width: 120,
-      align: 'center',
+      align: 'right',
       renderCell: (params) => {
         return Number(params.row?.quantity)
       },
