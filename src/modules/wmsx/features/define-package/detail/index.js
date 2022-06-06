@@ -49,9 +49,6 @@ const DefinePackageDetail = () => {
     {
       field: 'productCode',
       headerName: t('definePackage.productCode'),
-      align: 'center',
-      width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params.row.item?.code
       },
@@ -59,9 +56,6 @@ const DefinePackageDetail = () => {
     {
       field: 'productName',
       headerName: t('definePackage.productName'),
-      align: 'center',
-      width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params.row.item?.name
       },
@@ -69,9 +63,7 @@ const DefinePackageDetail = () => {
     {
       field: 'productAmount',
       headerName: t('definePackage.productAmount'),
-      align: 'center',
-      width: 150,
-      sortable: false,
+      align: 'right',
       renderCell: (params) => {
         return params.row.quantity
       },

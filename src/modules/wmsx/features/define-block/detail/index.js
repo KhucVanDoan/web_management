@@ -53,9 +53,6 @@ const DefineBlockDetail = () => {
     {
       field: 'productName',
       headerName: t('defineBlock.productName'),
-      align: 'center',
-      width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params.row.item?.name
       },
@@ -63,9 +60,6 @@ const DefineBlockDetail = () => {
     {
       field: 'details',
       headerName: t('defineBlock.details'),
-      align: 'center',
-      width: 150,
-      sortable: false,
       renderCell: (params) => {
         return params.row.itemDetail?.name
       },
@@ -73,9 +67,7 @@ const DefineBlockDetail = () => {
     {
       field: 'productAmount',
       headerName: t('defineBlock.productAmount'),
-      align: 'center',
-      width: 150,
-      sortable: false,
+      align: 'right',
       renderCell: (params) => {
         return params.row.quantity
       },
