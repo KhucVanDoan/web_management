@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -13,7 +14,10 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { INVENTORY_CALENDAR_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -164,6 +168,23 @@ const InventoryCalendarForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(inventoryCalendarDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('inventoryCalendar.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={INVENTORY_CALENDAR_STATUS_OPTIONS}
+                            value={inventoryCalendarDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('inventoryCalendar.code')}

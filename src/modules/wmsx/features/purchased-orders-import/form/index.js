@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -12,10 +13,16 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { ORDER_STATUS } from '~/modules/mesx/constants'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
-import { CODE_SETTINGS, QC_CHECK } from '~/modules/wmsx/constants'
+import {
+  CODE_SETTINGS,
+  QC_CHECK,
+  ORDER_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -288,6 +295,23 @@ const POForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(poImportDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('purchasedOrderImport.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={ORDER_STATUS_OPTIONS}
+                            value={poImportDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('purchasedOrderImport.codePOimp')}

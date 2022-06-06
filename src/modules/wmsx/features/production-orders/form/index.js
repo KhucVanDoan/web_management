@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react'
 
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -14,7 +14,12 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
-import { ORDER_TYPE_OPTIONS } from '~/modules/mesx/constants'
+import LabelValue from '~/components/LabelValue'
+import Status from '~/components/Status'
+import {
+  ORDER_TYPE_OPTIONS,
+  ORDER_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -203,6 +208,21 @@ function ProductionOrderForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {!isNil(productionOrderDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LabelValue
+                        label={
+                          <Typography>{t('productionOrder.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={ORDER_STATUS_OPTIONS}
+                            value={productionOrderDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('productionOrder.codeList')}

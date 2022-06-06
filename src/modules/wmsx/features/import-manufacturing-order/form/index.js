@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -12,13 +13,16 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import {
   ORDER_TYPE,
   CODE_SETTINGS,
   TRANSACTION_TYPE_ENUM,
   QC_CHECK,
   BOOLEAN_ENUM,
+  ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportManufacturingOrder'
@@ -327,6 +331,23 @@ const ImportManufacturingOrderForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(importManufacturingOrderDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('importManufacturingOrder.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={ORDER_STATUS_OPTIONS}
+                            value={importManufacturingOrderDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('importManufacturingOrder.code')}

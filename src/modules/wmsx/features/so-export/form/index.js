@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -13,9 +14,14 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
-import { BOOLEAN_ENUM } from '~/modules/wmsx/constants'
+import {
+  BOOLEAN_ENUM,
+  ORDER_STATUS_SO_EXPORT_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -200,6 +206,19 @@ function SOExportForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {!isNil(soExportDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LabelValue
+                        label={<Typography>{t('soExport.status')}</Typography>}
+                        value={
+                          <Status
+                            options={ORDER_STATUS_SO_EXPORT_OPTIONS}
+                            value={soExportDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('soExport.code')}

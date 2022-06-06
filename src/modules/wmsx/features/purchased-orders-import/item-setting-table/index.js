@@ -48,7 +48,7 @@ function ItemSettingTable(props) {
     const itemIds = items?.map((item) => item.itemId)
     actionsPurchasedOrdersImport.getLotNumberList({
       itemIds: itemIds
-        .filter((id, index) => itemIds.indexOf(id) === index)
+        ?.filter((id, index) => itemIds.indexOf(id) === index)
         .join(','),
     })
   }, [items])
