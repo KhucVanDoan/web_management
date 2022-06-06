@@ -95,7 +95,6 @@ const ItemSettingTable = ({
                   ),
                 )
               : itemList
-          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.name || ''}</>
           ) : (
@@ -105,9 +104,6 @@ const ItemSettingTable = ({
               disabled={isView}
               getOptionLabel={(opt) => opt?.name || ''}
               getOptionValue={(opt) => opt?.id}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
-              }
             />
           )
         },
@@ -154,7 +150,7 @@ const ItemSettingTable = ({
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const { itemId, warehouseId, lotNumber } = params.row
+          const { warehouseId } = params.row
           return isView ? (
             <>{getWarehouseObject(warehouseId)?.name || ''}</>
           ) : (
@@ -164,14 +160,6 @@ const ItemSettingTable = ({
               disabled={isView}
               getOptionLabel={(opt) => opt?.name || ''}
               getOptionValue={(opt) => opt?.id}
-              getOptionDisabled={(opt) =>
-                items.find(
-                  (item) =>
-                    item.itemId === itemId &&
-                    item.lotNumber === lotNumber &&
-                    item.warehouseId === opt?.id,
-                )
-              }
             />
           )
         },
