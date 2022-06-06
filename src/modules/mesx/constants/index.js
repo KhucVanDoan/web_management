@@ -119,28 +119,34 @@ export const ORDER_STATUS_OPTIONS = [
 export const PROGRESS_ORDER_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'orderStatus.pending',
+    text: 'progressManufacturingByOrderStatus.pending',
     color: 'pending',
   },
   {
     id: 1,
-    text: 'orderStatus.confirmed',
+    text: 'progressManufacturingByOrderStatus.confirmed',
     color: 'confirmed',
   },
   {
-    id: 4,
-    text: 'orderStatus.completed',
-    color: 'completed',
-  },
-  {
-    id: 13,
-    text: 'orderStatus.inProducing',
-    color: 'inProducing',
+    id: 2,
+    text: 'progressManufacturingByOrderStatus.inProgress',
+    color: 'inProgress',
   },
   {
     id: 14,
-    text: 'orderStatus.produced',
+    text: 'progressManufacturingByOrderStatus.produced',
     color: 'produced',
+  },
+  {
+    id: 13,
+    text: 'progressManufacturingByOrderStatus.inProducing',
+    color: 'inProducing',
+  },
+
+  {
+    id: 4,
+    text: 'progressManufacturingByOrderStatus.completed',
+    color: 'completed',
   },
 ]
 export const TRANSFER_TYPE_MAP = {

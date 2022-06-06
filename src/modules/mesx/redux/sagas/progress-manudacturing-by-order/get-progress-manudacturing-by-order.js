@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getProgressmanufacturingByOrdertApi = (params) => {
-  const uri = `/v1/produces/manufacturing-orders/statistic/sale-orders`
+  const uri = `/v1/sales/sale-order/statistic-production-progress`
   return api.get(uri, params)
 }
 
