@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -12,7 +13,10 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { DEFINE_INVOICE_TYPE_STATUS_OPTION } from '~/modules/wmsx/constants'
 import useInvoiceType from '~/modules/wmsx/redux/hooks/useInvoiceType'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -146,6 +150,21 @@ function InvoiceTypeForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {!isNil(invoiceTypeDetail?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LabelValue
+                        label={
+                          <Typography>{t('invoiceType.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={DEFINE_INVOICE_TYPE_STATUS_OPTION}
+                            value={invoiceTypeDetail?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('invoiceType.code')}

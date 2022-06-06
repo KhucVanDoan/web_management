@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react'
 
-import { Box, createFilterOptions, FormControlLabel, Grid } from '@mui/material'
+import {
+  Box,
+  createFilterOptions,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material'
 import { startOfToday } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
@@ -13,8 +20,11 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { TRANSFER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -216,6 +226,23 @@ const WarehouseTransferForm = () => {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
+                    {!isNil(warehouseTransferDetails?.status) && isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseTransfer.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={TRANSFER_STATUS_OPTIONS}
+                              value={warehouseTransferDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         label={t('warehouseTransfer.code')}

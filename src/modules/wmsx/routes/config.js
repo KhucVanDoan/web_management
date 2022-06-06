@@ -479,7 +479,7 @@ export const ROUTE = {
   },
   DEFINE_SERVICE: {
     LIST: {
-      PATH: '/wmsx/services',
+      PATH: '/wmsx/service',
       TITLE: 'defineService',
     },
     CREATE: {
