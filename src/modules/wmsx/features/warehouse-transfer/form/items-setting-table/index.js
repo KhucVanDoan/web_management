@@ -87,7 +87,7 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].itemId`}
               options={itemId}
               disabled={isView || !values?.sourceWarehouseName}
-              getOptionLabel={(opt) => opt?.code}
+              getOptionLabel={(opt) => opt?.name}
               getOptionValue={(option) => option?.id || ''}
             />
           )
@@ -133,13 +133,15 @@ const ItemSettingTable = (props) => {
         width: 150,
         renderCell: (params, index) => {
           const { itemId } = params?.row
-          const lotList = lotNumberList.find((item) => item.itemId === itemId)
+          const lotList = lotNumberList.find(
+            (item) => item.itemId === itemId,
+          )?.lotNumbers
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotList?.lotNumbers}
+              options={lotList}
               disabled={isView}
               getOptionLabel={(opt) => opt?.lotNumber}
               getOptionValue={(option) => option?.lotNumber || ''}

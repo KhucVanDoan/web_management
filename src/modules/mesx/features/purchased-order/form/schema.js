@@ -16,7 +16,7 @@ export const validationSchema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    requestBuyMaterialCode: Yup.string().required(t('general:form.required')),
+    // requestBuyMaterialCode: Yup.string().required(t('general:form.required')),
     purchasedAt: Yup.date().nullable().required(t('general:form.required')),
     vendorId: Yup.object().nullable().required(t('general:form.required')),
     companyId: Yup.object().nullable().required(t('general:form.required')),
