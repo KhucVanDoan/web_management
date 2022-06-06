@@ -142,7 +142,7 @@ function POList() {
             >
               <Icon name="show" />
             </IconButton>
-            {isEdit ?? (
+            {isEdit && (
               <IconButton
                 onClick={() =>
                   history.push(
