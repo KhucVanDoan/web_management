@@ -128,7 +128,9 @@ function InventoryCalendar() {
       align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
-        const isEdit = status === INVENTORY_CALENDAR_STATUS.PENDING
+        const isEdit =
+          status === INVENTORY_CALENDAR_STATUS.PENDING ||
+          INVENTORY_CALENDAR_STATUS.REJECTED
         const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
         const isDelete =
           status === INVENTORY_CALENDAR_STATUS.PENDING ||

@@ -658,4 +658,8 @@ export const ROUTE = {
       },
     },
   },
+  WAREHOUSE_DESIGN: {
+    PATH: '/wmsx/warehouse-design/',
+    TITLE: 'warehouseDesign',
+  },
 }

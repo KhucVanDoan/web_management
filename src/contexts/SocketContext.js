@@ -6,7 +6,7 @@ import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import { SOCKET_EVENTS } from '~/common/constants/socket'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { isAuth } from '~/utils'
-// import { getLocalItem } from '~/utils/storage'
+import { getLocalItem } from '~/utils/storage'
 
 export const SocketContext = createContext({})
 
@@ -69,9 +69,7 @@ export const SocketProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    // const userId = getLocalItem('userInfo')?.id
-    // @TODO: get userInfo from api
-    const userId = ''
+    const userId = getLocalItem('userInfo')?.id
     if (!isAuthenticated || !userId) return
 
     const socketInit = io(notiHost, {
@@ -83,7 +81,9 @@ export const SocketProvider = ({ children }) => {
 
     const receivingEvent = `${SOCKET_EVENTS.PREFIX_CHANNEL_WEB}-${userId}`
     socketInit.on(receivingEvent, (res) => {
-      actions.addNotification(res)
+      if (res?.user) {
+        actions.addNotification(res?.user)
+      }
     })
 
     return () => {
@@ -93,7 +93,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      actions.getNotifications({ last_id: '', limit: ROWS_PER_PAGE_OPTIONS[0] })
+      actions.getNotifications({ limit: ROWS_PER_PAGE_OPTIONS[0] })
     }
   }, [isAuthenticated])
 

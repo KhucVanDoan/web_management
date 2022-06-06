@@ -61,8 +61,8 @@
     "warehouseReportCreate": "Tạo báo cáo",
     "warehouseReportEdit": "Sửa báo cáo",
     "warehouseReportDetails": "Chi tiết về báo cáo",
-    "inventoryWarning": "Cảnh báo quá hạn lưu kho",
-    "inventoryDeadlineWarning": "Cảnh báo quá hạn sử dụng",
+    "inventoryWarning": "Thống kê quá hạn lưu kho",
+    "inventoryDeadlineWarning": "Thống kê quá hạn sử dụng",
     "warehouseTransferMovement": "Chuyển kho",
     "warehouseTransfer": "Thống kê về chuyển kho",
     "templateSector": "Định nghĩa khu vực mẫu",
@@ -148,7 +148,8 @@
     "soExport": "Lệnh xuất theo đơn bán hàng",
     "soExportCreate": "Tạo lệnh xuất theo đơn bán",
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
-    "soExportDetail": "Chi tiết lệnh xuất theo đơn bán"
+    "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
+    "warehouseDesign": "Thiết kế kho"
   },
   "dashboard": {
     "chart": {
@@ -368,7 +369,8 @@
       "totalFloorWeightLoadIsOverShelfWeightLoad": "Tổng trọng tải của các tầng lớn hơn trọng tải của kệ"
     },
     "heightNotEqual": "Tổng chiều cao của các tầng phải bằng chiều cao của kệ",
-    "weightNotEqual": "Tổng trọng tải của các tầng phải bằng trọng tải của kệ"
+    "weightNotEqual": "Tổng trọng tải của các tầng phải bằng trọng tải của kệ",
+    "shelfFloorNameIsDuplicated": "Tên tầng bị trùng"
   },
   "defineService": {
     "title": "Danh sách dịch vụ",
@@ -651,7 +653,9 @@
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "deleteModalTitle": "Thông báo",
     "size": "Kích thước D*R*C ",
-    "quantitySector": "Số lượng kệ",
+    "numberOfShelfs": "Số lượng kệ",
+    "numberOfShelfsIsInvalid": "Tổng chiều dài các kệ không được lớn hơn chiều dài của khu vực",
+    "sizeOfShelfIsOverSector": "Kích thước kệ không được lớn hơn kích thước khu vực",
     "create": "Tạo mới",
     "action": "Hành động",
     "cm": "cm",
@@ -671,7 +675,9 @@
     "defineWarehouseDetail": "Chi tiết kho",
     "defineWarehouseCreate": "Tạo kho",
     "defineWarehouseEdit": "Sửa kho",
-    "addDetailButton": "Thêm Kệ"
+    "addDetailButton": "Thêm Kệ",
+    "duplicateName": "Tên kệ bị trùng",
+    "messageNumberOfShelfsExceed": "Số lượng kệ đã đạt đến giới hạn của không gian lưu trữ"
   },
   "warehouseReport": {
     "title": "Danh sách báo cáo tồn kho",
@@ -729,12 +735,12 @@
     "warehouseType": "Loại kho",
     "warehouseCode": "Mã kho",
     "itemGroup": "Nhóm sản phẩm",
-    "searchPlaceholder": "Tìm kiếm kho theo mã hoặc tên",
+    "searchPlaceholder": "Tìm kiếm theo mã sản phẩm hoặc tên sản phẩm",
     "import": "Nhập/Xuất dữ liệu",
     "itemUnit": "Đơn vị"
   },
   "inventoryDeadlineWarning": {
-    "searchPlaceholder": "Tìm kiếm kho theo mã hoặc tên",
+    "searchPlaceholder": "Tìm kiếm theo mã sản phẩm hoặc tên sản phẩm",
     "title": "Danh sách quá hạn sử dụng",
     "itemCode": "Mã sản phẩm",
     "itemName": "Tên sản phẩm",
@@ -1945,5 +1951,43 @@
     "inCollecting": "Nhặt hàng",
     "collected": "Chờ xuất kho",
     "exported": "Hoàn thành"
+  },
+  "warehouseDesign": {
+    "designButton": "Thiết kế",
+    "addShelf": "Thêm kệ",
+    "addPallet": "Thêm tầng",
+    "addArea": "Thêm khu vực",
+    "updateArea": "Sửa tên khu vực",
+    "selectArea": "Chọn khu vực",
+    "area": "Tên khu vực",
+    "selectPallet": "Chọn tầng",
+    "selectShelf": "Chọn kệ",
+    "selectWarehouse": "Chọn kho",
+    "design": "Thiết kế",
+    "hasArea": "Tên khu vực đã tồn tại",
+    "updateWarehouseDesignSuccess": "Cập nhật thiết kế kho thành công",
+    "areasCannotOverlap": "Khu vực không được trùng nhau",
+    "areaCannotOutsideOfWarehouse": "Không được kéo khu vực ra ngoài kho",
+    "shelfsBelongArea": "Kệ phải thuộc khu vực",
+    "shelfsCannotOverlap": "Kệ không được trùng nhau",
+    "doorCanotOverlap": "Cửa không được trùng nhau",
+    "edgeDoor": "Cửa phải sát viền",
+    "sectorCannotOverlapDoor": "Khu vực không được trùng cửa",
+    "shelfCannotOverlapDoor": "Kệ không được trùng cửa",
+    "doorCannotOverlapSectorOrShelf": "Cửa không được trùng khu vực, kệ",
+    "sector": "Khu vực",
+    "shelf": "Kệ",
+    "shelfFloor": "Tầng",
+    "door": "Cửa",
+    "size": "Kích thước",
+    "weightLoad": "Chịu tải",
+    "cancel": "Huỷ",
+    "save": "Lưu",
+    "updateSuccess": "Cập nhật thành công",
+    "searchSector": "Tìm kiếm khu vực",
+    "notFoundSector": "Không tìm thấy khu vực",
+    "spaceAroundSectorIsNotEnough": "Khoảng trống xung quanh khu vực không đủ",
+    "updateModalTitle": "Sửa khu vực",
+    "sectorNameDuplicate": "Khu vực {{name}} bị trùng tên"
   }
 }

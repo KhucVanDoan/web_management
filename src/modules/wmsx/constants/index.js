@@ -869,26 +869,42 @@ export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
   {
     id: 7,
     text: 'orderStatusSoExport.received',
-    color: 'pending',
+    color: 'received',
   },
   {
     id: 8,
     text: 'orderStatusSoExport.delivered',
-    color: 'Delivered',
+    color: 'delivered',
   },
   {
     id: 9,
     text: 'orderStatusSoExport.inCollecting',
-    color: 'InCollecting',
+    color: 'inCollecting',
   },
   {
     id: 10,
     text: 'orderStatusSoExport.collected',
-    color: 'Collected',
+    color: 'collected',
   },
   {
     id: 11,
     text: 'orderStatusSoExport.exported',
-    color: 'Exported',
+    color: 'exported',
   },
 ]
+export const DRAG_TYPE = {
+  SECTOR: 'sector',
+  DOOR: 'door',
+}
+
+export const UNIT_ENUM = {
+  M: 3,
+  DM: 2,
+  CM: 1,
+}
+export const WAREHOUSE_DOOR = {
+  WIDTH: 68,
+  HEIGHT: 66,
+}
+export const DISTANCE_BETWEEN_SECTORS = 5
+export const CM_TO_PIXEL = 37.7952755906

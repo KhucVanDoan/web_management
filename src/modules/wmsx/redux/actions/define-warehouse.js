@@ -36,7 +36,18 @@ export const WMSX_IMPORT_WAREHOUSE_FAILED = 'WMSX_IMPORT_WAREHOUSE_FAILED'
 export const WMSX_RESET_WAREHOUSE_DETAIL_STATE =
   'WMSX_RESET_WAREHOUSE_DETAIL_STATE'
 export const WMSX_RESET_WAREHOUSE_LIST_STATE = 'WMSX_RESET_WAREHOUSE_LIST_STATE'
-
+export const GET_WAREHOUSE_DETAILS_CANVAS_START =
+  'WMSX_GET_WAREHOUSE_DETAILS_CANVAS_START'
+export const GET_WAREHOUSE_DETAILS_CANVAS_SUCCESS =
+  'WMSX_GET_WAREHOUSE_DETAILS_CANVAS_SUCCESS'
+export const GET_WAREHOUSE_DETAILS_CANVAS_FAILED =
+  'WMSX_GET_WAREHOUSE_DETAILS_FAILED'
+export const UPDATE_WAREHOUSE_CANVAS_START =
+  'WMSX_UPDATE_WAREHOUSE_CANVAS_START'
+export const UPDATE_WAREHOUSE_CANVAS_SUCCESS =
+  'WMSX_UPDATE_WAREHOUSE_CANVAS_SUCCESS'
+export const UPDATE_WAREHOUSE_CANVAS_FAILED =
+  'WMSX_UPDATE_WAREHOUSE_CANVAS_FAILED'
 /**
  * Search warehouse
  * @param {object} payload
@@ -350,6 +361,65 @@ export function resetWarehouseListState() {
     type: WMSX_RESET_WAREHOUSE_LIST_STATE,
   }
 }
+export function getWarehouseDetailsCanvasById(warehouseId, onSuccess, onError) {
+  return {
+    type: GET_WAREHOUSE_DETAILS_CANVAS_START,
+    payload: warehouseId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get warehouse details by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getWarehouseDetailsCanvasByIdSuccess(payload) {
+  return {
+    type: GET_WAREHOUSE_DETAILS_CANVAS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get warehouse details by id failed action
+ * @returns {object}
+ */
+export function getWarehouseDetailsCanvasByIdFailed() {
+  return {
+    type: GET_WAREHOUSE_DETAILS_CANVAS_FAILED,
+  }
+}
+export function updateWarehouseCanvas(payload, onSuccess, onError) {
+  return {
+    type: UPDATE_WAREHOUSE_CANVAS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+/**
+ * Update warehouse success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function updateWarehouseCanvasSuccess(payload) {
+  return {
+    type: UPDATE_WAREHOUSE_CANVAS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Update warehouse failed action
+ * @returns {object}
+ */
+export function updateWarehouseCanvasFailed() {
+  return {
+    type: UPDATE_WAREHOUSE_CANVAS_FAILED,
+  }
+}
 
 export default {
   searchWarehouses,
@@ -378,4 +448,7 @@ export default {
   importWarehouseFailed,
   resetWarehouseState,
   resetWarehouseListState,
+  getWarehouseDetailsCanvasById,
+  getWarehouseDetailsCanvasByIdSuccess,
+  getWarehouseDetailsCanvasByIdFailed,
 }

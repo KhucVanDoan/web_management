@@ -14,7 +14,7 @@ import {
 const initialState = {
   items: [],
   total: 0,
-  totalUnread: 0,
+  totalUnRead: 0,
   isLoading: false,
 }
 
@@ -38,7 +38,7 @@ export default function notification(state = initialState, action) {
       return {
         items: [...state.items, ...(action.payload?.items || [])],
         total: action.payload?.meta?.total,
-        totalUnread: action.payload?.meta?.totalUnread,
+        totalUnRead: action.payload?.meta?.totalUnRead,
         isLoading: false,
       }
     case SEEN_ONE_NOTIFICATION_SUCCESS:
@@ -59,7 +59,7 @@ export default function notification(state = initialState, action) {
       return {
         ...state,
         items: newItems,
-        totalUnread: state.totalUnread - 1,
+        totalUnRead: state.totalUnRead - 1,
         isLoading: false,
       }
     case SEEN_ALL_NOTIFICATIONS_SUCCESS:
@@ -69,14 +69,14 @@ export default function notification(state = initialState, action) {
           ...item,
           readAt: item.readAt || new Date().toISOString(),
         })),
-        totalUnread: 0,
+        totalUnRead: 0,
         isLoading: false,
       }
     case ADD_NOTIFICATION:
       return {
         ...state,
         items: [action.payload, ...state.items],
-        totalUnread: state.totalUnread + 1,
+        totalUnRead: state.totalUnRead + 1,
       }
     default:
       return state

@@ -102,6 +102,7 @@ import DefineVoucherDetail from '../features/voucher/detail'
 import DefineVoucherForm from '../features/voucher/form'
 import WarehouseAreaDetail from '../features/warehouse-area/detail'
 import WarehouseArea from '../features/warehouse-area/list'
+import warehouseDesign from '../features/warehouse-design/index'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseSettingDetail from '../features/warehouse-setting/detail'
@@ -438,7 +439,7 @@ const routes = [
   {
     name: ROUTE.WAREHOUSE_SETUP.TITLE,
     isInSidebar: true,
-    icon: 'database',
+    icon: 'setting',
     subMenu: [
       {
         name: ROUTE.WAREHOUSE_SETTING.LIST.TITLE,
@@ -585,6 +586,12 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_DESIGN.TITLE,
+        path: ROUTE.WAREHOUSE_DESIGN.PATH,
+        component: warehouseDesign,
+        isInSidebar: true,
       },
     ],
   },

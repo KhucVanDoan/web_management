@@ -9,7 +9,7 @@ import Dropdown from '~/components/Dropdown'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { useClasses } from '~/themes'
 
-import List from './List'
+import NotificationList from './NotificationList'
 import style from './style'
 
 const Notification = () => {
@@ -19,7 +19,7 @@ const Notification = () => {
 
   const {
     actions,
-    data: { totalUnread },
+    data: { totalUnRead },
   } = useNotification()
 
   const handleOpen = (event) => {
@@ -59,9 +59,9 @@ const Notification = () => {
           },
         }}
       >
-        {!!totalUnread && (
+        {!!totalUnRead && (
           <Box className={classes.badge}>
-            {totalUnread > 999 ? '999+' : totalUnread}
+            {totalUnRead > 999 ? '999+' : totalUnRead}
           </Box>
         )}
       </Button>
@@ -97,7 +97,7 @@ const Notification = () => {
             />
           </Box>
 
-          <List />
+          <NotificationList />
         </Box>
       </Popover>
     </>

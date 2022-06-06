@@ -14,9 +14,9 @@ import {
   SEEN_ALL_NOTIFICATIONS_START,
 } from '../actions/notification'
 
-const getNotificationsApi = () => {
+const getNotificationsApi = (params) => {
   const uri = `v1/notifications/users-notification`
-  return api.get(uri)
+  return api.get(uri, params)
 }
 
 /**
