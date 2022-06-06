@@ -151,6 +151,7 @@ function InventoryWarning() {
       field: 'quantity',
       headerName: t('inventoryWarning.quantityInventory'),
       width: 150,
+      align: 'right',
       sortable: true,
     },
     {

@@ -153,6 +153,7 @@ function InventoryDeadlineWarning() {
       field: 'quantity',
       headerName: t('inventoryDeadlineWarning.expiryAmount'),
       width: 150,
+      align: 'right',
       sortable: true,
     },
     {
