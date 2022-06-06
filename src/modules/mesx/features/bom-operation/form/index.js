@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { createFilterOptions, Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
@@ -9,8 +9,13 @@ import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { BOM_STATUS } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import {
+  BOM_STATUS,
+  BOM_PRODUCING_STEP_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { getBomProducingStepDetailsApi } from '~/modules/mesx/redux/sagas/bom-producing-step/get-bom-producing-step-details'
@@ -227,6 +232,26 @@ function BomProducingStepForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {mode === MODAL_MODE.UPDATE && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('bomProducingStep.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={BOM_PRODUCING_STEP_STATUS_OPTIONS}
+                            value={
+                              bomProducingStepDetails?.materialDetails?.[0]
+                                ?.producingStepData?.[0]?.status
+                            }
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('bomProducingStep.code')}

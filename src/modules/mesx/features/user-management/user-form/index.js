@@ -4,6 +4,7 @@ import { createFilterOptions, Grid } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -21,7 +22,9 @@ import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
@@ -241,6 +244,21 @@ function UserManagementForm() {
                       {t('userManagement.commonInfo')}
                     </Typography>
                   </Grid>
+                  {!isNil(userDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>{t('userManagement.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={USER_MANAGEMENT_STATUS_OPTIONS}
+                            value={userDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('userManagement.code')}

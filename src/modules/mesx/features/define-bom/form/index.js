@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -21,11 +22,14 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
+import { BOM_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
@@ -284,6 +288,19 @@ function BOMForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(BOMDetails?.status) && mode === MODAL_MODE.UPDATE && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={<Typography>{t('defineBOM.status')}</Typography>}
+                        value={
+                          <Status
+                            options={BOM_STATUS_OPTIONS}
+                            value={BOMDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Box>
                       <Field.TextField

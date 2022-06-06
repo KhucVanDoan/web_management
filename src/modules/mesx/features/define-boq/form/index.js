@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -16,7 +16,10 @@ import {
 import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -195,6 +198,19 @@ const BOQForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(boqDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={<Typography>{t('defineBOQ.status')}</Typography>}
+                        value={
+                          <Status
+                            options={BOQ_STATUS_OPTIONS}
+                            value={boqDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       name="code"

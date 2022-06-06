@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { createFilterOptions, Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, orderBy } from 'lodash'
+import { isEmpty, orderBy, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -20,10 +20,15 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
-import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
+import {
+  SALE_ORDER_STATUS,
+  MASTER_PLAN_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -253,6 +258,23 @@ const DefineMasterPlanForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(masterPlanDetails?.status) && (
+                    <Grid item xs={12}>
+                      <LabelValue
+                        label={
+                          <Typography>
+                            {t('defineMasterPlan.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={MASTER_PLAN_STATUS_OPTIONS}
+                            value={masterPlanDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('defineMasterPlan.code')}
