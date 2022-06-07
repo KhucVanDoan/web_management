@@ -10,30 +10,56 @@ import DataTable from '~/components/DataTable'
 const ItemSettingTable = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
 
+  const formattedItems = []
+
+  items.forEach((item, index) => {
+    formattedItems.push({
+      id: '',
+      code: item?.code,
+      name: item?.name,
+      itemType: '',
+      warehouseName: '',
+      warehouseSectorName: '',
+      warehouseShelfName: '',
+      warehousePalletName: '',
+      lotNumber: '',
+      packageCode: '',
+      quantity: +item?.quantity,
+      planQuantity: +item?.planQuantity,
+    })
+    item.lots.forEach((lot) => {
+      formattedItems.push({
+        id: formattedItems.length - index,
+        code: item?.code,
+        name: item?.name,
+        itemType: item?.itemType,
+        warehouseName: lot.warehouse?.name,
+        warehouseSectorName: lot.warehouseSector?.name,
+        warehouseShelfName: lot.warehouseShelf?.name,
+        warehousePalletName: lot.warehouseShelfFloor?.name,
+        lotNumber: lot.lotNumber,
+        packageCode: item?.packages?.map((pk) => pk.code).join(','),
+        quantity: +lot?.quantity,
+        planQuantity: lot?.planQuantity || item?.planQuantity,
+      })
+    })
+  })
+
   const columns = [
     {
       field: 'id',
       headerName: '#',
       width: 50,
-      renderCell: (_, index) => {
-        return index + 1
-      },
     },
     {
-      field: 'itemCode',
+      field: 'code',
       headerName: t('movements.itemDetails.itemCode'),
-      width: 150,
-      renderCell: (params) => {
-        return params.row?.code
-      },
+      width: 120,
     },
     {
-      field: 'itemName',
+      field: 'name',
       headerName: t('movements.itemDetails.itemName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.name
-      },
     },
     {
       field: 'itemType',
@@ -44,23 +70,31 @@ const ItemSettingTable = ({ items }) => {
       field: 'lotNumber',
       headerName: t('movements.itemDetails.lotNumber'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.lots?.[0]?.lotNumber
-      },
     },
     {
       field: 'packageCode',
       headerName: t('movements.itemDetails.packageCode'),
       width: 120,
-      renderCell: () => {},
     },
     {
       field: 'warehouseName',
       headerName: t('movements.itemDetails.warehouseName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.lots?.[0]?.warehouse?.name
-      },
+    },
+    {
+      field: 'warehouseSectorName',
+      headerName: t('movements.itemDetails.warehouseSectorName'),
+      width: 120,
+    },
+    {
+      field: 'warehouseShelfName',
+      headerName: t('movements.itemDetails.warehouseShelfName'),
+      width: 120,
+    },
+    {
+      field: 'warehousePalletName',
+      headerName: t('movements.itemDetails.warehousePalletName'),
+      width: 120,
     },
     {
       field: 'planQuantity',
@@ -98,7 +132,7 @@ const ItemSettingTable = ({ items }) => {
       </Box>
 
       <DataTable
-        rows={items}
+        rows={formattedItems}
         columns={columns}
         total={items.length}
         striped={false}
@@ -111,14 +145,10 @@ const ItemSettingTable = ({ items }) => {
 
 ItemSettingTable.defaultProps = {
   items: [],
-  mode: '',
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {
-  arrayHelpers: PropTypes.shape(),
   items: PropTypes.array,
-  mode: PropTypes.string,
 }
 
 export default ItemSettingTable
