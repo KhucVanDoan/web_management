@@ -40,6 +40,7 @@ const WarehouseTransfer = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const {
     data: { warehouseTransferList, isLoading, total },
     actions,
@@ -186,21 +187,21 @@ const WarehouseTransfer = () => {
               >
                 <Icon name="show" />
               </IconButton>
-              {isEdit ||
-                (isRejected && (
-                  <IconButton
-                    onClick={() =>
-                      history.push(
-                        ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH.replace(
-                          ':id',
-                          `${id}`,
-                        ),
-                      )
-                    }
-                  >
-                    <Icon name="edit" />
-                  </IconButton>
-                ))}
+
+              {(isEdit || isRejected) && (
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              )}
               {isDelete && (
                 <IconButton onClick={() => onClickDelete(params.row)}>
                   <Icon name="delete" />
@@ -209,6 +210,11 @@ const WarehouseTransfer = () => {
               {isConfirmed && (
                 <IconButton onClick={() => onClickConfirmed(params.row)}>
                   <Icon name="tick" />
+                </IconButton>
+              )}
+              {isEdit && (
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
                 </IconButton>
               )}
               {hasTransaction && (
@@ -273,6 +279,17 @@ const WarehouseTransfer = () => {
     })
     setTempItem(null)
     setIsOpenConfirmModal(false)
+  }
+  const onClickRejected = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenRejectModal(true)
+  }
+  const submitReject = () => {
+    actions.rejectWarehouseTransferById(tempItem?.id, () => {
+      refreshData()
+    })
+    setTempItem(null)
+    setIsOpenRejectModal(false)
   }
   const renderHeaderRight = () => {
     return (
@@ -351,6 +368,28 @@ const WarehouseTransfer = () => {
         noBorderBottom
       >
         {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('warehouseTransfer.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('warehouseTransfer.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenRejectModal}
+        title={t('general:common.notify')}
+        onCancel={() => setIsOpenRejectModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitReject}
+        noBorderBotttom
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.reject')}
         <LV
           label={t('warehouseTransfer.code')}
           value={tempItem?.code}

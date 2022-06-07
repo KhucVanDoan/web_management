@@ -14,7 +14,7 @@ import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagem
 import { ORDER_STATUS } from '~/modules/wmsx/constants'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
-import { scrollToBottom } from '~/utils'
+import { scrollToBottom, convertUtcDateToLocalTz } from '~/utils'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -41,9 +41,17 @@ function ItemSettingTable(props) {
 
   useEffect(() => {
     actions.getItems({})
-    actionsPurchasedOrdersImport.getLotNumberList()
     actionsPackage.searchPackages()
   }, [])
+
+  useEffect(() => {
+    const itemIds = items?.map((item) => item.itemId)
+    actionsPurchasedOrdersImport.getLotNumberList({
+      itemIds: itemIds
+        ?.filter((id, index) => itemIds.indexOf(id) === index)
+        .join(','),
+    })
+  }, [items])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -131,9 +139,15 @@ function ItemSettingTable(props) {
               (item) => item.itemId === itemId && item.lotNumber === lotNumber,
             ).length > 1) &&
           mfg
-
-        return isView || isFilled ? (
-          <>{mfg}</>
+        const isSelectedLotNum = lotNumberList
+          ?.find((item) => item.itemId === itemId)
+          ?.lotNumbers?.find((lot) => lot.lotNumber === lotNumber)
+        return isView || isFilled || isSelectedLotNum ? (
+          <>
+            {isSelectedLotNum
+              ? convertUtcDateToLocalTz(isSelectedLotNum.mfg)
+              : mfg}
+          </>
         ) : (
           <Field.DatePicker
             name={`items[${index}].mfg`}

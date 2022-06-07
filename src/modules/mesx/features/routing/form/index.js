@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -19,7 +19,10 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { ROUTING_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -214,6 +217,19 @@ function RoutingForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(routingDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={<Typography>{t('routing.status')}</Typography>}
+                        value={
+                          <Status
+                            options={ROUTING_STATUS_OPTIONS}
+                            value={routingDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('routing.code')}

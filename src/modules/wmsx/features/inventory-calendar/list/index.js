@@ -128,13 +128,10 @@ function InventoryCalendar() {
       align: 'center',
       renderCell: (params) => {
         const { status, id } = params.row
-        const isEdit =
-          status === INVENTORY_CALENDAR_STATUS.PENDING ||
-          INVENTORY_CALENDAR_STATUS.REJECTED
-        const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
-        const isDelete =
+        const hasEditDeleteBtn =
           status === INVENTORY_CALENDAR_STATUS.PENDING ||
           status === INVENTORY_CALENDAR_STATUS.REJECTED
+        const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
         const hasTransaction =
           status === INVENTORY_CALENDAR_STATUS.COMPLETED ||
           status === INVENTORY_CALENDAR_STATUS.IN_PROGRESS
@@ -149,21 +146,24 @@ function InventoryCalendar() {
             >
               <Icon name="show" />
             </IconButton>
-            {isEdit && (
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="edit" />
-              </IconButton>
-            )}
-            {isDelete && (
-              <IconButton onClick={() => onClickDelete(params.row)}>
-                <Icon name="delete" />
-              </IconButton>
+            {hasEditDeleteBtn && (
+              <>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              </>
             )}
             {isConfirmed && (
               <IconButton onClick={() => onClickConfirmed(params.row)}>

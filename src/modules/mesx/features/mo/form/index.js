@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -19,11 +19,13 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
-import { MASTER_PLAN_STATUS } from '~/modules/mesx/constants'
+import { MASTER_PLAN_STATUS, MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { getMasterPlanDetailsApi } from '~/modules/mesx/redux/sagas/define-master-plan/get-master-plan-details'
@@ -304,6 +306,19 @@ const MOForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(moDetails?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LabelValue
+                        label={<Typography>{t('Mo.status')}</Typography>}
+                        value={
+                          <Status
+                            options={MO_STATUS_OPTIONS}
+                            value={moDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="code"

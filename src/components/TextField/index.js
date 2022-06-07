@@ -126,6 +126,24 @@ const TextField = ({
   )
 }
 
+TextField.defaultProps = {
+  className: '',
+  label: '',
+  helperText: '',
+  error: false,
+  readOnly: false,
+  required: false,
+  multiline: false,
+  disabled: false,
+  InputProps: {},
+  sx: {},
+  vertical: false,
+  labelWidth: 160,
+  onBlur: () => {},
+  onChange: () => {},
+  numberProps: {},
+}
+
 TextField.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,

@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Formik, Form } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -17,8 +18,13 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { CUSTOMER_LEVEL_STATUS } from '~/modules/wmsx/constants'
+import Status from '~/components/Status'
+import {
+  CUSTOMER_LEVEL_STATUS_OPTIONS,
+  CUSTOMER_LEVEL_STATUS,
+} from '~/modules/wmsx/constants'
 import useDefineCurrencyUnit from '~/modules/wmsx/redux/hooks/useDefineCurrencyUnit'
 import useDefineCustomerLevel from '~/modules/wmsx/redux/hooks/useDefineCustomerLevel'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -194,6 +200,23 @@ const DefineCustomerLevelForm = () => {
                     rowSpacing={4 / 3}
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
+                    {!isNil(customerLevelDetails?.status) && isUpdate && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('defineCustomerLevel.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={CUSTOMER_LEVEL_STATUS_OPTIONS}
+                              value={customerLevelDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         label={t('defineCustomerLevel.code')}

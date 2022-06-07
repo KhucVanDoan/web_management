@@ -9,6 +9,7 @@ import {
   useDashboardOtherItemSummaryReport,
   useDashboardTotalItemSummaryReport,
 } from '~/modules/wmsx/redux/hooks/useDashboard'
+import { convertNumberWithSISymbol } from '~/utils'
 
 function ItemSummary() {
   const { t } = useTranslation(['wmsx'])
@@ -33,14 +34,14 @@ function ItemSummary() {
         <Summary
           icon="arrowBottom"
           label={t('dashboard.itemReport.total')}
-          value={totalItemSummaryReport?.total}
+          value={convertNumberWithSISymbol(totalItemSummaryReport?.total)}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="rhombus"
           label={t('dashboard.itemReport.other')}
-          value={otherItemSummaryReport?.total}
+          value={convertNumberWithSISymbol(otherItemSummaryReport?.total)}
         />
       </Grid>
       {itemSummaryReport?.map((itemType, i) => (
@@ -48,7 +49,7 @@ function ItemSummary() {
           <Summary
             icon={i === 0 ? 'cart' : 'bag'}
             label={t(itemType.name)}
-            value={itemType.itemCount}
+            value={convertNumberWithSISymbol(itemType?.itemCount)}
           />
         </Grid>
       ))}

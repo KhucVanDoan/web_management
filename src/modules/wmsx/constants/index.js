@@ -577,11 +577,11 @@ export const INVENTORY_CALENDAR_STATUS = {
 }
 
 export const INVENTORY_CALENDAR_STATUS_MAP = {
-  [ORDER_STATUS.PENDING]: 'orderStatus.pending',
-  [ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
-  [ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
-  [ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
-  [ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+  [INVENTORY_CALENDAR_STATUS.PENDING]: 'orderStatus.pending',
+  [INVENTORY_CALENDAR_STATUS.CONFIRMED]: 'orderStatus.confirmed',
+  [INVENTORY_CALENDAR_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
+  [INVENTORY_CALENDAR_STATUS.COMPLETED]: 'orderStatus.completed',
+  [INVENTORY_CALENDAR_STATUS.REJECTED]: 'orderStatus.rejected',
 }
 
 export const INVENTORY_CALENDAR_STATUS_OPTIONS = [

@@ -142,6 +142,7 @@ function InventoryStatistics() {
       field: 'stock',
       headerName: t('inventoryStatistics.inventoryNumbers'),
       width: 150,
+      align: 'right',
       sortable: true,
     },
     {
@@ -233,8 +234,8 @@ function InventoryStatistics() {
       <Page
         breadcrumbs={breadcrumbs}
         title={t('menu.inventoryStatistics')}
-        placeholder={t('inventoryStatistics.searchPlaceholder')}
         loading={isLoading}
+        onSearch={() => {}}
         renderHeaderRight={renderHeaderRight}
       >
         <Box sx={{ mb: 1, textAlign: 'left' }}>

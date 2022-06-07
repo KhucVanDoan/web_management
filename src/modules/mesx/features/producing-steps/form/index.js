@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Radio from '@mui/material/Radio'
 import { Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -24,7 +25,8 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { STAGES_OPTION } from '~/modules/mesx/constants'
+import Status from '~/components/Status'
+import { PRODUCING_STEP_OPTIONS, STAGES_OPTION } from '~/modules/mesx/constants'
 import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import { searchQualityPointsApi } from '~/modules/mesx/redux/sagas/common/search-quality-points'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -215,6 +217,21 @@ function ProducingStepForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(details?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>{t('producingStep.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={PRODUCING_STEP_OPTIONS}
+                            value={details?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       name="code"

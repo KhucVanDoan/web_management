@@ -121,7 +121,7 @@ const progressManufacturingByOrder = () => {
       width: 150,
       fixed: true,
       renderCell: (params) => {
-        const { status } = params.row
+        const { status } = params?.row?.saleOrder
         return (
           <Status
             options={PROGRESS_ORDER_STATUS_OPTIONS}
@@ -158,9 +158,11 @@ const progressManufacturingByOrder = () => {
       align: 'left',
       renderCell: (params) => {
         const { row } = params
-        return `${convertUtcDateToLocalTz(
-          row?.planFrom,
-        )} - ${convertUtcDateToLocalTz(row?.planTo)}`
+        return row?.masterPlan
+          ? `${convertUtcDateToLocalTz(
+              row?.masterPlan?.dateFrom,
+            )} - ${convertUtcDateToLocalTz(row?.masterPlan?.dateTo)}`
+          : ''
       },
     },
     {
@@ -169,7 +171,7 @@ const progressManufacturingByOrder = () => {
       width: 150,
       renderCell: (params) => {
         const { row } = params
-        return convertUtcDateToLocalTz(row?.masterPlan?.dateFrom)
+        return convertUtcDateToLocalTz(row?.saleOrder?.startedAt)
       },
     },
     {
@@ -178,7 +180,7 @@ const progressManufacturingByOrder = () => {
       width: 150,
       renderCell: (params) => {
         const { row } = params
-        return convertUtcDateToLocalTz(row?.completedAt)
+        return convertUtcDateToLocalTz(row?.saleOrder?.completedAt)
       },
     },
     {
@@ -186,15 +188,20 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.planQuantity'),
       width: 100,
       align: 'right',
+      renderCell: (params) => {
+        return +params?.row?.planQuantity
+      },
     },
     {
       field: 'actualQuantity',
       headerName: t('progressManufacturingByOrder.quantity'),
       width: 100,
       align: 'right',
+      renderCell: (params) => {
+        return +params?.row?.producedQuantity
+      },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -204,7 +211,7 @@ const progressManufacturingByOrder = () => {
         {
           ...filters,
           masterPlanIds: filters?.masterPlanIds?.map((e) => e?.id),
-          isHasPlan: filters?.isHasPlan ? filters?.isHasPlan : true,
+          isHasPlan: filters?.isHasPlan ? filters?.isHasPlan : false,
         },
         [
           ...columns,
@@ -230,7 +237,7 @@ const progressManufacturingByOrder = () => {
       loading={isLoading}
       renderHeaderRight={renderHeaderRight}
     >
-      <ProgressManufacturingFilter setFilters={setFilters} />
+      <ProgressManufacturingFilter setFilters={setFilters} filters={filters} />
       <Box mt={4}>
         <DataTable
           title={t('progressManufacturingByOrder.title')}

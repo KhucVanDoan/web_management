@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react'
 
-import { Box, createFilterOptions, FormControlLabel, Grid } from '@mui/material'
+import {
+  Box,
+  createFilterOptions,
+  FormControlLabel,
+  Grid,
+  Typography,
+} from '@mui/material'
+import { startOfToday } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
@@ -12,8 +20,11 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { TRANSFER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -98,10 +109,10 @@ const WarehouseTransferForm = () => {
   const onSubmit = (values) => {
     const params = {
       code: values?.code,
-      destinationWarehouseId: +values?.sourceWarehouseName,
+      destinationWarehouseId: +values?.destinationWarehouseName,
       isSameWarehouse: values?.isSameWarehouse ? 1 : 0,
       name: values?.name,
-      sourceWarehouseId: +values?.destinationWarehouseName,
+      sourceWarehouseId: +values?.sourceWarehouseName,
       transferOn: values?.estimationDay,
       type: 1,
       description: values?.description?.trim(),
@@ -121,6 +132,7 @@ const WarehouseTransferForm = () => {
       actions.updateWarehouseTransfer(params, backToList)
     }
   }
+
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -214,6 +226,23 @@ const WarehouseTransferForm = () => {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
+                    {!isNil(warehouseTransferDetails?.status) && isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseTransfer.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={TRANSFER_STATUS_OPTIONS}
+                              value={warehouseTransferDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         label={t('warehouseTransfer.code')}
@@ -235,14 +264,14 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-                    <Grid item lg={6} xs={12}>
+                    <Grid item xs={12}>
                       <FormControlLabel
                         control={
                           <Field.Checkbox
                             onChange={(checked) => {
                               if (!checked) {
-                                setFieldValue('sourceFactoryName', {})
-                                setFieldValue('sourceWarehouseName', {})
+                                setFieldValue('sourceFactoryName', '')
+                                setFieldValue('sourceWarehouseName', '')
                               } else {
                                 setFieldValue(
                                   'sourceFactoryName',
@@ -260,7 +289,6 @@ const WarehouseTransferForm = () => {
                         label={t('warehouseTransfer.isSameWarehouse')}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={6}></Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.Autocomplete
                         label={t('warehouseTransfer.destinationFactoryName')}
@@ -331,6 +359,11 @@ const WarehouseTransferForm = () => {
                         })}
                         getOptionValue={(opt) => opt?.id}
                         required
+                        onChange={(val) => {
+                          if (!val) {
+                            setFieldValue('itemId', '')
+                          }
+                        }}
                       />
                     </Grid>
                     <Grid item xs={12} lg={6}>
@@ -339,6 +372,7 @@ const WarehouseTransferForm = () => {
                         name="estimationDay"
                         placeholder={t('warehouseTransfer.estimationDay')}
                         required
+                        minDate={startOfToday()}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -346,6 +380,9 @@ const WarehouseTransferForm = () => {
                         name="description"
                         label={t('warehouseTransfer.descriptionInput')}
                         placeholder={t('warehouseTransfer.descriptionInput')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
                         multiline
                         rows={3}
                       />

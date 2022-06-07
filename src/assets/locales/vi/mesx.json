@@ -200,9 +200,10 @@
   "orderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "completed": "Đã xuất hàng",
-    "inProducing": "Đang sản xuất",
-    "produced": "Hoàn thành sản xuất"
+    "completed": "Hoàn thành",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối"
   },
   "producingStepStatus": {
     "pending": "Chờ xác nhận",
@@ -1271,6 +1272,7 @@
     "materialName": "Tên nguyên vật liệu",
     "total": "Tổng số lượng",
     "createDate": "Ngày tạo",
+    "createTime": "Thời gian tạo",
     "user": "Người tạo"
   },
   "bomProducingStepStatus": {
@@ -1388,17 +1390,17 @@
     "planManufacturing": "Kế hoạch sản xuất",
     "choosePlanManufacturing": "Chọn kế hoạch sản xuất",
     "moName": "Lệnh sản xuất",
-    "datePerform": "Ngày thực hiện",
-    "dateEnd": "Ngày Kết thúc",
+    "datePerform": "Ngày bắt đầu",
+    "dateEnd": "Ngày hoàn thành",
     "planQuantity": "Số lượng kế hoạch",
     "quantity": "Số lượng đã sản xuất"
   },
   "progressManufacturingByOrderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
-    "approved": "Đã được chấp nhận",
-    "rejected": "Từ chối",
+    "inProgress": "Đang sản xuất",
+    "inProducing": "Đang xuất hàng",
+    "produced": "Hoàn thành sản xuất",
     "completed": "Hoàn thành"
   },
   "purchasedOrder": {
@@ -1489,6 +1491,14 @@
     "validatePurchasedAt": "Ngày đặt hàng phải trước ngày giao hàng",
     "validateDeadline": "Ngày giao hàng phải sau ngày đặt hàng",
     "reason": "Lý do"
+  },
+  "purchasedOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
   },
   "progressManufacturingByWorkCenter": {
     "export": "Xuất dữ liệu",
