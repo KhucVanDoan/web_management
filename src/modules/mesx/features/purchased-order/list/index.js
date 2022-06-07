@@ -100,7 +100,7 @@ function PurchasedOrder() {
       field: 'type',
       headerName: t('purchasedOrder.type'),
       width: 120,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const { type } = params.row
         return t(ORDER_TYPE_MAP[type])
@@ -241,7 +241,7 @@ function PurchasedOrder() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, vendorName: filters?.vendorName?.vendorName },
+        { ...filters, vendorName: filters?.vendorName?.name },
         columns,
       ),
       sort: convertSortParams(sort),
