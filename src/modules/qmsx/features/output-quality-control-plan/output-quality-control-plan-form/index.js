@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -380,10 +380,14 @@ function OutputQualityControlPlanForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(values?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
-                        label={t('defineQualityAlert.status')}
+                        label={
+                          <Typography>
+                            {t('defineQualityAlert.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={OUTPUT_QC_PLAN_STATUS}

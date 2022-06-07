@@ -16,7 +16,9 @@ import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { USER_MANAGEMENT_STATUS } from '~/modules/qmsx/constants'
@@ -231,6 +233,21 @@ function UserManagementForm() {
                       {t('userManagement.commonInfo')}
                     </Typography>
                   </Grid>
+                  {isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>{t('userManagement.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={USER_MANAGEMENT_STATUS}
+                            value={userDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       label={t('userManagement.code')}

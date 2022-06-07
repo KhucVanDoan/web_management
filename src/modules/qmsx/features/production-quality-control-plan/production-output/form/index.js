@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid, Hidden } from '@mui/material'
+import { Grid, Hidden, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isNil, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -505,10 +505,14 @@ function ProductionOutputQualityControlPlanForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(values?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
-                        label={t('productionQualityControlPlan.status')}
+                        label={
+                          <Typography>
+                            {t('productionQualityControlPlan.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={PRODUCTION_QC_PLAN_STATUS}
