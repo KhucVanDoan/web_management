@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -58,19 +57,17 @@ function MasterPlanDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
-            {!isNil(masterPlanDetails?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('defineMasterPlan.status')}
-                  value={
-                    <Status
-                      options={MASTER_PLAN_STATUS_OPTIONS}
-                      value={masterPlanDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('defineMasterPlan.status')}
+                value={
+                  <Status
+                    options={MASTER_PLAN_STATUS_OPTIONS}
+                    value={masterPlanDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('defineMasterPlan.code')}

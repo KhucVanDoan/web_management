@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Form, Formik } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -177,23 +176,21 @@ function RequestBuyMaterialForm() {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
-                    {!isNil(requestBuyMaterialDetails?.status) && (
-                      <Grid item xs={12}>
-                        <LV
-                          label={
-                            <Typography>
-                              {t('requestBuyMaterial.status')}
-                            </Typography>
-                          }
-                          value={
-                            <Status
-                              options={ORDER_STATUS_OPTIONS}
-                              value={requestBuyMaterialDetails?.status}
-                            />
-                          }
-                        />
-                      </Grid>
-                    )}
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('requestBuyMaterial.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={ORDER_STATUS_OPTIONS}
+                            value={requestBuyMaterialDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         label={t('requestBuyMaterial.requestCode')}

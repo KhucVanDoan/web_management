@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import { cloneDeep, groupBy, isEmpty, isNil, max, uniq } from 'lodash'
+import { cloneDeep, groupBy, isEmpty, max, uniq } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -128,19 +128,17 @@ const FormDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(wcDetails?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('producingStep.status')}
-                  value={
-                    <Status
-                      options={WORK_CENTER_STATUS_OPTIONS}
-                      value={wcDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('producingStep.status')}
+                value={
+                  <Status
+                    options={WORK_CENTER_STATUS_OPTIONS}
+                    value={wcDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV label={t('workCenter.code')} value={wcDetails.code} />
             </Grid>

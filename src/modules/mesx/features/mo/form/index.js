@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Grid, Box, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -306,7 +306,7 @@ const MOForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(moDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LabelValue
                         label={<Typography>{t('Mo.status')}</Typography>}

@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -123,19 +122,17 @@ function RequestBuyMaterialDetail() {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-              {!isNil(requestBuyMaterialDetails?.status) && (
-                <Grid item xs={12}>
-                  <LV
-                    label={t('requestBuyMaterial.status')}
-                    value={
-                      <Status
-                        options={ORDER_STATUS_OPTIONS}
-                        value={requestBuyMaterialDetails?.status}
-                      />
-                    }
-                  />
-                </Grid>
-              )}
+              <Grid item xs={12}>
+                <LV
+                  label={t('requestBuyMaterial.status')}
+                  value={
+                    <Status
+                      options={ORDER_STATUS_OPTIONS}
+                      value={requestBuyMaterialDetails?.status}
+                    />
+                  }
+                />
+              </Grid>
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('requestBuyMaterial.requestCode')}

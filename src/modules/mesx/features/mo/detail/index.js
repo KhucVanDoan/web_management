@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
-import { isNil, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -118,19 +118,17 @@ function MoDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
-            {!isNil(moDetails?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('Mo.status')}
-                  value={
-                    <Status
-                      options={MO_STATUS_OPTIONS}
-                      value={moDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('Mo.status')}
+                value={
+                  <Status
+                    options={MO_STATUS_OPTIONS}
+                    value={moDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue label={t('Mo.moCode')} value={moDetails?.code} />
             </Grid>
