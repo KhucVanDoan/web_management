@@ -103,7 +103,6 @@ function POList() {
       field: 'deadline',
       headerName: t('purchasedOrderImport.deadline'),
       width: 150,
-      sortable: true,
       filterFormat: 'date',
       renderCell: (params) => {
         const deliveredAt = params.row.deliveredAt
