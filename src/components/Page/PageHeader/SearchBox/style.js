@@ -5,7 +5,7 @@ const style = (theme) => ({
     borderRadius: 3,
     alignItems: 'center',
     marginRight: 16,
-    maxWidth: '80%',
+    maxWidth: '70%',
     position: 'relative',
 
     form: {

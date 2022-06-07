@@ -69,7 +69,6 @@ function DefineTemplateShelf() {
       field: 'size',
       headerName: t('defineTemplateShelf.size'),
       width: 200,
-      sortable: false,
       fixed: true,
       renderCell: (params) => {
         return `${params.row?.long?.value} * ${params.row?.width?.value} * ${
@@ -80,8 +79,7 @@ function DefineTemplateShelf() {
     {
       field: 'weightLoad',
       headerName: t('defineTemplateShelf.weightLoad'),
-      width: 200,
-      sortable: false,
+      width: 150,
       renderCell: (params) => {
         return `${params.row?.weightLoad?.value} ${t(
           WEIGHT_UNITS_MAP[params.row?.weightLoad?.unit],
@@ -91,15 +89,14 @@ function DefineTemplateShelf() {
     {
       field: 'totalTemplateShelfFloors',
       headerName: t('defineTemplateShelf.totalTemplateShelfFloors'),
-      width: 200,
-      sortable: false,
+      width: 150,
+      align: 'right',
     },
     {
       field: 'createdAt',
       headerName: t('defineTemplateShelf.createdAt'),
       filterFormat: 'date',
       width: 200,
-      sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return convertUtcDateTimeToLocalTz(createdAt)
@@ -109,7 +106,6 @@ function DefineTemplateShelf() {
       field: 'action',
       headerName: t('defineTemplateShelf.action'),
       width: 200,
-      sortable: false,
       align: 'center',
       renderCell: (params) => {
         const { id } = params.row
@@ -211,7 +207,6 @@ function DefineTemplateShelf() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         sort={sort}

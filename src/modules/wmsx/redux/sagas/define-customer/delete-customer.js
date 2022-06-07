@@ -35,10 +35,7 @@ function* doDeleteCustomer(action) {
         yield action.onSuccess()
       }
 
-      addNotification(
-        'defineCustomer.deleteCustomerSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,

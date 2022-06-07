@@ -9,9 +9,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useWarehouseReport from '~/modules/wmsx/redux/hooks/useWarehouseReport'
+import { exportWarehouseReportApi } from '~/modules/wmsx/redux/sagas/warehouse-report/import-export-warehouse-report'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -36,6 +38,8 @@ function WarehouseReport() {
 
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -160,6 +164,10 @@ function WarehouseReport() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters, keyword])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -184,9 +192,24 @@ function WarehouseReport() {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* <Button variant="outlined" disabled icon="download">
-          {t('WarehouseReport.import')}
-        </Button> */}
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {
+            exportWarehouseReportApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.WAREHOUSE_REPORT.CREATE.PATH)}
           icon="add"
@@ -215,8 +238,10 @@ function WarehouseReport() {
           columns={columns}
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
-          onFilterChange={setFilters}
           onSortChange={setSort}
+          onSettingChange={setColumnsSettings}
+          onSelectionChange={setSelectedRows}
+          selected={selectedRows}
           total={total}
           filters={{
             form: <FilterForm />,

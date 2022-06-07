@@ -69,8 +69,6 @@ function ItemSettingTable({
       {
         field: 'id',
         headerName: '#',
-        width: 50,
-        align: 'center',
         renderCell: (_, index) => {
           return index + 1
         },
@@ -78,8 +76,6 @@ function ItemSettingTable({
       {
         field: 'itemName',
         headerName: t('purchasedOrder.item.name'),
-        width: 250,
-        align: 'center',
         renderCell: (params, index) => {
           const { itemId } = params.row
 
@@ -107,8 +103,6 @@ function ItemSettingTable({
       {
         field: 'itemCode',
         headerName: t('purchasedOrder.item.code'),
-        width: 120,
-        align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           return isView ? (
@@ -125,8 +119,6 @@ function ItemSettingTable({
       {
         field: 'itemType',
         headerName: t('purchasedOrder.item.type'),
-        width: 120,
-        align: 'center',
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           return isView ? (
@@ -143,8 +135,7 @@ function ItemSettingTable({
       {
         field: 'quantity',
         headerName: t('purchasedOrder.item.quantity'),
-        width: 120,
-        align: 'center',
+        align: 'right',
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (
@@ -164,8 +155,6 @@ function ItemSettingTable({
       {
         field: 'unitType',
         headerName: t('purchasedOrder.item.unitType'),
-        width: 120,
-        align: 'center',
         renderCell: (params, index) => {
           const { itemId } = params.row
           return isView ? (
@@ -182,8 +171,7 @@ function ItemSettingTable({
       {
         field: 'itemPrice',
         headerName: t('purchasedOrder.item.price'),
-        width: 120,
-        align: 'center',
+        align: 'right',
         renderCell: (params, index) => {
           return isView ? (
             <>{<NumberFormatText value={items[index]?.price || ''} />}</>

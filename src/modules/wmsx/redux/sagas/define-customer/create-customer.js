@@ -34,10 +34,7 @@ function* doCreateCustomer(action) {
         yield action.onSuccess()
       }
 
-      addNotification(
-        'defineCustomer.createCustomerSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,

@@ -9,9 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
+import {
+  exportVendorApi,
+  getVendorTemplateApi,
+  importVendorApi,
+} from '~/modules/wmsx/redux/sagas/define-vendor/import-export-vendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -19,7 +25,7 @@ import FilterForm from './form-filters'
 
 const breadcrumbs = [
   {
-    title: 'defineVendor',
+    title: ROUTE.PRODUCTION_INFORMATION_MANAGENMENT.TITLE,
   },
   {
     route: ROUTE.DEFINE_VENDEOR.LIST.PATH,
@@ -38,6 +44,9 @@ function DefineVendor() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     page,
     pageSize,
@@ -66,17 +75,12 @@ function DefineVendor() {
       sortable: true,
       fixed: true,
     },
-    {
-      field: 'supplierCapacity',
-      headerName: t('defineVendor.supplierCapacity'),
-      width: 200,
-      sortable: true,
-    },
+
     {
       field: 'email',
       headerName: t('defineVendor.email'),
       width: 200,
-      sortable: false,
+      sortable: true,
     },
     {
       field: 'phone',
@@ -89,14 +93,12 @@ function DefineVendor() {
       field: 'fax',
       headerName: t('defineVendor.faxColumn'),
       width: 100,
-      sortable: true,
     },
     {
       field: 'address',
       headerName: t('defineVendor.addressColumn'),
       filterFormat: 'date',
       width: 200,
-      sortable: true,
     },
     {
       field: 'action',
@@ -129,6 +131,15 @@ function DefineVendor() {
             <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
               <Icon name="delete" />
             </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  `${ROUTE.DEFINE_VENDEOR.CREATE.PATH}?cloneId=${id}`,
+                )
+              }
+            >
+              <Icon name="clone" />
+            </IconButton>
           </div>
         )
       },
@@ -149,6 +160,10 @@ function DefineVendor() {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
 
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
@@ -174,6 +189,28 @@ function DefineVendor() {
   const renderHeaderRight = () => {
     return (
       <>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importVendorApi(params)
+          }}
+          onExport={() => {
+            exportVendorApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getVendorTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_VENDEOR.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
@@ -201,8 +238,10 @@ function DefineVendor() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

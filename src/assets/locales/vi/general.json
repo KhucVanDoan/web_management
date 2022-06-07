@@ -172,6 +172,7 @@
     "turnOff": "Tắt thông báo",
     "hoursAgo": "{{time}} giờ trước",
     "minutesAgo": "{{time}} phút trước",
+    "created": "đã tạo",
     "action": {
       "confirm": "Xác nhận",
       "reject": "Từ chối"
@@ -210,10 +211,12 @@
     },
     "creator": "Người tạo",
     "search": "Tìm kiếm",
-    "filter": "Lọc"
+    "filter": "Lọc",
+    "percent": "%"
   },
   "moduleMenu": {
     "database": "Cơ sở dữ liệu",
+    "configuration": "Thiết lập",
     "other": "Giải pháp"
   }
 }

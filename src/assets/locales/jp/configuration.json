@@ -1,0 +1,21 @@
+{
+  "menu": {
+    "configuration": "Thiết lập",
+    "companyCustomerSetting": "一般情報設定",
+    "userManagement": "ユーザ管理",
+    "userManagementCreate": "ユーザ作成",
+    "userManagementDetail": "ユーザ詳細",
+    "userManagementEdit": "ユーザ編集",
+    "userPermission": "権限設定"
+  },
+  "companyCustomerSetting": {
+    "nameCustomer": "顧客会社名",
+    "Logo": "ロゴ",
+    "colorBrand": "ブランドカラー",
+    "email": "連絡メールアドレス",
+    "phoneNumber": "電話番号",
+    "address": "連絡先",
+    "btnSave": "設定保存",
+    "canner": "キャンセル"
+  }
+}

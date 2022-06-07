@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { Grid } from '@mui/material'
-import Box from '@mui/material/Box'
+import { Grid, Hidden, IconButton } from '@mui/material'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -9,39 +8,49 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
 
+  const validateName = (name, index) => {
+    let error = ''
+    if (
+      items?.some(
+        (item, itemIndex) => item?.name === name && itemIndex !== index,
+      )
+    ) {
+      error = t('defineTemplateShelf.shelfFloorNameIsDuplicated')
+    }
+    return error
+  }
+
   const columns = useMemo(
     () => [
       {
-        field: 'detailId',
-        width: 400,
-        align: 'center',
-        renderCell: () => {
+        field: 'name',
+        renderCell: (params, index) => {
           return (
             <Field.TextField
-              name="floorName"
+              name={`items[${index}].name`}
               label={t('defineTemplateShelf.shelfFloor.name')}
               placeholder={t('defineTemplateShelf.shelfFloor.name')}
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
+              validate={(name) => validateName(name, index)}
               required
             />
           )
         },
       },
       {
-        field: 'quantity',
-        width: 100,
-        align: 'center',
-        renderCell: () => {
+        field: 'height',
+        renderCell: (params, index) => {
           return (
             <Field.TextField
-              name="height.value"
+              name={`items[${index}].height.value`}
               label={t('defineTemplateShelf.height')}
               placeholder={t('defineTemplateShelf.height')}
               numberProps={{
@@ -53,13 +62,11 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         },
       },
       {
-        field: 'quantity',
-        width: 100,
-        align: 'center',
-        renderCell: () => {
+        field: 'weightLoad',
+        renderCell: (params, index) => {
           return (
             <Field.TextField
-              name="weightLoad"
+              name={`items[${index}].weightLoad.value`}
               label={t('defineTemplateShelf.weightLoad')}
               placeholder={t('defineTemplateShelf.weightLoad')}
               numberProps={{
@@ -67,6 +74,22 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               }}
               required
             />
+          )
+        },
+      },
+      {
+        field: 'action',
+        renderCell: (params) => {
+          const idx = items.findIndex((item) => item.id === params.row.id)
+          return (
+            <IconButton
+              onClick={() => {
+                arrayHelpers.remove(idx)
+              }}
+              disabled={items?.length === 1}
+            >
+              <Icon name="remove" />
+            </IconButton>
           )
         },
       },
@@ -78,32 +101,29 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
     <>
       <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
         <Grid item lg={4} xs={12}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              arrayHelpers.push({
+                name: '',
+                height: 0,
+                weightLoad: 0,
+              })
+              scrollToBottom()
+            }}
+          >
+            {t('defineTemplateShelf.addFloorButton')}
+          </Button>
+        </Grid>
+        <Hidden lgDown>
+          <Grid item lg={4} xs={12}></Grid>
+        </Hidden>
+        <Grid item lg={4} xs={12}>
           <Field.TextField
             name="numberOfFloors"
+            value={(items || []).length}
             label={t('defineTemplateShelf.shelfFloor.numberOfFloors')}
-            placeholder={t('defineTemplateShelf.shelfFloor.numberOfFloors')}
-            type="number"
-          />
-        </Grid>
-        <Grid item lg={4} xs={12}>
-          <Field.TextField
-            name="long"
-            label={t('defineTemplateShelf.long')}
-            placeholder={t('defineTemplateShelf.long')}
-            numberProps={{
-              decimalScale: 3,
-            }}
-            disabled
-          />
-        </Grid>
-        <Grid item lg={4} xs={12}>
-          <Field.TextField
-            name="width"
-            label={t('defineTemplateShelf.width')}
-            placeholder={t('defineTemplateShelf.width')}
-            numberProps={{
-              decimalScale: 3,
-            }}
+            sx={{ flex: 1 }}
             disabled
           />
         </Grid>
@@ -116,21 +136,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         hideSetting
         hideFooter
       />
-
-      <Box mt={1}>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            arrayHelpers.push({
-              detailId: '',
-              quantity: 1,
-            })
-            scrollToBottom()
-          }}
-        >
-          {t('defineItem.addDetailButton')}
-        </Button>
-      </Box>
     </>
   )
 }

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -14,7 +15,10 @@ import {
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -173,6 +177,23 @@ function RequestBuyMaterialForm() {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
+                    {!isNil(requestBuyMaterialDetails?.status) && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('requestBuyMaterial.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={ORDER_STATUS_OPTIONS}
+                              value={requestBuyMaterialDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         label={t('requestBuyMaterial.requestCode')}

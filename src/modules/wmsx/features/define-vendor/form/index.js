@@ -3,7 +3,12 @@ import React, { useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
+import {
+  useParams,
+  useRouteMatch,
+  useHistory,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -15,6 +20,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import qs from '~/utils/qs'
 
 import defineVendorSchema from './schema'
 
@@ -22,6 +28,8 @@ const DefineVendorForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const { t } = useTranslation(['wmsx'])
   const MODE_MAP = {
     [ROUTE.DEFINE_VENDEOR.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -34,7 +42,7 @@ const DefineVendorForm = () => {
     actions,
   } = useDefineVendor()
   const initialValues = {
-    code: vendorDetails?.code || '',
+    code: isUpdate ? vendorDetails?.code : '',
     name: vendorDetails?.name || '',
     phone: vendorDetails?.phone || '',
     email: vendorDetails?.email || '',
@@ -46,15 +54,18 @@ const DefineVendorForm = () => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getVendorDetailsById(id)
     }
+    if (cloneId) {
+      actions.getVendorDetailsById(cloneId)
+    }
     return () => actions.resetDetailVendorState()
-  }, [mode])
+  }, [mode, cloneId])
 
   const onSubmit = (values) => {
     const params = {
       code: values?.code,
       name: values?.name,
       phone: values?.phone,
-      email: values?.email,
+      email: values?.email || null,
       fax: values?.fax,
       address: values?.address,
       description: values?.description || '',
@@ -173,7 +184,7 @@ const DefineVendorForm = () => {
                       name="name"
                       placeholder={t('defineVendor.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />
@@ -184,7 +195,7 @@ const DefineVendorForm = () => {
                       name="address"
                       placeholder={t('defineVendor.address')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                     />
                   </Grid>
@@ -193,8 +204,9 @@ const DefineVendorForm = () => {
                       label={t('defineVendor.phone')}
                       name="phone"
                       placeholder={t('defineVendor.phone')}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
                       }}
                     />
                   </Grid>
@@ -204,7 +216,7 @@ const DefineVendorForm = () => {
                       name="fax"
                       placeholder={t('defineVendor.fax')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                     />
                   </Grid>
@@ -214,7 +226,7 @@ const DefineVendorForm = () => {
                       name="email"
                       placeholder={t('defineVendor.email')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
                     />
                   </Grid>

@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { Grid, Typography, InputAdornment } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  useHistory,
+  useParams,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -19,12 +25,15 @@ import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-compan
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import qs from '~/utils/qs'
 
 import { warehouseSchema } from './schema'
 
 function DefineWarehouseFrom() {
   const { t } = useTranslation(['wmsx'])
   const { id } = useParams()
+  const location = useLocation()
+  const { cloneId } = qs.parse(location.search)
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const [factories, setFactories] = useState([])
@@ -82,14 +91,17 @@ function DefineWarehouseFrom() {
     if (isUpdate) {
       actions.getWarehouseDetailsById(id)
     }
+    if (cloneId) {
+      actions.getWarehouseDetailsById(cloneId)
+    }
     return () => actions.resetWarehouseState()
-  }, [id])
+  }, [id, cloneId])
 
   const initialValues = {
-    code: warehouseDetails?.code || '',
+    code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
-    companyId: warehouseDetails?.companyId || null,
+    companyId: warehouseDetails?.company || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
     long: warehouseDetails?.long?.value || null,
@@ -212,7 +224,6 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       sx={{ mt: 4 / 3 }}
                       required
                     />
@@ -254,7 +265,7 @@ function DefineWarehouseFrom() {
                       name="factoryId"
                       label={t('defineWarehouse.factory')}
                       placeholder={t('defineWarehouse.factory')}
-                      options={factories}
+                      options={!isEmpty(factories) ? factories : factoryList}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
@@ -268,7 +279,6 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       sx={{ mt: 4 / 3 }}
                       required
                     />
@@ -291,6 +301,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />
                     <Field.TextField
@@ -305,6 +316,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       type="number"
                       required
                     />
@@ -320,6 +332,7 @@ function DefineWarehouseFrom() {
                           </InputAdornment>
                         ),
                       }}
+                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       type="number"
                       required
                     />

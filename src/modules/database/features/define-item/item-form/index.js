@@ -525,7 +525,8 @@ function DefineItemForm() {
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
                                   disabled={!values.hasStorageSpace}
-                                ></Field.Autocomplete>
+                                  disableClearable
+                                />
                               </FormControl>
                             </Grid>
                           </Grid>
@@ -552,7 +553,8 @@ function DefineItemForm() {
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
                                   disabled={!values.hasStorageSpace}
-                                ></Field.Autocomplete>
+                                  disableClearable
+                                />
                               </FormControl>
                             </Grid>
                           </Grid>
@@ -581,7 +583,8 @@ function DefineItemForm() {
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
                                   disabled={!values.hasStorageSpace}
-                                ></Field.Autocomplete>
+                                  disableClearable
+                                />
                               </FormControl>
                             </Grid>
                           </Grid>
@@ -608,7 +611,8 @@ function DefineItemForm() {
                                   getOptionLabel={(opt) => opt?.name}
                                   getOptionValue={(opt) => opt?.id}
                                   disabled={!values.hasStorageSpace}
-                                ></Field.Autocomplete>
+                                  disableClearable
+                                />
                               </FormControl>
                             </Grid>
                           </Grid>

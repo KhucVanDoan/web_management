@@ -49,16 +49,8 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="warehouseName"
-          label={t('inventories.warehouseName')}
-          placeholder={t('inventories.warehouseName')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-        />
-      </Grid>
-      <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseType"
+          name="warehouseTypeId"
           label={t('inventories.warehouseType')}
           placeholder={t('inventories.warehouseType')}
           options={warehouseType}
@@ -67,27 +59,13 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="warehouseShelfFloorName"
-          label={t('general.warehousePalletName')}
-          placeholder={t('general.warehousePalletName')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.TextField
-          name="itemGroupName"
-          label={t('inventoryWarning.itemGroup')}
-          placeholder={t('inventoryWarning.itemGroup')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.TextField
-          name="itemUnitName"
-          label={t('inventoryWarning.itemUnit')}
-          placeholder={t('inventoryWarning.itemUnit')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+        <Field.Autocomplete
+          name="inventoryStatus"
+          label={t('inventories.inventoryStatus')}
+          placeholder={t('inventories.inventoryStatus')}
+          options={[]}
+          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
+          getOptionValue={(opt) => opt?.id?.toString()}
         />
       </Grid>
     </Grid>

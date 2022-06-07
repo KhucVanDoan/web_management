@@ -165,7 +165,7 @@ const WarehouseSettingForm = () => {
                       name="name"
                       placeholder={t('warehouseSetting.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />

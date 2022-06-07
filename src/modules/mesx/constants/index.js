@@ -116,6 +116,39 @@ export const ORDER_STATUS_OPTIONS = [
   },
 ]
 
+export const PROGRESS_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'progressManufacturingByOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'progressManufacturingByOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'progressManufacturingByOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 14,
+    text: 'progressManufacturingByOrderStatus.produced',
+    color: 'produced',
+  },
+  {
+    id: 13,
+    text: 'progressManufacturingByOrderStatus.inProducing',
+    color: 'inProducing',
+  },
+
+  {
+    id: 4,
+    text: 'progressManufacturingByOrderStatus.completed',
+    color: 'completed',
+  },
+]
 export const TRANSFER_TYPE_MAP = {
   [TRANSFER_TYPE.ONE_STEP]: 'warehouseTransfer.1step',
   [TRANSFER_TYPE.TWO_STEP]: 'warehouseTransfer.2step',
@@ -773,43 +806,43 @@ export const PURCHASED_ORDER_STATUS = {
 }
 
 export const PURCHASED_ORDER_STATUS_MAP = {
-  [PURCHASED_ORDER_STATUS.PENDING]: 'orderStatus.pending',
-  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
-  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
-  [PURCHASED_ORDER_STATUS.APPROVED]: 'orderStatus.approved',
-  [PURCHASED_ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
-  [PURCHASED_ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+  [PURCHASED_ORDER_STATUS.PENDING]: 'purchasedOrderStatus.pending',
+  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'purchasedOrderStatus.confirmed',
+  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'purchasedOrderStatus.inProgress',
+  [PURCHASED_ORDER_STATUS.APPROVED]: 'purchasedOrderStatus.approved',
+  [PURCHASED_ORDER_STATUS.COMPLETED]: 'purchasedOrderStatus.completed',
+  [PURCHASED_ORDER_STATUS.REJECTED]: 'purchasedOrderStatus.rejected',
 }
 
 export const PURCHASED_ORDER_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'orderStatus.pending',
+    text: 'purchasedOrderStatus.pending',
     color: 'pending',
   },
   {
     id: 1,
-    text: 'orderStatus.confirmed',
+    text: 'purchasedOrderStatus.confirmed',
     color: 'confirmed',
   },
   {
     id: 2,
-    text: 'orderStatus.inProgress',
+    text: 'purchasedOrderStatus.inProgress',
     color: 'inProgress',
   },
   {
     id: 3,
-    text: 'orderStatus.approved',
+    text: 'purchasedOrderStatus.approved',
     color: 'approved',
   },
   {
     id: 4,
-    text: 'orderStatus.completed',
+    text: 'purchasedOrderStatus.completed',
     color: 'completed',
   },
   {
     id: 5,
-    text: 'orderStatus.rejected',
+    text: 'purchasedOrderStatus.rejected',
     color: 'rejected',
   },
 ]
@@ -831,33 +864,7 @@ export const DETAIL_SCHEDULE_STATUS = {
   IN_PROGRESS: 3,
   COMPLETED: 4,
 }
-export const PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION = [
-  {
-    id: 0,
-    text: 'progressManufacturingByOrderStatus.pending',
-    color: 'pending',
-  },
-  {
-    id: 1,
-    text: 'progressManufacturingByOrderStatus.confirmed',
-    color: 'confirmed',
-  },
-  {
-    id: 3,
-    text: 'progressManufacturingByOrderStatus.inProgress',
-    color: 'inprogress',
-  },
-  {
-    id: 4,
-    text: 'progressManufacturingByOrderStatus.completed',
-    color: 'completed',
-  },
-  {
-    id: 2,
-    text: 'progressManufacturingByOrderStatus.rejected',
-    color: 'rejected',
-  },
-]
+
 export const DETAIL_SCHEDULE_STATUS_MAP = {
   [DETAIL_SCHEDULE_STATUS.PENDING]: 'detailScheduleStatus.pending',
   [DETAIL_SCHEDULE_STATUS.CONFIRMED]: 'detailScheduleStatus.confirmed',

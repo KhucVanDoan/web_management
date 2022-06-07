@@ -9,8 +9,12 @@ import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  MASTER_PLAN_STATUS,
+  PROGRESS_ORDER_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
+import { convertFilterParams } from '~/utils'
 const ProgressManufacturingFilter = ({ setFilters }) => {
   const { t } = useTranslation(['mesx'])
 
@@ -19,7 +23,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
     dateSell: '',
     status: '',
     deliveryDate: '',
-    isHasPlan: '',
+    isHasPlan: false,
     masterPlanIds: [],
   }
   const onSubmit = (values) => {
@@ -33,6 +37,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
   useEffect(() => {
     actions.searchSaleOrders({ isGetAll: 1 })
   }, [])
+
   return (
     <Formik
       initialValues={initialValues}
@@ -60,6 +65,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
                       })}
+                      multiple
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -74,9 +80,9 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       name="status"
                       label={t('progressManufacturingByOrder.status')}
                       placeholder={t('progressManufacturingByOrder.status')}
-                      options={ORDER_STATUS_OPTIONS}
+                      options={PROGRESS_ORDER_STATUS_OPTIONS}
                       multiple
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
@@ -116,6 +122,9 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                             searchMasterPlansApi({
                               keyword: s,
                               limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: MASTER_PLAN_STATUS.CONFIRMED,
+                              }),
                             })
                           }
                           multiple
