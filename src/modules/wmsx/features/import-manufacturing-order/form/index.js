@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -331,7 +330,7 @@ const ImportManufacturingOrderForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(importManufacturingOrderDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
                         label={

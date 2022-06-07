@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Checkbox, FormControlLabel, Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -74,19 +73,17 @@ const WarehouseTransferDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(warehouseTransferDetails?.status) && (
-              <Grid item lg={6} xs={12}>
-                <LV
-                  label={t('warehouseTransfer.status')}
-                  value={
-                    <Status
-                      options={TRANSFER_STATUS_OPTIONS}
-                      value={warehouseTransferDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.status')}
+                value={
+                  <Status
+                    options={TRANSFER_STATUS_OPTIONS}
+                    value={warehouseTransferDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}></Grid>
             <Grid item lg={6} xs={12}>
               <LV

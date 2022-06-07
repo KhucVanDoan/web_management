@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -200,7 +199,7 @@ const DefineCustomerLevelForm = () => {
                     rowSpacing={4 / 3}
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
-                    {!isNil(customerLevelDetails?.status) && isUpdate && (
+                    {isUpdate && (
                       <Grid item xs={12}>
                         <LV
                           label={

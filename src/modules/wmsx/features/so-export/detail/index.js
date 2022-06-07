@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -58,19 +57,17 @@ function SOExportDetail() {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(soExportDetails?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('soExport.status')}
-                  value={
-                    <Status
-                      options={ORDER_STATUS_SO_EXPORT_OPTIONS}
-                      value={soExportDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('soExport.status')}
+                value={
+                  <Status
+                    options={ORDER_STATUS_SO_EXPORT_OPTIONS}
+                    value={soExportDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('soExport.code')}

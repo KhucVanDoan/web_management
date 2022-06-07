@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import { startOfToday } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
@@ -226,7 +225,7 @@ const WarehouseTransferForm = () => {
                     columnSpacing={{ xl: 8, xs: 4 }}
                     rowSpacing={4 / 3}
                   >
-                    {!isNil(warehouseTransferDetails?.status) && isUpdate && (
+                    {isUpdate && (
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
