@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 import { FieldArray, Formik, Form } from 'formik'
-import { isNil, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -193,10 +193,12 @@ function DefineCheckListForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   sx={{ mb: 2 }}
                 >
-                  {!isNil(values?.status) && (
+                  {isUpdate && (
                     <Grid item lg={12} xs={12}>
                       <LV
-                        label={t('defineCheckList.status')}
+                        label={
+                          <Typography>{t('defineCheckList.status')}</Typography>
+                        }
                         value={
                           <Status
                             options={CHECK_LIST_STATUS}

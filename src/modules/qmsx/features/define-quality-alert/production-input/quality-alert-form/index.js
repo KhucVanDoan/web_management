@@ -282,10 +282,14 @@ function DefineQualityAlertProductionInputForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(qualityAlertDetail?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
-                        label={t('defineQualityAlert.status')}
+                        label={
+                          <Typography>
+                            {t('defineQualityAlert.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={QUALITY_ALERT_STATUS}

@@ -254,10 +254,14 @@ function DefineQualityPointForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(values?.status) && (
+                  {isUpdate && (
                     <Grid item lg={12} xs={12}>
                       <LV
-                        label={t('defineQualityPoint.status')}
+                        label={
+                          <Typography>
+                            {t('defineQualityPoint.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={QUALITY_POINT_STATUS}

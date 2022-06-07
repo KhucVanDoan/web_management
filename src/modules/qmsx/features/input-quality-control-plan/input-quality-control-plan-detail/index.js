@@ -4,7 +4,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useHistory } from 'react-router-dom'
 
@@ -299,19 +298,17 @@ function InputQualityControlPlanDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(inputQcPlanDetail?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('inputQualityControlPlan.status')}
-                  value={
-                    <Status
-                      options={INPUT_QC_PLAN_STATUS}
-                      value={inputQcPlanDetail?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('inputQualityControlPlan.status')}
+                value={
+                  <Status
+                    options={INPUT_QC_PLAN_STATUS}
+                    value={inputQcPlanDetail?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inputQualityControlPlan.code')}
