@@ -7,7 +7,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -61,19 +60,17 @@ function DefineBillDetail() {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(billDetails?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('defineBill.status')}
-                  value={
-                    <Status
-                      options={DEFINE_BILL_STATUS_OPTIONS}
-                      value={billDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('defineBill.status')}
+                value={
+                  <Status
+                    options={DEFINE_BILL_STATUS_OPTIONS}
+                    value={billDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('defineBill.code')}

@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -208,7 +208,7 @@ function ProductionOrderForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
-                  {!isNil(productionOrderDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LabelValue
                         label={
