@@ -35,7 +35,8 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.detailId?.id
               }
               required
             />

@@ -55,6 +55,8 @@ function ItemSettingTable(props) {
         align: 'center',
         renderCell: (params, index) => {
           const item = params?.row?.item
+          const itemIdCodeList = items.map((i) => i?.item?.id)
+
           return isView ? (
             <>{item?.code || ''}</>
           ) : (
@@ -98,6 +100,10 @@ function ItemSettingTable(props) {
                   getItemObject(val)?.price || null,
                 )
               }}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.item?.id
+              }
             />
           )
         },

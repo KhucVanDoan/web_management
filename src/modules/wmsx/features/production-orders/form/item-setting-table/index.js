@@ -81,7 +81,6 @@ function ItemSettingTable(props) {
       width: 250,
 
       renderCell: (params, index) => {
-        const itemIdCodeList = items.map((item) => item.itemId)
         const listItemId = values?.moCode?.manufacturingOrderDetails?.map(
           (item) => item.id,
         )
@@ -99,9 +98,6 @@ function ItemSettingTable(props) {
               stringify: (opt) => `${opt?.code}|${opt?.name}`,
             })}
             getOptionValue={(option) => option?.id || ''}
-            getOptionDisabled={(opt) =>
-              itemIdCodeList.some((id) => id === opt?.id)
-            }
           />
         )
       },

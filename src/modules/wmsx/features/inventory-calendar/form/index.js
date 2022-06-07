@@ -161,7 +161,7 @@ const InventoryCalendarForm = () => {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
+            {({ handleReset }) => (
               <Form>
                 <Grid
                   container
@@ -222,9 +222,6 @@ const InventoryCalendarForm = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionDisabled={(opt) =>
-                        values?.warehouses?.some((i) => i?.id === opt?.id)
-                      }
                       getOptionLabel={(opt) => opt?.name}
                       multiple
                     />
