@@ -1,17 +1,23 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  ENUM_BOOLEAN,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/database/constants'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
@@ -48,37 +54,47 @@ function ItemSettingTable(props) {
         width: 250,
         align: 'center',
         renderCell: (params, index) => {
-          const { itemId } = params.row
-          const itemListFilter = itemList.filter(
-            (item) =>
-              (item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
-                item?.isProductionObject === false) ||
-              (item?.itemType?.code === DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code &&
-                item?.isHasBom === true),
-          )
-          const itemIdCodeList = items.map((item) => item.itemId)
+          const item = params?.row?.item
           return isView ? (
-            <>{getItemObject(itemId)?.code || ''}</>
+            <>{item?.code || ''}</>
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].itemId`}
-              options={itemListFilter}
+              name={`items[${index}].item`}
+              asyncRequest={(s) =>
+                searchItemsApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: JSON.stringify([
+                    {
+                      column: 'isHasBom',
+                      text: ENUM_BOOLEAN.true,
+                    },
+                    {
+                      column: 'isProductionObject',
+                      text: ENUM_BOOLEAN.true,
+                    },
+                    {
+                      column: 'itemTypeCode',
+                      text: DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code.toString(),
+                    },
+                  ]),
+                  // filter: convertFilterParams({
+                  //   isHasBom: ENUM_BOOLEAN.true,
+                  //   isProductionObject: ENUM_BOOLEAN.false,
+                  //   itemTypeCode: DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
+                  // }),
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
               disabled={isView}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
-              filterOptions={createFilterOptions({
-                stringify: (opt) => `${opt?.code}|${opt?.name}`,
-              })}
-              getOptionValue={(option) => option?.id || ''}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
-              }
               onChange={(val) => {
                 if (val === undefined || val === '') {
-                  setFieldValue(`items[${index}].itemPrice`, null)
+                  setFieldValue(`items[${index}].price`, null)
                 }
                 setFieldValue(
-                  `items[${index}].itemPrice`,
+                  `items[${index}].price`,
                   getItemObject(val)?.price || null,
                 )
               }}
@@ -92,13 +108,13 @@ function ItemSettingTable(props) {
         width: 180,
         align: 'center',
         renderCell: (params, index) => {
-          const itemId = params.row?.itemId
+          const item = params.row?.item
           return isView ? (
-            <>{getItemObject(itemId)?.name || ''}</>
+            <>{item?.name || ''}</>
           ) : (
             <Field.TextField
-              name={`items[${index}].name`}
-              value={getItemObject(itemId)?.name || ''}
+              name={`items[${index}].item.name`}
+              value={item?.name || ''}
               disabled={true}
             />
           )
@@ -130,20 +146,20 @@ function ItemSettingTable(props) {
         width: 180,
         align: 'center',
         renderCell: (params, index) => {
-          const { itemId } = params.row
+          const item = params?.row?.item
           return isView ? (
-            <>{getItemObject(itemId)?.itemUnit?.name || ''}</>
+            <>{item?.itemUnit?.name || ''}</>
           ) : (
             <Field.TextField
-              name={`items[${index}].unitType`}
-              value={getItemObject(itemId)?.itemUnit?.name || ''}
+              name={`items[${index}].item.itemUnit`}
+              value={item?.itemUnit.name || item?.itemUnit || ''}
               disabled={true}
             />
           )
         },
       },
       {
-        field: 'itemPrice',
+        field: 'price',
         headerName: t('saleOrder.item.itemPrice'),
         width: 180,
         align: 'center',
@@ -160,7 +176,7 @@ function ItemSettingTable(props) {
             </>
           ) : (
             <Field.TextField
-              name={`items[${index}].itemPrice`}
+              name={`items[${index}].price`}
               numberProps={{
                 thousandSeparator: true,
                 decimalScale: 2,
@@ -190,6 +206,7 @@ function ItemSettingTable(props) {
       },
     ]
   }
+
   return (
     <>
       <Box

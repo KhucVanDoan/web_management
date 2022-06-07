@@ -16,7 +16,7 @@ import {
   convertUtcDateToLocalTz,
 } from '~/utils'
 
-import { PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION } from '../../constants'
+import { PROGRESS_ORDER_STATUS_OPTIONS } from '../../constants'
 import useProgressManufacturingByOrder from '../../redux/hooks/useProgressManufacturingByOrder'
 import { ROUTE } from '../../routes/config'
 import ProgressManufacturingFilter from './filter-form'
@@ -62,7 +62,6 @@ const progressManufacturingByOrder = () => {
       field: 'soIds',
       headerName: t('progressManufacturingByOrder.code'),
       width: 100,
-      sortable: true,
       filterFormat: 'multiple',
       fixed: true,
       renderCell: (params) => {
@@ -79,6 +78,7 @@ const progressManufacturingByOrder = () => {
               )
             }
             size="small"
+            bold={false}
           >
             {row?.saleOrder?.code}
           </Button>
@@ -89,7 +89,6 @@ const progressManufacturingByOrder = () => {
       field: 'name',
       headerName: t('progressManufacturingByOrder.name'),
       width: 100,
-      sortable: true,
       fixed: true,
       renderCell: (params) => {
         const { row } = params
@@ -101,7 +100,6 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.dateSell'),
       width: 150,
       filterFormat: 'date',
-      sortable: true,
       renderCell: (params) => {
         const { row } = params
         return convertUtcDateToLocalTz(row?.saleOrder?.orderedAt)
@@ -111,7 +109,6 @@ const progressManufacturingByOrder = () => {
       field: 'deadline',
       headerName: t('progressManufacturingByOrder.deliveryDate'),
       width: 150,
-      sortable: true,
       filterFormat: 'date',
       renderCell: (params) => {
         const { row } = params
@@ -122,13 +119,12 @@ const progressManufacturingByOrder = () => {
       field: 'status',
       headerName: t('progressManufacturingByOrder.status'),
       width: 150,
-      sortable: true,
       fixed: true,
       renderCell: (params) => {
-        const { status } = params.row?.saleOrder
+        const { status } = params?.row?.saleOrder
         return (
           <Status
-            options={PROGRESS_MANUFACTURING_BY_ORDER_STATUS_OPTION}
+            options={PROGRESS_ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -140,7 +136,6 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.planManufacturing'),
       width: 200,
       filterFormat: 'multiple',
-      sortable: true,
       renderCell: (params) => {
         const { row } = params
         return row?.masterPlan?.code
@@ -150,7 +145,6 @@ const progressManufacturingByOrder = () => {
       field: 'moName',
       headerName: t('progressManufacturingByOrder.moName'),
       width: 100,
-      sortable: true,
       renderCell: (params) => {
         const { row } = params
         return row.code
@@ -161,51 +155,53 @@ const progressManufacturingByOrder = () => {
       headerName: t('progressManufacturingByOrder.datePlan'),
       width: 200,
       filterFormat: 'date',
-      sortable: true,
       align: 'left',
       renderCell: (params) => {
         const { row } = params
-        return `${convertUtcDateToLocalTz(
-          row?.planFrom,
-        )} - ${convertUtcDateToLocalTz(row?.planTo)}`
+        return row?.masterPlan
+          ? `${convertUtcDateToLocalTz(
+              row?.masterPlan?.dateFrom,
+            )} - ${convertUtcDateToLocalTz(row?.masterPlan?.dateTo)}`
+          : ''
       },
     },
     {
       field: 'datePerform',
       headerName: t('progressManufacturingByOrder.datePerform'),
       width: 150,
-      sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return convertUtcDateToLocalTz(row?.masterPlan?.dateFrom)
+        return convertUtcDateToLocalTz(row?.saleOrder?.startedAt)
       },
     },
     {
       field: 'dateEnd',
       headerName: t('progressManufacturingByOrder.dateEnd'),
       width: 150,
-      sortable: true,
       renderCell: (params) => {
         const { row } = params
-        return convertUtcDateToLocalTz(row?.completedAt)
+        return convertUtcDateToLocalTz(row?.saleOrder?.completedAt)
       },
     },
     {
       field: 'planQuantity',
       headerName: t('progressManufacturingByOrder.planQuantity'),
       width: 100,
-      sortable: true,
       align: 'right',
+      renderCell: (params) => {
+        return +params?.row?.planQuantity
+      },
     },
     {
       field: 'actualQuantity',
       headerName: t('progressManufacturingByOrder.quantity'),
       width: 100,
-      sortable: true,
       align: 'right',
+      renderCell: (params) => {
+        return +params?.row?.producedQuantity
+      },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -215,6 +211,7 @@ const progressManufacturingByOrder = () => {
         {
           ...filters,
           masterPlanIds: filters?.masterPlanIds?.map((e) => e?.id),
+          isHasPlan: filters?.isHasPlan ? filters?.isHasPlan : false,
         },
         [
           ...columns,
@@ -240,7 +237,7 @@ const progressManufacturingByOrder = () => {
       loading={isLoading}
       renderHeaderRight={renderHeaderRight}
     >
-      <ProgressManufacturingFilter setFilters={setFilters} />
+      <ProgressManufacturingFilter setFilters={setFilters} filters={filters} />
       <Box mt={4}>
         <DataTable
           title={t('progressManufacturingByOrder.title')}
@@ -251,7 +248,6 @@ const progressManufacturingByOrder = () => {
           onPageChange={setPage}
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
-          onFilterChange={setFilters}
           total={progressByOrderList?.meta?.total}
           sort={sort}
           hideSetting

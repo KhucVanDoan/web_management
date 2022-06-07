@@ -4,6 +4,7 @@ import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -21,7 +22,11 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
+import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { ROUTE } from '~/modules/database/routes/config'
@@ -32,6 +37,7 @@ import qs from '~/utils/qs'
 
 import ItemsSettingTable from './items-setting-table'
 import { saleOrderSchema } from './schema'
+import TableInfo from './table-info'
 
 function SaleOrderForm() {
   const { t } = useTranslation(['database'])
@@ -56,7 +62,8 @@ function SaleOrderForm() {
     id: new Date().getTime(),
     itemId: null,
     quantity: 0,
-    itemPrice: null,
+    price: null,
+    item: null,
   }
 
   const MODE_MAP = {
@@ -78,7 +85,6 @@ function SaleOrderForm() {
       isGetAll: 1,
     }
     defineBoqAction.searchBOQ(params)
-    // actionCommon.getCustomers()
     if (isUpdate) {
       saleOrderAction.getSaleOrderDetailsById(id)
     }
@@ -96,9 +102,9 @@ function SaleOrderForm() {
       ...values,
       customerId: values?.customerId?.id,
       items: values?.items?.map((item) => ({
-        id: item?.itemId,
+        id: item?.itemId || item?.item?.id,
         quantity: Number(item?.quantity),
-        price: +item?.itemPrice,
+        price: +item?.price,
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -178,12 +184,7 @@ function SaleOrderForm() {
       companyId: saleOrder?.companyId || '',
       orderedAt: saleOrder?.orderedAt || null,
       deadline: saleOrder?.deadline || null,
-      items: saleOrder?.saleOrderDetails?.map((e) => ({
-        id: e?.id,
-        itemId: e?.itemId,
-        quantity: e?.quantity,
-        itemPrice: e?.price,
-      })) || [{ ...DEFAULT_ITEM }],
+      items: saleOrder?.saleOrderDetails || [{ ...DEFAULT_ITEM }],
     }),
     [saleOrder],
   )
@@ -210,6 +211,19 @@ function SaleOrderForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {!isNil(saleOrder?.status) && isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={<Typography>{t('saleOrder.status')}</Typography>}
+                        value={
+                          <Status
+                            options={SALE_ORDER_STATUS_OPTIONS}
+                            value={saleOrder?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('saleOrder.code')}
@@ -363,17 +377,22 @@ function SaleOrderForm() {
             </Grid>
 
             <Box sx={{ mt: 3 }}>
-              <FieldArray
-                name="items"
-                render={(arrayHelpers) => (
-                  <ItemsSettingTable
-                    items={values?.items || []}
-                    mode={mode}
-                    arrayHelpers={arrayHelpers}
-                    setFieldValue={setFieldValue}
-                  />
-                )}
-              />
+              <Tabs
+                list={[t('saleOrder.itemsDetails'), t('saleOrder.itemsInfo')]}
+              >
+                <FieldArray
+                  name="items"
+                  render={(arrayHelpers) => (
+                    <ItemsSettingTable
+                      items={values?.items || []}
+                      mode={mode}
+                      arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
+                    />
+                  )}
+                />
+                <TableInfo items={values?.items || []} mode={mode} />
+              </Tabs>
             </Box>
             {renderActionBar(handleReset)}
           </Form>

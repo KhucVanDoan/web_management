@@ -64,14 +64,14 @@ const DefineDetailDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineDetail.createdByUser')}
-                value={detailDetails.createdBy?.username}
+                label={t('defineDetail.createdAt')}
+                value={convertUtcDateTimeToLocalTz(detailDetails.createdAt)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineDetail.createdAt')}
-                value={convertUtcDateTimeToLocalTz(detailDetails.createdAt)}
+                label={t('defineDetail.updatedAt')}
+                value={convertUtcDateTimeToLocalTz(detailDetails.updatedAt)}
               />
             </Grid>
             <Grid item xs={12}>

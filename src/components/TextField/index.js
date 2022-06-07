@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 
-import { TEXTFIELD_PREVENT } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_PREVENT } from '~/common/constants'
 import { useClasses } from '~/themes'
 
 import { NumberFormatInput } from '../NumberFormat'
@@ -42,12 +42,18 @@ const TextField = ({
     let val = e.target.value
     if (allow instanceof RegExp && val) {
       if (props.type === 'number') {
-        val = Number(val?.toString().replace(allow, ''))
+        if (
+          (allow.toString() === TEXTFIELD_ALLOW.NUMERIC.toString() ||
+            allow.toString() === TEXTFIELD_ALLOW.POSITIVE_DECIMAL.toString()) &&
+          Number(val) < 0
+        ) {
+          val = 0
+        } else {
+          val = Number(val?.toString().replace(allow, ''))
+        }
       } else {
         val = val?.replace(allow, '')
       }
-    } else if (props.type === 'number') {
-      // val = Number(val)
     }
 
     onChange(e, val)

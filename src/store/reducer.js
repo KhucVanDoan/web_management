@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import authReducers from '~/modules/auth/redux/reducers'
+import configurationReducers from '~/modules/configuration/redux/reducers'
 import databaseReducers from '~/modules/database/redux/reducers'
 import mesxReducers from '~/modules/mesx/redux/reducers'
 import qmsxReducers from '~/modules/qmsx/redux/reducers'
@@ -14,4 +15,5 @@ export default combineReducers({
   qmsx: qmsxReducers,
   wmsx: wmsxReducers,
   database: databaseReducers,
+  configuration: configurationReducers,
 })

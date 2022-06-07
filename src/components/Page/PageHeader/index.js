@@ -36,6 +36,12 @@ const PageHeader = ({
   return (
     <>
       <Box sx={{ display: 'flex', mb: 2 }}>
+        {typeof onBack === 'function' && (
+          <GoBack
+            onBack={onBack}
+            hasSearchBox={typeof onSearch === 'function'}
+          />
+        )}
         {(typeof onSearch === 'function' ||
           typeof renderSearchBox === 'function') && (
           <SearchBox
@@ -44,7 +50,6 @@ const PageHeader = ({
             renderSearchBox={renderSearchBox}
           />
         )}
-        {typeof onBack === 'function' && <GoBack onBack={onBack} />}
         <Toolbar />
       </Box>
       <Box

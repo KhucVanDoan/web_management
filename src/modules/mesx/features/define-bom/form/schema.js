@@ -10,7 +10,7 @@ export const validationSchema = (t) =>
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     routingId: Yup.object().nullable().required(t('general:form.required')),
-    itemId: Yup.number().nullable().required(t('general:form.required')),
+    itemId: Yup.object().nullable().required(t('general:form.required')),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {

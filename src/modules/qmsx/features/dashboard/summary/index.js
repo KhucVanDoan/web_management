@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import Summary from '~/components/Summary'
 import { useDashboardSummary } from '~/modules/qmsx/redux/hooks/useDashboard'
+import { convertNumberWithSISymbol } from '~/utils'
 
 function DashboardSummary() {
   const { t } = useTranslation('qmsx')
@@ -20,21 +21,21 @@ function DashboardSummary() {
         <Summary
           icon="arrowBottom"
           label={t('dashboard.input')}
-          value={summary?.totalInputQcPlanQuantity ?? 0}
+          value={convertNumberWithSISymbol(summary?.totalInputQcPlanQuantity)}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={4}>
         <Summary
           icon="rhombus"
           label={t('dashboard.producingStep')}
-          value={summary?.totalProduceQcPlanQuantity ?? 0}
+          value={convertNumberWithSISymbol(summary?.totalProduceQcPlanQuantity)}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={4}>
         <Summary
           icon="cart"
           label={t('dashboard.output')}
-          value={summary?.totalOutputQcPlanQuantity ?? 0}
+          value={convertNumberWithSISymbol(summary?.totalOutputQcPlanQuantity)}
         />
       </Grid>
     </Grid>

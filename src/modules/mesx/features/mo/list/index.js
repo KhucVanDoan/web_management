@@ -293,14 +293,6 @@ const Mo = () => {
   }
 
   /**
-   * Handle change filter
-   * @param {array} filters
-   */
-  const onFilterChange = (filters) => {
-    setFilters(filters)
-  }
-
-  /**
    * onSubmitDelete
    */
   const onSubmitDelete = () => {
@@ -374,7 +366,7 @@ const Mo = () => {
           filters={{
             form: <FilterForm />,
             values: filters,
-            onApply: onFilterChange,
+            onApply: setFilters,
           }}
         />
         <Dialog

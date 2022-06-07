@@ -9,8 +9,13 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import {
+  importInventoryLimitApi,
+  getInventoryLimitTemplateApi,
+} from '~/modules/wmsx/redux/sagas/inventory-limit/import-export-inventory-limit'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -53,16 +58,6 @@ function InventoryLimit() {
   } = useInventoryLimit()
 
   const columns = [
-    {
-      field: 'code',
-      headerName: t('inventoryLimit.code'),
-      width: 80,
-      fixed: true,
-      sortable: true,
-      renderCell: (params) => {
-        return params?.row?.id
-      },
-    },
     {
       field: 'itemCode',
       headerName: t('inventoryLimit.itemCode'),
@@ -162,9 +157,15 @@ function InventoryLimit() {
     return (
       <>
         {/* @TODO: handle import data */}
-        <Button variant="outlined" icon="download" disabled>
-          {t('warehouseSetting.import')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onImport={(params) => {
+            importInventoryLimitApi(params)
+          }}
+          onDownloadTemplate={getInventoryLimitTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.INVENTORY_LIMIT.CREATE.PATH)}
           icon="add"
@@ -192,7 +193,6 @@ function InventoryLimit() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         filters={{

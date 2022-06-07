@@ -20,9 +20,12 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
+import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
@@ -249,6 +252,21 @@ function PurchasedOrderForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>{t('purchasedOrder.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={PURCHASED_ORDER_STATUS_OPTIONS}
+                            value={purchasedOrderDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       name="code"
@@ -285,7 +303,7 @@ function PurchasedOrderForm() {
                       onChange={(val) => {
                         handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
-                      required
+                      // required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

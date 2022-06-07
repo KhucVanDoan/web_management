@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ORDER_STATUS_OPTIONS,
+  MOVEMENT_TYPE,
+  WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
+import { exportWarehouseExportApi } from '~/modules/wmsx/redux/sagas/warehouse-export/import-export-warehouse-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -36,14 +38,20 @@ function WarehouseExport() {
     data: { warehouseExportList, total, isLoading },
     actions,
   } = useWarehouseExport()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
     createdByUser: '',
     createdAt: '',
-    warehouseName: '',
+    warehouseId: '',
     status: '',
-    orderType: '',
+    movementType: [
+      MOVEMENT_TYPE.PO_EXPORT,
+      MOVEMENT_TYPE.PRO_EXPORT,
+      MOVEMENT_TYPE.SO_EXPORT,
+    ],
   }
 
   const {
@@ -61,7 +69,7 @@ function WarehouseExport() {
 
   const columns = [
     {
-      field: 'code',
+      field: 'id',
       headerName: t('movements.code'),
       width: 120,
       sortable: true,
@@ -79,6 +87,10 @@ function WarehouseExport() {
       headerName: t('movements.importExport.orderName'),
       width: 120,
       sortable: false,
+      renderCell: (params) => {
+        const { order } = params?.row
+        return order?.name || ''
+      },
     },
     {
       field: 'orderType',
@@ -86,13 +98,13 @@ function WarehouseExport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_EXPORT_STATUS_MAP[params.row?.orderType])}`
+        return `${t(WAREHOUSE_EXPORT_STATUS_MAP[params.row?.movementType])}`
       },
     },
     {
       field: 'warehouseName',
       headerName: t('movements.importExport.warehouseName'),
-      width: 150,
+      width: 120,
       sortable: false,
       renderCell: (params) => {
         return params?.row?.warehouse?.name
@@ -102,11 +114,11 @@ function WarehouseExport() {
       field: 'createdAt',
       headerName: t('movements.importExport.executeDate'),
       filterFormat: 'date',
-      width: 150,
-      sortable: true,
+      width: 120,
+      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+        return convertUtcDateToLocalTz(createdAt)
       },
     },
     {
@@ -122,12 +134,12 @@ function WarehouseExport() {
       field: 'movementStatus',
       headerName: t('movements.movementStatus'),
       width: 120,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={WAREHOUSE_MOVEMENT_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -173,12 +185,30 @@ function WarehouseExport() {
     refreshData()
   }, [page, pageSize, filters, sort])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {
+            exportWarehouseExportApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
       </>
     )
   }
@@ -197,8 +227,10 @@ function WarehouseExport() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

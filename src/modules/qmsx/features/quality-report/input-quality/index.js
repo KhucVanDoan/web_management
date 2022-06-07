@@ -153,12 +153,11 @@ function InputQuality() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
         total={total}
         sort={sort}
         tableSettingKey="qcInput"
-        indexCol="rowNumber"
+        uniqKey="rowNumber"
         filters={{
           form: <InputQualityFilterForm />,
           values: filters,

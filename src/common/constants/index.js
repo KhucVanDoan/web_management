@@ -98,6 +98,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 100000,
   },
+  INTEGER_1000: {
+    MIN: 1,
+    MAX: 999,
+  },
   AMOUNT_DECIMAL: {
     MIN: 0.0000001,
     MAX: 99999999999,
@@ -129,6 +133,18 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   PO_QUANTITY: {
     MIN: 0,
     MAX: 9999999,
+  },
+  DISCOUNT: {
+    MIN: 0,
+    MAX: 100,
+  },
+  JOINED_DAY: {
+    MIN: 0,
+    MAX: 99999,
+  },
+  UNIT: {
+    MIN: 0.001,
+    MAX: 99999999999,
   },
 }
 
@@ -193,6 +209,24 @@ export const CODE_SETTINGS = {
     MAX_LENGTH: 12,
     FILLED_CHARACTER: '0',
   },
+  PRODUCTION_ORDER: {
+    DOMAIN: 'PRODUCTION_ORDER',
+    PREFIX: 'PR',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  PURCHASED_ORDER_IMPORT: {
+    DOMAIN: 'PURCHASED_ORDER_IMPORT',
+    PREFIX: 'PO',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
+  IMPORT_MANUFACTURING_ORDER: {
+    DOMAIN: 'IMPORT_MANUFACTURING_ORDER',
+    PREFIX: 'IM',
+    MAX_LENGTH: 10,
+    FILLED_CHARACTER: '0',
+  },
 }
 
 export const FILE_TYPE = {
@@ -251,3 +285,8 @@ export const INVENTORY_STATUS_OPTIONS = [
   { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
 ]
 export const MATERIAL_CODE = '00'
+
+export const ENUM_BOOLEAN = {
+  true: 1,
+  false: 0,
+}

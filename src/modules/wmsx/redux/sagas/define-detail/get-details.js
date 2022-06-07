@@ -11,7 +11,7 @@ import { api } from '~/services/api'
  * Search user API
  * @returns {Promise}
  */
-const getDetailsApi = () => {
+export const getDetailsApi = () => {
   const uri = `/v1/items/item-details/list?isGetAll=1`
   return api.get(uri)
 }

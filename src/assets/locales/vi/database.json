@@ -232,6 +232,18 @@
       "addItem": "Thêm sản phẩm",
       "itemPrice": "Giá sản phẩm"
     },
+    "itemInfo": {
+      "orderNumber": "#",
+      "code": "Mã NVL",
+      "name": "Tên NVL",
+      "itemName": "Tên sản phẩm",
+      "type": "Loại sản phẩm",
+      "quantity": "Số lượng dự kiến",
+      "unitType": "Đơn vị",
+      "remainQuantity": "Số lượng tồn khả dụng",
+      "actualQuantity": "Số lượng cần nhập",
+      "itemPrice": "Đơn giá"
+    },
     "code": "Mã đơn bán hàng",
     "name": "Tên đơn bán hàng",
     "type": "Loại đơn",
@@ -261,6 +273,7 @@
     "deadline": "Ngày giao hàng",
     "descriptionInput": "Mô tả về đơn bán hàng",
     "itemsDetails": "Chi tiết sản phẩm",
+    "itemsInfo": "Dự trù nguyên vật liệu",
     "movementList": "Danh sách giao dịch",
     "transactionList": "Các giao dịch",
     "status": "Trạng thái",

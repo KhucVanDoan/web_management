@@ -1,13 +1,9 @@
 import React, { useEffect, useMemo } from 'react'
 
-import {
-  Grid,
-  Typography,
-  IconButton,
-  createFilterOptions,
-} from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
+import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -18,6 +14,7 @@ import {
 
 import {
   ASYNC_SEARCH_LIMIT,
+  ENUM_BOOLEAN,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -25,10 +22,14 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
+import { BOM_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
@@ -202,7 +203,7 @@ function BOMForm() {
       name: values?.name,
       description: values?.description,
       routingId: values?.routingId?.id,
-      itemId: values?.itemId,
+      itemId: Number(values?.itemId?.id),
       bomItems: values?.items?.map((item) => ({
         id: item?.itemId,
         quantity: Number(item?.quantity),
@@ -254,7 +255,7 @@ function BOMForm() {
     name: BOMDetails?.name || '',
     routingId: BOMDetails?.routing || '',
     description: BOMDetails?.description || '',
-    itemId: BOMDetails?.itemId || itemId || null,
+    itemId: BOMDetails?.item || itemId || null,
     items: BOMDetails?.bomDetails?.map((e) => ({
       id: e.id,
       itemId: e.itemId,
@@ -264,16 +265,6 @@ function BOMForm() {
     itemName: '',
     itemQuanlity: '',
   }
-
-  const itemListBOM = itemList.filter((i) => {
-    if (mode === MODAL_MODE.UPDATE) {
-      return (
-        (i.isProductionObject === true && !i.isHasBom) ||
-        i.id === BOMDetails?.itemId
-      )
-    }
-    return i.isProductionObject === true && !i.isHasBom
-  })
 
   return (
     <Page
@@ -297,6 +288,19 @@ function BOMForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
+                  {!isNil(BOMDetails?.status) && mode === MODAL_MODE.UPDATE && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={<Typography>{t('defineBOM.status')}</Typography>}
+                        value={
+                          <Status
+                            options={BOM_STATUS_OPTIONS}
+                            value={BOMDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Box>
                       <Field.TextField
@@ -347,12 +351,25 @@ function BOMForm() {
                         name="itemId"
                         label={t('defineBOM.item.code')}
                         placeholder={t('defineBOM.item.code')}
-                        options={itemListBOM}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          searchItemsApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: JSON.stringify([
+                              {
+                                column: 'isHasBom',
+                                text: ENUM_BOOLEAN.false,
+                              },
+                              {
+                                column: 'isProductionObject',
+                                text: ENUM_BOOLEAN.true,
+                              },
+                            ]),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         required
                       />
                     </Box>
@@ -361,7 +378,7 @@ function BOMForm() {
                         name="itemName"
                         label={t('defineBOM.item.name')}
                         placeholder={t('defineBOM.item.name')}
-                        value={getItemObject(values.itemId)?.name || ''}
+                        value={getItemObject(values.itemId?.id)?.name || ''}
                         required
                         disabled
                       />

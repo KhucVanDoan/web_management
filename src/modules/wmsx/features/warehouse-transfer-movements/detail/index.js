@@ -293,7 +293,7 @@ function WarehouseTransferMovementsDetail() {
                 multiline
                 readOnly
                 rows={3}
-                value={warehouseTransferMovementDetail?.description}
+                value={warehouseTransferMovementDetail?.note}
                 sx={{
                   'label.MuiFormLabel-root': {
                     color: (theme) => theme.palette.subText.main,

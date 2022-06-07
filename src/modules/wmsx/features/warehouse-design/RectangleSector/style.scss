@@ -1,0 +1,72 @@
+.sector-canvas {
+  box-sizing: border-box;
+  background-color: #edf0f4;
+  position: absolute;
+  cursor: pointer;
+  &.active {
+    border: 0.5px solid #40a9ff;
+    z-index: 1;
+  }
+  .shelf-canvas {
+    border-bottom: 0.5px solid rgba(34, 34, 34, 0.4);
+    display: flex;
+    width: 100%;
+    .shelf-icon {
+      flex: 1;
+      background-color: #0761ad;
+    }
+    .shelf-floor-icon {
+      flex: 1;
+      background-color: #f4f5f5;
+      border-left: 0.5px solid rgba(34, 34, 34, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      color: #222222;
+    }
+  }
+  .sector-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    right: -27px;
+    top: 0;
+    .toolbar-button {
+      border: none;
+      background-color: transparent;
+      &:hover {
+        background-color: #efefef !important;
+      }
+      &.info {
+        color: #333333;
+      }
+      &.copy {
+        color: #0761ad;
+      }
+      &.edit {
+        color: #0761ad;
+      }
+      &.delete {
+        color: #ff0909;
+      }
+    }
+  }
+}
+
+.tooltip-container {
+  padding: 10px;
+  .title {
+    font-size: 16px;
+    color: #222222;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .size,
+  .weight-load {
+    font-size: 14px;
+    color: #222222;
+    margin-bottom: 0;
+  }
+}

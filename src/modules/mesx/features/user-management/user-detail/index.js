@@ -9,16 +9,13 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
-  {
-    title: 'setting',
-  },
   {
     route: ROUTE.USER_MANAGEMENT.LIST.PATH,
     title: ROUTE.USER_MANAGEMENT.LIST.TITLE,

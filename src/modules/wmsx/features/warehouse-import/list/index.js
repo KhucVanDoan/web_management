@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ORDER_STATUS_OPTIONS,
+  MOVEMENT_TYPE,
+  WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
   WAREHOUSE_IMPORT_STATUS_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
+import { exportWarehouseImportApi } from '~/modules/wmsx/redux/sagas/warehouse-import/import-export-warehouse-import'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -37,6 +39,21 @@ function WarehouseImport() {
     data: { movements, total, isLoading },
     actions,
   } = useWarehouseImport()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    createdAt: '',
+    createdByUser: '',
+    status: '',
+    warehouseId: '',
+    movementType: [
+      MOVEMENT_TYPE.PO_IMPORT,
+      MOVEMENT_TYPE.PRO_IMPORT,
+      MOVEMENT_TYPE.SO_IMPORT,
+    ],
+  }
 
   const {
     page,
@@ -48,11 +65,14 @@ function WarehouseImport() {
     setPageSize,
     setSort,
     setFilters,
-  } = useQueryState()
+    setKeyword,
+  } = useQueryState({
+    filters: DEFAULT_FILTERS,
+  })
 
   const columns = [
     {
-      field: 'code',
+      field: 'id',
       headerName: t('movements.code'),
       width: 120,
       sortable: true,
@@ -69,6 +89,10 @@ function WarehouseImport() {
       headerName: t('movements.importExport.orderName'),
       width: 120,
       sortable: false,
+      renderCell: (params) => {
+        const { order } = params?.row
+        return order?.name || ''
+      },
     },
     {
       field: 'orderType',
@@ -76,13 +100,13 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_IMPORT_STATUS_MAP[params.row?.orderType])}`
+        return `${t(WAREHOUSE_IMPORT_STATUS_MAP[params.row?.movementType])}`
       },
     },
     {
       field: 'warehouseName',
       headerName: t('movements.importExport.warehouseName'),
-      width: 150,
+      width: 120,
       sortable: false,
       renderCell: (params) => {
         return params?.row?.warehouse?.name
@@ -92,11 +116,11 @@ function WarehouseImport() {
       field: 'createdAt',
       headerName: t('movements.importExport.executeDate'),
       filterFormat: 'date',
-      width: 150,
-      sortable: true,
+      width: 120,
+      sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+        return convertUtcDateToLocalTz(createdAt)
       },
     },
     {
@@ -105,19 +129,19 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.username
+        return params?.row?.user?.fullName
       },
     },
     {
       field: 'movementStatus',
       headerName: t('movements.movementStatus'),
       width: 120,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={WAREHOUSE_MOVEMENT_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -164,12 +188,31 @@ function WarehouseImport() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {
+            exportWarehouseImportApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onRefresh={refreshData}
+          disabled
+        />
       </>
     )
   }
@@ -177,6 +220,8 @@ function WarehouseImport() {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseImport')}
+      onSearch={setKeyword}
+      placeholder={t('warehouseImport.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
@@ -188,8 +233,10 @@ function WarehouseImport() {
         columns={columns}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
-        onFilterChange={setFilters}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

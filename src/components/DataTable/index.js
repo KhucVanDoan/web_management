@@ -54,7 +54,7 @@ const DataTable = (props) => {
 
   const [visibleColumns, setVisibleColumns] = useState([])
   const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
-  const indexCol = props.indexCol || 'id'
+  const uniqKey = props.uniqKey ?? 'id'
   const checkboxSelection = typeof onSelectionChange === 'function'
 
   /**
@@ -66,15 +66,15 @@ const DataTable = (props) => {
     if (event.target.checked) {
       const concatSelected = [...selected, ...rows]
       const uniqueIndexValues = [
-        ...new Set(concatSelected.map((item) => item[indexCol])),
+        ...new Set(concatSelected.map((item) => item[uniqKey])),
       ]
       const newSelected = uniqueIndexValues.map((indexValue) =>
-        concatSelected.find((item) => item[indexCol] === indexValue),
+        concatSelected.find((item) => item[uniqKey] === indexValue),
       )
       onSelectionChange(newSelected)
     } else {
       const newSelected = selected.filter(
-        (item) => !rows.find((e) => e[indexCol] === item[indexCol]),
+        (item) => !rows.find((e) => e[uniqKey] === item[uniqKey]),
       )
       onSelectionChange(newSelected)
     }
@@ -88,11 +88,11 @@ const DataTable = (props) => {
   const handleSelectOrDeselectRow = (indexValue) => {
     if (!checkboxSelection) return
     const selectedIndex = selected.findIndex(
-      (item) => item[indexCol] === indexValue,
+      (item) => item[uniqKey] === indexValue,
     )
     let newSelected = []
 
-    const newValueData = rows.find((item) => item[indexCol] === indexValue)
+    const newValueData = rows.find((item) => item[uniqKey] === indexValue)
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, newValueData)
@@ -112,11 +112,11 @@ const DataTable = (props) => {
 
   /**
    * Check if row is selected
-   * @param {*} indexColValue
+   * @param {*} uniqKeyValue
    * @returns
    */
-  const isSelected = (indexColValue) => {
-    return selected.findIndex((item) => item[indexCol] === indexColValue) !== -1
+  const isSelected = (uniqKeyValue) => {
+    return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
   const handleApplySetting = useCallback((cols = []) => {
@@ -169,7 +169,7 @@ const DataTable = (props) => {
       >
         <Table className={classes.table} stickyHeader>
           <TableHead
-            indexCol={indexCol}
+            uniqKey={uniqKey}
             selected={selected}
             pageSize={pageSize}
             rows={rows}
@@ -188,12 +188,12 @@ const DataTable = (props) => {
           >
             {rows?.length > 0 &&
               rows.map((row, index) => {
-                const isItemSelected = isSelected(row[indexCol])
+                const isItemSelected = isSelected(row[uniqKey])
                 const labelId = `enhanced-table-checkbox-${index}`
                 return (
                   <TableRow
-                    key={row[indexCol] || index}
-                    draggableId={row[indexCol]?.toString()}
+                    key={row[uniqKey] || index}
+                    draggableId={row[uniqKey]?.toString()}
                     index={index}
                     reorderable={reorderable}
                     aria-checked={isItemSelected}
@@ -219,7 +219,7 @@ const DataTable = (props) => {
                             'aria-labelledby': labelId,
                           }}
                           onClick={() =>
-                            handleSelectOrDeselectRow(row[indexCol])
+                            handleSelectOrDeselectRow(row[uniqKey])
                           }
                         />
                       </TableCell>
@@ -347,7 +347,7 @@ DataTable.propsTypes = {
       fixed: PropTypes.bool,
     }),
   ),
-  indexCol: PropTypes.string,
+  uniqKey: PropTypes.string,
   total: PropTypes.number,
   pageSize: PropTypes.number,
   page: PropTypes.number,
