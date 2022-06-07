@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -65,19 +64,17 @@ function SaleOrderDetail() {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
-              {!isNil(saleOrder?.status) && (
-                <Grid item xs={12}>
-                  <LV
-                    label={t('saleOrder.status')}
-                    value={
-                      <Status
-                        options={SALE_ORDER_STATUS_OPTIONS}
-                        value={saleOrder?.status}
-                      />
-                    }
-                  />
-                </Grid>
-              )}
+              <Grid item xs={12}>
+                <LV
+                  label={t('saleOrder.status')}
+                  value={
+                    <Status
+                      options={SALE_ORDER_STATUS_OPTIONS}
+                      value={saleOrder?.status}
+                    />
+                  }
+                />
+              </Grid>
               <Grid item lg={6} xs={12}>
                 <LV label={t('saleOrder.code')} value={saleOrder.code} />
               </Grid>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -198,7 +198,7 @@ const BOQForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(boqDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
                         label={<Typography>{t('defineBOQ.status')}</Typography>}

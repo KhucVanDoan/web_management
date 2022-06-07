@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
@@ -375,19 +374,17 @@ const DetailWorkCenterPlan = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(wcpStructure?.workOrderScheduleDetail?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('workCenterPlan.status')}
-                  value={
-                    <Status
-                      options={WORK_CENTER_PLAN_STATUS_OPTIONS}
-                      value={wcpStructure?.workOrderScheduleDetail?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('workCenterPlan.status')}
+                value={
+                  <Status
+                    options={WORK_CENTER_PLAN_STATUS_OPTIONS}
+                    value={wcpStructure?.workOrderScheduleDetail?.status}
+                  />
+                }
+              />
+            </Grid>
 
             <Grid item lg={6} xs={12}>
               <LV

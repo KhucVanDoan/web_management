@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { groupBy, isNil } from 'lodash'
+import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -363,7 +363,7 @@ const WorkCenterForm = () => {
                     rowSpacing={4 / 3}
                     columnSpacing={{ xl: 8, xs: 4 }}
                   >
-                    {!isNil(wcDetails?.status) && isUpdate && (
+                    {isUpdate && (
                       <Grid item xs={12}>
                         <LV
                           label={
