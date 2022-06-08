@@ -41,6 +41,10 @@ export const validateShema = (t) => {
               max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
             }),
           ),
+        warehouseName: Yup.string()
+          .nullable()
+          .required(t('general:form.required')),
+        lotNumber: Yup.string().nullable().required(t('general:form.required')),
       }),
     ),
   })

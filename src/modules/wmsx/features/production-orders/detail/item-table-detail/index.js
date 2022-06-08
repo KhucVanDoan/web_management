@@ -45,7 +45,7 @@ function ItemSettingTableDetail(props) {
       },
     },
     {
-      field: 'code',
+      field: 'itemName',
       headerName: t('productionOrder.item.name'),
       width: 250,
       renderCell: (params) => {
@@ -54,7 +54,7 @@ function ItemSettingTableDetail(props) {
       },
     },
     {
-      field: 'itemName',
+      field: 'code',
       headerName: t('productionOrder.item.code'),
       width: 180,
       renderCell: (params) => {

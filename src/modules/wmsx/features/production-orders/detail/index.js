@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -10,6 +11,8 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { ORDER_STATUS_OPTIONS, ORDER_TYPE_MAP } from '~/modules/mesx/constants'
+import { QC_CHECK } from '~/modules/wmsx/constants'
+import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -35,18 +38,56 @@ function ProductionOrderDetail() {
   const history = useHistory()
 
   const {
+    data: { itemQualityPoint },
+    actions: itemQualityPointActions,
+  } = useCommonManagement()
+
+  const {
     data: { isLoading, productionOrderDetails },
     actions,
   } = useProductionOrder()
 
   useEffect(() => {
     actions.getProductionOrderDetailsById(id)
+    itemQualityPointActions.getItemQualityPoint()
     return () => actions.resetProductionOrderDetail()
   }, [id])
 
   const backToList = () => {
     history.push(ROUTE.PRODUCTION_ORDER.LIST.PATH)
   }
+
+  const productionOrderWarehouseLotsCopy = isEmpty(
+    productionOrderDetails?.productionOrderWarehouseLots,
+  )
+    ? productionOrderDetails?.productionOrderWarehouseDetails
+    : productionOrderDetails?.productionOrderWarehouseLots
+  const items = productionOrderWarehouseLotsCopy?.map((detailLot, index) => ({
+    id: index,
+    itemId: detailLot.itemId,
+    warehouseName: detailLot.warehouseId,
+    qcCheck:
+      productionOrderDetails?.productionOrderWarehouseDetails.find(
+        (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+      )?.qcCheck === QC_CHECK.TRUE || detailLot?.qcCheck === QC_CHECK.TRUE,
+    qcCriteriaId:
+      productionOrderDetails?.productionOrderWarehouseDetails.find(
+        (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+      )?.qcCriteriaId || detailLot?.qcCriteriaId,
+    qcCriteria: itemQualityPoint.find(
+      (quality) =>
+        quality?.id ===
+        productionOrderDetails?.productionOrderWarehouseDetails.find(
+          (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+        )?.qcCriteriaId,
+    )?.code,
+    actualQuantity: detailLot.actualQuantity,
+    quantity: +detailLot.quantity,
+    lotNumber: detailLot?.lotNumber,
+    mfg: detailLot?.mfg,
+    packageId: detailLot?.packageId,
+  }))
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -123,9 +164,7 @@ function ProductionOrderDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTableDetail
-          items={productionOrderDetails?.productionOrderWarehouseLots}
-        />
+        <ItemSettingTableDetail items={items} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>
