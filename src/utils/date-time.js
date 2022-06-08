@@ -11,8 +11,10 @@ import {
 
 import i18n from './i18n'
 
-export const getDateLocal = (locale) => {
-  switch (locale) {
+export const lang = i18n.language || DEFAULT_LANG
+
+export const getLocale = () => {
+  switch (lang) {
     case LANG_OPTIONS.JP:
       return ja
     case LANG_OPTIONS.VI:
@@ -30,24 +32,32 @@ export const getDateLocal = (locale) => {
  */
 
 export const convertUtcDateTimeToLocalTz = (dateTime, formatPattern) => {
-  const currLang = i18n.language || DEFAULT_LANG
-  const currFormat = formatPattern || DATE_TIME_FORMAT_BY_LANG[currLang]
+  const currFormat = formatPattern || DATE_TIME_FORMAT_BY_LANG[lang]
   return dateTime
-    ? format(new Date(dateTime), currFormat, { locale: getDateLocal(currLang) })
+    ? format(new Date(dateTime), currFormat, { locale: getLocale() })
     : ''
 }
 
 export const convertUtcDateToLocalTz = (date, formatPattern) => {
-  const currLang = i18n.language || DEFAULT_LANG
-  const currFormat = formatPattern || DATE_FORMAT_BY_LANG[currLang]
-  return date
-    ? format(new Date(date), currFormat, { locale: getDateLocal(currLang) })
-    : ''
+  const currFormat = formatPattern || DATE_FORMAT_BY_LANG[lang]
+  return date ? format(new Date(date), currFormat, { locale: getLocale() }) : ''
+}
+
+export const getDaysByLang = () => {
+  switch (lang) {
+    case LANG_OPTIONS.JP:
+      return ['月曜', '火曜', '水曜', '木曜', '金曜', '土曜', '日曜']
+    case LANG_OPTIONS.VI:
+      return ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+    case LANG_OPTIONS.EN:
+    default:
+      return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  }
 }
 
 export class DateFns extends AdapterDateFns {
   getWeekdays = () =>
-    ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((day) => ({
+    getDaysByLang().map((day) => ({
       charAt: () => day,
     }))
 }
