@@ -21,7 +21,6 @@ import {
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
-import { WAREHOUSE_STATUS_TO_DELETE } from '../../constants'
 import FilterForm from './filter'
 
 const breadcrumbs = [
@@ -104,7 +103,6 @@ function DefineWarehouse() {
       field: 'factoryId',
       headerName: t('defineWarehouse.factory'),
       width: 150,
-      sortable: true,
       renderCell: (params) => {
         return params?.row?.factory?.name
       },
@@ -113,7 +111,6 @@ function DefineWarehouse() {
       field: 'location',
       headerName: t('defineWarehouse.address'),
       width: 150,
-      sortable: true,
     },
     {
       field: 'action',
@@ -123,8 +120,7 @@ function DefineWarehouse() {
       align: 'center',
       renderCell: (params) => {
         const { row } = params
-        const { id, status } = row
-        const isDelete = WAREHOUSE_STATUS_TO_DELETE.includes(status)
+        const { id } = row
         return (
           <>
             <IconButton
@@ -145,11 +141,9 @@ function DefineWarehouse() {
             >
               <Icon name="edit" />
             </IconButton>
-            {isDelete && (
-              <IconButton onClick={() => handleDeleteOpenModal(row)}>
-                <Icon name="delete" />
-              </IconButton>
-            )}
+            <IconButton onClick={() => handleDeleteOpenModal(row)}>
+              <Icon name="delete" />
+            </IconButton>
             <IconButton
               onClick={() =>
                 history.push(
@@ -160,6 +154,26 @@ function DefineWarehouse() {
               <Icon name="clone" />
             </IconButton>
           </>
+        )
+      },
+    },
+    {
+      field: 'design',
+      headerName: t('defineWarehouse.design'),
+      width: 150,
+      renderCell: (params) => {
+        const { id } = params.row
+        return (
+          <Button
+            variant="text"
+            size="small"
+            bold={false}
+            onClick={() => {
+              history.push(ROUTE.WAREHOUSE_DESIGN.PATH + '?id=' + id)
+            }}
+          >
+            {t('defineWarehouse.design')}
+          </Button>
         )
       },
     },
