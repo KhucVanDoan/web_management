@@ -3,7 +3,6 @@ import React, { Suspense } from 'react'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles'
-import viLocale from 'date-fns/locale/vi'
 import { I18nextProvider } from 'react-i18next'
 import ReactNotification from 'react-notifications-component'
 import { Provider as ReduxProvider } from 'react-redux'
@@ -21,6 +20,7 @@ import theme, { globalStyles } from '~/themes'
 import i18n from '~/utils/i18n'
 
 import { SocketProvider } from './contexts/SocketContext'
+import { getLocale } from './utils'
 import { DateFns } from './utils/date-time'
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Suspense fallback={() => null}>
           <I18nextProvider i18n={i18n}>
             <ReduxProvider store={store}>
-              <LocalizationProvider dateAdapter={DateFns} locale={viLocale}>
+              <LocalizationProvider dateAdapter={DateFns} locale={getLocale()}>
                 <SocketProvider>
                   <ReactNotification />
 
