@@ -46,6 +46,8 @@ function InventoryStatistics() {
     page,
     pageSize,
     sort,
+    keyword,
+    setKeyword,
     filters,
     setPage,
     setPageSize,
@@ -192,14 +194,15 @@ function InventoryStatistics() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, sort, filters])
+  }, [page, pageSize, sort, filters, keyword])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [sort, filters])
+  }, [sort, filters, keyword])
 
   const refreshData = () => {
     const params = {
+      keyword: keyword.trim(),
       page,
       reportDate: filters?.reportDate,
       limit: pageSize,
@@ -215,6 +218,7 @@ function InventoryStatistics() {
         name={t('menu.importExportData')}
         onExport={() => {
           exportInventoryStatisticsApi({
+            keyword: keyword.trim(),
             columnSettings: JSON.stringify(columnsSettings),
             queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
             filter: convertFilterParams(filters, [
@@ -235,7 +239,7 @@ function InventoryStatistics() {
         breadcrumbs={breadcrumbs}
         title={t('menu.inventoryStatistics')}
         loading={isLoading}
-        onSearch={() => {}}
+        onSearch={setKeyword}
         renderHeaderRight={renderHeaderRight}
       >
         <Box sx={{ mb: 1, textAlign: 'left' }}>
