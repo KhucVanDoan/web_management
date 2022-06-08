@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Grid, Hidden } from '@mui/material'
 import Box from '@mui/material/Box'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -84,19 +83,17 @@ function ProductionInputQualityControlPlanDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(productionQcPlanDetail?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('productionQualityControlPlan.status')}
-                  value={
-                    <Status
-                      options={PRODUCTION_QC_PLAN_STATUS}
-                      value={productionQcPlanDetail?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('productionQualityControlPlan.status')}
+                value={
+                  <Status
+                    options={PRODUCTION_QC_PLAN_STATUS}
+                    value={productionQcPlanDetail?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('productionQualityControlPlan.code')}

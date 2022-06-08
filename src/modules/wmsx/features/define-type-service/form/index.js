@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
 
@@ -142,7 +141,7 @@ const DefineTypeServiceForm = () => {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
-                  {!isNil(typeServicesDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
                         label={

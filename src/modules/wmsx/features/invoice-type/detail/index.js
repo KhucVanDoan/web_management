@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -55,19 +54,17 @@ function InvoiceTypeDetail() {
       <Grid container justifyContent={'center'}>
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(invoiceTypeDetail?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('invoiceType.status')}
-                  value={
-                    <Status
-                      options={DEFINE_INVOICE_TYPE_STATUS_OPTION}
-                      value={invoiceTypeDetail?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('invoiceType.status')}
+                value={
+                  <Status
+                    options={DEFINE_INVOICE_TYPE_STATUS_OPTION}
+                    value={invoiceTypeDetail?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('invoiceType.code')}

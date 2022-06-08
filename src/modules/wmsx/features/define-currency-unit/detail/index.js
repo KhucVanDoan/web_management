@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -59,19 +58,17 @@ const DefineCurrencyUnitDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(currencyUnitDetails?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('defineCurrencyUnit.status')}
-                  value={
-                    <Status
-                      options={DEFINE_CURRENCY_UNIT_OPTIONS}
-                      value={currencyUnitDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('defineCurrencyUnit.status')}
+                value={
+                  <Status
+                    options={DEFINE_CURRENCY_UNIT_OPTIONS}
+                    value={currencyUnitDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineCurrencyUnit.code')}

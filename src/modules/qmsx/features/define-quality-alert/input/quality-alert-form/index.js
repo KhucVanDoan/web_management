@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
 import { Form, Formik } from 'formik'
 import { isNil } from 'lodash'
@@ -422,10 +422,14 @@ function DefineQualityAlertInputForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(qualityAlertDetail?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
-                        label={t('defineQualityAlert.status')}
+                        label={
+                          <Typography>
+                            {t('defineQualityAlert.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={QUALITY_ALERT_STATUS}

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { Grid, Hidden } from '@mui/material'
+import { Grid, Hidden, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -272,10 +271,14 @@ function DefineQualityAlertProductionOutputForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(qualityAlertDetail?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
-                        label={t('defineQualityAlert.status')}
+                        label={
+                          <Typography>
+                            {t('defineQualityAlert.status')}
+                          </Typography>
+                        }
                         value={
                           <Status
                             options={QUALITY_ALERT_STATUS}

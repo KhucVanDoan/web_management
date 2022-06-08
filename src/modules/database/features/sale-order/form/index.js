@@ -4,7 +4,6 @@ import { createFilterOptions, Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -211,7 +210,7 @@ function SaleOrderForm() {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
-                  {!isNil(saleOrder?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
                         label={<Typography>{t('saleOrder.status')}</Typography>}

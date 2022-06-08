@@ -3,7 +3,6 @@ import React, { useEffect, useMemo } from 'react'
 import { Grid, Typography, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import { FieldArray, Form, Formik } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -288,7 +287,7 @@ function BOMForm() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(BOMDetails?.status) && mode === MODAL_MODE.UPDATE && (
+                  {mode === MODAL_MODE.UPDATE && (
                     <Grid item xs={12}>
                       <LV
                         label={<Typography>{t('defineBOM.status')}</Typography>}

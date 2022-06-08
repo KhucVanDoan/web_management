@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -166,19 +165,17 @@ function WarehouseTransferMovementsDetail() {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
-            {!isNil(warehouseTransferMovementDetail?.status) && (
-              <Grid item xs={12}>
-                <LabelValue
-                  label={t('warehouseTransferMovement.status')}
-                  value={
-                    <Status
-                      options={MOVEMENT_STATUS}
-                      value={+warehouseTransferMovementDetail?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('warehouseTransferMovement.status')}
+                value={
+                  <Status
+                    options={MOVEMENT_STATUS}
+                    value={+warehouseTransferMovementDetail?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('warehouseTransferMovement.calendar.code')}

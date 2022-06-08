@@ -4,7 +4,6 @@ import { createFilterOptions, Grid } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { Formik, Form } from 'formik'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -244,7 +243,7 @@ function UserManagementForm() {
                       {t('userManagement.commonInfo')}
                     </Typography>
                   </Grid>
-                  {!isNil(userDetails?.status) && isUpdate && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LV
                         label={

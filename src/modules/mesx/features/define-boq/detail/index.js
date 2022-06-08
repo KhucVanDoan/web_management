@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
-import { isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -64,19 +63,17 @@ const BOQDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            {!isNil(boqDetails?.status) && (
-              <Grid item xs={12}>
-                <LV
-                  label={t('defineBOQ.status')}
-                  value={
-                    <Status
-                      options={BOQ_STATUS_OPTIONS}
-                      value={boqDetails?.status}
-                    />
-                  }
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <LV
+                label={t('defineBOQ.status')}
+                value={
+                  <Status
+                    options={BOQ_STATUS_OPTIONS}
+                    value={boqDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item xs={12} lg={6}>
               <LV label={t('defineBOQ.boqCode')} value={boqDetails.code} />
             </Grid>

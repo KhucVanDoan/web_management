@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { createFilterOptions, Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, orderBy, isNil } from 'lodash'
+import { isEmpty, orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -258,7 +258,7 @@ const DefineMasterPlanForm = () => {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  {!isNil(masterPlanDetails?.status) && (
+                  {isUpdate && (
                     <Grid item xs={12}>
                       <LabelValue
                         label={

@@ -9,7 +9,7 @@ import {
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { searchPurchasedOrdersApi } from '~/modules/mesx/redux/sagas/purchased-order/search-purchased-order'
+import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
@@ -42,13 +42,13 @@ const FilterForm = () => {
           label={t('purchasedOrder.vendor.name')}
           placeholder={t('purchasedOrder.vendor.name')}
           asyncRequest={(s) =>
-            searchPurchasedOrdersApi({
+            getVendorsApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.vendorName}
+          getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
