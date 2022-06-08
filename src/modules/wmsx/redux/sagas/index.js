@@ -3,6 +3,7 @@ import { all } from 'redux-saga/effects'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
+import watchGetMoMaterialPlanDetail from './common/get-mo-material-plan-detail'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
 import watchDashboard from './dashboard'
@@ -223,6 +224,7 @@ export default function* sagas() {
     watchGetWarehouses(),
     watchGetSupplyRequest(),
     watchGetTypeServices(),
+    watchGetMoMaterialPlanDetail(),
     // Dashboard
     watchDashboard(),
     //define-template-shelf

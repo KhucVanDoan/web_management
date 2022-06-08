@@ -24,6 +24,12 @@ export const WMSX_GET_TYPE_SERVICES_START = 'WMSX_GET_TYPE_SERVICES_START'
 export const WMSX_GET_TYPE_SERVICES_SUCCESS = 'WMSX_GET_TYPE_SERVICES_SUCCESS'
 export const WMSX_GET_TYPE_SERVICES_FAILED = 'WMSX_GET_TYPE_SERVICES_FAILED'
 
+export const GET_MO_MATERIAL_PLAN_DETAIL_START =
+  'WMSX_GET_MO_MATERIAL_PLAN_DETAIL_START'
+export const GET_MO_MATERIAL_PLAN_DETAIL_SUCCESS =
+  'WMSX_GET_MO_MATERIAL_PLAN_DETAIL_SUCCESS'
+export const GET_MO_MATERIAL_PLAN_DETAIL_FAILED =
+  'WMSX_GET_MO_MATERIAL_PLAN_DETAIL_FAILED'
 /**
  * Get device request
  * @param {int} payload
@@ -206,6 +212,44 @@ export function getTypeServicesFailed() {
   }
 }
 
+/**
+ * Get mo material
+ * @param {object} payload
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getMoMaterialPlanDetail(materialPlanId, onSuccess, onError) {
+  return {
+    type: GET_MO_MATERIAL_PLAN_DETAIL_START,
+    payload: materialPlanId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get mo material success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getMoMaterialPlanDetailSuccess(payload) {
+  return {
+    type: GET_MO_MATERIAL_PLAN_DETAIL_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get mo material failed action
+ * @returns {object}
+ */
+export function getMoMaterialPlanDetailFailed() {
+  return {
+    type: GET_MO_MATERIAL_PLAN_DETAIL_FAILED,
+  }
+}
+
 export default {
   getItems,
   getItemsSuccess,
@@ -222,4 +266,7 @@ export default {
   getTypeServices,
   getTypeServicesFailed,
   getTypeServicesSuccess,
+  getMoMaterialPlanDetail,
+  getMoMaterialPlanDetailSuccess,
+  getMoMaterialPlanDetailFailed,
 }

@@ -381,7 +381,7 @@ const WarehouseTransfer = () => {
       </Dialog>
       <Dialog
         open={isOpenRejectModal}
-        title={t('general:common.notify')}
+        title={t('general:common.reject')}
         onCancel={() => setIsOpenRejectModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitReject}
