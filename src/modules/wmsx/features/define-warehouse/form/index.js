@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Grid, Typography, InputAdornment } from '@mui/material'
+import { Grid, Typography, FormControl } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -22,6 +22,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
+import { DEFAULT_UNITS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -59,18 +60,6 @@ function DefineWarehouseFrom() {
     const params = {
       ...values,
       companyId: values?.companyId?.id,
-      width: {
-        value: values?.width,
-        unit: 3,
-      },
-      height: {
-        value: values?.height,
-        unit: 3,
-      },
-      long: {
-        value: values?.long,
-        unit: 3,
-      },
       warehouseTypeSettings: values?.warehouseTypeSettings?.map((i) => ({
         id: i?.id,
       })),
@@ -104,9 +93,18 @@ function DefineWarehouseFrom() {
     companyId: warehouseDetails?.company || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
-    long: warehouseDetails?.long?.value || null,
-    width: warehouseDetails?.width?.value || null,
-    height: warehouseDetails?.height?.value || null,
+    long: {
+      value: warehouseDetails?.long?.value || null,
+      unit: warehouseDetails?.long?.unit || 3,
+    },
+    width: {
+      value: warehouseDetails?.width?.value || null,
+      unit: warehouseDetails?.width?.unit || 3,
+    },
+    height: {
+      value: warehouseDetails?.height?.value || null,
+      unit: warehouseDetails?.height?.unit || 3,
+    },
     description: warehouseDetails?.description || '',
   }
 
@@ -205,7 +203,7 @@ function DefineWarehouseFrom() {
                   rowSpacing={4 / 3}
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
-                  <Grid item xs={12} lg={6}>
+                  <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="code"
                       label={t('defineWarehouse.code')}
@@ -217,6 +215,8 @@ function DefineWarehouseFrom() {
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                     />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="name"
                       label={t('defineWarehouse.name')}
@@ -224,9 +224,10 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      sx={{ mt: 4 / 3 }}
                       required
                     />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="warehouseTypeSettings"
                       label={t('defineWarehouse.type')}
@@ -240,10 +241,11 @@ function DefineWarehouseFrom() {
                       asyncRequestHelper={(res) => res?.data}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
-                      sx={{ mt: 4 / 3 }}
                       multiple
                       required
                     />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="companyId"
                       label={t('defineWarehouse.company')}
@@ -258,9 +260,10 @@ function DefineWarehouseFrom() {
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       onChange={(val) => handleChangeCompany(val)}
-                      sx={{ mt: 4 / 3 }}
                       required
                     />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="factoryId"
                       label={t('defineWarehouse.factory')}
@@ -269,9 +272,10 @@ function DefineWarehouseFrom() {
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
-                      sx={{ mt: 4 / 3 }}
                       required
                     />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="location"
                       label={t('defineWarehouse.address')}
@@ -279,61 +283,6 @@ function DefineWarehouseFrom() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
-                      sx={{ mt: 4 / 3 }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Typography variant="h4">
-                      {t('defineWarehouse.storageSpace')}
-                    </Typography>
-                    {/* @TODO: <linh.taquang> add select choose unit */}
-                    <Field.TextField
-                      name="long"
-                      label={t('defineWarehouse.long')}
-                      placeholder={t('defineWarehouse.long')}
-                      sx={{ mt: 4 / 3 }}
-                      type="number"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
-                            {t('defineWarehouse.unit.m')}
-                          </InputAdornment>
-                        ),
-                      }}
-                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-                      required
-                    />
-                    <Field.TextField
-                      name="width"
-                      label={t('defineWarehouse.wide')}
-                      placeholder={t('defineWarehouse.wide')}
-                      sx={{ mt: 4 / 3 }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
-                            {t('defineWarehouse.unit.m')}
-                          </InputAdornment>
-                        ),
-                      }}
-                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-                      type="number"
-                      required
-                    />
-                    <Field.TextField
-                      name="height"
-                      label={t('defineWarehouse.high')}
-                      placeholder={t('defineWarehouse.high')}
-                      sx={{ mt: 4 / 3 }}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
-                            {t('defineWarehouse.unit.m')}
-                          </InputAdornment>
-                        ),
-                      }}
-                      allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-                      type="number"
                       required
                     />
                   </Grid>
@@ -348,6 +297,92 @@ function DefineWarehouseFrom() {
                       multiline
                       rows={3}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h4" mt={1}>
+                      {t('defineWarehouse.storageSpace')}
+                    </Typography>
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Grid container spacing={1} mb={4 / 3}>
+                      <Grid item xs={8}>
+                        <Field.TextField
+                          name="long.value"
+                          label={t('defineWarehouse.long')}
+                          labelWidth={100}
+                          placeholder={t('defineWarehouse.long')}
+                          numberProps={{
+                            decimalScale: 3,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth size="small">
+                          <Field.Autocomplete
+                            name="long.unit"
+                            options={DEFAULT_UNITS}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disableClearable
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+
+                    <Grid container spacing={1}>
+                      <Grid item xs={8}>
+                        <Field.TextField
+                          name="width.value"
+                          label={t('defineWarehouse.width')}
+                          labelWidth={100}
+                          placeholder={t('defineWarehouse.width')}
+                          numberProps={{
+                            decimalScale: 3,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth size="small">
+                          <Field.Autocomplete
+                            name="width.unit"
+                            options={DEFAULT_UNITS}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disableClearable
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  <Grid item lg={6} xs={12}>
+                    <Grid container spacing={1} mb={4 / 3}>
+                      <Grid item xs={8}>
+                        <Field.TextField
+                          name="height.value"
+                          label={t('defineWarehouse.height')}
+                          labelWidth={100}
+                          placeholder={t('defineWarehouse.height')}
+                          numberProps={{
+                            decimalScale: 3,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <FormControl fullWidth size="small">
+                          <Field.Autocomplete
+                            name="height.unit"
+                            options={DEFAULT_UNITS}
+                            getOptionLabel={(opt) => opt?.name}
+                            getOptionValue={(opt) => opt?.id}
+                            disableClearable
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
                 {renderActionBar(handleReset)}

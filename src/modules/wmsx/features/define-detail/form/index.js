@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
-import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -24,17 +23,20 @@ const DefineDetailForm = () => {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
+
   const {
     data: { isLoading, detailDetails },
     actions,
   } = useDefineDetail()
-  const initialValues = isEmpty(detailDetails)
-    ? {
-        code: '',
-        name: '',
-        description: '',
-      }
-    : pick(detailDetails, ['code', 'name', 'description'])
+
+  const initialValues = useMemo(
+    () => ({
+      name: detailDetails?.name || '',
+      code: detailDetails?.code || '',
+      description: detailDetails?.description || '',
+    }),
+    [detailDetails],
+  )
 
   const MODE_MAP = {
     [ROUTE.DEFINE_DETAIL.CREATE.PATH]: MODAL_MODE.CREATE,
