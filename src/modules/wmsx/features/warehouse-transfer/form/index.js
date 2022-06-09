@@ -69,7 +69,12 @@ const WarehouseTransferForm = () => {
 
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
-      actions.getWarehouseTransferDetailsById(id)
+      actions.getWarehouseTransferDetailsById(id, (data) => {
+        actions.getLotNumberListWarehouseTransfer({
+          itemId: data?.warehouseTransferDetailLots[0]?.itemId,
+          warehouseIds: data?.sourceWarehouse?.id,
+        })
+      })
     }
     return () => actions.resetWarehouseTransfer()
   }, [mode])
