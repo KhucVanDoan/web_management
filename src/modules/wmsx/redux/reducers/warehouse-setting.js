@@ -40,7 +40,7 @@ export default function warehouseSetting(state = initialState, action) {
         ...state,
         warehouseSettingList: action.payload,
         isLoading: false,
-        total: action.payload.total,
+        total: action.payload?.meta?.total,
       }
     case SEARCH_WAREHOUSE_SETTING_FAILED:
       return {
