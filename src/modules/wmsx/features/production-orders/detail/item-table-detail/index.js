@@ -18,8 +18,8 @@ function ItemSettingTableDetail(props) {
   } = useCommonManagement()
 
   useEffect(() => {
-    actions.getItems({})
-    actions.getWarehouses({})
+    actions.getItems({ isGetAll: 1 })
+    actions.getWarehouses({ isGetAll: 1 })
     actions.getBoms({ isGetAll: 1 })
   }, [])
   const getItemObject = (id) => {
@@ -78,7 +78,10 @@ function ItemSettingTableDetail(props) {
       width: 180,
 
       renderCell: (params) => {
-        const { warehouse } = params?.row
+        const { warehouseName } = params?.row
+        const warehouse = warehouseList?.find(
+          (warehouse) => warehouse?.id === warehouseName,
+        )
         return warehouse?.name
       },
     },
@@ -87,9 +90,9 @@ function ItemSettingTableDetail(props) {
       headerName: t('productionOrder.item.warehouseType'),
       width: 180,
       renderCell: (params) => {
-        const { warehouseId } = params.row
+        const { warehouseName } = params.row
 
-        return <>{getWarehouseTypeNames(warehouseId) || ''}</>
+        return <>{getWarehouseTypeNames(warehouseName) || ''}</>
       },
     },
     {

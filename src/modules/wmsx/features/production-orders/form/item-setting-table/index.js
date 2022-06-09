@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
@@ -33,24 +32,21 @@ function ItemSettingTable(props) {
   } = props
   const isView = mode === MODAL_MODE.DETAIL
   const {
-    data: { lotNumberList },
-    actions,
+    data: { lotNumberList, productionOrderDetails },
   } = useProductionOrder()
-
   const {
     data: { itemQualityPoint, itemList, warehouseList },
     actions: commonActions,
   } = useCommonManagement()
 
   const {
-    data: { moDetails },
+    data: { moList },
   } = useMo()
 
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
     commonActions.getWarehouses({ isGetAll: 1 })
     commonActions.getBoms({ isGetAll: 1 })
-    actions.getExportLotNumber(values?.moCode?.id || 1)
   }, [])
 
   const getItemObject = (id) => {
@@ -88,36 +84,37 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.name'),
       width: 250,
       renderCell: (_, index) => {
-        const listItemImport = moDetails?.manufacturingOrderDetails?.map(
-          (e) => e?.item,
-        )
-        const listItemIdImport = listItemImport?.map((item) => item?.itemId)
-        const listItemsImport = listItemIdImport?.map((e) =>
-          itemList?.filter((item) => item?.id === e),
-        )
-        const listItemExport = materialPlanDetail?.materialPlanStructures?.map(
-          (item) => item?.itemId,
-        )
-
-        const listItemsExport = listItemExport?.map((e) =>
-          itemList?.filter((item) => item?.id === e),
-        )
+        const itemFilterList =
+          moList?.find(
+            (mo) => productionOrderDetails?.manufacturingOrder?.id === mo.id,
+          )?.manufacturingOrderDetails || lotNumberList
+        const materialPlanDetailIds =
+          materialPlanDetail.materialPlanStructures?.map(
+            (material) => material.itemId,
+          )
+        const materialFilterList = itemList
+          ?.filter((item) => materialPlanDetailIds?.includes(item.id))
+          ?.map((item) => ({
+            ...item,
+            itemId: item.id,
+            quantity: materialPlanDetail.materialPlanStructures
+              ?.filter((material) => material.itemId === item.id)
+              ?.reduce((total, item) => total + item.quantity, 0),
+          }))
         const listItem =
           values?.type === TRANSACTION_TYPE_ENUM.IMPORT
-            ? first(listItemsImport)
-            : first(listItemsExport)
+            ? itemFilterList
+            : materialFilterList
 
         return (
           <Field.Autocomplete
             name={`items[${index}].itemId`}
             options={
-              listItem
-                ? listItem
-                : first(
-                    values?.items?.map((e) =>
-                      itemList?.filter((item) => item.id === e?.itemId),
-                    ),
+              listItem?.length > 0
+                ? itemList.filter((item) =>
+                    listItem?.find((listItem) => listItem.itemId === item.id),
                   )
+                : itemList
             }
             disabled={isView || !values?.moCode}
             getOptionLabel={(opt) => opt?.name}
@@ -205,7 +202,7 @@ function ItemSettingTable(props) {
       renderCell: (params, index) => {
         const { itemId } = params?.row
         const lotList =
-          itemId && itemId && values?.type === TRANSACTION_TYPE_ENUM.IMPORT
+          itemId && values?.type === TRANSACTION_TYPE_ENUM.IMPORT
             ? lotNumberList
             : lotNumberList.filter((item) => item?.itemId === itemId)
 
@@ -218,7 +215,9 @@ function ItemSettingTable(props) {
             getOptionValue={(option) => option?.lotNumber || ''}
             onChange={(val) => {
               if (val) {
-                const data = lotNumberList.find((i) => i.itemId === itemId)?.mfg
+                const data = lotNumberList?.find(
+                  (i) => i.itemId === itemId,
+                )?.mfg
                 setFieldValue(`items[${index}].mfg`, data)
               } else {
                 setFieldValue(`items[${index}].mfg`, '')
