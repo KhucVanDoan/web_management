@@ -117,8 +117,18 @@ function ProductionOrderForm() {
   )
 
   useEffect(() => {
-    actions.getProductionOrderDetailsById(id)
+    actions.getProductionOrderDetailsById(id, (data) => {
+      moActions.getMODetailsById(data?.manufacturingOrder?.id, (data) => {
+        commomnManagementActions.getMoMaterialPlanDetail(data?.materialPlan?.id)
+      })
+      if (data?.type === TRANSACTION_TYPE_ENUM.IMPORT) {
+        actions.getImportLotNumber(data?.manufacturingOrder?.id)
+      } else {
+        actions.getExportLotNumber(data?.manufacturingOrder?.id)
+      }
+    })
     commomnManagementActions.getItemQualityPoint()
+    moActions.searchMO({ isGetAll: 1 })
     return () => actions.resetProductionOrderDetail()
   }, [mode])
 
@@ -220,7 +230,7 @@ function ProductionOrderForm() {
       if (values?.type === TRANSACTION_TYPE_ENUM.IMPORT) {
         actions.getImportLotNumber(val?.id)
       } else {
-        actions.getExportLotNumber(val?.id || 1)
+        actions.getExportLotNumber(val?.id)
       }
       setFieldValue('items', [{ ...DEFAULT_ITEM }])
       setFieldValue('moName', val?.name)
