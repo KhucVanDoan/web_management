@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Button, IconButton, InputAdornment, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { map } from 'lodash'
+import { first, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -37,9 +37,7 @@ const ItemSettingTable = (props) => {
   useEffect(() => {
     actions.getListItemWarehouseStock({ isGetAll: 1 })
     defineItemActions.searchItems({ isGetAll: 1 })
-    actions.getLotNumberListWarehouseTransfer({ isGetAll: 1 })
   }, [])
-
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -57,6 +55,14 @@ const ItemSettingTable = (props) => {
       }
     })
     return newArr
+  }
+
+  const handleChange = (val, values) => {
+    const params = {
+      itemId: val,
+      warehouseIds: values?.sourceWarehouseName,
+    }
+    actions.getLotNumberListWarehouseTransfer(params)
   }
   const getColumns = () => {
     return [
@@ -78,7 +84,7 @@ const ItemSettingTable = (props) => {
           )
           const itemWarehouseIds = map(itemWarehouseFilterList, 'id')
           const itemId = itemList?.filter((item) =>
-            itemWarehouseIds?.includes(item.id),
+            itemWarehouseIds?.includes(item?.id),
           )
           return isView ? (
             <>{params?.row?.itemId}</>
@@ -89,6 +95,7 @@ const ItemSettingTable = (props) => {
               disabled={isView || !values?.sourceWarehouseName}
               getOptionLabel={(opt) => opt?.name}
               getOptionValue={(option) => option?.id || ''}
+              onChange={(val) => handleChange(val, values)}
             />
           )
         },
@@ -133,15 +140,15 @@ const ItemSettingTable = (props) => {
         width: 150,
         renderCell: (params, index) => {
           const { itemId } = params?.row
-          const lotList = lotNumberList.find(
-            (item) => item.itemId === itemId,
-          )?.lotNumbers
+          const lotList = lotNumberList?.map((e) =>
+            e?.lotNumbers?.map((item) => item),
+          )
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotList}
+              options={first(lotList)}
               disabled={isView}
               getOptionLabel={(opt) => opt?.lotNumber}
               getOptionValue={(option) => option?.lotNumber || ''}
