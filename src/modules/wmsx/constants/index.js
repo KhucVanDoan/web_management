@@ -333,6 +333,7 @@ export const ORDER_STATUS_OPTIONS = [
   {
     id: 11,
     text: 'orderStatus.exported',
+    color: 'completed',
   },
 ]
 

@@ -23,11 +23,7 @@ export const Transactions = () => {
   ]
 
   const movementType =
-    MOVEMENT_TYPE.TRANSFER_IMPORT +
-    ',' +
-    MOVEMENT_TYPE.TRANSFER_IMPORT +
-    ',' +
-    MOVEMENT_TYPE.TRANSFER_EXPORT
+    MOVEMENT_TYPE.TRANSFER_IMPORT + ',' + MOVEMENT_TYPE.PO_IMPORT
 
   return (
     <Movements
