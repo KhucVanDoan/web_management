@@ -64,17 +64,17 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
     },
     {
       field: 'orderCode',
-      headerName: t('movements.letterCode'),
+      headerName: t('movements.inventoryCode'),
       width: 120,
       sortable: true,
     },
     {
       field: 'orderStatus',
-      headerName: t('movements.orderStatus'),
+      headerName: t('movements.inventoryStatus'),
       width: 150,
       sortable: true,
       renderCell: (params) => {
-        const status = Number(params?.row.orderStatus)
+        const status = Number(params?.row.order.status)
         return (
           <Status
             options={ORDER_STATUS_OPTIONS}

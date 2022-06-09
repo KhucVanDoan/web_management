@@ -139,8 +139,10 @@ function SOExport() {
           status === ORDER_STATUS_SO_EXPORT.REJECTED
 
         const hasTransaction =
-          status === ORDER_STATUS_SO_EXPORT.IN_PROGRESS ||
-          status === ORDER_STATUS_SO_EXPORT.EXPORTED
+          status === ORDER_STATUS_SO_EXPORT.INCOLLECTING ||
+          status === ORDER_STATUS_SO_EXPORT.COLLECTED ||
+          status === ORDER_STATUS_SO_EXPORT.EXPORTED ||
+          status === ORDER_STATUS_SO_EXPORT.COMPLETED
         return (
           <>
             <IconButton

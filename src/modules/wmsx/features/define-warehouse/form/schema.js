@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import { unitSchema } from '~/common/schemas'
 
 export const warehouseSchema = (t) => {
   return Yup.object().shape({
@@ -17,55 +18,13 @@ export const warehouseSchema = (t) => {
     factoryId: Yup.string().nullable().required(t('general:form.required')),
     location: Yup.string().required(t('general:form.required')),
     long: Yup.object().shape({
-      value: Yup.number()
-        .nullable()
-        .required(t('general:form.required'))
-        .min(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          t('general:form.minNumber', {
-            min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          }),
-        )
-        .max(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          }),
-        ),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
     }),
     width: Yup.object().shape({
-      value: Yup.number()
-        .nullable()
-        .required(t('general:form.required'))
-        .min(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          t('general:form.minNumber', {
-            min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          }),
-        )
-        .max(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          }),
-        ),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
     }),
     height: Yup.object().shape({
-      value: Yup.number()
-        .nullable()
-        .required(t('general:form.required'))
-        .min(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          t('general:form.minNumber', {
-            min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-          }),
-        )
-        .max(
-          NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          t('general:form.maxNumber', {
-            max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-          }),
-        ),
+      value: unitSchema(t).nullable().required(t('general:form.required')),
     }),
   })
 }
