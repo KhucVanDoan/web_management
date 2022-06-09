@@ -64,7 +64,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               getOptionLabel={(opt) => opt?.code || ''}
               getOptionValue={(opt) => opt?.id}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemId
               }
             />
           )

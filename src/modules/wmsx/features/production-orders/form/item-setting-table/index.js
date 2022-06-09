@@ -12,7 +12,9 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
+import { TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
+import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import {
   convertFilterParams,
   convertUtcDateToLocalTz,
@@ -21,29 +23,36 @@ import {
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, values, setFieldValue } = props
+  const {
+    items,
+    mode,
+    arrayHelpers,
+    values,
+    setFieldValue,
+    materialPlanDetail,
+  } = props
   const isView = mode === MODAL_MODE.DETAIL
   const {
-    data: { itemList, warehouseList },
+    data: { lotNumberList },
     actions,
-  } = useCommonManagement()
+  } = useProductionOrder()
 
   const {
-    data: { itemQualityPoint },
+    data: { itemQualityPoint, itemList, warehouseList },
     actions: commonActions,
   } = useCommonManagement()
 
   const {
-    data: { lotNumberList },
-    actions: warehouseTransferAction,
-  } = useWarehouseTransfer()
+    data: { moDetails },
+  } = useMo()
 
   useEffect(() => {
-    actions.getItems({})
-    actions.getWarehouses({})
-    actions.getBoms({ isGetAll: 1 })
-    warehouseTransferAction.getLotNumberListWarehouseTransfer({ isGetAll: 1 })
+    commonActions.getItems({ isGetAll: 1 })
+    commonActions.getWarehouses({ isGetAll: 1 })
+    commonActions.getBoms({ isGetAll: 1 })
+    actions.getExportLotNumber(values?.moCode?.id || 1)
   }, [])
+
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -70,7 +79,6 @@ function ItemSettingTable(props) {
       field: 'id',
       headerName: '#',
       width: 80,
-
       renderCell: (_, index) => {
         return index + 1
       },
@@ -79,29 +87,46 @@ function ItemSettingTable(props) {
       field: 'name',
       headerName: t('productionOrder.item.name'),
       width: 250,
-
-      renderCell: (params, index) => {
-        const itemIdCodeList = items.map((item) => item.itemId)
-        const listItemId = values?.moCode?.manufacturingOrderDetails?.map(
-          (item) => item.id,
+      renderCell: (_, index) => {
+        const listItemImport = moDetails?.manufacturingOrderDetails?.map(
+          (e) => e?.item,
         )
-        const listItems = listItemId?.map((e) =>
+        const listItemIdImport = listItemImport?.map((item) => item?.itemId)
+        const listItemsImport = listItemIdImport?.map((e) =>
           itemList?.filter((item) => item?.id === e),
         )
+        const listItemExport = materialPlanDetail?.materialPlanStructures?.map(
+          (item) => item?.itemId,
+        )
+
+        const listItemsExport = listItemExport?.map((e) =>
+          itemList?.filter((item) => item?.id === e),
+        )
+        const listItem =
+          values?.type === TRANSACTION_TYPE_ENUM.IMPORT
+            ? first(listItemsImport)
+            : first(listItemsExport)
+
         return (
           <Field.Autocomplete
             name={`items[${index}].itemId`}
-            options={listItems?.length > 0 ? first(listItems) : itemList}
+            options={
+              listItem
+                ? listItem
+                : first(
+                    values?.items?.map((e) =>
+                      itemList?.filter((item) => item.id === e?.itemId),
+                    ),
+                  )
+            }
             disabled={isView || !values?.moCode}
             getOptionLabel={(opt) => opt?.name}
-            getOptionSubLabel={(opt) => opt?.code}
-            filterOptions={createFilterOptions({
-              stringify: (opt) => `${opt?.code}|${opt?.name}`,
-            })}
             getOptionValue={(option) => option?.id || ''}
-            getOptionDisabled={(opt) =>
-              itemIdCodeList.some((id) => id === opt?.id)
-            }
+            onChange={(val) => {
+              if (!val) {
+                setFieldValue(`items[${index}].warehouseName`, '')
+              }
+            }}
           />
         )
       },
@@ -179,19 +204,25 @@ function ItemSettingTable(props) {
       width: 180,
       renderCell: (params, index) => {
         const { itemId } = params?.row
-        const lotList = lotNumberList.find((item) => item.itemId === itemId)
+        const lotList =
+          itemId && itemId && values?.type === TRANSACTION_TYPE_ENUM.IMPORT
+            ? lotNumberList
+            : lotNumberList.filter((item) => item?.itemId === itemId)
+
         return (
           <Field.Autocomplete
             name={`items[${index}].lotNumber`}
-            options={lotList?.lotNumbers}
+            options={lotList}
             disabled={isView}
             getOptionLabel={(opt) => opt?.lotNumber}
             getOptionValue={(option) => option?.lotNumber || ''}
             onChange={(val) => {
-              const data = lotNumberList
-                .find((i) => i.itemId === itemId)
-                ?.lotNumbers?.find((j) => j.lotNumber === val)?.mfg
-              setFieldValue(`items[${index}].mfg`, data)
+              if (val) {
+                const data = lotNumberList.find((i) => i.itemId === itemId)?.mfg
+                setFieldValue(`items[${index}].mfg`, data)
+              } else {
+                setFieldValue(`items[${index}].mfg`, '')
+              }
             }}
           />
         )

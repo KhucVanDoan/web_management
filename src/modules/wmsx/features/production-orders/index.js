@@ -25,11 +25,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import {
-  ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
-  TRANSFER_STATUS,
-} from '../../constants'
+import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '../../constants'
 import useProductionOrder from '../../redux/hooks/useProductionOrder'
 import FilterForm from './filter'
 const breadcrumbs = [
@@ -46,7 +42,7 @@ function ProductionOrder() {
   const history = useHistory()
   const [tempItem, setTempItem] = useState()
   const [confirmModal, setConfirmModal] = useState(false)
-  // const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
 
@@ -150,16 +146,14 @@ function ProductionOrder() {
       renderCell: (params) => {
         const { row } = params
         const { id, status } = row
-        const isEdit =
-          status === ORDER_STATUS.PENDING ||
-          ORDER_STATUS.IN_PROGRESS ||
-          ORDER_STATUS.COMPLETED
+        const isEdit = status === ORDER_STATUS.PENDING
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isDelete =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+
         const hasTransaction =
-          status === TRANSFER_STATUS.COMPLETED ||
-          status === TRANSFER_STATUS.EXPORTING
+          status === ORDER_STATUS.COMPLETED ||
+          status === ORDER_STATUS.IN_PROGRESS
         return (
           <>
             <IconButton
@@ -193,13 +187,11 @@ function ProductionOrder() {
               </IconButton>
             )}
             {isConfirmed && (
-              // @TODO: waiting confirm BA
               <IconButton
                 onClick={() => {
                   setTempItem(row)
-                  // setIsOpenRejectModal(true)
+                  setIsOpenRejectModal(true)
                 }}
-                disabled
               >
                 <Icon name="remove" />
               </IconButton>
@@ -254,6 +246,13 @@ function ProductionOrder() {
     setTempItem(null)
   }
 
+  const submitReject = () => {
+    actions.rejectProductionOrderById(tempItem?.id, () => {
+      refreshData()
+    })
+    setIsOpenRejectModal(false)
+    setTempItem(null)
+  }
   const handleDeleteOpenModal = (tempItem) => {
     setDeleteModal(true)
     setTempItem(tempItem)
@@ -358,6 +357,27 @@ function ProductionOrder() {
         noBorderBottom
       >
         {t('productionOrder.confirmBody')}
+        <LabelValue
+          label={t('productionOrder.codeList')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LabelValue
+          label={t('productionOrder.nameList')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenRejectModal}
+        title={t('general:common.reject')}
+        onCancel={() => setIsOpenRejectModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitReject}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.reject')}
         <LabelValue
           label={t('productionOrder.codeList')}
           value={tempItem?.code}

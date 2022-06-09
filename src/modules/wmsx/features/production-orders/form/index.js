@@ -20,7 +20,10 @@ import {
   ORDER_TYPE_OPTIONS,
   ORDER_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
+import { QC_CHECK, TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
+import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -47,14 +50,53 @@ function ProductionOrderForm() {
     actions,
   } = useProductionOrder()
 
+  const { actions: moActions } = useMo()
+
+  const {
+    data: { itemQualityPoint, materialPlanDetail },
+    actions: commomnManagementActions,
+  } = useCommonManagement()
+
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
     itemId: null,
     warehouseId: null,
     quantity: 1,
     qcCheck: false,
+    warehouseName: '',
+    lotNumber: '',
   }
 
+  const productionOrderWarehouseLotsCopy = isEmpty(
+    productionOrderDetails?.productionOrderWarehouseLots,
+  )
+    ? productionOrderDetails?.productionOrderWarehouseDetails
+    : productionOrderDetails?.productionOrderWarehouseLots
+  const items = productionOrderWarehouseLotsCopy?.map((detailLot, index) => ({
+    id: index,
+    itemId: detailLot?.itemId || '',
+    warehouseName: detailLot?.warehouseId || '',
+    qcCheck:
+      productionOrderDetails?.productionOrderWarehouseDetails.find(
+        (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+      )?.qcCheck === QC_CHECK.TRUE || detailLot?.qcCheck === QC_CHECK.TRUE,
+    qcCriteriaId:
+      productionOrderDetails?.productionOrderWarehouseDetails.find(
+        (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+      )?.qcCriteriaId || detailLot?.qcCriteriaId,
+    qcCriteria: itemQualityPoint.find(
+      (quality) =>
+        quality?.id ===
+        productionOrderDetails?.productionOrderWarehouseDetails.find(
+          (detail) => +detail.id === +detailLot.productionOrderWarehouseId,
+        )?.qcCriteriaId,
+    )?.code,
+    actualQuantity: detailLot.actualQuantity || '',
+    quantity: +detailLot?.quantity,
+    lotNumber: detailLot?.lotNumber || '',
+    mfg: detailLot?.mfg || '',
+    packageId: detailLot?.packageId || '',
+  }))
   const initialValues = useMemo(
     () => ({
       code: productionOrderDetails?.code || '',
@@ -69,22 +111,14 @@ function ProductionOrderForm() {
           ]
         : null,
       description: productionOrderDetails?.description || '',
-      items: productionOrderDetails?.productionOrderWarehouseLots?.map((e) => ({
-        id: e?.id,
-        itemId: e?.itemId,
-        quantity: Number(e?.quantity),
-        warehouseName: e?.warehouseId,
-        qcCheck: Boolean(e?.qcCheck),
-        lotNumber: e?.lotNumber,
-        mfg: e?.mfg,
-        packageId: e?.packageId,
-      })) || [{ ...DEFAULT_ITEM }],
+      items: items || [{ ...DEFAULT_ITEM }],
     }),
     [productionOrderDetails],
   )
 
   useEffect(() => {
     actions.getProductionOrderDetailsById(id)
+    commomnManagementActions.getItemQualityPoint()
     return () => actions.resetProductionOrderDetail()
   }, [mode])
 
@@ -103,16 +137,17 @@ function ProductionOrderForm() {
       items: val?.items?.map((item) => ({
         id: Number(item?.itemId),
         quantity: item?.quantity,
-        qcCheck: item.qcCheck,
+        qcCheck: item?.qcCheck,
         warehouseId: item?.warehouseName,
-        lotNumber: item.lotNumber,
+        lotNumber: item?.lotNumber,
         mfg: item?.mfg,
         qcCriteriaId: item?.qcCriteriaId || null,
         packageId: item.packageId || null,
       })),
     }
     if (isUpdate) {
-      actions.updateProductionOrder({ id: Number(id), ...params }, backToList)
+      params.id = +id
+      actions.updateProductionOrder(params, backToList)
     } else {
       actions.createProductionOrder(params, backToList)
     }
@@ -177,13 +212,33 @@ function ProductionOrderForm() {
         break
     }
   }
-  const handleChange = (val, setFieldValue) => {
+  const handleChange = (val, values, setFieldValue) => {
     if (val) {
+      moActions.getMODetailsById(val?.id, (data) => {
+        commomnManagementActions.getMoMaterialPlanDetail(data?.materialPlan?.id)
+      })
+      if (values?.type === TRANSACTION_TYPE_ENUM.IMPORT) {
+        actions.getImportLotNumber(val?.id)
+      } else {
+        actions.getExportLotNumber(val?.id || 1)
+      }
+      setFieldValue('items', [{ ...DEFAULT_ITEM }])
       setFieldValue('moName', val?.name)
       setFieldValue('planDate', [val?.planFrom, val?.planTo])
     } else {
       setFieldValue('moName', '')
       setFieldValue('planDate', '')
+    }
+  }
+  const handlechangeType = (val, values, setFieldValue) => {
+    setFieldValue('items', [{ ...DEFAULT_ITEM }])
+    moActions.getMODetailsById(values?.moCode?.id, (data) => {
+      commomnManagementActions.getMoMaterialPlanDetail(data?.materialPlan?.id)
+    })
+    if (!isEmpty(values?.moCode) && val === TRANSACTION_TYPE_ENUM.IMPORT) {
+      actions.getImportLotNumber(values?.moCode?.id)
+    } else {
+      actions.getExportLotNumber(values?.moCode?.id || 1)
     }
   }
   return (
@@ -261,7 +316,9 @@ function ProductionOrderForm() {
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      onChange={(val) => handleChange(val, setFieldValue)}
+                      onChange={(val) =>
+                        handleChange(val, values, setFieldValue)
+                      }
                       required
                     />
                   </Grid>
@@ -280,6 +337,9 @@ function ProductionOrderForm() {
                       name="type"
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.name)}
+                      onChange={(val) =>
+                        handlechangeType(val, values, setFieldValue)
+                      }
                       required
                     />
                   </Grid>
@@ -316,6 +376,7 @@ function ProductionOrderForm() {
                     arrayHelpers={arrayHelpers}
                     setFieldValue={setFieldValue}
                     values={values}
+                    materialPlanDetail={materialPlanDetail}
                   />
                 )}
               />

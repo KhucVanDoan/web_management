@@ -185,7 +185,6 @@ const CheckListDetailTable = (props) => {
         width: 180,
         align: 'center',
         renderCell: (_, index) => {
-          const listErrorGroupId = items.map((item) => item.errorGroupId)
           return (
             <Field.Autocomplete
               name={`checkListDetails[${index}].errorGroupId`}
@@ -193,9 +192,6 @@ const CheckListDetailTable = (props) => {
               options={errorGroupList || []}
               getOptionValue={(opt) => opt?.id}
               getOptionLabel={(opt) => opt?.name || ''}
-              getOptionDisabled={(opt) =>
-                listErrorGroupId.some((i) => i === opt?.id)
-              }
             />
           )
         },

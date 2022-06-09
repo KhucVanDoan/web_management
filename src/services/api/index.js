@@ -73,7 +73,8 @@ instance.interceptors.response.use(
       response.status === 403 &&
       response.config &&
       !response.config._isRefreshBefore &&
-      response.config.url !== REFRESH_TOKEN_URL
+      response.config.url !== REFRESH_TOKEN_URL && 
+      localStorage.getItem('refreshToken')
     ) {
       return refreshAccessToken()
         .then((refresh) => {
@@ -268,8 +269,7 @@ const api = {
  * @returns {Promise}
  */
 export const refreshAccessToken = () => {
-  const refreshToken =
-    localStorage.getItem('refreshToken') || cookies.get('refreshToken')
+  const refreshToken = localStorage.getItem('refreshToken')
   return instance.get(REFRESH_TOKEN_URL, {
     headers: {
       Authorization: `Bearer ${refreshToken}`,

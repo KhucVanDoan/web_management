@@ -64,7 +64,6 @@ const ItemSettingTable = (props) => {
         align: 'center',
         renderCell: (params, index) => {
           const { itemId } = params.row
-          const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.itemType?.name || ''}</>
           ) : (
@@ -73,9 +72,6 @@ const ItemSettingTable = (props) => {
               options={DEFAULT_ITEM_TYPE_OPTIONS}
               getOptionValue={(opt) => opt?.code}
               getOptionLabel={(opt) => t(opt?.text)}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
-              }
               onChange={() =>
                 setFieldValue(`items[${index}]`, {
                   ...items[index],
@@ -95,7 +91,7 @@ const ItemSettingTable = (props) => {
           const itemId = params.row?.itemId
           const itemType = params.row?.itemType
           let itemListFilter = []
-          
+
           if (itemType !== MATERIAL_CODE) {
             itemListFilter = itemList.filter(
               (i) =>
@@ -106,12 +102,10 @@ const ItemSettingTable = (props) => {
             )
           } else {
             itemListFilter = itemList.filter(
-              (i) =>
-                i.itemType.code === itemType &&
-                !i.isHasBom
+              (i) => i.itemType.code === itemType && !i.isHasBom,
             )
           }
-          
+
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
             <>{getItemObject(itemId)?.code || ''}</>
@@ -125,7 +119,8 @@ const ItemSettingTable = (props) => {
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id)
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemId
               }
             />
           )

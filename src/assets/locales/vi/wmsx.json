@@ -633,9 +633,9 @@
     "confirmDelete": "Bạn có chắc chắn muốn xóa kho này?",
     "company": "Công ty",
     "storageSpace": "Không gian lưu trữ",
-    "high": "Chiều cao",
+    "height": "Chiều cao",
     "long": "Chiều dài",
-    "wide": "Chiều rộng",
+    "width": "Chiều rộng",
     "delete": "Xóa kho",
     "unit": {
       "m": "m",

@@ -7,11 +7,12 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
-import LabelValue from '~/components/LabelValue'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { DEFAULT_UNITS_MAP } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 const breadcrumbs = [
@@ -107,70 +108,49 @@ function DefineWarehouseDetail() {
         <Grid item xl={11} xs={12}>
           <Grid container columnSpacing={{ xl: 8, xs: 4 }} rowSpacing={4 / 3}>
             <Grid item lg={6} xs={12}>
-              <LabelValue
+              <LV
                 label={t('defineWarehouse.code')}
                 value={warehouseDetails.code}
               />
-              <LabelValue
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('defineWarehouse.name')}
                 value={warehouseDetails.name}
-                mt={4 / 3}
               />
-              <LabelValue
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('defineWarehouse.type')}
                 value={warehouseDetails?.warehouseTypeSettings
                   ?.map((i) => i?.name)
                   .join(', ')}
-                mt={4 / 3}
               />
-              <LabelValue
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('defineWarehouse.factory')}
                 value={
                   factoryList?.find(
                     (i) => i?.id === warehouseDetails?.factoryId,
                   )?.name
                 }
-                mt={4 / 3}
               />
-              <LabelValue
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('defineWarehouse.company')}
                 value={
                   companyList?.find(
                     (i) => i?.id === warehouseDetails?.companyId,
                   )?.name
                 }
-                mt={4 / 3}
-              />
-              <LabelValue
-                label={t('defineWarehouse.address')}
-                value={warehouseDetails.location}
-                mt={4 / 3}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <Typography variant="h4">
-                {t('defineWarehouse.storageSpace')}
-              </Typography>
-              <LabelValue
-                label={t('defineWarehouse.long')}
-                mt={4 / 3}
-                value={`${warehouseDetails?.long?.value}${t(
-                  'defineWarehouse.unit.m',
-                )}`}
-              />
-              <LabelValue
-                label={t('defineWarehouse.wide')}
-                value={`${warehouseDetails?.width?.value}${t(
-                  'defineWarehouse.unit.m',
-                )}`}
-                mt={4 / 3}
-              />
-              <LabelValue
-                label={t('defineWarehouse.high')}
-                value={`${warehouseDetails?.height?.value}${t(
-                  'defineWarehouse.unit.m',
-                )}`}
-                mt={4 / 3}
+              <LV
+                label={t('defineWarehouse.address')}
+                value={warehouseDetails.location}
               />
             </Grid>
             <Grid item xs={12}>
@@ -186,6 +166,41 @@ function DefineWarehouseDetail() {
                   },
                 }}
                 value={warehouseDetails.description}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h4" mt={1}>
+                {t('defineWarehouse.storageSpace')}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineWarehouse.long')}
+                value={
+                  warehouseDetails?.long?.value +
+                  ' ' +
+                  t(DEFAULT_UNITS_MAP[warehouseDetails?.long?.unit])
+                }
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineWarehouse.height')}
+                value={
+                  warehouseDetails?.height?.value +
+                  ' ' +
+                  t(DEFAULT_UNITS_MAP[warehouseDetails?.height?.unit])
+                }
+              />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LV
+                label={t('defineWarehouse.width')}
+                value={
+                  warehouseDetails?.width?.value +
+                  ' ' +
+                  t(DEFAULT_UNITS_MAP[warehouseDetails?.width?.unit])
+                }
               />
             </Grid>
           </Grid>

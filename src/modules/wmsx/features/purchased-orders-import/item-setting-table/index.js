@@ -78,7 +78,6 @@ function ItemSettingTable(props) {
                 itemsFilter.find((itemFilter) => itemFilter.itemId === item.id),
               )
             : itemList
-        const itemIdCodeList = items.map((item) => item.itemId)
         return isView ? (
           <>{getItemObject(itemId)?.name || ''}</>
         ) : (
@@ -87,9 +86,6 @@ function ItemSettingTable(props) {
             options={itemListFilter}
             getOptionLabel={(opt) => opt?.name}
             getOptionValue={(option) => option?.id || ''}
-            getOptionDisabled={(opt) =>
-              itemIdCodeList.some((id) => id === opt?.id)
-            }
           />
         )
       },

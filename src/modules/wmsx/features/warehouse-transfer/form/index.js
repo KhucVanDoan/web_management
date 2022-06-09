@@ -119,7 +119,7 @@ const WarehouseTransferForm = () => {
         itemId: item.itemId,
         quantity: +item.planQuantity,
         lotNumber: item.lotNumber,
-        packageId: +item.packageId || null,
+        packageId: item.packageId || null,
         mfg: item.mfg,
       })),
     }

@@ -424,9 +424,6 @@ const WorkCenterForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
                         getOptionSubLabel={(opt) => opt?.code}
-                        getOptionDisabled={(opt) =>
-                          values?.members?.some((i) => i?.id === opt?.id)
-                        }
                         onChange={(val) => {
                           if (
                             val.filter((v) => v?.id === values?.leaderId)

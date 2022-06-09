@@ -92,7 +92,11 @@ function ItemSettingTable({
               })}
               getOptionValue={(opt) => opt?.itemId || opt?.id || ''}
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId))
+                itemIdCodeList.some(
+                  (id) =>
+                    id === (opt?.id || opt?.itemId) &&
+                    (opt?.id || opt?.itemId) !== items[index]?.itemId,
+                )
               }
               onChange={(id) => onChangeItem(id, index, setFieldValue)}
               disabled={isView}
