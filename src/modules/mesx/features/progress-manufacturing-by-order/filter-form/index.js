@@ -140,7 +140,6 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                     <Field.DateRangePicker
                       name="planDate"
                       label={t('progressManufacturingByOrder.datePlan')}
-                      disabled={!values.isHasPlan}
                       placeholder={t('progressManufacturingByOrder.datePlan')}
                     />
                   </Grid>
