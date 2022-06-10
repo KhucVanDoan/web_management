@@ -150,7 +150,7 @@ function ProductionOrder() {
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isDelete =
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
-
+        const isRejected = status === ORDER_STATUS.REJECTED
         const hasTransaction =
           status === ORDER_STATUS.COMPLETED ||
           status === ORDER_STATUS.IN_PROGRESS
@@ -165,7 +165,7 @@ function ProductionOrder() {
             >
               <Icon name="show" />
             </IconButton>
-            {isEdit && (
+            {(isEdit || isRejected) && (
               <IconButton
                 onClick={() =>
                   history.push(

@@ -198,7 +198,7 @@ const warehouseSetting = () => {
       <DataTable
         title={t('warehouseSetting.title')}
         columns={columns}
-        rows={warehouseSettingList}
+        rows={warehouseSettingList?.items}
         pageSize={pageSize}
         page={page}
         onPageChange={setPage}

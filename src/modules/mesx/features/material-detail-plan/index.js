@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import Page from '~/components/Page'
+import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
@@ -38,8 +39,16 @@ const MaterialDetailPlan = () => {
   } = useMaterialPlanDetail()
 
   useEffect(() => {
+    defineItemAction.searchItems({ isGetAll: 1 })
+  }, [])
+  useEffect(() => {
     refreshDataFilter()
   }, [filters])
+
+  const {
+    data: { itemList },
+    actions: defineItemAction,
+  } = useDefineItem()
 
   const refreshDataFilter = () => {
     const params = {
@@ -130,7 +139,8 @@ const MaterialDetailPlan = () => {
         {
           plan: t('materialDetailPlan.planQuantity'),
           total: mdpDetails ? sumPlanQuantity.toFixed(2) : 0,
-          targetName: filters?.itemId || '',
+          targetName:
+            itemList?.find((item) => item?.id === filters?.itemId)?.name || '',
         },
         {
           plan: t('materialDetailPlan.productionQuantity'),

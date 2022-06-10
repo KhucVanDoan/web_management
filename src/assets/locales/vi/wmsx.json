@@ -822,9 +822,9 @@
     "inReceiving": "Đang nhận",
     "received": "Đã nhận",
     "delivered": "Đã cất",
-    "inCollecting": "Đang thu thập",
-    "collected": "Đã thu thập",
-    "exported": "Đã xuất"
+    "inCollecting": "Nhặt hàng",
+    "collected": "Chờ xuất kho",
+    "exported": "Hoàn thành"
   },
   "warehouseTransfer": {
     "orderNumber": "#",
@@ -982,8 +982,8 @@
     "orderNumber": "#",
     "code": "Mã giao dịch",
     "warehouseType": "Loại kho",
-    "letterCode": "Mã đơn từ",
-    "orderStatus": "Trạng thái đơn từ",
+    "inventoryCode": "Mã lệnh",
+    "inventoryStatus": "Trạng thái lệnh",
     "approveDate": "Ngày chứng từ",
     "createdByUser": "Người tạo",
     "movementStatus": "Trạng thái giao dịch",

@@ -211,7 +211,7 @@ const progressManufacturingByOrder = () => {
         {
           ...filters,
           masterPlanIds: filters?.masterPlanIds?.map((e) => e?.id),
-          isHasPlan: filters?.isHasPlan ? filters?.isHasPlan : false,
+          isHasPlan: filters?.isHasPlan === true ? filters?.isHasPlan : '',
         },
         [
           ...columns,
