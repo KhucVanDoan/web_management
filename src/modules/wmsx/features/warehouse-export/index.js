@@ -46,7 +46,7 @@ function WarehouseExport() {
     createdByUser: '',
     createdAt: '',
     warehouseId: '',
-    status: '',
+    // status: '',
     movementType: [
       MOVEMENT_TYPE.PO_EXPORT,
       MOVEMENT_TYPE.PRO_EXPORT,

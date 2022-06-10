@@ -350,6 +350,7 @@ function ProductionOrderForm() {
                       onChange={(val) =>
                         handlechangeType(val, values, setFieldValue)
                       }
+                      disableClearable
                       required
                     />
                   </Grid>

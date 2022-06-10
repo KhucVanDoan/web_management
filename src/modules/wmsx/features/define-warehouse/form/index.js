@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { Grid, Typography, FormControl } from '@mui/material'
+import {
+  Grid,
+  Typography,
+  FormControl,
+  createFilterOptions,
+} from '@mui/material'
 import { Form, Formik } from 'formik'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -20,8 +24,8 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
-import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { DEFAULT_UNITS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
@@ -37,7 +41,6 @@ function DefineWarehouseFrom() {
   const { cloneId } = qs.parse(location.search)
   const history = useHistory()
   const routeMatch = useRouteMatch()
-  const [factories, setFactories] = useState([])
   const {
     data: { factoryList },
     actions: factoryAction,
@@ -47,6 +50,16 @@ function DefineWarehouseFrom() {
     data: { warehouseDetails, isLoading },
     actions,
   } = useDefineWarehouse()
+
+  const {
+    data: { companyList },
+    actions: companyActions,
+  } = useDefineCompany()
+
+  useEffect(() => {
+    companyActions.searchCompanies({ isGetAll: 1 })
+  }, [])
+
   const MODE_MAP = {
     [ROUTE.DEFINE_WAREHOUSE.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_WAREHOUSE.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -59,7 +72,6 @@ function DefineWarehouseFrom() {
   const handleSubmit = (values) => {
     const params = {
       ...values,
-      companyId: values?.companyId?.id,
       warehouseTypeSettings: values?.warehouseTypeSettings?.map((i) => ({
         id: i?.id,
       })),
@@ -90,7 +102,7 @@ function DefineWarehouseFrom() {
     code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
-    companyId: warehouseDetails?.company || null,
+    companyId: warehouseDetails?.companyId || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
     long: {
@@ -106,13 +118,6 @@ function DefineWarehouseFrom() {
       unit: warehouseDetails?.height?.unit || 3,
     },
     description: warehouseDetails?.description || '',
-  }
-
-  const handleChangeCompany = (val) => {
-    const listFactory = factoryList?.filter(
-      (item) => item?.companyId === val?.id,
-    )
-    setFactories(listFactory)
   }
 
   const renderBreadcrumb = () => {
@@ -196,7 +201,7 @@ function DefineWarehouseFrom() {
             onSubmit={handleSubmit}
             enableReinitialize
           >
-            {({ handleReset }) => (
+            {({ handleReset, values }) => (
               <Form>
                 <Grid
                   container
@@ -238,7 +243,7 @@ function DefineWarehouseFrom() {
                           limit: ASYNC_SEARCH_LIMIT,
                         })
                       }
-                      asyncRequestHelper={(res) => res?.data}
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       multiple
@@ -250,16 +255,12 @@ function DefineWarehouseFrom() {
                       name="companyId"
                       label={t('defineWarehouse.company')}
                       placeholder={t('defineWarehouse.company')}
-                      asyncRequest={(s) =>
-                        searchCompaniesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
+                      options={companyList}
                       getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
-                      onChange={(val) => handleChangeCompany(val)}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
+                      getOptionValue={(opt) => opt?.id}
                       required
                     />
                   </Grid>
@@ -268,10 +269,14 @@ function DefineWarehouseFrom() {
                       name="factoryId"
                       label={t('defineWarehouse.factory')}
                       placeholder={t('defineWarehouse.factory')}
-                      options={!isEmpty(factories) ? factories : factoryList}
-                      getOptionValue={(opt) => opt?.id}
+                      options={factoryList?.filter(
+                        (factory) => factory.companyId === values.companyId,
+                      )}
                       getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
+                      filterOptions={createFilterOptions({
+                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
+                      })}
+                      getOptionValue={(opt) => opt?.id}
                       required
                     />
                   </Grid>
@@ -281,9 +286,8 @@ function DefineWarehouseFrom() {
                       label={t('defineWarehouse.address')}
                       placeholder={t('defineWarehouse.address')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      required
                     />
                   </Grid>
                   <Grid item xs={12}>

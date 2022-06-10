@@ -46,7 +46,7 @@ function WarehouseImport() {
     code: '',
     createdAt: '',
     createdByUser: '',
-    status: '',
+    // status: '',
     warehouseId: '',
     movementType: [
       MOVEMENT_TYPE.PO_IMPORT,
