@@ -521,6 +521,20 @@
   "warehouseExport": {
     "title": "Warehouse export"
   },
+  "orderStatus": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "inProgress": "Put-away",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "completed": "Completed",
+    "inReceiving": "Receiving",
+    "received": "Received",
+    "delivered": "Đã cất",
+    "inCollecting": "Collecting",
+    "collected": "Collected",
+    "exported": "Exported"
+  },
   "movements": {
     "breadcrumbTitle": "Transaction form",
     "formTitle": "Transaction form",

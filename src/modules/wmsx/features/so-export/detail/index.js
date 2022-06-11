@@ -104,44 +104,55 @@ function SOExportDetail() {
                 value={convertUtcDateToLocalTz(soExportDetails?.deliveredAt)}
               />
             </Grid>
-            {/* @TODO: waiting BE return field */}
             <Grid item lg={6} xs={12}>
-              <LabelValue label={t('soExport.createdByUser')} value={''} />
+              <LabelValue
+                label={t('soExport.createdByUser')}
+                value={soExportDetails?.createdByUser?.fullName}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue label={t('soExport.createdAt')} value={''} />
+              <LabelValue
+                label={t('soExport.createdAt')}
+                value={convertUtcDateToLocalTz(soExportDetails?.createdAt)}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue label={t('soExport.approver')} value={''} />
+              <LabelValue
+                label={t('soExport.approver')}
+                value={soExportDetails?.approver?.fullName}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LabelValue label={t('soExport.approvedAt')} value={''} />
+              <LabelValue
+                label={t('soExport.approvedAt')}
+                value={convertUtcDateToLocalTz(soExportDetails?.approvedAt)}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <Typography>{t('soExport.vendor.title')}</Typography>
               <LabelValue
                 label={t('soExport.vendor.companyName')}
-                value={''}
+                value={soExportDetails?.company?.name}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.vendor.address')}
-                value={''}
+                value={soExportDetails?.company?.address}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.vendor.phone')}
-                value={''}
+                value={soExportDetails?.company?.phone}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.vendor.email')}
-                value={''}
+                value={soExportDetails?.company?.email}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.vendor.fax')}
-                value={''}
+                value={soExportDetails?.company?.fax}
                 mt={4 / 3}
               />
             </Grid>
@@ -154,22 +165,22 @@ function SOExportDetail() {
               />
               <LabelValue
                 label={t('soExport.customer.address')}
-                value={''}
+                value={soExportDetails?.customer?.address}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.customer.phone')}
-                value={''}
+                value={soExportDetails?.customer?.phone}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.customer.email')}
-                value={''}
+                value={soExportDetails?.customer?.email}
                 mt={4 / 3}
               />
               <LabelValue
                 label={t('soExport.customer.fax')}
-                value={''}
+                value={soExportDetails?.customer?.fax}
                 mt={4 / 3}
               />
               <LabelValue

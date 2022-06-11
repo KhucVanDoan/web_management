@@ -13,7 +13,21 @@ export const schema = (t) =>
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.string().nullable().required(t('general:form.required')),
-        lotNumber: Yup.string().required(t('general:form.required')),
+        lotNumber: Yup.string()
+          .nullable()
+          .required(t('general:form.required'))
+          .min(
+            NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MIN,
+            t('general:form.minNumber', {
+              min: NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MIN,
+            }),
+          )
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MAX,
+            }),
+          ),
         mfg: Yup.string().nullable().required(t('general:form.required')),
         quantity: Yup.number()
           .min(

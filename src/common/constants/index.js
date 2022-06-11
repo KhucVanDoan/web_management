@@ -146,6 +146,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 0.001,
     MAX: 99999999999,
   },
+  LOT_NUMBER: {
+    MIN: 0,
+    MAX: 10,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {
