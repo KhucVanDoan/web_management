@@ -22,16 +22,22 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         field: 'itemId',
         width: 400,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map((item) => item?.itemId?.id)
           return (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               label={t('definePackage.productName')}
+              placeholder={t('definePackage.productName')}
               asyncRequest={(s) =>
                 getItemsApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
               }
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemId?.id
+              }
               required
             />
           )
@@ -95,7 +101,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
           variant="outlined"
           onClick={() => {
             arrayHelpers.push({
-              detailId: '',
+              itemId: '',
               quantity: 1,
             })
             scrollToBottom()

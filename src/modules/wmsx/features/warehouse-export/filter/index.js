@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
-  ORDER_STATUS_OPTIONS,
+  // ORDER_STATUS_OPTIONS,
   WAREHOUSE_EXPORT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
@@ -59,7 +59,7 @@ const FilterForm = () => {
           })}
         />
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
           label={t('movements.movementStatus')}
@@ -68,7 +68,7 @@ const FilterForm = () => {
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Field.Autocomplete
           name="movementType"

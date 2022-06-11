@@ -22,6 +22,7 @@ const ItemSettingTable = ({ items, arrayHelpers, setFieldValue }) => {
         field: 'itemId',
         width: 400,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map((item) => item?.itemId?.id)
           return (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
@@ -42,6 +43,10 @@ const ItemSettingTable = ({ items, arrayHelpers, setFieldValue }) => {
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
               onChange={() => setFieldValue(`items[${index}].itemDetailId`, [])}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemId?.id
+              }
               required
             />
           )
@@ -61,6 +66,7 @@ const ItemSettingTable = ({ items, arrayHelpers, setFieldValue }) => {
               placeholder={t('defineBlock.details')}
               getOptionLabel={(opt) => opt?.name}
               disabled={itemId ? false : true}
+              required
             />
           )
         },
