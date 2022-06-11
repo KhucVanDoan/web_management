@@ -401,7 +401,6 @@ const WarehouseTransferForm = () => {
                     <ItemSettingTable
                       items={values?.items}
                       mode={mode}
-                      sourceWarehouseId={values?.sourceWarehouseName}
                       arrayHelpers={arrayHelpers}
                       setFieldValue={setFieldValue}
                       values={values}
