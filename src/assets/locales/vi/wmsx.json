@@ -149,7 +149,10 @@
     "soExportCreate": "Tạo lệnh xuất theo đơn bán",
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
     "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
-    "warehouseDesign": "Thiết kế kho"
+    "warehouseDesign": "Thiết kế kho",
+    "typeServiceDetail": "Chi tiết loại dịch vụ",
+    "typeServiceCreate": "Tạo loại dịch vụ",
+    "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
   },
   "dashboard": {
     "chart": {
