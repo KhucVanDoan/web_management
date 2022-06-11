@@ -53,13 +53,12 @@ const TemplateSectorDetail = () => {
                 value={templateSectorDetails.name}
               />
             </Grid>
-            <Grid item lg={6} xs={12}></Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={<Typography>{t('templateSector.storage')}</Typography>}
-              />
+            <Grid item xs={12}>
+              <Typography variant="h4" component="span">
+                {t('templateSector.storage')}
+              </Typography>
             </Grid>
-            <Grid item lg={6} xs={12}></Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('templateSector.unit')}
@@ -88,14 +87,13 @@ const TemplateSectorDetail = () => {
                 value={templateSectorDetails?.height?.value}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={
-                  <Typography>{t('templateSector.sheftInArea')}</Typography>
-                }
-              />
+
+            <Grid item xs={12}>
+              <Typography variant="h4" component="span">
+                {t('templateSector.sheftInArea')}
+              </Typography>
             </Grid>
-            <Grid item lg={6} xs={12}></Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('templateSector.templateSheft')}
@@ -108,14 +106,16 @@ const TemplateSectorDetail = () => {
                 value={templateSectorDetails?.templateShelfs?.length}
               />
             </Grid>
-            {templateSectorDetails?.templateShelfs?.map((sheft, index) => (
-              <Grid item lg={6} xs={12}>
-                <LV
-                  label={`${t('templateSector.templateSheft')} ${index + 1}`}
-                  value={sheft?.name}
-                />
-              </Grid>
-            ))}
+            {[...(templateSectorDetails?.templateShelfs || [])]
+              .reverse()
+              .map((shelf, index) => (
+                <Grid item lg={6} xs={12} key={shelf?.id}>
+                  <LV
+                    label={`${t('templateSector.nameSheft')} ${index + 1}`}
+                    value={shelf?.name}
+                  />
+                </Grid>
+              ))}
           </Grid>
           <ActionBar onBack={backToList} />
         </Grid>
