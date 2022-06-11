@@ -30,7 +30,10 @@
     "createPaymentType": "決済方法作成",
     "paymentTypeDetails": "決済方法詳細",
     "editPaymentType": "決済方法編集",
-    "defineTypeService": "サービスタイプ登録"
+    "defineTypeService": "サービスタイプ登録",
+    "typeServiceDetail": "サービスタイプ詳細",
+    "typeServiceCreate": "サービスタイプ作成",
+    "typeServiceEdit": "サービスタイプ編集"
   },
   "dashboard": {
     "chart": {
