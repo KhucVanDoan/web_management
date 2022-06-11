@@ -39,6 +39,7 @@ function SOExport() {
   const history = useHistory()
   const [tempItem, setTempItem] = useState()
   const [confirmModal, setConfirmModal] = useState(false)
+  const [rejectModal, setRejectModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
 
@@ -134,15 +135,17 @@ function SOExport() {
           status === ORDER_STATUS_SO_EXPORT.PENDING ||
           status === ORDER_STATUS_SO_EXPORT.REJECTED
         const isConfirmed = status === ORDER_STATUS_SO_EXPORT.PENDING
+        const isRejected =
+          status === ORDER_STATUS_SO_EXPORT.REJECTED ||
+          status === ORDER_STATUS_SO_EXPORT.PENDING
         const isDelete =
           status === ORDER_STATUS_SO_EXPORT.PENDING ||
           status === ORDER_STATUS_SO_EXPORT.REJECTED
 
-        const hasTransaction =
-          status === ORDER_STATUS_SO_EXPORT.INCOLLECTING ||
-          status === ORDER_STATUS_SO_EXPORT.COLLECTED ||
-          status === ORDER_STATUS_SO_EXPORT.EXPORTED ||
-          status === ORDER_STATUS_SO_EXPORT.COMPLETED
+        const notHasTransaction =
+          status === ORDER_STATUS_SO_EXPORT.PENDING ||
+          status === ORDER_STATUS_SO_EXPORT.CONFIRMED ||
+          status === ORDER_STATUS_SO_EXPORT.REJECTED
         return (
           <>
             <IconButton
@@ -175,19 +178,16 @@ function SOExport() {
                 <Icon name="tick" />
               </IconButton>
             )}
-            {isConfirmed && (
-              // @TODO: waiting confirm BA
+            {isRejected && (
               <IconButton
                 onClick={() => {
-                  setTempItem(row)
-                  // setIsOpenRejectModal(true)
+                  handleRejectOpenModal(row)
                 }}
-                disabled
               >
                 <Icon name="remove" />
               </IconButton>
             )}
-            {hasTransaction && (
+            {!notHasTransaction && (
               <Button
                 variant="text"
                 size="small"
@@ -234,6 +234,10 @@ function SOExport() {
     setConfirmModal(true)
     setTempItem(tempItem)
   }
+  const handleRejectOpenModal = (tempItem) => {
+    setRejectModal(true)
+    setTempItem(tempItem)
+  }
 
   const onSubmitDelete = () => {
     actions.deleteSOExport(tempItem?.id, () => {
@@ -248,6 +252,13 @@ function SOExport() {
       refreshData()
     })
     setConfirmModal(false)
+    setTempItem(null)
+  }
+  const submitReject = () => {
+    actions.rejectSOExportById(tempItem?.id, () => {
+      refreshData()
+    })
+    setRejectModal(false)
     setTempItem(null)
   }
 
@@ -337,6 +348,27 @@ function SOExport() {
         noBorderBottom
       >
         {t('general:common.confirmMessage.confirm')}
+        <LabelValue
+          label={t('soExport.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LabelValue
+          label={t('soExport.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={rejectModal}
+        title={t('general:common.notify')}
+        onCancel={() => setConfirmModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitReject}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.reject')}
         <LabelValue
           label={t('soExport.code')}
           value={tempItem?.code}

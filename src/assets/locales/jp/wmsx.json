@@ -560,6 +560,20 @@
   "warehouseExport": {
     "title": "出庫一覧"
   },
+  "orderStatus": {
+    "pending": "確認待ち",
+    "confirmed": "確認済み",
+    "inProgress": "棚入",
+    "approved": "承認済み",
+    "rejected": "拒否",
+    "completed": "完了",
+    "inReceiving": "受取",
+    "received": "受取済み",
+    "delivered": "Đã cất",
+    "inCollecting": "Đang thu thập",
+    "collected": "Đã thu thập",
+    "exported": "Đã xuất"
+  },
   "movements": {
     "breadcrumbTitle": "取引伝票",
     "formTitle": "取引伝票",

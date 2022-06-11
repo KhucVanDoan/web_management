@@ -815,7 +815,7 @@
   "orderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
+    "inProgress": "Cất hàng",
     "approved": "Đã được chấp nhận",
     "rejected": "Từ chối",
     "completed": "Hoàn thành",

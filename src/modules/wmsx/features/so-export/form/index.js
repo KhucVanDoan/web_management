@@ -75,6 +75,9 @@ function SOExportForm() {
     warehouse: soExportDetails?.warehouseId || null,
     deliveredAt: soExportDetails?.deliveredAt || null,
     description: soExportDetails?.description || '',
+    companyName: soExportDetails?.company?.name,
+    customerName: soExportDetails?.customer?.name,
+    orderedAt: soExportDetails?.orderedAt,
     items: soExportDetails?.saleOrderExportWarehouseLots?.map((i) => ({
       id: i?.id,
       itemId: i?.itemId,
@@ -100,9 +103,8 @@ function SOExportForm() {
       name: val?.name,
       description: val?.description,
       saleOrderId: val?.soCode?.id,
-      // @TODO: <linh.taquang> fix to waiting BE
-      companyId: val?.soCode?.companyId || 92,
-      customerId: val?.soCode?.customer?.id || soExportDetails?.customerId,
+      companyId: val?.soCode?.company?.id || soExportDetails?.company?.id,
+      customerId: val?.soCode?.customer?.id || soExportDetails?.customer?.id,
       orderedAt: val?.soCode?.orderedAt || soExportDetails?.orderedAt,
       deliveredAt: val?.deliveredAt,
       warehouseId: Number(val?.warehouse),
@@ -254,8 +256,7 @@ function SOExportForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => opt?.code}
                       required
                     />
                   </Grid>
@@ -284,6 +285,7 @@ function SOExportForm() {
                       name="deliveredAt"
                       label={t('soExport.deliveryDate')}
                       placeholder={t('soExport.deliveryDate')}
+                      required
                     />
                   </Grid>
                 </Grid>
@@ -317,7 +319,7 @@ function SOExportForm() {
                     </Typography>
                     <Field.TextField
                       label={t('soExport.vendor.companyName')}
-                      name="soCode.company.name"
+                      name="companyName"
                       placeholder={t('soExport.vendor.companyName')}
                       sx={{
                         mt: 4 / 3,
@@ -331,7 +333,7 @@ function SOExportForm() {
                     </Typography>
                     <Field.TextField
                       label={t('soExport.customer.name')}
-                      name="soCode.customer.name"
+                      name="customerName"
                       placeholder={t('soExport.customer.name')}
                       sx={{
                         mt: 4 / 3,
@@ -340,7 +342,7 @@ function SOExportForm() {
                     />
                     <Field.DatePicker
                       label={t('soExport.orderedAt')}
-                      name="soCode.orderedAt"
+                      name="orderedAt"
                       placeholder={t('soExport.orderedAt')}
                       sx={{
                         mt: 4 / 3,
