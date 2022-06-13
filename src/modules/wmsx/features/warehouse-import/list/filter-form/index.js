@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Grid, createFilterOptions } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -9,18 +9,9 @@ import {
   // ORDER_STATUS_OPTIONS,
   WAREHOUSE_IMPORT_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
-  const {
-    data: { warehouseList },
-    actions: warehouseActions,
-  } = useDefineWarehouse()
-
-  useEffect(() => {
-    warehouseActions.searchWarehouses({ isGetAll: 1 })
-  }, [])
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -32,13 +23,6 @@ const FilterForm = () => {
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('movements.importExport.movementDate')}
-          placeholder={t('movements.importExport.movementDate')}
         />
       </Grid>
       <Grid item xs={12}>
@@ -61,19 +45,6 @@ const FilterForm = () => {
           getOptionValue={(opt) => opt?.id?.toString()}
         />
       </Grid> */}
-      <Grid item xs={12}>
-        <Field.Autocomplete
-          name="warehouseId"
-          label={t('movements.importExport.warehouseName')}
-          placeholder={t('movements.importExport.warehouseName')}
-          options={warehouseList}
-          getOptionValue={(opt) => opt?.id}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-        />
-      </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
           name="movementType"

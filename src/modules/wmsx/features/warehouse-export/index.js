@@ -25,6 +25,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
+import WarehouseExportFilter from './filter-quick-form'
 const breadcrumbs = [
   {
     route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
@@ -44,13 +45,16 @@ function WarehouseExport() {
   const DEFAULT_FILTERS = {
     code: '',
     createdByUser: '',
+    // status: '',
+  }
+
+  const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
     warehouseId: '',
-    // status: '',
     movementType: [
-      MOVEMENT_TYPE.PO_EXPORT,
-      MOVEMENT_TYPE.PRO_EXPORT,
-      MOVEMENT_TYPE.SO_EXPORT,
+      MOVEMENT_TYPE.PO_IMPORT,
+      MOVEMENT_TYPE.PRO_IMPORT,
+      MOVEMENT_TYPE.SO_IMPORT,
     ],
   }
 
@@ -63,8 +67,11 @@ function WarehouseExport() {
     setPageSize,
     setSort,
     setFilters,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const columns = [
@@ -175,7 +182,7 @@ function WarehouseExport() {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExport(params)
@@ -183,11 +190,11 @@ function WarehouseExport() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort])
+  }, [page, pageSize, filters, sort, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [sort, filters])
+  }, [sort, filters, quickFilters])
 
   const renderHeaderRight = () => {
     return (
@@ -219,6 +226,11 @@ function WarehouseExport() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
+      <WarehouseExportFilter
+        setQuickFilters={setQuickFilters}
+        quickFilters={quickFilters}
+        defaultFilter={DEFAULT_QUICK_FILTERS}
+      />
       <DataTable
         title={t('warehouseExport.tableTitle')}
         rows={warehouseExportList}

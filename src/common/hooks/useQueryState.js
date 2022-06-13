@@ -8,6 +8,7 @@ export const useQueryState = (initial = {}) => {
     pageSize: ROWS_PER_PAGE_OPTIONS[0],
     sort: null,
     filters: {},
+    quickFilters: {},
     keyword: '',
     ...initial,
   }
@@ -22,6 +23,8 @@ export const useQueryState = (initial = {}) => {
         return { ...state, sort: action.payload, page: 1 }
       case 'setFilters':
         return { ...state, filters: action.payload, page: 1 }
+      case 'setQuickFilters':
+        return { ...state, quickFilters: action.payload, page: 1 }
       case 'setKeyword':
         return { ...state, keyword: action.payload, page: 1 }
       default:
@@ -35,6 +38,8 @@ export const useQueryState = (initial = {}) => {
   const setPageSize = (x) => dispatch({ type: 'setPageSize', payload: x })
   const setSort = (x) => dispatch({ type: 'setSort', payload: x })
   const setFilters = (x) => dispatch({ type: 'setFilters', payload: x })
+  const setQuickFilters = (x) =>
+    dispatch({ type: 'setQuickFilters', payload: x })
   const setKeyword = (x) => dispatch({ type: 'setKeyword', payload: x })
 
   return {
@@ -45,5 +50,6 @@ export const useQueryState = (initial = {}) => {
     setSort,
     setFilters,
     setKeyword,
+    setQuickFilters,
   }
 }

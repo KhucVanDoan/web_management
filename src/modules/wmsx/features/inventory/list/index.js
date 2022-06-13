@@ -21,6 +21,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
+import InventoryFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -45,11 +46,14 @@ const Inventory = () => {
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
-    createdAt: '',
     executionDay: '',
     createdByUser: '',
     warehouseName: '',
-    warehouseType: '',
+  }
+
+  const DEFAULT_QUICK_FILTERS = {
+    createdAt: '',
+    warehouseTypeId: '',
   }
 
   const {
@@ -63,8 +67,11 @@ const Inventory = () => {
     setSort,
     setFilters,
     setKeyword,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   useEffect(() => {
@@ -163,7 +170,7 @@ const Inventory = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
       sort: convertSortParams(sort),
     }
     actions.searchInventory(params)
@@ -171,11 +178,11 @@ const Inventory = () => {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword])
+  }, [page, pageSize, filters, sort, keyword, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [sort, filters, keyword])
+  }, [sort, filters, keyword, quickFilters])
 
   const renderHeaderRight = () => {
     return (
@@ -212,6 +219,11 @@ const Inventory = () => {
       placeholder={t('inventories.searchPlaceholder')}
       loading={isLoading}
     >
+      <InventoryFilter
+        setQuickFilters={setQuickFilters}
+        quickFilters={quickFilters}
+        defaultFilter={DEFAULT_QUICK_FILTERS}
+      />
       <DataTable
         uniqKey=""
         title={t('inventories.title')}
