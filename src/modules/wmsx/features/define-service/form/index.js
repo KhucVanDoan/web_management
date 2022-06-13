@@ -206,7 +206,7 @@ const DefineServiceForm = () => {
                       placeholder={t('defineService.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required

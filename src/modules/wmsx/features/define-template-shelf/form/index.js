@@ -22,8 +22,8 @@ import { defineTemplateShelfSchema } from './schema'
 
 const DEFAULT_ITEMS = {
   name: '',
-  height: '',
-  weightLoad: '',
+  height: 0,
+  weightLoad: 0,
 }
 
 const DefineTemplateShelfForm = () => {
