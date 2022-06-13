@@ -123,6 +123,7 @@
     "completed": "Tiến độ"
   },
   "actionBar": {
+    "accept": "Xác nhận",
     "back": "Quay lại",
     "cancel": "Huỷ",
     "create": "Tạo mới",

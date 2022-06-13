@@ -132,6 +132,7 @@ import watchSearchInventoryLimits from './inventory-limit/search-inventory-limit
 import watchUpdateInventoryLimit from './inventory-limit/update-item-group'
 import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
 import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
+import watchApproveInventory from './inventory/approve-ticket'
 import watchSearchInventoryDetail from './inventory/detail-inventory'
 import watchGetWarehouseType from './inventory/get-warehouse-types'
 import watchSearchInventory from './inventory/search-inventory'
@@ -353,6 +354,7 @@ export default function* sagas() {
     watchSearchInventoryDetail(),
     watchSearchInventory(),
     watchGetWarehouseType(),
+    watchApproveInventory(),
     //purchased orders import
     watchUpdatePOImport(),
     watchSearchPOImport(),

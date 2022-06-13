@@ -117,6 +117,7 @@
     "searchPlaceholder": "Search"
   },
   "actionBar": {
+    "accept": "Accept",
     "back": "Back",
     "cancel": "Cancel",
     "create": "Create new",

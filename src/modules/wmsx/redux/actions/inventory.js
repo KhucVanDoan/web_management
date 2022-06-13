@@ -10,6 +10,10 @@ export const WMSX_GET_WAREHOUSE_TYPE_START = 'WMSX_GET_WAREHOUSE_TYPE_START'
 export const WMSX_GET_WAREHOUSE_TYPE_SUCCESS = 'WMSX_GET_WAREHOUSE_TYPE_SUCCESS'
 export const WMSX_GET_WAREHOUSE_TYPE_FAILED = 'WMSX_GET_WAREHOUSE_TYPE_FAILED'
 
+export const WMSX_APPROVE_INVENTORY_START = 'WMSX_APPROVE_INVENTORY_START'
+export const WMSX_APPROVE_INVENTORY_SUCCESS = 'WMSX_APPROVE_INVENTORY_SUCCESS'
+export const WMSX_APPROVE_INVENTORY_FAILED = 'WMSX_APPROVE_INVENTORY_FAILED'
+
 export const RESET_INVENTORY_DETAILS_STATE =
   'WMSX_RESET_INVENTORY_DETAILS_STATE'
 
@@ -113,11 +117,43 @@ export function getWarehouseTypeFailed() {
   }
 }
 
+export function approveInventory(payload, onSuccess, onError) {
+  return {
+    type: WMSX_APPROVE_INVENTORY_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get inventory details by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function approveInventorySuccess(payload) {
+  return {
+    type: WMSX_APPROVE_INVENTORY_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get inventory details by id failed action
+ * @returns {object}
+ */
+export function approveInventoryFailed() {
+  return {
+    type: WMSX_APPROVE_INVENTORY_FAILED,
+  }
+}
+
 export function resetInventoryDetailsState() {
   return {
     type: RESET_INVENTORY_DETAILS_STATE,
   }
 }
+
 export default {
   searchInventory,
   searchInventorySuccess,
@@ -129,4 +165,7 @@ export default {
   getWarehouseTypeFailed,
   getWarehouseTypeSuccess,
   resetInventoryDetailsState,
+  approveInventory,
+  approveInventorySuccess,
+  approveInventoryFailed,
 }
