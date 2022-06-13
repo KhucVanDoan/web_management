@@ -106,8 +106,8 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             onClick={() => {
               arrayHelpers.push({
                 name: '',
-                height: '',
-                weightLoad: '',
+                height: 0,
+                weightLoad: 0,
               })
               scrollToBottom()
             }}

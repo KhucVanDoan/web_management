@@ -217,7 +217,7 @@ const DefineCurrencyUnit = () => {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('defineCurrencyUnit.deleteTitle')}
+        title={t('defineCurrencyUnit.delete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDeleteModal}
@@ -227,7 +227,7 @@ const DefineCurrencyUnit = () => {
         }}
         noBorderBottom
       >
-        {t('defineCurrencyUnit.confirmDelete')}
+        {t('defineCurrencyUnit.deleteConfirm')}
         <LV
           label={t('defineCurrencyUnit.code')}
           value={modal?.tempItem?.code}

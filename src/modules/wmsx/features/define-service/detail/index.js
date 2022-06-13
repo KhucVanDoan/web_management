@@ -125,7 +125,7 @@ const DefineServiceDetail = () => {
                 label={t('defineService.serviceType')}
                 value={
                   typeServiceList?.find(
-                    (cru) => cru?.id === serviceDetails?.rentUnitId,
+                    (cru) => cru?.id === serviceDetails?.serviceTypeId,
                   )?.name || ''
                 }
               />
