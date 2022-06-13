@@ -5,7 +5,11 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -18,7 +22,8 @@ import { scrollToBottom, convertUtcDateToLocalTz } from '~/utils'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, status, itemsFilter } = props
+  const { items, mode, arrayHelpers, status, itemsFilter, setFieldValue } =
+    props
   const hideCols = ![
     ORDER_STATUS.IN_PROGRESS,
     ORDER_STATUS.APPROVED,
@@ -112,11 +117,25 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.lotNumber'),
       width: 180,
       renderCell: (params, index) => {
-        const { lotNumber } = params.row
+        const { lotNumber, itemId } = params.row
+
         return isView ? (
           <>{lotNumber}</>
         ) : (
-          <Field.TextField name={`items[${index}].lotNumber`} />
+          <Field.TextField
+            name={`items[${index}].lotNumber`}
+            inputProps={{
+              maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+            }}
+            onChange={(val) => {
+              const isSelectedLotNum = lotNumberList
+                ?.find((item) => item.itemId === itemId)
+                ?.lotNumbers?.find((lot) => lot.lotNumber === val)
+              if (isSelectedLotNum) {
+                setFieldValue(`items[${index}].mfg`, isSelectedLotNum.mfg)
+              }
+            }}
+          />
         )
       },
     },
@@ -135,15 +154,8 @@ function ItemSettingTable(props) {
               (item) => item.itemId === itemId && item.lotNumber === lotNumber,
             ).length > 1) &&
           mfg
-        const isSelectedLotNum = lotNumberList
-          ?.find((item) => item.itemId === itemId)
-          ?.lotNumbers?.find((lot) => lot.lotNumber === lotNumber)
-        return isView || isFilled || isSelectedLotNum ? (
-          <>
-            {isSelectedLotNum
-              ? convertUtcDateToLocalTz(isSelectedLotNum.mfg)
-              : mfg}
-          </>
+        return isView || isFilled ? (
+          <>{isView ? mfg : convertUtcDateToLocalTz(mfg)}</>
         ) : (
           <Field.DatePicker
             name={`items[${index}].mfg`}

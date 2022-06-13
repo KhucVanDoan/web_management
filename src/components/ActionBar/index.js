@@ -15,6 +15,7 @@ const ActionBar = ({
   children,
   elBefore,
   elAfter,
+  onAccept,
 }) => {
   const { t } = useTranslation()
 
@@ -43,6 +44,12 @@ const ActionBar = ({
       ) : (
         <>
           {elBefore}
+
+          {typeof onAccept === 'function' && (
+            <Button type="submit" onClick={onAccept}>
+              {t('actionBar.accept')}
+            </Button>
+          )}
 
           {typeof onBack === 'function' && (
             <Button color="grayF4" onClick={onBack}>

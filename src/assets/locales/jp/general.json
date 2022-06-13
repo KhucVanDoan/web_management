@@ -37,7 +37,8 @@
     "back": "戻る",
     "cancel": "キャンセル",
     "create": "新規作成",
-    "save": "保存"
+    "save": "保存",
+    "accept": "確定"
   },
   "autocomplete": {
     "loadingText": "データを読み込んでいます。",

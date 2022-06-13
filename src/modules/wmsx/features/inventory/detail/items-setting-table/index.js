@@ -68,7 +68,7 @@ const ItemSettingTable = ({ items }) => {
     },
     {
       field: 'warehouseSectorName',
-      headerName: t('movements.itemDetails.warehouseShelfName'),
+      headerName: t('movements.itemDetails.warehouseSectorName'),
       width: 120,
       renderCell: (params) => {
         return params.row?.lots?.[0]?.warehouseSector?.name
