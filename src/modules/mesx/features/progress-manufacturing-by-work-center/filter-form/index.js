@@ -111,7 +111,7 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
                       color="grayF4"
-                      sx={{ ml: 'auto', mr: '8px' }}
+                      sx={{ mr: 1 }}
                       onClick={() => {
                         handleReset()
                         setFilters(initialValues)

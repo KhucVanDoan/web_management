@@ -24,7 +24,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import FilterForm from './filter'
+import SoExportFilter from './filter-quick-form'
 const breadcrumbs = [
   {
     title: ROUTE.ORDER_MANAGEMENT.TITLE,
@@ -294,6 +294,12 @@ function SOExport() {
       placeholder={t('soExport.searchPlaceholder')}
       loading={isLoading}
     >
+      <SoExportFilter
+        setQuickFilters={setFilters}
+        quickFilters={filters}
+        defaultFilter={DEFAULT_FILTERS}
+      />
+
       <DataTable
         title={t('soExport.title')}
         rows={soExportList}
@@ -306,12 +312,6 @@ function SOExport() {
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
-        filters={{
-          form: <FilterForm />,
-          defaultValue: DEFAULT_FILTERS,
-          values: filters,
-          onApply: setFilters,
-        }}
         sort={sort}
       />
       <Dialog

@@ -16,6 +16,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter'
+import InventoryStatisticFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -42,6 +43,12 @@ function InventoryStatistics() {
     reportDate: new Date(),
   }
 
+  const DEFAULT_QUICK_FILTERS = {
+    reportDate: new Date(),
+    itemTypeId: '',
+    warehouseId: '',
+  }
+
   const {
     page,
     pageSize,
@@ -53,8 +60,11 @@ function InventoryStatistics() {
     setPageSize,
     setSort,
     setFilters,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const {
@@ -194,19 +204,22 @@ function InventoryStatistics() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, sort, filters, keyword])
+  }, [page, pageSize, sort, filters, keyword, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [sort, filters, keyword])
+  }, [sort, filters, keyword, quickFilters])
 
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
-      reportDate: filters?.reportDate,
+      reportDate: quickFilters?.reportDate,
       limit: pageSize,
-      filter: convertFilterParams(omit(filters, ['reportDate']), columns),
+      filter: convertFilterParams(
+        omit({ ...filters, ...quickFilters }, ['reportDate']),
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchInventoryStatistics(params)
@@ -242,7 +255,12 @@ function InventoryStatistics() {
         onSearch={setKeyword}
         renderHeaderRight={renderHeaderRight}
       >
-        <Box sx={{ mb: 1, textAlign: 'left' }}>
+        <InventoryStatisticFilter
+          setQuickFilters={setQuickFilters}
+          quickFilters={quickFilters}
+          defaultFilter={DEFAULT_QUICK_FILTERS}
+        />
+        <Box sx={{ mb: 1, mt: 4, textAlign: 'left' }}>
           <table>
             <tbody>
               <tr>

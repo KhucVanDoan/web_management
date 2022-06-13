@@ -24,7 +24,7 @@ import {
   convertUtcDateToLocalTz,
 } from '~/utils'
 
-import FilterForm from './filters-form'
+import WarehouseTransferFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -314,6 +314,11 @@ const WarehouseTransfer = () => {
       placeholder={t('warehouseTransfer.searchPlaceholder')}
       loading={isLoading}
     >
+      <WarehouseTransferFilter
+        setQuickFilters={setFilters}
+        quickFilters={filters}
+        defaultFilter={DEFAULT_FILTERS}
+      />
       <DataTable
         title={t('warehouseTransfer.title')}
         columns={columns}
@@ -325,13 +330,7 @@ const WarehouseTransfer = () => {
         onSortChange={setSort}
         total={total}
         sort={sort}
-        filters={{
-          form: <FilterForm />,
-          values: filters,
-          defaultValue: DEFAULT_FILTERS,
-          onApply: setFilters,
-        }}
-      ></DataTable>
+      />
       <Dialog
         open={isOpenDeleteModal}
         title={t('warehouseTransfer.deleteModalTitle')}

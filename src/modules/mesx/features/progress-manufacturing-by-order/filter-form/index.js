@@ -147,7 +147,7 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button
                         color="grayF4"
-                        sx={{ mr: '8px', ml: 'auto' }}
+                        sx={{ mr: 1 }}
                         onClick={() => {
                           setFilters(initialValues)
                           resetForm()
