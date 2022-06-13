@@ -26,25 +26,6 @@ export const ROUTE = {
       TITLE: 'routingEdit',
     },
   },
-
-  PURCHASED_ORDER: {
-    LIST: {
-      PATH: '/mesx/purchased-order',
-      TITLE: 'purchasedOrder',
-    },
-    CREATE: {
-      PATH: '/mesx/purchased-order/create',
-      TITLE: 'purchasedOrderCreate',
-    },
-    EDIT: {
-      PATH: '/mesx/purchased-order/:id/edit',
-      TITLE: 'purchasedOrderEdit',
-    },
-    DETAIL: {
-      PATH: '/mesx/purchased-order/:id/detail',
-      TITLE: 'purchasedOrderDetail',
-    },
-  },
   MO: {
     LIST: {
       PATH: '/mesx/mo',

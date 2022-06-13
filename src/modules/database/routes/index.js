@@ -16,6 +16,9 @@ import ItemTypeForm from '~/modules/database/features/item-type-setting/item-typ
 import ItemUnitSetting from '~/modules/database/features/item-unit-setting'
 import ItemUnitDetail from '~/modules/database/features/item-unit-setting/item-unit-detail'
 import ItemUnitForm from '~/modules/database/features/item-unit-setting/item-unit-form'
+import PurchasedOrderDetail from '~/modules/database/features/purchased-order/detail'
+import PurchasedOrderForm from '~/modules/database/features/purchased-order/form'
+import PurchasedOrder from '~/modules/database/features/purchased-order/list'
 import SaleOrderDetail from '~/modules/database/features/sale-order/detail'
 import SaleOrderForm from '~/modules/database/features/sale-order/form'
 import SaleOrder from '~/modules/database/features/sale-order/list'
@@ -208,6 +211,32 @@ const routes = [
         name: ROUTE.SALE_ORDER.EDIT.TITLE,
         path: ROUTE.SALE_ORDER.EDIT.PATH,
         component: SaleOrderForm,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.PURCHASED_ORDER.LIST.TITLE,
+    path: ROUTE.PURCHASED_ORDER.LIST.PATH,
+    component: PurchasedOrder,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.PURCHASED_ORDER.CREATE.TITLE,
+        path: ROUTE.PURCHASED_ORDER.CREATE.PATH,
+        component: PurchasedOrderForm,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.PURCHASED_ORDER.DETAIL.TITLE,
+        path: ROUTE.PURCHASED_ORDER.DETAIL.PATH,
+        component: PurchasedOrderDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.PURCHASED_ORDER.EDIT.TITLE,
+        path: ROUTE.PURCHASED_ORDER.EDIT.PATH,
+        component: PurchasedOrderForm,
         isInSidebar: false,
       },
     ],

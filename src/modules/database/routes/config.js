@@ -129,4 +129,22 @@ export const ROUTE = {
       TITLE: 'saleOrderEdit',
     },
   },
+  PURCHASED_ORDER: {
+    LIST: {
+      PATH: '/database/purchased-order',
+      TITLE: 'purchasedOrder',
+    },
+    CREATE: {
+      PATH: '/database/purchased-order/create',
+      TITLE: 'purchasedOrderCreate',
+    },
+    EDIT: {
+      PATH: '/database/purchased-order/:id/edit',
+      TITLE: 'purchasedOrderEdit',
+    },
+    DETAIL: {
+      PATH: '/database/purchased-order/:id/detail',
+      TITLE: 'purchasedOrderDetail',
+    },
+  },
 }

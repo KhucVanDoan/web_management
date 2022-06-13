@@ -27,7 +27,7 @@ import {
   GET_PURCHASED_ORDER_NOT_CREATE_POIMP_SUCCESS,
   GET_PURCHASED_ORDER_NOT_CREATE_POIMP_FAILED,
   RESET_PURCHASED_ORDER_DETAILS_STATE,
-} from '~/modules/mesx/redux/actions/purchased-order'
+} from '~/modules/database/redux/actions/purchased-order'
 
 const initialState = {
   isLoading: false,

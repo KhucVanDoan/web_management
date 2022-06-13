@@ -15,7 +15,7 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
+import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import {
   CODE_SETTINGS,
   QC_CHECK,

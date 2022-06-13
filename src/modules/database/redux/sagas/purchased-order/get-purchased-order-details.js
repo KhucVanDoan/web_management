@@ -4,7 +4,7 @@ import {
   getPurchasedOrderDetailsByIdFailed,
   getPurchasedOrderDetailsByIdSuccess,
   GET_PURCHASED_ORDER_DETAILS_START,
-} from '~/modules/mesx/redux/actions/purchased-order'
+} from '~/modules/database/redux/actions/purchased-order'
 import { api } from '~/services/api'
 /**
  * Search user API
