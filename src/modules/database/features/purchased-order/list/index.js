@@ -20,9 +20,9 @@ import {
   ORDER_TYPE_MAP,
   PURCHASED_ORDER_STATUS,
   PURCHASED_ORDER_STATUS_OPTIONS,
-} from '~/modules/mesx/constants'
-import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
-import { ROUTE } from '~/modules/mesx/routes/config'
+} from '~/modules/database/constants'
+import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
+import { ROUTE } from '~/modules/database/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
@@ -34,9 +34,9 @@ import { filterSchema } from './filter-form/schema'
 import { rejectSchema } from './schema'
 
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
+  // {
+  //   title: 'database',
+  // },
   {
     route: ROUTE.PURCHASED_ORDER.LIST.PATH,
     title: ROUTE.PURCHASED_ORDER.LIST.TITLE,

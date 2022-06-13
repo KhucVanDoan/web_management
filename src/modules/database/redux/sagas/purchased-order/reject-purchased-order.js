@@ -5,7 +5,7 @@ import {
   rejectPurchasedOrderByIdFailed,
   rejectPurchasedOrderByIdSuccess,
   REJECT_PURCHASED_ORDER_START,
-} from '~/modules/mesx/redux/actions/purchased-order'
+} from '~/modules/database/redux/actions/purchased-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 /**

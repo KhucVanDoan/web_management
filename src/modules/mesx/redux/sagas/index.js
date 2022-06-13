@@ -115,14 +115,6 @@ import watchGetDataProductivityReport from './productivity-report/get-data-produ
 import watchSearchProgressManufacturingByWorkCenter from './progress-by-work-center/search-progress-by-work-center'
 import watchProgressDetailReportData from './progress-detail-report/get-progress-detail-report'
 import watchProgressManuFacturingByOrderData from './progress-manudacturing-by-order/get-progress-manudacturing-by-order'
-import watchConfirmPurchasedOrder from './purchased-order/confirm-purchased-order'
-import watchCreatePurchasedOrder from './purchased-order/create-purchased-order'
-import watchDeletePurchasedOrder from './purchased-order/delete-purchased-order'
-import watchGetPurchasedOrderDetails from './purchased-order/get-purchased-order-details'
-import watchGetPurchasedOrderNotCreatePOimp from './purchased-order/get-purchased-order-not-poimp'
-import watchRejectPurchasedOrder from './purchased-order/reject-purchased-order'
-import watchSearchPurchasedOrders from './purchased-order/search-purchased-order'
-import watchUpdatePurchasedOrder from './purchased-order/update-purchased-order'
 import watchQualityReportData from './quality-report'
 import watchExportQualityReportData from './quality-report/export'
 import watchConfirmRequestBuyMaterial from './request-buy-material/confirm-request-buy-material'
@@ -379,16 +371,6 @@ export default function* sagas() {
     watchProgressDetailReportData(),
     // productivity-compare-report
     watchGetDataProductivityCompareReport(),
-
-    // purchased-order
-    watchSearchPurchasedOrders(),
-    watchCreatePurchasedOrder(),
-    watchUpdatePurchasedOrder(),
-    watchDeletePurchasedOrder(),
-    watchGetPurchasedOrderDetails(),
-    watchConfirmPurchasedOrder(),
-    watchRejectPurchasedOrder(),
-    watchGetPurchasedOrderNotCreatePOimp(),
 
     //progress-manufacturing-by-work-center
     watchSearchProgressManufacturingByWorkCenter(),

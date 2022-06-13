@@ -23,13 +23,13 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
+import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
-import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
+import { ROUTE } from '~/modules/database/routes/config'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
-import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
@@ -180,9 +180,6 @@ function PurchasedOrderForm() {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'database',
-      },
-      {
         route: ROUTE.PURCHASED_ORDER.LIST.PATH,
         title: ROUTE.PURCHASED_ORDER.LIST.TITLE,
       },
@@ -303,7 +300,6 @@ function PurchasedOrderForm() {
                       onChange={(val) => {
                         handleChangeRequestBuyMaterialCode(val, setFieldValue)
                       }}
-                      // required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

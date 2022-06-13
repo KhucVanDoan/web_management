@@ -10,17 +10,14 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
-import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import usePurchasedOrder from '~/modules/mesx/redux/hooks/usePurchasedOrder'
-import { ROUTE } from '~/modules/mesx/routes/config'
+import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
+import { ROUTE } from '~/modules/database/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 const breadcrumbs = [
-  {
-    title: 'database',
-  },
   {
     route: ROUTE.PURCHASED_ORDER.LIST.PATH,
     title: ROUTE.PURCHASED_ORDER.LIST.TITLE,

@@ -167,3 +167,54 @@ export const SALE_ORDER_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const PURCHASED_ORDER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 2,
+  APPROVED: 3,
+  COMPLETED: 4,
+  REJECTED: 5,
+}
+
+export const PURCHASED_ORDER_STATUS_MAP = {
+  [PURCHASED_ORDER_STATUS.PENDING]: 'purchasedOrderStatus.pending',
+  [PURCHASED_ORDER_STATUS.CONFIRMED]: 'purchasedOrderStatus.confirmed',
+  [PURCHASED_ORDER_STATUS.IN_PROGRESS]: 'purchasedOrderStatus.inProgress',
+  [PURCHASED_ORDER_STATUS.APPROVED]: 'purchasedOrderStatus.approved',
+  [PURCHASED_ORDER_STATUS.COMPLETED]: 'purchasedOrderStatus.completed',
+  [PURCHASED_ORDER_STATUS.REJECTED]: 'purchasedOrderStatus.rejected',
+}
+
+export const PURCHASED_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'purchasedOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'purchasedOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'purchasedOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'purchasedOrderStatus.approved',
+    color: 'approved',
+  },
+  {
+    id: 4,
+    text: 'purchasedOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'purchasedOrderStatus.rejected',
+    color: 'rejected',
+  },
+]

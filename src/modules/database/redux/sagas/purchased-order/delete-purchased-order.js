@@ -2,10 +2,10 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createPurchasedOrderFailed,
-  createPurchasedOrderSuccess,
-  CREATE_PURCHASED_ORDER_START,
-} from '~/modules/mesx/redux/actions/purchased-order'
+  deletePurchasedOrderFailed,
+  deletePurchasedOrderSuccess,
+  DELETE_PURCHASED_ORDER_START,
+} from '~/modules/database/redux/actions/purchased-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -14,33 +14,38 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const createPurchasedOrdersApi = (params) => {
-  const uri = `/v1/sales/purchased-orders/create`
-  return api.post(uri, params)
+const deletePurchasedOrderApi = (params) => {
+  const uri = `/v1/sales/purchased-orders/${params}`
+  return api.delete(uri)
+  // return {
+  //   statusCode: 200,
+  //   results: { API: 'DELETE_USER', id: 0, name: 'abada' },
+  // };
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doCreatePurchasedOrder(action) {
+function* doDeletePurchasedOrder(action) {
   try {
-    const response = yield call(createPurchasedOrdersApi, action?.payload)
+    const response = yield call(deletePurchasedOrderApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createPurchasedOrderSuccess(response.data))
+      yield put(deletePurchasedOrderSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createPurchasedOrderFailed())
+    yield put(deletePurchasedOrderFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -51,6 +56,6 @@ function* doCreatePurchasedOrder(action) {
 /**
  * Watch search users
  */
-export default function* watchCreatePurchasedOrder() {
-  yield takeLatest(CREATE_PURCHASED_ORDER_START, doCreatePurchasedOrder)
+export default function* watchDeletePurchasedOrder() {
+  yield takeLatest(DELETE_PURCHASED_ORDER_START, doDeletePurchasedOrder)
 }

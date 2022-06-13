@@ -8,7 +8,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
 
 const FilterForm = () => {

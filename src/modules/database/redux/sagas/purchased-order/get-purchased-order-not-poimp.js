@@ -5,7 +5,7 @@ import {
   getPurchasedOrderNotCreatePOimpFailed,
   getPurchasedOrderNotCreatePOimpSuccess,
   GET_PURCHASED_ORDER_NOT_CREATE_POIMP_START,
-} from '~/modules/mesx/redux/actions/purchased-order'
+} from '~/modules/database/redux/actions/purchased-order'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
