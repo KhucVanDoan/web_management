@@ -1,12 +1,7 @@
 import React, { useState } from 'react'
 
-import {
-  Grid,
-  //  Paper
-} from '@mui/material'
-// import { styled } from '@mui/styles'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-// import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import Page from '~/components/Page'
