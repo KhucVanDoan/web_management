@@ -63,11 +63,14 @@ const TemplateSectorForm = () => {
               shelf?.id === templateSectorDetails?.templateShelfs[0]?.id,
           )
         : null,
-    items:
-      templateSectorDetails?.templateShelfs?.map((item, index) => ({
-        id: index,
-        nameSheft: item?.name,
-      })) || DEFAULT_ITEM,
+    items: templateSectorDetails?.templateShelfs?.length
+      ? [...templateSectorDetails?.templateShelfs]
+          .reverse()
+          .map((item, index) => ({
+            id: index,
+            nameSheft: item?.name,
+          }))
+      : DEFAULT_ITEM,
   }
 
   useEffect(() => {
@@ -214,6 +217,9 @@ const TemplateSectorForm = () => {
     history.push(ROUTE.TEMPLATE_SECTOR.LIST.PATH)
   }
 
+  const handleChange = (values, setFieldValue) => {
+    setFieldValue('items', [...DEFAULT_ITEM])
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -227,7 +233,7 @@ const TemplateSectorForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => {
+        {({ handleReset, values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -322,6 +328,9 @@ const TemplateSectorForm = () => {
                         options={templateShelfList}
                         getOptionValue={(opt) => opt}
                         getOptionLabel={(opt) => opt?.name}
+                        onChange={(values) =>
+                          handleChange(values, setFieldValue)
+                        }
                         getOptionSubLabel={(opt) =>
                           `D*R*C:${opt?.long?.value}* ${opt?.width?.value}* ${
                             opt?.height?.value

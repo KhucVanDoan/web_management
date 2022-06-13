@@ -129,7 +129,7 @@ export const CODE_SETTINGS = {
   PURCHASED_ORDER_IMPORT: {
     DOMAIN: 'PURCHASED_ORDER_IMPORT',
     PREFIX: 'PO',
-    MAX_LENGTH: 10,
+    MAX_LENGTH: 2,
     FILLED_CHARACTER: '0',
   },
   IMPORT_MANUFACTURING_ORDER: {
@@ -313,22 +313,27 @@ export const ORDER_STATUS_OPTIONS = [
   {
     id: 6,
     text: 'orderStatus.inReceiving',
+    color: 'inReceiving',
   },
   {
     id: 7,
     text: 'orderStatus.received',
+    color: 'received',
   },
   {
     id: 8,
     text: 'orderStatus.delivered',
+    color: 'delivered',
   },
   {
     id: 9,
     text: 'orderStatus.inCollecting',
+    color: 'inCollecting',
   },
   {
     id: 10,
     text: 'orderStatus.collected',
+    color: 'collected',
   },
   {
     id: 11,
@@ -865,7 +870,7 @@ export const ORDER_STATUS_SO_EXPORT_OPTIONS = [
   {
     id: 6,
     text: 'orderStatusSoExport.inReceiving',
-    color: 'InReceiving',
+    color: 'inReceiving',
   },
   {
     id: 7,

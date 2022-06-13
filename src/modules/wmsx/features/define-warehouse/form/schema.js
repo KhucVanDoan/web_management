@@ -14,9 +14,8 @@ export const warehouseSchema = (t) => {
         NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
         t('general:form.required'),
       ),
-    companyId: Yup.object().nullable().required(t('general:form.required')),
+    companyId: Yup.string().nullable().required(t('general:form.required')),
     factoryId: Yup.string().nullable().required(t('general:form.required')),
-    location: Yup.string().required(t('general:form.required')),
     long: Yup.object().shape({
       value: unitSchema(t).nullable().required(t('general:form.required')),
     }),

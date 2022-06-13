@@ -1,3 +1,6 @@
+/* eslint-disable babel/no-invalid-this */
+
+import { isEmpty } from 'lodash'
 import * as Yup from 'yup'
 
 import {
@@ -51,6 +54,18 @@ export const defineBlockSchema = (t) =>
           )
           .required(t('general:form.required')),
         itemId: Yup.object().nullable().required(t('general:form.required')),
+        itemDetailId: Yup.object()
+          .nullable()
+          .test('detail_item', '', function () {
+            const hasItemId = this.parent?.itemId || false
+            if (hasItemId && isEmpty(this.originalValue)) {
+              return this.createError({
+                message: t('general:form.required'),
+                path: `${this.path}`,
+              })
+            }
+            return true
+          }),
       }),
     ),
   })

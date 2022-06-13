@@ -110,7 +110,7 @@
     "minToday": "Canoot selected before current date"
   },
   "page": {
-    "copyright": "A product of VTI - Solution ©2021",
+    "copyright": "A product of VTI - Solution ©{{year}}",
     "goBack": "Back",
     "logout": "Logout",
     "searchButton": "Search",

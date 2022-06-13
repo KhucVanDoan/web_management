@@ -149,7 +149,10 @@
     "soExportCreate": "Tạo lệnh xuất theo đơn bán",
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
     "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
-    "warehouseDesign": "Thiết kế kho"
+    "warehouseDesign": "Thiết kế kho",
+    "typeServiceDetail": "Chi tiết loại dịch vụ",
+    "typeServiceCreate": "Tạo loại dịch vụ",
+    "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
   },
   "dashboard": {
     "chart": {
@@ -623,7 +626,7 @@
     "code": "Mã kho",
     "name": "Tên kho",
     "type": "Loại kho",
-    "description": "Mô tả kho",
+    "description": "Mô tả về kho",
     "factory": "Nhà máy",
     "address": "Địa chỉ",
     "action": "Hành động",
@@ -815,7 +818,7 @@
   "orderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
+    "inProgress": "Cất hàng",
     "approved": "Đã được chấp nhận",
     "rejected": "Từ chối",
     "completed": "Hoàn thành",

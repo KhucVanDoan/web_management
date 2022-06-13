@@ -108,7 +108,7 @@
     "wenesday": "水曜日"
   },
   "page": {
-    "copyright": "©2021 VTI Solutions",
+    "copyright": "©{{year}} VTI Solutions",
     "goBack": "前画面に戻る",
     "logout": "ログアウト",
     "searchButton": "検索",

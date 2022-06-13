@@ -44,7 +44,10 @@
     "invoiceTypeDetail": "Invoice type detail",
     "editInvoiceType": "Edit invoice type",
     "createInvoiceType": "Create invoice type",
-    "defineVoucher": "Define Voucher"
+    "defineVoucher": "Define Voucher",
+    "typeServiceDetail": "Type service detail",
+    "typeServiceCreate": "Create type service",
+    "typeServiceEdit": "Edit type service"
   },
   "dashboard": {
     "chart": {
@@ -520,6 +523,20 @@
   },
   "warehouseExport": {
     "title": "Warehouse export"
+  },
+  "orderStatus": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "inProgress": "Put-away",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "completed": "Completed",
+    "inReceiving": "Receiving",
+    "received": "Received",
+    "delivered": "Đã cất",
+    "inCollecting": "Collecting",
+    "collected": "Collected",
+    "exported": "Exported"
   },
   "movements": {
     "breadcrumbTitle": "Transaction form",

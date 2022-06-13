@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Button, IconButton, InputAdornment, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { first, map } from 'lodash'
+import { map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -14,14 +14,7 @@ import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfe
 import { convertUtcDateToLocalTz, scrollToBottom } from '~/utils'
 
 const ItemSettingTable = (props) => {
-  const {
-    mode,
-    arrayHelpers,
-    items,
-    sourceWarehouseId,
-    values,
-    setFieldValue,
-  } = props
+  const { mode, arrayHelpers, items, values, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -57,7 +50,8 @@ const ItemSettingTable = (props) => {
     return newArr
   }
 
-  const handleChange = (val, values) => {
+  const handleChange = (val, values, index) => {
+    setFieldValue(`items[${index}].lotNumber`, '')
     const params = {
       itemId: val,
       warehouseIds: values?.sourceWarehouseName,
@@ -80,9 +74,12 @@ const ItemSettingTable = (props) => {
         width: 150,
         renderCell: (params, index) => {
           const itemWarehouseFilterList = itemWarehouseStockList?.filter(
-            (item) => item?.warehouse?.id === sourceWarehouseId,
+            (item) => item?.warehouse?.id === values?.sourceWarehouseName,
           )
-          const itemWarehouseIds = map(itemWarehouseFilterList, 'id')
+          const itemWarehouseIds = map(
+            itemWarehouseFilterList?.filter((item) => item?.quantity > 0),
+            'id',
+          )
           const itemId = itemList?.filter((item) =>
             itemWarehouseIds?.includes(item?.id),
           )
@@ -95,7 +92,7 @@ const ItemSettingTable = (props) => {
               disabled={isView || !values?.sourceWarehouseName}
               getOptionLabel={(opt) => opt?.name}
               getOptionValue={(option) => option?.id || ''}
-              onChange={(val) => handleChange(val, values)}
+              onChange={(val) => handleChange(val, values, index)}
             />
           )
         },
@@ -140,18 +137,22 @@ const ItemSettingTable = (props) => {
         width: 150,
         renderCell: (params, index) => {
           const { itemId } = params?.row
-          const lotList = lotNumberList?.map((e) =>
-            e?.lotNumbers?.map((item) => item),
-          )
+          const lotList = lotNumberList?.filter((e) => e?.itemId === itemId)
+          var result = lotList[0]?.lotNumbers.reduce((unique, o) => {
+            if (!unique.some((obj) => obj.lotNumber === o.lotNumber)) {
+              unique.push(o)
+            }
+            return unique
+          }, [])
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={first(lotList)}
+              options={result}
               disabled={isView}
               getOptionLabel={(opt) => opt?.lotNumber}
-              getOptionValue={(option) => option?.lotNumber || ''}
+              getOptionValue={(option) => option?.lotNumber}
               onChange={(val) => {
                 actions.getStockByItemAndLotNumber({
                   keyword: val,

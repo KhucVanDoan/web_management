@@ -30,7 +30,10 @@
     "createPaymentType": "決済方法作成",
     "paymentTypeDetails": "決済方法詳細",
     "editPaymentType": "決済方法編集",
-    "defineTypeService": "サービスタイプ登録"
+    "defineTypeService": "サービスタイプ登録",
+    "typeServiceDetail": "サービスタイプ詳細",
+    "typeServiceCreate": "サービスタイプ作成",
+    "typeServiceEdit": "サービスタイプ編集"
   },
   "dashboard": {
     "chart": {
@@ -559,6 +562,20 @@
   },
   "warehouseExport": {
     "title": "出庫一覧"
+  },
+  "orderStatus": {
+    "pending": "確認待ち",
+    "confirmed": "確認済み",
+    "inProgress": "棚入",
+    "approved": "承認済み",
+    "rejected": "拒否",
+    "completed": "完了",
+    "inReceiving": "受取",
+    "received": "受取済み",
+    "delivered": "Đã cất",
+    "inCollecting": "Đang thu thập",
+    "collected": "Đã thu thập",
+    "exported": "Đã xuất"
   },
   "movements": {
     "breadcrumbTitle": "取引伝票",

@@ -8,6 +8,7 @@ export const validateShema = (t) => {
     name: Yup.string().required(t('general:form.required')),
     soCode: Yup.object().nullable().required(t('general:form.required')),
     warehouse: Yup.string().nullable().required(t('general:form.required')),
+    deliveredAt: Yup.date().nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.number().nullable().required(t('general:form.required')),

@@ -21,7 +21,7 @@ export const defineTemplateShelfSchema = (t, heightTotal, weightTotal) =>
       Yup.object().shape({
         name: Yup.string().required(t('general:form.required')),
         height: Yup.object().shape({
-          value: Yup.number()
+          value: unitSchema(t)
             .required(t('general:form.required'))
             .test('height_total', '', function () {
               const items = [...(this?.from || [])].pop()?.value?.items || []
@@ -39,7 +39,7 @@ export const defineTemplateShelfSchema = (t, heightTotal, weightTotal) =>
             }),
         }),
         weightLoad: Yup.object().shape({
-          value: Yup.number()
+          value: unitSchema(t)
             .required(t('general:form.required'))
             .test('weight_total', '', function () {
               const items = [...(this?.from || [])].pop()?.value?.items || []

@@ -17,17 +17,12 @@ import { convertFilterParams, scrollToBottom } from '~/utils'
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
   const { arrayHelpers, items, soId, setFieldValue } = props
-  const [lotNumberList, setLotNumberList] = useState([])
-
   const {
-    data: { itemList },
+    data: { itemList, itemQualityPoint },
     actions,
   } = useCommonManagement()
 
-  const {
-    data: { itemQualityPoint },
-    actions: commonActions,
-  } = useCommonManagement()
+  const [lotNumberList, setLotNumberList] = useState([])
 
   const {
     data: { saleOrderDetails },
@@ -45,9 +40,10 @@ function ItemSettingTable(props) {
     return () => actionSaleOrder.resetSaleOrderState()
   }, [soId])
 
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
+  useEffect(() => {
+    if (saleOrderDetails?.saleOrderDetails)
+      handleChangeItem(saleOrderDetails?.saleOrderDetails[0]?.itemId)
+  }, [saleOrderDetails?.saleOrderDetails])
 
   const handleChangeItem = async (val) => {
     if (val) {
@@ -56,6 +52,10 @@ function ItemSettingTable(props) {
       })
       setLotNumberList(res.data)
     }
+  }
+
+  const getItemObject = (id) => {
+    return itemList?.find((item) => item?.id === id)
   }
 
   const handleCheckQc = (itemId) => {
@@ -67,7 +67,7 @@ function ItemSettingTable(props) {
         stageId: STAGES_OPTION.SO_EXPORT,
       }),
     }
-    commonActions.getItemQualityPoint(params)
+    actions.getItemQualityPoint(params)
   }
 
   const columns = [
