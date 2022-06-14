@@ -1,24 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useInventory from '~/modules/wmsx/redux/hooks/useInventory'
 
-const ImportManufacturingOrderFilter = ({
-  setQuickFilters,
-  quickFilters,
-  defaultFilter,
-}) => {
+const MovementsFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
   const { t } = useTranslation(['wmsx'])
 
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
+
+  const {
+    data: { warehouseType },
+    actions,
+  } = useInventory()
+
+  useEffect(() => {
+    actions.getWarehouseType()
+  }, [])
 
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
@@ -33,23 +37,19 @@ const ImportManufacturingOrderFilter = ({
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
                   <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="code"
-                      label={t('importManufacturingOrder.codeList')}
-                      placeholder={t('importManufacturingOrder.codeList')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
+                    <Field.Autocomplete
+                      name="warehouseTypeId"
+                      label={t('movements.warehouseType')}
+                      placeholder={t('movements.warehouseType')}
+                      options={warehouseType}
+                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionLabel={(opt) => t(opt?.name)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="status"
-                      label={t('importManufacturingOrder.status')}
-                      placeholder={t('importManufacturingOrder.status')}
-                      options={ORDER_STATUS_OPTIONS}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                    <Field.DateRangePicker
+                      name="createdAt"
+                      label={t('movements.createTime')}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -79,4 +79,4 @@ const ImportManufacturingOrderFilter = ({
   )
 }
 
-export default ImportManufacturingOrderFilter
+export default MovementsFilter
