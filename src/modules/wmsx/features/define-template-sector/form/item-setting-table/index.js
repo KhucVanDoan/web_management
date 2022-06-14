@@ -17,17 +17,6 @@ import addNotification from '~/utils/toast'
 
 const ItemSettingTable = ({ items, arrayHelpers, values }) => {
   const { t } = useTranslation(['wmsx'])
-  const validateName = (name, index) => {
-    let error = ''
-    if (
-      items?.some(
-        (item, itemIndex) => item?.nameSheft === name && itemIndex !== index,
-      )
-    ) {
-      error = t('templateSector.duplicateName')
-    }
-    return error
-  }
   const validateNumberOfShelfsInSector = () => {
     const nextQty = (items?.length || 0) + 1
     if (
@@ -79,7 +68,6 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
                   maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                 }}
                 required
-                validate={(name) => validateName(name, index)}
                 sx={{ flex: 1 }}
                 placeholder={`${t('templateSector.nameSheft')} ${index + 1}`}
               />

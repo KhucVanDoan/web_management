@@ -82,7 +82,7 @@ export default function templateSector(state = initialState, action) {
     case DELETE_TEMPLATE_SECTOR_FAILED:
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
       }
     case RESET_STATE_TEMPLATE_SECTOR:
       return {
