@@ -100,6 +100,7 @@ function SaleOrderForm() {
     const convertValues = {
       ...values,
       customerId: values?.customerId?.id,
+      boqId: values?.boqId ? values?.boqId : null,
       items: values?.items?.map((item) => ({
         id: item?.itemId || item?.item?.id,
         quantity: Number(item?.quantity),
