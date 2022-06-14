@@ -349,10 +349,9 @@ const ItemSettingTable = ({
         headerName: t('soExport.item.qcCheck'),
         width: 200,
         align: 'center',
-        // renderCell: (params, index) => {
-        //   const itemId = params.row?.itemId
-        //   return <Field.Checkbox name={`items[${index}].qcCheck`} />
-        // },
+        renderCell: (_, index) => {
+          return <Field.Checkbox name={`items[${index}].qcCheck`} />
+        },
       },
       {
         field: 'qcCriteriaId',
