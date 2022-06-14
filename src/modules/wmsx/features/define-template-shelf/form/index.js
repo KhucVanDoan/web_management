@@ -21,6 +21,7 @@ import ItemsSettingTable from './items-setting-table'
 import { defineTemplateShelfSchema } from './schema'
 
 const DEFAULT_ITEMS = {
+  id: new Date().getTime(),
   name: '',
   height: 0,
   weightLoad: 0,

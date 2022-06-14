@@ -14,18 +14,6 @@ import { scrollToBottom } from '~/utils'
 const ItemSettingTable = ({ items, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
 
-  const validateName = (name, index) => {
-    let error = ''
-    if (
-      items?.some(
-        (item, itemIndex) => item?.name === name && itemIndex !== index,
-      )
-    ) {
-      error = t('defineTemplateShelf.shelfFloorNameIsDuplicated')
-    }
-    return error
-  }
-
   const columns = useMemo(
     () => [
       {
@@ -39,7 +27,6 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
-              validate={(name) => validateName(name, index)}
               required
             />
           )
@@ -105,6 +92,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
+                id: new Date().getTime(),
                 name: '',
                 height: 0,
                 weightLoad: 0,
