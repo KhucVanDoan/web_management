@@ -104,7 +104,7 @@ function ProgressDetailReport() {
       validationSchema={progressDetailReportSchema(t)}
       enableReinitialize
     >
-      {() => (
+      {({ resetForm }) => (
         <Form>
           <Grid container justifyContent="center">
             <Grid item xl={11} xs={12}>
@@ -163,6 +163,15 @@ function ProgressDetailReport() {
                 </Grid>
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button
+                      color="grayF4"
+                      sx={{ mr: 1 }}
+                      onClick={() => {
+                        resetForm()
+                      }}
+                    >
+                      {t('general:common.cancel')}
+                    </Button>
                     <Button type="submit">{t('general:common.search')}</Button>
                   </Box>
                 </Grid>

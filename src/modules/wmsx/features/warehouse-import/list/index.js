@@ -25,6 +25,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
+import WarehouseImportFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -42,17 +43,21 @@ function WarehouseImport() {
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
-  const DEFAULT_FILTERS = {
-    code: '',
+  const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
     createdByUser: '',
-    // status: '',
     warehouseId: '',
     movementType: [
       MOVEMENT_TYPE.PO_IMPORT,
       MOVEMENT_TYPE.PRO_IMPORT,
       MOVEMENT_TYPE.SO_IMPORT,
     ],
+  }
+
+  const DEFAULT_FILTERS = {
+    code: '',
+    createdByUser: '',
+    // status: '',
   }
 
   const {
@@ -66,8 +71,11 @@ function WarehouseImport() {
     setSort,
     setFilters,
     setKeyword,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const columns = [
@@ -178,7 +186,7 @@ function WarehouseImport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
       sort: convertSortParams(sort),
     }
     actions.getWarehouseImportMovements(params)
@@ -186,11 +194,11 @@ function WarehouseImport() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword])
+  }, [page, pageSize, filters, sort, keyword, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [keyword, sort, filters])
+  }, [keyword, sort, filters, quickFilters])
 
   const renderHeaderRight = () => {
     return (
@@ -225,6 +233,11 @@ function WarehouseImport() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
+      <WarehouseImportFilter
+        setQuickFilters={setQuickFilters}
+        quickFilters={quickFilters}
+        defaultFilter={DEFAULT_QUICK_FILTERS}
+      />
       <DataTable
         title={t('movements.title')}
         rows={movements}
@@ -239,7 +252,11 @@ function WarehouseImport() {
         selected={selectedRows}
         total={total}
         sort={sort}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          onApply: setFilters,
+        }}
       />
     </Page>
   )

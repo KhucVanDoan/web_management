@@ -450,7 +450,7 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
           design: {
             x:
               door?.design?.x > 0
-                ? door?.desgin?.x / warehouseSize?.stageWidth
+                ? door?.design?.x / warehouseSize?.stageWidth
                 : 0,
             y:
               door?.design?.y > 0
@@ -649,7 +649,7 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
       <div ref={warehouseStage}>
         {warehouseId ? (
           <Card
-            bodyStyle={{ height: `${warehouseSize.stageLong}px` }}
+            sx={{ height: `${warehouseSize.stageLong}px` }}
             className="warehouse-stage"
             onDragOver={handleDragOver}
             onDrop={handleDrop}

@@ -6,6 +6,7 @@ import defineFactory from './factory'
 import itemGroupSetting from './item-group-setting'
 import itemTypeSetting from './item-type-setting'
 import itemUnitSetting from './item-unit-setting'
+import purchasedOrder from './purchased-order'
 import defineSaleOrder from './sale-order'
 export default combineReducers({
   itemGroupSetting,
@@ -15,4 +16,5 @@ export default combineReducers({
   itemTypeSetting,
   itemUnitSetting,
   defineSaleOrder,
+  purchasedOrder,
 })

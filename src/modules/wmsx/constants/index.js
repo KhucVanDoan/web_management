@@ -903,14 +903,14 @@ export const DRAG_TYPE = {
   DOOR: 'door',
 }
 
+export const CM_TO_PIXEL = 37.7952755906
 export const UNIT_ENUM = {
   M: 3,
   DM: 2,
   CM: 1,
 }
 export const WAREHOUSE_DOOR = {
-  WIDTH: 68,
+  WIDTH: 66,
   HEIGHT: 66,
 }
 export const DISTANCE_BETWEEN_SECTORS = 5
-export const CM_TO_PIXEL = 37.7952755906

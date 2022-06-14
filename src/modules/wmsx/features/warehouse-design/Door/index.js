@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { Button } from '@mui/material'
+import { Delete } from '@mui/icons-material'
+import { IconButton } from '@mui/material'
 import Draggable from 'react-draggable'
 
-import Icon from '~/components/Icon'
 import { WAREHOUSE_DOOR } from '~/modules/wmsx/constants'
 
 import './style.scss'
@@ -38,9 +38,9 @@ const Door = ({ door, onStopDrag, warehouseSize, onRemoveDoor }) => {
     const { x, y } = ui
     if (
       x === 0 ||
-      warehouseSize.stageWidth - (x + WAREHOUSE_DOOR.WIDTH) === 0 ||
+      Math.round(warehouseSize.stageWidth) - (x + WAREHOUSE_DOOR.WIDTH) === 0 ||
       y === 0 ||
-      warehouseSize.stageLong - (y + WAREHOUSE_DOOR.HEIGHT) === 0
+      Math.round(warehouseSize.stageLong) - (y + WAREHOUSE_DOOR.HEIGHT) === 0
     ) {
       setPosition({ x: x, y: y })
     }
@@ -85,13 +85,14 @@ const Door = ({ door, onStopDrag, warehouseSize, onRemoveDoor }) => {
       <div ref={setDoorRef} className="door-canvas" onClick={clickOnDoor}>
         {isClickOnDoor && (
           <div className="door-toolbar">
-            <Button
-              className="toolbar-button"
+            <IconButton
+              className="toolbar-button delete"
               size="small"
               shape="circle"
-              icon={<Icon name="delete" />}
               onClick={() => onRemoveDoor(door.id)}
-            ></Button>
+            >
+              <Delete fontSize="small" />
+            </IconButton>
           </div>
         )}
         <img

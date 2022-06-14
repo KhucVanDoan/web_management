@@ -45,7 +45,7 @@ const DefineCustomerForm = () => {
     code: isUpdate ? customerDetails?.code : '',
     name: customerDetails?.name || '',
     phone: customerDetails?.phone || '',
-    email: customerDetails?.email || '',
+    email: customerDetails?.email || null,
     fax: customerDetails?.fax || '',
     address: customerDetails?.address || '',
     description: customerDetails?.description || '',
@@ -220,7 +220,6 @@ const DefineCustomerForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
-                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

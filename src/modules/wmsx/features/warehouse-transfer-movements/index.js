@@ -25,6 +25,7 @@ import {
   MOVEMENT_STATUS,
 } from '../../constants'
 import FilterForm from './filter'
+import WarehouseTransferMovementFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -44,13 +45,18 @@ function WarehouseTransferMovements() {
   const DEFAULT_FILTERS = {
     id: '',
     orderCode: '',
-    warehouseTypes: '',
-    movementType: '',
     orderStatus: '',
-    createdAt: '',
     createdBy: '',
+    warehouseTypes: '',
     sourceWarehouseName: '',
+    createdAt: '',
     destinationWarehouseName: '',
+  }
+
+  const DEFAULT_QUICK_FILTERS = {
+    postedAt: '',
+    warehouseTypeId: '',
+    movementType: '',
   }
 
   const {
@@ -62,8 +68,11 @@ function WarehouseTransferMovements() {
     setPageSize,
     setSort,
     setFilters,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const {
@@ -164,17 +173,17 @@ function WarehouseTransferMovements() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, sort, filters])
+  }, [page, pageSize, sort, filters, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])
-  }, [sort, filters])
+  }, [sort, filters, quickFilters])
 
   const refreshData = () => {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseTransferMovements(params)
@@ -236,6 +245,11 @@ function WarehouseTransferMovements() {
         renderHeaderRight={renderHeaderRight}
         loading={isLoading}
       >
+        <WarehouseTransferMovementFilter
+          setQuickFilters={setQuickFilters}
+          quickFilters={quickFilters}
+          defaultFilter={DEFAULT_QUICK_FILTERS}
+        />
         <DataTable
           title={t('warehouseTransferMovement.title')}
           rows={formatData}

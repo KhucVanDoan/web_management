@@ -30,6 +30,14 @@ import watchDeleteItemUnit from './item-unit-setting/delete-item-unit'
 import watchGetItemUnitDetails from './item-unit-setting/get-item-unit-details'
 import watchSearchItemUnits from './item-unit-setting/search-item-units'
 import watchUpdateItemUnit from './item-unit-setting/update-item-unit'
+import watchConfirmPurchasedOrder from './purchased-order/confirm-purchased-order'
+import watchCreatePurchasedOrder from './purchased-order/create-purchased-order'
+import watchDeletePurchasedOrder from './purchased-order/delete-purchased-order'
+import watchGetPurchasedOrderDetails from './purchased-order/get-purchased-order-details'
+import watchGetPurchasedOrderNotCreatePOimp from './purchased-order/get-purchased-order-not-poimp'
+import watchRejectPurchasedOrder from './purchased-order/reject-purchased-order'
+import watchSearchPurchasedOrders from './purchased-order/search-purchased-order'
+import watchUpdatePurchasedOrder from './purchased-order/update-purchased-order'
 import watchConfirmSaleOrder from './sale-order/confirm-sale-order'
 import watchCreateSaleOrder from './sale-order/create-sale-order'
 import watchDeleteSaleOrder from './sale-order/delete-sale-order'
@@ -94,5 +102,15 @@ export default function* sagas() {
     watchConfirmSaleOrder(),
     watchRejectSaleOrder(),
     watchSaleOrderDetailByIds(),
+
+    // purchased-order
+    watchSearchPurchasedOrders(),
+    watchCreatePurchasedOrder(),
+    watchUpdatePurchasedOrder(),
+    watchDeletePurchasedOrder(),
+    watchGetPurchasedOrderDetails(),
+    watchConfirmPurchasedOrder(),
+    watchRejectPurchasedOrder(),
+    watchGetPurchasedOrderNotCreatePOimp(),
   ])
 }

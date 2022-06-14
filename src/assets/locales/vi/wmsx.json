@@ -410,7 +410,7 @@
     "deleteServiceSuccess": "Xóa dịch vụ thành công",
     "updateServiceSuccess": "Cập nhật dịch vụ thành công",
     "duplicate": "Trường này đã tồn tại",
-    "deleteModalTitle": "Xóa dịch vụ",
+    "deleteTitle": "Xóa dịch vụ",
     "confirmDelete": "Bạn có muốn xóa dịch vụ không? Chú ý, bạn không thể hoàn tác khi đồng ý xóa dịch vụ này.",
     "deleteButton": "Xóa dịch vụ",
     "mustBiggerThanPricePerDay": "Đơn giá/tháng phải lớn hơn Đơn giá/ngày",

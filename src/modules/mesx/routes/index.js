@@ -31,9 +31,6 @@ import ProducingStepDetail from '~/modules/mesx/features/producing-steps/detail'
 import ProducingStepForm from '~/modules/mesx/features/producing-steps/form'
 import ProductivityCompareReport from '~/modules/mesx/features/productivity-compare-report'
 import ProductivityReport from '~/modules/mesx/features/productivity-report'
-import PurchasedOrderDetail from '~/modules/mesx/features/purchased-order/detail'
-import PurchasedOrderForm from '~/modules/mesx/features/purchased-order/form'
-import PurchasedOrder from '~/modules/mesx/features/purchased-order/list'
 import QualityReport from '~/modules/mesx/features/quality-report'
 import RequestBuyMaterialDetail from '~/modules/mesx/features/request-buy-material/detail'
 import RequestBuyMaterialForm from '~/modules/mesx/features/request-buy-material/form'
@@ -90,32 +87,6 @@ const routes = [
             name: ROUTE.DEFINE_CUSTOMER.EDIT.TITLE,
             path: ROUTE.DEFINE_CUSTOMER.EDIT.PATH,
             component: DefineCustomerForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.PURCHASED_ORDER.LIST.TITLE,
-        path: ROUTE.PURCHASED_ORDER.LIST.PATH,
-        component: PurchasedOrder,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.PURCHASED_ORDER.CREATE.TITLE,
-            path: ROUTE.PURCHASED_ORDER.CREATE.PATH,
-            component: PurchasedOrderForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.PURCHASED_ORDER.DETAIL.TITLE,
-            path: ROUTE.PURCHASED_ORDER.DETAIL.PATH,
-            component: PurchasedOrderDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.PURCHASED_ORDER.EDIT.TITLE,
-            path: ROUTE.PURCHASED_ORDER.EDIT.PATH,
-            component: PurchasedOrderForm,
             isInSidebar: false,
           },
         ],

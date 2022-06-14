@@ -10,6 +10,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { CUSTOMER_LEVEL_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useDefineCurrencyUnit from '~/modules/wmsx/redux/hooks/useDefineCurrencyUnit'
 import useDefineCustomerLevel from '~/modules/wmsx/redux/hooks/useDefineCustomerLevel'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -36,6 +37,15 @@ const DefineCustomerLevelDetail = () => {
     data: { isLoading, customerLevelDetails },
     actions,
   } = useDefineCustomerLevel()
+
+  const {
+    data: { currencyUnitList },
+    actions: currActions,
+  } = useDefineCurrencyUnit()
+
+  useEffect(() => {
+    currActions.searchCurrencyUnits()
+  }, [])
 
   useEffect(() => {
     actions.getCustomerLevelDetailsById(id)
@@ -108,7 +118,11 @@ const DefineCustomerLevelDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineCustomerLevel.unit')}
-                value={Number(customerLevelDetails.discount)}
+                value={
+                  currencyUnitList.find(
+                    (item) => item.id === customerLevelDetails?.currencyUnitId,
+                  )?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>

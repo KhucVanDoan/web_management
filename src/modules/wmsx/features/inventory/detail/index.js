@@ -21,6 +21,7 @@ const InventoryStatisticDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['wmsx'])
   const { id } = useParams()
+
   const breadcrumbs = [
     {
       title: 'warehouseManagement',
@@ -36,6 +37,10 @@ const InventoryStatisticDetail = () => {
   ]
   const backToList = () => {
     history.push(ROUTE.INVENTORY.LIST.PATH)
+  }
+
+  const acceptTicket = () => {
+    actions.approveInventory(id, backToList)
   }
 
   const {
@@ -178,7 +183,10 @@ const InventoryStatisticDetail = () => {
           items={inventoryStatisticDetail?.warehouseItems || []}
         />
       </Box>
-      <ActionBar onBack={backToList} />
+      <ActionBar
+        onBack={backToList}
+        onAccept={inventoryStatisticDetail?.status === 5 ? acceptTicket : null}
+      />
     </Page>
   )
 }

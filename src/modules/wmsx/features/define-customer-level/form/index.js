@@ -222,7 +222,7 @@ const DefineCustomerLevelForm = () => {
                         name="code"
                         placeholder={t('defineCustomerLevel.code')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         disabled={isUpdate}
