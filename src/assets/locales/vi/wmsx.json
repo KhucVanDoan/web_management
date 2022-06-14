@@ -1732,7 +1732,7 @@
     "name": "Tên mã giảm giá",
     "date": "Khoảng thời gian chiết khấu",
     "createModalTitle": "Tạo mới",
-    "searchPlaceHolder": "Tìm kiếm thông tin....",
+    "searchPlaceHolder": "Tìm kiếm mã giảm giá theo mã hoặc tên",
     "confirmDelete": "Bạn có chắc chắc muốn xóa Mã giảm giá không? Chú ý, bạn không thể hoàn tác khi đồng ý xóa mã giảm giá này",
     "deleteButton": "Xoá Mã giảm giá",
     "deleteModalTitle": "Xóa Mã giảm giá",

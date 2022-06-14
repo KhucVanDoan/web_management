@@ -62,7 +62,7 @@ function DefineVoucherDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('defineVoucher.name')}
-                value={voucher?.code}
+                value={voucher?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
