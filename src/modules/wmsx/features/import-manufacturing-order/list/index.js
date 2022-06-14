@@ -27,7 +27,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import ImportManufacturingOrderFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -56,9 +55,6 @@ function ImportManufacturingOrder() {
   const DEFAULT_FILTERS = {
     name: '',
     type: [TRANSACTION_TYPE_ENUM.IMPORT, TRANSACTION_TYPE_ENUM.EXPORT],
-  }
-
-  const DEFAULT_QUICK_FILTERS = {
     code: '',
     status: '',
   }
@@ -74,11 +70,8 @@ function ImportManufacturingOrder() {
     setSort,
     setFilters,
     setKeyword,
-    quickFilters,
-    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
-    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const columns = [
@@ -238,7 +231,7 @@ function ImportManufacturingOrder() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchImportManufacturingOrders(params)
@@ -246,7 +239,7 @@ function ImportManufacturingOrder() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword, quickFilters])
+  }, [page, pageSize, filters, sort, keyword])
 
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
@@ -338,11 +331,6 @@ function ImportManufacturingOrder() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
-      <ImportManufacturingOrderFilter
-        setQuickFilters={setQuickFilters}
-        quickFilters={quickFilters}
-        defaultFilter={DEFAULT_QUICK_FILTERS}
-      />
       <DataTable
         title={t('importManufacturingOrder.title')}
         rows={importManufacturingOrderList}
