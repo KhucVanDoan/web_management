@@ -21,7 +21,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import ItemSettingTableDetail from './item-setting-table'
 const breadcrumbs = [
   {
-    title: ROUTE.ORDER_MANAGEMENT.TITLE,
+    title: ROUTE.RENT_WAREHOUSE_COST_MANAGEMENT.TITLE,
   },
   {
     route: ROUTE.DEFINE_BILL.LIST.PATH,

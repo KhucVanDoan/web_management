@@ -17,7 +17,7 @@ const validateShema = (t) =>
         rentDuration: Yup.array()
           .nullable()
           .required(t('general:form.required')),
-        price: Yup.array().nullable().required(t('general:form.required')),
+        price: Yup.object().nullable().required(t('general:form.required')),
         quantity: Yup.number()
           .required(t('general:form.required'))
           .min(

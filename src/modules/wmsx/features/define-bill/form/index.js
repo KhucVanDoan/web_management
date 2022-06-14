@@ -195,6 +195,9 @@ function DefineBillForm() {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
+        title: ROUTE.RENT_WAREHOUSE_COST_MANAGEMENT.TITLE,
+      },
+      {
         route: ROUTE.DEFINE_BILL.LIST.PATH,
         title: ROUTE.DEFINE_BILL.LIST.TITLE,
       },

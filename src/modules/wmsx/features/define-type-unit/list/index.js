@@ -72,6 +72,7 @@ const DefineTypeUnit = () => {
       field: 'action',
       headerName: t('defineTypeUnit.action'),
       width: 150,
+      fixed: true,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
