@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -6,111 +6,139 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import useItemUnit from '~/modules/database/redux/hooks/useItemUnit'
 
 const ItemSettingTable = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
+
+  const {
+    data: { itemUnitList },
+    actions,
+  } = useItemUnit()
+
+  useEffect(() => {
+    actions.searchItemUnits({ isGetAll: 1 })
+  }, [])
+
+  const itemIds = items?.map((item) => item.itemId) || []
+  const uniqueIds = itemIds.filter(
+    (item, index) => itemIds.indexOf(item) === index,
+  )
+
+  const formattedItems = []
+
+  uniqueIds.forEach((id, index) => {
+    const itemsWithIdList = items.filter((i) => i.itemId === id)
+    formattedItems.push({
+      id: '',
+      code: itemsWithIdList[0].code,
+      name: itemsWithIdList[0].name,
+      itemType: '',
+      planQuantity: itemsWithIdList.reduce(
+        (total, item) => total + +item.planQuantity,
+        0,
+      ),
+      inventoriesQuantity: itemsWithIdList.reduce(
+        (total, item) => total + +item.actualQuantity,
+        0,
+      ),
+    })
+    itemsWithIdList?.forEach((item) => {
+      formattedItems.push({
+        id: formattedItems.length - index,
+        code: item?.code,
+        name: item?.name,
+        itemType: item?.name,
+        warehouseName: item?.warehouseName,
+        warehouseSectorName: item?.warehouseSector?.name,
+        warehouseShelfName: item?.warehouseShelf?.name,
+        warehousePalletName: item?.warehouseShelfFloor?.name,
+        lotNumber: item?.lotNumber,
+        packageCode: item?.packages.map((pk) => pk.code).join(','),
+        inventoriesQuantity: +item?.actualQuantity,
+        planQuantity: +item?.planQuantity,
+        itemUnitId: item?.itemUnitId,
+      })
+    })
+  })
 
   const columns = [
     {
       field: 'id',
       headerName: '#',
       width: 20,
-      renderCell: (_, index) => {
-        return index + 1
-      },
     },
     {
       field: 'code',
       headerName: t('inventories.item.code'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.code
-      },
     },
     {
       field: 'name',
       headerName: t('inventories.item.name'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.name
-      },
     },
     {
       field: 'itemType',
       headerName: t('inventories.item.type'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.itemType?.name
-      },
     },
     {
       field: 'lotNumber',
       headerName: t('inventories.item.lotNumber'),
       width: 120,
-      sortable: false,
     },
     {
       field: 'packageCode',
       headerName: t('inventories.item.packageCode'),
       width: 120,
-      sortable: false,
-      renderCell: (params) => {
-        return params.row?.packages?.[0]?.code
-      },
     },
     {
       field: 'warehouseName',
       headerName: t('inventories.item.warehouseName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.warehouseName
-      },
     },
     {
       field: 'warehouseSectorName',
       headerName: t('movements.itemDetails.warehouseSectorName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.lots?.[0]?.warehouseSector?.name
-      },
     },
     {
       field: 'warehouseShelfName',
       headerName: t('movements.itemDetails.warehouseShelfName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.lots?.[0]?.warehouseShelf?.name
-      },
     },
     {
       field: 'warehousePalletName',
       headerName: t('movements.itemDetails.warehousePalletName'),
       width: 120,
-      renderCell: (params) => {
-        return params.row?.lots?.[0]?.warehouseShelfFloor?.name
-      },
     },
     {
       field: 'planQuantity',
-      headerName: t('movements.itemDetails.planQuantity'),
+      headerName: t('inventories.item.quantity'),
       width: 120,
+      align: 'right',
       renderCell: (params) => {
         return Number(params.row?.planQuantity)
       },
     },
     {
-      field: 'actualQuantity',
-      headerName: t('movements.itemDetails.actualQuantity'),
+      field: 'inventoriesQuantity',
+      headerName: t('inventories.item.inventoriesQuantity'),
       width: 120,
+      align: 'right',
       renderCell: (params) => {
-        return Number(params.row?.actualQuantity)
+        return Number(params.row?.inventoriesQuantity)
       },
     },
     {
-      field: 'itemUnit',
+      field: 'itemUnitId',
       headerName: t('inventories.item.itemUnit'),
       width: 120,
-      sortable: false,
+      renderCell: (params) => {
+        return itemUnitList.find((item) => item.id === params.row.itemUnitId)
+          ?.name
+      },
     },
   ]
 
@@ -130,7 +158,7 @@ const ItemSettingTable = ({ items }) => {
       </Box>
 
       <DataTable
-        rows={items}
+        rows={formattedItems}
         columns={columns}
         total={items.length}
         striped={false}
@@ -143,14 +171,10 @@ const ItemSettingTable = ({ items }) => {
 
 ItemSettingTable.defaultProps = {
   items: [],
-  mode: '',
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {
-  arrayHelpers: PropTypes.shape(),
   items: PropTypes.array,
-  mode: PropTypes.string,
 }
 
 export default ItemSettingTable

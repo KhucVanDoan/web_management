@@ -149,15 +149,9 @@ const InventoryStatisticDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventories.confirmDate')}
-                value={
-                  inventoryStatisticDetail?.executionDay
-                    ? convertUtcDateToLocalTz(
-                        inventoryStatisticDetail?.executionDay,
-                      )
-                    : convertUtcDateToLocalTz(
-                        inventoryStatisticDetail?.executionDay,
-                      )
-                }
+                value={convertUtcDateToLocalTz(
+                  inventoryStatisticDetail?.executionDay,
+                )}
               />
             </Grid>
             <Grid item xs={12}>
