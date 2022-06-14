@@ -1892,6 +1892,7 @@
     "createModalTitle": "Tạo hình thức thanh toán",
     "description": "Mô tả",
     "addNewInfoField": "Thêm mới trường thông tin",
+    "searchPlaceHolder": "Tìm kiếm hình thức thanh toán theo mã hoặc tên",
     "add": "Thêm",
     "deleteModalTitle": "Xóa hình thức thanh toán",
     "confirmModalTitle": "Xác nhận hình thức thanh toán",
