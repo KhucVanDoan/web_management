@@ -16,6 +16,7 @@ import {
   ORDER_STATUS,
   ORDER_STATUS_OPTIONS,
   ORDER_TYPE,
+  TRANSACTION_TYPE_ENUM,
 } from '~/modules/wmsx/constants'
 import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportManufacturingOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -54,7 +55,7 @@ function ImportManufacturingOrder() {
 
   const DEFAULT_FILTERS = {
     name: '',
-    type: '',
+    type: [TRANSACTION_TYPE_ENUM.IMPORT, TRANSACTION_TYPE_ENUM.EXPORT],
   }
 
   const DEFAULT_QUICK_FILTERS = {
