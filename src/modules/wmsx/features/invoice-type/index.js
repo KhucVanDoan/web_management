@@ -164,7 +164,7 @@ function InvoiceType() {
       <>
         {/* @TODO: handle import data */}
         <Button variant="outlined" icon="download" disabled>
-          {t('general:common.import')}
+          {t('menu.importExportData')}
         </Button>
         <Button
           onClick={() => history.push(ROUTE.INVOICE_TYPE.CREATE.PATH)}

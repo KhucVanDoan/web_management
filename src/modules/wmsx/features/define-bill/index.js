@@ -105,7 +105,7 @@ function DefineBill() {
       field: 'totalPrice',
       headerName: t('defineBill.cost'),
       width: 150,
-      sortable: true,
+      sortable: false,
     },
     {
       field: 'currencyUnit',
@@ -133,10 +133,19 @@ function DefineBill() {
       },
     },
     {
+      field: 'createdBy',
+      headerName: t('defineBill.createdBy'),
+      width: 120,
+      sortable: false,
+      renderCell: (params) => {
+        return params?.row?.createByUser?.fullName
+      },
+    },
+    {
       field: 'createdAt',
       headerName: t('defineBill.createdAt'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const { row } = params
         return convertUtcDateToLocalTz(row.createdAt)
@@ -247,7 +256,7 @@ function DefineBill() {
       <>
         {/* @TODO: handle import data */}
         <Button variant="outlined" icon="download" disabled>
-          {t('defineBill.import')}
+          {t('menu.importExportData')}
         </Button>
         <Button
           onClick={() => history.push(ROUTE.DEFINE_BILL.CREATE.PATH)}

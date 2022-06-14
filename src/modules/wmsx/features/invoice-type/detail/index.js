@@ -47,7 +47,7 @@ function InvoiceTypeDetail() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t(`menu.${ROUTE.DEFINE_PAYMENT_TYPE.DETAIL.TITLE}`)}
+      title={t(`menu.${ROUTE.INVOICE_TYPE.DETAIL.TITLE}`)}
       onBack={backToList}
       loading={isLoading}
     >
@@ -74,7 +74,7 @@ function InvoiceTypeDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('invoiceType.name')}
-                value={invoiceTypeDetail?.code}
+                value={invoiceTypeDetail?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

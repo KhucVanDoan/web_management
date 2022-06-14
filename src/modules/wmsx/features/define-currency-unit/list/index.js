@@ -72,6 +72,7 @@ const DefineCurrencyUnit = () => {
       field: 'action',
       headerName: t('defineCurrencyUnit.action'),
       width: 150,
+      fixed: true,
       sortable: false,
       align: 'center',
       renderCell: (params) => {

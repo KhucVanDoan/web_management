@@ -143,7 +143,7 @@
     "defineBill": "Định nghĩa hóa đơn",
     "defineBillCreate": "Tạo mới hóa đơn",
     "defineBillDetails": "Chi tiết hóa đơn",
-    "defineBillEdit": "Chỉnh sửa hóa đơn",
+    "defineBillEdit": "Sửa hóa đơn",
     "warehouseExportDetail": "Phiếu giao dịch",
     "soExport": "Lệnh xuất theo đơn bán hàng",
     "soExportCreate": "Tạo lệnh xuất theo đơn bán",
@@ -1626,7 +1626,7 @@
   },
   "defineBill": {
     "orderNumber": "#",
-    "searchPlaceholder": "Tìm hiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm hóa đơn theo mã hoặc tên",
     "code": "Mã hóa đơn",
     "name": "Tên hóa đơn",
     "type": "Loại hóa đơn",
@@ -1912,7 +1912,7 @@
   },
   "invoiceType": {
     "title": "Danh sách loại hoá đơn",
-    "searchPlaceHolder": "Tìm kiếm thông tin....",
+    "searchPlaceHolder": "Tìm kiếm loại hoá đơn theo mã hoặc tên",
     "status": "Trạng thái",
     "orderNumber": "#",
     "code": "Mã loại hoá đơn",

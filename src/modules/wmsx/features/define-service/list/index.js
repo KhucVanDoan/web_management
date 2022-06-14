@@ -87,6 +87,7 @@ const DefineService = () => {
       field: 'action',
       headerName: t('defineService.action'),
       width: 150,
+      fixed: true,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
