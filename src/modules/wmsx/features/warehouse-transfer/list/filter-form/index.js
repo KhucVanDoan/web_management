@@ -5,18 +5,17 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { TRANSFER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
-
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
           name="code"
-          label={t('purchasedOrderImport.codeImp')}
-          placeholder={t('purchasedOrderImport.codeImp')}
+          label={t('warehouseTransfer.code')}
+          placeholder={t('warehouseTransfer.code')}
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
@@ -25,8 +24,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.TextField
           name="name"
-          label={t('purchasedOrderImport.nameImp')}
-          placeholder={t('purchasedOrderImport.nameImp')}
+          label={t('warehouseTransfer.name')}
+          placeholder={t('warehouseTransfer.name')}
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
@@ -35,23 +34,11 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
-          label={t('purchasedOrderImport.status')}
-          placeholder={t('purchasedOrderImport.status')}
-          options={ORDER_STATUS_OPTIONS}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
+          label={t('warehouseTransfer.status')}
+          placeholder={t('warehouseTransfer.status')}
+          options={TRANSFER_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('purchasedOrderImport.createdAt')}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="deadline"
-          label={t('purchasedOrderImport.deadline')}
+          getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
     </Grid>

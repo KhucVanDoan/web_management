@@ -18,7 +18,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import FilterForm from './filter-form'
+import MovementsFilter from './filter-quick-form'
 
 const Movements = ({ breadcrumbs, movementType, onBack }) => {
   const { t } = useTranslation('wmsx')
@@ -30,6 +30,11 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
     data: { movementList, total, isLoading },
     actions,
   } = useMovements()
+
+  const DEFAULT_FILTERS = {
+    warehouseTypeId: '',
+    createdAt: '',
+  }
 
   const {
     page,
@@ -166,6 +171,11 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       placeholder={t('movements.searchPlaceholder')}
       loading={isLoading}
     >
+      <MovementsFilter
+        setQuickFilters={setFilters}
+        quickFilters={filters}
+        defaultFilter={DEFAULT_FILTERS}
+      />
       <DataTable
         title={t('movements.title')}
         rows={movementList}
@@ -177,7 +187,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
         onSortChange={setSort}
         total={total}
         sort={sort}
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
     </Page>
   )

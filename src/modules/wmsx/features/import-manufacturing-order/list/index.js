@@ -16,6 +16,7 @@ import {
   ORDER_STATUS,
   ORDER_STATUS_OPTIONS,
   ORDER_TYPE,
+  TRANSACTION_TYPE_ENUM,
 } from '~/modules/wmsx/constants'
 import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportManufacturingOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -26,7 +27,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import ImportManufacturingOrderFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -54,10 +54,7 @@ function ImportManufacturingOrder() {
 
   const DEFAULT_FILTERS = {
     name: '',
-    type: '',
-  }
-
-  const DEFAULT_QUICK_FILTERS = {
+    type: [TRANSACTION_TYPE_ENUM.IMPORT, TRANSACTION_TYPE_ENUM.EXPORT],
     code: '',
     status: '',
   }
@@ -73,11 +70,8 @@ function ImportManufacturingOrder() {
     setSort,
     setFilters,
     setKeyword,
-    quickFilters,
-    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
-    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const columns = [
@@ -237,7 +231,7 @@ function ImportManufacturingOrder() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchImportManufacturingOrders(params)
@@ -245,7 +239,7 @@ function ImportManufacturingOrder() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword, quickFilters])
+  }, [page, pageSize, filters, sort, keyword])
 
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
@@ -337,11 +331,6 @@ function ImportManufacturingOrder() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
-      <ImportManufacturingOrderFilter
-        setQuickFilters={setQuickFilters}
-        quickFilters={quickFilters}
-        defaultFilter={DEFAULT_QUICK_FILTERS}
-      />
       <DataTable
         title={t('importManufacturingOrder.title')}
         rows={importManufacturingOrderList}

@@ -614,7 +614,7 @@ export const ROUTE = {
   },
   DEFINE_BILL: {
     LIST: {
-      PATH: '/wmsx/define-bill/list',
+      PATH: '/wmsx/define-bill',
       TITLE: 'defineBill',
     },
     CREATE: {

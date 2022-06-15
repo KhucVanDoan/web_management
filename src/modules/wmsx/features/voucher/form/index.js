@@ -43,7 +43,7 @@ function DefineVoucherForm() {
   const initialValues = {
     code: voucher?.code || '',
     name: voucher?.name || '',
-    date: [voucher?.dateFrom, voucher?.dateTo] || '',
+    createdAt: isUpdate ? [voucher?.dateFrom, voucher?.dateTo] : null,
     percentage: Number(voucher?.percentage) || '',
     description: voucher?.description || '',
   }
@@ -55,9 +55,11 @@ function DefineVoucherForm() {
 
   const handleSubmit = (val) => {
     const params = {
-      ...val,
-      dateFrom: val?.date[0],
-      dateTo: val?.date[1],
+      code: val?.code,
+      name: val?.name,
+      percentage: val?.percentage,
+      dateFrom: val?.createdAt[0],
+      dateTo: val?.createdAt[1],
     }
     if (isUpdate) {
       actions.updateVoucher({ ...params, id: Number(id) }, backToList)
@@ -155,7 +157,7 @@ function DefineVoucherForm() {
                       placeholder={t('defineVoucher.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -192,7 +194,7 @@ function DefineVoucherForm() {
                   <Grid item xs={12} lg={6}>
                     <Field.DateRangePicker
                       label={t('defineVoucher.date')}
-                      name="date"
+                      name="createdAt"
                       placeholder={t('defineVoucher.date')}
                       required
                     />

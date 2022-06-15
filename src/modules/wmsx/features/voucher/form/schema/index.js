@@ -23,7 +23,7 @@ export const validateShema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    date: Yup.array().nullable().required(t('general:form.required')),
+    createdAt: Yup.array().nullable().required(t('general:form.required')),
     percentage: Yup.number()
       .nullable()
       .min(

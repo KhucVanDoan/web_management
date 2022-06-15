@@ -19,6 +19,7 @@ import { useTemplateSector } from '~/modules/wmsx/redux/hooks/useDefineTemplateS
 import useDefineTemplateShelf from '~/modules/wmsx/redux/hooks/useDefineTemplateShelf'
 import useTemplateSectorTemplateShelf from '~/modules/wmsx/redux/hooks/useTemplateSectorTemplateShelf'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertToCm } from '~/utils/measure'
 
 import ItemSettingTable from './item-setting-table'
 import templateSectorSchema from './schema'
@@ -62,7 +63,7 @@ const TemplateSectorForm = () => {
             (shelf) =>
               shelf?.id === templateSectorDetails?.templateShelfs[0]?.id,
           )
-        : null,
+        : '',
     items: templateSectorDetails?.templateShelfs?.length
       ? [...templateSectorDetails?.templateShelfs]
           .reverse()
@@ -217,8 +218,31 @@ const TemplateSectorForm = () => {
     history.push(ROUTE.TEMPLATE_SECTOR.LIST.PATH)
   }
 
-  const handleChange = (values, setFieldValue) => {
-    setFieldValue('items', [...DEFAULT_ITEM])
+  const handleChangeTemplateSector = (setFieldValue) => {
+    setFieldValue('items', DEFAULT_ITEM)
+  }
+  const hangleChangeLong = (long, values, setFieldValue) => {
+    const templateShelfLong = convertToCm(
+      values?.templateSheft?.long?.unit,
+      values?.templateSheft?.long?.value,
+    )
+    if (!long || !templateShelfLong) return
+    const newItems = (values?.items || []).reduce(
+      (acc, cur) => {
+        if (
+          acc.totalLong + templateShelfLong <
+          convertToCm(values?.unit, long)
+        ) {
+          return {
+            items: [...acc.items, cur],
+            totalLong: acc.totalLong + templateShelfLong,
+          }
+        }
+        return acc
+      },
+      { items: [], totalLong: 0 },
+    ).items
+    setFieldValue('items', newItems)
   }
   return (
     <Page
@@ -284,6 +308,9 @@ const TemplateSectorForm = () => {
                         numberProps={{
                           decimalScale: 3,
                         }}
+                        onChange={(long) =>
+                          hangleChangeLong(long, values, setFieldValue)
+                        }
                         required
                       />
                     </Grid>
@@ -328,8 +355,8 @@ const TemplateSectorForm = () => {
                         options={templateShelfList}
                         getOptionValue={(opt) => opt}
                         getOptionLabel={(opt) => opt?.name}
-                        onChange={(values) =>
-                          handleChange(values, setFieldValue)
+                        onChange={() =>
+                          handleChangeTemplateSector(setFieldValue)
                         }
                         getOptionSubLabel={(opt) =>
                           `D*R*C:${opt?.long?.value}* ${opt?.width?.value}* ${

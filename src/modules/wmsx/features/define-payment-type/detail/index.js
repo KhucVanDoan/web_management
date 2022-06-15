@@ -75,7 +75,7 @@ function DefinePaymentTypeDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('definePaymentType.name')}
-                value={paymentTypeDetails?.code}
+                value={paymentTypeDetails?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

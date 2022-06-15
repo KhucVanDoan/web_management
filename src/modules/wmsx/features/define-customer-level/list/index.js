@@ -71,6 +71,7 @@ function DefineCustomerLevel() {
       field: 'action',
       headerName: t('defineCustomerLevel.action'),
       width: 200,
+      fixed: true,
       sortable: false,
       align: 'center',
       renderCell: (params) => {

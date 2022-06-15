@@ -22,7 +22,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-import PurchasedOrderImportFilter from './filter-quick-form'
 
 const breadcrumbs = [
   {
@@ -46,11 +45,6 @@ function POList() {
     isOpenDeleteModal: false,
   })
 
-  const DEFAULT_QUICK_FILTERS = {
-    createdAt: '',
-    status: '',
-  }
-
   const {
     page,
     pageSize,
@@ -62,11 +56,7 @@ function POList() {
     setSort,
     setFilters,
     setKeyword,
-    quickFilters,
-    setQuickFilters,
-  } = useQueryState({
-    quickFilters: DEFAULT_QUICK_FILTERS,
-  })
+  } = useQueryState()
 
   const columns = [
     {
@@ -208,7 +198,7 @@ function POList() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchPOImports(params)
@@ -216,7 +206,7 @@ function POList() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword, quickFilters])
+  }, [page, pageSize, filters, sort, keyword])
 
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
@@ -305,11 +295,6 @@ function POList() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
-      <PurchasedOrderImportFilter
-        setQuickFilters={setQuickFilters}
-        quickFilters={quickFilters}
-        defaultFilter={DEFAULT_QUICK_FILTERS}
-      />
       <DataTable
         uniqKey=""
         title={t('purchasedOrderImport.title')}

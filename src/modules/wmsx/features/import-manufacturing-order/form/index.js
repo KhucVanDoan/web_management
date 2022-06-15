@@ -82,7 +82,7 @@ const ImportManufacturingOrderForm = () => {
     qcCheck: false,
     qcCriteriaId: null,
     lotNumber: initCode(CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN),
-    packageId: null,
+    packageId: '',
     mfg: '',
   }
 
@@ -109,7 +109,7 @@ const ImportManufacturingOrderForm = () => {
         ? importManufacturingOrderDetails?.importOrderWarehouseLots?.map(
             (detailLot, index) => ({
               id: index,
-              itemId: detailLot.itemId,
+              itemId: detailLot.itemId || '',
               warehouseId: detailLot.warehouseId,
               qcCheck:
                 importOrderWarehouseDetails.find(
@@ -135,8 +135,8 @@ const ImportManufacturingOrderForm = () => {
                 )?.code || '',
               actualQuantity: detailLot.actualQuantity,
               quantity: detailLot.quantity,
-              lotNumber: detailLot?.lotNumber,
-              mfg: detailLot?.mfg,
+              lotNumber: detailLot?.lotNumber || '',
+              mfg: detailLot?.mfg || '',
               packageId: detailLot?.packageId,
             }),
           )
@@ -210,7 +210,6 @@ const ImportManufacturingOrderForm = () => {
     const convertValue = {
       code: values?.code,
       name: values?.name?.trim(),
-      description: values?.description?.trim() || '',
       type: values?.type,
       deadline: values?.planDate[1],
       planAt: values?.planDate[0],
@@ -224,6 +223,9 @@ const ImportManufacturingOrderForm = () => {
         mfg: item.mfg,
         packageId: item.packageId,
       })),
+      ...(values?.description?.trim()
+        ? { description: values?.description?.trim() }
+        : {}),
       ...(values?.requestId ? { requestId: values?.requestId } : {}),
     }
 
@@ -273,21 +275,19 @@ const ImportManufacturingOrderForm = () => {
       setFieldValue('requestId', id)
       setFieldValue('requestName', name)
       setFieldValue('type', typeTransaction)
-      setFieldValue('planDate', [planTo, planFrom])
+      setFieldValue('planDate', [planFrom, planTo])
       const items = requestItemList?.map((requestItem, index) => ({
         id: index,
         itemId: itemList.find((item) => item.code === requestItem.code)?.id,
-        warehouseId: null,
+        warehouseId: '',
         lotNumber:
-          +type === TRANSACTION_TYPE_ENUM.EXPORT
-            ? DEFAULT_ITEM.lotNumber
-            : null,
+          +type === TRANSACTION_TYPE_ENUM.EXPORT ? DEFAULT_ITEM.lotNumber : '',
         quantity: requestItem.planQuantity,
         planQuantity: requestItem.planQuantity,
         qcCheck: false,
-        qcCriteriaId: null,
-        packageId: null,
-        mfg: null,
+        qcCriteriaId: '',
+        packageId: '',
+        mfg: '',
       }))
       setFieldValue('items', items)
       actions.getLotNumberList({

@@ -128,16 +128,18 @@ function DefineVoucher() {
             >
               <Icon name="show" />
             </IconButton>
+            {!isConfirmed && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_VOUCHER.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            )}
 
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_VOUCHER.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
             {!isConfirmed && (
               <IconButton onClick={() => handleDeleteOpenModal(row)}>
                 <Icon name="delete" />

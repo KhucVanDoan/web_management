@@ -76,9 +76,25 @@ const templateSectorSchema = (t) =>
         },
       ),
     items: Yup.array().of(
-      Yup.object().shape({
-        nameSheft: Yup.string().required(t('general:form.required')),
-      }),
+      Yup.object()
+        .shape({
+          nameSheft: Yup.string().required(t('general:form.required')),
+        })
+        .test('', '', (value, context) => {
+          if (
+            context?.parent?.some(
+              (item) =>
+                item?.nameSheft === value?.nameSheft && item?.id !== value.id,
+            )
+          ) {
+            return context.createError({
+              message: t('templateSector.duplicateName'),
+              path: `${context.path}.nameSheft`,
+            })
+          }
+
+          return true
+        }),
     ),
   })
 
