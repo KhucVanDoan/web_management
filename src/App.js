@@ -24,6 +24,7 @@ import { getLocale } from './utils'
 import { DateFns } from './utils/date-time'
 
 function App() {
+  console.log('aaaa')
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
