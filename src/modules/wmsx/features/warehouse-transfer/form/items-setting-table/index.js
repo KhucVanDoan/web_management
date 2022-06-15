@@ -11,7 +11,11 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
-import { convertUtcDateToLocalTz, scrollToBottom } from '~/utils'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  scrollToBottom,
+} from '~/utils'
 
 const ItemSettingTable = (props) => {
   const { mode, arrayHelpers, items, values, setFieldValue } = props
@@ -28,9 +32,15 @@ const ItemSettingTable = (props) => {
   } = useDefineItem()
 
   useEffect(() => {
-    actions.getListItemWarehouseStock({ isGetAll: 1 })
+    const params = {
+      limit: 100,
+      filter: convertFilterParams({
+        warehouseId: values?.sourceWarehouseName,
+      }),
+    }
+    actions.getListItemWarehouseStock(params)
     defineItemActions.searchItems({ isGetAll: 1 })
-  }, [])
+  }, [values?.sourceWarehouseName])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -74,7 +84,7 @@ const ItemSettingTable = (props) => {
         width: 150,
         renderCell: (params, index) => {
           const itemWarehouseFilterList = itemWarehouseStockList?.filter(
-            (item) => item?.warehouse?.id === values?.sourceWarehouseName,
+            (item) => parseInt(item?.quantity) > 0,
           )
           const itemWarehouseIds = map(
             itemWarehouseFilterList?.filter((item) => item?.quantity > 0),
