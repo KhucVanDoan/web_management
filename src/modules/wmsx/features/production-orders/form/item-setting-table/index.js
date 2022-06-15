@@ -1,24 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
-import { TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
+import { STAGES_OPTION, TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
 import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import {
   convertFilterParams,
   convertUtcDateToLocalTz,
   scrollToBottom,
 } from '~/utils'
+import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -30,12 +35,13 @@ function ItemSettingTable(props) {
     setFieldValue,
     materialPlanDetail,
   } = props
+  const [itemQualityPoint, setItemQualityPoint] = useState([])
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { lotNumberList, productionOrderDetails },
   } = useProductionOrder()
   const {
-    data: { itemQualityPoint, itemList, warehouseList },
+    data: { itemList, warehouseList },
     actions: commonActions,
   } = useCommonManagement()
 
@@ -60,15 +66,35 @@ function ItemSettingTable(props) {
           ?.join(', ')
       : ''
   }
-  const handleCheckQc = (itemId) => {
+  const handleCheckQc = (val, itemId, values, setFieldValue) => {
+    let stageId = -1
+    if (values?.type === TRANSACTION_TYPE_ENUM.IMPORT) {
+      stageId = STAGES_OPTION.PRO_IMPORT
+    } else if (values?.type === TRANSACTION_TYPE_ENUM.EXPORT) {
+      stageId = STAGES_OPTION.PRO_EXPORT
+    }
     const params = {
       page: 1,
       limit: 20,
       filter: convertFilterParams({
         itemId: itemId,
+        stageId: stageId,
       }),
     }
-    commonActions.getItemQualityPoint(params)
+    commonActions.getItemQualityPoint(params, (data) => {
+      setItemQualityPoint(data?.items)
+      if (data?.items?.length === 0) {
+        items.forEach((item, index) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${index}].qcCheck`, false)
+          }
+        })
+        addNotification(
+          t('productionOrder.item.notHaveQC'),
+          NOTIFICATION_TYPE.ERROR,
+        )
+      }
+    })
   }
   const columns = [
     {
@@ -123,6 +149,8 @@ function ItemSettingTable(props) {
               if (!val) {
                 setFieldValue(`items[${index}].warehouseName`, '')
               }
+              setFieldValue(`items[${index}].qcCheck`, false)
+              setItemQualityPoint([])
             }}
           />
         )
@@ -300,7 +328,10 @@ function ItemSettingTable(props) {
         return (
           <Field.Checkbox
             name={`items[${index}].qcCheck`}
-            onChange={() => handleCheckQc(itemId)}
+            checked={itemQualityPoint?.length > 0 ? true : false}
+            onChange={(val) =>
+              handleCheckQc(val, itemId, values, setFieldValue)
+            }
           />
         )
       },
@@ -310,10 +341,8 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.qcCriteria'),
       width: 180,
       renderCell: (params) => {
-        const { qcCheck, itemId } = params.row
-        return qcCheck
-          ? itemQualityPoint?.map((i) => i?.itemId === itemId)?.name
-          : ''
+        const { qcCheck } = params.row
+        return qcCheck ? itemQualityPoint[0]?.code : ''
       },
     },
     {
