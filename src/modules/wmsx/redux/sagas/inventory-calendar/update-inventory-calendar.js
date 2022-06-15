@@ -34,10 +34,7 @@ function* doUpdateInventoryCalendar(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification(
-        'inventoryCalendar.updateInventoryCalendarSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,

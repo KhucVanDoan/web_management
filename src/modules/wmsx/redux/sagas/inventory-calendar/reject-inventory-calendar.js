@@ -35,10 +35,7 @@ function* doRejectInventoryCalendar(action) {
         yield action.onSuccess()
       }
 
-      addNotification(
-        'inventoryCalendar.rejectInventoryCalendarSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,
