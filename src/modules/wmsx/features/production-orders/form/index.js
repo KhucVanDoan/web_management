@@ -151,7 +151,11 @@ function ProductionOrderForm() {
         warehouseId: item?.warehouseName,
         lotNumber: item?.lotNumber,
         mfg: item?.mfg,
-        qcCriteriaId: item?.qcCriteriaId || null,
+        qcCriteriaId:
+          item?.qcCheck &&
+          itemQualityPoint.find((e) => e.itemId === item.itemId)
+            ? itemQualityPoint.find((e) => e.itemId === item.itemId)?.id
+            : null,
         packageId: item.packageId || null,
       })),
     }
