@@ -37,7 +37,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].height.value`}
+              name={`items[${index}].height`}
               label={t('defineTemplateShelf.height')}
               placeholder={t('defineTemplateShelf.height')}
               numberProps={{
@@ -53,7 +53,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].weightLoad.value`}
+              name={`items[${index}].weightLoad`}
               label={t('defineTemplateShelf.weightLoad')}
               placeholder={t('defineTemplateShelf.weightLoad')}
               numberProps={{
@@ -94,8 +94,8 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               arrayHelpers.push({
                 id: new Date().getTime(),
                 name: '',
-                height: 0,
-                weightLoad: 0,
+                height: null,
+                weightLoad: null,
               })
               scrollToBottom()
             }}

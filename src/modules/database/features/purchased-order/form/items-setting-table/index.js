@@ -12,6 +12,7 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import NumberFormatText from '~/components/NumberFormat'
+import { PURCHASED_ORDER_STATUS } from '~/modules/database/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { scrollToBottom } from '~/utils'
@@ -22,6 +23,7 @@ function ItemSettingTable({
   arrayHelpers,
   requestBuyMaterialId,
   setFieldValue,
+  purchasedOrderDetails,
 }) {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
@@ -156,6 +158,38 @@ function ItemSettingTable({
           )
         },
       },
+      ...(PURCHASED_ORDER_STATUS.IN_PROGRESS ===
+        purchasedOrderDetails?.status ||
+      PURCHASED_ORDER_STATUS.COMPLETED === purchasedOrderDetails?.status
+        ? [
+            {
+              field: 'remainQuantity',
+              headerName: t('purchasedOrder.item.remainQuantity'),
+              align: 'right',
+              renderCell: (params, index) => {
+                const { quantity } = params.row
+                return (
+                  +quantity -
+                  Number(
+                    purchasedOrderDetails?.purchasedOrderDetails?.[index]
+                      ?.actualQuantity,
+                  )
+                )
+              },
+            },
+            {
+              field: 'actualQuantity',
+              headerName: t('purchasedOrder.item.actualQuantity'),
+              align: 'right',
+              renderCell: (params, index) => {
+                return Number(
+                  purchasedOrderDetails?.purchasedOrderDetails?.[index]
+                    ?.actualQuantity,
+                )
+              },
+            },
+          ]
+        : []),
       {
         field: 'unitType',
         headerName: t('purchasedOrder.item.unitType'),

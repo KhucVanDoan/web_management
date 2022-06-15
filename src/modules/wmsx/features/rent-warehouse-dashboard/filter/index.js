@@ -37,7 +37,6 @@ function FilterForm() {
           name="billDate"
           label={t('rentWarehouseDashboard.billDate')}
           placeholder={t('rentWarehouseDashboard.billDate')}
-          type="date"
         />
       </Grid>
     </Grid>
