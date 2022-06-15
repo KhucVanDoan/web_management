@@ -40,7 +40,7 @@ function RentWarehouseDashboard() {
     customerName: '',
     billCode: '',
     serviceName: '',
-    billDate: '',
+    billDate: null,
   }
   const {
     page,
@@ -80,7 +80,7 @@ function RentWarehouseDashboard() {
       headerName: t('rentWarehouseDashboard.total'),
       width: 150,
       fixed: true,
-      sortable: true,
+      sortable: false,
     },
     {
       field: 'serviceName',
@@ -96,7 +96,7 @@ function RentWarehouseDashboard() {
       field: 'status',
       headerName: t('rentWarehouseDashboard.status'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const { status } = params.row?.bill
         return (
@@ -112,7 +112,7 @@ function RentWarehouseDashboard() {
       field: 'billDate',
       headerName: t('rentWarehouseDashboard.billDate'),
       width: 150,
-      sortable: true,
+      sortable: false,
       renderCell: (params) => {
         const { billDate } = params.row?.bill
         return convertUtcDateToLocalTz(billDate)

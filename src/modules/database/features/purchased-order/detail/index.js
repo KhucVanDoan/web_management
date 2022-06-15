@@ -240,6 +240,7 @@ const PurchasedOrderDetail = () => {
         <ItemsSettingTable
           items={purchasedOrderDetails?.purchasedOrderDetails || []}
           mode={MODAL_MODE.DETAIL}
+          purchasedOrderDetails={purchasedOrderDetails}
         />
       </Box>
       <ActionBar onBack={backToList} />

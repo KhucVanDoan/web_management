@@ -432,6 +432,7 @@ function PurchasedOrderForm() {
                     arrayHelpers={arrayHelpers}
                     requestBuyMaterialId={requestBuyMaterialId}
                     setFieldValue={setFieldValue}
+                    purchasedOrderDetails={purchasedOrderDetails}
                   />
                 )}
               />

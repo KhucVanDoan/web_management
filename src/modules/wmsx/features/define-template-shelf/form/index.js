@@ -23,8 +23,8 @@ import { defineTemplateShelfSchema } from './schema'
 const DEFAULT_ITEMS = {
   id: new Date().getTime(),
   name: '',
-  height: 0,
-  weightLoad: 0,
+  height: null,
+  weightLoad: null,
 }
 
 const DefineTemplateShelfForm = () => {
@@ -50,9 +50,11 @@ const DefineTemplateShelfForm = () => {
       width: templateShelfDetails?.width?.value || null,
       height: templateShelfDetails?.height?.value || null,
       weightLoad: templateShelfDetails?.weightLoad?.value || null,
-      items: templateShelfDetails?.templateShelfFloors || [
-        { ...DEFAULT_ITEMS },
-      ],
+      items: templateShelfDetails?.templateShelfFloors?.map((item) => ({
+        ...item,
+        height: item?.height?.value,
+        weightLoad: item?.weightLoad?.value,
+      })) || [{ ...DEFAULT_ITEMS }],
     }),
     [templateShelfDetails],
   )
@@ -141,9 +143,9 @@ const DefineTemplateShelfForm = () => {
         ...item,
         long: { value: values?.long, unit: values?.unitStorageSpace },
         width: { value: values?.width, unit: values?.unitStorageSpace },
-        height: { value: item?.height?.value, unit: values?.unitStorageSpace },
+        height: { value: item?.height, unit: values?.unitStorageSpace },
         weightLoad: {
-          value: item?.weightLoad?.value,
+          value: item?.weightLoad,
           unit: values?.unitWeigthLoad,
         },
       })),

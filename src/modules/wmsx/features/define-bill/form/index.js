@@ -262,252 +262,258 @@ function DefineBillForm() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validateShema(t)}
-        onSubmit={handleSubmit}
-        enableReinitialize
-      >
-        {({ handleReset, values }) => (
-          <Form>
-            <Grid container justifyContent="center">
-              <Grid
-                container
-                columnSpacing={{ xl: 8, xs: 4 }}
-                rowSpacing={4 / 3}
-              >
-                {isUpdate && (
-                  <Grid item xs={12}>
-                    <LabelValue
-                      label={<Typography>{t('defineBill.status')}</Typography>}
-                      value={
-                        <Status
-                          options={DEFINE_BILL_STATUS_OPTIONS}
-                          value={billDetails?.status}
+      <Grid container justifyContent="center">
+        <Grid item xl={11} xs={12}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validateShema(t)}
+            onSubmit={handleSubmit}
+            enableReinitialize
+          >
+            {({ handleReset, values }) => (
+              <Form>
+                <Grid container justifyContent="center">
+                  <Grid
+                    container
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                    rowSpacing={4 / 3}
+                  >
+                    {isUpdate && (
+                      <Grid item xs={12}>
+                        <LabelValue
+                          label={
+                            <Typography>{t('defineBill.status')}</Typography>
+                          }
+                          value={
+                            <Status
+                              options={DEFINE_BILL_STATUS_OPTIONS}
+                              value={billDetails?.status}
+                            />
+                          }
                         />
-                      }
-                    />
+                      </Grid>
+                    )}
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('defineBill.code')}
+                        name="code"
+                        placeholder={t('defineBill.code')}
+                        disabled={mode === MODAL_MODE.UPDATE}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('defineBill.name')}
+                        name="name"
+                        placeholder={t('defineBill.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.Autocomplete
+                        label={t('defineBill.type')}
+                        name="invoiceTypeId"
+                        placeholder={t('defineBill.type')}
+                        asyncRequest={(s) =>
+                          searchInvoiceTypesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.Autocomplete
+                        label={t('defineBill.currencyUnit')}
+                        name="currencyUnitId"
+                        placeholder={t('defineBill.currencyUnit')}
+                        options={currencyUnitList}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionValue={(opt) => opt?.id}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <FormControlLabel
+                        label={t('defineBill.vatTax')}
+                        control={<Field.Checkbox name="taxNo" />}
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <FormControlLabel
+                        label={t('defineBill.createQRCode')}
+                        control={<Field.Checkbox name="isQr" />}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Typography component="span">
+                        {t('defineBill.vendor.title')}
+                      </Typography>
+                      <Box mt={4 / 3}>
+                        <Field.Autocomplete
+                          label={t('defineBill.vendor.name')}
+                          name="vendor"
+                          placeholder={t('defineBill.vendor.name')}
+                          asyncRequest={(s) =>
+                            searchCompaniesApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.name}
+                          getOptionSubLabel={(opt) => opt?.code}
+                          required
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.code')}
+                          name="vendor.code"
+                          placeholder={t('defineBill.vendor.code')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.taxCode')}
+                          name="vendor.taxNo"
+                          placeholder={t('defineBill.vendor.taxCode')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.address')}
+                          name="vendor.address"
+                          placeholder={t('defineBill.vendor.address')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.phone')}
+                          name="vendor.phone"
+                          placeholder={t('defineBill.vendor.phone')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.bankAccountNumber')}
+                          name="vendor.bankAccount"
+                          placeholder={t('defineBill.vendor.bankAccountNumber')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.vendor.bankName')}
+                          name="vendor.bankAccountOwner"
+                          placeholder={t('defineBill.vendor.bankName')}
+                          disabled
+                        />
+                      </Box>
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Typography component="span">
+                        {t('defineBill.customer.title')}
+                      </Typography>
+                      <Box mt={4 / 3}>
+                        <Field.Autocomplete
+                          label={t('defineBill.customer.name')}
+                          name="customerId"
+                          placeholder={t('defineBill.customer.name')}
+                          asyncRequest={(s) =>
+                            searchCustomersApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.name}
+                          getOptionSubLabel={(opt) => opt?.code}
+                          required
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.customer.taxCode')}
+                          name="customerTaxCode"
+                          placeholder={t('defineBill.customer.taxCode')}
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.customer.address')}
+                          name="customerId.address"
+                          placeholder={t('defineBill.customer.address')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.TextField
+                          label={t('defineBill.customer.phone')}
+                          name="customerId.phone"
+                          placeholder={t('defineBill.customer.phone')}
+                          disabled
+                        />
+                      </Box>
+                      <Box mt={4 / 3}>
+                        <Field.Autocomplete
+                          label={t('defineBill.customer.paymentMethod')}
+                          name="paymentMethod"
+                          placeholder={t('defineBill.customer.paymentMethod')}
+                          asyncRequest={(s) =>
+                            searchPaymentTypesApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.name}
+                          getOptionSubLabel={(opt) => opt?.code}
+                          required
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
-                )}
-                <Grid item xs={12} lg={6}>
-                  <Field.TextField
-                    label={t('defineBill.code')}
-                    name="code"
-                    placeholder={t('defineBill.code')}
-                    disabled={mode === MODAL_MODE.UPDATE}
-                    inputProps={{
-                      maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                    }}
-                    allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                    required
+                </Grid>
+                <Box sx={{ mt: 3 }}>
+                  <FieldArray
+                    name="items"
+                    render={(arrayHelpers) => (
+                      <ItemSettingTable
+                        items={values?.items || []}
+                        caculatePrice={caculatePrice}
+                        customerId={values?.customerId || {}}
+                        paymentMethod={values?.paymentMethod || {}}
+                        currencyUnitId={values?.currencyUnitId}
+                        taxNo={values?.taxNo || false}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                      />
+                    )}
                   />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <Field.TextField
-                    label={t('defineBill.name')}
-                    name="name"
-                    placeholder={t('defineBill.name')}
-                    inputProps={{
-                      maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                    }}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <Field.Autocomplete
-                    label={t('defineBill.type')}
-                    name="invoiceTypeId"
-                    placeholder={t('defineBill.type')}
-                    asyncRequest={(s) =>
-                      searchInvoiceTypesApi({
-                        keyword: s,
-                        limit: ASYNC_SEARCH_LIMIT,
-                      })
-                    }
-                    asyncRequestHelper={(res) => res?.data?.items}
-                    getOptionLabel={(opt) => opt?.name}
-                    getOptionSubLabel={(opt) => opt?.code}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <Field.Autocomplete
-                    label={t('defineBill.currencyUnit')}
-                    name="currencyUnitId"
-                    placeholder={t('defineBill.currencyUnit')}
-                    options={currencyUnitList}
-                    getOptionLabel={(opt) => opt?.name}
-                    getOptionValue={(opt) => opt?.id}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <FormControlLabel
-                    label={t('defineBill.vatTax')}
-                    control={<Field.Checkbox name="taxNo" />}
-                  />
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <FormControlLabel
-                    label={t('defineBill.createQRCode')}
-                    control={<Field.Checkbox name="isQr" />}
-                  />
-                </Grid>
-                <Grid item lg={6} xs={12}>
-                  <Typography component="span">
-                    {t('defineBill.vendor.title')}
-                  </Typography>
-                  <Box mt={4 / 3}>
-                    <Field.Autocomplete
-                      label={t('defineBill.vendor.name')}
-                      name="vendor"
-                      placeholder={t('defineBill.vendor.name')}
-                      asyncRequest={(s) =>
-                        searchCompaniesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
-                      required
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.code')}
-                      name="vendor.code"
-                      placeholder={t('defineBill.vendor.code')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.taxCode')}
-                      name="vendor.taxNo"
-                      placeholder={t('defineBill.vendor.taxCode')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.address')}
-                      name="vendor.address"
-                      placeholder={t('defineBill.vendor.address')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.phone')}
-                      name="vendor.phone"
-                      placeholder={t('defineBill.vendor.phone')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.bankAccountNumber')}
-                      name="vendor.bankAccount"
-                      placeholder={t('defineBill.vendor.bankAccountNumber')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.vendor.bankName')}
-                      name="vendor.bankAccountOwner"
-                      placeholder={t('defineBill.vendor.bankName')}
-                      disabled
-                    />
-                  </Box>
-                </Grid>
-                <Grid item lg={6} xs={12}>
-                  <Typography component="span">
-                    {t('defineBill.customer.title')}
-                  </Typography>
-                  <Box mt={4 / 3}>
-                    <Field.Autocomplete
-                      label={t('defineBill.customer.name')}
-                      name="customerId"
-                      placeholder={t('defineBill.customer.name')}
-                      asyncRequest={(s) =>
-                        searchCustomersApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
-                      required
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.customer.taxCode')}
-                      name="customerTaxCode"
-                      placeholder={t('defineBill.customer.taxCode')}
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.customer.address')}
-                      name="customerId.address"
-                      placeholder={t('defineBill.customer.address')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.TextField
-                      label={t('defineBill.customer.phone')}
-                      name="customerId.phone"
-                      placeholder={t('defineBill.customer.phone')}
-                      disabled
-                    />
-                  </Box>
-                  <Box mt={4 / 3}>
-                    <Field.Autocomplete
-                      label={t('defineBill.customer.paymentMethod')}
-                      name="paymentMethod"
-                      placeholder={t('defineBill.customer.paymentMethod')}
-                      asyncRequest={(s) =>
-                        searchPaymentTypesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionSubLabel={(opt) => opt?.code}
-                      required
-                    />
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Box sx={{ mt: 3 }}>
-              <FieldArray
-                name="items"
-                render={(arrayHelpers) => (
-                  <ItemSettingTable
-                    items={values?.items || []}
-                    caculatePrice={caculatePrice}
-                    customerId={values?.customerId || {}}
-                    paymentMethod={values?.paymentMethod || {}}
-                    currencyUnitId={values?.currencyUnitId}
-                    taxNo={values?.taxNo || false}
-                    mode={mode}
-                    arrayHelpers={arrayHelpers}
-                  />
-                )}
-              />
-            </Box>
-            {renderActionBar(handleReset)}
-          </Form>
-        )}
-      </Formik>
+                </Box>
+                {renderActionBar(handleReset)}
+              </Form>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
     </Page>
   )
 }
