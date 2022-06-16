@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, IconButton } from '@mui/material'
+import { Checkbox, createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
@@ -338,8 +338,10 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.qcCheck'),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params.row
-        return (
+        const { itemId, qcCheck } = params.row
+        return isView ? (
+          <Checkbox disabled checked={qcCheck} />
+        ) : (
           <Field.Checkbox
             name={`items[${index}].qcCheck`}
             onChange={(value) => handleCheckQc(itemId, value)}
