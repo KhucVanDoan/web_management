@@ -45,16 +45,16 @@ function WarehouseExport() {
   const DEFAULT_FILTERS = {
     code: '',
     createdByUser: '',
-    // status: '',
+    status: '',
   }
 
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
     warehouseId: '',
     movementType: [
-      MOVEMENT_TYPE.PO_IMPORT,
-      MOVEMENT_TYPE.PRO_IMPORT,
-      MOVEMENT_TYPE.SO_IMPORT,
+      MOVEMENT_TYPE.PO_EXPORT,
+      MOVEMENT_TYPE.PRO_EXPORT,
+      MOVEMENT_TYPE.SO_EXPORT,
     ],
   }
 

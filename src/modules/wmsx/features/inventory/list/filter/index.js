@@ -3,7 +3,11 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  INVENTORY_STATUS_OPTIONS,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 const FilterForm = () => {
@@ -41,8 +45,8 @@ const FilterForm = () => {
           name="inventoryStatus"
           label={t('inventories.inventoryStatus')}
           placeholder={t('inventories.inventoryStatus')}
-          options={[]}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
+          options={INVENTORY_STATUS_OPTIONS}
+          getOptionLabel={(opt) => (opt?.name ? t(opt?.name) : '')}
           getOptionValue={(opt) => opt?.id?.toString()}
         />
       </Grid>

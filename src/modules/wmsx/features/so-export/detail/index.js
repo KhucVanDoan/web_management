@@ -128,8 +128,8 @@ function SOExportDetail() {
                 value={convertUtcDateToLocalTz(soExportDetails?.approvedAt)}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <Typography>{t('soExport.vendor.title')}</Typography>
+            <Grid item lg={6} xs={12} sx={{ mt: 1 }}>
+              <Typography variant="h4">{t('soExport.vendor.title')}</Typography>
               <LabelValue
                 label={t('soExport.vendor.companyName')}
                 value={soExportDetails?.company?.name}
@@ -156,8 +156,10 @@ function SOExportDetail() {
                 mt={4 / 3}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <Typography>{t('soExport.customer.title')}</Typography>
+            <Grid item lg={6} xs={12} sx={{ mt: 1 }}>
+              <Typography variant="h4">
+                {t('soExport.customer.title')}
+              </Typography>
               <LabelValue
                 label={t('soExport.customer.name')}
                 value={soExportDetails?.customer?.name}

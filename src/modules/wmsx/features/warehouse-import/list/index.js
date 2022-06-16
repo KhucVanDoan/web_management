@@ -57,7 +57,7 @@ function WarehouseImport() {
   const DEFAULT_FILTERS = {
     code: '',
     createdByUser: '',
-    // status: '',
+    status: '',
   }
 
   const {

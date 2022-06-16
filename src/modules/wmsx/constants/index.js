@@ -913,4 +913,14 @@ export const WAREHOUSE_DOOR = {
   WIDTH: 66,
   HEIGHT: 66,
 }
+
+export const STAGES_OPTION = {
+  PO_IMPORT: 0,
+  PRO_IMPORT: 2,
+  PRO_EXPORT: 3,
+  SO_EXPORT: 5,
+  PRODUCTION: 8,
+  IMO: 10,
+  EXO: 11,
+}
 export const DISTANCE_BETWEEN_SECTORS = 5

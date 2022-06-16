@@ -363,7 +363,7 @@ function SOExport() {
       <Dialog
         open={rejectModal}
         title={t('general:common.notify')}
-        onCancel={() => setConfirmModal(false)}
+        onCancel={() => setRejectModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitReject}
         submitLabel={t('general:common.yes')}

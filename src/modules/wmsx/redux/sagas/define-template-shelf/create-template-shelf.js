@@ -31,10 +31,7 @@ function* doCreateTemplateShelf(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification(
-        'templateShelf.createTemplateShelfSuccess',
-        NOTIFICATION_TYPE.SUCCESS,
-      )
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,

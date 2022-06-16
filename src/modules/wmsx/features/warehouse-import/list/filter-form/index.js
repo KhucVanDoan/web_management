@@ -5,10 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import {
-  // ORDER_STATUS_OPTIONS,
-  WAREHOUSE_IMPORT_STATUS_OPTIONS,
-} from '~/modules/wmsx/constants'
+import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -35,7 +32,7 @@ const FilterForm = () => {
           }}
         />
       </Grid>
-      {/* <Grid item xs={12}>
+      <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
           label={t('movements.movementStatus')}
@@ -43,16 +40,6 @@ const FilterForm = () => {
           options={ORDER_STATUS_OPTIONS}
           getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
           getOptionValue={(opt) => opt?.id?.toString()}
-        />
-      </Grid> */}
-      <Grid item xs={12}>
-        <Field.Autocomplete
-          name="movementType"
-          label={t('movements.importExport.orderType')}
-          placeholder={t('movements.importExport.orderType')}
-          options={WAREHOUSE_IMPORT_STATUS_OPTIONS}
-          getOptionValue={(opt) => opt?.id}
-          getOptionLabel={(opt) => t(opt?.text)}
         />
       </Grid>
     </Grid>
