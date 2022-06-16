@@ -181,6 +181,11 @@ const palette = {
       background: '#FFAC38',
       contrastText: '#FFF',
     },
+    exporting: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
     exported: {
       text: '#0FA44A',
       background: '#0FA44A',
