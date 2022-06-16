@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 
-import { Checkbox, createFilterOptions, IconButton } from '@mui/material'
+import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
 import {
   MODAL_MODE,
+  NOTIFICATION_TYPE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
@@ -14,11 +15,17 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { STAGES_OPTION } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ORDER_STATUS } from '~/modules/wmsx/constants'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
-import { scrollToBottom, convertUtcDateToLocalTz } from '~/utils'
+import {
+  scrollToBottom,
+  convertUtcDateToLocalTz,
+  convertFilterParams,
+} from '~/utils'
+import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -61,6 +68,47 @@ function ItemSettingTable(props) {
     return itemList?.find((item) => item?.id === id)
   }
 
+  const handleCheckQc = (itemId, value) => {
+    const params = {
+      page: 1,
+      limit: 20,
+      filter: convertFilterParams({
+        itemId: itemId,
+        stageId: STAGES_OPTION.PO_IMPORT,
+      }),
+    }
+    actions.getItemQualityPoint(params, (data) => {
+      if (data?.items.length > 0) {
+        const itemQuality = data?.items[0]
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, value)
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteria']`,
+              itemQuality?.code,
+            )
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteriaId']`,
+              itemQuality?.id,
+            )
+          }
+        })
+      } else {
+        addNotification(
+          t('productionOrder.item.notHaveQC'),
+          NOTIFICATION_TYPE.ERROR,
+        )
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, false)
+            setFieldValue(`items[${itemIndex}]['qcCriteria']`, null)
+            setFieldValue(`items[${itemIndex}]['qcCriteriaId']`, null)
+          }
+        })
+      }
+    })
+  }
+
   const columns = [
     {
       field: 'id',
@@ -91,6 +139,9 @@ function ItemSettingTable(props) {
             options={itemListFilter}
             getOptionLabel={(opt) => opt?.name}
             getOptionValue={(option) => option?.id || ''}
+            onChange={() => {
+              setFieldValue(`items[${index}]['qcCheck']`, false)
+            }}
           />
         )
       },
@@ -131,7 +182,8 @@ function ItemSettingTable(props) {
               const isSelectedLotNum = lotNumberList
                 ?.find((item) => item.itemId === itemId)
                 ?.lotNumbers?.find((lot) => lot.lotNumber === val)
-              if (isSelectedLotNum) {
+
+              if (isSelectedLotNum?.length === 10) {
                 setFieldValue(`items[${index}].mfg`, isSelectedLotNum.mfg)
               }
             }}
@@ -285,13 +337,19 @@ function ItemSettingTable(props) {
       field: 'qcCheck',
       headerName: t('productionOrder.item.qcCheck'),
       width: 180,
-      renderCell: (params) => {
-        const { qcCheck } = params.row
-        return <Checkbox disabled={isView} checked={qcCheck} />
+      renderCell: (params, index) => {
+        const { itemId } = params.row
+        return (
+          <Field.Checkbox
+            name={`items[${index}].qcCheck`}
+            onChange={(value) => handleCheckQc(itemId, value)}
+            disabled={itemId ? false : true}
+          />
+        )
       },
     },
     {
-      field: 'qcCriteriaId',
+      field: 'qcCriteria',
       headerName: t('productionOrder.item.qcCriteria'),
       width: 180,
       renderCell: (params) => {

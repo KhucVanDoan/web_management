@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Box, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW } from '~/common/constants'
+import { NOTIFICATION_TYPE, TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -13,6 +13,7 @@ import { STAGES_OPTION } from '~/modules/mesx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import { getLotNumberListSOExportApi } from '~/modules/wmsx/redux/sagas/so-export/get-lot-number-list'
 import { convertFilterParams, scrollToBottom } from '~/utils'
+import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -58,16 +59,45 @@ function ItemSettingTable(props) {
     return itemList?.find((item) => item?.id === id)
   }
 
-  const handleCheckQc = (itemId) => {
+  const handleCheckQc = (itemId, value) => {
     const params = {
       page: 1,
       limit: 20,
       filter: convertFilterParams({
         itemId: itemId,
-        stageId: STAGES_OPTION.SO_EXPORT,
+        stageId: STAGES_OPTION.PO_IMPORT,
       }),
     }
-    actions.getItemQualityPoint(params)
+    actions.getItemQualityPoint(params, (data) => {
+      if (data?.items.length > 0) {
+        const itemQuality = data?.items[0]
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, value)
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteria']`,
+              itemQuality?.code,
+            )
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteriaId']`,
+              itemQuality?.id,
+            )
+          }
+        })
+      } else {
+        addNotification(
+          t('productionOrder.item.notHaveQC'),
+          NOTIFICATION_TYPE.ERROR,
+        )
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, false)
+            setFieldValue(`items[${itemIndex}]['qcCriteria']`, null)
+            setFieldValue(`items[${itemIndex}]['qcCriteriaId']`, null)
+          }
+        })
+      }
+    })
   }
 
   const columns = [
@@ -204,7 +234,8 @@ function ItemSettingTable(props) {
         return (
           <Field.Checkbox
             name={`items[${index}].qcCheck`}
-            onChange={() => handleCheckQc(itemId)}
+            onChange={(value) => handleCheckQc(itemId, value)}
+            disabled={itemId ? false : true}
           />
         )
       },
@@ -216,7 +247,7 @@ function ItemSettingTable(props) {
       renderCell: (params) => {
         const { qcCheck, itemId } = params.row
         return qcCheck
-          ? itemQualityPoint?.map((i) => i?.itemId === itemId)?.name
+          ? itemQualityPoint?.find((i) => i?.itemId === itemId)?.name
           : ''
       },
     },

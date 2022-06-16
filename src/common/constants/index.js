@@ -147,7 +147,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 99999999999,
   },
   LOT_NUMBER: {
-    MIN: 0,
+    MIN: 10,
     MAX: 10,
   },
 }
