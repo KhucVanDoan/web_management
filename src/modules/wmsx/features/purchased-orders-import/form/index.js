@@ -76,7 +76,7 @@ const POForm = () => {
     warehouseId: null,
     quantity: 1,
     qcCheck: false,
-    qcCriteriaId: null,
+    qcCriteria: null,
     lotNumber: initCode(CODE_SETTINGS.PURCHASED_ORDER_IMPORT.DOMAIN),
     packageId: null,
     mfg: null,

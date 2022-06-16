@@ -185,6 +185,7 @@ function SOExportForm() {
         break
     }
   }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -258,6 +259,11 @@ function SOExportForm() {
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.code}
                       required
+                      onChange={(res) => {
+                        setFieldValue('companyName', res?.company?.name)
+                        setFieldValue('customerName', res?.customer?.name)
+                        setFieldValue('orderedAt', res?.orderedAt)
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
