@@ -20,7 +20,7 @@ import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportMan
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
-import ItemsSettingTable from '../items-setting-table'
+import ItemSettingTableDetail from './item-table-detail'
 
 const breadcrumbs = [
   {
@@ -71,29 +71,30 @@ const ImportManufacturingOrderDetail = () => {
     return importManufacturingOrderDetails?.importOrderWarehouseLots?.map(
       (detailLot, index) => ({
         id: index,
-        itemId: detailLot.itemId,
-        warehouseId: detailLot.warehouseId,
+        itemId: detailLot?.itemId,
+        warehouseId: detailLot?.warehouseId,
         qcCheck:
-          importOrderWarehouseDetails.find(
+          importOrderWarehouseDetails?.find(
             (detailWarehouse) =>
-              detailWarehouse.id === detailLot.importOrderWarehouseDetailId,
-          )?.qcCheck === QC_CHECK.TRUE || false,
+              detailWarehouse?.id === detailLot?.importOrderWarehouseDetailId,
+          )?.qcCheck === QC_CHECK.TRUE,
         qcCriteriaId:
-          importOrderWarehouseDetails.find(
+          importOrderWarehouseDetails?.find(
             (detailWarehouse) =>
-              detailWarehouse.id === detailLot.importOrderWarehouseDetailId,
+              detailWarehouse?.id === detailLot?.importOrderWarehouseDetailId,
           )?.qcCriteriaId || null,
         qcCriteria:
-          itemQualityPoint.find(
+          itemQualityPoint?.find(
             (quality) =>
               quality?.id ===
-              importOrderWarehouseDetails.find(
+              importOrderWarehouseDetails?.find(
                 (detailWarehouse) =>
-                  detailWarehouse.id === detailLot.importOrderWarehouseDetailId,
+                  detailWarehouse?.id ===
+                  detailLot?.importOrderWarehouseDetailId,
               )?.qcCriteriaId,
           )?.code || '',
-        actualQuantity: detailLot.actualQuantity,
-        quantity: detailLot.quantity,
+        actualQuantity: detailLot?.actualQuantity,
+        quantity: detailLot?.quantity,
         lotNumber: detailLot?.lotNumber,
         mfg: detailLot?.mfg,
         packageId: detailLot?.packageId,
@@ -185,7 +186,7 @@ const ImportManufacturingOrderDetail = () => {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={items || []} mode={MODAL_MODE.DETAIL} />
+        <ItemSettingTableDetail items={items || []} mode={MODAL_MODE.DETAIL} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>
