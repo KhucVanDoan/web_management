@@ -24,7 +24,7 @@ function ItemSettingTable(props) {
     arrayHelpers,
     customerId = {},
     paymentMethod = {},
-    taxNo = false,
+    checkVAT = false,
     caculatePrice,
     currencyUnitId,
   } = props
@@ -35,7 +35,7 @@ function ItemSettingTable(props) {
     vatTaxCost,
     voucherPrice,
     totalCostEnd,
-  } = caculatePrice({ items, customerId, paymentMethod, taxNo })
+  } = caculatePrice({ items, customerId, paymentMethod, checkVAT })
 
   const getListService = async () => {
     const res = await getAllServicesDetailApi({ isGetAll: 1 })
@@ -269,7 +269,7 @@ function ItemSettingTable(props) {
                 ),
               }}
               allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-              disabled={!taxNo}
+              disabled={!checkVAT}
             />
           )
         if (params.row.id === 'defineBill.voucher')
