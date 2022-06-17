@@ -35,7 +35,7 @@ function ItemSettingTable(props) {
     setFieldValue,
     materialPlanDetail,
   } = props
-  const [itemQualityPoint, setItemQualityPoint] = useState([])
+  const [setItemQualityPoint] = useState([])
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { lotNumberList, productionOrderDetails },
@@ -66,7 +66,7 @@ function ItemSettingTable(props) {
           ?.join(', ')
       : ''
   }
-  const handleCheckQc = (val, itemId, values, setFieldValue) => {
+  const handleCheckQc = (itemId, value) => {
     let stageId = -1
     if (values?.type === TRANSACTION_TYPE_ENUM.IMPORT) {
       stageId = STAGES_OPTION.PRO_IMPORT
@@ -82,17 +82,33 @@ function ItemSettingTable(props) {
       }),
     }
     commonActions.getItemQualityPoint(params, (data) => {
-      setItemQualityPoint(data?.items)
-      if (data?.items?.length === 0) {
-        items.forEach((item, index) => {
+      if (data?.items.length > 0) {
+        const itemQuality = data?.items[0]
+        items.forEach((item, itemIndex) => {
           if (item.itemId === itemId) {
-            setFieldValue(`items[${index}].qcCheck`, false)
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, value)
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteria']`,
+              itemQuality?.code,
+            )
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteriaId']`,
+              itemQuality?.id,
+            )
           }
         })
+      } else {
         addNotification(
           t('productionOrder.item.notHaveQC'),
           NOTIFICATION_TYPE.ERROR,
         )
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, false)
+            setFieldValue(`items[${itemIndex}]['qcCriteria']`, null)
+            setFieldValue(`items[${itemIndex}]['qcCriteriaId']`, null)
+          }
+        })
       }
     })
   }
@@ -328,10 +344,7 @@ function ItemSettingTable(props) {
         return (
           <Field.Checkbox
             name={`items[${index}].qcCheck`}
-            checked={itemQualityPoint?.length > 0 ? true : false}
-            onChange={(val) =>
-              handleCheckQc(val, itemId, values, setFieldValue)
-            }
+            onChange={(val) => handleCheckQc(itemId, val)}
           />
         )
       },
@@ -341,8 +354,8 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.qcCriteria'),
       width: 180,
       renderCell: (params) => {
-        const { qcCheck } = params.row
-        return qcCheck ? itemQualityPoint[0]?.code : ''
+        const { qcCheck, qcCriteria } = params.row
+        return qcCheck ? qcCriteria : ''
       },
     },
     {
