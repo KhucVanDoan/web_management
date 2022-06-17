@@ -83,10 +83,6 @@ const POForm = () => {
     storedQuantity: 1,
   }
 
-  const importOrderWarehouseDetails = useMemo(
-    () => poImportDetails?.importOrderWarehouseDetails || [],
-    [poImportDetails],
-  )
   const initialValues = useMemo(
     () => ({
       code: poImportDetails?.code || '',
@@ -104,25 +100,25 @@ const POForm = () => {
               itemId: detailLot.itemId,
               warehouseId: detailLot.warehouseId,
               qcCheck:
-                importOrderWarehouseDetails.find(
-                  (detailWarehouse) =>
-                    detailWarehouse.id ===
-                    detailLot.importOrderWarehouseDetailId,
+                poImportDetails?.purchasedOrderImportWarehouseDetails.find(
+                  (detail) =>
+                    detail.id ===
+                    detailLot.purchasedOrderImportWarehouseDetailId,
                 )?.qcCheck === QC_CHECK.TRUE || false,
               qcCriteriaId:
-                importOrderWarehouseDetails.find(
-                  (detailWarehouse) =>
-                    detailWarehouse.id ===
-                    detailLot.importOrderWarehouseDetailId,
+                poImportDetails?.purchasedOrderImportWarehouseDetails.find(
+                  (detail) =>
+                    detail.id ===
+                    detailLot.purchasedOrderImportWarehouseDetailId,
                 )?.qcCriteriaId || null,
               qcCriteria:
-                itemQualityPoint.find(
+                itemQualityPoint?.find(
                   (quality) =>
                     quality?.id ===
-                    importOrderWarehouseDetails.find(
-                      (detailWarehouse) =>
-                        detailWarehouse.id ===
-                        detailLot.importOrderWarehouseDetailId,
+                    poImportDetails?.purchasedOrderImportWarehouseDetails.find(
+                      (detail) =>
+                        detail.id ===
+                        detailLot.purchasedOrderImportWarehouseDetailId,
                     )?.qcCriteriaId,
                 )?.code || '',
               actualQuantity: detailLot.actualQuantity,
@@ -134,7 +130,7 @@ const POForm = () => {
           )
         : [{ ...DEFAULT_ITEM }],
     }),
-    [poImportDetails],
+    [poImportDetails, itemQualityPoint],
   )
 
   const MODE_MAP = {
@@ -211,7 +207,7 @@ const POForm = () => {
         warehouseId: values?.warehouseId,
         quantity: +item.quantity,
         lotNumber: item.lotNumber,
-        qcCheck: +item.qcCheck ? true : false,
+        qcCheck: item.qcCheck,
         qcCriteriaId: item.qcCriteriaId,
         mfg: item.mfg,
         packageId: item.packageId,

@@ -98,11 +98,15 @@ function SaleOrderForm() {
 
   const handleSubmit = (values) => {
     const convertValues = {
-      ...values,
+      code: values?.code,
+      companyId: values?.companyId,
+      deadline: values?.deadline,
+      name: values?.name,
+      orderedAt: values?.orderedAt,
       customerId: values?.customerId?.id,
       boqId: values?.boqId ? values?.boqId : null,
       items: values?.items?.map((item) => ({
-        id: item?.itemId || item?.item?.id,
+        id: item?.item?.id,
         quantity: Number(item?.quantity),
         price: +item?.price,
       })),

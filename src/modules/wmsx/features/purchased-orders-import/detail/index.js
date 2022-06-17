@@ -91,19 +91,21 @@ const PODetail = () => {
           purchasedOrderImportWarehouseDetails.find(
             (detail) =>
               detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
-          )?.qcCheck === QC_CHECK.TRUE,
-        qcCriteriaId: purchasedOrderImportWarehouseDetails.find(
-          (detail) =>
-            detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
-        )?.qcCriteriaId,
-        qcCriteria: itemQualityPoint.find(
-          (quality) =>
-            quality?.id ===
-            purchasedOrderImportWarehouseDetails.find(
-              (detail) =>
-                detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
-            )?.qcCriteriaId,
-        )?.code,
+          )?.qcCheck === QC_CHECK.TRUE || false,
+        qcCriteriaId:
+          purchasedOrderImportWarehouseDetails.find(
+            (detail) =>
+              detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
+          )?.qcCriteriaId || null,
+        qcCriteria:
+          itemQualityPoint.find(
+            (quality) =>
+              quality?.id ===
+              purchasedOrderImportWarehouseDetails.find(
+                (detail) =>
+                  detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
+              )?.qcCriteriaId,
+          )?.code || '',
         storedQuantity: detailLot?.storedQuantity,
       })),
     }

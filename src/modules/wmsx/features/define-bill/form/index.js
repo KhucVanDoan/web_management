@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -77,33 +77,41 @@ function DefineBillForm() {
     history.push(ROUTE.DEFINE_BILL.LIST.PATH)
   }
 
-  const initialValues = {
-    code: billDetails?.code || '',
-    name: billDetails?.name || '',
-    invoiceTypeId: billDetails?.invoiceType || null,
-    currencyUnitId: billDetails?.currencyUnit?.id || '',
-    isQr: billDetails?.isQr || false,
-    taxNo: Boolean(billDetails?.taxNo) || false,
-    vendor: billDetails?.vendor || null,
-    customerId: billDetails?.customer || null,
-    customerTaxCode: '',
-    paymentMethod: billDetails?.paymentType || null,
-    items: billDetails?.billDetails?.map((i) => ({
-      serviceId: i?.serviceId,
-      price: {
-        value: i?.unitPrice?.value,
-        type: i?.unitPrice?.unit,
-      },
-      rentDuration: [i?.rentDurationFrom, i?.rentDurationTo],
-      discount: i?.fee,
-      quantity: i?.quantity,
-      vat: billDetails?.taxNo,
-      // @TODO: <linh.taquang> waiting BE return percentage
-      voucher: { ...billDetails?.voucher, percentage: 10 },
-    })) || [{ ...DEFAULT_ITEM }],
-  }
+  const initialValues = useMemo(
+    () => ({
+      code: billDetails?.code || '',
+      name: billDetails?.name || '',
+      invoiceTypeId: billDetails?.invoiceType || null,
+      currencyUnitId: billDetails?.currencyUnit?.id || '',
+      isQr: billDetails?.isQr || false,
+      checkVAT: Boolean(billDetails?.percentageTax) || false,
+      vendor: billDetails?.vendor || null,
+      customerId: billDetails?.customer || null,
+      customerTaxCode: '',
+      paymentMethod: billDetails?.paymentType || null,
+      items: billDetails?.billDetails?.map((i) => ({
+        serviceId: i?.serviceId,
+        price: {
+          value: i?.unitPrice?.value,
+          type: i?.unitPrice?.unit,
+        },
+        rentDuration: [i?.rentDurationFrom, i?.rentDurationTo],
+        discount: i?.fee,
+        quantity: i?.quantity,
+        vat: Number(billDetails?.percentageTax),
+        // @TODO: <linh.taquang> waiting BE return percentage
+        voucher: { ...billDetails?.voucher, percentage: 10 },
+      })) || [{ ...DEFAULT_ITEM }],
+    }),
+    [billDetails],
+  )
 
-  const caculatePrice = ({ items = [], customerId, paymentMethod, taxNo }) => {
+  const caculatePrice = ({
+    items = [],
+    customerId,
+    paymentMethod,
+    checkVAT,
+  }) => {
     const { sumPrice, totalPriceDiscount } = items.reduce(
       (prev, curr) => ({
         sumPrice:
@@ -127,7 +135,7 @@ function DefineBillForm() {
       ? (Number(paymentMethod?.discount) / 100) * sumPrice
       : 0
 
-    const vatTaxCost = taxNo ? sumPrice * (items[0]?.vat / 100) : 0
+    const vatTaxCost = checkVAT ? sumPrice * (items[0]?.vat / 100) : 0
 
     const voucherPrice = items[0]?.voucher
       ? sumPrice * (Number(items[0]?.voucher.percentage) / 100)
@@ -166,7 +174,7 @@ function DefineBillForm() {
       node: '',
       taxNo: val?.customerTaxCode,
       voucherId: val?.items[0]?.voucher?.id,
-      totalPrice: totalCostEnd,
+      totalPrice: totalCostEnd.toFixed(2),
       percentageTax: val?.items[0]?.vat,
       billDetails: val?.items.map((service) => ({
         serviceId: service?.serviceId,
