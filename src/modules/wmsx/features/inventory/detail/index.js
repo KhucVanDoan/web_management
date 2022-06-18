@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Box, Grid } from '@mui/material'
-import { isNil } from 'lodash'
+import { Box, Grid, Typography } from '@mui/material'
+import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { INVENTORY_STATUS_OPTIONS } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Dialog from '~/components/Dialog'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -21,7 +22,7 @@ const InventoryStatisticDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['wmsx'])
   const { id } = useParams()
-
+  const [isOpenModal, setIsOpenModal] = useState(false)
   const breadcrumbs = [
     {
       title: 'warehouseManagement',
@@ -40,11 +41,15 @@ const InventoryStatisticDetail = () => {
   }
 
   const acceptTicket = () => {
-    actions.approveInventory(id, backToList)
+    actions.approveInventory(id, backToList, () => {
+      if (Object.entries(data).length !== 0) {
+        setIsOpenModal(true)
+      }
+    })
   }
 
   const {
-    data: { inventoryStatisticDetail, isLoading },
+    data: { inventoryStatisticDetail, data, isLoading },
     actions,
   } = useInventory()
 
@@ -54,7 +59,9 @@ const InventoryStatisticDetail = () => {
       actions.resetInventoryDetailsState()
     }
   }, [id])
-
+  const onCloseModal = () => {
+    setIsOpenModal(false)
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -181,6 +188,44 @@ const InventoryStatisticDetail = () => {
         onBack={backToList}
         onAccept={inventoryStatisticDetail?.status === 5 ? acceptTicket : null}
       />
+      <Dialog
+        open={isOpenModal}
+        title={t('inventories.confirmFail')}
+        onCancel={onCloseModal}
+        cancelLabel={t('general:common.close')}
+        noBorderBottom
+      >
+        {!isEmpty(data?.logVolume) && (
+          <Typography variant="h4" mt={1}>
+            {t('inventories.overVolumn')}
+          </Typography>
+        )}
+        {!isEmpty(data?.logVolume) &&
+          data.logVolume?.map((err) => (
+            <Typography mt={1}>
+              {`
+               ${err.warehouseName} /
+               ${err.warehouseSectorName} /
+               ${err.warehouseShelfName} /
+                ${err.warehouseShelfFloorName}`}
+            </Typography>
+          ))}
+        {!isEmpty(data?.logWeight) && (
+          <Typography variant="h4" mt={1}>
+            {t('inventories.overWeight')}
+          </Typography>
+        )}
+        {!isEmpty(data?.logWeight) &&
+          data.logWeight?.map((err) => (
+            <Typography mt={1}>
+              {`
+               ${err.warehouseName} /
+               ${err.warehouseSectorName} /
+               ${err.warehouseShelfName} /
+                ${err.warehouseShelfFloorName}`}
+            </Typography>
+          ))}
+      </Dialog>
     </Page>
   )
 }

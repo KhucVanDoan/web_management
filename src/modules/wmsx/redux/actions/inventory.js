@@ -14,9 +14,9 @@ export const WMSX_APPROVE_INVENTORY_START = 'WMSX_APPROVE_INVENTORY_START'
 export const WMSX_APPROVE_INVENTORY_SUCCESS = 'WMSX_APPROVE_INVENTORY_SUCCESS'
 export const WMSX_APPROVE_INVENTORY_FAILED = 'WMSX_APPROVE_INVENTORY_FAILED'
 
-export const RESET_INVENTORY_DETAILS_STATE =
-  'WMSX_RESET_INVENTORY_DETAILS_STATE'
-
+export const RESET_INVENTORY_DETAILS_STATE = 'RESET_INVENTORY_DETAILS_STATE'
+export const APPROVE_INVENTORY_FAILED_TO_GET_DATA =
+  'WMSX_APPROVE_INVENTORY_FAILED_TO_GET_DATA'
 /**
  * Get inventory details
  * @param {int} payload
@@ -153,7 +153,12 @@ export function resetInventoryDetailsState() {
     type: RESET_INVENTORY_DETAILS_STATE,
   }
 }
-
+export function approveInventoryFailedToGetData(data) {
+  return {
+    type: APPROVE_INVENTORY_FAILED_TO_GET_DATA,
+    data: data,
+  }
+}
 export default {
   searchInventory,
   searchInventorySuccess,

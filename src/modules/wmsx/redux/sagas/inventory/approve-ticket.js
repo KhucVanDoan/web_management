@@ -8,10 +8,12 @@ import {
   approveInventorySuccess,
   approveInventoryFailed,
   WMSX_APPROVE_INVENTORY_START,
+  approveInventoryFailedToGetData,
 } from '../../actions/inventory'
 
 /**
- * Confirm purchased order
+ * Approve inventory
+ * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
 const approveInventoryApi = (params) => {
@@ -37,12 +39,17 @@ function* doApproveInventory(action) {
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
-      addNotification(
-        response?.message || response?.statusText,
-        NOTIFICATION_TYPE.ERROR,
-      )
+      if (response?.data) {
+        yield put(approveInventoryFailedToGetData(response.data))
+        yield action.onError()
+      } else {
+        addNotification(
+          response?.message || response?.statusText,
+          NOTIFICATION_TYPE.ERROR,
+        )
 
-      throw new Error(response?.message)
+        throw new Error(response?.message)
+      }
     }
   } catch (error) {
     yield put(approveInventoryFailed())
