@@ -12,6 +12,7 @@ import {
   WMSX_APPROVE_INVENTORY_START,
   WMSX_APPROVE_INVENTORY_SUCCESS,
   WMSX_APPROVE_INVENTORY_FAILED,
+  APPROVE_INVENTORY_FAILED_TO_GET_DATA,
 } from '~/modules/wmsx/redux/actions/inventory'
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   inventoryStatistic: [],
   inventoryStatisticDetail: {},
   warehouseType: [],
+  data: {},
 }
 
 /**
@@ -71,6 +73,12 @@ export default function inventory(state = initialState, action) {
         inventoryStatistic: [],
         inventoryStatisticDetail: {},
         warehouseType: [],
+      }
+    case APPROVE_INVENTORY_FAILED_TO_GET_DATA:
+      return {
+        ...state,
+        isLoading: false,
+        data: action.data,
       }
     default:
       return state

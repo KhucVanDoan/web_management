@@ -81,7 +81,7 @@ const ImportManufacturingOrderForm = () => {
     qcCheck: false,
     qcCriteriaId: null,
     lotNumber: CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.PREFIX,
-    packageId: '',
+    packageId: null,
     mfg: '',
   }
 
