@@ -18,7 +18,7 @@ const PageHeader = ({
   renderSearchBox,
   breadcrumbs,
 }) => {
-  if ((!onSearch || !renderSearchBox) && !onBack && !renderHeaderRight) {
+  if (!onSearch && !renderSearchBox && !onBack && !renderHeaderRight) {
     return (
       <Box sx={{ display: 'flex', mb: 2 }}>
         <Box sx={{ mr: 1 }}>

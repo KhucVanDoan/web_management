@@ -19,22 +19,13 @@ const breadcrumbs = [
     title: ROUTE.WAREHOUSE_DESIGN.TITLE,
   },
 ]
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-//   ...theme.typography.body2,
-//   padding: theme.spacing(1),
-//   textAlign: 'center',
-//   color: theme.palette.text.secondary,
-// }))
 
 const warehouseDesign = () => {
   const { t } = useTranslation('wmsx')
   const { setKeyword } = useQueryState()
   const [warehouseRaio, setWarehouseRatio] = useState(1)
-  // const [isLoading, setIsLoading] = useState(false)
-  const renderHeaderRight = () => {
-    return <></>
-  }
+  const [isLoading, setIsLoading] = useState(false)
+
   const onChangeWarehouseRatio = (ratio) => {
     setWarehouseRatio(ratio)
   }
@@ -43,17 +34,28 @@ const warehouseDesign = () => {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseDesign')}
-      renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('warehouseArea.searchPlaceholder')}
-      // loading={isLoading}
+      freeSolo
+      loading={isLoading}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          flex: 1,
+          overflow: 'hidden',
+          minHeight: 500,
+        }}
+      >
+        <Grid item xs={3} sx={{ height: '100%' }}>
           <ListTemplate warehouseRaio={warehouseRaio} />
         </Grid>
-        <Grid item xs={8}>
-          <WarehouseCanvas onChangeWarehouseRatio={onChangeWarehouseRatio} />
+        <Grid item xs={9} sx={{ height: '100%' }}>
+          <WarehouseCanvas
+            onChangeWarehouseRatio={onChangeWarehouseRatio}
+            setIsLoading={setIsLoading}
+          />
         </Grid>
       </Grid>
     </Page>

@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Card, Typography, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import door from '~/assets/images/door.png'
+import TextField from '~/components/TextField'
 import { DRAG_TYPE } from '~/modules/wmsx/constants'
 import { useTemplateSector } from '~/modules/wmsx/redux/hooks/useDefineTemplateSector'
 import useDefineTemplateShelf from '~/modules/wmsx/redux/hooks/useDefineTemplateShelf'
 import { convertActualDimensiontoCanvasDimension } from '~/utils/measure'
 
-import door from '../../../../../assets/images/door.png'
-
+import { Accordion, AccordionSummary, AccordionDetails } from './style'
 import './style.scss'
 
 const ListTemplate = ({ warehouseRaio }) => {
@@ -154,61 +148,72 @@ const ListTemplate = ({ warehouseRaio }) => {
     setExpandedShelf(isExpanded ? panel : false)
   }
   return (
-    <div className="list-template">
-      <div id="door" className="door" draggable onDragStart={handleDragDoor}>
+    <Card
+      sx={{
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
+      <Box
+        id="door"
+        className="door"
+        draggable
+        onDragStart={handleDragDoor}
+        sx={{ bgcolor: 'primary.a2' }}
+      >
+        <img src={door} alt="door" className="door-icon" />
         {t('warehouseDesign.door')}
-      </div>
+      </Box>
+
       <TextField
-        className="search-input"
         placeholder={t('warehouseDesign.searchSector')}
         onChange={onChangeSearch}
+        sx={{ mb: 1 }}
       />
-      {treeDataDisplay?.map((item) => (
-        <Accordion
-          expanded={expanded === item?.id}
-          onChange={handleChange(item?.id)}
-          onClick={() => onLoadData(item?.key, item?.children)}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography
-              sx={{ width: 'auto', flexShrink: 0 }}
-              id={item?.id}
-              draggable
-              onDragStart={(e) => hanldeDragSector(e, item?.items)}
-            >
-              {`[${t('warehouseDesign.sector')}] ${item?.name}`}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {item?.children?.map((chil) => (
-              <Accordion
-                expandedShelf={expandedShelf === chil?.id}
-                onChange={handleChangeShelf(chil?.id)}
-                onClick={() => onLoadData(chil?.key, chil?.children)}
+
+      <Box sx={{ flex: 1, overflow: 'auto', mr: -2, pr: 2 }}>
+        {treeDataDisplay?.map((item) => (
+          <Accordion
+            key={item?.key}
+            expanded={expanded === item?.id}
+            onChange={handleChange(item?.id)}
+            onClick={() => onLoadData(item?.key, item?.children)}
+          >
+            <AccordionSummary expanded={expanded === item?.id}>
+              <Typography
+                id={item?.id}
+                draggable
+                onDragStart={(e) => hanldeDragSector(e, item?.items)}
               >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography
-                    sx={{ width: 'auto', flexShrink: 0 }}
-                    id={chil?.id}
-                  >
-                    {chil?.name}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {chil?.children?.map((d) => (
-                    <Accordion>
-                      <AccordionSummary>
-                        <Typography>{d?.name}</Typography>
-                      </AccordionSummary>
-                    </Accordion>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            ))}
-          </AccordionDetails>
-        </Accordion>
-      ))}
-    </div>
+                {`[${t('warehouseDesign.sector')}] ${item?.name}`}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {item?.children?.map((chil) => (
+                <Accordion
+                  key={chil?.key}
+                  expandedShelf={expandedShelf === chil?.id}
+                  onChange={handleChangeShelf(chil?.id)}
+                  onClick={() => onLoadData(chil?.key, chil?.children)}
+                >
+                  <AccordionSummary expanded={expandedShelf === chil?.id}>
+                    <Typography id={chil?.id}>{chil?.name}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {chil?.children?.map((floor) => (
+                      <Typography key={floor?.key}>{floor?.name}</Typography>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Box>
+    </Card>
   )
 }
 
