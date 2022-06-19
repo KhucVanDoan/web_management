@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import WarehouseIcon from '@mui/icons-material/Warehouse'
-import { Button, Card, Typography, CircularProgress, Box } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { uuid } from 'uuidv4'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
+import Button from '~/components/Button'
 import { DISTANCE_BETWEEN_SECTORS, DRAG_TYPE } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import { useTemplateSector } from '~/modules/wmsx/redux/hooks/useDefineTemplateSector'
@@ -25,15 +26,13 @@ import './style.scss'
 import Door from '../Door'
 import RectangleSector from '../RectangleSector'
 
-const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
+const WarehouseCanvas = ({ onChangeWarehouseRatio, setIsLoading }) => {
   const [warehouseId, setWarehouseId] = useState(null)
   const [warehouseDetailCanvas, setWarehouseDetailCanvas] = useState({})
   const [ratio, setRatio] = useState(1)
   const [warehouseSize, setWarehouseSize] = useState({})
   const [designs, setDesigns] = useState([])
   const [doors, setDoors] = useState([])
-  const [isSavingDesign, setIsSavingDesign] = useState(false)
-  const [isFetchingDesign, setIsFetchingDesign] = useState(false)
   const warehouseStage = useRef()
 
   const { t } = useTranslation(['wmsx'])
@@ -105,13 +104,13 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
   }
 
   const displayWarehouseDesign = () => {
-    setIsFetchingDesign(true)
+    setIsLoading(true)
     defineWarehouseActions.getWarehouseDetailsCanvasById(
       warehouseId,
       (data) => {
         calculateWarehouseSize(data)
         setWarehouseDetailCanvas(data)
-        setIsFetchingDesign(false)
+        setIsLoading(false)
       },
     )
   }
@@ -382,7 +381,7 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
 
   const saveDesign = () => {
     try {
-      setIsSavingDesign(true)
+      setIsLoading(true)
       // Check sector duplicate name
       const sectorNames = designs?.map((item) => item.name)
       const sectorsDuplicateName = sectorNames?.filter(
@@ -460,11 +459,11 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
         })),
       }
       actions.updateWarehouseDesign(params, () => {
-        setIsSavingDesign(false)
+        setIsLoading(false)
         defineWarehouseActions.getWarehouseDetailsCanvasById(warehouseId)
       })
     } catch (error) {
-      setIsSavingDesign(false)
+      setIsLoading(false)
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
@@ -615,12 +614,15 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
 
   return (
     <div className="warehouse-canvas">
-      <Card variant="outlined" className="warehouse-canvas-header">
+      <Card
+        className="warehouse-canvas-header"
+        sx={{ px: 2, py: 1, mb: 1, minHeight: 64, boxSizing: 'border-box' }}
+      >
         <Autocomplete
           options={warehouseList}
           label={t('defineWarehouse.name')}
-          labelWidth={60}
-          style={{ width: 300 }}
+          labelWidth="auto"
+          sx={{ width: 300 }}
           getOptionLabel={(opt) => opt?.name}
           getOptionValue={(opt) => opt?.id}
           onChange={(ev) => onChangeWarehouse(ev)}
@@ -631,14 +633,10 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
 
         {warehouseId ? (
           <div className="action">
-            <Button onClick={cancelDesign} variant="outlined">
+            <Button onClick={cancelDesign} color="grayF4">
               {t('warehouseDesign.cancel')}
             </Button>
-            <Button
-              type="primary"
-              loading={isSavingDesign}
-              onClick={saveDesign}
-            >
+            <Button icon="save" onClick={saveDesign} sx={{ ml: 1 }}>
               {t('warehouseDesign.save')}
             </Button>
           </div>
@@ -646,19 +644,14 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
           ''
         )}
       </Card>
-      <div ref={warehouseStage}>
+      <Card ref={warehouseStage} sx={{ flex: 1 }}>
         {warehouseId ? (
-          <Card
+          <div
             sx={{ height: `${warehouseSize.stageLong}px` }}
             className="warehouse-stage"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            {isFetchingDesign && (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                <CircularProgress />
-              </Box>
-            )}
             {doors?.map((door) => (
               <Door
                 key={door.id}
@@ -683,16 +676,16 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio }) => {
                 }
               />
             ))}
-          </Card>
+          </div>
         ) : (
-          <Card className="warehouse-empty">
-            <WarehouseIcon sx={{ fontSize: '90px', opacity: '0.3' }} />
-            <Typography mt={0}>
+          <div className="warehouse-empty">
+            <WarehouseIcon sx={{ fontSize: '90px', opacity: '0.1' }} />
+            <Typography variant="body2" mt={0}>
               {t('warehouseDesign.selectWarehouse')}{' '}
             </Typography>
-          </Card>
+          </div>
         )}
-      </div>
+      </Card>
     </div>
   )
 }
