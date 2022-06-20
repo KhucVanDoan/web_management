@@ -104,15 +104,13 @@ function InventoryLimitDetail() {
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('inventoryLimit.durationLife')}
-                // @TODO: <linh.taquang> wait field BE
-                value={null}
+                value={inventoryLimitDetails?.expiryWarehouse}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LabelValue
                 label={t('inventoryLimit.shelfLifeWarning')}
-                // @TODO: <linh.taquang> wait field BE
-                value={null}
+                value={inventoryLimitDetails?.expiryWarningWarehouse}
               />
             </Grid>
           </Grid>
