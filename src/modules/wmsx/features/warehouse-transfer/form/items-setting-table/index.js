@@ -242,6 +242,9 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].planQuantity`}
               type="number"
               disabled={isView}
+              numberProps={{
+                decimalScale: 3,
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>

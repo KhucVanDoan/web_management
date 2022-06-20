@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { createFilterOptions, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -35,7 +35,6 @@ function ItemSettingTable(props) {
     setFieldValue,
     materialPlanDetail,
   } = props
-  const [setItemQualityPoint] = useState([])
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { lotNumberList, productionOrderDetails },
@@ -166,7 +165,6 @@ function ItemSettingTable(props) {
                 setFieldValue(`items[${index}].warehouseName`, '')
               }
               setFieldValue(`items[${index}].qcCheck`, false)
-              setItemQualityPoint([])
             }}
           />
         )
