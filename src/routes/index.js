@@ -4,6 +4,7 @@ import authRoutes from '~/modules/auth/routes'
 import configurationRoutes from '~/modules/configuration/routes'
 import databaseRoutes from '~/modules/database/routes'
 import mesxRoutes from '~/modules/mesx/routes'
+import mmsxRoutes from '~/modules/mmsx/routes'
 import publicRoutes from '~/modules/public/routes'
 import qmsxRoutes from '~/modules/qmsx/routes'
 import welcomeRoute from '~/modules/welcome/routes'
@@ -29,6 +30,7 @@ export const privateRoutes = [
   ...databaseRoutes,
   ...configurationRoutes,
   ...wmsxRoutes,
+  ...mmsxRoutes,
 ]
 export const privateRoutesFlatten = flatten(privateRoutes)
 
@@ -40,4 +42,5 @@ export const appRoutesObj = {
   wmsx: wmsxRoutes,
   database: databaseRoutes,
   configuration: configurationRoutes,
+  mmsx: mmsxRoutes,
 }
