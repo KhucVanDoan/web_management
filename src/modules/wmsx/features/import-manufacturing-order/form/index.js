@@ -47,7 +47,6 @@ const ImportManufacturingOrderForm = () => {
   } = useCommonManagement()
 
   const [itemsFilter, setItemsFilter] = useState([])
-
   useEffect(() => {
     commonActions.getSupplyRequest({})
     commonActions.getItems({})
@@ -81,8 +80,8 @@ const ImportManufacturingOrderForm = () => {
     quantity: 1,
     qcCheck: false,
     qcCriteriaId: null,
-    lotNumber: initCode(CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.DOMAIN),
-    packageId: '',
+    lotNumber: CODE_SETTINGS.IMPORT_MANUFACTURING_ORDER.PREFIX,
+    packageId: null,
     mfg: '',
   }
 
@@ -215,13 +214,13 @@ const ImportManufacturingOrderForm = () => {
       planAt: values?.planDate[0],
       items: values?.items?.map((item) => ({
         id: item.itemId,
-        warehouseId: item.warehouseId,
+        warehouseId: +item.warehouseId,
         quantity: +item.quantity,
         lotNumber: item.lotNumber,
         qcCheck: item.qcCheck ? BOOLEAN_ENUM.TRUE : BOOLEAN_ENUM.FALSE,
-        qcCriteriaId: item.qcCriteriaId,
+        qcCriteriaId: item?.qcCriteriaId ?? null,
         mfg: item.mfg,
-        packageId: item.packageId,
+        packageId: item.packageId ?? null,
       })),
       ...(values?.description?.trim()
         ? { description: values?.description?.trim() }

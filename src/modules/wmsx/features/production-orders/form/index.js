@@ -147,15 +147,11 @@ function ProductionOrderForm() {
       items: val?.items?.map((item) => ({
         id: Number(item?.itemId),
         quantity: item?.quantity,
-        qcCheck: item?.qcCheck,
+        qcCheck: +item.qcCheck ? true : false,
         warehouseId: item?.warehouseName,
         lotNumber: item?.lotNumber,
         mfg: item?.mfg,
-        qcCriteriaId:
-          item?.qcCheck &&
-          itemQualityPoint.find((e) => e.itemId === item.itemId)
-            ? itemQualityPoint.find((e) => e.itemId === item.itemId)?.id
-            : null,
+        qcCriteriaId: item?.qcCriteriaId ?? null,
         packageId: item.packageId || null,
       })),
     }

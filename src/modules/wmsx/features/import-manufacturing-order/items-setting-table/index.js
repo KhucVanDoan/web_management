@@ -5,16 +5,26 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
+import { STAGES_OPTION, TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useImportManufacturingOrder from '~/modules/wmsx/redux/hooks/useImportManufacturingOrder'
 import useInventory from '~/modules/wmsx/redux/hooks/useInventory'
-import { convertUtcDateToLocalTz, scrollToBottom } from '~/utils'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  scrollToBottom,
+} from '~/utils'
+import addNotification from '~/utils/toast'
 
 const ItemSettingTable = ({
   items,
@@ -29,19 +39,16 @@ const ItemSettingTable = ({
     data: { itemList, warehouseList },
     actions,
   } = useCommonManagement()
-
   const {
     data: { warehouseType },
     actions: inventoryActions,
   } = useInventory()
-
   const {
     data: { lotNumberList },
   } = useImportManufacturingOrder()
 
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
   useEffect(() => {
     actions.getItems({})
     actions.getWarehouses({})
@@ -69,6 +76,52 @@ const ItemSettingTable = ({
       : ''
   }
 
+  const handleCheckQc = (itemId, value) => {
+    let stageId = -1
+    if (type === TRANSACTION_TYPE_ENUM.IMPORT) {
+      stageId = STAGES_OPTION.IMO
+    } else if (type === TRANSACTION_TYPE_ENUM.EXPORT) {
+      stageId = STAGES_OPTION.EXO
+    }
+    const params = {
+      page: 1,
+      limit: 20,
+      filter: convertFilterParams({
+        itemId: itemId,
+        stageId: stageId,
+      }),
+    }
+    actions.getItemQualityPoint(params, (data) => {
+      if (data?.items.length > 0) {
+        const itemQuality = data?.items[0]
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, value)
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteria']`,
+              itemQuality?.code,
+            )
+            setFieldValue(
+              `items[${itemIndex}]['qcCriteriaId']`,
+              itemQuality?.id,
+            )
+          }
+        })
+      } else {
+        addNotification(
+          t('productionOrder.item.notHaveQC'),
+          NOTIFICATION_TYPE.ERROR,
+        )
+        items.forEach((item, itemIndex) => {
+          if (item.itemId === itemId) {
+            setFieldValue(`items[${itemIndex}]['qcCheck']`, false)
+            setFieldValue(`items[${itemIndex}]['qcCriteria']`, null)
+            setFieldValue(`items[${itemIndex}]['qcCriteriaId']`, null)
+          }
+        })
+      }
+    })
+  }
   const getColumns = useMemo(
     () => [
       {
@@ -189,20 +242,22 @@ const ItemSettingTable = ({
         align: 'center',
         renderCell: (params, index) => {
           const { lotNumber, itemId } = params.row
+          const listLotNumber =
+            lotNumberList.find((item) => item.itemId === itemId)?.lotNumbers ||
+            []
           return isView ? (
             <>{lotNumber}</>
           ) : type === 0 ? (
             <Field.TextField
               name={`items[${index}].lotNumber`}
-              value={initialLotNumber || ''}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+              }}
             />
           ) : type === TRANSACTION_TYPE_ENUM.EXPORT ? (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={
-                lotNumberList.find((item) => item.itemId === itemId)
-                  ?.lotNumbers || []
-              }
+              options={listLotNumber}
               disabled={isView}
               getOptionLabel={(opt) => opt?.lotNumber || ''}
               getOptionValue={(opt) => opt?.lotNumber}
@@ -349,8 +404,15 @@ const ItemSettingTable = ({
         headerName: t('soExport.item.qcCheck'),
         width: 200,
         align: 'center',
-        renderCell: (_, index) => {
-          return <Field.Checkbox name={`items[${index}].qcCheck`} />
+        renderCell: (params, index) => {
+          const itemId = params.row?.itemId
+          return (
+            <Field.Checkbox
+              name={`items[${index}].qcCheck`}
+              disabled={!itemId}
+              onChange={(value) => handleCheckQc(itemId, value)}
+            />
+          )
         },
       },
       {
@@ -359,9 +421,8 @@ const ItemSettingTable = ({
         width: 200,
         align: 'center',
         renderCell: (params) => {
-          const { qcCheck, itemId } = params?.row
-          const item = items.find((e) => e.itemId === itemId)
-          return qcCheck && item !== undefined ? item?.qcCriteria : ''
+          const { qcCheck, qcCriteria } = params.row
+          return qcCheck ? qcCriteria : ''
         },
       },
       {
@@ -428,7 +489,7 @@ const ItemSettingTable = ({
       <DataTable
         rows={items}
         columns={getColumns}
-        total={items.length}
+        total={items?.length}
         striped={false}
         hideSetting
         hideFooter
@@ -436,7 +497,6 @@ const ItemSettingTable = ({
     </>
   )
 }
-
 ItemSettingTable.defaultProps = {
   items: [],
   mode: '',

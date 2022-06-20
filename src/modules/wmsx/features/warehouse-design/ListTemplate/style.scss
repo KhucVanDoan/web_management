@@ -1,39 +1,13 @@
-.search-input {
-  margin-bottom: 15px;
-  .MuiOutlinedInput-root {
-    height: 40px;
-  }
-}
-
 .door {
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #edf0f4;
-  border-radius: 6px;
-  cursor: move;
-}
+  margin-bottom: 24px;
+  padding: 10px 12px;
+  border-radius: 3px;
+  cursor: grab;
+  display: flex;
+  align-items: flex-end;
 
-.list-template {
-  position: sticky;
-  top: 24px;
-}
-.MuiTreeItem-root {
-  margin: 5px 5px 0 -10px;
-}
-.MuiAccordion-root {
-  .MuiButtonBase-root {
-    min-height: unset;
-    height: 30px;
-    border: none;
-    padding: 0 0 24px 0;
+  .door-icon {
+    width: 24px;
+    margin-right: 10px;
   }
-  .MuiAccordionSummary-content {
-    margin: 0;
-  }
-  .MuiAccordionDetails-root {
-    padding: 0 24px 0;
-  }
-}
-.MuiAccordion-root:before {
-  position: relative;
 }

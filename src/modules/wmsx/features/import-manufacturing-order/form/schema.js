@@ -1,12 +1,15 @@
 import * as Yup from 'yup'
 
-import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import {
+  NUMBER_FIELD_REQUIRED_SIZE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 
 export const importManufacturingOrderSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string().required(t('general:form.required')),
-    name: Yup.string().required(t('general:form.required')),
-    type: Yup.string().required(t('general:form.required')),
+    code: Yup.string().nullable().required(t('general:form.required')),
+    name: Yup.string().nullable().required(t('general:form.required')),
+    type: Yup.string().nullable().required(t('general:form.required')),
     planDate: Yup.array()
       .nullable()
       .test('planDate', t('general:form.required'), (planDate) => {
@@ -16,14 +19,26 @@ export const importManufacturingOrderSchema = (t) =>
     description: Yup.string(),
     items: Yup.array().of(
       Yup.object().shape({
-        itemId: Yup.string().required(t('general:form.required')),
-        lotNumber: Yup.string().required(t('general:form.required')),
-        mfg: Yup.string().required(t('general:form.required')),
+        itemId: Yup.string().nullable().required(t('general:form.required')),
+        lotNumber: Yup.string()
+          .nullable()
+          .required(t('general:form.required'))
+          .length(
+            TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+            t('general:form.length', {
+              length: TEXTFIELD_REQUIRED_LENGTH.CODE_10.MAX,
+            }),
+          ),
+        warehouseId: Yup.string()
+          .nullable()
+          .required(t('general:form.required')),
+        mfg: Yup.string().nullable().required(t('general:form.required')),
         quantity: Yup.number()
+          .nullable()
           .min(
-            NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+            NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MIN,
             t('general:form.minNumber', {
-              min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+              min: NUMBER_FIELD_REQUIRED_SIZE.LOT_NUMBER.MIN,
             }),
           )
           .max(
