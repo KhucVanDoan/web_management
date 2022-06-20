@@ -1,1 +1,1532 @@
-{}
+{
+  "currentLanguage": "jp",
+  "general": {
+    "from": "開始日",
+    "to": "終了日",
+    "all": "すべて",
+    "allFactory": "全工場",
+    "allMaintenanceTeam": "全ての保守チーム",
+    "search": "検索",
+    "users": "利用者",
+    "maintainanceTeam": "保守チーム",
+    "filterInfor": "データ絞り込み",
+    "placeholder": {
+      "deviceGroup": "設備グループ",
+      "factoryName": "工場名",
+      "workshopName": "作業場名",
+      "deviceName": "設備コード",
+      "user": "利用者名",
+      "status": "ステータス",
+      "jobType": "作業種類"
+    },
+    "maintenanceType": {
+      "maintain": "保守",
+      "replace": "交換"
+    },
+    "device": "端末",
+    "filter": "フィルター"
+  },
+  "menu": {
+    "dashboard": "ダッシュボード",
+    "suppliesCategory": "資材グループ登録",
+    "supplies": "部品・資材登録",
+    "setting": "設定",
+    "userManagement": "ユーザ管理",
+    "login": "システムログイン",
+    "database": "データベース",
+    "maintenanceTeam": "保守チーム登録",
+    "deviceCategory": "設備グループ登録",
+    "deviceList": "設備登録",
+    "deviceForm": "設備一覧",
+    "deviceAssign": "設備割当",
+    "deviceAssignForm": "割当一覧",
+    "deviceAssignCreate": "設備割当作成",
+    "deviceAssignDetail": "設備割当詳細",
+    "deviceAssignEdit": "設備割当編集",
+    "deviceReassign": "設備再割当",
+    "requestDevice": "設備申請",
+    "maintenance": "保守",
+    "maintainRequest": "利用者からの保守申請",
+    "maintainRequestForm": "保守申請一覧",
+    "maintainRequestDetail": "利用者からの保守申請詳細",
+    "checkSheet": "点検票登録",
+    "checkSheetForm": "点検票一覧",
+    "defectList": "不具合登録",
+    "errorWarning": "事故警告",
+    "errorWarningForm": "事故警告一覧",
+    "attributeMaintenance": "保守属性登録",
+    "templateChecklist": "点検票様式登録",
+    "templateChecklistForm": "点検票様式一覧",
+    "templateChecklistDetail": "点検票様式詳細",
+    "templateChecklistEdit": "点検票様式編集",
+    "templateChecklistCreate": "点検票様式作成",
+    "warningList": "システム警告",
+    "warningListChecklist": "定期点検",
+    "warningListError": "不具合警告",
+    "warningListScheduled": "予防保全",
+    "report": "報告",
+    "deviceStatistic": "設備集計",
+    "deviceStatus": "設備状態報告",
+    "maintainanceProgress": "作業進捗報告",
+    "reportDeviceSerial": "設備状態報告",
+    "reportDeviceAssign": "設備状態報告詳細",
+    "createPlanList": "計画作成",
+    "plan": "計画",
+    "jobList": "作業",
+    "trackTrace": "トラック＆トレース",
+    "solution": "ソリューション",
+    "deviceCreate": "設備作成",
+    "deviceDetail": "設備詳細",
+    "deviceEdit": "設備編集",
+    "maintenanceParameter": "保守共通仕様",
+    "jobDetail": "作業詳細",
+    "jobAssign": "作業割当",
+    "warningListChecklistDetail": "定期点検詳細",
+    "roleManagement": "権限設定",
+    "createPlanListDetail": "計画詳細",
+    "createPlanListCreate": "計画作成",
+    "createPlanListEdit": "計画編集",
+    "deviceStatusReport": "設備状態の報告",
+    "templateInstall": "装置のテンプレート定義",
+    "suppliesRequest": "部品、原材料の申請一覧",
+    "attributeType": "値タイプの定義"
+  },
+  "maintainanceProgress": {
+    "status": {
+      "unassigned": "未割当",
+      "waitForConfirm": "確認待ち",
+      "rejected": "拒否",
+      "notExecuted": "未実行",
+      "inProgress": "実行中",
+      "executed": "実行済",
+      "notExecutedOverdue": "未実行による期限超過",
+      "notCompletedOverdue": "未完了による期限超過",
+      "completed": "完了"
+    }
+  },
+  "modalImport": {
+    "btnSubmit": "確認",
+    "btnClose": "閉じる",
+    "stepOne": "ステップ1：雛形をダウンロードします。",
+    "stepTwo": "ステップ2：完成した情報をアップロードします。",
+    "downloadTemplate": "雛形をダウンロードして",
+    "downloadTemplateNextText": "案内に従い入力します。",
+    "importMessageSuccess": "{{successCount}}行の入力に成功しました。{{errorCount}}行の入力に失敗しました。",
+    "downloadLogFile": "押下して、失敗したデータをダウンロードしてください。",
+    "dropzoneText": "こちらにファイルをドラッグ・アンド・ドロップしてアップロードしてください。「.xlsx」、「.xls」、「.csv」形式がサポートされています。",
+    "successMessage": "データ入力に成功しました。通知を閉じて、入力されたデータを参照することができます。",
+    "btnCancel": "キャンセル",
+    "importSuccess": "データ入力に成功しました。",
+    "closeFail": "再入力",
+    "cancelFail": "通知を閉じる",
+    "closeSuccss": "閉じてデータ表示",
+    "wrongFormatImport": "ファイル形式が不正です。データ入力に失敗しました。",
+    "importFail": "データ入力に失敗しました。"
+  },
+  "toast": {
+    "notificationTitle": "通知"
+  },
+  "message": {
+    "fieldIsRequired": "このフィールドは必須項目です。",
+    "unknownError": "エラーが発生しました。しばらくしてからもう一度お試しください。",
+    "noData": "該当データがありません。",
+    "lessThan": "{{max}}文字より小さくなければなりません。",
+    "noSpecialCharacter": "特殊文字が含まれてはいけません。",
+    "onlyNumber": "数値でなければなりません。",
+    "onlyInteger": "正の整数でなければなりません。"
+  },
+  "modal": {
+    "btnSubmit": "確認",
+    "btnCancel": "キャンセル",
+    "btnClose": "閉じる"
+  },
+  "pagination": {
+    "rowsPerPage": "表示件数",
+    "countTotalRecordPerPage": "{{start}} - {{end}}（全件数{{total}}件）"
+  },
+  "dataTable": {
+    "search": "検索",
+    "noData": "該当データがありません。",
+    "typeValue": "値を入力",
+    "all": "すべて",
+    "cancle": "キャンセル"
+  },
+  "common": {
+    "yes": "はい",
+    "no": "いいえ",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "action": "操作",
+    "printQR": "QRコード印刷",
+    "create": "新規作成",
+    "createModal": "作成",
+    "status": "ステータス",
+    "save": "保存",
+    "print": "印刷",
+    "amount": "数量",
+    "createdAt": "作成日",
+    "updatedAt": "編集日",
+    "accept": "確認",
+    "reject": "拒否",
+    "notify": "通知",
+    "logout": "ログアウト",
+    "confirmMessage": {
+      "confirm": "確認します。よろしいですか。",
+      "reject": "拒否します。よろしですか。"
+    },
+    "creator": "作成者",
+    "note": "天井天下、唯我独尊",
+    "search": "検索",
+    "saleOrderType": "受注書タイプ",
+    "day": "日",
+    "week": "週",
+    "month": "月",
+    "quarter": "四半期",
+    "export": "出庫",
+    "import": "入庫",
+    "transfer": "倉庫移動",
+    "stock": "在庫",
+    "dayOfWeeks7": "日曜日",
+    "dayOfWeeks1": "月曜日",
+    "dayOfWeeks2": "火曜日",
+    "dayOfWeeks3": "水曜日",
+    "dayOfWeeks4": "木曜日",
+    "dayOfWeeks5": "金曜日",
+    "dayOfWeeks6": "土曜日",
+    "importFile": "データ入力",
+    "activityReport": "アクティビティ履歴",
+    "seeMore": "もっと見る",
+    "responsibleUser": "担当者",
+    "searchPlaceHolder": "データを検索",
+    "filterData": "絞り込み",
+    "filterColumns": "選択した項目を表示",
+    "object": "対象",
+    "copyright": "©2021 VTI Solutions",
+    "deleteConfirm": "{{value}}を削除します。よろしいですか。",
+    "leader": "隊長",
+    "member": "メンバー",
+    "pending": "確認待ち",
+    "supplies": "部品",
+    "accessary": "資材",
+    "groupSelectResponsibleSubject": {
+      "user": "利用者",
+      "maintenanceTeam": "保守チーム"
+    },
+    "textfieldMax7": "7文字",
+    "textfieldMax255": "255文字",
+    "suffix": {
+      "minute": "分",
+      "day": "日",
+      "denominations": "ベトナムドン"
+    },
+    "statusList": {
+      "title": "ステータス",
+      "nonAssign": "未割当",
+      "waitingToComfirm": "確認待ち",
+      "reject": "拒否",
+      "toDo": "未実行",
+      "inProgress": "実行中",
+      "completed": "実行済",
+      "outOfDate": "期限超過",
+      "late": "期限超過",
+      "resolved": "完了"
+    },
+    "modalConfirm": {
+      "title": "通知",
+      "description": "確認します。よろしいですか。",
+      "enterComment": "コメントを入力"
+    },
+    "modalDelete": {
+      "title": "通知",
+      "description": "削除します。よろしいですか。"
+    },
+    "modalDecline": {
+      "title": "通知",
+      "description": "拒否します。よろしですか。",
+      "enterComment": "コメントを入力",
+      "reDoDescription": "やり直します。よろしいですか。"
+    },
+    "importExport": "データ入出力",
+    "exportFile": "データ出力",
+    "noDataTable": "該当データがありません。"
+  },
+  "form": {
+    "required": "このフィールドは必須項目です。",
+    "mappingPassword": "* パスワードが間違っています。",
+    "maxLength": "{{max}}文字以内で入力してください。",
+    "minLength": "{{min}}文字以上で入力してください。",
+    "validEmail": "* メールアドレスを正しく入力してください。",
+    "validUserName": "ユーザ名に英数字で入力してください。",
+    "validPassword": "パスワードに英数字で入力してください。",
+    "validPhone": "指定された電話番号は正しくありません。",
+    "validCode": "コードに英数字で入力してください。",
+    "minNumber": "最小限は{{min}}です。",
+    "maxNumber": "{{max}}以内で入力してください。",
+    "duplicates": "このフィールドは重複してはいけません。",
+    "dateRange": "{{from}}から{{to}}までの範囲内で指定してください。",
+    "minDate": "開始日には{{from}}以降の日付を指定してください。",
+    "maxDate": "終了日には{{to}}以前の日付を指定してください。",
+    "invalidDateRange": "開始日は終了日より前にする必要があります。",
+    "to": "～",
+    "greaterThanZero": "0より大きい値でなければなりません。",
+    "integer": "このフィールドに整数を入力してください。"
+  },
+  "userManagement": {
+    "title": "ユーザ一覧",
+    "searchPlaceHolder": "ログインユーザまたは従業員の氏名でユーザを検索",
+    "confirmDelete": "削除します。よろしいですか。",
+    "username": "ユーザ名",
+    "password": "パスワード",
+    "comfirmPassword": "パスワード（確認）",
+    "fullName": "氏名",
+    "email": "メールアドレス",
+    "dateOfBirth": "生年月日",
+    "phone": "電話番号",
+    "warehouseNames": "管理倉庫名",
+    "code": "従業員番号",
+    "factoryNames": "工場名",
+    "companyName": "会社名",
+    "departmentNames": "部門名",
+    "role": "権限選択",
+    "createModalTitle": "ユーザ作成",
+    "submitCreateModalLabel": "新規作成",
+    "cancelCreateModalLabel": "キャンセル",
+    "updateModalTitle": "従業員情報編集",
+    "submitUpdateModalLabel": "保存",
+    "cancelUpdateModalLabel": "キャンセル",
+    "changePasswordLabel": "パスワード変更",
+    "viewModalTitle": "従業員詳細情報",
+    "cancelViewModalLabel": "閉じる",
+    "deleteModalTitle": "ユーザ削除",
+    "createButton": "新規作成",
+    "orderIdColumn": "#",
+    "usernameColumn": "ユーザ名",
+    "fullNameColumn": "氏名",
+    "emailColumn": "メールアドレス",
+    "departmentColumn": "部門",
+    "actionColumn": "操作",
+    "roleColumn": "役割",
+    "warehouseColumn": "管理倉庫",
+    "createUserSuccess": "ユーザ作成に成功しました。",
+    "deleteUserSuccess": "ユーザ削除に成功しました。",
+    "updateUserSuccess": "ユーザ更新に成功しました。",
+    "generateOTPSuccess": "登録されているメールアドレスに認証コードを送信しました。メールで受け取った認証コードを入力してください。",
+    "verifyOTPSuccess": "認証に成功しました。"
+  },
+  "login": {
+    "password": "パスワード",
+    "username": "ユーザ名",
+    "savePassword": "パスワード保存",
+    "forgotPassword": "パスワードを忘れた方はこちら",
+    "loginButton": "ログイン",
+    "notCorrectUsernamePassword": "ユーザ名またはパスワードが間違っています。",
+    "footerText": "©2021 VTI Solutions"
+  },
+  "status": {
+    "pending": "確認待ち",
+    "confirmed": "確認",
+    "inProgress": "実行中",
+    "approved": "承認済み",
+    "rejected": "拒否",
+    "completed": "完了"
+  },
+  "dashboard": {
+    "mtt": {
+      "title": "MTTR値 MTTA値",
+      "mttr": "MTTR値",
+      "mtta": "MTTA値"
+    },
+    "title": "ダッシュボード",
+    "totalJob": "全作業",
+    "finishedJob": "完了",
+    "unfinishedJob": "未完了",
+    "overdue": "期限超過",
+    "maintainanceProgress": {
+      "completed": "完了",
+      "overdue": "期限超過",
+      "inprogress": "実行中",
+      "waitForConfirmation": "確認待ち"
+    },
+    "chart": {
+      "maintainanceProgress": "保守作業進捗",
+      "deviceError": "設備の不具合",
+      "requestStatus": "申請ステータス",
+      "deviceStatus": "設備状態",
+      "totalUnUseItem": "未使用",
+      "totalMaintiningItem": "保守",
+      "totalInUseItem": "使用中",
+      "totalReturnItem": "返却済",
+      "totalScrappingItem": "スクラップ"
+    },
+    "deviceUsingStatus": {
+      "exportDate": "エクスポート日：",
+      "title": "機器の動作状態",
+      "factoryPlaceholder": "工場を選択",
+      "productOrderPlaceholder": "製品注文を選択",
+      "oee": "OEE",
+      "activating": "使用する",
+      "stop": "止まる",
+      "error": "エラー",
+      "off": {
+        "maintain": "オフ（メンテナンス）",
+        "shutdown": "オフ（シャットダウン）"
+      },
+      "using": "使用する",
+      "listView": "リストを見る"
+    }
+  },
+  "forgotPassword": {
+    "generateOTP": {
+      "title": "パスワードを忘れた方はこちら",
+      "text": "MES-X生産管理システムに登録されたメールアドレスを入力してください。パスワードをリセットするためのメールを送信します。",
+      "account": "ユーザ名",
+      "placeholder": "ユーザ名またはメールアドレスを入力",
+      "continue": "続ける",
+      "backToLogin": "ログイン画面に戻る"
+    },
+    "resetPassword": {
+      "title": "パスワードリセット",
+      "text": "MES-X生産管理システムにログインするパスワードをリセットすることができるようになりました。",
+      "newPassword": "新しいパスワード",
+      "password": "新しいパスワードを入力",
+      "confirmNewPassword": "新しいパスワード（確認）",
+      "finish": "完了",
+      "resetSuccessfully": "パスワードの変更が完了しました。"
+    },
+    "verifyOTP": {
+      "title": "認証コード入力",
+      "text": "登録されているメールアドレスに認証コードを送信しました。メール受け取った認証コードを入力してください。",
+      "verifyCode": "認証コード",
+      "continue": "続ける",
+      "notReceived": "認証コードが届かなかった場合",
+      "resend": "再送信"
+    }
+  },
+  "defineSuppliesCategory": {
+    "title": "部品・資材一覧",
+    "code": "部品・資材コード",
+    "name": "部品・資材名",
+    "description": "部品・資材説明",
+    "createDefineSuppliesCategory": "部品・資材グループ作成",
+    "searchPlaceholder": "コードまたは名称で検索",
+    "createDate": "作成日",
+    "updateDate": "編集日",
+    "action": "操作",
+    "createTitle": "部品・資材グループ作成",
+    "updateTitle": "部品・資材グループ編集",
+    "viewTitle": "部品・資材グループ表示",
+    "deleteTitle": "部品・資材グループ削除確認",
+    "confirmDelete": "部品・資材グループを削除します。よろしいですか。",
+    "deleteDefineSuppliesCategorySuccess": "部品・資材グループ削除に成功しました。",
+    "createDefineSuppliesCategorySuccess": "部品・資材グループ作成に成功しました。",
+    "updateDefineSuppliesCategorySuccess": "部品・資材グループ更新に成功しました。",
+    "specifiedUser": "指定利用者",
+    "company": "会社",
+    "factory": "工場",
+    "typeSupplies": "タイプ",
+    "unit": "単位",
+    "activityHistory": "履歴"
+  },
+  "maintenanceTeam": {
+    "enty": "保守チーム",
+    "createBtnTitle": "保守チーム作成",
+    "form": {
+      "create": "保守チーム新規作成",
+      "update": "保守チーム情報編集",
+      "view": "保守チーム詳細情報"
+    },
+    "title": "保守チーム一覧",
+    "team": {
+      "id": "ID",
+      "code": "チームコード",
+      "name": "チーム名",
+      "description": "保守チーム説明",
+      "memberName": "メンバー名",
+      "mission": "役割",
+      "created": "保守チームが作成されました。",
+      "updated": "保守チームが更新されました。",
+      "selectMemberPlaceholder": "メンバー",
+      "selectRolePlaceholder": "役割"
+    },
+    "placeholder": {
+      "code": "チームコードを入力",
+      "name": "チーム名を入力",
+      "description": "説明を入力"
+    },
+    "notification": {
+      "createSuccess": "保守チーム作成に成功しました。",
+      "updateSuccess": "保守チーム編集に成功しました。",
+      "deleteSuccess": "保守チーム削除に成功しました。"
+    },
+    "createAt": "作成日",
+    "updateAt": "編集日",
+    "action": "操作",
+    "roleDetail": "メンバー詳細",
+    "addMember": "メンバー追加",
+    "deleteTeam": {
+      "title": "保守チーム削除",
+      "confirmDetele": "保守チームを削除します。よろしいですか。"
+    },
+    "type": "タイプ",
+    "inner": "内部保守チーム",
+    "innerMaintenanceTeam": "内部保守チーム",
+    "outer": "外部保守チーム"
+  },
+  "deviceCategory": {
+    "title": "設備グループ一覧",
+    "form": {
+      "status": "ステータス",
+      "create": "設備グループ作成",
+      "update": "設備グループ編集",
+      "view": "設備グループ詳細",
+      "field": {
+        "code": "設備グループコード",
+        "name": "設備グループ名",
+        "description": "設備グループ説明"
+      }
+    },
+    "category": {
+      "code": "グループコード",
+      "name": "グループ名",
+      "description": "グループ説明"
+    },
+    "responsibleUser": "担当者",
+    "notification": {
+      "success": "設備グループ作成に成功しました。",
+      "successUpdate": "設備グループ編集に成功しました。",
+      "successDelete": "設備グループ削除に成功しました。",
+      "successConfirm": "設備グループ確認に成功しました。"
+    },
+    "button": {
+      "device": "設備",
+      "job": "作業"
+    },
+    "actionHistory": {
+      "created": "設備グループが新規作成されました。",
+      "updated": "設備グループが編集されました。",
+      "confirm": "設備グループが承認されました。"
+    },
+    "status": {
+      "confirmed": "確認",
+      "pending": "確認待ち"
+    },
+    "confirmDevice": {
+      "title": "設備グループ確認",
+      "description": "設備グループを確認します。よろしいですか。"
+    },
+    "delete": {
+      "title": "設備グループ削除",
+      "description": "設備グループを削除します。よろしいですか。"
+    }
+  },
+  "suppliesCategory": {
+    "title": "資材グループ一覧",
+    "form": {
+      "status": "ステータス",
+      "create": "資材グループ作成",
+      "update": "資材グループ編集",
+      "view": "資材グループ詳細",
+      "field": {
+        "code": "資材グループコード",
+        "name": "資材グループ名",
+        "description": "資材グループ説明"
+      }
+    },
+    "button": {
+      "supply": "資材",
+      "device": "設備"
+    },
+    "category": {
+      "code": "グループコード",
+      "name": "グループ名",
+      "description": "グループ説明"
+    },
+    "delete": {
+      "title": "資材グループ削除",
+      "description": "資材グループを削除します。よろしいですか。"
+    },
+    "notification": {
+      "successDelete": "資材グループ削除に成功しました。",
+      "success": "資材グループ作成に成功しました。",
+      "successUpdate": "資材グループ編集に成功しました。",
+      "successConfirm": "資材グループ確認に成功しました。"
+    },
+    "responsibleUser": "担当者",
+    "confirm": {
+      "title": "資材グループ確認",
+      "description": "資材グループを確認します。よろしいですか。"
+    },
+    "status": {
+      "confirmed": "確認",
+      "pending": "確認待ち"
+    },
+    "actionHistory": {
+      "created": "資材グループが新規作成されました。",
+      "updated": "資材グループが編集されました。",
+      "confirm": "資材グループが承認されました。"
+    }
+  },
+  "supplies": {
+    "title": "部品・資材一覧",
+    "form": {
+      "status": "ステータス",
+      "create": "部品・資材作成",
+      "update": "部品・資材編集",
+      "view": "部品・資材詳細",
+      "field": {
+        "code": "部品・資材コード",
+        "name": "部品・資材名",
+        "factoryName": "工場名",
+        "description": "部品・資材説明",
+        "type": "タイプ",
+        "suppliesCategoryName": "資材グループ名",
+        "unit": "単位",
+        "price": "価格",
+        "categoryId": "資材グループ"
+      }
+    },
+    "category": {
+      "code": "部品・資材コード",
+      "name": "部品・資材名",
+      "suppliesCategory": "資材グループ",
+      "type": "タイプ",
+      "description": "説明",
+      "status": "ステータス"
+    },
+    "delete": {
+      "title": "部品・資材削除",
+      "description": "部品・資材を削除します。よろしいですか。"
+    },
+    "responsibleUser": "担当者",
+    "button": {
+      "suppliesCategory": "資材グループ",
+      "device": "設備"
+    },
+    "confirm": {
+      "title": "部品・資材確認",
+      "description": "資材・部品を確認します。よろしいですか。"
+    },
+    "notification": {
+      "successDelete": "部品・資材削除に成功しました。",
+      "success": "部品・資材削除に成功しました。",
+      "successUpdate": "部品・資材編集に成功しました。",
+      "successConfirm": "部品・資材確認に成功しました。"
+    },
+    "status": {
+      "confirmed": "確認",
+      "pending": "確認待ち"
+    },
+    "actionHistory": {
+      "created": "部品・資材が作成されました。",
+      "updated": "部品・資材が更新されました。",
+      "delete": "部品・資材が削除されました。",
+      "confirm": "部品・資材が承認されました。"
+    }
+  },
+  "templateChecklist": {
+    "title": "点検票様式一覧",
+    "form": {
+      "create": "点検票様式作成",
+      "update": "点検票様式編集",
+      "view": "点検票様式詳細",
+      "aleartTitle": "点検票の各項目名は重複してはいけません。",
+      "field": {
+        "code": "様式コード",
+        "name": "様式名",
+        "deviceName": "設備名",
+        "description": "説明",
+        "title": "項目名",
+        "deviceCode": "設備コード",
+        "checkType": "点検タイプ",
+        "obligatory": "必須"
+      }
+    },
+    "checkType": {
+      "passFail": "合否テスト"
+    },
+    "category": {
+      "code": "伝票コード",
+      "name": "伝票名",
+      "deviceCode": "設備コード",
+      "deviceName": "設備名"
+    },
+    "delete": {
+      "title": "点検様式削除",
+      "confirmDetele": "点検様式を削除します。よろしいですか。"
+    },
+    "checkDetail": "点検詳細内容",
+    "addRow": "点検項目を追加",
+    "roleDetail": "点検詳細内容",
+    "responsibleUser": "担当者",
+    "notification": {
+      "successCreate": "点検票様式作成に成功しました。",
+      "successUpdate": "点検票様式編集に成功しました。",
+      "successDelete": "点検票様式削除に成功しました。"
+    },
+    "actionHistory": {
+      "created": "点検票様式が作成されました。",
+      "updated": "点検票様式が更新されました。",
+      "delete": "点検票様式が削除されました。"
+    }
+  },
+  "deviceList": {
+    "attributeType": "値タイプ",
+    "defineDeviceTitle": "設備登録",
+    "title": "設備一覧",
+    "recordHasBeenConfirmed": "当該設備は承認済のため、編集できません。",
+    "device": {
+      "code": "設備コード",
+      "name": "設備名",
+      "deviceCategory": "設備グループ",
+      "description": "説明",
+      "descriptionForm": "設備説明",
+      "quantity": "数量",
+      "status": "ステータス"
+    },
+    "text": {
+      "create": "設備作成",
+      "update": "設備編集",
+      "view": "設備詳細"
+    },
+    "placeholder": {
+      "code": "設備コードを入力",
+      "name": "設備名を入力",
+      "description": "説明を入力",
+      "price": "価格を入力",
+      "frequency": "頻度を入力",
+      "periodicCheck": "定期点検周期を入力",
+      "attributeName": "保守属性を入力",
+      "deviceCategory": "設備グループを入力",
+      "provider": "サプライヤーを入力",
+      "manufacturer": "メーカーを入力",
+      "insuranceDay": "保証期間を入力",
+      "model": "モデルを入力",
+      "itemName": "名称を入力",
+      "quantity": "数量",
+      "type": "タイプ",
+      "timeUsage": "使用時間",
+      "responsibleUser": "担当者を入力",
+      "attributeType": "値タイプを選択",
+      "installTemplate": "テンプレ装置を選択"
+    },
+    "form": {
+      "name": "名称",
+      "type": "タイプ",
+      "maintainFrequency": "保守頻度",
+      "mttr": "MTTR値",
+      "mtbf": "MTBF値",
+      "mtta": "MTTA値",
+      "mttf": "MTTF値",
+      "defectEstimate": "不具合発生予定時（周期）",
+      "deviceCategoryButtonTitle": "設備グループ",
+      "assignButtonTitle": "割り当て"
+    },
+    "qrCode": "QRコード印刷",
+    "checkbox": "製造用設備",
+    "checkboxMttf": "故障の時は修正できる？",
+    "factory": "工場",
+    "company": "会社",
+    "price": "価格",
+    "provider": "サプライヤー",
+    "producer": "メーカー",
+    "oeeTarget": "OEE目標値",
+    "proDate": "製造年月日",
+    "importDate": "購入日",
+    "insuranceDay": "保証期間",
+    "model": "モデル",
+    "listTitle": "部品・資材一覧",
+    "addButton": "部品・資材を追加",
+    "attributeName": "保守属性名",
+    "periodicCheck": "定期点検周期",
+    "maintenanceInformation": "保守情報一覧",
+    "maintenanceInformationTableAlert": "保守情報表が無効です。",
+    "updateSuccess": "設備編集に成功しました。",
+    "frequency": "頻度",
+    "installTemplate": "テンプレ装置",
+    "list": {
+      "name": "名称",
+      "quantity": "数量",
+      "type": "タイプ",
+      "timeUsage": "使用時間",
+      "addBtnTitle": "部品・資材を追加"
+    },
+    "tab": {
+      "formDetail": "詳細情報",
+      "formMaintain": "保守情報"
+    },
+    "responsibleUser": "担当者",
+    "status": {
+      "pending": "確認待ち",
+      "confirm": "確認"
+    },
+    "confirmDevice": {
+      "title": "設備確認",
+      "description": "設備を確認します。よろしいですか。"
+    },
+    "deleteDevice": {
+      "title": "設備削除",
+      "description": "設備を削除します。よろしいですか。"
+    },
+    "confirmSuccess": "設備確認に成功しました。",
+    "deleteSuccess": "設備削除に成功しました。",
+    "createSuccess": "設備作成に成功しました。",
+    "type": {
+      "supplies": "部品",
+      "accessory": "資材",
+      "device": "設備"
+    },
+    "actionHistory": {
+      "created": "設備が作成されました。",
+      "updated": "設備が更新されました。",
+      "delete": "設備が削除されました。",
+      "confirm": "設備が承認されました。"
+    },
+    "tooltipHeader": {
+      "mtbf": "MTBF指標（Mean time between failures）：平均故障間隔（設備の稼動時間／故障回数で求めらる）",
+      "mttr": "MTTR指標（Mean time to repair）：平均修理時間（故障時間／故障件数で求めらる）",
+      "mtta": "MTTA指標（Mean time to acknowledge）：平均認識時間（事故発生から確認までの合計時間／故障回数）",
+      "mttf": "MTTF指標（Mean time to failure）：平均故障時間（修理できない事故の場合で、次回の故障までの平均時間を指す）"
+    }
+  },
+  "deviceAssign": {
+    "title": "設備割当一覧",
+    "title2": "保守情報",
+    "assign": {
+      "serial": "シリアル番号",
+      "assignCode": "申請コード",
+      "code": "設備コード",
+      "name": "設備名",
+      "user": "使用対象者",
+      "status": "設備状態",
+      "createdAt": "作成日",
+      "updatedAt": "編集日",
+      "action": "操作",
+      "model": "モデル",
+      "usageTime": "使用日",
+      "usageUser": "利用者",
+      "assignDate": "割当日",
+      "workCenter": "使用作業場",
+      "oeeTarget": "OEE目標値",
+      "componentTitle": "部品名",
+      "factory": "工場",
+      "workTimeDataSource": "他所のデータ"
+    },
+    "status": {
+      "unuse": "未使用",
+      "inuse": "使用中",
+      "inMaintaining": "保守",
+      "inCrapping": "スクラップ",
+      "waitingToReturn": "返却済",
+      "pending": "中止"
+    },
+    "deviceButton": "設備",
+    "assignButton": "割り当て",
+    "lookProductInfo": "製造情報照会",
+    "maintainTable": {
+      "name": "名称",
+      "type": "タイプ",
+      "nextMaintainEstimate": "次回の保守予定時期",
+      "latestDefect": "直近の不具合時点",
+      "averageDefect": "平均故障間隔",
+      "estimateTimeDefect": "不具合発生予定時（日）",
+      "estimateNextTimeDefect": "次回の不具合発生予定日",
+      "estimatedReplacementDate": "交換予定日"
+    },
+    "historyTable": {
+      "code": "計画コード",
+      "maintainDate": "保守実施日",
+      "type": "保守タイプ"
+    },
+    "notification": {
+      "confirmSuccess": "設備確認に成功しました。",
+      "deleteSuccess": "設備削除に成功しました。",
+      "createSuccess": "設備作成に成功しました。",
+      "updateSuccess": "設備編集に成功しました。"
+    },
+    "moTable": {
+      "code": "製造指図",
+      "codeWork": "作業指示",
+      "duration": "時間",
+      "date": "製造年月日",
+      "datePlan": "予定日",
+      "slot": "製造作業シフト",
+      "activeTime": "実際稼働時間",
+      "unactiveTime": "実際遊休時間"
+    },
+    "confirmDeviceAssign": {
+      "title": "設備確認",
+      "description": "設備を確認します。よろしいですか。"
+    },
+    "deleteDeviceAssign": {
+      "title": "設備削除",
+      "description": "設備を削除します。よろしいですか。"
+    },
+    "comment": {
+      "created": "申請が作成されました。",
+      "updated": "申請が編集されました。",
+      "delete": "申請が削除されました。",
+      "confirm": "申請が確認されました。",
+      "reject": "申請が拒否されました。"
+    }
+  },
+  "requestDevice": {
+    "title": "設備申請一覧",
+    "form": {
+      "title": "設備申請",
+      "status": "ステータス",
+      "createRequestDevice": "設備貸与申請作成",
+      "createReturnDevice": "設備返却申請作成",
+      "viewDetailRequestDevice": "設備貸与申請詳細",
+      "updateRequestDevice": "設備貸与申請編集",
+      "viewDetailReturnDevice": "設備返却申請詳細",
+      "updateReturnDevice": "設備返却申請編集",
+      "waitConfirm": "確認待ち",
+      "device": "設備",
+      "assignment": "割り当て",
+      "field": {
+        "code": "申請コード",
+        "name": "申請名",
+        "description": "申請説明",
+        "deviceCode": "設備コード",
+        "deviceName": "設備名",
+        "title": "項目名",
+        "personUsing": "利用者",
+        "count": "数量",
+        "useInProduction": "製造用設備",
+        "factoryUsing": "使用作業場",
+        "serial": "設備シリアル番号"
+      }
+    },
+    "comment": {
+      "created": "申請が作成されました。",
+      "updated": "申請が編集されました。",
+      "delete": "申請が削除されました。",
+      "confirm": "申請が確認されました。",
+      "reject": "申請が拒否されました。"
+    },
+    "category": {
+      "requestCode": "申請コード",
+      "requestType": "申請種類",
+      "deviceCode": "設備コード",
+      "deviceName": "設備名",
+      "user": "利用者",
+      "numberSerial": "シリアル番号",
+      "count": "数量",
+      "status": "ステータス"
+    },
+    "delete": {
+      "title": "設備申請削除",
+      "confirmDetele": "設備申請を削除します。よろしいですか。"
+    },
+    "addButton": "設備追加",
+    "deviceList": "設備一覧",
+    "buttonTitle": {
+      "device": "設備",
+      "assignment": "割り当て"
+    },
+    "request": "設備貸与",
+    "return": "設備返却",
+    "status": {
+      "pending": "確認待ち",
+      "confirmed": "確認",
+      "rejected": "拒否",
+      "awaitingITConfirmation": "IT確認待ち",
+      "awaitingAssigment": "割当待ち",
+      "assigned": "割当済",
+      "awaitingReturn": "返却待ち",
+      "returned": "返却済"
+    },
+    "reject": {
+      "title": "設備申請拒否",
+      "description": "設備申請を拒否します。よろしいですか。"
+    },
+    "confirm": {
+      "title": "設備申請確認",
+      "description": "設備申請を確認します。よろしいですか。"
+    },
+    "notification": {
+      "createRequestSuccess": "設備貸与申請作成に成功しました。",
+      "createReturnSuccess": "設備返却申請作成に成功しました。",
+      "deleteSuccess": "申請削除に成功しました。",
+      "updateSuccess": "申請更新に成功しました。",
+      "changeStatusSuccess": "申請ステータス更新に成功しました。"
+    }
+  },
+  "viewDisplayList": {
+    "detail": "詳細情報",
+    "maintain": "保守情報"
+  },
+  "viewAssignTabDisplay": {
+    "maintain": "保守情報",
+    "history": "保守履歴",
+    "mo": "製造情報"
+  },
+  "maintainRequest": {
+    "notification": {
+      "confirmationSuccessed": "保守申請確認に成功しました。",
+      "rejectionSuccessed": "保守申請拒否に成功しました。",
+      "approvalSuccessed": "保守申請承認に成功しました。",
+      "reDoSuccessed": "保守申請のやり直しに成功しました。"
+    },
+    "status": {
+      "created": "確認待ち",
+      "confirmed1": "IT確認待ち",
+      "confirmed2": "確認",
+      "notExcute": "未実行",
+      "rejected": "拒否",
+      "inProgress": "実行中",
+      "executed": "実行済",
+      "completed": "完了"
+    },
+    "title": "利用者からの保守申請",
+    "tableTitle": "保守申請一覧",
+    "smallTitle": "利用者情報",
+    "table": {
+      "code": "申請コード",
+      "name": "申請名",
+      "type": "申請種類",
+      "user": "申請者",
+      "deviceName": "設備名",
+      "description": "説明",
+      "status": "ステータス",
+      "createdAt": "作成日",
+      "updatedAt": "編集日",
+      "action": "操作",
+      "serial": "シリアル番号",
+      "piority": "優先度"
+    },
+    "deviceButton": "設備",
+    "partsButton": "部品",
+    "assignee": "担当者",
+    "createForm": "保守申請作成",
+    "viewForm": "保守申請詳細",
+    "editForm": "保守申請編集",
+    "form": {
+      "name": "保守申請名",
+      "code": "保守申請コード",
+      "user": "申請者",
+      "description": "説明",
+      "estimateDay": "希望完成日",
+      "estimatedDuration": "予定保守時間",
+      "type": "保守タイプ",
+      "piority": "優先度",
+      "serial": "要保守設備のシリアル番号",
+      "deviceName": "設備名",
+      "checkbox": "部品保守",
+      "title": "名称",
+      "quantity": "数量",
+      "linkButton": "部品追加"
+    },
+    "supplies": {
+      "title": "部品・資材",
+      "name": "名称",
+      "quantity": "数量"
+    },
+    "information": {
+      "factory": "工場",
+      "workshop": "作業場",
+      "usageUser": "利用者",
+      "address": "住所",
+      "phone": "電話番号",
+      "location": "場所"
+    }
+  },
+  "defectList": {
+    "title": "不具合一覧",
+    "form": {
+      "create": "不具合情報作成",
+      "update": "不具合情報編集",
+      "viewDetail": "不具合詳細情報",
+      "code": "不具合コード",
+      "name": "不具合名",
+      "description": "不具合説明",
+      "deviceName": "設備名",
+      "deviceCode": "設備コード",
+      "piority": "優先度"
+    },
+    "table": {
+      "code": "不具合コード",
+      "name": "不具合名",
+      "description": "説明",
+      "deviceName": "設備名",
+      "piority": "優先度"
+    },
+    "modalDelete": {
+      "title": "不具合情報削除",
+      "description": "不具合情報を削除します。よろしいですか。"
+    },
+    "notification": {
+      "deleteSuccess": "不具合情報削除に成功しました。",
+      "createSuccess": "不具合情報作成に成功しました。",
+      "updateSuccess": "不具合情報編集に成功しました。"
+    },
+    "actionHistory": {
+      "created": "不具合情報が新規作成されました。",
+      "updated": "不具合情報が編集されました。",
+      "confirm": "不具合情報が承認されました。"
+    }
+  },
+  "piority": {
+    "blocker": "致命的",
+    "critical": "重要",
+    "major": "やや重要",
+    "minor": "軽微",
+    "trivial": "やや軽微"
+  },
+  "workType": {
+    "warning": "不具合警告",
+    "scheduleMaintain": "予防保全",
+    "request": "利用者からの申請",
+    "periodCheck": "定期点検"
+  },
+  "errorWarning": {
+    "formTitle": "事故警告詳細",
+    "smallTitle": "利用者情報",
+    "form": {
+      "status": "ステータス",
+      "reqCode": "保守申請コード",
+      "reqName": "保守申請名",
+      "reqUser": "申請者",
+      "user": "利用者",
+      "description": "説明",
+      "estimateDate": "希望完成日",
+      "duration": "保守時間",
+      "type": "警告タイプ",
+      "piority": "優先度",
+      "serial": "要保守設備のシリアル番号",
+      "deviceName": "設備名"
+    },
+    "information": {
+      "factory": "工場",
+      "workshop": "作業場",
+      "usageUser": "利用者",
+      "address": "住所",
+      "phone": "電話番号",
+      "location": "場所"
+    }
+  },
+  "attributeMaintenance": {
+    "title": "保守属性一覧",
+    "table": {
+      "code": "属性コード",
+      "name": "属性名",
+      "description": "説明",
+      "createdAt": "作成日",
+      "updatedAt": "編集日"
+    },
+    "form": {
+      "create": "保守属性作成",
+      "update": "保守属性編集",
+      "view": "保守属性詳細",
+      "code": "保守属性コード",
+      "name": "保守属性名",
+      "description": "保守属性説明"
+    },
+    "deleteModal": {
+      "title": "保守属性削除",
+      "description": "属性を削除します。よろしいですか。"
+    },
+    "notification": {
+      "successDelete": "保守属性削除に成功しました。",
+      "success": "保守属性作成に成功しました。",
+      "successUpdate": "保守属性編集に成功しました。"
+    },
+    "createButton": "保守属性作成",
+    "actionHistory": {
+      "created": "保守属性が新規作成されました。",
+      "updated": "保守属性が編集されました。"
+    }
+  },
+  "warningList": {
+    "notification": {
+      "confirmationSuccessed": "警告確認に成功しました。",
+      "rejectionSuccessed": "警告拒否に成功しました。"
+    },
+    "status": {
+      "created": "確認待ち",
+      "confirmed": "確認",
+      "rejected": "拒否",
+      "inProgress": "実行中",
+      "executed": "実行済",
+      "completed": "完了",
+      "notExcute": "未実行"
+    },
+    "title": "警告一覧",
+    "table": {
+      "code": "警告コード",
+      "type": "警告タイプ",
+      "name": "警告名",
+      "description": "説明",
+      "serial": "シリアル番号",
+      "deviceName": "設備名",
+      "piority": "優先度",
+      "status": "ステータス"
+    },
+    "smallTitle": "利用者情報",
+    "form": {
+      "result": {
+        "passed": "合格",
+        "notPass": "不合格"
+      },
+      "responsibleUser": "担当者",
+      "detail": "詳細情報",
+      "reqCode": "保守申請コード",
+      "reqName": "保守申請名",
+      "reqUser": "申請者",
+      "user": "利用者",
+      "description": "説明",
+      "estimateDate": "希望完成日",
+      "scheduled": "保守期日",
+      "duration": "保守時間",
+      "type": "警告タイプ",
+      "piority": "優先度",
+      "serial": "要保守設備のシリアル番号",
+      "deviceName": "設備名"
+    },
+    "formError": {
+      "code": "警告コード",
+      "type": "警告タイプ",
+      "name": "警告名",
+      "description": "説明",
+      "serial": "設備シリアル番号",
+      "deviceName": "設備名",
+      "piority": "優先度",
+      "status": "ステータス",
+      "estimatedDate": "希望完成日",
+      "estimatedDuration": "予定保守時間",
+      "maintainanceDate": "予防保全期日",
+      "scheduleMaintenanceDate": "予防保全期日"
+    },
+    "formScheduled": {
+      "name": "保守申請名",
+      "code": "保守申請コード",
+      "user": "申請者",
+      "description": "説明",
+      "estimateDay": "希望完成日",
+      "duration": "保守時間",
+      "type": "保守タイプ",
+      "piority": "優先度",
+      "serial": "要保守設備のシリアル番号",
+      "deviceName": "設備名",
+      "checkbox": "部品保守",
+      "title": "名称",
+      "quantity": "数量",
+      "linkButton": "部品追加"
+    },
+    "formChecklist": {
+      "code": "警告コード",
+      "name": "警告名",
+      "deviceName": "設備名",
+      "serial": "シリアル番号",
+      "deviceId": "設備コード",
+      "description": "説明",
+      "checkDate": "点検期日",
+      "realtimeCheck": "実際点検日",
+      "completeDay": "完了日"
+    },
+    "formTable": {
+      "title": "項目名",
+      "description": "説明",
+      "contentChecked": "点検後内容",
+      "type": "点検タイプ",
+      "result": "結果",
+      "testResult": "点検結果",
+      "conclusion": "対応措置",
+      "require": "必須"
+    },
+    "information": {
+      "factory": "工場",
+      "workshop": "作業場",
+      "usageUser": "利用者",
+      "address": "住所",
+      "phone": "電話番号",
+      "location": "場所"
+    },
+    "deviceButton": "設備",
+    "jobs": "作業",
+    "headerTitle": {
+      "checklist": "定期点検詳細",
+      "error": "不具合警告詳細",
+      "scheduled": "予防保全詳細"
+    }
+  },
+  "warningType": {
+    "error": "不具合警告",
+    "checkList": "定期点検",
+    "scheduled": "保守点検"
+  },
+  "reportDevice": {
+    "title": {
+      "main": "設備状態報告",
+      "serial": "設備状態報告詳細",
+      "assign": "設備状態詳細"
+    },
+    "dropdown": {
+      "factory": "工場名",
+      "workCenter": "作業場名",
+      "user": "利用者名"
+    },
+    "table": {
+      "code": "設備コード",
+      "name": "設備名",
+      "totalQuantity": "総数量",
+      "returnedQuantity": "返却済数量",
+      "unuseQuantity": "未使用数量",
+      "beingUseQuantity": "使用中数量",
+      "maintainQuantity": "保守数量",
+      "junkQuantity": "スクラップ数量",
+      "action": "操作"
+    },
+    "serialTable": {
+      "serial": "シリアル番号",
+      "name": "設備名",
+      "usageDate": "使用日",
+      "status": "ステータス",
+      "user": "利用者",
+      "maintainedTime": "保守回数",
+      "brokeTime": "不具合発生回数",
+      "action": "操作"
+    },
+    "progressTable": {
+      "serial": "シリアル番号",
+      "name": "設備名",
+      "description": "説明",
+      "status": "ステータス",
+      "plan": "実施予定日",
+      "actual": "実際実施日",
+      "planDate": "実施予定日",
+      "planActual": "実際実施日",
+      "action": "操作"
+    }
+  },
+  "createPlanList": {
+    "notification": {
+      "createSuccess": "計画作成に成功しました。",
+      "createFail": "計画作成に失敗しました。",
+      "confirmationSuccessed": "計画確認に成功しました。",
+      "rejectionSuccessed": "計画拒否に成功しました。",
+      "updateSuccess": "計画更新に成功しました。",
+      "deleteSuccess": "計画削除に成功しました。"
+    },
+    "jobType": {
+      "install": "設定",
+      "maintainPeriod": "定期点検",
+      "warning": "不具合警告",
+      "request": "利用者からの申請",
+      "maintain": "保守点検"
+    },
+    "title": "全体計画一覧",
+    "jobBtn": "作業",
+    "placeholder": {
+      "planCode": "様式コードを入力",
+      "workType": "作業種類を選択",
+      "expectedQuantity": "作業予定件数を入力",
+      "serial": "シリアル番号を選択",
+      "deviceGroup": "設備グループを選択",
+      "device": "設備を選択",
+      "jobName": "作業名を入力",
+      "responsibleUser": "担当者を選択",
+      "description": "説明を入力"
+    },
+    "form": {
+      "hideData": "情報非表示",
+      "showData": "情報表示",
+      "updateFormTitle": "作業編集",
+      "createForm": {
+        "createBtn": "作業作成",
+        "createTitle": "作業追加",
+        "deviceGroup": "設備グループ",
+        "jobDetail": "作業詳細",
+        "serial": "シリアル番号",
+        "deviceName": "設備名",
+        "jobName": "作業名",
+        "jobType": "作業種類",
+        "description": "説明",
+        "responsibleUser": "担当者",
+        "expectedDate": "予定日",
+        "device": "設備"
+      },
+      "planCode": "計画コード",
+      "planName": "計画名",
+      "time": "時間",
+      "totalPlanQuantity": "予定総数量",
+      "table": {
+        "assignUsers": "担当者",
+        "jobCode": "作業コード",
+        "status": "ステータス",
+        "jobType": "作業種類",
+        "planQuantity": "計画数量",
+        "overallPlan": "全体計画",
+        "detailPlan": "詳細計画",
+        "addType": "作業種類を追加",
+        "addJob": "作業追加",
+        "jobName": "作業名",
+        "serial": "シリアル番号",
+        "deviceName": "設備名",
+        "description": "説明",
+        "expectedDate": "実施予定日",
+        "actualDate": "実際実施日",
+        "actualQuantity": "実際数量"
+      }
+    },
+    "status": {
+      "waiting": "確認待ち",
+      "rejected": "拒否",
+      "confirmed": "確認"
+    },
+    "table": {
+      "code": "計画コード",
+      "name": "計画名",
+      "time": "時間",
+      "planJobQuantity": "作業予定件数",
+      "actualJobQuantity": "作業実際件数",
+      "status": "ステータス"
+    }
+  },
+  "jobList": {
+    "notification": {
+      "updateSuccess": "作業割当に成功しました。"
+    },
+    "title": "作業一覧",
+    "table": {
+      "workCode": "作業コード",
+      "requestCode": "申請・警告コード",
+      "workType": "作業種類",
+      "requestName": "申請・警告名",
+      "performer": "実施者",
+      "serial": "シリアル番号",
+      "devideName": "設備名",
+      "description": "説明",
+      "status": "ステータス",
+      "implementationSchedule": "実施スケジュール",
+      "action": "操作"
+    },
+    "button": {
+      "myTask": "自分の作業",
+      "listView": "リストビュー",
+      "ganttChart": "ガントチャート",
+      "deviceButton": "設備",
+      "jobs": "作業"
+    },
+    "detail": {
+      "title": "作業詳細",
+      "status": "ステータス",
+      "workCode": "作業コード",
+      "requestCode": "警告コード",
+      "requestName": "警告名",
+      "description": "説明",
+      "workType": "作業種類",
+      "piority": "優先度",
+      "serial": "設備シリアル番号",
+      "devideName": "設備名",
+      "expectDay": "希望完成日",
+      "maintainTime": "予定保守時間",
+      "planDay": "実施予定日",
+      "actualDay": "実際実施日",
+      "fromDay": "開始日",
+      "toDay": "終了日",
+      "maintainDetail": {
+        "title": "実際の保守情報",
+        "maintainName": "名称",
+        "maintainType": "保守タイプ",
+        "maintainQuantity": "数量",
+        "maintainDescription": "説明"
+      },
+      "plan": "計画"
+    },
+    "assign": {
+      "title": "作業割当",
+      "responsibleUser": "担当者",
+      "information": {
+        "factory": "工場",
+        "workshop": "作業場",
+        "usageUser": "利用者",
+        "address": "住所",
+        "phone": "電話番号",
+        "location": "場所"
+      },
+      "plan": "計画"
+    },
+    "checklistDetail": {
+      "cardTitle": "詳細情報",
+      "title": "項目名",
+      "description": "説明",
+      "obligatory": "必須",
+      "contentAfterCheck": "点検後内容",
+      "result": "結果",
+      "pass": "合格",
+      "fail": "不合格",
+      "checklistResult": {
+        "title": "点検結果",
+        "fail": "不合格",
+        "pass": "合格"
+      },
+      "checklistConclude": {
+        "title": "対応措置",
+        "continueMaintain": "継続保守",
+        "replace": "交換"
+      }
+    }
+  },
+  "maintenanceParameter": {
+    "cautionTime": "安全警報時間",
+    "title": "保守共通仕様",
+    "saveTimeMessageSuccess": "安全警報時間更新に成功しました。",
+    "saveTimeMessageError": "安全警報時間更新に失敗しました。"
+  },
+  "roleManagement": {
+    "title": "権限設定",
+    "selectDepartment": "部門を選択",
+    "selectRole": "役職を選択",
+    "role": "権限",
+    "updatePermissionSuccess": "成功しました。"
+  },
+  "templateInstall": {
+    "title": "設定パターンを一覧表示",
+    "codePlaceholer": "入力コード",
+    "namePlaceholer": "入力名",
+    "descriptionTemplatePlaceholer": "テンプレートの説明を入力",
+    "descriptionPlaceholer": "説明を入力",
+    "titlePlaceholer": "タイトルを入力",
+    "form": {
+      "create": "インストールテンプレートを作成する",
+      "update": "インストールテンプレートを編集する",
+      "view": "詳細インストールテンプレート",
+      "aleartTitle": "各インストールテンプレートのタイトルアイテムは複製できません",
+      "field": {
+        "code": "コード",
+        "name": "名前",
+        "title": "タイトル",
+        "mandatory": "必須",
+        "description": "説明"
+      }
+    },
+    "checkType": {
+      "passFail": "合格-不合格"
+    },
+    "category": {
+      "code": "コード",
+      "name": "名前",
+      "description": "説明"
+    },
+    "delete": {
+      "title": "インストールテンプレートを削除する",
+      "confirmDetele": "インストールテンプレートを削除してもよろしいですか？"
+    },
+    "installListTable": "インストールカテゴリを一覧表示します",
+    "addRow": "インストールカテゴリを追加する",
+    "roleDetail": "詳細健康診断",
+    "responsibleUser": "責任あるユーザー",
+    "notification": {
+      "successCreate": "インストールテンプレートを正常に作成する",
+      "successUpdate": "インストールテンプレートを正常に編集します",
+      "successDelete": "インストールテンプレートを正常に削除します"
+    },
+    "actionHistory": {
+      "created": "インストールテンプレートグループを作成しました",
+      "updated": "編集されたインストールテンプレートグループ",
+      "delete": "インストールテンプレートグループを削除しました"
+    }
+  }
+}
