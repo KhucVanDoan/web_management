@@ -1490,7 +1490,9 @@
     "requestBuyMaterialCode": "Mã yêu cầu mua NVL",
     "validatePurchasedAt": "Ngày đặt hàng phải trước ngày giao hàng",
     "validateDeadline": "Ngày giao hàng phải sau ngày đặt hàng",
-    "reason": "Lý do"
+    "reason": "Lý do",
+    "totalPrice": "Tổng tiền",
+    "payStatus": "TT thanh toán"
   },
   "purchasedOrderStatus": {
     "pending": "Chờ xác nhận",

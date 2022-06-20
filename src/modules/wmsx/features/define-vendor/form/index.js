@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
-import { Form, Formik } from 'formik'
+import { Box, Grid } from '@mui/material'
+import { Form, Formik, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -18,12 +18,25 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import Tabs from '~/components/Tabs'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import qs from '~/utils/qs'
 
+import SupperCapacity from '../capacity'
+import TransactionVendor from '../transaction'
 import defineVendorSchema from './schema'
 
+const DEFAULT_ITEM = [
+  {
+    id: '',
+    itemCode: '',
+    itemName: '',
+    unit: '',
+    quantityAverage: '',
+    timeAverage: '',
+  },
+]
 const DefineVendorForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
@@ -35,6 +48,7 @@ const DefineVendorForm = () => {
     [ROUTE.DEFINE_VENDEOR.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_VENDEOR.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
+
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const {
@@ -48,6 +62,19 @@ const DefineVendorForm = () => {
     email: vendorDetails?.email || '',
     fax: vendorDetails?.fax || '',
     address: vendorDetails?.address || '',
+    vendorAbilities:
+      vendorDetails?.vendorAbilities?.map((item) => ({
+        deliveryTime: item?.deliveryTime,
+        quantity: item?.quantity,
+        itemId: {
+          code: item?.item?.code,
+          itemId: item?.item?.itemId,
+          name: item?.item?.name,
+          itemUnit: {
+            name: item?.item?.itemUnit,
+          },
+        },
+      })) || DEFAULT_ITEM,
     description: vendorDetails?.description || '',
   }
   useEffect(() => {
@@ -68,13 +95,33 @@ const DefineVendorForm = () => {
       email: values?.email || null,
       fax: values?.fax,
       address: values?.address,
+      vendorAbilities: values?.vendorAbilities?.map((item) => ({
+        itemId: item?.itemId?.itemId,
+        quantity: +item?.quantity,
+        deliveryTime: +item?.quantity,
+      })),
       description: values?.description || '',
     }
-
     if (mode === MODAL_MODE.CREATE) {
+      params.vendorAbilities = cloneId
+        ? values?.vendorAbilities?.map((item) => ({
+            itemId: item?.itemId?.itemId,
+            quantity: +item?.quantity,
+            deliveryTime: +item?.quantity,
+          }))
+        : values?.vendorAbilities?.map((item) => ({
+            itemId: item?.itemId?.id,
+            quantity: +item?.quantity,
+            deliveryTime: +item?.quantity,
+          }))
       actions.createVendor(params, backToList)
     } else {
       params.id = +id
+      params.vendorAbilities = values?.vendorAbilities?.map((item) => ({
+        itemId: item?.itemId?.itemId,
+        quantity: +item?.quantity,
+        deliveryTime: +item?.quantity,
+      }))
       actions.updateVendor(params, backToList)
     }
   }
@@ -156,93 +203,121 @@ const DefineVendorForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset }) => (
+        {({ handleReset, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
-                <Grid
-                  container
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                  rowSpacing={4 / 3}
+                <Tabs
+                  list={[
+                    t('defineVendor.commonInfo'),
+                    t('defineVendor.supplierCapacity'),
+                    t('defineVendor.transaction'),
+                  ]}
                 >
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.code')}
-                      name="code"
-                      placeholder={t('defineVendor.code')}
-                      disabled={isUpdate}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
-                      }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      required
+                  {/* {tab1} */}
+                  <Box>
+                    <Grid
+                      container
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                      rowSpacing={4 / 3}
+                    >
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.code')}
+                          name="code"
+                          placeholder={t('defineVendor.code')}
+                          disabled={isUpdate}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                          }}
+                          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.name')}
+                          name="name"
+                          placeholder={t('defineVendor.name')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.address')}
+                          name="address"
+                          placeholder={t('defineVendor.address')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.phone')}
+                          name="phone"
+                          placeholder={t('defineVendor.phone')}
+                          allow={TEXTFIELD_ALLOW.NUMERIC}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.fax')}
+                          name="fax"
+                          placeholder={t('defineVendor.fax')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('defineVendor.email')}
+                          name="email"
+                          placeholder={t('defineVendor.email')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Field.TextField
+                          name="description"
+                          label={t('defineVendor.description')}
+                          placeholder={t('defineVendor.description')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          }}
+                          multiline
+                          rows={3}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  {/* tab 2 */}
+                  <Box>
+                    <FieldArray
+                      name="vendorAbilities"
+                      render={(arrayHelpers) => (
+                        <SupperCapacity
+                          mode={mode}
+                          vendorAbilities={values?.vendorAbilities || []}
+                          arrayHelpers={arrayHelpers}
+                          setFieldValue={setFieldValue}
+                        />
+                      )}
                     />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.name')}
-                      name="name"
-                      placeholder={t('defineVendor.name')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.address')}
-                      name="address"
-                      placeholder={t('defineVendor.address')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.phone')}
-                      name="phone"
-                      placeholder={t('defineVendor.phone')}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.fax')}
-                      name="fax"
-                      placeholder={t('defineVendor.fax')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.TextField
-                      label={t('defineVendor.email')}
-                      name="email"
-                      placeholder={t('defineVendor.email')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="description"
-                      label={t('defineVendor.description')}
-                      placeholder={t('defineVendor.description')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
+                  </Box>
+
+                  {/* tab 3 */}
+                  <TransactionVendor />
+                </Tabs>
               </Grid>
             </Grid>
             {renderActionBar(handleReset)}
