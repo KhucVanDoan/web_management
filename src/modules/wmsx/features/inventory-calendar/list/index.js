@@ -270,7 +270,7 @@ function InventoryCalendar() {
       />
       <Dialog
         open={isOpenDeleteModal}
-        title={t('warehouseTransfer.deleteModalTitle')}
+        title={t('inventoryCalendar.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -281,14 +281,14 @@ function InventoryCalendar() {
         }}
         noBorderBottom
       >
-        {t('warehouseTransfer.deleteConfirm')}
+        {t('inventoryCalendar.deleteConfirm')}
         <LV
-          label={t('warehouseTransfer.code')}
+          label={t('inventoryCalendar.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('warehouseTransfer.name')}
+          label={t('inventoryCalendar.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -305,12 +305,12 @@ function InventoryCalendar() {
       >
         {t('general:common.confirmMessage.confirm')}
         <LV
-          label={t('warehouseTransfer.code')}
+          label={t('inventoryCalendar.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('warehouseTransfer.name')}
+          label={t('inventoryCalendar.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
