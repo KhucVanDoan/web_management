@@ -236,6 +236,7 @@ const MOForm = () => {
       setFieldValue('moPlan', [res?.data?.dateFrom, res?.data?.dateTo])
       setMoFactory(res?.data?.factory?.name)
     } else {
+      setFieldValue('saleOrderId', '')
       setMoFactory('')
       setSaleOrders([])
     }

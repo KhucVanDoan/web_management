@@ -233,6 +233,8 @@ const DefineMasterPlanForm = () => {
           setFieldValue('planDate', [dateFrom, dateTo])
         },
       )
+    } else {
+      setFieldValue('factoryId', '')
     }
   }
 
