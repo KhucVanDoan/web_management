@@ -13,8 +13,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS,
   ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
   ORDER_TYPE,
   TRANSACTION_TYPE_ENUM,
 } from '~/modules/wmsx/constants'
@@ -114,7 +114,7 @@ function ImportManufacturingOrder() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />

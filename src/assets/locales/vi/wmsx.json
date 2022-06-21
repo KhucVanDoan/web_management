@@ -829,6 +829,21 @@
     "collected": "Chờ xuất kho",
     "exported": "Hoàn thành"
   },
+  "InventoryCalendarStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thục hiện",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
+  "importManufacturingOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
   "warehouseTransfer": {
     "orderNumber": "#",
     "1step": "Chuyển kho 1 bước",
