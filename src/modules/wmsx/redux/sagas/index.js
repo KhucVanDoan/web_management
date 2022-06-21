@@ -144,6 +144,11 @@ import watchImportInvoiceType from './invoice-type/import-invoice-type'
 import watchRejectInvoiceType from './invoice-type/reject-invoice-type'
 import watchSearchInvoiceTypes from './invoice-type/search-invoice-type'
 import watchUpdateInvoiceType from './invoice-type/update-invoice-type'
+import watchCreateLocationSetting from './location-setting/create'
+import watchDeleteLocationSetting from './location-setting/delete'
+import watchGetLocationSettingDetails from './location-setting/get-detail'
+import watchSearchLocationSettings from './location-setting/search'
+import watchUpdateLocationSetting from './location-setting/update'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements'
 import watchConfirmProductionOrder from './production-order/confirm-production-order'
@@ -478,5 +483,11 @@ export default function* sagas() {
     // warehouse design
     watchGetWarehouseDesign(),
     watchUpdateWarehouseDesign(),
+    // Location setting
+    watchCreateLocationSetting(),
+    watchDeleteLocationSetting(),
+    watchGetLocationSettingDetails(),
+    watchSearchLocationSettings(),
+    watchUpdateLocationSetting(),
   ])
 }

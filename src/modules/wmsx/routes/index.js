@@ -66,6 +66,9 @@ import DefineWarehouseShelfDetail from '../features/define-warehouse-shelf/detai
 import DefineWarehouseShelf from '../features/define-warehouse-shelf/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseFrom from '../features/define-warehouse/form'
+import EstablishLocation from '../features/establish-location'
+import EstablishLocationDetail from '../features/establish-location/detail'
+import EstablishLocationForm from '../features/establish-location/form'
 import {
   Transactions as ImportManufacturingOrderTransactions,
   TransactionDetail as ImportManufacturingOrderTransactionDetail,
@@ -648,6 +651,38 @@ const routes = [
             name: ROUTE.WAREHOUSE_PALLET.DETAIL.TITLE,
             path: ROUTE.WAREHOUSE_PALLET.DETAIL.PATH,
             component: DefineWarehousePalletDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_DESIGN.TITLE,
+        path: ROUTE.WAREHOUSE_DESIGN.PATH,
+        component: warehouseDesign,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.ESTABLISH_LOCATION.LIST.TITLE,
+        path: ROUTE.ESTABLISH_LOCATION.LIST.PATH,
+        component: EstablishLocation,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ESTABLISH_LOCATION.CREATE.TITLE,
+            path: ROUTE.ESTABLISH_LOCATION.CREATE.PATH,
+            component: EstablishLocationForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ESTABLISH_LOCATION.DETAIL.TITLE,
+            path: ROUTE.ESTABLISH_LOCATION.DETAIL.PATH,
+            component: EstablishLocationDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ESTABLISH_LOCATION.EDIT.TITLE,
+            path: ROUTE.ESTABLISH_LOCATION.EDIT.PATH,
+            component: EstablishLocationForm,
             isInSidebar: false,
           },
         ],
