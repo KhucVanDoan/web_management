@@ -10,7 +10,6 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import { ROUTE } from '~/modules/database/routes/config'
-import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   convertFilterParams,
   convertSortParams,
@@ -19,7 +18,7 @@ import {
 
 import FilterForm from './filter'
 
-function TransactionVendor() {
+function TransactionVendor({ id }) {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const DEFAULT_FILTERS = {
@@ -47,10 +46,6 @@ function TransactionVendor() {
     data: { purchasedOrderList, total },
     actions,
   } = usePurchasedOrder()
-
-  const {
-    data: { vendorDetails },
-  } = useDefineVendor()
 
   const columns = [
     {
@@ -148,10 +143,7 @@ function TransactionVendor() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(
-        { ...filters, vendorName: vendorDetails.name },
-        columns,
-      ),
+      filter: convertFilterParams({ ...filters, vendorId: id }, columns),
       sort: convertSortParams(sort),
     }
 

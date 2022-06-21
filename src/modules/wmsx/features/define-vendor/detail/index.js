@@ -147,7 +147,7 @@ const DefineVendorDetail = () => {
               vendorAbilities={vendorDetails?.vendorAbilities}
             />
             {/* tab 3 */}
-            <TransactionVendor />
+            <TransactionVendor id={id} />
           </Tabs>
           <ActionBar onBack={backToList} />
         </Grid>
