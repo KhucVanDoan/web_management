@@ -218,9 +218,9 @@ const ImportManufacturingOrderForm = () => {
         quantity: +item.quantity,
         lotNumber: item.lotNumber,
         qcCheck: item.qcCheck ? BOOLEAN_ENUM.TRUE : BOOLEAN_ENUM.FALSE,
-        qcCriteriaId: item?.qcCriteriaId ?? null,
+        qcCriteriaId: item?.qcCriteriaId || null,
         mfg: item.mfg,
-        packageId: item.packageId ?? null,
+        packageId: item.packageId || null,
       })),
       ...(values?.description?.trim()
         ? { description: values?.description?.trim() }
