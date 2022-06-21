@@ -593,31 +593,85 @@ export const INVENTORY_CALENDAR_STATUS_MAP = {
 export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
   {
     id: 1,
-    text: 'orderStatus.pending',
+    text: 'InventoryCalendarStatus.pending',
     color: 'pending',
   },
   {
     id: 2,
-    text: 'orderStatus.confirmed',
+    text: 'InventoryCalendarStatus.confirmed',
     color: 'confirmed',
   },
   {
     id: 5,
-    text: 'orderStatus.inProgress',
+    text: 'InventoryCalendarStatus.inProgress',
     color: 'inProgress',
   },
   {
     id: 4,
-    text: 'orderStatus.completed',
+    text: 'InventoryCalendarStatus.completed',
     color: 'completed',
   },
   {
     id: 3,
-    text: 'orderStatus.rejected',
+    text: 'InventoryCalendarStatus.rejected',
     color: 'rejected',
   },
 ]
 
+export const IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'importManufacturingOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'importManufacturingOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'importManufacturingOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'importManufacturingOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'importManufacturingOrderStatus.rejected',
+    color: 'rejected',
+  },
+]
+export const PRODUCTION_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'importManufacturingOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'importManufacturingOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'importManufacturingOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'importManufacturingOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'importManufacturingOrderStatus.rejected',
+    color: 'rejected',
+  },
+]
 export const DEFINE_BILL_STATUS = {
   PENDING: 0,
   WAIT_FOR_PAY: 1,

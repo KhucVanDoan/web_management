@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { ORDER_TYPE, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ORDER_TYPE,
+  IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -47,7 +50,7 @@ const FilterForm = () => {
           name="status"
           label={t('importManufacturingOrder.status')}
           placeholder={t('importManufacturingOrder.status')}
-          options={ORDER_STATUS_OPTIONS}
+          options={IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS}
           getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
           getOptionValue={(opt) => opt?.id?.toString()}
         />
