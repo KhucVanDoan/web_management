@@ -27,6 +27,7 @@ import inventoryLimitSetting from './inventory-limit'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import invoiceType from './invoice-type'
+import locationSetting from './location-setting'
 import movementManagement from './movements'
 import productionOrder from './production-order'
 import purchasedOrdersImport from './purchased-orders-import'
@@ -43,6 +44,7 @@ import warehouseSetting from './warehouse-setting'
 import warehouseSpaceReport from './warehouse-space-report'
 import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
+
 export default combineReducers({
   commonManagement,
   dashboard,
@@ -87,4 +89,5 @@ export default combineReducers({
   bill,
   soExport,
   warehouseDesign,
+  locationSetting,
 })

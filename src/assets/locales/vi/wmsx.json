@@ -150,9 +150,37 @@
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
     "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
     "warehouseDesign": "Thiết kế kho",
-    "typeServiceDetail": "Chi tiết loại dịch vụ",
-    "typeServiceCreate": "Tạo loại dịch vụ",
-    "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
+    "locationSetting": "Thiết lập vị trí",
+    "locationSettingCreate": "Tạo thiết lập vị trí",
+    "locationSettingDetail": "Chi tiết thiết lập vị trí",
+    "locationSettingEdit": "Sửa thiết lập vị trí"
+  },
+  "locationSetting": {
+    "title": "Dạnh sách thiết lập vị trí",
+    "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",
+    "type": "Loại",
+    "unit": "Đơn vị lưu kho",
+    "deleteTitle": "Xóa vị trí",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa vị trí này?",
+    "status": "Trạng thái",
+    "settingCode": "Mã thiết lập",
+    "settingName": "Tên thiết lập",
+    "cantBeSeparated": "Lưu kho hàng chẵn",
+    "detailTableTitle": "Vị trí",
+    "description": "Mô tả",
+    "target": "Đối tượng",
+    "item": {
+      "warehouse": "Kho",
+      "area": "Khu vực",
+      "shelf": "Kệ",
+      "floor": "Tầng",
+      "addItem": "Thêm vị trí"
+    },
+    "descriptionInput": "Nhập mô tả"
+  },
+  "locationType": {
+    "even": "Chẵn",
+    "odd": "Lẻ"
   },
   "dashboard": {
     "chart": {

@@ -353,6 +353,24 @@ export const ORDER_TYPE = [
   },
 ]
 
+export const LOCATION_SETTING_TYPE = {
+  EVEN: 0,
+  ODD: 1,
+}
+
+export const LOCATION_SETTING_TYPE_OPTION = [
+  {
+    id: 0,
+    text: 'locationType.even',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'locationType.odd',
+    color: 'confirmed',
+  },
+]
+
 export const TRANSFER_STATUS = {
   PENDING: 0,
   COMPLETED: 2,
