@@ -1319,8 +1319,7 @@
     "executionDay": "Ngày kiểm kê dự kiến",
     "planExecutionDay": "Ngày thực hiện",
     "confirmedAt": "Ngày xác nhận",
-    "description": "Mô tả",
-    "descriptionInput": "Mô tả về lệnh kiểm kê",
+    "description": "Mô tả về lệnh kiểm kê",
     "itemsDetails": "Chi tiết sản phẩm",
     "approveInventory": "Chi tiết phiếu kiểm kê",
     "transactionList": "Chi tiết giao dịch",
@@ -1332,10 +1331,25 @@
     "confirmInventoryCalendarSuccess": "Xác nhận lệnh kiểm kê thành công",
     "deleteInventoryCalendarSuccess": "Xoá lệnh kiểm kê thành công",
     "rejectInventoryCalendarSuccess": "Từ chối lệnh kiểm kê thành công",
-    "confirmDelete": "Bạn có chắc chắn muốn xóa lệnh kiểm kê này không?",
-    "inventoryCalendarDelete": "Xóa lệnh kiểm kê",
+    "deleteConfirm": "Bạn có chắc chắn muốn xóa lệnh kiểm kê này không?",
+    "deleteModalTitle": "Xóa lệnh kiểm kê",
     "delete": "Xóa lệnh",
-    "movementList": "Danh sách giao dịch"
+    "movementList": "Danh sách giao dịch",
+    "inventoryType": "Loại kiểm kê",
+    "fullInventory": "Kiểm kê toàn kho",
+    "partialInventory": "Kiểm kê một phần",
+    "blindCounts": "Kiểm kê mù",
+    "items": {
+      "tableTitle": "Danh sách sản phẩm, vị trí",
+      "addButton": "Thêm sản phẩm, vị trí",
+      "warehouseName": "Tên kho",
+      "warehouseSectorName": "Tên khu vực",
+      "warehouseShelfName": "Tên kệ",
+      "warehousePalletName": "Tên tầng",
+      "itemCode": "Mã sản phẩm",
+      "itemName": "Tên sản phẩm",
+      "requireWarehouseSectorOrItemCode": "Bắt buộc chọn tên khu vực hoặc mã sản phẩm"
+    }
   },
   "warehouseArea": {
     "title": "Danh sách khu vực kho",

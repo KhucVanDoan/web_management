@@ -923,3 +923,29 @@ export const STAGES_OPTION = {
   EXO: 11,
 }
 export const DISTANCE_BETWEEN_SECTORS = 5
+
+export const INVENTORY_TYPE = {
+  FULL_INVENTORY: 0,
+  PARTIAL_INVENTORY: 1,
+  BLIND_COUNTS: 2,
+}
+
+export const INVENTORY_TYPE_MAP = {
+  [INVENTORY_TYPE.FULL_INVENTORY]: 'inventoryCalendar.fullInventory',
+  [INVENTORY_TYPE.PARTIAL_INVENTORY]: 'inventoryCalendar.partialInventory',
+  [INVENTORY_TYPE.BLIND_COUNTS]: 'inventoryCalendar.blindCounts',
+}
+export const INVENTORY_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'inventoryCalendar.fullInventory',
+  },
+  {
+    id: 1,
+    text: 'inventoryCalendar.partialInventory',
+  },
+  {
+    id: 2,
+    text: 'inventoryCalendar.blindCounts',
+  },
+]
