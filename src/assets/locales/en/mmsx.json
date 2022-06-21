@@ -1,1 +1,1684 @@
-{}
+{
+  "currentLanguage": "en",
+  "general": {
+    "from": "From date",
+    "to": "To date",
+    "all": "All",
+    "allFactory": "All factory",
+    "allMaintenanceTeam": "All maintenance team",
+    "search": "Search",
+    "users": "User",
+    "maintainanceTeam": "Maintenance team",
+    "filterInfor": "Filter information",
+    "placeholder": {
+      "deviceGroup": "Device group",
+      "factoryName": "Factory name",
+      "workshopName": "Work shop name",
+      "deviceName": "Device name",
+      "user": "User name",
+      "status": "Status",
+      "jobType": "Job type"
+    },
+    "maintenanceType": {
+      "maintain": "Maintain",
+      "replace": "Replace"
+    },
+    "device": "Device",
+    "filter": "Filter"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "suppliesCategory": "Define supply group",
+    "supplies": "Define supply accessories",
+    "setting": "Setting",
+    "userManagement": "User management",
+    "login": "Login",
+    "database": "Database",
+    "maintenanceTeam": "Define maintenance team",
+    "deviceCategory": "Define device group",
+    "deviceList": "Define device",
+    "deviceForm": "Device list",
+    "deviceAssign": "Assign device",
+    "deviceAssignForm": "Device assignment list",
+    "deviceAssignCreate": "Create device assignment",
+    "deviceAssignDetail": "Device assignment details",
+    "deviceAssignEdit": "Edit device assignment",
+    "deviceReassign": "Reassign device",
+    "requestDevice": "Request device",
+    "maintenance": "Maintain",
+    "maintainRequest": "Maintenance request of user",
+    "maintainRequestForm": "List of maintenance request",
+    "maintainRequestDetail": "Details of user maintenance request",
+    "checkSheet": "Define checkup form",
+    "checkSheetForm": "List of checkup form",
+    "defectList": "Define error",
+    "errorWarning": "Error warning",
+    "errorWarningForm": "List of error warning",
+    "attributeMaintenance": "Define maintenance attribute",
+    "templateChecklist": "Define checklist template",
+    "templateChecklistForm": "List checklist template",
+    "templateChecklistDetail": "Details of checklist template",
+    "templateChecklistEdit": "Edit checklist template",
+    "templateChecklistCreate": "Create checklist template",
+    "warningList": "System warning",
+    "warningListChecklist": "Periodic checkup",
+    "warningListError": "Error warning",
+    "warningListScheduled": "Maintenance",
+    "report": "Report",
+    "deviceStatistic": "Device statistics",
+    "deviceStatus": "Device status report",
+    "maintainanceProgress": "Maintenance progress report",
+    "reportDeviceSerial": "Device status report",
+    "reportDeviceAssign": "Details of device status report",
+    "createPlanList": "Create plan",
+    "plan": "Plan",
+    "jobList": "Job list",
+    "trackTrace": "Track & Trace",
+    "solution": "Solution",
+    "deviceCreate": "Create device",
+    "deviceDetail": "Device details",
+    "deviceEdit": "Edit device",
+    "maintenanceParameter": "General maintenance parameter",
+    "jobDetail": "Job details",
+    "jobAssign": "Assign job",
+    "warningListChecklistDetail": "Periodic checkup details",
+    "roleManagement": "User role management",
+    "createPlanListDetail": "Plan details",
+    "createPlanListCreate": "Create plan",
+    "createPlanListEdit": "Edit plan",
+    "templateInstall": "Define installation template",
+    "templateInstallForm": "List installation templates",
+    "templateInstallDetail": "Detail installation template",
+    "templateInstallEdit": "Edit installation template",
+    "templateInstallCreate": "Create installation template",
+    "suppliesRequest": "Request supply",
+    "suppliesRequestDetail": "Detail supply request",
+    "suppliesRequestCreate": "Create supply request",
+    "suppliesRequestEdit": "Edit supply request",
+    "deviceStatusReport": "Device status report",
+    "attributeType": "Define attribute type"
+  },
+  "maintainanceProgress": {
+    "status": {
+      "unassigned": "Unassign",
+      "waitForConfirm": "Pending",
+      "rejected": "Reject",
+      "notExecuted": "Not execute",
+      "inProgress": "In progress",
+      "executed": "Executed",
+      "notExecutedOverdue": "Overdue because not executed",
+      "notCompletedOverdue": "Overdue because not completed",
+      "completed": "Completed"
+    }
+  },
+  "modalImport": {
+    "btnSubmit": "Submit",
+    "btnClose": "Close",
+    "stepOne": "Step 1: Download the data template",
+    "stepTwo": "Step 2: Upload the full information",
+    "downloadTemplate": "Download template",
+    "downloadTemplateNextText": "and fill in as instruction",
+    "importMessageSuccess": "Input {{successCount}} row successfully {{errorCount}} row failed",
+    "downloadLogFile": "Click to download failed data",
+    "dropzoneText": "Select or drop a file at this area to import data Support XLS/XLSX CSV file ",
+    "successMessage": "Data input successfully. Close this notification to view information you have just inputted",
+    "btnCancel": "Cancel",
+    "importSuccess": "Import successfully",
+    "closeFail": "Close",
+    "cancelFail": "Cancel",
+    "closeSuccss": "Close and view",
+    "wrongFormatImport": "Wrong template format. Upload data failed.",
+    "importFail": "Import unsuccessfully"
+  },
+  "toast": {
+    "notificationTitle": "Notification"
+  },
+  "message": {
+    "fieldIsRequired": "This field is required.",
+    "unknownError": "Error occurs please try again.",
+    "noData": "No data.",
+    "lessThan": "Value must smaller than {{max}} character",
+    "noSpecialCharacter": "There is no special character",
+    "onlyNumber": "Value must be number",
+    "onlyInteger": "Value must be interger number"
+  },
+  "modal": {
+    "btnSubmit": "Submit",
+    "btnCancel": "Cancel",
+    "btnClose": "Close"
+  },
+  "pagination": {
+    "rowsPerPage": "Row per page",
+    "countTotalRecordPerPage": "{{start}} - {{end}} on total {{total}}"
+  },
+  "dataTable": {
+    "search": "Search",
+    "noData": "No data",
+    "typeValue": "Input value",
+    "all": "All",
+    "cancle": "Cancel"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "close": "Close",
+    "action": "Action",
+    "printQR": "Print QR",
+    "create": "Create new",
+    "createModal": "Create",
+    "status": "Status",
+    "save": "Save",
+    "print": "Print",
+    "amount": "Amount",
+    "createdAt": "Create date",
+    "updatedAt": "Update date",
+    "accept": "Submit",
+    "reject": "Reject",
+    "notify": "Notify",
+    "logout": "Logout",
+    "confirmMessage": {
+      "confirm": "Are you sure to confirm?",
+      "reject": "Are you sure to reject?"
+    },
+    "creator": "Creator",
+    "note": "Note",
+    "search": "Search",
+    "saleOrderType": "Sale order type",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "quarter": "Quarter",
+    "export": "Export",
+    "import": "Import",
+    "transfer": "Transfer",
+    "stock": "In stock",
+    "dayOfWeeks7": "Sunday",
+    "dayOfWeeks1": "Monday",
+    "dayOfWeeks2": "Tuesday",
+    "dayOfWeeks3": "Wednesday",
+    "dayOfWeeks4": "Thursday",
+    "dayOfWeeks5": "Friday",
+    "dayOfWeeks6": "Saturday",
+    "importFile": "Import",
+    "activityReport": "Activity report",
+    "seeMore": "See more",
+    "responsibleUser": "Responsible user",
+    "searchPlaceHolder": "Search information",
+    "filterData": "Filter",
+    "filterColumns": "Display selected item",
+    "object": "Object",
+    "copyright": "A product of VTI - Solution ©2021",
+    "deleteConfirm": "Do you want to delete {{value}}",
+    "leader": "Leader",
+    "member": "Member",
+    "pending": "Pending",
+    "supplies": "Supplies",
+    "accessary": "Supply",
+    "groupSelectResponsibleSubject": {
+      "user": "User",
+      "maintenanceTeam": "Maintenance team"
+    },
+    "textfieldMax7": "7 character",
+    "textfieldMax255": "255 character",
+    "suffix": {
+      "minute": "Minute",
+      "day": "Day",
+      "denominations": "VND"
+    },
+    "statusList": {
+      "title": "Status",
+      "nonAssign": "Not assign",
+      "waitingToComfirm": "Pending",
+      "reject": "Reject",
+      "toDo": "To do",
+      "inProgress": "In progress",
+      "completed": "Executed",
+      "outOfDate": "Overdue",
+      "late": "Late",
+      "resolved": "Resolved"
+    },
+    "modalConfirm": {
+      "title": "Notify",
+      "description": "Are you sure to confirm?",
+      "enterComment": "Enter comment"
+    },
+    "modalDelete": {
+      "title": "Notify",
+      "description": "Are you sure to delete?"
+    },
+    "modalDecline": {
+      "title": "Notify",
+      "description": "Are you sure to reject?",
+      "enterComment": "Enter comment",
+      "reDoDescription": "Are you sure to redo?"
+    },
+    "importExport": "Import / Export data",
+    "exportFile": "Export",
+    "noDataTable": "No data"
+  },
+  "form": {
+    "required": "This field is required",
+    "mappingPassword": "* Password is not mapping",
+    "maxLength": "Input maximum {{max}} character",
+    "minLength": "Input minimum {{min}} character",
+    "validEmail": "* Please input correct email",
+    "validUserName": "Login name only includes character and number",
+    "validPassword": "Password only includes character and number",
+    "validPhone": "Phone number is invalid",
+    "validCode": "Code only includes character and number",
+    "minNumber": "Minimum value is {{min}}",
+    "maxNumber": "Do not input over {{max}}",
+    "duplicates": "This field must not be duplicated",
+    "dateRange": "Date range must from {{from}} to {{to}}",
+    "minDate": "Start date must equal or greater than {{from}}",
+    "maxDate": "End date must equal or less than {{from}}",
+    "invalidDateRange": "Start date must smaller than end date",
+    "to": "to",
+    "greaterThanZero": "Must greater than 0",
+    "integer": "This field must be interger"
+  },
+  "userManagement": {
+    "title": "User list",
+    "searchPlaceHolder": "Find user by login name or employee name",
+    "confirmDelete": "Are you sure to delete?",
+    "username": "Username",
+    "password": "Password",
+    "comfirmPassword": "Confirm password",
+    "fullName": "Full name",
+    "email": "Email",
+    "dateOfBirth": "Date of birth",
+    "phone": "Phone number",
+    "warehouseNames": "Warehouse name",
+    "code": "Employee code",
+    "factoryNames": "Factory name",
+    "companyName": "Company name",
+    "departmentNames": "Department name",
+    "role": "Select role",
+    "createModalTitle": "Create user",
+    "submitCreateModalLabel": "Create",
+    "cancelCreateModalLabel": "Cancel",
+    "updateModalTitle": "Edit employee information",
+    "submitUpdateModalLabel": "Save",
+    "cancelUpdateModalLabel": "Cancel",
+    "changePasswordLabel": "Change password",
+    "viewModalTitle": "Employee information details",
+    "cancelViewModalLabel": "Close",
+    "deleteModalTitle": "Delete user",
+    "createButton": "Create",
+    "orderIdColumn": "#",
+    "usernameColumn": "Username",
+    "fullNameColumn": "Full name",
+    "emailColumn": "Email",
+    "departmentColumn": "Department",
+    "actionColumn": "Action",
+    "roleColumn": "Role",
+    "warehouseColumn": "Warehouse",
+    "createUserSuccess": "Create user successfully",
+    "deleteUserSuccess": "Delete user successfully",
+    "updateUserSuccess": "Update user successfully",
+    "generateOTPSuccess": "Successful ! An OTP sent via your email",
+    "verifyOTPSuccess": "Confirm OTP successfully"
+  },
+  "login": {
+    "password": "Password",
+    "username": "Username",
+    "savePassword": "Save password",
+    "forgotPassword": "Forgot password",
+    "loginButton": "Login",
+    "notCorrectUsernamePassword": "You input wrong username or password",
+    "footerText": "A product of VTI - Solution ©2021"
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "inProgress": "In progress",
+    "approved": "Approved",
+    "rejected": "Reject",
+    "completed": "Completed"
+  },
+  "dashboard": {
+    "mtt": {
+      "title": "MTTR MTTA metric",
+      "mttr": "MTTR metric",
+      "mtta": "MTTA metric"
+    },
+    "title": "Dashboard",
+    "totalJob": "Total job",
+    "finishedJob": "Finished",
+    "unfinishedJob": "Unfinished",
+    "overdue": "Overdue",
+    "maintainanceProgress": {
+      "completed": "Completed",
+      "overdue": "Overdue",
+      "inprogress": "In progress",
+      "waitForConfirmation": "Pending"
+    },
+    "chart": {
+      "maintainanceProgress": "Maintenance progress",
+      "deviceError": "Device error",
+      "requestStatus": "Request status",
+      "deviceStatus": "Device status",
+      "totalUnUseItem": "Not in use",
+      "totalMaintiningItem": "Maintain",
+      "totalInUseItem": "In use",
+      "totalReturnItem": "Return",
+      "totalScrappingItem": "Scrap"
+    },
+    "deviceUsingStatus": {
+      "exportDate": "Exported date:",
+      "title": "Device operating status",
+      "factoryPlaceholder": "Select factory",
+      "productOrderPlaceholder": "Select product order",
+      "oee": "OEE",
+      "activating": "Activating",
+      "stop": "Stop",
+      "error": "Error",
+      "off": {
+        "maintain": "OFF (Maintenance)",
+        "shutdown": "OFF (Shut down)"
+      },
+      "using": "Using",
+      "listView": "View list"
+    }
+  },
+  "forgotPassword": {
+    "generateOTP": {
+      "title": "Forgot password",
+      "text": "undefined",
+      "account": "Account",
+      "placeholder": "Input your username or email",
+      "continue": "Continue",
+      "backToLogin": "Back to login"
+    },
+    "resetPassword": {
+      "title": "Create new password",
+      "text": "Now you are able to create new password to login MESX system",
+      "newPassword": "New password",
+      "password": "Input new password",
+      "confirmNewPassword": "Input new password again",
+      "finish": "Finish",
+      "resetSuccessfully": "Change password successfully"
+    },
+    "verifyOTP": {
+      "title": "Input OTP",
+      "text": "undefined",
+      "verifyCode": "OTP code",
+      "continue": "Continue",
+      "notReceived": "Not receive OTP code?",
+      "resend": "Resend"
+    }
+  },
+  "defineSuppliesCategory": {
+    "title": "Supplies accessories list",
+    "code": "Supplies accessories code",
+    "name": "Supplies accessories name",
+    "description": "Supplies accessories description",
+    "createDefineSuppliesCategory": "Create supplies accessories group",
+    "searchPlaceholder": "Find by code or name",
+    "createDate": "Created date",
+    "updateDate": "Update date",
+    "action": "Action",
+    "createTitle": "Create supplies accessories group",
+    "updateTitle": "Edit supplies accessories group",
+    "viewTitle": "Display supplies accessories group",
+    "deleteTitle": "Confirm to delete supplies accessories group",
+    "confirmDelete": "Are you sure to delete supplies accessories group?",
+    "deleteDefineSuppliesCategorySuccess": "Delete supplies accessories group successfully",
+    "createDefineSuppliesCategorySuccess": "Create supplies accessories group successfully",
+    "updateDefineSuppliesCategorySuccess": "Update supplies accessories group successfully",
+    "specifiedUser": "Assigned user",
+    "company": "Company",
+    "factory": "Factory",
+    "typeSupplies": "Type",
+    "unit": "Unit",
+    "activityHistory": "Activity history"
+  },
+  "maintenanceTeam": {
+    "enty": "Maintenance team",
+    "createBtnTitle": "Maintenance team",
+    "form": {
+      "create": "Maintenance team",
+      "update": "Maintenance team",
+      "view": "Maintenance team information details"
+    },
+    "title": "Maintenance team list",
+    "team": {
+      "id": "id",
+      "code": "Team code",
+      "name": "Team name",
+      "description": "Maintenance team",
+      "memberName": "Member name",
+      "mission": "Mission",
+      "created": "Create maintenance team",
+      "updated": "Update maintenance team",
+      "selectMemberPlaceholder": "Member",
+      "selectRolePlaceholder": "Role"
+    },
+    "placeholder": {
+      "code": "Input team code",
+      "name": "Input team name",
+      "description": "Input description"
+    },
+    "notification": {
+      "createSuccess": "Create maintenance team successfully",
+      "updateSuccess": "Edit maintenance team successfully",
+      "deleteSuccess": "Delete maintenance team successfully"
+    },
+    "createAt": "Create date",
+    "updateAt": "Update date",
+    "action": "Action",
+    "roleDetail": "Member details",
+    "addMember": "Add member",
+    "deleteTeam": {
+      "title": "Maintenance team",
+      "confirmDetele": "Are you sure to delete maintenance team?"
+    },
+    "type": "Type",
+    "inner": "Internal maintenance team",
+    "outer": "External maintenance team",
+    "innerMaintenanceTeam": "Internal maintenance team"
+  },
+  "deviceCategory": {
+    "title": "Device group list",
+    "form": {
+      "status": "Status",
+      "create": "Create device group",
+      "update": "Edit device group",
+      "view": "Device group details",
+      "field": {
+        "code": "Device group code",
+        "name": "Device group name",
+        "description": "Device group description"
+      }
+    },
+    "category": {
+      "code": "Group code",
+      "name": "Group name",
+      "description": "Group description"
+    },
+    "responsibleUser": "Responsible user",
+    "notification": {
+      "success": "Create device group successfully",
+      "successUpdate": "Edit device group successfully",
+      "successDelete": "Delete device group successfully",
+      "successConfirm": "Confirm device group successfully"
+    },
+    "button": {
+      "device": "Device",
+      "job": "Job"
+    },
+    "actionHistory": {
+      "created": "Created new device group",
+      "updated": "Edited new device group",
+      "confirm": "Approved new device group"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending"
+    },
+    "confirmDevice": {
+      "title": "Confirm device group",
+      "description": "Are you sure to confirm this device group?"
+    },
+    "delete": {
+      "title": "Delete this device group",
+      "description": "Are you sure to delete this device group?"
+    }
+  },
+  "suppliesCategory": {
+    "title": "Supply group list",
+    "form": {
+      "status": "Status",
+      "create": "Create supply group",
+      "update": "Edit supply group",
+      "view": "Supply group details",
+      "field": {
+        "code": "Supply group code",
+        "name": "Supply group name",
+        "description": "Supply group description"
+      }
+    },
+    "button": {
+      "supply": "Supply group",
+      "device": "Device"
+    },
+    "category": {
+      "code": "Group code",
+      "name": "Group name",
+      "description": "Group description"
+    },
+    "delete": {
+      "title": "Delete supply group",
+      "description": "Are you sure to delete this supply group?"
+    },
+    "notification": {
+      "successDelete": "Delete supply group successfully",
+      "success": "Create supply group successfully",
+      "successUpdate": "Edit supply group successfully",
+      "successConfirm": "Confirm supply group successfully"
+    },
+    "responsibleUser": "Responsible user",
+    "confirm": {
+      "title": "Confirm supply group",
+      "description": "Are you sure to confirm this supply group?"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending"
+    },
+    "actionHistory": {
+      "created": "Created supply group",
+      "updated": "Updated supply group",
+      "confirm": "Confirmed supply group"
+    }
+  },
+  "supplies": {
+    "title": "Supply accessories group list",
+    "form": {
+      "status": "Status",
+      "create": "Create supply accessories",
+      "update": "Edit supply accessories",
+      "view": "Supply accessories details",
+      "field": {
+        "code": "Supplies accessories code",
+        "name": "Supplies accessories name",
+        "factoryName": "Factory name",
+        "description": "Supplies accessories description",
+        "type": "Type",
+        "suppliesCategoryName": "Supply group name",
+        "unit": "Unit",
+        "price": "Price",
+        "categoryId": "Supply group"
+      }
+    },
+    "category": {
+      "code": "Supplies accessories code",
+      "name": "Supplies accessories name",
+      "suppliesCategory": "Supplies group",
+      "type": "Type",
+      "description": "Description",
+      "status": "Status"
+    },
+    "delete": {
+      "title": "Delete supplies accessories",
+      "description": "Are you sure to delete this supply accessories?"
+    },
+    "responsibleUser": "Responsible user",
+    "button": {
+      "suppliesCategory": "Supply group",
+      "device": "Device"
+    },
+    "confirm": {
+      "title": "Confirm supply accessories",
+      "description": "Are you sure to confirm this supply accessories?"
+    },
+    "notification": {
+      "successDelete": "Delete supply accessories successfully",
+      "success": "Create supply accessories successfully",
+      "successUpdate": "Edit supply accessories successfully",
+      "successConfirm": "Confirm supply accessories successfully"
+    },
+    "status": {
+      "confirmed": "Confirmed",
+      "pending": "Pending"
+    },
+    "actionHistory": {
+      "created": "Created supply accessories",
+      "updated": "Updated supply accessories",
+      "delete": "Deleted supply accessories",
+      "confirm": "Confirmed supply accessories"
+    }
+  },
+  "templateChecklist": {
+    "title": "Checklist template list",
+    "form": {
+      "create": "Create checklist template",
+      "update": "Edit checklist template",
+      "view": "Details of checklist template",
+      "aleartTitle": "Title item of each checklist template cannot be duplicated",
+      "field": {
+        "code": "Template code",
+        "name": "Template name",
+        "deviceName": "Device name",
+        "description": "Description",
+        "title": "Title",
+        "deviceCode": "Device name",
+        "checkType": "Checkup type",
+        "obligatory": "Mandatory"
+      }
+    },
+    "checkType": {
+      "passFail": "Pass-Fail"
+    },
+    "category": {
+      "code": "Template code",
+      "name": "Template name",
+      "deviceCode": "Device code",
+      "deviceName": "Device name"
+    },
+    "delete": {
+      "title": "Delete checkup template",
+      "confirmDetele": "Do you want to delete checkup template?"
+    },
+    "checkDetail": "Detailed checkup",
+    "addRow": "Add checkup row",
+    "roleDetail": "Detailed checkup",
+    "responsibleUser": "Responsible user",
+    "notification": {
+      "successCreate": "Create checkup template successfully",
+      "successUpdate": "Edit checkup template successfully",
+      "successDelete": "Delete checkup template successfully"
+    },
+    "actionHistory": {
+      "created": "Created checkup template",
+      "updated": "Updated checkup template",
+      "delete": "Deleted checkup template"
+    }
+  },
+  "deviceList": {
+    "defineDeviceTitle": "Define device",
+    "title": "Device list",
+    "recordHasBeenConfirmed": "Device is approved unable to edit",
+    "device": {
+      "code": "Device code",
+      "name": "Device name",
+      "deviceCategory": "Device group",
+      "description": "Description",
+      "descriptionForm": "Device description",
+      "quantity": "Amount",
+      "status": "Status"
+    },
+    "text": {
+      "create": "Create device",
+      "update": "Edit device",
+      "view": "Device details"
+    },
+    "placeholder": {
+      "code": "Device code",
+      "name": "Input device name",
+      "description": "Description",
+      "price": "Input price",
+      "frequency": "Input frequency",
+      "periodicCheck": "Input periodical checkup date",
+      "attributeName": "Input maintenance attribute name",
+      "deviceCategory": "Input device group",
+      "provider": "Input provider",
+      "manufacturer": "Input manufacturer",
+      "insuranceDay": "Input warranty date",
+      "model": "Input model",
+      "itemName": "Input name",
+      "quantity": "Amount",
+      "type": "Type",
+      "timeUsage": "Usage time",
+      "responsibleUser": "Input responsible user"
+    },
+    "form": {
+      "name": "Name",
+      "type": "Type",
+      "maintainFrequency": "Maintenance frequency",
+      "mttr": "MTTR metric",
+      "mtbf": "MTBF metric",
+      "mtta": "MTTA metric",
+      "mttf": "MTTF metric",
+      "defectEstimate": "Broken estimation (round)",
+      "deviceCategoryButtonTitle": "Device group",
+      "assignButtonTitle": "Assign"
+    },
+    "qrCode": "Print QR code",
+    "checkbox": "Use in production",
+    "factory": "Factory",
+    "company": "Company",
+    "price": "Price",
+    "provider": "Provider",
+    "producer": "Producer",
+    "oeeTarget": "OOE target",
+    "proDate": "Production date",
+    "importDate": "Import date",
+    "insuranceDay": "Warranty date",
+    "model": "Model",
+    "listTitle": "Supply accessories list",
+    "addButton": "Add supply accessories",
+    "attributeName": "Maintenance attribute name",
+    "periodicCheck": "Periodic check later",
+    "maintenanceInformation": "Maintenance information list",
+    "maintenanceInformationTableAlert": "Maintenance information table is invalid",
+    "updateSuccess": "Edit device successfully",
+    "frequency": "Frequency",
+    "list": {
+      "name": "Name",
+      "quantity": "Amount",
+      "type": "Type",
+      "timeUsage": "Usage time",
+      "addBtnTitle": "Add supply accessories"
+    },
+    "tab": {
+      "formDetail": "Information details",
+      "formMaintain": "Maintenance time"
+    },
+    "responsibleUser": "Responsible user",
+    "status": {
+      "pending": "Pending",
+      "confirm": "Confirm"
+    },
+    "confirmDevice": {
+      "title": "Confirm device",
+      "description": "Are you sure to confirm this device?"
+    },
+    "deleteDevice": {
+      "title": "Delete device",
+      "description": "Are you sure to delete this device?"
+    },
+    "confirmSuccess": "Confirm device successfully",
+    "deleteSuccess": "Delete device successfully",
+    "createSuccess": "Create device successfully",
+    "type": {
+      "supplies": "Accessories",
+      "accessory": "Supplies",
+      "device": "Device"
+    },
+    "actionHistory": {
+      "created": "Created device",
+      "updated": "Updated device",
+      "delete": "Deleted device",
+      "confirm": "Confirmed device"
+    },
+    "tooltipHeader": {
+      "mtbf": "MTBF metric (Mean time between failures): Is the average time between incidents calculated by (Total devide working time) / (Broken time).",
+      "mttr": "MTTR metric (Mean Time to Repair): Is the average time calculated by (Total fix time) / (Broken time).",
+      "mtta": "MTTA metric (Mean time to acknowledge): Is the average time to detect the incident calculated by (Total time from incident starts to accredit) /(Total broken time).",
+      "mttf": "MTTF metric (Mean time to failure): Is the average time until the next incident happens (to incident unable to be fixed)."
+    }
+  },
+  "deviceAssign": {
+    "title": "Device assignment list",
+    "title2": "Maintenance time",
+    "assign": {
+      "serial": "Serial number",
+      "assignCode": "Assign code",
+      "code": "Device code",
+      "name": "Device name",
+      "user": "User",
+      "status": "Device status",
+      "createdAt": "Create date",
+      "updatedAt": "Update date",
+      "action": "Action",
+      "model": "Model",
+      "usageTime": "Use date",
+      "usageUser": "User",
+      "assignDate": "Assign date",
+      "workCenter": "Work center",
+      "oeeTarget": "OOE target",
+      "componentTitle": "Component name",
+      "factory": "Factory"
+    },
+    "status": {
+      "unuse": "Not in use",
+      "inuse": "In use",
+      "inMaintaining": "Maintain",
+      "inCrapping": "Scrap",
+      "waitingToReturn": "Returned",
+      "pending": "Pending"
+    },
+    "deviceButton": "Device",
+    "assignButton": "Assign",
+    "lookProductInfo": "Search for production information",
+    "maintainTable": {
+      "name": "Name",
+      "type": "Type",
+      "nextMaintainEstimate": "Estimate next maintenance date",
+      "latestDefect": "Latest broken time",
+      "averageDefect": "Average time between broken",
+      "estimateTimeDefect": "Estimate broken duration ( Date )",
+      "estimateNextTimeDefect": "Estimate next broken date",
+      "estimatedReplacementDate": "Estimate replacement date"
+    },
+    "historyTable": {
+      "code": "Code",
+      "maintainDate": "Maintenance date",
+      "type": "Maintenance type"
+    },
+    "notification": {
+      "confirmSuccess": "Confirm device successfully",
+      "deleteSuccess": "Delete device successfully",
+      "createSuccess": "Create device successfully",
+      "updateSuccess": "Edit device successfully"
+    },
+    "moTable": {
+      "code": "Production order",
+      "codeWork": "Work order",
+      "duration": "Duration",
+      "date": "Production date",
+      "datePlan": "Plan date",
+      "slot": "Workshift",
+      "activeTime": "Actual active time",
+      "unactiveTime": "Actual inactive time"
+    },
+    "confirmDeviceAssign": {
+      "title": "Confirm device",
+      "description": "Are you sure to confirm this device?"
+    },
+    "deleteDeviceAssign": {
+      "title": "Delete device",
+      "description": "Are you sure to delete this device?"
+    },
+    "comment": {
+      "created": "Created request",
+      "updated": "Updated request",
+      "delete": "Deleted request",
+      "confirm": "Confirmed request",
+      "reject": "Rejected request"
+    }
+  },
+  "requestDevice": {
+    "title": "Device request list",
+    "form": {
+      "title": "Device request",
+      "status": "Status",
+      "createRequestDevice": "Create device request",
+      "createReturnDevice": "Create device return",
+      "viewDetailRequestDevice": "Device request details",
+      "updateRequestDevice": "Edit device request",
+      "viewDetailReturnDevice": "Device return details",
+      "updateReturnDevice": "Edit device return",
+      "waitConfirm": "Pending",
+      "device": "Device",
+      "assignment": "Assign",
+      "field": {
+        "code": "Request code",
+        "name": "Request name",
+        "description": "Request description",
+        "deviceCode": "Device code",
+        "deviceName": "Device name",
+        "title": "Title",
+        "personUsing": "User",
+        "count": "Amount",
+        "useInProduction": "Use in production",
+        "factoryUsing": "Work shop in use",
+        "serial": "Device serial"
+      }
+    },
+    "comment": {
+      "created": "Created request",
+      "updated": "Updated request",
+      "delete": "Deleted request",
+      "confirm": "Confirmed request",
+      "reject": "Rejected request"
+    },
+    "category": {
+      "requestCode": "Request code",
+      "requestType": "Request type",
+      "deviceCode": "Device code",
+      "deviceName": "Device name",
+      "user": "User",
+      "numberSerial": "Serial number",
+      "count": "Amount",
+      "status": "Status"
+    },
+    "delete": {
+      "title": "Delete device request",
+      "confirmDetele": "Are you sure to delete this device request?"
+    },
+    "addButton": "Add device",
+    "deviceList": "Device list",
+    "buttonTitle": {
+      "device": "Device",
+      "assignment": "Assign"
+    },
+    "request": "Request device",
+    "return": "Return device",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "rejected": "Reject",
+      "awaitingITConfirmation": "Wait IT to confirm",
+      "awaitingAssigment": "Wait to assign",
+      "assigned": "Assigned",
+      "awaitingReturn": "Wait to return",
+      "returned": "Returned"
+    },
+    "reject": {
+      "title": "Reject device request",
+      "description": "Are you sure to delete this device request?"
+    },
+    "confirm": {
+      "title": "Confirm device request",
+      "description": "Are you sure to confirm this device request?"
+    },
+    "notification": {
+      "createRequestSuccess": "Create device request successfully",
+      "createReturnSuccess": "Create device return successfully",
+      "deleteSuccess": "Delete request successfully",
+      "updateSuccess": "Update device successfully",
+      "changeStatusSuccess": "Change request status successfully"
+    }
+  },
+  "viewDisplayList": {
+    "detail": "Information details",
+    "maintain": "Maintenance details"
+  },
+  "viewAssignTabDisplay": {
+    "maintain": "Maintenance time",
+    "history": "Maintenance history",
+    "mo": "Production information"
+  },
+  "maintainRequest": {
+    "notification": {
+      "confirmationSuccessed": "Confirm maintenance request successfully",
+      "rejectionSuccessed": "Reject maintenance request successfully",
+      "approvalSuccessed": "Approve maintenance request successfully",
+      "reDoSuccessed": "Redo maintenance request successfully"
+    },
+    "status": {
+      "created": "Pending",
+      "confirmed1": "Wait for IT to confirm",
+      "confirmed2": "Confirmed",
+      "notExcute": "Not execute",
+      "rejected": "Reject",
+      "inProgress": "In progress",
+      "executed": "Executed",
+      "completed": "Completed"
+    },
+    "title": "User maintenance request",
+    "tableTitle": "Maintenance request list",
+    "smallTitle": "User information",
+    "table": {
+      "code": "Request code",
+      "name": "Request name",
+      "type": "Request type",
+      "user": "User",
+      "deviceName": "Device name",
+      "description": "Description",
+      "status": "Status",
+      "createdAt": "Created date",
+      "updatedAt": "Update date",
+      "action": "Action",
+      "serial": "Serial",
+      "piority": "Priority"
+    },
+    "deviceButton": "Device",
+    "partsButton": "Supply",
+    "assignee": "Assignee",
+    "createForm": "Create maintenance request",
+    "viewForm": "Details maintenance request",
+    "editForm": "Edit maintenance request",
+    "form": {
+      "name": "Maintenance request name",
+      "code": "Maintenance request code",
+      "user": "Requester",
+      "description": "Description",
+      "estimateDay": "Expected completion date",
+      "estimatedDuration": "Estimated maintenance time",
+      "type": "Maintain",
+      "piority": "Priority",
+      "serial": "Serial of device need to maintain",
+      "deviceName": "Device name",
+      "checkbox": "Supply maintenance",
+      "title": "Name",
+      "quantity": "Amount",
+      "linkButton": "Add supply"
+    },
+    "supplies": {
+      "title": "Supply accessories",
+      "name": "Name",
+      "quantity": "Quantity"
+    },
+    "information": {
+      "factory": "Factory",
+      "workshop": "Workshop",
+      "usageUser": "User",
+      "address": "Address",
+      "phone": "Phone number",
+      "location": "Location"
+    }
+  },
+  "defectList": {
+    "title": "Error list",
+    "form": {
+      "create": "Create error information",
+      "update": "Edit error information",
+      "viewDetail": "Error information details",
+      "code": "Error code",
+      "name": "Error name",
+      "description": "Error description",
+      "deviceName": "Device name",
+      "deviceCode": "Device code",
+      "piority": "Priority level"
+    },
+    "table": {
+      "code": "Error code",
+      "name": "Error name",
+      "description": "Description",
+      "deviceName": "Device name",
+      "piority": "Priority level"
+    },
+    "modalDelete": {
+      "title": "Delete error information",
+      "description": "Are you sure to delete this error information ?"
+    },
+    "notification": {
+      "deleteSuccess": "Delete error information successfully",
+      "createSuccess": "Create error information successfully",
+      "updateSuccess": "Edit error information successfully"
+    },
+    "actionHistory": {
+      "created": "Created error information",
+      "updated": "Edited error information",
+      "confirm": "Confirmed error information"
+    }
+  },
+  "piority": {
+    "blocker": "Blocker",
+    "critical": "Critical",
+    "major": "Major",
+    "minor": "Minor",
+    "trivial": "Trivial"
+  },
+  "workType": {
+    "warning": "Error warning",
+    "scheduleMaintain": "Maintenance",
+    "request": "User request",
+    "periodCheck": "Periodic check"
+  },
+  "errorWarning": {
+    "formTitle": "Incident warning details",
+    "smallTitle": "User information",
+    "form": {
+      "status": "Status",
+      "reqCode": "Maintenance request code",
+      "reqName": "Maintenance request name",
+      "reqUser": "Requester",
+      "user": "User",
+      "description": "Description",
+      "estimateDate": "Expected completion date",
+      "duration": "Maintenance time",
+      "type": "Warning type",
+      "piority": "Priority",
+      "serial": "Serial of device need to maintain",
+      "deviceName": "Device name"
+    },
+    "information": {
+      "factory": "Factory",
+      "workshop": "Workshop",
+      "usageUser": "User",
+      "address": "Address",
+      "phone": "Phone number",
+      "location": "Location"
+    }
+  },
+  "attributeMaintenance": {
+    "title": "Maintenance attribute list",
+    "table": {
+      "code": "Attribute code",
+      "name": "Attribute name",
+      "description": "Description",
+      "createdAt": "Created date",
+      "updatedAt": "Updated date"
+    },
+    "form": {
+      "create": "Create maintenance attribute",
+      "update": "Edit maintenance attribute",
+      "view": "Maintenance attribute details",
+      "code": "Maintenance attribute code",
+      "name": "Maintenance attribute name",
+      "description": "Maintenance attribute description"
+    },
+    "deleteModal": {
+      "title": "Delete maintenance attribute",
+      "description": "Are you sure to delete this attribute ?"
+    },
+    "notification": {
+      "successDelete": "Delete maintenance attribute successfully",
+      "success": "Create maintenance attribute successfully",
+      "successUpdate": "Edit maintenance attribute successfully"
+    },
+    "createButton": "Create maintenance attribute",
+    "actionHistory": {
+      "created": "Created maintenance attribute",
+      "updated": "Edited maintenance attribute"
+    }
+  },
+  "warningList": {
+    "notification": {
+      "confirmationSuccessed": "Confirm error warning successfully",
+      "rejectionSuccessed": "Reject error warning successfully"
+    },
+    "status": {
+      "created": "Pending",
+      "confirmed": "Confirmed",
+      "rejected": "Reject",
+      "inProgress": "In progress",
+      "executed": "Executed",
+      "completed": "Completed",
+      "notExcute": "Not execute"
+    },
+    "title": "Warning list",
+    "table": {
+      "code": "Warning code",
+      "type": "Warning type",
+      "name": "Warning name",
+      "description": "Description",
+      "serial": "Serial",
+      "deviceName": "Device name",
+      "piority": "Priority",
+      "status": "Status"
+    },
+    "smallTitle": "User information",
+    "form": {
+      "result": {
+        "passed": "Passed",
+        "notPass": "Not passed"
+      },
+      "responsibleUser": "Responsible user",
+      "detail": "Information details",
+      "reqCode": "Maintenance request code",
+      "reqName": "Maintenance request name",
+      "reqUser": "Requester",
+      "user": "User",
+      "description": "Description",
+      "estimateDate": "Expected completion date",
+      "scheduled": "Maintenance schedule date",
+      "duration": "Maintenance time",
+      "type": "Warning type",
+      "piority": "Priority",
+      "serial": "Serial of device need to maintain",
+      "deviceName": "Device name"
+    },
+    "formError": {
+      "code": "Warning code",
+      "type": "Warning type",
+      "name": "Warning name",
+      "description": "Description",
+      "serial": "Device serial",
+      "deviceName": "Device name",
+      "piority": "Priority",
+      "status": "Status",
+      "estimatedDate": "Expected completion date",
+      "estimatedDuration": "Estimated maintenance time",
+      "maintainanceDate": "Maintenance scheduled date",
+      "scheduleMaintenanceDate": "Maintenance scheduled date"
+    },
+    "formScheduled": {
+      "name": "Maintenance request name",
+      "code": "Maintenance request code",
+      "user": "Requester",
+      "description": "Description",
+      "estimateDay": "Expected completion date",
+      "duration": "Maintenance time",
+      "type": "Maintenance type",
+      "piority": "Priority",
+      "serial": "Device serial need to maintain",
+      "deviceName": "Device name",
+      "checkbox": "Supply maintenance",
+      "title": "Name",
+      "quantity": "Quantity",
+      "linkButton": "Add supply"
+    },
+    "formChecklist": {
+      "code": "Warning code",
+      "name": "Warning name",
+      "deviceName": "Device name",
+      "serial": "Serial",
+      "deviceId": "Device code",
+      "description": "Description",
+      "checkDate": "Check up due date",
+      "realtimeCheck": "Actual check up date",
+      "completeDay": "Completion date"
+    },
+    "formTable": {
+      "title": "Title",
+      "description": "Category description",
+      "contentChecked": "Content after checked",
+      "type": "Checkup type",
+      "result": "Result",
+      "testResult": "Test result",
+      "conclusion": "Conclusion",
+      "require": "Require"
+    },
+    "information": {
+      "factory": "Factory",
+      "workshop": "Workshop",
+      "usageUser": "User",
+      "address": "Address",
+      "phone": "Phone number",
+      "location": "Location"
+    },
+    "deviceButton": "Device",
+    "jobs": "Job",
+    "headerTitle": {
+      "checklist": "Periodic checkup details",
+      "error": "Error warning details",
+      "scheduled": "Maintenance details"
+    }
+  },
+  "warningType": {
+    "error": "Error warning",
+    "checkList": "Periodic check",
+    "scheduled": "Maintenance"
+  },
+  "reportDevice": {
+    "title": {
+      "main": "Device status report",
+      "serial": "Report details of device status",
+      "assign": "Device status details"
+    },
+    "dropdown": {
+      "factory": "Factory name",
+      "workCenter": "Workshop name",
+      "user": "User name"
+    },
+    "table": {
+      "code": "Device code",
+      "name": "Device name",
+      "totalQuantity": "Total quantity",
+      "returnedQuantity": "Returned quantity",
+      "unuseQuantity": "Unuse quantity",
+      "beingUseQuantity": "In use quantity",
+      "maintainQuantity": "Maintain quantity",
+      "junkQuantity": "Scrap quantity",
+      "action": "Action"
+    },
+    "serialTable": {
+      "serial": "Serial",
+      "name": "Device name",
+      "usageDate": "Usage date",
+      "status": "Status",
+      "user": "User",
+      "maintainedTime": "Maintain time",
+      "brokeTime": "Broken time",
+      "action": "Action"
+    },
+    "progressTable": {
+      "serial": "Serial",
+      "name": "Device name",
+      "description": "Description",
+      "status": "Status",
+      "plan": "Expected execute date",
+      "actual": "Actual execute date",
+      "planDate": "Expected execute date",
+      "planActual": "Actual execute date",
+      "action": "Action"
+    }
+  },
+  "createPlanList": {
+    "notification": {
+      "createSuccess": "Create plan successfully",
+      "createFail": "Create plan failed",
+      "confirmationSuccessed": "Confirm plan successfully",
+      "rejectionSuccessed": "Reject plan successfully",
+      "updateSuccess": "Update plan successfully",
+      "deleteSuccess": "Delete plan successfully"
+    },
+    "jobType": {
+      "install": "Install",
+      "maintainPeriod": "Periodic check",
+      "warning": "Error warning",
+      "request": "User request",
+      "maintain": "Maintenance"
+    },
+    "title": "Overall plan list",
+    "jobBtn": "Job",
+    "placeholder": {
+      "planCode": "Input template code",
+      "workType": "Select work type",
+      "expectedQuantity": "Input expected job quantity",
+      "serial": "Select serial",
+      "deviceGroup": "Select device group",
+      "device": "Select device",
+      "jobName": "Input job name",
+      "responsibleUser": "Select responsible user",
+      "description": "Input description"
+    },
+    "form": {
+      "hideData": "Hide data",
+      "showData": "Show data",
+      "updateFormTitle": "Update job",
+      "createForm": {
+        "createBtn": "Create job",
+        "createTitle": "Add job",
+        "deviceGroup": "Device group",
+        "jobDetail": "Job details",
+        "serial": "Serial",
+        "deviceName": "Device name",
+        "jobName": "Job name",
+        "jobType": "Job type",
+        "description": "Description",
+        "responsibleUser": "Responsible user",
+        "expectedDate": "Expected date",
+        "device": "Device"
+      },
+      "planCode": "Plan code",
+      "planName": "Plan name",
+      "time": "Time",
+      "totalPlanQuantity": "Total plan quantity",
+      "table": {
+        "assignUsers": "Responsible user",
+        "jobCode": "Job code",
+        "status": "Status",
+        "jobType": "Job type",
+        "planQuantity": "Plan quantity",
+        "overallPlan": "Overal plan",
+        "detailPlan": "Plan details",
+        "addType": "Add job type",
+        "addJob": "Add job",
+        "jobName": "Job name",
+        "serial": "Serial",
+        "deviceName": "Device name",
+        "description": "Description",
+        "expectedDate": "Expected execute date",
+        "actualDate": "Actual execute date",
+        "actualQuantity": "Actual quantity"
+      }
+    },
+    "status": {
+      "waiting": "Pending",
+      "rejected": "Reject",
+      "confirmed": "Confirmed"
+    },
+    "table": {
+      "code": "Plan code",
+      "name": "Plan name",
+      "time": "Time",
+      "planJobQuantity": "Plan job quantity",
+      "actualJobQuantity": "Actual job quantity",
+      "status": "Status"
+    }
+  },
+  "jobList": {
+    "notification": {
+      "updateSuccess": "Assign job successfully"
+    },
+    "title": "Job list",
+    "table": {
+      "workCode": "Job code",
+      "requestCode": "Request/warning code",
+      "workType": "Job type",
+      "requestName": "Request/warning name",
+      "performer": "Performer",
+      "serial": "Serial",
+      "devideName": "Device name",
+      "description": "Description",
+      "status": "Status",
+      "implementationSchedule": "Implementation schedule",
+      "action": "Action"
+    },
+    "button": {
+      "myTask": "My task",
+      "listView": "List View",
+      "ganttChart": "GanttChart",
+      "deviceButton": "Device",
+      "jobs": "Job"
+    },
+    "detail": {
+      "title": "Job details",
+      "status": "Status",
+      "workCode": "Job code",
+      "requestCode": "Warning code",
+      "requestName": "Warning name",
+      "description": "Description",
+      "workType": "Job type",
+      "piority": "Priority",
+      "serial": "Device serial",
+      "devideName": "Device name",
+      "expectDay": "Expected completion date",
+      "maintainTime": "Estimated maintenance time",
+      "planDay": "Expected execute date",
+      "actualDay": "Actual execute date",
+      "fromDay": "From date",
+      "toDay": "To date",
+      "maintainDetail": {
+        "title": "Actual maintenance information",
+        "maintainName": "Name",
+        "maintainType": "Maintenance type",
+        "maintainQuantity": "Quantity",
+        "maintainDescription": "Description"
+      },
+      "plan": "Plan"
+    },
+    "assign": {
+      "title": "Assign job",
+      "responsibleUser": "Responsible user",
+      "information": {
+        "factory": "Factory",
+        "workshop": "Workshop",
+        "usageUser": "User",
+        "address": "Address",
+        "phone": "Phone number",
+        "location": "Location"
+      },
+      "plan": "Plan"
+    },
+    "checklistDetail": {
+      "cardTitle": "Information details",
+      "title": "Title",
+      "description": "Category description",
+      "obligatory": "Mandatory",
+      "contentAfterCheck": "Content after checked",
+      "result": "Result",
+      "pass": "Passed",
+      "fail": "Not passed",
+      "checklistResult": {
+        "title": "Test result",
+        "fail": "Not passed",
+        "pass": "Passed"
+      },
+      "checklistConclude": {
+        "title": "Conclusion",
+        "continueMaintain": "Continue maintain",
+        "replace": "Replace"
+      }
+    }
+  },
+  "maintenanceParameter": {
+    "cautionTime": "Time for safety warning",
+    "title": "General maintenance parameter",
+    "saveTimeMessageSuccess": "Update safety warning time successfully",
+    "saveTimeMessageError": "Update safety warning time failed"
+  },
+  "roleManagement": {
+    "title": "User role management",
+    "selectDepartment": "Select department",
+    "selectRole": "Select role",
+    "role": "Role",
+    "updatePermissionSuccess": "Success"
+  },
+  "templateInstall": {
+    "title": "List installation template",
+    "codePlaceholer": "Input code",
+    "namePlaceholer": "Input name",
+    "descriptionTemplatePlaceholer": "Input template description",
+    "descriptionPlaceholer": "Input description",
+    "titlePlaceholer": "Input title",
+    "form": {
+      "create": "Create installation template",
+      "update": "Edit installation template",
+      "view": "Detail installation template",
+      "aleartTitle": "Title item of each installation template cannot be duplicated",
+      "field": {
+        "code": "Code",
+        "name": "Name",
+        "title": "Title",
+        "mandatory": "Mandatory",
+        "description": "Description"
+      }
+    },
+    "checkType": {
+      "passFail": "Pass-Fail"
+    },
+    "category": {
+      "code": "Code",
+      "name": "Name",
+      "description": "Description"
+    },
+    "delete": {
+      "title": "Delete installation template",
+      "confirmDetele": "Are you sure to delete installation template?"
+    },
+    "installListTable": "List installation categories",
+    "addRow": "Add installation categories",
+    "roleDetail": "Detail checkup",
+    "responsibleUser": "Responsible user",
+    "notification": {
+      "successCreate": "Create installation template successfully",
+      "successUpdate": "Edit installation template successfully",
+      "successDelete": "Delete installation template successfully"
+    },
+    "actionHistory": {
+      "created": "Created installation template group",
+      "updated": "Edited installation template group",
+      "delete": "Deleted installation template group"
+    }
+  },
+  "suppliesRequest": {
+    "title": "List supply requests",
+    "table": {
+      "code": "Code",
+      "name": "Name",
+      "deviceName": "Device name",
+      "teamName": "Team name",
+      "fullName": "Full name",
+      "supplyName": "Supply name",
+      "type": " Providers export?",
+      "status": "Status"
+    },
+    "actionHistory": {
+      "confirm": "Confirmed supply request",
+      "reject": "Rejected supply request"
+    },
+    "form": {
+      "addRow": "Add supplies",
+      "view": "Detail supply request",
+      "table": "Detail information of supply",
+      "notification": {
+        "createSucceed": "Create supply request successfully"
+      },
+      "field": {
+        "code": "Request code",
+        "jobCode": "Job code",
+        "name": "Request name",
+        "jobName": "Job name",
+        "requestedBy": "Requested by",
+        "team": "Team",
+        "receiveExpectedDate": "Expected receipt date",
+        "serial": "Serial",
+        "deviceName": "Device name",
+        "workCenter": "Work center",
+        "factory": "Factory",
+        "nameJob": "Job name",
+        "description": "Description",
+        "materialCode": "Supply code",
+        "materialName": "Supply name",
+        "materialType": "Supply type",
+        "materialUnit": "Unit",
+        "materialPrice": "Price",
+        "requireAmount": "Required amount"
+      },
+      "placeholder": {
+        "jobCode": "Select job code",
+        "receiveExpectedDate": "Choose expected receipt date",
+        "description": "Input description",
+        "name": "Input request name",
+        "requireAmount": "Input amount",
+        "materialCode": "Input supply code"
+      },
+      "detailSupplies": "Detail information of supply"
+    },
+    "status": {
+      "waiting": "Pending",
+      "rejected": "Reject",
+      "confirmed": "Confirm",
+      "completed": "Complete",
+      "waitingConfirm": "Waiting to confirm",
+      "waitingExport": "Waiting to export"
+    },
+    "type": {
+      "returnRequest": "No",
+      "request": "Yes"
+    },
+    "notification": {
+      "successReject": "Reject supply request successfully",
+      "successConfirm": "Confirm supply request successfully",
+      "successDelete": "Delete supply request successfully"
+    }
+  },
+  "attributeType": {
+    "title": "List attribute types",
+    "table": {
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "unit": "Unit"
+    },
+    "createBtn": "Add",
+    "form": {
+      "create": "Create attribute type",
+      "detail": "Detail attribute type",
+      "edit": "Edit attribute type",
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "unit": "Unit"
+    },
+    "notification": {
+      "deleteSuccess": "Delete attribute type successfully",
+      "createSuccess": "Create attribute type successfully",
+      "updateSuccess": "Edit attribute type successfully"
+    },
+    "modalDelete": {
+      "title": "Notification",
+      "description": "Are you sure to delete attribute type?"
+    }
+  },
+  "deviceStatus": {
+    "exportDate": "Exported date: ",
+    "title": "List device statuses",
+    "tooltipPassedQuantity": "The number of achieved products must be less than the produced quantity",
+    "status": {
+      "activating": "Active",
+      "stop": "Stop",
+      "error": "Error",
+      "off": "Shut down",
+      "maintenanceOff": "Maintenance off",
+      "using": "In use"
+    },
+    "placeholder": {
+      "date": "Select date",
+      "status": "Select status",
+      "input": "Input value",
+      "moName": "Select order",
+      "attributeFields": "Input value"
+    },
+    "notification": {
+      "updateSucceed": "Edit device status successfully",
+      "deleteSucceed": "Delete device status successfully",
+      "createSucceed": "Create device status successfully"
+    },
+    "table": {
+      "serial": "Serial",
+      "deviceName": "Device name",
+      "status": "Status",
+      "oee": "OEE(%)",
+      "date": "Date",
+      "active": "Active (minutes)",
+      "rest": "Rest (minutes)",
+      "time": "Time",
+      "stop": "Stop (times)",
+      "passedDevice": "Quantity of passed devices",
+      "manufacturedDevice": "Quantity of manufactured devices",
+      "moName": "Order name",
+      "dateErr": "Duplicated dates"
+    },
+    "form": {
+      "oee": "OEE",
+      "status": "Device status",
+      "serial": "Serial",
+      "deviceName": "Device name",
+      "tableTitle": "Active information",
+      "editButton": "Input information",
+      "activitiesInfo": "Active information",
+      "addInfo": "Add activities",
+      "dateFilter": "Date filter"
+    }
+  }
+}

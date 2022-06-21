@@ -934,7 +934,17 @@
     "deleteModalTitle": "Xóa nhà cung cấp",
     "deleteButton": "Xoá nhà cung cấp",
     "action": "Hành động",
-    "supplierCapacity": "Năng lực nhà cung cấp"
+    "supplierCapacity": "Năng lực nhà cung cấp",
+    "commonInfo": "Thông tin chung",
+    "transaction": "Giao dịch đặt hàng",
+    "itemCode": "Mã sản phẩm",
+    "itemName": "Tên sản phẩm",
+    "unit": "Đơn vị",
+    "quantityAverage": "SL cung cấp trung bình",
+    "timeAverage": "Thời gian cung cấp trung bình",
+    "listItemAverage": "Danh sách sản phẩm cung cấp ",
+    "addItem": "Thêm sản phẩm",
+    "updateStatusPayment": "Cập nhật trạng thái thanh toán"
   },
   "inventoryLimit": {
     "title": "Danh sách cài đặt tồn kho",

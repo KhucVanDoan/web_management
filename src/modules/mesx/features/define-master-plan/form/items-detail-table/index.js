@@ -21,9 +21,7 @@ const ItemsDetailTable = (props) => {
     data: { saleOrderDetailList },
     actions,
   } = useSaleOrder()
-  const {
-    actions: bomActions
-  } = useBOM()
+  const { actions: bomActions } = useBOM()
   const {
     data: { masterPlanDetails },
   } = useDefineMasterPlan()
@@ -56,6 +54,9 @@ const ItemsDetailTable = (props) => {
       headerName: t('defineMasterPlan.itemDetail.routingName'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        return params?.row?.routingName
+      },
     },
     {
       field: 'saleOrderName',
@@ -121,16 +122,20 @@ const ItemsDetailTable = (props) => {
       align: 'left',
       sortable: false,
       renderCell: (params) => {
-        return params.row?.itemTypeCode !== MATERIAL_CODE && (
-          <Checkbox
-            defaultChecked={params.row?.isProductionObject}
-            checked={productionObjectByItemId[params.row?.id]}
-            onChange={(e) => changeSaleOrdersObject(params.row?.id, e.target.checked)}
-            disabled={disabledProductionObjects[params.row?.id] || isView}
-          />
+        return (
+          params.row?.itemTypeCode !== MATERIAL_CODE && (
+            <Checkbox
+              defaultChecked={params.row?.isProductionObject}
+              checked={productionObjectByItemId[params.row?.id]}
+              onChange={(e) =>
+                changeSaleOrdersObject(params.row?.id, e.target.checked)
+              }
+              disabled={disabledProductionObjects[params.row?.id] || isView}
+            />
+          )
         )
       },
-    }
+    },
   ]
 
   useEffect(() => {
@@ -141,7 +146,6 @@ const ItemsDetailTable = (props) => {
       actions.resetSaleOrderListState()
     }
   }, [soId])
-
   useEffect(() => {
     getItemsInSo(saleOrderDetailList)
     if (isEmpty(soId)) {
@@ -152,10 +156,14 @@ const ItemsDetailTable = (props) => {
   useEffect(() => {
     // set soId when update
     if (masterPlanDetails?.saleOrders && (isUpdate || cloneId || isView)) {
-      const parsedItems = masterPlanDetails?.saleOrders.map((saleOrder) => (
-        parseItemsInSaleOrder(saleOrder.items, saleOrder.id)
-      )).flat()
-      setProductionObjectByItemId(mapValues(keyBy(parsedItems, 'id'), 'isProductionObject'))
+      const parsedItems = masterPlanDetails?.saleOrders
+        .map((saleOrder) =>
+          parseItemsInSaleOrder(saleOrder.items, saleOrder.id),
+        )
+        .flat()
+      setProductionObjectByItemId(
+        mapValues(keyBy(parsedItems, 'id'), 'isProductionObject'),
+      )
     }
   }, [masterPlanDetails])
 
@@ -182,7 +190,6 @@ const ItemsDetailTable = (props) => {
   const getItemsInSo = (saleOrders = []) => {
     const itemsInSo = []
     saleOrders.forEach((saleOrder) => {
-      const { boq } = saleOrder
       saleOrder?.saleOrderDetails?.forEach((saleOrderDetail) => {
         const { item, quantity, actualQuantity } = saleOrderDetail
         itemsInSo.push({
@@ -194,9 +201,9 @@ const ItemsDetailTable = (props) => {
           quantityActual: actualQuantity,
           id: item?.bom?.id,
           bomName: item?.bom?.name,
-          routingName: boq?.code,
+          routingName: item?.bom?.routing?.code,
           itemId: item?.itemId,
-          isProductionObject: true
+          isProductionObject: true,
         })
       })
     })
@@ -216,9 +223,10 @@ const ItemsDetailTable = (props) => {
         unit: bom.item?.itemUnitName,
         itemType: bom.item?.itemType?.name,
         itemTypeCode: bom.item?.itemType?.code,
-        isProductionObject: productionObjectByItemId[id] !== undefined
-          ? productionObjectByItemId[id]
-          : true
+        isProductionObject:
+          productionObjectByItemId[id] !== undefined
+            ? productionObjectByItemId[id]
+            : true,
       }
       if (!isEmpty(bom.subBoms)) {
         newItem.subBom = [...changeToObjectCollapse(bom.subBoms, id)]
@@ -237,8 +245,8 @@ const ItemsDetailTable = (props) => {
             ...item,
             subBom: changeToObjectCollapse(
               response[0]?.subBoms,
-              `${response[0]?.itemId}-${item.saleOrderId}`
-            )
+              `${response[0]?.itemId}-${item.saleOrderId}`,
+            ),
           }
         } else {
           return item
@@ -249,12 +257,18 @@ const ItemsDetailTable = (props) => {
       let newProductionObjectState = { ...productionObjectByItemId }
       newItemsDetail.forEach((item) => {
         const parsedItem = mapValues(
-          keyBy(parseItemsInSaleOrder(item.subBom, `${item.itemId}-${item.saleOrderId}`), 'id'),
-          'isProductionObject'
+          keyBy(
+            parseItemsInSaleOrder(
+              item.subBom,
+              `${item.itemId}-${item.saleOrderId}`,
+            ),
+            'id',
+          ),
+          'isProductionObject',
         )
         newProductionObjectState = {
           ...newProductionObjectState,
-          ...parsedItem
+          ...parsedItem,
         }
       })
       setProductionObjectByItemId({ ...newProductionObjectState })
@@ -265,13 +279,18 @@ const ItemsDetailTable = (props) => {
     const itemsBySaleOrder = groupBy(itemsDetail, 'saleOrderId')
     const result = Object.keys(itemsBySaleOrder).map((saleOrder) => ({
       id: Number(saleOrder),
-      items: mapItemResults(itemsBySaleOrder[saleOrder], id, value)
+      items: mapItemResults(itemsBySaleOrder[saleOrder], id, value),
     }))
     const newProductionObjectState = mapValues(
-      keyBy(result.map((saleOrder) => (
-        parseItemsInSaleOrder(saleOrder.items, saleOrder.id)
-      )).flat(), 'id'),
-      'isProductionObject'
+      keyBy(
+        result
+          .map((saleOrder) =>
+            parseItemsInSaleOrder(saleOrder.items, saleOrder.id),
+          )
+          .flat(),
+        'id',
+      ),
+      'isProductionObject',
     )
     setProductionObjectByItemId(newProductionObjectState)
 
@@ -292,16 +311,17 @@ const ItemsDetailTable = (props) => {
     return items
       .filter((item) => item.itemTypeCode !== MATERIAL_CODE)
       .map((item) => {
-        let isProductionObject = productionObjectByItemId[item.id] !== undefined
-          ? productionObjectByItemId[item.id]
-          : true
+        let isProductionObject =
+          productionObjectByItemId[item.id] !== undefined
+            ? productionObjectByItemId[item.id]
+            : true
         if (item.id === id || item.id.toString().includes(id)) {
           isProductionObject = value
         }
         const itemResult = {
           itemId: item.itemId,
           isProductionObject,
-          subBoms: []
+          subBoms: [],
         }
         if (!isEmpty(item.subBom)) {
           itemResult.subBoms = [...mapItemResults(item.subBom, id, value)]
