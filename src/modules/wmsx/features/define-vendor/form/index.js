@@ -96,33 +96,16 @@ const DefineVendorForm = () => {
       fax: values?.fax,
       address: values?.address,
       vendorAbilities: values?.vendorAbilities?.map((item) => ({
-        itemId: item?.itemId?.itemId,
+        itemId: item?.itemId?.itemId || item?.itemId?.id,
         quantity: +item?.quantity,
         deliveryTime: +item?.quantity,
       })),
       description: values?.description || '',
     }
     if (mode === MODAL_MODE.CREATE) {
-      params.vendorAbilities = cloneId
-        ? values?.vendorAbilities?.map((item) => ({
-            itemId: item?.itemId?.itemId,
-            quantity: +item?.quantity,
-            deliveryTime: +item?.quantity,
-          }))
-        : values?.vendorAbilities?.map((item) => ({
-            itemId: item?.itemId?.id,
-            quantity: +item?.quantity,
-            deliveryTime: +item?.quantity,
-          }))
       actions.createVendor(params, backToList)
     } else {
-      params.id = +id
-      params.vendorAbilities = values?.vendorAbilities?.map((item) => ({
-        itemId: item?.itemId?.itemId,
-        quantity: +item?.quantity,
-        deliveryTime: +item?.quantity,
-      }))
-      actions.updateVendor(params, backToList)
+      actions.updateVendor({ ...params, id: Number(id) }, backToList)
     }
   }
   const getBreadcrumb = () => {
@@ -316,7 +299,7 @@ const DefineVendorForm = () => {
                   </Box>
 
                   {/* tab 3 */}
-                  <TransactionVendor />
+                  <TransactionVendor id={id} />
                 </Tabs>
               </Grid>
             </Grid>
