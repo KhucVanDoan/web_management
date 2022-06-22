@@ -25,7 +25,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '../../constants'
+import { ORDER_STATUS, PRODUCTION_ORDER_STATUS_OPTIONS } from '../../constants'
 import useProductionOrder from '../../redux/hooks/useProductionOrder'
 import FilterForm from './filter'
 const breadcrumbs = [
@@ -130,7 +130,7 @@ function ProductionOrder() {
         const { status } = params.row
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={PRODUCTION_ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />

@@ -150,9 +150,37 @@
     "soExportEdit": "Sửa lệnh xuất theo đơn bán",
     "soExportDetail": "Chi tiết lệnh xuất theo đơn bán",
     "warehouseDesign": "Thiết kế kho",
-    "typeServiceDetail": "Chi tiết loại dịch vụ",
-    "typeServiceCreate": "Tạo loại dịch vụ",
-    "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
+    "locationSetting": "Thiết lập vị trí",
+    "locationSettingCreate": "Tạo thiết lập vị trí",
+    "locationSettingDetail": "Chi tiết thiết lập vị trí",
+    "locationSettingEdit": "Sửa thiết lập vị trí"
+  },
+  "locationSetting": {
+    "title": "Dạnh sách thiết lập vị trí",
+    "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",
+    "type": "Loại",
+    "unit": "Đơn vị lưu kho",
+    "deleteTitle": "Xóa vị trí",
+    "confirmDelete": "Bạn có chắc chắn muốn xóa vị trí này?",
+    "status": "Trạng thái",
+    "settingCode": "Mã thiết lập",
+    "settingName": "Tên thiết lập",
+    "cantBeSeparated": "Lưu kho hàng chẵn",
+    "detailTableTitle": "Vị trí",
+    "description": "Mô tả",
+    "target": "Đối tượng",
+    "item": {
+      "warehouse": "Kho",
+      "area": "Khu vực",
+      "shelf": "Kệ",
+      "floor": "Tầng",
+      "addItem": "Thêm vị trí"
+    },
+    "descriptionInput": "Nhập mô tả"
+  },
+  "locationType": {
+    "even": "Chẵn",
+    "odd": "Lẻ"
   },
   "dashboard": {
     "chart": {
@@ -829,6 +857,21 @@
     "collected": "Chờ xuất kho",
     "exported": "Hoàn thành"
   },
+  "InventoryCalendarStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thục hiện",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
+  "importManufacturingOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
   "warehouseTransfer": {
     "orderNumber": "#",
     "1step": "Chuyển kho 1 bước",
@@ -1319,8 +1362,7 @@
     "executionDay": "Ngày kiểm kê dự kiến",
     "planExecutionDay": "Ngày thực hiện",
     "confirmedAt": "Ngày xác nhận",
-    "description": "Mô tả",
-    "descriptionInput": "Mô tả về lệnh kiểm kê",
+    "description": "Mô tả về lệnh kiểm kê",
     "itemsDetails": "Chi tiết sản phẩm",
     "approveInventory": "Chi tiết phiếu kiểm kê",
     "transactionList": "Chi tiết giao dịch",
@@ -1332,10 +1374,25 @@
     "confirmInventoryCalendarSuccess": "Xác nhận lệnh kiểm kê thành công",
     "deleteInventoryCalendarSuccess": "Xoá lệnh kiểm kê thành công",
     "rejectInventoryCalendarSuccess": "Từ chối lệnh kiểm kê thành công",
-    "confirmDelete": "Bạn có chắc chắn muốn xóa lệnh kiểm kê này không?",
-    "inventoryCalendarDelete": "Xóa lệnh kiểm kê",
+    "deleteConfirm": "Bạn có chắc chắn muốn xóa lệnh kiểm kê này không?",
+    "deleteModalTitle": "Xóa lệnh kiểm kê",
     "delete": "Xóa lệnh",
-    "movementList": "Danh sách giao dịch"
+    "movementList": "Danh sách giao dịch",
+    "inventoryType": "Loại kiểm kê",
+    "fullInventory": "Kiểm kê toàn kho",
+    "partialInventory": "Kiểm kê một phần",
+    "blindCounts": "Kiểm kê mù",
+    "items": {
+      "tableTitle": "Danh sách sản phẩm, vị trí",
+      "addButton": "Thêm sản phẩm, vị trí",
+      "warehouseName": "Tên kho",
+      "warehouseSectorName": "Tên khu vực",
+      "warehouseShelfName": "Tên kệ",
+      "warehousePalletName": "Tên tầng",
+      "itemCode": "Mã sản phẩm",
+      "itemName": "Tên sản phẩm",
+      "requireWarehouseSectorOrItemCode": "Bắt buộc chọn tên khu vực hoặc mã sản phẩm"
+    }
   },
   "warehouseArea": {
     "title": "Danh sách khu vực kho",

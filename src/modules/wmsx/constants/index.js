@@ -353,6 +353,24 @@ export const ORDER_TYPE = [
   },
 ]
 
+export const LOCATION_SETTING_TYPE = {
+  EVEN: 0,
+  ODD: 1,
+}
+
+export const LOCATION_SETTING_TYPE_OPTION = [
+  {
+    id: 0,
+    text: 'locationType.even',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'locationType.odd',
+    color: 'confirmed',
+  },
+]
+
 export const TRANSFER_STATUS = {
   PENDING: 0,
   COMPLETED: 2,
@@ -593,31 +611,85 @@ export const INVENTORY_CALENDAR_STATUS_MAP = {
 export const INVENTORY_CALENDAR_STATUS_OPTIONS = [
   {
     id: 1,
-    text: 'orderStatus.pending',
+    text: 'InventoryCalendarStatus.pending',
     color: 'pending',
   },
   {
     id: 2,
-    text: 'orderStatus.confirmed',
+    text: 'InventoryCalendarStatus.confirmed',
     color: 'confirmed',
   },
   {
     id: 5,
-    text: 'orderStatus.inProgress',
+    text: 'InventoryCalendarStatus.inProgress',
     color: 'inProgress',
   },
   {
     id: 4,
-    text: 'orderStatus.completed',
+    text: 'InventoryCalendarStatus.completed',
     color: 'completed',
   },
   {
     id: 3,
-    text: 'orderStatus.rejected',
+    text: 'InventoryCalendarStatus.rejected',
     color: 'rejected',
   },
 ]
 
+export const IMPORT_MANUFACTURNG_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'importManufacturingOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'importManufacturingOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'importManufacturingOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'importManufacturingOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'importManufacturingOrderStatus.rejected',
+    color: 'rejected',
+  },
+]
+export const PRODUCTION_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'importManufacturingOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'importManufacturingOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'importManufacturingOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 4,
+    text: 'importManufacturingOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'importManufacturingOrderStatus.rejected',
+    color: 'rejected',
+  },
+]
 export const DEFINE_BILL_STATUS = {
   PENDING: 0,
   WAIT_FOR_PAY: 1,
@@ -923,3 +995,29 @@ export const STAGES_OPTION = {
   EXO: 11,
 }
 export const DISTANCE_BETWEEN_SECTORS = 5
+
+export const INVENTORY_TYPE = {
+  FULL_INVENTORY: 0,
+  PARTIAL_INVENTORY: 1,
+  BLIND_COUNTS: 2,
+}
+
+export const INVENTORY_TYPE_MAP = {
+  [INVENTORY_TYPE.FULL_INVENTORY]: 'inventoryCalendar.fullInventory',
+  [INVENTORY_TYPE.PARTIAL_INVENTORY]: 'inventoryCalendar.partialInventory',
+  [INVENTORY_TYPE.BLIND_COUNTS]: 'inventoryCalendar.blindCounts',
+}
+export const INVENTORY_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'inventoryCalendar.fullInventory',
+  },
+  {
+    id: 1,
+    text: 'inventoryCalendar.partialInventory',
+  },
+  {
+    id: 2,
+    text: 'inventoryCalendar.blindCounts',
+  },
+]

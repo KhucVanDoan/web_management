@@ -662,4 +662,22 @@ export const ROUTE = {
     PATH: '/wmsx/warehouse-design/',
     TITLE: 'warehouseDesign',
   },
+  ESTABLISH_LOCATION: {
+    LIST: {
+      PATH: '/wmsx/location-setting',
+      TITLE: 'locationSetting',
+    },
+    CREATE: {
+      PATH: '/wmsx/location-setting/create',
+      TITLE: 'locationSettingCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/location-setting/:id/detail',
+      TITLE: 'locationSettingDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/location-setting/:id/edit',
+      TITLE: 'locationSettingEdit',
+    },
+  },
 }
