@@ -46,13 +46,14 @@ function ItemSettingTable(props) {
       handleChangeItem(saleOrderDetails?.saleOrderDetails[0]?.itemId)
   }, [saleOrderDetails?.saleOrderDetails])
 
-  const handleChangeItem = async (val) => {
+  const handleChangeItem = async (val, index, setFieldValue) => {
     if (val) {
       const res = await getLotNumberListSOExportApi({
         itemIds: val,
       })
       setLotNumberList(res.data)
     }
+    setFieldValue(`items[${index}].qcCheck`, false)
   }
 
   const getItemObject = (id) => {
@@ -65,7 +66,7 @@ function ItemSettingTable(props) {
       limit: 20,
       filter: convertFilterParams({
         itemId: itemId,
-        stageId: STAGES_OPTION.PO_IMPORT,
+        stageId: STAGES_OPTION.SO_EXPORT,
       }),
     }
     actions.getItemQualityPoint(params, (data) => {
@@ -121,7 +122,7 @@ function ItemSettingTable(props) {
             options={saleOrderDetails?.saleOrderDetails}
             getOptionLabel={(opt) => opt?.item?.name}
             getOptionValue={(option) => option?.itemId || ''}
-            onChange={(val) => handleChangeItem(val)}
+            onChange={(val) => handleChangeItem(val, index, setFieldValue)}
           />
         )
       },

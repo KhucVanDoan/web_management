@@ -402,6 +402,9 @@ const ImportManufacturingOrderForm = () => {
                       getOptionValue={(opt) => opt?.id}
                       required
                       disabled={values?.requestId}
+                      onChange={() => {
+                        setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
