@@ -14,20 +14,18 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
   const isView = mode === MODAL_MODE.DETAIL
   const getColumns = () => {
     return [
-      // {
-      //   field: 'id',
-      //   headerName: '#',
-      //   sortable: false,
-      //   align: 'center',
-      //   renderCell: (_, index) => {
-      //     return index
-      //   },
-      // },
+      {
+        field: 'id',
+        headerName: '#',
+        sortable: false,
+        renderCell: (_, index) => {
+          return index
+        },
+      },
       {
         field: 'itemCode',
         headerName: t('defineVendor.itemCode'),
         width: 200,
-        align: 'center',
         renderCell: (params, index) => {
           const { id } = params.row
           const vendorCapacityObject = vendorAbilities?.find((x) => x.id === id)
@@ -58,7 +56,6 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
       {
         field: 'itemName',
         headerName: t('defineVendor.itemName'),
-        align: 'center',
         width: 200,
         renderCell: (params, index) => {
           const { id } = params.row
@@ -76,7 +73,6 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
       {
         field: 'unit',
         headerName: t('defineVendor.unit'),
-        align: 'center',
         width: 200,
         renderCell: (params, index) => {
           const { id } = params.row
@@ -95,7 +91,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
         field: 'quantityAverage',
         headerName: t('defineVendor.quantityAverage'),
         width: 200,
-        align: 'center',
+        align: 'right',
         renderCell: (params, index) => {
           const { id } = params.row
           const vendorCapacityObject = vendorAbilities?.find((x) => x.id === id)
@@ -110,7 +106,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
         field: 'timeAverage',
         headerName: t('defineVendor.timeAverage'),
         width: 200,
-        align: 'center',
+        align: 'right',
         renderCell: (params, index) => {
           const { id } = params.row
           const vendorCapacityObject = vendorAbilities?.find((x) => x.id === id)

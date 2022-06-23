@@ -182,6 +182,11 @@
     "even": "Chẵn",
     "odd": "Lẻ"
   },
+  "paymentStatus": {
+    "wait": "Chờ thanh toán",
+    "part": "Thanh toán 1 phần",
+    "paid": "Đã thanh toán"
+  },
   "dashboard": {
     "chart": {
       "viewMore": "Xem đầy đủ",
