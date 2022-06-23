@@ -152,8 +152,8 @@ function ItemSettingTableDetail(props) {
       headerName: t('productionOrder.item.qcCriteria'),
       width: 180,
       renderCell: (params) => {
-        const { qcCriteriaId } = params.row
-        return qcCriteriaId
+        const { qcCriteria } = params.row
+        return qcCriteria
       },
     },
   ]

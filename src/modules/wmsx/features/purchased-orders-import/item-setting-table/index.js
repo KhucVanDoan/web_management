@@ -55,7 +55,6 @@ function ItemSettingTable(props) {
     actions.getItems({})
     actionsPackage.searchPackages()
   }, [])
-
   useEffect(() => {
     const itemIds = items?.map((item) => item.itemId)
     actionsPurchasedOrdersImport.getLotNumberList({
@@ -182,9 +181,10 @@ function ItemSettingTable(props) {
               const isSelectedLotNum = lotNumberList
                 ?.find((item) => item.itemId === itemId)
                 ?.lotNumbers?.find((lot) => lot.lotNumber === val)
-
-              if (isSelectedLotNum?.length === 10) {
+              if (isSelectedLotNum) {
                 setFieldValue(`items[${index}].mfg`, isSelectedLotNum.mfg)
+              } else {
+                setFieldValue(`items[${index}].mfg`, [])
               }
             }}
           />
