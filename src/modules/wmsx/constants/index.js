@@ -353,6 +353,24 @@ export const ORDER_TYPE = [
   },
 ]
 
+export const PAYMENT_STATUS_OPTION = [
+  {
+    id: 0,
+    text: 'paymentStatus.wait',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'paymentStatus.part',
+    color: 'inProgress',
+  },
+  {
+    id: 2,
+    text: 'paymentStatus.paid',
+    color: 'confirmed',
+  },
+]
+
 export const LOCATION_SETTING_TYPE = {
   EVEN: 0,
   ODD: 1,
