@@ -20,6 +20,7 @@ import {
   CODE_SETTINGS,
   QC_CHECK,
   ORDER_STATUS_OPTIONS,
+  ORDER_STATUS,
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
@@ -35,7 +36,7 @@ const POForm = () => {
   const routeMatch = useRouteMatch()
 
   const {
-    data: { poImportDetails, isLoading, purchasedOrderNotCreatePOImpList },
+    data: { poImportDetails, isLoading, poImportList },
     actions,
   } = usePurchasedOrdersImport()
 
@@ -52,11 +53,11 @@ const POForm = () => {
     commonActions.getWarehouses({})
     commonActions.getItems({})
     commonActions.getItemQualityPoint({})
-    actions.getPurchasedOrderNotCreatePOimp({
+    actions.searchPOImports({
       filter: JSON.stringify([
         {
-          column: 'poHaveNotPoimp',
-          text: [MODAL_MODE.CREATE].includes(mode) ? '' : params?.id,
+          column: 'status',
+          text: [ORDER_STATUS.CONFIRMED, ORDER_STATUS.IN_PROGRESS].join(','),
         },
       ]),
     })
@@ -339,7 +340,7 @@ const POForm = () => {
                       name="purchasedOrderId"
                       label={t('purchasedOrderImport.codePO')}
                       placeholder={t('purchasedOrderImport.codePO')}
-                      options={purchasedOrderNotCreatePOImpList}
+                      options={poImportList}
                       getOptionLabel={(opt) => t(opt.code) || ''}
                       getOptionValue={(opt) => opt?.id || ''}
                       onChange={(id) => onChangePo(id, setFieldValue)}
