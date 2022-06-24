@@ -60,6 +60,7 @@ const POForm = () => {
           text: [ORDER_STATUS.CONFIRMED, ORDER_STATUS.IN_PROGRESS].join(','),
         },
       ]),
+      isGetAll: 1,
     })
   }, [])
   const initCode = (domainName) => {
