@@ -25,6 +25,7 @@ import {
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import ItemSettingTable from '../item-setting-table'
 import { schema } from './schema'
@@ -36,9 +37,14 @@ const POForm = () => {
   const routeMatch = useRouteMatch()
 
   const {
-    data: { poImportDetails, isLoading, poImportList },
+    data: { poImportDetails, isLoading },
     actions,
   } = usePurchasedOrdersImport()
+
+  const {
+    data: { purchasedOrderList },
+    actions: actionPO,
+  } = usePurchasedOrder()
 
   const {
     data: { warehouseList, itemQualityPoint },
@@ -50,18 +56,16 @@ const POForm = () => {
   const [itemsFilter, setItemsFilter] = useState([])
 
   useEffect(() => {
+    const params = {
+      filter: convertFilterParams({
+        status: [ORDER_STATUS.CONFIRMED, ORDER_STATUS.IN_PROGRESS].join(','),
+      }),
+      isGetAll: 1,
+    }
     commonActions.getWarehouses({})
     commonActions.getItems({})
     commonActions.getItemQualityPoint({})
-    actions.searchPOImports({
-      filter: JSON.stringify([
-        {
-          column: 'status',
-          text: [ORDER_STATUS.CONFIRMED, ORDER_STATUS.IN_PROGRESS].join(','),
-        },
-      ]),
-      isGetAll: 1,
-    })
+    actionPO.searchPurchasedOrders(params)
   }, [])
   const initCode = (domainName) => {
     const domain = CODE_SETTINGS[domainName]
@@ -341,7 +345,7 @@ const POForm = () => {
                       name="purchasedOrderId"
                       label={t('purchasedOrderImport.codePO')}
                       placeholder={t('purchasedOrderImport.codePO')}
-                      options={poImportList}
+                      options={purchasedOrderList}
                       getOptionLabel={(opt) => t(opt.code) || ''}
                       getOptionValue={(opt) => opt?.id || ''}
                       onChange={(id) => onChangePo(id, setFieldValue)}
