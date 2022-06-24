@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 
 import { IconButton } from '@mui/material'
-import { first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import Status from '~/components/Status'
 import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import { ROUTE } from '~/modules/database/routes/config'
+import { PAYMENT_STATUS_OPTION } from '~/modules/wmsx/constants'
+import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   convertFilterParams,
   convertSortParams,
@@ -46,6 +48,10 @@ function TransactionVendor({ id }) {
     data: { purchasedOrderList, total },
     actions,
   } = usePurchasedOrder()
+
+  const {
+    data: { vendorDetails },
+  } = useDefineVendor()
 
   const columns = [
     {
@@ -106,6 +112,16 @@ function TransactionVendor({ id }) {
       field: 'statusPay',
       headerName: t('mesx:purchasedOrder.payStatus'),
       width: 150,
+      renderCell: (params) => {
+        const { paymentStatus } = params.row
+        return (
+          <Status
+            options={PAYMENT_STATUS_OPTION}
+            value={paymentStatus}
+            variant="text"
+          />
+        )
+      },
     },
     {
       field: 'customer',
@@ -153,17 +169,10 @@ function TransactionVendor({ id }) {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
-  const totalDebt = purchasedOrderList
-    ?.map((item) => first(item?.purchasedOrderDetail))
-    ?.reduce((acc, cur) => {
-      return acc + cur?.quantity * cur?.price
-    }, 0)
-    .toFixed(0)
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 
   return (
     <DataTable
-      title={`Tổng công nợ: ${totalDebt} VNĐ`}
+      title={`Tổng công nợ: ${vendorDetails?.totalMoney} VNĐ`}
       rows={purchasedOrderList}
       pageSize={pageSize}
       page={page}
