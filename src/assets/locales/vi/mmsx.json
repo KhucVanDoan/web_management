@@ -74,6 +74,7 @@
     "device": "Thiết bị"
   },
   "menu": {
+    "mmsx": "MMSX",
     "dashboard": "Dashboard",
     "suppliesCategory": "Định nghĩa nhóm vật tư",
     "supplies": "Định nghĩa vật tư phụ tùng",
