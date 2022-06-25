@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
   const handleSubmit = (values) => {
     const params = {
-      code: urlSearchParams?.code?.trim(),
+      code: urlSearchParams?.code,
       email: urlSearchParams?.email,
       password: values.password,
     }
