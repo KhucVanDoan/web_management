@@ -93,6 +93,9 @@ import {
   TransactionDetail as PurchasedOrdersImportTransactionDetail,
 } from '../features/purchased-orders-import/transactions'
 import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
+import ReturnOrderDetail from '../features/return-order/detail'
+import ReturnOrderForm from '../features/return-order/form'
+import ReturnOrder from '../features/return-order/list'
 import SOExport from '../features/so-export'
 import SOExportDetail from '../features/so-export/detail'
 import SOExportForm from '../features/so-export/form'
@@ -492,6 +495,32 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.RETURN_ORDER.LIST.TITLE,
+        path: ROUTE.RETURN_ORDER.LIST.PATH,
+        component: ReturnOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.RETURN_ORDER.CREATE.TITLE,
+            path: ROUTE.RETURN_ORDER.CREATE.PATH,
+            component: ReturnOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.DETAIL.TITLE,
+            path: ROUTE.RETURN_ORDER.DETAIL.PATH,
+            component: ReturnOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.EDIT.TITLE,
+            path: ROUTE.RETURN_ORDER.EDIT.PATH,
+            component: ReturnOrderForm,
             isInSidebar: false,
           },
         ],

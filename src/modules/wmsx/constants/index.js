@@ -1039,3 +1039,68 @@ export const INVENTORY_TYPE_OPTIONS = [
     text: 'inventoryCalendar.blindCounts',
   },
 ]
+
+export const LETTER_TYPE = {
+  PAY_SUPPLIER: 0,
+  PAY_CUSTOMER: 1,
+}
+
+export const LETTER_TYPE_MAP = {
+  [LETTER_TYPE.PAY_SUPPLIER]: 'returnOrder.paySupplier',
+  [LETTER_TYPE.PAY_CUSTOMER]: 'returnOrder.payCustomer',
+}
+
+export const LETTER_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'returnOrder.paySupplier',
+  },
+  {
+    id: 1,
+    text: 'returnOrder.payCustomer',
+  },
+]
+
+export const RETURN_ORDER_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  IN_PROGRESS: 4,
+  COMPLETED: 3,
+  REJECTED: 2,
+}
+
+export const RETURN_ORDER_STATUS_MAP = {
+  [RETURN_ORDER_STATUS.PENDING]: 'returnOrderStatus.pending',
+  [RETURN_ORDER_STATUS.CONFIRMED]: 'returnOrderStatus.confirmed',
+  [RETURN_ORDER_STATUS.IN_PROGRESS]: 'returnOrderStatus.inProgress',
+  [RETURN_ORDER_STATUS.COMPLETED]: 'returnOrderStatus.completed',
+  [RETURN_ORDER_STATUS.REJECTED]: 'returnOrderStatus.rejected',
+}
+
+export const RETURN_ORDER_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'returnOrderStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'returnOrderStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 4,
+    text: 'returnOrderStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'returnOrderStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 2,
+    text: 'returnOrderStatus.rejected',
+    color: 'rejected',
+  },
+]

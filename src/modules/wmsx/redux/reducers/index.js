@@ -32,6 +32,7 @@ import movementManagement from './movements'
 import productionOrder from './production-order'
 import purchasedOrdersImport from './purchased-orders-import'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
+import returnOrder from './return-order'
 import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
@@ -90,4 +91,5 @@ export default combineReducers({
   soExport,
   warehouseDesign,
   locationSetting,
+  returnOrder,
 })

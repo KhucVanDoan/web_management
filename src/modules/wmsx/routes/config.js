@@ -6,7 +6,6 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
-
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },
@@ -16,7 +15,6 @@ export const ROUTE = {
   RENT_WAREHOUSE_COST_MANAGEMENT: {
     TITLE: 'rentWarehouseCostManagement',
   },
-
   INVENTORY: {
     LIST: {
       PATH: '/wmsx/inventory',
@@ -678,6 +676,24 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/location-setting/:id/edit',
       TITLE: 'locationSettingEdit',
+    },
+  },
+  RETURN_ORDER: {
+    LIST: {
+      PATH: '/wmsx/return-order',
+      TITLE: 'returnOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/return-order/create',
+      TITLE: 'returnOrderCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/return-order/:id/detail',
+      TITLE: 'returnOrderDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/return-order/:id/edit',
+      TITLE: 'returnOrderEdit',
     },
   },
 }
