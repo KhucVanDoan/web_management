@@ -30,6 +30,10 @@ export const GET_MO_MATERIAL_PLAN_DETAIL_SUCCESS =
   'WMSX_GET_MO_MATERIAL_PLAN_DETAIL_SUCCESS'
 export const GET_MO_MATERIAL_PLAN_DETAIL_FAILED =
   'WMSX_GET_MO_MATERIAL_PLAN_DETAIL_FAILED'
+
+export const GET_PALLETS_START = 'WMSX_GET_PALLETS_START'
+export const GET_PALLETS_SUCCESS = 'WMSX_GET_PALLETS_SUCCESS'
+export const GET_PALLETS_FAILED = 'WMSX_GET_PALLETS_FAILED'
 /**
  * Get device request
  * @param {int} payload
@@ -250,6 +254,28 @@ export function getMoMaterialPlanDetailFailed() {
   }
 }
 
+export function getPallets(payload, onSuccess, onError) {
+  return {
+    type: GET_PALLETS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getPalletsSuccess(payload) {
+  return {
+    type: GET_PALLETS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getPalletsFailed() {
+  return {
+    type: GET_PALLETS_FAILED,
+  }
+}
+
 export default {
   getItems,
   getItemsSuccess,
@@ -269,4 +295,7 @@ export default {
   getMoMaterialPlanDetail,
   getMoMaterialPlanDetailSuccess,
   getMoMaterialPlanDetailFailed,
+  getPallets,
+  getPalletsSuccess,
+  getPalletsFailed,
 }
