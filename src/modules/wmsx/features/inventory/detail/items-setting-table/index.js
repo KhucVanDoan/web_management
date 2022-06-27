@@ -54,7 +54,7 @@ const ItemSettingTable = ({ items }) => {
         warehouseShelfName: item?.warehouseShelf?.name,
         warehousePalletName: item?.warehouseShelfFloor?.name,
         lotNumber: item?.lotNumber,
-        packageCode: item?.packages.map((pk) => pk.code).join(','),
+        packageCode: item?.packages?.map((pk) => pk.code).join(','),
         inventoriesQuantity: +item?.actualQuantity,
         planQuantity: +item?.planQuantity,
         itemUnitId: item?.itemUnitId,

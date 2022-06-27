@@ -17,7 +17,13 @@ import useDefineWarehouseShelf from '~/modules/wmsx/redux/hooks/useDefineWarehou
 import useWarehouseArea from '~/modules/wmsx/redux/hooks/useWarehouseArea'
 import { scrollToBottom } from '~/utils'
 
-function ItemSettingTable({ items, mode, arrayHelpers, values }) {
+function ItemSettingTable({
+  items,
+  mode,
+  arrayHelpers,
+  values,
+  setFieldValue,
+}) {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
 
@@ -97,6 +103,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.warehouseSectorName?.id
               }
+              onChange={() => setFieldValue('warehouseShelfName', null)}
             />
           )
         },
@@ -222,9 +229,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
         align: 'center',
         hide: isView,
         renderCell: (params) => {
-          const idx = items.findIndex(
-            (item) => item.itemId?.itemId === params.row.itemId?.itemId,
-          )
+          const idx = items.findIndex((item) => item.id === params.row.id)
           return isView ? null : (
             <IconButton
               onClick={() => arrayHelpers.remove(idx)}
@@ -258,10 +263,11 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
               variant="outlined"
               onClick={() => {
                 arrayHelpers.push({
+                  id: new Date().getTime(),
                   warehouseName: '',
                   warehouseSectorName: null,
-                  warehouseShelfName: '',
-                  warehousePalletName: '',
+                  warehouseShelfName: null,
+                  warehousePalletName: null,
                   itemId: null,
                   itemName: '',
                 })

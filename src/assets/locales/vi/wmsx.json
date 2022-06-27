@@ -923,7 +923,7 @@
   "InventoryCalendarStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thục hiện",
+    "inProgress": "Đang thực hiện",
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },

@@ -15,6 +15,7 @@ import Status from '~/components/Status'
 import {
   INVENTORY_CALENDAR_STATUS,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
+  INVENTORY_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -64,7 +65,7 @@ function InventoryCalendar() {
     {
       field: 'code',
       headerName: t('inventoryCalendar.code'),
-      width: 150,
+      width: 120,
       sortable: true,
       fixed: true,
     },
@@ -74,6 +75,15 @@ function InventoryCalendar() {
       width: 150,
       sortable: true,
       fixed: true,
+    },
+    {
+      field: 'inventoryType',
+      headerName: t('inventoryCalendar.inventoryType'),
+      width: 150,
+      sortable: false,
+      renderCell: (params) => {
+        return `${t(INVENTORY_TYPE_MAP[params.row?.type])}`
+      },
     },
     {
       field: 'warehouses',
@@ -90,7 +100,7 @@ function InventoryCalendar() {
     {
       field: 'description',
       headerName: t('inventoryCalendar.description'),
-      width: 200,
+      width: 150,
       sortable: false,
     },
     {
@@ -107,7 +117,7 @@ function InventoryCalendar() {
     {
       field: 'status',
       headerName: t('inventoryCalendar.status'),
-      width: 150,
+      width: 120,
       sortable: false,
       renderCell: (params) => {
         const status = Number(params?.row.status)
@@ -123,7 +133,7 @@ function InventoryCalendar() {
     {
       field: 'action',
       headerName: t('inventoryCalendar.action'),
-      width: 200,
+      width: 180,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
