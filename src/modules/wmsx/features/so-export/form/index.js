@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useRouteMatch, useParams, useHistory } from 'react-router-dom'
 
@@ -20,10 +21,13 @@ import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/s
 import {
   BOOLEAN_ENUM,
   ORDER_STATUS_SO_EXPORT_OPTIONS,
+  QC_CHECK,
 } from '~/modules/wmsx/constants'
+import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import { validateShema } from './schema'
@@ -38,7 +42,10 @@ function SOExportForm() {
     data: { soExportDetails, isLoading },
     actions,
   } = useSOExport()
-
+  const {
+    data: { itemQualityPoint },
+    actions: commonActions,
+  } = useCommonManagement()
   const {
     data: { warehouseList },
     actions: actionWarehouse,
@@ -58,6 +65,7 @@ function SOExportForm() {
 
   useEffect(() => {
     actionWarehouse.searchWarehouses({ isGetAll: 1 })
+    commonActions.getItemQualityPoint()
   }, [])
 
   const MODE_MAP = {
@@ -67,27 +75,52 @@ function SOExportForm() {
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
-  const initialValues = {
-    // @TODO: <linh.taquang> waiting BE return company, customer
-    code: soExportDetails?.code || '',
-    name: soExportDetails?.name || '',
-    soCode: soExportDetails?.saleOrder || null,
-    warehouse: soExportDetails?.warehouseId || null,
-    deliveredAt: soExportDetails?.deliveredAt || null,
-    description: soExportDetails?.description || '',
-    companyName: soExportDetails?.company?.name,
-    customerName: soExportDetails?.customer?.name,
-    orderedAt: soExportDetails?.orderedAt,
-    items: soExportDetails?.saleOrderExportWarehouseLots?.map((i) => ({
-      id: i?.id,
-      itemId: i?.itemId,
-      lotNumber: i?.lotNumber,
-      packageId: i?.packageId,
-      quantity: i?.quantity,
-      mfg: i?.mfg,
-    })) || [{ ...DEFAULT_ITEM }],
-  }
-
+  const cloneSOExportWarehouseLots = cloneDeep(
+    soExportDetails?.saleOrderExportWarehouseLots,
+  )
+  const items = cloneSOExportWarehouseLots?.map((detailLot, index) => ({
+    id: index,
+    itemId: detailLot.itemId,
+    warehouseId: detailLot?.warehouseId,
+    actualQuantity: detailLot.actualQuantity,
+    confirmQuantity: detailLot.confirmQuantity,
+    collectedQuantity: detailLot.collectedQuantity,
+    quantity: detailLot.quantity,
+    qcCheck:
+      soExportDetails?.saleOrderExportWarehouseDetails?.find(
+        (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+      )?.qcCheck === QC_CHECK.TRUE,
+    qcCriteriaId: soExportDetails?.saleOrderExportWarehouseDetails?.find(
+      (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+    )?.qcCriteriaId,
+    qcCriteria: itemQualityPoint.find(
+      (quality) =>
+        quality?.id ===
+        soExportDetails?.saleOrderExportWarehouseDetails?.find(
+          (detail) =>
+            detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+        )?.qcCriteriaId,
+    )?.code,
+    lotNumber: detailLot.lotNumber,
+    mfg: convertUtcDateToLocalTz(detailLot.mfg),
+    packageId: detailLot.packageId,
+  }))
+  const initialValues = useMemo(
+    () => ({
+      // @TODO: <linh.taquang> waiting BE return company, customer
+      code: soExportDetails?.code || '',
+      name: soExportDetails?.name || '',
+      soCode: soExportDetails?.saleOrder || null,
+      warehouse: soExportDetails?.warehouseId || null,
+      deliveredAt: soExportDetails?.deliveredAt || null,
+      description: soExportDetails?.description || '',
+      companyName: soExportDetails?.company?.name,
+      customerName: soExportDetails?.customer?.name,
+      orderedAt: soExportDetails?.orderedAt,
+      items: items || [{ ...DEFAULT_ITEM }],
+    }),
+    [soExportDetails],
+  )
   const backToList = () => {
     history.push(ROUTE.SO_EXPORT.LIST.PATH)
   }

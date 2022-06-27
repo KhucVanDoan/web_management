@@ -1,12 +1,26 @@
+import { useEffect } from 'react'
+
 import { Box, Checkbox, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 function TableDetail(props) {
   const { t } = useTranslation(['wmsx'])
   const { items } = props
+  const {
+    data: { itemList },
+    actions,
+  } = useCommonManagement()
+
+  useEffect(() => {
+    actions.getItems({})
+  }, [])
+  const getItemObject = (id) => {
+    return itemList?.find((item) => item?.id === id)
+  }
   const columns = [
     {
       field: 'id',
@@ -22,8 +36,7 @@ function TableDetail(props) {
       headerName: t('soExport.item.code'),
       width: 250,
       renderCell: (params) => {
-        const { row } = params
-        return row?.item.code
+        return getItemObject(params?.row?.itemId)?.code
       },
     },
     {
@@ -31,8 +44,7 @@ function TableDetail(props) {
       headerName: t('soExport.item.name'),
       width: 180,
       renderCell: (params) => {
-        const { row } = params
-        return row?.item.name
+        return getItemObject(params?.row?.itemId)?.name
       },
     },
     {
@@ -53,6 +65,9 @@ function TableDetail(props) {
       field: 'packageId',
       headerName: t('soExport.item.packageCode'),
       width: 180,
+      renderCell: (params) => {
+        return getItemObject(params?.row?.itemId)?.packages
+      },
     },
     {
       field: 'quantity',
@@ -64,22 +79,24 @@ function TableDetail(props) {
       headerName: t('soExport.item.unitType'),
       width: 180,
       renderCell: (params) => {
-        const { row } = params
-        return row?.item.itemUnit
+        return getItemObject(params?.row?.itemId)?.itemUnit?.name
       },
     },
     {
       field: 'qcCheck',
       headerName: t('soExport.item.qcCheck'),
       width: 180,
-      renderCell: () => {
-        return <Checkbox disabled />
+      renderCell: (params) => {
+        return <Checkbox checked={params?.row?.qcCheck} disabled />
       },
     },
     {
       field: 'qcCriteriaId',
       headerName: t('soExport.item.qcCriteria'),
       width: 180,
+      renderCell: (params) => {
+        return params?.row?.qcCriteria
+      },
     },
   ]
   return (
