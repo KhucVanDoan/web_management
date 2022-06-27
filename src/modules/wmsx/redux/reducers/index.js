@@ -9,6 +9,7 @@ import defineCustomer from './define-customer'
 import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
+import definePallet from './define-pallet'
 import definePaymentType from './define-payment-type'
 import defineService from './define-service'
 import templateSector from './define-template-sector'
@@ -53,6 +54,7 @@ export default combineReducers({
   defineTypeUnit,
   defineCurrencyUnit,
   defineService,
+  definePallet,
   warehouseSetting,
   templateSector,
   defineDetail,

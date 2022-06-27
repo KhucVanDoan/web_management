@@ -41,6 +41,9 @@ import DefineBillForm from '../features/define-bill/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefinePalletDetail from '../features/define-pallet/detail'
+import DefinePalletForm from '../features/define-pallet/form'
+import DefinePallet from '../features/define-pallet/list'
 import DefinePaymentTypeDetail from '../features/define-payment-type/detail'
 import DefinePaymentTypeForm from '../features/define-payment-type/form'
 import DefinePaymentType from '../features/define-payment-type/list'
@@ -213,6 +216,32 @@ const routes = [
             name: ROUTE.DEFINE_BLOCK.EDIT.TITLE,
             path: ROUTE.DEFINE_BLOCK.EDIT.PATH,
             component: DefineBlockForm,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PALLET.LIST.TITLE,
+        path: ROUTE.DEFINE_PALLET.LIST.PATH,
+        component: DefinePallet,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PALLET.CREATE.TITLE,
+            path: ROUTE.DEFINE_PALLET.CREATE.PATH,
+            component: DefinePalletForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PALLET.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PALLET.DETAIL.PATH,
+            component: DefinePalletDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PALLET.EDIT.TITLE,
+            path: ROUTE.DEFINE_PALLET.EDIT.PATH,
+            component: DefinePalletForm,
+            isInSidebar: false,
           },
         ],
       },
