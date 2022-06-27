@@ -187,6 +187,9 @@ function DefineVoucherForm() {
                           </InputAdornment>
                         ),
                       }}
+                      numberProps={{
+                        decimalScale: 3,
+                      }}
                       allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />

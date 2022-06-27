@@ -200,6 +200,9 @@ function DefinePaymentTypeForm() {
                       label={t('definePaymentType.percentage')}
                       placeholder={t('definePaymentType.percentage')}
                       type="number"
+                      numberProps={{
+                        decimalScale: 3,
+                      }}
                       allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                       required
                     />
