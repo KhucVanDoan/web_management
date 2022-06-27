@@ -160,7 +160,7 @@ const Inventory = () => {
     warehouseName: item?.warehouse?.name,
     warehouseId: item?.warehouse?.id,
     warehouseType: item?.warehouse?.warehouseTypes
-      .map((type) => type.name)
+      ?.map((type) => type.name)
       .join(','),
     status: item?.status,
   }))

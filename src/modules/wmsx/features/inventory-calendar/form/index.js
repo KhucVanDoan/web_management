@@ -40,8 +40,8 @@ const InventoryCalendarForm = () => {
     id: new Date().getTime(),
     warehouseName: '',
     warehouseSectorName: null,
-    warehouseShelfName: '',
-    warehousePalletName: '',
+    warehouseShelfName: null,
+    warehousePalletName: null,
     itemId: null,
     itemName: '',
   }
@@ -59,12 +59,16 @@ const InventoryCalendarForm = () => {
       warehouses: inventoryCalendarDetails?.warehouses?.[0] || null,
       executionDay: inventoryCalendarDetails?.executionDay || null,
       description: inventoryCalendarDetails?.description || '',
-      items: inventoryCalendarDetails?.items?.map((i) => ({
-        itemId: i.item,
-        warehouseSectorName: i.warehouseSector?.id,
-        warehouseShelfName: i.warehouseShelf?.id,
-        warehousePalletName: i.warehouseShelfFloor?.id,
-      })) || [{ ...DEFAULT_ITEM }],
+      items:
+        inventoryCalendarDetails.type === INVENTORY_TYPE.PARTIAL_INVENTORY
+          ? inventoryCalendarDetails?.items?.map((i, index) => ({
+              id: index,
+              itemId: i.item,
+              warehouseSectorName: i.warehouseSector?.id,
+              warehouseShelfName: i.warehouseShelf?.id,
+              warehousePalletName: i.warehouseShelfFloor?.id,
+            }))
+          : [{ ...DEFAULT_ITEM }],
     }),
     [inventoryCalendarDetails],
   )
@@ -191,7 +195,7 @@ const InventoryCalendarForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => {
+        {({ handleReset, values, setFieldValue }) => {
           setIsPartial(values?.type === INVENTORY_TYPE.PARTIAL_INVENTORY)
           return (
             <Form>
@@ -251,7 +255,11 @@ const InventoryCalendarForm = () => {
                         options={INVENTORY_TYPE_OPTIONS}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => t(opt?.text)}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        }
                         required
+                        disableClearable
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -304,6 +312,7 @@ const InventoryCalendarForm = () => {
                         mode={mode}
                         arrayHelpers={arrayHelpers}
                         values={values}
+                        setFieldValue={setFieldValue}
                       />
                     )}
                   />
