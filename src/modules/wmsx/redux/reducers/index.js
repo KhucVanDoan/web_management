@@ -9,6 +9,7 @@ import defineCustomer from './define-customer'
 import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
 import definePackage from './define-package'
+import definePallet from './define-pallet'
 import definePaymentType from './define-payment-type'
 import defineService from './define-service'
 import templateSector from './define-template-sector'
@@ -32,6 +33,7 @@ import movementManagement from './movements'
 import productionOrder from './production-order'
 import purchasedOrdersImport from './purchased-orders-import'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
+import returnOrder from './return-order'
 import soExport from './so-export'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
@@ -52,6 +54,7 @@ export default combineReducers({
   defineTypeUnit,
   defineCurrencyUnit,
   defineService,
+  definePallet,
   warehouseSetting,
   templateSector,
   defineDetail,
@@ -90,4 +93,5 @@ export default combineReducers({
   soExport,
   warehouseDesign,
   locationSetting,
+  returnOrder,
 })
