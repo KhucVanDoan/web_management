@@ -41,6 +41,9 @@ import DefineBillForm from '../features/define-bill/form'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
+import DefinePalletDetail from '../features/define-pallet/detail'
+import DefinePalletForm from '../features/define-pallet/form'
+import DefinePallet from '../features/define-pallet/list'
 import DefinePaymentTypeDetail from '../features/define-payment-type/detail'
 import DefinePaymentTypeForm from '../features/define-payment-type/form'
 import DefinePaymentType from '../features/define-payment-type/list'
@@ -93,6 +96,9 @@ import {
   TransactionDetail as PurchasedOrdersImportTransactionDetail,
 } from '../features/purchased-orders-import/transactions'
 import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
+import ReturnOrderDetail from '../features/return-order/detail'
+import ReturnOrderForm from '../features/return-order/form'
+import ReturnOrder from '../features/return-order/list'
 import SOExport from '../features/so-export'
 import SOExportDetail from '../features/so-export/detail'
 import SOExportForm from '../features/so-export/form'
@@ -210,6 +216,32 @@ const routes = [
             name: ROUTE.DEFINE_BLOCK.EDIT.TITLE,
             path: ROUTE.DEFINE_BLOCK.EDIT.PATH,
             component: DefineBlockForm,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PALLET.LIST.TITLE,
+        path: ROUTE.DEFINE_PALLET.LIST.PATH,
+        component: DefinePallet,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PALLET.CREATE.TITLE,
+            path: ROUTE.DEFINE_PALLET.CREATE.PATH,
+            component: DefinePalletForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PALLET.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PALLET.DETAIL.PATH,
+            component: DefinePalletDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PALLET.EDIT.TITLE,
+            path: ROUTE.DEFINE_PALLET.EDIT.PATH,
+            component: DefinePalletForm,
+            isInSidebar: false,
           },
         ],
       },
@@ -492,6 +524,32 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
             component: InventoryCalendarForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.RETURN_ORDER.LIST.TITLE,
+        path: ROUTE.RETURN_ORDER.LIST.PATH,
+        component: ReturnOrder,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.RETURN_ORDER.CREATE.TITLE,
+            path: ROUTE.RETURN_ORDER.CREATE.PATH,
+            component: ReturnOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.DETAIL.TITLE,
+            path: ROUTE.RETURN_ORDER.DETAIL.PATH,
+            component: ReturnOrderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.EDIT.TITLE,
+            path: ROUTE.RETURN_ORDER.EDIT.PATH,
+            component: ReturnOrderForm,
             isInSidebar: false,
           },
         ],

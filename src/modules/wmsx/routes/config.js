@@ -6,7 +6,6 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
-
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },
@@ -16,7 +15,6 @@ export const ROUTE = {
   RENT_WAREHOUSE_COST_MANAGEMENT: {
     TITLE: 'rentWarehouseCostManagement',
   },
-
   INVENTORY: {
     LIST: {
       PATH: '/wmsx/inventory',
@@ -25,6 +23,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/wmsx/inventory/:id/detail',
       TITLE: 'inventoryDetail',
+    },
+  },
+  DEFINE_PALLET: {
+    LIST: {
+      PATH: '/wmsx/pallet',
+      TITLE: 'definePallet',
+    },
+    CREATE: {
+      PATH: '/wmsx/pallet/create',
+      TITLE: 'createPallet',
+    },
+    DETAIL: {
+      PATH: '/wmsx/pallet/:id/detail',
+      TITLE: 'palletDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/pallet/:id/edit',
+      TITLE: 'editPallet',
     },
   },
   WAREHOUSE_SPACE_REPORT: {
@@ -678,6 +694,24 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wmsx/location-setting/:id/edit',
       TITLE: 'locationSettingEdit',
+    },
+  },
+  RETURN_ORDER: {
+    LIST: {
+      PATH: '/wmsx/return-order',
+      TITLE: 'returnOrder',
+    },
+    CREATE: {
+      PATH: '/wmsx/return-order/create',
+      TITLE: 'returnOrderCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/return-order/:id/detail',
+      TITLE: 'returnOrderDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/return-order/:id/edit',
+      TITLE: 'returnOrderEdit',
     },
   },
 }

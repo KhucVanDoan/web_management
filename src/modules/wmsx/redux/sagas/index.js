@@ -1,9 +1,12 @@
 import { all } from 'redux-saga/effects'
 
 import watchGetSupplyRequest from './common/get-all-supply-request'
+import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
 import watchGetMoMaterialPlanDetail from './common/get-mo-material-plan-detail'
+import watchGetPackages from './common/get-packages'
+import watchGetPallets from './common/get-pallets'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
 import watchDashboard from './dashboard'
@@ -52,6 +55,11 @@ import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
+import watchCreatePallet from './define-pallet/create-pallet'
+import watchDeletePallet from './define-pallet/delete-pallet'
+import watchGetPalletDetail from './define-pallet/get-pallet-detail'
+import watchSearchPallets from './define-pallet/search-pallets'
+import watchUpdatePallet from './define-pallet/update-pallet'
 import watchConfirmPaymentType from './define-payment-type/confirm-payment-type'
 import watchCreatePaymentType from './define-payment-type/create-payment-type'
 import watchDeletePaymentType from './define-payment-type/delete-payment-type'
@@ -170,6 +178,14 @@ import watchRejectPOSImport from './purchased-orders-import/reject-purchased-ord
 import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
 import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
+import watchConfirmReturnOrder from './return-order/confirm-warehouse-transfer'
+import watchCreateReturnOrder from './return-order/create-warehouse-transfer'
+import watchDeleteReturnOrder from './return-order/delete-warehouse-transfer'
+import watchGetItemsByOrderReturnOrder from './return-order/get-items-by-order-return-order'
+import watchGetReturnOrderDetails from './return-order/get-warehouse-transfer-details'
+import watchRejectReturnOrder from './return-order/reject-warehouse-transfer'
+import watchSearchReturnOrders from './return-order/search-warehouse-transfer'
+import watchUpdateReturnOrder from './return-order/update-warehouse-transfer'
 import watchConfirmSOExport from './so-export/confirm-so-export'
 import watchCreateSOExport from './so-export/create-so-export'
 import watchDeleteSOExport from './so-export/delete-so-export'
@@ -227,12 +243,17 @@ export default function* sagas() {
     //common
     watchGetItemQualityPoint(),
     watchGetItems(),
+    watchGetPackages(),
+    watchGetBlocks(),
     watchGetWarehouses(),
     watchGetSupplyRequest(),
     watchGetTypeServices(),
     watchGetMoMaterialPlanDetail(),
+    watchGetPallets(),
+
     // Dashboard
     watchDashboard(),
+
     //define-template-shelf
     watchCreateTemplateShelf(),
     watchDeleteTemplateShelf(),
@@ -277,6 +298,12 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+    // define pallet
+    watchCreatePallet(),
+    watchDeletePallet(),
+    watchGetPalletDetail(),
+    watchSearchPallets(),
+    watchUpdatePallet(),
     //define-template-sector
     watchCreateTemplateSector(),
     watchDeleteTemplateSector(),
@@ -489,5 +516,15 @@ export default function* sagas() {
     watchGetLocationSettingDetails(),
     watchSearchLocationSettings(),
     watchUpdateLocationSetting(),
+
+    //return-order
+    watchSearchReturnOrders(),
+    watchGetItemsByOrderReturnOrder(),
+    watchConfirmReturnOrder(),
+    watchCreateReturnOrder(),
+    watchDeleteReturnOrder(),
+    watchGetReturnOrderDetails(),
+    watchRejectReturnOrder(),
+    watchUpdateReturnOrder(),
   ])
 }
