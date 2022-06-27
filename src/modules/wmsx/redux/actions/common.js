@@ -2,6 +2,14 @@ export const WMSX_GET_ITEMS_START = 'WMSX_GET_ITEMS_START'
 export const WMSX_GET_ITEMS_SUCCESS = 'WMSX_GET_ITEMS_SUCCESS'
 export const WMSX_GET_ITEMS_FAILED = 'WMSX_GET_ITEMS_FAILED'
 
+export const WMSX_GET_PACKAGES_START = 'WMSX_GET_PACKAGES_START'
+export const WMSX_GET_PACKAGES_SUCCESS = 'WMSX_GET_PACKAGES_SUCCESS'
+export const WMSX_GET_PACKAGES_FAILED = 'WMSX_GET_PACKAGES_FAILED'
+
+export const WMSX_GET_BLOCKS_START = 'WMSX_GET_BLOCKS_START'
+export const WMSX_GET_BLOCKS_SUCCESS = 'WMSX_GET_BLOCKS_SUCCESS'
+export const WMSX_GET_BLOCKS_FAILED = 'WMSX_GET_BLOCKS_FAILED'
+
 export const WMSX_GET_WAREHOUSES_START = 'WMSX_GET_WAREHOUSES_START'
 export const WMSX_GET_WAREHOUSES_SUCCESS = 'WMSX_GET_WAREHOUSES_SUCCESS'
 export const WMSX_GET_WAREHOUSES_FAILED = 'WMSX_GET_WAREHOUSES_FAILED'
@@ -137,6 +145,68 @@ export function getItemsSuccess(payload) {
 export function getItemsFailed() {
   return {
     type: WMSX_GET_ITEMS_FAILED,
+  }
+}
+
+export function getPackages(payload, onSuccess, onError) {
+  return {
+    type: WMSX_GET_PACKAGES_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get packages success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getPackagesSuccess(payload) {
+  return {
+    type: WMSX_GET_PACKAGES_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get packages failed action
+ * @returns {object}
+ */
+export function getPackagesFailed() {
+  return {
+    type: WMSX_GET_PACKAGES_FAILED,
+  }
+}
+
+export function getBlocks(payload, onSuccess, onError) {
+  return {
+    type: WMSX_GET_BLOCKS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get items success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getBlocksSuccess(payload) {
+  return {
+    type: WMSX_GET_BLOCKS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get items failed action
+ * @returns {object}
+ */
+export function getBlocksFailed() {
+  return {
+    type: WMSX_GET_BLOCKS_FAILED,
   }
 }
 
@@ -280,6 +350,12 @@ export default {
   getItems,
   getItemsSuccess,
   getItemsFailed,
+  getPackages,
+  getPackagesFailed,
+  getPackagesSuccess,
+  getBlocks,
+  getBlocksFailed,
+  getBlocksSuccess,
   getWarehouses,
   getWarehousesSuccess,
   getWarehousesFailed,

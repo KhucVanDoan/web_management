@@ -185,6 +185,27 @@ export const WAREHOUSE_STATUS_TO_DELETE = [
   WAREHOUSE_STATUS.REJECTED,
 ]
 
+export const PALLET_ITEM_STORAGE_TYPE = {
+  GROUP: 0,
+  SINGLE: 1,
+}
+
+export const PALLET_ITEM_STORAGE_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'definePallet.palletGroupItem',
+  },
+  {
+    id: 1,
+    text: 'definePallet.palletSingleItem',
+  },
+]
+
+export const PALLET_ITEM_STORAGE_TYPE_MAP = {
+  [PALLET_ITEM_STORAGE_TYPE.GROUP]: 'definePallet.palletGroupItem',
+  [PALLET_ITEM_STORAGE_TYPE.SINGLE]: 'definePallet.palletSingleItem',
+}
+
 export const MOVEMENT_STATUS = [
   {
     id: 0,

@@ -25,6 +25,24 @@ export const ROUTE = {
       TITLE: 'inventoryDetail',
     },
   },
+  DEFINE_PALLET: {
+    LIST: {
+      PATH: '/wmsx/pallet',
+      TITLE: 'definePallet',
+    },
+    CREATE: {
+      PATH: '/wmsx/pallet/create',
+      TITLE: 'createPallet',
+    },
+    DETAIL: {
+      PATH: '/wmsx/pallet/:id/detail',
+      TITLE: 'palletDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/pallet/:id/edit',
+      TITLE: 'editPallet',
+    },
+  },
   WAREHOUSE_SPACE_REPORT: {
     PATH: '/wmsx/warehouse-space-report',
     TITLE: 'warehouseSpaceReport',

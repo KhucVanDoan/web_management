@@ -2,6 +2,12 @@ import {
   WMSX_GET_ITEMS_START,
   WMSX_GET_ITEMS_SUCCESS,
   WMSX_GET_ITEMS_FAILED,
+  WMSX_GET_PACKAGES_START,
+  WMSX_GET_PACKAGES_SUCCESS,
+  WMSX_GET_PACKAGES_FAILED,
+  WMSX_GET_BLOCKS_START,
+  WMSX_GET_BLOCKS_SUCCESS,
+  WMSX_GET_BLOCKS_FAILED,
   WMSX_GET_WAREHOUSES_START,
   WMSX_GET_WAREHOUSES_SUCCESS,
   WMSX_GET_WAREHOUSES_FAILED,
@@ -25,6 +31,8 @@ import {
 const initialState = {
   isLoading: false,
   itemList: [],
+  packageList: [],
+  blockList: [],
   warehouseList: [],
   itemQualityPoint: [],
   supplyRequestList: [],
@@ -54,6 +62,8 @@ export default function commonManagement(state = initialState, action) {
         supplyRequestList: [],
       }
     case WMSX_GET_ITEMS_START:
+    case WMSX_GET_PACKAGES_START:
+    case WMSX_GET_BLOCKS_START:
     case WMSX_GET_TYPE_SERVICES_START:
     case WMSX_GET_WAREHOUSES_START:
       return {
@@ -71,6 +81,30 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         itemList: [],
+        isLoading: false,
+      }
+    case WMSX_GET_PACKAGES_SUCCESS:
+      return {
+        ...state,
+        packageList: action.payload,
+        isLoading: false,
+      }
+    case WMSX_GET_PACKAGES_FAILED:
+      return {
+        ...state,
+        packageList: [],
+        isLoading: false,
+      }
+    case WMSX_GET_BLOCKS_SUCCESS:
+      return {
+        ...state,
+        blockList: action.payload,
+        isLoading: false,
+      }
+    case WMSX_GET_BLOCKS_FAILED:
+      return {
+        ...state,
+        blockList: [],
         isLoading: false,
       }
     case WMSX_GET_ITEM_QUALITY_POINT_START:

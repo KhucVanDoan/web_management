@@ -1,9 +1,11 @@
 import { all } from 'redux-saga/effects'
 
 import watchGetSupplyRequest from './common/get-all-supply-request'
+import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItems from './common/get-items'
 import watchGetMoMaterialPlanDetail from './common/get-mo-material-plan-detail'
+import watchGetPackages from './common/get-packages'
 import watchGetPallets from './common/get-pallets'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
@@ -53,6 +55,11 @@ import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
+import watchCreatePallet from './define-pallet/create-pallet'
+import watchDeletePallet from './define-pallet/delete-pallet'
+import watchGetPalletDetail from './define-pallet/get-pallet-detail'
+import watchSearchPallets from './define-pallet/search-pallets'
+import watchUpdatePallet from './define-pallet/update-pallet'
 import watchConfirmPaymentType from './define-payment-type/confirm-payment-type'
 import watchCreatePaymentType from './define-payment-type/create-payment-type'
 import watchDeletePaymentType from './define-payment-type/delete-payment-type'
@@ -236,6 +243,8 @@ export default function* sagas() {
     //common
     watchGetItemQualityPoint(),
     watchGetItems(),
+    watchGetPackages(),
+    watchGetBlocks(),
     watchGetWarehouses(),
     watchGetSupplyRequest(),
     watchGetTypeServices(),
@@ -289,6 +298,12 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+    // define pallet
+    watchCreatePallet(),
+    watchDeletePallet(),
+    watchGetPalletDetail(),
+    watchSearchPallets(),
+    watchUpdatePallet(),
     //define-template-sector
     watchCreateTemplateSector(),
     watchDeleteTemplateSector(),
