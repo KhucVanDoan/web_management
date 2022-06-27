@@ -1,110 +1,87 @@
 import { useEffect, useState } from 'react'
 
-import { DualAxes } from '@ant-design/plots'
-import { isEmpty } from 'lodash'
+import { endOfDay, startOfDay } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
+import { UNSAFE_DATE_TIME_FORMAT } from '~/common/constants'
+import GanttChart from '~/modules/mesx/partials/gantt-chart'
 import useProgressDetailReport from '~/modules/mesx/redux/hooks/useProgressDetailReport'
+import { convertUtcDateTimeToLocalTz } from '~/utils'
 function ProgressDetailReportChart() {
+  const [tasks, setTasks] = useState([])
   const {
     data: { progressDetailReports },
   } = useProgressDetailReport()
   const { t } = useTranslation(['mesx'])
-  const [col, setCol] = useState([])
-  const [line, setLine] = useState([])
   useEffect(() => {
-    if (!isEmpty(progressDetailReports)) {
-      const columnData = []
-      const lineData = []
-
-      const quantitys = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        type: t('ProgessDetailReport.quantity'),
-        value: Math.round(Number(i?.quantity) * 100) / 100,
-      }))
-
-      const moderationQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        type: t('ProgessDetailReport.moderationQuantity'),
-        value: Math.round(Number(i?.moderationQuantity) * 100) / 100,
-      }))
-
-      const actualQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        type: t('ProgessDetailReport.actualQuantity'),
-        value: Math.round(Number(i?.actualQuantity) * 100) / 100,
-      }))
-
-      const delayQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        type: t('ProgessDetailReport.delayQuantity'),
-        value: Math.round(Number(i?.delayQuantity) * 100) / 100,
-      }))
-
-      const accumlateQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        name: t('ProgessDetailReport.accumlateQuantity'),
-        count: Math.round(Number(i?.accumlateQuantity) * 100) / 100,
-      }))
-      const accumlateActualQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        name: t('ProgessDetailReport.accumlateActualQuantity'),
-        count: Math.round(Number(i?.accumlateActualQuantity) * 100) / 100,
-      }))
-      const accumlateDelayQuantity = progressDetailReports?.map((i) => ({
-        time: i?.executionDay,
-        name: t('ProgessDetailReport.accumlateDelayQuantity'),
-        count: Math.round(Number(i?.accumlateDelayQuantity) * 100) / 100,
-      }))
-      columnData.push(
-        ...quantitys,
-        ...moderationQuantity,
-        ...actualQuantity,
-        ...delayQuantity,
-      )
-      lineData.push(
-        ...accumlateQuantity,
-        ...accumlateActualQuantity,
-        ...accumlateDelayQuantity,
-      )
-      setCol(columnData)
-      setLine(lineData)
+    if (progressDetailReports) {
+      setTasks(getTasks(progressDetailReports))
     }
   }, [progressDetailReports])
 
-  const config = {
-    data: [col, line],
-    xField: 'time',
-    yField: ['value', 'count'],
-    geometryOptions: [
-      {
-        geometry: 'column',
-        isGroup: true,
-        seriesField: 'type',
-        columnWidthRatio: 0.4,
-      },
-      {
-        geometry: 'line',
-        seriesField: 'name',
-        lineStyle: ({ name }) => {
-          if (name === 'a') {
-            return {
-              lineDash: [1, 4],
-              opacity: 1,
-            }
-          }
-
-          return {
-            opacity: 0.5,
-          }
-        },
-      },
-    ],
+  const formatDateInGanttChart = (date, type) => {
+    if (date) {
+      const dateFormat =
+        type === 'to' ? endOfDay(new Date(date)) : startOfDay(new Date(date))
+      return convertUtcDateTimeToLocalTz(dateFormat, UNSAFE_DATE_TIME_FORMAT)
+    }
+    return ''
   }
-
+  const getTasks = (data) => {
+    const parent = {
+      id: Math.random(),
+      type: 'project',
+      render: 'split',
+      text: '',
+    }
+    return data
+      ?.map((item) =>
+        item?.calendar
+          ?.map((e) => {
+            const saleOrderSchedule = {
+              text: item.item.name,
+              id: `${item.item.id.toString()}-${e.executionDate}`,
+              end_date: formatDateInGanttChart(e.executionDate, 'to'),
+              start_date: formatDateInGanttChart(e.executionDate, 'from'),
+              actualQuantity: e?.actualQuantity,
+              planQuantity: e?.planQuantity,
+              progress: e.actualQuantity
+                ? e.actualQuantity / e.planQuantity
+                : 0,
+              parent: parent.id,
+            }
+            return saleOrderSchedule
+          })
+          .concat({
+            ...parent,
+            text: item.item.name,
+          }),
+      )
+      .flat()
+  }
   return (
     <>
-      <DualAxes {...config} />
+      {tasks?.length > 0 && (
+        <GanttChart
+          config={{
+            columns: [
+              {
+                name: 'text',
+                label: t('defineMasterPlan.autoModeration.saleOrder'),
+                tree: true,
+                width: '*',
+                min_width: 200,
+              },
+            ],
+            grid_resize: true,
+            drag_progress: false,
+            readonly: true,
+          }}
+          tasks={{
+            data: tasks,
+          }}
+        />
+      )}
     </>
   )
 }

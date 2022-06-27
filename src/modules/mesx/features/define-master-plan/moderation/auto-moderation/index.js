@@ -46,7 +46,6 @@ const AutoModeration = () => {
       title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
     },
   ]
-
   useEffect(() => {
     masterPlanActions.getMasterPlanDetailsById(id, null, (error) => {
       setErrorMessage(error?.message)
@@ -147,7 +146,6 @@ const AutoModeration = () => {
       })
       .flat()
   }
-
   const goToModerationType = (values) => {
     switch (Number(values.moderationType?.value)) {
       case MODERATION_TYPE.EXTEND_DEADLINE:

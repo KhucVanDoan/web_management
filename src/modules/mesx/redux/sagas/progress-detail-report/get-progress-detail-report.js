@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getProgressDeatilReportApi = (params) => {
-  const uri = `/v1/produces/producing-steps/reports/progress/dashboard`
+  const uri = `/v1/plans/sale-order-schedules/sale-orders/${params?.id}/progress/report`
   return api.get(uri, params)
 }
 
