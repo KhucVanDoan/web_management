@@ -719,12 +719,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.WAREHOUSE_DESIGN.TITLE,
-        path: ROUTE.WAREHOUSE_DESIGN.PATH,
-        component: warehouseDesign,
-        isInSidebar: true,
-      },
-      {
         name: ROUTE.ESTABLISH_LOCATION.LIST.TITLE,
         path: ROUTE.ESTABLISH_LOCATION.LIST.PATH,
         component: EstablishLocation,
