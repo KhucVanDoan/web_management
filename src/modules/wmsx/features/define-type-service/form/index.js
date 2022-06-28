@@ -165,7 +165,7 @@ const DefineTypeServiceForm = () => {
                       placeholder={t('defineTypeService.code')}
                       disabled={isUpdate}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required

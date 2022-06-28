@@ -152,7 +152,6 @@ function detailBOM() {
       actions.resetBomState()
     }
   }, [id])
-
   return (
     <Page
       breadcrumbs={breadcrumbs}

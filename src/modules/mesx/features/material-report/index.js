@@ -404,7 +404,6 @@ function MaterialReport() {
       />
     )
   }
-
   return (
     <>
       <Page

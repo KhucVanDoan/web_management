@@ -1098,8 +1098,11 @@
   "ProgessDetailReport": {
     "title": "Báo cáo chi tiết tiến độ",
     "moCode": "Mã lệnh sản xuất",
+    "soName": "Đơn hàng",
+    "time": "Thời gian",
     "workCenter": "Tên xưởng",
     "itemName": "Tên sản phẩm",
+    "item": "Sản phẩm",
     "producingSteps": "Tên công đoạn",
     "actualQuantity": "Số lượng sản xuất",
     "moderationQuantity": "Số lượng điều độ",

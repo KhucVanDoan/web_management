@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { cloneDeep } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -9,7 +10,11 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ORDER_STATUS_SO_EXPORT_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ORDER_STATUS_SO_EXPORT_OPTIONS,
+  QC_CHECK,
+} from '~/modules/wmsx/constants'
+import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -37,9 +42,13 @@ function SOExportDetail() {
     data: { isLoading, soExportDetails },
     actions,
   } = useSOExport()
-
+  const {
+    data: { itemQualityPoint },
+    actions: commonActions,
+  } = useCommonManagement()
   useEffect(() => {
     actions.getSOExportDetailsById(id)
+    commonActions.getItemQualityPoint()
     return () => actions.resetSOExportState()
   }, [id])
 
@@ -47,6 +56,36 @@ function SOExportDetail() {
     history.push(ROUTE.SO_EXPORT.LIST.PATH)
   }
 
+  const cloneSOExportWarehouseLots = cloneDeep(
+    soExportDetails?.saleOrderExportWarehouseLots,
+  )
+  const items = cloneSOExportWarehouseLots?.map((detailLot, index) => ({
+    id: index,
+    itemId: detailLot.itemId,
+    warehouseId: detailLot?.warehouseId,
+    actualQuantity: detailLot.actualQuantity,
+    confirmQuantity: detailLot.confirmQuantity,
+    collectedQuantity: detailLot.collectedQuantity,
+    quantity: detailLot.quantity,
+    qcCheck:
+      soExportDetails?.saleOrderExportWarehouseDetails?.find(
+        (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+      )?.qcCheck === QC_CHECK.TRUE,
+    qcCriteriaId: soExportDetails?.saleOrderExportWarehouseDetails?.find(
+      (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+    )?.qcCriteriaId,
+    qcCriteria: itemQualityPoint.find(
+      (quality) =>
+        quality?.id ===
+        soExportDetails?.saleOrderExportWarehouseDetails?.find(
+          (detail) =>
+            detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
+        )?.qcCriteriaId,
+    )?.code,
+    lotNumber: detailLot.lotNumber,
+    mfg: convertUtcDateToLocalTz(detailLot.mfg),
+    packageId: detailLot.packageId,
+  }))
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -210,7 +249,7 @@ function SOExportDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <TableDetail items={soExportDetails?.saleOrderExportWarehouseLots} />
+        <TableDetail items={items} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>
