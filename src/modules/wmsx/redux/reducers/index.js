@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import blockItemLocation from './block-item-location'
 import commonManagement from './common'
 import dashboard from './dashboard'
 import bill from './define-bill'
@@ -46,7 +47,6 @@ import warehouseSetting from './warehouse-setting'
 import warehouseSpaceReport from './warehouse-space-report'
 import defineWarehouseTransfer from './warehouse-transfer'
 import warehouseTransferMovements from './warehouse-transfer-movements'
-
 export default combineReducers({
   commonManagement,
   dashboard,
@@ -93,5 +93,6 @@ export default combineReducers({
   soExport,
   warehouseDesign,
   locationSetting,
+  blockItemLocation,
   returnOrder,
 })

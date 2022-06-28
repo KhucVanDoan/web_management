@@ -1,5 +1,18 @@
 import { all } from 'redux-saga/effects'
 
+import watchCloseBlockItem from './block-item-location/block-item/close-block-item.saga'
+import watchCreateBlockItem from './block-item-location/block-item/create-block-item'
+import watchDeleteBlockItem from './block-item-location/block-item/delete-block-item'
+import watchGetBlockItemDetail from './block-item-location/block-item/get-block-item-detail'
+import watchOpenBlockItem from './block-item-location/block-item/open-block-item'
+import watchSearchBlockItems from './block-item-location/block-item/search-block-item'
+import watchCloseBlockLocation from './block-item-location/block-location/close-block-location'
+import watchCreateBlockLocation from './block-item-location/block-location/create-block-location'
+import watchDeleteBlockLocation from './block-item-location/block-location/delete-block-location'
+import watchGetBlockLocationDetail from './block-item-location/block-location/get-block-item-location'
+import watchGetDesignByWarehouse from './block-item-location/block-location/get-design-by-warehouse'
+import watchOpenBlockLocation from './block-item-location/block-location/open-block-location'
+import watchSearchBlockLocations from './block-item-location/block-location/search-block-location'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
@@ -516,6 +529,20 @@ export default function* sagas() {
     watchGetLocationSettingDetails(),
     watchSearchLocationSettings(),
     watchUpdateLocationSetting(),
+    //block-item-location
+    watchCloseBlockItem(),
+    watchCreateBlockItem(),
+    watchDeleteBlockItem(),
+    watchGetBlockItemDetail(),
+    watchOpenBlockItem(),
+    watchSearchBlockItems(),
+    watchCloseBlockLocation(),
+    watchCreateBlockLocation(),
+    watchDeleteBlockLocation(),
+    watchGetBlockLocationDetail(),
+    watchGetDesignByWarehouse(),
+    watchOpenBlockLocation(),
+    watchSearchBlockLocations(),
 
     //return-order
     watchSearchReturnOrders(),
