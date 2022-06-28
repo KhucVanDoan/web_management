@@ -50,6 +50,8 @@ const DataTable = (props) => {
     onSelectionChange,
     tableSettingKey,
     onSettingChange,
+    beforeTopbar,
+    affterTopbar,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
@@ -151,8 +153,10 @@ const DataTable = (props) => {
 
   return (
     <>
-      {(title || filters || !hideSetting) && (
+      {(title || filters || !hideSetting || beforeTopbar || affterTopbar) && (
         <TopBar
+          beforeTopbar={beforeTopbar}
+          affterTopbar={affterTopbar}
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
@@ -367,6 +371,8 @@ DataTable.propsTypes = {
   filters: PropTypes.shape(),
   tableSettingKey: PropTypes.string,
   onSettingChange: PropTypes.func,
+  beforeTopbar: PropTypes.node,
+  affterTopbar: PropTypes.node,
 }
 
 export default withTranslation()(withClasses(style)(DataTable))
