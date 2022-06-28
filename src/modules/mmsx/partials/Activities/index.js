@@ -68,7 +68,7 @@ Activities.propTypes = {
       content: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
-      userName: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
     }),
   ),
 }
