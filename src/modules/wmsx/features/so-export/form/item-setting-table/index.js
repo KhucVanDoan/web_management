@@ -49,22 +49,7 @@ function ItemSettingTable(props) {
     return () => actionSaleOrder.resetSaleOrderState()
   }, [soId])
 
-<<<<<<< HEAD
-  useEffect(() => {
-    if (saleOrderDetails?.saleOrderDetails)
-      handleChangeItem(saleOrderDetails?.saleOrderDetails[0]?.itemId)
-  }, [saleOrderDetails?.saleOrderDetails])
-
   const handleChangeItem = async (val, index, setFieldValue) => {
-    if (val) {
-      const res = await getLotNumberListSOExportApi({
-        itemIds: val,
-      })
-      setLotNumberList(res.data)
-    }
-=======
-  const handleChangeItem = async (val, index, setFieldValue) => {
->>>>>>> 2457f09e (fix bug)
     setFieldValue(`items[${index}].qcCheck`, false)
   }
 
