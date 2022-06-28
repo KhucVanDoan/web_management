@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { Checkbox, IconButton, InputAdornment } from '@mui/material'
+import {
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+} from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
@@ -10,9 +15,16 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { LETTER_TYPE } from '~/modules/wmsx/constants'
+import { LETTER_TYPE, LOCATION_SETTING_TYPE } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import { convertUtcDateToLocalTz, scrollToBottom } from '~/utils'
+import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
+import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
+import useLocationSetting from '~/modules/wmsx/redux/hooks/useLocationSetting'
+import {
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+  scrollToBottom,
+} from '~/utils'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -26,17 +38,44 @@ function ItemSettingTable(props) {
     actions: commonActions,
   } = useCommonManagement()
 
+  const {
+    data: { locationSettingsList },
+    actions: lsActions,
+  } = useLocationSetting()
+
+  const {
+    data: { packagesEvenByItem },
+    actions: packageActs,
+  } = useDefinePackage()
+
+  const {
+    data: { palletsEvenByItem },
+    // actions: palletActs,
+  } = useDefinePallet()
+
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
-    // commonActions.getPallets({ isGetAll: 1 })
+    lsActions.searchLocationSetting()
   }, [])
+
+  const handleGetData = (val, index) => {
+    const params = {
+      itemId: items[index]?.itemId?.id,
+      packageIds: items[index]?.itemId?.packages?.map((p) => p.id),
+    }
+    if (val) {
+      lsActions.searchLocationSetting({
+        filter: convertFilterParams({
+          type: LOCATION_SETTING_TYPE.EVEN,
+          itemId: items[index]?.itemId?.id,
+        }),
+      })
+      packageActs.getPackagesEvenByItem(params)
+    }
+  }
 
   const itemIdList = itemByOrderList?.items?.map((item) => item?.itemId)
   const itemOptions = itemList?.filter((i) => itemIdList?.includes(i?.id))
-
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
 
   const handleChange = (val, values, index) => {
     setFieldValue(`items[${index}].lotNumber`, '')
@@ -69,7 +108,6 @@ function ItemSettingTable(props) {
             name={`items[${index}].itemId`}
             options={itemOptions}
             getOptionLabel={(opt) => opt?.name}
-            // getOptionValue={(opt) => opt?.itemId || opt?.id}
             onChange={(val) => handleChange(val, values, index)}
             isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
           />
@@ -100,11 +138,19 @@ function ItemSettingTable(props) {
       align: 'center',
       renderCell: (params, index) => {
         return isView ? (
-          <Checkbox disabled checked={false} />
+          <Checkbox disabled checked={params.row?.isEven} />
         ) : (
-          <Field.Checkbox
-            name={`items[${index}].evenRow`}
-            onChange={(val) => setChecked(val)}
+          <FormControlLabel
+            control={
+              <Field.Checkbox
+                name={`items[${index}].evenRow`}
+                onChange={(val) => {
+                  setChecked(val)
+                  handleGetData(val, index)
+                }}
+              />
+            }
+            label=""
           />
         )
       },
@@ -158,10 +204,13 @@ function ItemSettingTable(props) {
         ) : (
           <Field.Autocomplete
             name={`items[${index}].packageId`}
-            options={items[index]?.itemId?.packages}
+            options={
+              checked ? packagesEvenByItem : items[index]?.itemId?.packages
+            }
             disabled={isView}
-            getOptionLabel={(opt) => opt?.lotNumber}
-            getOptionValue={(opt) => opt?.lotNumber || null}
+            g
+            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+            // getOptionValue={(opt) => opt?.id || null}
           />
         )
       },
@@ -177,10 +226,10 @@ function ItemSettingTable(props) {
             ) : (
               <Field.Autocomplete
                 name={`items[${index}].palletId`}
-                options={[]}
+                options={palletsEvenByItem}
                 disabled={isView}
-                getOptionLabel={(opt) => opt?.lotNumber}
-                getOptionValue={(opt) => opt?.lotNumber || null}
+                getOptionLabel={(opt) => opt?.code}
+                getOptionValue={(opt) => opt?.id || null}
               />
             )
           },
@@ -191,16 +240,15 @@ function ItemSettingTable(props) {
       headerName: t(`returnOrder.items.${fieldName}`),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params?.row
         return isView ? (
-          <>{params?.row?.packageId}</>
+          <>{params?.row?.location}</>
         ) : (
           <Field.Autocomplete
-            name={`items[${index}].packageId`}
-            options={getItemObject(itemId)?.packages}
+            name={`items[${index}].location`}
+            options={locationSettingsList}
             disabled={isView}
-            getOptionLabel={(opt) => opt?.lotNumber}
-            getOptionValue={(opt) => opt?.lotNumber || null}
+            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+            getOptionValue={(opt) => opt?.id}
           />
         )
       },

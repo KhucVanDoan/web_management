@@ -18,6 +18,13 @@ export const GET_PACKAGE_DETAILS_START = 'WMSX_GET_PACKAGE_DETAILS_START'
 export const GET_PACKAGE_DETAILS_SUCCESS = 'WMSX_GET_PACKAGE_DETAILS_SUCCESS'
 export const GET_PACKAGE_DETAILS_FAILED = 'WMSX_GET_PACKAGE_DETAILS_FAILED'
 
+export const GET_PACKAGES_EVEN_BY_ITEM_START =
+  'WMSX_GET_PACKAGES_EVEN_BY_ITEM_START'
+export const GET_PACKAGES_EVEN_BY_ITEM_SUCCESS =
+  'WMSX_GET_PACKAGES_EVEN_BY_ITEM_SUCCESS'
+export const GET_PACKAGES_EVEN_BY_ITEM_FAILED =
+  'WMSX_GET_PACKAGES_EVEN_BY_ITEM_FAILED'
+
 export const RESET_PACKAGE_DETAILS_STATE = 'WMSX_RESET_PACKAGE_DETAILS_STATE'
 
 /**
@@ -55,6 +62,44 @@ export function searchPackagesSuccess(payload) {
 export function searchPackagesFailed() {
   return {
     type: SEARCH_PACKAGES_FAILED,
+  }
+}
+
+/**
+ * Get packages even by item
+ * @param {object} payload
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getPackagesEvenByItem(payload, onSuccess, onError) {
+  return {
+    type: GET_PACKAGES_EVEN_BY_ITEM_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get packages even by item success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getPackagesEvenByItemSuccess(payload) {
+  return {
+    type: GET_PACKAGES_EVEN_BY_ITEM_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get packages even by item failed action
+ * @returns {object}
+ */
+export function getPackagesEvenByItemFailed() {
+  return {
+    type: GET_PACKAGES_EVEN_BY_ITEM_FAILED,
   }
 }
 
@@ -230,5 +275,8 @@ export default {
   getPackageDetailsById,
   getPackageDetailsByIdSuccess,
   getPackageDetailsByIdFailed,
+  getPackagesEvenByItem,
+  getPackagesEvenByItemSuccess,
+  getPackagesEvenByItemFailed,
   resetPackageDetailsState,
 }
