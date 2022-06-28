@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { Box, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import Icon from '~/components/Icon'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { STAGES_OPTION } from '~/modules/mesx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import { getLotNumberListSOExportApi } from '~/modules/wmsx/redux/sagas/so-export/get-lot-number-list'
+import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 import addNotification from '~/utils/toast'
 
@@ -22,13 +22,21 @@ function ItemSettingTable(props) {
     data: { itemList, itemQualityPoint },
     actions,
   } = useCommonManagement()
-
-  const [lotNumberList, setLotNumberList] = useState([])
-
+  const {
+    data: { lotNumberList },
+    actions: soExportAction,
+  } = useSOExport()
+  const itemIds = items?.map((item) => item?.itemId).join(',')
   const {
     data: { saleOrderDetails },
     actions: actionSaleOrder,
   } = useSaleOrder()
+
+  useEffect(() => {
+    soExportAction.getLotNumberListSOExport({
+      itemIds: itemIds,
+    })
+  }, [itemIds])
 
   useEffect(() => {
     actions.getItems({})
@@ -41,18 +49,7 @@ function ItemSettingTable(props) {
     return () => actionSaleOrder.resetSaleOrderState()
   }, [soId])
 
-  useEffect(() => {
-    if (saleOrderDetails?.saleOrderDetails)
-      handleChangeItem(saleOrderDetails?.saleOrderDetails[0]?.itemId)
-  }, [saleOrderDetails?.saleOrderDetails])
-
   const handleChangeItem = async (val, index, setFieldValue) => {
-    if (val) {
-      const res = await getLotNumberListSOExportApi({
-        itemIds: val,
-      })
-      setLotNumberList(res.data)
-    }
     setFieldValue(`items[${index}].qcCheck`, false)
   }
 
@@ -248,7 +245,7 @@ function ItemSettingTable(props) {
       renderCell: (params) => {
         const { qcCheck, itemId } = params.row
         return qcCheck
-          ? itemQualityPoint?.find((i) => i?.itemId === itemId)?.name
+          ? itemQualityPoint?.find((i) => i?.itemId === itemId)?.code
           : ''
       },
     },

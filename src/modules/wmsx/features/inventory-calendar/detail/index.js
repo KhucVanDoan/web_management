@@ -60,8 +60,8 @@ const InventoryCalendarDetail = () => {
     warehouseSectorName: i.warehouseSector?.name,
     warehouseShelfName: i.warehouseShelf?.name,
     warehousePalletName: i.warehouseShelfFloor?.name,
-    itemCode: i.item.code,
-    itemName: i.item.name,
+    itemCode: i.item?.code,
+    itemName: i.item?.name,
   }))
 
   return (
@@ -88,33 +88,33 @@ const InventoryCalendarDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.code')}
-                value={inventoryCalendarDetails.code}
+                value={inventoryCalendarDetails?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.name')}
-                value={inventoryCalendarDetails.name}
+                value={inventoryCalendarDetails?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.inventoryType')}
-                value={t(INVENTORY_TYPE_MAP[inventoryCalendarDetails.type])}
+                value={t(INVENTORY_TYPE_MAP[inventoryCalendarDetails?.type])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.executionDay')}
                 value={convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails.executionDay,
+                  inventoryCalendarDetails?.executionDay,
                 )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.warehouses')}
-                value={inventoryCalendarDetails.warehouses
+                value={inventoryCalendarDetails?.warehouses
                   ?.map((w) => w?.name)
                   .join('; ')}
               />
@@ -125,28 +125,28 @@ const InventoryCalendarDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
-                value={inventoryCalendarDetails.createdByUser?.username}
+                value={inventoryCalendarDetails?.createdByUser?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdAt')}
                 value={convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails.createdAt,
+                  inventoryCalendarDetails?.createdAt,
                 )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.confirmByUser')}
-                value={inventoryCalendarDetails.confirmer?.username}
+                value={inventoryCalendarDetails?.confirmer?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.confirmedAt')}
                 value={convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails.confirmedAt,
+                  inventoryCalendarDetails?.confirmedAt,
                 )}
               />
             </Grid>
@@ -156,7 +156,7 @@ const InventoryCalendarDetail = () => {
                 label={t('inventoryCalendar.description')}
                 multiline
                 rows={3}
-                value={inventoryCalendarDetails.description}
+                value={inventoryCalendarDetails?.description}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
