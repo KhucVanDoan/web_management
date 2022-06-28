@@ -10,6 +10,8 @@ import TableSetting from '../TableSetting'
 import style from './style'
 
 const TopBar = ({
+  beforeTopbar,
+  affterTopbar,
   title,
   columns,
   visibleColumns,
@@ -23,6 +25,7 @@ const TopBar = ({
     <Box className={classes.root}>
       {title && <Typography variant="h3">{title}</Typography>}
       <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
+        {beforeTopbar}
         {filters && <TableFilter filters={filters} />}
         {!hideSetting && (
           <TableSetting
@@ -31,12 +34,15 @@ const TopBar = ({
             onApplySetting={onApplySetting}
           />
         )}
+        {affterTopbar}
       </Box>
     </Box>
   )
 }
 
 TopBar.defaultProps = {
+  beforeTopbar: null,
+  affterTopbar: null,
   title: '',
   visibleColumns: [],
   columns: [],
@@ -50,6 +56,8 @@ TopBar.propTypes = {
   onApplySettings: PropTypes.func,
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
+  beforeTopbar: PropTypes.node,
+  affterTopbar: PropTypes.node,
 }
 
 export default TopBar
