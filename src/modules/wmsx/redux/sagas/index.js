@@ -66,11 +66,13 @@ import watchUpdateDetail from './define-detail/update-detail'
 import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
+import watchGetPackagesEvenByItem from './define-package/get-packages-even-by-item'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
 import watchCreatePallet from './define-pallet/create-pallet'
 import watchDeletePallet from './define-pallet/delete-pallet'
 import watchGetPalletDetail from './define-pallet/get-pallet-detail'
+import watchGetPalletsEvenByItem from './define-pallet/get-pallets-even-by-item'
 import watchSearchPallets from './define-pallet/search-pallets'
 import watchUpdatePallet from './define-pallet/update-pallet'
 import watchConfirmPaymentType from './define-payment-type/confirm-payment-type'
@@ -311,12 +313,15 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+
     // define pallet
     watchCreatePallet(),
     watchDeletePallet(),
     watchGetPalletDetail(),
     watchSearchPallets(),
     watchUpdatePallet(),
+    watchGetPalletsEvenByItem(),
+
     //define-template-sector
     watchCreateTemplateSector(),
     watchDeleteTemplateSector(),
@@ -449,6 +454,8 @@ export default function* sagas() {
     watchSearchPackages(),
     watchUpdatePackage(),
     watchGetPackageDetails(),
+    watchGetPackagesEvenByItem(),
+
     //define-warehouse-shelf
     watchGetDefineWarehouseShelf(),
     watchSearchDefineWarehouseShelf(),

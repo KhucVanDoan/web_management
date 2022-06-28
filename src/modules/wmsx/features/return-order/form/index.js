@@ -50,7 +50,7 @@ const ReturnOrderForm = () => {
     itemId: '',
     warehouseId: null,
     quantity: 1,
-    qcCheck: false,
+    evenRow: false,
     warehouseName: '',
     lotNumber: '',
   }
@@ -99,6 +99,11 @@ const ReturnOrderForm = () => {
     })
   }, [])
 
+  useEffect(() => {
+    poImpActions.searchPOImports({ isGetAll: 1 })
+    soExpActions.searchSOExport({ isGetAll: 1 })
+  }, [])
+
   const handleGetOrderList = (val, values) => {
     if (Number(values.switchMode) === LETTER_TYPE.PAY_SUPPLIER) {
       poImpActions.searchPOImports({
@@ -121,7 +126,7 @@ const ReturnOrderForm = () => {
     () => ({
       code: returnOrderDetails?.code || '',
       name: returnOrderDetails?.name || '',
-      switchMode: '0',
+      switchMode: returnOrderDetails?.returnType?.toString() || '0',
       warehouses: returnOrderDetails?.warehouses || [],
       deadline: returnOrderDetails?.deadline || null,
       letterCode: returnOrderDetails?.order || null,
@@ -129,6 +134,7 @@ const ReturnOrderForm = () => {
       description: returnOrderDetails?.description || '',
       items: returnOrderDetails?.returnOrderWarehouseLots?.map((ro) => ({
         itemId: ro.item,
+        package: ro.package,
         lotNumber: ro.lotNumber,
         mfg: ro.mfg,
         quantity: ro.quantity,
@@ -434,7 +440,7 @@ const ReturnOrderForm = () => {
                       <Field.TextField
                         name="description"
                         label={t('returnOrder.description')}
-                        placeholder={t('returnOrder.description')}
+                        placeholder={t('returnOrder.descriptionInput')}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}

@@ -75,10 +75,11 @@ const ReturnOrderDetail = () => {
         itemCode: item?.code,
         lotNumber: roItem?.lotNumber,
         mfg: roItem?.mfg,
-        packageCode: roItem?.package?.code,
+        packageId: roItem?.package?.code,
         planQuantity: roItem?.quantity,
         actualQuantity: roItem?.actualQuantity,
         unit: item?.itemUnit?.name,
+        evenRow: returnOrderDetails?.isEven,
       }
     },
   )
@@ -119,7 +120,7 @@ const ReturnOrderDetail = () => {
             <Grid item xs={12}>
               <LV
                 label={t('returnOrder.letterType')}
-                value={t(LETTER_TYPE_MAP[returnOrderDetails?.type])}
+                value={t(LETTER_TYPE_MAP[returnOrderDetails?.returnType])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -150,7 +151,7 @@ const ReturnOrderDetail = () => {
               <LV
                 label={t('returnOrder.warehouse')}
                 value={
-                  returnOrderDetails?.type === LETTER_TYPE.PAY_SUPPLIER
+                  returnOrderDetails?.returnType === LETTER_TYPE.PAY_SUPPLIER
                     ? t('returnOrder.exportWarehouse')
                     : t('returnOrder.importWarehouse')
                 }
