@@ -12,6 +12,11 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import {
+  DEFINE_PACKAGE_STATUS,
+  DEFINE_PACKAGE_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import {
   exportPackageApi,
@@ -44,10 +49,10 @@ function DefinePackage() {
     actions,
   } = useDefinePackage()
 
-  const [modal, setModal] = useState({
-    tempItem: null,
-    isOpenDeleteModal: false,
-  })
+  const [tempItem, setTempItem] = useState(null)
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
@@ -82,7 +87,7 @@ function DefinePackage() {
     {
       field: 'description',
       headerName: t('definePackage.description'),
-      width: 300,
+      width: 200,
       sortable: false,
     },
     {
@@ -97,13 +102,33 @@ function DefinePackage() {
       },
     },
     {
+      field: 'status',
+      headerName: t('definePackage.status'),
+      width: 150,
+      renderCell: (params) => {
+        const { status } = params.row
+        return (
+          <Status
+            options={DEFINE_PACKAGE_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
+      },
+    },
+    {
       field: 'action',
       headerName: t('definePackage.action'),
       width: 200,
       sortable: false,
       align: 'center',
       renderCell: (params) => {
-        const { id } = params.row
+        const { status, id } = params.row
+        const isConfirmed = status === DEFINE_PACKAGE_STATUS.PENDING
+        const hasEditDeleteBtn =
+          status === DEFINE_PACKAGE_STATUS.PENDING ||
+          status === DEFINE_PACKAGE_STATUS.REJECTED
+
         return (
           <div>
             <IconButton
@@ -115,18 +140,27 @@ function DefinePackage() {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_PACKAGE.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
+            {hasEditDeleteBtn && (
+              <>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.DEFINE_PACKAGE.EDIT.PATH.replace(':id', `${id}`),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              </>
+            )}
+            {isConfirmed && (
+              <IconButton onClick={() => onClickConfirmed(params.row)}>
+                <Icon name="tick" />
+              </IconButton>
+            )}
           </div>
         )
       },
@@ -152,25 +186,29 @@ function DefinePackage() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const handleOpenDeleteModal = (tempItem) => {
-    setModal({
-      tempItem,
-      isOpenDeleteModal: true,
-    })
+  const onClickDelete = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenDeleteModal(true)
   }
-
-  const onSubmitDeleteModal = () => {
-    actions.deletePackage(modal?.tempItem?.id, () => {
+  const onSubmitDelete = () => {
+    actions.deletePackage(tempItem?.id, () => {
       refreshData()
     })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+    setTempItem(null)
+    setIsOpenDeleteModal(false)
   }
 
-  const onCloseDeleteModal = () => {
-    setModal({
-      tempItem: null,
-      isOpenDeleteModal: false,
+  const onClickConfirmed = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenConfirmModal(true)
+  }
+
+  const submitConfirm = () => {
+    actions.confirmPackageById(tempItem?.id, () => {
+      refreshData()
     })
+    setTempItem(null)
+    setIsOpenConfirmModal(false)
   }
 
   const renderHeaderRight = () => {
@@ -234,12 +272,13 @@ function DefinePackage() {
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
+        open={isOpenDeleteModal}
         title={t('definePackage.definePackageDelete')}
-        onCancel={onCloseDeleteModal}
+        onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDeleteModal}
+        onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
+        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -248,12 +287,34 @@ function DefinePackage() {
         {t('definePackage.confirmDelete')}
         <LV
           label={t('definePackage.code')}
-          value={modal?.tempItem?.code}
+          value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
           label={t('definePackage.name')}
-          value={modal?.tempItem?.name}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenConfirmModal}
+        title={t('general:common.notify')}
+        onCancel={() => setIsOpenConfirmModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitConfirm}
+        noBorderBotttom
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('definePackage.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('definePackage.name')}
+          value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
