@@ -11,6 +11,12 @@ export const MMSX_GET_MO_BY_FACTORY = 'MMSX_GET_MO_BY_FACTORY'
 export const MMSX_GET_MO_BY_FACTORY_SUCCESS = 'MMSX_GET_MO_BY_FACTORY_SUCCESS'
 export const MMSX_GET_MO_BY_FACTORY_FAILED = 'MMSX_GET_MO_BY_FACTORY_FAILED'
 
+export const GET_RESPONSIBLE_SUBJECT_START =
+  'MMSX_GET_RESPONSIBLE_SUBJECT_START'
+export const GET_RESPONSIBLE_SUBJECT_SUCCESS =
+  'MMSX_GET_RESPONSIBLE_SUBJECT_SUCCESS'
+export const GET_RESPONSIBLE_SUBJECT_FAILED =
+  'MMSX_GET_RESPONSIBLE_SUBJECT_FAILED'
 export function getFactoryList(payload, onSuccess, onError) {
   return {
     type: MMSX_GET_FACTORY_LIST_START,
@@ -77,6 +83,30 @@ export function getMoByFactoryFailed() {
   }
 }
 
+/* Get responsible subject */
+export function getResponsibleSubject(payload, onSuccess, onError) {
+  return {
+    type: GET_RESPONSIBLE_SUBJECT_START,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/* Action: Get responsible subject */
+export function getResponsibleSubjectSuccess(payload) {
+  return {
+    type: GET_RESPONSIBLE_SUBJECT_SUCCESS,
+    payload: payload,
+  }
+}
+
+/* Action: Get responsible subject */
+export function getResponsibleSubjectFailed() {
+  return {
+    type: GET_RESPONSIBLE_SUBJECT_FAILED,
+  }
+}
 export default {
   getFactoryList,
   getFactoryListFail,
@@ -87,4 +117,7 @@ export default {
   getMoByFactorySuccess,
   getMoByFactoryFailed,
   getMoByFactory,
+  getResponsibleSubject,
+  getResponsibleSubjectSuccess,
+  getResponsibleSubjectFailed,
 }
