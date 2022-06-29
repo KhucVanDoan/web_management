@@ -1,5 +1,18 @@
 import { all } from 'redux-saga/effects'
 
+import watchCloseBlockItem from './block-item-location/block-item/close-block-item.saga'
+import watchCreateBlockItem from './block-item-location/block-item/create-block-item'
+import watchDeleteBlockItem from './block-item-location/block-item/delete-block-item'
+import watchGetBlockItemDetail from './block-item-location/block-item/get-block-item-detail'
+import watchOpenBlockItem from './block-item-location/block-item/open-block-item'
+import watchSearchBlockItems from './block-item-location/block-item/search-block-item'
+import watchCloseBlockLocation from './block-item-location/block-location/close-block-location'
+import watchCreateBlockLocation from './block-item-location/block-location/create-block-location'
+import watchDeleteBlockLocation from './block-item-location/block-location/delete-block-location'
+import watchGetBlockLocationDetail from './block-item-location/block-location/get-block-item-location'
+import watchGetDesignByWarehouse from './block-item-location/block-location/get-design-by-warehouse'
+import watchOpenBlockLocation from './block-item-location/block-location/open-block-location'
+import watchSearchBlockLocations from './block-item-location/block-location/search-block-location'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
@@ -53,11 +66,13 @@ import watchUpdateDetail from './define-detail/update-detail'
 import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
+import watchGetPackagesEvenByItem from './define-package/get-packages-even-by-item'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
 import watchCreatePallet from './define-pallet/create-pallet'
 import watchDeletePallet from './define-pallet/delete-pallet'
 import watchGetPalletDetail from './define-pallet/get-pallet-detail'
+import watchGetPalletsEvenByItem from './define-pallet/get-pallets-even-by-item'
 import watchSearchPallets from './define-pallet/search-pallets'
 import watchUpdatePallet from './define-pallet/update-pallet'
 import watchConfirmPaymentType from './define-payment-type/confirm-payment-type'
@@ -298,12 +313,15 @@ export default function* sagas() {
     watchGetDetails(),
     watchSearchDetails(),
     watchUpdateDetail(),
+
     // define pallet
     watchCreatePallet(),
     watchDeletePallet(),
     watchGetPalletDetail(),
     watchSearchPallets(),
     watchUpdatePallet(),
+    watchGetPalletsEvenByItem(),
+
     //define-template-sector
     watchCreateTemplateSector(),
     watchDeleteTemplateSector(),
@@ -436,6 +454,8 @@ export default function* sagas() {
     watchSearchPackages(),
     watchUpdatePackage(),
     watchGetPackageDetails(),
+    watchGetPackagesEvenByItem(),
+
     //define-warehouse-shelf
     watchGetDefineWarehouseShelf(),
     watchSearchDefineWarehouseShelf(),
@@ -516,6 +536,20 @@ export default function* sagas() {
     watchGetLocationSettingDetails(),
     watchSearchLocationSettings(),
     watchUpdateLocationSetting(),
+    //block-item-location
+    watchCloseBlockItem(),
+    watchCreateBlockItem(),
+    watchDeleteBlockItem(),
+    watchGetBlockItemDetail(),
+    watchOpenBlockItem(),
+    watchSearchBlockItems(),
+    watchCloseBlockLocation(),
+    watchCreateBlockLocation(),
+    watchDeleteBlockLocation(),
+    watchGetBlockLocationDetail(),
+    watchGetDesignByWarehouse(),
+    watchOpenBlockLocation(),
+    watchSearchBlockLocations(),
 
     //return-order
     watchSearchReturnOrders(),

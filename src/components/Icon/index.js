@@ -20,6 +20,8 @@ import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
 import { ReactComponent as ImportXlsx } from '~/assets/images/icons/importXlsx.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
+import { ReactComponent as Lock } from '~/assets/images/icons/keylock.svg'
+import { ReactComponent as UnLock } from '~/assets/images/icons/keyunlock.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
@@ -79,6 +81,8 @@ const icons = {
   downloadAlt: <DownloadAlt />,
   collapse: <Collapse />,
   paper: <Paper />,
+  lock: <Lock />,
+  unLock: <UnLock />,
 
   // menu
   drawer: <Drawer />,

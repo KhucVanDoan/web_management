@@ -18,6 +18,13 @@ export const WMSX_DELETE_PALLET_START = 'WMSX_DELETE_PALLET_START'
 export const WMSX_DELETE_PALLET_SUCCESS = 'WMSX_DELETE_PALLET_SUCCESS'
 export const WMSX_DELETE_PALLET_FAILED = 'WMSX_DELETE_PALLET_FAILED'
 
+export const WMSX_GET_PALLETS_EVEN_BY_ITEM_START =
+  'WMSX_GET_PALLETS_EVEN_BY_ITEM_START'
+export const WMSX_GET_PALLETS_EVEN_BY_ITEM_SUCCESS =
+  'WMSX_GET_PALLETS_EVEN_BY_ITEM_SUCCESS'
+export const WMSX_GET_PALLETS_EVEN_BY_ITEM_FAILED =
+  'WMSX_GET_PALLETS_EVEN_BY_ITEM_FAILED'
+
 export const WMSX_RESET_PALLET_DETAILS_STATE = 'WMSX_RESET_PALLET_DETAILS_STATE'
 
 /**
@@ -55,6 +62,44 @@ export function searchPalletsSuccess(payload) {
 export function searchPalletsFailed() {
   return {
     type: WMSX_SEARCH_PALLETS_FAILED,
+  }
+}
+
+/**
+ * Get pallets even by item
+ * @param {object} payload
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getPalletsEvenByItem(payload, onSuccess, onError) {
+  return {
+    type: WMSX_GET_PALLETS_EVEN_BY_ITEM_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get pallets even by item success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getPalletsEvenByItemSuccess(payload) {
+  return {
+    type: WMSX_GET_PALLETS_EVEN_BY_ITEM_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get pallets even by item failed action
+ * @returns {object}
+ */
+export function getPalletsEvenByItemFailed() {
+  return {
+    type: WMSX_GET_PALLETS_EVEN_BY_ITEM_FAILED,
   }
 }
 
@@ -231,5 +276,8 @@ export default {
   deletePallet,
   deletePalletFailed,
   deletePalletSuccess,
+  getPalletsEvenByItem,
+  getPalletsEvenByItemSuccess,
+  getPalletsEvenByItemFailed,
   resetPalletDetailsState,
 }

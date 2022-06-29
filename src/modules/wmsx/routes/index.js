@@ -84,6 +84,10 @@ import Inventory from '../features/inventory/list'
 import InvoiceType from '../features/invoice-type'
 import InvoiceTypeDetail from '../features/invoice-type/detail'
 import InvoiceTypeForm from '../features/invoice-type/form'
+import LockItemDetail from '../features/lock-item-location/detail/block-item'
+import LockLocationDetail from '../features/lock-item-location/detail/block-location'
+import LockItemLocaionForm from '../features/lock-item-location/form'
+import LockItemLocation from '../features/lock-item-location/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
@@ -168,6 +172,7 @@ const routes = [
           },
         ],
       },
+
       {
         name: ROUTE.DEFINE_PACKAGE.LIST.TITLE,
         path: ROUTE.DEFINE_PACKAGE.LIST.PATH,
@@ -714,12 +719,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.WAREHOUSE_DESIGN.TITLE,
-        path: ROUTE.WAREHOUSE_DESIGN.PATH,
-        component: warehouseDesign,
-        isInSidebar: true,
-      },
-      {
         name: ROUTE.ESTABLISH_LOCATION.LIST.TITLE,
         path: ROUTE.ESTABLISH_LOCATION.LIST.PATH,
         component: EstablishLocation,
@@ -854,6 +853,32 @@ const routes = [
         path: ROUTE.WAREHOUSE_SPACE_REPORT.PATH,
         component: WarehouseSpaceReport,
         isInSidebar: true,
+      },
+      {
+        name: ROUTE.LOCK_ITEM_LOCATION.LIST.TITLE,
+        path: ROUTE.LOCK_ITEM_LOCATION.LIST.PATH,
+        component: LockItemLocation,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.LOCK_ITEM_LOCATION.CREATE.TITLE,
+            path: ROUTE.LOCK_ITEM_LOCATION.CREATE.PATH,
+            component: LockItemLocaionForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.LOCK_ITEM_LOCATION.DETAIL_ITEM.TITLE,
+            path: ROUTE.LOCK_ITEM_LOCATION.DETAIL_ITEM.PATH,
+            component: LockItemDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.LOCK_ITEM_LOCATION.DETAIL_LOCATION.TITLE,
+            path: ROUTE.LOCK_ITEM_LOCATION.DETAIL_LOCATION.PATH,
+            component: LockLocationDetail,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

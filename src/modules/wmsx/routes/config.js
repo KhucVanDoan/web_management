@@ -696,6 +696,24 @@ export const ROUTE = {
       TITLE: 'locationSettingEdit',
     },
   },
+  LOCK_ITEM_LOCATION: {
+    LIST: {
+      PATH: '/wmsx/lock-item-location',
+      TITLE: 'lockItemLocation',
+    },
+    CREATE: {
+      PATH: '/wmsx/lock-item-location/create',
+      TITLE: 'lockItemLocationCreate',
+    },
+    DETAIL_ITEM: {
+      PATH: '/wmsx/block-item/:id/detail',
+      TITLE: 'lockItemLocationDetail',
+    },
+    DETAIL_LOCATION: {
+      PATH: '/wmsx/block-location/:id/detail',
+      TITLE: 'lockItemLocationDetail',
+    },
+  },
   RETURN_ORDER: {
     LIST: {
       PATH: '/wmsx/return-order',
