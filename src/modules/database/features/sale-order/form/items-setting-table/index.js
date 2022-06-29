@@ -154,7 +154,7 @@ function ItemSettingTable(props) {
         renderCell: (params, index) => {
           const item = params?.row?.item
           return isView ? (
-            <>{item?.itemUnit || ''}</>
+            <>{item?.itemUnit?.name || ''}</>
           ) : (
             <Field.TextField
               name={`items[${index}].item.itemUnit`}
