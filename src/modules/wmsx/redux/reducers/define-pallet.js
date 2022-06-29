@@ -14,6 +14,9 @@ import {
   WMSX_UPDATE_PALLET_FAILED,
   WMSX_UPDATE_PALLET_START,
   WMSX_UPDATE_PALLET_SUCCESS,
+  WMSX_GET_PALLETS_EVEN_BY_ITEM_FAILED,
+  WMSX_GET_PALLETS_EVEN_BY_ITEM_SUCCESS,
+  WMSX_GET_PALLETS_EVEN_BY_ITEM_START,
   WMSX_RESET_PALLET_DETAILS_STATE,
 } from '../actions/define-pallet'
 
@@ -21,6 +24,7 @@ const initialState = {
   isLoading: false,
   palletList: [],
   palletDetails: {},
+  palletsEvenByItem: [],
   total: null,
 }
 
@@ -32,6 +36,7 @@ const initialState = {
  */
 export default function definePallet(state = initialState, action) {
   switch (action.type) {
+    case WMSX_GET_PALLETS_EVEN_BY_ITEM_START:
     case WMSX_SEARCH_PALLETS_START:
     case WMSX_GET_PALLET_DETAIL_START:
     case WMSX_CREATE_PALLET_START:
@@ -46,6 +51,13 @@ export default function definePallet(state = initialState, action) {
       return {
         ...state,
         palletList: action.payload.list,
+        isLoading: false,
+        total: action.payload.total,
+      }
+    case WMSX_GET_PALLETS_EVEN_BY_ITEM_SUCCESS:
+      return {
+        ...state,
+        palletsEvenByItem: action.payload.list,
         isLoading: false,
         total: action.payload.total,
       }
@@ -64,6 +76,7 @@ export default function definePallet(state = initialState, action) {
     case WMSX_DELETE_PALLET_SUCCESS:
     case WMSX_DELETE_PALLET_FAILED:
     case WMSX_SEARCH_PALLETS_FAILED:
+    case WMSX_GET_PALLETS_EVEN_BY_ITEM_FAILED:
       return {
         ...state,
         isLoading: false,

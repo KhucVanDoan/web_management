@@ -19,7 +19,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
         headerName: '#',
         sortable: false,
         renderCell: (_, index) => {
-          return index
+          return index + 1
         },
       },
       {
@@ -177,7 +177,6 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
         columns={getColumns()}
         total={vendorAbilities?.length}
         striped={false}
-        hideFooter
         hideSetting
       />
     </>

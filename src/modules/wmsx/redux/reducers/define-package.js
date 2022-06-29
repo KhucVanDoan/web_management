@@ -14,6 +14,9 @@ import {
   UPDATE_PACKAGE_FAILED,
   UPDATE_PACKAGE_START,
   UPDATE_PACKAGE_SUCCESS,
+  GET_PACKAGES_EVEN_BY_ITEM_FAILED,
+  GET_PACKAGES_EVEN_BY_ITEM_SUCCESS,
+  GET_PACKAGES_EVEN_BY_ITEM_START,
   RESET_PACKAGE_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/define-package'
 
@@ -21,6 +24,7 @@ const initialState = {
   isLoading: false,
   packageList: [],
   packageDetails: {},
+  packagesEvenByItem: [],
   total: null,
 }
 
@@ -32,6 +36,7 @@ const initialState = {
  */
 export default function definePackage(state = initialState, action) {
   switch (action.type) {
+    case GET_PACKAGES_EVEN_BY_ITEM_START:
     case SEARCH_PACKAGES_START:
     case CREATE_PACKAGE_START:
     case UPDATE_PACKAGE_START:
@@ -50,6 +55,18 @@ export default function definePackage(state = initialState, action) {
       }
 
     case SEARCH_PACKAGES_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case GET_PACKAGES_EVEN_BY_ITEM_SUCCESS:
+      return {
+        ...state,
+        packagesEvenByItem: action.payload.list,
+        isLoading: false,
+      }
+
+    case GET_PACKAGES_EVEN_BY_ITEM_FAILED:
       return {
         ...state,
         isLoading: false,

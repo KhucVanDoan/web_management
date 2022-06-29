@@ -1060,6 +1060,32 @@ export const INVENTORY_TYPE_OPTIONS = [
     text: 'inventoryCalendar.blindCounts',
   },
 ]
+export const BLOCK_ITEM_LOCATION_STATUS = {
+  UNLOCKED: 0,
+  LOCKED: 1,
+}
+export const BLOCK_ITEM_LOCATION_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'blockItemLocation.statusBlocItemLocation.unlocked',
+    color: 'confirmed',
+  },
+  {
+    id: 1,
+    text: 'blockItemLocation.statusBlocItemLocation.locked',
+    color: 'rejected',
+  },
+]
+export const BLOCK_ITEM_LOCATION_STATUS_MAP = {
+  [BLOCK_ITEM_LOCATION_STATUS.UNLOCKED]:
+    'blockItemLocation.statusBlocItemLocation.unlocked',
+  [BLOCK_ITEM_LOCATION_STATUS.LOCKED]:
+    'blockItemLocation.statusBlocItemLocation.locked',
+}
+export const BLOCK_ITEM_LOCATION_TYPE = {
+  ITEM: 0,
+  LOCATION: 1,
+}
 
 export const LETTER_TYPE = {
   PAY_SUPPLIER: 0,
