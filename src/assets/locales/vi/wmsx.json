@@ -1650,6 +1650,7 @@
     "createdAt": "Ngày tạo",
     "updatedAt": "Ngày sửa",
     "createTime": "Thời gian tạo",
+    "status": "Trạng thái",
     "action": "Hành động",
     "printQRSuccess": "In thành công",
     "searchPlaceholder": "Tìm kiếm package theo mã hoặc tên package",
@@ -1669,6 +1670,10 @@
     "height": "Chiều cao",
     "long": "Chiều dài",
     "weight": "Khối lượng"
+  },
+  "definePackageStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận"
   },
   "defineWarehouseShelf": {
     "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",

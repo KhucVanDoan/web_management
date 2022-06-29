@@ -63,6 +63,7 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchConfirmPackage from './define-package/confirm-package'
 import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
@@ -193,14 +194,14 @@ import watchRejectPOSImport from './purchased-orders-import/reject-purchased-ord
 import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
 import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
-import watchConfirmReturnOrder from './return-order/confirm-warehouse-transfer'
-import watchCreateReturnOrder from './return-order/create-warehouse-transfer'
-import watchDeleteReturnOrder from './return-order/delete-warehouse-transfer'
+import watchConfirmReturnOrder from './return-order/confirm-return-order'
+import watchCreateReturnOrder from './return-order/create-return-order'
+import watchDeleteReturnOrder from './return-order/delete-return-order'
 import watchGetItemsByOrderReturnOrder from './return-order/get-items-by-order-return-order'
-import watchGetReturnOrderDetails from './return-order/get-warehouse-transfer-details'
-import watchRejectReturnOrder from './return-order/reject-warehouse-transfer'
-import watchSearchReturnOrders from './return-order/search-warehouse-transfer'
-import watchUpdateReturnOrder from './return-order/update-warehouse-transfer'
+import watchGetReturnOrderDetails from './return-order/get-return-order-details'
+import watchRejectReturnOrder from './return-order/reject-return-order'
+import watchSearchReturnOrders from './return-order/search-return-order'
+import watchUpdateReturnOrder from './return-order/update-return-order'
 import watchConfirmSOExport from './so-export/confirm-so-export'
 import watchCreateSOExport from './so-export/create-so-export'
 import watchDeleteSOExport from './so-export/delete-so-export'
@@ -455,6 +456,7 @@ export default function* sagas() {
     watchUpdatePackage(),
     watchGetPackageDetails(),
     watchGetPackagesEvenByItem(),
+    watchConfirmPackage(),
 
     //define-warehouse-shelf
     watchGetDefineWarehouseShelf(),
