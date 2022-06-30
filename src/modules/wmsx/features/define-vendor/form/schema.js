@@ -13,6 +13,19 @@ const defineVendorSchema = (t) =>
       Yup.object().shape({
         quantity: Yup.number()
           .min(
+            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+            t('general:form.minNumber', {
+              min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MIN,
+            }),
+          )
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            t('general:form.maxNumber', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_INTEGER.MAX,
+            }),
+          ),
+        deliveryTime: Yup.number()
+          .min(
             NUMBER_FIELD_REQUIRED_SIZE.INTEGER_1000.MIN,
             t('general:form.minNumber', {
               min: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_1000.MIN,
@@ -22,19 +35,6 @@ const defineVendorSchema = (t) =>
             NUMBER_FIELD_REQUIRED_SIZE.INTEGER_1000.MAX,
             t('general:form.maxNumber', {
               max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_1000.MAX,
-            }),
-          ),
-        deliveryTime: Yup.number()
-          .min(
-            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-            t('general:form.minNumber', {
-              min: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MIN,
-            }),
-          )
-          .max(
-            NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
-            t('general:form.maxNumber', {
-              max: NUMBER_FIELD_REQUIRED_SIZE.AMOUNT_DECIMAL.MAX,
             }),
           ),
       }),
