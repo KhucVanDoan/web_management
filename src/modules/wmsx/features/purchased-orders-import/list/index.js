@@ -216,7 +216,7 @@ function POList() {
   }
 
   const onSubmitDeleteModal = () => {
-    actions.deleteDetail(modal?.tempItem?.id, () => {
+    actions.deletePOImport(modal?.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
