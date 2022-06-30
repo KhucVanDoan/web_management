@@ -24,7 +24,10 @@ const ItemSettingTable = ({ items }) => {
       warehousePalletName: '',
       lotNumber: '',
       packageCode: '',
-      quantity: +item?.quantity,
+      quantity: +item?.lots?.reduce(
+        (acc, cur) => acc + Number(cur?.quantity),
+        0,
+      ),
       planQuantity: +item?.planQuantity,
     })
     item.lots.forEach((lot) => {

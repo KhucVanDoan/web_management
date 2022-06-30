@@ -55,14 +55,13 @@ function ItemSettingTable(props) {
     actions.getItems({})
     actionsPackage.searchPackages()
   }, [])
+  const itemIds = items?.map((item) => item?.itemId).join(',')
+
   useEffect(() => {
-    const itemIds = items?.map((item) => item.itemId)
     actionsPurchasedOrdersImport.getLotNumberList({
-      itemIds: itemIds
-        ?.filter((id, index) => itemIds.indexOf(id) === index)
-        .join(','),
+      itemIds: itemIds,
     })
-  }, [items])
+  }, [itemIds])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
   }
@@ -254,7 +253,10 @@ function ItemSettingTable(props) {
             name={`items[${index}].quantity`}
             type="number"
             disabled={isView}
-            allow={TEXTFIELD_ALLOW.NUMERIC}
+            allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+            numberProps={{
+              decimalScale: 2,
+            }}
           />
         )
       },

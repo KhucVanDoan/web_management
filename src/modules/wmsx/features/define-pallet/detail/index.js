@@ -66,7 +66,6 @@ const DefinePalletDetail = () => {
     {
       field: 'amout',
       headerName: t('definePallet.item.amount'),
-      align: 'right',
       renderCell: (params) => {
         return params.row.quantity
       },
@@ -91,7 +90,6 @@ const DefinePalletDetail = () => {
     {
       field: 'amout',
       headerName: t('definePallet.package.amount'),
-      align: 'right',
       renderCell: (params) => {
         return params.row.quantity
       },

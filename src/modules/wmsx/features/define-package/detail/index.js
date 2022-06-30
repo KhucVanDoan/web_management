@@ -63,7 +63,6 @@ const DefinePackageDetail = () => {
     {
       field: 'productAmount',
       headerName: t('definePackage.productAmount'),
-      align: 'right',
       renderCell: (params) => {
         return params.row.quantity
       },
