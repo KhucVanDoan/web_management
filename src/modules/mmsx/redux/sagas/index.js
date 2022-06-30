@@ -5,6 +5,11 @@ import watchGetListMaintenanceTeam from './common/get-maintencance-list'
 import watchGetMo from './common/get-mo-list'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetSummary from './dashboard'
+import watchCreateTemplateInstall from './define-installation-template/create'
+import watchDeleteTemplateInstall from './define-installation-template/delete'
+import watchGetTemplateInstall from './define-installation-template/get-detail'
+import watchSearchTemplateInstall from './define-installation-template/get-list'
+import watchUpdateTemplateInstall from './define-installation-template/update'
 import watchConfirmDeviceCategory from './device-category/confirm-device-category'
 import watchCreateDeviceCategory from './device-category/create-device-category'
 import watchDeleteDeviceCategory from './device-category/delete-device-category'
@@ -24,6 +29,12 @@ export default function* sagas() {
     watchGetResponsibleSubject(),
     // Dashboard
     watchGetSummary(),
+    //define-installation-templte
+    watchCreateTemplateInstall(),
+    watchDeleteTemplateInstall(),
+    watchGetTemplateInstall(),
+    watchSearchTemplateInstall(),
+    watchUpdateTemplateInstall(),
     //device category
     watchConfirmDeviceCategory(),
     watchCreateDeviceCategory(),
