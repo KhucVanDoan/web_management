@@ -14,6 +14,10 @@ export const DELETE_PACKAGE_START = 'WMSX_DELETE_PACKAGE_START'
 export const DELETE_PACKAGE_SUCCESS = 'WMSX_DELETE_PACKAGE_SUCCESS'
 export const DELETE_PACKAGE_FAILED = 'WMSX_DELETE_PACKAGE_FAILED'
 
+export const CONFIRM_PACKAGE_START = 'WMSX_CONFIRM_PACKAGE_START'
+export const CONFIRM_PACKAGE_SUCCESS = 'WMSX_CONFIRM_PACKAGE_SUCCESS'
+export const CONFIRM_PACKAGE_FAILED = 'WMSX_CONFIRM_PACKAGE_FAILED'
+
 export const GET_PACKAGE_DETAILS_START = 'WMSX_GET_PACKAGE_DETAILS_START'
 export const GET_PACKAGE_DETAILS_SUCCESS = 'WMSX_GET_PACKAGE_DETAILS_SUCCESS'
 export const GET_PACKAGE_DETAILS_FAILED = 'WMSX_GET_PACKAGE_DETAILS_FAILED'
@@ -253,6 +257,28 @@ export function getPackageDetailsByIdFailed() {
   }
 }
 
+export function confirmPackageById(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_PACKAGE_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmPackageByIdSuccess(payload) {
+  return {
+    type: CONFIRM_PACKAGE_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmPackageByIdFailed() {
+  return {
+    type: CONFIRM_PACKAGE_FAILED,
+  }
+}
+
 export function resetPackageDetailsState() {
   return {
     type: RESET_PACKAGE_DETAILS_STATE,
@@ -278,5 +304,8 @@ export default {
   getPackagesEvenByItem,
   getPackagesEvenByItemSuccess,
   getPackagesEvenByItemFailed,
+  confirmPackageById,
+  confirmPackageByIdSuccess,
+  confirmPackageByIdFailed,
   resetPackageDetailsState,
 }

@@ -77,7 +77,7 @@ function ReturnOrder() {
       headerName: t('returnOrder.letterType'),
       width: 150,
       renderCell: (params) => {
-        return `${t(LETTER_TYPE_MAP[params.row?.type])}`
+        return `${t(LETTER_TYPE_MAP[params.row?.returnType])}`
       },
     },
     {

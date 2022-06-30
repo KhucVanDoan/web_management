@@ -433,6 +433,7 @@ function PurchasedOrderForm() {
                     requestBuyMaterialId={requestBuyMaterialId}
                     setFieldValue={setFieldValue}
                     purchasedOrderDetails={purchasedOrderDetails}
+                    values={values}
                   />
                 )}
               />

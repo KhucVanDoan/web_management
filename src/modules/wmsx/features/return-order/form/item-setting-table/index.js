@@ -20,6 +20,7 @@ import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
 import useLocationSetting from '~/modules/wmsx/redux/hooks/useLocationSetting'
+import useReturnOrder from '~/modules/wmsx/redux/hooks/useReturnOrder'
 import {
   convertFilterParams,
   convertUtcDateToLocalTz,
@@ -28,10 +29,14 @@ import {
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, values, setFieldValue, itemByOrderList } =
-    props
+  const { items, mode, arrayHelpers, values, setFieldValue } = props
   const [checked, setChecked] = useState()
   const isView = mode === MODAL_MODE.DETAIL
+
+  const {
+    data: { itemByOrderList },
+    actions,
+  } = useReturnOrder()
 
   const {
     data: { itemList },
@@ -57,6 +62,14 @@ function ItemSettingTable(props) {
     commonActions.getItems({ isGetAll: 1 })
     lsActions.searchLocationSetting()
   }, [])
+
+  useEffect(() => {
+    const params = {
+      orderId: values?.orderCode?.id,
+      returnType: Number(values?.switchMode),
+    }
+    actions.getItemsByOrderReturnOrder(params)
+  }, [values?.orderCode])
 
   const handleGetData = (val, index) => {
     const params = {

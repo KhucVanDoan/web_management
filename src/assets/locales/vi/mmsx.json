@@ -147,7 +147,10 @@
     "suppliesRequest": "Yêu cầu vật tư phụ tùng",
     "suppliesRequestDetail": "Chi tiết yêu cầu vật tư phụ tùng",
     "suppliesRequestCreate": "Tạo yêu cầu vật tư phụ tùng",
-    "suppliesRequestEdit": "Sửa yêu cầu vật tư phụ tùng"
+    "suppliesRequestEdit": "Sửa yêu cầu vật tư phụ tùng",
+    "deviceCategoryDetail": "Chi tiết nhóm thiết bị",
+    "deviceCategoryCreate": "Tạo nhóm thiết bị",
+    "deviceCategoryEdit": "Sửa nhóm thiết bị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -599,6 +602,10 @@
   },
   "deviceCategory": {
     "title": "Danh sách nhóm thiết bị",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "createAt": "Ngày tạo",
+    "updateAt": "Ngày sửa",
+    "action": "Hành động",
     "form": {
       "status": "Trạng thái",
       "create": "Tạo nhóm thiết bị",
@@ -615,6 +622,11 @@
       "name": "Tên nhóm",
       "description": "Mô tả nhóm"
     },
+    "actionHistory": {
+      "created": "Đã tạo mới nhóm thiết bị",
+      "updated": "Đã chỉnh sửa nhóm thiết bị",
+      "confirm": "Đã phê duyệt nhóm thiết bị"
+    },
     "responsibleUser": "Người chịu trách nhiệm",
     "notification": {
       "success": "Tạo nhóm thiết bị thành công",
@@ -625,11 +637,6 @@
     "button": {
       "device": "Thiết bị",
       "job": "Công việc"
-    },
-    "actionHistory": {
-      "created": "Đã tạo mới nhóm thiết bị",
-      "updated": "Đã chỉnh sửa nhóm thiết bị",
-      "confirm": "Đã phê duyệt nhóm thiết bị"
     },
     "status": {
       "confirmed": "Xác nhận",

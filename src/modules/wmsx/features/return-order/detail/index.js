@@ -165,6 +165,18 @@ const ReturnOrderDetail = () => {
                 )}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('returnOrder.createdByUser')}
+                value={returnOrderDetails?.createdByUser?.fullName}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('returnOrder.confirmByUser')}
+                value={returnOrderDetails?.confirmByUser?.fullName}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"

@@ -8,6 +8,9 @@ import {
   MMSX_GET_MO_BY_FACTORY,
   MMSX_GET_MO_BY_FACTORY_FAILED,
   MMSX_GET_MO_BY_FACTORY_SUCCESS,
+  GET_RESPONSIBLE_SUBJECT_START,
+  GET_RESPONSIBLE_SUBJECT_SUCCESS,
+  GET_RESPONSIBLE_SUBJECT_FAILED,
 } from '../actions/common'
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
   factoryList: [],
   maintenanceTeams: [],
   moListByFactory: [],
+  responsibleSubject: {},
 }
 
 /**
@@ -26,6 +30,7 @@ const initialState = {
 export default function commonManagement(state = initialState, action) {
   switch (action.type) {
     case MMSX_GET_FACTORY_LIST_START:
+    case GET_RESPONSIBLE_SUBJECT_START:
     case MMSX_GET_LIST_MAINTENANCE_TEAM_START:
     case MMSX_GET_MO_BY_FACTORY:
       return {
@@ -61,7 +66,18 @@ export default function commonManagement(state = initialState, action) {
         ...state,
         moListByFactory: [],
       }
-
+    case GET_RESPONSIBLE_SUBJECT_SUCCESS:
+      return {
+        ...state,
+        responsibleSubject: action?.payload,
+        isLoading: false,
+      }
+    case GET_RESPONSIBLE_SUBJECT_FAILED:
+      return {
+        ...state,
+        responsibleSubject: {},
+        isLoading: false,
+      }
     default:
       return state
   }

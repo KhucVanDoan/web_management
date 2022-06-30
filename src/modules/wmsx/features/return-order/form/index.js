@@ -30,6 +30,7 @@ import {
   LETTER_TYPE,
   RETURN_ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
+import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import useReturnOrder from '~/modules/wmsx/redux/hooks/useReturnOrder'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
@@ -37,7 +38,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
-import { inventoryCalendarSchema } from './schema'
+import { returnOrderSchema } from './schema'
 
 const ReturnOrderForm = () => {
   const { t } = useTranslation(['wmsx'])
@@ -59,6 +60,11 @@ const ReturnOrderForm = () => {
     data: { isLoading, returnOrderDetails, itemByOrderList },
     actions,
   } = useReturnOrder()
+
+  const {
+    data: { warehouseList },
+    actions: warehouseActs,
+  } = useDefineWarehouse()
 
   const {
     data: { purchasedOrderList },
@@ -102,6 +108,7 @@ const ReturnOrderForm = () => {
   useEffect(() => {
     poImpActions.searchPOImports({ isGetAll: 1 })
     soExpActions.searchSOExport({ isGetAll: 1 })
+    warehouseActs.searchWarehouses({ isGetAll: 1 })
   }, [])
 
   const handleGetOrderList = (val, values) => {
@@ -127,13 +134,16 @@ const ReturnOrderForm = () => {
       code: returnOrderDetails?.code || '',
       name: returnOrderDetails?.name || '',
       switchMode: returnOrderDetails?.returnType?.toString() || '0',
-      warehouses: returnOrderDetails?.warehouses || [],
+      warehouseId:
+        returnOrderDetails?.returnOrderWarehouseDetails?.[0]?.warehouseId ||
+        null,
       deadline: returnOrderDetails?.deadline || null,
       letterCode: returnOrderDetails?.order || null,
       orderCode: returnOrderDetails?.orderDetail || null,
       description: returnOrderDetails?.description || '',
       items: returnOrderDetails?.returnOrderWarehouseLots?.map((ro) => ({
-        itemId: ro.item,
+        ...ro,
+        itemId: { ...ro.item, id: ro.itemId },
         package: ro.package,
         lotNumber: ro.lotNumber,
         mfg: ro.mfg,
@@ -211,15 +221,17 @@ const ReturnOrderForm = () => {
       ...values,
       id,
       orderId: values?.orderCode?.id,
-      warehouseId: values?.orderCode?.warehouseId,
+      warehouseId: values?.orderCode?.warehouseId || values?.warehouseId,
       returnType: Number(values?.switchMode),
       deadline: values?.deadline,
       items: values?.items?.map((item, index) => ({
-        ...item,
-        warehouseId: values?.orderCode?.warehouseId,
+        // ...item,
         id: item.itemId?.id,
         quantity: Number(item.quantity),
+        lotNumber: item.lotNumber,
         mfg: itemByOrderList?.items?.[index]?.mfg,
+        packageId: item.packageId?.id,
+        warehouseId: values?.orderCode?.warehouseId || values?.warehouseId,
       })),
     }
 
@@ -262,7 +274,7 @@ const ReturnOrderForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={inventoryCalendarSchema(t, itemByOrderList)}
+        validationSchema={returnOrderSchema(t, itemByOrderList)}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -413,6 +425,7 @@ const ReturnOrderForm = () => {
                       <Field.TextField
                         label={t('returnOrder.orderName')}
                         name="orderCode.name"
+                        required
                         disabled
                       />
                     </Grid>
@@ -421,9 +434,11 @@ const ReturnOrderForm = () => {
                         name="warehouse"
                         label={t('returnOrder.warehouse')}
                         value={
-                          type === LETTER_TYPE.PAY_SUPPLIER
-                            ? t('returnOrder.exportWarehouse')
-                            : t('returnOrder.importWarehouse')
+                          values?.orderCode
+                            ? warehouseList?.find(
+                                (i) => i.id === values?.orderCode?.warehouseId,
+                              )?.name
+                            : ''
                         }
                         disabled
                       />
@@ -432,7 +447,7 @@ const ReturnOrderForm = () => {
                       <Field.DatePicker
                         name="deadline"
                         label={t('returnOrder.planDate')}
-                        placeholder={t('returnOrder.planDate')}
+                        placeholder={t('returnOrder.planDateInput')}
                         required
                       />
                     </Grid>
@@ -461,7 +476,7 @@ const ReturnOrderForm = () => {
                       arrayHelpers={arrayHelpers}
                       setFieldValue={setFieldValue}
                       values={values}
-                      itemByOrderList={itemByOrderList}
+                      // itemByOrderList={itemByOrderList}
                     />
                   )}
                 />
