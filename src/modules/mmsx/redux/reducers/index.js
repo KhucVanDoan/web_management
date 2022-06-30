@@ -4,6 +4,7 @@ import commonManagement from './common'
 import dashboard from './dashboard'
 import defineInstallTemplate from './define-installation-template'
 import deviceCategory from './device-category'
+import maintenanceTeam from './maintenance-team'
 import warningSystem from './warning-system'
 export default combineReducers({
   commonManagement,
@@ -11,4 +12,5 @@ export default combineReducers({
   warningSystem,
   defineInstallTemplate,
   deviceCategory,
+  maintenanceTeam,
 })

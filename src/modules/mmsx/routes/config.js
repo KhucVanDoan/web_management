@@ -79,4 +79,22 @@ export const ROUTE = {
       },
     },
   },
+  MAINTENANCE_TEAM: {
+    LIST: {
+      PATH: '/mmsx/maintenance-team',
+      TITLE: 'maintenanceTeam',
+    },
+    CREATE: {
+      PATH: '/mmsx/maintenance-team/create',
+      TITLE: 'maintenanceTeamCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/maintenance-team/:id/edit',
+      TITLE: 'maintenanceTeamEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/maintenance-team/:id/detail',
+      TITLE: 'maintenanceTeamDetail',
+    },
+  },
 }
