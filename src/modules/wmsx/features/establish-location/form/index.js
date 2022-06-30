@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 
 import { Box, FormControlLabel, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -45,8 +46,9 @@ function EstablishLocationForm() {
     () => ({
       code: locationSettingsDetails?.code || '',
       name: locationSettingsDetails?.name || '',
-      isWarehouseType:
-        locationSettingsDetails?.type === LOCATION_SETTING_TYPE.EVEN || false,
+      isWarehouseType: !isEmpty(locationSettingsDetails)
+        ? locationSettingsDetails?.type === LOCATION_SETTING_TYPE.EVEN
+        : true,
       description: locationSettingsDetails?.description || '',
       target: locationSettingsDetails?.items || [],
       items: locationSettingsDetails?.itemLocations?.map((item) => ({
