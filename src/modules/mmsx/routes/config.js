@@ -7,6 +7,10 @@ export const ROUTE = {
     PATH: '/mesx/database',
     TITLE: 'database',
   },
+  MAINTENANCE: {
+    PATH: '/mesx/maintenance',
+    TITLE: 'maintenance',
+  },
   DEVICE_STATUS: {
     PATH: '/mmsx/device-status',
     TITLE: 'deviceStatus',
@@ -53,6 +57,26 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mmsx/define-installation-template/:id/detail',
       TITLE: 'templateInstallDetail',
+    },
+  },
+  WARNING_SYSTEM: {
+    LIST: {
+      PATH: '/mmsx/warning-system',
+      TITLE: 'warningList',
+    },
+    DETAIL: {
+      SCHEDULE: {
+        PATH: '/mmsx/warning-system/:id/schedule-detail',
+        TITLE: 'warningListScheduled',
+      },
+      CHECKLIST: {
+        PATH: '/mmsx/warning-system/:id/checkist-detail',
+        TITLE: 'warningListChecklistDetail',
+      },
+      ERROR: {
+        PATH: '/mmsx/warning-system/:id/error-detail',
+        TITLE: 'warningListError',
+      },
     },
   },
 }
