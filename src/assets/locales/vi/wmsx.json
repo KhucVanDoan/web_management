@@ -1650,6 +1650,7 @@
     "createdAt": "Ngày tạo",
     "updatedAt": "Ngày sửa",
     "createTime": "Thời gian tạo",
+    "status": "Trạng thái",
     "action": "Hành động",
     "printQRSuccess": "In thành công",
     "searchPlaceholder": "Tìm kiếm package theo mã hoặc tên package",
@@ -1669,6 +1670,10 @@
     "height": "Chiều cao",
     "long": "Chiều dài",
     "weight": "Khối lượng"
+  },
+  "definePackageStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận"
   },
   "defineWarehouseShelf": {
     "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",
@@ -2197,8 +2202,8 @@
   "returnOrder": {
     "title": "Danh sách lệnh trả hàng",
     "searchPlaceholder": "Tìm kiếm lệnh trả hàng theo mã hoặc tên",
-    "code": "Mã lệnh trả hàng",
-    "name": "Tên lệnh trả hàng",
+    "code": "Mã lệnh",
+    "name": "Tên lệnh",
     "letterType": "Loại đơn từ",
     "letterCode": "Mã đơn từ",
     "letterName": "Tên đơn từ",
@@ -2216,9 +2221,9 @@
     "exportWarehouse": "Kho xuất",
     "importWarehouse": "Kho nhận",
     "planDate": "Ngày trả dự kiến",
+    "planDateInput": "Chọn ngày trả dự kiến",
     "createdAt": "Ngày tạo",
     "createTime": "Thời gian tạo",
-    "acceptedByUser": "Người xác nhận",
     "confirmByUser": "Người xác nhận",
     "acceptedAt": "Ngày xác nhận",
     "description": "Mô tả",

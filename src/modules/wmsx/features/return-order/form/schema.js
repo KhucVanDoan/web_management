@@ -1,16 +1,19 @@
-/* eslint-disable babel/no-invalid-this */
 import * as Yup from 'yup'
 
 import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 
-export const inventoryCalendarSchema = (t, itemByOrderList) => {
+export const returnOrderSchema = (t, itemByOrderList) => {
   return Yup.object().shape({
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     deadline: Yup.date().nullable().required(t('general:form.required')),
+    letterCode: Yup.object().nullable().required(t('general:form.required')),
+    orderCode: Yup.object().nullable().required(t('general:form.required')),
     description: Yup.string(),
     items: Yup.array().of(
       Yup.object().shape({
+        itemId: Yup.object().nullable().required(t('general:form.required')),
+        lotNumber: Yup.string().required(t('general:form.required')),
         quantity: Yup.number()
           .required(t('general:form.required'))
           .min(

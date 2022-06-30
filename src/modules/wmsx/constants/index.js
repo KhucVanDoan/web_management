@@ -1151,3 +1151,26 @@ export const RETURN_ORDER_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+
+export const DEFINE_PACKAGE_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+}
+
+export const DEFINE_PACKAGE_STATUS_MAP = {
+  [DEFINE_PACKAGE_STATUS.PENDING]: 'definePackageStatus.pending',
+  [DEFINE_PACKAGE_STATUS.CONFIRMED]: 'definePackageStatus.confirmed',
+}
+
+export const DEFINE_PACKAGE_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'definePackageStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'definePackageStatus.confirmed',
+    color: 'confirmed',
+  },
+]

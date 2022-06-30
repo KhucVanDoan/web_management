@@ -24,6 +24,7 @@ function ItemSettingTable({
   requestBuyMaterialId,
   setFieldValue,
   purchasedOrderDetails,
+  values,
 }) {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
@@ -38,8 +39,9 @@ function ItemSettingTable({
     actions: requestBuyMaterialAction,
   } = useRequestBuyMaterial()
 
-  const requestBuyMaterial =
-    requestBuyMaterialDetails?.itemDetails?.map((item) => item) || itemList
+  const requestBuyMaterial = values?.requestBuyMaterialCode
+    ? requestBuyMaterialDetails?.itemDetails?.map((item) => item)
+    : itemList.filter((i) => i.itemType?.code === '00')
 
   useEffect(() => {
     actions.getItems({})
@@ -78,6 +80,7 @@ function ItemSettingTable({
       {
         field: 'itemName',
         headerName: t('purchasedOrder.item.name'),
+        width: 220,
         renderCell: (params, index) => {
           const { itemId } = params.row
 
