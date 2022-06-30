@@ -106,7 +106,7 @@
     "templateDefinition": "Định nghĩa mẫu phiếu",
     "templateInstall": "Định nghĩa mẫu phiếu lắp đặt",
     "templateInstallForm": "Danh sách mẫu phiếu lắp đặt",
-    "templateInstallDetail": "Chi tiết mãu phiếu lắp đặt",
+    "templateInstallDetail": "Chi tiết mẫu phiếu lắp đặt",
     "templateInstallEdit": "Sửa mẫu phiếu lắp đặt",
     "templateInstallCreate": "Tạo mẫu phiếu lắp đặt",
     "templateChecklist": "Định nghĩa mẫu phiếu kiểm tra",
@@ -816,11 +816,14 @@
   },
   "templateInstall": {
     "title": "Danh sách mẫu phiếu lắp đặt",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "codePlaceholer": "Nhập mã mẫu phiếu",
     "namePlaceholer": "Nhập tên mẫu phiếu",
     "descriptionTemplatePlaceholer": "Nhập mô tả mẫu phiếu",
     "descriptionPlaceholer": "Nhập mô tả",
     "titlePlaceholer": "Nhập tiêu đề",
+    "createdAt": "Ngày tạo",
+    "actions": "Hành động",
     "form": {
       "create": "Tạo mẫu phiếu lắp đặt",
       "update": "Sửa mẫu phiếu lắp đặt",

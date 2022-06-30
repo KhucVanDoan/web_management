@@ -37,4 +37,22 @@ export const ROUTE = {
       TITLE: 'deviceCategoryDetail',
     },
   },
+  INSTALLATION_TEMPLATE: {
+    LIST: {
+      PATH: '/mmsx/define-installation-template',
+      TITLE: 'templateInstall',
+    },
+    CREATE: {
+      PATH: '/mmsx/define-installation-template/create',
+      TITLE: 'templateInstallCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/define-installation-template/:id/edit',
+      TITLE: 'templateInstallEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/define-installation-template/:id/detail',
+      TITLE: 'templateInstallDetail',
+    },
+  },
 }
