@@ -3,7 +3,11 @@ import { Box } from '@mui/system'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -17,6 +21,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
       {
         field: 'id',
         headerName: '#',
+        width: 50,
         sortable: false,
         renderCell: (_, index) => {
           return index + 1
@@ -98,7 +103,10 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           return isView ? (
             <>{vendorCapacityObject?.quantity}</>
           ) : (
-            <Field.TextField name={`vendorAbilities[${index}].quantity`} />
+            <Field.TextField
+              name={`vendorAbilities[${index}].quantity`}
+              allow={TEXTFIELD_ALLOW.NUMERIC}
+            />
           )
         },
       },
@@ -113,7 +121,10 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           return isView ? (
             <>{vendorCapacityObject?.deliveryTime}</>
           ) : (
-            <Field.TextField name={`vendorAbilities[${index}].deliveryTime`} />
+            <Field.TextField
+              name={`vendorAbilities[${index}].deliveryTime`}
+              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+            />
           )
         },
       },
@@ -130,7 +141,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
               onClick={() => {
                 arrayHelpers.remove(index)
               }}
-              disabled={vendorAbilities?.length === 1}
+              // disabled={vendorAbilities?.length === 1}
             >
               <Icon name="remove" />
             </IconButton>

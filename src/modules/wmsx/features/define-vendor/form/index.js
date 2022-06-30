@@ -33,8 +33,8 @@ const DEFAULT_ITEM = [
     itemCode: '',
     itemName: '',
     unit: '',
-    quantityAverage: '',
-    timeAverage: '',
+    quantity: '',
+    deliveryTime: '',
   },
 ]
 const DefineVendorForm = () => {
@@ -211,7 +211,7 @@ const DefineVendorForm = () => {
                           placeholder={t('defineVendor.code')}
                           disabled={isUpdate}
                           inputProps={{
-                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                           }}
                           allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                           required
