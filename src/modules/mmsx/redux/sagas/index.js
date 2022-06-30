@@ -17,6 +17,11 @@ import watchGetAllConfirmDeviceCategory from './device-category/get-all-confirm-
 import watchGetDetailDeviceCategory from './device-category/get-device-category'
 import watchSearchDeviceCategory from './device-category/search-device-category'
 import watchUpdateDeviceCategory from './device-category/update-device-category'
+import watchConfirmWarning from './warning-system/confirm'
+import watchGetWarningDetail from './warning-system/detail'
+import watchGetWarningList from './warning-system/get-warning-list'
+import watchRejectWarning from './warning-system/reject'
+import watchSearchWarningList from './warning-system/search-warning'
 /**
  * Root saga
  */
@@ -29,6 +34,12 @@ export default function* sagas() {
     watchGetResponsibleSubject(),
     // Dashboard
     watchGetSummary(),
+    //warning system
+    watchConfirmWarning(),
+    watchGetWarningDetail(),
+    watchGetWarningList(),
+    watchRejectWarning(),
+    watchSearchWarningList(),
     //define-installation-templte
     watchCreateTemplateInstall(),
     watchDeleteTemplateInstall(),

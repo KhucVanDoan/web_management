@@ -6,6 +6,10 @@ import DefineInstallationTemplate from '../features/define-installation-template
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import WarningChecklistDetail from '../features/warning-system/detail/check-list'
+import WarningListErrorForm from '../features/warning-system/detail/error-view'
+import WarningScheduleDetail from '../features/warning-system/detail/schedule'
+import WarningSystem from '../features/warning-system/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -16,6 +20,7 @@ const routes = [
     icon: 'home',
     isInSidebar: true,
   },
+
   {
     name: ROUTE.DATABASE.TITLE,
     icon: 'database',
@@ -69,6 +74,39 @@ const routes = [
             name: ROUTE.INSTALLATION_TEMPLATE.EDIT.TITLE,
             path: ROUTE.INSTALLATION_TEMPLATE.EDIT.PATH,
             component: DefineInstallationTemplateForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.MAINTENANCE.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WARNING_SYSTEM.LIST.TITLE,
+        path: ROUTE.WARNING_SYSTEM.LIST.PATH,
+        component: WarningSystem,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WARNING_SYSTEM.DETAIL.CHECKLIST.TITLE,
+            path: ROUTE.WARNING_SYSTEM.DETAIL.CHECKLIST.PATH,
+            component: WarningChecklistDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WARNING_SYSTEM.DETAIL.SCHEDULE.TITLE,
+            path: ROUTE.WARNING_SYSTEM.DETAIL.SCHEDULE.PATH,
+            component: WarningScheduleDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.TITLE,
+            path: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.PATH,
+            component: WarningListErrorForm,
             isInSidebar: false,
           },
         ],

@@ -115,6 +115,7 @@
     "templateChecklistEdit": "Sửa mẫu phiếu kiểm tra",
     "templateChecklistCreate": "Tạo mẫu phiếu kiểm tra",
     "warningList": "Cảnh báo hệ thống",
+    "warningListDetail": "Chi tiết bảo dưỡng ",
     "warningListChecklist": "Kiểm tra định kì",
     "warningListError": "Cảnh báo lỗi",
     "warningListScheduled": "Bảo dưỡng",
@@ -1345,7 +1346,7 @@
       "rejectionSuccessed": "Từ chối cảnh báo thành công"
     },
     "status": {
-      "created": "Chờ xác nhận",
+      "pending": "Chờ xác nhận",
       "confirmed": "Xác nhận",
       "rejected": "Từ chối",
       "inProgress": "Đang thực hiện",
@@ -1353,6 +1354,7 @@
       "completed": "Hoàn thành",
       "notExcute": "Chưa thực hiện"
     },
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "title": "Danh sách cảnh báo",
     "table": {
       "code": "Mã cảnh báo",
@@ -1362,6 +1364,8 @@
       "serial": "Serial",
       "deviceName": "Tên thiết bị",
       "piority": "Độ ưu tiên",
+      "createdAt": "Ngày tạo",
+      "actions": "Hành động",
       "status": "Trạng thái"
     },
     "smallTitle": "Thông tin người sử dụng",

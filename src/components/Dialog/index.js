@@ -75,7 +75,11 @@ const Dialog = ({
                 </Button>
               )}
               {submitLabel && (
-                <Button onClick={onSubmit} {...submitProps}>
+                <Button
+                  onClick={onSubmit}
+                  {...(formikProps ? { type: 'submit' } : {})}
+                  {...submitProps}
+                >
                   {submitLabel}
                 </Button>
               )}
