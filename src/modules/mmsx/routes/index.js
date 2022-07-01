@@ -9,6 +9,9 @@ import DeviceCategory from '../features/device-category/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
 import MaintenanceTeam from '../features/maintenance-team/list'
+import SuppliesCategoryDetail from '../features/supplies-category/detail'
+import SuppliesCategoryForm from '../features/supplies-category/form'
+import SuppliesCategory from '../features/supplies-category/list'
 import WarningChecklistDetail from '../features/warning-system/detail/check-list'
 import WarningListErrorForm from '../features/warning-system/detail/error-view'
 import WarningScheduleDetail from '../features/warning-system/detail/schedule'
@@ -51,6 +54,32 @@ const routes = [
             name: ROUTE.MAINTENANCE_TEAM.EDIT.TITLE,
             path: ROUTE.MAINTENANCE_TEAM.EDIT.PATH,
             component: MaintenanceTeamForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.SUPPLIES_CATEGORY.LIST.TITLE,
+        path: ROUTE.SUPPLIES_CATEGORY.LIST.PATH,
+        component: SuppliesCategory,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.SUPPLIES_CATEGORY.CREATE.TITLE,
+            path: ROUTE.SUPPLIES_CATEGORY.CREATE.PATH,
+            component: SuppliesCategoryForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SUPPLIES_CATEGORY.DETAIL.TITLE,
+            path: ROUTE.SUPPLIES_CATEGORY.DETAIL.PATH,
+            component: SuppliesCategoryDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SUPPLIES_CATEGORY.EDIT.TITLE,
+            path: ROUTE.SUPPLIES_CATEGORY.EDIT.PATH,
+            component: SuppliesCategoryForm,
             isInSidebar: false,
           },
         ],
