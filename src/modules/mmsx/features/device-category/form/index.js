@@ -204,86 +204,80 @@ const DeviceCategoryForm = () => {
             >
               {({ handleReset }) => (
                 <Form>
-                  <Grid container justifyContent="center">
-                    <Grid item xl={11} xs={12}>
-                      <Grid
-                        container
-                        columnSpacing={{ xl: 8, xs: 4 }}
-                        rowSpacing={4 / 3}
-                      >
-                        {isUpdate && (
-                          <Grid item xs={12}>
-                            <LabelValue
-                              label={
-                                <Typography>
-                                  {t('deviceCategory.form.status')}
-                                </Typography>
-                              }
-                              value={
-                                <Status
-                                  options={DEVICE_CATEGORY_STATUS_OPTION}
-                                  value={deviceCategoryDetail?.status}
-                                />
-                              }
+                  <Grid
+                    container
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                    rowSpacing={4 / 3}
+                  >
+                    {isUpdate && (
+                      <Grid item xs={12}>
+                        <LabelValue
+                          label={
+                            <Typography>
+                              {t('deviceCategory.form.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={DEVICE_CATEGORY_STATUS_OPTION}
+                              value={deviceCategoryDetail?.status}
                             />
-                          </Grid>
-                        )}
-                        <Grid item xs={12} lg={6}>
-                          <Field.TextField
-                            label={t('deviceCategory.form.field.code')}
-                            name="code"
-                            placeholder={t('deviceCategory.form.field.code')}
-                            disabled={mode === MODAL_MODE.UPDATE}
-                            inputProps={{
-                              maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
-                            }}
-                            allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                            required
-                          />
-                        </Grid>
-                        <Grid item xs={12} lg={6}>
-                          <Field.TextField
-                            label={t('deviceCategory.form.field.name')}
-                            name="name"
-                            placeholder={t('deviceCategory.form.field.name')}
-                            inputProps={{
-                              maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                            }}
-                            required
-                          />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                          <Field.TextField
-                            name="description"
-                            label={t('deviceCategory.form.field.description')}
-                            placeholder={t(
-                              'deviceCategory.form.field.description',
-                            )}
-                            inputProps={{
-                              maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                            }}
-                            multiline
-                            rows={3}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Field.Autocomplete
-                            name="responsibleUser"
-                            label={t('deviceCategory.responsibleUser')}
-                            placeholder={t('deviceCategory.responsibleUser')}
-                            options={responsibleSubject?.responsibleUsers}
-                            getOptionLabel={(opt) => opt?.username}
-                            getOptionValue={(opt) => ({
-                              id: opt?.id,
-                              type: opt?.type,
-                            })}
-                          />
-                        </Grid>
+                          }
+                        />
                       </Grid>
-                      {renderActionBar(handleReset)}
+                    )}
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('deviceCategory.form.field.code')}
+                        name="code"
+                        placeholder={t('deviceCategory.form.field.code')}
+                        disabled={mode === MODAL_MODE.UPDATE}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.TextField
+                        label={t('deviceCategory.form.field.name')}
+                        name="name"
+                        placeholder={t('deviceCategory.form.field.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="description"
+                        label={t('deviceCategory.form.field.description')}
+                        placeholder={t('deviceCategory.form.field.description')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field.Autocomplete
+                        name="responsibleUser"
+                        label={t('deviceCategory.responsibleUser')}
+                        placeholder={t('deviceCategory.responsibleUser')}
+                        options={responsibleSubject?.responsibleUsers}
+                        getOptionLabel={(opt) => opt?.username}
+                        getOptionValue={(opt) => ({
+                          id: opt?.id,
+                          type: opt?.type,
+                        })}
+                      />
                     </Grid>
                   </Grid>
+                  {renderActionBar(handleReset)}
                 </Form>
               )}
             </Formik>

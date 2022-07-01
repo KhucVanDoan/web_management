@@ -17,6 +17,12 @@ import watchGetAllConfirmDeviceCategory from './device-category/get-all-confirm-
 import watchGetDetailDeviceCategory from './device-category/get-device-category'
 import watchSearchDeviceCategory from './device-category/search-device-category'
 import watchUpdateDeviceCategory from './device-category/update-device-category'
+import watchCreateMaintenanceTeam from './maintenance-team/create-maintenance-team'
+import watchDeleteMaintenanceTeam from './maintenance-team/delete-maintenance-team'
+import watchGetAllUserItDepartment from './maintenance-team/get-all-user-it-department'
+import watchGetDetailMaintenanceTeam from './maintenance-team/get-maintenance-team-detail'
+import watchGetMaintenanceTeams from './maintenance-team/get-maintenance-teams'
+import watchUpdateMaintenanceTeam from './maintenance-team/update-maintenance-team'
 import watchConfirmWarning from './warning-system/confirm'
 import watchGetWarningDetail from './warning-system/detail'
 import watchGetWarningList from './warning-system/get-warning-list'
@@ -54,5 +60,13 @@ export default function* sagas() {
     watchGetDetailDeviceCategory(),
     watchSearchDeviceCategory(),
     watchUpdateDeviceCategory(),
+
+    //maintenance-team
+    watchCreateMaintenanceTeam(),
+    watchDeleteMaintenanceTeam(),
+    watchGetDetailMaintenanceTeam(),
+    watchGetMaintenanceTeams(),
+    watchUpdateMaintenanceTeam(),
+    watchGetAllUserItDepartment(),
   ])
 }

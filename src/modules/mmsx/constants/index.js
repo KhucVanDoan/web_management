@@ -187,3 +187,45 @@ export const ACTION_MAP = {
   [ACTION_HISTORY.CONFIRM]: 'confirm',
   [ACTION_HISTORY.REJECT]: 'reject',
 }
+
+export const MAINTENANCE_TEAM_TYPE = {
+  OUTER: 0,
+  INNER: 1,
+}
+
+export const MAINTENANCE_TEAM_TYPE_MAP = {
+  [MAINTENANCE_TEAM_TYPE.OUTER]: 'maintenanceTeam.outer',
+  [MAINTENANCE_TEAM_TYPE.INNER]: 'maintenanceTeam.inner',
+}
+
+export const MAINTENANCE_TEAM_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'maintenanceTeam.outer',
+  },
+  {
+    id: 1,
+    text: 'maintenanceTeam.inner',
+  },
+]
+
+export const ROLE_ENUM = {
+  LEADER: 0,
+  MEMBER: 1,
+}
+
+export const ROLE_ENUM_MAP = {
+  [ROLE_ENUM.LEADER]: 'maintenanceTeam.leader',
+  [ROLE_ENUM.MEMBER]: 'maintenanceTeam.member',
+}
+
+export const ROLE_ENUM_OPTIONS = [
+  {
+    id: 0,
+    text: 'maintenanceTeam.leader',
+  },
+  {
+    id: 1,
+    text: 'maintenanceTeam.member',
+  },
+]

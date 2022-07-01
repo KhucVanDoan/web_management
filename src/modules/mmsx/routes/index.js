@@ -6,6 +6,9 @@ import DefineInstallationTemplate from '../features/define-installation-template
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import MaintenanceTeamDetail from '../features/maintenance-team/detail'
+import MaintenanceTeamForm from '../features/maintenance-team/form'
+import MaintenanceTeam from '../features/maintenance-team/list'
 import WarningChecklistDetail from '../features/warning-system/detail/check-list'
 import WarningListErrorForm from '../features/warning-system/detail/error-view'
 import WarningScheduleDetail from '../features/warning-system/detail/schedule'
@@ -26,6 +29,32 @@ const routes = [
     icon: 'database',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.MAINTENANCE_TEAM.LIST.TITLE,
+        path: ROUTE.MAINTENANCE_TEAM.LIST.PATH,
+        component: MaintenanceTeam,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.MAINTENANCE_TEAM.CREATE.TITLE,
+            path: ROUTE.MAINTENANCE_TEAM.CREATE.PATH,
+            component: MaintenanceTeamForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MAINTENANCE_TEAM.DETAIL.TITLE,
+            path: ROUTE.MAINTENANCE_TEAM.DETAIL.PATH,
+            component: MaintenanceTeamDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MAINTENANCE_TEAM.EDIT.TITLE,
+            path: ROUTE.MAINTENANCE_TEAM.EDIT.PATH,
+            component: MaintenanceTeamForm,
+            isInSidebar: false,
+          },
+        ],
+      },
       {
         name: ROUTE.DEVICE_CATEGORY.LIST.TITLE,
         path: ROUTE.DEVICE_CATEGORY.LIST.PATH,
