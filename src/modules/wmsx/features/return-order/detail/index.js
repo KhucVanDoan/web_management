@@ -11,7 +11,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
-  LETTER_TYPE,
   LETTER_TYPE_MAP,
   RETURN_ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
@@ -151,9 +150,8 @@ const ReturnOrderDetail = () => {
               <LV
                 label={t('returnOrder.warehouse')}
                 value={
-                  returnOrderDetails?.returnType === LETTER_TYPE.PAY_SUPPLIER
-                    ? t('returnOrder.exportWarehouse')
-                    : t('returnOrder.importWarehouse')
+                  returnOrderDetails?.returnOrderWarehouseDetails?.[0]
+                    ?.warehouse?.name
                 }
               />
             </Grid>

@@ -435,9 +435,12 @@ const ReturnOrderForm = () => {
                         label={t('returnOrder.warehouse')}
                         value={
                           values?.orderCode
-                            ? warehouseList?.find(
-                                (i) => i.id === values?.orderCode?.warehouseId,
-                              )?.name
+                            ? values?.orderCode?.warehouseId
+                              ? warehouseList?.find(
+                                  (i) =>
+                                    i.id === values?.orderCode?.warehouseId,
+                                )?.name
+                              : values?.items?.[0]?.warehouse?.name
                             : ''
                         }
                         disabled
