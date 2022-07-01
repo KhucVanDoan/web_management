@@ -103,6 +103,10 @@ import RentWarehouseDashboard from '../features/rent-warehouse-dashboard'
 import ReturnOrderDetail from '../features/return-order/detail'
 import ReturnOrderForm from '../features/return-order/form'
 import ReturnOrder from '../features/return-order/list'
+import {
+  Transactions as ReturnOrderTransactions,
+  TransactionDetail as ReturnOrderTransactionDetail,
+} from '../features/return-order/transactions'
 import SOExport from '../features/so-export'
 import SOExportDetail from '../features/so-export/detail'
 import SOExportForm from '../features/so-export/form'
@@ -555,6 +559,18 @@ const routes = [
             name: ROUTE.RETURN_ORDER.EDIT.TITLE,
             path: ROUTE.RETURN_ORDER.EDIT.PATH,
             component: ReturnOrderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.RETURN_ORDER.TRANSACTIONS.LIST.PATH,
+            component: ReturnOrderTransactions,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RETURN_ORDER.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.RETURN_ORDER.TRANSACTIONS.DETAIL.PATH,
+            component: ReturnOrderTransactionDetail,
             isInSidebar: false,
           },
         ],
