@@ -128,8 +128,8 @@ function TransactionVendor({ id }) {
       width: 150,
       sortable: false,
       renderCell: (params) => {
-        const { customer } = params?.row
-        return customer
+        const { company } = params?.row
+        return company?.name
       },
     },
     {
