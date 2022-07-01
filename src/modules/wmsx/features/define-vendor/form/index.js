@@ -98,7 +98,7 @@ const DefineVendorForm = () => {
       vendorAbilities: values?.vendorAbilities?.map((item) => ({
         itemId: item?.itemId?.itemId || item?.itemId?.id,
         quantity: +item?.quantity,
-        deliveryTime: +item?.quantity,
+        deliveryTime: +item?.deliveryTime,
       })),
       description: values?.description || '',
     }

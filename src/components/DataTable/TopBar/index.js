@@ -11,7 +11,7 @@ import style from './style'
 
 const TopBar = ({
   beforeTopbar,
-  affterTopbar,
+  afterTopbar,
   title,
   columns,
   visibleColumns,
@@ -34,7 +34,7 @@ const TopBar = ({
             onApplySetting={onApplySetting}
           />
         )}
-        {affterTopbar}
+        {afterTopbar}
       </Box>
     </Box>
   )
@@ -42,7 +42,7 @@ const TopBar = ({
 
 TopBar.defaultProps = {
   beforeTopbar: null,
-  affterTopbar: null,
+  afterTopbar: null,
   title: '',
   visibleColumns: [],
   columns: [],
@@ -57,7 +57,7 @@ TopBar.propTypes = {
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
   beforeTopbar: PropTypes.node,
-  affterTopbar: PropTypes.node,
+  afterTopbar: PropTypes.node,
 }
 
 export default TopBar
