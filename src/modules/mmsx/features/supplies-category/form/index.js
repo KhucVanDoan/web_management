@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid, Paper, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -14,89 +13,76 @@ import {
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import LabelValue from '~/components/LabelValue'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
   ACTION_MAP,
-  DEVICE_CATEGORY_STATUS_OPTION,
+  SUPPLIES_CATEGORY_STATUS_OPTIONS,
 } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
-import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
+import useSuppliesCategory from '~/modules/mmsx/redux/hooks/useSuppliesCategory'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 
 import { validateShema } from './schema'
 
-const DeviceCategoryForm = () => {
+const SuppliesCategoryForm = () => {
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
 
   const {
-    data: { deviceCategoryDetail, isLoading },
+    data: { suppliesCategoryDetail, isLoading },
     actions,
-  } = useDeviceCategory()
+  } = useSuppliesCategory()
 
   const {
     data: { responsibleSubject },
     actions: commonAction,
   } = useCommonInfo()
+
   const MODE_MAP = {
-    [ROUTE.DEVICE_CATEGORY.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.DEVICE_CATEGORY.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.SUPPLIES_CATEGORY.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.SUPPLIES_CATEGORY.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const backToList = () => {
-    history.push(ROUTE.DEVICE_CATEGORY.LIST.PATH)
+    history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)
   }
 
-  const initialValues = {
-    code: deviceCategoryDetail?.code || '',
-    name: deviceCategoryDetail?.name || '',
-    responsibleUser: deviceCategoryDetail?.responsibleUser?.id,
-    description: deviceCategoryDetail?.description || '',
-  }
-
-  useEffect(() => {
-    actions.getDeviceCategoryDetail(id)
-    return () => {
-      actions.resetDeviceCategory()
-    }
-  }, [mode])
   useEffect(() => {
     commonAction.getResponsibleSubject()
   }, [])
+
+  const initialValues = {
+    code: suppliesCategoryDetail?.code || '',
+    name: suppliesCategoryDetail?.name || '',
+    responsibleUser: suppliesCategoryDetail?.responsibleUser,
+    description: suppliesCategoryDetail?.description || '',
+  }
+
+  useEffect(() => {
+    if (mode === MODAL_MODE.UPDATE) {
+      actions.getDetailSuppliesCategory(id)
+    }
+    return () => {
+      if (isUpdate) actions.resetSuppliesCategory()
+    }
+  }, [id])
+
   const handleSubmit = (values) => {
-    if (isUpdate) {
-      const params = {
-        id: id,
-        body: {
-          id: id,
-          code: values?.code.trim(),
-          name: values?.name ? values.name.trim() : '',
-          description: values?.description ? values?.description.trim() : '',
-          responsibleUser: {
-            id: values?.responsibleUser?.id,
-            type: values?.responsibleUser?.type,
-          },
-        },
-      }
-      actions.updateDetailDeviceCategory(params, backToList)
-    } else {
-      const params = {
-        code: values?.code.trim(),
-        name: values?.name ? values?.name.trim() : '',
-        description: values?.description ? values?.description.trim() : '',
-        responsibleUser: {
-          id: values?.responsibleUser?.id,
-          type: values?.responsibleUser?.type,
-        },
-      }
-      actions.createDeviceCategory(params, backToList)
+    const convertValues = {
+      ...values,
+      id,
+    }
+    if (mode === MODAL_MODE.CREATE) {
+      actions.createSuppliesCategory(convertValues, backToList)
+    } else if (mode === MODAL_MODE.UPDATE) {
+      actions.updateSuppliesCategory(convertValues, backToList)
     }
   }
 
@@ -106,22 +92,22 @@ const DeviceCategoryForm = () => {
         title: 'database',
       },
       {
-        route: ROUTE.DEVICE_CATEGORY.LIST.PATH,
-        title: ROUTE.DEVICE_CATEGORY.LIST.TITLE,
+        route: ROUTE.SUPPLIES_CATEGORY.LIST.PATH,
+        title: ROUTE.SUPPLIES_CATEGORY.LIST.TITLE,
       },
     ]
 
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumb.push({
-          route: ROUTE.DEVICE_CATEGORY.CREATE.PATH,
-          title: ROUTE.DEVICE_CATEGORY.CREATE.TITLE,
+          route: ROUTE.SUPPLIES_CATEGORY.CREATE.PATH,
+          title: ROUTE.SUPPLIES_CATEGORY.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumb.push({
-          route: ROUTE.DEVICE_CATEGORY.EDIT.PATH,
-          title: ROUTE.DEVICE_CATEGORY.EDIT.TITLE,
+          route: ROUTE.SUPPLIES_CATEGORY.EDIT.PATH,
+          title: ROUTE.SUPPLIES_CATEGORY.EDIT.TITLE,
         })
         break
       default:
@@ -133,9 +119,9 @@ const DeviceCategoryForm = () => {
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.DEVICE_CATEGORY.CREATE.TITLE
+        return ROUTE.SUPPLIES_CATEGORY.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.DEVICE_CATEGORY.EDIT.TITLE
+        return ROUTE.SUPPLIES_CATEGORY.EDIT.TITLE
       default:
     }
   }
@@ -162,28 +148,31 @@ const DeviceCategoryForm = () => {
         break
     }
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
-  const histories = deviceCategoryDetail?.histories?.map((item) => ({
+
+  const histories = suppliesCategoryDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
-      ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
+      ? t(`suppliesCategory.actionHistory.${ACTION_MAP[item?.action]}`)
       : '',
     createdAt: item?.createdAt,
     id: item?.userId,
     username: item?.username,
   }))
+
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <Box>
+          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+            {t('suppliesCategory.button.supply')}
+          </Button>
+          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+            {t('suppliesCategory.button.device')}
+          </Button>
+        </Box>
+      </>
+    )
+  }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -211,16 +200,16 @@ const DeviceCategoryForm = () => {
                   >
                     {isUpdate && (
                       <Grid item xs={12}>
-                        <LabelValue
+                        <LV
                           label={
                             <Typography>
-                              {t('deviceCategory.form.status')}
+                              {t('suppliesCategory.form.status')}
                             </Typography>
                           }
                           value={
                             <Status
-                              options={DEVICE_CATEGORY_STATUS_OPTION}
-                              value={deviceCategoryDetail?.status}
+                              options={SUPPLIES_CATEGORY_STATUS_OPTIONS}
+                              value={suppliesCategoryDetail?.status}
                             />
                           }
                         />
@@ -228,9 +217,9 @@ const DeviceCategoryForm = () => {
                     )}
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
-                        label={t('deviceCategory.form.field.code')}
                         name="code"
-                        placeholder={t('deviceCategory.form.field.code')}
+                        label={t('suppliesCategory.form.code')}
+                        placeholder={t('suppliesCategory.form.code')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
@@ -241,21 +230,20 @@ const DeviceCategoryForm = () => {
                     </Grid>
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
-                        label={t('deviceCategory.form.field.name')}
                         name="name"
-                        placeholder={t('deviceCategory.form.field.name')}
+                        label={t('suppliesCategory.form.name')}
+                        placeholder={t('suppliesCategory.form.name')}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
                         required
                       />
                     </Grid>
-
                     <Grid item xs={12}>
                       <Field.TextField
                         name="description"
-                        label={t('deviceCategory.form.field.description')}
-                        placeholder={t('deviceCategory.form.field.description')}
+                        label={t('suppliesCategory.form.description')}
+                        placeholder={t('suppliesCategory.form.description')}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
@@ -266,14 +254,11 @@ const DeviceCategoryForm = () => {
                     <Grid item xs={12}>
                       <Field.Autocomplete
                         name="responsibleUser"
-                        label={t('deviceCategory.responsibleUser')}
-                        placeholder={t('deviceCategory.responsibleUser')}
+                        label={t('suppliesCategory.responsibleUser')}
+                        placeholder={t('suppliesCategory.responsibleUser')}
                         options={responsibleSubject?.responsibleUsers}
                         getOptionLabel={(opt) => opt?.username}
-                        getOptionValue={(opt) => ({
-                          id: opt?.id,
-                          type: opt?.type,
-                        })}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                   </Grid>
@@ -289,4 +274,4 @@ const DeviceCategoryForm = () => {
   )
 }
 
-export default DeviceCategoryForm
+export default SuppliesCategoryForm

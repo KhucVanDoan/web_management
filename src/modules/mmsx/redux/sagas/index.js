@@ -23,6 +23,13 @@ import watchGetAllUserItDepartment from './maintenance-team/get-all-user-it-depa
 import watchGetDetailMaintenanceTeam from './maintenance-team/get-maintenance-team-detail'
 import watchGetMaintenanceTeams from './maintenance-team/get-maintenance-teams'
 import watchUpdateMaintenanceTeam from './maintenance-team/update-maintenance-team'
+import watchConfirmSuppliesCategory from './supplies-category/confirm-supplies-category'
+import watchCreateSuppliesCategory from './supplies-category/create-supplies-category'
+import watchDeleteSuppliesCategory from './supplies-category/delete-supplies-category'
+import watchGetAllConfirmSuppliesCategory from './supplies-category/get-all-confirm-supplies-category'
+import watchGetSuppliesCategoryDetail from './supplies-category/get-supplies-category-detail'
+import watchSearchSuppliesCategory from './supplies-category/search-supplies-category'
+import watchUpdateSuppliesCategory from './supplies-category/update-supplies-category'
 import watchConfirmWarning from './warning-system/confirm'
 import watchGetWarningDetail from './warning-system/detail'
 import watchGetWarningList from './warning-system/get-warning-list'
@@ -68,5 +75,14 @@ export default function* sagas() {
     watchGetMaintenanceTeams(),
     watchUpdateMaintenanceTeam(),
     watchGetAllUserItDepartment(),
+
+    //supplies-category
+    watchCreateSuppliesCategory(),
+    watchDeleteSuppliesCategory(),
+    watchGetSuppliesCategoryDetail(),
+    watchSearchSuppliesCategory(),
+    watchUpdateSuppliesCategory(),
+    watchConfirmSuppliesCategory(),
+    watchGetAllConfirmSuppliesCategory(),
   ])
 }

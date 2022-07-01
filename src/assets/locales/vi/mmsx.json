@@ -76,7 +76,11 @@
   "menu": {
     "mmsx": "MMSX",
     "dashboard": "Dashboard",
+    "importExportData": "Nhập/Xuất dữ liệu",
     "suppliesCategory": "Định nghĩa nhóm vật tư",
+    "suppliesCategoryDetail": "Chi tiết nhóm vật tư",
+    "suppliesCategoryCreate": "Tạo nhóm vật tư",
+    "suppliesCategoryEdit": "Sửa nhóm vật tư",
     "supplies": "Định nghĩa vật tư phụ tùng",
     "setting": "Cài đặt",
     "userManagement": "Quản lý user",
@@ -649,30 +653,25 @@
   },
   "suppliesCategory": {
     "title": "Danh sách nhóm vật tư",
+    "searchPlaceholder": "Tìm kiếm nhóm vật tư theo mã hoặc tên",
+    "code": "Mã nhóm",
+    "name": "Tên nhóm",
+    "description": "Mô tả nhóm",
+    "createAt": "Ngày tạo",
+    "updateAt": "Ngày sửa",
+    "action": "Hành động",
     "form": {
       "status": "Trạng thái",
-      "create": "Tạo nhóm vật tư",
-      "update": "Sửa nhóm vật tư",
-      "view": "Chi tiết nhóm vật tư",
-      "field": {
-        "code": "Mã nhóm vật tư",
-        "name": "Tên nhóm vật tư",
-        "description": "Mô tả nhóm vật tư"
-      }
+      "code": "Mã nhóm vật tư",
+      "name": "Tên nhóm vật tư",
+      "description": "Mô tả nhóm vật tư"
     },
     "button": {
       "supply": "Vật tư",
       "device": "Thiết bị"
     },
-    "category": {
-      "code": "Mã nhóm",
-      "name": "Tên nhóm",
-      "description": "Mô tả nhóm"
-    },
-    "delete": {
-      "title": "Xóa nhóm vật tư",
-      "description": "Bạn chắc chắn muốn xóa nhóm vật tư này?"
-    },
+    "deleteTitle": "Xóa nhóm vật tư",
+    "confirmDetele": "Bạn chắc chắn muốn xóa nhóm vật tư này không?",
     "notification": {
       "successDelete": "Xóa nhóm vật tư thành công",
       "success": "Tạo nhóm vật tư thành công",
@@ -685,8 +684,8 @@
       "description": "Bạn có chắc chắn muốn xác nhận nhóm vật tư này không?"
     },
     "status": {
-      "confirmed": "Xác nhận",
-      "pending": "Chờ xác nhận"
+      "pending": "Chờ xác nhận",
+      "confirmed": "Xác nhận"
     },
     "actionHistory": {
       "created": "Đã tạo mới nhóm vật tư",

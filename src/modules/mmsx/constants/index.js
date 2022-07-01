@@ -229,3 +229,26 @@ export const ROLE_ENUM_OPTIONS = [
     text: 'maintenanceTeam.member',
   },
 ]
+
+export const SUPPLIES_CATEGORY_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+}
+
+export const SUPPLIES_CATEGORY_STATUS_MAP = {
+  [SUPPLIES_CATEGORY_STATUS.PENDING]: 'suppliesCategory.status.pending',
+  [SUPPLIES_CATEGORY_STATUS.CONFIRMED]: 'suppliesCategory.status.confirmed',
+}
+
+export const SUPPLIES_CATEGORY_STATUS_OPTIONS = [
+  {
+    text: 'suppliesCategory.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'suppliesCategory.status.confirmed',
+    id: 1,
+    color: 'confirmed',
+  },
+]

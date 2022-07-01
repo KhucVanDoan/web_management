@@ -97,4 +97,22 @@ export const ROUTE = {
       TITLE: 'maintenanceTeamDetail',
     },
   },
+  SUPPLIES_CATEGORY: {
+    LIST: {
+      PATH: '/mmsx/supplies-category',
+      TITLE: 'suppliesCategory',
+    },
+    CREATE: {
+      PATH: '/mmsx/supplies-category/create',
+      TITLE: 'suppliesCategoryCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/supplies-category/:id/edit',
+      TITLE: 'suppliesCategoryEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/supplies-category/:id/detail',
+      TITLE: 'suppliesCategoryDetail',
+    },
+  },
 }
