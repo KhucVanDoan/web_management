@@ -869,6 +869,7 @@
     "defineDeviceTitle": "Định nghĩa thiết bị",
     "title": "Danh sách thiết bị",
     "recordHasBeenConfirmed": "Thiết bị đã được phê duyệt, không thể chỉnh sửa",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "device": {
       "code": "Mã thiết bị",
       "name": "Tên thiết bị",
@@ -945,6 +946,11 @@
       "type": "Loại",
       "timeUsage": "Thời lượng sử dụng",
       "addBtnTitle": "Thêm vật tư phụ tùng"
+    },
+    "infoList": {
+      "name": "Tên vật tư phụ tùng",
+      "canRepair": "Có thể sửa chữa khi hỏng",
+      "useDate": "Thời lượng sử dụng"
     },
     "tab": {
       "formDetail": "Thông tin chi tiết",

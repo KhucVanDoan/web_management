@@ -1,15 +1,24 @@
 import { all } from 'redux-saga/effects'
 
+import watchGetAttributeTypeList from './attribute-type/search-attribute-type-list'
+import watchGetAttributeMaintain from './common/get-all-attribute-maintain'
 import watchGetAllFactoryList from './common/get-all-factory-list'
 import watchGetAllItemUnit from './common/get-all-item-unit'
+import watchGetAllSuppliesConfirm from './common/get-all-supplies-confirm'
 import watchGetListMaintenanceTeam from './common/get-maintencance-list'
 import watchGetMo from './common/get-mo-list'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
+import watchGetVendors from './common/get-vendors'
 import watchGetSummary from './dashboard'
+import watchConfirmDevice from './define-device/confirm-device-by-id'
+import watchCreateDevice from './define-device/create-device'
+import watchDeleteDevice from './define-device/delete-device-by-id'
+import watchGetDeviceDetailById from './define-device/get-detail-by-id'
+import watchSearchDevice from './define-device/search-device-list'
+import watchUpdateDevice from './define-device/update-device-by-id'
 import watchCreateTemplateInstall from './define-installation-template/create'
 import watchDeleteTemplateInstall from './define-installation-template/delete'
 import watchGetTemplateInstall from './define-installation-template/get-detail'
-import watchSearchTemplateInstall from './define-installation-template/get-list'
 import watchUpdateTemplateInstall from './define-installation-template/update'
 import watchConfirmDeviceCategory from './device-category/confirm-device-category'
 import watchCreateDeviceCategory from './device-category/create-device-category'
@@ -37,6 +46,7 @@ import watchDeleteSupplies from './supplies/delete-supplies'
 import watchGetDetailSupplies from './supplies/get-supplies'
 import watchSearchSuppliesList from './supplies/search-supplies'
 import watchUpdateSupplies from './supplies/update-supplies'
+import watchSearchTemplateInstall from './template-install/get-list'
 import watchConfirmWarning from './warning-system/confirm'
 import watchGetWarningDetail from './warning-system/detail'
 import watchGetWarningList from './warning-system/get-warning-list'
@@ -50,11 +60,25 @@ export default function* sagas() {
     //Common
     watchGetAllFactoryList(),
     watchGetListMaintenanceTeam(),
+    watchGetAllSuppliesConfirm(),
+    watchGetAttributeMaintain(),
+    watchGetResponsibleSubject(),
+    watchGetVendors(),
     watchGetMo(),
     watchGetResponsibleSubject(),
     watchGetAllItemUnit(),
     // Dashboard
     watchGetSummary(),
+    // Database
+    watchConfirmDevice(),
+    watchCreateDevice(),
+    watchDeleteDevice(),
+    watchGetDeviceDetailById(),
+    watchSearchDevice(),
+    watchUpdateDevice(),
+    watchGetAttributeTypeList(),
+    watchSearchTemplateInstall(),
+    watchSearchDeviceCategory(),
     //warning system
     watchConfirmWarning(),
     watchGetWarningDetail(),
