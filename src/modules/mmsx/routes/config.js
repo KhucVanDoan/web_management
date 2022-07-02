@@ -4,12 +4,16 @@ export const ROUTE = {
     TITLE: 'dashboard',
   },
   DATABASE: {
-    PATH: '/mesx/database',
+    PATH: '/mmsx/database',
     TITLE: 'database',
   },
   MAINTENANCE: {
-    PATH: '/mesx/maintenance',
+    PATH: '/mmsx/maintenance',
     TITLE: 'maintenance',
+  },
+  DEVICE_MANAGEMENT: {
+    PATH: '/mmsx/device-management',
+    TITLE: 'deviceManagement',
   },
   DEVICE_STATUS: {
     PATH: '/mmsx/device-status',
@@ -77,6 +81,24 @@ export const ROUTE = {
         PATH: '/mmsx/warning-system/:id/error-detail',
         TITLE: 'warningListError',
       },
+    },
+  },
+  DEFINE_SUPPLIES: {
+    LIST: {
+      PATH: '/mmsx/define-supplies',
+      TITLE: 'supplies',
+    },
+    CREATE: {
+      PATH: '/mmsx/define-supplies/create',
+      TITLE: 'suppliesCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/define-supplies/:id/edit',
+      TITLE: 'suppliesEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/define-supplies/:id/detail',
+      TITLE: 'suppliesDetail',
     },
   },
   MAINTENANCE_TEAM: {

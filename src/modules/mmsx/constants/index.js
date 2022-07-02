@@ -187,6 +187,39 @@ export const ACTION_MAP = {
   [ACTION_HISTORY.CONFIRM]: 'confirm',
   [ACTION_HISTORY.REJECT]: 'reject',
 }
+export const SUPPLIES_STATUS_OPTION = [
+  {
+    text: 'supplies.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'supplies.status.confirmed',
+    id: 1,
+    color: 'confirmed',
+  },
+]
+export const SUPPLIES_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+}
+
+export const SUPPLIES_STATUS_MAP = {
+  [SUPPLIES_STATUS.PENDING]: 'pending',
+  [SUPPLIES_STATUS.CONFIRMED]: 'confirmed',
+}
+
+export const SUPPLIES_TYPE = [
+  {
+    text: 'common.supplies',
+    id: 0,
+  },
+  {
+    text: 'common.accessary',
+    id: 1,
+  },
+]
+export const PRE_FIX_CODE = '02'
 
 export const MAINTENANCE_TEAM_TYPE = {
   OUTER: 0,

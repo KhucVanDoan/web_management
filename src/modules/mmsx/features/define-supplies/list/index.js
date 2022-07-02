@@ -13,10 +13,11 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  DEVICE_CATEGORY_STATUS_OPTION,
-  DEVICE_CATEGORY_STATUS,
+  SUPPLIES_STATUS,
+  SUPPLIES_STATUS_OPTION,
+  SUPPLIES_TYPE,
 } from '~/modules/mmsx/constants'
-import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
+import useDefineSupplies from '~/modules/mmsx/redux/hooks/useDefineSupplies'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -25,24 +26,25 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
+
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'deviceManagement',
   },
   {
-    route: ROUTE.DEVICE_CATEGORY.LIST.PATH,
-    title: ROUTE.DEVICE_CATEGORY.LIST.TITLE,
+    route: ROUTE.DEFINE_SUPPLIES.LIST.PATH,
+    title: ROUTE.DEFINE_SUPPLIES.LIST.TITLE,
   },
 ]
-const DeviceCategory = () => {
+const DefineSupplies = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
 
   const {
-    data: { deviceCategoryList, isLoading, total },
+    data: { suppliesList, isLoading, total },
     actions,
-  } = useDeviceCategory()
+  } = useDefineSupplies()
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
 
@@ -51,6 +53,8 @@ const DeviceCategory = () => {
     name: '',
     createdAt: '',
     updateAt: '',
+    type: '',
+    supplyGroupName: '',
     status: '',
   }
 
@@ -77,21 +81,46 @@ const DeviceCategory = () => {
       // },
       {
         field: 'code',
-        headerName: t('deviceCategory.category.code'),
+        headerName: t('supplies.category.code'),
         width: 150,
         sortable: true,
         fixed: true,
       },
       {
         field: 'name',
-        headerName: t('deviceCategory.category.name'),
+        headerName: t('supplies.category.name'),
         width: 150,
         sortable: true,
         fixed: true,
       },
       {
+        field: 'supplyGroupName',
+        headerName: t('supplies.category.suppliesCategory'),
+        width: 150,
+        sortable: true,
+        renderCell: (params) => {
+          return params?.row?.supplyGroup?.name
+        },
+      },
+      {
+        field: 'type',
+        headerName: t('supplies.category.type'),
+        width: 150,
+        sortable: true,
+        renderCell: (params) => {
+          const type = SUPPLIES_TYPE.find((e) => e.id === params?.row?.type)
+          return type ? t(type.text) : ''
+        },
+      },
+      {
         field: 'description',
-        headerName: t('deviceCategory.category.description'),
+        headerName: t('supplies.category.description'),
+        width: 150,
+        sortable: true,
+      },
+      {
+        field: 'Supplier',
+        headerName: t('supplies.category.supplier'),
         width: 150,
         sortable: true,
       },
@@ -105,7 +134,7 @@ const DeviceCategory = () => {
           const { status } = params.row
           return (
             <Status
-              options={DEVICE_CATEGORY_STATUS_OPTION}
+              options={SUPPLIES_STATUS_OPTION}
               value={status}
               variant="text"
             />
@@ -114,7 +143,7 @@ const DeviceCategory = () => {
       },
       {
         field: 'createdAt',
-        headerName: t('deviceCategory.createAt'),
+        headerName: t('common.createdAt'),
         width: 200,
         filterFormat: 'date',
         sortable: true,
@@ -124,7 +153,7 @@ const DeviceCategory = () => {
       },
       {
         field: 'updatedAt',
-        headerName: t('deviceCategory.updateAt'),
+        headerName: t('common.updatedAt'),
         width: 200,
         filterFormat: 'date',
         sortable: true,
@@ -134,19 +163,19 @@ const DeviceCategory = () => {
       },
       {
         field: 'actions',
-        headerName: t('deviceCategory.action'),
+        headerName: t('maintenanceTeam.action'),
         width: 200,
         fixed: true,
         align: 'center',
         renderCell: (params) => {
           const { id, status } = params?.row
-          const isPending = status === DEVICE_CATEGORY_STATUS.PENDING
+          const isPending = status === SUPPLIES_STATUS.PENDING
           return (
             <div>
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.DEVICE_CATEGORY.DETAIL.PATH.replace(':id', `${id}`),
+                    ROUTE.DEFINE_SUPPLIES.DETAIL.PATH.replace(':id', `${id}`),
                   )
                 }
               >
@@ -156,7 +185,7 @@ const DeviceCategory = () => {
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.DEVICE_CATEGORY.EDIT.PATH.replace(':id', `${id}`),
+                      ROUTE.DEFINE_SUPPLIES.EDIT.PATH.replace(':id', `${id}`),
                     )
                   }
                 >
@@ -189,7 +218,7 @@ const DeviceCategory = () => {
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
-    actions.searchDeviceCategory(params)
+    actions.searchListSupplies(params)
   }
 
   useEffect(() => {
@@ -200,7 +229,7 @@ const DeviceCategory = () => {
     setIsOpenDeleteModal(true)
   }
   const onSubmitDelete = () => {
-    actions.deleteDeviceCategory(tempItem?.id, () => {
+    actions.deleteSupplies(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -213,7 +242,7 @@ const DeviceCategory = () => {
   }
 
   const submitConfirm = () => {
-    actions.confirmDeviceCategory(tempItem?.id, () => {
+    actions.confirmSupplies(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -224,7 +253,7 @@ const DeviceCategory = () => {
     return (
       <>
         <Button
-          onClick={() => history.push(ROUTE.DEVICE_CATEGORY.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.DEFINE_SUPPLIES.CREATE.PATH)}
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
@@ -237,16 +266,16 @@ const DeviceCategory = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.deviceCategory')}
+      title={t('menu.supplies')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('deviceCategory.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
-        title={t('deviceCategory.title')}
+        title={t('supplies.title')}
         columns={columns}
-        rows={deviceCategoryList}
+        rows={suppliesList}
         pageSize={pageSize}
         page={page}
         onPageChange={setPage}
@@ -263,7 +292,7 @@ const DeviceCategory = () => {
       />
       <Dialog
         open={isOpenDeleteModal}
-        title={t('deviceCategory.delete.title')}
+        title={t('supplies.delete.title')}
         onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -274,14 +303,14 @@ const DeviceCategory = () => {
         }}
         noBorderBottom
       >
-        {t('deviceCategory.delete.description')}
+        {t('supplies.delete.description')}
         <LV
-          label={t('deviceCategory.category.code')}
+          label={t('supplies.category.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('deviceCategory.category.name')}
+          label={t('supplies.category.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -296,14 +325,14 @@ const DeviceCategory = () => {
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('general:common.confirmMessage.confirm')}
+        {t('supplies.confirm.description')}
         <LV
-          label={t('deviceCategory.category.code')}
+          label={t('supplies.category.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('deviceCategory.category.name')}
+          label={t('supplies.category.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -312,4 +341,4 @@ const DeviceCategory = () => {
   )
 }
 
-export default DeviceCategory
+export default DefineSupplies
