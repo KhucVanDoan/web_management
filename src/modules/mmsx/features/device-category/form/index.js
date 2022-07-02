@@ -57,7 +57,7 @@ const DeviceCategoryForm = () => {
   const initialValues = {
     code: deviceCategoryDetail?.code || '',
     name: deviceCategoryDetail?.name || '',
-    responsibleUser: deviceCategoryDetail?.responsibleUser?.id,
+    responsibleUser: deviceCategoryDetail?.responsibleUser?.id || '',
     description: deviceCategoryDetail?.description || '',
   }
 
@@ -71,6 +71,9 @@ const DeviceCategoryForm = () => {
     commonAction.getResponsibleSubject()
   }, [])
   const handleSubmit = (values) => {
+    const responsibleUsers = responsibleSubject?.responsibleUsers?.find(
+      (res) => res.id === values?.responsibleUser,
+    )
     if (isUpdate) {
       const params = {
         id: id,
@@ -80,8 +83,8 @@ const DeviceCategoryForm = () => {
           name: values?.name ? values.name.trim() : '',
           description: values?.description ? values?.description.trim() : '',
           responsibleUser: {
-            id: values?.responsibleUser?.id,
-            type: values?.responsibleUser?.type,
+            id: responsibleUsers?.id,
+            type: responsibleUsers?.type,
           },
         },
       }
@@ -92,8 +95,8 @@ const DeviceCategoryForm = () => {
         name: values?.name ? values?.name.trim() : '',
         description: values?.description ? values?.description.trim() : '',
         responsibleUser: {
-          id: values?.responsibleUser?.id,
-          type: values?.responsibleUser?.type,
+          id: responsibleUsers?.id,
+          type: responsibleUsers?.type,
         },
       }
       actions.createDeviceCategory(params, backToList)
@@ -270,10 +273,7 @@ const DeviceCategoryForm = () => {
                         placeholder={t('deviceCategory.responsibleUser')}
                         options={responsibleSubject?.responsibleUsers}
                         getOptionLabel={(opt) => opt?.username}
-                        getOptionValue={(opt) => ({
-                          id: opt?.id,
-                          type: opt?.type,
-                        })}
+                        getOptionValue={(opt) => opt?.id}
                       />
                     </Grid>
                   </Grid>

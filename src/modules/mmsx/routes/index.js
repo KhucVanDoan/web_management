@@ -3,6 +3,9 @@ import Dashboard from '~/modules/mmsx/features/dashboard'
 import DefineInstallationTemplateDetail from '../features/define-installation-template/detail'
 import DefineInstallationTemplateForm from '../features/define-installation-template/form'
 import DefineInstallationTemplate from '../features/define-installation-template/list'
+import DefineSuppliesDetail from '../features/define-supplies/detail'
+import DefineSuppliesForm from '../features/define-supplies/form'
+import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
@@ -165,6 +168,39 @@ const routes = [
             name: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.TITLE,
             path: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.PATH,
             component: WarningListErrorForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.DEVICE_MANAGEMENT.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFINE_SUPPLIES.LIST.TITLE,
+        path: ROUTE.DEFINE_SUPPLIES.LIST.PATH,
+        component: DefineSupplies,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_SUPPLIES.CREATE.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.CREATE.PATH,
+            component: DefineSuppliesForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_SUPPLIES.DETAIL.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.DETAIL.PATH,
+            component: DefineSuppliesDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_SUPPLIES.EDIT.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.EDIT.PATH,
+            component: DefineSuppliesForm,
             isInSidebar: false,
           },
         ],

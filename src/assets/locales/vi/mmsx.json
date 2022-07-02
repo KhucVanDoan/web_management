@@ -82,10 +82,14 @@
     "suppliesCategoryCreate": "Tạo nhóm vật tư",
     "suppliesCategoryEdit": "Sửa nhóm vật tư",
     "supplies": "Định nghĩa vật tư phụ tùng",
+    "suppliesDetail": "Chi tiết vật tư phụ tùng",
+    "suppliesCreate": "Tạo vật tư phụ tùng",
+    "suppliesEdit": "Sửa vật tư phụ tùng",
     "setting": "Cài đặt",
     "userManagement": "Quản lý user",
     "login": "Đăng nhập hệ thống",
     "database": "Cơ sở dữ liệu",
+    "deviceManagement": "Quản lý thiết bị",
     "maintenanceTeam": "Định nghĩa đội bảo trì",
     "maintenanceTeamDetail": "Chi tiết đội bảo trì",
     "maintenanceTeamCreate": "Tạo đội bảo trì",
@@ -709,7 +713,8 @@
         "suppliesCategoryName": "Tên nhóm vật tư",
         "unit": "Đơn vị tính",
         "price": "Giá",
-        "categoryId": "Nhóm vật tư"
+        "categoryId": "Nhóm vật tư",
+        "dateAdded": "Ngày nhập"
       }
     },
     "category": {
@@ -717,6 +722,7 @@
       "name": "Tên vật tư phụ tùng",
       "suppliesCategory": "Nhóm vật tư",
       "type": "Loại",
+      "supplier": "Nhà cung cấp",
       "description": "Mô tả",
       "status": "Trạng thái"
     },

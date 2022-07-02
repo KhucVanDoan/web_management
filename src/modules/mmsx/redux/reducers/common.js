@@ -11,6 +11,9 @@ import {
   GET_RESPONSIBLE_SUBJECT_START,
   GET_RESPONSIBLE_SUBJECT_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_FAILED,
+  GET_ITEM_UNITS_START,
+  GET_ITEM_UNITS_SUCCESS,
+  GET_ITEM_UNITS_FAILED,
 } from '../actions/common'
 
 const initialState = {
@@ -19,6 +22,7 @@ const initialState = {
   maintenanceTeams: [],
   moListByFactory: [],
   responsibleSubject: {},
+  itemsUnitList: [],
 }
 
 /**
@@ -77,6 +81,19 @@ export default function commonManagement(state = initialState, action) {
         ...state,
         responsibleSubject: {},
         isLoading: false,
+      }
+    case GET_ITEM_UNITS_START:
+      return {
+        ...state,
+      }
+    case GET_ITEM_UNITS_SUCCESS:
+      return {
+        ...state,
+        itemsUnitList: action.payload,
+      }
+    case GET_ITEM_UNITS_FAILED:
+      return {
+        ...state,
       }
     default:
       return state

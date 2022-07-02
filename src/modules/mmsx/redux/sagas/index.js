@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects'
 
 import watchGetAllFactoryList from './common/get-all-factory-list'
+import watchGetAllItemUnit from './common/get-all-item-unit'
 import watchGetListMaintenanceTeam from './common/get-maintencance-list'
 import watchGetMo from './common/get-mo-list'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
@@ -30,6 +31,12 @@ import watchGetAllConfirmSuppliesCategory from './supplies-category/get-all-conf
 import watchGetSuppliesCategoryDetail from './supplies-category/get-supplies-category-detail'
 import watchSearchSuppliesCategory from './supplies-category/search-supplies-category'
 import watchUpdateSuppliesCategory from './supplies-category/update-supplies-category'
+import watchConfirmSupplies from './supplies/confirm-supplies'
+import watchCreateSupplies from './supplies/create-supplies'
+import watchDeleteSupplies from './supplies/delete-supplies'
+import watchGetDetailSupplies from './supplies/get-supplies'
+import watchSearchSuppliesList from './supplies/search-supplies'
+import watchUpdateSupplies from './supplies/update-supplies'
 import watchConfirmWarning from './warning-system/confirm'
 import watchGetWarningDetail from './warning-system/detail'
 import watchGetWarningList from './warning-system/get-warning-list'
@@ -45,6 +52,7 @@ export default function* sagas() {
     watchGetListMaintenanceTeam(),
     watchGetMo(),
     watchGetResponsibleSubject(),
+    watchGetAllItemUnit(),
     // Dashboard
     watchGetSummary(),
     //warning system
@@ -67,6 +75,13 @@ export default function* sagas() {
     watchGetDetailDeviceCategory(),
     watchSearchDeviceCategory(),
     watchUpdateDeviceCategory(),
+    //define supplies
+    watchConfirmSupplies(),
+    watchCreateSupplies(),
+    watchDeleteSupplies(),
+    watchGetDetailSupplies(),
+    watchSearchSuppliesList(),
+    watchUpdateSupplies(),
 
     //maintenance-team
     watchCreateMaintenanceTeam(),

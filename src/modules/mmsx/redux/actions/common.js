@@ -17,6 +17,10 @@ export const GET_RESPONSIBLE_SUBJECT_SUCCESS =
   'MMSX_GET_RESPONSIBLE_SUBJECT_SUCCESS'
 export const GET_RESPONSIBLE_SUBJECT_FAILED =
   'MMSX_GET_RESPONSIBLE_SUBJECT_FAILED'
+
+export const GET_ITEM_UNITS_START = 'MMSX_GET_ITEM_UNITS_START'
+export const GET_ITEM_UNITS_SUCCESS = 'MMSX_GET_ITEM_UNITS_SUCCESS'
+export const GET_ITEM_UNITS_FAILED = 'MMSX_GET_ITEM_UNITS_FAILED'
 export function getFactoryList(payload, onSuccess, onError) {
   return {
     type: MMSX_GET_FACTORY_LIST_START,
@@ -107,6 +111,44 @@ export function getResponsibleSubjectFailed() {
     type: GET_RESPONSIBLE_SUBJECT_FAILED,
   }
 }
+
+/**
+ * Get products
+ * @param {object} payload
+ * @param {function} onSuccess Callback function on success
+ * @param {function} onError Callback function on error
+ * @returns {object}
+ */
+export function getItemUnits(payload, onSuccess, onError) {
+  return {
+    type: GET_ITEM_UNITS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get products success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getItemUnitsSuccess(payload) {
+  return {
+    type: GET_ITEM_UNITS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get products failed action
+ * @returns {object}
+ */
+export function getItemUnitsFailed() {
+  return {
+    type: GET_ITEM_UNITS_FAILED,
+  }
+}
 export default {
   getFactoryList,
   getFactoryListFail,
@@ -120,4 +162,7 @@ export default {
   getResponsibleSubject,
   getResponsibleSubjectSuccess,
   getResponsibleSubjectFailed,
+  getItemUnits,
+  getItemUnitsSuccess,
+  getItemUnitsFailed,
 }
