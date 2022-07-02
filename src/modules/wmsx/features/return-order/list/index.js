@@ -180,11 +180,14 @@ function ReturnOrder() {
                 variant="text"
                 size="small"
                 bold={false}
-                onClick={() => {
+                onClick={() =>
                   history.push(
-                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                    `${ROUTE.RETURN_ORDER.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
                   )
-                }}
+                }
               >
                 {t('returnOrder.transactionList')}
               </Button>

@@ -34,9 +34,9 @@ export const schema = (t) =>
             }),
           )
           .max(
-            NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
+            NUMBER_FIELD_REQUIRED_SIZE.PLAN_QUANTITY.MAX,
             t('general:form.maxNumber', {
-              max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
+              max: NUMBER_FIELD_REQUIRED_SIZE.PLAN_QUANTITY.MAX,
             }),
           ),
       }),

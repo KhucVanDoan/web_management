@@ -150,6 +150,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 10,
   },
+  PLAN_QUANTITY: {
+    MIN: 1,
+    MAX: 100000000,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {

@@ -16,7 +16,7 @@ import { scrollToBottom } from '~/utils'
 
 function ItemSettingTableDetail(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items = [], mode, arrayHelpers } = props
+  const { items = [], mode, arrayHelpers, setFieldValue } = props
   const isView = mode === MODAL_MODE.DETAIL
 
   const {
@@ -45,7 +45,6 @@ function ItemSettingTableDetail(props) {
       field: 'id',
       headerName: '#',
       width: 80,
-
       renderCell: (_, index) => {
         return index + 1
       },
@@ -69,6 +68,11 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            onChange={() => {
+              setFieldValue(`items[${index}].area`, null)
+              setFieldValue(`items[${index}].shelf`, null)
+              setFieldValue(`items[${index}].floor`, null)
+            }}
           />
         )
       },
@@ -101,9 +105,11 @@ function ItemSettingTableDetail(props) {
       width: 180,
       renderCell: (params, index) => {
         const areaId = params.row?.area
-        const listShelf = defineWarehouseShelfList.filter(
-          (item) => item?.warehouseSector?.id === areaId,
-        )
+        const listShelf = areaId
+          ? defineWarehouseShelfList.filter(
+              (item) => item?.warehouseSector?.id === areaId,
+            )
+          : []
         return isView ? (
           <>{params.row?.warehouseShelf?.name}</>
         ) : (
@@ -123,9 +129,11 @@ function ItemSettingTableDetail(props) {
       width: 180,
       renderCell: (params, index) => {
         const shelfId = params.row?.shelf
-        const listFloor = defineWarehousePalletList.filter(
-          (item) => item?.warehouseShelf?.id === shelfId,
-        )
+        const listFloor = shelfId
+          ? defineWarehousePalletList.filter(
+              (item) => item?.warehouseShelf?.id === shelfId,
+            )
+          : []
         return isView ? (
           <>{params.row?.warehouseShelfFloor?.name}</>
         ) : (

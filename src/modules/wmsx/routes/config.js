@@ -731,5 +731,15 @@ export const ROUTE = {
       PATH: '/wmsx/return-order/:id/edit',
       TITLE: 'returnOrderEdit',
     },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wmsx/return-order/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wmsx/return-order/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
+    },
   },
 }

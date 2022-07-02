@@ -76,13 +76,24 @@
   "menu": {
     "mmsx": "MMSX",
     "dashboard": "Dashboard",
+    "importExportData": "Nhập/Xuất dữ liệu",
     "suppliesCategory": "Định nghĩa nhóm vật tư",
+    "suppliesCategoryDetail": "Chi tiết nhóm vật tư",
+    "suppliesCategoryCreate": "Tạo nhóm vật tư",
+    "suppliesCategoryEdit": "Sửa nhóm vật tư",
     "supplies": "Định nghĩa vật tư phụ tùng",
+    "suppliesDetail": "Chi tiết vật tư phụ tùng",
+    "suppliesCreate": "Tạo vật tư phụ tùng",
+    "suppliesEdit": "Sửa vật tư phụ tùng",
     "setting": "Cài đặt",
     "userManagement": "Quản lý user",
     "login": "Đăng nhập hệ thống",
     "database": "Cơ sở dữ liệu",
+    "deviceManagement": "Quản lý thiết bị",
     "maintenanceTeam": "Định nghĩa đội bảo trì",
+    "maintenanceTeamDetail": "Chi tiết đội bảo trì",
+    "maintenanceTeamCreate": "Tạo đội bảo trì",
+    "maintenanceTeamEdit": "Sửa đội bảo trì",
     "deviceCategory": "Định nghĩa nhóm thiết bị",
     "deviceList": "Định nghĩa thiết bị",
     "deviceForm": "Danh sách thiết bị",
@@ -106,7 +117,7 @@
     "templateDefinition": "Định nghĩa mẫu phiếu",
     "templateInstall": "Định nghĩa mẫu phiếu lắp đặt",
     "templateInstallForm": "Danh sách mẫu phiếu lắp đặt",
-    "templateInstallDetail": "Chi tiết mãu phiếu lắp đặt",
+    "templateInstallDetail": "Chi tiết mẫu phiếu lắp đặt",
     "templateInstallEdit": "Sửa mẫu phiếu lắp đặt",
     "templateInstallCreate": "Tạo mẫu phiếu lắp đặt",
     "templateChecklist": "Định nghĩa mẫu phiếu kiểm tra",
@@ -115,6 +126,7 @@
     "templateChecklistEdit": "Sửa mẫu phiếu kiểm tra",
     "templateChecklistCreate": "Tạo mẫu phiếu kiểm tra",
     "warningList": "Cảnh báo hệ thống",
+    "warningListDetail": "Chi tiết bảo dưỡng ",
     "warningListChecklist": "Kiểm tra định kì",
     "warningListError": "Cảnh báo lỗi",
     "warningListScheduled": "Bảo dưỡng",
@@ -556,20 +568,19 @@
     "activityHistory": "Lịch sử hoạt động"
   },
   "maintenanceTeam": {
+    "title": "Danh sách đội bảo trì",
+    "searchPlaceholder": "Tìm kiếm đội bảo trì theo mã hoặc tên",
     "type": "Loại",
-    "innerMaintenanceTeam": "Đội bảo trì nội bộ",
     "inner": "Đội bảo trì nội bộ",
     "outer": "Đội bảo trì ngoài",
     "enty": "Đội bảo trì",
-    "createBtnTitle": "Tạo đội bảo trì",
-    "form": {
-      "create": "Tạo mới đội bảo trì",
-      "update": "Sửa thông tin đội bảo trì",
-      "view": "Chi tiết thông tin đội bảo trì"
+    "leader": "Đội trưởng",
+    "member": "Thành viên",
+    "actionHistory": {
+      "created": "Đã tạo mới đội bảo trì",
+      "updated": "Đã chỉnh sửa đội bảo trì"
     },
-    "title": "Danh sách đội bảo trì",
     "team": {
-      "id": "id",
       "code": "Mã đội",
       "name": "Tên đội",
       "description": "Mô tả đội bảo trì",
@@ -579,11 +590,6 @@
       "updated": "Đã cập nhật đội bảo trì",
       "selectMemberPlaceholder": "Thành viên",
       "selectRolePlaceholder": "Vai trò"
-    },
-    "placeholder": {
-      "code": "Nhập mã đội",
-      "name": "Nhập tên đội",
-      "description": "Nhập mô tả"
     },
     "notification": {
       "createSuccess": "Tạo thành công đội bảo trì",
@@ -595,10 +601,8 @@
     "action": "Hành động",
     "roleDetail": "Chi tiết thành viên",
     "addMember": "Thêm thành viên",
-    "deleteTeam": {
-      "title": "Xóa đội bảo trì",
-      "confirmDetele": "Bạn có muốn xóa đội bảo trì không?"
-    }
+    "deleteTitle": "Xóa đội bảo trì",
+    "confirmDetele": "Bạn có chắc chắn muốn xóa đội bảo trì này không?"
   },
   "deviceCategory": {
     "title": "Danh sách nhóm thiết bị",
@@ -653,30 +657,25 @@
   },
   "suppliesCategory": {
     "title": "Danh sách nhóm vật tư",
+    "searchPlaceholder": "Tìm kiếm nhóm vật tư theo mã hoặc tên",
+    "code": "Mã nhóm",
+    "name": "Tên nhóm",
+    "description": "Mô tả nhóm",
+    "createAt": "Ngày tạo",
+    "updateAt": "Ngày sửa",
+    "action": "Hành động",
     "form": {
       "status": "Trạng thái",
-      "create": "Tạo nhóm vật tư",
-      "update": "Sửa nhóm vật tư",
-      "view": "Chi tiết nhóm vật tư",
-      "field": {
-        "code": "Mã nhóm vật tư",
-        "name": "Tên nhóm vật tư",
-        "description": "Mô tả nhóm vật tư"
-      }
+      "code": "Mã nhóm vật tư",
+      "name": "Tên nhóm vật tư",
+      "description": "Mô tả nhóm vật tư"
     },
     "button": {
       "supply": "Vật tư",
       "device": "Thiết bị"
     },
-    "category": {
-      "code": "Mã nhóm",
-      "name": "Tên nhóm",
-      "description": "Mô tả nhóm"
-    },
-    "delete": {
-      "title": "Xóa nhóm vật tư",
-      "description": "Bạn chắc chắn muốn xóa nhóm vật tư này?"
-    },
+    "deleteTitle": "Xóa nhóm vật tư",
+    "confirmDetele": "Bạn chắc chắn muốn xóa nhóm vật tư này không?",
     "notification": {
       "successDelete": "Xóa nhóm vật tư thành công",
       "success": "Tạo nhóm vật tư thành công",
@@ -689,8 +688,8 @@
       "description": "Bạn có chắc chắn muốn xác nhận nhóm vật tư này không?"
     },
     "status": {
-      "confirmed": "Xác nhận",
-      "pending": "Chờ xác nhận"
+      "pending": "Chờ xác nhận",
+      "confirmed": "Xác nhận"
     },
     "actionHistory": {
       "created": "Đã tạo mới nhóm vật tư",
@@ -714,7 +713,8 @@
         "suppliesCategoryName": "Tên nhóm vật tư",
         "unit": "Đơn vị tính",
         "price": "Giá",
-        "categoryId": "Nhóm vật tư"
+        "categoryId": "Nhóm vật tư",
+        "dateAdded": "Ngày nhập"
       }
     },
     "category": {
@@ -722,6 +722,7 @@
       "name": "Tên vật tư phụ tùng",
       "suppliesCategory": "Nhóm vật tư",
       "type": "Loại",
+      "supplier": "Nhà cung cấp",
       "description": "Mô tả",
       "status": "Trạng thái"
     },
@@ -816,11 +817,14 @@
   },
   "templateInstall": {
     "title": "Danh sách mẫu phiếu lắp đặt",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "codePlaceholer": "Nhập mã mẫu phiếu",
     "namePlaceholer": "Nhập tên mẫu phiếu",
     "descriptionTemplatePlaceholer": "Nhập mô tả mẫu phiếu",
     "descriptionPlaceholer": "Nhập mô tả",
     "titlePlaceholer": "Nhập tiêu đề",
+    "createdAt": "Ngày tạo",
+    "actions": "Hành động",
     "form": {
       "create": "Tạo mẫu phiếu lắp đặt",
       "update": "Sửa mẫu phiếu lắp đặt",
@@ -1342,7 +1346,7 @@
       "rejectionSuccessed": "Từ chối cảnh báo thành công"
     },
     "status": {
-      "created": "Chờ xác nhận",
+      "pending": "Chờ xác nhận",
       "confirmed": "Xác nhận",
       "rejected": "Từ chối",
       "inProgress": "Đang thực hiện",
@@ -1350,6 +1354,7 @@
       "completed": "Hoàn thành",
       "notExcute": "Chưa thực hiện"
     },
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "title": "Danh sách cảnh báo",
     "table": {
       "code": "Mã cảnh báo",
@@ -1359,6 +1364,8 @@
       "serial": "Serial",
       "deviceName": "Tên thiết bị",
       "piority": "Độ ưu tiên",
+      "createdAt": "Ngày tạo",
+      "actions": "Hành động",
       "status": "Trạng thái"
     },
     "smallTitle": "Thông tin người sử dụng",

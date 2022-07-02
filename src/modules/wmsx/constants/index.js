@@ -245,6 +245,14 @@ export const MOVEMENT_TYPE = {
   TRANSFER_EXPORT: 7,
   IMO_IMPORT: 8,
   EMO_EXPORT: 9,
+  PO_IMPORT_RETURN: 10,
+  SO_EXPORT_RETURN: 11,
+  RETURN_IMPORT: 12,
+  RETURN_EXPORT: 13,
+  RETURN_PO_ERROR: 14,
+  RETURN_SO_ERROR: 15,
+  SWIFT_FLOOR_IMPORT: 16,
+  SWIFT_FLOOR_EXPORT: 17,
 }
 
 export const MOVEMENT_TYPE_MAP = {
@@ -258,6 +266,14 @@ export const MOVEMENT_TYPE_MAP = {
   [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'movements.export',
   [MOVEMENT_TYPE.IMO_IMPORT]: 'movements.import',
   [MOVEMENT_TYPE.EMO_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.PO_IMPORT_RETURN]: 'movements.import',
+  [MOVEMENT_TYPE.SO_EXPORT_RETURN]: 'movements.export',
+  [MOVEMENT_TYPE.RETURN_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.RETURN_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.RETURN_PO_ERROR]: 'movements.import',
+  [MOVEMENT_TYPE.RETURN_SO_ERROR]: 'movements.export',
+  [MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT]: 'movements.import',
+  [MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT]: 'movements.export',
 }
 
 export const MOVEMENT_ORDER_TYPE_MAP = {

@@ -1,13 +1,16 @@
 import { useEffect } from 'react'
 
 import { IconButton } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Status from '~/components/Status'
+import { PURCHASED_ORDER_STATUS } from '~/modules/database/constants'
 import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import { ROUTE } from '~/modules/database/routes/config'
 import { PAYMENT_STATUS_OPTION } from '~/modules/wmsx/constants'
@@ -15,7 +18,7 @@ import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter'
@@ -27,7 +30,7 @@ function TransactionVendor({ id }) {
     code: '',
     name: '',
     status: '',
-    createdAt: null,
+    purchasedAt: null,
     deadline: null,
   }
   const {
@@ -55,15 +58,6 @@ function TransactionVendor({ id }) {
 
   const columns = [
     {
-      field: 'id',
-      headerName: '#',
-      width: 80,
-      fixed: true,
-      renderCell: (_, index) => {
-        return index + 1
-      },
-    },
-    {
       field: 'code',
       headerName: t('mesx:purchasedOrder.code'),
       width: 100,
@@ -85,7 +79,7 @@ function TransactionVendor({ id }) {
       filterFormat: 'date',
       renderCell: (params) => {
         const { purchasedAt } = params.row
-        return convertUtcDateTimeToLocalTz(purchasedAt)
+        return convertUtcDateToLocalTz(purchasedAt)
       },
     },
     {
@@ -96,7 +90,7 @@ function TransactionVendor({ id }) {
       filterFormat: 'date',
       renderCell: (params) => {
         const { deadline } = params.row
-        return convertUtcDateTimeToLocalTz(deadline)
+        return convertUtcDateToLocalTz(deadline)
       },
     },
     {
@@ -104,8 +98,13 @@ function TransactionVendor({ id }) {
       headerName: t('mesx:purchasedOrder.totalPrice'),
       width: 150,
       renderCell: (params) => {
-        const { price, quantity } = params?.row?.purchasedOrderDetail[0]
-        return price * quantity
+        const { purchasedOrderDetail } = params.row
+        return isEmpty(purchasedOrderDetail)
+          ? 0
+          : purchasedOrderDetail.reduce(
+              (prev, curr) => prev + +curr.price * +curr.quantity,
+              0,
+            )
       },
     },
     {
@@ -129,8 +128,8 @@ function TransactionVendor({ id }) {
       width: 150,
       sortable: false,
       renderCell: (params) => {
-        const { vendorName } = params?.row
-        return vendorName
+        const { company } = params?.row
+        return company?.name
       },
     },
     {
@@ -159,7 +158,10 @@ function TransactionVendor({ id }) {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, vendorId: id }, columns),
+      filter: convertFilterParams(
+        { ...filters, vendorId: id, status: PURCHASED_ORDER_STATUS.CONFIRMED },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
 
@@ -172,15 +174,24 @@ function TransactionVendor({ id }) {
 
   return (
     <DataTable
-      title={`Tổng công nợ: ${vendorDetails?.totalMoney} VNĐ`}
-      rows={purchasedOrderList}
+      title={`Tổng công nợ: ${vendorDetails?.totalMoney || 0} VNĐ`}
+      beforeTopbar={
+        // @TODO: <linh.taquang> handle export
+        <ImportExport
+          name={t('menu.importExportData')}
+          onExport={() => {}}
+          onRefresh={refreshData}
+          disabled
+        />
+      }
+      rows={id ? purchasedOrderList : []}
       pageSize={pageSize}
       page={page}
       columns={columns}
       onPageChange={setPage}
       onPageSizeChange={setPageSize}
       onSortChange={setSort}
-      total={total}
+      total={id ? total : 0}
       filters={{
         form: <FilterForm />,
         defaultValue: DEFAULT_FILTERS,

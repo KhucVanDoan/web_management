@@ -129,7 +129,7 @@ const DeviceCategory = () => {
         filterFormat: 'date',
         sortable: true,
         renderCell: (params) => {
-          return convertUtcDateToLocalTz(params?.row?.createdAt)
+          return convertUtcDateToLocalTz(params?.row?.updatedAt)
         },
       },
       {

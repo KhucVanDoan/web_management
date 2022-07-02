@@ -67,7 +67,7 @@ const DefineBlockDetail = () => {
     {
       field: 'productAmount',
       headerName: t('defineBlock.productAmount'),
-      align: 'right',
+      align: 'left',
       renderCell: (params) => {
         return params.row.quantity
       },
