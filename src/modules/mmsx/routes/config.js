@@ -3,6 +3,28 @@ export const ROUTE = {
     PATH: '/mmsx',
     TITLE: 'dashboard',
   },
+  DEVICE_MANAGEMENT: {
+    PATH: '/wmsx/device-management',
+    TITLE: 'deviceManagement',
+  },
+  DEVICE_LIST: {
+    LIST: {
+      PATH: '/mmsx/device-list',
+      TITLE: 'deviceList',
+    },
+    CREATE: {
+      PATH: '/mmsx/device-list/create',
+      TITLE: 'deviceCreate',
+    },
+    DETAIL: {
+      PATH: '/mmsx/device-list/:id/detail',
+      TITLE: 'deviceDetail',
+    },
+    EDIT: {
+      PATH: '/mmsx/device-list/:id/edit',
+      TITLE: 'deviceEdit',
+    },
+  },
   DATABASE: {
     PATH: '/mmsx/database',
     TITLE: 'database',
@@ -10,10 +32,6 @@ export const ROUTE = {
   MAINTENANCE: {
     PATH: '/mmsx/maintenance',
     TITLE: 'maintenance',
-  },
-  DEVICE_MANAGEMENT: {
-    PATH: '/mmsx/device-management',
-    TITLE: 'deviceManagement',
   },
   DEVICE_STATUS: {
     PATH: '/mmsx/device-status',
