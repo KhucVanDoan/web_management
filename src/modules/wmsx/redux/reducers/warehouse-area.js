@@ -5,6 +5,7 @@ import {
   GET_WAREHOUSE_AREA_DETAIL_FAILED,
   GET_WAREHOUSE_AREA_DETAIL_START,
   GET_WAREHOUSE_AREA_DETAIL_SUCCESS,
+  RESET_WAREHOUSE_AREA_DETAIL_STATE,
 } from '../actions/warehouse-area'
 
 const initialState = {
@@ -55,6 +56,12 @@ export default function warehouseArea(state = initialState, action) {
         ...state,
         warehouseAreaDetails: {},
         isLoading: false,
+      }
+
+    case RESET_WAREHOUSE_AREA_DETAIL_STATE:
+      return {
+        ...state,
+        warehouseAreaDetails: {},
       }
     default:
       return state

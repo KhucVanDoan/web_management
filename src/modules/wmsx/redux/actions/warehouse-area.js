@@ -11,6 +11,9 @@ export const GET_WAREHOUSE_AREA_DETAIL_SUCCESS =
 export const GET_WAREHOUSE_AREA_DETAIL_FAILED =
   'WMSX_GET_WAREHOUSE_AREA_DETAIL_FAILED'
 
+export const RESET_WAREHOUSE_AREA_DETAIL_STATE =
+  'WMSX_RESET_WAREHOUSE_AREA_DETAIL_STATE'
+
 /**
  * Search warehouse area
  * @param {object} payload
@@ -87,6 +90,12 @@ export function getWarehouseAreaDetailByIdFailed() {
   }
 }
 
+export function resetWarehouseAreaState() {
+  return {
+    type: RESET_WAREHOUSE_AREA_DETAIL_STATE,
+  }
+}
+
 export default {
   searchWarehouseAreas,
   searchWarehouseAreasSuccess,
@@ -94,4 +103,5 @@ export default {
   getWarehouseAreaDetailById,
   getWarehouseAreaDetailByIdSuccess,
   getWarehouseAreaDetailByIdFailed,
+  resetWarehouseAreaState,
 }
