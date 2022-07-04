@@ -5,6 +5,7 @@ import {
   GET_DEFINE_WAREHOUSE_PALLET_START,
   GET_DEFINE_WAREHOUSE_PALLET_FAILED,
   GET_DEFINE_WAREHOUSE_PALLET_SUCCESS,
+  RESET_STATE_WAREHOUSE_PALLET,
 } from '../../redux/actions/define-warehouse-pallet'
 
 const initialState = {
@@ -50,7 +51,11 @@ export default function defineWarehousePallet(state = initialState, action) {
         defineWarehousePalletDetail: action.payload,
         isLoading: false,
       }
-
+    case RESET_STATE_WAREHOUSE_PALLET:
+      return {
+        ...state,
+        defineWarehousePalletDetail: {},
+      }
     default:
       return state
   }

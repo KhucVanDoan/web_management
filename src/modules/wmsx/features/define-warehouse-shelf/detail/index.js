@@ -40,7 +40,7 @@ const DefineWarehouseShelfDetail = () => {
 
   useEffect(() => {
     actions.getDefineWarehouseShelfById(id)
-    return () => actions.resetStateWarehouseShel()
+    return () => actions.resetStateWarehouseShelf()
   }, [id])
   return (
     <Page

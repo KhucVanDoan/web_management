@@ -40,6 +40,7 @@ const DefineWarehousePalletDetail = () => {
 
   useEffect(() => {
     actions.getDefineWarehousePalletById(id)
+    return () => actions.resetStateWarehousePallet()
   }, [id])
   return (
     <Page

@@ -28,35 +28,29 @@ function ProgressDetailReportChart() {
     return ''
   }
   const getTasks = (data) => {
-    const parent = {
-      id: Math.random(),
-      type: 'project',
-      render: 'split',
-      text: '',
-    }
     return data
-      ?.map((item) =>
-        item?.calendar
-          ?.map((e) => {
-            const saleOrderSchedule = {
-              text: item.item.name,
-              id: `${item.item.id.toString()}-${e.executionDate}`,
-              end_date: formatDateInGanttChart(e.executionDate, 'to'),
-              start_date: formatDateInGanttChart(e.executionDate, 'from'),
-              actualQuantity: e?.actualQuantity,
-              planQuantity: e?.planQuantity,
-              progress: e.actualQuantity
-                ? e.actualQuantity / e.planQuantity
-                : 0,
-              parent: parent.id,
-            }
-            return saleOrderSchedule
-          })
-          .concat({
-            ...parent,
+      ?.map((item) => {
+        const parent = {
+          id: Math.random(),
+          type: 'project',
+          render: 'split',
+          text: item.item.name,
+        }
+        const items = item?.calendar?.map((e) => {
+          const saleOrderSchedule = {
             text: item.item.name,
-          }),
-      )
+            id: `${item.item.id.toString()}-${e.executionDate}`,
+            end_date: formatDateInGanttChart(e.executionDate, 'to'),
+            start_date: formatDateInGanttChart(e.executionDate, 'from'),
+            actualQuantity: e?.actualQuantity,
+            planQuantity: e?.planQuantity,
+            progress: e.actualQuantity ? e.actualQuantity / e.planQuantity : 0,
+            parent: parent.id,
+          }
+          return saleOrderSchedule
+        })
+        return [parent, ...items]
+      })
       .flat()
   }
   return (
