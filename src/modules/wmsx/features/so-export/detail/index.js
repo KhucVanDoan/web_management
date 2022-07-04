@@ -61,12 +61,12 @@ function SOExportDetail() {
   )
   const items = cloneSOExportWarehouseLots?.map((detailLot, index) => ({
     id: index,
-    itemId: detailLot.itemId,
+    itemId: detailLot?.itemId,
     warehouseId: detailLot?.warehouseId,
-    actualQuantity: detailLot.actualQuantity,
-    confirmQuantity: detailLot.confirmQuantity,
-    collectedQuantity: detailLot.collectedQuantity,
-    quantity: detailLot.quantity,
+    actualQuantity: detailLot?.actualQuantity,
+    confirmQuantity: detailLot?.confirmQuantity,
+    collectedQuantity: detailLot?.collectedQuantity,
+    quantity: detailLot?.quantity,
     qcCheck:
       soExportDetails?.saleOrderExportWarehouseDetails?.find(
         (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
@@ -74,7 +74,7 @@ function SOExportDetail() {
     qcCriteriaId: soExportDetails?.saleOrderExportWarehouseDetails?.find(
       (detail) => detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
     )?.qcCriteriaId,
-    qcCriteria: itemQualityPoint.find(
+    qcCriteria: itemQualityPoint?.find(
       (quality) =>
         quality?.id ===
         soExportDetails?.saleOrderExportWarehouseDetails?.find(
@@ -82,9 +82,9 @@ function SOExportDetail() {
             detail?.id === detailLot?.saleOrderExportWarehouseDetailId,
         )?.qcCriteriaId,
     )?.code,
-    lotNumber: detailLot.lotNumber,
-    mfg: convertUtcDateToLocalTz(detailLot.mfg),
-    packageId: detailLot.packageId,
+    lotNumber: detailLot?.lotNumber,
+    mfg: convertUtcDateToLocalTz(detailLot?.mfg),
+    packageId: detailLot?.packageId,
   }))
   return (
     <Page
@@ -249,7 +249,7 @@ function SOExportDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <TableDetail items={items} />
+        <TableDetail items={items || []} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

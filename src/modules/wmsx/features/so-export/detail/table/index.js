@@ -16,7 +16,7 @@ function TableDetail(props) {
   } = useCommonManagement()
 
   useEffect(() => {
-    actions.getItems({})
+    actions.getItems()
   }, [])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
@@ -26,7 +26,6 @@ function TableDetail(props) {
       field: 'id',
       headerName: '#',
       width: 80,
-
       renderCell: (_, index) => {
         return index + 1
       },
@@ -57,8 +56,7 @@ function TableDetail(props) {
       headerName: t('soExport.item.mfg'),
       width: 180,
       renderCell: (params) => {
-        const { row } = params
-        return convertUtcDateToLocalTz(row?.mfg)
+        return convertUtcDateToLocalTz(params?.row?.mfg)
       },
     },
     {
@@ -112,7 +110,7 @@ function TableDetail(props) {
         <Typography variant="h4">{t('soExport.itemsDetails')}</Typography>
       </Box>
       <DataTable
-        rows={items}
+        rows={items || []}
         columns={columns}
         hideSetting
         hideFooter
