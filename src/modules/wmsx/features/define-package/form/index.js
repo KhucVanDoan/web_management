@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, FormControl, Grid } from '@mui/material'
+import { Box, FormControl, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
@@ -13,9 +13,15 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
-import { DEFAULT_UNITS, WEIGHT_UNITS } from '~/modules/wmsx/constants'
+import {
+  DEFAULT_UNITS,
+  DEFINE_PACKAGE_STATUS_OPTIONS,
+  WEIGHT_UNITS,
+} from '~/modules/wmsx/constants'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -199,6 +205,23 @@ const DefinePackageForm = () => {
                       rowSpacing={4 / 3}
                       columnSpacing={{ xl: 8, xs: 4 }}
                     >
+                      {isUpdate && (
+                        <Grid item xs={12}>
+                          <LV
+                            label={
+                              <Typography>
+                                {t('definePackage.status')}
+                              </Typography>
+                            }
+                            value={
+                              <Status
+                                options={DEFINE_PACKAGE_STATUS_OPTIONS}
+                                value={packageDetails?.status}
+                              />
+                            }
+                          />
+                        </Grid>
+                      )}
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
                           label={t('definePackage.code')}
