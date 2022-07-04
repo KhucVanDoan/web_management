@@ -148,6 +148,7 @@ function DefineDevice() {
       width: 200,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params.row
         const isPending = status === DEVICE_STATUS.PENDING
