@@ -47,8 +47,8 @@ const WarehouseAreaDetail = () => {
   useEffect(() => {
     actions.getWarehouseAreaDetailById(id, (res) => {
       defineWarehouseAction.getWarehouseDetailsById(res?.warehouseId)
+      return () => actions.resetWarehouseAreaState()
     })
-    return () => actions.resetWarehouseAreaState()
   }, [id])
   return (
     <Page
