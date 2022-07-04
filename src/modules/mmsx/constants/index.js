@@ -24,6 +24,66 @@ export const PIE_CHART_COLORS = [
   '#7B61FF',
   '#FF0909',
 ]
+
+export const DEVICE_STATUS_OPTION = [
+  {
+    text: 'deviceList.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'deviceList.status.confirm',
+    id: 1,
+    color: 'confirmed',
+  },
+]
+
+export const DEVICE_STATUS = {
+  PENDING: 0,
+  CONFIRM: 1,
+}
+
+export const DEVICE_STATUS_MAP = {
+  [DEVICE_STATUS.PENDING]: 'deviceList.status.pending',
+  [DEVICE_STATUS.CONFIRM]: 'deviceList.status.confirm',
+}
+
+export const SUPPLIES_ACCESSORY = {
+  ACCESSORY: 1,
+  SUPPLIES: 0,
+}
+
+export const SUPPLIES_ACCESSORY_OPTION = [
+  { value: 0, text: 'deviceList.type.supplies' },
+  { value: 1, text: 'deviceList.type.accessory' },
+]
+
+export const SUPPLIES_ACCESSORY_OPTION_MAP = {
+  [SUPPLIES_ACCESSORY.SUPPLIES]: 'general.supplies',
+  [SUPPLIES_ACCESSORY.ACCESSORY]: 'general.accessory',
+}
+
+export const TYPE = {
+  PASSFAIL: 0,
+}
+
+export const TYPE_MAP = {
+  [TYPE.PASSFAIL]: 'checkType.passFail',
+}
+
+//dùng trong màn deviceList
+export const TYPE_ITEM = {
+  ACCESSORY: 1,
+  SUPPLIES: 0,
+  DEVICE: 2,
+}
+
+export const TYPE_ITEM_MAP = {
+  [TYPE_ITEM.SUPPLIES]: 'deviceList.type.supplies',
+  [TYPE_ITEM.ACCESSORY]: 'deviceList.type.accessory',
+  [TYPE_ITEM.DEVICE]: 'deviceList.type.device',
+}
+
 export const WARNING_STATUS_LIST = [
   {
     text: 'warningList.status.pending',

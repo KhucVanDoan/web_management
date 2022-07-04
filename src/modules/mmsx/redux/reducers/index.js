@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 
+import attributeType from './attribute-type'
 import commonManagement from './common'
 import dashboard from './dashboard'
+import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
 import deviceCategory from './device-category'
@@ -14,6 +16,8 @@ export default combineReducers({
   warningSystem,
   defineInstallTemplate,
   deviceCategory,
+  attributeType,
+  defineDevice,
   supplies,
   maintenanceTeam,
   suppliesCategory,
