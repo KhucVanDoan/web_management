@@ -117,6 +117,14 @@ const TableHead = (props) => {
           const { headerAlign, align, field, headerName, width, sortable } =
             column
           const sorted = isSorted(field)
+          const headerValue =
+            typeof headerName === 'function' ? (
+              headerName()
+            ) : (
+              <Typography variant="h5" component="span">
+                {headerName}
+              </Typography>
+            )
           return (
             <TableCell
               key={i}
@@ -131,9 +139,7 @@ const TableHead = (props) => {
                   onClick={() => onClickSort(field)}
                   className={classes.headerNameContainer}
                 >
-                  <Typography variant="h5" component="span">
-                    {headerName}
-                  </Typography>
+                  {headerValue}
 
                   <span
                     className={clsx(classes.sortIcon, {
@@ -145,9 +151,7 @@ const TableHead = (props) => {
                   ></span>
                 </Box>
               ) : (
-                <Typography variant="h5" component="span">
-                  {headerName}
-                </Typography>
+                headerValue
               )}
             </TableCell>
           )

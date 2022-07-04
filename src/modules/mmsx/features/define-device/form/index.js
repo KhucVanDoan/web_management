@@ -109,15 +109,19 @@ const DefineDeviceForm = () => {
       responsibleUser: deviceDetail?.responsibleSubject?.id || '',
 
       accessoriesMaintenanceInformation: [
-        ...(deviceDetail?.accessoriesMaintenanceInformation || []),
+        ...(deviceDetail?.accessoriesMaintenanceInformation?.map((item) => ({
+          ...item,
+          mtbfIndex: item?.mtbfIndex?.indexValue,
+          mttfIndex: item?.mttfIndex?.indexValue,
+        })) || []),
         deviceDetail?.name
           ? {
               supplyId: null,
               name: deviceDetail?.name,
               type: TYPE_ITEM.DEVICE,
-              mtbfIndex: deviceDetail?.mtbfIndex,
+              mtbfIndex: deviceDetail?.mtbfIndex?.indexValue,
               mttaIndex: deviceDetail?.mttaIndex,
-              mttfIndex: deviceDetail?.mttfIndex,
+              mttfIndex: deviceDetail?.mttfIndex?.indexValue,
               mttrIndex: deviceDetail?.mttrIndex,
               disableMttf: deviceDetail?.canRepair,
               maintenancePeriod: deviceDetail?.maintenancePeriod,
@@ -185,6 +189,7 @@ const DefineDeviceForm = () => {
   const onSubmit = (values) => {
     const id = params?.id
     let subject = null
+
     if (values?.responsibleUser) {
       const findUser = responsibleSubject?.responsibleUsers?.find(
         (e) => e.id === values?.responsibleUser,
@@ -196,16 +201,24 @@ const DefineDeviceForm = () => {
       subject = findUser || findMaintainTeam
     }
 
-    const accessoriesMaintenanceInformation = values?.items?.map((item) => {
-      const accessoryItem = (values?.items || []).find(
-        (obj) => obj?.supplyId === item?.supplyId,
-      )
-      if (accessoryItem && !accessoryItem?.disableMttf) return item
-      return {
-        ...item,
-        mttfIndex: '',
-      }
-    })
+    const accessoriesMaintenanceInformation =
+      values?.accessoriesMaintenanceInformation
+        ?.filter((i) => i?.type !== TYPE_ITEM.DEVICE)
+        ?.map((item) => {
+          const accessoryItem = (values?.items || []).find(
+            (obj) => obj?.supplyId === item?.supply?.id,
+          )
+          if (accessoryItem && !accessoryItem?.disableMttf)
+            return {
+              ...item,
+              supplyId: item?.supply?.id,
+              type: accessoryItem?.type,
+            }
+          return {
+            ...item,
+            mttfIndex: '',
+          }
+        })
 
     const firstItemResult = values.accessoriesMaintenanceInformation.find(
       (item) => item.type === TYPE_ITEM.DEVICE,
@@ -213,6 +226,9 @@ const DefineDeviceForm = () => {
 
     const convertValues = {
       ...values,
+      ...(mode === MODAL_MODE.CREATE
+        ? { code: values?.code?.substring(2) }
+        : {}),
       price: values?.price ? +values?.price : null,
       deviceGroupId: values?.deviceCategory, // Id Nhóm thiết bị
       type: values?.useInProduction ? 1 : 0, //Được dùng trong sản xuất
@@ -247,10 +263,6 @@ const DefineDeviceForm = () => {
       },
 
       canRepair: values?.disableMttf, //Có cho sửa chữa hay không
-      packageItems: values.items.map((item) => ({
-        itemId: item.itemId?.id,
-        quantity: item.quantity,
-      })),
     }
 
     if (mode === MODAL_MODE.CREATE) {
@@ -682,6 +694,7 @@ const DefineDeviceForm = () => {
                             ? values?.accessoriesMaintenanceInformation
                             : []
                         }
+                        mode={mode}
                       />
                     </Box>
                   </Tabs>
