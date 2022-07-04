@@ -183,6 +183,7 @@ const Mo = () => {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const canEdit = MO_STATUS_TO_EDIT.includes(status)

@@ -136,6 +136,7 @@ function InventoryCalendar() {
       width: 180,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const hasEditDeleteBtn =
@@ -285,7 +286,6 @@ function InventoryCalendar() {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -309,7 +309,6 @@ function InventoryCalendar() {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

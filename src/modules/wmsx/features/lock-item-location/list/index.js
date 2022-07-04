@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -48,22 +47,17 @@ const LockItemLocation = () => {
       placeholder={t('blockItemLocation.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Tabs
-            list={[
-              t('blockItemLocation.blockItem'),
-              t('blockItemLocation.blockLocation'),
-            ]}
-          >
-            {/* tab 1 */}
-            <LockItem keyword={keyword} />
-            {/* tab 2 */}
-
-            <LockLocattion keyword={keyword} />
-          </Tabs>
-        </Grid>
-      </Grid>
+      <Tabs
+        list={[
+          t('blockItemLocation.blockItem'),
+          t('blockItemLocation.blockLocation'),
+        ]}
+      >
+        {/* tab 1 */}
+        <LockItem keyword={keyword} />
+        {/* tab 2 */}
+        <LockLocattion keyword={keyword} />
+      </Tabs>
     </Page>
   )
 }

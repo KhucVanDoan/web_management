@@ -136,6 +136,7 @@ function TransactionVendor({ id }) {
       field: 'action',
       headerName: t('general:common.action'),
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (

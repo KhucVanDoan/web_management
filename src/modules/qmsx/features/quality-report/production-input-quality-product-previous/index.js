@@ -109,7 +109,7 @@ function ProductionInputQualityProductPrevious() {
       headerName: t(`${transKey}.errorReport`),
       width: 150,
       sortable: false,
-
+      fixed: true,
       renderCell: (params) => {
         const { errorReportId } = params?.row
 

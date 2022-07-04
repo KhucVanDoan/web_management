@@ -126,6 +126,7 @@ function DefineCustomer() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params?.row
         return (

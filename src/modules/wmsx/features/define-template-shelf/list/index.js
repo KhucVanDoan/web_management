@@ -107,6 +107,7 @@ function DefineTemplateShelf() {
       headerName: t('defineTemplateShelf.action'),
       width: 200,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (

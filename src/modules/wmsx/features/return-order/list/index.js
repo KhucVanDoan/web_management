@@ -134,6 +134,7 @@ function ReturnOrder() {
       headerName: t('returnOrder.action'),
       width: 200,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const hasEditDeleteBtn =
@@ -283,7 +284,6 @@ function ReturnOrder() {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -307,7 +307,6 @@ function ReturnOrder() {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

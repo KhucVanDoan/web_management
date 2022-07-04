@@ -7,9 +7,14 @@ import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { BLOCK_ITEM_LOCATION_TYPE } from '~/modules/wmsx/constants'
+import {
+  BLOCK_ITEM_LOCATION_TYPE,
+  BLOCK_ITEM_LOCATION_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useBlockItemLocation from '~/modules/wmsx/redux/hooks/useBlockItemLocation'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -68,6 +73,17 @@ const LockLocationDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item xs={12}>
+              <LabelValue
+                label={t('blockItemLocation.status')}
+                value={
+                  <Status
+                    options={BLOCK_ITEM_LOCATION_STATUS_OPTIONS}
+                    value={blockLocationDetail?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <RadioGroup
                 value={BLOCK_ITEM_LOCATION_TYPE.LOCATION}

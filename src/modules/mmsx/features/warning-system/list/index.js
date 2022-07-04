@@ -353,7 +353,6 @@ const WarningSystem = () => {
         onSubmit={submitConfirm}
         cancelLabel={t('general:common.no')}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
       >
         {t('general:common.confirmMessage.confirm')}
         <LV

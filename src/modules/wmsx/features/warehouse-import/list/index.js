@@ -162,6 +162,7 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (
