@@ -151,6 +151,7 @@ const DefineBOQ = () => {
         headerName: t('general:common.action'),
         width: 250,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { status, id } = params.row
           const canEdit = BOQ_STATUS_TO_EDIT.includes(status)

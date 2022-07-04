@@ -135,6 +135,7 @@ function BomProducingStep() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === BOM_PRODUCING_STEP_STATUS.PENDING

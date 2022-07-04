@@ -116,6 +116,7 @@ const LockItem = ({ keyword }) => {
       width: 200,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params.row
         const isUnlock = status === BLOCK_ITEM_LOCATION_STATUS.UNLOCKED
@@ -214,7 +215,6 @@ const LockItem = ({ keyword }) => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -239,10 +239,6 @@ const LockItem = ({ keyword }) => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitUnLock}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
-        submitProps={{
-          color: 'error',
-        }}
         noBorderBottom
       >
         {t('blockItemLocation.location.confirmUnlock')}
@@ -264,10 +260,6 @@ const LockItem = ({ keyword }) => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitLock}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
-        submitProps={{
-          color: 'error',
-        }}
         noBorderBottom
       >
         {t('blockItemLocation.location.confirmLock')}

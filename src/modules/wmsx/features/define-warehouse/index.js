@@ -118,6 +118,7 @@ function DefineWarehouse() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { row } = params
         const { id } = row
@@ -161,6 +162,7 @@ function DefineWarehouse() {
       field: 'design',
       headerName: t('defineWarehouse.design'),
       width: 150,
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (

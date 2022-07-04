@@ -149,6 +149,7 @@ function DefineQualityPoint() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params?.row
         const canConfirm = QUALITY_POINT_STATUS_TO_CONFIRM.includes(+status)

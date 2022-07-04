@@ -112,6 +112,7 @@ const defineTemplateSector = () => {
         headerName: t('templateSector.action'),
         width: 250,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { id } = params?.row
           return (
@@ -221,7 +222,6 @@ const defineTemplateSector = () => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}

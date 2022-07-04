@@ -161,6 +161,7 @@ function DefineErrorReport() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status, qcStageId } = params?.row
         const canConfirm = ERROR_REPORT_STATUS_TO_CONFIRM.includes(+status)

@@ -103,6 +103,7 @@ function OutputQuality() {
       headerName: t(`${transKey}.errorReport`),
       width: 150,
       sortable: true,
+      fixed: true,
       renderCell: (params) => {
         const { errorReportId } = params?.row
 

@@ -111,6 +111,7 @@ const warehouseSetting = () => {
         headerName: t('warehouseSetting.actions'),
         width: 250,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { id } = params?.row
           return (
@@ -220,7 +221,6 @@ const warehouseSetting = () => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
