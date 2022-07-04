@@ -8,6 +8,15 @@ import {
   MMSX_GET_MO_BY_FACTORY,
   MMSX_GET_MO_BY_FACTORY_FAILED,
   MMSX_GET_MO_BY_FACTORY_SUCCESS,
+  MMSX_GET_ALL_SUPPLIES_CONFIRM_START,
+  MMSX_GET_ALL_SUPPLIES_CONFIRM_SUCCESS,
+  MMSX_GET_ALL_SUPPLIES_CONFIRM_FAILED,
+  MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED,
+  MMSX_GET_ATTRIBUTE_MAINTAIN_START,
+  MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS,
+  MMSX_GET_VENDORS_FAILED,
+  MMSX_GET_VENDORS_START,
+  MMSX_GET_VENDORS_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_START,
   GET_RESPONSIBLE_SUBJECT_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_FAILED,
@@ -21,7 +30,10 @@ const initialState = {
   factoryList: [],
   maintenanceTeams: [],
   moListByFactory: [],
+  suppliesList: [],
+  attributeMaintainList: [],
   responsibleSubject: {},
+  vendorList: [],
   itemsUnitList: [],
 }
 
@@ -37,6 +49,9 @@ export default function commonManagement(state = initialState, action) {
     case GET_RESPONSIBLE_SUBJECT_START:
     case MMSX_GET_LIST_MAINTENANCE_TEAM_START:
     case MMSX_GET_MO_BY_FACTORY:
+    case MMSX_GET_ALL_SUPPLIES_CONFIRM_START:
+    case MMSX_GET_ATTRIBUTE_MAINTAIN_START:
+    case MMSX_GET_VENDORS_START:
       return {
         ...state,
       }
@@ -69,6 +84,36 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         moListByFactory: [],
+      }
+    case MMSX_GET_ALL_SUPPLIES_CONFIRM_SUCCESS:
+      return {
+        ...state,
+        suppliesList: action?.payload,
+      }
+    case MMSX_GET_ALL_SUPPLIES_CONFIRM_FAILED:
+      return {
+        ...state,
+        suppliesList: [],
+      }
+    case MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS:
+      return {
+        ...state,
+        attributeMaintainList: action?.payload,
+      }
+    case MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED:
+      return {
+        ...state,
+        attributeMaintainList: [],
+      }
+    case MMSX_GET_VENDORS_SUCCESS:
+      return {
+        ...state,
+        vendorList: action.payload,
+      }
+    case MMSX_GET_VENDORS_FAILED:
+      return {
+        ...state,
+        vendorList: [],
       }
     case GET_RESPONSIBLE_SUBJECT_SUCCESS:
       return {

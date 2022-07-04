@@ -1,5 +1,8 @@
 import Dashboard from '~/modules/mmsx/features/dashboard'
 
+import DefineDeviceDetail from '../features/define-device/detail'
+import DefineDeviceForm from '../features/define-device/form'
+import DefineDevice from '../features/define-device/list'
 import DefineInstallationTemplateDetail from '../features/define-installation-template/detail'
 import DefineInstallationTemplateForm from '../features/define-installation-template/form'
 import DefineInstallationTemplate from '../features/define-installation-template/list'
@@ -135,6 +138,38 @@ const routes = [
             path: ROUTE.INSTALLATION_TEMPLATE.EDIT.PATH,
             component: DefineInstallationTemplateForm,
             isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.DEVICE_MANAGEMENT.TITLE,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEVICE_LIST.LIST.TITLE,
+        path: ROUTE.DEVICE_LIST.LIST.PATH,
+        component: DefineDevice,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEVICE_LIST.CREATE.TITLE,
+            path: ROUTE.DEVICE_LIST.CREATE.PATH,
+            component: DefineDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEVICE_LIST.DETAIL.TITLE,
+            path: ROUTE.DEVICE_LIST.DETAIL.PATH,
+            component: DefineDeviceDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEVICE_LIST.EDIT.TITLE,
+            path: ROUTE.DEVICE_LIST.EDIT.PATH,
+            component: DefineDeviceForm,
           },
         ],
       },

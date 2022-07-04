@@ -37,12 +37,7 @@ const WarehouseAreaForm = () => {
   } = useWarehouseArea()
 
   const {
-    data: { warehouseDetails },
-    actions: defineWarehouseAction,
-  } = useDefineWarehouse()
-
-  const {
-    data: { warehouseList },
+    data: { warehouseList, warehouseDetails },
     actions: defineWarehouseActions,
   } = useDefineWarehouse()
 
@@ -70,12 +65,12 @@ const WarehouseAreaForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getWarehouseAreaDetailById(id, (response) => {
-        defineWarehouseAction.getWarehouseDetailsById(response?.warehouseId)
+        defineWarehouseActions.getWarehouseDetailsById(response?.warehouseId)
       })
     }
     return () => {
       actions.resetWarehouseAreaState()
-      defineWarehouseAction.resetWarehouseState()
+      defineWarehouseActions.resetWarehouseState()
     }
   }, [mode])
 
@@ -195,7 +190,7 @@ const WarehouseAreaForm = () => {
     history.push(ROUTE.WAREHOUSE_AREA.LIST.PATH)
   }
   const handleOnChange = async (val, setFieldValue) => {
-    defineWarehouseAction.getWarehouseDetailsById(val)
+    defineWarehouseActions.getWarehouseDetailsById(val)
     if (val) {
       const warehouse = warehouseList?.find((i) => i.id === val)
       setFieldValue('factoryName', warehouse?.factory?.name)
