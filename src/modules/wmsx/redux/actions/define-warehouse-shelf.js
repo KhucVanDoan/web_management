@@ -12,6 +12,7 @@ export const GET_DEFINE_WAREHOUSE_SHELF_SUCCESS =
 export const GET_DEFINE_WAREHOUSE_SHELF_FAILED =
   'WMSX_GET_DEFINE_WAREHOUSE_SHELF_FAILED'
 
+export const RESET_STATE_WAREHOUSE_SHELF = 'WMSX_RESET_STATE_WAREHOUSE_SHELF'
 /**
  * Search warehouseshelf
  * @param {object} payload
@@ -87,7 +88,11 @@ export function getDefineWarehouseShelfByIdFailed() {
     type: GET_DEFINE_WAREHOUSE_SHELF_FAILED,
   }
 }
-
+export function resetStateWarehouseShelf() {
+  return {
+    type: RESET_STATE_WAREHOUSE_SHELF,
+  }
+}
 export default {
   searchDefineWarehouseShelf,
   searchDefineWarehouseShelfFailed,

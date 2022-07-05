@@ -106,6 +106,7 @@ const DefineWarehousePallet = () => {
         headerName: t('defineWarehousePallet.actions'),
         width: 200,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { id } = params?.row
           return (

@@ -129,6 +129,7 @@ function DefineCheckList() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params?.row
         const canConfirm = CHECK_LIST_STATUS_TO_CONFIRM.includes(+status)

@@ -11,7 +11,7 @@ export const GET_DEFINE_WAREHOUSE_PALLET_SUCCESS =
   'GET_DEFINE_WAREHOUSE_PALLET_SUCCESS'
 export const GET_DEFINE_WAREHOUSE_PALLET_FAILED =
   'GET_DEFINE_WAREHOUSE_PALLET_FAILED'
-
+export const RESET_STATE_WAREHOUSE_PALLET = 'WMSX_ RESET_STATE_WAREHOUSE_PALLET'
 /**
  * Search warehousefloor
  * @param {object} payload
@@ -87,6 +87,11 @@ export function getDefineWarehousePalletByIdFailed() {
     type: GET_DEFINE_WAREHOUSE_PALLET_FAILED,
   }
 }
+export function resetStateWarehousePallet() {
+  return {
+    type: RESET_STATE_WAREHOUSE_PALLET,
+  }
+}
 export default {
   searchDefineWarehousePallet,
   searchDefineWarehousePalletSuccess,
@@ -94,4 +99,5 @@ export default {
   getDefineWarehousePalletById,
   getDefineWarehousePalletByIdSuccess,
   getDefineWarehousePalletByIdFailed,
+  resetStateWarehousePallet,
 }

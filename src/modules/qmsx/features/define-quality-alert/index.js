@@ -132,6 +132,7 @@ function DefineQualityAlert() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status, stage } = params?.row
         const canConfirm = QUALITY_ALERT_STATUS_TO_CONFIRM.includes(+status)

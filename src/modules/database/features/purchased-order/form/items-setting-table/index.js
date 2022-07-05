@@ -41,7 +41,7 @@ function ItemSettingTable({
 
   const requestBuyMaterial = values?.requestBuyMaterialCode
     ? requestBuyMaterialDetails?.itemDetails?.map((item) => item)
-    : itemList.filter((i) => i.itemType?.code === '00')
+    : itemList
 
   useEffect(() => {
     actions.getItems({})

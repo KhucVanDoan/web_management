@@ -149,6 +149,7 @@ function ImportManufacturingOrder() {
       width: 180,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params.row
         const isEdit = status === ORDER_STATUS.PENDING

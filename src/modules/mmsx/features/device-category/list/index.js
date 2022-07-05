@@ -268,7 +268,6 @@ const DeviceCategory = () => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -292,7 +291,6 @@ const DeviceCategory = () => {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

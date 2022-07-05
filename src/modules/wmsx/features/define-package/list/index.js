@@ -122,6 +122,7 @@ function DefinePackage() {
       width: 200,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === DEFINE_PACKAGE_STATUS.PENDING
@@ -278,7 +279,6 @@ function DefinePackage() {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -302,7 +302,6 @@ function DefinePackage() {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

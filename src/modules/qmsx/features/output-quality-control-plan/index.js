@@ -124,6 +124,7 @@ function OutputQualityControlPlan() {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params?.row
         const canConfirm = OUTPUT_QC_PLAN_STATUS_TO_CONFIRM.includes(+status)

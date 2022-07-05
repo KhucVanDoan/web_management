@@ -341,7 +341,8 @@ DataTable.propsTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       field: PropTypes.string.isRequired,
-      headerName: PropTypes.string.isRequired,
+      headerName: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+        .isRequired,
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       sortable: PropTypes.bool,
       hide: PropTypes.bool,

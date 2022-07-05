@@ -121,6 +121,7 @@ function Routing() {
       width: 250,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === ROUTING_STATUS.PENDING

@@ -87,7 +87,6 @@ function ProductionOrderDetail() {
     mfg: detailLot?.mfg,
     packageId: detailLot?.packageId,
   }))
-
   return (
     <Page
       breadcrumbs={breadcrumbs}

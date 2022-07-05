@@ -16,7 +16,10 @@ import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useItemUnit from '~/modules/database/redux/hooks/useItemUnit'
-import { WORK_ORDER_STATUS, WORK_ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import {
+  WORK_ORDER_STATUS,
+  WORK_ORDER_STATUS_OPTIONS,
+} from '~/modules/mesx/constants'
 import { useWorkOrder } from '~/modules/mesx/redux/hooks/useWorkOrder'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import {
@@ -60,7 +63,10 @@ const WorkOrder = () => {
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
 
   const [selectedRows, setSelectedRows] = useState([])
-  const [isExecutingAutocompleteWorkOrder, setIsExecutingAutocompleteWorkOrder] = useState({})
+  const [
+    isExecutingAutocompleteWorkOrder,
+    setIsExecutingAutocompleteWorkOrder,
+  ] = useState({})
 
   const {
     page,
@@ -188,16 +194,18 @@ const WorkOrder = () => {
       field: 'changeWorkOrder',
       headerName: t('Mo.changeWorkOrder'),
       renderCell: (params) => {
-        return params.row?.status === WORK_ORDER_STATUS.CONFIRMED && (
-          <Button
-            variant="text"
-            size="small"
-            bold={false}
-            loading={isExecutingAutocompleteWorkOrder[params.row?.id]}
-            onClick={() => changeProgress(params.row?.id)}
-          >
-            {t('Mo.triggerChangeWorkOrder')}
-          </Button>
+        return (
+          params.row?.status === WORK_ORDER_STATUS.CONFIRMED && (
+            <Button
+              variant="text"
+              size="small"
+              bold={false}
+              loading={isExecutingAutocompleteWorkOrder[params.row?.id]}
+              onClick={() => changeProgress(params.row?.id)}
+            >
+              {t('Mo.triggerChangeWorkOrder')}
+            </Button>
+          )
         )
       },
     },
@@ -209,9 +217,13 @@ const WorkOrder = () => {
       renderCell: (params) => {
         const { status } = params.row
         return (
-          <Status options={WORK_ORDER_STATUS_OPTIONS} value={status} variant="text" />
+          <Status
+            options={WORK_ORDER_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
         )
-      }
+      },
     },
     {
       field: 'action',
@@ -219,6 +231,7 @@ const WorkOrder = () => {
       disableClickEventBubbling: true,
       width: 160,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === WORK_ORDER_STATUS.CREATED
@@ -291,23 +304,23 @@ const WorkOrder = () => {
   const changeProgress = (id) => {
     setIsExecutingAutocompleteWorkOrder({
       ...isExecutingAutocompleteWorkOrder,
-      [id]: true
+      [id]: true,
     })
     workOrderActions.autocompleteWorkOrder(
       { id },
       () => {
         setIsExecutingAutocompleteWorkOrder({
           ...isExecutingAutocompleteWorkOrder,
-          [id]: false
+          [id]: false,
         })
         refreshData()
       },
       () => {
         setIsExecutingAutocompleteWorkOrder({
           ...isExecutingAutocompleteWorkOrder,
-          [id]: false
+          [id]: false,
         })
-      }
+      },
     )
   }
 

@@ -153,6 +153,7 @@ function RequestBuyMaterial() {
       headerName: t('requestBuyMaterial.action'),
       align: 'center',
       width: 150,
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isEdit = status === ORDER_STATUS.PENDING

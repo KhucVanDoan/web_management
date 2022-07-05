@@ -183,7 +183,7 @@ function ItemSettingTable(props) {
               if (isSelectedLotNum) {
                 setFieldValue(`items[${index}].mfg`, isSelectedLotNum.mfg)
               } else {
-                setFieldValue(`items[${index}].mfg`, [])
+                setFieldValue(`items[${index}].mfg`, '')
               }
             }}
           />

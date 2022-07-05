@@ -127,6 +127,7 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       headerName: t('movements.action'),
       width: 100,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (

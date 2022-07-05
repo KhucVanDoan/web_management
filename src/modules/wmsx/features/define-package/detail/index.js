@@ -8,9 +8,14 @@ import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import { DEFAULT_UNITS_MAP, WEIGHT_UNITS_MAP } from '~/modules/wmsx/constants'
+import {
+  DEFAULT_UNITS_MAP,
+  DEFINE_PACKAGE_STATUS_OPTIONS,
+  WEIGHT_UNITS_MAP,
+} from '~/modules/wmsx/constants'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -92,6 +97,17 @@ const DefinePackageDetail = () => {
                 rowSpacing={4 / 3}
                 columnSpacing={{ xl: 8, xs: 4 }}
               >
+                <Grid item xs={12}>
+                  <LV
+                    label={t('definePackage.status')}
+                    value={
+                      <Status
+                        options={DEFINE_PACKAGE_STATUS_OPTIONS}
+                        value={packageDetails?.status}
+                      />
+                    }
+                  />
+                </Grid>
                 <Grid item lg={6} xs={12}>
                   <LV
                     label={t('definePackage.code')}

@@ -5,6 +5,7 @@ import {
   GET_DEFINE_WAREHOUSE_SHELF_START,
   GET_DEFINE_WAREHOUSE_SHELF_SUCCESS,
   GET_DEFINE_WAREHOUSE_SHELF_FAILED,
+  RESET_STATE_WAREHOUSE_SHELF,
 } from '../actions/define-warehouse-shelf'
 
 const initialState = {
@@ -51,7 +52,11 @@ export default function defineWarehouseShelf(state = initialState, action) {
         defineWarehouseShelfDetail: action.payload,
         isLoading: false,
       }
-
+    case RESET_STATE_WAREHOUSE_SHELF:
+      return {
+        ...state,
+        defineWarehouseShelfDetail: {},
+      }
     default:
       return state
   }
