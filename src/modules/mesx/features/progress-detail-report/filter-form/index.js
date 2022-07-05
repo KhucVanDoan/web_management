@@ -1,42 +1,72 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
-import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
+import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useProgressDetailReport from '~/modules/mesx/redux/hooks/useProgressDetailReport'
-import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
-import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 
 import progressDetailReportSchema from '../schema'
 
 function ProgressDetailReport() {
   const { t } = useTranslation(['mesx'])
+  const [listItem, setListItem] = useState([])
+  const [itemId, setItemId] = useState()
+  const [listProducingSteps, setListProducingSteps] = useState([])
+  const [producingStepId, setProducingStepId] = useState()
+  const [listWorkCenter, setlistWorkCenter] = useState([])
 
   const {
-    data: { itemList },
-    actions: DefineItemActions,
-  } = useDefineItem()
-  const {
-    data: { list },
-    actions: producingStepActions,
-  } = useProducingStep()
-  const {
-    data: { wcList },
-    actions: workcenterActions,
-  } = useWorkCenter()
-  const { actions: actionProgress } = useProgressDetailReport()
+    data: { moProducingStep, moList },
+    actions: actionMo,
+  } = useMo()
+  useEffect(() => {
+    if (!isEmpty(moProducingStep)) {
+      setListItem(
+        moProducingStep?.moDetail.map((item) => item.moPlanBom).flat(),
+      )
+    }
+  }, [moProducingStep])
 
   useEffect(() => {
-    DefineItemActions.searchItems({ isGetAll: 1 })
-    producingStepActions.searchProducingSteps({ isGetAll: 1 })
-    workcenterActions.searchWorkCenter({ isGetAll: 1 })
+    if (itemId) {
+      const listProducingStep = listItem?.find(
+        (i) => i.itemId === itemId,
+      )?.workOrders
+      setListProducingSteps(listProducingStep)
+    }
+  }, [itemId])
+
+  useEffect(() => {
+    if (producingStepId) {
+      const listWorkCenter = listProducingSteps.find(
+        (i) => i.producingStepId === producingStepId,
+      )?.workCenters
+      setlistWorkCenter(listWorkCenter)
+    }
+  }, [producingStepId])
+
+  const handleChangeMo = (val) => {
+    actionMo.getListMoProducingStepById(val)
+    setListProducingSteps([])
+    setlistWorkCenter([])
+  }
+  const handleChangeItem = (id) => {
+    setItemId(id)
+    setlistWorkCenter([])
+  }
+  const handleChangeProducingStep = (id) => {
+    setProducingStepId(id)
+  }
+  const { actions: actionProgress } = useProgressDetailReport()
+  useEffect(() => {
+    actionMo.searchMO({ isGetAll: 1 })
   }, [])
   const initialValues = {
     soId: '',
@@ -65,7 +95,7 @@ function ProgressDetailReport() {
       validationSchema={progressDetailReportSchema(t)}
       enableReinitialize
     >
-      {({ resetForm }) => (
+      {({ resetForm, values }) => (
         <Form>
           <Grid container justifyContent="center">
             <Grid item xl={11} xs={12}>
@@ -93,44 +123,49 @@ function ProgressDetailReport() {
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name="moId"
-                    label={t('ProgessDetailReport.moCode')}
-                    placeholder={t('ProgessDetailReport.moCode')}
-                    asyncRequest={(s) =>
-                      searchMOApi({
-                        keyword: s,
-                        limit: ASYNC_SEARCH_LIMIT,
-                      })
+                    label={t('productivityReport.moCode')}
+                    placeholder={t('productivityReport.moCode')}
+                    options={
+                      values?.soId
+                        ? moList?.filter(
+                            (mo) => mo?.saleOrderId === values?.soId?.id,
+                          )
+                        : []
                     }
-                    asyncRequestHelper={(res) => res?.data?.items}
-                    getOptionLabel={(opt) => opt?.name}
+                    getOptionValue={(opt) => opt?.id}
+                    getOptionLabel={(opt) => opt?.code || opt?.item?.name}
+                    onChange={(val) => handleChangeMo(val)}
                   />
                 </Grid>
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name="itemId"
-                    label={t('ProgessDetailReport.itemName')}
-                    placeholder={t('ProgessDetailReport.itemName')}
-                    options={itemList || []}
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.name}
+                    label={t('productivityReport.itemName')}
+                    placeholder={t('productivityReport.itemName')}
+                    options={listItem}
+                    getOptionValue={(opt) => opt?.itemId}
+                    getOptionLabel={(opt) => opt?.itemName || opt?.item?.name}
+                    onChange={(id) => handleChangeItem(id)}
                   />
                 </Grid>
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name="producingStepId"
-                    label={t('ProgessDetailReport.producingSteps')}
-                    placeholder={t('ProgessDetailReport.producingSteps')}
-                    options={list || []}
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.name}
+                    label={t('productivityReport.producingSteps')}
+                    placeholder={t('productivityReport.producingSteps')}
+                    options={listProducingSteps}
+                    getOptionValue={(opt) => opt?.producingStepId}
+                    getOptionLabel={(opt) => opt?.producingStepName}
+                    onChange={(id) => handleChangeProducingStep(id)}
                   />
                 </Grid>
+
                 <Grid item lg={6} xs={12}>
                   <Field.Autocomplete
                     name="workCenterId"
-                    label={t('ProgessDetailReport.workCenter')}
-                    placeholder={t('ProgessDetailReport.workCenter')}
-                    options={wcList || []}
+                    label={t('productivityReport.workCenter')}
+                    placeholder={t('productivityReport.workCenter')}
+                    options={listWorkCenter}
                     getOptionValue={(opt) => opt?.id}
                     getOptionLabel={(opt) => opt?.name}
                   />
