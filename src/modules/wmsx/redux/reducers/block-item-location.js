@@ -38,6 +38,7 @@ import {
   GET_DESIGN_BY_WAREHOUSE_FAILED,
   GET_DESIGN_BY_WAREHOUSE_START,
   GET_DESIGN_BY_WAREHOUSE_SUCCESS,
+  RESET_STATE_BLOCK_ITEM_LOCATION,
 } from '../actions/block-item-location'
 
 const initialState = {
@@ -148,6 +149,12 @@ export default function blockItemLocation(state = initialState, action) {
         ...state,
         designList: [],
         isLoadingBlockLocation: false,
+      }
+    case RESET_STATE_BLOCK_ITEM_LOCATION:
+      return {
+        ...state,
+        blockItemDetail: {},
+        blockLocationDetail: {},
       }
     default:
       return state

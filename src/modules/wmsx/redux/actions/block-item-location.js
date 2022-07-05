@@ -61,6 +61,8 @@ export const GET_DESIGN_BY_WAREHOUSE_START =
 export const GET_DESIGN_BY_WAREHOUSE_FAILED =
   'WMSX_GET_DESIGN_BY_WAREHOUSE_FAILED'
 
+export const RESET_STATE_BLOCK_ITEM_LOCATION =
+  'WMSX_RESET_STATE_BLOCK_ITEM_LOCATION'
 /**
  * Search block item location
  * @param {object} payload
@@ -520,6 +522,11 @@ export function getDesignByWarehouseIdFailed() {
   }
 }
 
+export function resetStateBlockItemLocation() {
+  return {
+    type: RESET_STATE_BLOCK_ITEM_LOCATION,
+  }
+}
 export default {
   searchBlockItems,
   searchBlockItemsSuccess,
@@ -560,4 +567,5 @@ export default {
   getDesignByWarehouseId,
   getDesignByWarehouseIdSuccess,
   getDesignByWarehouseIdFailed,
+  resetStateBlockItemLocation,
 }

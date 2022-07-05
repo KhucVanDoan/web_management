@@ -45,6 +45,7 @@ const LockLocationDetail = () => {
 
   useEffect(() => {
     actions.getBlockLocationDetailById(id)
+    return () => actions.resetStateBlockItemLocation()
   }, [id])
   let locationData = []
   const objectLocation = {
