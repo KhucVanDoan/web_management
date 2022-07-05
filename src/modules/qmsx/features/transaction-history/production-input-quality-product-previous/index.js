@@ -114,6 +114,7 @@ function ProductionInputQualityProductPrevious() {
       width: 100,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params?.row
         return (

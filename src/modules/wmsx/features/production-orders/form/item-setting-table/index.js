@@ -343,6 +343,7 @@ function ItemSettingTable(props) {
           <Field.Checkbox
             name={`items[${index}].qcCheck`}
             onChange={(val) => handleCheckQc(itemId, val)}
+            disabled={!itemId}
           />
         )
       },

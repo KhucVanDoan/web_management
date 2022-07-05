@@ -98,6 +98,7 @@ function DefinePallet() {
       width: 200,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id } = params.row
         return (

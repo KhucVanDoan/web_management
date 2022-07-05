@@ -144,17 +144,17 @@ const LockItemLocaionForm = () => {
       title={t(`menu.${getTitle()}`)}
       onBack={backToList}
     >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validateSchema(t)}
-            onSubmit={handleSubmit}
-            enableReinitialize
-          >
-            {({ handleReset, values, setFieldValue }) => {
-              return (
-                <Form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validateSchema(t)}
+        onSubmit={handleSubmit}
+        enableReinitialize
+      >
+        {({ handleReset, values, setFieldValue }) => {
+          return (
+            <Form>
+              <Grid container justifyContent="center">
+                <Grid item xl={11} xs={12}>
                   <Grid
                     container
                     rowSpacing={4 / 3}
@@ -197,47 +197,47 @@ const LockItemLocaionForm = () => {
                       />
                     </Grid>
                   </Grid>
-                  {Number(values?.switchMode) ===
-                    BLOCK_ITEM_LOCATION_TYPE.ITEM && (
-                    <Box sx={{ mt: 3 }}>
-                      <FieldArray
-                        name="lockItems"
-                        render={(arrayHelpers) => (
-                          <LockItemTable
-                            lockItems={values?.lockItems}
-                            mode={mode}
-                            arrayHelpers={arrayHelpers}
-                            setFieldValue={setFieldValue}
-                            values={values}
-                          />
-                        )}
+                </Grid>
+              </Grid>
+
+              {Number(values?.switchMode) === BLOCK_ITEM_LOCATION_TYPE.ITEM && (
+                <Box sx={{ mt: 3 }}>
+                  <FieldArray
+                    name="lockItems"
+                    render={(arrayHelpers) => (
+                      <LockItemTable
+                        lockItems={values?.lockItems}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                        setFieldValue={setFieldValue}
+                        values={values}
                       />
-                    </Box>
-                  )}
-                  {Number(values?.switchMode) ===
-                    BLOCK_ITEM_LOCATION_TYPE.LOCATION && (
-                    <Box sx={{ mt: 3 }}>
-                      <FieldArray
-                        name="locations"
-                        render={(arrayHelpers) => (
-                          <LocklocationTable
-                            locations={values?.locations}
-                            mode={mode}
-                            arrayHelpers={arrayHelpers}
-                            setFieldValue={setFieldValue}
-                            values={values}
-                          />
-                        )}
+                    )}
+                  />
+                </Box>
+              )}
+              {Number(values?.switchMode) ===
+                BLOCK_ITEM_LOCATION_TYPE.LOCATION && (
+                <Box sx={{ mt: 3 }}>
+                  <FieldArray
+                    name="locations"
+                    render={(arrayHelpers) => (
+                      <LocklocationTable
+                        locations={values?.locations}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
+                        setFieldValue={setFieldValue}
+                        values={values}
                       />
-                    </Box>
-                  )}
-                  {renderActionBar(handleReset)}
-                </Form>
-              )
-            }}
-          </Formik>
-        </Grid>
-      </Grid>
+                    )}
+                  />
+                </Box>
+              )}
+              {renderActionBar(handleReset)}
+            </Form>
+          )
+        }}
+      </Formik>
     </Page>
   )
 }

@@ -144,6 +144,7 @@ const WorkCenter = () => {
       width: 160,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { id, status } = params.row
         const canConfirm = WORK_CENTER_STATUS_TO_CONFIRM.includes(status)
@@ -315,7 +316,6 @@ const WorkCenter = () => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -339,7 +339,6 @@ const WorkCenter = () => {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

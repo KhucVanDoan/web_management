@@ -161,6 +161,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.actions'),
         width: 200,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { id, status } = params?.row
           const isEdit = status === TRANSFER_STATUS.PENDING
@@ -339,7 +340,6 @@ const WarehouseTransfer = () => {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        noBorderBotttom
         submitProps={{
           color: 'error',
         }}
@@ -363,7 +363,6 @@ const WarehouseTransfer = () => {
         onCancel={() => setIsOpenConfirmModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitConfirm}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
@@ -385,7 +384,6 @@ const WarehouseTransfer = () => {
         onCancel={() => setIsOpenRejectModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={submitReject}
-        noBorderBotttom
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >

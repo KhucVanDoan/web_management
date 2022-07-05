@@ -10,20 +10,22 @@ export const deviceSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .length(
-        TEXTFIELD_REQUIRED_LENGTH.TARGET.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
         t('general:form.length', {
-          length: TEXTFIELD_REQUIRED_LENGTH.TARGET.MAX,
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
         }),
       ),
     name: Yup.string().required(t('general:form.required')),
     deviceCategory: Yup.string().required(t('general:form.required')),
     responsibleUser: Yup.string().required(t('general:form.required')),
     attributeMaintenance: Yup.string().required(t('general:form.required')),
+    periodicCheck: Yup.string().required(t('general:form.required')),
     price: Yup.string().required(t('general:form.required')),
     frequency: Yup.string().required(t('general:form.required')),
     installTemplate: Yup.string().required(t('general:form.required')),
     supplier: Yup.string().required(t('general:form.required')),
     importDate: Yup.string().required(t('general:form.required')),
+    insuranceDay: Yup.string().required(t('general:form.required')),
 
     description: Yup.string(),
     items: Yup.array().of(

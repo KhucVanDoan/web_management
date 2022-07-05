@@ -155,6 +155,7 @@ function PurchasedOrder() {
       headerName: t('general:common.action'),
       width: 200,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
         const isConfirmed = status === PURCHASED_ORDER_STATUS.PENDING

@@ -131,6 +131,7 @@ const Inventory = () => {
       field: 'action',
       headerName: t('inventories.action'),
       width: 100,
+      fixed: true,
       renderCell: (params) => {
         const { id } = params?.row
         return (

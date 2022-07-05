@@ -148,6 +148,7 @@ function WarehouseTransferMovements() {
       width: 50,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { row } = params
         const { id } = row

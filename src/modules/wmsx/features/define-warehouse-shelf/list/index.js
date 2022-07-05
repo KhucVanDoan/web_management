@@ -97,6 +97,7 @@ const DefineWarehouseShelf = () => {
         headerName: t('defineWarehouseShelf.actions'),
         width: 200,
         align: 'center',
+        fixed: true,
         renderCell: (params) => {
           const { id } = params?.row
           return (

@@ -14,6 +14,7 @@ import { isEqual } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -28,7 +29,6 @@ import {
   SUPPLIES_ACCESSORY_OPTION,
   SUPPLIES_ACCESSORY_OPTION_MAP,
   TYPE_ITEM,
-  TYPE_ITEM_MAP,
 } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
 import useAttributeType from '~/modules/mmsx/redux/hooks/useAttributeType'
@@ -37,6 +37,8 @@ import useDefineDevice from '~/modules/mmsx/redux/hooks/useDefineDevice'
 import useTemplateInstall from '~/modules/mmsx/redux/hooks/useTemplateInstall'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
+
+import MaintainTable from '../form/maintain-table'
 
 const breadcrumbs = [
   {
@@ -158,85 +160,6 @@ const DefineDeviceDetail = () => {
         ) : (
           <CheckBoxOutlineBlankIcon />
         )
-      },
-    },
-  ]
-
-  const accessoriesMaintenanceColumns = [
-    {
-      field: 'name',
-      headerName: t('deviceList.form.name'),
-      renderCell: (params) => {
-        return params.row?.supply?.name || params?.row?.name
-      },
-    },
-    {
-      field: 'type',
-      headerName: t('deviceList.form.type'),
-      renderCell: (params) => {
-        return t(
-          `${TYPE_ITEM_MAP[params?.row?.supply?.type || params?.row?.type]}`,
-        )
-      },
-    },
-    {
-      field: 'maintainFrequency',
-      headerName: t('deviceList.form.maintainFrequency'),
-      align: 'right',
-      renderCell: (params) => {
-        const maintenancePeriod = params?.row?.maintenancePeriod
-        return maintenancePeriod
-          ? `${maintenancePeriod} ${t('common.suffix.minute')}`
-          : ''
-      },
-    },
-    {
-      field: 'mttr',
-      headerName: t('deviceList.form.mttr'),
-      align: 'right',
-      renderCell: (params) => {
-        const mttrIndex = params?.row?.mttrIndex
-
-        return mttrIndex ? `${mttrIndex} ${t('common.suffix.minute')}` : ''
-      },
-    },
-    {
-      field: 'mtbf',
-      headerName: t('deviceList.form.mtbf'),
-      align: 'right',
-      renderCell: (params) => {
-        const mtbfIndex =
-          params?.row?.mtbfIndex?.indexValue || params?.row?.mtbfIndex
-        return Math.round(+mtbfIndex)
-          ? `${Math.round(+mtbfIndex)} ${t('common.suffix.minute')} ~ ${
-              Math.round(+mtbfIndex) * Math.round(+deviceDetail?.frequency)
-            }
-         ${deviceDetail?.maintenanceAttribute?.name}`
-          : ''
-      },
-    },
-    {
-      field: 'mtta',
-      headerName: t('deviceList.form.mtta'),
-      align: 'right',
-      renderCell: (params) => {
-        const mttaIndex = params?.row?.mttaIndex
-        return mttaIndex ? `${mttaIndex} ${t('common.suffix.minute')}` : ''
-      },
-    },
-    {
-      field: 'mttf',
-      headerName: t('deviceList.form.mttf'),
-      align: 'right',
-      renderCell: (params) => {
-        const mttfIndex =
-          params?.row?.mttfIndex?.indexValue || params?.row?.mttfIndex
-        return Math.round(+mttfIndex)
-          ? `${Math.round(+mttfIndex)} ${t('common.suffix.minute')} ~ ${
-              Math.round(+mttfIndex) * Math.round(+deviceDetail?.frequency)
-            }
-         ${deviceDetail?.maintenanceAttribute?.name}`
-          : ''
       },
     },
   ]
@@ -487,18 +410,13 @@ const DefineDeviceDetail = () => {
                 <Typography variant="h4" mb={2}>
                   {t('deviceList.maintenanceInformation')}
                 </Typography>
-                <DataTable
-                  rows={[
+                <MaintainTable
+                  accessoriesMaintenanceInformation={[
                     ...(deviceDetail?.accessoriesMaintenanceInformation || []),
                     deviceInStore,
                   ]}
-                  columns={accessoriesMaintenanceColumns}
-                  total={
-                    deviceDetail?.accessoriesMaintenanceInformation?.length
-                  }
-                  striped={false}
-                  hideSetting
-                  hideFooter
+                  mode={MODAL_MODE.DETAIL}
+                  deviceDetail={deviceDetail}
                 />
               </Box>
             </Tabs>

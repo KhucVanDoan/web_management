@@ -122,6 +122,7 @@ const ItemGroupSetting = () => {
       width: 150,
       sortable: false,
       align: 'center',
+      fixed: true,
       renderCell: (params) => {
         const { row } = params
         const { id } = row
