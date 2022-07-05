@@ -155,4 +155,22 @@ export const ROUTE = {
       TITLE: 'suppliesCategoryDetail',
     },
   },
+  TEMPLATE_CHECKLIST: {
+    LIST: {
+      PATH: '/mmsx/template-checklist',
+      TITLE: 'templateChecklist',
+    },
+    CREATE: {
+      PATH: '/mmsx/template-checklist/create',
+      TITLE: 'templateChecklistCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/template-checklist/:id/edit',
+      TITLE: 'templateChecklistEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/template-checklist/:id/detail',
+      TITLE: 'templateChecklistDetail',
+    },
+  },
 }

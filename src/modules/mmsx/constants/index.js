@@ -345,3 +345,18 @@ export const SUPPLIES_CATEGORY_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const CHECK_TYPE = {
+  PASSFAIL: 0,
+}
+
+export const CHECK_TYPE_MAP = {
+  [CHECK_TYPE.PASSFAIL]: 'templateChecklist.checkType.passFail',
+}
+
+export const CHECK_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'templateChecklist.checkType.passFail',
+  },
+]
