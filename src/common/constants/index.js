@@ -92,7 +92,7 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
 export const NUMBER_FIELD_REQUIRED_SIZE = {
   AMOUNT_INTEGER: {
     MIN: 1,
-    MAX: 99999999,
+    MAX: 9999999999,
   },
   INTEGER_100K: {
     MIN: 1,
