@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@mui/material'
+import { IconButton, InputAdornment, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -124,6 +124,13 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
             <Field.TextField
               name={`vendorAbilities[${index}].deliveryTime`}
               allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
+                    {t('general:days')}
+                  </InputAdornment>
+                ),
+              }}
             />
           )
         },
@@ -186,9 +193,9 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
       <DataTable
         rows={vendorAbilities || []}
         columns={getColumns()}
-        total={vendorAbilities?.length}
         striped={false}
         hideSetting
+        hideFooter
       />
     </>
   )
