@@ -121,8 +121,7 @@
     "templateInstallEdit": "Sửa mẫu phiếu lắp đặt",
     "templateInstallCreate": "Tạo mẫu phiếu lắp đặt",
     "templateChecklist": "Định nghĩa mẫu phiếu kiểm tra",
-    "templateChecklistForm": "Danh sách mẫu phiếu kiểm tra",
-    "templateChecklistDetail": "Chi tiết mãu phiếu kiểm tra",
+    "templateChecklistDetail": "Chi tiết mẫu phiếu kiểm tra",
     "templateChecklistEdit": "Sửa mẫu phiếu kiểm tra",
     "templateChecklistCreate": "Tạo mẫu phiếu kiểm tra",
     "warningList": "Cảnh báo hệ thống",
@@ -771,35 +770,30 @@
   },
   "templateChecklist": {
     "title": "Danh sách mẫu phiếu kiểm tra",
+    "searchPlaceholder": "Tìm kiếm mẫu phiếu kiểm tra theo mã hoặc tên",
+    "code": "Mã phiếu",
+    "name": "Tên phiếu",
+    "deviceCode": "Mã thiết bị",
+    "deviceName": "Tên thiết bị",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "action": "Hành động",
+    "aleartTitle": "Tiêu đề các mục trong phiếu kiểm tra không được trùng nhau",
     "form": {
-      "create": "Tạo mẫu phiếu kiểm tra",
-      "update": "Sửa mẫu phiếu kiểm tra",
-      "view": "Chi tiết mẫu phiếu kiểm tra",
-      "aleartTitle": "Tiêu đề các mục trong phiếu kiểm tra không được trùng nhau",
-      "field": {
-        "code": "Mã mẫu phiếu",
-        "name": "Tên mẫu phiếu",
-        "deviceName": "Tên thiết bị",
-        "description": "Mô tả",
-        "title": "Tiêu đề",
-        "deviceCode": "Mã thiết bị",
-        "checkType": "Loại kiểm tra",
-        "obligatory": "Bắt buộc"
-      }
+      "code": "Mã mẫu phiếu",
+      "name": "Tên mẫu phiếu",
+      "deviceName": "Tên thiết bị",
+      "title": "Tiêu đề",
+      "description": "Mô tả",
+      "obligatory": "Bắt buộc",
+      "deviceCode": "Mã thiết bị",
+      "checkType": "Loại kiểm tra"
     },
     "checkType": {
-      "passFail": "Pass-Fail"
+      "passFail": "Pass - Fail"
     },
-    "category": {
-      "code": "Mã phiếu",
-      "name": "Tên phiếu",
-      "deviceCode": "Mã thiết bị",
-      "deviceName": "Tên thiết bị"
-    },
-    "delete": {
-      "title": "Xóa mẫu phiểm kiểm tra",
-      "confirmDetele": "Bạn có muốn xóa mẫu phiểm kiểm tra không?"
-    },
+    "deleteTitle": "Xóa mẫu phiểm kiểm tra",
+    "confirmDetele": "Bạn có chắc chắn muốn xóa mẫu phiểm kiểm tra này không?",
     "checkDetail": "Kiểm tra chi tiết",
     "addRow": "Thêm mục kiểm tra",
     "roleDetail": "Kiểm tra chi tiết",

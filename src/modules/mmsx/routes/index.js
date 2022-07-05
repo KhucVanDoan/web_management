@@ -18,6 +18,9 @@ import MaintenanceTeam from '../features/maintenance-team/list'
 import SuppliesCategoryDetail from '../features/supplies-category/detail'
 import SuppliesCategoryForm from '../features/supplies-category/form'
 import SuppliesCategory from '../features/supplies-category/list'
+import TemplateChecklistDetail from '../features/template-checklist/detail'
+import TemplateChecklistForm from '../features/template-checklist/form'
+import TemplateChecklist from '../features/template-checklist/list'
 import WarningChecklistDetail from '../features/warning-system/detail/check-list'
 import WarningListErrorForm from '../features/warning-system/detail/error-view'
 import WarningScheduleDetail from '../features/warning-system/detail/schedule'
@@ -59,6 +62,32 @@ const routes = [
             name: ROUTE.MAINTENANCE_TEAM.EDIT.TITLE,
             path: ROUTE.MAINTENANCE_TEAM.EDIT.PATH,
             component: MaintenanceTeamForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.TEMPLATE_CHECKLIST.LIST.TITLE,
+        path: ROUTE.TEMPLATE_CHECKLIST.LIST.PATH,
+        component: TemplateChecklist,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.TEMPLATE_CHECKLIST.CREATE.TITLE,
+            path: ROUTE.TEMPLATE_CHECKLIST.CREATE.PATH,
+            component: TemplateChecklistForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.TEMPLATE_CHECKLIST.DETAIL.TITLE,
+            path: ROUTE.TEMPLATE_CHECKLIST.DETAIL.PATH,
+            component: TemplateChecklistDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.TEMPLATE_CHECKLIST.EDIT.TITLE,
+            path: ROUTE.TEMPLATE_CHECKLIST.EDIT.PATH,
+            component: TemplateChecklistForm,
             isInSidebar: false,
           },
         ],

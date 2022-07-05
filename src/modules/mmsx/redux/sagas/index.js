@@ -46,6 +46,11 @@ import watchDeleteSupplies from './supplies/delete-supplies'
 import watchGetDetailSupplies from './supplies/get-supplies'
 import watchSearchSuppliesList from './supplies/search-supplies'
 import watchUpdateSupplies from './supplies/update-supplies'
+import watchCreateTemplateChecklist from './template-checklist/create-template-checklist'
+import watchDeleteTemplateChecklist from './template-checklist/delete-template-checklist'
+import watchGetTemplateChecklist from './template-checklist/get-template-checklist'
+import watchSearchTemplateChecklist from './template-checklist/search-template-checklist'
+import watchUpdateTemplateChecklist from './template-checklist/update-template-checklist'
 import watchSearchTemplateInstall from './template-install/get-list'
 import watchConfirmWarning from './warning-system/confirm'
 import watchGetWarningDetail from './warning-system/detail'
@@ -123,5 +128,12 @@ export default function* sagas() {
     watchUpdateSuppliesCategory(),
     watchConfirmSuppliesCategory(),
     watchGetAllConfirmSuppliesCategory(),
+
+    //template-checklist
+    watchCreateTemplateChecklist(),
+    watchDeleteTemplateChecklist(),
+    watchGetTemplateChecklist(),
+    watchSearchTemplateChecklist(),
+    watchUpdateTemplateChecklist(),
   ])
 }
