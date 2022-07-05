@@ -32,7 +32,6 @@ const routes = [
     icon: 'home',
     isInSidebar: true,
   },
-
   {
     name: ROUTE.DATABASE.TITLE,
     icon: 'database',
