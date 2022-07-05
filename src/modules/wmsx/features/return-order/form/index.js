@@ -451,6 +451,11 @@ const ReturnOrderForm = () => {
                         name="deadline"
                         label={t('returnOrder.planDate')}
                         placeholder={t('returnOrder.planDateInput')}
+                        minDate={
+                          isUpdate
+                            ? new Date(returnOrderDetails?.deadline)
+                            : new Date()
+                        }
                         required
                       />
                     </Grid>
