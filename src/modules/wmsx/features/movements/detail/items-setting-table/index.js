@@ -28,7 +28,10 @@ const ItemSettingTable = ({ items }) => {
         (acc, cur) => acc + Number(cur?.quantity),
         0,
       ),
-      planQuantity: +item?.planQuantity,
+      planQuantity: +item?.lots?.reduce(
+        (acc, cur) => acc + Number(cur?.planQuantity),
+        0,
+      ),
     })
     item.lots.forEach((lot) => {
       formattedItems.push({

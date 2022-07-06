@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { convertUtcDateToLocalTz } from '~/utils'
 
 function TableDetail(props) {
   const { t } = useTranslation(['wmsx'])
@@ -56,7 +55,7 @@ function TableDetail(props) {
       headerName: t('soExport.item.mfg'),
       width: 180,
       renderCell: (params) => {
-        return convertUtcDateToLocalTz(params?.row?.mfg)
+        return params?.row?.mfg
       },
     },
     {

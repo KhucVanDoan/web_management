@@ -9,6 +9,7 @@ import supplies from './define-supplies'
 import deviceCategory from './device-category'
 import maintenanceTeam from './maintenance-team'
 import suppliesCategory from './supplies-category'
+import templateChecklist from './template-checklist'
 import warningSystem from './warning-system'
 export default combineReducers({
   commonManagement,
@@ -21,4 +22,5 @@ export default combineReducers({
   supplies,
   maintenanceTeam,
   suppliesCategory,
+  templateChecklist,
 })
