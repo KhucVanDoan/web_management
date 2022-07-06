@@ -252,7 +252,7 @@ function ReturnOrder() {
     setIsOpenRejectModal(true)
   }
   const submitReject = () => {
-    actions.rejectWarehouseTransferById(tempItem?.id, () => {
+    actions.rejectReturnOrderById(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
