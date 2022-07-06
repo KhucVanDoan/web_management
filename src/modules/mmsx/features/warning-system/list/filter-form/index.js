@@ -40,9 +40,9 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
-          name="piority"
-          label={t('warningList.table.piority')}
-          placeholder={t('warningList.table.piority')}
+          name="priority"
+          label={t('warningList.table.priority')}
+          placeholder={t('warningList.table.priority')}
         />
       </Grid>
       <Grid item xs={12}>
