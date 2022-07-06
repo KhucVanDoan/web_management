@@ -43,6 +43,8 @@ function ReturnOrder() {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -137,6 +139,7 @@ function ReturnOrder() {
       fixed: true,
       renderCell: (params) => {
         const { status, id } = params.row
+        const isPending = status === RETURN_ORDER_STATUS.PENDING
         const hasEditDeleteBtn =
           status === RETURN_ORDER_STATUS.PENDING ||
           status === RETURN_ORDER_STATUS.REJECTED
@@ -174,6 +177,11 @@ function ReturnOrder() {
             {isConfirmed && (
               <IconButton onClick={() => onClickConfirmed(params.row)}>
                 <Icon name="tick" />
+              </IconButton>
+            )}
+            {isPending && (
+              <IconButton onClick={() => onClickRejected(params.row)}>
+                <Icon name="remove" />
               </IconButton>
             )}
             {hasTransaction && (
@@ -239,20 +247,27 @@ function ReturnOrder() {
     setIsOpenConfirmModal(false)
   }
 
+  const onClickRejected = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenRejectModal(true)
+  }
+  const submitReject = () => {
+    actions.rejectWarehouseTransferById(tempItem?.id, () => {
+      refreshData()
+    })
+    setTempItem(null)
+    setIsOpenRejectModal(false)
+  }
+
   const renderHeaderRight = () => {
     return (
-      <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
-        <Button
-          onClick={() => history.push(ROUTE.RETURN_ORDER.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
-      </>
+      <Button
+        onClick={() => history.push(ROUTE.RETURN_ORDER.CREATE.PATH)}
+        sx={{ ml: 4 / 3 }}
+        icon="add"
+      >
+        {t('general:common.create')}
+      </Button>
     )
   }
   return (
@@ -273,6 +288,8 @@ function ReturnOrder() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
@@ -311,6 +328,28 @@ function ReturnOrder() {
         noBorderBottom
       >
         {t('general:common.confirmMessage.confirm')}
+        <LV
+          label={t('returnOrder.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('returnOrder.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenRejectModal}
+        title={t('general:common.reject')}
+        onCancel={() => setIsOpenRejectModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={submitReject}
+        submitLabel={t('general:common.yes')}
+        submitProps={{ color: 'error' }}
+        noBorderBottom
+      >
+        {t('general:common.confirmMessage.reject')}
         <LV
           label={t('returnOrder.code')}
           value={tempItem?.code}

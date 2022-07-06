@@ -267,6 +267,11 @@ const InventoryCalendarForm = () => {
                         name="executionDay"
                         label={t('inventoryCalendar.executionDay')}
                         placeholder={t('inventoryCalendar.executionDay')}
+                        minDate={
+                          isUpdate
+                            ? new Date(inventoryCalendarDetails?.executionDay)
+                            : new Date()
+                        }
                         required
                       />
                     </Grid>

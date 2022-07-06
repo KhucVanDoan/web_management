@@ -43,6 +43,7 @@ const LockItemDetail = () => {
   } = useBlockItemLocation()
   useEffect(() => {
     actions.getBlockItemDetailById(id)
+    return () => actions.resetStateBlockItemLocation()
   }, [id])
 
   let itemData = []
