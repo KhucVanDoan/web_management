@@ -994,7 +994,7 @@
       "updatedAt": "編集日",
       "action": "操作",
       "serial": "シリアル番号",
-      "piority": "優先度"
+      "priority": "優先度"
     },
     "deviceButton": "設備",
     "partsButton": "部品",
@@ -1010,7 +1010,7 @@
       "estimateDay": "希望完成日",
       "estimatedDuration": "予定保守時間",
       "type": "保守タイプ",
-      "piority": "優先度",
+      "priority": "優先度",
       "serial": "要保守設備のシリアル番号",
       "deviceName": "設備名",
       "checkbox": "部品保守",
@@ -1043,14 +1043,14 @@
       "description": "不具合説明",
       "deviceName": "設備名",
       "deviceCode": "設備コード",
-      "piority": "優先度"
+      "priority": "優先度"
     },
     "table": {
       "code": "不具合コード",
       "name": "不具合名",
       "description": "説明",
       "deviceName": "設備名",
-      "piority": "優先度"
+      "priority": "優先度"
     },
     "modalDelete": {
       "title": "不具合情報削除",
@@ -1067,7 +1067,7 @@
       "confirm": "不具合情報が承認されました。"
     }
   },
-  "piority": {
+  "priority": {
     "blocker": "致命的",
     "critical": "重要",
     "major": "やや重要",
@@ -1093,7 +1093,7 @@
       "estimateDate": "希望完成日",
       "duration": "保守時間",
       "type": "警告タイプ",
-      "piority": "優先度",
+      "priority": "優先度",
       "serial": "要保守設備のシリアル番号",
       "deviceName": "設備名"
     },
@@ -1160,7 +1160,7 @@
       "description": "説明",
       "serial": "シリアル番号",
       "deviceName": "設備名",
-      "piority": "優先度",
+      "priority": "優先度",
       "status": "ステータス"
     },
     "smallTitle": "利用者情報",
@@ -1180,7 +1180,7 @@
       "scheduled": "保守期日",
       "duration": "保守時間",
       "type": "警告タイプ",
-      "piority": "優先度",
+      "priority": "優先度",
       "serial": "要保守設備のシリアル番号",
       "deviceName": "設備名"
     },
@@ -1191,7 +1191,7 @@
       "description": "説明",
       "serial": "設備シリアル番号",
       "deviceName": "設備名",
-      "piority": "優先度",
+      "priority": "優先度",
       "status": "ステータス",
       "estimatedDate": "希望完成日",
       "estimatedDuration": "予定保守時間",
@@ -1206,7 +1206,7 @@
       "estimateDay": "希望完成日",
       "duration": "保守時間",
       "type": "保守タイプ",
-      "piority": "優先度",
+      "priority": "優先度",
       "serial": "要保守設備のシリアル番号",
       "deviceName": "設備名",
       "checkbox": "部品保守",
@@ -1417,7 +1417,7 @@
       "requestName": "警告名",
       "description": "説明",
       "workType": "作業種類",
-      "piority": "優先度",
+      "priority": "優先度",
       "serial": "設備シリアル番号",
       "devideName": "設備名",
       "expectDay": "希望完成日",

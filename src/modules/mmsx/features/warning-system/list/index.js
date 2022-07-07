@@ -15,8 +15,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  PIORITY_LEVEL_OPTION,
-  WARNING_PIORITY_LEVEL,
+  PRIORITY_LEVEL_OPTIONS,
+  WARNING_PRIORITY_LEVEL,
   WARNING_STATUS_LIST,
   WARNING_SYSTEM_STATUS,
   WARNING_TYPE,
@@ -133,15 +133,15 @@ const WarningSystem = () => {
         },
       },
       {
-        field: 'piority',
-        headerName: t('warningList.table.piority'),
+        field: 'priority',
+        headerName: t('warningList.table.priority'),
         width: 150,
         sortable: true,
         renderCell: (params) => {
           const mappingPriority =
             params?.row?.type === WARNING_TYPE[0].value
-              ? PIORITY_LEVEL_OPTION
-              : WARNING_PIORITY_LEVEL
+              ? PRIORITY_LEVEL_OPTIONS
+              : WARNING_PRIORITY_LEVEL
           const level = mappingPriority.find(
             (e) => e.value === params?.row?.type,
           )

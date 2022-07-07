@@ -173,4 +173,22 @@ export const ROUTE = {
       TITLE: 'templateChecklistDetail',
     },
   },
+  MAINTAIN_REQUEST: {
+    LIST: {
+      PATH: '/mmsx/maintain-request',
+      TITLE: 'maintainRequest',
+    },
+    CREATE: {
+      PATH: '/mmsx/maintain-request/create',
+      TITLE: 'maintainRequestCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/maintain-request/:id/edit',
+      TITLE: 'maintainRequestEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/maintain-request/:id/detail',
+      TITLE: 'maintainRequestDetail',
+    },
+  },
 }
