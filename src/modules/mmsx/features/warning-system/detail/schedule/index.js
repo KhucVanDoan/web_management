@@ -9,8 +9,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  PIORITY_LEVEL_OPTION,
-  WARNING_PIORITY_LEVEL,
+  PRIORITY_LEVEL_OPTIONS,
+  WARNING_PRIORITY_LEVEL,
   WARNING_STATUS_LIST,
   WARNING_TYPE,
 } from '~/modules/mmsx/constants'
@@ -70,7 +70,7 @@ const WarningScheduleDetail = () => {
   const warningType = WARNING_TYPE.filter(
     (warning) => warning.value === warningDetail.type,
   )
-  const getPriorty = (priorityLevel, options = PIORITY_LEVEL_OPTION) => {
+  const getPriorty = (priorityLevel, options = PRIORITY_LEVEL_OPTIONS) => {
     if (!priorityLevel) {
       return null
     }
@@ -78,7 +78,7 @@ const WarningScheduleDetail = () => {
   }
   const priorityLevel = getPriorty(
     warningDetail?.priority,
-    WARNING_PIORITY_LEVEL,
+    WARNING_PRIORITY_LEVEL,
   )
 
   return (
@@ -126,7 +126,7 @@ const WarningScheduleDetail = () => {
               </Grid>
               <Grid item lg={6} xs={12}>
                 <LV
-                  label={t('warningList.formError.piority')}
+                  label={t('warningList.formError.priority')}
                   value={priorityLevel?.title ? t(priorityLevel?.title) : ''}
                 />
               </Grid>

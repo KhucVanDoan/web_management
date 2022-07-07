@@ -1165,39 +1165,29 @@
     "mo": "Thông tin sản xuất"
   },
   "maintainRequest": {
+    "title": "Danh sách yêu cầu bảo trì",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "code": "Mã yêu cầu",
+    "name": "Tên yêu cầu",
+    "type": "Loại yêu cầu",
+    "user": "Người yêu cầu",
+    "deviceName": "Tên thiết bị",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa",
+    "action": "Hành động",
+    "serial": "Serial",
+    "priority": "Độ ưu tiên",
     "notification": {
       "confirmationSuccessed": "Xác nhận yêu cầu bảo trì thành công",
       "rejectionSuccessed": "Từ chối yêu cầu bảo trì thành công",
       "approvalSuccessed": "Phê duyệt yêu cầu bảo trì thành công",
       "reDoSuccessed": "Làm lại yêu cầu bảo trì thành công"
     },
-    "status": {
-      "created": "Chờ xác nhận",
-      "confirmed1": "Chờ IT xác nhận",
-      "confirmed2": "Xác nhận",
-      "notExcute": "Chưa thực hiện",
-      "rejected": "Từ chối",
-      "inProgress": "Đang thực hiện",
-      "executed": "Đã thực hiện",
-      "completed": "Hoàn thành"
-    },
-    "title": "Yêu cầu bảo trì người dùng",
-    "tableTitle": "Danh sách yêu cầu bảo trì",
+
     "smallTitle": "Thông tin người sử dụng",
-    "table": {
-      "code": "Mã yêu cầu",
-      "name": "Tên yêu cầu",
-      "type": "Loại yêu cầu",
-      "user": "Người yêu cầu",
-      "deviceName": "Tên thiết bị",
-      "description": "Mô tả",
-      "status": "Trạng thái",
-      "createdAt": "Ngày tạo",
-      "updatedAt": "Ngày sửa",
-      "action": "Hành động",
-      "serial": "Serial",
-      "piority": "Độ ưu tiên"
-    },
+    "responsibleUser": "Người chịu trách nhiệm",
     "deviceButton": "Thiết bị",
     "partsButton": "Phụ tùng",
     "assignee": "Người phụ trách",
@@ -1212,13 +1202,14 @@
       "estimateDay": "Ngày kỳ vọng hoàn thành",
       "estimatedDuration": "Thời gian bảo trì dự kiến",
       "type": "Loại bảo trì",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị cần bảo trì",
       "deviceName": "Tên thiết bị",
       "checkbox": "Bảo trì phụ tùng",
       "title": "tên",
       "quantity": "Số lượng",
-      "linkButton": "Thêm phụ tùng"
+      "linkButton": "Thêm phụ tùng",
+      "minute": "phút"
     },
     "supplies": {
       "title": "Vật tư phụ tùng",
@@ -1227,12 +1218,21 @@
     },
     "information": {
       "factory": "Nhà máy",
-      "workshop": "Xưởng",
+      "workCenter": "Xưởng",
       "usageUser": "Người sử dụng",
       "address": "Địa chỉ",
-      "phone": "SĐT liên hệ",
-      "location": "Địa điểm"
+      "phone": "SĐT liên hệ"
     }
+  },
+  "maintainRequestStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed1": "Chờ IT xác nhận",
+    "confirmed2": "Xác nhận",
+    "notExcute": "Chưa thực hiện",
+    "rejected": "Từ chối",
+    "inProgress": "Đang thực hiện",
+    "executed": "Đã thực hiện",
+    "completed": "Hoàn thành"
   },
   "defectList": {
     "title": "Danh sách lỗi",
@@ -1245,14 +1245,14 @@
       "description": "Miêu tả lỗi",
       "deviceName": "Tên thiết bị",
       "deviceCode": "Mã thiết bị",
-      "piority": "Mức ưu tiên"
+      "priority": "Mức ưu tiên"
     },
     "table": {
       "code": "Mã lỗi",
       "name": "Tên lỗi",
       "description": "Mô tả",
       "deviceName": "Tên thiết bị",
-      "piority": "Mức ưu tiên"
+      "priority": "Mức ưu tiên"
     },
     "modalDelete": {
       "title": "Xóa thông tin lỗi",
@@ -1269,7 +1269,7 @@
       "confirm": "Đã phê duyệt thông tin lỗi"
     }
   },
-  "piority": {
+  "priority": {
     "blocker": "Blocker",
     "critical": "Critical",
     "major": "Major",
@@ -1295,7 +1295,7 @@
       "estimateDate": "Ngày kì vọng hoàn thành",
       "duration": "Thời gian bảo trì",
       "type": "Loại cảnh báo",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị cần bảo trì",
       "deviceName": "Tên thiết bị"
     },
@@ -1363,7 +1363,7 @@
       "description": "Mô tả",
       "serial": "Serial",
       "deviceName": "Tên thiết bị",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "createdAt": "Ngày tạo",
       "actions": "Hành động",
       "status": "Trạng thái"
@@ -1385,7 +1385,7 @@
       "scheduled": "Ngày đến lịch bảo trì",
       "duration": "Thời gian bảo trì",
       "type": "Loại cảnh báo",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị cần bảo trì",
       "deviceName": "Tên thiết bị"
     },
@@ -1396,7 +1396,7 @@
       "description": "Mô tả",
       "serial": "Serial thiết bị",
       "deviceName": "Tên thiết bị",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "status": "Trạng thái",
       "estimatedDate": "Ngày kì vọng hoàn thành",
       "estimatedDuration": "Thời gian bảo trì dự kiến",
@@ -1411,7 +1411,7 @@
       "estimateDay": "Ngày kỳ vọng hoàn thành",
       "duration": "Thời gian bảo trì",
       "type": "Loại bảo trì",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị cần bảo trì",
       "deviceName": "Tên thiết bị",
       "checkbox": "Bảo trì phụ tùng",
@@ -1624,7 +1624,7 @@
       "requestName": "Tên cảnh báo",
       "description": "Mô tả",
       "workType": "Loại công việc",
-      "piority": "Độ ưu tiên",
+      "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị",
       "devideName": "Tên thiết bị",
       "expectDay": "Ngày kỳ vọng hoàn thành",
