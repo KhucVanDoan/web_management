@@ -143,7 +143,6 @@ function ReturnOrder() {
         const hasEditDeleteBtn =
           status === RETURN_ORDER_STATUS.PENDING ||
           status === RETURN_ORDER_STATUS.REJECTED
-        const isConfirmed = status === RETURN_ORDER_STATUS.PENDING
         const hasTransaction =
           status === RETURN_ORDER_STATUS.COMPLETED ||
           status === RETURN_ORDER_STATUS.IN_PROGRESS
@@ -174,15 +173,15 @@ function ReturnOrder() {
                 </IconButton>
               </>
             )}
-            {isConfirmed && (
-              <IconButton onClick={() => onClickConfirmed(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
-            )}
             {isPending && (
-              <IconButton onClick={() => onClickRejected(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              <>
+                <IconButton onClick={() => onClickConfirmed(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </>
             )}
             {hasTransaction && (
               <Button

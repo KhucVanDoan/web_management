@@ -7,6 +7,7 @@ import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
 import deviceCategory from './device-category'
+import maintainRequest from './maintain-request'
 import maintenanceTeam from './maintenance-team'
 import suppliesCategory from './supplies-category'
 import templateChecklist from './template-checklist'
@@ -23,4 +24,5 @@ export default combineReducers({
   maintenanceTeam,
   suppliesCategory,
   templateChecklist,
+  maintainRequest,
 })

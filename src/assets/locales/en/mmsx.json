@@ -995,7 +995,7 @@
       "updatedAt": "Update date",
       "action": "Action",
       "serial": "Serial",
-      "piority": "Priority"
+      "priority": "Priority"
     },
     "deviceButton": "Device",
     "partsButton": "Supply",
@@ -1011,7 +1011,7 @@
       "estimateDay": "Expected completion date",
       "estimatedDuration": "Estimated maintenance time",
       "type": "Maintain",
-      "piority": "Priority",
+      "priority": "Priority",
       "serial": "Serial of device need to maintain",
       "deviceName": "Device name",
       "checkbox": "Supply maintenance",
@@ -1044,14 +1044,14 @@
       "description": "Error description",
       "deviceName": "Device name",
       "deviceCode": "Device code",
-      "piority": "Priority level"
+      "priority": "Priority level"
     },
     "table": {
       "code": "Error code",
       "name": "Error name",
       "description": "Description",
       "deviceName": "Device name",
-      "piority": "Priority level"
+      "priority": "Priority level"
     },
     "modalDelete": {
       "title": "Delete error information",
@@ -1068,7 +1068,7 @@
       "confirm": "Confirmed error information"
     }
   },
-  "piority": {
+  "priority": {
     "blocker": "Blocker",
     "critical": "Critical",
     "major": "Major",
@@ -1094,7 +1094,7 @@
       "estimateDate": "Expected completion date",
       "duration": "Maintenance time",
       "type": "Warning type",
-      "piority": "Priority",
+      "priority": "Priority",
       "serial": "Serial of device need to maintain",
       "deviceName": "Device name"
     },
@@ -1161,7 +1161,7 @@
       "description": "Description",
       "serial": "Serial",
       "deviceName": "Device name",
-      "piority": "Priority",
+      "priority": "Priority",
       "status": "Status"
     },
     "smallTitle": "User information",
@@ -1181,7 +1181,7 @@
       "scheduled": "Maintenance schedule date",
       "duration": "Maintenance time",
       "type": "Warning type",
-      "piority": "Priority",
+      "priority": "Priority",
       "serial": "Serial of device need to maintain",
       "deviceName": "Device name"
     },
@@ -1192,7 +1192,7 @@
       "description": "Description",
       "serial": "Device serial",
       "deviceName": "Device name",
-      "piority": "Priority",
+      "priority": "Priority",
       "status": "Status",
       "estimatedDate": "Expected completion date",
       "estimatedDuration": "Estimated maintenance time",
@@ -1207,7 +1207,7 @@
       "estimateDay": "Expected completion date",
       "duration": "Maintenance time",
       "type": "Maintenance type",
-      "piority": "Priority",
+      "priority": "Priority",
       "serial": "Device serial need to maintain",
       "deviceName": "Device name",
       "checkbox": "Supply maintenance",
@@ -1418,7 +1418,7 @@
       "requestName": "Warning name",
       "description": "Description",
       "workType": "Job type",
-      "piority": "Priority",
+      "priority": "Priority",
       "serial": "Device serial",
       "devideName": "Device name",
       "expectDay": "Expected completion date",

@@ -11,11 +11,11 @@ export const REQUEST_STATUS_DASHBOARD = [
 ]
 export const PRIORITY_DASHBOARD = [
   '',
-  'piority.trivial',
-  'piority.minor',
-  'piority.major',
-  'piority.critical',
-  'piority.blocker',
+  'priority.trivial',
+  'priority.minor',
+  'priority.major',
+  'priority.critical',
+  'priority.blocker',
 ]
 export const PIE_CHART_COLORS = [
   '#0761AD',
@@ -159,35 +159,14 @@ export const WARNING_TYPE_OPTION = {
   SCHEDULE: 2,
   CHECKLIST: 4,
 }
-export const PIORITY_LEVEL_OPTION = [
+
+export const WARNING_PRIORITY_LEVEL = [
   {
-    title: 'piority.blocker',
-    value: 5,
-  },
-  {
-    title: 'piority.critical',
-    value: 4,
-  },
-  {
-    title: 'piority.major',
-    value: 3,
-  },
-  {
-    title: 'piority.minor',
+    title: 'priority.blocker',
     value: 2,
   },
   {
-    title: 'piority.trivial',
-    value: 1,
-  },
-]
-export const WARNING_PIORITY_LEVEL = [
-  {
-    title: 'piority.blocker',
-    value: 2,
-  },
-  {
-    title: 'piority.major',
+    title: 'priority.major',
     value: 1,
   },
 ]
@@ -358,5 +337,109 @@ export const CHECK_TYPE_OPTIONS = [
   {
     id: 0,
     text: 'templateChecklist.checkType.passFail',
+  },
+]
+
+export const PRIORITY_LEVEL = {
+  BLOCKER: 5,
+  CRITICAL: 4,
+  MAJOR: 3,
+  MINOR: 2,
+  TRIVIAL: 1,
+}
+
+export const PRIORITY_LEVEL_MAP = {
+  [PRIORITY_LEVEL.BLOCKER]: 'priority.blocker',
+  [PRIORITY_LEVEL.CRITICAL]: 'priority.critical',
+  [PRIORITY_LEVEL.MAJOR]: 'priority.major',
+  [PRIORITY_LEVEL.MINOR]: 'priority.minor',
+  [PRIORITY_LEVEL.TRIVIAL]: 'priority.trivial',
+}
+
+export const PRIORITY_LEVEL_OPTIONS = [
+  {
+    title: 'priority.blocker',
+    id: 5,
+  },
+  {
+    title: 'priority.critical',
+    id: 4,
+  },
+  {
+    title: 'priority.major',
+    id: 3,
+  },
+  {
+    title: 'priority.minor',
+    id: 2,
+  },
+  {
+    title: 'priority.trivial',
+    id: 1,
+  },
+]
+
+export const MAINTAIN_STATUS = {
+  PENDING: 1,
+  CONFIRMED1: 2,
+  CONFIRMED2: 3,
+  NOT_EXCUTE: 4,
+  REJECTED: 5,
+  IN_PROGRESS: 6,
+  EXECUTED: 7,
+  COMPLETED: 8,
+}
+
+export const MAINTAIN_STATUS_MAP = {
+  [MAINTAIN_STATUS.PENDING]: 'maintainRequestStatus.pending',
+  [MAINTAIN_STATUS.CONFIRMED1]: 'maintainRequestStatus.confirmed1',
+  [MAINTAIN_STATUS.CONFIRMED2]: 'maintainRequestStatus.confirmed2',
+  [MAINTAIN_STATUS.NOT_EXCUTE]: 'maintainRequestStatus.notExcute',
+  [MAINTAIN_STATUS.REJECTED]: 'maintainRequestStatus.rejected',
+  [MAINTAIN_STATUS.IN_PROGRESS]: 'maintainRequestStatus.inProgress',
+  [MAINTAIN_STATUS.EXECUTED]: 'maintainRequestStatus.executed',
+  [MAINTAIN_STATUS.COMPLETED]: 'maintainRequestStatus.completed',
+}
+
+export const MAINTAIN_STATUS_OPTIONS = [
+  {
+    id: 1,
+    text: 'maintainRequestStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 2,
+    text: 'maintainRequestStatus.confirmed1',
+    color: 'confirmed',
+  },
+  {
+    id: 3,
+    text: 'maintainRequestStatus.confirmed2',
+    color: 'confirmed',
+  },
+  {
+    id: 4,
+    text: 'maintainRequestStatus.notExcute',
+    color: 'notExcute',
+  },
+  {
+    id: 5,
+    text: 'maintainRequestStatus.rejected',
+    color: 'rejected',
+  },
+  {
+    id: 6,
+    text: 'maintainRequestStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 7,
+    text: 'maintainRequestStatus.executed',
+    color: 'executed',
+  },
+  {
+    id: 8,
+    text: 'maintainRequestStatus.completed',
+    color: 'completed',
   },
 ]

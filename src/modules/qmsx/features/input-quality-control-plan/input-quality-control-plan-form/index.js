@@ -292,12 +292,11 @@ function InputQualityControlPlanForm() {
   const onChangeStageQc = (stageQcValue, setFieldValue) => {
     if (!isNil(stageQcValue)) {
       getInputOrder(stageQcValue)
-    } else {
       setFieldValue('order', null)
       setInputOrderList([])
       setInitialValuesForm((prev) => ({
         ...prev,
-        stageQc: null,
+        stageQc: stageQcValue,
         order: null,
         qualityPlanIOqcs: [],
       }))

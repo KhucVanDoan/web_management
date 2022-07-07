@@ -12,6 +12,8 @@ import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import MaintainRequestDetail from '../features/maintain-request/detail'
+import MaintainRequest from '../features/maintain-request/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
 import MaintenanceTeam from '../features/maintenance-team/list'
@@ -209,6 +211,20 @@ const routes = [
     icon: 'plan',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.MAINTAIN_REQUEST.LIST.TITLE,
+        path: ROUTE.MAINTAIN_REQUEST.LIST.PATH,
+        component: MaintainRequest,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.MAINTAIN_REQUEST.DETAIL.TITLE,
+            path: ROUTE.MAINTAIN_REQUEST.DETAIL.PATH,
+            component: MaintainRequestDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
       {
         name: ROUTE.WARNING_SYSTEM.LIST.TITLE,
         path: ROUTE.WARNING_SYSTEM.LIST.PATH,
