@@ -360,7 +360,6 @@ function DefineItemForm() {
                             filterOptions={createFilterOptions({
                               stringify: (opt) => `${opt?.code}|${opt?.name}`,
                             })}
-                            subLabelWidth="70%"
                             required
                           />
                         </Grid>
@@ -386,7 +385,6 @@ function DefineItemForm() {
                             asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.code}
                             getOptionSubLabel={(opt) => opt?.name}
-                            subLabelWidth="70%"
                             required
                             options={
                               itemDetails?.itemGroup?.code

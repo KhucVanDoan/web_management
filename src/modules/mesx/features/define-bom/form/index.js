@@ -339,7 +339,6 @@ function BOMForm() {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionSubLabel={(opt) => opt?.name}
                         getOptionLabel={(opt) => opt?.code}
-                        subLabelWidth="250px"
                         required
                       />
                     </Box>

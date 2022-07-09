@@ -50,7 +50,8 @@ const FilterForm = () => {
           label={t('Mo.planName')}
           placeholder={t('Mo.planName')}
           options={planList}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
           })}

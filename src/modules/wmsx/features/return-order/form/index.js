@@ -375,7 +375,8 @@ const ReturnOrderForm = () => {
                         label={t('returnOrder.letterCode')}
                         placeholder={t('returnOrder.letterCode')}
                         options={letterOptions}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
@@ -404,7 +405,8 @@ const ReturnOrderForm = () => {
                         label={t('returnOrder.orderCode')}
                         placeholder={t('returnOrder.orderCode')}
                         options={values?.letterCode ? orderOptions : []}
-                        getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
