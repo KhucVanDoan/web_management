@@ -267,9 +267,8 @@ function BomProducingStepForm() {
                         label={t('bomProducingStep.itemCode')}
                         placeholder={t('bomProducingStep.itemCode')}
                         options={itemOptions}
-                        getOptionLabel={(opt) =>
-                          `${opt?.item?.code} - ${opt?.item?.name}`
-                        }
+                        getOptionLabel={(opt) => opt?.item?.code}
+                        getOptionSubLabel={(opt) => opt?.item?.name}
                         filterOptions={createFilterOptions({
                           stringify: (opt) =>
                             `${opt?.item?.code}|${opt?.item?.name}`,

@@ -40,7 +40,8 @@ const FilterForm = () => {
           label={t('defineMasterPlan.saleOrder')}
           placeholder={t('defineMasterPlan.saleOrder')}
           options={soList}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          getOptionLabel={(opt) => opt?.code}
+          getOptionSubLabel={(opt) => opt?.name}
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
           })}

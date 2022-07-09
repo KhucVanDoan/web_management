@@ -91,7 +91,8 @@ function ItemSettingTable({
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               options={requestBuyMaterial}
-              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+              getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}
