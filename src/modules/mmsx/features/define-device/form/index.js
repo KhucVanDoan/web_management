@@ -82,7 +82,6 @@ const DefineDeviceForm = () => {
       ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
       : '',
     createdAt: item?.createdAt,
-    id: item?.userId,
     username: item?.username,
   }))
 
