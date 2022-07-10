@@ -53,13 +53,6 @@ const MaintainRequestDetail = () => {
     history.push(ROUTE.MAINTAIN_REQUEST.LIST.PATH)
   }
 
-  const histories = maintainRequestDetail?.histories?.map((item) => ({
-    content: item?.content,
-    createdAt: item?.createdAt,
-    id: item?.userId,
-    username: item?.userName,
-  }))
-
   const renderHeaderRight = () => {
     return (
       <>
@@ -230,7 +223,7 @@ const MaintainRequestDetail = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Activities data={histories} />
+      <Activities data={maintainRequestDetail?.histories} />
     </Page>
   )
 }

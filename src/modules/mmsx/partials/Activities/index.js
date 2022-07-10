@@ -4,7 +4,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  Avatar,
   ListItemText,
   Typography,
   Paper,
@@ -12,11 +11,13 @@ import {
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
+import { Avatar } from '~/components/Avatar'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const Activities = ({ data, sx }) => {
   const { t } = useTranslation('mmsx')
 
+  const getName = (item = {}) => item.userName || item.username || ''
   return (
     <Paper
       sx={{
@@ -27,10 +28,14 @@ const Activities = ({ data, sx }) => {
     >
       <Typography variant="h3">{t('common.activityReport')}</Typography>
       <List>
-        {data.map((item) => (
-          <ListItem alignItems="flex-start" key={item?.id} disableGutters>
+        {data.map((item, index) => (
+          <ListItem
+            alignItems="flex-start"
+            key={item?.userId || item?.id || index}
+            disableGutters
+          >
             <ListItemAvatar>
-              <Avatar alt="" src="" />
+              <Avatar alt="" src="" name={getName(item)} />
             </ListItemAvatar>
             <ListItemText
               primary={
@@ -38,9 +43,9 @@ const Activities = ({ data, sx }) => {
                   <Typography
                     variant="h5"
                     component="span"
-                    sx={{ mr: item?.username ? 1 : 0 }}
+                    sx={{ mr: getName(item) ? 1 : 0 }}
                   >
-                    {item?.username}
+                    {getName(item)}
                   </Typography>
                   <Typography variant="body2" component="span">
                     {convertUtcDateTimeToLocalTz(item?.createdAt)}
@@ -67,8 +72,10 @@ Activities.propTypes = {
     PropTypes.shape({
       content: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
+      id: PropTypes.string,
+      userId: PropTypes.string,
+      username: PropTypes.string,
+      userName: PropTypes.string,
     }),
   ),
 }

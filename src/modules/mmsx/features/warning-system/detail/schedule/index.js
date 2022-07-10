@@ -61,12 +61,7 @@ const WarningScheduleDetail = () => {
       </>
     )
   }
-  const histories = warningDetail?.histories?.map((item) => ({
-    content: item?.content,
-    createdAt: item?.createdAt,
-    id: item?.userId,
-    username: item?.username,
-  }))
+
   const warningType = WARNING_TYPE.filter(
     (warning) => warning.value === warningDetail.type,
   )
@@ -254,7 +249,7 @@ const WarningScheduleDetail = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Activities data={histories} />
+      <Activities data={warningDetail?.histories} />
     </Page>
   )
 }

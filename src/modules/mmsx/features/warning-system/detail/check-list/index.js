@@ -63,12 +63,7 @@ const WarningChecklistDetail = () => {
       </>
     )
   }
-  const histories = warningDetail?.histories?.map((item) => ({
-    content: item?.content,
-    createdAt: item?.createdAt,
-    id: item?.userId,
-    username: item?.username,
-  }))
+
   const checklistResult = CHECKLIST_RESULT.find(
     (clc) => clc.value === warningDetail?.job?.checklistResult,
   )
@@ -281,7 +276,7 @@ const WarningChecklistDetail = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Activities data={histories} />
+      <Activities data={warningDetail?.histories} />
     </Page>
   )
 }
