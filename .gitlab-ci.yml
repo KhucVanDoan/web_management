@@ -30,7 +30,7 @@ build_staging:
       --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_STAGING_DOMAIN" --no-cache .
-    - docker commit $STAGING_CONTAINER_IMAGE
+    - docker push $STAGING_CONTAINER_IMAGE
   rules:
     - if: '$CI_COMMIT_BRANCH == "staging"'
 deploy_staging:
