@@ -16,7 +16,6 @@ stages:
   # - deploy_demo
 
 before_script:
-  - docker version
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - chmod +x ./setup_env_staging.sh
   - ./setup_env_staging.sh
