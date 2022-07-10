@@ -184,7 +184,6 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
                 timeAverage: '',
               })
             }}
-            icon="add"
           >
             {t('defineVendor.addItem')}
           </Button>
