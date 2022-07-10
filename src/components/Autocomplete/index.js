@@ -51,8 +51,8 @@ const Autocomplete = ({
   const classes = useClasses(style)
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [defaultOptions, setDefaultOptions] = useState([])
   const [searchedOptions, setSearchedOptions] = useState([])
+  const [persistedOptions, setPersistedOptions] = useState([])
   const [isShowFullTags, setIsShowFullTags] = useState(false)
   const [isSearchingMode, setIsSearchingMode] = useState(false)
 
@@ -102,8 +102,18 @@ const Autocomplete = ({
     }
   }
 
-  const prefetchOptions = () => fetchOptionsFn('', setDefaultOptions)
-  const fetchOptions = (keyword) => fetchOptionsFn(keyword, setSearchedOptions)
+  const persist = (opts) =>
+    setPersistedOptions((oldOpts) =>
+      uniqWith([...oldOpts, ...opts], isOptEqual),
+    )
+
+  const prefetchOptions = () => fetchOptionsFn('', persist)
+
+  const fetchOptions = (keyword) =>
+    fetchOptionsFn(keyword, (opts) => {
+      setSearchedOptions(opts)
+      persist(opts)
+    })
 
   useEffect(() => {
     if (isAsync && debouncedInputValue) {
@@ -123,14 +133,14 @@ const Autocomplete = ({
       return searchedOptions
     }
 
-    let arr = defaultOptions
+    let arr = persistedOptions
     if (multiple) {
       arr = [
         ...(Array.isArray(value) && value?.length ? value : []),
-        ...defaultOptions,
+        ...persistedOptions,
       ]
     } else {
-      arr = [...(value ? [value] : []), ...defaultOptions]
+      arr = [...(value ? [value] : []), ...persistedOptions]
     }
 
     return reverse(uniqWith(reverse(arr), isOptEqual))
@@ -306,7 +316,10 @@ const Autocomplete = ({
             ? {
                 onChange: (e) => {
                   setInputValue(e.target.value)
-                  setLoading(true)
+
+                  if (!e.target.value) {
+                    setIsSearchingMode(false)
+                  }
                 },
               }
             : {})}
