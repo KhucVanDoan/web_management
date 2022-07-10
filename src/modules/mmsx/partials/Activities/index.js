@@ -29,11 +29,7 @@ const Activities = ({ data, sx }) => {
       <Typography variant="h3">{t('common.activityReport')}</Typography>
       <List>
         {data.map((item, index) => (
-          <ListItem
-            alignItems="flex-start"
-            key={item?.userId || item?.id || index}
-            disableGutters
-          >
+          <ListItem alignItems="flex-start" key={index} disableGutters>
             <ListItemAvatar>
               <Avatar alt="" src="" name={getName(item)} />
             </ListItemAvatar>
@@ -72,8 +68,6 @@ Activities.propTypes = {
     PropTypes.shape({
       content: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
-      id: PropTypes.string,
-      userId: PropTypes.string,
       username: PropTypes.string,
       userName: PropTypes.string,
     }),

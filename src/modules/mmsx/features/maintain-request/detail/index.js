@@ -152,7 +152,7 @@ const MaintainRequestDetail = () => {
                 </Typography>
               </Grid>
               {maintainRequestDetail?.supplies?.map((item) => (
-                <>
+                <React.Fragment key={item?.id}>
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={t('maintainRequest.supplies.name')}
@@ -165,7 +165,7 @@ const MaintainRequestDetail = () => {
                       value={item?.quantity}
                     />
                   </Grid>
-                </>
+                </React.Fragment>
               ))}
               {/* information */}
               <Grid item xs={12}>

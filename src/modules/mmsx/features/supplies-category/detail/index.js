@@ -57,7 +57,6 @@ const SuppliesCategoryDetail = () => {
       ? t(`suppliesCategory.actionHistory.${ACTION_MAP[item?.action]}`)
       : '',
     createdAt: item?.createdAt,
-    id: item?.userId,
     username: item?.username,
   }))
 
