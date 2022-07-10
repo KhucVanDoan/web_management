@@ -12,7 +12,7 @@ services:
 stages:
   - build_staging
   - deploy_staging
-  # - build_demo
+  - build_demo
   # - deploy_demo
 
 before_script:
