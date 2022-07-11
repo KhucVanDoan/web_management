@@ -114,7 +114,8 @@ const ItemSettingTable = (props) => {
               name={`items[${index}].itemId`}
               options={itemListFilter}
               getOptionValue={(opt) => opt?.id}
-              getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+              getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               filterOptions={createFilterOptions({
                 stringify: (opt) => `${opt?.code}|${opt?.name}`,
               })}

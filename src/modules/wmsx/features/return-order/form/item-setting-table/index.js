@@ -221,9 +221,8 @@ function ItemSettingTable(props) {
               checked ? packagesEvenByItem : items[index]?.itemId?.packages
             }
             disabled={isView}
-            g
-            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-            // getOptionValue={(opt) => opt?.id || null}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionSubLabel={(opt) => opt?.name}
           />
         )
       },
@@ -260,7 +259,8 @@ function ItemSettingTable(props) {
             name={`items[${index}].location`}
             options={locationSettingsList}
             disabled={isView}
-            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
           />
         )

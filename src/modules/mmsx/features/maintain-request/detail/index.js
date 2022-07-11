@@ -53,13 +53,6 @@ const MaintainRequestDetail = () => {
     history.push(ROUTE.MAINTAIN_REQUEST.LIST.PATH)
   }
 
-  const histories = maintainRequestDetail?.histories?.map((item) => ({
-    content: item?.content,
-    createdAt: item?.createdAt,
-    id: item?.userId,
-    username: item?.userName,
-  }))
-
   const renderHeaderRight = () => {
     return (
       <>
@@ -159,7 +152,7 @@ const MaintainRequestDetail = () => {
                 </Typography>
               </Grid>
               {maintainRequestDetail?.supplies?.map((item) => (
-                <>
+                <React.Fragment key={item?.id}>
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={t('maintainRequest.supplies.name')}
@@ -172,7 +165,7 @@ const MaintainRequestDetail = () => {
                       value={item?.quantity}
                     />
                   </Grid>
-                </>
+                </React.Fragment>
               ))}
               {/* information */}
               <Grid item xs={12}>
@@ -230,7 +223,7 @@ const MaintainRequestDetail = () => {
           </Grid>
         </Grid>
       </Paper>
-      <Activities data={histories} />
+      <Activities data={maintainRequestDetail?.histories} />
     </Page>
   )
 }

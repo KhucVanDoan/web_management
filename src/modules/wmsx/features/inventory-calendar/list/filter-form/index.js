@@ -49,7 +49,8 @@ const FilterForm = () => {
           placeholder={t('inventoryCalendar.warehouses')}
           options={warehouseList}
           getOptionValue={(opt) => opt?.name}
-          getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           filterOptions={createFilterOptions({
             stringify: (opt) => `${opt?.code}|${opt?.name}`,
           })}

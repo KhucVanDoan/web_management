@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
@@ -8,13 +8,11 @@ import {
   Autocomplete as MuiAutocomplete,
   Box,
   ListItemButton,
-  // Popper,
-  // Paper,
   Typography,
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { isArray, isEqual, last } from 'lodash'
+import { isArray, isEqual, last, reverse, uniqWith } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -28,13 +26,11 @@ import style from './style'
 
 const Autocomplete = ({
   label,
-  options: rawOptions = [],
+  options = [],
   multiple,
   renderOption,
-  getOptionText,
   asyncRequest,
   asyncRequestHelper,
-  // renderStickyHeader,
   noOptionsText,
   loadingText,
   vertical,
@@ -49,24 +45,22 @@ const Autocomplete = ({
   value,
   onChange,
   isOptionEqualToValue,
-  // fixedDropdownWidth,
-  subLabelBefore,
-  subLabelWidth,
   uncontrolled,
   ...props
 }) => {
   const classes = useClasses(style)
   const [loading, setLoading] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const [options, setOptions] = useState(rawOptions)
+  const [searchedOptions, setSearchedOptions] = useState([])
+  const [persistedOptions, setPersistedOptions] = useState([])
   const [isShowFullTags, setIsShowFullTags] = useState(false)
+  const [isSearchingMode, setIsSearchingMode] = useState(false)
 
   const isAsync = typeof asyncRequest === 'function'
   const hasSubLabel = typeof getOptionSubLabel === 'function'
 
   const { t } = useTranslation()
   const debouncedInputValue = useDebounce(inputValue, 200)
-  const rawOptionsRef = useRef()
 
   const isOptEqual = (opt, v) =>
     typeof isOptionEqualToValue === 'function'
@@ -86,7 +80,7 @@ const Autocomplete = ({
     return opts.find((opt) => isOptEqual(opt, val)) || null
   }
 
-  const fetchOptions = async (keyword = '') => {
+  const fetchOptionsFn = async (keyword = '', cb) => {
     setLoading(true)
     try {
       const response = await asyncRequest(keyword)
@@ -100,26 +94,57 @@ const Autocomplete = ({
         opts = []
       }
 
-      setOptions(opts)
+      cb(opts)
     } catch (e) {
-      setOptions([])
+      cb([])
     } finally {
       setLoading(false)
     }
   }
 
+  const persist = (opts) =>
+    setPersistedOptions((oldOpts) =>
+      uniqWith([...oldOpts, ...opts], isOptEqual),
+    )
+
+  const prefetchOptions = () => fetchOptionsFn('', persist)
+
+  const fetchOptions = (keyword) =>
+    fetchOptionsFn(keyword, (opts) => {
+      setSearchedOptions(opts)
+      persist(opts)
+    })
+
   useEffect(() => {
-    if (isAsync && debouncedInputValue !== undefined) {
+    if (isAsync && debouncedInputValue) {
       fetchOptions(debouncedInputValue)
+      setIsSearchingMode(true)
     }
   }, [debouncedInputValue, isAsync])
 
   useEffect(() => {
-    if (!isEqual(rawOptionsRef.current, rawOptions)) {
-      rawOptionsRef.current = rawOptions
-      setOptions(rawOptions)
+    if (isAsync) {
+      prefetchOptions()
     }
-  }, [rawOptions])
+  }, [isAsync])
+
+  const getDisplayedAsyncOptions = () => {
+    if (isSearchingMode) {
+      return searchedOptions
+    }
+
+    let arr = persistedOptions
+    if (multiple) {
+      arr = [
+        ...(Array.isArray(value) && value?.length ? value : []),
+        ...persistedOptions,
+      ]
+    } else {
+      arr = [...(value ? [value] : []), ...persistedOptions]
+    }
+
+    return reverse(uniqWith(reverse(arr), isOptEqual))
+  }
 
   const renderCustomizedOption = (optProps, opt, selected) => {
     if (typeof renderOption === 'function') {
@@ -132,42 +157,27 @@ const Autocomplete = ({
         component="li"
         sx={{
           wordBreak: 'break-word',
+          display: 'block !important',
           ...(multiple
             ? {
                 pr: '30px !important',
                 position: 'relative',
               }
             : {}),
-          ...(hasSubLabel && typeof getOptionText !== 'function'
-            ? {
-                display: 'flex',
-                alignItems: 'flex-start !important',
-                ...(subLabelBefore ? { flexDirection: 'row-reverse' } : {}),
-              }
-            : {}),
         }}
       >
-        {typeof getOptionText === 'function' ? (
-          getOptionText(opt)
-        ) : (
-          <>
-            <Typography sx={{ flex: 1 }}>{getOptionLabel(opt)}</Typography>
+        <Typography component="span">{getOptionLabel(opt)}</Typography>
 
-            {hasSubLabel && (
-              <Typography
-                // variant="body2"
-                sx={{
-                  flex: 0,
-                  flexBasis: subLabelWidth,
-                  ...(subLabelBefore
-                    ? { mr: 1, textAlign: 'left' }
-                    : { ml: 1, textAlign: 'right' }),
-                }}
-              >
-                {getOptionSubLabel(opt)}
-              </Typography>
-            )}
-          </>
+        {hasSubLabel && (
+          <Typography
+            variant="subtitle"
+            sx={{
+              ml: 0.5,
+              opacity: 0.7,
+            }}
+          >
+            - {getOptionSubLabel(opt)}
+          </Typography>
         )}
 
         {multiple && selected && (
@@ -260,40 +270,6 @@ const Autocomplete = ({
     )
   }
 
-  // const PopperComponent = function (popperProps) {
-  //   return (
-  //     <Popper
-  //       {...popperProps}
-  //       placement="bottom-start"
-  //       {...(fixedDropdownWidth
-  //         ? {
-  //             style: { width: 480 },
-  //           }
-  //         : {})}
-  //     />
-  //   )
-  // }
-
-  // const PaperComponent = ({ children, ...other }) => {
-  //   const header = () => {
-  //     if (renderStickyHeader) {
-  //       if (typeof renderStickyHeader === 'function')
-  //         return renderStickyHeader()
-  //       if (typeof renderStickyHeader === 'string')
-  //         return (
-  //           <Typography sx={{ p: '8px 16px' }}>{renderStickyHeader}</Typography>
-  //         )
-  //     }
-  //     return null
-  //   }
-  //   return (
-  //     <Paper {...other}>
-  //       {header()}
-  //       {children}
-  //     </Paper>
-  //   )
-  // }
-
   return (
     <MuiAutocomplete
       classes={{
@@ -325,8 +301,6 @@ const Autocomplete = ({
             ListboxComponent: VirtualList,
           }
         : {})}
-      // PopperComponent={PopperComponent}
-      // PaperComponent={PaperComponent}
       // eslint-disable-next-line no-unused-vars
       renderInput={({ InputLabelProps, ...params }) => (
         <TextField
@@ -342,7 +316,10 @@ const Autocomplete = ({
             ? {
                 onChange: (e) => {
                   setInputValue(e.target.value)
-                  setLoading(true)
+
+                  if (!e.target.value) {
+                    setIsSearchingMode(false)
+                  }
                 },
               }
             : {})}
@@ -357,7 +334,7 @@ const Autocomplete = ({
       {...(isAsync
         ? {
             value,
-            options,
+            options: getDisplayedAsyncOptions(),
             filterOptions: (opts) => opts,
             isOptionEqualToValue: isOptEqual,
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
@@ -374,30 +351,17 @@ const Autocomplete = ({
                   // async multiple
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
-
                     if (
                       reason === 'clear' ||
                       (reason === 'removeOption' && !newVal?.length)
                     ) {
-                      if (inputValue) {
-                        setInputValue('')
-                      } else {
-                        fetchOptions()
-                      }
+                      setInputValue('')
+                      setIsSearchingMode(false)
                     }
                   },
                   onClose: () => {
-                    if (Array.isArray(value) && value?.length) {
-                      setOptions(value)
-
-                      if (inputValue) {
-                        setInputValue(undefined)
-                      }
-                    } else if (inputValue) {
-                      setInputValue('')
-                    } else if (!options?.length && !loading) {
-                      fetchOptions()
-                    }
+                    setInputValue('')
+                    setIsSearchingMode(false)
                   },
                 }
               : {
@@ -405,15 +369,9 @@ const Autocomplete = ({
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
 
-                    if (
-                      reason === 'clear' ||
-                      (reason === 'removeOption' && !newVal)
-                    ) {
-                      if (inputValue) {
-                        setInputValue('')
-                      } else {
-                        fetchOptions()
-                      }
+                    if (reason === 'clear') {
+                      setInputValue('')
+                      setIsSearchingMode(false)
                     }
                   },
                   onClose: (_, reason) => {
@@ -422,26 +380,23 @@ const Autocomplete = ({
                       reason === 'escape' ||
                       reason === 'toggleInput'
                     ) {
-                      if (value) {
-                        if (
-                          !options?.length ||
-                          (options?.length &&
-                            options?.every((opt) => !isOptEqual(opt, value)))
-                        ) {
-                          setOptions([value])
-                        }
-                      } else if (inputValue) {
+                      if (
+                        !value ||
+                        (value &&
+                          searchedOptions.every(
+                            (opt) => !isOptEqual(opt, value),
+                          ))
+                      ) {
                         setInputValue('')
-                      } else if (!options?.length && !loading) {
-                        fetchOptions()
+                        setIsSearchingMode(false)
                       }
                     }
                   },
                 }),
           }
         : {
-            ...(uncontrolled ? {} : { value: parseValue(value, rawOptions) }),
-            options: rawOptions,
+            ...(uncontrolled ? {} : { value: parseValue(value, options) }),
+            options,
             onChange: (_, newVal) => {
               if (multiple) {
                 onChange(newVal?.map((v) => getOptionValue(v)))
@@ -463,7 +418,6 @@ Autocomplete.defaultProps = {
   multiple: false,
   options: [],
   asyncRequest: null,
-  // renderStickyHeader: '',
   vertical: false,
   required: false,
   error: false,
@@ -472,9 +426,6 @@ Autocomplete.defaultProps = {
   getOptionLabel: (opt) => opt?.label || '',
   getOptionValue: (opt) => opt,
   onChange: () => {},
-  subLabelWidth: 100,
-  subLabelBefore: false,
-  // fixedDropdownWidth: false,
   uncontrolled: false,
 }
 
@@ -483,13 +434,7 @@ Autocomplete.propTypes = {
   options: PropTypes.array,
   multiple: PropTypes.bool,
   renderOption: PropTypes.func,
-  getOptionText: PropTypes.func,
   asyncRequest: PropTypes.func,
-  renderStickyHeader: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.shape(),
-    PropTypes.string,
-  ]),
   noOptionsText: PropTypes.node,
   loadingText: PropTypes.node,
   vertical: PropTypes.bool,
@@ -502,10 +447,7 @@ Autocomplete.propTypes = {
   getOptionValue: PropTypes.func,
   labelWidth: PropTypes.number,
   onChange: PropTypes.func,
-  subLabelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  subLabelBefore: PropTypes.bool,
   isOptionEqualToValue: PropTypes.func,
-  // fixedDropdownWidth: PropTypes.bool,
   uncontrolled: PropTypes.bool,
 }
 
