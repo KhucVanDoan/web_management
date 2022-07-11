@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { Box } from '@mui/system'
-import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
@@ -31,7 +30,6 @@ import {
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
-import { rejectSchema } from './schema'
 
 const breadcrumbs = [
   // {
@@ -373,13 +371,20 @@ function PurchasedOrder() {
         title={t('general:common.notify')}
         maxWidth="sm"
         onCancel={() => setIsOpenRejectModal(false)}
-        onSubmit={onSubmitReject}
         cancelLabel={t('general:common.no')}
         submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        formikProps={{
+          validationSchema: Yup.object().shape({
+            reason: Yup.string().required(t('general:form.required')),
+          }),
+          initialValues: { reason: '' },
+          onSubmit: onSubmitReject,
+          enableReinitialize: true,
+        }}
         noBorderBottom
-        validationSchema={Yup.object().shape({
-          reason: Yup.string().required(t('general:form.required')),
-        })}
       >
         {t('general:common.confirmMessage.reject')}
         <LV
@@ -392,21 +397,15 @@ function PurchasedOrder() {
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
-        <Formik validationSchema={rejectSchema(t)}>
-          {() => (
-            <Form sx={{ mt: 2 }}>
-              <Field.TextField
-                name="reason"
-                label={t('purchasedOrder.reason')}
-                placeholder={t('purchasedOrder.reason')}
-                multiline
-                rows={3}
-                required
-                sx={{ mt: 4 / 3, color: 'subText' }}
-              />
-            </Form>
-          )}
-        </Formik>
+        <Field.TextField
+          name="reason"
+          label={t('purchasedOrder.reason')}
+          placeholder={t('purchasedOrder.reason')}
+          multiline
+          rows={3}
+          required
+          sx={{ mt: 4 / 3, color: 'subText' }}
+        />
       </Dialog>
     </Page>
   )
