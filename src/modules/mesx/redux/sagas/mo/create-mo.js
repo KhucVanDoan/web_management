@@ -36,8 +36,15 @@ function* doCreateMO(action) {
       }
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
-      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
-      throw new Error(response?.message)
+      addNotification(
+        response?.message || response.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+      yield put(createMOFailed())
+      // Call callback action if provided
+      if (action.onError) {
+        yield action.onError()
+      }
     }
   } catch (error) {
     yield put(createMOFailed())
