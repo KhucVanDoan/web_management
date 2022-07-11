@@ -54,7 +54,8 @@ const WarehouseImportFilter = ({
                       placeholder={t('movements.importExport.warehouseName')}
                       options={warehouseList}
                       getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                      getOptionLabel={(opt) => opt?.name}
+                      getOptionSubLabel={(opt) => opt?.code}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,
                       })}

@@ -170,7 +170,6 @@ const TemplateChecklistForm = () => {
       ? t(`templateChecklist.actionHistory.${ACTION_MAP[item?.action]}`)
       : '',
     createdAt: item?.createdAt,
-    id: item?.userId,
     username: item?.username,
   }))
 

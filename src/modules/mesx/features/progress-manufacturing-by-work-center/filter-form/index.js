@@ -65,7 +65,8 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     )}
                     options={wcList}
                     getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    getOptionLabel={(opt) => opt?.name}
+                    getOptionSubLabel={(opt) => opt?.code}
                     filterOptions={createFilterOptions({
                       stringify: (opt) => `${opt?.code}|${opt?.name}`,
                     })}
@@ -92,7 +93,8 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     )}
                     options={masterPlanList}
                     getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
+                    getOptionLabel={(opt) => opt?.code}
+                    getOptionSubLabel={(opt) => opt?.name}
                     filterOptions={createFilterOptions({
                       stringify: (opt) => `${opt?.code}|${opt?.name}`,
                     })}

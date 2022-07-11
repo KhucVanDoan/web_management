@@ -188,7 +188,6 @@ const ShiftTable = ({ mode, shifts, arrayHelpers, status }) => {
               scrollToBottom()
             }}
             disabled={isDisabledField}
-            icon="add"
           >
             {t('workCenter.addWorkCenterShift')}
           </Button>
