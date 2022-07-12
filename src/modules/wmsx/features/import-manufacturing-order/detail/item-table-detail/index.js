@@ -7,16 +7,20 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { ORDER_STATUS } from '~/modules/wmsx/constants'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 function ItemSettingTableDetail(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items } = props
+  const { items, status } = props
   const {
     data: { itemList, warehouseList },
     actions,
   } = useCommonManagement()
-
+  const isDisplay =
+    status === ORDER_STATUS.PENDING ||
+    status === ORDER_STATUS.CONFIRMED ||
+    status === ORDER_STATUS.REJECTED
   useEffect(() => {
     actions.getItems({ isGetAll: 1 })
     actions.getWarehouses({ isGetAll: 1 })
@@ -127,6 +131,11 @@ function ItemSettingTableDetail(props) {
         const { quantity } = params.row
         return <>{+quantity}</>
       },
+    },
+    !isDisplay && {
+      field: 'actualQuantity',
+      headerName: t('productionOrder.item.actualQuantity'),
+      width: 180,
     },
     {
       field: 'unitType',

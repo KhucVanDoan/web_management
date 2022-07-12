@@ -5,15 +5,20 @@ import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { ORDER_STATUS_SO_EXPORT } from '~/modules/wmsx/constants'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 function TableDetail(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items } = props
+  const { items, status } = props
   const {
     data: { itemList },
     actions,
   } = useCommonManagement()
-
+  const isDisplay =
+    status === ORDER_STATUS_SO_EXPORT.PENDING ||
+    status === ORDER_STATUS_SO_EXPORT.CONFIRMED ||
+    status === ORDER_STATUS_SO_EXPORT.REJECTED
   useEffect(() => {
     actions.getItems()
   }, [])
@@ -55,7 +60,7 @@ function TableDetail(props) {
       headerName: t('soExport.item.mfg'),
       width: 180,
       renderCell: (params) => {
-        return params?.row?.mfg
+        return convertUtcDateToLocalTz(params?.row?.mfg)
       },
     },
     {
@@ -69,6 +74,11 @@ function TableDetail(props) {
     {
       field: 'quantity',
       headerName: t('soExport.item.quantity'),
+      width: 180,
+    },
+    !isDisplay && {
+      field: 'actualQuantity',
+      headerName: t('soExport.item.actualQuantity'),
       width: 180,
     },
     {
