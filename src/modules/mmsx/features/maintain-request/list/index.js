@@ -94,7 +94,7 @@ const MaintainRequest = () => {
         width: 150,
         sortable: true,
         renderCell: (params) => {
-          return params.row.user.fullName
+          return params.row.user?.fullName
         },
       },
       {

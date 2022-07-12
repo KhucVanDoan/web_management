@@ -443,3 +443,85 @@ export const MAINTAIN_STATUS_OPTIONS = [
     color: 'completed',
   },
 ]
+
+export const WORK_TYPE = {
+  WARNING: 1,
+  SCHEDULE_MAINTAIN: 2,
+  REQUEST: 3,
+  PERIOD_CHECK: 4,
+  INSTALL: 5,
+}
+
+export const WORK_TYPE_MAP = {
+  [WORK_TYPE.WARNING]: 'workType.warning',
+  [WORK_TYPE.SCHEDULE_MAINTAIN]: 'workType.scheduleMaintain',
+  [WORK_TYPE.REQUEST]: 'workType.request',
+  [WORK_TYPE.PERIOD_CHECK]: 'workType.periodCheck',
+  [WORK_TYPE.INSTALL]: 'workType.install',
+}
+
+export const WORK_TYPE_OPTIONS = [
+  {
+    text: 'workType.warning',
+    id: 1,
+  },
+  {
+    text: 'workType.scheduleMaintain',
+    id: 2,
+  },
+  {
+    text: 'workType.request',
+    id: 3,
+  },
+  {
+    text: 'workType.periodCheck',
+    id: 4,
+  },
+  {
+    text: 'workType.install',
+    id: 5,
+  },
+]
+
+export const JOB_STATUS_LIST = [
+  {
+    text: 'common.statusList.nonAssign',
+    id: 1,
+  },
+  {
+    text: 'common.statusList.waitingToComfirm',
+    id: 2,
+    color: 'pending',
+  },
+  {
+    text: 'common.statusList.reject',
+    id: 3,
+    color: 'rejected',
+  },
+  {
+    text: 'common.statusList.toDo',
+    id: 4,
+  },
+  {
+    text: 'common.statusList.inProgress',
+    id: 5,
+    color: 'inProgress',
+  },
+  {
+    text: 'common.statusList.completed',
+    id: 6,
+  },
+  {
+    text: 'common.statusList.outOfDate',
+    id: 7,
+  },
+  {
+    text: 'common.statusList.late',
+    id: 8,
+  },
+  {
+    text: 'common.statusList.resolved',
+    id: 9,
+    color: 'completed',
+  },
+]
