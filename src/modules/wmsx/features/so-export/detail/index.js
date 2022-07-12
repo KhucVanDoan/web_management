@@ -83,7 +83,7 @@ function SOExportDetail() {
         )?.qcCriteriaId,
     )?.code,
     lotNumber: detailLot?.lotNumber,
-    mfg: convertUtcDateToLocalTz(detailLot?.mfg),
+    mfg: detailLot?.mfg,
     packageId: detailLot?.packageId,
   }))
   return (
@@ -249,7 +249,7 @@ function SOExportDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <TableDetail items={items || []} />
+        <TableDetail items={items || []} status={soExportDetails?.status} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

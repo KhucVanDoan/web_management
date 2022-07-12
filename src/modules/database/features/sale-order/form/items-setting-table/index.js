@@ -16,7 +16,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { DEFAULT_ITEM_TYPE_ENUM } from '~/modules/database/constants'
 import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
@@ -74,10 +73,6 @@ function ItemSettingTable(props) {
                     {
                       column: 'isProductionObject',
                       text: ENUM_BOOLEAN.true,
-                    },
-                    {
-                      column: 'itemTypeCode',
-                      text: DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code.toString(),
                     },
                   ]),
                   // filter: convertFilterParams({

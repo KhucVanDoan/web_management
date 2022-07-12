@@ -163,7 +163,10 @@ function ProductionOrderDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTableDetail items={items} />
+        <ItemSettingTableDetail
+          items={items}
+          status={productionOrderDetails?.status}
+        />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>
