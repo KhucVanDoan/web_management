@@ -12,6 +12,8 @@ import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import JobDetail from '../features/job/detail'
+import Job from '../features/job/list'
 import MaintainRequestDetail from '../features/maintain-request/detail'
 import MaintainRequest from '../features/maintain-request/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
@@ -247,6 +249,27 @@ const routes = [
             name: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.TITLE,
             path: ROUTE.WARNING_SYSTEM.DETAIL.ERROR.PATH,
             component: WarningListErrorForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.PLAN.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.JOB.LIST.TITLE,
+        path: ROUTE.JOB.LIST.PATH,
+        component: Job,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.JOB.DETAIL.TITLE,
+            path: ROUTE.JOB.DETAIL.PATH,
+            component: JobDetail,
             isInSidebar: false,
           },
         ],

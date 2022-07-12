@@ -95,6 +95,10 @@ function ItemSettingTableDetail(props) {
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
             getOptionValue={(option) => option?.id || ''}
+            onChange={() => {
+              setFieldValue(`items[${index}].shelf`, null)
+              setFieldValue(`items[${index}].floor`, null)
+            }}
           />
         )
       },
@@ -119,6 +123,9 @@ function ItemSettingTableDetail(props) {
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
             getOptionValue={(option) => option?.id || ''}
+            onChange={() => {
+              setFieldValue(`items[${index}].floor`, null)
+            }}
           />
         )
       },

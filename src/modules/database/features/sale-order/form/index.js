@@ -112,7 +112,7 @@ function SaleOrderForm() {
             price: +item?.price,
           }))
         : values?.items?.map((item) => ({
-            id: item?.item?.id,
+            id: item?.item?.id || item.itemId,
             quantity: Number(item?.quantity),
             price: +item?.price,
           })),
