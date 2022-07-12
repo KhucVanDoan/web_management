@@ -785,7 +785,7 @@
       "confirm": "Confirmed device"
     },
     "tooltipHeader": {
-      "mtbf": "MTBF metric (Mean time between failures): Is the average time between incidents calculated by (Total devide working time) / (Broken time).",
+      "mtbf": "MTBF metric (Mean time between failures): Is the average time between incidents calculated by (Total device working time) / (Broken time).",
       "mttr": "MTTR metric (Mean Time to Repair): Is the average time calculated by (Total fix time) / (Broken time).",
       "mtta": "MTTA metric (Mean time to acknowledge): Is the average time to detect the incident calculated by (Total time from incident starts to accredit) /(Total broken time).",
       "mttf": "MTTF metric (Mean time to failure): Is the average time until the next incident happens (to incident unable to be fixed)."
@@ -1397,7 +1397,7 @@
       "requestName": "Request/warning name",
       "performer": "Performer",
       "serial": "Serial",
-      "devideName": "Device name",
+      "deviceName": "Device name",
       "description": "Description",
       "status": "Status",
       "implementationSchedule": "Implementation schedule",
@@ -1420,7 +1420,7 @@
       "workType": "Job type",
       "priority": "Priority",
       "serial": "Device serial",
-      "devideName": "Device name",
+      "deviceName": "Device name",
       "expectDay": "Expected completion date",
       "maintainTime": "Estimated maintenance time",
       "planDay": "Expected execute date",

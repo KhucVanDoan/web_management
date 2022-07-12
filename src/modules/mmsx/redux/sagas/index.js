@@ -27,6 +27,10 @@ import watchGetAllConfirmDeviceCategory from './device-category/get-all-confirm-
 import watchGetDetailDeviceCategory from './device-category/get-device-category'
 import watchSearchDeviceCategory from './device-category/search-device-category'
 import watchUpdateDeviceCategory from './device-category/update-device-category'
+import watchGetjobDetail from './job/job-detail'
+import watchGetJobList from './job/job-list'
+import watchSearchJobList from './job/search-job'
+import watchUpdatePlan from './job/update-job'
 import watchConfirmMaintainRequest from './maintain-request/confirm-maintain-request'
 import watchGetMaintainRequestDetail from './maintain-request/get-maintain-request-detail'
 import watchGetMaintainRequest from './maintain-request/get-maintain-request-list'
@@ -145,5 +149,11 @@ export default function* sagas() {
     watchGetMaintainRequestDetail(),
     watchGetMaintainRequest(),
     watchRejectMaintainRequest(),
+
+    //job
+    watchGetjobDetail(),
+    watchGetJobList(),
+    watchSearchJobList(),
+    watchUpdatePlan(),
   ])
 }

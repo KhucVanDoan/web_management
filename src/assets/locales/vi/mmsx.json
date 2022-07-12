@@ -137,13 +137,13 @@
     "reportDeviceAssign": "Chi tiết báo cáo trạng thái thiết bị",
     "createPlanList": "Lập kế hoạch",
     "plan": "Kế hoạch",
-    "jobList": "Công việc",
     "trackTrace": "Track & Trace",
     "solution": "Giải pháp",
     "deviceCreate": "Tạo thiết bị",
     "deviceDetail": "Chi tiết thiết bị",
     "deviceEdit": "Sửa thiết bị",
     "maintenanceParameter": "Thông số bảo trì chung",
+    "job": "Công việc",
     "jobDetail": "Chi tiết công việc",
     "jobAssign": "Phân công công việc",
     "warningListChecklistDetail": "Chi tiết kiểm tra định kì",
@@ -358,14 +358,14 @@
     },
     "statusList": {
       "title": "Trạng thái",
-      "nonAssign": "Chưa phân công",
+      "nonAssign": "Chưa được phân công",
       "waitingToComfirm": "Chờ xác nhận",
       "reject": "Từ chối",
       "toDo": "Chưa thực hiện",
       "inProgress": "Đang thực hiện",
       "completed": "Đã thực hiện",
-      "outOfDate": "Quá hạn",
-      "late": "Quá hạn",
+      "outOfDate": "Quá hạn chưa thực hiện",
+      "late": "Quá hạn do chưa hoàn thành",
       "resolved": "Hoàn thành"
     },
     "modalConfirm": {
@@ -1280,7 +1280,8 @@
     "warning": "Cảnh báo lỗi",
     "scheduleMaintain": "Bảo dưỡng",
     "request": "Yêu cầu người dùng",
-    "periodCheck": "Kiểm tra định kì"
+    "periodCheck": "Kiểm tra định kì",
+    "install": "Lắp đặt"
   },
   "errorWarning": {
     "formTitle": "Chi tiết cảnh báo sự cố",
@@ -1591,24 +1592,27 @@
       "status": "Trạng thái"
     }
   },
-  "jobList": {
+  "job": {
+    "workCode": "Mã công việc",
+    "requestCode": "Mã yêu cầu/cảnh báo",
+    "workType": "Loại công việc",
+    "requestName": "Tên yêu cầu/cảnh báo",
+    "performer": "Người thực hiện",
+    "serial": "Serial",
+    "deviceName": "Tên thiết bị",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "expectDay": "Ngày kỳ vọng hoàn thành",
+    "maintainTime": "Thời gian bảo trì dự kiến",
+    "planDay": "Ngày thực hiện dự kiến",
+    "actualDay": "Ngày thực hiện thực tế",
+    "implementationSchedule": "Lịch thực hiện",
+    "createdAt": "Ngày tạo",
+    "action": "Hành động",
     "notification": {
       "updateSuccess": "Phân công công việc thành công"
     },
     "title": "Danh sách công việc",
-    "table": {
-      "workCode": "Mã công việc",
-      "requestCode": "Mã yêu cầu/cảnh báo",
-      "workType": "Loại công việc",
-      "requestName": "Tên yêu cầu/cảnh báo",
-      "performer": "Người thực hiện",
-      "serial": "Serial",
-      "devideName": "Tên thiết bị",
-      "description": "Mô tả",
-      "status": "Trạng thái",
-      "implementationSchedule": "Lịch thực hiện",
-      "action": "Hành động"
-    },
     "button": {
       "myTask": "Công việc của tôi",
       "listView": "List View",
@@ -1617,7 +1621,6 @@
       "jobs": "Công việc"
     },
     "detail": {
-      "title": "Chi tiết công việc",
       "status": "Trạng thái",
       "workCode": "Mã công việc",
       "requestCode": "Mã cảnh báo",
@@ -1626,21 +1629,23 @@
       "workType": "Loại công việc",
       "priority": "Độ ưu tiên",
       "serial": "Serial thiết bị",
-      "devideName": "Tên thiết bị",
+      "deviceName": "Tên thiết bị",
       "expectDay": "Ngày kỳ vọng hoàn thành",
       "maintainTime": "Thời gian bảo trì dự kiến",
       "planDay": "Ngày thực hiện dự kiến",
       "actualDay": "Ngày thực hiện thực tế",
       "fromDay": "Từ ngày",
       "toDay": "Đến ngày",
+      "minute": "phút",
+      "responsibleUser": "Người chịu trách nhiệm",
+      "plan": "Kế hoạch",
       "maintainDetail": {
         "title": "Thông tin bảo trì thực tế",
         "maintainName": "Tên",
         "maintainType": "Loại bảo trì",
         "maintainQuantity": "Số lượng",
         "maintainDescription": "Mô tả"
-      },
-      "plan": "Kế hoạch"
+      }
     },
     "assign": {
       "title": "Phân công công việc",
