@@ -65,7 +65,6 @@ export default function itemGroupSetting(state = initialState, action) {
     case GET_ITEM_GROUP_DETAILS_FAILED:
       return {
         ...state,
-        itemGroupDetails: {},
         isLoading: false,
       }
     case GET_ITEM_GROUP_DETAILS_SUCCESS:
