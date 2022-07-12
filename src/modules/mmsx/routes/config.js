@@ -33,6 +33,10 @@ export const ROUTE = {
     PATH: '/mmsx/maintenance',
     TITLE: 'maintenance',
   },
+  PLAN: {
+    PATH: '/mmsx/plan',
+    TITLE: 'plan',
+  },
   DEVICE_STATUS: {
     PATH: '/mmsx/device-status',
     TITLE: 'deviceStatus',
@@ -178,17 +182,19 @@ export const ROUTE = {
       PATH: '/mmsx/maintain-request',
       TITLE: 'maintainRequest',
     },
-    CREATE: {
-      PATH: '/mmsx/maintain-request/create',
-      TITLE: 'maintainRequestCreate',
-    },
-    EDIT: {
-      PATH: '/mmsx/maintain-request/:id/edit',
-      TITLE: 'maintainRequestEdit',
-    },
     DETAIL: {
       PATH: '/mmsx/maintain-request/:id/detail',
       TITLE: 'maintainRequestDetail',
+    },
+  },
+  JOB: {
+    LIST: {
+      PATH: '/mmsx/job',
+      TITLE: 'job',
+    },
+    DETAIL: {
+      PATH: '/mmsx/job/:id/detail',
+      TITLE: 'jobDetail',
     },
   },
 }
