@@ -9,6 +9,7 @@
     "userPermission": "Phân quyền"
   },
   "companyCustomerSetting": {
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "nameCustomer": "Tên công ty khách hàng",
     "logo": "Logo",
     "colorBrand": "Màu thương hiệu",

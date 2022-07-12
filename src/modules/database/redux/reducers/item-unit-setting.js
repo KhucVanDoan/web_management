@@ -65,7 +65,6 @@ export default function itemUnitSetting(state = initialState, action) {
     case GET_ITEM_UNIT_DETAILS_FAILED:
       return {
         ...state,
-        itemUnitDetails: {},
         isLoading: false,
       }
     case GET_ITEM_UNIT_DETAILS_SUCCESS:
