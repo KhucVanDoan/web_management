@@ -16,6 +16,7 @@ import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
 import MaintainRequestDetail from '../features/maintain-request/detail'
 import MaintainRequest from '../features/maintain-request/list'
+import MaintainanceProgress from '../features/maintainance-progress/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
 import MaintenanceTeam from '../features/maintenance-team/list'
@@ -30,7 +31,6 @@ import WarningListErrorForm from '../features/warning-system/detail/error-view'
 import WarningScheduleDetail from '../features/warning-system/detail/schedule'
 import WarningSystem from '../features/warning-system/list'
 import { ROUTE } from './config'
-
 const routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
@@ -306,6 +306,19 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.REPORT.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.MAINTAINANCE_PROGRESS.LIST.TITLE,
+        path: ROUTE.MAINTAINANCE_PROGRESS.LIST.PATH,
+        component: MaintainanceProgress,
+        isInSidebar: true,
       },
     ],
   },
