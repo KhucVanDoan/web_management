@@ -35,6 +35,7 @@ import watchConfirmMaintainRequest from './maintain-request/confirm-maintain-req
 import watchGetMaintainRequestDetail from './maintain-request/get-maintain-request-detail'
 import watchGetMaintainRequest from './maintain-request/get-maintain-request-list'
 import watchRejectMaintainRequest from './maintain-request/reject-maintain-request'
+import watchGetReportProgress from './maintainance-progress/get-maintainance-progress'
 import watchCreateMaintenanceTeam from './maintenance-team/create-maintenance-team'
 import watchDeleteMaintenanceTeam from './maintenance-team/delete-maintenance-team'
 import watchGetAllUserItDepartment from './maintenance-team/get-all-user-it-department'
@@ -155,5 +156,8 @@ export default function* sagas() {
     watchGetJobList(),
     watchSearchJobList(),
     watchUpdatePlan(),
+
+    //maintainance-progress
+    watchGetReportProgress(),
   ])
 }

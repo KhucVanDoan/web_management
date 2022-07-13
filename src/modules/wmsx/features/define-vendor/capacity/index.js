@@ -119,7 +119,9 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           const { id } = params.row
           const vendorCapacityObject = vendorAbilities?.find((x) => x.id === id)
           return isView ? (
-            <>{vendorCapacityObject?.deliveryTime}</>
+            <>
+              {vendorCapacityObject?.deliveryTime} {t('general:days')}
+            </>
           ) : (
             <Field.TextField
               name={`vendorAbilities[${index}].deliveryTime`}

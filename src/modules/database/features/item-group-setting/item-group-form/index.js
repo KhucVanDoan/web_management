@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import Grid from '@mui/material/Grid'
 import { Formik, Form } from 'formik'
-import { isEmpty, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -29,13 +28,14 @@ const ItemGroupForm = () => {
     actions,
   } = useItemGroup()
 
-  const initialValues = isEmpty(itemGroupDetails)
-    ? {
-        code: '',
-        name: '',
-        description: '',
-      }
-    : pick(itemGroupDetails, ['code', 'name', 'description'])
+  const initialValues = useMemo(
+    () => ({
+      code: itemGroupDetails.code || '',
+      name: itemGroupDetails.name || '',
+      description: itemGroupDetails.description || '',
+    }),
+    [itemGroupDetails],
+  )
 
   const MODE_MAP = {
     [ROUTE.ITEM_GROUP.CREATE.PATH]: MODAL_MODE.CREATE,

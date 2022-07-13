@@ -9,6 +9,7 @@ import supplies from './define-supplies'
 import deviceCategory from './device-category'
 import job from './job'
 import maintainRequest from './maintain-request'
+import maintainanceProgress from './maintainance-progress'
 import maintenanceTeam from './maintenance-team'
 import suppliesCategory from './supplies-category'
 import templateChecklist from './template-checklist'
@@ -27,4 +28,5 @@ export default combineReducers({
   templateChecklist,
   maintainRequest,
   job,
+  maintainanceProgress,
 })
