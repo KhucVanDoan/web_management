@@ -30,9 +30,7 @@ import defineVendorSchema from './schema'
 const DEFAULT_ITEM = [
   {
     id: '',
-    itemCode: '',
-    itemName: '',
-    unit: '',
+    itemId: null,
     quantity: '',
     deliveryTime: '',
   },

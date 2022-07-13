@@ -10,6 +10,7 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
+import { TRANSFER_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import {
   convertFilterParams,
@@ -18,14 +19,17 @@ import {
 } from '~/utils'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values, setFieldValue } = props
+  const { mode, arrayHelpers, items, values, setFieldValue, status } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  const isDisplay =
+    status === TRANSFER_STATUS.PENDING ||
+    status === TRANSFER_STATUS.CONFIRMED ||
+    status === TRANSFER_STATUS.REJECTED
   const {
     data: { itemWarehouseStockList, lotNumberList, itemStocks },
     actions,
   } = useWarehouseTransfer()
-
   const {
     data: { itemList },
     actions: defineItemActions,
@@ -256,6 +260,15 @@ const ItemSettingTable = (props) => {
           )
         },
       },
+      !isDisplay &&
+        isView && {
+          field: 'actualQuantity',
+          headerName: t('warehouseTransfer.item.actualQuantity'),
+          width: 100,
+          renderCell: (params) => {
+            return params?.row?.actualQuantity
+          },
+        },
       {
         field: 'unitType',
         headerName: t('warehouseTransfer.item.unitType'),
