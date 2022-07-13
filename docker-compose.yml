@@ -1,11 +1,16 @@
-version: '3.7'
+version: '3.8'
 
 services:
-  stg-mesx-web:
-    image: registry.vti.com.vn/snp_smartwms/source/web:stg
+  aveneu-demo-web:
+    image: registry.vti.com.vn/snp_smartwms/source/web:avenue_dev
     ports:
-      - '10088:80'
+      - '12000:80'
     build:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    networks:
+      - avenue-demo-wms-network
+networks:
+  avenue-demo-wms-network:
+    external: true
