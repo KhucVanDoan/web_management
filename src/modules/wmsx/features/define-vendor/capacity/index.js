@@ -105,7 +105,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           ) : (
             <Field.TextField
               name={`vendorAbilities[${index}].quantity`}
-              allow={TEXTFIELD_ALLOW.NUMERIC}
+              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
             />
           )
         },
