@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -35,6 +37,8 @@ function InventoryLimit() {
   const history = useHistory()
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     itemCode: '',
     itemName: '',
@@ -143,6 +147,10 @@ function InventoryLimit() {
     actions.searchInventoryLimits(params)
   }
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleDeleteOpenModal = (tempItem) => {
     setTempItem(tempItem)
     setDeleteModal(true)
@@ -202,6 +210,20 @@ function InventoryLimit() {
           onApply: setFilters,
         }}
         sort={sort}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.INVENTORY_LIMIT,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
       />
       <Dialog
         open={deleteModal}

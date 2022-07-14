@@ -75,22 +75,11 @@ function DefineWarehouseDetail() {
         <Button
           variant="outlined"
           color="subText"
-          sx={(theme) => ({
-            border: `1px solid ${theme.palette.subText.a3} !important`,
-          })}
           onClick={() => setDeleteModal(true)}
         >
           {t('defineWarehouse.delete')}
         </Button>
-        <Button
-          variant="outlined"
-          color="subText"
-          disabled
-          sx={(theme) => ({
-            border: `1px solid ${theme.palette.subText.a3} !important`,
-          })}
-          onClick={() => {}}
-        >
+        <Button variant="outlined" color="subText" disabled onClick={() => {}}>
           {t('defineWarehouse.design')}
         </Button>
       </ActionBar>

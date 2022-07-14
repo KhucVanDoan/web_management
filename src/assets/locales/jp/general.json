@@ -165,5 +165,8 @@
     "btnSubmit": "確認",
     "btnCancel": "キャンセル",
     "btnClose": "閉じる"
+  },
+  "bulkActions": {
+    "actions": "アクション"
   }
 }

@@ -15,7 +15,6 @@ const ActionBar = ({
   children,
   elBefore,
   elAfter,
-  onAccept,
 }) => {
   const { t } = useTranslation()
 
@@ -45,12 +44,6 @@ const ActionBar = ({
         <>
           {elBefore}
 
-          {typeof onAccept === 'function' && (
-            <Button type="submit" onClick={onAccept}>
-              {t('actionBar.accept')}
-            </Button>
-          )}
-
           {typeof onBack === 'function' && (
             <Button color="grayF4" onClick={onBack}>
               {t('actionBar.back')}
@@ -58,14 +51,7 @@ const ActionBar = ({
           )}
 
           {typeof onCancel === 'function' && (
-            <Button
-              variant="outlined"
-              color="subText"
-              sx={(theme) => ({
-                border: `1px solid ${theme.palette.subText.a3} !important`,
-              })}
-              onClick={onCancel}
-            >
+            <Button variant="outlined" color="subText" onClick={onCancel}>
               {t('actionBar.cancel')}
             </Button>
           )}

@@ -5,8 +5,9 @@ import { isEmpty, isNil } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { INVENTORY_STATUS_OPTIONS } from '~/common/constants'
+import { INVENTORY_STATUS_OPTIONS, INVENTORY_STATUS } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -186,7 +187,13 @@ const InventoryStatisticDetail = () => {
       </Box>
       <ActionBar
         onBack={backToList}
-        onAccept={inventoryStatisticDetail?.status === 5 ? acceptTicket : null}
+        elAfter={
+          inventoryStatisticDetail?.status === INVENTORY_STATUS.INPROGRESS ? (
+            <Button onClick={acceptTicket}>
+              {t('general:actionBar.accept')}
+            </Button>
+          ) : null
+        }
       />
       <Dialog
         open={isOpenModal}

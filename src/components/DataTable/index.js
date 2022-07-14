@@ -52,6 +52,7 @@ const DataTable = (props) => {
     onSettingChange,
     beforeTopbar,
     afterTopbar,
+    bulkActions,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
@@ -163,6 +164,9 @@ const DataTable = (props) => {
           onApplySetting={handleApplySetting}
           filters={filters}
           hideSetting={hideSetting}
+          selected={selected}
+          bulkActions={bulkActions}
+          uniqKey={uniqKey}
         />
       )}
       <TableContainer
@@ -374,6 +378,7 @@ DataTable.propsTypes = {
   onSettingChange: PropTypes.func,
   beforeTopbar: PropTypes.node,
   afterTopbar: PropTypes.node,
+  bulkActions: PropTypes.shape(),
 }
 
 export default withTranslation()(withClasses(style)(DataTable))
