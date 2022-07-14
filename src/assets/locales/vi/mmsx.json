@@ -111,6 +111,9 @@
     "checkSheet": "Định nghĩa phiếu kiểm tra",
     "checkSheetForm": "Danh sách phiếu kiểm tra",
     "defectList": "Định nghĩa lỗi",
+    "defectListDetail": "Chi tiết thông tin lỗi",
+    "defectListCreate": "Tạo thông tin lỗi",
+    "defectListEdit": "Sửa thông tin lỗi",
     "errorWarning": "Cảnh báo sự cố",
     "errorWarningForm": "Danh sách cảnh báo sự cố",
     "attributeMaintenance": "Định nghĩa thuộc tính bảo trì",
@@ -1236,13 +1239,14 @@
   },
   "defectList": {
     "title": "Danh sách lỗi",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "form": {
       "create": "Tạo thông tin lỗi",
       "update": "Sửa thông tin lỗi",
       "viewDetail": "Chi tiết thông tin lỗi",
       "code": "Mã lỗi",
       "name": "Tên lỗi",
-      "description": "Miêu tả lỗi",
+      "description": "Mô tả lỗi",
       "deviceName": "Tên thiết bị",
       "deviceCode": "Mã thiết bị",
       "priority": "Mức ưu tiên"

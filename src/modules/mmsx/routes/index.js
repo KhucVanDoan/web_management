@@ -1,5 +1,8 @@
 import Dashboard from '~/modules/mmsx/features/dashboard'
 
+import DefectList from '../features/defect-list'
+import DefectListDetail from '../features/defect-list/detail'
+import DefectListForm from '../features/defect-list/form'
 import DefineDeviceDetail from '../features/define-device/detail'
 import DefineDeviceForm from '../features/define-device/form'
 import DefineDevice from '../features/define-device/list'
@@ -319,6 +322,39 @@ const routes = [
         path: ROUTE.MAINTAINANCE_PROGRESS.LIST.PATH,
         component: MaintainanceProgress,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFECT_LIST.LIST.TITLE,
+        path: ROUTE.DEFECT_LIST.LIST.PATH,
+        component: DefectList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFECT_LIST.CREATE.TITLE,
+            path: ROUTE.DEFECT_LIST.CREATE.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.DETAIL.TITLE,
+            path: ROUTE.DEFECT_LIST.DETAIL.PATH,
+            component: DefectListDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.EDIT.TITLE,
+            path: ROUTE.DEFECT_LIST.EDIT.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

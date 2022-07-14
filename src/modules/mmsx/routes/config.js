@@ -7,6 +7,9 @@ export const ROUTE = {
     PATH: '/wmsx/device-management',
     TITLE: 'deviceManagement',
   },
+  SETTING: {
+    TITLE: 'setting',
+  },
   DEVICE_LIST: {
     LIST: {
       PATH: '/mmsx/device-list',
@@ -205,6 +208,24 @@ export const ROUTE = {
     LIST: {
       PATH: '/mmsx/maintainance-progress',
       TITLE: 'maintainanceProgress',
+    },
+  },
+  DEFECT_LIST: {
+    LIST: {
+      PATH: '/mmsx/defect-list',
+      TITLE: 'defectList',
+    },
+    CREATE: {
+      PATH: '/mmsx/defect-list/create',
+      TITLE: 'defectListCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/defect-list/:id/edit',
+      TITLE: 'defectListEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/defect-list/:id/detail',
+      TITLE: 'defectListDetail',
     },
   },
 }
