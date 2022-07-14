@@ -20,6 +20,7 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import { TYPE_ITEM_EXPORT } from '../../constants'
 import {
   exportItemUnitSettingApi,
   getItemUnitSettingTemplateApi,
@@ -194,7 +195,7 @@ function ItemUnitSetting() {
           onImport={(params) => {
             importItemUnitSettingApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportItemUnitSettingApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -205,11 +206,11 @@ function ItemUnitSetting() {
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_ITEM_EXPORT.ITEM_UNIT,
             })
-          }}
+          }
           onDownloadTemplate={getItemUnitSettingTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ITEM_UNIT.CREATE.PATH)}

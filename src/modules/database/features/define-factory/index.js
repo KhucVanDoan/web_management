@@ -217,7 +217,7 @@ function DefineFactory() {
           onImport={(params) => {
             importFactoryApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportFactoryApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -230,10 +230,9 @@ function DefineFactory() {
               sort: convertSortParams(sort),
               type: TYPE_ENUM_EXPORT.FACTORY,
             })
-          }}
+          }
           onDownloadTemplate={getFactoryTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_FACTORY.CREATE.PATH)}

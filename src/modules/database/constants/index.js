@@ -218,3 +218,12 @@ export const PURCHASED_ORDER_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+export const TYPE_ITEM_EXPORT = {
+  ITEM_GROUP: 1,
+  ITEM_TYPE: 2,
+  ITEM_UNIT: 3,
+}
+export const TYPE_SALE_EXPORT = {
+  CUSTOMER: 1,
+  SALE_ORDER: 2,
+}

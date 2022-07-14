@@ -12,6 +12,7 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { TYPE_SALE_EXPORT } from '~/modules/database/constants'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -211,22 +212,22 @@ function DefineCustomer() {
           onImport={(params) => {
             importCustomerApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportCustomerApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_SALE_EXPORT.CUSTOMER,
             })
-          }}
+          }
           onDownloadTemplate={getCustomerTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CUSTOMER.CREATE.PATH)}

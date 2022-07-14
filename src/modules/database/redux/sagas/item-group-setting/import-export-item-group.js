@@ -18,7 +18,7 @@ export const importItemGroupApi = (params) => {
  * @returns {Promise}
  */
 export const exportItemGroupApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/items/export`
   return api.get(uri, params)
 }
 

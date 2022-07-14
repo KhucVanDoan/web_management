@@ -16,14 +16,15 @@ import Status from '~/components/Status'
 import {
   SALE_ORDER_STATUS_OPTIONS,
   ORDER_STATUS,
+  TYPE_SALE_EXPORT,
 } from '~/modules/database/constants'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { ROUTE } from '~/modules/database/routes/config'
 import {
   exportSaleOrderApi,
   getSaleOrderTemplateApi,
   importSaleOrderApi,
-} from '~/modules/mesx/redux/sagas/sale-order/import-export-sale-order'
+} from '~/modules/database/redux/sagas/sale-order/import-export-sale-order'
+import { ROUTE } from '~/modules/database/routes/config'
 import {
   convertUtcDateTimeToLocalTz,
   convertFilterParams,
@@ -252,22 +253,22 @@ function SaleOrder() {
           onImport={(params) => {
             importSaleOrderApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportSaleOrderApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_SALE_EXPORT.SALE_ORDER,
             })
-          }}
+          }
           onDownloadTemplate={getSaleOrderTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.SALE_ORDER.CREATE.PATH)}

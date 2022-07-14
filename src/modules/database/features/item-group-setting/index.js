@@ -20,6 +20,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import { TYPE_ITEM_EXPORT } from '../../constants'
 import {
   exportItemGroupApi,
   getItemGroupTemplateApi,
@@ -192,22 +193,22 @@ const ItemGroupSetting = () => {
           onImport={(params) => {
             importItemGroupApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportItemGroupApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_ITEM_EXPORT.ITEM_GROUP,
             })
-          }}
+          }
           onDownloadTemplate={getItemGroupTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ITEM_GROUP.CREATE.PATH)}
