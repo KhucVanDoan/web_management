@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import attributeType from './attribute-type'
 import commonManagement from './common'
 import dashboard from './dashboard'
+import defectList from './defect-list'
 import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
@@ -29,4 +30,5 @@ export default combineReducers({
   maintainRequest,
   job,
   maintainanceProgress,
+  defectList,
 })

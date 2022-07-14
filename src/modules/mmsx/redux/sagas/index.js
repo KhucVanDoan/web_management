@@ -10,6 +10,11 @@ import watchGetMo from './common/get-mo-list'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetVendors from './common/get-vendors'
 import watchGetSummary from './dashboard'
+import watchCreateDefect from './defect-list/create-defect'
+import watchDeleteDefect from './defect-list/delete-defect'
+import watchGetDefect from './defect-list/get-defect'
+import watchSearchDefectList from './defect-list/search-defect-list'
+import watchUpdateDefect from './defect-list/update-defect'
 import watchConfirmDevice from './define-device/confirm-device-by-id'
 import watchCreateDevice from './define-device/create-device'
 import watchDeleteDevice from './define-device/delete-device-by-id'
@@ -159,5 +164,12 @@ export default function* sagas() {
 
     //maintainance-progress
     watchGetReportProgress(),
+
+    // defect-list
+    watchCreateDefect(),
+    watchDeleteDefect(),
+    watchGetDefect(),
+    watchSearchDefectList(),
+    watchUpdateDefect(),
   ])
 }
