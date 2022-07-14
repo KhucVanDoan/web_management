@@ -15,6 +15,7 @@ import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import JobAssign from '../features/job/assign'
 import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
 import MaintainRequestDetail from '../features/maintain-request/detail'
@@ -273,6 +274,12 @@ const routes = [
             name: ROUTE.JOB.DETAIL.TITLE,
             path: ROUTE.JOB.DETAIL.PATH,
             component: JobDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.JOB.ASSIGN.TITLE,
+            path: ROUTE.JOB.ASSIGN.PATH,
+            component: JobAssign,
             isInSidebar: false,
           },
         ],

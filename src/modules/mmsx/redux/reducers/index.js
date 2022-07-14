@@ -12,6 +12,7 @@ import job from './job'
 import maintainRequest from './maintain-request'
 import maintainanceProgress from './maintainance-progress'
 import maintenanceTeam from './maintenance-team'
+import planList from './plan-list'
 import suppliesCategory from './supplies-category'
 import templateChecklist from './template-checklist'
 import warningSystem from './warning-system'
@@ -30,5 +31,6 @@ export default combineReducers({
   maintainRequest,
   job,
   maintainanceProgress,
+  planList,
   defectList,
 })
