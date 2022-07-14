@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -251,6 +253,18 @@ function WarehouseReport() {
             onApply: setFilters,
           }}
           sort={sort}
+          bulkActions={{
+            actions: [BULK_ACTION.DELETE],
+            apiUrl: API_URL.WAREHOUSE_REPORT,
+            onSuccess: () => {
+              if (page === 1) {
+                refreshData()
+              } else {
+                setPage(1)
+              }
+              setSelectedRows([])
+            },
+          }}
         />
         <Dialog
           open={deleteModal}

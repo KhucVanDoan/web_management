@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types'
 
 import { useClasses } from '~/themes'
 
+import BulkActions from '../BulkActions'
 import TableFilter from '../TableFilter'
 import TableSetting from '../TableSetting'
 import style from './style'
@@ -18,6 +19,9 @@ const TopBar = ({
   onApplySetting,
   hideSetting,
   filters,
+  bulkActions,
+  selected,
+  uniqKey,
 }) => {
   const classes = useClasses(style)
 
@@ -26,6 +30,13 @@ const TopBar = ({
       {title && <Typography variant="h3">{title}</Typography>}
       <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
         {beforeTopbar}
+        {bulkActions && selected?.length > 0 && (
+          <BulkActions
+            bulkActions={bulkActions}
+            selected={selected}
+            uniqKey={uniqKey}
+          />
+        )}
         {filters && <TableFilter filters={filters} />}
         {!hideSetting && (
           <TableSetting
@@ -56,8 +67,10 @@ TopBar.propTypes = {
   onApplySettings: PropTypes.func,
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
+  bulkActions: PropTypes.shape(),
   beforeTopbar: PropTypes.node,
   afterTopbar: PropTypes.node,
+  selected: PropTypes.array,
 }
 
 export default TopBar

@@ -270,9 +270,6 @@ function ProductionInputQualityControlPlanForm() {
               }}
               variant="outlined"
               color="subText"
-              sx={(theme) => ({
-                border: `1px solid ${theme.palette.subText.a3} !important`,
-              })}
             >
               {t('general:actionBar.cancel')}
             </Button>
@@ -309,9 +306,6 @@ function ProductionInputQualityControlPlanForm() {
               }}
               variant="outlined"
               color="subText"
-              sx={(theme) => ({
-                border: `1px solid ${theme.palette.subText.a3} !important`,
-              })}
             >
               {t('general:actionBar.cancel')}
             </Button>

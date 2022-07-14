@@ -190,21 +190,6 @@ export const TRANSFER_STATUS_OPTIONS = [
   },
 ]
 
-export const INVENTORY_STATUS_MAP = {
-  [INVENTORY_STATUS.CREATED]: 'inventoryStatus.pending',
-  [INVENTORY_STATUS.CONFIRMED]: 'inventoryStatus.confirmed',
-  [INVENTORY_STATUS.REJECT]: 'inventoryStatus.reject',
-  [INVENTORY_STATUS.COMPLETE]: 'inventoryStatus.complete',
-  [INVENTORY_STATUS.IN_PROGRESS]: 'inventoryStatus.inProgress',
-}
-
-export const INVENTORY_STATUS_OPTIONS = [
-  { id: 1, name: 'inventoryStatus.pending', color: 'created' },
-  { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
-  { id: 3, name: 'inventoryStatus.reject', color: 'rejected' },
-  { id: 5, name: 'inventoryStatus.inProgress', color: 'inProgress' },
-  { id: 4, name: 'inventoryStatus.complete', color: 'completed' },
-]
 export const WORK_ORDER_STATUS = {
   REJECTED: 2,
   CREATED: 0,

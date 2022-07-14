@@ -21,7 +21,6 @@ const Toolbar = (props) => {
       variant="outlined"
       color="subText"
       sx={{
-        border: `1px solid ${theme.palette.grayF4.main}`,
         borderRadius: 0,
         ...(active
           ? {
