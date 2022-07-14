@@ -215,11 +215,11 @@ function DefineCompany() {
       <>
         <ImportExport
           name={t('defineCompany.export')}
-          onExport={() => {
+          onExport={() =>
             exportCompanyApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
@@ -228,9 +228,8 @@ function DefineCompany() {
               sort: convertSortParams(sort),
               type: TYPE_ENUM_EXPORT.COMPANY,
             })
-          }}
+          }
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_COMPANY.CREATE.PATH)}

@@ -18,7 +18,7 @@ export const importSaleOrderApi = (params) => {
  * @returns {Promise}
  */
 export const exportSaleOrderApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/sales/export`
   return api.get(uri, params)
 }
 

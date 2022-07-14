@@ -20,6 +20,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import { TYPE_ITEM_EXPORT } from '../../constants'
 import { exportItemTypeApi } from '../../redux/sagas/item-type-setting/import-export-item-type'
 import FilterForm from './filter-form'
 
@@ -191,21 +192,21 @@ function ItemTypeSetting() {
       <>
         <ImportExport
           name={t('itemTypeSetting.export')}
-          onExport={() => {
+          onExport={() =>
             exportItemTypeApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_ITEM_EXPORT.ITEM_TYPE,
             })
-          }}
+          }
           onRefresh={refreshData}
-          disabled
         />
 
         <Button
