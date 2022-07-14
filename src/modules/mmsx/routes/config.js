@@ -203,6 +203,10 @@ export const ROUTE = {
       PATH: '/mmsx/job/:id/detail',
       TITLE: 'jobDetail',
     },
+    ASSIGN: {
+      PATH: '/mmsx/job/:id/assign',
+      TITLE: 'jobAssign',
+    },
   },
   MAINTAINANCE_PROGRESS: {
     LIST: {

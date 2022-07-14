@@ -47,6 +47,7 @@ import watchGetAllUserItDepartment from './maintenance-team/get-all-user-it-depa
 import watchGetDetailMaintenanceTeam from './maintenance-team/get-maintenance-team-detail'
 import watchGetMaintenanceTeams from './maintenance-team/get-maintenance-teams'
 import watchUpdateMaintenanceTeam from './maintenance-team/update-maintenance-team'
+import watchGetPlanList from './plan-list/get-plan-list'
 import watchConfirmSuppliesCategory from './supplies-category/confirm-supplies-category'
 import watchCreateSuppliesCategory from './supplies-category/create-supplies-category'
 import watchDeleteSuppliesCategory from './supplies-category/delete-supplies-category'
@@ -165,6 +166,8 @@ export default function* sagas() {
     //maintainance-progress
     watchGetReportProgress(),
 
+    //plan-list
+    watchGetPlanList(),
     // defect-list
     watchCreateDefect(),
     watchDeleteDefect(),

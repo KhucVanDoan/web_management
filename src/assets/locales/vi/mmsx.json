@@ -1652,16 +1652,14 @@
       }
     },
     "assign": {
-      "title": "Phân công công việc",
+      "smallTitle": "Thông tin người sử dụng",
       "responsibleUser": "Người chịu trách nhiệm",
-      "information": {
-        "factory": "Nhà máy",
-        "workshop": "Xưởng",
-        "usageUser": "Người sử dụng",
-        "address": "Địa chỉ",
-        "phone": "SĐT liên hệ",
-        "location": "Địa điểm"
-      },
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "usageUser": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ",
+      "location": "Địa điểm",
       "plan": "Kế hoạch",
       "placeholder": {
         "responsibleUser": "Chọn người chịu trách nhiệm",
