@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -40,6 +42,8 @@ function DefineBill() {
   const [tempItem, setTempItem] = useState()
   const [confirmModal, setConfirmModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
+
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -210,10 +214,6 @@ function DefineBill() {
     },
   ]
 
-  useEffect(() => {
-    refreshData()
-  }, [page, pageSize, sort, filters, keyword])
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -224,6 +224,14 @@ function DefineBill() {
     }
     actions.searchBills(params)
   }
+
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, sort, filters, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
 
   const handleDeleteOpenModal = (tempItem) => {
     setDeleteModal(true)
@@ -286,6 +294,8 @@ function DefineBill() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         filters={{
           form: <FilterForm />,
@@ -294,6 +304,22 @@ function DefineBill() {
           onApply: setFilters,
         }}
         sort={sort}
+        bulkActions={{
+          actions: [
+            BULK_ACTION.APPROVE,
+            BULK_ACTION.REJECT,
+            BULK_ACTION.DELETE,
+          ],
+          apiUrl: API_URL.BILL,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
       />
       <Dialog
         open={deleteModal}

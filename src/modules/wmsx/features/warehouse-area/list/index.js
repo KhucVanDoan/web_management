@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
@@ -34,6 +36,8 @@ const WarehouseArea = () => {
   } = useWarehouseArea()
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -163,6 +167,20 @@ const WarehouseArea = () => {
           values: filters,
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
+        }}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.WAREHOUSE_AREA,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       ></DataTable>
     </Page>

@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -12,6 +14,7 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import { TYPE_SALE_EXPORT } from '~/modules/database/constants'
 import useDefineCustomer from '~/modules/mesx/redux/hooks/useDefineCustomer'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -23,7 +26,6 @@ import {
 } from '../../redux/sagas/define-customer/import-export-customer'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
-
 const breadcrumbs = [
   {
     title: 'database',
@@ -211,22 +213,22 @@ function DefineCustomer() {
           onImport={(params) => {
             importCustomerApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportCustomerApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_SALE_EXPORT.CUSTOMER,
             })
-          }}
+          }
           onDownloadTemplate={getCustomerTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_CUSTOMER.CREATE.PATH)}
@@ -268,6 +270,18 @@ function DefineCustomer() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
           validationSchema: filterSchema(t),
+        }}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.CUSTOMER,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       />
       <Dialog

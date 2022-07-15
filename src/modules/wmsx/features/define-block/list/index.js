@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -33,6 +35,8 @@ const breadcrumbs = [
 function DefineBlock() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     data: { blockList, total, isLoading },
     actions,
@@ -141,6 +145,10 @@ function DefineBlock() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -199,6 +207,20 @@ function DefineBlock() {
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.BLOCK,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
       />
       <Dialog
         open={modal.isOpenDeleteModal}

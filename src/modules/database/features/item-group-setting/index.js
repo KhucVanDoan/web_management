@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -20,6 +22,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import { TYPE_ITEM_EXPORT } from '../../constants'
 import {
   exportItemGroupApi,
   getItemGroupTemplateApi,
@@ -192,22 +195,22 @@ const ItemGroupSetting = () => {
           onImport={(params) => {
             importItemGroupApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportItemGroupApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
+                selectedRows?.map((x) => ({ id: `${x?.id}` })),
               ),
               keyword: keyword.trim(),
               filter: convertFilterParams(filters, [
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_ITEM_EXPORT.ITEM_GROUP,
             })
-          }}
+          }
           onDownloadTemplate={getItemGroupTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ITEM_GROUP.CREATE.PATH)}
@@ -254,6 +257,18 @@ const ItemGroupSetting = () => {
             onApply: setFilters,
           }}
           sort={sort}
+          bulkActions={{
+            actions: [BULK_ACTION.DELETE],
+            apiUrl: API_URL.ITEM_GROUP,
+            onSuccess: () => {
+              if (page === 1) {
+                refreshData()
+              } else {
+                setPage(1)
+              }
+              setSelectedRows([])
+            },
+          }}
         />
         <Dialog
           open={deleteModal}

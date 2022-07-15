@@ -54,7 +54,7 @@ const JobQuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                       placeholder={t('job.createdAt')}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item lg={6} xs={12}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button
                         color="grayF4"

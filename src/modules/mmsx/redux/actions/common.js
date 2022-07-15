@@ -40,6 +40,25 @@ export const GET_ITEM_UNITS_START = 'MMSX_GET_ITEM_UNITS_START'
 export const GET_ITEM_UNITS_SUCCESS = 'MMSX_GET_ITEM_UNITS_SUCCESS'
 export const GET_ITEM_UNITS_FAILED = 'MMSX_GET_ITEM_UNITS_FAILED'
 
+export const GET_USING_DEVICE_ASSIGN_START =
+  'MMSX_GET_USING_DEVICE_ASSIGN_START'
+export const GET_USING_DEVICE_ASSIGN_SUCCESS =
+  'MMSX_GET_USING_DEVICE_ASSIGN_SUCCESS'
+export const GET_USING_DEVICE_ASSIGN_FAILED =
+  'MMSX_GET_USING_DEVICE_ASSIGN_FAILED'
+
+export const GET_USER_START = 'MMSX_GET_USER_START'
+export const GET_USER_SUCCESS = 'MMSX_GET_USER_SUCCESS'
+export const GET_USER_FAIL = 'MMSX_GET_USER_FAIL'
+
+export const GET_ALL_DEVICE_START = 'MMSX_GET_ALL_DEVICE_START'
+export const GET_ALL_DEVICE_SUCCESS = 'MMSX_GET_ALL_DEVICE_SUCCESS'
+export const GET_ALL_DEVICE_FAIL = 'MMSX_GET_ALL_DEVICE_FAIL'
+
+export const GET_ALL_WORK_CENTER_START = 'MMSX_GET_ALL_WORK_CENTER_START'
+export const GET_ALL_WORK_CENTER_SUCCESS = 'MMSX_GET_ALL_WORK_CENTER_SUCCESS'
+export const GET_ALL_WORK_CENTER_FAILED = 'MMSX_GET_ALL_WORK_CENTER_FAILED'
+
 /**
  * Get vendors
  * @param {object} payload
@@ -219,6 +238,98 @@ export function getResponsibleSubjectFailed() {
   }
 }
 
+/* Get Device-Asign has status = using */
+export function getUsingDeviceAssign(onSuccess, onError) {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_START,
+    // payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/* Action:Device-Asign has status = using*/
+export function getUsingDeviceAssignSuccess(payload) {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_SUCCESS,
+    payload: payload,
+  }
+}
+
+/* Action:Device-Asign has status = using */
+export function getUsingDeviceAssignFailed() {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_FAILED,
+  }
+}
+
+export function getUserList(payload, onSuccess, onError) {
+  return {
+    type: GET_USER_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+export function getUserListSuccess(payload) {
+  return {
+    type: GET_USER_SUCCESS,
+    payload,
+  }
+}
+export function getUserListFail() {
+  return {
+    type: GET_USER_FAIL,
+  }
+}
+
+export function getAllDevice(payload, onSuccess, onError) {
+  return {
+    type: GET_ALL_DEVICE_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getAllDeviceSuccess(payload) {
+  return {
+    type: GET_ALL_DEVICE_SUCCESS,
+    payload,
+  }
+}
+
+export function getAllDeviceFail() {
+  return {
+    type: GET_ALL_DEVICE_FAIL,
+  }
+}
+
+/* Get all work-center */
+export function getAllWorkCenter(onSuccess, onError) {
+  return {
+    type: GET_ALL_WORK_CENTER_START,
+    // payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/* Action: Get all work-center*/
+export function getAllWorkCenterSuccess(payload) {
+  return {
+    type: GET_ALL_WORK_CENTER_SUCCESS,
+    payload: payload,
+  }
+}
+
+/* Action: Get all work-center */
+export function getAllWorkCenterFailed() {
+  return {
+    type: GET_ALL_WORK_CENTER_FAILED,
+  }
+}
+
 /**
  * Get products
  * @param {object} payload
@@ -281,4 +392,16 @@ export default {
   getItemUnits,
   getItemUnitsSuccess,
   getItemUnitsFailed,
+  getUserList,
+  getUserListFail,
+  getUserListSuccess,
+  getAllDevice,
+  getAllDeviceFail,
+  getAllDeviceSuccess,
+  getAllWorkCenter,
+  getAllWorkCenterFailed,
+  getAllWorkCenterSuccess,
+  getUsingDeviceAssign,
+  getUsingDeviceAssignFailed,
+  getUsingDeviceAssignSuccess,
 }

@@ -2,14 +2,23 @@ import { all } from 'redux-saga/effects'
 
 import watchGetAttributeTypeList from './attribute-type/search-attribute-type-list'
 import watchGetAttributeMaintain from './common/get-all-attribute-maintain'
+import watchGetAllDevice from './common/get-all-device'
 import watchGetAllFactoryList from './common/get-all-factory-list'
 import watchGetAllItemUnit from './common/get-all-item-unit'
 import watchGetAllSuppliesConfirm from './common/get-all-supplies-confirm'
+import watchGetAllUser from './common/get-all-user'
+import watchGetAllWorkCenter from './common/get-all-work-center'
 import watchGetListMaintenanceTeam from './common/get-maintencance-list'
 import watchGetMo from './common/get-mo-list'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
+import watchGetUsingDeviceAssign from './common/get-using-devide-assign'
 import watchGetVendors from './common/get-vendors'
 import watchGetSummary from './dashboard'
+import watchCreateDefect from './defect-list/create-defect'
+import watchDeleteDefect from './defect-list/delete-defect'
+import watchGetDefect from './defect-list/get-defect'
+import watchSearchDefectList from './defect-list/search-defect-list'
+import watchUpdateDefect from './defect-list/update-defect'
 import watchConfirmDevice from './define-device/confirm-device-by-id'
 import watchCreateDevice from './define-device/create-device'
 import watchDeleteDevice from './define-device/delete-device-by-id'
@@ -42,6 +51,18 @@ import watchGetAllUserItDepartment from './maintenance-team/get-all-user-it-depa
 import watchGetDetailMaintenanceTeam from './maintenance-team/get-maintenance-team-detail'
 import watchGetMaintenanceTeams from './maintenance-team/get-maintenance-teams'
 import watchUpdateMaintenanceTeam from './maintenance-team/update-maintenance-team'
+import watchGetPlanList from './plan-list/get-plan-list'
+import watchChangeStatusRequestDevice from './request-device/change-status-request-device'
+import watchChangeStatusReturnDevice from './request-device/change-status-return-device'
+import watchCreateRequestDevice from './request-device/create-request-device'
+import watchCreateReturnDevice from './request-device/create-return-device'
+import watchDeleteRequestDevice from './request-device/delete-request-device'
+import watchDeleteReturnDevice from './request-device/delete-return-device'
+import watchGetRequestDeviceDetail from './request-device/get-request-device-detail'
+import watchGetReturnDeviceDetail from './request-device/get-return-device-detail'
+import watchSearchRequestDevice from './request-device/search-request-device'
+import watchUpdateRequestDeviceDetail from './request-device/update-request-device-detail'
+import watchUpdateReturnDeviceDetail from './request-device/update-return-device-detail'
 import watchConfirmSuppliesCategory from './supplies-category/confirm-supplies-category'
 import watchCreateSuppliesCategory from './supplies-category/create-supplies-category'
 import watchDeleteSuppliesCategory from './supplies-category/delete-supplies-category'
@@ -81,6 +102,10 @@ export default function* sagas() {
     watchGetMo(),
     watchGetResponsibleSubject(),
     watchGetAllItemUnit(),
+    watchGetAllDevice(),
+    watchGetAllUser(),
+    watchGetAllWorkCenter(),
+    watchGetUsingDeviceAssign(),
     // Dashboard
     watchGetSummary(),
     // Database
@@ -138,6 +163,19 @@ export default function* sagas() {
     watchConfirmSuppliesCategory(),
     watchGetAllConfirmSuppliesCategory(),
 
+    // request-device
+    watchChangeStatusRequestDevice(),
+    watchChangeStatusReturnDevice(),
+    watchCreateRequestDevice(),
+    watchCreateReturnDevice(),
+    watchDeleteRequestDevice(),
+    watchDeleteReturnDevice(),
+    watchGetRequestDeviceDetail(),
+    watchGetReturnDeviceDetail(),
+    watchSearchRequestDevice(),
+    watchUpdateRequestDeviceDetail(),
+    watchUpdateReturnDeviceDetail(),
+
     //template-checklist
     watchCreateTemplateChecklist(),
     watchDeleteTemplateChecklist(),
@@ -159,5 +197,14 @@ export default function* sagas() {
 
     //maintainance-progress
     watchGetReportProgress(),
+
+    //plan-list
+    watchGetPlanList(),
+    // defect-list
+    watchCreateDefect(),
+    watchDeleteDefect(),
+    watchGetDefect(),
+    watchSearchDefectList(),
+    watchUpdateDefect(),
   ])
 }

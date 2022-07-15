@@ -10,7 +10,7 @@ import {
   MMSX_SEARCH_DEVICE_START,
 } from '../../actions/define-device'
 
-const searchDeviceListApi = (params) => {
+export const searchDeviceListApi = (params) => {
   const url = `v1/mms/web/devices`
   return api.get(url, params)
 }

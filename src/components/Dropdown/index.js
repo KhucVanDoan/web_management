@@ -16,9 +16,11 @@ const Dropdown = ({
   ...props
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [minWidth, setMinWidth] = useState(0)
   const open = Boolean(anchorEl)
 
   const handleOpen = (event) => {
+    setMinWidth(event.target.offsetWidth)
     setAnchorEl(event.currentTarget)
   }
 
@@ -40,7 +42,7 @@ const Dropdown = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{ variant: 'caret' }}
+        PaperProps={{ variant: 'caret', sx: { minWidth } }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',

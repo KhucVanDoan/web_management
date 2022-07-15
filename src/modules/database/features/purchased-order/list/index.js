@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -58,6 +60,7 @@ function PurchasedOrder() {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     page,
@@ -253,6 +256,10 @@ function PurchasedOrder() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onSubmitDelete = () => {
     actions.deletePurchasedOrder(tempItem?.id, () => {
       refreshData()
@@ -318,6 +325,24 @@ function PurchasedOrder() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
           validationSchema: filterSchema(t),
+        }}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [
+            BULK_ACTION.APPROVE,
+            BULK_ACTION.REJECT,
+            BULK_ACTION.DELETE,
+          ],
+          apiUrl: API_URL.PURCHASED_ORDER,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       />
       <Dialog

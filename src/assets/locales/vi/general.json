@@ -219,5 +219,17 @@
     "database": "Cơ sở dữ liệu",
     "configuration": "Thiết lập",
     "other": "Giải pháp"
+  },
+  "bulkActions": {
+    "actions": "Thao tác",
+    "approve": "Xác nhận",
+    "reject": "Từ chối",
+    "delete": "Xoá",
+    "promptTitle1": "Thông báo",
+    "promptContent1": "Bạn có chắc chắn muốn xác nhận {{number}} bản ghi đã chọn không?",
+    "promptTitle2": "Thông báo",
+    "promptContent2": "Bạn có chắc chắn muốn từ chối {{number}} bản ghi đã chọn không?",
+    "promptTitle3": "Thông báo",
+    "promptContent3": "Bạn có chắc chắn muốn xoá {{number}} bản ghi đã chọn không?"
   }
 }

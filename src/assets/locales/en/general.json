@@ -205,5 +205,8 @@
     "database": "Master data",
     "configuration": "Configuration",
     "other": "Other"
+  },
+  "bulkActions": {
+    "actions": "Actions"
   }
 }

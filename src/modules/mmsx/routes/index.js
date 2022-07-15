@@ -1,5 +1,8 @@
 import Dashboard from '~/modules/mmsx/features/dashboard'
 
+import DefectList from '../features/defect-list'
+import DefectListDetail from '../features/defect-list/detail'
+import DefectListForm from '../features/defect-list/form'
 import DefineDeviceDetail from '../features/define-device/detail'
 import DefineDeviceForm from '../features/define-device/form'
 import DefineDevice from '../features/define-device/list'
@@ -12,6 +15,7 @@ import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import JobAssign from '../features/job/assign'
 import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
 import MaintainRequestDetail from '../features/maintain-request/detail'
@@ -20,6 +24,11 @@ import MaintainanceProgress from '../features/maintainance-progress/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
 import MaintenanceTeam from '../features/maintenance-team/list'
+import RequestDeviceDetail from '../features/request-device/detail'
+import RequestDeviceForm from '../features/request-device/form'
+import RequestDeviceList from '../features/request-device/list'
+import ReturnDeviceDetail from '../features/request-device/return-detail'
+import ReturnDeviceForm from '../features/request-device/return-form'
 import SuppliesCategoryDetail from '../features/supplies-category/detail'
 import SuppliesCategoryForm from '../features/supplies-category/form'
 import SuppliesCategory from '../features/supplies-category/list'
@@ -206,6 +215,50 @@ const routes = [
           },
         ],
       },
+      {
+        name: ROUTE.REQUEST_DEVICE.LIST.TITLE,
+        path: ROUTE.REQUEST_DEVICE.LIST.PATH,
+        component: RequestDeviceList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.REQUEST_DEVICE.CREATE.TITLE,
+            path: ROUTE.REQUEST_DEVICE.CREATE.PATH,
+            component: RequestDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.DETAIL.TITLE,
+            path: ROUTE.REQUEST_DEVICE.DETAIL.PATH,
+            component: RequestDeviceDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.EDIT.TITLE,
+            path: ROUTE.REQUEST_DEVICE.EDIT.PATH,
+            component: RequestDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_CREATE.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_CREATE.PATH,
+            component: ReturnDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_EDIT.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_EDIT.PATH,
+            component: ReturnDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_DETAIL.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_DETAIL.PATH,
+            component: ReturnDeviceDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
     ],
   },
   {
@@ -272,6 +325,12 @@ const routes = [
             component: JobDetail,
             isInSidebar: false,
           },
+          {
+            name: ROUTE.JOB.ASSIGN.TITLE,
+            path: ROUTE.JOB.ASSIGN.PATH,
+            component: JobAssign,
+            isInSidebar: false,
+          },
         ],
       },
     ],
@@ -319,6 +378,39 @@ const routes = [
         path: ROUTE.MAINTAINANCE_PROGRESS.LIST.PATH,
         component: MaintainanceProgress,
         isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFECT_LIST.LIST.TITLE,
+        path: ROUTE.DEFECT_LIST.LIST.PATH,
+        component: DefectList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFECT_LIST.CREATE.TITLE,
+            path: ROUTE.DEFECT_LIST.CREATE.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.DETAIL.TITLE,
+            path: ROUTE.DEFECT_LIST.DETAIL.PATH,
+            component: DefectListDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.EDIT.TITLE,
+            path: ROUTE.DEFECT_LIST.EDIT.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

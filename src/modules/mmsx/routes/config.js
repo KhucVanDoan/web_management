@@ -7,6 +7,39 @@ export const ROUTE = {
     PATH: '/wmsx/device-management',
     TITLE: 'deviceManagement',
   },
+  REQUEST_DEVICE: {
+    LIST: {
+      PATH: '/mmsx/request-device',
+      TITLE: 'requestDevice',
+    },
+    CREATE: {
+      PATH: '/mmsx/request-device/create',
+      TITLE: 'createRequestDevice',
+    },
+    DETAIL: {
+      PATH: '/mmsx/request-device/:id/detail',
+      TITLE: 'viewDetailRequestDevice',
+    },
+    EDIT: {
+      PATH: '/mmsx/request-device/:id/edit',
+      TITLE: 'updateRequestDevice',
+    },
+    RETURN_CREATE: {
+      PATH: '/mmsx/request-device/return/create',
+      TITLE: 'createReturnDevice',
+    },
+    RETURN_DETAIL: {
+      PATH: '/mmsx/request-device/return/:id/detail',
+      TITLE: 'viewDetailReturnDevice',
+    },
+    RETURN_EDIT: {
+      PATH: '/mmsx/request-device/return/:id/edit',
+      TITLE: 'updateReturnDevice',
+    },
+  },
+  SETTING: {
+    TITLE: 'setting',
+  },
   DEVICE_LIST: {
     LIST: {
       PATH: '/mmsx/device-list',
@@ -199,6 +232,34 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mmsx/job/:id/detail',
       TITLE: 'jobDetail',
+    },
+    ASSIGN: {
+      PATH: '/mmsx/job/:id/assign',
+      TITLE: 'jobAssign',
+    },
+  },
+  MAINTAINANCE_PROGRESS: {
+    LIST: {
+      PATH: '/mmsx/maintainance-progress',
+      TITLE: 'maintainanceProgress',
+    },
+  },
+  DEFECT_LIST: {
+    LIST: {
+      PATH: '/mmsx/defect-list',
+      TITLE: 'defectList',
+    },
+    CREATE: {
+      PATH: '/mmsx/defect-list/create',
+      TITLE: 'defectListCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/defect-list/:id/edit',
+      TITLE: 'defectListEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/defect-list/:id/detail',
+      TITLE: 'defectListDetail',
     },
   },
   MAINTAINANCE_PROGRESS: {
