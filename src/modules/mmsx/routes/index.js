@@ -24,6 +24,11 @@ import MaintainanceProgress from '../features/maintainance-progress/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
 import MaintenanceTeam from '../features/maintenance-team/list'
+import RequestDeviceDetail from '../features/request-device/detail'
+import RequestDeviceForm from '../features/request-device/form'
+import RequestDeviceList from '../features/request-device/list'
+import ReturnDeviceDetail from '../features/request-device/return-detail'
+import ReturnDeviceForm from '../features/request-device/return-form'
 import SuppliesCategoryDetail from '../features/supplies-category/detail'
 import SuppliesCategoryForm from '../features/supplies-category/form'
 import SuppliesCategory from '../features/supplies-category/list'
@@ -207,6 +212,50 @@ const routes = [
             name: ROUTE.DEVICE_LIST.EDIT.TITLE,
             path: ROUTE.DEVICE_LIST.EDIT.PATH,
             component: DefineDeviceForm,
+          },
+        ],
+      },
+      {
+        name: ROUTE.REQUEST_DEVICE.LIST.TITLE,
+        path: ROUTE.REQUEST_DEVICE.LIST.PATH,
+        component: RequestDeviceList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.REQUEST_DEVICE.CREATE.TITLE,
+            path: ROUTE.REQUEST_DEVICE.CREATE.PATH,
+            component: RequestDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.DETAIL.TITLE,
+            path: ROUTE.REQUEST_DEVICE.DETAIL.PATH,
+            component: RequestDeviceDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.EDIT.TITLE,
+            path: ROUTE.REQUEST_DEVICE.EDIT.PATH,
+            component: RequestDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_CREATE.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_CREATE.PATH,
+            component: ReturnDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_EDIT.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_EDIT.PATH,
+            component: ReturnDeviceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REQUEST_DEVICE.RETURN_DETAIL.TITLE,
+            path: ROUTE.REQUEST_DEVICE.RETURN_DETAIL.PATH,
+            component: ReturnDeviceDetail,
+            isInSidebar: false,
           },
         ],
       },
