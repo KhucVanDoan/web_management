@@ -9,6 +9,7 @@ import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
 import deviceCategory from './device-category'
+import deviceStatus from './device-status-report'
 import job from './job'
 import maintainRequest from './maintain-request'
 import maintainanceProgress from './maintainance-progress'
@@ -36,5 +37,6 @@ export default combineReducers({
   maintainanceProgress,
   planList,
   defectList,
+  deviceStatus,
   attributeMaintenance,
 })

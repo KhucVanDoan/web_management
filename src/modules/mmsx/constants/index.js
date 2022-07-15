@@ -745,3 +745,30 @@ export const JOB_STATUS_LIST = [
     color: 'completed',
   },
 ]
+export const DEVICE_ASSIGN_STATUS = [
+  {
+    id: 0,
+    text: 'deviceAssign.status.unuse',
+    color: 'pendding',
+  },
+  {
+    id: 1,
+    text: 'deviceAssign.status.inuse',
+    color: 'inProgress',
+  },
+  {
+    id: 2,
+    text: 'deviceAssign.status.inMaintaining',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'deviceAssign.status.inCrapping',
+    color: 'rejected',
+  },
+  {
+    id: 4,
+    text: 'deviceAssign.status.returned',
+    color: 'confirmed',
+  },
+]
