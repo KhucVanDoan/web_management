@@ -427,8 +427,7 @@ export const LOCATION_SETTING_TYPE_OPTION = [
 ]
 
 export const TRANSFER_STATUS = {
-  CREATED: 0,
-  PENDING: 1,
+  PENDING: 0,
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
@@ -448,10 +447,11 @@ export const TRANSFER_STATUS_MAP = {
   [TRANSFER_STATUS.REJECTED]: 'warehouseTransfer.transferStatus.rejected',
   [TRANSFER_STATUS.CONFIRMED]: 'warehouseTransfer.transferStatus.confirmed',
   [TRANSFER_STATUS.EXPORTING]: 'warehouseTransfer.transferStatus.exporting',
+  [TRANSFER_STATUS.EXPORTED]: 'warehouseTransfer.transferStatus.exported',
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {
-    id: 1,
+    id: 0,
     text: 'warehouseTransfer.transferStatus.pending',
     color: 'pending',
   },
@@ -474,6 +474,11 @@ export const TRANSFER_STATUS_OPTIONS = [
     id: 5,
     text: 'warehouseTransfer.transferStatus.exporting',
     color: 'exporting',
+  },
+  {
+    id: 10,
+    text: 'warehouseTransfer.transferStatus.exported',
+    color: 'exported',
   },
 ]
 
