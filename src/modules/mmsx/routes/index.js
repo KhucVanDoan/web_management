@@ -480,6 +480,39 @@ const routes = [
       },
     ],
   },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFECT_LIST.LIST.TITLE,
+        path: ROUTE.DEFECT_LIST.LIST.PATH,
+        component: DefectList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFECT_LIST.CREATE.TITLE,
+            path: ROUTE.DEFECT_LIST.CREATE.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.DETAIL.TITLE,
+            path: ROUTE.DEFECT_LIST.DETAIL.PATH,
+            component: DefectListDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFECT_LIST.EDIT.TITLE,
+            path: ROUTE.DEFECT_LIST.EDIT.PATH,
+            component: DefectListForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 export default routes
