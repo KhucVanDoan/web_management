@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import attributeMaintenance from './attribute-maintenance'
 import attributeType from './attribute-type'
 import commonManagement from './common'
 import dashboard from './dashboard'
@@ -35,4 +36,5 @@ export default combineReducers({
   maintainanceProgress,
   planList,
   defectList,
+  attributeMaintenance,
 })

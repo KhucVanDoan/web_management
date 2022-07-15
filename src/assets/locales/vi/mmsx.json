@@ -123,6 +123,9 @@
     "errorWarning": "Cảnh báo sự cố",
     "errorWarningForm": "Danh sách cảnh báo sự cố",
     "attributeMaintenance": "Định nghĩa thuộc tính bảo trì",
+    "attributeMaintenanceCreate": "Tạo thuộc tính bảo trì",
+    "attributeMaintenanceDetail": "Chi tiết thuộc tính bảo trì",
+    "attributeMaintenanceEdit": "Sửa thuộc tính bảo trì",
     "templateDefinition": "Định nghĩa mẫu phiếu",
     "templateInstall": "Định nghĩa mẫu phiếu lắp đặt",
     "templateInstallForm": "Danh sách mẫu phiếu lắp đặt",
@@ -1321,6 +1324,7 @@
   },
   "attributeMaintenance": {
     "title": "Danh sách thuộc tính bảo trì",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "table": {
       "code": "Mã thuộc tính",
       "name": "Tên thuộc tính",
