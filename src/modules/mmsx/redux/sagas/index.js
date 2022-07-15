@@ -77,6 +77,14 @@ import watchGetAllConfirmSuppliesCategory from './supplies-category/get-all-conf
 import watchGetSuppliesCategoryDetail from './supplies-category/get-supplies-category-detail'
 import watchSearchSuppliesCategory from './supplies-category/search-supplies-category'
 import watchUpdateSuppliesCategory from './supplies-category/update-supplies-category'
+import watchConfirmSuppliesRequest from './supplies-request/confirm-supplies-request'
+import watchCreateRequest from './supplies-request/create-request'
+import watchDeleteSuppliesRequest from './supplies-request/delete-supplies-request'
+import watchGetSuppliesRequestDetail from './supplies-request/get-supplies-request-detail'
+import watchGetJobListSupplies from './supplies-request/get-supplies-request-job-list'
+import watchGetSuppliesRequestList from './supplies-request/get-supplies-request-list'
+import watchRejectSuppliesRequest from './supplies-request/reject-supplies-request'
+import watchUpdateRequest from './supplies-request/update-request copy'
 import watchConfirmSupplies from './supplies/confirm-supplies'
 import watchCreateSupplies from './supplies/create-supplies'
 import watchDeleteSupplies from './supplies/delete-supplies'
@@ -213,6 +221,15 @@ export default function* sagas() {
     watchGetDefect(),
     watchSearchDefectList(),
     watchUpdateDefect(),
+    //supplies-request
+    watchConfirmSuppliesRequest(),
+    watchCreateRequest(),
+    watchGetJobListSupplies(),
+    watchDeleteSuppliesRequest(),
+    watchGetSuppliesRequestDetail(),
+    watchGetSuppliesRequestList(),
+    watchRejectSuppliesRequest(),
+    watchUpdateRequest(),
     //deveice-status-report
     watchGetDeviceStatistic(),
     watchGetDeviceStatus(),

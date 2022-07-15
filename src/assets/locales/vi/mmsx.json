@@ -173,7 +173,8 @@
     "suppliesRequestEdit": "Sửa yêu cầu vật tư phụ tùng",
     "deviceCategoryDetail": "Chi tiết nhóm thiết bị",
     "deviceCategoryCreate": "Tạo nhóm thiết bị",
-    "deviceCategoryEdit": "Sửa nhóm thiết bị"
+    "deviceCategoryEdit": "Sửa nhóm thiết bị",
+    "deviceSerialManagement": "Quản lý serial thiết bị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -1790,7 +1791,10 @@
         "materialType": "Loại",
         "materialUnit": "Đơn vị",
         "materialPrice": "Đơn giá",
-        "requireAmount": "Số lượng cần dùng"
+        "requireAmount": "Số lượng cần dùng",
+        "stockQuantity": "SL tồn kho",
+        "planQuantity": "SL đã kế hoạch",
+        "buyQuantity": "SL cần mua"
       },
       "placeholder": {
         "jobCode": "Chọn mã công việc",

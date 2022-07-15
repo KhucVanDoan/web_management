@@ -40,6 +40,10 @@ export const ROUTE = {
   SETTING: {
     TITLE: 'setting',
   },
+  DEVICE_SERIAL_MANAGEMENT: {
+    PATH: '/wmsx/device-serial-management',
+    TITLE: 'deviceSerialManagement',
+  },
   DEVICE_LIST: {
     LIST: {
       PATH: '/mmsx/device-list',
@@ -260,6 +264,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mmsx/defect-list/:id/detail',
       TITLE: 'defectListDetail',
+    },
+  },
+  SUPPLIES_REQUEST: {
+    LIST: {
+      PATH: '/mmsx/supplies-request',
+      TITLE: 'suppliesRequest',
+    },
+    CREATE: {
+      PATH: '/mmsx/supplies-request/create',
+      TITLE: 'suppliesRequestCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/supplies-request/:id/edit',
+      TITLE: 'suppliesRequestEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/supplies-request/:id/detail',
+      TITLE: 'suppliesRequestDetail',
     },
   },
   DEVICE_STATUS_REPORT: {

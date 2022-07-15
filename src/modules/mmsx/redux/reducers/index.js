@@ -17,6 +17,7 @@ import maintenanceTeam from './maintenance-team'
 import planList from './plan-list'
 import requestDevice from './request-device'
 import suppliesCategory from './supplies-category'
+import suppliesRequest from './supplies-request'
 import templateChecklist from './template-checklist'
 import warningSystem from './warning-system'
 export default combineReducers({
@@ -37,6 +38,7 @@ export default combineReducers({
   maintainanceProgress,
   planList,
   defectList,
+  suppliesRequest,
   deviceStatus,
   attributeMaintenance,
 })
