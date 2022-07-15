@@ -1,5 +1,8 @@
 import Dashboard from '~/modules/mmsx/features/dashboard'
 
+import AttributeMaintenance from '../features/attribute-maintenance'
+import AttributeMaintenanceDetail from '../features/attribute-maintenance/detail'
+import AttributeMaintenanceForm from '../features/attribute-maintenance/form'
 import DefectList from '../features/defect-list'
 import DefectListDetail from '../features/defect-list/detail'
 import DefectListForm from '../features/defect-list/form'
@@ -408,6 +411,32 @@ const routes = [
             name: ROUTE.DEFECT_LIST.EDIT.TITLE,
             path: ROUTE.DEFECT_LIST.EDIT.PATH,
             component: DefectListForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.ATTRIBUTE_MAINTENANCE.LIST.TITLE,
+        path: ROUTE.ATTRIBUTE_MAINTENANCE.LIST.PATH,
+        component: AttributeMaintenance,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ATTRIBUTE_MAINTENANCE.CREATE.TITLE,
+            path: ROUTE.ATTRIBUTE_MAINTENANCE.CREATE.PATH,
+            component: AttributeMaintenanceForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ATTRIBUTE_MAINTENANCE.DETAIL.TITLE,
+            path: ROUTE.ATTRIBUTE_MAINTENANCE.DETAIL.PATH,
+            component: AttributeMaintenanceDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.TITLE,
+            path: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.PATH,
+            component: AttributeMaintenanceForm,
             isInSidebar: false,
           },
         ],

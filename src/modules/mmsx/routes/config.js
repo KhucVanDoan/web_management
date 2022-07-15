@@ -262,10 +262,22 @@ export const ROUTE = {
       TITLE: 'defectListDetail',
     },
   },
-  MAINTAINANCE_PROGRESS: {
+  ATTRIBUTE_MAINTENANCE: {
     LIST: {
-      PATH: '/mmsx/maintainance-progress',
-      TITLE: 'maintainanceProgress',
+      PATH: '/mmsx/attribute-maintenance',
+      TITLE: 'attributeMaintenance',
+    },
+    CREATE: {
+      PATH: '/mmsx/attribute-maintenance/create',
+      TITLE: 'attributeMaintenanceCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/attribute-maintenance/:id/edit',
+      TITLE: 'attributeMaintenanceEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/attribute-maintenance/:id/detail',
+      TITLE: 'attributeMaintenanceDetail',
     },
   },
 }

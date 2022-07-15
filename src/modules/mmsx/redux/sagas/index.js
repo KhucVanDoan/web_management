@@ -1,5 +1,10 @@
 import { all } from 'redux-saga/effects'
 
+import watchCreateAtributeMaintenance from './attribute-maintain/create-attribute-maintain'
+import watchDeleteAttributeMaintenance from './attribute-maintain/delete-attribute-maintain'
+import watchGetDetailAttributeMaintenance from './attribute-maintain/get-attribute-maintain'
+import watchSearchAttributeMaintenance from './attribute-maintain/search-attribute-maintain'
+import watchUpdateAttributeMaintenance from './attribute-maintain/update-attribute-maintain'
 import watchGetAttributeTypeList from './attribute-type/search-attribute-type-list'
 import watchGetAttributeMaintain from './common/get-all-attribute-maintain'
 import watchGetAllDevice from './common/get-all-device'
@@ -206,5 +211,12 @@ export default function* sagas() {
     watchGetDefect(),
     watchSearchDefectList(),
     watchUpdateDefect(),
+
+    // attribute maintenance
+    watchCreateAtributeMaintenance(),
+    watchDeleteAttributeMaintenance(),
+    watchGetDetailAttributeMaintenance(),
+    watchSearchAttributeMaintenance(),
+    watchUpdateAttributeMaintenance(),
   ])
 }
