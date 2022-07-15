@@ -104,6 +104,12 @@
     "deviceAssignEdit": "Sửa phân công thiết bị",
     "deviceReassign": "Phân công lại thiết bị",
     "requestDevice": "Yêu cầu thiết bị",
+    "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
+    "createReturnDevice": "Tạo yêu cầu trả thiết bị",
+    "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
+    "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
+    "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
+    "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
     "maintenance": "Bảo trì",
     "maintainRequest": "Yêu cầu bảo trì người dùng",
     "maintainRequestForm": "Danh sách yêu cầu bảo trì",
@@ -1075,12 +1081,13 @@
   },
   "requestDevice": {
     "title": "Danh sách yêu cầu thiết bị",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "form": {
       "title": "Yêu cầu thiết bị",
       "status": "Trạng thái",
       "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
       "createReturnDevice": "Tạo yêu cầu trả thiết bị",
-      "viewDetailRequestDevice": "Chi tiết yêu cầu câp thiết bị",
+      "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
       "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
       "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
       "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
@@ -1188,7 +1195,6 @@
       "approvalSuccessed": "Phê duyệt yêu cầu bảo trì thành công",
       "reDoSuccessed": "Làm lại yêu cầu bảo trì thành công"
     },
-
     "smallTitle": "Thông tin người sử dụng",
     "responsibleUser": "Người chịu trách nhiệm",
     "deviceButton": "Thiết bị",

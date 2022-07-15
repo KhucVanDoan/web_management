@@ -7,6 +7,36 @@ export const ROUTE = {
     PATH: '/wmsx/device-management',
     TITLE: 'deviceManagement',
   },
+  REQUEST_DEVICE: {
+    LIST: {
+      PATH: '/mmsx/request-device',
+      TITLE: 'requestDevice',
+    },
+    CREATE: {
+      PATH: '/mmsx/request-device/create',
+      TITLE: 'createRequestDevice',
+    },
+    DETAIL: {
+      PATH: '/mmsx/request-device/:id/detail',
+      TITLE: 'viewDetailRequestDevice',
+    },
+    EDIT: {
+      PATH: '/mmsx/request-device/:id/edit',
+      TITLE: 'updateRequestDevice',
+    },
+    RETURN_CREATE: {
+      PATH: '/mmsx/request-device/return/create',
+      TITLE: 'createReturnDevice',
+    },
+    RETURN_DETAIL: {
+      PATH: '/mmsx/request-device/return/:id/detail',
+      TITLE: 'viewDetailReturnDevice',
+    },
+    RETURN_EDIT: {
+      PATH: '/mmsx/request-device/return/:id/edit',
+      TITLE: 'updateReturnDevice',
+    },
+  },
   SETTING: {
     TITLE: 'setting',
   },
