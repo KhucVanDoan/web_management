@@ -41,6 +41,8 @@ import watchGetAllConfirmDeviceCategory from './device-category/get-all-confirm-
 import watchGetDetailDeviceCategory from './device-category/get-device-category'
 import watchSearchDeviceCategory from './device-category/search-device-category'
 import watchUpdateDeviceCategory from './device-category/update-device-category'
+import watchGetDeviceStatistic from './device-status-report/get-device-statistic'
+import watchGetDeviceStatus from './device-status-report/get-device-status'
 import watchGetjobDetail from './job/job-detail'
 import watchGetJobList from './job/job-list'
 import watchSearchJobList from './job/search-job'
@@ -211,6 +213,9 @@ export default function* sagas() {
     watchGetDefect(),
     watchSearchDefectList(),
     watchUpdateDefect(),
+    //deveice-status-report
+    watchGetDeviceStatistic(),
+    watchGetDeviceStatus(),
 
     // attribute maintenance
     watchCreateAtributeMaintenance(),

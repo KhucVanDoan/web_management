@@ -18,6 +18,7 @@ import DefineSupplies from '../features/define-supplies/list'
 import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
+import DeviceStatusReport from '../features/device-status-report'
 import JobAssign from '../features/job/assign'
 import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
@@ -380,6 +381,12 @@ const routes = [
         name: ROUTE.MAINTAINANCE_PROGRESS.LIST.TITLE,
         path: ROUTE.MAINTAINANCE_PROGRESS.LIST.PATH,
         component: MaintainanceProgress,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.DEVICE_STATUS_REPORT.LIST.TITLE,
+        path: ROUTE.DEVICE_STATUS_REPORT.LIST.PATH,
+        component: DeviceStatusReport,
         isInSidebar: true,
       },
     ],

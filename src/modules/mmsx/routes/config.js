@@ -262,6 +262,12 @@ export const ROUTE = {
       TITLE: 'defectListDetail',
     },
   },
+  DEVICE_STATUS_REPORT: {
+    LIST: {
+      PATH: '/mmsx/device-status-report',
+      TITLE: 'deviceStatusReport',
+    },
+  },
   ATTRIBUTE_MAINTENANCE: {
     LIST: {
       PATH: '/mmsx/attribute-maintenance',
