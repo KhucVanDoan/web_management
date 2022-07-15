@@ -123,6 +123,9 @@
     "errorWarning": "Cảnh báo sự cố",
     "errorWarningForm": "Danh sách cảnh báo sự cố",
     "attributeMaintenance": "Định nghĩa thuộc tính bảo trì",
+    "attributeMaintenanceCreate": "Tạo thuộc tính bảo trì",
+    "attributeMaintenanceDetail": "Chi tiết thuộc tính bảo trì",
+    "attributeMaintenanceEdit": "Sửa thuộc tính bảo trì",
     "templateDefinition": "Định nghĩa mẫu phiếu",
     "templateInstall": "Định nghĩa mẫu phiếu lắp đặt",
     "templateInstallForm": "Danh sách mẫu phiếu lắp đặt",
@@ -170,7 +173,8 @@
     "suppliesRequestEdit": "Sửa yêu cầu vật tư phụ tùng",
     "deviceCategoryDetail": "Chi tiết nhóm thiết bị",
     "deviceCategoryCreate": "Tạo nhóm thiết bị",
-    "deviceCategoryEdit": "Sửa nhóm thiết bị"
+    "deviceCategoryEdit": "Sửa nhóm thiết bị",
+    "deviceSerialManagement": "Quản lý serial thiết bị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -1321,6 +1325,7 @@
   },
   "attributeMaintenance": {
     "title": "Danh sách thuộc tính bảo trì",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "table": {
       "code": "Mã thuộc tính",
       "name": "Tên thuộc tính",
@@ -1786,7 +1791,10 @@
         "materialType": "Loại",
         "materialUnit": "Đơn vị",
         "materialPrice": "Đơn giá",
-        "requireAmount": "Số lượng cần dùng"
+        "requireAmount": "Số lượng cần dùng",
+        "stockQuantity": "SL tồn kho",
+        "planQuantity": "SL đã kế hoạch",
+        "buyQuantity": "SL cần mua"
       },
       "placeholder": {
         "jobCode": "Chọn mã công việc",

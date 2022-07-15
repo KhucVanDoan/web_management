@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+import attributeMaintenance from './attribute-maintenance'
 import attributeType from './attribute-type'
 import commonManagement from './common'
 import dashboard from './dashboard'
@@ -8,6 +9,7 @@ import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
 import deviceCategory from './device-category'
+import deviceStatus from './device-status-report'
 import job from './job'
 import maintainRequest from './maintain-request'
 import maintainanceProgress from './maintainance-progress'
@@ -15,6 +17,7 @@ import maintenanceTeam from './maintenance-team'
 import planList from './plan-list'
 import requestDevice from './request-device'
 import suppliesCategory from './supplies-category'
+import suppliesRequest from './supplies-request'
 import templateChecklist from './template-checklist'
 import warningSystem from './warning-system'
 export default combineReducers({
@@ -35,4 +38,7 @@ export default combineReducers({
   maintainanceProgress,
   planList,
   defectList,
+  suppliesRequest,
+  deviceStatus,
+  attributeMaintenance,
 })
