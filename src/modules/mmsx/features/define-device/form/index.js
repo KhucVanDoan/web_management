@@ -133,7 +133,7 @@ const DefineDeviceForm = () => {
               mttaIndex: '',
               mttfIndex: '',
               mttrIndex: '',
-              disableMttf: '',
+              disableMttf: false,
               maintenancePeriod: '',
             },
       ],
@@ -188,7 +188,6 @@ const DefineDeviceForm = () => {
   const onSubmit = (values) => {
     const id = params?.id
     let subject = null
-
     if (values?.responsibleUser) {
       const findUser = responsibleSubject?.responsibleUsers?.find(
         (e) => e.id === values?.responsibleUser,
@@ -215,6 +214,8 @@ const DefineDeviceForm = () => {
             }
           return {
             ...item,
+            supplyId: item?.supply?.id,
+            type: item?.supply?.type,
             mttfIndex: '',
           }
         })
@@ -253,7 +254,10 @@ const DefineDeviceForm = () => {
       id,
       accessoriesMaintenanceInformation,
       //Danh sách vật tư phụ tùng
-      suppliesAndAccessories: values?.items,
+      suppliesAndAccessories: values?.items?.map((item) => ({
+        ...item,
+        canRepair: item?.disableMttf,
+      })),
 
       //Người chịu trách nhiệm
       responsibleSubject: {
@@ -694,6 +698,7 @@ const DefineDeviceForm = () => {
                             : []
                         }
                         mode={mode}
+                        deviceDetail={deviceDetail}
                       />
                     </Box>
                   </Tabs>

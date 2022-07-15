@@ -150,7 +150,6 @@ const MaintainTable = ({
       align: 'center',
       renderCell: (params, index) => {
         const mttrIndex = params?.row?.mttrIndex
-
         return isView ? (
           mttrIndex ? (
             `${mttrIndex} ${t('common.suffix.minute')}`
@@ -276,6 +275,7 @@ const MaintainTable = ({
             }}
             type="number"
             allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+            disabled={params?.row?.disableMttf || false}
             required
           />
         )
