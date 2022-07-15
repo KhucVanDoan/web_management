@@ -12,7 +12,7 @@ const { call, put, takeLatest } = require('redux-saga/effects')
 
 const updateDefectApi = (params) => {
   const url = `v1/mms/defects/${params.id}`
-  return api.put(url, params.body)
+  return api.put(url, params)
 }
 
 function* doUpdateDefect(action) {

@@ -1,5 +1,10 @@
 import { all } from 'redux-saga/effects'
 
+import watchCreateAtributeMaintenance from './attribute-maintain/create-attribute-maintain'
+import watchDeleteAttributeMaintenance from './attribute-maintain/delete-attribute-maintain'
+import watchGetDetailAttributeMaintenance from './attribute-maintain/get-attribute-maintain'
+import watchSearchAttributeMaintenance from './attribute-maintain/search-attribute-maintain'
+import watchUpdateAttributeMaintenance from './attribute-maintain/update-attribute-maintain'
 import watchGetAttributeTypeList from './attribute-type/search-attribute-type-list'
 import watchGetAttributeMaintain from './common/get-all-attribute-maintain'
 import watchGetAllDevice from './common/get-all-device'
@@ -36,6 +41,8 @@ import watchGetAllConfirmDeviceCategory from './device-category/get-all-confirm-
 import watchGetDetailDeviceCategory from './device-category/get-device-category'
 import watchSearchDeviceCategory from './device-category/search-device-category'
 import watchUpdateDeviceCategory from './device-category/update-device-category'
+import watchGetDeviceStatistic from './device-status-report/get-device-statistic'
+import watchGetDeviceStatus from './device-status-report/get-device-status'
 import watchGetjobDetail from './job/job-detail'
 import watchGetJobList from './job/job-list'
 import watchSearchJobList from './job/search-job'
@@ -70,6 +77,14 @@ import watchGetAllConfirmSuppliesCategory from './supplies-category/get-all-conf
 import watchGetSuppliesCategoryDetail from './supplies-category/get-supplies-category-detail'
 import watchSearchSuppliesCategory from './supplies-category/search-supplies-category'
 import watchUpdateSuppliesCategory from './supplies-category/update-supplies-category'
+import watchConfirmSuppliesRequest from './supplies-request/confirm-supplies-request'
+import watchCreateRequest from './supplies-request/create-request'
+import watchDeleteSuppliesRequest from './supplies-request/delete-supplies-request'
+import watchGetSuppliesRequestDetail from './supplies-request/get-supplies-request-detail'
+import watchGetJobListSupplies from './supplies-request/get-supplies-request-job-list'
+import watchGetSuppliesRequestList from './supplies-request/get-supplies-request-list'
+import watchRejectSuppliesRequest from './supplies-request/reject-supplies-request'
+import watchUpdateRequest from './supplies-request/update-request copy'
 import watchConfirmSupplies from './supplies/confirm-supplies'
 import watchCreateSupplies from './supplies/create-supplies'
 import watchDeleteSupplies from './supplies/delete-supplies'
@@ -206,5 +221,24 @@ export default function* sagas() {
     watchGetDefect(),
     watchSearchDefectList(),
     watchUpdateDefect(),
+    //supplies-request
+    watchConfirmSuppliesRequest(),
+    watchCreateRequest(),
+    watchGetJobListSupplies(),
+    watchDeleteSuppliesRequest(),
+    watchGetSuppliesRequestDetail(),
+    watchGetSuppliesRequestList(),
+    watchRejectSuppliesRequest(),
+    watchUpdateRequest(),
+    //deveice-status-report
+    watchGetDeviceStatistic(),
+    watchGetDeviceStatus(),
+
+    // attribute maintenance
+    watchCreateAtributeMaintenance(),
+    watchDeleteAttributeMaintenance(),
+    watchGetDetailAttributeMaintenance(),
+    watchSearchAttributeMaintenance(),
+    watchUpdateAttributeMaintenance(),
   ])
 }
