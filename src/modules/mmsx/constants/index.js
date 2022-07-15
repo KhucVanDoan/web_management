@@ -745,6 +745,31 @@ export const JOB_STATUS_LIST = [
     color: 'completed',
   },
 ]
+export const SUPPLY_REQUEST_TYPE = [
+  { value: 1, text: 'suppliesRequest.type.returnRequest' },
+  { value: 2, text: 'suppliesRequest.type.request' },
+]
+export const SUPPLY_REQUEST_STATUS = [
+  {
+    id: 0,
+    text: 'suppliesRequest.status.waitingConfirm',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'suppliesRequest.status.waitingExport',
+    color: 'waitingExport',
+  },
+  { id: 2, text: 'suppliesRequest.status.completed', color: 'completed' },
+  { id: 3, text: 'suppliesRequest.status.rejected', color: 'rejected' },
+]
+
+export const SUPPLIES_REQUEST_STATUS = {
+  PENDING: 0,
+  WATTINGEXPORT: 1,
+  CONPLETED: 2,
+  REJECTED: 3,
+}
 export const DEVICE_ASSIGN_STATUS = [
   {
     id: 0,

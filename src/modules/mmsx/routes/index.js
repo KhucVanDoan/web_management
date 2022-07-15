@@ -36,6 +36,9 @@ import ReturnDeviceForm from '../features/request-device/return-form'
 import SuppliesCategoryDetail from '../features/supplies-category/detail'
 import SuppliesCategoryForm from '../features/supplies-category/form'
 import SuppliesCategory from '../features/supplies-category/list'
+import SuppliesRequestDetail from '../features/supplies-request/detail'
+import SuppliesRequestForm from '../features/supplies-request/form'
+import SuppliesRequest from '../features/supplies-request/list'
 import TemplateChecklistDetail from '../features/template-checklist/detail'
 import TemplateChecklistForm from '../features/template-checklist/form'
 import TemplateChecklist from '../features/template-checklist/list'
@@ -263,6 +266,32 @@ const routes = [
           },
         ],
       },
+      {
+        name: ROUTE.DEFINE_SUPPLIES.LIST.TITLE,
+        path: ROUTE.DEFINE_SUPPLIES.LIST.PATH,
+        component: DefineSupplies,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_SUPPLIES.CREATE.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.CREATE.PATH,
+            component: DefineSuppliesForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_SUPPLIES.DETAIL.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.DETAIL.PATH,
+            component: DefineSuppliesDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_SUPPLIES.EDIT.TITLE,
+            path: ROUTE.DEFINE_SUPPLIES.EDIT.PATH,
+            component: DefineSuppliesForm,
+            isInSidebar: false,
+          },
+        ],
+      },
     ],
   },
   {
@@ -339,39 +368,7 @@ const routes = [
       },
     ],
   },
-  {
-    name: ROUTE.DEVICE_MANAGEMENT.TITLE,
-    icon: 'plan',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.DEFINE_SUPPLIES.LIST.TITLE,
-        path: ROUTE.DEFINE_SUPPLIES.LIST.PATH,
-        component: DefineSupplies,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_SUPPLIES.CREATE.TITLE,
-            path: ROUTE.DEFINE_SUPPLIES.CREATE.PATH,
-            component: DefineSuppliesForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_SUPPLIES.DETAIL.TITLE,
-            path: ROUTE.DEFINE_SUPPLIES.DETAIL.PATH,
-            component: DefineSuppliesDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_SUPPLIES.EDIT.TITLE,
-            path: ROUTE.DEFINE_SUPPLIES.EDIT.PATH,
-            component: DefineSuppliesForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-    ],
-  },
+
   {
     name: ROUTE.REPORT.TITLE,
     icon: 'plan',
@@ -444,6 +441,39 @@ const routes = [
             name: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.TITLE,
             path: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.PATH,
             component: AttributeMaintenanceForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.DEVICE_SERIAL_MANAGEMENT.TITLE,
+    icon: 'plan',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.SUPPLIES_REQUEST.LIST.TITLE,
+        path: ROUTE.SUPPLIES_REQUEST.LIST.PATH,
+        component: SuppliesRequest,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.SUPPLIES_REQUEST.CREATE.TITLE,
+            path: ROUTE.SUPPLIES_REQUEST.CREATE.PATH,
+            component: SuppliesRequestForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SUPPLIES_REQUEST.DETAIL.TITLE,
+            path: ROUTE.SUPPLIES_REQUEST.DETAIL.PATH,
+            component: SuppliesRequestDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SUPPLIES_REQUEST.EDIT.TITLE,
+            path: ROUTE.SUPPLIES_REQUEST.EDIT.PATH,
+            component: SuppliesRequestForm,
             isInSidebar: false,
           },
         ],
