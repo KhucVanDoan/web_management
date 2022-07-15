@@ -262,4 +262,10 @@ export const ROUTE = {
       TITLE: 'defectListDetail',
     },
   },
+  MAINTAINANCE_PROGRESS: {
+    LIST: {
+      PATH: '/mmsx/maintainance-progress',
+      TITLE: 'maintainanceProgress',
+    },
+  },
 }
