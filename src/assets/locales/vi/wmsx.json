@@ -991,7 +991,8 @@
       "completed": "Hoàn thành",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận",
-      "exporting": "Đang thực hiện"
+      "exporting": "Đang thực hiện",
+      "exported": "Đã xuất hàng"
     },
     "isOneStep": "Có xuất kho 1 bước không ",
     "createButton": "Tạo lệnh chuyển kho",

@@ -379,6 +379,226 @@ export const PRIORITY_LEVEL_OPTIONS = [
   },
 ]
 
+//Request common
+export const DEVICE_REQUEST_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.status.awaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingAssigment',
+    id: 3,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.assigned',
+    id: 4,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.awaitingReturn',
+    id: 5,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.returned',
+    id: 6,
+    color: 'received',
+  },
+  {
+    text: 'requestDevice.status.confirmed',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 7,
+    color: 'rejected',
+  },
+  {
+    text: 'requestDevice.status.waittingExport',
+    id: 8,
+    color: 'exporting',
+  },
+  {
+    text: 'requestDevice.status.installed',
+    id: 9,
+    color: 'rejected',
+  },
+]
+
+export const DEVICE_REQUEST_LIST_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  CONFIRMED: 2,
+  AWAITINGASSIGNMENT: 3,
+  ASSIGNED: 4,
+  AWAITINGRETURN: 5,
+  RETURNED: 6,
+  REJECTED: 7,
+  WAITTINGEXPORT: 8,
+  INSTALLED: 9,
+}
+
+export const DEVICE_REQUEST_LIST_STATUS_MAP = {
+  [DEVICE_REQUEST_LIST_STATUS.PENDING]: 'pending',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGITCONFIRMATION]: 'awaitingITConfirmation',
+  [DEVICE_REQUEST_LIST_STATUS.CONFIRMED]: 'confirmed',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGASSIGNMENT]: 'awaitingAssigment',
+  [DEVICE_REQUEST_LIST_STATUS.ASSIGNED]: 'assigned',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGRETURN]: 'awaitingReturn',
+  [DEVICE_REQUEST_LIST_STATUS.RETURNED]: 'returned',
+  [DEVICE_REQUEST_LIST_STATUS.REJECTED]: 'rejected',
+  [DEVICE_REQUEST_LIST_STATUS.WAITTINGEXPORT]: 'waittingExport',
+  [DEVICE_REQUEST_LIST_STATUS.INSTALLED]: 'installed',
+}
+
+export const DEVICE_REQUEST_TICKET_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.statusawaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingAssigment',
+    id: 2,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.assigned',
+    id: 3,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.confirmed',
+    id: 4,
+    color: 'confirmed',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 5,
+    color: 'rejected',
+  },
+  {
+    text: 'requestDevice.status.waittingExport',
+    id: 6,
+    color: 'confirmed',
+  },
+]
+
+export const DEVICE_REQUEST_TICKET_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  AWAITINGASSIGNMENT: 2,
+  ASSIGNED: 3,
+  CONFIRMED: 4,
+  REJECTED: 5,
+  WAITTINGEXPORT: 6,
+}
+
+export const DEVICE_REQUEST_TICKET_STATUS_MAP = {
+  [DEVICE_REQUEST_TICKET_STATUS.PENDING]: 'pending',
+  [DEVICE_REQUEST_TICKET_STATUS.AWAITINGITCONFIRMATION]:
+    'awaitingITConfirmation',
+  [DEVICE_REQUEST_TICKET_STATUS.AWAITINGASSIGNMENT]: 'awaitingAssigment',
+  [DEVICE_REQUEST_TICKET_STATUS.ASSIGNED]: 'assigned',
+  [DEVICE_REQUEST_TICKET_STATUS.CONFIRMED]: 'confirmed',
+  [DEVICE_REQUEST_TICKET_STATUS.REJECTED]: 'rejected',
+  [DEVICE_REQUEST_TICKET_STATUS.WAITTINGEXPORT]: 'waittingExport',
+}
+
+//Here return
+
+export const DEVICE_RETURN_TICKET_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.status.awaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingReturn',
+    id: 2,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.returned',
+    id: 3,
+    color: 'returned',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 4,
+    color: 'rejected',
+  },
+]
+
+export const DEVICE_RETURN_TICKET_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  AWAITINGRETURN: 2,
+  RETURNED: 3,
+  REJECTED: 4,
+}
+
+export const DEVICE_RETURN_TICKET_STATUS_MAP = {
+  [DEVICE_RETURN_TICKET_STATUS.PENDING]: 'pending',
+  [DEVICE_RETURN_TICKET_STATUS.AWAITINGITCONFIRMATION]:
+    'awaitingITConfirmation',
+  [DEVICE_RETURN_TICKET_STATUS.AWAITINGRETURN]: 'awaitingReturn',
+  [DEVICE_RETURN_TICKET_STATUS.RETURNED]: 'returned',
+  [DEVICE_RETURN_TICKET_STATUS.REJECTED]: 'rejected',
+}
+
+//Request-device
+export const TYPE_REQUEST = {
+  REQUEST: 0,
+  RETURN: 1,
+}
+
+export const TYPE_REQUEST_MAP = {
+  [TYPE_REQUEST.REQUEST]: 'request',
+  [TYPE_REQUEST.RETURN]: 'return',
+}
+
+export const TYPE_REQUEST_OPTION = [
+  {
+    text: 'requestDevice.request',
+    id: 0,
+  },
+  {
+    text: 'requestDevice.return',
+    id: 1,
+  },
+]
+
+export const REQUEST_DEVICE_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  REJECTED: 2,
+}
+
+export const REQUEST_DEVICE_STATUS_MAP = {
+  [REQUEST_DEVICE_STATUS.PENDING]: 'pending',
+  [REQUEST_DEVICE_STATUS.CONFIRMED]: 'confirmed',
+  [REQUEST_DEVICE_STATUS.REJECTED]: 'rejected',
+}
+
 export const MAINTAIN_STATUS = {
   PENDING: 1,
   CONFIRMED1: 2,

@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -40,6 +42,8 @@ const DefineTypeService = () => {
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
   })
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     page,
     pageSize,
@@ -133,6 +137,10 @@ const DefineTypeService = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -210,6 +218,20 @@ const DefineTypeService = () => {
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.APPROVE, BULK_ACTION.DELETE],
+          apiUrl: API_URL.TYPE_SERVICE,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
       />
       <Dialog
         open={modal.isOpenDeleteModal}

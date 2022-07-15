@@ -104,6 +104,12 @@
     "deviceAssignEdit": "Sửa phân công thiết bị",
     "deviceReassign": "Phân công lại thiết bị",
     "requestDevice": "Yêu cầu thiết bị",
+    "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
+    "createReturnDevice": "Tạo yêu cầu trả thiết bị",
+    "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
+    "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
+    "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
+    "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
     "maintenance": "Bảo trì",
     "maintainRequest": "Yêu cầu bảo trì người dùng",
     "maintainRequestForm": "Danh sách yêu cầu bảo trì",
@@ -111,6 +117,9 @@
     "checkSheet": "Định nghĩa phiếu kiểm tra",
     "checkSheetForm": "Danh sách phiếu kiểm tra",
     "defectList": "Định nghĩa lỗi",
+    "defectListDetail": "Chi tiết thông tin lỗi",
+    "defectListCreate": "Tạo thông tin lỗi",
+    "defectListEdit": "Sửa thông tin lỗi",
     "errorWarning": "Cảnh báo sự cố",
     "errorWarningForm": "Danh sách cảnh báo sự cố",
     "attributeMaintenance": "Định nghĩa thuộc tính bảo trì",
@@ -1072,12 +1081,13 @@
   },
   "requestDevice": {
     "title": "Danh sách yêu cầu thiết bị",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "form": {
       "title": "Yêu cầu thiết bị",
       "status": "Trạng thái",
       "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
       "createReturnDevice": "Tạo yêu cầu trả thiết bị",
-      "viewDetailRequestDevice": "Chi tiết yêu cầu câp thiết bị",
+      "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
       "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
       "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
       "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
@@ -1185,7 +1195,6 @@
       "approvalSuccessed": "Phê duyệt yêu cầu bảo trì thành công",
       "reDoSuccessed": "Làm lại yêu cầu bảo trì thành công"
     },
-
     "smallTitle": "Thông tin người sử dụng",
     "responsibleUser": "Người chịu trách nhiệm",
     "deviceButton": "Thiết bị",
@@ -1236,13 +1245,14 @@
   },
   "defectList": {
     "title": "Danh sách lỗi",
+    "searchPlaceholder": "Tìm kiếm thông tin",
     "form": {
       "create": "Tạo thông tin lỗi",
       "update": "Sửa thông tin lỗi",
       "viewDetail": "Chi tiết thông tin lỗi",
       "code": "Mã lỗi",
       "name": "Tên lỗi",
-      "description": "Miêu tả lỗi",
+      "description": "Mô tả lỗi",
       "deviceName": "Tên thiết bị",
       "deviceCode": "Mã thiết bị",
       "priority": "Mức ưu tiên"
@@ -1648,16 +1658,14 @@
       }
     },
     "assign": {
-      "title": "Phân công công việc",
+      "smallTitle": "Thông tin người sử dụng",
       "responsibleUser": "Người chịu trách nhiệm",
-      "information": {
-        "factory": "Nhà máy",
-        "workshop": "Xưởng",
-        "usageUser": "Người sử dụng",
-        "address": "Địa chỉ",
-        "phone": "SĐT liên hệ",
-        "location": "Địa điểm"
-      },
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "usageUser": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ",
+      "location": "Địa điểm",
       "plan": "Kế hoạch",
       "placeholder": {
         "responsibleUser": "Chọn người chịu trách nhiệm",
@@ -1806,6 +1814,104 @@
       "successReject": "Từ chối yêu cầu vật tư phụ tùng thành công",
       "successConfirm": "Xác nhận yêu cầu vật tư phụ tùng thành công",
       "successDelete": "Xóa yêu cầu vật tư phụ tùng thành công"
+    }
+  },
+  "jobList": {
+    "notification": {
+      "updateSuccess": "Phân công công việc thành công"
+    },
+    "title": "Danh sách công việc",
+    "table": {
+      "workCode": "Mã công việc",
+      "requestCode": "Mã yêu cầu/cảnh báo",
+      "workType": "Loại công việc",
+      "requestName": "Tên yêu cầu/cảnh báo",
+      "performer": "Người thực hiện",
+      "serial": "Serial",
+      "devideName": "Tên thiết bị",
+      "description": "Mô tả",
+      "status": "Trạng thái",
+      "implementationSchedule": "Lịch thực hiện",
+      "action": "Hành động"
+    },
+    "button": {
+      "myTask": "Công việc của tôi",
+      "listView": "List View",
+      "ganttChart": "GanttChart",
+      "deviceButton": "Thiết bị",
+      "jobs": "Công việc"
+    },
+    "detail": {
+      "title": "Chi tiết công việc",
+      "status": "Trạng thái",
+      "workCode": "Mã công việc",
+      "requestCode": "Mã cảnh báo",
+      "requestName": "Tên cảnh báo",
+      "description": "Mô tả",
+      "workType": "Loại công việc",
+      "piority": "Độ ưu tiên",
+      "serial": "Serial thiết bị",
+      "devideName": "Tên thiết bị",
+      "expectDay": "Ngày kỳ vọng hoàn thành",
+      "maintainTime": "Thời gian bảo trì dự kiến",
+      "planDay": "Ngày thực hiện dự kiến",
+      "actualDay": "Ngày thực hiện thực tế",
+      "fromDay": "Từ ngày",
+      "toDay": "Đến ngày",
+      "maintainDetail": {
+        "title": "Thông tin bảo trì thực tế",
+        "maintainName": "Tên",
+        "maintainType": "Loại bảo trì",
+        "maintainQuantity": "Số lượng",
+        "maintainDescription": "Mô tả"
+      },
+      "plan": "Kế hoạch"
+    },
+    "assign": {
+      "title": "Phân công công việc",
+      "responsibleUser": "Người chịu trách nhiệm",
+      "information": {
+        "factory": "Nhà máy",
+        "workshop": "Xưởng",
+        "usageUser": "Người sử dụng",
+        "address": "Địa chỉ",
+        "phone": "SĐT liên hệ",
+        "location": "Địa điểm"
+      },
+      "plan": "Kế hoạch",
+      "placeholder": {
+        "responsibleUser": "Chọn người chịu trách nhiệm",
+        "description": "Nội dung công việc"
+      },
+      "list": {
+        "addBtnTitle": "Thêm người chịu trách nhiệm"
+      }
+    },
+    "checklistDetail": {
+      "cardTitle": "Thông tin chi tiết",
+      "title": "Tiêu đề",
+      "description": "Mô tả hạng mục",
+      "obligatory": "Bắt buộc",
+      "contentAfterCheck": "Nội dung sau kiểm tra",
+      "result": "Kết quả",
+      "pass": "Đạt",
+      "fail": "Không đạt",
+      "checklistResult": {
+        "title": "Kết quả kiểm tra",
+        "fail": "Không đạt",
+        "pass": "Đạt"
+      },
+      "checklistConclude": {
+        "title": "Kết luận",
+        "continueMaintain": "Tiếp tục bảo trì",
+        "replace": "Thay thế"
+      }
+    },
+    "installDetail": {
+      "cardTitle": "Danh sách hạng mục lắp đặt",
+      "title": "Tiêu đề",
+      "description": "Mô tả hạng mục",
+      "obligatory": "Bắt buộc"
     }
   }
 }

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import attributeType from './attribute-type'
 import commonManagement from './common'
 import dashboard from './dashboard'
+import defectList from './defect-list'
 import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
@@ -11,6 +12,8 @@ import job from './job'
 import maintainRequest from './maintain-request'
 import maintainanceProgress from './maintainance-progress'
 import maintenanceTeam from './maintenance-team'
+import planList from './plan-list'
+import requestDevice from './request-device'
 import suppliesCategory from './supplies-category'
 import templateChecklist from './template-checklist'
 import warningSystem from './warning-system'
@@ -27,6 +30,9 @@ export default combineReducers({
   suppliesCategory,
   templateChecklist,
   maintainRequest,
+  requestDevice,
   job,
   maintainanceProgress,
+  planList,
+  defectList,
 })

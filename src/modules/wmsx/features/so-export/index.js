@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -215,6 +217,10 @@ function SOExport() {
     refreshData()
   }, [page, pageSize, sort, filters, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
@@ -313,6 +319,22 @@ function SOExport() {
           defaultValue: DEFAULT_FILTERS,
           values: filters,
           onApply: setFilters,
+        }}
+        bulkActions={{
+          actions: [
+            BULK_ACTION.APPROVE,
+            BULK_ACTION.REJECT,
+            BULK_ACTION.DELETE,
+          ],
+          apiUrl: API_URL.SALE_ORDER_EXPORT,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       />
       <Dialog

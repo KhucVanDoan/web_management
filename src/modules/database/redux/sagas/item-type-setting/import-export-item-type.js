@@ -6,7 +6,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const exportItemTypeApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/items/export`
   return api.get(uri, params)
 }
 

@@ -5,6 +5,7 @@ import { ReactComponent as Add } from '~/assets/images/icons/add.svg'
 import { ReactComponent as ArrowBottom } from '~/assets/images/icons/arrowBottom.svg'
 import { ReactComponent as ArrowDown } from '~/assets/images/icons/arrowDown.svg'
 import { ReactComponent as ArrowLeft } from '~/assets/images/icons/arrowLeft.svg'
+import { ReactComponent as Assign } from '~/assets/images/icons/assign.svg'
 import { ReactComponent as Back } from '~/assets/images/icons/back.svg'
 import { ReactComponent as Bag } from '~/assets/images/icons/bag.svg'
 import { ReactComponent as Calendar } from '~/assets/images/icons/calendar.svg'
@@ -83,6 +84,7 @@ const icons = {
   paper: <Paper />,
   lock: <Lock />,
   unLock: <UnLock />,
+  assign: <Assign />,
 
   // menu
   drawer: <Drawer />,

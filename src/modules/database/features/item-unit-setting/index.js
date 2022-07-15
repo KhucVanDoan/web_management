@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -20,6 +22,7 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import { TYPE_ITEM_EXPORT } from '../../constants'
 import {
   exportItemUnitSettingApi,
   getItemUnitSettingTemplateApi,
@@ -194,7 +197,7 @@ function ItemUnitSetting() {
           onImport={(params) => {
             importItemUnitSettingApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportItemUnitSettingApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -205,11 +208,11 @@ function ItemUnitSetting() {
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
+              type: TYPE_ITEM_EXPORT.ITEM_UNIT,
             })
-          }}
+          }
           onDownloadTemplate={getItemUnitSettingTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ITEM_UNIT.CREATE.PATH)}
@@ -252,6 +255,18 @@ function ItemUnitSetting() {
             onApply: setFilters,
           }}
           sort={sort}
+          bulkActions={{
+            actions: [BULK_ACTION.DELETE],
+            apiUrl: API_URL.ITEM_UNIT,
+            onSuccess: () => {
+              if (page === 1) {
+                refreshData()
+              } else {
+                setPage(1)
+              }
+              setSelectedRows([])
+            },
+          }}
         />
         <Dialog
           open={deleteModal}

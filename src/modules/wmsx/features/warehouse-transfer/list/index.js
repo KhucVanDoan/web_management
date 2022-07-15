@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -41,6 +43,8 @@ const WarehouseTransfer = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     data: { warehouseTransferList, isLoading, total },
     actions,
@@ -257,6 +261,11 @@ const WarehouseTransfer = () => {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -331,6 +340,24 @@ const WarehouseTransfer = () => {
           values: filters,
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
+        }}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [
+            BULK_ACTION.APPROVE,
+            BULK_ACTION.REJECT,
+            BULK_ACTION.DELETE,
+          ],
+          apiUrl: API_URL.WAREHOUSE_TRANSFER,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       />
       <Dialog

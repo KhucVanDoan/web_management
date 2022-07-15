@@ -4,6 +4,8 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -32,6 +34,7 @@ function DefinePaymentType() {
   const [tempItem, setTempItem] = useState()
   const [confirmModal, setConfirmModal] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([])
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
@@ -54,6 +57,10 @@ function DefinePaymentType() {
     data: { isLoading, paymentTypeList, total },
     actions,
   } = useDefinePaymentType()
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
 
   const columns = [
     {
@@ -199,6 +206,20 @@ function DefinePaymentType() {
           onApply: setFilters,
         }}
         sort={sort}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.APPROVE, BULK_ACTION.DELETE],
+          apiUrl: API_URL.PAYMENT_TYPE,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
       />
       <Dialog
         open={deleteModal}
