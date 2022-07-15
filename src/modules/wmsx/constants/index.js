@@ -427,8 +427,7 @@ export const LOCATION_SETTING_TYPE_OPTION = [
 ]
 
 export const TRANSFER_STATUS = {
-  CREATED: 0,
-  PENDING: 1,
+  PENDING: 0,
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
@@ -452,7 +451,7 @@ export const TRANSFER_STATUS_MAP = {
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {
-    id: 1,
+    id: 0,
     text: 'warehouseTransfer.transferStatus.pending',
     color: 'pending',
   },
