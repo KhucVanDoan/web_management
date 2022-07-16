@@ -190,6 +190,64 @@ export const CHECKLIST_CONCLUDE = [
     value: 1,
   },
 ]
+
+export const WORK_TIME_DATA_SOURCE_TYPE = [
+  {
+    value: 0,
+    text: 'deviceAssign.assign.mes',
+  },
+  {
+    value: 1,
+    text: 'deviceAssign.assign.input',
+  },
+  {
+    value: 2,
+    text: 'deviceAssign.assign.iot',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_OPTION = [
+  {
+    text: 'deviceAssign.status.unuse',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'deviceAssign.status.inuse',
+    id: 1,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inMaintaining',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inCrapping',
+    id: 3,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.returned',
+    id: 4,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.pending',
+    id: 5,
+    color: 'pending',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_VALUE = {
+  UNUSE: 0,
+  INUSE: 1,
+  INMAINTAINING: 2,
+  INCRAPPING: 3,
+  RETURNED: 4,
+  PENDING: 5,
+}
+
 export const DEVICE_CATEGORY_STATUS_OPTION = [
   {
     text: 'deviceCategory.status.pending',

@@ -8,6 +8,7 @@ import defectList from './defect-list'
 import defineDevice from './define-device'
 import defineInstallTemplate from './define-installation-template'
 import supplies from './define-supplies'
+import deviceAssign from './device-assign'
 import deviceCategory from './device-category'
 import deviceStatus from './device-status-report'
 import job from './job'
@@ -28,6 +29,7 @@ export default combineReducers({
   deviceCategory,
   attributeType,
   defineDevice,
+  deviceAssign,
   supplies,
   maintenanceTeam,
   suppliesCategory,
