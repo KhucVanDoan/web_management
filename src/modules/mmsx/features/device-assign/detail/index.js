@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import InfoIcon from '@mui/icons-material/Info'
-import { Grid, Paper, Tooltip, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { addMinutes, endOfDay, startOfDay, subMonths } from 'date-fns'
 import { isEmpty, isNumber } from 'lodash'
@@ -214,101 +213,29 @@ const DeviceAssignDetail = () => {
       },
       {
         field: 'mtbf',
-        headerName: () => {
-          return (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {t('deviceList.form.mtbf')}
-              <Tooltip
-                title={t('deviceList.tooltipHeader.mtbf')}
-                arrow
-                placement="top"
-              >
-                <InfoIcon sx={{ fontSize: 16 }} />
-              </Tooltip>
-            </Box>
-          )
-        },
+        headerName: t('deviceList.form.mtbf'),
+        headerTooltip: t('deviceList.tooltipHeader.mtbf'),
         width: 150,
         align: 'center',
       },
       {
         field: 'mttr',
-        headerName: () => {
-          return (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {t('deviceList.form.mttr')}
-              <Tooltip
-                title={t('deviceList.tooltipHeader.mttr')}
-                arrow
-                placement="top"
-              >
-                <InfoIcon sx={{ fontSize: 16 }} />
-              </Tooltip>
-            </Box>
-          )
-        },
+        headerName: t('deviceList.form.mttr'),
+        headerTooltip: t('deviceList.tooltipHeader.mttr'),
         width: 150,
         align: 'center',
       },
       {
         field: 'mtta',
-        headerName: () => {
-          return (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {t('deviceList.form.mtta')}
-              <Tooltip
-                title={t('deviceList.tooltipHeader.mtta')}
-                arrow
-                placement="top"
-              >
-                <InfoIcon sx={{ fontSize: 16 }} />
-              </Tooltip>
-            </Box>
-          )
-        },
+        headerName: t('deviceList.form.mtta'),
+        headerTooltip: t('deviceList.tooltipHeader.mtta'),
         width: 150,
         align: 'center',
       },
       {
         field: 'mttf',
-        headerName: () => {
-          return (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {t('deviceList.form.mttf')}
-              <Tooltip
-                title={t('deviceList.tooltipHeader.mttf')}
-                arrow
-                placement="top"
-              >
-                <InfoIcon sx={{ fontSize: 16 }} />
-              </Tooltip>
-            </Box>
-          )
-        },
+        headerName: t('deviceList.form.mttf'),
+        headerTooltip: t('deviceList.tooltipHeader.mttf'),
         width: 150,
         align: 'center',
       },
