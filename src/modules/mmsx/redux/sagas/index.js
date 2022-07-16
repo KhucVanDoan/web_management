@@ -5,7 +5,12 @@ import watchDeleteAttributeMaintenance from './attribute-maintain/delete-attribu
 import watchGetDetailAttributeMaintenance from './attribute-maintain/get-attribute-maintain'
 import watchSearchAttributeMaintenance from './attribute-maintain/search-attribute-maintain'
 import watchUpdateAttributeMaintenance from './attribute-maintain/update-attribute-maintain'
+import watchCreateAttributeType from './attribute-type/create-attribute-type'
+import watchDeleteAttributeType from './attribute-type/delete-attribute-type'
+import watchGetAttributeTypeDetail from './attribute-type/get-attribute-type-detail'
 import watchGetAttributeTypeList from './attribute-type/search-attribute-type-list'
+import watchUpdateAttributeType from './attribute-type/update-attribute-type'
+import watchValidateAttributeTypeCode from './attribute-type/validate-attribute-type'
 import watchGetAttributeMaintain from './common/get-all-attribute-maintain'
 import watchGetAllDevice from './common/get-all-device'
 import watchGetAllFactoryList from './common/get-all-factory-list'
@@ -158,6 +163,11 @@ export default function* sagas() {
     watchSearchDevice(),
     watchUpdateDevice(),
     watchGetAttributeTypeList(),
+    watchCreateAttributeType(),
+    watchDeleteAttributeType(),
+    watchGetAttributeTypeDetail(),
+    watchUpdateAttributeType(),
+    watchValidateAttributeTypeCode(),
     watchSearchTemplateInstall(),
     watchSearchDeviceCategory(),
     //warning system
