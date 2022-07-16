@@ -36,6 +36,10 @@ export const GET_RESPONSIBLE_SUBJECT_SUCCESS =
 export const GET_RESPONSIBLE_SUBJECT_FAILED =
   'MMSX_GET_RESPONSIBLE_SUBJECT_FAILED'
 
+export const GET_MO_BY_WORK_CENTER = 'GET_MO_BY_WORK_CENTER'
+export const GET_MO_BY_WORK_CENTER_SUCCESS = 'GET_MO_BY_WORK_CENTER_SUCCESS'
+export const GET_MO_BY_WORK_CENTER_FAILED = 'GET_MO_BY_WORK_CENTER_FAILED'
+
 export const GET_ITEM_UNITS_START = 'MMSX_GET_ITEM_UNITS_START'
 export const GET_ITEM_UNITS_SUCCESS = 'MMSX_GET_ITEM_UNITS_SUCCESS'
 export const GET_ITEM_UNITS_FAILED = 'MMSX_GET_ITEM_UNITS_FAILED'
@@ -58,6 +62,29 @@ export const GET_ALL_DEVICE_FAIL = 'MMSX_GET_ALL_DEVICE_FAIL'
 export const GET_ALL_WORK_CENTER_START = 'MMSX_GET_ALL_WORK_CENTER_START'
 export const GET_ALL_WORK_CENTER_SUCCESS = 'MMSX_GET_ALL_WORK_CENTER_SUCCESS'
 export const GET_ALL_WORK_CENTER_FAILED = 'MMSX_GET_ALL_WORK_CENTER_FAILED'
+
+/* Get mo by work center */
+export function getMoByWorkCenter(payload, onSuccess, onError) {
+  return {
+    type: GET_MO_BY_WORK_CENTER,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getMoByWorkCenterSuccess(payload) {
+  return {
+    type: GET_MO_BY_WORK_CENTER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getMoByWorkCenterFailed() {
+  return {
+    type: GET_MO_BY_WORK_CENTER_FAILED,
+  }
+}
 
 /**
  * Get vendors
@@ -389,6 +416,9 @@ export default {
   getVendors,
   getVendorsFailed,
   getVendorsSuccess,
+  getMoByWorkCenter,
+  getMoByWorkCenterFailed,
+  getMoByWorkCenterSuccess,
   getItemUnits,
   getItemUnitsSuccess,
   getItemUnitsFailed,

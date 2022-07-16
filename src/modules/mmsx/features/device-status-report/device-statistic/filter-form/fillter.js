@@ -45,8 +45,8 @@ const FilterForm = () => {
           label={t('deviceCategory.form.status')}
           placeholder={t('deviceCategory.form.status')}
           options={DEVICE_ASSIGN_STATUS}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
+          getOptionValue={(opt) => opt.id.toString()}
         />
       </Grid>
     </Grid>

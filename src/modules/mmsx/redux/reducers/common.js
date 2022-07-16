@@ -20,6 +20,9 @@ import {
   GET_RESPONSIBLE_SUBJECT_START,
   GET_RESPONSIBLE_SUBJECT_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_FAILED,
+  GET_MO_BY_WORK_CENTER,
+  GET_MO_BY_WORK_CENTER_FAILED,
+  GET_MO_BY_WORK_CENTER_SUCCESS,
   GET_ITEM_UNITS_START,
   GET_ITEM_UNITS_SUCCESS,
   GET_ITEM_UNITS_FAILED,
@@ -46,6 +49,7 @@ const initialState = {
   attributeMaintainList: [],
   responsibleSubject: {},
   vendorList: [],
+  moListByWorkCenter: [],
   itemsUnitList: [],
   userList: [],
   deviceList: [],
@@ -68,12 +72,14 @@ export default function commonManagement(state = initialState, action) {
     case MMSX_GET_ALL_SUPPLIES_CONFIRM_START:
     case MMSX_GET_ATTRIBUTE_MAINTAIN_START:
     case MMSX_GET_VENDORS_START:
+    case GET_MO_BY_WORK_CENTER:
     case GET_USER_START:
     case GET_ALL_DEVICE_START:
     case GET_ALL_WORK_CENTER_START:
     case GET_USING_DEVICE_ASSIGN_START:
       return {
         ...state,
+        isLoading: true,
       }
     case GET_USER_SUCCESS:
       return {
@@ -189,6 +195,18 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         responsibleSubject: {},
+        isLoading: false,
+      }
+    case GET_MO_BY_WORK_CENTER_SUCCESS:
+      return {
+        ...state,
+        moListByWorkCenter: action?.payload,
+        isLoading: false,
+      }
+    case GET_MO_BY_WORK_CENTER_FAILED:
+      return {
+        ...state,
+        moListByWorkCenter: [],
         isLoading: false,
       }
     case GET_ITEM_UNITS_START:

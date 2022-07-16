@@ -13,7 +13,7 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   ACTION_MAP,
-  DEVICE_REQUEST_STATUS_OPTION,
+  DEVICE_REQUEST_TICKET_STATUS_OPTION,
 } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
 import useRequestDevice from '~/modules/mmsx/redux/hooks/useRequestDevice'
@@ -97,7 +97,7 @@ const RequestDeviceDetail = () => {
                   label={t('requestDevice.category.status')}
                   value={
                     <Status
-                      options={DEVICE_REQUEST_STATUS_OPTION}
+                      options={DEVICE_REQUEST_TICKET_STATUS_OPTION}
                       value={requestDeviceDetail?.status}
                     />
                   }
