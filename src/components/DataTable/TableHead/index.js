@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Typography } from '@mui/material'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import { Typography, Tooltip } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import TableCell from '@mui/material/TableCell'
 import MuiTableHead from '@mui/material/TableHead'
@@ -114,17 +115,41 @@ const TableHead = (props) => {
         )}
 
         {columns.map((column, i) => {
-          const { headerAlign, align, field, headerName, width, sortable } =
-            column
+          const {
+            headerAlign,
+            align,
+            field,
+            headerName,
+            headerTooltip,
+            width,
+            sortable,
+          } = column
           const sorted = isSorted(field)
-          const headerValue =
-            typeof headerName === 'function' ? (
-              headerName()
-            ) : (
-              <Typography variant="h5" component="span">
-                {headerName}
-              </Typography>
-            )
+          const renderHeaderContent = () => (
+            <>
+              {typeof headerName === 'function' ? (
+                headerName()
+              ) : (
+                <Typography variant="h5" component="span">
+                  {headerName}
+                </Typography>
+              )}
+              {headerTooltip && (
+                <Box
+                  component="span"
+                  sx={{
+                    ml: 0.5,
+                    position: 'relative',
+                    top: 3,
+                  }}
+                >
+                  <Tooltip title={headerTooltip} arrow placement="top">
+                    <InfoOutlinedIcon sx={{ fontSize: 16 }} />
+                  </Tooltip>
+                </Box>
+              )}
+            </>
+          )
           return (
             <TableCell
               key={i}
@@ -139,7 +164,7 @@ const TableHead = (props) => {
                   onClick={() => onClickSort(field)}
                   className={classes.headerNameContainer}
                 >
-                  {headerValue}
+                  {renderHeaderContent()}
 
                   <span
                     className={clsx(classes.sortIcon, {
@@ -151,7 +176,7 @@ const TableHead = (props) => {
                   ></span>
                 </Box>
               ) : (
-                headerValue
+                renderHeaderContent()
               )}
             </TableCell>
           )

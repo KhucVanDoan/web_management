@@ -111,6 +111,11 @@ const palette = {
     main: '#F4F5F5',
   },
   status: {
+    default: {
+      text: '#999',
+      background: '#DAE7F3',
+      contrastText: '#666',
+    },
     created: {
       text: '#999',
       background: '#DAE7F3',

@@ -58,6 +58,7 @@ const ItemSettingDetail = ({ items }) => {
         field: 'materialPrice',
         headerName: t('suppliesRequest.form.field.materialPrice'),
         width: 150,
+        align: 'right',
         renderCell: (params) => {
           return <>{params.row.materialPrice}</>
         },
@@ -65,7 +66,8 @@ const ItemSettingDetail = ({ items }) => {
       {
         field: 'requireAmount',
         headerName: t('suppliesRequest.form.field.requireAmount'),
-        width: 100,
+        width: 150,
+        align: 'right',
         renderCell: (params) => {
           return <>{params.row.requireAmount}</>
         },
@@ -74,6 +76,7 @@ const ItemSettingDetail = ({ items }) => {
         field: 'stockQuantity',
         headerName: t('suppliesRequest.form.field.stockQuantity'),
         width: 150,
+        align: 'right',
         renderCell: (params) => {
           return <>{params.row.stockQuantity}</>
         },
@@ -82,6 +85,7 @@ const ItemSettingDetail = ({ items }) => {
         field: 'planQuantity',
         headerName: t('suppliesRequest.form.field.planQuantity'),
         width: 150,
+        align: 'right',
         renderCell: (params) => {
           return <>{params.row.planQuantity}</>
         },
@@ -90,6 +94,7 @@ const ItemSettingDetail = ({ items }) => {
         field: 'buyQuantity',
         headerName: t('suppliesRequest.form.field.buyQuantity'),
         width: 150,
+        align: 'right',
         renderCell: (params) => {
           return <>{params.row.buyQuantity}</>
         },

@@ -163,22 +163,24 @@ function DefineDevice() {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEVICE_LIST.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             {isPending && (
-              <IconButton onClick={() => handleOpenConfirmModal(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
+              <>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.DEVICE_LIST.EDIT.PATH.replace(':id', `${id}`),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+                <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+                <IconButton onClick={() => handleOpenConfirmModal(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              </>
             )}
           </div>
         )

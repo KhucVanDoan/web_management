@@ -227,6 +227,9 @@ function EstablishLocationForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.id === val?.itemId
+                      }
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       multiple

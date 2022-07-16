@@ -190,6 +190,64 @@ export const CHECKLIST_CONCLUDE = [
     value: 1,
   },
 ]
+
+export const WORK_TIME_DATA_SOURCE_TYPE = [
+  {
+    value: 0,
+    text: 'deviceAssign.assign.mes',
+  },
+  {
+    value: 1,
+    text: 'deviceAssign.assign.input',
+  },
+  {
+    value: 2,
+    text: 'deviceAssign.assign.iot',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_OPTION = [
+  {
+    text: 'deviceAssign.status.unuse',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'deviceAssign.status.inuse',
+    id: 1,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inMaintaining',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inCrapping',
+    id: 3,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.returned',
+    id: 4,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.pending',
+    id: 5,
+    color: 'pending',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_VALUE = {
+  UNUSE: 0,
+  INUSE: 1,
+  INMAINTAINING: 2,
+  INCRAPPING: 3,
+  RETURNED: 4,
+  PENDING: 5,
+}
+
 export const DEVICE_CATEGORY_STATUS_OPTION = [
   {
     text: 'deviceCategory.status.pending',
@@ -394,12 +452,12 @@ export const DEVICE_REQUEST_STATUS_OPTION = [
   {
     text: 'requestDevice.status.awaitingAssigment',
     id: 3,
-    color: 'active',
+    color: 'inReceiving',
   },
   {
     text: 'requestDevice.status.assigned',
     id: 4,
-    color: 'inReceiving',
+    color: 'active',
   },
   {
     text: 'requestDevice.status.awaitingReturn',
@@ -466,19 +524,19 @@ export const DEVICE_REQUEST_TICKET_STATUS_OPTION = [
     color: 'pending',
   },
   {
-    text: 'requestDevice.statusawaitingITConfirmation',
+    text: 'requestDevice.status.awaitingITConfirmation',
     id: 1,
     color: 'active',
   },
   {
     text: 'requestDevice.status.awaitingAssigment',
     id: 2,
-    color: 'active',
+    color: 'inReceiving',
   },
   {
     text: 'requestDevice.status.assigned',
     id: 3,
-    color: 'inReceiving',
+    color: 'active',
   },
   {
     text: 'requestDevice.status.confirmed',
@@ -493,7 +551,7 @@ export const DEVICE_REQUEST_TICKET_STATUS_OPTION = [
   {
     text: 'requestDevice.status.waittingExport',
     id: 6,
-    color: 'confirmed',
+    color: 'exporting',
   },
 ]
 
@@ -534,12 +592,12 @@ export const DEVICE_RETURN_TICKET_STATUS_OPTION = [
   {
     text: 'requestDevice.status.awaitingReturn',
     id: 2,
-    color: 'active',
+    color: 'inReceiving',
   },
   {
     text: 'requestDevice.status.returned',
     id: 3,
-    color: 'returned',
+    color: 'received',
   },
   {
     text: 'requestDevice.status.rejected',

@@ -166,6 +166,7 @@ const DeviceStatusTable = ({ keyword }) => {
           />
         }
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        tableSettingKey="deviceStatus"
       />
     </>
   )

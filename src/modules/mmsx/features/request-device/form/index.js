@@ -19,7 +19,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
   ACTION_MAP,
-  DEVICE_REQUEST_STATUS_OPTION,
+  DEVICE_REQUEST_TICKET_STATUS_OPTION,
 } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
@@ -229,7 +229,7 @@ const RequestDeviceForm = () => {
                           label={t('requestDevice.category.status')}
                           value={
                             <Status
-                              options={DEVICE_REQUEST_STATUS_OPTION}
+                              options={DEVICE_REQUEST_TICKET_STATUS_OPTION}
                               value={requestDeviceDetail?.status}
                             />
                           }
