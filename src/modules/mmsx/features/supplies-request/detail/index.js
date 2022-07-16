@@ -13,7 +13,7 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   ACTION_MAP,
-  DEVICE_CATEGORY_STATUS_OPTION,
+  SUPPLY_REQUEST_STATUS,
   SUPPLIES_ACCESSORY_OPTION_MAP,
 } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
@@ -105,7 +105,7 @@ const SuppliesRequestDetail = () => {
                   label={t('suppliesCategory.form.status')}
                   value={
                     <Status
-                      options={DEVICE_CATEGORY_STATUS_OPTION}
+                      options={SUPPLY_REQUEST_STATUS}
                       value={suppliesRequestDetail?.status}
                     />
                   }
@@ -196,12 +196,12 @@ const SuppliesRequestDetail = () => {
                 />
               </Grid>
             </Grid>
-            <Box sx={{ mt: 3 }}>
-              <ItemSettingDetail items={items || []} />
-            </Box>
-            <ActionBar onBack={backToList} />
           </Grid>
         </Grid>
+        <Box sx={{ mt: 3 }}>
+          <ItemSettingDetail items={items || []} />
+        </Box>
+        <ActionBar onBack={backToList} />
       </Paper>
       <Activities data={histories} />
     </Page>
