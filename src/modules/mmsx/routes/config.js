@@ -130,6 +130,24 @@ export const ROUTE = {
       TITLE: 'deviceCategoryDetail',
     },
   },
+  ATTRIBUTE_TYPE: {
+    LIST: {
+      PATH: '/mmsx/attribute-type',
+      TITLE: 'attributeType',
+    },
+    CREATE: {
+      PATH: '/mmsx/attribute-type/create',
+      TITLE: 'attributeTypeCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/attribute-type/:id/edit',
+      TITLE: 'attributeTypeEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/attribute-type/:id/detail',
+      TITLE: 'attributeTypeDetail',
+    },
+  },
   INSTALLATION_TEMPLATE: {
     LIST: {
       PATH: '/mmsx/define-installation-template',

@@ -96,7 +96,10 @@
     "suppliesRequestCreate": "Create supply request",
     "suppliesRequestEdit": "Edit supply request",
     "deviceStatusReport": "Device status report",
-    "attributeType": "Define attribute type"
+    "attributeType": "Define attribute type",
+    "attributeTypeCreate": "Create attribute type",
+    "attributeTypeDetail": "Detail attribute type",
+    "attributeTypeEdit": "Edit attribute type"
   },
   "maintainanceProgress": {
     "status": {
