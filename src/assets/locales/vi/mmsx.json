@@ -998,6 +998,7 @@
     }
   },
   "deviceAssign": {
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "moPlaceHolder": "Chọn lệnh sản xuất",
     "actualOee": "OEE Thực tế",
     "title": "Danh sách phân công thiết bị",

@@ -62,6 +62,28 @@ export const ROUTE = {
       TITLE: 'deviceEdit',
     },
   },
+  DEVICE_ASSIGN: {
+    LIST: {
+      PATH: '/mmsx/device-assign',
+      TITLE: 'deviceAssign',
+    },
+    CREATE: {
+      PATH: '/mmsx/device-assign/create',
+      TITLE: 'deviceAssignCreate',
+    },
+    DETAIL: {
+      PATH: '/mmsx/device-assign/:id/detail',
+      TITLE: 'deviceAssignDetail',
+    },
+    EDIT: {
+      PATH: '/mmsx/device-assign/:id/edit',
+      TITLE: 'deviceAssignEdit',
+    },
+    REASSIGN: {
+      PATH: '/mmsx/device-assign/:id/reassign',
+      TITLE: 'deviceReassign',
+    },
+  },
   DATABASE: {
     PATH: '/mmsx/database',
     TITLE: 'database',

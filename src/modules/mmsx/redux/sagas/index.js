@@ -15,6 +15,7 @@ import watchGetAllUser from './common/get-all-user'
 import watchGetAllWorkCenter from './common/get-all-work-center'
 import watchGetListMaintenanceTeam from './common/get-maintencance-list'
 import watchGetMo from './common/get-mo-list'
+import watchGetMoWorkCenter from './common/get-mo-work-center'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetUsingDeviceAssign from './common/get-using-devide-assign'
 import watchGetVendors from './common/get-vendors'
@@ -34,6 +35,17 @@ import watchCreateTemplateInstall from './define-installation-template/create'
 import watchDeleteTemplateInstall from './define-installation-template/delete'
 import watchGetTemplateInstall from './define-installation-template/get-detail'
 import watchUpdateTemplateInstall from './define-installation-template/update'
+import watchCheckSerial from './device-assign/check-serial'
+import watchCreateDeviceAssign from './device-assign/create-assign'
+import watchDeleteDeviceAssign from './device-assign/delete-assign'
+import watchDetailDeviceAssign from './device-assign/detail-assign'
+import watchGenerateSerial from './device-assign/gen-serial'
+import watchGetDeviceRequest from './device-assign/get-device-request'
+import watchGetLogTimeByMo from './device-assign/get-log-time'
+import watchMaintainInfoDeviceAssign from './device-assign/get-maintain-info'
+import watchMaintainRequestDeviceAssign from './device-assign/get-maintain-request'
+import watchSearchDeviceAssign from './device-assign/search-assign'
+import watchUpdateDeviceAssign from './device-assign/update-assign'
 import watchConfirmDeviceCategory from './device-category/confirm-device-category'
 import watchCreateDeviceCategory from './device-category/create-device-category'
 import watchDeleteDeviceCategory from './device-category/delete-device-category'
@@ -116,6 +128,21 @@ export default function* sagas() {
     watchGetVendors(),
     watchGetMo(),
     watchGetResponsibleSubject(),
+    watchGetMoWorkCenter(),
+    // Dashboard
+    watchGetSummary(),
+    // management device
+    watchCheckSerial(),
+    watchCreateDeviceAssign(),
+    watchDeleteDeviceAssign(),
+    watchDetailDeviceAssign(),
+    watchGenerateSerial(),
+    watchGetDeviceRequest(),
+    watchGetLogTimeByMo(),
+    watchMaintainInfoDeviceAssign(),
+    watchMaintainRequestDeviceAssign(),
+    watchSearchDeviceAssign(),
+    watchUpdateDeviceAssign(),
     watchGetAllItemUnit(),
     watchGetAllDevice(),
     watchGetAllUser(),
