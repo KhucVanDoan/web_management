@@ -1,7 +1,6 @@
 import React from 'react'
 
-import InfoIcon from '@mui/icons-material/Info'
-import { Box, InputAdornment, Tooltip, Typography } from '@mui/material'
+import { InputAdornment, Typography } from '@mui/material'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -72,26 +71,8 @@ const MaintainTable = ({
     {
       field: 'mtbf',
       width: 200,
-      headerName: () => {
-        return (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {t('deviceList.form.mtbf')}
-            <Tooltip
-              title={t('deviceList.tooltipHeader.mtbf')}
-              arrow
-              placement="top"
-            >
-              <InfoIcon sx={{ fontSize: 16 }} />
-            </Tooltip>
-          </Box>
-        )
-      },
+      headerName: t('deviceList.form.mtbf'),
+      headerTooltip: t('deviceList.tooltipHeader.mtbf'),
       align: 'center',
       renderCell: (params, index) => {
         const mtbfIndex =
@@ -127,26 +108,8 @@ const MaintainTable = ({
     {
       field: 'mttr',
       width: 200,
-      headerName: () => {
-        return (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {t('deviceList.form.mttr')}
-            <Tooltip
-              title={t('deviceList.tooltipHeader.mttr')}
-              arrow
-              placement="top"
-            >
-              <InfoIcon sx={{ fontSize: 16 }} />
-            </Tooltip>
-          </Box>
-        )
-      },
+      headerName: t('deviceList.form.mttr'),
+      headerTooltip: t('deviceList.tooltipHeader.mttr'),
       align: 'center',
       renderCell: (params, index) => {
         const mttrIndex = params?.row?.mttrIndex
@@ -177,26 +140,8 @@ const MaintainTable = ({
     {
       field: 'mtta',
       width: 200,
-      headerName: () => {
-        return (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {t('deviceList.form.mtta')}
-            <Tooltip
-              title={t('deviceList.tooltipHeader.mtta')}
-              arrow
-              placement="top"
-            >
-              <InfoIcon sx={{ fontSize: 16 }} />
-            </Tooltip>
-          </Box>
-        )
-      },
+      headerName: t('deviceList.form.mtta'),
+      headerTooltip: t('deviceList.tooltipHeader.mtta'),
       align: 'center',
       renderCell: (params, index) => {
         const mttaIndex = params?.row?.mttaIndex
@@ -228,26 +173,8 @@ const MaintainTable = ({
     {
       field: 'mttf',
       width: 200,
-      headerName: () => {
-        return (
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {t('deviceList.form.mttf')}
-            <Tooltip
-              title={t('deviceList.tooltipHeader.mttf')}
-              arrow
-              placement="top"
-            >
-              <InfoIcon sx={{ fontSize: 16 }} />
-            </Tooltip>
-          </Box>
-        )
-      },
+      headerName: t('deviceList.form.mttf'),
+      headerTooltip: t('deviceList.tooltipHeader.mttf'),
       align: 'center',
       renderCell: (params, index) => {
         const mttfIndex =
