@@ -33,6 +33,8 @@ export const MMSX_VALIDATE_ATTRIBUTE_TYPE_SUCCESS =
 export const MMSX_VALIDATE_ATTRIBUTE_TYPE_FAIL =
   'MMSX_VALIDATE_ATTRIBUTE_TYPE_FAIL'
 
+export const MMSX_RESET_STATE_ATTRIBUTE_TYPE = 'MMSX_RESET_STATE_ATTRIBUTE_TYPE'
+
 export function getAttributeTypeList(payload, onSuccess, onError) {
   return {
     type: MMSX_GET_ATTRIBUTE_TYPE_LIST_START,
@@ -165,6 +167,12 @@ export function validateAttributeTypeCodeFail() {
   }
 }
 
+export function resetStateAttrbuteType() {
+  return {
+    type: MMSX_RESET_STATE_ATTRIBUTE_TYPE,
+  }
+}
+
 export default {
   getAttributeTypeList,
   getAttributeTypeListSuccess,
@@ -184,4 +192,5 @@ export default {
   validateAttributeTypeCode,
   validateAttributeTypeCodeSuccess,
   validateAttributeTypeCodeFail,
+  resetStateAttrbuteType,
 }

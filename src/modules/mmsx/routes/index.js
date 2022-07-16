@@ -3,6 +3,9 @@ import Dashboard from '~/modules/mmsx/features/dashboard'
 import AttributeMaintenance from '../features/attribute-maintenance'
 import AttributeMaintenanceDetail from '../features/attribute-maintenance/detail'
 import AttributeMaintenanceForm from '../features/attribute-maintenance/form'
+import AttributeType from '../features/attribute-type'
+import AttributeTypeDetail from '../features/attribute-type/detail'
+import AttributeTypeForm from '../features/attribute-type/form'
 import DefectList from '../features/defect-list'
 import DefectListDetail from '../features/defect-list/detail'
 import DefectListForm from '../features/defect-list/form'
@@ -163,6 +166,32 @@ const routes = [
             name: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.TITLE,
             path: ROUTE.ATTRIBUTE_MAINTENANCE.EDIT.PATH,
             component: AttributeMaintenanceForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.ATTRIBUTE_TYPE.LIST.TITLE,
+        path: ROUTE.ATTRIBUTE_TYPE.LIST.PATH,
+        component: AttributeType,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ATTRIBUTE_TYPE.CREATE.TITLE,
+            path: ROUTE.ATTRIBUTE_TYPE.CREATE.PATH,
+            component: AttributeTypeForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ATTRIBUTE_TYPE.DETAIL.TITLE,
+            path: ROUTE.ATTRIBUTE_TYPE.DETAIL.PATH,
+            component: AttributeTypeDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ATTRIBUTE_TYPE.EDIT.TITLE,
+            path: ROUTE.ATTRIBUTE_TYPE.EDIT.PATH,
+            component: AttributeTypeForm,
             isInSidebar: false,
           },
         ],

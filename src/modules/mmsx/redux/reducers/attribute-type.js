@@ -5,12 +5,14 @@ import {
   MMSX_GET_ATTRIBUTE_TYPE_LIST_FAIL,
   MMSX_GET_ATTRIBUTE_TYPE_LIST_START,
   MMSX_GET_ATTRIBUTE_TYPE_LIST_SUCCESS,
+  MMSX_RESET_STATE_ATTRIBUTE_TYPE,
 } from '../actions/attribute-type'
 
 const initialState = {
   attributeTypeList: [],
   attributeTypeDetail: {},
   isLoading: false,
+  total: null,
 }
 
 export default function attributeType(state = initialState, action) {
@@ -26,6 +28,7 @@ export default function attributeType(state = initialState, action) {
         ...state,
         isLoading: false,
         attributeTypeList: action.payload.result,
+        total: action?.payload?.meta?.total,
       }
     case MMSX_GET_ATTRIBUTE_TYPE_SUCCESS:
       return {
@@ -38,6 +41,11 @@ export default function attributeType(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      }
+    case MMSX_RESET_STATE_ATTRIBUTE_TYPE:
+      return {
+        ...state,
+        attributeTypeDetail: {},
       }
     default:
       return state
