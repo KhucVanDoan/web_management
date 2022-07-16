@@ -832,12 +832,12 @@ export const DEVICE_ASSIGN_STATUS = [
   {
     id: 0,
     text: 'deviceAssign.status.unuse',
-    color: 'pendding',
+    color: 'pending',
   },
   {
     id: 1,
     text: 'deviceAssign.status.inuse',
-    color: 'inProgress',
+    color: 'confirmed',
   },
   {
     id: 2,

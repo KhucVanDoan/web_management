@@ -10,10 +10,10 @@ import { useHistory, useParams } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import Autocomplete from '~/components/Autocomplete'
 import Button from '~/components/Button'
-import DataTable from '~/components/DataTable'
 import DateRangePicker from '~/components/DateRangePicker'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import {
   ACTION_MAP,
@@ -29,6 +29,7 @@ import { convertUtcDateToLocalTz } from '~/utils'
 
 import DeviceAssignFormHistory from '../form/form-history'
 import TableMo from '../form/table-mo'
+import TableMaintenance from '../table-maintenance'
 
 const breadcrumbs = [
   {
@@ -90,25 +91,25 @@ const DeviceAssignDetail = () => {
     return accessories
   }
 
-  const formatMaintainList = (data) => {
-    let newData = data?.map((row) => {
-      const temp = []
-      row?.details?.forEach((item) => {
-        if (!isEmpty(item)) {
-          temp.push({
-            ...item,
-            nextMaintain: item?.nextMaintain || row?.nextMaintain,
-            replaceDate: item?.replaceDate || row?.replaceDate,
-          })
-        }
-      })
-      return {
-        details: temp,
-        ...row,
-      }
-    })
-    return newData
-  }
+  // const formatMaintainList = (data) => {
+  //   let newData = data?.map((row) => {
+  //     const temp = []
+  //     row?.details?.forEach((item) => {
+  //       if (!isEmpty(item)) {
+  //         temp.push({
+  //           ...item,
+  //           nextMaintain: item?.nextMaintain || row?.nextMaintain,
+  //           replaceDate: item?.replaceDate || row?.replaceDate,
+  //         })
+  //       }
+  //     })
+  //     return {
+  //       details: temp,
+  //       ...row,
+  //     }
+  //   })
+  //   return newData
+  // }
 
   useEffect(() => {
     actions.detailDeviceAssign(id)
@@ -186,7 +187,7 @@ const DeviceAssignDetail = () => {
   }, [selectedMO])
 
   const backToList = () => {
-    history.push(ROUTE.DEVICE_CATEGORY.LIST.PATH)
+    history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)
   }
 
   const columns = useMemo(
@@ -195,21 +196,12 @@ const DeviceAssignDetail = () => {
         field: 'name',
         headerName: t('deviceAssign.assign.name'),
         width: 150,
-        align: 'center',
-        renderCell: (params) => {
-          const { item } = params.row
-          return item?.code
-        },
       },
       {
         field: 'nextMaintain',
         headerName: t('deviceAssign.maintainTable.nextMaintainEstimate'),
         width: 150,
         align: 'center',
-        renderCell: (params) => {
-          const { item } = params.row
-          return item?.name
-        },
       },
       {
         field: 'mtbf',
@@ -242,6 +234,13 @@ const DeviceAssignDetail = () => {
     ],
     [deviceAssignDetail, maintainList],
   )
+
+  const subColumns = [
+    {
+      field: 'test',
+      headerName: 'test',
+    },
+  ]
 
   const renderHeaderRight = () => {
     return (
@@ -304,18 +303,6 @@ const DeviceAssignDetail = () => {
         <Grid container justifyContent="center">
           <Grid item xl={11} xs={12}>
             <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-              {/* <Grid item xs={12}>
-                <LV
-                  label={t('deviceCategory.form.status')}
-                  value={
-                    <Status
-                      options={DEVICE_CATEGORY_STATUS_OPTION}
-                      value={deviceCategoryDetail?.status}
-                    />
-                  }
-                />
-              </Grid> */}
-
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('deviceAssign.assign.assignCode')}
@@ -363,7 +350,12 @@ const DeviceAssignDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('deviceAssign.assign.status')}
-                  value={t(DEVICE_ASSIGN_STATUS[deviceAssignDetail?.status])}
+                  value={
+                    <Status
+                      options={DEVICE_ASSIGN_STATUS}
+                      value={deviceAssignDetail?.status}
+                    />
+                  }
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
@@ -399,9 +391,18 @@ const DeviceAssignDetail = () => {
                   mb: 2,
                 }}
               >
-                <DataTable
+                {/* <DataTable
                   rows={formatMaintainList(maintainList)}
                   columns={columns}
+                  striped={false}
+                  hideSetting
+                  hideFooter
+                /> */}
+
+                <TableMaintenance
+                  rows={maintainList}
+                  columns={columns}
+                  subColumns={subColumns}
                   striped={false}
                   hideSetting
                   hideFooter
