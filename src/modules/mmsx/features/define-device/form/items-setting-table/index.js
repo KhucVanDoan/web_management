@@ -41,11 +41,23 @@ const ItemSettingTable = ({
 
   useEffect(() => {
     const itemIdCodeList = items.map((item) => item?.supplyId)
-    const accessoriesList = accessoriesMaintenanceInformation.filter(
-      (item) =>
-        item.type === TYPE_ITEM.DEVICE ||
-        itemIdCodeList.some((id) => id === (item?.id || item?.supply?.id)),
-    )
+    const accessoriesList = accessoriesMaintenanceInformation
+      .filter(
+        (item) =>
+          item.type === TYPE_ITEM.DEVICE ||
+          itemIdCodeList.some((id) => id === (item?.id || item?.supply?.id)),
+      )
+      ?.map((acc) => {
+        if (acc.type !== TYPE_ITEM.DEVICE) {
+          return {
+            ...acc,
+            disableMttf:
+              items?.find((i) => i?.supplyId === acc?.supply?.id)
+                ?.disableMttf || false,
+          }
+        }
+        return acc
+      })
     setFieldValue('accessoriesMaintenanceInformation', accessoriesList)
   }, [items])
 
@@ -146,14 +158,14 @@ const ItemSettingTable = ({
         },
       },
       {
-        field: 'canRepair',
+        field: 'disableMttf',
         headerName: t('deviceList.infoList.canRepair'),
         align: 'center',
         renderCell: (params, index) => {
           const type = getItemObject(params.row?.supplyId)?.type
           return (
             type === SUPPLIES_ACCESSORY_OPTION[1].value && (
-              <Field.Checkbox name={`items[${index}].canRepair`} />
+              <Field.Checkbox name={`items[${index}].disableMttf`} />
             )
           )
         },
