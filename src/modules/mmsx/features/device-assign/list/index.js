@@ -11,7 +11,7 @@ import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-// import Status from '~/components/Status'
+import Status from '~/components/Status'
 import { DEVICE_ASSIGN_STATUS } from '~/modules/mmsx/constants'
 import useDeviceAssign from '~/modules/mmsx/redux/hooks/useDeviceAssign'
 import { ROUTE } from '~/modules/mmsx/routes/config'
@@ -117,9 +117,13 @@ const DeviceAssign = () => {
         renderCell: (params) => {
           const { status } = params.row
           const isPaused = params?.row?.deviceRequest[0]?.device[0]?.type === 1
-          return isPaused && status === 1
-            ? t(`deviceAssign.status.pending`)
-            : t(DEVICE_ASSIGN_STATUS[status])
+          return (
+            <Status
+              options={DEVICE_ASSIGN_STATUS}
+              value={isPaused && status === 1 ? 0 : status}
+              variant="text"
+            />
+          )
         },
       },
       {

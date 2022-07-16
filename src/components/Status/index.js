@@ -22,10 +22,10 @@ const Status = ({ variant, t: trans, sx, value, options }) => {
       component="span"
       sx={(theme) => ({
         display: 'inline-block',
-        p: '0 8px',
         borderRadius: 1,
         ...(variant === 'contained'
           ? {
+              p: '0 8px',
               backgroundColor:
                 theme.palette.status[s?.color]?.background ||
                 theme.palette.status.default.background,
