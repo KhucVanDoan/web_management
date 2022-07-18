@@ -4,14 +4,14 @@ import { get } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import deviceStatusActions from '~/modules/mmsx/redux/actions/device-status-report'
+import deviceStatusAction from '~/modules/mmsx/redux/actions/device-status'
 
 function useDeviceStatus() {
-  const data = useSelector((state) => get(state, 'mmsx.deviceStatusReport'))
+  const data = useSelector((state) => get(state, 'mmsx.deviceStatus'))
 
   const dispatch = useDispatch()
   const actions = useMemo(
-    () => bindActionCreators(deviceStatusActions, dispatch),
+    () => bindActionCreators(deviceStatusAction, dispatch),
     [dispatch],
   )
   return {

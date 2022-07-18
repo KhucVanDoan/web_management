@@ -828,6 +828,7 @@ export const SUPPLIES_REQUEST_STATUS = {
   CONPLETED: 2,
   REJECTED: 3,
 }
+
 export const DEVICE_ASSIGN_STATUS = [
   {
     id: 0,
@@ -853,5 +854,50 @@ export const DEVICE_ASSIGN_STATUS = [
     id: 4,
     text: 'deviceAssign.status.returned',
     color: 'confirmed',
+  },
+]
+
+export const DEVICE_STATUS_ENUM = {
+  ACTIVATING: 1,
+  STOP: 2,
+  ERROR: 3,
+  OFF: 4,
+  MAINTENANCE_OFF: 5,
+  USING: 6,
+}
+
+export const DEVICE_STATUS_ENUM_MAP = {
+  [DEVICE_STATUS_ENUM.ACTIVATING]: 'deviceStatus.status.activating',
+  [DEVICE_STATUS_ENUM.STOP]: 'deviceStatus.status.stop',
+  [DEVICE_STATUS_ENUM.ERROR]: 'deviceStatus.status.error',
+  [DEVICE_STATUS_ENUM.OFF]: 'deviceStatus.status.off',
+  [DEVICE_STATUS_ENUM.MAINTENANCE_OFF]: 'deviceStatus.status.maintenanceOff',
+  [DEVICE_STATUS_ENUM.USING]: 'deviceStatus.status.using',
+}
+
+export const DEVICE_STATUS_ENUM_OPTIONS = [
+  {
+    text: 'deviceStatus.status.activating',
+    id: 1,
+  },
+  {
+    text: 'deviceStatus.status.stop',
+    id: 2,
+  },
+  {
+    text: 'deviceStatus.status.error',
+    id: 3,
+  },
+  {
+    text: 'deviceStatus.status.off',
+    id: 4,
+  },
+  {
+    text: 'deviceStatus.status.maintenanceOff',
+    id: 5,
+  },
+  {
+    text: 'deviceStatus.status.using',
+    id: 6,
   },
 ]

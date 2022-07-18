@@ -15,7 +15,7 @@ const initialState = {
   metaStatistic: {},
 }
 
-export default function deviceStatus(state = initialState, action) {
+export default function deviceStatusReport(state = initialState, action) {
   switch (action.type) {
     case SEARCH_DEVICE_STATUS:
     case SEARCH_DEVICE_STATISTIC:
