@@ -62,4 +62,13 @@ export const globalStyles = (theme) => ({
   '.MuiButton-root.MuiButton-outlined.MuiButton-outlinedSubText': {
     border: `1px solid ${theme.palette.subText.a2} !important`,
   },
+  '.MuiFormLabel-root .MuiFormLabel-asterisk': {
+    display: 'inline-block',
+    width: 0,
+    height: 0,
+    lineHeight: 0,
+    position: 'relative',
+    top: 0,
+    right: '-2px',
+  },
 })
