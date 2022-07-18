@@ -27,7 +27,6 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter'
-
 const breadcrumbs = [
   {
     title: ROUTE.ORDER_MANAGEMENT.TITLE,

@@ -311,6 +311,7 @@ function InventoryCalendar() {
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
+        noBorderBotttom
         submitProps={{
           color: 'error',
         }}

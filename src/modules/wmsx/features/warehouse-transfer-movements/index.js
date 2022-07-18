@@ -180,6 +180,10 @@ function WarehouseTransferMovements() {
     setSelectedRows([])
   }, [sort, filters, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const refreshData = () => {
     const params = {
       page,

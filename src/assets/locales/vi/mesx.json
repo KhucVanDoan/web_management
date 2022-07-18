@@ -1505,6 +1505,14 @@
     "rejected": "Từ chối",
     "completed": "Hoàn thành"
   },
+  "purchasedOrderStatus": {
+    "pending": "Chờ xác nhận",
+    "confirmed": "Xác nhận",
+    "inProgress": "Đang thực hiện",
+    "approved": "Đã được chấp nhận",
+    "rejected": "Từ chối",
+    "completed": "Hoàn thành"
+  },
   "progressManufacturingByWorkCenter": {
     "export": "Xuất dữ liệu",
     "workCenterName": "Tên xưởng",

@@ -197,6 +197,10 @@ function WarehouseExport() {
     setSelectedRows([])
   }, [sort, filters, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const renderHeaderRight = () => {
     return (
       <>

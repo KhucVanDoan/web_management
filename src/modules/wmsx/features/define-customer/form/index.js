@@ -220,6 +220,7 @@ const DefineCustomerForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
