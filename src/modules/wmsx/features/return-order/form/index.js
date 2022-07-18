@@ -314,11 +314,11 @@ const ReturnOrderForm = () => {
                     )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
-                        label={t('returnOrder.code')}
+                        label={t('returnOrder.returnCode')}
                         name="code"
-                        placeholder={t('returnOrder.code')}
+                        placeholder={t('returnOrder.returnCode')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         disabled={isUpdate}
@@ -328,8 +328,8 @@ const ReturnOrderForm = () => {
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="name"
-                        label={t('returnOrder.name')}
-                        placeholder={t('returnOrder.name')}
+                        label={t('returnOrder.returnName')}
+                        placeholder={t('returnOrder.returnName')}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}

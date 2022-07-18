@@ -2205,6 +2205,8 @@
     "searchPlaceholder": "Tìm kiếm lệnh trả hàng theo mã hoặc tên",
     "code": "Mã lệnh",
     "name": "Tên lệnh",
+    "returnCode": "Mã lệnh trả hàng",
+    "returnName": "Tên lệnh trả hàng",
     "letterType": "Loại đơn từ",
     "letterCode": "Mã đơn từ",
     "letterName": "Tên đơn từ",
