@@ -18,12 +18,15 @@ import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
 import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as DownloadAlt } from '~/assets/images/icons/downloadAlt.svg'
 import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
+import { ReactComponent as Filter } from '~/assets/images/icons/filter.svg'
 import { ReactComponent as ImportXlsx } from '~/assets/images/icons/importXlsx.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
 import { ReactComponent as Lock } from '~/assets/images/icons/keylock.svg'
 import { ReactComponent as UnLock } from '~/assets/images/icons/keyunlock.svg'
+import { ReactComponent as ListView } from '~/assets/images/icons/listView.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
+import { ReactComponent as Overdue } from '~/assets/images/icons/overdue.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
@@ -85,6 +88,9 @@ const icons = {
   lock: <Lock />,
   unLock: <UnLock />,
   assign: <Assign />,
+  overdue: <Overdue />,
+  filter: <Filter />,
+  listView: <ListView />,
 
   // menu
   drawer: <Drawer />,

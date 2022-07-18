@@ -13,10 +13,9 @@ import { format } from 'date-fns'
 import { isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
+import DateSelection from '~/components/DateSelection'
 import { PRIORITY_DASHBOARD } from '~/modules/mmsx/constants'
 import { useDashboardDeviceError } from '~/modules/mmsx/redux/hooks/useDashboard'
-
-import DateSelection from '../date-selection'
 
 const groupOptions = [
   {
