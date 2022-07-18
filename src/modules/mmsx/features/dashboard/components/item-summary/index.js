@@ -34,14 +34,14 @@ function ItemSummary() {
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
-          icon="rhombus"
+          icon="bag"
           label={t('dashboard.unfinishedJob')}
           value={convertNumberWithSISymbol(itemSummaryReport[2]?.count)}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
-          icon="rhombus"
+          icon="overdue"
           label={t('dashboard.overdue')}
           value={convertNumberWithSISymbol(itemSummaryReport[3]?.count)}
         />

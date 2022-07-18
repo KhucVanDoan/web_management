@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
 import { Box, Card, Grid, Typography } from '@mui/material'
 import { isEmpty, isNumber } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -82,6 +83,9 @@ function DeviceUsingStatus() {
                 onChange={(val) => {
                   setFactoryId(val)
                 }}
+                placeholder={t(
+                  'dashboard.deviceUsingStatus.factoryPlaceholder',
+                )}
                 sx={{ mr: 1 }}
               />
             </Grid>
@@ -100,14 +104,10 @@ function DeviceUsingStatus() {
               />
             </Grid>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            lg={6}
-            md={6}
-            sx={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
-            <Button onClick={handleOnClickSearch}>{t('general.filter')}</Button>
+          <Grid item xs={12} lg={6} md={6}>
+            <Button onClick={handleOnClickSearch} icon="filter">
+              {t('general.filter')}
+            </Button>
           </Grid>
         </Grid>
       </Box>
@@ -129,7 +129,7 @@ function DeviceUsingStatus() {
           </Grid>
           <Grid item sx={12} lg={10} md={10} display="flex" alignItems="center">
             <Grid container spacing={2}>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box activation">
                     {data?.totalDeviceStatus?.totalInActive}
@@ -139,7 +139,7 @@ function DeviceUsingStatus() {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box stop">
                     {data?.totalDeviceStatus?.totalInStop}
@@ -149,7 +149,7 @@ function DeviceUsingStatus() {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box error">
                     {data?.totalDeviceStatus?.totalInError}
@@ -159,7 +159,7 @@ function DeviceUsingStatus() {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box off-maintain">
                     {data?.totalDeviceStatus?.totalInMaintain}
@@ -169,7 +169,7 @@ function DeviceUsingStatus() {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box off-shutdown">
                     {data?.totalDeviceStatus?.totalInShutDown}
@@ -179,7 +179,7 @@ function DeviceUsingStatus() {
                   </span>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={6} lg={2}>
+              <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
                   <Box className="stt-box using">
                     {data?.totalDeviceStatus?.totalInUse}
@@ -194,7 +194,11 @@ function DeviceUsingStatus() {
         </Grid>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={() => history.push(ROUTE.DEVICE_STATUS.PATH)}>
+        <Button
+          onClick={() => history.push(ROUTE.DEVICE_STATUS.LIST.PATH)}
+          startIcon={<FormatListBulletedOutlinedIcon />}
+          variant="outlined"
+        >
           {t('dashboard.deviceUsingStatus.listView')}
         </Button>
       </Box>

@@ -13,7 +13,7 @@ export const returnOrderSchema = (t, itemByOrderList) => {
     items: Yup.array().of(
       Yup.object().shape({
         itemId: Yup.object().nullable().required(t('general:form.required')),
-        lotNumber: Yup.string().required(t('general:form.required')),
+        lotNumber: Yup.string().nullable().required(t('general:form.required')),
         quantity: Yup.number()
           .required(t('general:form.required'))
           .min(
@@ -28,25 +28,6 @@ export const returnOrderSchema = (t, itemByOrderList) => {
               max: Number(itemByOrderList?.items?.[0]?.actualQuantity),
             }),
           ),
-        // .test('quantity', '', function () {
-        //   console.log(this)
-        //   const items = [...(this?.from || [])].pop()?.value?.items || []
-        //   const index = this.path.match(/\d+/)[0]
-        //   const quantity = Number(items[+index].quantity)
-        //   console.log(
-        //     quantity > Number(itemByOrderList?.items[+index]?.actualQuantity),
-        //   )
-        //   if (
-        //     quantity !==
-        //     Number(itemByOrderList?.items[+index]?.actualQuantity)
-        //   ) {
-        //     return this.createError({
-        //       message: t('general:form.maxNumber'),
-        //       path: `${this.path}`,
-        //     })
-        //   }
-        //   return true
-        // }),
       }),
     ),
   })
