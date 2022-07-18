@@ -299,26 +299,39 @@ export const ORDER_STATUS = {
   APPROVED: 3,
   COMPLETED: 4,
   REJECTED: 5,
-  INRECEIVING: 6,
+  IN_RECEIVING: 6,
   RECEIVED: 7,
   DELIVERED: 8,
-  INCOLLECTING: 9,
+  IN_COLLECTING: 9,
   COLLECTED: 10,
   EXPORTED: 11,
+  REJECTED_RECEIVED: 12,
+  IN_PRODUCING: 13,
+  PRODUCED: 14,
+  IN_RETURNING: 15,
+  RETURNED: 16,
+  STORED: 17,
 }
 
 export const ORDER_STATUS_MAP = {
   [ORDER_STATUS.PENDING]: 'orderStatus.pending',
   [ORDER_STATUS.CONFIRMED]: 'orderStatus.confirmed',
   [ORDER_STATUS.IN_PROGRESS]: 'orderStatus.inProgress',
-  [ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+  [ORDER_STATUS.APPROVED]: 'returnOrderStatus.approved',
   [ORDER_STATUS.COMPLETED]: 'orderStatus.completed',
-  [ORDER_STATUS.INRECEIVING]: 'orderStatus.inReceiving',
+  [ORDER_STATUS.REJECTED]: 'orderStatus.rejected',
+  [ORDER_STATUS.IN_RECEIVING]: 'orderStatus.inReceiving',
   [ORDER_STATUS.RECEIVED]: 'orderStatus.received',
   [ORDER_STATUS.DELIVERED]: 'orderStatus.delivered',
-  [ORDER_STATUS.INCOLLECTING]: 'orderStatus.inCollecting',
+  [ORDER_STATUS.IN_COLLECTING]: 'orderStatus.inCollecting',
   [ORDER_STATUS.COLLECTED]: 'orderStatus.collected',
   [ORDER_STATUS.EXPORTED]: 'orderStatus.exported',
+  [ORDER_STATUS.REJECTED_RECEIVED]: 'orderStatus.rejectedReceived',
+  [ORDER_STATUS.IN_PRODUCING]: 'orderStatus.inProducing',
+  [ORDER_STATUS.PRODUCED]: 'orderStatus.produced',
+  [ORDER_STATUS.IN_RETURNING]: 'orderStatus.inReturning',
+  [ORDER_STATUS.RETURNED]: 'orderStatus.returned',
+  [ORDER_STATUS.STORED]: 'orderStatus.stored',
 }
 
 export const ORDER_STATUS_OPTIONS = [
@@ -336,6 +349,11 @@ export const ORDER_STATUS_OPTIONS = [
     id: 2,
     text: 'orderStatus.inProgress',
     color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'orderStatus.approved',
+    color: 'approved',
   },
   {
     id: 4,
@@ -376,6 +394,36 @@ export const ORDER_STATUS_OPTIONS = [
     id: 11,
     text: 'orderStatus.exported',
     color: 'completed',
+  },
+  {
+    id: 12,
+    text: 'orderStatus.rejectedReceived',
+    color: 'rejectedReceived',
+  },
+  {
+    id: 13,
+    text: 'orderStatus.inProducing',
+    color: 'inProducing',
+  },
+  {
+    id: 14,
+    text: 'orderStatus.produced',
+    color: 'produced',
+  },
+  {
+    id: 15,
+    text: 'orderStatus.inReturning',
+    color: 'inReturning',
+  },
+  {
+    id: 16,
+    text: 'orderStatus.returned',
+    color: 'returned',
+  },
+  {
+    id: 17,
+    text: 'orderStatus.stored',
+    color: 'stored',
   },
 ]
 
