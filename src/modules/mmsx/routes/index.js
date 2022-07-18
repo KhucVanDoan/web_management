@@ -25,6 +25,9 @@ import DeviceCategoryDetail from '../features/device-category/detail'
 import DeviceCategoryForm from '../features/device-category/form'
 import DeviceCategory from '../features/device-category/list'
 import DeviceStatusReport from '../features/device-status-report'
+import DeviceStatusDetail from '../features/device-status/detail'
+import DeviceStatusForm from '../features/device-status/form'
+import DeviceStatus from '../features/device-status/list'
 import JobAssign from '../features/job/assign'
 import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
@@ -410,6 +413,26 @@ const routes = [
             name: ROUTE.DEVICE_ASSIGN.REASSIGN.TITLE,
             path: ROUTE.DEVICE_ASSIGN.REASSIGN.PATH,
             component: DeviceAssignForm,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEVICE_STATUS.LIST.TITLE,
+        path: ROUTE.DEVICE_STATUS.LIST.PATH,
+        component: DeviceStatus,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEVICE_STATUS.DETAIL.TITLE,
+            path: ROUTE.DEVICE_STATUS.DETAIL.PATH,
+            component: DeviceStatusDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEVICE_STATUS.EDIT.TITLE,
+            path: ROUTE.DEVICE_STATUS.EDIT.PATH,
+            component: DeviceStatusForm,
+            isInSidebar: false,
           },
         ],
       },

@@ -194,7 +194,7 @@ function DeviceUsingStatus() {
         </Grid>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={() => history.push(ROUTE.DEVICE_STATUS.PATH)}>
+        <Button onClick={() => history.push(ROUTE.DEVICE_STATUS.LIST.PATH)}>
           {t('dashboard.deviceUsingStatus.listView')}
         </Button>
       </Box>
