@@ -52,10 +52,21 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
   const columns = [
     {
       field: 'id',
+      headerName: '#',
+      width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
+    },
+    {
+      field: 'code',
       headerName: t('movements.code'),
       width: 100,
       sortable: true,
       fixed: true,
+      renderCell: (params) => {
+        return params.row.id
+      },
     },
     {
       field: 'warehouseType',
@@ -77,7 +88,6 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       field: 'orderStatus',
       headerName: t('movements.inventoryStatus'),
       width: 150,
-      sortable: true,
       renderCell: (params) => {
         const status = Number(params?.row.order.status)
         return (

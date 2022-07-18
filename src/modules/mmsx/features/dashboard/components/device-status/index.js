@@ -82,9 +82,9 @@ const DeviceStatus = () => {
     data: dataChart,
     angleField: 'value',
     colorField: 'type',
-    radius: 1,
+    radius: 0.8,
+    innerRadius: 0.7,
     height: 306,
-    innerRadius: 0.6,
     color: PIE_CHART_COLORS,
     label: {
       type: 'outer',
@@ -97,7 +97,7 @@ const DeviceStatus = () => {
     },
     interactions: [
       {
-        type: 'element-selected',
+        type: 'pie-legend-active',
       },
       {
         type: 'element-active',

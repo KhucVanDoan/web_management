@@ -13,10 +13,9 @@ import { format } from 'date-fns'
 import { isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
+import DateSelection from '~/components/DateSelection'
 import { MAINTAINANCE_STATUS_DASHBOARD } from '~/modules/mmsx/constants'
 import { useDashboardMaintainanceJobStatus } from '~/modules/mmsx/redux/hooks/useDashboard'
-
-import DateSelection from '../date-selection'
 
 const groupOptions = [
   {

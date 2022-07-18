@@ -37,6 +37,10 @@ export const ROUTE = {
       TITLE: 'updateReturnDevice',
     },
   },
+  SERIAL_DEVICE_MANAGEMENT: {
+    PATH: '/wmsx/serial-device-management',
+    TITLE: 'serialDeviceManagement',
+  },
   SETTING: {
     TITLE: 'setting',
   },
@@ -101,8 +105,10 @@ export const ROUTE = {
     TITLE: 'report',
   },
   DEVICE_STATUS: {
-    PATH: '/mmsx/device-status',
-    TITLE: 'deviceStatus',
+    LIST: {
+      PATH: '/mmsx/device-status',
+      TITLE: 'deviceStatus',
+    },
     DETAIL: {
       PATH: '/mmsx/device-status/:id/detail',
       TITLE: 'deviceStatusDetail',
