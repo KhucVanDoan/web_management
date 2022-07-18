@@ -58,7 +58,8 @@ const ItemGroupStockReport = () => {
     angleField: 'value',
     colorField: 'name',
     color: PIE_CHART_COLORS,
-    radius: 1,
+    radius: 0.8,
+    innerRadius: 0.7,
     label: {
       type: 'outer',
       style: { fontSize: 14, textOverflow: 'unset' },
@@ -70,8 +71,14 @@ const ItemGroupStockReport = () => {
         },
       },
     },
-    innerRadius: 0.6,
-    interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
+    interactions: [
+      {
+        type: 'pie-legend-active',
+      },
+      {
+        type: 'element-active',
+      },
+    ],
   }
   return (
     <Card sx={{ p: 2 }}>

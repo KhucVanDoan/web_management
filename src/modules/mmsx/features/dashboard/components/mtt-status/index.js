@@ -14,10 +14,9 @@ import { isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
+import DateSelection from '~/components/DateSelection'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import { useDashboardMttStatus } from '~/modules/mmsx/redux/hooks/useDashboard'
-
-import DateSelection from '../date-selection'
 
 const groupOptions = [
   {
@@ -158,8 +157,11 @@ const MttStatus = () => {
       >
         <Autocomplete
           value={factoryId}
-          options={factoryList}
-          getOptionValue={(opt) => opt?.id || ''}
+          options={[
+            { name: t('general.allFactory'), id: null },
+            ...factoryList,
+          ]}
+          getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.name}
           onChange={(val) => {
             setFactoryId(val)
@@ -169,8 +171,11 @@ const MttStatus = () => {
         />
         <Autocomplete
           value={teamId}
-          options={maintenanceTeams}
-          getOptionValue={(opt) => opt?.id || ''}
+          options={[
+            { name: t('general.allMaintenanceTeam'), id: null },
+            ...maintenanceTeams,
+          ]}
+          getOptionValue={(opt) => opt?.id}
           getOptionLabel={(opt) => opt?.name}
           onChange={(val) => {
             setTeamId(val)
