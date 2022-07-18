@@ -410,6 +410,7 @@ const POForm = () => {
                     )}
                     type={values?.type}
                     setFieldValue={setFieldValue}
+                    values={values}
                   />
                 )}
               />
