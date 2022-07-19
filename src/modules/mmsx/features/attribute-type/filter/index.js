@@ -51,9 +51,6 @@ const FilterForm = () => {
           getOptionLabel={(opt) => opt?.name || ''}
         />
       </Grid>
-      <Grid item xs={12}>
-        <Field.DateRangePicker name="createdAt" label={t('common.createdAt')} />
-      </Grid>
     </Grid>
   )
 }

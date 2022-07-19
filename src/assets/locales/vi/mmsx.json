@@ -1727,6 +1727,7 @@
   },
   "attributeType": {
     "title": "Danh sách loại giá trị",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc mã",
     "table": {
       "code": "Mã giá trị",
       "name": "Tên giá trị",
