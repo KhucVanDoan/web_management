@@ -1,12 +1,6 @@
 import { useEffect } from 'react'
 
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Box, Checkbox, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -31,7 +25,7 @@ import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { arrayHelpers, items, values, mode, soId, setFieldValue } = props
+  const { arrayHelpers, items, mode, soId, setFieldValue } = props
   const isView = mode === MODAL_MODE.DETAIL
 
   const {
@@ -93,10 +87,7 @@ function ItemSettingTable(props) {
   }
 
   const handleGetData = (val, index) => {
-    const params = {
-      itemId: items[index]?.itemId?.id,
-      orderId: values?.soCode?.id,
-    }
+    const params = items[index]?.itemId
     if (val) {
       lsActions.searchLocationSetting({
         filter: convertFilterParams({
@@ -200,16 +191,11 @@ function ItemSettingTable(props) {
         return isView ? (
           <Checkbox disabled checked={params.row?.isEven} />
         ) : (
-          <FormControlLabel
-            control={
-              <Field.Checkbox
-                name={`items[${index}].evenRow`}
-                onChange={(val) => {
-                  handleGetData(val, index)
-                }}
-              />
-            }
-            label=""
+          <Field.Checkbox
+            name={`items[${index}].evenRow`}
+            onChange={(val) => {
+              handleGetData(val, index)
+            }}
           />
         )
       },
@@ -264,7 +250,7 @@ function ItemSettingTable(props) {
             name={`items[${index}].packageId`}
             options={evenRow ? packagesEvenByItem : packageList}
             getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(option) => option?.id || ''}
+            getOptionValue={(opt) => opt?.id || ''}
           />
         )
       },

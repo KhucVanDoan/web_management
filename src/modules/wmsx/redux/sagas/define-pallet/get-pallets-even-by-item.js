@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getPalletsEvenByItemApi = (params) => {
-  const uri = `/v1/items/pallets/${params.itemId}/evenly?palletIds=${params.palletIds}`
+  const uri = `/v1/items/pallets/${params}/evenly`
   return api.get(uri)
 }
 
@@ -27,8 +27,7 @@ function* doGetPalletsEvenByItem(action) {
 
     if (response?.statusCode === 200) {
       const payload = {
-        list: response.data.items,
-        total: response.data.meta.total,
+        list: response.data,
       }
       yield put(getPalletsEvenByItemSuccess(payload))
 

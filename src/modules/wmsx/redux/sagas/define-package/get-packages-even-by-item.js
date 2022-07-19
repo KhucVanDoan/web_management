@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getPackagesEvenByItemApi = (params) => {
-  const uri = `/v1/items/packages/${params.itemId}/evenly?packageIds=${params.packageIds}`
+  const uri = `/v1/items/packages/${params}/evenly`
   return api.get(uri)
 }
 

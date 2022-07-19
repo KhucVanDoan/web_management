@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-import {
-  Checkbox,
-  FormControlLabel,
-  IconButton,
-  InputAdornment,
-} from '@mui/material'
+import { Checkbox, IconButton, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
@@ -30,7 +25,6 @@ import {
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
   const { items, mode, arrayHelpers, values, setFieldValue } = props
-  const [checked, setChecked] = useState()
   const isView = mode === MODAL_MODE.DETAIL
 
   const {
@@ -55,7 +49,7 @@ function ItemSettingTable(props) {
 
   const {
     data: { palletsEvenByItem },
-    // actions: palletActs,
+    actions: palletActs,
   } = useDefinePallet()
 
   useEffect(() => {
@@ -72,10 +66,7 @@ function ItemSettingTable(props) {
   }, [values?.orderCode])
 
   const handleGetData = (val, index) => {
-    const params = {
-      itemId: items[index]?.itemId?.id,
-      packageIds: items[index]?.itemId?.packages?.map((p) => p.id),
-    }
+    const params = items[index]?.itemId?.id
     if (val) {
       lsActions.searchLocationSetting({
         filter: convertFilterParams({
@@ -84,6 +75,7 @@ function ItemSettingTable(props) {
         }),
       })
       packageActs.getPackagesEvenByItem(params)
+      palletActs.getPalletsEvenByItem(params)
     }
   }
 
@@ -153,17 +145,11 @@ function ItemSettingTable(props) {
         return isView ? (
           <Checkbox disabled checked={params.row?.isEven} />
         ) : (
-          <FormControlLabel
-            control={
-              <Field.Checkbox
-                name={`items[${index}].evenRow`}
-                onChange={(val) => {
-                  setChecked(val)
-                  handleGetData(val, index)
-                }}
-              />
-            }
-            label=""
+          <Field.Checkbox
+            name={`items[${index}].evenRow`}
+            onChange={(val) => {
+              handleGetData(val, index)
+            }}
           />
         )
       },
@@ -212,41 +198,41 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.packageCode'),
       width: 180,
       renderCell: (params, index) => {
+        const { packageId, evenRow } = params.row
         return isView ? (
-          <>{params?.row?.packageId}</>
+          <>{packageId}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].packageId`}
             options={
-              checked ? packagesEvenByItem : items[index]?.itemId?.packages
+              evenRow ? packagesEvenByItem : items[index]?.itemId?.packages
             }
             disabled={isView}
             getOptionLabel={(opt) => opt?.code}
-            getOptionSubLabel={(opt) => opt?.name}
+            getOptionValue={(opt) => opt?.id || ''}
           />
         )
       },
     },
-    checked
-      ? {
-          field: 'palletCode',
-          headerName: t('returnOrder.items.palletCode'),
-          width: 180,
-          renderCell: (params, index) => {
-            return isView ? (
-              <>{params?.row?.palletId}</>
-            ) : (
-              <Field.Autocomplete
-                name={`items[${index}].palletId`}
-                options={palletsEvenByItem}
-                disabled={isView}
-                getOptionLabel={(opt) => opt?.code}
-                getOptionValue={(opt) => opt?.id || null}
-              />
-            )
-          },
-        }
-      : {},
+    {
+      field: 'palletCode',
+      headerName: t('returnOrder.items.palletCode'),
+      width: 180,
+      renderCell: (params, index) => {
+        const { evenRow } = params.row
+        return isView ? (
+          <>{params?.row?.palletId}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].palletId`}
+            options={evenRow ? palletsEvenByItem : []}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id || null}
+          />
+        )
+      },
+    },
     {
       field: 'packingPosition',
       headerName: t(`returnOrder.items.${fieldName}`),

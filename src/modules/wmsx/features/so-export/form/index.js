@@ -141,6 +141,7 @@ function SOExportForm() {
       orderedAt: val?.soCode?.orderedAt || soExportDetails?.orderedAt,
       deliveredAt: val?.deliveredAt,
       warehouseId: Number(val?.warehouse),
+      assignUserIds: [],
       items: val?.items?.map((item) => ({
         id: item.itemId,
         warehouseId: val?.warehouse,
@@ -150,6 +151,9 @@ function SOExportForm() {
         lotNumber: item?.lotNumber,
         mfg: item?.mfg,
         packageId: item?.packageId,
+        palletId: item?.palletId,
+        isEven: item?.evenRow ? '1' : '0',
+        suggestItemLocationId: item?.location,
       })),
     }
     if (isUpdate) {
@@ -425,7 +429,6 @@ function SOExportForm() {
                     items={values?.items || []}
                     soId={values?.soCode?.id || ''}
                     setFieldValue={setFieldValue}
-                    values={values}
                   />
                 )}
               />
