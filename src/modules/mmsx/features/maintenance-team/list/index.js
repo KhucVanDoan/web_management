@@ -35,7 +35,7 @@ const MaintenanceTeam = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
 
   const {
-    data: { maintenanceTeams, isLoading, total },
+    data: { maintenanceTeams, isLoading, meta },
     actions,
   } = useMaintenanceTeam()
   const { t } = useTranslation(['mmsx'])
@@ -212,7 +212,7 @@ const MaintenanceTeam = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={total}
+        total={meta.total}
         sort={sort}
         filters={{
           form: <FilterForm />,

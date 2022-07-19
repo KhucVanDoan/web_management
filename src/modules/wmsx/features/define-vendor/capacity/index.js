@@ -179,11 +179,9 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemCode: '',
-                itemName: '',
-                unit: '',
-                quantityAverage: '',
-                timeAverage: '',
+                itemId: null,
+                quantity: '',
+                deliveryTime: '',
               })
             }}
           >

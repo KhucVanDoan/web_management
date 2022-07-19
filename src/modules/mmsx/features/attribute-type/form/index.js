@@ -163,7 +163,7 @@ function AttributeTypeForm() {
                       name="code"
                       placeholder={t('attributeType.form.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -176,7 +176,7 @@ function AttributeTypeForm() {
                       name="name"
                       placeholder={t('attributeType.form.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />

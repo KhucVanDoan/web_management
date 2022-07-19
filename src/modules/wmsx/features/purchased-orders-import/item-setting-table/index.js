@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react'
 
-import {
-  Checkbox,
-  createFilterOptions,
-  FormControlLabel,
-  IconButton,
-} from '@mui/material'
+import { Checkbox, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
@@ -36,15 +31,8 @@ import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const {
-    items,
-    mode,
-    values,
-    arrayHelpers,
-    status,
-    itemsFilter,
-    setFieldValue,
-  } = props
+  const { items, mode, arrayHelpers, status, itemsFilter, setFieldValue } =
+    props
   const hideCols = ![
     ORDER_STATUS.IN_PROGRESS,
     ORDER_STATUS.APPROVED,
@@ -92,10 +80,7 @@ function ItemSettingTable(props) {
   }, [itemIds])
 
   const handleGetData = (val, index) => {
-    const params = {
-      itemId: items[index]?.itemId?.id,
-      orderId: values?.purchasedOrderId,
-    }
+    const params = items[index]?.itemId
     if (val) {
       lsActions.searchLocationSetting({
         filter: convertFilterParams({
@@ -181,7 +166,7 @@ function ItemSettingTable(props) {
             name={`items[${index}].itemId`}
             options={itemListFilter}
             getOptionLabel={(opt) => opt?.name}
-            getOptionValue={(option) => option?.id || ''}
+            getOptionValue={(opt) => opt?.id || ''}
             onChange={() => {
               setFieldValue(`items[${index}]['qcCheck']`, false)
             }}
@@ -213,18 +198,13 @@ function ItemSettingTable(props) {
       align: 'center',
       renderCell: (params, index) => {
         return isView ? (
-          <Checkbox disabled checked={params.row?.isEven} />
+          <Checkbox disabled checked={params.row?.evenRow} />
         ) : (
-          <FormControlLabel
-            control={
-              <Field.Checkbox
-                name={`items[${index}].evenRow`}
-                onChange={(val) => {
-                  handleGetData(val, index)
-                }}
-              />
-            }
-            label=""
+          <Field.Checkbox
+            name={`items[${index}].evenRow`}
+            onChange={(val) => {
+              handleGetData(val, index)
+            }}
           />
         )
       },
@@ -296,14 +276,46 @@ function ItemSettingTable(props) {
           <>{packageList?.find((pk) => pk?.id === packageId)?.code || ''}</>
         ) : (
           <Field.Autocomplete
-            name={`packageId${index}`}
-            disabled={true}
+            name={`items[${index}].packageId`}
             options={evenRow ? packagesEvenByItem : packageFilter}
             getOptionLabel={(opt) => opt?.code}
-            filterOptions={createFilterOptions({
-              stringify: (opt) => opt?.code,
-            })}
-            getOptionValue={(option) => option?.id || ''}
+            getOptionValue={(opt) => opt?.id}
+          />
+        )
+      },
+    },
+    {
+      field: 'palletCode',
+      headerName: t('purchasedOrderImport.item.palletCode'),
+      width: 180,
+      renderCell: (params, index) => {
+        const { evenRow } = params.row
+        return isView ? (
+          <>{params?.row?.palletId}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].palletId`}
+            options={evenRow ? palletsEvenByItem : []}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id}
+          />
+        )
+      },
+    },
+    {
+      field: 'storageLocation',
+      headerName: t(`purchasedOrderImport.item.storageLocation`),
+      width: 180,
+      renderCell: (params, index) => {
+        return isView ? (
+          <>{params?.row?.location}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].location`}
+            options={locationSettingsList}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id}
           />
         )
       },
@@ -357,7 +369,6 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].quantity`}
             type="number"
-            disabled={isView}
             allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
             numberProps={{
               decimalScale: 2,
@@ -379,7 +390,6 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].storedQuantity`}
             type="number"
-            disabled={isView}
             allow={TEXTFIELD_ALLOW.NUMERIC}
           />
         )
@@ -398,7 +408,6 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].remainQuantity`}
             type="number"
-            disabled={isView}
             allow={TEXTFIELD_ALLOW.NUMERIC}
           />
         )
@@ -417,7 +426,6 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].actualQuantity`}
             type="number"
-            disabled={isView}
             allow={TEXTFIELD_ALLOW.NUMERIC}
           />
         )
