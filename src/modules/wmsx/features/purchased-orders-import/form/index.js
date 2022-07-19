@@ -23,6 +23,8 @@ import {
   ORDER_STATUS,
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
+import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
+import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
@@ -50,6 +52,10 @@ const POForm = () => {
     data: { warehouseList, itemQualityPoint },
     actions: commonActions,
   } = useCommonManagement()
+
+  const { actions: packageActs } = useDefinePackage()
+
+  const { actions: palletActs } = useDefinePallet()
 
   const { actions: actionsPurchasedOrderDetails } = usePurchasedOrder()
 
@@ -87,6 +93,7 @@ const POForm = () => {
     packageId: null,
     mfg: null,
     storedQuantity: 1,
+    evenRow: false,
   }
 
   const initialValues = useMemo(
@@ -132,6 +139,9 @@ const POForm = () => {
               lotNumber: detailLot?.lotNumber,
               mfg: detailLot?.mfg,
               packageId: detailLot?.packageId,
+              evenRow: detailLot?.isEven,
+              palletId: detailLot?.palletId,
+              location: detailLot?.locationId,
             }),
           )
         : [{ ...DEFAULT_ITEM }],
@@ -178,9 +188,17 @@ const POForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
-      actions.getPOImportDetailsById(id)
+      actions.getPOImportDetailsById(id, (data) => {
+        // eslint-disable-next-line array-callback-return
+        data?.purchasedOrderImportWarehouseLots?.map((i) => {
+          packageActs.getPackagesEvenByItem(i.itemId)
+          palletActs.getPalletsEvenByItem(i.itemId)
+        })
+      })
+      return () => {
+        actions.resetPODetailsState()
+      }
     }
-    return () => actions.resetPODetailsState()
   }, [params?.id])
 
   const getTitle = () => {
@@ -208,6 +226,7 @@ const POForm = () => {
       purchasedAt: values?.purchasedAt,
       deliveredAt: values?.deliveredAt,
       warehouseId: values?.warehouseId,
+      assignUserIds: [1], //@Todo: handle CR assignUser
       items: values?.items?.map((item) => ({
         id: item.itemId,
         warehouseId: values?.warehouseId,
@@ -216,8 +235,11 @@ const POForm = () => {
         qcCheck: item.qcCheck,
         qcCriteriaId: item.qcCriteriaId,
         mfg: item.mfg,
-        packageId: item.packageId,
+        packageId: item?.packageId,
         storedQuantity: +item?.storedQuantity,
+        palletId: item?.palletId,
+        isEven: item?.evenRow,
+        locationId: item?.location,
       })),
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -410,7 +432,6 @@ const POForm = () => {
                     )}
                     type={values?.type}
                     setFieldValue={setFieldValue}
-                    values={values}
                   />
                 )}
               />
