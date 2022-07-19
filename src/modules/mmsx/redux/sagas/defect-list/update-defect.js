@@ -25,7 +25,8 @@ function* doUpdateDefect(action) {
       addNotification(response.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
-      throw new Error(response?.message)
+      yield put(updateDefectFail())
+      if (action.onError) yield action.onError()
     }
   } catch (error) {
     yield put(updateDefectFail())

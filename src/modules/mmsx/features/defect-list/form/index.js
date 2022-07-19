@@ -171,10 +171,10 @@ function DefectListForm() {
                         label={t('defectList.form.code')}
                         name="code"
                         placeholder={t('defectList.form.code')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                        }}
                         disabled={isUpdate}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
+                        }}
                         required
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       />

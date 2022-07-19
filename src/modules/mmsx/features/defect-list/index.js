@@ -239,7 +239,7 @@ function DefectList() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('deviceList.deleteDevice.title')}
+        title={t('defectList.modalDelete.title')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDeleteModal}
@@ -249,14 +249,14 @@ function DefectList() {
         }}
         noBorderBottom
       >
-        {t('deviceList.deleteDevice.description')}
+        {t('defectList.modalDelete.description')}
         <LabelValue
-          label={t('deviceList.device.code')}
+          label={t('defectList.table.code')}
           value={modal?.tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LabelValue
-          label={t('deviceList.device.name')}
+          label={t('defectList.table.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
