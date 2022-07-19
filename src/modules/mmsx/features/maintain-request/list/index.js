@@ -37,7 +37,7 @@ const breadcrumbs = [
 ]
 const MaintainRequest = () => {
   const {
-    data: { maintainRequestList, isLoading, total },
+    data: { maintainRequestList, isLoading, meta },
     actions,
   } = useMaintainRequest()
   const { t } = useTranslation(['mmsx'])
@@ -279,7 +279,7 @@ const MaintainRequest = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={total}
+        total={meta.total}
         sort={sort}
         filters={{
           form: <FilterForm />,

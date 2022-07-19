@@ -107,6 +107,9 @@ const PODetail = () => {
               )?.qcCriteriaId,
           )?.code || '',
         storedQuantity: detailLot?.storedQuantity,
+        evenRow: detailLot?.isEven,
+        palletId: detailLot?.pallet?.code,
+        location: detailLot?.location?.name,
       })),
     }
     setDataTable(state?.items)

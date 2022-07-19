@@ -37,6 +37,8 @@ const style = (theme) => ({
     },
   },
   listbox: {
+    padding: 0,
+
     '& ul': {
       width: 'auto !important',
       margin: 0,
@@ -67,6 +69,17 @@ const style = (theme) => ({
   },
   paper: {
     border: `1px solid ${theme.palette.grayF4.main}`,
+    '.MuiListSubheader-root': {
+      color: theme.palette.subText.main,
+      // position: 'relative',
+      lineHeight: '22px',
+      padding: '6px 16px',
+      top: 0,
+
+      '~li': {
+        paddingLeft: 24,
+      },
+    },
   },
 })
 

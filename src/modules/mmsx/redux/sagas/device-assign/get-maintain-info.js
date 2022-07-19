@@ -8,7 +8,7 @@ import {
   MMSX_GET_DEVICE_ASSIGN_MAINTAIN_INFO_START,
 } from '../../actions/device-assign'
 
-const maintainInfoDeviceAssign = (params) => {
+export const maintainInfoDeviceAssign = (params) => {
   const url = `v1/mms/devices/assign-device/${params.id}/maintain-info`
   return api.get(url, { deviceAssignId: params.deviceAssignId })
 }

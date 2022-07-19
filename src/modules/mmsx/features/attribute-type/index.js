@@ -12,11 +12,7 @@ import Icon from '~/components/Icon'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/mmsx/routes/config'
-import {
-  convertFilterParams,
-  convertSortParams,
-  convertUtcDateTimeToLocalTz,
-} from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import useAttributeType from '../../redux/hooks/useAttributeType'
 import FilterForm from './filter'
@@ -83,17 +79,6 @@ function AttributeType() {
       width: 200,
       sortable: true,
       renderCell: (params) => params?.row?.unit?.name || '',
-    },
-    {
-      field: 'createdAt',
-      headerName: t('common.createdAt'),
-      filterFormat: 'date',
-      width: 200,
-      sortable: true,
-      renderCell: (params) => {
-        const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
-      },
     },
     {
       field: 'action',
@@ -187,7 +172,7 @@ function AttributeType() {
       breadcrumbs={breadcrumbs}
       title={t('menu.attributeType')}
       onSearch={setKeyword}
-      placeholder={t('common.searchPlaceHolder')}
+      placeholder={t('attributeType.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >

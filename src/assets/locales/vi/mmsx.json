@@ -1254,7 +1254,7 @@
   },
   "defectList": {
     "title": "Danh sách lỗi",
-    "searchPlaceholder": "Tìm kiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm theo tên lỗi hoặc mã lỗi",
     "form": {
       "create": "Tạo thông tin lỗi",
       "update": "Sửa thông tin lỗi",
@@ -1330,7 +1330,7 @@
   },
   "attributeMaintenance": {
     "title": "Danh sách thuộc tính bảo trì",
-    "searchPlaceholder": "Tìm kiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "table": {
       "code": "Mã thuộc tính",
       "name": "Tên thuộc tính",
@@ -1727,6 +1727,7 @@
   },
   "attributeType": {
     "title": "Danh sách loại giá trị",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc mã",
     "table": {
       "code": "Mã giá trị",
       "name": "Tên giá trị",
