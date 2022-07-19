@@ -167,7 +167,7 @@
     "returnOrderDetail": "Chi tiết lệnh trả hàng"
   },
   "locationSetting": {
-    "title": "Dạnh sách thiết lập vị trí",
+    "title": "Danh sách thiết lập vị trí",
     "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",
     "type": "Loại",
     "unit": "Đơn vị lưu kho",
