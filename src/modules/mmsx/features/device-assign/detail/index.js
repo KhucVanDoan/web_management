@@ -24,13 +24,13 @@ import {
 import Activities from '~/modules/mmsx/partials/Activities'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useDeviceAssign from '~/modules/mmsx/redux/hooks/useDeviceAssign'
+import { maintainInfoDeviceAssign } from '~/modules/mmsx/redux/sagas/device-assign/get-maintain-info'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 import DeviceAssignFormHistory from '../form/form-history'
 import TableMo from '../form/table-mo'
 import TableMaintenance from '../table-maintenance'
-
 const breadcrumbs = [
   {
     title: ROUTE.DEVICE_MANAGEMENT.TITLE,
@@ -75,14 +75,12 @@ const DeviceAssignDetail = () => {
             addMinutes(
               new Date(deviceAssignDetail?.usedAt),
               +item?.maintenancePeriod || 0,
-              'dd/MM/yyyy',
             ),
           ),
           replaceDate: convertUtcDateToLocalTz(
             addMinutes(
               new Date(deviceAssignDetail?.usedAt),
               +item?.mttfIndex || 0,
-              'dd/MM/yyyy',
             ),
           ),
         })
@@ -118,13 +116,15 @@ const DeviceAssignDetail = () => {
     }
   }, [id])
 
-  useEffect(() => {
-    if (deviceAssignDetail) {
+  const getMaintainInfoDeviceAssign = async () => {
+    if (!isEmpty(deviceAssignDetail)) {
       const params = {
         id: deviceAssignDetail?.deviceId,
         deviceAssignId: deviceAssignDetail?.id,
       }
-      actions.getMaintainInfoDeviceAssign(params, (data) => {
+      const response = await maintainInfoDeviceAssign(params)
+      if (response?.data) {
+        const data = response?.data
         setMaintainList([
           {
             details: formatSubAccessories(data?.details),
@@ -134,7 +134,6 @@ const DeviceAssignDetail = () => {
                 new Date(deviceAssignDetail?.usedAt),
                 data?.maintenancePeriod || 0,
               ),
-              'dd/MM/yyyy',
             ),
             mtbf: Math.round(data?.mtbfIndex),
             mttf: +data?.mttfIndex ? Math.round(data?.mttfIndex) : null,
@@ -145,12 +144,15 @@ const DeviceAssignDetail = () => {
                 new Date(deviceAssignDetail?.usedAt),
                 data?.mttfIndex || 0,
               ),
-              'dd/MM/yyyy',
             ),
           },
         ])
-      })
+      }
     }
+  }
+
+  useEffect(() => {
+    getMaintainInfoDeviceAssign()
   }, [deviceAssignDetail])
 
   useEffect(() => {
@@ -231,14 +233,61 @@ const DeviceAssignDetail = () => {
         width: 150,
         align: 'center',
       },
+      {
+        field: 'replaceDate',
+        headerName: t('deviceAssign.maintainTable.estimatedReplacementDate'),
+        width: 150,
+        align: 'center',
+      },
     ],
     [deviceAssignDetail, maintainList],
   )
 
   const subColumns = [
     {
-      field: 'test',
-      headerName: 'test',
+      field: 'name',
+      headerName: t('deviceAssign.assign.componentTitle'),
+      width: 150,
+    },
+    {
+      field: 'nextMaintain',
+      headerName: t('deviceAssign.maintainTable.nextMaintainEstimate'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mtbfIndex',
+      headerName: t('deviceList.form.mtbf'),
+      headerTooltip: t('deviceList.tooltipHeader.mtbf'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttrIndex',
+      headerName: t('deviceList.form.mttr'),
+      headerTooltip: t('deviceList.tooltipHeader.mttr'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttaIndex',
+      headerName: t('deviceList.form.mtta'),
+      headerTooltip: t('deviceList.tooltipHeader.mtta'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttfIndex',
+      headerName: t('deviceList.form.mttf'),
+      headerTooltip: t('deviceList.tooltipHeader.mttf'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'replaceDate',
+      headerName: t('deviceAssign.maintainTable.estimatedReplacementDate'),
+      width: 150,
+      align: 'center',
     },
   ]
 
@@ -391,14 +440,6 @@ const DeviceAssignDetail = () => {
                   mb: 2,
                 }}
               >
-                {/* <DataTable
-                  rows={formatMaintainList(maintainList)}
-                  columns={columns}
-                  striped={false}
-                  hideSetting
-                  hideFooter
-                /> */}
-
                 <TableMaintenance
                   rows={maintainList}
                   columns={columns}

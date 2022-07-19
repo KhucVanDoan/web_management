@@ -20,7 +20,6 @@ import DateRangePicker from '~/components/DateRangePicker'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
-import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
 import {
   ACTION_MAP,
@@ -32,9 +31,11 @@ import {
 import Activities from '~/modules/mmsx/partials/Activities'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useDeviceAssign from '~/modules/mmsx/redux/hooks/useDeviceAssign'
+import { maintainInfoDeviceAssign } from '~/modules/mmsx/redux/sagas/device-assign/get-maintain-info'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
+import TableMaintenance from '../table-maintenance'
 import DeviceAssignFormHistory from './form-history'
 import { validateShema } from './schema'
 import TableMo from './table-mo'
@@ -49,7 +50,7 @@ const DeviceAssignForm = () => {
   const [requestOptions, setRequestOptions] = useState([])
   const [maintainList, setMaintainList] = useState([])
   const [maintainInfo, setMaintainInfo] = useState({})
-  const [usageTime, setUsageTime] = useState()
+  const [usageTime, setUsageTime] = useState(null)
   const [dateWorkCenter, setDateWorkCenter] = useState([
     subMonths(new Date(), 6),
     new Date(),
@@ -79,22 +80,20 @@ const DeviceAssignForm = () => {
     history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)
   }
 
-  const formatSubAccessories = (data) => {
+  const formatSubAccessories = (data, time) => {
     const accessories = []
     data?.forEach((item) => {
       if (item?.type === SUPPLIES_ACCESSORY.ACCESSORY) {
         accessories.push({
           ...item,
-          nextMaintain: usageTime
+          nextMaintain: time
             ? convertUtcDateToLocalTz(
-                addMinutes(new Date(usageTime), item?.maintenancePeriod || 0),
-                'dd/MM/yyyy',
+                addMinutes(new Date(time), item?.maintenancePeriod || 0),
               )
             : null,
-          replaceDate: usageTime
+          replaceDate: time
             ? convertUtcDateToLocalTz(
-                addMinutes(new Date(usageTime), item?.mttfIndex || 0),
-                'dd/MM/yyyy',
+                addMinutes(new Date(time), item?.mttfIndex || 0),
               )
             : null,
         })
@@ -118,6 +117,50 @@ const DeviceAssignForm = () => {
     productivityTarget: deviceAssignDetail?.productivityTarget || '',
     hasMO: deviceAssignDetail?.deviceType === 1 || false,
   }
+
+  const getMaintainInfoDeviceAssign = async () => {
+    if (!isEmpty(deviceAssignDetail)) {
+      setUsageTime(deviceAssignDetail?.usedAt)
+      const params = {
+        id: deviceAssignDetail?.deviceId,
+        deviceAssignId: deviceAssignDetail?.id,
+      }
+      const response = await maintainInfoDeviceAssign(params)
+      if (response?.data) {
+        const data = response?.data
+        setMaintainList([
+          {
+            details: formatSubAccessories(
+              data?.details,
+              deviceAssignDetail?.usedAt,
+            ),
+            name: data?.name,
+            nextMaintain: convertUtcDateToLocalTz(
+              addMinutes(
+                new Date(deviceAssignDetail?.usedAt),
+                data?.maintenancePeriod || 0,
+              ),
+            ),
+            mtbf: Math.round(data?.mtbfIndex),
+            mttf: +data?.mttfIndex ? Math.round(data?.mttfIndex) : null,
+            mtta: Math.round(data?.mttaIndex),
+            mttr: Math.round(data?.mttrIndex),
+            maintenancePeriod: data?.maintenancePeriod,
+            replaceDate: convertUtcDateToLocalTz(
+              addMinutes(
+                new Date(deviceAssignDetail?.usedAt),
+                data?.mttfIndex || 0,
+              ),
+            ),
+          },
+        ])
+      }
+    }
+  }
+
+  useEffect(() => {
+    getMaintainInfoDeviceAssign()
+  }, [deviceAssignDetail])
 
   useEffect(() => {
     if (id) {
@@ -252,6 +295,25 @@ const DeviceAssignForm = () => {
     })
   }
 
+  const handleChangeUsageTime = (val, setFieldValue) => {
+    if (setFieldValue) {
+      setFieldValue('usageTime', val)
+    }
+    setUsageTime(val)
+    setMaintainList((prev) => {
+      return prev?.map((item) => ({
+        ...item,
+        details: formatSubAccessories(item?.details, val),
+        nextMaintain: convertUtcDateToLocalTz(
+          addMinutes(new Date(val), item?.maintenancePeriod || 0),
+        ),
+        replaceDate: convertUtcDateToLocalTz(
+          addMinutes(new Date(val), item?.mttf || 0),
+        ),
+      }))
+    })
+  }
+
   useEffect(() => {
     if (!isEmpty(maintainInfo)) {
       setMaintainList([
@@ -264,7 +326,6 @@ const DeviceAssignForm = () => {
                   new Date(usageTime),
                   maintainInfo?.maintenancePeriod || 0,
                 ),
-                'dd/MM/yyyy',
               )
             : null,
           mtbf: maintainInfo.mtbfIndex,
@@ -274,7 +335,6 @@ const DeviceAssignForm = () => {
           replaceDate: usageTime
             ? convertUtcDateToLocalTz(
                 addMinutes(new Date(usageTime), maintainInfo?.mttfIndex || 0),
-                'dd/MM/yyyy',
               )
             : null,
         },
@@ -289,20 +349,12 @@ const DeviceAssignForm = () => {
         headerName: t('deviceAssign.assign.name'),
         width: 150,
         align: 'center',
-        renderCell: (params) => {
-          const { item } = params.row
-          return item?.code
-        },
       },
       {
         field: 'nextMaintain',
         headerName: t('deviceAssign.maintainTable.nextMaintainEstimate'),
         width: 150,
         align: 'center',
-        renderCell: (params) => {
-          const { item } = params.row
-          return item?.name
-        },
       },
       {
         field: 'mtbf',
@@ -332,9 +384,63 @@ const DeviceAssignForm = () => {
         width: 150,
         align: 'center',
       },
+      {
+        field: 'replaceDate',
+        headerName: t('deviceAssign.maintainTable.estimatedReplacementDate'),
+        width: 150,
+        align: 'center',
+      },
     ],
     [deviceAssignDetail, maintainList],
   )
+
+  const subColumns = [
+    {
+      field: 'name',
+      headerName: t('deviceAssign.assign.componentTitle'),
+      width: 150,
+    },
+    {
+      field: 'nextMaintain',
+      headerName: t('deviceAssign.maintainTable.nextMaintainEstimate'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mtbfIndex',
+      headerName: t('deviceList.form.mtbf'),
+      headerTooltip: t('deviceList.tooltipHeader.mtbf'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttrIndex',
+      headerName: t('deviceList.form.mttr'),
+      headerTooltip: t('deviceList.tooltipHeader.mttr'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttaIndex',
+      headerName: t('deviceList.form.mtta'),
+      headerTooltip: t('deviceList.tooltipHeader.mtta'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'mttfIndex',
+      headerName: t('deviceList.form.mttf'),
+      headerTooltip: t('deviceList.tooltipHeader.mttf'),
+      width: 150,
+      align: 'center',
+    },
+    {
+      field: 'replaceDate',
+      headerName: t('deviceAssign.maintainTable.estimatedReplacementDate'),
+      width: 150,
+      align: 'center',
+    },
+  ]
 
   const getBreadcrumb = () => {
     const breadcrumb = [
@@ -390,7 +496,11 @@ const DeviceAssignForm = () => {
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={handleReset}
+            onCancel={() => {
+              handleReset()
+              setMaintainList([])
+              setUsageTime(null)
+            }}
             mode={MODAL_MODE.CREATE}
           />
         )
@@ -399,7 +509,10 @@ const DeviceAssignForm = () => {
         return (
           <ActionBar
             onBack={backToList}
-            onCancel={handleReset}
+            onCancel={() => {
+              handleReset()
+              handleChangeUsageTime(deviceAssignDetail?.usedAt)
+            }}
             mode={MODAL_MODE.UPDATE}
           />
         )
@@ -460,11 +573,11 @@ const DeviceAssignForm = () => {
   const getContentTabs = (values) => {
     const tab1 = (
       <Box sx={{ mb: 2 }}>
-        <TableCollapse
+        <TableMaintenance
           rows={maintainList}
           columns={columns}
-          isRoot={true}
-          isView={true}
+          subColumns={subColumns}
+          striped={false}
           hideSetting
           hideFooter
         />
@@ -662,10 +775,9 @@ const DeviceAssignForm = () => {
                         label={t('deviceAssign.assign.usageTime')}
                         name="usageTime"
                         placeholder={t('deviceAssign.assign.usageTime')}
-                        onChange={(val) => {
-                          setFieldValue('usageTime', val)
-                          setUsageTime(val)
-                        }}
+                        onChange={(val) =>
+                          handleChangeUsageTime(val, setFieldValue)
+                        }
                         required
                       />
                     </Grid>
