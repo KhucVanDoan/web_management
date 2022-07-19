@@ -480,13 +480,6 @@ export const TRANSFER_STATUS = {
   REJECTED: 3,
   CONFIRMED: 4,
   EXPORTING: 5,
-  INRECEIVING: 6,
-  RECEIVED: 7,
-  INCOLLECTING: 8,
-  COLLECTED: 9,
-  EXPORTED: 10,
-  INSTORING: 11,
-  INPROGRESS: 12,
 }
 
 export const TRANSFER_STATUS_MAP = {
@@ -495,7 +488,6 @@ export const TRANSFER_STATUS_MAP = {
   [TRANSFER_STATUS.REJECTED]: 'warehouseTransfer.transferStatus.rejected',
   [TRANSFER_STATUS.CONFIRMED]: 'warehouseTransfer.transferStatus.confirmed',
   [TRANSFER_STATUS.EXPORTING]: 'warehouseTransfer.transferStatus.exporting',
-  [TRANSFER_STATUS.EXPORTED]: 'warehouseTransfer.transferStatus.exported',
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {
@@ -522,11 +514,6 @@ export const TRANSFER_STATUS_OPTIONS = [
     id: 5,
     text: 'warehouseTransfer.transferStatus.exporting',
     color: 'exporting',
-  },
-  {
-    id: 10,
-    text: 'warehouseTransfer.transferStatus.exported',
-    color: 'exported',
   },
 ]
 

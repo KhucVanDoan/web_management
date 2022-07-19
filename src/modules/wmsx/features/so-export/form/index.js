@@ -222,7 +222,6 @@ function SOExportForm() {
         break
     }
   }
-
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -429,6 +428,7 @@ function SOExportForm() {
                     items={values?.items || []}
                     soId={values?.soCode?.id || ''}
                     setFieldValue={setFieldValue}
+                    values={values}
                   />
                 )}
               />

@@ -102,7 +102,7 @@ function DefineWarehouseFrom() {
     code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
-    companyId: warehouseDetails?.companyId || null,
+    companyId: warehouseDetails?.company || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
     long: {

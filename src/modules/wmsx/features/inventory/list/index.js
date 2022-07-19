@@ -185,6 +185,10 @@ const Inventory = () => {
     setSelectedRows([])
   }, [sort, filters, keyword, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters, keyword])
+
   const renderHeaderRight = () => {
     return (
       <>
