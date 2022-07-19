@@ -12,6 +12,7 @@ const initialState = {
   templateChecklistList: [],
   templateChecklistDetail: {},
   isLoading: false,
+  total: 0,
 }
 
 export default function templateCheckList(state = initialState, action) {
@@ -26,6 +27,7 @@ export default function templateCheckList(state = initialState, action) {
       return {
         ...state,
         templateChecklistList: action?.payload?.items,
+        total: action?.payload?.meta?.total,
         isLoading: false,
       }
     case GET_TEMPLATE_CHECKLIST_SUCCESS:

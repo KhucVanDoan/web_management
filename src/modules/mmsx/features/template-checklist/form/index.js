@@ -204,7 +204,7 @@ const TemplateChecklistForm = () => {
                         placeholder={t('templateChecklist.form.code')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
