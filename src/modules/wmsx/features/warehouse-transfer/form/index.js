@@ -305,7 +305,7 @@ const WarehouseTransferForm = () => {
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         onChange={(val) => {
                           if (values?.isSameWarehouse) {
                             setFieldValue('sourceFactoryName', val)
@@ -325,7 +325,7 @@ const WarehouseTransferForm = () => {
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         required
                       />
                     </Grid>
@@ -341,7 +341,7 @@ const WarehouseTransferForm = () => {
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         onChange={(val) => {
                           if (values?.isSameWarehouse) {
                             setFieldValue('sourceWarehouseName', val)
@@ -361,7 +361,7 @@ const WarehouseTransferForm = () => {
                         filterOptions={createFilterOptions({
                           stringify: (opt) => `${opt?.code}|${opt?.name}`,
                         })}
-                        getOptionValue={(opt) => opt?.id}
+                        getOptionValue={(opt) => opt?.id || ''}
                         required
                         onChange={(val) => {
                           if (!val) {
