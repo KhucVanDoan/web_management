@@ -27,7 +27,10 @@ function* doCreateDeviceCategory(action) {
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
-      throw new Error(response?.message)
+      yield put(createDeviceCategoryFail())
+      if (action.onError) {
+        yield action.onError()
+      }
     }
   } catch (error) {
     yield put(createDeviceCategoryFail())
