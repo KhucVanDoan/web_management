@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import useMaintainanceProgress from '~/modules/mmsx/redux/hooks/useMaintainanceProgress'
+import { exportMaintainanceProgressApi } from '~/modules/mmsx/redux/sagas/maintainance-progress/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -34,6 +35,9 @@ const MaintainanceProgress = () => {
     data: { progressReport, isLoading, total },
     actions,
   } = useMaintainanceProgress()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
 
@@ -175,11 +179,27 @@ const MaintainanceProgress = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
   const renderHeaderRight = () => {
     return (
-      <Button variant="outlined" icon="download" disabled>
-        {t('menu.importExportData')}
-      </Button>
+      <ImportExport
+        name={t('common.exportFile')}
+        onExport={() => {
+          exportMaintainanceProgressApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -205,6 +225,9 @@ const MaintainanceProgress = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

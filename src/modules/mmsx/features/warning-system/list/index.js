@@ -11,6 +11,7 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -23,6 +24,7 @@ import {
   WARNING_TYPE_OPTION,
 } from '~/modules/mmsx/constants'
 import useWarningSystem from '~/modules/mmsx/redux/hooks/useWarningSystem'
+import { exportWarningSystemApi } from '~/modules/mmsx/redux/sagas/warning-system/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -46,6 +48,9 @@ const WarningSystem = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     data: { warningLists, isLoading, meta },
     actions,
@@ -246,6 +251,11 @@ const WarningSystem = () => {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -275,10 +285,32 @@ const WarningSystem = () => {
     setIsOpenConfirmModal(false)
   }
 
+  const renderHeaderRight = () => {
+    return (
+      <ImportExport
+        name={t('common.exportFile')}
+        onExport={() => {
+          exportWarningSystemApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warningList')}
+      renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('warningList.searchPlaceholder')}
       loading={isLoading}
@@ -292,6 +324,9 @@ const WarningSystem = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={meta?.total}
         sort={sort}
         filters={{

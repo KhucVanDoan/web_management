@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import { isNumber } from 'lodash'
@@ -8,10 +8,16 @@ import { useHistory } from 'react-router-dom'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { DEVICE_STATUS_ENUM_OPTIONS } from '~/modules/mmsx/constants'
 import useDeviceStatus from '~/modules/mmsx/redux/hooks/useDeviceStatus'
+import {
+  exportDeviceStatusApi,
+  getDeviceStatusTemplateApi,
+  importDeviceStatusApi,
+} from '~/modules/mmsx/redux/sagas/device-status/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -35,6 +41,9 @@ const DeviceStatus = () => {
     data: { deviceStatusList, isLoading, total, dateExport },
     actions,
   } = useDeviceStatus()
+
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
@@ -182,10 +191,40 @@ const DeviceStatus = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
+  const renderHeaderRight = () => {
+    return (
+      <ImportExport
+        name={t('common.import')}
+        onImport={(params) => {
+          importDeviceStatusApi(params)
+        }}
+        onExport={() => {
+          exportDeviceStatusApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onDownloadTemplate={getDeviceStatusTemplateApi}
+        onRefresh={refreshData}
+        disabled
+      />
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.deviceStatus')}
+      renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('deviceStatus.searchPlaceholder')}
       loading={isLoading}
@@ -202,6 +241,9 @@ const DeviceStatus = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

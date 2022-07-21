@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +9,7 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import useDeviceStatus from '~/modules/mmsx/redux/hooks/useDeviceStatusReport'
+import { exportDeviceStatusReportApi } from '~/modules/mmsx/redux/sagas/device-status-report/import-export-device-status'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -18,6 +19,9 @@ import DeviceStatusQuickFilter from './filter-quick-form'
 const DeviceStatusTable = ({ keyword }) => {
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
   const {
     data: { deviceStatus, metaStatus },
     actions,
@@ -140,6 +144,10 @@ const DeviceStatusTable = ({ keyword }) => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   return (
     <>
       <DeviceStatusQuickFilter
@@ -155,13 +163,28 @@ const DeviceStatusTable = ({ keyword }) => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={metaStatus?.total}
         sort={sort}
         beforeTopbar={
           <ImportExport
-            name={t('menu.importExportData')}
-            onImport={() => {}}
-            onExport={() => {}}
+            name={t('common.exportFile')}
+            onExport={() => {
+              exportDeviceStatusReportApi({
+                columnSettings: JSON.stringify(columnsSettings),
+                queryIds: JSON.stringify(
+                  selectedRows?.map((x) => ({ id: x?.id })),
+                ),
+                keyword: keyword.trim(),
+                filter: convertFilterParams(filters, [
+                  { field: 'createdAt', filterFormat: 'date' },
+                ]),
+                sort: convertSortParams(sort),
+              })
+            }}
+            onRefresh={refreshData}
             disabled
           />
         }
