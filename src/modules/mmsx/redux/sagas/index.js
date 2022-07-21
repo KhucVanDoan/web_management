@@ -24,6 +24,14 @@ import watchGetMoWorkCenter from './common/get-mo-work-center'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetUsingDeviceAssign from './common/get-using-devide-assign'
 import watchGetVendors from './common/get-vendors'
+import watchConfirmPlan from './create-plan-list/confirm'
+import watchCreatePlan from './create-plan-list/create-plan'
+import watchDeletePlan from './create-plan-list/delete-plan'
+import watchdoGetPlanGanttChartData from './create-plan-list/gantt-chart'
+import watchGetCreatePlanList from './create-plan-list/get-list'
+import watchGetPlanDetail from './create-plan-list/plans-detail'
+import watchRejectPlan from './create-plan-list/reject'
+import watchUpdateMakePlan from './create-plan-list/update'
 import watchGetSummary from './dashboard'
 import watchCreateDefect from './defect-list/create-defect'
 import watchDeleteDefect from './defect-list/delete-defect'
@@ -64,6 +72,7 @@ import watchCreateInfoData from './device-status/create-info-device-status'
 import watchGetInfoData from './device-status/get-create-infor-form-data'
 import watchGetDetailDeviceStatus from './device-status/get-detail-device-status'
 import watchGetListDeviceStatus from './device-status/get-list-device-status'
+import watchGenerateJobForPlan from './job-draft/job-draft-list'
 import watchGetjobDetail from './job/job-detail'
 import watchGetJobList from './job/job-list'
 import watchSearchJobList from './job/search-job'
@@ -250,6 +259,15 @@ export default function* sagas() {
     watchGetJobList(),
     watchSearchJobList(),
     watchUpdatePlan(),
+    //create plan
+    watchConfirmPlan(),
+    watchCreatePlan(),
+    watchDeletePlan(),
+    watchdoGetPlanGanttChartData(),
+    watchGetCreatePlanList(),
+    watchGetPlanDetail(),
+    watchRejectPlan(),
+    watchUpdateMakePlan(),
 
     //maintainance-progress
     watchGetReportProgress(),
@@ -287,5 +305,7 @@ export default function* sagas() {
     watchGetDetailDeviceStatus(),
     watchGetInfoData(),
     watchCreateInfoData(),
+    //job-darft
+    watchGenerateJobForPlan(),
   ])
 }

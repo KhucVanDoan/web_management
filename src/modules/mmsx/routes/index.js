@@ -6,6 +6,10 @@ import AttributeMaintenanceForm from '../features/attribute-maintenance/form'
 import AttributeType from '../features/attribute-type'
 import AttributeTypeDetail from '../features/attribute-type/detail'
 import AttributeTypeForm from '../features/attribute-type/form'
+import CreatePlanDetail from '../features/create-plan/detail'
+import CreatePlanForm from '../features/create-plan/form'
+import GanttChartView from '../features/create-plan/list/grant-chart'
+import CreatePlan from '../features/create-plan/list/index'
 import DefectList from '../features/defect-list'
 import DefectListDetail from '../features/defect-list/detail'
 import DefectListForm from '../features/defect-list/form'
@@ -490,6 +494,50 @@ const routes = [
     icon: 'plan',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.JOB.LIST.TITLE,
+        path: ROUTE.JOB.LIST.PATH,
+        component: Job,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.JOB.DETAIL.TITLE,
+            path: ROUTE.JOB.DETAIL.PATH,
+            component: JobDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.CREATE_PLAN.LIST.TITLE,
+        path: ROUTE.CREATE_PLAN.LIST.PATH,
+        component: CreatePlan,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.CREATE_PLAN.CREATE.TITLE,
+            path: ROUTE.CREATE_PLAN.CREATE.PATH,
+            component: CreatePlanForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CREATE_PLAN.DETAIL.TITLE,
+            path: ROUTE.CREATE_PLAN.DETAIL.PATH,
+            component: CreatePlanDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CREATE_PLAN.EDIT.TITLE,
+            path: ROUTE.CREATE_PLAN.EDIT.PATH,
+            component: CreatePlanForm,
+          },
+          {
+            name: ROUTE.CREATE_PLAN.GANNT_CHART.TITLE,
+            path: ROUTE.CREATE_PLAN.GANNT_CHART.PATH,
+            component: GanttChartView,
+          },
+        ],
+      },
       // MinhNA note: Kế hoạch công việc, Kế hoạch vật tư
     ],
   },
