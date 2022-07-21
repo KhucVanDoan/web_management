@@ -26,7 +26,7 @@ const DEFAULT_ITEM = {
   id: new Date().getTime(),
   title: '',
   descriptionDetail: '',
-  obligatory: false,
+  obligatory: true,
 }
 
 const TemplateChecklistForm = () => {
@@ -204,7 +204,7 @@ const TemplateChecklistForm = () => {
                         placeholder={t('templateChecklist.form.code')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
@@ -216,7 +216,7 @@ const TemplateChecklistForm = () => {
                         name="name"
                         placeholder={t('templateChecklist.form.name')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
                         required
                       />
