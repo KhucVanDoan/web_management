@@ -44,7 +44,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               name={`items[${index}].title`}
               placeholder={t('templateChecklist.form.title')}
               inputProps={{
-                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
               }}
               required
             />
