@@ -26,12 +26,12 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const getTransferReport = (params) => {
-  const uri = `/v1/reports/warehouses/report-tranfer`
+  const uri = `/v1/warehouses/reports/report-tranfer`
   return api.get(uri, params)
 }
 
 const getItemSummaryReport = (params) => {
-  const uri = `/v1/reports/items/count-by-type`
+  const uri = `/v1/items/reports/count-by-type`
   return api.get(uri, params)
 }
 
@@ -46,12 +46,12 @@ const getOrtherItemSummaryReport = (params) => {
 }
 
 const getItemStockReport = (params) => {
-  const uri = `/v1/reports/warehouses/report-stock`
+  const uri = `/v1/warehouses/reports/report-stock`
   return api.get(uri, params)
 }
 
 const getMovementReport = (params) => {
-  const uri = `/v1/reports/warehouses/month-movement`
+  const uri = `/v1/warehouses/reports/month-movement`
   return api.get(uri, params)
 }
 
@@ -61,7 +61,7 @@ const getItemGroupStockSummary = (params) => {
 }
 
 const getReportGapsInStockApi = (params) => {
-  const uri = `/v1/reports/warehouses/sectors-fullments`
+  const uri = `/v1/warehouses/reports/sectors-fullments`
   return api.get(uri, params)
 }
 
