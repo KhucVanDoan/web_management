@@ -8,7 +8,7 @@ import {
 import { api } from '~/services/api'
 
 const getReportProgressApi = (params) => {
-  const url = `v1/mms/jobs/report-progress/list`
+  const url = `v1/mms/jobs/report`
   return api.get(url, params)
 }
 

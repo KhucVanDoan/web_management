@@ -33,6 +33,7 @@ import JobDetail from '../features/job/detail'
 import Job from '../features/job/list'
 import MaintainRequestDetail from '../features/maintain-request/detail'
 import MaintainRequest from '../features/maintain-request/list'
+import MaintainanceProgressDetail from '../features/maintainance-progress/detail'
 import MaintainanceProgress from '../features/maintainance-progress/list'
 import MaintenanceTeamDetail from '../features/maintenance-team/detail'
 import MaintenanceTeamForm from '../features/maintenance-team/form'
@@ -524,6 +525,14 @@ const routes = [
         path: ROUTE.MAINTAINANCE_PROGRESS.LIST.PATH,
         component: MaintainanceProgress,
         isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.MAINTAINANCE_PROGRESS.DETAIL.TITLE,
+            path: ROUTE.MAINTAINANCE_PROGRESS.DETAIL.PATH,
+            component: MaintainanceProgressDetail,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: ROUTE.DEVICE_STATUS_REPORT.LIST.TITLE,
