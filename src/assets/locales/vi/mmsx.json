@@ -149,7 +149,7 @@
     "maintainanceProgressDetail": "Chi tiết báo cáo công việc",
     "reportDeviceSerial": "Báo cáo trạng thái thiết bị",
     "reportDeviceAssign": "Chi tiết báo cáo trạng thái thiết bị",
-    "createPlanList": "Lập kế hoạch",
+    "createPlan": "Lập kế hoạch",
     "plan": "Kế hoạch",
     "trackTrace": "Track & Trace",
     "solution": "Giải pháp",
@@ -162,9 +162,9 @@
     "jobAssign": "Phân công công việc",
     "warningListChecklistDetail": "Chi tiết kiểm tra định kì",
     "roleManagement": "Phân quyền",
-    "createPlanListDetail": "Chi tiết kế hoạch",
-    "createPlanListCreate": "Tạo kế hoạch",
-    "createPlanListEdit": "Sửa kế hoạch",
+    "createPlanDetail": "Chi tiết kế hoạch",
+    "createPlanCreate": "Tạo kế hoạch",
+    "createPlanEdit": "Sửa kế hoạch",
     "attributeType": "Định nghĩa loại giá trị",
     "attributeTypeCreate": "Tạo loại giá trị",
     "attributeTypeDetail": "Chi tiết loại giá trị",
@@ -1571,7 +1571,7 @@
       "request": "Yêu cầu người dùng",
       "maintain": "Bảo dưỡng"
     },
-    "title": "Danh sách kế hoạch tổng thể",
+    "title": "Danh sách kế hoạch công việc",
     "jobBtn": "Công việc",
     "placeholder": {
       "planCode": "Nhập mã mẫu phiếu",
@@ -1588,6 +1588,7 @@
       "hideData": "Ẩn thông tin",
       "showData": "Hiện thông tin",
       "updateFormTitle": "Sửa công việc",
+      "refreshData": "Làm mới dữ liệu",
       "createForm": {
         "createBtn": "Tạo công việc",
         "createTitle": "Thêm công việc",
@@ -1609,6 +1610,8 @@
       "table": {
         "assignUsers": "Người chịu trách nhiệm",
         "jobCode": "Mã công việc",
+        "jobPlan": "Công việc kế hoạch",
+        "jobActual": "Công việc thực tế",
         "status": "Trạng thái",
         "jobType": "Loại công việc",
         "planQuantity": "Số lượng kế hoạch",
@@ -1623,10 +1626,19 @@
         "expectedDate": "Ngày thực hiện dự kiến",
         "actualDate": "Ngày thực hiện thực tế",
         "actualQuantity": "Số lượng thực tế"
+      },
+      "subTable": {
+        "deviceName": "Tên thiết bị",
+        "serial": "Serial",
+        "assignUser": "Người thực hiện",
+        "datePlan": "Ngày thực hiện dự kiến",
+        "dateReal": "Ngày thực hiện thực tế",
+        "status": "Trạng thái",
+        "action": "Hành động"
       }
     },
     "status": {
-      "waiting": "Chờ xác nhận",
+      "pending": "Chờ xác nhận",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận"
     },

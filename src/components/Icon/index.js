@@ -19,6 +19,7 @@ import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as DownloadAlt } from '~/assets/images/icons/downloadAlt.svg'
 import { ReactComponent as Edit } from '~/assets/images/icons/edit.svg'
 import { ReactComponent as Filter } from '~/assets/images/icons/filter.svg'
+import { ReactComponent as GanntChart } from '~/assets/images/icons/gantt-chart.svg'
 import { ReactComponent as ImportXlsx } from '~/assets/images/icons/importXlsx.svg'
 import { ReactComponent as Invisible } from '~/assets/images/icons/invisible.svg'
 import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
@@ -50,7 +51,6 @@ import { ReactComponent as Key } from '~/assets/images/menu/key.svg'
 import { ReactComponent as Keylock } from '~/assets/images/menu/keylock.svg'
 import { ReactComponent as Plan } from '~/assets/images/menu/plan.svg'
 import { ReactComponent as PrettyBag } from '~/assets/images/menu/prettyBag.svg'
-
 const icons = {
   add: <Add />,
   setting: <Setting />,
@@ -91,7 +91,7 @@ const icons = {
   overdue: <Overdue />,
   filter: <Filter />,
   listView: <ListView />,
-
+  ganttChart: <GanntChart />,
   // menu
   drawer: <Drawer />,
   home: <Home />,
