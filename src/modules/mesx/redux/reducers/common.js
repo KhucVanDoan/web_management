@@ -53,9 +53,6 @@ import {
   GET_PRODUCING_STEPS_START,
   GET_PRODUCING_STEPS_SUCCESS,
   GET_PRODUCING_STEPS_FAILED,
-  GET_ROUTINGS_START,
-  GET_ROUTINGS_SUCCESS,
-  GET_ROUTINGS_FAILED,
   GET_USERS_START,
   GET_USERS_SUCCESS,
   GET_USERS_FAILED,
@@ -113,7 +110,6 @@ const initialState = {
   vendorList: [],
   itemDetailList: [],
   lists: [],
-  routingList: [],
   userList: [],
   BOMList: [],
   factoryList: [],
@@ -152,7 +148,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_VENDORS_START:
     case GET_ALL_ITEM_DETAILS_START:
     case GET_PRODUCING_STEPS_START:
-    case GET_ROUTINGS_START:
     case GET_USERS_START:
     case GET_BOMS_START:
     case GET_FACTORIES_START:
@@ -363,18 +358,6 @@ export default function commonManagement(state = initialState, action) {
         isLoading: false,
       }
 
-    case GET_ROUTINGS_SUCCESS:
-      return {
-        ...state,
-        routingList: action.payload,
-        isLoading: false,
-      }
-    case GET_ROUTINGS_FAILED:
-      return {
-        ...state,
-        routingList: [],
-        isLoading: false,
-      }
     case GET_USERS_SUCCESS:
       return {
         ...state,
