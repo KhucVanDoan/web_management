@@ -1665,7 +1665,16 @@
         "maintainType": "Loại bảo trì",
         "maintainQuantity": "Số lượng",
         "maintainDescription": "Mô tả"
-      }
+      },
+      "titleCate": "Tiêu đề",
+      "descriptionCate": "Mô tả hạng mục",
+      "requiredCate": "Bắt buộc",
+      "titleList": "Danh sách hạng mục lắp đặt",
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "user": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ"
     },
     "assign": {
       "smallTitle": "Thông tin người sử dụng",
