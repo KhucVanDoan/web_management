@@ -1,15 +1,14 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import Status from '~/components/Status'
-import { JOB_STATUS_LIST, WORK_TYPE_MAP } from '~/modules/mmsx/constants'
 import useMaintainanceProgress from '~/modules/mmsx/redux/hooks/useMaintainanceProgress'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
@@ -40,14 +39,12 @@ const MaintainanceProgress = () => {
 
   const DEFAULT_FILTERS = {
     code: '',
-    serial: '',
-    deviceName: '',
+    fullName: '',
   }
 
   const DEFAULT_QUICK_FILTERS = {
-    type: '',
-    status: null,
-    createdAt: null,
+    userId: '',
+    date: null,
   }
 
   const {
@@ -68,115 +65,107 @@ const MaintainanceProgress = () => {
     quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
-  const columns = useMemo(
-    () => [
-      {
-        field: 'code',
-        headerName: t('job.workCode'),
-        width: 150,
-        sortable: true,
-        fixed: true,
+  const columns = [
+    {
+      field: 'userCode',
+      headerName: t('maintainanceProgress.code'),
+      width: 150,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'fullName',
+      headerName: t('maintainanceProgress.name'),
+      width: 150,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'userRole',
+      headerName: t('maintainanceProgress.role'),
+      width: 150,
+    },
+    {
+      field: 'startWork',
+      headerName: t('maintainanceProgress.startDay'),
+      width: 150,
+      filterFormat: 'date',
+      renderCell: (params) => {
+        return convertUtcDateToLocalTz(params?.row?.startWork)
       },
-      {
-        field: 'workType',
-        headerName: t('job.workType'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          const { type } = params.row
-          return t(WORK_TYPE_MAP[type])
-        },
+    },
+    {
+      field: 'totalQuantity',
+      headerName: t('maintainanceProgress.assignedWork'),
+      width: 120,
+      align: 'right',
+      headerAlign: 'left',
+    },
+    {
+      field: 'successQuantity',
+      headerName: t('maintainanceProgress.completedWork'),
+      width: 120,
+      align: 'right',
+      headerAlign: 'left',
+    },
+    {
+      field: 'executeQuantity',
+      headerName: t('maintainanceProgress.doingWork'),
+      width: 120,
+      align: 'right',
+      headerAlign: 'left',
+    },
+    {
+      field: 'lateQuantity',
+      headerName: t('maintainanceProgress.outOfDateWork'),
+      width: 120,
+      align: 'right',
+      headerAlign: 'left',
+    },
+    {
+      field: 'waitQuantity',
+      headerName: t('maintainanceProgress.pendingWork'),
+      width: 120,
+      align: 'right',
+      headerAlign: 'left',
+    },
+    {
+      field: 'actions',
+      headerName: t('maintainanceProgress.actions'),
+      width: 150,
+      fixed: true,
+      align: 'center',
+      renderCell: (params) => {
+        const { userId } = params.row
+        return (
+          <>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.MAINTAINANCE_PROGRESS.DETAIL.PATH.replace(
+                    ':id',
+                    `${userId}`,
+                  ),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+          </>
+        )
       },
-      {
-        field: 'serial',
-        headerName: t('job.serial'),
-        width: 150,
-        sortable: true,
-      },
-      {
-        field: 'deviceName',
-        headerName: t('job.deviceName'),
-        width: 150,
-        sortable: true,
-      },
-      {
-        field: 'description',
-        headerName: t('job.description'),
-        width: 150,
-        sortable: true,
-      },
-      {
-        field: 'status',
-        headerName: t('job.status'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          const { status } = params.row
-          return (
-            <Status options={JOB_STATUS_LIST} value={status} variant="text" />
-          )
-        },
-      },
-      {
-        field: 'planDay',
-        headerName: t('job.planDay'),
-        width: 150,
-        filterFormat: 'date',
-        sortable: true,
-        renderCell: (params) => {
-          return params.row.planFrom && params.row.planTo
-            ? convertUtcDateToLocalTz(params.row.planFrom) +
-                ' - ' +
-                convertUtcDateToLocalTz(params.row.planTo)
-            : ''
-        },
-      },
-      {
-        field: 'actualDay',
-        headerName: t('job.actualDay'),
-        width: 150,
-        filterFormat: 'date',
-        sortable: true,
-        renderCell: (params) => {
-          return params.row.executionDateFrom && params.row.executionDateTo
-            ? convertUtcDateToLocalTz(params.row.executionDateFrom) +
-                ' - ' +
-                convertUtcDateToLocalTz(params.row.executionDateTo)
-            : ''
-        },
-      },
-      {
-        field: 'actions',
-        headerName: t('job.action'),
-        width: 150,
-        fixed: true,
-        align: 'center',
-        renderCell: (params) => {
-          const { id } = params.row
-
-          return (
-            <>
-              <IconButton
-                onClick={() =>
-                  history.push(ROUTE.JOB.DETAIL.PATH.replace(':id', `${id}`))
-                }
-              >
-                <Icon name="show" />
-              </IconButton>
-            </>
-          )
-        },
-      },
-    ],
-    [],
-  )
+    },
+  ]
 
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(
+        { ...filters, ...quickFilters, userId: quickFilters?.userId?.id },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchMaintainanceProgress(params)
@@ -186,10 +175,19 @@ const MaintainanceProgress = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
 
+  const renderHeaderRight = () => {
+    return (
+      <Button variant="outlined" icon="download" disabled>
+        {t('menu.importExportData')}
+      </Button>
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.maintainanceProgress')}
+      renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
       placeholder={t('maintainRequest.searchPlaceholder')}
       loading={isLoading}
