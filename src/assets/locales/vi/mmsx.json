@@ -194,7 +194,7 @@
   },
   "deviceStatus": {
     "title": "Danh sách trạng thái thiết bị",
-    "searchPlaceholder": "Tìm kiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc serial",
     "serial": "Serial",
     "deviceName": "Tên thiết bị",
     "oee": "OEE(%)",
@@ -1677,7 +1677,7 @@
       "listView": "List View",
       "ganttChart": "GanttChart",
       "deviceButton": "Thiết bị",
-      "jobs": "Công việc"
+      "createPlan": "Lập kế hoạch"
     },
     "detail": {
       "status": "Trạng thái",
