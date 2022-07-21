@@ -9,9 +9,15 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useTemplateChecklist from '~/modules/mmsx/redux/hooks/useTemplateChecklist'
+import {
+  exportTemplateChecklistApi,
+  getTemplateChecklistTemplateApi,
+  importTemplateChecklistApi,
+} from '~/modules/mmsx/redux/sagas/template-checklist/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -32,6 +38,8 @@ const breadcrumbs = [
 const TemplateChecklist = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     data: { templateChecklistList, isLoading, total },
@@ -173,6 +181,10 @@ const TemplateChecklist = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -188,9 +200,28 @@ const TemplateChecklist = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('common.import')}
+          onImport={(params) => {
+            importTemplateChecklistApi(params)
+          }}
+          onExport={() => {
+            exportTemplateChecklistApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getTemplateChecklistTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.TEMPLATE_CHECKLIST.CREATE.PATH)}
           icon="add"
@@ -220,6 +251,9 @@ const TemplateChecklist = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -17,6 +18,11 @@ import {
   DEVICE_CATEGORY_STATUS,
 } from '~/modules/mmsx/constants'
 import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
+import {
+  exportDeviceCategoryApi,
+  getDeviceCategoryTemplateApi,
+  importDeviceCategoryApi,
+} from '~/modules/mmsx/redux/sagas/device-category/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -38,6 +44,8 @@ const DeviceCategory = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     data: { deviceCategoryList, isLoading, total },
@@ -195,6 +203,11 @@ const DeviceCategory = () => {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -223,6 +236,28 @@ const DeviceCategory = () => {
   const renderHeaderRight = () => {
     return (
       <>
+        <ImportExport
+          name={t('common.import')}
+          onImport={(params) => {
+            importDeviceCategoryApi(params)
+          }}
+          onExport={() => {
+            exportDeviceCategoryApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getDeviceCategoryTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEVICE_CATEGORY.CREATE.PATH)}
           icon="add"
@@ -252,6 +287,9 @@ const DeviceCategory = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{
