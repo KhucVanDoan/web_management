@@ -127,10 +127,13 @@ const DefineSupplies = () => {
         sortable: true,
       },
       {
-        field: 'Supplier',
+        field: 'vendor',
         headerName: t('supplies.category.supplier'),
         width: 150,
         sortable: true,
+        renderCell: (params) => {
+          return params?.row?.vendor?.name
+        },
       },
 
       {

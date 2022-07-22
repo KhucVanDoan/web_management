@@ -21,9 +21,8 @@ export const validateShema = (t) => {
         }),
       ),
     groupSupplyId: Yup.string().required(t('general:form.required')),
-    price: Yup.string().required(t('general:form.required')),
+    price: Yup.number().required(t('general:form.required')),
     itemUnitId: Yup.string().required(t('general:form.required')),
-    Supplier: Yup.string().required(t('general:form.required')),
-    date: Yup.string().required(t('general:form.required')),
+    vendorId: Yup.string().required(t('general:form.required')),
   })
 }
