@@ -31,7 +31,7 @@ import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/searc
 import { BOM_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { getRoutingsApi } from '~/modules/mesx/redux/sagas/common/get-routings'
+import { searchRoutingsApi } from '~/modules/mesx/redux/sagas/routing/search-routings'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
 
@@ -331,7 +331,7 @@ function BOMForm() {
                         label={t('defineBOM.routingCode')}
                         placeholder={t('defineBOM.routingCode')}
                         asyncRequest={(s) =>
-                          getRoutingsApi({
+                          searchRoutingsApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                           })

@@ -61,12 +61,6 @@ import OutputQualityTransactionHistoryDetail from '~/modules/qmsx/features/trans
 import ProductionInputQualityMaterialDetail from '~/modules/qmsx/features/transaction-history/production-input-quality-material/detail'
 import ProductionInputQualityProductPreviousDetail from '~/modules/qmsx/features/transaction-history/production-input-quality-product-previous/detail'
 import ProductionOutputQualityDetail from '~/modules/qmsx/features/transaction-history/production-output-quality/detail'
-//Quản lý user
-import UserManagement from '~/modules/qmsx/features/user-management'
-import UserManagementDetail from '~/modules/qmsx/features/user-management/user-detail'
-import UserManagementForm from '~/modules/qmsx/features/user-management/user-form'
-//Quyền user
-import UserPermission from '~/modules/qmsx/features/user-permission'
 
 import { ROUTE } from './config'
 
@@ -542,40 +536,6 @@ const routes = [
             isInSidebar: false,
           },
         ],
-      },
-      //Quản lý người dùng
-      {
-        name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
-        path: ROUTE.USER_MANAGEMENT.LIST.PATH,
-        component: UserManagement,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
-            path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
-            component: UserManagementForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
-            path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
-            component: UserManagementDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
-            path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
-            component: UserManagementForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      //Quản lý quyền
-      {
-        name: ROUTE.USER_PERMISSION.TITLE,
-        path: ROUTE.USER_PERMISSION.PATH,
-        component: UserPermission,
-        isInSidebar: true,
       },
     ],
   },

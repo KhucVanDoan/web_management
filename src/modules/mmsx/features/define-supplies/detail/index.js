@@ -129,7 +129,10 @@ const DefineSuppliesDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('supplies.category.supplier')} value={''} />
+              <LV
+                label={t('supplies.category.supplier')}
+                value={suppliesDetail?.vendor?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV

@@ -14,7 +14,6 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/database/routes/config'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
@@ -29,9 +28,6 @@ import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  // {
-  //   title: 'database',
-  // },
   {
     route: ROUTE.DEFINE_FACTORY.LIST.PATH,
     title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
@@ -48,12 +44,6 @@ function DefineFactory() {
     companyName: '',
     createdAt: null,
   }
-
-  const { actions: companyActions } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
 
   const {
     page,
@@ -83,12 +73,6 @@ function DefineFactory() {
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
-    // {
-    //   field: 'id',
-    //   headerName: '#',
-    //   width: 80,
-    //   sortable: false,
-    // },
     {
       field: 'code',
       headerName: t('defineFactory.code'),
@@ -179,9 +163,10 @@ function DefineFactory() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, companyName: filters?.companyName?.name },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
 
