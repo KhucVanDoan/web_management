@@ -666,32 +666,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.TEMPLATE_SECTOR.LIST.TITLE,
-        path: ROUTE.TEMPLATE_SECTOR.LIST.PATH,
-        component: TemplateSector,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.TEMPLATE_SECTOR.CREATE.TITLE,
-            path: ROUTE.TEMPLATE_SECTOR.CREATE.PATH,
-            component: TemplateSectorForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.TEMPLATE_SECTOR.EDIT.TITLE,
-            path: ROUTE.TEMPLATE_SECTOR.EDIT.PATH,
-            component: TemplateSectorForm,
-            isInSidebar: true,
-          },
-          {
-            name: ROUTE.TEMPLATE_SECTOR.DETAIL.TITLE,
-            path: ROUTE.TEMPLATE_SECTOR.DETAIL.PATH,
-            component: TemplateSectorDetail,
-            isInSidebar: true,
-          },
-        ],
-      },
-      {
         name: ROUTE.DEFINE_WAREHOUSE.LIST.TITLE,
         path: ROUTE.DEFINE_WAREHOUSE.LIST.PATH,
         component: DefineWarehouse,
@@ -784,54 +758,6 @@ const routes = [
             isInSidebar: false,
           },
         ],
-      },
-      {
-        name: ROUTE.WAREHOUSE_SHELF.LIST.TITLE,
-        path: ROUTE.WAREHOUSE_SHELF.LIST.PATH,
-        component: DefineWarehouseShelf,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.WAREHOUSE_SHELF.DETAIL.TITLE,
-            path: ROUTE.WAREHOUSE_SHELF.DETAIL.PATH,
-            component: DefineWarehouseShelfDetail,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.WAREHOUSE_AREA.LIST.TITLE,
-        path: ROUTE.WAREHOUSE_AREA.LIST.PATH,
-        component: WarehouseArea,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.WAREHOUSE_AREA.DETAIL.TITLE,
-            path: ROUTE.WAREHOUSE_AREA.DETAIL.PATH,
-            component: WarehouseAreaDetail,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.WAREHOUSE_PALLET.LIST.TITLE,
-        path: ROUTE.WAREHOUSE_PALLET.LIST.PATH,
-        component: DefineWarehousePallet,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.WAREHOUSE_PALLET.DETAIL.TITLE,
-            path: ROUTE.WAREHOUSE_PALLET.DETAIL.PATH,
-            component: DefineWarehousePalletDetail,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.WAREHOUSE_DESIGN.TITLE,
-        path: ROUTE.WAREHOUSE_DESIGN.PATH,
-        component: warehouseDesign,
-        isInSidebar: true,
       },
     ],
   },
