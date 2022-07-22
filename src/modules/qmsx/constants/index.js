@@ -616,27 +616,3 @@ export const ENDPOINT_PATCH_UPDATE_WORK_CENTER_QC_PLAN = {
   INPUT_SCHEDULES: 'input-schedules',
   OUTPUT_SCHEDULES: 'output-schedules',
 }
-
-export const USER_MANAGEMENT_STATUS_OPTIONS = {
-  TEMP_LOCKED: 0,
-  ACTIVE: 1,
-}
-
-export const USER_MANAGEMENT_STATUS_MAP = {
-  [USER_MANAGEMENT_STATUS_OPTIONS.TEMP_LOCKED]:
-    'userManagement.userStatus.tempLocked',
-  [USER_MANAGEMENT_STATUS_OPTIONS.ACTIVE]: 'userManagement.userStatus.active',
-}
-
-export const USER_MANAGEMENT_STATUS = [
-  {
-    id: 0,
-    text: 'userManagement.userStatus.tempLocked',
-    color: 'tempLocked',
-  },
-  {
-    id: 1,
-    text: 'userManagement.userStatus.active',
-    color: 'active',
-  },
-]
