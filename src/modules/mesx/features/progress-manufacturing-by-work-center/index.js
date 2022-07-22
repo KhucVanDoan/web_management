@@ -199,7 +199,10 @@ function ProgressManufacturingByWorkCenter() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, workCenterIds: filters?.workCenterIds?.id },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchProgressManufacturingByWorkCenter(params)

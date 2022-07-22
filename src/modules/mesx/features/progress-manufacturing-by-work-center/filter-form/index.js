@@ -4,19 +4,15 @@ import { Grid, createFilterOptions, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
-import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
 
 function ProgressManufacturingByWorkCenterForm({ setFilters }) {
   const { t } = useTranslation('mesx')
-
-  const {
-    data: { wcList },
-    actions: workCenterActions,
-  } = useWorkCenter()
 
   const {
     data: { masterPlanList },
@@ -24,14 +20,13 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
   } = useDefineMasterPlan()
 
   const initialValues = {
-    workCenterIds: '',
+    workCenterIds: null,
     status: '',
     masterPlanIds: '',
     planDate: null,
   }
 
   useEffect(() => {
-    workCenterActions.searchWorkCenter({ isGetAll: 1 })
     masterPlanActions.searchMasterPlans({ isGetAll: 1 })
   }, [])
 
@@ -63,13 +58,15 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     placeholder={t(
                       'progressManufacturingByWorkCenter.workCenterName',
                     )}
-                    options={wcList}
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.name}
+                    asyncRequest={(s) =>
+                      searchWorkCenterApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.items}
                     getOptionSubLabel={(opt) => opt?.code}
-                    filterOptions={createFilterOptions({
-                      stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                    })}
+                    getOptionLabel={(opt) => opt?.name}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>

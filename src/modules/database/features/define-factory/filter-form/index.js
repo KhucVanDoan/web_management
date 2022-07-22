@@ -1,17 +1,17 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 
 const FilterForm = () => {
   const { t } = useTranslation('database')
-  const {
-    data: { companyList },
-  } = useDefineCompany()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -40,12 +40,14 @@ const FilterForm = () => {
           name="companyName"
           label={t('defineFactory.companyName')}
           placeholder={t('defineFactory.companyName')}
-          options={companyList}
+          asyncRequest={(s) =>
+            searchCompaniesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-          getOptionValue={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
