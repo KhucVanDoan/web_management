@@ -50,7 +50,6 @@ const CreatePlanForm = () => {
     data: { factoryList },
     actions: factoryAction,
   } = useDefineFactory()
-
   const {
     data: { jobDraftLists },
     actions: jobDraftAction,
