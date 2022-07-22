@@ -78,10 +78,6 @@ export const GET_PRODUCING_STEPS_START = 'MESX_GET_PRODUCING_STEPS_START'
 export const GET_PRODUCING_STEPS_SUCCESS = 'MESX_GET_PRODUCING_STEPS_SUCCESS'
 export const GET_PRODUCING_STEPS_FAILED = 'MESX_GET_PRODUCING_STEPS_FAILED'
 
-export const GET_ROUTINGS_START = 'MESX_GET_ROUTINGS_START'
-export const GET_ROUTINGS_SUCCESS = 'MESX_GET_ROUTINGS_SUCCESS'
-export const GET_ROUTINGS_FAILED = 'MESX_GET_ROUTINGS_FAILED'
-
 export const GET_USERS_START = 'MESX_GET_USERS_START'
 export const GET_USERS_SUCCESS = 'MESX_GET_USERS_SUCCESS'
 export const GET_USERS_FAILED = 'MESX_GET_USERS_FAILED'
@@ -694,44 +690,6 @@ export function getProducingStepsFailed() {
 }
 
 /**
- * Get routings
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getRoutings(payload, onSuccess, onError) {
-  return {
-    type: GET_ROUTINGS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get routings success
- * @param {*} payload
- * @returns {object}
- */
-export function getRoutingsSuccess(payload) {
-  return {
-    type: GET_ROUTINGS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get routings failed
- * @returns {object}
- */
-export function getRoutingsFailed() {
-  return {
-    type: GET_ROUTINGS_FAILED,
-  }
-}
-
-/**
  * Get users
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -1160,9 +1118,6 @@ export default {
   getProducingSteps,
   getProducingStepsSuccess,
   getProducingStepsFailed,
-  getRoutings,
-  getRoutingsSuccess,
-  getRoutingsFailed,
   getUsers,
   getUsersSuccess,
   getUsersFailed,
