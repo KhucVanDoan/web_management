@@ -20,6 +20,8 @@ import useJob from '~/modules/mmsx/redux/hooks/useJob'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
+import ItemSettingTable from './item-setting-table'
+
 const breadcrumbs = [
   {
     title: 'plan',
@@ -185,44 +187,122 @@ const JobDetail = () => {
                   value={jobDetail?.plan?.name}
                 />
               </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/* Table */}
+        {jobDetail?.installationTemplate && (
+          <>
+            <Grid
+              container
+              sx={(theme) => ({
+                justifyContent: 'center',
+                bgcolor: 'grayF4.main',
+                borderRadius: 1,
+                my: 2,
+                pt: 1,
+                pb: 2,
+
+                [theme.breakpoints.down('xl')]: {
+                  px: 2,
+                },
+              })}
+            >
+              <Grid item xl={11} xs={12}>
+                <ItemSettingTable />
+              </Grid>
+            </Grid>
+
+            <Grid container justifyContent="center">
+              <Grid item xl={11} xs={12}>
+                <Grid
+                  container
+                  rowSpacing={4 / 3}
+                  columnSpacing={{ xl: 8, xs: 4 }}
+                >
+                  <Grid item xs={12} lg={6}>
+                    <LV
+                      label={t('job.detail.factory')}
+                      value={jobDetail?.installationTemplate?.factory}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <LV
+                      label={t('job.detail.workCenter')}
+                      value={jobDetail?.installationTemplate?.workCenter}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <LV
+                      label={t('job.detail.user')}
+                      value={jobDetail?.assignUsers?.fullName}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <LV label={t('job.detail.address')} value="" />
+                  </Grid>
+                  <Grid item xs={12} lg={6}>
+                    <LV label={t('job.detail.phone')} value="" />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </>
+        )}
+
+        {/*  */}
+        <Grid
+          container
+          sx={(theme) => ({
+            justifyContent: 'center',
+            bgcolor: 'grayF4.main',
+            borderRadius: 1,
+            my: 2,
+            pt: 1,
+            pb: 2,
+
+            [theme.breakpoints.down('xl')]: {
+              px: 2,
+            },
+          })}
+        >
+          <Grid item xl={11} xs={12}>
+            <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
               <Grid item xs={12} lg={6}>
                 <Typography variant="h4" mt={1}>
                   {t('job.detail.planDay')}
                 </Typography>
+                <LV
+                  label={t('job.detail.fromDay')}
+                  value={convertUtcDateToLocalTz(jobDetail?.planFrom)}
+                  mt={4 / 3}
+                />
+                <LV
+                  label={t('job.detail.toDay')}
+                  value={convertUtcDateToLocalTz(jobDetail?.planTo)}
+                  mt={4 / 3}
+                />
               </Grid>
               <Grid item xs={12} lg={6}>
                 <Typography variant="h4" mt={1}>
                   {t('job.detail.actualDay')}
                 </Typography>
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <LV
-                  label={t('job.detail.fromDay')}
-                  value={convertUtcDateToLocalTz(jobDetail?.planFrom)}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
                 <LV
                   label={t('job.detail.fromDay')}
                   value={convertUtcDateToLocalTz(jobDetail?.executionDateFrom)}
+                  mt={4 / 3}
                 />
-              </Grid>
-              <Grid item xs={12} lg={6}>
-                <LV
-                  label={t('job.detail.toDay')}
-                  value={convertUtcDateToLocalTz(jobDetail?.planTo)}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
                 <LV
                   label={t('job.detail.toDay')}
                   value={convertUtcDateToLocalTz(jobDetail?.executionDateTo)}
+                  mt={4 / 3}
                 />
               </Grid>
             </Grid>
-            <ActionBar onBack={backToList} />
           </Grid>
         </Grid>
+        <ActionBar onBack={backToList} />
       </Paper>
       <Activities data={histories} />
     </Page>

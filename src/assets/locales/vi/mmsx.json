@@ -146,9 +146,10 @@
     "deviceStatistic": "Thống kê thiết bị",
     "deviceStatusReport": "Báo cáo trạng thái thiết bị",
     "maintainanceProgress": "Báo cáo tiến độ công việc",
+    "maintainanceProgressDetail": "Chi tiết báo cáo công việc",
     "reportDeviceSerial": "Báo cáo trạng thái thiết bị",
     "reportDeviceAssign": "Chi tiết báo cáo trạng thái thiết bị",
-    "createPlanList": "Lập kế hoạch",
+    "createPlan": "Lập kế hoạch",
     "plan": "Kế hoạch",
     "trackTrace": "Track & Trace",
     "solution": "Giải pháp",
@@ -161,9 +162,9 @@
     "jobAssign": "Phân công công việc",
     "warningListChecklistDetail": "Chi tiết kiểm tra định kì",
     "roleManagement": "Phân quyền",
-    "createPlanListDetail": "Chi tiết kế hoạch",
-    "createPlanListCreate": "Tạo kế hoạch",
-    "createPlanListEdit": "Sửa kế hoạch",
+    "createPlanDetail": "Chi tiết kế hoạch",
+    "createPlanCreate": "Tạo kế hoạch",
+    "createPlanEdit": "Sửa kế hoạch",
     "attributeType": "Định nghĩa loại giá trị",
     "attributeTypeCreate": "Tạo loại giá trị",
     "attributeTypeDetail": "Chi tiết loại giá trị",
@@ -193,7 +194,7 @@
   },
   "deviceStatus": {
     "title": "Danh sách trạng thái thiết bị",
-    "searchPlaceholder": "Tìm kiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc serial",
     "serial": "Serial",
     "deviceName": "Tên thiết bị",
     "oee": "OEE(%)",
@@ -243,6 +244,32 @@
     }
   },
   "maintainanceProgress": {
+    "code": "Mã NV",
+    "name": "Tên NV",
+    "userCode": "Mã nhân viên",
+    "userName": "Tên nhân viên",
+    "role": "Chức vụ",
+    "startDay": "Ngày bắt đầu làm việc",
+    "assignedWork": "Số CV được giao",
+    "completedWork": "Số CV hoàn thành",
+    "doingWork": "Số CV đang làm",
+    "outOfDateWork": "Số CV quá hạn",
+    "pendingWork": "Số CV chờ xác nhận",
+    "createdAt": "Ngày tạo",
+    "actions": "Hành động",
+    "workType": "Loại công việc",
+    "workQuantity": "Số lượng công việc",
+    "totalQuantity": "Tổng số lượng công việc được giao",
+    "planQuantity": "Công việc kế hoạch",
+    "incurredQuantity": "Công việc phát sinh",
+    "work": "công việc",
+    "table": {
+      "completedWork": "Công việc đã hoàn thành",
+      "doingWork": "Công việc đang thực hiện",
+      "outOfDateWork": "Công việc quá hạn",
+      "pendingWork": "Công việc đang chờ xác nhận",
+      "rate": "Tỉ lệ hoàn thành công việc"
+    },
     "status": {
       "unassigned": "Chưa được phân công",
       "waitForConfirm": "Chờ xác nhận",
@@ -350,6 +377,7 @@
     "importFile": "Nhập dữ liệu",
     "activityReport": "Lịch sử hoạt động",
     "seeMore": "Xem thêm hoạt động",
+    "seeLess": "Ẩn bớt hoạt động",
     "responsibleUser": "Người phụ trách",
     "searchPlaceHolder": "Tìm kiếm thông tin",
     "filterData": "Lọc",
@@ -1544,7 +1572,7 @@
       "request": "Yêu cầu người dùng",
       "maintain": "Bảo dưỡng"
     },
-    "title": "Danh sách kế hoạch tổng thể",
+    "title": "Danh sách kế hoạch công việc",
     "jobBtn": "Công việc",
     "placeholder": {
       "planCode": "Nhập mã mẫu phiếu",
@@ -1561,6 +1589,7 @@
       "hideData": "Ẩn thông tin",
       "showData": "Hiện thông tin",
       "updateFormTitle": "Sửa công việc",
+      "refreshData": "Làm mới dữ liệu",
       "createForm": {
         "createBtn": "Tạo công việc",
         "createTitle": "Thêm công việc",
@@ -1582,6 +1611,8 @@
       "table": {
         "assignUsers": "Người chịu trách nhiệm",
         "jobCode": "Mã công việc",
+        "jobPlan": "Công việc kế hoạch",
+        "jobActual": "Công việc thực tế",
         "status": "Trạng thái",
         "jobType": "Loại công việc",
         "planQuantity": "Số lượng kế hoạch",
@@ -1596,10 +1627,19 @@
         "expectedDate": "Ngày thực hiện dự kiến",
         "actualDate": "Ngày thực hiện thực tế",
         "actualQuantity": "Số lượng thực tế"
+      },
+      "subTable": {
+        "deviceName": "Tên thiết bị",
+        "serial": "Serial",
+        "assignUser": "Người thực hiện",
+        "datePlan": "Ngày thực hiện dự kiến",
+        "dateReal": "Ngày thực hiện thực tế",
+        "status": "Trạng thái",
+        "action": "Hành động"
       }
     },
     "status": {
-      "waiting": "Chờ xác nhận",
+      "pending": "Chờ xác nhận",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận"
     },
@@ -1638,7 +1678,7 @@
       "listView": "List View",
       "ganttChart": "GanttChart",
       "deviceButton": "Thiết bị",
-      "jobs": "Công việc"
+      "createPlan": "Lập kế hoạch"
     },
     "detail": {
       "status": "Trạng thái",
@@ -1665,7 +1705,16 @@
         "maintainType": "Loại bảo trì",
         "maintainQuantity": "Số lượng",
         "maintainDescription": "Mô tả"
-      }
+      },
+      "titleCate": "Tiêu đề",
+      "descriptionCate": "Mô tả hạng mục",
+      "requiredCate": "Bắt buộc",
+      "titleList": "Danh sách hạng mục lắp đặt",
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "user": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ"
     },
     "assign": {
       "smallTitle": "Thông tin người sử dụng",

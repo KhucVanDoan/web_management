@@ -12,6 +12,11 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import {
+  exportAttributeMaintainApi,
+  getAttributeMaintainTemplateApi,
+  importAttributeMaintainApi,
+} from '~/modules/mmsx/redux/sagas/attribute-maintain/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -56,6 +61,9 @@ function AttributeMaintenance() {
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
   })
+
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     {
@@ -156,6 +164,10 @@ function AttributeMaintenance() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -182,9 +194,25 @@ function AttributeMaintenance() {
       <>
         {/* @TODO: handle import export */}
         <ImportExport
-          name={t('menu.importExportData')}
-          onImport={() => {}}
-          onExport={() => {}}
+          name={t('common.import')}
+          onImport={(params) => {
+            importAttributeMaintainApi(params)
+          }}
+          onExport={() => {
+            exportAttributeMaintainApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getAttributeMaintainTemplateApi}
+          onRefresh={refreshData}
           disabled
         />
         <Button
@@ -215,6 +243,9 @@ function AttributeMaintenance() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

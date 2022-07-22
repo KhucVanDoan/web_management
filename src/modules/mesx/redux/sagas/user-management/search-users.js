@@ -13,7 +13,7 @@ import { validateStatus } from '~/utils/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchUsersApi = (params) => {
+export const searchUsersApi = (params) => {
   const uri = `/v1/users/list`
   return api.get(uri, params)
 }

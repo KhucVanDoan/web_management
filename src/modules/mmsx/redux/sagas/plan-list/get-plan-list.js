@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 
-const getPlanList = (params) => {
+export const getPlanListApi = (params) => {
   const url = `v1/mms/plan/list`
   return api.get(url, params)
 }
@@ -25,7 +25,7 @@ const getPlanList = (params) => {
 
 function* doGetPlanList(action) {
   try {
-    const response = yield call(getPlanList, action?.payload)
+    const response = yield call(getPlanListApi, action?.payload)
     if (response.statusCode === 200) {
       yield put(getPlanListSuccess(response?.data))
       if (action.onSuccess) yield action.onSuccess(response?.data)

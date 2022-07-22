@@ -4,9 +4,10 @@ import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { JOB_STATUS_LIST, WORK_TYPE_OPTIONS } from '~/modules/mmsx/constants'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 
 const JobQuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
   const { t } = useTranslation(['mmsx'])
@@ -29,32 +30,27 @@ const JobQuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="type"
-                      label={t('job.workType')}
-                      placeholder={t('job.workType')}
-                      options={WORK_TYPE_OPTIONS}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => t(opt?.text)}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="status"
-                      label={t('job.status')}
-                      placeholder={t('job.status')}
-                      options={JOB_STATUS_LIST}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      name="userId"
+                      label={t('maintainanceProgress.userName')}
+                      placeholder={t('maintainanceProgress.userName')}
+                      asyncRequest={(s) =>
+                        searchUsersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.fullName}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.DateRangePicker
-                      name="createdAt"
-                      label={t('job.createdAt')}
-                      placeholder={t('job.createdAt')}
+                      name="date"
+                      label={t('maintainanceProgress.createdAt')}
+                      placeholder={t('maintainanceProgress.createdAt')}
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  <Grid item xs={12}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button
                         color="grayF4"

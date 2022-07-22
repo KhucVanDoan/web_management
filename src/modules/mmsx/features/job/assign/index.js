@@ -5,7 +5,7 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -21,9 +21,9 @@ import {
 import Activities from '~/modules/mmsx/partials/Activities'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useJob from '~/modules/mmsx/redux/hooks/useJob'
-import usePlanList from '~/modules/mmsx/redux/hooks/usePlanList'
+import { getPlanListApi } from '~/modules/mmsx/redux/sagas/plan-list/get-plan-list'
 import { ROUTE } from '~/modules/mmsx/routes/config'
-import { convertUtcDateToLocalTz } from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -49,14 +49,8 @@ const JobAssign = () => {
     actions: commonAction,
   } = useCommonInfo()
 
-  const {
-    data: { planList },
-    actions: planAction,
-  } = usePlanList()
-
   useEffect(() => {
     commonAction.getResponsibleSubject()
-    planAction.getPlanList({ isGetAll: 1 })
   }, [])
 
   const {
@@ -129,7 +123,7 @@ const JobAssign = () => {
             {t('job.button.deviceButton')}
           </Button>
           <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('job.button.jobs')}
+            {t('job.button.createPlan')}
           </Button>
         </Box>
       </>
@@ -154,7 +148,7 @@ const JobAssign = () => {
               onSubmit={handleSubmit}
               enableReinitialize
             >
-              {({ handleReset }) => (
+              {({ handleReset, values }) => (
                 <Form>
                   <Grid
                     container
@@ -251,9 +245,18 @@ const JobAssign = () => {
                         name="plan"
                         label={t('job.assign.plan')}
                         placeholder={t('job.assign.plan')}
-                        options={planList}
+                        asyncRequest={(s) =>
+                          getPlanListApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              planForm: values?.planDay[0],
+                              planTo: values?.planDay[1],
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
-                        // isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         vertical
                         required
                       />

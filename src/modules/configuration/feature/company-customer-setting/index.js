@@ -144,13 +144,8 @@ function CompanyCustomerSetting() {
                   <Grid item lg={12} xs={12}>
                     <LabelValue
                       label={
-                        <FormLabel
-                          required
-                          sx={{
-                            display: 'flex',
-                          }}
-                        >
-                          <Typography color={'text.main'}>
+                        <FormLabel required>
+                          <Typography color={'text.main'} component="span">
                             {t('companyCustomerSetting.logo')}
                           </Typography>
                         </FormLabel>
@@ -223,13 +218,8 @@ function CompanyCustomerSetting() {
                   <Grid item lg={12} xs={12}>
                     <LabelValue
                       label={
-                        <FormLabel
-                          required
-                          sx={{
-                            display: 'flex',
-                          }}
-                        >
-                          <Typography color={'text.main'}>
+                        <FormLabel required>
+                          <Typography color={'text.main'} component="span">
                             {t('companyCustomerSetting.colorBrand')}
                           </Typography>
                         </FormLabel>

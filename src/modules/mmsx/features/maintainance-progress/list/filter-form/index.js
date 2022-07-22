@@ -13,25 +13,17 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.TextField
           name="code"
-          label={t('job.workCode')}
-          placeholder={t('job.workCode')}
+          label={t('maintainanceProgress.userCode')}
+          placeholder={t('maintainanceProgress.userCode')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
           allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
-          name="serial"
-          label={t('job.serial')}
-          placeholder={t('job.serial')}
-          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.TextField
-          name="deviceName"
-          label={t('job.deviceName')}
-          placeholder={t('job.deviceName')}
+          name="fullName"
+          label={t('maintainanceProgress.userName')}
+          placeholder={t('maintainanceProgress.userName')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
         />
       </Grid>
