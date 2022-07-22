@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -17,6 +18,11 @@ import {
   SUPPLIES_CATEGORY_STATUS_OPTIONS,
 } from '~/modules/mmsx/constants'
 import useSuppliesCategory from '~/modules/mmsx/redux/hooks/useSuppliesCategory'
+import {
+  exportSuppliesCategoryApi,
+  getSuppliesCategoryTemplateApi,
+  importSuppliesCategoryApi,
+} from '~/modules/mmsx/redux/sagas/supplies-category/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -38,6 +44,8 @@ const SuppliesCategory = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     data: { suppliesCategoryList, isLoading, total },
@@ -191,6 +199,10 @@ const SuppliesCategory = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -219,9 +231,28 @@ const SuppliesCategory = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
+        <ImportExport
+          name={t('common.import')}
+          onImport={(params) => {
+            importSuppliesCategoryApi(params)
+          }}
+          onExport={() => {
+            exportSuppliesCategoryApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getSuppliesCategoryTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.CREATE.PATH)}
           icon="add"
@@ -251,6 +282,9 @@ const SuppliesCategory = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

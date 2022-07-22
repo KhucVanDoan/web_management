@@ -12,6 +12,11 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
+import {
+  exportDefectListApi,
+  getDefectListTemplateApi,
+  importDefectListApi,
+} from '~/modules/mmsx/redux/sagas/defect-list/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -57,6 +62,9 @@ function DefectList() {
     isOpenDeleteModal: false,
     isOpenConfirmModal: false,
   })
+
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
     {
@@ -173,6 +181,10 @@ function DefectList() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const handleOpenDeleteModal = (tempItem) => {
     setModal({
       tempItem,
@@ -197,11 +209,26 @@ function DefectList() {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: handle import export */}
         <ImportExport
-          name={t('menu.importExportData')}
-          onImport={() => {}}
-          onExport={() => {}}
+          name={t('common.import')}
+          onImport={(params) => {
+            importDefectListApi(params)
+          }}
+          onExport={() => {
+            exportDefectListApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getDefectListTemplateApi}
+          onRefresh={refreshData}
           disabled
         />
         <Button
@@ -233,6 +260,9 @@ function DefectList() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}

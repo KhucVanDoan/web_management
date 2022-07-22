@@ -288,10 +288,36 @@ export const ROUTE = {
       TITLE: 'jobAssign',
     },
   },
+  CREATE_PLAN: {
+    LIST: {
+      PATH: '/mmsx/create-plan',
+      TITLE: 'createPlan',
+    },
+    CREATE: {
+      PATH: '/mmsx/create-plan/create',
+      TITLE: 'createPlanCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/create-plan/:id/edit',
+      TITLE: 'createPlanEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/create-plan/:id/detail',
+      TITLE: 'createPlanDetail',
+    },
+    GANNT_CHART: {
+      PATH: '/mmsx/create-plan/gantt-chart',
+      TITLE: 'createPlan',
+    },
+  },
   MAINTAINANCE_PROGRESS: {
     LIST: {
       PATH: '/mmsx/maintainance-progress',
       TITLE: 'maintainanceProgress',
+    },
+    DETAIL: {
+      PATH: '/mmsx/maintainance-progress/:id/detail',
+      TITLE: 'maintainanceProgressDetail',
     },
   },
   DEFECT_LIST: {

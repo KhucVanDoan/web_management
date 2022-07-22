@@ -46,16 +46,12 @@ const Job = () => {
   const DEFAULT_FILTERS = {
     code: '',
     requestCode: '',
-    type: '',
     requestName: '',
-    user: '',
     serial: '',
     deviceName: '',
     priority: '',
-    status: '',
     planDay: null,
     actualDay: null,
-    createdAt: null,
   }
 
   const DEFAULT_QUICK_FILTERS = {

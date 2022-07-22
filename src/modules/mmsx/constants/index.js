@@ -803,6 +803,28 @@ export const JOB_STATUS_LIST = [
     color: 'completed',
   },
 ]
+export const CREATE_PLAN_STATUS_OPTIONS = [
+  {
+    text: 'createPlanList.status.pending',
+    id: 1,
+    color: 'pending',
+  },
+  {
+    text: 'createPlanList.status.confirmed',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'createPlanList.status.rejected',
+    id: 3,
+    color: 'rejected',
+  },
+]
+export const CREATE_PLAN_STATUS = {
+  PENDING: 1,
+  CONFIRMED: 2,
+  REJECTED: 3,
+}
 export const SUPPLY_REQUEST_TYPE = [
   { value: 1, text: 'suppliesRequest.type.returnRequest' },
   { value: 2, text: 'suppliesRequest.type.request' },
@@ -901,3 +923,7 @@ export const DEVICE_STATUS_ENUM_OPTIONS = [
     id: 6,
   },
 ]
+export const GANTT_CHART_TYPE = {
+  job: 'job',
+  plan: 'plan',
+}

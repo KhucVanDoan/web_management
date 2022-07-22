@@ -1,0 +1,17 @@
+.waitForConfirm {
+  border: 1px solid #0761ad;
+}
+.box {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+.inProgress {
+  background-color: #69b1f3;
+}
+.overdue {
+  background-color: #ff5353;
+}
+.completed {
+  background-color: #0fa44a;
+}
