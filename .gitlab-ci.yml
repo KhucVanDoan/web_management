@@ -11,7 +11,7 @@ services:
 
 stages:
   - build
-  - deploy  
+  - deploy
   - build_avenue_stg
   - deploy_avenue_stg
   - build_staging
@@ -76,7 +76,6 @@ build_avenue_stg:
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
 
-    
 deploy_avenue_stg:
   stage: deploy_avenue_stg
   rules:
@@ -116,31 +115,32 @@ build_staging:
     - docker push $DEV_CONTAINER_IMAGE
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
-deploy_avenue_stg:
-  stage: deploy_avenue_stg
-  variables:
-    GIT_STRATEGY: none
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
-  script:
-    - eval `ssh-agent -s`
 
-    - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
-    - mkdir -p ~/.ssh
+# deploy_avenue_stg:
+#   stage: deploy_avenue_stg
+#   variables:
+#     GIT_STRATEGY: none
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
+#   script:
+#     - eval `ssh-agent -s`
 
-    - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+#     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
+#     - mkdir -p ~/.ssh
 
-    - mkdir -p ~/.ssh
+#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
 
-    - chmod 644 ~/.ssh/known_hosts
+#     - mkdir -p ~/.ssh
 
-    - >
-      ssh $SSH_USER@$SSH_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-      docker pull ${DEV_CONTAINER_IMAGE};
-      docker stop  avenue_wmsx_dev_web || true; 
-      docker run --rm -d --name avenue_wmsx_dev_web -p 20088:80 ${DEV_CONTAINER_IMAGE};
-      docker image prune -f;"
+#     - chmod 644 ~/.ssh/known_hosts
+
+#     - >
+#       ssh $SSH_USER@$SSH_SERVER_IP
+#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+#       docker pull ${DEV_CONTAINER_IMAGE};
+#       docker stop  avenue_wmsx_dev_web || true;
+#       docker run --rm -d --name avenue_wmsx_dev_web -p 20088:80 ${DEV_CONTAINER_IMAGE};
+#       docker image prune -f;"
 
 build_demo:
   before_script:
