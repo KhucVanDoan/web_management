@@ -96,7 +96,10 @@
     "suppliesRequestCreate": "Create supply request",
     "suppliesRequestEdit": "Edit supply request",
     "deviceStatusReport": "Device status report",
-    "attributeType": "Define attribute type"
+    "attributeType": "Define attribute type",
+    "attributeTypeCreate": "Create attribute type",
+    "attributeTypeDetail": "Detail attribute type",
+    "attributeTypeEdit": "Edit attribute type"
   },
   "maintainanceProgress": {
     "status": {
@@ -204,6 +207,7 @@
     "importFile": "Import",
     "activityReport": "Activity report",
     "seeMore": "See more",
+    "seeLess": "See less",
     "responsibleUser": "Responsible user",
     "searchPlaceHolder": "Search information",
     "filterData": "Filter",
@@ -1604,6 +1608,7 @@
   },
   "attributeType": {
     "title": "List attribute types",
+    "searchPlaceholder": "Find by code or name",
     "table": {
       "code": "Code",
       "name": "Name",

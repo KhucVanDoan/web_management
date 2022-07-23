@@ -11,6 +11,10 @@ import {
   CREATE_DEVICE_CATEGORY_START,
   UPDATE_DEVICE_CATEGORY_START,
   RESET_DEVICE_CATEGORY,
+  CREATE_DEVICE_CATEGORY_FAIL,
+  UPDATE_DEVICE_CATEGORY_FAIL,
+  CREATE_DEVICE_CATEGORY_SUCCESS,
+  UPDATE_DEVICE_CATEGORY_SUCCESS,
 } from '../actions/device-category'
 
 const initialState = {
@@ -48,6 +52,14 @@ export default function deviceCategory(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+      }
+    case CREATE_DEVICE_CATEGORY_FAIL:
+    case UPDATE_DEVICE_CATEGORY_FAIL:
+    case CREATE_DEVICE_CATEGORY_SUCCESS:
+    case UPDATE_DEVICE_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       }
     case GET_DEVICE_CATEGORY_SUCCESS:
       return {

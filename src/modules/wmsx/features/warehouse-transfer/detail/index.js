@@ -57,7 +57,8 @@ const WarehouseTransferDetail = () => {
         lotNumber: e?.lotNumber,
         mfg: e?.mfg,
         packageId: e?.package?.code,
-        planQuantity: e?.planQuantity,
+        planQuantity: +e?.planQuantity,
+        actualQuantity: +e?.actualQuantity,
         unitType: e?.item?.itemUnit?.name,
       })
     })
@@ -179,7 +180,11 @@ const WarehouseTransferDetail = () => {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTable items={getDataItem()} mode={mode} />
+        <ItemSettingTable
+          items={getDataItem()}
+          mode={mode}
+          status={warehouseTransferDetails?.status}
+        />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

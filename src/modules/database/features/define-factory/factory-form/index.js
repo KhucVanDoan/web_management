@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import {
@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -18,8 +19,8 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/database/routes/config'
 import qs from '~/utils/qs'
 
@@ -37,11 +38,6 @@ const DefineFactoryForm = () => {
     actions,
   } = useDefineFactory()
 
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
-
   const MODE_MAP = {
     [ROUTE.DEFINE_FACTORY.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_FACTORY.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -56,18 +52,16 @@ const DefineFactoryForm = () => {
     description: factoryDetails?.description || '',
     location: factoryDetails?.location || '',
     phone: factoryDetails?.phone || '',
-    companyId: factoryDetails?.companyId || '',
+    companyId: factoryDetails?.companyId
+      ? {
+          id: factoryDetails?.companyId,
+          name: factoryDetails?.companyName,
+        }
+      : null,
   }
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
 
   const getBreadcrumb = () => {
     const breadcrumb = [
-      // {
-      //   title: 'database',
-      // },
       {
         route: ROUTE.DEFINE_FACTORY.LIST.PATH,
         title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
@@ -121,15 +115,15 @@ const DefineFactoryForm = () => {
   }
 
   const onSubmit = (values) => {
+    const id = Number(params?.id)
+    const convertValues = {
+      ...values,
+      companyId: values?.companyId?.id,
+    }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createFactory(values, backToList)
+      actions.createFactory(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      const id = Number(params?.id)
-      const paramUpdate = {
-        ...values,
-        id,
-      }
-      actions.updateFactory(paramUpdate, backToList)
+      actions.updateFactory({ ...convertValues, id: +id }, backToList)
     }
   }
 
@@ -229,11 +223,15 @@ const DefineFactoryForm = () => {
                       name="companyId"
                       label={t('defineFactory.companyName')}
                       placeholder={t('defineFactory.companyName')}
-                      options={companyList}
+                      asyncRequest={(s) =>
+                        searchCompaniesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
                       getOptionValue={(opt) => opt?.id}
                       required
                     />

@@ -45,11 +45,11 @@ export default function Sidebar() {
                   img: { maxHeight: theme.spacing(4) },
                 }}
               >
-                {isMinimal ? (
+                {/* {isMinimal ? (
                   <img src={LogoSolution} alt="minimal-logo" />
                 ) : (
                   <img src={LogoSolution} alt="client-logo" />
-                )}
+                )} */}
               </Box>
 
               <IconButton

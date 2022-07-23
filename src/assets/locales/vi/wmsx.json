@@ -167,7 +167,7 @@
     "returnOrderDetail": "Chi tiết lệnh trả hàng"
   },
   "locationSetting": {
-    "title": "Dạnh sách thiết lập vị trí",
+    "title": "Danh sách thiết lập vị trí",
     "searchPlaceholder": "Tìm hiếm theo mã hoặc tên",
     "type": "Loại",
     "unit": "Đơn vị lưu kho",
@@ -361,6 +361,7 @@
       "type": "Loại sản phẩm",
       "warehouseName": "Tên kho",
       "warehouseType": "Loại kho",
+      "manufactureDate": "Ngày sản xuất",
       "quantity": "Số lượng dự kiến",
       "planQuantity": "Số lượng dự kiến",
       "unitType": "Đơn vị",
@@ -370,7 +371,11 @@
       "qcCheck": "QC?",
       "qcCriteria": "Tiêu chí QC",
       "lotNumberInput": "Nhập số lô",
-      "lotNumber": "Số lô"
+      "lotNumber": "Số lô",
+      "evenRow": "Hàng chẵn",
+      "packageCode": "Mã package",
+      "palletCode": "Mã pallet",
+      "storageLocation": "Vị trí lưu kho"
     },
     "importWarehouse": "Kho nhập",
     "importWarehousePlaceholder": "Chọn kho nhập",
@@ -913,15 +918,21 @@
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
     "inProgress": "Cất hàng",
-    "approved": "Đã được chấp nhận",
-    "rejected": "Từ chối",
+    "approved": "Xác nhận",
     "completed": "Hoàn thành",
-    "inReceiving": "Đang nhận",
-    "received": "Đã nhận",
+    "rejected": "Từ chối",
+    "inReceiving": "Nhận hàng",
+    "received": "Đã nhập kho",
     "delivered": "Đã cất",
     "inCollecting": "Nhặt hàng",
     "collected": "Chờ xuất kho",
-    "exported": "Hoàn thành"
+    "exported": "Hoàn thành",
+    "rejectedReceived": "Huỷ",
+    "inProducing": "",
+    "produced": "",
+    "inReturning": "Đang trả hàng",
+    "returned": "Đã trả hàng",
+    "stored": "Đã cất hàng"
   },
   "InventoryCalendarStatus": {
     "pending": "Chờ xác nhận",
@@ -991,7 +1002,8 @@
       "completed": "Hoàn thành",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận",
-      "exporting": "Đang thực hiện"
+      "exporting": "Đang thực hiện",
+      "exported": "Đã xuất hàng"
     },
     "isOneStep": "Có xuất kho 1 bước không ",
     "createButton": "Tạo lệnh chuyển kho",
@@ -1328,7 +1340,10 @@
       "qcCriteria": "Tiêu chí QC",
       "mfg": "Ngày sản xuất",
       "lotNumber": "Số lô",
-      "packageCode": "Mã package"
+      "packageCode": "Mã package",
+      "evenRow": "Hàng chẵn",
+      "palletCode": "Mã pallet",
+      "storageLocation": "Vị trí lưu kho"
     }
   },
   "importManufacturingOrder": {
@@ -2204,6 +2219,8 @@
     "searchPlaceholder": "Tìm kiếm lệnh trả hàng theo mã hoặc tên",
     "code": "Mã lệnh",
     "name": "Tên lệnh",
+    "returnCode": "Mã lệnh trả hàng",
+    "returnName": "Tên lệnh trả hàng",
     "letterType": "Loại đơn từ",
     "letterCode": "Mã đơn từ",
     "letterName": "Tên đơn từ",

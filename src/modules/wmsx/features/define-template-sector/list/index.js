@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -40,6 +42,7 @@ const defineTemplateSector = () => {
   } = useTemplateSector()
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     name: '',
@@ -174,6 +177,10 @@ const defineTemplateSector = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const renderHeaderRight = () => {
     return (
       <>
@@ -214,7 +221,21 @@ const defineTemplateSector = () => {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
         }}
-      ></DataTable>
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.TEMPLATE_SECTOR,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
+        }}
+      />
       <Dialog
         open={isOpenDeleteModal}
         title={t('templateSector.deleteModalTitle')}

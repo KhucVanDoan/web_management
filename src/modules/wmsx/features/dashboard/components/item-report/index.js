@@ -13,11 +13,11 @@ import { first, isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
+import DateSelection from '~/components/DateSelection'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { useDashboardItemStockReport } from '~/modules/wmsx/redux/hooks/useDashboard'
 
 import BarChartReport from '../barchart'
-import DateSelection from '../date-selection'
 
 const groupOptions = [
   {

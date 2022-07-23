@@ -7,6 +7,47 @@ export const ROUTE = {
     PATH: '/wmsx/device-management',
     TITLE: 'deviceManagement',
   },
+  REQUEST_DEVICE: {
+    LIST: {
+      PATH: '/mmsx/request-device',
+      TITLE: 'requestDevice',
+    },
+    CREATE: {
+      PATH: '/mmsx/request-device/create',
+      TITLE: 'createRequestDevice',
+    },
+    DETAIL: {
+      PATH: '/mmsx/request-device/:id/detail',
+      TITLE: 'viewDetailRequestDevice',
+    },
+    EDIT: {
+      PATH: '/mmsx/request-device/:id/edit',
+      TITLE: 'updateRequestDevice',
+    },
+    RETURN_CREATE: {
+      PATH: '/mmsx/request-device/return/create',
+      TITLE: 'createReturnDevice',
+    },
+    RETURN_DETAIL: {
+      PATH: '/mmsx/request-device/return/:id/detail',
+      TITLE: 'viewDetailReturnDevice',
+    },
+    RETURN_EDIT: {
+      PATH: '/mmsx/request-device/return/:id/edit',
+      TITLE: 'updateReturnDevice',
+    },
+  },
+  SERIAL_DEVICE_MANAGEMENT: {
+    PATH: '/wmsx/serial-device-management',
+    TITLE: 'serialDeviceManagement',
+  },
+  SETTING: {
+    TITLE: 'setting',
+  },
+  DEVICE_SERIAL_MANAGEMENT: {
+    PATH: '/wmsx/device-serial-management',
+    TITLE: 'deviceSerialManagement',
+  },
   DEVICE_LIST: {
     LIST: {
       PATH: '/mmsx/device-list',
@@ -25,6 +66,28 @@ export const ROUTE = {
       TITLE: 'deviceEdit',
     },
   },
+  DEVICE_ASSIGN: {
+    LIST: {
+      PATH: '/mmsx/device-assign',
+      TITLE: 'deviceAssign',
+    },
+    CREATE: {
+      PATH: '/mmsx/device-assign/create',
+      TITLE: 'deviceAssignCreate',
+    },
+    DETAIL: {
+      PATH: '/mmsx/device-assign/:id/detail',
+      TITLE: 'deviceAssignDetail',
+    },
+    EDIT: {
+      PATH: '/mmsx/device-assign/:id/edit',
+      TITLE: 'deviceAssignEdit',
+    },
+    REASSIGN: {
+      PATH: '/mmsx/device-assign/:id/reassign',
+      TITLE: 'deviceReassign',
+    },
+  },
   DATABASE: {
     PATH: '/mmsx/database',
     TITLE: 'database',
@@ -37,9 +100,15 @@ export const ROUTE = {
     PATH: '/mmsx/plan',
     TITLE: 'plan',
   },
+  REPORT: {
+    PATH: '/mmsx/report',
+    TITLE: 'report',
+  },
   DEVICE_STATUS: {
-    PATH: '/mmsx/device-status',
-    TITLE: 'deviceStatus',
+    LIST: {
+      PATH: '/mmsx/device-status',
+      TITLE: 'deviceStatus',
+    },
     DETAIL: {
       PATH: '/mmsx/device-status/:id/detail',
       TITLE: 'deviceStatusDetail',
@@ -65,6 +134,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mmsx/device-category/:id/detail',
       TITLE: 'deviceCategoryDetail',
+    },
+  },
+  ATTRIBUTE_TYPE: {
+    LIST: {
+      PATH: '/mmsx/attribute-type',
+      TITLE: 'attributeType',
+    },
+    CREATE: {
+      PATH: '/mmsx/attribute-type/create',
+      TITLE: 'attributeTypeCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/attribute-type/:id/edit',
+      TITLE: 'attributeTypeEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/attribute-type/:id/detail',
+      TITLE: 'attributeTypeDetail',
     },
   },
   INSTALLATION_TEMPLATE: {
@@ -195,6 +282,102 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/mmsx/job/:id/detail',
       TITLE: 'jobDetail',
+    },
+    ASSIGN: {
+      PATH: '/mmsx/job/:id/assign',
+      TITLE: 'jobAssign',
+    },
+  },
+  CREATE_PLAN: {
+    LIST: {
+      PATH: '/mmsx/create-plan',
+      TITLE: 'createPlan',
+    },
+    CREATE: {
+      PATH: '/mmsx/create-plan/create',
+      TITLE: 'createPlanCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/create-plan/:id/edit',
+      TITLE: 'createPlanEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/create-plan/:id/detail',
+      TITLE: 'createPlanDetail',
+    },
+    GANNT_CHART: {
+      PATH: '/mmsx/create-plan/gantt-chart',
+      TITLE: 'createPlan',
+    },
+  },
+  MAINTAINANCE_PROGRESS: {
+    LIST: {
+      PATH: '/mmsx/maintainance-progress',
+      TITLE: 'maintainanceProgress',
+    },
+    DETAIL: {
+      PATH: '/mmsx/maintainance-progress/:id/detail',
+      TITLE: 'maintainanceProgressDetail',
+    },
+  },
+  DEFECT_LIST: {
+    LIST: {
+      PATH: '/mmsx/defect-list',
+      TITLE: 'defectList',
+    },
+    CREATE: {
+      PATH: '/mmsx/defect-list/create',
+      TITLE: 'defectListCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/defect-list/:id/edit',
+      TITLE: 'defectListEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/defect-list/:id/detail',
+      TITLE: 'defectListDetail',
+    },
+  },
+  SUPPLIES_REQUEST: {
+    LIST: {
+      PATH: '/mmsx/supplies-request',
+      TITLE: 'suppliesRequest',
+    },
+    CREATE: {
+      PATH: '/mmsx/supplies-request/create',
+      TITLE: 'suppliesRequestCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/supplies-request/:id/edit',
+      TITLE: 'suppliesRequestEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/supplies-request/:id/detail',
+      TITLE: 'suppliesRequestDetail',
+    },
+  },
+  DEVICE_STATUS_REPORT: {
+    LIST: {
+      PATH: '/mmsx/device-status-report',
+      TITLE: 'deviceStatusReport',
+    },
+  },
+  ATTRIBUTE_MAINTENANCE: {
+    LIST: {
+      PATH: '/mmsx/attribute-maintenance',
+      TITLE: 'attributeMaintenance',
+    },
+    CREATE: {
+      PATH: '/mmsx/attribute-maintenance/create',
+      TITLE: 'attributeMaintenanceCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/attribute-maintenance/:id/edit',
+      TITLE: 'attributeMaintenanceEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/attribute-maintenance/:id/detail',
+      TITLE: 'attributeMaintenanceDetail',
     },
   },
 }

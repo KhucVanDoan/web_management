@@ -291,7 +291,11 @@ class GanttChartWrapper extends Component {
     this.setZoom(this.state.zoom)
     return (
       <>
-        <Toolbar onChangeZoom={this.handleChangeZoom} />
+        <Toolbar
+          onChangeZoom={this.handleChangeZoom}
+          onChangePlanFilter={this.props.handleChangeFilter}
+          planList={this.props.planList}
+        />
         <div className="gantt-container">
           <div
             ref={(input) => {

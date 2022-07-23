@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import jobAction from '~/modules/mmsx/redux/actions/job'
 
-function useMaintenanceTeam() {
+function useJob() {
   const data = useSelector((state) => get(state, 'mmsx.job'))
 
   const dispatch = useDispatch()
@@ -19,4 +19,4 @@ function useMaintenanceTeam() {
     data,
   }
 }
-export default useMaintenanceTeam
+export default useJob

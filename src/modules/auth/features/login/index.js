@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 
-import Logo from '~/assets/images/logo-solutions.png'
+// import Logo from '~/assets/images/logo-solutions.png'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -58,7 +58,7 @@ const Login = () => {
 
       <Paper className={classes.paper}>
         <Box className={classes.logoBox}>
-          <img src={Logo} alt="logo" className={classes.logoLogin} />
+          {/* <img src={Logo} alt="logo" className={classes.logoLogin} /> */}
         </Box>
 
         <Formik

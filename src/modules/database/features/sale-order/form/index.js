@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { Formik, Form, FieldArray } from 'formik'
@@ -26,8 +26,8 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/database/routes/config'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
 import { searchCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/search-customers'
@@ -53,10 +53,7 @@ function SaleOrderForm() {
     data: { saleOrderDetails: saleOrder, isLoading },
     actions: saleOrderAction,
   } = useSaleOrder()
-  const {
-    data: { companyList },
-    actions: defineCompany,
-  } = useDefineCompany()
+
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
     itemId: null,
@@ -76,9 +73,7 @@ function SaleOrderForm() {
     refreshData()
     return () => saleOrderAction.resetSaleOrderState()
   }, [mode, cloneId])
-  useEffect(() => {
-    defineCompany.searchCompanies({ isGetAll: 1 })
-  }, [])
+
   const refreshData = () => {
     const params = {
       isGetAll: 1,
@@ -99,7 +94,7 @@ function SaleOrderForm() {
   const handleSubmit = (values) => {
     const convertValues = {
       code: values?.code,
-      companyId: values?.companyId,
+      companyId: values?.companyId?.id,
       deadline: values?.deadline,
       name: values?.name,
       orderedAt: values?.orderedAt,
@@ -191,7 +186,7 @@ function SaleOrderForm() {
       description: saleOrder?.description || '',
       customerId: saleOrder?.customer || null,
       boqId: saleOrder?.boqId || null,
-      companyId: saleOrder?.companyId || '',
+      companyId: saleOrder?.company || null,
       orderedAt: saleOrder?.orderedAt || null,
       deadline: saleOrder?.deadline || null,
       items: saleOrder?.saleOrderDetails || [{ ...DEFAULT_ITEM }],
@@ -307,15 +302,19 @@ function SaleOrderForm() {
                     </Typography>
                     <Box mt={4 / 3}>
                       <Field.Autocomplete
-                        options={companyList}
-                        label={t('saleOrder.vendor.name')}
                         name="companyId"
+                        label={t('saleOrder.vendor.name')}
                         placeholder={t('saleOrder.vendor.name')}
-                        getOptionValue={(opt) => opt?.id || ''}
-                        getOptionLabel={(opt) => opt?.name || opt?.code}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          searchCompaniesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
                     </Box>

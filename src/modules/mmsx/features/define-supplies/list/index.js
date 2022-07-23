@@ -9,6 +9,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,6 +19,11 @@ import {
   SUPPLIES_TYPE,
 } from '~/modules/mmsx/constants'
 import useDefineSupplies from '~/modules/mmsx/redux/hooks/useDefineSupplies'
+import {
+  exportDefineSuppliesApi,
+  getDefineSuppliesTemplateApi,
+  importDefineSuppliesApi,
+} from '~/modules/mmsx/redux/sagas/supplies/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -40,6 +46,8 @@ const DefineSupplies = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const {
     data: { suppliesList, isLoading, total },
@@ -119,10 +127,13 @@ const DefineSupplies = () => {
         sortable: true,
       },
       {
-        field: 'Supplier',
+        field: 'vendor',
         headerName: t('supplies.category.supplier'),
         width: 150,
         sortable: true,
+        renderCell: (params) => {
+          return params?.row?.vendor?.name
+        },
       },
 
       {
@@ -224,6 +235,11 @@ const DefineSupplies = () => {
   useEffect(() => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
@@ -252,6 +268,28 @@ const DefineSupplies = () => {
   const renderHeaderRight = () => {
     return (
       <>
+        <ImportExport
+          name={t('common.import')}
+          onImport={(params) => {
+            importDefineSuppliesApi(params)
+          }}
+          onExport={() => {
+            exportDefineSuppliesApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getDefineSuppliesTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_SUPPLIES.CREATE.PATH)}
           icon="add"
@@ -281,6 +319,9 @@ const DefineSupplies = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{

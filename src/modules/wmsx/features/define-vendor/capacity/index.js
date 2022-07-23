@@ -105,7 +105,7 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           ) : (
             <Field.TextField
               name={`vendorAbilities[${index}].quantity`}
-              allow={TEXTFIELD_ALLOW.NUMERIC}
+              allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
             />
           )
         },
@@ -119,7 +119,9 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
           const { id } = params.row
           const vendorCapacityObject = vendorAbilities?.find((x) => x.id === id)
           return isView ? (
-            <>{vendorCapacityObject?.deliveryTime}</>
+            <>
+              {vendorCapacityObject?.deliveryTime} {t('general:days')}
+            </>
           ) : (
             <Field.TextField
               name={`vendorAbilities[${index}].deliveryTime`}
@@ -177,11 +179,9 @@ function SupperCapacity({ arrayHelpers, mode, vendorAbilities }) {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemCode: '',
-                itemName: '',
-                unit: '',
-                quantityAverage: '',
-                timeAverage: '',
+                itemId: null,
+                quantity: '',
+                deliveryTime: '',
               })
             }}
           >

@@ -273,18 +273,13 @@ function POList() {
   }
   const renderHeaderRight = () => {
     return (
-      <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
-        <Button
-          onClick={() => history.push(ROUTE.PURCHASED_ORDER_IMPORT.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('purchasedOrderImport.createModalTitle')}
-        </Button>
-      </>
+      <Button
+        onClick={() => history.push(ROUTE.PURCHASED_ORDER_IMPORT.CREATE.PATH)}
+        sx={{ ml: 4 / 3 }}
+        icon="add"
+      >
+        {t('general:common.create')}
+      </Button>
     )
   }
   return (
@@ -292,7 +287,7 @@ function POList() {
       breadcrumbs={breadcrumbs}
       title={t('menu.purchasedOrderImport')}
       onSearch={setKeyword}
-      placeholder={t('inventoryCalendar.searchPlaceholder')}
+      placeholder={t('purchasedOrderImport.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >

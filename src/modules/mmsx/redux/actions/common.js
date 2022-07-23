@@ -2,14 +2,15 @@ export const MMSX_GET_FACTORY_LIST_START = 'MMSX_GET_FACTORY_LIST_START'
 export const MMSX_GET_FACTORY_LIST_SUCCESS = 'MMSX_GET_FACTORY_LIST_SUCCESS'
 export const MMSX_GET_FACTORY_LIST_FAIL = 'MMSX_GET_FACTORY_LIST_FAIL'
 export const MMSX_GET_LIST_MAINTENANCE_TEAM_START =
-  'MMSX_GET_LIST_MAINTENANCE_TEAM_START'
+  'MMSX_GET_ALL_MAINTENANCE_TEAM_START'
 export const MMSX_GET_LIST_MAINTENANCE_TEAM_SUCCESS =
-  'MMSX_GET_LIST_MAINTENANCE_TEAM_SUCCESS'
+  'MMSX_GET_ALL_MAINTENANCE_TEAM_SUCCESS'
 export const MMSX_GET_LIST_MAINTENANCE_TEAM_ERROR =
-  'MMSX_GET_LIST_MAINTENANCE_TEAM_ERROR'
-export const MMSX_GET_MO_BY_FACTORY = 'MMSX_GET_MO_BY_FACTORY'
-export const MMSX_GET_MO_BY_FACTORY_SUCCESS = 'MMSX_GET_MO_BY_FACTORY_SUCCESS'
-export const MMSX_GET_MO_BY_FACTORY_FAILED = 'MMSX_GET_MO_BY_FACTORY_FAILED'
+  'MMSX_GET_ALL_MAINTENANCE_TEAM_ERROR'
+export const MMSX_GET_MO_BY_FACTORY = 'MMSX_GET_ALL_MO_BY_FACTORY'
+export const MMSX_GET_MO_BY_FACTORY_SUCCESS =
+  'MMSX_GET_ALL_MO_BY_FACTORY_SUCCESS'
+export const MMSX_GET_MO_BY_FACTORY_FAILED = 'MMSX_GET_ALL_MO_BY_FACTORY_FAILED'
 
 export const MMSX_GET_ALL_SUPPLIES_CONFIRM_START =
   'MMSX_GET_ALL_SUPPLIES_CONFIRM_START'
@@ -19,11 +20,11 @@ export const MMSX_GET_ALL_SUPPLIES_CONFIRM_FAILED =
   'MMSX_GET_ALL_SUPPLIES_CONFIRM_FAILED'
 
 export const MMSX_GET_ATTRIBUTE_MAINTAIN_START =
-  'MMSX_GET_ATTRIBUTE_MAINTAIN_START'
+  'MMSX_GET_ALL_ATTRIBUTE_MAINTAIN_START'
 export const MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS =
-  'MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS'
+  'MMSX_GET_ALL_ATTRIBUTE_MAINTAIN_SUCCESS'
 export const MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED =
-  'MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED'
+  'MMSX_GET_ALL_ATTRIBUTE_MAINTAIN_FAILED'
 
 export const MMSX_GET_VENDORS_START = 'MMSX_GET_VENDORS_START'
 export const MMSX_GET_VENDORS_SUCCESS = 'MMSX_GET_VENDORS_SUCCESS'
@@ -36,9 +37,55 @@ export const GET_RESPONSIBLE_SUBJECT_SUCCESS =
 export const GET_RESPONSIBLE_SUBJECT_FAILED =
   'MMSX_GET_RESPONSIBLE_SUBJECT_FAILED'
 
+export const GET_MO_BY_WORK_CENTER = 'GET_MO_BY_WORK_CENTER'
+export const GET_MO_BY_WORK_CENTER_SUCCESS = 'GET_MO_BY_WORK_CENTER_SUCCESS'
+export const GET_MO_BY_WORK_CENTER_FAILED = 'GET_MO_BY_WORK_CENTER_FAILED'
+
 export const GET_ITEM_UNITS_START = 'MMSX_GET_ITEM_UNITS_START'
 export const GET_ITEM_UNITS_SUCCESS = 'MMSX_GET_ITEM_UNITS_SUCCESS'
 export const GET_ITEM_UNITS_FAILED = 'MMSX_GET_ITEM_UNITS_FAILED'
+
+export const GET_USING_DEVICE_ASSIGN_START =
+  'MMSX_GET_USING_DEVICE_ASSIGN_START'
+export const GET_USING_DEVICE_ASSIGN_SUCCESS =
+  'MMSX_GET_USING_DEVICE_ASSIGN_SUCCESS'
+export const GET_USING_DEVICE_ASSIGN_FAILED =
+  'MMSX_GET_USING_DEVICE_ASSIGN_FAILED'
+
+export const GET_USER_START = 'MMSX_GET_USER_START'
+export const GET_USER_SUCCESS = 'MMSX_GET_USER_SUCCESS'
+export const GET_USER_FAIL = 'MMSX_GET_USER_FAIL'
+
+export const GET_ALL_DEVICE_START = 'MMSX_GET_ALL_DEVICE_START'
+export const GET_ALL_DEVICE_SUCCESS = 'MMSX_GET_ALL_DEVICE_SUCCESS'
+export const GET_ALL_DEVICE_FAIL = 'MMSX_GET_ALL_DEVICE_FAIL'
+
+export const GET_ALL_WORK_CENTER_START = 'MMSX_GET_ALL_WORK_CENTER_START'
+export const GET_ALL_WORK_CENTER_SUCCESS = 'MMSX_GET_ALL_WORK_CENTER_SUCCESS'
+export const GET_ALL_WORK_CENTER_FAILED = 'MMSX_GET_ALL_WORK_CENTER_FAILED'
+
+/* Get mo by work center */
+export function getMoByWorkCenter(payload, onSuccess, onError) {
+  return {
+    type: GET_MO_BY_WORK_CENTER,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getMoByWorkCenterSuccess(payload) {
+  return {
+    type: GET_MO_BY_WORK_CENTER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getMoByWorkCenterFailed() {
+  return {
+    type: GET_MO_BY_WORK_CENTER_FAILED,
+  }
+}
 
 /**
  * Get vendors
@@ -219,6 +266,98 @@ export function getResponsibleSubjectFailed() {
   }
 }
 
+/* Get Device-Asign has status = using */
+export function getUsingDeviceAssign(onSuccess, onError) {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_START,
+    // payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/* Action:Device-Asign has status = using*/
+export function getUsingDeviceAssignSuccess(payload) {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_SUCCESS,
+    payload: payload,
+  }
+}
+
+/* Action:Device-Asign has status = using */
+export function getUsingDeviceAssignFailed() {
+  return {
+    type: GET_USING_DEVICE_ASSIGN_FAILED,
+  }
+}
+
+export function getUserList(payload, onSuccess, onError) {
+  return {
+    type: GET_USER_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+export function getUserListSuccess(payload) {
+  return {
+    type: GET_USER_SUCCESS,
+    payload,
+  }
+}
+export function getUserListFail() {
+  return {
+    type: GET_USER_FAIL,
+  }
+}
+
+export function getAllDevice(payload, onSuccess, onError) {
+  return {
+    type: GET_ALL_DEVICE_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getAllDeviceSuccess(payload) {
+  return {
+    type: GET_ALL_DEVICE_SUCCESS,
+    payload,
+  }
+}
+
+export function getAllDeviceFail() {
+  return {
+    type: GET_ALL_DEVICE_FAIL,
+  }
+}
+
+/* Get all work-center */
+export function getAllWorkCenter(onSuccess, onError) {
+  return {
+    type: GET_ALL_WORK_CENTER_START,
+    // payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+/* Action: Get all work-center*/
+export function getAllWorkCenterSuccess(payload) {
+  return {
+    type: GET_ALL_WORK_CENTER_SUCCESS,
+    payload: payload,
+  }
+}
+
+/* Action: Get all work-center */
+export function getAllWorkCenterFailed() {
+  return {
+    type: GET_ALL_WORK_CENTER_FAILED,
+  }
+}
+
 /**
  * Get products
  * @param {object} payload
@@ -278,7 +417,22 @@ export default {
   getVendors,
   getVendorsFailed,
   getVendorsSuccess,
+  getMoByWorkCenter,
+  getMoByWorkCenterFailed,
+  getMoByWorkCenterSuccess,
   getItemUnits,
   getItemUnitsSuccess,
   getItemUnitsFailed,
+  getUserList,
+  getUserListFail,
+  getUserListSuccess,
+  getAllDevice,
+  getAllDeviceFail,
+  getAllDeviceSuccess,
+  getAllWorkCenter,
+  getAllWorkCenterFailed,
+  getAllWorkCenterSuccess,
+  getUsingDeviceAssign,
+  getUsingDeviceAssignFailed,
+  getUsingDeviceAssignSuccess,
 }

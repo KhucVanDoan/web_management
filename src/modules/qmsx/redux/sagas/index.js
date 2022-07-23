@@ -139,18 +139,6 @@ import watchSearchOutputQualityTransactionHistory from './transaction-history/se
 import watchSearchProductionInputQualityMaterialTransactionHistory from './transaction-history/search-production-input-material-quality-transaction-history'
 import watchSearchProductionInputQualityProductPreviousTransactionHistory from './transaction-history/search-production-input-product-previous-quality-transaction-history'
 import watchSearchProductionOutputQualityTransactionHistory from './transaction-history/search-production-output-quality-transaction-history'
-//usser-managemnets
-import watchCreateUser from './user-management/create-user'
-import watchDeleteUser from './user-management/delete-user'
-import watchGenerateOTP from './user-management/generate-otp'
-import watchGetUserDetails from './user-management/get-user-details'
-import watchResetPassword from './user-management/reset-password'
-import watchSearchUsers from './user-management/search-users'
-import watchUpdateUser from './user-management/update-user'
-import watchVerifyOTP from './user-management/verify-otp-code'
-//user-permission
-import watchGetUserPermission from './user-permission/get-user-permission'
-import watchUpdateUserPermission from './user-permission/update-user-permission'
 //work-center-quality-control-plan
 import watchGetWorkCenterQualityControlPlanDetail from './work-center-quality-control-plan/get-detail-work-center-plan'
 import watchSearchWorkCenterQualityControlPlan from './work-center-quality-control-plan/search-work-center-plan'
@@ -318,19 +306,5 @@ export default function* sagas() {
     watchSearchWorkCenterQualityControlPlan(),
     watchGetWorkCenterQualityControlPlanDetail(),
     watchUpdateWorkCenterQualityControlPlan(),
-
-    // user-management
-    watchSearchUsers(),
-    watchCreateUser(),
-    watchUpdateUser(),
-    watchDeleteUser(),
-    watchGetUserDetails(),
-    watchGenerateOTP(),
-    watchVerifyOTP(),
-    watchResetPassword(),
-
-    //user-permission
-    watchGetUserPermission(),
-    watchUpdateUserPermission(),
   ])
 }

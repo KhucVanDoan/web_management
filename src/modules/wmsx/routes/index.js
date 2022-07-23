@@ -315,7 +315,6 @@ const routes = [
       },
     ],
   },
-
   {
     name: ROUTE.ORDER_MANAGEMENT.TITLE,
     isInSidebar: true,

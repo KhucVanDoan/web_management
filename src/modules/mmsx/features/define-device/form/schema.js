@@ -4,6 +4,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
+import { SUPPLIES_ACCESSORY_OPTION } from '~/modules/mmsx/constants'
 
 export const deviceSchema = (t) =>
   Yup.object().shape({
@@ -44,12 +45,17 @@ export const deviceSchema = (t) =>
             }),
           )
           .required(t('general:form.required')),
+        type: Yup.string(),
         supplyId: Yup.string().nullable().required(t('general:form.required')),
-        useDate: Yup.string().required(t('general:form.required')),
+        useDate: Yup.string().when('type', {
+          is: (type) => Boolean(type === SUPPLIES_ACCESSORY_OPTION[0].value),
+          then: Yup.string().nullable().required(t('general:form.required')),
+        }),
       }),
     ),
     accessoriesMaintenanceInformation: Yup.array().of(
       Yup.object().shape({
+        disableMttf: Yup.boolean(),
         maintenancePeriod: Yup.number()
           .min(
             NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
@@ -105,7 +111,10 @@ export const deviceSchema = (t) =>
               max: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MAX,
             }),
           )
-          .required(t('general:form.required')),
+          .when('disableMttf', {
+            is: false,
+            then: Yup.number().nullable().required(t('general:form.required')),
+          }),
         mttrIndex: Yup.number()
           .min(
             NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,

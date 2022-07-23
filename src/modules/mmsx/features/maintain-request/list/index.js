@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,6 +18,7 @@ import {
   PRIORITY_LEVEL_MAP,
 } from '~/modules/mmsx/constants'
 import useMaintainRequest from '~/modules/mmsx/redux/hooks/useMaintainRequest'
+import { exportMaintainRequestApi } from '~/modules/mmsx/redux/sagas/maintain-request/import-export'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
@@ -37,7 +38,7 @@ const breadcrumbs = [
 ]
 const MaintainRequest = () => {
   const {
-    data: { maintainRequestList, isLoading, total },
+    data: { maintainRequestList, isLoading, meta },
     actions,
   } = useMaintainRequest()
   const { t } = useTranslation(['mmsx'])
@@ -46,6 +47,8 @@ const MaintainRequest = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -220,6 +223,10 @@ const MaintainRequest = () => {
     refreshData()
   }, [page, pageSize, filters, sort, keyword])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const onClickConfirmed = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenConfirmModal(true)
@@ -255,9 +262,22 @@ const MaintainRequest = () => {
 
   const renderHeaderRight = () => {
     return (
-      <Button variant="outlined" icon="download" disabled>
-        {t('menu.importExportData')}
-      </Button>
+      <ImportExport
+        name={t('common.exportFile')}
+        onExport={() => {
+          exportMaintainRequestApi({
+            columnSettings: JSON.stringify(columnsSettings),
+            queryIds: JSON.stringify(selectedRows?.map((x) => ({ id: x?.id }))),
+            keyword: keyword.trim(),
+            filter: convertFilterParams(filters, [
+              { field: 'createdAt', filterFormat: 'date' },
+            ]),
+            sort: convertSortParams(sort),
+          })
+        }}
+        onRefresh={refreshData}
+        disabled
+      />
     )
   }
 
@@ -279,7 +299,10 @@ const MaintainRequest = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        total={total}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        total={meta.total}
         sort={sort}
         filters={{
           form: <FilterForm />,

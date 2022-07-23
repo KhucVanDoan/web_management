@@ -201,6 +201,10 @@ function WarehouseImport() {
     setSelectedRows([])
   }, [keyword, sort, filters, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
   const renderHeaderRight = () => {
     return (
       <>

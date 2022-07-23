@@ -102,6 +102,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 999,
   },
+  AMOUNT_FLOAT: {
+    MIN: 1,
+    MAX: 9999999.999,
+  },
   AMOUNT_DECIMAL: {
     MIN: 0.0000001,
     MAX: 99999999999,
@@ -285,6 +289,15 @@ export const ORDER_DIRECTION = {
   ASC: 'asc',
   DESC: 'desc',
 }
+
+export const INVENTORY_STATUS = {
+  PENDING: 1,
+  CONFIRMED: 2,
+  REJECT: 3,
+  INPROGRESS: 5,
+  COMPLETED: 4,
+}
+
 export const INVENTORY_STATUS_OPTIONS = [
   { id: 1, name: 'inventoryStatus.pending', color: 'created' },
   { id: 2, name: 'inventoryStatus.confirmed', color: 'confirmed' },
@@ -298,3 +311,27 @@ export const ENUM_BOOLEAN = {
   true: 1,
   false: 0,
 }
+
+export const BULK_ACTION = {
+  APPROVE: 1,
+  REJECT: 2,
+  DELETE: 3,
+}
+
+export const BULK_ACTION_OPTIONS = [
+  {
+    value: BULK_ACTION.APPROVE,
+    text: 'bulkActions.approve',
+    icon: 'tick',
+  },
+  {
+    value: BULK_ACTION.REJECT,
+    text: 'bulkActions.reject',
+    icon: 'remove',
+  },
+  {
+    value: BULK_ACTION.DELETE,
+    text: 'bulkActions.delete',
+    icon: 'delete',
+  },
+]

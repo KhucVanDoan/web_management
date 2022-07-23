@@ -296,7 +296,7 @@ const Autocomplete = ({
           selected,
         )
       }
-      {...((options || []).length > 5
+      {...(options?.length > 50 && !props.groupBy
         ? {
             ListboxComponent: VirtualList,
           }

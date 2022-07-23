@@ -275,13 +275,12 @@ function ItemSettingTable(props) {
       width: 180,
       renderCell: (params, index) => {
         const { itemId } = params?.row
+        const data = lotNumberList?.find((i) => i.itemId === itemId)?.mfg
         return (
           <Field.TextField
             name={`items[${index}].mfg`}
             disabled={true}
-            value={convertUtcDateToLocalTz(
-              values?.items?.find((item) => item.itemId === itemId)?.mfg,
-            )}
+            value={convertUtcDateToLocalTz(data)}
           />
         )
       },

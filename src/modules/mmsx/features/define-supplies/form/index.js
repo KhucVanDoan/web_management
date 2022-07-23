@@ -19,7 +19,9 @@ import Status from '~/components/Status'
 import { PRE_FIX_CODE, SUPPLIES_STATUS_OPTION } from '~/modules/mmsx/constants'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useDefineSupplies from '~/modules/mmsx/redux/hooks/useDefineSupplies'
+import useSuppliesCategory from '~/modules/mmsx/redux/hooks/useSuppliesCategory'
 import { ROUTE } from '~/modules/mmsx/routes/config'
+import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 
 import { validateShema } from './schema'
 
@@ -33,6 +35,15 @@ const DefineSuppliesForm = () => {
     data: { suppliesDetail, isLoading },
     actions,
   } = useDefineSupplies()
+
+  const {
+    data: { vendorsList },
+    actions: defineVendorAcions,
+  } = useDefineVendor()
+  const {
+    data: { suppliesCategoryList },
+    actions: suppliesCategoryActions,
+  } = useSuppliesCategory()
   const {
     data: { responsibleSubject, itemsUnitList },
     actions: commonAction,
@@ -51,15 +62,16 @@ const DefineSuppliesForm = () => {
   useEffect(() => {
     commonAction.getResponsibleSubject()
     commonAction.getItemUnits()
+    defineVendorAcions.searchVendors({ isGetAll: 1 })
+    suppliesCategoryActions.searchListSuppliesCategory()
   }, [])
   const initialValues = {
     code: suppliesDetail?.code || PRE_FIX_CODE,
     name: suppliesDetail?.name || '',
     groupSupplyId: suppliesDetail?.supplyGroup?.name || '',
     type: suppliesDetail?.type ? `${suppliesDetail?.type}` : '0',
-    //TODO:đợi BE
-    Supplier: '',
-    date: '',
+    vendorId: suppliesDetail?.vendorId,
+    receivedDate: suppliesDetail?.receivedDate,
     price: suppliesDetail?.price || '',
     itemUnitId: suppliesDetail?.itemUnit?.id || '',
     responsibleUser: suppliesDetail?.responsibleUser?.id || '',
@@ -94,6 +106,8 @@ const DefineSuppliesForm = () => {
           groupSupplyId: values?.groupSupplyId,
           itemUnitId: values?.itemUnitId,
           price: +values?.price || null,
+          vendorId: values?.vendorId,
+          receivedDate: values?.receivedDate,
           responsibleUser: {
             id: subject?.id,
             type: subject?.type,
@@ -101,7 +115,6 @@ const DefineSuppliesForm = () => {
           type: +values?.type || 0,
         },
       }
-
       actions.updateSupplies(params, backToList)
     } else {
       const params = {
@@ -111,6 +124,8 @@ const DefineSuppliesForm = () => {
         groupSupplyId: values?.groupSupplyId,
         itemUnitId: values?.itemUnitId,
         price: +values?.price || null,
+        vendorId: values?.vendorId,
+        receivedDate: values?.receivedDate,
         responsibleUser: {
           id: subject?.id,
           type: subject?.type,
@@ -187,10 +202,18 @@ const DefineSuppliesForm = () => {
     return (
       <>
         <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+          >
             {t('supplies.button.device')}
           </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
+          >
             {t('supplies.button.suppliesCategory')}
           </Button>
         </Box>
@@ -263,7 +286,7 @@ const DefineSuppliesForm = () => {
                       placeholder={t(
                         'supplies.form.field.suppliesCategoryName',
                       )}
-                      options={[]}
+                      options={suppliesCategoryList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -310,10 +333,10 @@ const DefineSuppliesForm = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Field.Autocomplete
-                      name="Supplier"
+                      name="vendorId"
                       label={t('supplies.category.supplier')}
                       placeholder={t('supplies.category.supplier')}
-                      options={[]}
+                      options={vendorsList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -332,10 +355,9 @@ const DefineSuppliesForm = () => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.DateRangePicker
-                      name="date"
+                      name="receivedDate"
                       label={t('supplies.form.field.dateAdded')}
                       placeholder={t('supplies.form.field.dateAdded')}
-                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>

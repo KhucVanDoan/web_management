@@ -20,20 +20,22 @@ const Status = ({ variant, t: trans, sx, value, options }) => {
   return (
     <Typography
       component="span"
-      sx={{
+      sx={(theme) => ({
         display: 'inline-block',
-        p: '0 8px',
         borderRadius: 1,
         ...(variant === 'contained'
           ? {
-              bgcolor: `status.${s?.color}.background`,
+              p: '0 8px',
+              backgroundColor:
+                theme.palette.status[s?.color]?.background ||
+                theme.palette.status.default.background,
               color: `status.${s?.color}.contrastText`,
             }
           : {
               color: `status.${s?.color}.text`,
             }),
         ...sx,
-      }}
+      })}
     >
       {t(s?.text || s?.name)}
     </Typography>

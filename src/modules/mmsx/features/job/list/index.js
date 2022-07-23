@@ -46,16 +46,12 @@ const Job = () => {
   const DEFAULT_FILTERS = {
     code: '',
     requestCode: '',
-    type: '',
     requestName: '',
-    user: '',
     serial: '',
     deviceName: '',
     priority: '',
-    status: '',
     planDay: null,
     actualDay: null,
-    createdAt: null,
   }
 
   const DEFAULT_QUICK_FILTERS = {
@@ -269,8 +265,9 @@ const Job = () => {
         fixed: true,
         align: 'center',
         renderCell: (params) => {
-          const { id } = params.row
-
+          const { id, status } = params.row
+          const nonAssign =
+            status === (JOB_STATUS_LIST[0].id || JOB_STATUS_LIST[2].id)
           return (
             <>
               <IconButton
@@ -280,6 +277,16 @@ const Job = () => {
               >
                 <Icon name="show" />
               </IconButton>
+
+              {nonAssign && (
+                <IconButton
+                  onClick={() =>
+                    history.push(ROUTE.JOB.ASSIGN.PATH.replace(':id', `${id}`))
+                  }
+                >
+                  <Icon name="assign" />
+                </IconButton>
+              )}
             </>
           )
         },

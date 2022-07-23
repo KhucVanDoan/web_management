@@ -141,6 +141,7 @@ function SOExportForm() {
       orderedAt: val?.soCode?.orderedAt || soExportDetails?.orderedAt,
       deliveredAt: val?.deliveredAt,
       warehouseId: Number(val?.warehouse),
+      assignUserIds: [],
       items: val?.items?.map((item) => ({
         id: item.itemId,
         warehouseId: val?.warehouse,
@@ -150,6 +151,9 @@ function SOExportForm() {
         lotNumber: item?.lotNumber,
         mfg: item?.mfg,
         packageId: item?.packageId,
+        palletId: item?.palletId,
+        isEven: item?.evenRow ? '1' : '0',
+        suggestItemLocationId: item?.location,
       })),
     }
     if (isUpdate) {
@@ -218,7 +222,6 @@ function SOExportForm() {
         break
     }
   }
-
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -356,38 +359,38 @@ function SOExportForm() {
                     <Typography variant="body2" mt={1}>
                       {t('soExport.vendor.title')}
                     </Typography>
-                    <Field.TextField
-                      label={t('soExport.vendor.companyName')}
-                      name="companyName"
-                      placeholder={t('soExport.vendor.companyName')}
-                      sx={{
-                        mt: 4 / 3,
-                      }}
-                      disabled
-                    />
+                    <Box mt={4 / 3}>
+                      <Field.TextField
+                        label={t('soExport.vendor.companyName')}
+                        name="companyName"
+                        placeholder={t('soExport.vendor.companyName')}
+                        sx={{
+                          mt: 4 / 3,
+                        }}
+                        disabled
+                      />
+                    </Box>
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Typography variant="body2" mt={1}>
                       {t('soExport.customer.title')}
                     </Typography>
-                    <Field.TextField
-                      label={t('soExport.customer.name')}
-                      name="customerName"
-                      placeholder={t('soExport.customer.name')}
-                      sx={{
-                        mt: 4 / 3,
-                      }}
-                      disabled
-                    />
-                    <Field.DatePicker
-                      label={t('soExport.orderedAt')}
-                      name="orderedAt"
-                      placeholder={t('soExport.orderedAt')}
-                      sx={{
-                        mt: 4 / 3,
-                      }}
-                      disabled
-                    />
+                    <Box mt={4 / 3}>
+                      <Field.TextField
+                        label={t('soExport.customer.name')}
+                        name="customerName"
+                        placeholder={t('soExport.customer.name')}
+                        disabled
+                      />
+                    </Box>
+                    <Box mt={4 / 3}>
+                      <Field.DatePicker
+                        label={t('soExport.orderedAt')}
+                        name="orderedAt"
+                        placeholder={t('soExport.orderedAt')}
+                        disabled
+                      />
+                    </Box>
                   </Grid>
                 </Grid>
               </Grid>
@@ -421,9 +424,11 @@ function SOExportForm() {
                 render={(arrayHelpers) => (
                   <ItemSettingTable
                     arrayHelpers={arrayHelpers}
+                    mode={mode}
                     items={values?.items || []}
                     soId={values?.soCode?.id || ''}
                     setFieldValue={setFieldValue}
+                    values={values}
                   />
                 )}
               />

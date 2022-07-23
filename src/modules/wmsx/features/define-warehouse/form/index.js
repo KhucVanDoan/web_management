@@ -24,8 +24,8 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { DEFAULT_UNITS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
@@ -51,15 +51,6 @@ function DefineWarehouseFrom() {
     actions,
   } = useDefineWarehouse()
 
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
-
   const MODE_MAP = {
     [ROUTE.DEFINE_WAREHOUSE.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.DEFINE_WAREHOUSE.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -72,6 +63,7 @@ function DefineWarehouseFrom() {
   const handleSubmit = (values) => {
     const params = {
       ...values,
+      companyId: values?.companyId?.id,
       warehouseTypeSettings: values?.warehouseTypeSettings?.map((i) => ({
         id: i?.id,
       })),
@@ -102,7 +94,7 @@ function DefineWarehouseFrom() {
     code: isUpdate ? warehouseDetails?.code : '',
     name: warehouseDetails?.name || '',
     warehouseTypeSettings: warehouseDetails?.warehouseTypeSettings || [],
-    companyId: warehouseDetails?.companyId || null,
+    companyId: warehouseDetails?.company || null,
     factoryId: warehouseDetails?.factoryId || null,
     location: warehouseDetails?.location || '',
     long: {
@@ -255,12 +247,15 @@ function DefineWarehouseFrom() {
                       name="companyId"
                       label={t('defineWarehouse.company')}
                       placeholder={t('defineWarehouse.company')}
-                      options={companyList}
+                      asyncRequest={(s) =>
+                        searchCompaniesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(opt) => opt?.id}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       required
                     />
                   </Grid>

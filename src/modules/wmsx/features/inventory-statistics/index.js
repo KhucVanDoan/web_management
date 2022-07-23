@@ -210,6 +210,10 @@ function InventoryStatistics() {
     setSelectedRows([])
   }, [sort, filters, keyword, quickFilters])
 
+  useEffect(() => {
+    setSelectedRows([])
+  }, [sort, filters])
+
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),

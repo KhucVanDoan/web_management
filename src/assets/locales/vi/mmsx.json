@@ -90,6 +90,7 @@
     "login": "Đăng nhập hệ thống",
     "database": "Cơ sở dữ liệu",
     "deviceManagement": "Quản lý thiết bị",
+    "serialDeviceManagement": "Quản lý serial thiết bị",
     "maintenanceTeam": "Định nghĩa đội bảo trì",
     "maintenanceTeamDetail": "Chi tiết đội bảo trì",
     "maintenanceTeamCreate": "Tạo đội bảo trì",
@@ -104,6 +105,12 @@
     "deviceAssignEdit": "Sửa phân công thiết bị",
     "deviceReassign": "Phân công lại thiết bị",
     "requestDevice": "Yêu cầu thiết bị",
+    "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
+    "createReturnDevice": "Tạo yêu cầu trả thiết bị",
+    "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
+    "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
+    "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
+    "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
     "maintenance": "Bảo trì",
     "maintainRequest": "Yêu cầu bảo trì người dùng",
     "maintainRequestForm": "Danh sách yêu cầu bảo trì",
@@ -111,9 +118,15 @@
     "checkSheet": "Định nghĩa phiếu kiểm tra",
     "checkSheetForm": "Danh sách phiếu kiểm tra",
     "defectList": "Định nghĩa lỗi",
+    "defectListDetail": "Chi tiết thông tin lỗi",
+    "defectListCreate": "Tạo thông tin lỗi",
+    "defectListEdit": "Sửa thông tin lỗi",
     "errorWarning": "Cảnh báo sự cố",
     "errorWarningForm": "Danh sách cảnh báo sự cố",
     "attributeMaintenance": "Định nghĩa thuộc tính bảo trì",
+    "attributeMaintenanceCreate": "Tạo thuộc tính bảo trì",
+    "attributeMaintenanceDetail": "Chi tiết thuộc tính bảo trì",
+    "attributeMaintenanceEdit": "Sửa thuộc tính bảo trì",
     "templateDefinition": "Định nghĩa mẫu phiếu",
     "templateInstall": "Định nghĩa mẫu phiếu lắp đặt",
     "templateInstallForm": "Danh sách mẫu phiếu lắp đặt",
@@ -133,9 +146,10 @@
     "deviceStatistic": "Thống kê thiết bị",
     "deviceStatusReport": "Báo cáo trạng thái thiết bị",
     "maintainanceProgress": "Báo cáo tiến độ công việc",
+    "maintainanceProgressDetail": "Chi tiết báo cáo công việc",
     "reportDeviceSerial": "Báo cáo trạng thái thiết bị",
     "reportDeviceAssign": "Chi tiết báo cáo trạng thái thiết bị",
-    "createPlanList": "Lập kế hoạch",
+    "createPlan": "Lập kế hoạch",
     "plan": "Kế hoạch",
     "trackTrace": "Track & Trace",
     "solution": "Giải pháp",
@@ -148,10 +162,13 @@
     "jobAssign": "Phân công công việc",
     "warningListChecklistDetail": "Chi tiết kiểm tra định kì",
     "roleManagement": "Phân quyền",
-    "createPlanListDetail": "Chi tiết kế hoạch",
-    "createPlanListCreate": "Tạo kế hoạch",
-    "createPlanListEdit": "Sửa kế hoạch",
+    "createPlanDetail": "Chi tiết kế hoạch",
+    "createPlanCreate": "Tạo kế hoạch",
+    "createPlanEdit": "Sửa kế hoạch",
     "attributeType": "Định nghĩa loại giá trị",
+    "attributeTypeCreate": "Tạo loại giá trị",
+    "attributeTypeDetail": "Chi tiết loại giá trị",
+    "attributeTypeEdit": "Sửa loại giá trị",
     "deviceStatus": "Trạng thái thiết bị",
     "deviceStatusDetail": "Chi tiết trạng thái thiết bị",
     "deviceStatusEdit": "Nhập thông tin hoạt động",
@@ -161,7 +178,8 @@
     "suppliesRequestEdit": "Sửa yêu cầu vật tư phụ tùng",
     "deviceCategoryDetail": "Chi tiết nhóm thiết bị",
     "deviceCategoryCreate": "Tạo nhóm thiết bị",
-    "deviceCategoryEdit": "Sửa nhóm thiết bị"
+    "deviceCategoryEdit": "Sửa nhóm thiết bị",
+    "deviceSerialManagement": "Quản lý serial thiết bị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -175,10 +193,25 @@
     "planDate": "Ngày kế hoạch"
   },
   "deviceStatus": {
-    "exportDate": "Ngày xuất dữ liệu: ",
     "title": "Danh sách trạng thái thiết bị",
-    "tooltipPassedQuantity": "Số lượng sản phẩm đạt phải nhỏ hơn số lượng đã sản xuất",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc serial",
+    "serial": "Serial",
+    "deviceName": "Tên thiết bị",
+    "oee": "OEE(%)",
+    "date": "Ngày",
+    "active": "Hoạt động (phút)",
+    "rest": "Nghỉ (phút)",
+    "time": "Thời gian",
+    "stop": "Dừng (lần)",
+    "passedDevice": "Số lượng sản phẩm đạt",
+    "manufacturedDevice": "Số lượng sản phẩm đã sản xuất",
+    "moName": "Tên lệnh sản xuất",
+    "dateErr": "Khoảng thời gian bị trùng",
+    "exportDate": "Ngày xuất dữ liệu: ",
+    "tooltipPassedQuantity": "Số lượng sản phẩm đạt phải nhỏ hơn hoặc bằng số lượng đã sản xuất",
+    "action": "Hành động",
     "status": {
+      "title": "Trạng thái",
       "activating": "Đang hoạt động",
       "stop": "Dừng",
       "error": "Lỗi",
@@ -198,21 +231,6 @@
       "deleteSucceed": "Xóa trạng thái thiết bị thành công",
       "createSucceed": "Tạo thông tin trạng thái thiết bị thành công"
     },
-    "table": {
-      "serial": "Serial",
-      "deviceName": "Tên thiết bị",
-      "status": "Trạng thái",
-      "oee": "OEE(%)",
-      "date": "Ngày",
-      "active": "Hoạt động (phút)",
-      "rest": "Nghỉ (phút)",
-      "time": "Thời gian",
-      "stop": "Dừng (lần)",
-      "passedDevice": "Số lượng sản phẩm đạt",
-      "manufacturedDevice": "Số lượng sản phẩm đã sản xuất",
-      "moName": "Tên lệnh sản xuất",
-      "dateErr": "Khoảng thời gian bị trùng"
-    },
     "form": {
       "oee": "OEE",
       "status": "Trạng thái thiết bị",
@@ -226,6 +244,32 @@
     }
   },
   "maintainanceProgress": {
+    "code": "Mã NV",
+    "name": "Tên NV",
+    "userCode": "Mã nhân viên",
+    "userName": "Tên nhân viên",
+    "role": "Chức vụ",
+    "startDay": "Ngày bắt đầu làm việc",
+    "assignedWork": "Số CV được giao",
+    "completedWork": "Số CV hoàn thành",
+    "doingWork": "Số CV đang làm",
+    "outOfDateWork": "Số CV quá hạn",
+    "pendingWork": "Số CV chờ xác nhận",
+    "createdAt": "Ngày tạo",
+    "actions": "Hành động",
+    "workType": "Loại công việc",
+    "workQuantity": "Số lượng công việc",
+    "totalQuantity": "Tổng số lượng công việc được giao",
+    "planQuantity": "Công việc kế hoạch",
+    "incurredQuantity": "Công việc phát sinh",
+    "work": "công việc",
+    "table": {
+      "completedWork": "Công việc đã hoàn thành",
+      "doingWork": "Công việc đang thực hiện",
+      "outOfDateWork": "Công việc quá hạn",
+      "pendingWork": "Công việc đang chờ xác nhận",
+      "rate": "Tỉ lệ hoàn thành công việc"
+    },
     "status": {
       "unassigned": "Chưa được phân công",
       "waitForConfirm": "Chờ xác nhận",
@@ -333,6 +377,7 @@
     "importFile": "Nhập dữ liệu",
     "activityReport": "Lịch sử hoạt động",
     "seeMore": "Xem thêm hoạt động",
+    "seeLess": "Ẩn bớt hoạt động",
     "responsibleUser": "Người phụ trách",
     "searchPlaceHolder": "Tìm kiếm thông tin",
     "filterData": "Lọc",
@@ -985,6 +1030,7 @@
     }
   },
   "deviceAssign": {
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "moPlaceHolder": "Chọn lệnh sản xuất",
     "actualOee": "OEE Thực tế",
     "title": "Danh sách phân công thiết bị",
@@ -1072,12 +1118,13 @@
   },
   "requestDevice": {
     "title": "Danh sách yêu cầu thiết bị",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "form": {
       "title": "Yêu cầu thiết bị",
       "status": "Trạng thái",
       "createRequestDevice": "Tạo yêu cầu cấp thiết bị",
       "createReturnDevice": "Tạo yêu cầu trả thiết bị",
-      "viewDetailRequestDevice": "Chi tiết yêu cầu câp thiết bị",
+      "viewDetailRequestDevice": "Chi tiết yêu cầu cấp thiết bị",
       "updateRequestDevice": "Sửa yêu cầu câp thiết bị",
       "viewDetailReturnDevice": "Chi tiết yêu cầu trả thiết bị",
       "updateReturnDevice": "Sửa yêu cầu trả thiết bị",
@@ -1185,7 +1232,6 @@
       "approvalSuccessed": "Phê duyệt yêu cầu bảo trì thành công",
       "reDoSuccessed": "Làm lại yêu cầu bảo trì thành công"
     },
-
     "smallTitle": "Thông tin người sử dụng",
     "responsibleUser": "Người chịu trách nhiệm",
     "deviceButton": "Thiết bị",
@@ -1236,13 +1282,14 @@
   },
   "defectList": {
     "title": "Danh sách lỗi",
+    "searchPlaceholder": "Tìm kiếm theo tên lỗi hoặc mã lỗi",
     "form": {
       "create": "Tạo thông tin lỗi",
       "update": "Sửa thông tin lỗi",
       "viewDetail": "Chi tiết thông tin lỗi",
       "code": "Mã lỗi",
       "name": "Tên lỗi",
-      "description": "Miêu tả lỗi",
+      "description": "Mô tả lỗi",
       "deviceName": "Tên thiết bị",
       "deviceCode": "Mã thiết bị",
       "priority": "Mức ưu tiên"
@@ -1311,6 +1358,7 @@
   },
   "attributeMaintenance": {
     "title": "Danh sách thuộc tính bảo trì",
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "table": {
       "code": "Mã thuộc tính",
       "name": "Tên thuộc tính",
@@ -1524,7 +1572,7 @@
       "request": "Yêu cầu người dùng",
       "maintain": "Bảo dưỡng"
     },
-    "title": "Danh sách kế hoạch tổng thể",
+    "title": "Danh sách kế hoạch công việc",
     "jobBtn": "Công việc",
     "placeholder": {
       "planCode": "Nhập mã mẫu phiếu",
@@ -1541,6 +1589,7 @@
       "hideData": "Ẩn thông tin",
       "showData": "Hiện thông tin",
       "updateFormTitle": "Sửa công việc",
+      "refreshData": "Làm mới dữ liệu",
       "createForm": {
         "createBtn": "Tạo công việc",
         "createTitle": "Thêm công việc",
@@ -1562,6 +1611,8 @@
       "table": {
         "assignUsers": "Người chịu trách nhiệm",
         "jobCode": "Mã công việc",
+        "jobPlan": "Công việc kế hoạch",
+        "jobActual": "Công việc thực tế",
         "status": "Trạng thái",
         "jobType": "Loại công việc",
         "planQuantity": "Số lượng kế hoạch",
@@ -1576,10 +1627,19 @@
         "expectedDate": "Ngày thực hiện dự kiến",
         "actualDate": "Ngày thực hiện thực tế",
         "actualQuantity": "Số lượng thực tế"
+      },
+      "subTable": {
+        "deviceName": "Tên thiết bị",
+        "serial": "Serial",
+        "assignUser": "Người thực hiện",
+        "datePlan": "Ngày thực hiện dự kiến",
+        "dateReal": "Ngày thực hiện thực tế",
+        "status": "Trạng thái",
+        "action": "Hành động"
       }
     },
     "status": {
-      "waiting": "Chờ xác nhận",
+      "pending": "Chờ xác nhận",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận"
     },
@@ -1618,7 +1678,7 @@
       "listView": "List View",
       "ganttChart": "GanttChart",
       "deviceButton": "Thiết bị",
-      "jobs": "Công việc"
+      "createPlan": "Lập kế hoạch"
     },
     "detail": {
       "status": "Trạng thái",
@@ -1645,19 +1705,26 @@
         "maintainType": "Loại bảo trì",
         "maintainQuantity": "Số lượng",
         "maintainDescription": "Mô tả"
-      }
+      },
+      "titleCate": "Tiêu đề",
+      "descriptionCate": "Mô tả hạng mục",
+      "requiredCate": "Bắt buộc",
+      "titleList": "Danh sách hạng mục lắp đặt",
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "user": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ"
     },
     "assign": {
-      "title": "Phân công công việc",
+      "smallTitle": "Thông tin người sử dụng",
       "responsibleUser": "Người chịu trách nhiệm",
-      "information": {
-        "factory": "Nhà máy",
-        "workshop": "Xưởng",
-        "usageUser": "Người sử dụng",
-        "address": "Địa chỉ",
-        "phone": "SĐT liên hệ",
-        "location": "Địa điểm"
-      },
+      "factory": "Nhà máy",
+      "workCenter": "Xưởng",
+      "usageUser": "Người sử dụng",
+      "address": "Địa chỉ",
+      "phone": "SĐT liên hệ",
+      "location": "Địa điểm",
       "plan": "Kế hoạch",
       "placeholder": {
         "responsibleUser": "Chọn người chịu trách nhiệm",
@@ -1709,6 +1776,7 @@
   },
   "attributeType": {
     "title": "Danh sách loại giá trị",
+    "searchPlaceholder": "Tìm kiếm theo tên hoặc mã",
     "table": {
       "code": "Mã giá trị",
       "name": "Tên giá trị",
@@ -1778,7 +1846,10 @@
         "materialType": "Loại",
         "materialUnit": "Đơn vị",
         "materialPrice": "Đơn giá",
-        "requireAmount": "Số lượng cần dùng"
+        "requireAmount": "Số lượng cần dùng",
+        "stockQuantity": "SL tồn kho",
+        "planQuantity": "SL đã kế hoạch",
+        "buyQuantity": "SL cần mua"
       },
       "placeholder": {
         "jobCode": "Chọn mã công việc",
@@ -1806,6 +1877,104 @@
       "successReject": "Từ chối yêu cầu vật tư phụ tùng thành công",
       "successConfirm": "Xác nhận yêu cầu vật tư phụ tùng thành công",
       "successDelete": "Xóa yêu cầu vật tư phụ tùng thành công"
+    }
+  },
+  "jobList": {
+    "notification": {
+      "updateSuccess": "Phân công công việc thành công"
+    },
+    "title": "Danh sách công việc",
+    "table": {
+      "workCode": "Mã công việc",
+      "requestCode": "Mã yêu cầu/cảnh báo",
+      "workType": "Loại công việc",
+      "requestName": "Tên yêu cầu/cảnh báo",
+      "performer": "Người thực hiện",
+      "serial": "Serial",
+      "devideName": "Tên thiết bị",
+      "description": "Mô tả",
+      "status": "Trạng thái",
+      "implementationSchedule": "Lịch thực hiện",
+      "action": "Hành động"
+    },
+    "button": {
+      "myTask": "Công việc của tôi",
+      "listView": "List View",
+      "ganttChart": "GanttChart",
+      "deviceButton": "Thiết bị",
+      "jobs": "Công việc"
+    },
+    "detail": {
+      "title": "Chi tiết công việc",
+      "status": "Trạng thái",
+      "workCode": "Mã công việc",
+      "requestCode": "Mã cảnh báo",
+      "requestName": "Tên cảnh báo",
+      "description": "Mô tả",
+      "workType": "Loại công việc",
+      "piority": "Độ ưu tiên",
+      "serial": "Serial thiết bị",
+      "devideName": "Tên thiết bị",
+      "expectDay": "Ngày kỳ vọng hoàn thành",
+      "maintainTime": "Thời gian bảo trì dự kiến",
+      "planDay": "Ngày thực hiện dự kiến",
+      "actualDay": "Ngày thực hiện thực tế",
+      "fromDay": "Từ ngày",
+      "toDay": "Đến ngày",
+      "maintainDetail": {
+        "title": "Thông tin bảo trì thực tế",
+        "maintainName": "Tên",
+        "maintainType": "Loại bảo trì",
+        "maintainQuantity": "Số lượng",
+        "maintainDescription": "Mô tả"
+      },
+      "plan": "Kế hoạch"
+    },
+    "assign": {
+      "title": "Phân công công việc",
+      "responsibleUser": "Người chịu trách nhiệm",
+      "information": {
+        "factory": "Nhà máy",
+        "workshop": "Xưởng",
+        "usageUser": "Người sử dụng",
+        "address": "Địa chỉ",
+        "phone": "SĐT liên hệ",
+        "location": "Địa điểm"
+      },
+      "plan": "Kế hoạch",
+      "placeholder": {
+        "responsibleUser": "Chọn người chịu trách nhiệm",
+        "description": "Nội dung công việc"
+      },
+      "list": {
+        "addBtnTitle": "Thêm người chịu trách nhiệm"
+      }
+    },
+    "checklistDetail": {
+      "cardTitle": "Thông tin chi tiết",
+      "title": "Tiêu đề",
+      "description": "Mô tả hạng mục",
+      "obligatory": "Bắt buộc",
+      "contentAfterCheck": "Nội dung sau kiểm tra",
+      "result": "Kết quả",
+      "pass": "Đạt",
+      "fail": "Không đạt",
+      "checklistResult": {
+        "title": "Kết quả kiểm tra",
+        "fail": "Không đạt",
+        "pass": "Đạt"
+      },
+      "checklistConclude": {
+        "title": "Kết luận",
+        "continueMaintain": "Tiếp tục bảo trì",
+        "replace": "Thay thế"
+      }
+    },
+    "installDetail": {
+      "cardTitle": "Danh sách hạng mục lắp đặt",
+      "title": "Tiêu đề",
+      "description": "Mô tả hạng mục",
+      "obligatory": "Bắt buộc"
     }
   }
 }

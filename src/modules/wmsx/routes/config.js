@@ -6,6 +6,7 @@ export const ROUTE = {
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
+
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },

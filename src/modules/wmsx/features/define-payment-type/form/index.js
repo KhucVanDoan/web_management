@@ -177,7 +177,7 @@ function DefinePaymentTypeForm() {
                       placeholder={t('definePaymentType.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required

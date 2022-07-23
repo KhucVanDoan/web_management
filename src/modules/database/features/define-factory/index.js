@@ -4,6 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { BULK_ACTION } from '~/common/constants'
+import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -12,7 +14,6 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { ROUTE } from '~/modules/database/routes/config'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
@@ -27,9 +28,6 @@ import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
-  // {
-  //   title: 'database',
-  // },
   {
     route: ROUTE.DEFINE_FACTORY.LIST.PATH,
     title: ROUTE.DEFINE_FACTORY.LIST.TITLE,
@@ -46,12 +44,6 @@ function DefineFactory() {
     companyName: '',
     createdAt: null,
   }
-
-  const { actions: companyActions } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
 
   const {
     page,
@@ -81,12 +73,6 @@ function DefineFactory() {
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
-    // {
-    //   field: 'id',
-    //   headerName: '#',
-    //   width: 80,
-    //   sortable: false,
-    // },
     {
       field: 'code',
       headerName: t('defineFactory.code'),
@@ -177,9 +163,10 @@ function DefineFactory() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, companyName: filters?.companyName?.name },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
 
@@ -217,7 +204,7 @@ function DefineFactory() {
           onImport={(params) => {
             importFactoryApi(params)
           }}
-          onExport={() => {
+          onExport={() =>
             exportFactoryApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -230,10 +217,9 @@ function DefineFactory() {
               sort: convertSortParams(sort),
               type: TYPE_ENUM_EXPORT.FACTORY,
             })
-          }}
+          }
           onDownloadTemplate={getFactoryTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_FACTORY.CREATE.PATH)}
@@ -275,6 +261,18 @@ function DefineFactory() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
           validationSchema: filterSchema(t),
+        }}
+        bulkActions={{
+          actions: [BULK_ACTION.DELETE],
+          apiUrl: API_URL.FACTORY,
+          onSuccess: () => {
+            if (page === 1) {
+              refreshData()
+            } else {
+              setPage(1)
+            }
+            setSelectedRows([])
+          },
         }}
       />
       <Dialog

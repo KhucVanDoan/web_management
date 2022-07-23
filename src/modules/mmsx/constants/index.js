@@ -190,6 +190,64 @@ export const CHECKLIST_CONCLUDE = [
     value: 1,
   },
 ]
+
+export const WORK_TIME_DATA_SOURCE_TYPE = [
+  {
+    value: 0,
+    text: 'deviceAssign.assign.mes',
+  },
+  {
+    value: 1,
+    text: 'deviceAssign.assign.input',
+  },
+  {
+    value: 2,
+    text: 'deviceAssign.assign.iot',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_OPTION = [
+  {
+    text: 'deviceAssign.status.unuse',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'deviceAssign.status.inuse',
+    id: 1,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inMaintaining',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.inCrapping',
+    id: 3,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.returned',
+    id: 4,
+    color: 'confirmed',
+  },
+  {
+    text: 'deviceAssign.status.pending',
+    id: 5,
+    color: 'pending',
+  },
+]
+
+export const DEVICE_ASSIGN_STATUS_VALUE = {
+  UNUSE: 0,
+  INUSE: 1,
+  INMAINTAINING: 2,
+  INCRAPPING: 3,
+  RETURNED: 4,
+  PENDING: 5,
+}
+
 export const DEVICE_CATEGORY_STATUS_OPTION = [
   {
     text: 'deviceCategory.status.pending',
@@ -379,6 +437,226 @@ export const PRIORITY_LEVEL_OPTIONS = [
   },
 ]
 
+//Request common
+export const DEVICE_REQUEST_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.status.awaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingAssigment',
+    id: 3,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.assigned',
+    id: 4,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingReturn',
+    id: 5,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.returned',
+    id: 6,
+    color: 'received',
+  },
+  {
+    text: 'requestDevice.status.confirmed',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 7,
+    color: 'rejected',
+  },
+  {
+    text: 'requestDevice.status.waittingExport',
+    id: 8,
+    color: 'exporting',
+  },
+  {
+    text: 'requestDevice.status.installed',
+    id: 9,
+    color: 'rejected',
+  },
+]
+
+export const DEVICE_REQUEST_LIST_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  CONFIRMED: 2,
+  AWAITINGASSIGNMENT: 3,
+  ASSIGNED: 4,
+  AWAITINGRETURN: 5,
+  RETURNED: 6,
+  REJECTED: 7,
+  WAITTINGEXPORT: 8,
+  INSTALLED: 9,
+}
+
+export const DEVICE_REQUEST_LIST_STATUS_MAP = {
+  [DEVICE_REQUEST_LIST_STATUS.PENDING]: 'pending',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGITCONFIRMATION]: 'awaitingITConfirmation',
+  [DEVICE_REQUEST_LIST_STATUS.CONFIRMED]: 'confirmed',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGASSIGNMENT]: 'awaitingAssigment',
+  [DEVICE_REQUEST_LIST_STATUS.ASSIGNED]: 'assigned',
+  [DEVICE_REQUEST_LIST_STATUS.AWAITINGRETURN]: 'awaitingReturn',
+  [DEVICE_REQUEST_LIST_STATUS.RETURNED]: 'returned',
+  [DEVICE_REQUEST_LIST_STATUS.REJECTED]: 'rejected',
+  [DEVICE_REQUEST_LIST_STATUS.WAITTINGEXPORT]: 'waittingExport',
+  [DEVICE_REQUEST_LIST_STATUS.INSTALLED]: 'installed',
+}
+
+export const DEVICE_REQUEST_TICKET_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.status.awaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingAssigment',
+    id: 2,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.assigned',
+    id: 3,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.confirmed',
+    id: 4,
+    color: 'confirmed',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 5,
+    color: 'rejected',
+  },
+  {
+    text: 'requestDevice.status.waittingExport',
+    id: 6,
+    color: 'exporting',
+  },
+]
+
+export const DEVICE_REQUEST_TICKET_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  AWAITINGASSIGNMENT: 2,
+  ASSIGNED: 3,
+  CONFIRMED: 4,
+  REJECTED: 5,
+  WAITTINGEXPORT: 6,
+}
+
+export const DEVICE_REQUEST_TICKET_STATUS_MAP = {
+  [DEVICE_REQUEST_TICKET_STATUS.PENDING]: 'pending',
+  [DEVICE_REQUEST_TICKET_STATUS.AWAITINGITCONFIRMATION]:
+    'awaitingITConfirmation',
+  [DEVICE_REQUEST_TICKET_STATUS.AWAITINGASSIGNMENT]: 'awaitingAssigment',
+  [DEVICE_REQUEST_TICKET_STATUS.ASSIGNED]: 'assigned',
+  [DEVICE_REQUEST_TICKET_STATUS.CONFIRMED]: 'confirmed',
+  [DEVICE_REQUEST_TICKET_STATUS.REJECTED]: 'rejected',
+  [DEVICE_REQUEST_TICKET_STATUS.WAITTINGEXPORT]: 'waittingExport',
+}
+
+//Here return
+
+export const DEVICE_RETURN_TICKET_STATUS_OPTION = [
+  {
+    text: 'requestDevice.status.pending',
+    id: 0,
+    color: 'pending',
+  },
+  {
+    text: 'requestDevice.status.awaitingITConfirmation',
+    id: 1,
+    color: 'active',
+  },
+  {
+    text: 'requestDevice.status.awaitingReturn',
+    id: 2,
+    color: 'inReceiving',
+  },
+  {
+    text: 'requestDevice.status.returned',
+    id: 3,
+    color: 'received',
+  },
+  {
+    text: 'requestDevice.status.rejected',
+    id: 4,
+    color: 'rejected',
+  },
+]
+
+export const DEVICE_RETURN_TICKET_STATUS = {
+  PENDING: 0,
+  AWAITINGITCONFIRMATION: 1,
+  AWAITINGRETURN: 2,
+  RETURNED: 3,
+  REJECTED: 4,
+}
+
+export const DEVICE_RETURN_TICKET_STATUS_MAP = {
+  [DEVICE_RETURN_TICKET_STATUS.PENDING]: 'pending',
+  [DEVICE_RETURN_TICKET_STATUS.AWAITINGITCONFIRMATION]:
+    'awaitingITConfirmation',
+  [DEVICE_RETURN_TICKET_STATUS.AWAITINGRETURN]: 'awaitingReturn',
+  [DEVICE_RETURN_TICKET_STATUS.RETURNED]: 'returned',
+  [DEVICE_RETURN_TICKET_STATUS.REJECTED]: 'rejected',
+}
+
+//Request-device
+export const TYPE_REQUEST = {
+  REQUEST: 0,
+  RETURN: 1,
+}
+
+export const TYPE_REQUEST_MAP = {
+  [TYPE_REQUEST.REQUEST]: 'request',
+  [TYPE_REQUEST.RETURN]: 'return',
+}
+
+export const TYPE_REQUEST_OPTION = [
+  {
+    text: 'requestDevice.request',
+    id: 0,
+  },
+  {
+    text: 'requestDevice.return',
+    id: 1,
+  },
+]
+
+export const REQUEST_DEVICE_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  REJECTED: 2,
+}
+
+export const REQUEST_DEVICE_STATUS_MAP = {
+  [REQUEST_DEVICE_STATUS.PENDING]: 'pending',
+  [REQUEST_DEVICE_STATUS.CONFIRMED]: 'confirmed',
+  [REQUEST_DEVICE_STATUS.REJECTED]: 'rejected',
+}
+
 export const MAINTAIN_STATUS = {
   PENDING: 1,
   CONFIRMED1: 2,
@@ -525,3 +803,127 @@ export const JOB_STATUS_LIST = [
     color: 'completed',
   },
 ]
+export const CREATE_PLAN_STATUS_OPTIONS = [
+  {
+    text: 'createPlanList.status.pending',
+    id: 1,
+    color: 'pending',
+  },
+  {
+    text: 'createPlanList.status.confirmed',
+    id: 2,
+    color: 'confirmed',
+  },
+  {
+    text: 'createPlanList.status.rejected',
+    id: 3,
+    color: 'rejected',
+  },
+]
+export const CREATE_PLAN_STATUS = {
+  PENDING: 1,
+  CONFIRMED: 2,
+  REJECTED: 3,
+}
+export const SUPPLY_REQUEST_TYPE = [
+  { value: 1, text: 'suppliesRequest.type.returnRequest' },
+  { value: 2, text: 'suppliesRequest.type.request' },
+]
+export const SUPPLY_REQUEST_STATUS = [
+  {
+    id: 0,
+    text: 'suppliesRequest.status.waitingConfirm',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'suppliesRequest.status.waitingExport',
+    color: 'waitingExport',
+  },
+  { id: 2, text: 'suppliesRequest.status.completed', color: 'completed' },
+  { id: 3, text: 'suppliesRequest.status.rejected', color: 'rejected' },
+]
+
+export const SUPPLIES_REQUEST_STATUS = {
+  PENDING: 0,
+  WATTINGEXPORT: 1,
+  CONPLETED: 2,
+  REJECTED: 3,
+}
+
+export const DEVICE_ASSIGN_STATUS = [
+  {
+    id: 0,
+    text: 'deviceAssign.status.unuse',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'deviceAssign.status.inuse',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'deviceAssign.status.inMaintaining',
+    color: 'inProgress',
+  },
+  {
+    id: 3,
+    text: 'deviceAssign.status.inCrapping',
+    color: 'rejected',
+  },
+  {
+    id: 4,
+    text: 'deviceAssign.status.returned',
+    color: 'confirmed',
+  },
+]
+
+export const DEVICE_STATUS_ENUM = {
+  ACTIVATING: 1,
+  STOP: 2,
+  ERROR: 3,
+  OFF: 4,
+  MAINTENANCE_OFF: 5,
+  USING: 6,
+}
+
+export const DEVICE_STATUS_ENUM_MAP = {
+  [DEVICE_STATUS_ENUM.ACTIVATING]: 'deviceStatus.status.activating',
+  [DEVICE_STATUS_ENUM.STOP]: 'deviceStatus.status.stop',
+  [DEVICE_STATUS_ENUM.ERROR]: 'deviceStatus.status.error',
+  [DEVICE_STATUS_ENUM.OFF]: 'deviceStatus.status.off',
+  [DEVICE_STATUS_ENUM.MAINTENANCE_OFF]: 'deviceStatus.status.maintenanceOff',
+  [DEVICE_STATUS_ENUM.USING]: 'deviceStatus.status.using',
+}
+
+export const DEVICE_STATUS_ENUM_OPTIONS = [
+  {
+    text: 'deviceStatus.status.activating',
+    id: 1,
+  },
+  {
+    text: 'deviceStatus.status.stop',
+    id: 2,
+  },
+  {
+    text: 'deviceStatus.status.error',
+    id: 3,
+  },
+  {
+    text: 'deviceStatus.status.off',
+    id: 4,
+  },
+  {
+    text: 'deviceStatus.status.maintenanceOff',
+    id: 5,
+  },
+  {
+    text: 'deviceStatus.status.using',
+    id: 6,
+  },
+]
+export const GANTT_CHART_TYPE = {
+  job: 'job',
+  plan: 'plan',
+}

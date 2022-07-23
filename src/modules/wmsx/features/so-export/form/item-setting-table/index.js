@@ -1,32 +1,60 @@
 import { useEffect } from 'react'
 
-import { Box, IconButton, Typography } from '@mui/material'
+import { Box, Checkbox, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { NOTIFICATION_TYPE, TEXTFIELD_ALLOW } from '~/common/constants'
+import {
+  MODAL_MODE,
+  NOTIFICATION_TYPE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { STAGES_OPTION } from '~/modules/mesx/constants'
+import { LOCATION_SETTING_TYPE } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
+import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
+import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
+import useLocationSetting from '~/modules/wmsx/redux/hooks/useLocationSetting'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { arrayHelpers, items, soId, setFieldValue } = props
+  const { arrayHelpers, items, mode, soId, setFieldValue } = props
+  const isView = mode === MODAL_MODE.DETAIL
+
   const {
     data: { itemList, itemQualityPoint },
     actions,
   } = useCommonManagement()
+
+  const {
+    data: { locationSettingsList },
+    actions: lsActions,
+  } = useLocationSetting()
+
+  const {
+    data: { packagesEvenByItem },
+    actions: packageActs,
+  } = useDefinePackage()
+
+  const {
+    data: { palletsEvenByItem },
+    actions: palletActs,
+  } = useDefinePallet()
+
   const {
     data: { lotNumberList },
     actions: soExportAction,
   } = useSOExport()
+
   const itemIds = items?.map((item) => item?.itemId).join(',')
+
   const {
     data: { saleOrderDetails },
     actions: actionSaleOrder,
@@ -40,6 +68,7 @@ function ItemSettingTable(props) {
 
   useEffect(() => {
     actions.getItems({})
+    lsActions.searchLocationSetting()
   }, [])
 
   useEffect(() => {
@@ -55,6 +84,20 @@ function ItemSettingTable(props) {
 
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
+  }
+
+  const handleGetData = (val, index) => {
+    const params = items[index]?.itemId
+    if (val) {
+      lsActions.searchLocationSetting({
+        filter: convertFilterParams({
+          type: LOCATION_SETTING_TYPE.EVEN,
+          itemId: items[index]?.itemId?.id,
+        }),
+      })
+    }
+    packageActs.getPackagesEvenByItem(params)
+    palletActs.getPalletsEvenByItem(params)
   }
 
   const handleCheckQc = (itemId, value) => {
@@ -140,6 +183,24 @@ function ItemSettingTable(props) {
       },
     },
     {
+      field: 'evenRow',
+      headerName: t('soExport.item.evenRow'),
+      width: 150,
+      align: 'center',
+      renderCell: (params, index) => {
+        return isView ? (
+          <Checkbox disabled checked={params.row?.isEven} />
+        ) : (
+          <Field.Checkbox
+            name={`items[${index}].evenRow`}
+            onChange={(val) => {
+              handleGetData(val, index)
+            }}
+          />
+        )
+      },
+    },
+    {
       field: 'lotNumber',
       headerName: t('soExport.item.lotNumber'),
       width: 180,
@@ -182,14 +243,90 @@ function ItemSettingTable(props) {
       headerName: t('soExport.item.packageCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params.row
+        const { itemId, evenRow } = params.row
         const packageList = getItemObject(itemId)?.packages
         return (
           <Field.Autocomplete
             name={`items[${index}].packageId`}
-            options={packageList}
+            options={evenRow ? packagesEvenByItem : packageList}
             getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(option) => option?.id || ''}
+            getOptionValue={(opt) => opt?.id || ''}
+          />
+        )
+      },
+    },
+    {
+      field: 'palletCode',
+      headerName: t('soExport.item.palletCode'),
+      width: 180,
+      renderCell: (params, index) => {
+        const { evenRow } = params.row
+        return isView ? (
+          <>{params?.row?.palletId}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].palletId`}
+            options={evenRow ? palletsEvenByItem : []}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id || null}
+          />
+        )
+      },
+    },
+    {
+      field: 'storageLocation',
+      headerName: t(`soExport.item.storageLocation`),
+      width: 180,
+      renderCell: (params, index) => {
+        return isView ? (
+          <>{params?.row?.location}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].location`}
+            options={locationSettingsList}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id}
+          />
+        )
+      },
+    },
+    {
+      field: 'palletCode',
+      headerName: t('soExport.item.palletCode'),
+      width: 180,
+      renderCell: (params, index) => {
+        const { evenRow } = params.row
+        return isView ? (
+          <>{params?.row?.palletId}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].palletId`}
+            options={evenRow ? palletsEvenByItem : []}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id || null}
+          />
+        )
+      },
+    },
+    {
+      field: 'storageLocation',
+      headerName: t(`soExport.item.storageLocation`),
+      width: 180,
+      renderCell: (params, index) => {
+        return isView ? (
+          <>{params?.row?.location}</>
+        ) : (
+          <Field.Autocomplete
+            name={`items[${index}].location`}
+            options={locationSettingsList}
+            disabled={isView}
+            getOptionLabel={(opt) => opt?.name}
+            getOptionSubLabel={(opt) => opt?.code}
+            getOptionValue={(opt) => opt?.id}
           />
         )
       },
