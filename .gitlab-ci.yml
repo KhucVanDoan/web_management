@@ -77,8 +77,6 @@ build_avenue_stg:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
 deploy_avenue_stg:
   stage: deploy_avenue_stg
-  variables:
-    GIT_STRATEGY: none
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
   script:
