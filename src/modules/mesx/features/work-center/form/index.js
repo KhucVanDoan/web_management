@@ -417,7 +417,6 @@ const WorkCenterForm = () => {
                       <Field.Autocomplete
                         name="members"
                         label={t('workCenter.member')}
-                        options={wcDetails?.members}
                         asyncRequest={(s) =>
                           getUsersApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
                         }

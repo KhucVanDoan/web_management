@@ -342,9 +342,6 @@ function SaleOrderForm() {
                         getOptionLabel={(opt) => opt?.name}
                         getOptionSubLabel={(opt) => opt?.code}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        options={
-                          saleOrder?.customer?.id ? [saleOrder?.customer] : []
-                        }
                         required
                       />
                     </Box>

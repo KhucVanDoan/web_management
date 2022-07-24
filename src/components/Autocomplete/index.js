@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
 import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
   Autocomplete as MuiAutocomplete,
   Box,
   ListItemButton,
+  Popper,
   Typography,
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
@@ -46,6 +46,8 @@ const Autocomplete = ({
   onChange,
   isOptionEqualToValue,
   uncontrolled,
+  dropdownLarger,
+  dropdownWidth,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -145,6 +147,12 @@ const Autocomplete = ({
 
     return reverse(uniqWith(reverse(arr), isOptEqual))
   }
+
+  const dropdownMinWidth = useMemo(() => {
+    if (dropdownWidth) return dropdownWidth
+    if (dropdownLarger || hasSubLabel) return 500
+    return 0
+  }, [dropdownWidth, dropdownLarger, hasSubLabel])
 
   const renderCustomizedOption = (optProps, opt, selected) => {
     if (typeof renderOption === 'function') {
@@ -270,6 +278,20 @@ const Autocomplete = ({
     )
   }
 
+  const renderPopper = useCallback(
+    (popperProps) => (
+      <Popper
+        {...popperProps}
+        placement="bottom-start"
+        style={{
+          ...popperProps?.style,
+          minWidth: `min(${dropdownMinWidth}px, 100vw)`,
+        }}
+      />
+    ),
+    [dropdownMinWidth],
+  )
+
   return (
     <MuiAutocomplete
       classes={{
@@ -283,8 +305,10 @@ const Autocomplete = ({
       }}
       multiple={multiple}
       renderTags={renderTags}
+      {...(dropdownMinWidth ? { PopperComponent: renderPopper } : {})}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
+      noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       getOptionLabel={(opt) => getOptionLabel(opt) || ''}
       renderOption={(p, opt, { selected }) =>
         renderCustomizedOption(
@@ -338,14 +362,6 @@ const Autocomplete = ({
             filterOptions: (opts) => opts,
             isOptionEqualToValue: isOptEqual,
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
-            noOptionsText: inputValue ? (
-              noOptionsText || t('autocomplete.noOptionsText')
-            ) : (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InfoOutlinedIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {t('autocomplete.hint')}
-              </Box>
-            ),
             ...(multiple
               ? {
                   // async multiple
@@ -407,7 +423,6 @@ const Autocomplete = ({
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
-            noOptionsText: noOptionsText || t('autocomplete.noOptionsText'),
           })}
     />
   )
@@ -427,6 +442,7 @@ Autocomplete.defaultProps = {
   getOptionValue: (opt) => opt,
   onChange: () => {},
   uncontrolled: false,
+  dropdownLarger: false,
 }
 
 Autocomplete.propTypes = {
@@ -449,6 +465,8 @@ Autocomplete.propTypes = {
   onChange: PropTypes.func,
   isOptionEqualToValue: PropTypes.func,
   uncontrolled: PropTypes.bool,
+  dropdownLarger: PropTypes.bool,
+  dropdownWidth: PropTypes.number,
 }
 
 export default Autocomplete

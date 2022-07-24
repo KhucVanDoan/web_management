@@ -69,6 +69,7 @@ const style = (theme) => ({
   },
   paper: {
     border: `1px solid ${theme.palette.grayF4.main}`,
+    boxShadow: '0px 8px 8px rgb(102 102 102 / 20%)',
     '.MuiListSubheader-root': {
       color: theme.palette.subText.main,
       // position: 'relative',
