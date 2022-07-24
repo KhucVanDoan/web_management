@@ -1,10 +1,10 @@
-import Elements from '../features/Elements'
+import RedirectPage from '../features/redirect'
 import { ROUTE } from './config'
 
 const routes = [
   {
-    path: ROUTE.ELEMENTS.PATH,
-    component: Elements,
+    path: ROUTE.REDIRECT.PATH,
+    component: RedirectPage,
   },
 ]
 
