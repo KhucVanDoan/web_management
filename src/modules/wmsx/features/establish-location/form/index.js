@@ -50,7 +50,11 @@ function EstablishLocationForm() {
         ? locationSettingsDetails?.type === LOCATION_SETTING_TYPE.EVEN
         : true,
       description: locationSettingsDetails?.description || '',
-      target: locationSettingsDetails?.items || [],
+      target:
+        locationSettingsDetails?.items?.map((item) => ({
+          ...item,
+          id: item?.itemId,
+        })) || [],
       items: locationSettingsDetails?.itemLocations?.map((item) => ({
         warehouse: item?.warehouse,
         area: item?.warehouseSetorId,
@@ -227,9 +231,7 @@ function EstablishLocationForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) =>
-                        opt?.id === val?.itemId
-                      }
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       multiple
