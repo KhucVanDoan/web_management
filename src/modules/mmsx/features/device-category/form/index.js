@@ -62,7 +62,9 @@ const DeviceCategoryForm = () => {
   }
 
   useEffect(() => {
-    actions.getDeviceCategoryDetail(id)
+    if (mode === MODAL_MODE.UPDATE) {
+      actions.getDeviceCategoryDetail(id)
+    }
     return () => {
       actions.resetDeviceCategory()
     }
