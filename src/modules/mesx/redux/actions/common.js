@@ -24,10 +24,6 @@ export const GET_WAREHOUSES_BY_FACTORIES_SUCCESS =
 export const GET_WAREHOUSES_BY_FACTORIES_FAILED =
   'MESX_GET_WAREHOUSES_BY_FACTORIES_FAILED'
 
-export const GET_PRODUCTS_START = 'MESX_GET_PRODUCTS_START'
-export const GET_PRODUCTS_SUCCESS = 'MESX_GET_PRODUCTS_SUCCESS'
-export const GET_PRODUCTS_FAILED = 'MESX_GET_PRODUCTS_FAILED'
-
 export const GET_DETAILS_START = 'MESX_GET_DETAILS_START'
 export const GET_DETAILS_SUCCESS = 'MESX_GET_DETAILS_SUCCESS'
 export const GET_DETAILS_FAILED = 'MESX_GET_DETAILS_FAILED'
@@ -207,44 +203,6 @@ export function getWarehousesByFactories(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  }
-}
-
-/**
- * Get products
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getProducts(payload, onSuccess, onError) {
-  return {
-    type: GET_PRODUCTS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get products success action
- * @param {*} payload
- * @returns {object}
- */
-export function getProductsSuccess(payload) {
-  return {
-    type: GET_PRODUCTS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get products failed action
- * @returns {object}
- */
-export function getProductsFailed() {
-  return {
-    type: GET_PRODUCTS_FAILED,
   }
 }
 
@@ -1082,9 +1040,6 @@ export default {
   getDepartments,
   getRoles,
   getWarehousesByFactories,
-  getProducts,
-  getProductsSuccess,
-  getProductsFailed,
   getDetails,
   getDetailsSuccess,
   getDetailsFailed,

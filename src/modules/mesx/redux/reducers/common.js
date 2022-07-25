@@ -14,9 +14,6 @@ import {
   GET_WAREHOUSES_BY_FACTORIES_START,
   GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
   GET_WAREHOUSES_BY_FACTORIES_FAILED,
-  GET_PRODUCTS_START,
-  GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_FAILED,
   GET_DETAILS_START,
   GET_DETAILS_SUCCESS,
   GET_DETAILS_FAILED,
@@ -97,7 +94,6 @@ const initialState = {
   roleList: [],
   departmentList: [],
   warehouseByFactoryList: [],
-  productList: [],
   detailList: [],
   itemGroupList: [],
   itemTypeList: [],
@@ -135,7 +131,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_DEPARTMENTS_START:
     case GET_ROLES_START:
     case GET_WAREHOUSES_BY_FACTORIES_START:
-    case GET_PRODUCTS_START:
     case GET_DETAILS_START:
     case GET_ITEM_UNITS_START:
     case GET_ITEM_TYPES_START:
@@ -191,19 +186,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         warehouseByFactoryList: action.payload,
-        isLoading: false,
-      }
-    case GET_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        productList: action.payload,
-        isLoading: false,
-      }
-
-    case GET_PRODUCTS_FAILED:
-      return {
-        ...state,
-        productList: [],
         isLoading: false,
       }
     case GET_DETAILS_SUCCESS:
