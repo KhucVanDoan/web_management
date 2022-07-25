@@ -12,7 +12,7 @@ export const validateShema = (t) => {
         }),
       )
       .required(t('general:form.required')),
-    name: Yup.string()
+    planName: Yup.string()
       .required(t('general:form.required'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
@@ -20,7 +20,7 @@ export const validateShema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    time: Yup.string().required(t('general:form.required')),
+    time: Yup.array().nullable().required(t('general:form.required')),
     factoryId: Yup.string().required(t('general:form.required')),
   })
 }
