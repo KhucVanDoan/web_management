@@ -13,7 +13,6 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import {
   WORK_CENTER_STATUS_CONFIRM_TO_EDIT,
   WORK_CENTER_STATUS_OPTIONS,
@@ -44,7 +43,7 @@ const breadcrumbs = [
 const DEFAULT_FILTERS = {
   code: '',
   name: '',
-  factoryId: '',
+  factoryId: [],
   status: '',
   createAt: '',
 }
@@ -76,7 +75,7 @@ const WorkCenter = () => {
     data: { isLoading, wcList, total },
     actions,
   } = useWorkCenter()
-  const { actions: factoryAction } = useDefineFactory()
+
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
@@ -85,9 +84,6 @@ const WorkCenter = () => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  useEffect(() => {
-    factoryAction.searchFactories({ isGetAll: 1 })
-  }, [])
   const columns = useMemo(() => [
     // {
     //   field: 'id',
@@ -206,11 +202,14 @@ const WorkCenter = () => {
       keyword: keyword.trim(),
       page: page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        ...columns,
-        { field: 'createdAt', filterFormat: 'date' },
-        { field: 'factoryId', filterFormat: 'multiple' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, factoryId: filters?.factoryId?.map((item) => item?.id) },
+        [
+          ...columns,
+          { field: 'createdAt', filterFormat: 'date' },
+          { field: 'factoryId', filterFormat: 'multiple' },
+        ],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWorkCenter(params)

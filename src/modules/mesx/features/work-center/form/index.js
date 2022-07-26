@@ -1,12 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import {
-  Box,
-  createFilterOptions,
-  Grid,
-  InputAdornment,
-  Typography,
-} from '@mui/material'
+import { Box, Grid, InputAdornment, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -29,6 +23,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import {
   PRODUCING_STEP_STATUS,
   WORK_CENTER_STATUS,
@@ -67,7 +62,7 @@ const WorkCenterForm = () => {
   } = useWorkCenter()
 
   const {
-    data: { factoryList, userList },
+    data: { userList },
     actions: commonManagementActions,
   } = useCommonManagement()
 
@@ -79,8 +74,6 @@ const WorkCenterForm = () => {
       actions.getWorkCenterDetailsById(cloneId)
     }
     commonManagementActions.getUsers({ isGetAll: 1 })
-    commonManagementActions.getFactories({ isGetAll: 1 })
-
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
   const defaultShifts = [
@@ -120,7 +113,7 @@ const WorkCenterForm = () => {
       name: wcDetails?.name || '',
       description: wcDetails?.description || '',
       members: wcDetails?.members || [],
-      factoryId: wcDetails?.factoryId || '',
+      factoryId: wcDetails?.factory || {},
       leaderId: wcDetails?.leaderId || '',
       oeeTarget: wcDetails?.oeeIndex || '',
       workCapacity: wcDetails?.productivityIndex || '',
@@ -294,7 +287,7 @@ const WorkCenterForm = () => {
     const params = {
       code: values.code,
       name: values.name,
-      factoryId: values.factoryId,
+      factoryId: values.factoryId?.id,
       leaderId: values.leaderId,
       description: values.description,
       performance: 0,
@@ -444,14 +437,17 @@ const WorkCenterForm = () => {
                           !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
-                        options={factoryList?.items}
-                        getOptionValue={(opt) => opt?.id || ''}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          searchFactoriesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(option) => option.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
-                        onChange={(id) => handleChange(id, setFieldValue)}
+                        onChange={(val) => handleChange(val?.id, setFieldValue)}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
