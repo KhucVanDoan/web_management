@@ -53,10 +53,6 @@ export const GET_CUSTOMERS_START = 'MESX_GET_CUSTOMERS_START'
 export const GET_CUSTOMERS_SUCCESS = 'MESX_GET_CUSTOMERS_SUCCESS'
 export const GET_CUSTOMERS_FAILED = 'MESX_GET_CUSTOMERS_FAILED'
 
-export const GET_VENDORS_START = 'MESX_GET_VENDORS_START'
-export const GET_VENDORS_SUCCESS = 'MESX_GET_VENDORS_SUCCESS'
-export const GET_VENDORS_FAILED = 'MESX_GET_VENDORS_FAILED'
-
 export const GET_ALL_ITEM_DETAILS_START = 'MESX_GET_ALL_ITEM_DETAILS_START'
 export const GET_ALL_ITEM_DETAILS_SUCCESS = 'MESX_GET_ALL_ITEM_DETAILS_SUCCESS'
 export const GET_ALL_ITEM_DETAILS_FAILED = 'MESX_GET_ALL_ITEM_DETAILS_FAILED'
@@ -456,44 +452,6 @@ export function getCustomersSuccess(payload) {
 export function getCustomersFailed() {
   return {
     type: GET_CUSTOMERS_FAILED,
-  }
-}
-
-/**
- * Get vendors
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getVendors(payload, onSuccess, onError) {
-  return {
-    type: GET_VENDORS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get vendors success action
- * @param {*} payload
- * @returns {object}
- */
-export function getVendorsSuccess(payload) {
-  return {
-    type: GET_VENDORS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get vendors failed action
- * @returns {object}
- */
-export function getVendorsFailed() {
-  return {
-    type: GET_VENDORS_FAILED,
   }
 }
 
@@ -947,9 +905,6 @@ export default {
   getWarehouses,
   getWarehousesSuccess,
   getWarehousesFailed,
-  getVendors,
-  getVendorsSuccess,
-  getVendorsFailed,
   getAllItemDetails,
   getAllItemDetailsSuccess,
   getAllItemDetailsFailed,

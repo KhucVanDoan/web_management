@@ -34,10 +34,7 @@ import {
   GET_WAREHOUSES_FAILED,
   GET_CUSTOMERS_SUCCESS,
   GET_CUSTOMERS_FAILED,
-  GET_VENDORS_SUCCESS,
-  GET_VENDORS_FAILED,
   GET_CUSTOMERS_START,
-  GET_VENDORS_START,
   GET_ALL_ITEM_DETAILS_START,
   GET_ALL_ITEM_DETAILS_SUCCESS,
   GET_ALL_ITEM_DETAILS_FAILED,
@@ -127,7 +124,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_ITEMS_START:
     case GET_WAREHOUSES_START:
     case GET_CUSTOMERS_START:
-    case GET_VENDORS_START:
     case GET_ALL_ITEM_DETAILS_START:
     case GET_PRODUCING_STEPS_START:
     case GET_BOMS_START:
@@ -265,19 +261,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         customerList: [],
-        isLoading: false,
-      }
-
-    case GET_VENDORS_SUCCESS:
-      return {
-        ...state,
-        vendorList: action.payload,
-        isLoading: false,
-      }
-    case GET_VENDORS_FAILED:
-      return {
-        ...state,
-        vendorList: [],
         isLoading: false,
       }
 
