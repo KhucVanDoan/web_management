@@ -23,8 +23,6 @@ import {
   ORDER_STATUS,
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
-import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
@@ -52,10 +50,6 @@ const POForm = () => {
     data: { warehouseList, itemQualityPoint },
     actions: commonActions,
   } = useCommonManagement()
-
-  const { actions: packageActs } = useDefinePackage()
-
-  const { actions: palletActs } = useDefinePallet()
 
   const { actions: actionsPurchasedOrderDetails } = usePurchasedOrder()
 
@@ -109,6 +103,7 @@ const POForm = () => {
       items: poImportDetails?.purchasedOrderImportWarehouseLots
         ? poImportDetails?.purchasedOrderImportWarehouseLots?.map(
             (detailLot, index) => ({
+              ...detailLot,
               id: index,
               itemId: detailLot.itemId,
               warehouseId: detailLot.warehouseId,
@@ -188,13 +183,7 @@ const POForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
-      actions.getPOImportDetailsById(id, (data) => {
-        // eslint-disable-next-line array-callback-return
-        data?.purchasedOrderImportWarehouseLots?.map((i) => {
-          packageActs.getPackagesEvenByItem(i.itemId)
-          palletActs.getPalletsEvenByItem(i.itemId)
-        })
-      })
+      actions.getPOImportDetailsById(id)
       return () => {
         actions.resetPODetailsState()
       }
