@@ -857,7 +857,7 @@
   },
   "templateInstall": {
     "title": "Danh sách mẫu phiếu lắp đặt",
-    "searchPlaceholder": "Tìm kiếm thông tin",
+    "searchPlaceholder": "Tìm kiếm mẫu phiếu lắp đặt theo mã hoặc tên",
     "codePlaceholer": "Nhập mã mẫu phiếu",
     "namePlaceholer": "Nhập tên mẫu phiếu",
     "descriptionTemplatePlaceholer": "Nhập mô tả mẫu phiếu",
