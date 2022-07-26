@@ -55,7 +55,7 @@ deploy:
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  mesx_web || true; 
-      docker run --rm -d --name mesx_web --restart=always  -p 5080:80 ${STAGING_CONTAINER_IMAGE};
+      docker run -d --name mesx_web --restart=always  -p 5080:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_staging:
@@ -98,7 +98,7 @@ deploy_staging:
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${STAGING_CONTAINER_IMAGE};
       docker stop  mesx_grand_stg_web || true; 
-      docker run --rm -d --name mesx_grand_stg_web --restart=always -p 10088:80 ${STAGING_CONTAINER_IMAGE};
+      docker run -d --name mesx_grand_stg_web --restart=always -p 10088:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_demo:
