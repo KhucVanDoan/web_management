@@ -14,9 +14,6 @@ import {
   GET_WAREHOUSES_BY_FACTORIES_START,
   GET_WAREHOUSES_BY_FACTORIES_SUCCESS,
   GET_WAREHOUSES_BY_FACTORIES_FAILED,
-  GET_PRODUCTS_START,
-  GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_FAILED,
   GET_DETAILS_START,
   GET_DETAILS_SUCCESS,
   GET_DETAILS_FAILED,
@@ -35,27 +32,15 @@ import {
   GET_WAREHOUSES_START,
   GET_WAREHOUSES_SUCCESS,
   GET_WAREHOUSES_FAILED,
-  GET_WAREHOUSES_SECTOR_START,
-  GET_WAREHOUSES_SECTOR_SUCCESS,
-  GET_WAREHOUSES_SECTOR_FAILED,
-  GET_WAREHOUSES_SHELF_START,
-  GET_WAREHOUSES_SHELF_SUCCESS,
-  GET_WAREHOUSES_SHELF_FAILED,
   GET_CUSTOMERS_SUCCESS,
   GET_CUSTOMERS_FAILED,
-  GET_VENDORS_SUCCESS,
-  GET_VENDORS_FAILED,
   GET_CUSTOMERS_START,
-  GET_VENDORS_START,
   GET_ALL_ITEM_DETAILS_START,
   GET_ALL_ITEM_DETAILS_SUCCESS,
   GET_ALL_ITEM_DETAILS_FAILED,
   GET_PRODUCING_STEPS_START,
   GET_PRODUCING_STEPS_SUCCESS,
   GET_PRODUCING_STEPS_FAILED,
-  GET_USERS_START,
-  GET_USERS_SUCCESS,
-  GET_USERS_FAILED,
   GET_BOMS_START,
   GET_BOMS_SUCCESS,
   GET_BOMS_FAILED,
@@ -97,7 +82,6 @@ const initialState = {
   roleList: [],
   departmentList: [],
   warehouseByFactoryList: [],
-  productList: [],
   detailList: [],
   itemGroupList: [],
   itemTypeList: [],
@@ -105,12 +89,10 @@ const initialState = {
   itemList: [],
   warehouseList: [],
   warehouseSectorList: [],
-  warehouseShelfList: [],
   customerList: [],
   vendorList: [],
   itemDetailList: [],
   lists: [],
-  userList: [],
   BOMList: [],
   factoryList: [],
   soList: [],
@@ -135,20 +117,15 @@ export default function commonManagement(state = initialState, action) {
     case GET_DEPARTMENTS_START:
     case GET_ROLES_START:
     case GET_WAREHOUSES_BY_FACTORIES_START:
-    case GET_PRODUCTS_START:
     case GET_DETAILS_START:
     case GET_ITEM_UNITS_START:
     case GET_ITEM_TYPES_START:
     case GET_ITEM_GROUPS_START:
     case GET_ITEMS_START:
     case GET_WAREHOUSES_START:
-    case GET_WAREHOUSES_SECTOR_START:
-    case GET_WAREHOUSES_SHELF_START:
     case GET_CUSTOMERS_START:
-    case GET_VENDORS_START:
     case GET_ALL_ITEM_DETAILS_START:
     case GET_PRODUCING_STEPS_START:
-    case GET_USERS_START:
     case GET_BOMS_START:
     case GET_FACTORIES_START:
     case GET_QUALITY_POINT_DETAILS_START:
@@ -191,19 +168,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         warehouseByFactoryList: action.payload,
-        isLoading: false,
-      }
-    case GET_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        productList: action.payload,
-        isLoading: false,
-      }
-
-    case GET_PRODUCTS_FAILED:
-      return {
-        ...state,
-        productList: [],
         isLoading: false,
       }
     case GET_DETAILS_SUCCESS:
@@ -287,30 +251,6 @@ export default function commonManagement(state = initialState, action) {
         warehouseList: [],
         isLoading: false,
       }
-    case GET_WAREHOUSES_SECTOR_SUCCESS:
-      return {
-        ...state,
-        warehouseSectorList: action.payload,
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SECTOR_FAILED:
-      return {
-        ...state,
-        warehouseSectorList: [],
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SHELF_SUCCESS:
-      return {
-        ...state,
-        warehouseShelfList: action.payload,
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SHELF_FAILED:
-      return {
-        ...state,
-        warehouseShelfList: [],
-        isLoading: false,
-      }
     case GET_CUSTOMERS_SUCCESS:
       return {
         ...state,
@@ -321,19 +261,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         customerList: [],
-        isLoading: false,
-      }
-
-    case GET_VENDORS_SUCCESS:
-      return {
-        ...state,
-        vendorList: action.payload,
-        isLoading: false,
-      }
-    case GET_VENDORS_FAILED:
-      return {
-        ...state,
-        vendorList: [],
         isLoading: false,
       }
 
@@ -355,19 +282,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         list: action.payload,
-        isLoading: false,
-      }
-
-    case GET_USERS_SUCCESS:
-      return {
-        ...state,
-        userList: action.payload,
-        isLoading: false,
-      }
-    case GET_USERS_FAILED:
-      return {
-        ...state,
-        userList: [],
         isLoading: false,
       }
     case GET_BOMS_SUCCESS:

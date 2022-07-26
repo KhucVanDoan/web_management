@@ -68,9 +68,9 @@ const DefineSuppliesForm = () => {
   const initialValues = {
     code: suppliesDetail?.code || PRE_FIX_CODE,
     name: suppliesDetail?.name || '',
-    groupSupplyId: suppliesDetail?.supplyGroup?.name || '',
+    groupSupplyId: suppliesDetail?.supplyGroup?.id || '',
     type: suppliesDetail?.type ? `${suppliesDetail?.type}` : '0',
-    vendorId: suppliesDetail?.vendorId,
+    vendorId: suppliesDetail?.vendor?.id,
     receivedDate: suppliesDetail?.receivedDate,
     price: suppliesDetail?.price || '',
     itemUnitId: suppliesDetail?.itemUnit?.id || '',

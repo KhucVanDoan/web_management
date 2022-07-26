@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import { MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
@@ -16,9 +16,6 @@ const FilterForm = () => {
   const {
     data: { planList },
   } = useDefinePlan()
-  const {
-    data: { factoryList },
-  } = useDefineFactory()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -63,12 +60,15 @@ const FilterForm = () => {
           name="factoryId"
           label={t('Mo.moFactory')}
           placeholder={t('Mo.moFactory')}
-          options={factoryList}
+          asyncRequest={(s) =>
+            searchFactoriesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(option) => option.name}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-          getOptionValue={(option) => option.id.toString()}
+          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
         />
       </Grid>
       <Grid item xs={12}>

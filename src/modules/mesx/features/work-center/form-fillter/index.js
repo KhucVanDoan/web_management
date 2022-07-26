@@ -1,18 +1,20 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { factoryList },
-  } = useDefineFactory()
+
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -37,12 +39,15 @@ const FilterForm = () => {
           label={t('workCenter.factoryName')}
           placeholder={t('workCenter.factoryName')}
           name="factoryId"
-          options={factoryList}
-          getOptionValue={(opt) => opt?.id.toString()}
-          getOptionLabel={(opt) => opt?.name}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
+          asyncRequest={(s) =>
+            searchFactoriesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(option) => option.name}
+          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           multiple
         />
       </Grid>

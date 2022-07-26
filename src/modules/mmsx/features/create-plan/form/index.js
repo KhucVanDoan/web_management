@@ -20,8 +20,7 @@ import Icon from '~/components/Icon'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
-import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import {
   ACTION_MAP,
   CREATE_PLAN_STATUS_OPTIONS,
@@ -33,6 +32,7 @@ import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useCreatePlan from '~/modules/mmsx/redux/hooks/useCreatePlan'
 import useJobDraft from '~/modules/mmsx/redux/hooks/useJobDraft'
 import { ROUTE } from '~/modules/mmsx/routes/config'
+import { searchWorkCenterQualityControlPlanFail } from '~/modules/qmsx/redux/actions/work-center-quality-control-plan'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 import { validateShema } from './schema'
@@ -45,11 +45,6 @@ const CreatePlanForm = () => {
     data: { detailPlan, isLoading },
     actions,
   } = useCreatePlan()
-
-  const {
-    data: { factoryList },
-    actions: factoryAction,
-  } = useDefineFactory()
   const {
     data: { jobDraftLists },
     actions: jobDraftAction,
@@ -70,25 +65,22 @@ const CreatePlanForm = () => {
   const backToList = () => {
     history.push(ROUTE.CREATE_PLAN.LIST.PATH)
   }
-  useEffect(() => {
-    factoryAction.searchFactories({ isGetAll: 1 })
-  }, [])
+
   const initialValues = {
     code: detailPlan?.code || '',
     planName: detailPlan?.name || '',
-    factoryId: detailPlan?.factoryId || '',
+    factoryId: detailPlan?.factoryId
+      ? { id: detailPlan?.factoryId, name: detailPlan?.factoryName }
+      : null,
     workCenterId: detailPlan?.workCenterId
-      ? {
-          id: detailPlan?.workCenterId,
-          name: detailPlan?.workCenterName,
-        }
+      ? { id: detailPlan?.workCenterId, name: detailPlan?.workCenterName }
       : null,
     periodCheck: detailPlan?.jobTypeTotal?.checklistTemplateTotal || 0, //kiểm tra định kỳ
     maintain: detailPlan?.jobTypeTotal?.maintainPeriodWarningTotal || 0, //bảo dưỡng
     warning: detailPlan?.jobTypeTotal?.warningTotal || 0, //cảnh báo
     request: detailPlan?.jobTypeTotal?.maintainRequestTotal || 0, //yêu cầu
     install: detailPlan?.jobTypeTotal?.installingTotal || 0, //lắp đặt
-    time: isUpdate ? [detailPlan?.planFrom, detailPlan?.planTo] : '',
+    time: isUpdate ? [detailPlan?.planFrom, detailPlan?.planTo] : [],
   }
   useEffect(() => {
     if (isUpdate) {
@@ -115,7 +107,7 @@ const CreatePlanForm = () => {
       name: values?.planName,
       planFrom: values?.time[0],
       planTo: values?.time[1],
-      factoryId: values?.factoryId,
+      factoryId: values?.factoryId?.id,
       workCenterId: values?.workCenterId?.id || null,
       jobTypeTotal: {
         warningTotal: values?.warning,
@@ -135,8 +127,8 @@ const CreatePlanForm = () => {
         name: values?.planName,
         planFrom: values?.time[0],
         planTo: values?.time[1],
-        factoryId: values?.factoryId,
-        workCenterId: values?.workCenterId || null,
+        factoryId: values?.factoryId?.id,
+        workCenterId: values?.workCenterId?.id || null,
         jobTypeTotal: {
           warningTotal: values?.warning,
           maintainRequestTotal: values?.request,
@@ -522,9 +514,17 @@ const CreatePlanForm = () => {
                           name="factoryId"
                           label={t('general.placeholder.factoryName')}
                           placeholder={t('general.placeholder.factoryName')}
-                          options={factoryList}
-                          getOptionLabel={(opt) => opt?.name}
-                          getOptionValue={(opt) => opt?.id}
+                          asyncRequest={(s) =>
+                            searchFactoriesApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(option) => option.name}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
                           required
                         />
                       </Grid>
@@ -534,7 +534,7 @@ const CreatePlanForm = () => {
                           label={t('general.placeholder.workshopName')}
                           placeholder={t('general.placeholder.workshopName')}
                           asyncRequest={(s) =>
-                            searchWorkCenterApi({
+                            searchWorkCenterQualityControlPlanFail({
                               keyword: s,
                               limit: ASYNC_SEARCH_LIMIT,
                               filter: convertFilterParams({

@@ -13,7 +13,6 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import {
   MO_STATUS_OPTIONS,
@@ -79,7 +78,6 @@ const Mo = () => {
     actions: planActions,
   } = useDefinePlan()
 
-  const { actions: factoryAction } = useDefineFactory()
   const { actions: saleOrderAction } = useSaleOrder()
 
   const columns = [
@@ -106,7 +104,7 @@ const Mo = () => {
       },
     },
     {
-      field: 'factoryName',
+      field: 'factoryId',
       headerName: t('Mo.moFactory'),
       width: 150,
       sortable: true,
@@ -237,6 +235,7 @@ const Mo = () => {
           ...filters,
           code: filters?.code?.code,
           saleOrderId: filters?.saleOrderId?.name,
+          factoryId: filters?.factoryId?.id,
         },
         columns,
       ),
@@ -247,7 +246,6 @@ const Mo = () => {
 
   useEffect(() => {
     planActions.searchPlans({ isGetAll: 1 })
-    factoryAction.searchFactories({ isGetAll: 1 })
     saleOrderAction.searchSaleOrders({ isGetAll: 1 })
   }, [])
 

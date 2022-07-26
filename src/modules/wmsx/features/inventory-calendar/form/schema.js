@@ -13,7 +13,7 @@ export const inventoryCalendarSchema = (t, isPartial) =>
         .shape({})
         .test('name', '', (value, context) => {
           if (
-            value.warehouseSectorName === null &&
+            value.warehouseSector === null &&
             value.itemId === null &&
             isPartial
           ) {
@@ -21,7 +21,7 @@ export const inventoryCalendarSchema = (t, isPartial) =>
               message: t(
                 'inventoryCalendar.items.requireWarehouseSectorOrItemCode',
               ),
-              path: `${context.path}.warehouseSectorName`,
+              path: `${context.path}.warehouseSector`,
             })
           }
           return true
