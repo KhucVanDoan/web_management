@@ -21,7 +21,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { BOQ_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
@@ -230,7 +230,7 @@ const BOQForm = () => {
                       label={t('defineBOQ.boqPm')}
                       placeholder={t('defineBOQ.boqPm')}
                       asyncRequest={(s) =>
-                        getUsersApi({
+                        searchUsersApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
@@ -257,7 +257,7 @@ const BOQForm = () => {
                       label={t('defineBOQ.boqApm')}
                       placeholder={t('defineBOQ.boqApm')}
                       asyncRequest={(s) =>
-                        getUsersApi({
+                        searchUsersApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })

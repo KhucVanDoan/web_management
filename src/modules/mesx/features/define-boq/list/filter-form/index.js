@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { BOQ_STATUS_OPTIONS_FILTER } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { userList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
-  useEffect(() => {
-    commonManagementActions.getUsers()
-  }, [])
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -43,8 +39,13 @@ const FilterForm = () => {
           name="pmName"
           label={t('defineBOQ.boqPm')}
           placeholder={t('defineBOQ.boqPm')}
-          options={userList}
-          getOptionValue={(opt) => opt?.id}
+          asyncRequest={(s) =>
+            searchUsersApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.fullName || opt?.username}
         />
       </Grid>

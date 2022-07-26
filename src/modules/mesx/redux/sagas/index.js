@@ -39,7 +39,6 @@ import watchGetProducts from './common/get-products'
 import watchGetQualityPointDetails from './common/get-quality-point-details'
 import watchGetRoles from './common/get-role'
 import watchGetSaleOrders from './common/get-sale-orders'
-import watchGetUsers from './common/get-users'
 import watchGetVendors from './common/get-vendors'
 import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
 import watchGetWarehouses from './common/get-warehouses'
@@ -223,7 +222,6 @@ export default function* sagas() {
     watchGetAllItemDetails(),
     watchGetProducts(),
     watchGetProducingSteps(),
-    watchGetUsers(),
     watchGetBoms(),
     watchGetFactories(),
     watchGetSaleOrders(),
