@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -13,7 +14,7 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useWarehouseReport from '~/modules/wmsx/redux/hooks/useWarehouseReport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -29,11 +30,6 @@ const WarehouseReportForm = () => {
     data: { isLoading },
     actions,
   } = useWarehouseReport()
-
-  const {
-    data: { factoryList },
-    actions: actionFactory,
-  } = useDefineFactory()
 
   const {
     data: { warehouseList },
@@ -69,7 +65,6 @@ const WarehouseReportForm = () => {
   ]
 
   useEffect(() => {
-    actionFactory.searchFactories({ isGetAll: 1 })
     actionWarehouse.searchWarehouses({ isGetAll: 1 })
   }, [])
 
@@ -118,89 +113,99 @@ const WarehouseReportForm = () => {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('warehouseReport.code')}
-                      name="code"
-                      placeholder={t('warehouseReport.code')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
-                      }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      required
-                    />
+            {({ handleReset, values }) => {
+              return (
+                <Form>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        label={t('warehouseReport.code')}
+                        name="code"
+                        placeholder={t('warehouseReport.code')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="name"
+                        label={t('warehouseReport.name')}
+                        placeholder={t('warehouseReport.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.Autocomplete
+                        name="factoryIds"
+                        label={t('warehouseReport.factoryName')}
+                        placeholder={t('warehouseReport.factoryName')}
+                        asyncRequest={(s) =>
+                          searchFactoriesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(option) => option.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        multiple
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.Autocomplete
+                        name="warehouseIds"
+                        label={t('warehouseReport.warehouseName')}
+                        placeholder={t('warehouseReport.warehouseName')}
+                        options={
+                          warehouseList?.filter((i) =>
+                            values.factoryIds
+                              ?.map((item) => item?.id)
+                              ?.includes(i.factoryId),
+                          ) || []
+                        }
+                        getOptionLabel={(option) => t(option?.name)}
+                        getOptionValue={(option) => option?.id}
+                        multiple
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.DateRangePicker
+                        name="periodReport"
+                        label={t('warehouseReport.periodReport')}
+                        placeholder={t('warehouseReport.periodReport')}
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6} />
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="note"
+                        label={t('warehouseReport.description')}
+                        placeholder={t('warehouseReport.description')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="name"
-                      label={t('warehouseReport.name')}
-                      placeholder={t('warehouseReport.name')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.Autocomplete
-                      name="factoryIds"
-                      label={t('warehouseReport.factoryName')}
-                      placeholder={t('warehouseReport.factoryName')}
-                      options={factoryList || []}
-                      getOptionLabel={(option) => t(option?.name)}
-                      getOptionValue={(option) => option?.id}
-                      multiple
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.Autocomplete
-                      name="warehouseIds"
-                      label={t('warehouseReport.warehouseName')}
-                      placeholder={t('warehouseReport.warehouseName')}
-                      options={
-                        warehouseList?.filter((i) =>
-                          values.factoryIds.includes(i.factoryId),
-                        ) || []
-                      }
-                      getOptionLabel={(option) => t(option?.name)}
-                      getOptionValue={(option) => option?.id}
-                      multiple
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6}>
-                    <Field.DateRangePicker
-                      name="periodReport"
-                      label={t('warehouseReport.periodReport')}
-                      placeholder={t('warehouseReport.periodReport')}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} lg={6} />
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="note"
-                      label={t('warehouseReport.description')}
-                      placeholder={t('warehouseReport.description')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
+                  {renderActionBar(handleReset)}
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>

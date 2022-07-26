@@ -4,11 +4,12 @@ import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
-import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
-import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
+import { searchDeviceCategory } from '~/modules/mmsx/redux/sagas/device-category/search-device-category'
 
 const DeviceStatusQuickFilter = ({
   setQuickFilters,
@@ -20,22 +21,13 @@ const DeviceStatusQuickFilter = ({
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
-  const {
-    data: { deviceCategoryList },
-    actions,
-  } = useDeviceCategory()
-  const {
-    data: { factoryList },
-    actions: commonAction,
-  } = useCommonInfo()
 
   const {
     data: { wcList },
     actions: workCenterActions,
   } = useWorkCenter()
   useEffect(() => {
-    actions.searchDeviceCategory()
-    commonAction.getFactoryList({ isGetAll: 1 })
+    //TODO:đợi làm refactor workCenters sẽ sửa
     workCenterActions.searchWorkCenter({ isGetAll: 1 })
   }, [])
 
@@ -56,12 +48,18 @@ const DeviceStatusQuickFilter = ({
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="deviceGroup"
+                      name="deviceGroupId"
                       label={t('general.placeholder.deviceGroup')}
                       placeholder={t('general.placeholder.deviceGroup')}
-                      options={deviceCategoryList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchDeviceCategory({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -69,14 +67,20 @@ const DeviceStatusQuickFilter = ({
                       name="factoryId"
                       label={t('general.placeholder.factoryName')}
                       placeholder={t('general.placeholder.factoryName')}
-                      options={factoryList}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchFactoriesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="workshopId"
+                      name="workCenterId"
                       label={t('general.placeholder.workshopName')}
                       placeholder={t('general.placeholder.workshopName')}
                       options={workCenterList}

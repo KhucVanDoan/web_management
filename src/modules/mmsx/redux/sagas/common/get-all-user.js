@@ -8,7 +8,7 @@ import {
   GET_USER_START,
 } from '../../actions/common'
 
-const getAllUserList = () => {
+export const getAllUserList = () => {
   const url = `v1/mms/user/list`
   return api.get(url)
 }

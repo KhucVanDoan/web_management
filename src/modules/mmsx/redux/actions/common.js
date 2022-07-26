@@ -26,10 +26,6 @@ export const MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS =
 export const MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED =
   'MMSX_GET_ALL_ATTRIBUTE_MAINTAIN_FAILED'
 
-export const MMSX_GET_VENDORS_START = 'MMSX_GET_VENDORS_START'
-export const MMSX_GET_VENDORS_SUCCESS = 'MMSX_GET_VENDORS_SUCCESS'
-export const MMSX_GET_VENDORS_FAILED = 'MMSX_GET_VENDORS_FAILED'
-
 export const GET_RESPONSIBLE_SUBJECT_START =
   'MMSX_GET_RESPONSIBLE_SUBJECT_START'
 export const GET_RESPONSIBLE_SUBJECT_SUCCESS =
@@ -84,44 +80,6 @@ export function getMoByWorkCenterSuccess(payload) {
 export function getMoByWorkCenterFailed() {
   return {
     type: GET_MO_BY_WORK_CENTER_FAILED,
-  }
-}
-
-/**
- * Get vendors
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getVendors(payload, onSuccess, onError) {
-  return {
-    type: MMSX_GET_VENDORS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get vendors success action
- * @param {*} payload
- * @returns {object}
- */
-export function getVendorsSuccess(payload) {
-  return {
-    type: MMSX_GET_VENDORS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get vendors failed action
- * @returns {object}
- */
-export function getVendorsFailed() {
-  return {
-    type: MMSX_GET_VENDORS_FAILED,
   }
 }
 
@@ -414,9 +372,6 @@ export default {
   getResponsibleSubject,
   getResponsibleSubjectFailed,
   getResponsibleSubjectSuccess,
-  getVendors,
-  getVendorsFailed,
-  getVendorsSuccess,
   getMoByWorkCenter,
   getMoByWorkCenterFailed,
   getMoByWorkCenterSuccess,

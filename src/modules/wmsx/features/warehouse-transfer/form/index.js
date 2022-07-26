@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -22,7 +23,7 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { TRANSFER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -58,11 +59,6 @@ const WarehouseTransferForm = () => {
   } = useWarehouseTransfer()
 
   const {
-    data: { factoryList },
-    actions: definedFactoryActions,
-  } = useDefineFactory()
-
-  const {
     data: { warehouseList },
     actions: defineWarehouseActions,
   } = useDefineWarehouse()
@@ -80,7 +76,6 @@ const WarehouseTransferForm = () => {
   }, [mode])
 
   useEffect(() => {
-    definedFactoryActions.searchFactories({ isGetAll: 1 })
     defineWarehouseActions.searchWarehouses({ isGetAll: 1 })
   }, [])
 
@@ -89,9 +84,8 @@ const WarehouseTransferForm = () => {
     name: warehouseTransferDetails?.name || '',
     isSameWarehouse:
       warehouseTransferDetails?.isSameWarehouse === 1 ? true : false || false,
-    destinationFactoryName:
-      warehouseTransferDetails?.destinationFactory?.id || '',
-    sourceFactoryName: warehouseTransferDetails?.sourceFactory?.id || '',
+    destinationFactoryName: warehouseTransferDetails?.destinationFactory || '',
+    sourceFactoryName: warehouseTransferDetails?.sourceFactory || '',
     destinationWarehouseName:
       warehouseTransferDetails?.destinationWarehouse?.id || '',
     sourceWarehouseName: warehouseTransferDetails?.sourceWarehouse?.id || '',
@@ -216,10 +210,10 @@ const WarehouseTransferForm = () => {
       >
         {({ handleReset, setFieldValue, values }) => {
           const destinationWarehouseName = warehouseList?.filter(
-            (item) => item?.factoryId === values?.destinationFactoryName,
+            (item) => item?.factoryId === values?.destinationFactoryName?.id,
           )
           const sourceWarehouseName = warehouseList?.filter(
-            (item) => item?.factoryId === values?.sourceFactoryName,
+            (item) => item?.factoryId === values?.sourceFactoryName?.id,
           )
           return (
             <Form>
@@ -300,12 +294,15 @@ const WarehouseTransferForm = () => {
                         placeholder={t(
                           'warehouseTransfer.destinationFactoryName',
                         )}
-                        options={factoryList}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        getOptionValue={(opt) => opt?.id || ''}
+                        asyncRequest={(s) =>
+                          searchFactoriesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(option) => option.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         onChange={(val) => {
                           if (values?.isSameWarehouse) {
                             setFieldValue('sourceFactoryName', val)
@@ -320,12 +317,15 @@ const WarehouseTransferForm = () => {
                         name="sourceFactoryName"
                         placeholder={t('warehouseTransfer.sourceFactoryName')}
                         disabled={values?.isSameWarehouse}
-                        options={factoryList}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        getOptionValue={(opt) => opt?.id || ''}
+                        asyncRequest={(s) =>
+                          searchFactoriesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(option) => option.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
                     </Grid>

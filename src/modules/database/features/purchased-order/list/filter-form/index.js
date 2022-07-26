@@ -9,7 +9,7 @@ import {
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { PURCHASED_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
-import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
+import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 
 const FilterForm = () => {
   const { t } = useTranslation('mesx')
@@ -42,7 +42,7 @@ const FilterForm = () => {
           label={t('purchasedOrder.vendor.name')}
           placeholder={t('purchasedOrder.vendor.name')}
           asyncRequest={(s) =>
-            getVendorsApi({
+            searchVendorsApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })

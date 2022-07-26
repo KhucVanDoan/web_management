@@ -29,7 +29,7 @@ import usePurchasedOrder from '~/modules/database/redux/hooks/usePurchasedOrder'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/database/routes/config'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
-import { getVendorsApi } from '~/modules/mesx/redux/sagas/common/get-vendors'
+import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
@@ -376,7 +376,7 @@ function PurchasedOrderForm() {
                         label={t('purchasedOrder.vendor.name')}
                         placeholder={t('purchasedOrder.vendor.name')}
                         asyncRequest={(s) =>
-                          getVendorsApi({
+                          searchVendorsApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                           })

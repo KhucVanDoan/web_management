@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   CODE_SETTINGS,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
@@ -30,6 +31,7 @@ import useDefineDevice from '~/modules/mmsx/redux/hooks/useDefineDevice'
 import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
 import useTemplateInstall from '~/modules/mmsx/redux/hooks/useTemplateInstall'
 import { ROUTE } from '~/modules/mmsx/routes/config'
+import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 
 import ItemsSettingTable from './items-setting-table'
 import MaintainTable from './maintain-table'
@@ -56,7 +58,7 @@ const DefineDeviceForm = () => {
   } = useDeviceCategory()
 
   const {
-    data: { attributeMaintainList, responsibleSubject, vendorList },
+    data: { attributeMaintainList, responsibleSubject },
     actions: commonActions,
   } = useCommonInfo()
 
@@ -99,7 +101,7 @@ const DefineDeviceForm = () => {
       attributeType: deviceDetail?.attributeType || '',
       installTemplate: deviceDetail?.installTemplate || '',
       description: deviceDetail?.description || '',
-      supplier: deviceDetail?.vendor?.id || '',
+      supplier: deviceDetail?.vendor || null,
       importDate: deviceDetail?.importDate || '',
       manufacturer: deviceDetail?.brand || '',
       insuranceDay: deviceDetail?.warrantyPeriod || '',
@@ -152,7 +154,6 @@ const DefineDeviceForm = () => {
     deviceCategoryActions.searchDeviceCategory({})
     commonActions.getAttributeMaintain()
     commonActions.getResponsibleSubject()
-    commonActions.getVendors()
     attributeTypeActions.getAttributeTypeList({})
     installActions.getListTemplateInstall({})
   }, [])
@@ -239,7 +240,7 @@ const DefineDeviceForm = () => {
       attributeType: values?.attributeType || [], //Loại giá trị
       installTemplate: values?.installTemplate, //Mẫu phiếu cài đặt
 
-      vendor: values?.supplier, //Nhà cung cấp
+      vendor: values?.supplier?.id, //Nhà cung cấp
       brand: values?.manufacturer, //Hãng sản xuất
       productionDate: values?.productionDate || null,
       importDate: values?.importDate || null,
@@ -605,8 +606,13 @@ const DefineDeviceForm = () => {
                             name="supplier"
                             label={t('deviceList.provider')}
                             placeholder={t('deviceList.placeholder.provider')}
-                            options={vendorList}
-                            getOptionValue={(opt) => opt?.id || ''}
+                            asyncRequest={(s) =>
+                              searchVendorsApi({
+                                keyword: s,
+                                limit: ASYNC_SEARCH_LIMIT,
+                              })
+                            }
+                            asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.name || ''}
                             required
                           />

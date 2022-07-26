@@ -50,12 +50,16 @@ function EstablishLocationForm() {
         ? locationSettingsDetails?.type === LOCATION_SETTING_TYPE.EVEN
         : true,
       description: locationSettingsDetails?.description || '',
-      target: locationSettingsDetails?.items || [],
+      target:
+        locationSettingsDetails?.items?.map((item) => ({
+          ...item,
+          id: item?.itemId,
+        })) || [],
       items: locationSettingsDetails?.itemLocations?.map((item) => ({
         warehouse: item?.warehouse,
-        area: item?.warehouseSetorId,
-        shelf: item?.warehouseShelfId,
-        floor: item?.warehouseShelfFloorId,
+        area: item?.warehouseSetor || null,
+        shelf: item?.warehouseShelf || null,
+        floor: item?.warehouseShelfFloor || null,
       })) || [{ ...DEFAULT_ITEM }],
     }),
     [locationSettingsDetails],
@@ -128,9 +132,9 @@ function EstablishLocationForm() {
       itemIds: value.target.map((item) => item?.id || item?.itemId),
       itemLocations: value.items.map((item) => ({
         warehouseId: item.warehouse.id,
-        warehouseSetorId: item.area,
-        warehouseShelfId: item.shelf,
-        warehouseShelfFloorId: item.floor,
+        warehouseSetorId: item?.area?.id,
+        warehouseShelfId: item?.shelf?.id,
+        warehouseShelfFloorId: item?.floor?.id,
       })),
     }
     if (isUpdate) {
@@ -227,9 +231,7 @@ function EstablishLocationForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) =>
-                        opt?.id === val?.itemId
-                      }
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       multiple

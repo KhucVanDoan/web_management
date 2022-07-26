@@ -10,7 +10,6 @@ import Dialog from '~/components/Dialog'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import { DEFAULT_UNITS_MAP } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -38,14 +37,8 @@ function DefineWarehouseDetail() {
 
   const [deleteModal, setDeleteModal] = useState(false)
 
-  const {
-    data: { factoryList },
-    actions: actionFactory,
-  } = useDefineFactory()
-
   useEffect(() => {
     actions.getWarehouseDetailsById(id)
-    actionFactory.searchFactories({ isGetAll: 1 })
     return () => actions.resetWarehouseState()
   }, [id])
 
@@ -112,11 +105,7 @@ function DefineWarehouseDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineWarehouse.factory')}
-                value={
-                  factoryList?.find(
-                    (i) => i?.id === warehouseDetails?.factoryId,
-                  )?.name
-                }
+                value={warehouseDetails?.factory?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

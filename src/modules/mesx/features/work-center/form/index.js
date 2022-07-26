@@ -1,12 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import {
-  Box,
-  createFilterOptions,
-  Grid,
-  InputAdornment,
-  Typography,
-} from '@mui/material'
+import { Box, Grid, InputAdornment, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { groupBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -29,16 +23,16 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import {
   PRODUCING_STEP_STATUS,
   WORK_CENTER_STATUS,
   WORK_CENTER_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
@@ -66,11 +60,6 @@ const WorkCenterForm = () => {
     actions,
   } = useWorkCenter()
 
-  const {
-    data: { factoryList, userList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
@@ -78,8 +67,6 @@ const WorkCenterForm = () => {
     if (cloneId) {
       actions.getWorkCenterDetailsById(cloneId)
     }
-    commonManagementActions.getUsers({ isGetAll: 1 })
-    commonManagementActions.getFactories({ isGetAll: 1 })
 
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
@@ -120,7 +107,7 @@ const WorkCenterForm = () => {
       name: wcDetails?.name || '',
       description: wcDetails?.description || '',
       members: wcDetails?.members || [],
-      factoryId: wcDetails?.factoryId || '',
+      factoryId: wcDetails?.factory || {},
       leaderId: wcDetails?.leaderId || '',
       oeeTarget: wcDetails?.oeeIndex || '',
       workCapacity: wcDetails?.productivityIndex || '',
@@ -294,7 +281,7 @@ const WorkCenterForm = () => {
     const params = {
       code: values.code,
       name: values.name,
-      factoryId: values.factoryId,
+      factoryId: values.factoryId?.id,
       leaderId: values.leaderId,
       description: values.description,
       performance: 0,
@@ -350,10 +337,6 @@ const WorkCenterForm = () => {
         enableReinitialize
       >
         {({ values, setFieldValue, resetForm }) => {
-          const leaderOptions =
-            userList?.filter((leader) =>
-              values.members.some((member) => leader.id === member?.id),
-            ) || []
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -418,7 +401,10 @@ const WorkCenterForm = () => {
                         name="members"
                         label={t('workCenter.member')}
                         asyncRequest={(s) =>
-                          getUsersApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
+                          searchUsersApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
@@ -444,14 +430,17 @@ const WorkCenterForm = () => {
                           !cloneId &&
                           wcDetails?.status === WORK_CENTER_STATUS.IN_PROGRESS
                         }
-                        options={factoryList?.items}
-                        getOptionValue={(opt) => opt?.id || ''}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
+                        asyncRequest={(s) =>
+                          searchFactoriesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(option) => option.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
-                        onChange={(id) => handleChange(id, setFieldValue)}
+                        onChange={(val) => handleChange(val?.id, setFieldValue)}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -459,7 +448,7 @@ const WorkCenterForm = () => {
                         name="leaderId"
                         label={t('workCenter.leader')}
                         placeholder={t('workCenter.leader')}
-                        options={leaderOptions}
+                        options={values?.members || []}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
                         getOptionSubLabel={(opt) => opt?.code}

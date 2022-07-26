@@ -60,6 +60,9 @@ const LockLocationDetail = () => {
     warehouseSectorName: blockLocationDetail?.warehouseSector?.name,
     warehouseShelfName: blockLocationDetail?.warehouseshelf?.name,
     warehouseFloorName: blockLocationDetail?.warehouseFloor?.name,
+    warehouseShelf: blockLocationDetail?.warehouseshelf,
+    warehouseSector: blockLocationDetail?.warehouseSector,
+    warehouseFloor: blockLocationDetail?.warehouseFloor,
   }
   locationData.push(objectLocation)
   const backToList = () => {

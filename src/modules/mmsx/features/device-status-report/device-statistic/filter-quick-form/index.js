@@ -4,11 +4,13 @@ import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
-import useDefineDevice from '~/modules/mmsx/redux/hooks/useDefineDevice'
-import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
+import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import { getAllUserList } from '~/modules/mmsx/redux/sagas/common/get-all-user'
+import { searchDeviceListApi } from '~/modules/mmsx/redux/sagas/define-device/search-device-list'
 
 const DeviceStatisticQuickFilter = ({
   setQuickFilters,
@@ -21,28 +23,19 @@ const DeviceStatisticQuickFilter = ({
     setQuickFilters(values)
   }
   const {
-    data: { deviceCategoryList },
-    actions,
-  } = useDeviceCategory()
-
-  const {
-    data: { deviceList },
-    actions: deviceAction,
-  } = useDefineDevice()
-  const {
-    data: { factoryList, userList },
-    actions: commonAction,
-  } = useCommonInfo()
-
+    data: { wcList },
+    actions: workCenterActions,
+  } = useWorkCenter()
   useEffect(() => {
-    actions.searchDeviceCategory()
-    commonAction.getFactoryList({ isGetAll: 1 })
-    deviceAction.searchDevice({ isGetAll: 1 })
-    commonAction.getUserList({ isGetAll: 1 })
+    //TODO:đợi làm refactor workCenters sẽ sửa
+    workCenterActions.searchWorkCenter({ isGetAll: 1 })
   }, [])
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
-      {({ resetForm }) => {
+      {({ resetForm, values }) => {
+        const workCenterList = wcList?.filter(
+          (item) => item?.factory?.id === values?.factoryId,
+        )
         return (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 4 }}>
@@ -54,22 +47,28 @@ const DeviceStatisticQuickFilter = ({
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="deviceGroup"
-                      label={t('general.placeholder.deviceGroup')}
-                      placeholder={t('general.placeholder.deviceGroup')}
-                      options={deviceCategoryList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.name}
+                      name="factoryId"
+                      label={t('general.placeholder.factoryName')}
+                      placeholder={t('general.placeholder.factoryName')}
+                      asyncRequest={(s) =>
+                        searchFactoriesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="factoryId"
-                      label={t('general.placeholder.factoryName')}
-                      placeholder={t('general.placeholder.factoryName')}
-                      options={factoryList}
-                      getOptionLabel={(opt) => opt?.name}
+                      name="workCenterId"
+                      label={t('general.placeholder.workshopName')}
+                      placeholder={t('general.placeholder.workshopName')}
+                      options={workCenterList}
                       getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -77,19 +76,31 @@ const DeviceStatisticQuickFilter = ({
                       name="deviceId"
                       label={t('general.placeholder.deviceName')}
                       placeholder={t('general.placeholder.deviceName')}
-                      options={deviceList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.code}
+                      asyncRequest={(s) =>
+                        searchDeviceListApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(option) => option.code}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="userId"
+                      name="assignUserId"
                       label={t('general.placeholder.user')}
                       placeholder={t('general.placeholder.user')}
-                      options={userList}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => opt?.username}
+                      asyncRequest={(s) =>
+                        getAllUserList({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data}
+                      getOptionLabel={(option) => option?.username}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                   <Grid item xs={12}>
