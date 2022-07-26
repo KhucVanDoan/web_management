@@ -16,6 +16,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
+  ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
@@ -26,7 +27,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
@@ -65,14 +66,9 @@ function UserManagementForm() {
     actions: companyActions,
   } = useDefineCompany()
 
-  const {
-    data: { factoryList },
-    actions: factoryActions,
-  } = useDefineFactory()
-
   useEffect(() => {
     companyActions.searchCompanies({ isGetAll: 1 })
-    factoryActions.searchFactories({ isGetAll: 1 })
+
     commonActions.getDepartments({ isGetAll: 1 })
     commonActions.getRoles({ isGetAll: 1 })
   }, [])
@@ -89,7 +85,7 @@ function UserManagementForm() {
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
       status: userDetails?.status || '1',
-      factories: userDetails.factories?.map((item) => item.id) || [],
+      factories: userDetails.factories?.map((item) => item) || [],
       userRoleSettings: userDetails.userRoleSettings?.[0]?.id || null,
       departmentSettings:
         userDetails.departmentSettings?.map((item) => item.id) || [],
@@ -117,13 +113,12 @@ function UserManagementForm() {
 
   const onSubmit = (values) => {
     const id = Number(params?.id)
-
     const convertValues = {
       ...values,
       id,
       status: values?.status?.toString(),
       factories: values?.factories?.map((item) => ({
-        id: item,
+        id: item?.id,
       })),
       userRoleSettings: values.userRoleSettings
         ? [{ id: values.userRoleSettings }]
@@ -388,14 +383,15 @@ function UserManagementForm() {
                       name="factories"
                       label={t('userManagement.factoryName')}
                       placeholder={t('userManagement.factoryName')}
-                      options={factoryList?.filter(
-                        (factory) => factory.companyId === values.companyId,
-                      )}
-                      getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchFactoriesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(option) => option.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       multiple
                     />
                   </Grid>

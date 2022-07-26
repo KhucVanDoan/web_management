@@ -20,7 +20,7 @@ export const WorkCenterSchema = (t) => {
       message: t('general:form.required'),
       test: (arr) => arr.length !== 0,
     }),
-    factoryId: Yup.number().required(t('general:form.required')),
+    factoryId: Yup.object().nullable().required(t('general:form.required')),
     leaderId: Yup.number().required(t('general:form.required')),
     oeeTarget: Yup.number()
       .required(t('general:form.required'))
