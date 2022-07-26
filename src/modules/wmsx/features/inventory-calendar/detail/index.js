@@ -57,9 +57,9 @@ const InventoryCalendarDetail = () => {
 
   const formattedItems = inventoryCalendarDetails?.items?.map((i) => ({
     warehouseName: i.warehouseName,
-    warehouseSectorName: i.warehouseSector?.name,
-    warehouseShelfName: i.warehouseShelf?.name,
-    warehousePalletName: i.warehouseShelfFloor?.name,
+    warehouseSector: i.warehouseSector,
+    warehouseShelf: i.warehouseShelf,
+    warehousePallet: i.warehouseShelfFloor,
     itemCode: i.item?.code,
     itemName: i.item?.name,
   }))

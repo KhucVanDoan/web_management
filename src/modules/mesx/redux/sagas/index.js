@@ -43,8 +43,6 @@ import watchGetUsers from './common/get-users'
 import watchGetVendors from './common/get-vendors'
 import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
 import watchGetWarehouses from './common/get-warehouses'
-import watchGetWarehousesSector from './common/get-warehouses-sector'
-import watchGetWarehousesShelf from './common/get-warehouses-shelf'
 import watchSearchQualityPoints from './common/search-quality-points'
 import watchDashboard from './dashboard'
 import watchConfirmBOM from './define-bom/confirm-bom'
@@ -220,8 +218,6 @@ export default function* sagas() {
     watchGetItemUnits(),
     watchGetItems(),
     watchGetWarehouses(),
-    watchGetWarehousesSector(),
-    watchGetWarehousesShelf(),
     watchGetCustomers(),
     watchGetVendors(),
     watchGetAllItemDetails(),

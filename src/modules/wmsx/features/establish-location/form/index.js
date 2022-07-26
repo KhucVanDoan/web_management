@@ -53,9 +53,9 @@ function EstablishLocationForm() {
       target: locationSettingsDetails?.items || [],
       items: locationSettingsDetails?.itemLocations?.map((item) => ({
         warehouse: item?.warehouse,
-        area: item?.warehouseSetorId,
-        shelf: item?.warehouseShelfId,
-        floor: item?.warehouseShelfFloorId,
+        area: item?.warehouseSetor || null,
+        shelf: item?.warehouseShelf || null,
+        floor: item?.warehouseShelfFloor || null,
       })) || [{ ...DEFAULT_ITEM }],
     }),
     [locationSettingsDetails],
@@ -128,9 +128,9 @@ function EstablishLocationForm() {
       itemIds: value.target.map((item) => item?.id || item?.itemId),
       itemLocations: value.items.map((item) => ({
         warehouseId: item.warehouse.id,
-        warehouseSetorId: item.area,
-        warehouseShelfId: item.shelf,
-        warehouseShelfFloorId: item.floor,
+        warehouseSetorId: item?.area?.id,
+        warehouseShelfId: item?.shelf?.id,
+        warehouseShelfFloorId: item?.floor?.id,
       })),
     }
     if (isUpdate) {

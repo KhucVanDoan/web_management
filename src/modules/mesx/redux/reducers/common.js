@@ -35,12 +35,6 @@ import {
   GET_WAREHOUSES_START,
   GET_WAREHOUSES_SUCCESS,
   GET_WAREHOUSES_FAILED,
-  GET_WAREHOUSES_SECTOR_START,
-  GET_WAREHOUSES_SECTOR_SUCCESS,
-  GET_WAREHOUSES_SECTOR_FAILED,
-  GET_WAREHOUSES_SHELF_START,
-  GET_WAREHOUSES_SHELF_SUCCESS,
-  GET_WAREHOUSES_SHELF_FAILED,
   GET_CUSTOMERS_SUCCESS,
   GET_CUSTOMERS_FAILED,
   GET_VENDORS_SUCCESS,
@@ -105,7 +99,6 @@ const initialState = {
   itemList: [],
   warehouseList: [],
   warehouseSectorList: [],
-  warehouseShelfList: [],
   customerList: [],
   vendorList: [],
   itemDetailList: [],
@@ -142,8 +135,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_ITEM_GROUPS_START:
     case GET_ITEMS_START:
     case GET_WAREHOUSES_START:
-    case GET_WAREHOUSES_SECTOR_START:
-    case GET_WAREHOUSES_SHELF_START:
     case GET_CUSTOMERS_START:
     case GET_VENDORS_START:
     case GET_ALL_ITEM_DETAILS_START:
@@ -285,30 +276,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         warehouseList: [],
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SECTOR_SUCCESS:
-      return {
-        ...state,
-        warehouseSectorList: action.payload,
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SECTOR_FAILED:
-      return {
-        ...state,
-        warehouseSectorList: [],
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SHELF_SUCCESS:
-      return {
-        ...state,
-        warehouseShelfList: action.payload,
-        isLoading: false,
-      }
-    case GET_WAREHOUSES_SHELF_FAILED:
-      return {
-        ...state,
-        warehouseShelfList: [],
         isLoading: false,
       }
     case GET_CUSTOMERS_SUCCESS:
