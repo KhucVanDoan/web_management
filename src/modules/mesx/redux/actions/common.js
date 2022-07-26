@@ -69,10 +69,6 @@ export const GET_PRODUCING_STEPS_START = 'MESX_GET_PRODUCING_STEPS_START'
 export const GET_PRODUCING_STEPS_SUCCESS = 'MESX_GET_PRODUCING_STEPS_SUCCESS'
 export const GET_PRODUCING_STEPS_FAILED = 'MESX_GET_PRODUCING_STEPS_FAILED'
 
-export const GET_USERS_START = 'MESX_GET_USERS_START'
-export const GET_USERS_SUCCESS = 'MESX_GET_USERS_SUCCESS'
-export const GET_USERS_FAILED = 'MESX_GET_USERS_FAILED'
-
 export const GET_BOMS_START = 'MESX_GET_BOMS_START'
 export const GET_BOMS_SUCCESS = 'MESX_GET_BOMS_SUCCESS'
 export const GET_BOMS_FAILED = 'MESX_GET_BOMS_FAILED'
@@ -620,43 +616,6 @@ export function getProducingStepsFailed() {
 }
 
 /**
- * Get users
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getUsers(payload, onSuccess, onError) {
-  return {
-    type: GET_USERS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get routings success
- * @param {*} payload
- * @returns {object}
- */
-export function getUsersSuccess(payload) {
-  return {
-    type: GET_USERS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get routings failed
- * @returns {object}
- */
-export function getUsersFailed() {
-  return {
-    type: GET_USERS_FAILED,
-  }
-}
-/**
  * Get boms
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -1042,9 +1001,6 @@ export default {
   getProducingSteps,
   getProducingStepsSuccess,
   getProducingStepsFailed,
-  getUsers,
-  getUsersSuccess,
-  getUsersFailed,
   getBoms,
   getBomsSuccess,
   getBomsFailed,

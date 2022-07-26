@@ -29,11 +29,10 @@ import {
   WORK_CENTER_STATUS,
   WORK_CENTER_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
 import { getDetailFactoryCalendarApi } from '~/modules/mesx/redux/sagas/calendar'
-import { getUsersApi } from '~/modules/mesx/redux/sagas/common/get-users'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
@@ -61,11 +60,6 @@ const WorkCenterForm = () => {
     actions,
   } = useWorkCenter()
 
-  const {
-    data: { userList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
   useEffect(() => {
     if (isUpdate) {
       actions.getWorkCenterDetailsById(id)
@@ -73,7 +67,7 @@ const WorkCenterForm = () => {
     if (cloneId) {
       actions.getWorkCenterDetailsById(cloneId)
     }
-    commonManagementActions.getUsers({ isGetAll: 1 })
+
     return () => actions.resetWorkCenterDetailState()
   }, [mode])
   const defaultShifts = [
@@ -343,10 +337,6 @@ const WorkCenterForm = () => {
         enableReinitialize
       >
         {({ values, setFieldValue, resetForm }) => {
-          const leaderOptions =
-            userList?.filter((leader) =>
-              values.members.some((member) => leader.id === member?.id),
-            ) || []
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -411,7 +401,10 @@ const WorkCenterForm = () => {
                         name="members"
                         label={t('workCenter.member')}
                         asyncRequest={(s) =>
-                          getUsersApi({ keyword: s, limit: ASYNC_SEARCH_LIMIT })
+                          searchUsersApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
@@ -455,7 +448,7 @@ const WorkCenterForm = () => {
                         name="leaderId"
                         label={t('workCenter.leader')}
                         placeholder={t('workCenter.leader')}
-                        options={leaderOptions}
+                        options={values?.members || []}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => opt?.fullName || opt?.username}
                         getOptionSubLabel={(opt) => opt?.code}

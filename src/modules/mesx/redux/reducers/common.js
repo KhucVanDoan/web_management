@@ -47,9 +47,6 @@ import {
   GET_PRODUCING_STEPS_START,
   GET_PRODUCING_STEPS_SUCCESS,
   GET_PRODUCING_STEPS_FAILED,
-  GET_USERS_START,
-  GET_USERS_SUCCESS,
-  GET_USERS_FAILED,
   GET_BOMS_START,
   GET_BOMS_SUCCESS,
   GET_BOMS_FAILED,
@@ -103,7 +100,6 @@ const initialState = {
   vendorList: [],
   itemDetailList: [],
   lists: [],
-  userList: [],
   BOMList: [],
   factoryList: [],
   soList: [],
@@ -139,7 +135,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_VENDORS_START:
     case GET_ALL_ITEM_DETAILS_START:
     case GET_PRODUCING_STEPS_START:
-    case GET_USERS_START:
     case GET_BOMS_START:
     case GET_FACTORIES_START:
     case GET_QUALITY_POINT_DETAILS_START:
@@ -322,19 +317,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         list: action.payload,
-        isLoading: false,
-      }
-
-    case GET_USERS_SUCCESS:
-      return {
-        ...state,
-        userList: action.payload,
-        isLoading: false,
-      }
-    case GET_USERS_FAILED:
-      return {
-        ...state,
-        userList: [],
         isLoading: false,
       }
     case GET_BOMS_SUCCESS:
