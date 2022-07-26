@@ -26,10 +26,11 @@ const DeviceStatusTable = ({ keyword }) => {
     data: { deviceStatus, metaStatus },
     actions,
   } = useDeviceStatus()
+
   const DEFAULT_QUICK_FILTERS = {
     deviceGroup: '',
     factoryId: '',
-    workCentrId: '',
+    workCenterId: '',
   }
   const {
     page,
@@ -133,7 +134,7 @@ const DeviceStatusTable = ({ keyword }) => {
     const params = {
       deviceGroupId: quickFilters?.deviceGroupId?.id || null,
       factoryId: quickFilters?.factoryId?.id || null,
-      workCenterId: quickFilters?.workCenterId || null,
+      workCenterId: quickFilters?.workCenterId?.id || null,
       keyword: keyword.trim(),
       page,
       limit: pageSize,
