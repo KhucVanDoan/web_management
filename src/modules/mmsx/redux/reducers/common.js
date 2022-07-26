@@ -14,9 +14,6 @@ import {
   MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED,
   MMSX_GET_ATTRIBUTE_MAINTAIN_START,
   MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS,
-  MMSX_GET_VENDORS_FAILED,
-  MMSX_GET_VENDORS_START,
-  MMSX_GET_VENDORS_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_START,
   GET_RESPONSIBLE_SUBJECT_SUCCESS,
   GET_RESPONSIBLE_SUBJECT_FAILED,
@@ -48,7 +45,6 @@ const initialState = {
   suppliesList: [],
   attributeMaintainList: [],
   responsibleSubject: {},
-  vendorList: [],
   moListByWorkCenter: [],
   itemsUnitList: [],
   userList: [],
@@ -71,7 +67,6 @@ export default function commonManagement(state = initialState, action) {
     case MMSX_GET_MO_BY_FACTORY:
     case MMSX_GET_ALL_SUPPLIES_CONFIRM_START:
     case MMSX_GET_ATTRIBUTE_MAINTAIN_START:
-    case MMSX_GET_VENDORS_START:
     case GET_MO_BY_WORK_CENTER:
     case GET_USER_START:
     case GET_ALL_DEVICE_START:
@@ -174,16 +169,6 @@ export default function commonManagement(state = initialState, action) {
       return {
         ...state,
         attributeMaintainList: [],
-      }
-    case MMSX_GET_VENDORS_SUCCESS:
-      return {
-        ...state,
-        vendorList: action.payload,
-      }
-    case MMSX_GET_VENDORS_FAILED:
-      return {
-        ...state,
-        vendorList: [],
       }
     case GET_RESPONSIBLE_SUBJECT_SUCCESS:
       return {

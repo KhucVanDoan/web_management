@@ -23,7 +23,6 @@ import watchGetMo from './common/get-mo-list'
 import watchGetMoWorkCenter from './common/get-mo-work-center'
 import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetUsingDeviceAssign from './common/get-using-devide-assign'
-import watchGetVendors from './common/get-vendors'
 import watchConfirmPlan from './create-plan-list/confirm'
 import watchCreatePlan from './create-plan-list/create-plan'
 import watchDeletePlan from './create-plan-list/delete-plan'
@@ -144,7 +143,6 @@ export default function* sagas() {
     watchGetAllSuppliesConfirm(),
     watchGetAttributeMaintain(),
     watchGetResponsibleSubject(),
-    watchGetVendors(),
     watchGetMo(),
     watchGetResponsibleSubject(),
     watchGetMoWorkCenter(),
