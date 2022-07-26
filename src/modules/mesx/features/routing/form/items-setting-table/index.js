@@ -13,7 +13,6 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { PRODUCING_STEP_STATUS } from '~/modules/mesx/constants'
-import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { searchProducingStepsApi } from '~/modules/mesx/redux/sagas/producing-steps/search'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -24,9 +23,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { id } = useParams()
   const history = useHistory()
   const { actions: routingActions } = useRouting()
-  const {
-    data: { list },
-  } = useProducingStep()
 
   useEffect(() => {
     if (id) {
@@ -38,20 +34,15 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
 
   const isView = mode === MODAL_MODE.DETAIL
 
-  const getItemObject = (id) => {
-    return list.find((item) => item?.id === id)
-  }
-
   const columns = useMemo(
     () => [
       {
         field: 'code',
         headerName: t('producingStep.code'),
         width: 200,
-        align: 'center',
         renderCell: (params, index) => {
           return isView ? (
-            <>{getItemObject(params.row?.id)?.code || ''}</>
+            <>{params.row?.code}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
@@ -75,15 +66,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         field: 'name',
         headerName: t('producingStep.name'),
         width: 200,
-        align: 'center',
         renderCell: (params, index) => {
-          const itemId = params.row?.itemId?.id
           return isView ? (
-            <>{getItemObject(params.row?.id)?.name || ''}</>
+            <>{params.row?.name}</>
           ) : (
             <Field.TextField
-              name={`items[${index}].name`}
-              value={getItemObject(itemId)?.name || ''}
+              name={`items[${index}].itemId.name`}
               disabled={true}
             />
           )
@@ -93,7 +81,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         field: 'order',
         headerName: t('routing.order'),
         width: 200,
-        align: 'center',
         renderCell: (params, index) => {
           const { id, stepNumber, min, max } = params.row
           return isView ? (
@@ -134,7 +121,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         },
       },
     ],
-    [list, items],
+    [items],
   )
 
   const onRemoveItem = (id) => {

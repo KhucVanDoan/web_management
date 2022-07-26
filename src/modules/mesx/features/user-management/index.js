@@ -74,7 +74,7 @@ function UserManagement() {
   const { actions: commonActions } = useCommonManagement()
 
   useEffect(() => {
-    commonActions.getDepartments({ isGetAll: 1 })
+    commonActions.getDepartments()
   }, [])
 
   const [modal, setModal] = useState({
@@ -85,12 +85,6 @@ function UserManagement() {
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
-    // {
-    //   field: 'id',
-    //   headerName: '#',
-    //   width: 50,
-    //   sortable: false,
-    // },
     {
       field: 'username',
       headerName: t('userManagement.username'),
