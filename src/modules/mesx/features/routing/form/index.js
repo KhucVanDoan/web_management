@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -23,7 +22,6 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ROUTING_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import useProducingStep from '~/modules/mesx/redux/hooks/useProducingStep'
 import useRouting from '~/modules/mesx/redux/hooks/useRouting'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import qs from '~/utils/qs'
@@ -55,34 +53,26 @@ function RoutingForm() {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
-    data: { list },
-    actions: producingStepActions,
-  } = useProducingStep()
-
-  const {
     data: { routingDetails, isLoading },
     actions: routingActions,
   } = useRouting()
 
-  const initialValues = isEmpty(routingDetails)
-    ? {
-        code: '',
-        name: '',
-        description: '',
-        items: [{ ...DEFAULT_PRODUCING_STEP }],
-      }
-    : {
-        ...routingDetails,
-        code: isUpdate ? routingDetails?.code : '',
-        items: routingDetails.producingSteps.map((item) => ({
-          id: item.id,
-          itemId: {
-            id: item.id,
-            code: list?.find((e) => e?.id === item.id)?.code,
-          },
-          stepNumber: item.stepNumber,
-        })),
-      }
+  const initialValues = useMemo(
+    () => ({
+      code: routingDetails?.code || '',
+      name: routingDetails?.name || '',
+      description: routingDetails?.description || '',
+      items: routingDetails?.producingSteps?.map((p) => ({
+        itemId: {
+          id: p.id,
+          code: p.code,
+          name: p.name,
+        },
+        stepNumber: p.stepNumber,
+      })) || [{ ...DEFAULT_PRODUCING_STEP }],
+    }),
+    [routingDetails],
+  )
 
   useEffect(() => {
     const id = params?.id
@@ -92,19 +82,10 @@ function RoutingForm() {
     if (cloneId) {
       routingActions.getRoutingDetailsById(cloneId)
     }
-    producingStepActions.getProducingSteps()
-
     return () => {
       routingActions.resetRoutingDetailState()
     }
   }, [params?.id, cloneId])
-
-  useEffect(() => {
-    producingStepActions.getProducingSteps({ isGetAll: 1 })
-    return () => {
-      producingStepActions.resetProducingStepState()
-    }
-  }, [])
 
   const onSubmit = (values) => {
     const convertValues = {

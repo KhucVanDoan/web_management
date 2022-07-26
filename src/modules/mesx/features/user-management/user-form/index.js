@@ -68,9 +68,8 @@ function UserManagementForm() {
 
   useEffect(() => {
     companyActions.searchCompanies({ isGetAll: 1 })
-
-    commonActions.getDepartments({ isGetAll: 1 })
-    commonActions.getRoles({ isGetAll: 1 })
+    commonActions.getDepartments()
+    commonActions.getRoles()
   }, [])
 
   const initialValues = useMemo(
