@@ -33,10 +33,10 @@ const DeviceStatisticTable = ({ keyword }) => {
     actions,
   } = useDeviceStatus()
   const DEFAULT_QUICK_FILTERS = {
-    deviceGroup: '',
     factoryId: '',
-    deviceCode: '',
-    userId: '',
+    workCenterId: '',
+    deviceId: '',
+    assignUserId: '',
   }
   const {
     page,
@@ -146,7 +146,7 @@ const DeviceStatisticTable = ({ keyword }) => {
   const refreshData = () => {
     const params = {
       factoryId: quickFilters?.factoryId?.id || null,
-      workCenterId: quickFilters?.workCenterId || null,
+      workCenterId: quickFilters?.workCenterId?.id || null,
       deviceId: quickFilters?.deviceId?.id || null,
       assignUserId: quickFilters?.assignUserId?.id || null,
       keyword: keyword.trim(),

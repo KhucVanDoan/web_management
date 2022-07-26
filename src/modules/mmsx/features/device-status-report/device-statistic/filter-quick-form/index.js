@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
@@ -8,9 +8,10 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
-import useWorkCenter from '~/modules/mesx/redux/hooks/useWorkCenter'
+import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
 import { getAllUserList } from '~/modules/mmsx/redux/sagas/common/get-all-user'
 import { searchDeviceListApi } from '~/modules/mmsx/redux/sagas/define-device/search-device-list'
+import { convertFilterParams } from '~/utils'
 
 const DeviceStatisticQuickFilter = ({
   setQuickFilters,
@@ -22,20 +23,10 @@ const DeviceStatisticQuickFilter = ({
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
-  const {
-    data: { wcList },
-    actions: workCenterActions,
-  } = useWorkCenter()
-  useEffect(() => {
-    //TODO:đợi làm refactor workCenters sẽ sửa
-    workCenterActions.searchWorkCenter({ isGetAll: 1 })
-  }, [])
+
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
       {({ resetForm, values }) => {
-        const workCenterList = wcList?.filter(
-          (item) => item?.factory?.id === values?.factoryId,
-        )
         return (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 4 }}>
@@ -66,9 +57,18 @@ const DeviceStatisticQuickFilter = ({
                       name="workCenterId"
                       label={t('general.placeholder.workshopName')}
                       placeholder={t('general.placeholder.workshopName')}
-                      options={workCenterList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchWorkCenterApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            factoryId: values?.factoryId?.id,
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
+                      disabled={!values.factoryId}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
