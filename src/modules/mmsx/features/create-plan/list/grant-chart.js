@@ -154,7 +154,7 @@ function GanttChartView() {
     if (ganttChartData) {
       const availablePlan = []
       ganttChartData?.forEach((item) =>
-        availablePlan.push({ id: item.id, name: item.name }),
+        availablePlan.push({ value: item.id, label: item.name }),
       )
       setPlanList(availablePlan)
       if (selectedPlan) {
@@ -179,7 +179,7 @@ function GanttChartView() {
   }
 
   const handleChangeFilter = (id) => {
-    setSelectedPlan(id)
+    setSelectedPlan(id?.value)
   }
 
   const genId = (id) => {
@@ -254,7 +254,7 @@ function GanttChartView() {
                             task?.status === reassign_status.rejected ||
                               task?.status === reassign_status.unassign
                               ? ROUTE.DEVICE_ASSIGN.REASSIGN.PATH
-                              : ROUTE.JOB_LIST.DETAIL.PATH,
+                              : ROUTE.JOB.DETAIL.PATH,
                             {
                               id: genId(task.id),
                             },

@@ -179,7 +179,8 @@
     "deviceCategoryDetail": "Chi tiết nhóm thiết bị",
     "deviceCategoryCreate": "Tạo nhóm thiết bị",
     "deviceCategoryEdit": "Sửa nhóm thiết bị",
-    "deviceSerialManagement": "Quản lý serial thiết bị"
+    "deviceSerialManagement": "Quản lý serial thiết bị",
+    "deviceStatistical": "Thống kê thiết bị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -1511,6 +1512,7 @@
     "scheduled": "Bảo dưỡng"
   },
   "reportDevice": {
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "title": {
       "main": "Báo cáo trạng thái thiết bị",
       "serial": "Chi tiết báo cáo trạng thái thiết bị",

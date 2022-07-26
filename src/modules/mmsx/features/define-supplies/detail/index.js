@@ -51,10 +51,18 @@ const DefineSuppliesDetail = () => {
     return (
       <>
         <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+          >
             {t('supplies.button.device')}
           </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
+          >
             {t('supplies.button.suppliesCategory')}
           </Button>
         </Box>
