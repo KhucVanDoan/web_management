@@ -361,6 +361,10 @@ export const ROUTE = {
       PATH: '/mmsx/device-status-report',
       TITLE: 'deviceStatusReport',
     },
+    STATISTICAL: {
+      PATH: '/mmsx/device-status-report',
+      TITLE: 'deviceStatistical',
+    },
   },
   ATTRIBUTE_MAINTENANCE: {
     LIST: {

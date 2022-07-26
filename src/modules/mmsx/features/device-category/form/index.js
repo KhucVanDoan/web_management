@@ -171,10 +171,18 @@ const DeviceCategoryForm = () => {
     return (
       <>
         <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+          >
             {t('deviceCategory.button.device')}
           </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+          <Button
+            variant="outlined"
+            sx={{ ml: 4 / 3 }}
+            onClick={() => history.push(ROUTE.JOB.LIST.PATH)}
+          >
             {t('deviceCategory.button.job')}
           </Button>
         </Box>

@@ -131,10 +131,13 @@ const DeviceStatusTable = ({ keyword }) => {
   ]
   const refreshData = () => {
     const params = {
+      deviceGroupId: quickFilters?.deviceGroupId?.id || null,
+      factoryId: quickFilters?.factoryId?.id || null,
+      workCenterId: quickFilters?.workCenterId || null,
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchDeviceStatus(params)
@@ -147,7 +150,6 @@ const DeviceStatusTable = ({ keyword }) => {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
   return (
     <>
       <DeviceStatusQuickFilter
