@@ -485,7 +485,7 @@ const CreatePlanForm = () => {
 
                       <Grid item lg={6} xs={12}>
                         <Field.DateRangePicker
-                          name="time"
+                          name="times"
                           label={t('createPlanList.form.time')}
                           placeholder={t('createPlanList.form.time')}
                           minDate={startOfToday()}

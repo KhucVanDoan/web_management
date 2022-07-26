@@ -295,6 +295,7 @@ class GanttChartWrapper extends Component {
           onChangeZoom={this.handleChangeZoom}
           onChangePlanFilter={this.props.handleChangeFilter}
           planList={this.props.planList}
+          display={this.props.display}
         />
         <div className="gantt-container">
           <div
