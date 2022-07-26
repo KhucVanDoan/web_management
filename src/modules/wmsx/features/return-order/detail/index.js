@@ -78,7 +78,9 @@ const ReturnOrderDetail = () => {
         planQuantity: roItem?.quantity,
         actualQuantity: roItem?.actualQuantity,
         unit: item?.itemUnit?.name,
-        evenRow: returnOrderDetails?.isEven,
+        evenRow: roItem?.isEven === 1 ? true : false,
+        palletId: roItem?.pallet?.code,
+        location: roItem?.suggestItemLocation?.name,
       }
     },
   )
