@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -17,25 +17,12 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { scrollToBottom } from '~/utils'
 
 function ItemSettingTable(props) {
-  const { items, mode, arrayHelpers, setFieldValue } = props
+  const { items, mode, arrayHelpers } = props
   const { t } = useTranslation(['database'])
   const isView = mode === MODAL_MODE.DETAIL
-  const {
-    data: { itemList },
-    actions,
-  } = useCommonManagement()
-  useEffect(() => {
-    actions.getItems({})
-    actions.getWarehouses({})
-    actions.getBoms({ isGetAll: 1 })
-  }, [])
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
   const getColumns = () => {
     return [
       {
@@ -75,26 +62,12 @@ function ItemSettingTable(props) {
                       text: ENUM_BOOLEAN.true,
                     },
                   ]),
-                  // filter: convertFilterParams({
-                  //   isHasBom: ENUM_BOOLEAN.true,
-                  //   isProductionObject: ENUM_BOOLEAN.false,
-                  //   itemTypeCode: DEFAULT_ITEM_TYPE_ENUM.PRODUCT.code,
-                  // }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
               disabled={isView}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
-              onChange={(val) => {
-                if (val === undefined || val === '') {
-                  setFieldValue(`items[${index}].price`, null)
-                }
-                setFieldValue(
-                  `items[${index}].price`,
-                  getItemObject(val)?.price || null,
-                )
-              }}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.item?.id
