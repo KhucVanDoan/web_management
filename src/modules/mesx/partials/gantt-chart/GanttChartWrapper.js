@@ -4,11 +4,9 @@ import React, { Component } from 'react'
 import { gantt } from 'dhtmlx-gantt'
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css'
 import { isEmpty } from 'lodash'
-import moment from 'moment'
 import { withTranslation } from 'react-i18next'
 
-import { NOTIFICATION_TYPE } from '~/common/constants'
-import addNotification from '~/utils/toast'
+import { ONE_DAY_IN_MILISECOND } from '~/common/constants'
 
 import Toolbar from './toolbar'
 
@@ -125,7 +123,7 @@ class GanttChartWrapper extends Component {
   initGanttDataProcessor() {
     const onDataUpdated = this.props.onDataUpdated
     this.dataProcessor = gantt.createDataProcessor((type, action, item, id) => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         if (onDataUpdated) {
           onDataUpdated(type, action, item, id)
         }
@@ -155,29 +153,11 @@ class GanttChartWrapper extends Component {
   handleSelectTask = (id, checked) => {
     this.props.onTaskSelected(id, checked)
   }
-
+  handleDragTask = (task) => {
+    this.props.onTaskDrag(task)
+  }
   componentDidUpdate() {
-    const { tasks, t } = this.props
-    if (tasks.data.length > 0) {
-      // prevent change task to past
-      gantt.attachEvent('onBeforeTaskChanged', function (id, mode, task) {
-        const newTask = tasks.data.find((item) => item.rId === task.rId)
-        if (
-          // moment(parentMaxDate).isBefore(moment(newTask.end_date), 'days') ||
-          // moment(newTask.start_date).isBefore(moment(parentMinDate), 'days') ||
-          moment(newTask.start_date).isBefore(
-            moment(task.start_date),
-            'days',
-          ) ||
-          moment(newTask.end_date).isBefore(moment(task.end_date), 'days')
-        ) {
-          addNotification(t('inputTimeInvalid'), NOTIFICATION_TYPE.ERROR)
-          return false
-        } else {
-          return true
-        }
-      })
-    }
+    const { tasks } = this.props
     gantt.clearAll()
     gantt.parse(tasks)
     gantt.render()
@@ -249,15 +229,19 @@ class GanttChartWrapper extends Component {
     this.initGanttDataProcessor()
     gantt.parse(tasks)
 
-    gantt.attachEvent('onBeforeTaskDrag', function (id, mode, e) {
-      if (
-        excludeResizeTask &&
-        excludeResizeTask.prefix.filter((prefix) => id.includes(prefix))
-          .length > 0
-      ) {
-        return false
+    gantt.attachEvent('onBeforeTaskDrag', (id, mode, e) => {
+      if (this.props.handleOnBeforeTaskDrag) {
+        return this.props.handleOnBeforeTaskDrag(id)
+      } else {
+        if (
+          excludeResizeTask &&
+          excludeResizeTask.prefix.filter((prefix) => id.includes(prefix))
+            .length > 0
+        ) {
+          return false
+        }
+        return true
       }
-      return true
     })
 
     gantt.attachEvent('onTaskClick', (id, e) => {
@@ -274,6 +258,20 @@ class GanttChartWrapper extends Component {
       } else {
         return true
       }
+    })
+
+    gantt.attachEvent('onTaskDrag', (id, mode, task) => {
+      const maxDate = new Date(gantt.getState().max_date).getTime() - ONE_DAY_IN_MILISECOND
+      const minDate = new Date(gantt.getState().min_date).getTime() + ONE_DAY_IN_MILISECOND
+      const startDate = new Date(task.start_date).getTime()
+      const endDate =  new Date(task.end_date).getTime()
+      if (startDate <= minDate || endDate >= maxDate) {
+        gantt.render()
+      }
+    })
+
+    gantt.attachEvent('onAfterTaskDrag', (id, mode, e) => {
+      this.props.onTaskDrag(id, mode, e)
     })
   }
 
