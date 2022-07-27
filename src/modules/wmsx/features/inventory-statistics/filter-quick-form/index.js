@@ -4,9 +4,10 @@ import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
+import { searchItemTypesApi } from '~/modules/database/redux/sagas/item-type-setting/search-item-types'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 
 const InventoryStatisticFilter = ({
@@ -25,14 +26,8 @@ const InventoryStatisticFilter = ({
     actions: warehouseActions,
   } = useDefineWarehouse()
 
-  const {
-    data: { itemTypeList },
-    actions: actionsItemType,
-  } = useItemType()
-
   useEffect(() => {
     warehouseActions.searchWarehouses({ isGetAll: 1 })
-    actionsItemType.searchItemTypes({ isGetAll: 1 })
   }, [])
 
   return (
@@ -59,8 +54,13 @@ const InventoryStatisticFilter = ({
                       name="itemTypeId"
                       label={t('inventoryStatistics.itemType')}
                       placeholder={t('inventoryStatistics.itemType')}
-                      options={itemTypeList}
-                      getOptionValue={(opt) => opt?.id || ''}
+                      asyncRequest={(s) =>
+                        searchItemTypesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
