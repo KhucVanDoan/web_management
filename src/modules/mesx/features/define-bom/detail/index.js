@@ -14,10 +14,8 @@ import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { BOM_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
@@ -30,21 +28,10 @@ function detailBOM() {
     data: { isLoading, BOMDetails, BOMStructure },
     actions,
   } = useBOM()
-  const {
-    data: { itemList },
-    actions: actionCommon,
-  } = useCommonManagement()
-
-  const {
-    data: { itemTypeList },
-    actions: actionsItemType,
-  } = useItemType()
 
   const mode = MODAL_MODE.DETAIL
 
   useEffect(() => {
-    actionCommon.getItems({})
-    actionsItemType.searchItemTypes({ isGetAll: 1 })
     return () => actions.resetBomState()
   }, [id])
 
@@ -123,7 +110,7 @@ function detailBOM() {
         align: 'center',
         renderCell: (params) => {
           const { item } = params.row
-          return itemTypeList.find((i) => i.id === item?.itemTypeId)?.name
+          return item?.itemType?.name
         },
       },
       {
@@ -142,7 +129,7 @@ function detailBOM() {
         },
       },
     ],
-    [itemList],
+    [],
   )
 
   useEffect(() => {
@@ -152,6 +139,7 @@ function detailBOM() {
       actions.resetBomState()
     }
   }, [id])
+
   return (
     <Page
       breadcrumbs={breadcrumbs}

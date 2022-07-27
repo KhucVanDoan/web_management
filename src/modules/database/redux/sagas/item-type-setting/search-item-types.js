@@ -13,7 +13,7 @@ import {
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchItemTypesApi = (params) => {
+export const searchItemTypesApi = (params) => {
   const uri = `/v1/items/item-type-settings/list`
   return api.get(uri, params)
 }
