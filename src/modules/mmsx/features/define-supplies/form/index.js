@@ -354,7 +354,7 @@ const DefineSuppliesForm = () => {
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.DateRangePicker
+                    <Field.DatePicker
                       name="receivedDate"
                       label={t('supplies.form.field.dateAdded')}
                       placeholder={t('supplies.form.field.dateAdded')}
