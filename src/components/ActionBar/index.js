@@ -15,6 +15,7 @@ const ActionBar = ({
   children,
   elBefore,
   elAfter,
+  disableSaveButton,
 }) => {
   const { t } = useTranslation()
 
@@ -57,13 +58,13 @@ const ActionBar = ({
           )}
 
           {mode === MODAL_MODE.CREATE && (
-            <Button type="submit" icon="save">
+            <Button type="submit" icon="save" disabled={disableSaveButton}>
               {t('actionBar.create')}
             </Button>
           )}
 
           {mode === MODAL_MODE.UPDATE && (
-            <Button type="submit" icon="save">
+            <Button type="submit" icon="save" disabled={disableSaveButton}>
               {t('actionBar.save')}
             </Button>
           )}
@@ -80,6 +81,7 @@ ActionBar.defaultProps = {
   elBefore: null,
   elAfter: null,
   sx: {},
+  disableSaveButton: false
 }
 
 ActionBar.propTypes = {
@@ -90,6 +92,7 @@ ActionBar.propTypes = {
   mode: PropTypes.oneOf([MODAL_MODE.CREATE, MODAL_MODE.UPDATE]),
   elBefore: PropTypes.node,
   elAfter: PropTypes.node,
+  disableSaveButton: PropTypes.bool
 }
 
 export default ActionBar

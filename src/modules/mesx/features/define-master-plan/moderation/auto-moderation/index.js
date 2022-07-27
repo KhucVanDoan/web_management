@@ -6,7 +6,8 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { UNSAFE_DATE_TIME_FORMAT } from '~/common/constants'
+import { UNSAFE_DATE_TIME_FORMAT, MODAL_MODE } from '~/common/constants'
+import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -24,11 +25,14 @@ const AutoModeration = () => {
   const [tasks, setTasks] = useState([])
   const [selectedProducingStep, setSelectedProducingStep] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
+  const [enableSaveChangeModeration, setEnableSaveChangeModeration] = useState(false)
+  const [previousModeration, setPreviousModeration] = useState([])
   const { id } = useParams()
   const {
     data: { masterPlanDetails, isLoading },
     actions: masterPlanActions,
   } = useDefineMasterPlan()
+
   const breadcrumbs = [
     {
       title: 'plan',
@@ -46,6 +50,7 @@ const AutoModeration = () => {
       title: ROUTE.MASTER_PLAN.AUTO_MODERATION.TITLE,
     },
   ]
+
   useEffect(() => {
     masterPlanActions.getMasterPlanDetailsById(id, null, (error) => {
       setErrorMessage(error?.message)
@@ -54,6 +59,7 @@ const AutoModeration = () => {
 
   useEffect(() => {
     if (masterPlanDetails?.saleOrderSchedules) {
+      setPreviousModeration(masterPlanDetails.saleOrderSchedules)
       setTasks(getTasks(masterPlanDetails.saleOrderSchedules))
     }
   }, [masterPlanDetails])
@@ -77,7 +83,7 @@ const AutoModeration = () => {
         )
         const saleOrderSchedule = {
           text: saleOrder.saleOrderName,
-          id: saleOrder.saleOrderId.toString(),
+          id: `${saleOrder.saleOrderId}`,
           saleOrderId: saleOrder.saleOrderId.toString(),
           end_date: formatDateInGanttChart(saleOrder.dateTo, 'to'),
           start_date: formatDateInGanttChart(saleOrder.dateFrom, 'from'),
@@ -85,6 +91,7 @@ const AutoModeration = () => {
             ? saleOrder.actualQuantity / saleOrder.quantity
             : 0,
           isOverQuantity: saleOrder.isOverQuantity,
+          locked: true,
         }
 
         return [saleOrderSchedule, ...itemSchedules]
@@ -116,6 +123,9 @@ const AutoModeration = () => {
             ...(listParents || []),
           ],
           isOverQuantity: item.isOverQuantity,
+          itemId: item.itemId,
+          itemFinishId: item.itemFinishId,
+          locked: true,
         }
         const producingSteps =
           item.producingSteps?.map((step) => ({
@@ -131,6 +141,8 @@ const AutoModeration = () => {
             type: 'producingStep',
             listParents: [...itemSchedule.listParents, key],
             isOverQuantity: step.overQuantity > 0,
+            itemId: item.itemId,
+            itemFinishId: item.itemFinishId,
           })) || []
 
         const subBom =
@@ -146,11 +158,9 @@ const AutoModeration = () => {
       })
       .flat()
   }
+
   const goToModerationType = (values) => {
     switch (Number(values.moderationType?.value)) {
-      case MODERATION_TYPE.EXTEND_DEADLINE:
-        extendDeadline()
-        break
       case MODERATION_TYPE.SPREAD_EVENLY:
       case MODERATION_TYPE.INPUT_MODERATION:
         const query = new URLSearchParams({
@@ -220,6 +230,30 @@ const AutoModeration = () => {
     }
   }
 
+  const handleTaskDragChange = (taskId) => {
+    const changedTask = tasks.find(task => task.id === taskId);
+    const payload = {
+      masterPlanId: Number(id),
+      saleOrderId: Number(changedTask?.saleOrderId),
+      itemId: changedTask?.itemFinishId,
+      itemProducingStepId: changedTask?.producingStepId,
+      dateFrom: changedTask?.start_date,
+      dateTo: changedTask?.end_date,
+    }
+    masterPlanActions.previewGanttMasterPlan(
+      payload,
+      (result) => {
+        setEnableSaveChangeModeration(true)
+        setPreviousModeration(result.saleOrderSchedules)
+        setTasks(getTasks(result.saleOrderSchedules))
+      },
+      (error) => {
+        setTasks(getTasks(previousModeration))
+        setErrorMessage(error?.message)
+      }
+    )
+  }
+  
   const renderHeaderRight = () => {
     return (
       <Formik
@@ -268,17 +302,44 @@ const AutoModeration = () => {
     return links
   }
 
-  const extendDeadline = async () => {
-    if (selectedProducingStep?.length) {
-      await Promise.all(
-        selectedProducingStep.map((producingStep) =>
-          masterPlanActions.extendDeadline({
-            itemProducingStepId: Number(producingStep),
-          }),
-        ),
-      )
-      masterPlanActions.getMasterPlanDetailsById(id)
+  const handleBeforeTaskDrag = (taskId) => {
+    if (tasks.some(task => task.id === taskId && task.locked)) {
+      return false
     }
+    return true
+  }
+
+  const renderActionBar = (resetForm) => {
+    return (
+      <ActionBar
+        onCancel={resetForm}
+        mode={MODAL_MODE.UPDATE}
+        disableSaveButton={!enableSaveChangeModeration}
+      />
+    )
+  }
+
+  const submitModeration = async () => {
+    const producingSteps = tasks.filter(task => task.producingStepId !== undefined)
+    await Promise.all(
+      producingSteps.map((producingStep) =>
+        masterPlanActions.extendDeadline({
+          itemProducingStepId: Number(producingStep.producingStepId),
+          masterPlanId: Number(id),
+          saleOrderId: Number(producingStep.saleOrderId),
+          itemId: producingStep.itemFinishId,
+          dateFrom: producingStep.start_date,
+          dateTo: producingStep.end_date,
+        }),
+      ),
+    )
+    masterPlanActions.getMasterPlanDetailsById(id)
+  }
+
+  const cancelChangeModeration = () => {
+    setEnableSaveChangeModeration(false)
+    setPreviousModeration(masterPlanDetails.saleOrderSchedules)
+    setTasks(getTasks(masterPlanDetails.saleOrderSchedules))
   }
 
   return (
@@ -291,48 +352,64 @@ const AutoModeration = () => {
     >
       <Grid container>
         <Grid item xs={12}>
-          {tasks?.length > 0 && (
-            <GanttChart
-              config={{
-                columns: [
-                  {
-                    name: 'text',
-                    label: t('defineMasterPlan.autoModeration.saleOrder'),
-                    tree: true,
-                    width: '*',
-                    min_width: 200,
-                    template: (task) => {
-                      const checked = !!task.checked ? ' checked' : ''
-                      return `
-                        <input
-                          class="gantt-checkbox-column"
-                          type="checkbox"
-                          name="producingStep"
-                          id="test"
-                          value="${task.id}"
-                          ${checked}
-                        /> ${task.text}`
-                    },
-                  },
-                ],
-                grid_resize: true,
-                drag_progress: false,
-              }}
-              tasks={{
-                data: tasks,
-                links: linkRelateList(tasks),
-              }}
-              onTaskSelected={handleSelectProducingStep}
-            />
-          )}
-          {!isLoading && !tasks.length && (
-            <Alert severity="error">
-              <AlertTitle>
-                {t('defineMasterPlan.titleErrorGetDetailMasterPlan')}
-              </AlertTitle>
-              {errorMessage}
-            </Alert>
-          )}
+          <Formik
+            initialValues={{}}
+            onSubmit={submitModeration}
+            enableReinitialize
+          >
+            {
+              () => (
+                <Form>
+                  {tasks?.length > 0 && (
+                    <GanttChart
+                      config={{
+                        columns: [
+                          {
+                            name: 'text',
+                            label: t('defineMasterPlan.autoModeration.saleOrder'),
+                            tree: true,
+                            width: '*',
+                            min_width: 200,
+                            template: (task) => {
+                              const checked = !!task.checked ? ' checked' : ''
+                              return `
+                                <input
+                                  class="gantt-checkbox-column"
+                                  type="checkbox"
+                                  name="producingStep"
+                                  id="test"
+                                  value="${task.id}"
+                                  ${checked}
+                                /> ${task.text}`
+                            },
+                          },
+                        ],
+                        grid_resize: true,
+                        drag_progress: false,
+                      }}
+                      tasks={{
+                        data: tasks,
+                        links: linkRelateList(tasks),
+                      }}
+                      onTaskSelected={handleSelectProducingStep}
+                      onTaskDrag={handleTaskDragChange}
+                      handleOnBeforeTaskDrag={handleBeforeTaskDrag}
+                    />
+                  )}
+                  {!isLoading && !tasks.length && (
+                    <Alert severity="error">
+                      <AlertTitle>
+                        {t('defineMasterPlan.titleErrorGetDetailMasterPlan')}
+                      </AlertTitle>
+                      {errorMessage}
+                    </Alert>
+                  )}
+
+                  {renderActionBar(cancelChangeModeration)}
+                </Form>
+              )
+            }
+          </Formik>
         </Grid>
       </Grid>
     </Page>
