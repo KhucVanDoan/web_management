@@ -200,7 +200,11 @@ function ProgressManufacturingByWorkCenter() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, workCenterIds: filters?.workCenterIds?.id },
+        {
+          ...filters,
+          workCenterIds: filters?.workCenterIds?.id,
+          masterPlanIds: filters?.masterPlanIds?.id,
+        },
         columns,
       ),
       sort: convertSortParams(sort),

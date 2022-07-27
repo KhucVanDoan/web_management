@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -37,6 +37,9 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
             <Field.TextField
               name={`items[${index}].title`}
               placeholder={t('templateInstall.titlePlaceholer')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+              }}
             />
           )
         },
@@ -53,6 +56,9 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
             <Field.TextField
               name={`items[${index}].description`}
               placeholder={t('templateInstall.descriptionPlaceholer')}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
             />
           )
         },

@@ -27,7 +27,6 @@ import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import { validateShema } from './schema'
@@ -61,6 +60,7 @@ function SOExportForm() {
     lotNumber: null,
     packageId: null,
     mfg: null,
+    evenRow: false,
   }
 
   useEffect(() => {
@@ -79,6 +79,7 @@ function SOExportForm() {
     soExportDetails?.saleOrderExportWarehouseLots,
   )
   const items = cloneSOExportWarehouseLots?.map((detailLot, index) => ({
+    ...detailLot,
     id: index,
     itemId: detailLot.itemId,
     warehouseId: detailLot?.warehouseId,
@@ -102,8 +103,11 @@ function SOExportForm() {
         )?.qcCriteriaId,
     )?.code,
     lotNumber: detailLot.lotNumber,
-    mfg: convertUtcDateToLocalTz(detailLot.mfg),
+    mfg: detailLot.mfg,
     packageId: detailLot.packageId,
+    evenRow: detailLot?.isEven,
+    palletId: detailLot?.palletId,
+    location: detailLot?.suggestItemLocationId,
   }))
   const initialValues = useMemo(
     () => ({
@@ -127,6 +131,7 @@ function SOExportForm() {
 
   useEffect(() => {
     actions.getSOExportDetailsById(id)
+
     return () => actions.resetSOExportState()
   }, [id])
 

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Grid, createFilterOptions, Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -8,16 +8,11 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
+import { searchMasterPlansApi } from '~/modules/mesx/redux/sagas/define-master-plan/search-master-plans'
 import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
 
 function ProgressManufacturingByWorkCenterForm({ setFilters }) {
   const { t } = useTranslation('mesx')
-
-  const {
-    data: { masterPlanList },
-    actions: masterPlanActions,
-  } = useDefineMasterPlan()
 
   const initialValues = {
     workCenterIds: null,
@@ -25,10 +20,6 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
     masterPlanIds: '',
     planDate: null,
   }
-
-  useEffect(() => {
-    masterPlanActions.searchMasterPlans({ isGetAll: 1 })
-  }, [])
 
   const onSubmit = (values) => {
     setFilters(values)
@@ -88,13 +79,15 @@ function ProgressManufacturingByWorkCenterForm({ setFilters }) {
                     placeholder={t(
                       'progressManufacturingByWorkCenter.masterPlan',
                     )}
-                    options={masterPlanList}
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.code}
-                    getOptionSubLabel={(opt) => opt?.name}
-                    filterOptions={createFilterOptions({
-                      stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                    })}
+                    asyncRequest={(s) =>
+                      searchMasterPlansApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                      })
+                    }
+                    asyncRequestHelper={(res) => res?.data?.masterPlans}
+                    getOptionSubLabel={(opt) => opt?.code}
+                    getOptionLabel={(opt) => opt?.name}
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>

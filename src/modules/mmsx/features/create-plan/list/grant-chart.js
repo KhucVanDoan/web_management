@@ -277,6 +277,7 @@ function GanttChartView() {
           data: tasks,
           links: linkRelateList(tasks),
         }}
+        display
         planList={planList}
         handleChangeFilter={handleChangeFilter}
       />

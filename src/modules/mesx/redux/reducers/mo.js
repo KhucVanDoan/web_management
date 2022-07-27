@@ -38,6 +38,7 @@ import {
   GET_PRICE_STRUCTURE_FAILED,
   GET_MO_LIST_ALL,
   RESET_MO_DETAIL_STATE,
+  RESET_MO_PRODUCING_STEP,
 } from '~/modules/mesx/redux/actions/mo'
 
 const initialState = {
@@ -173,6 +174,11 @@ export default function Mo(state = initialState, action) {
       return {
         ...state,
         materialCheck: {},
+      }
+    case RESET_MO_PRODUCING_STEP:
+      return {
+        ...state,
+        moProducingStep: {},
       }
     default:
       return state
