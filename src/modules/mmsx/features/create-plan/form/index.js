@@ -21,6 +21,7 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
+import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
 import {
   ACTION_MAP,
   CREATE_PLAN_STATUS_OPTIONS,
@@ -32,7 +33,6 @@ import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useCreatePlan from '~/modules/mmsx/redux/hooks/useCreatePlan'
 import useJobDraft from '~/modules/mmsx/redux/hooks/useJobDraft'
 import { ROUTE } from '~/modules/mmsx/routes/config'
-import { searchWorkCenterQualityControlPlanFail } from '~/modules/qmsx/redux/actions/work-center-quality-control-plan'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 import { validateShema } from './schema'
@@ -485,7 +485,7 @@ const CreatePlanForm = () => {
 
                       <Grid item lg={6} xs={12}>
                         <Field.DateRangePicker
-                          name="time"
+                          name="times"
                           label={t('createPlanList.form.time')}
                           placeholder={t('createPlanList.form.time')}
                           minDate={startOfToday()}
@@ -534,11 +534,11 @@ const CreatePlanForm = () => {
                           label={t('general.placeholder.workshopName')}
                           placeholder={t('general.placeholder.workshopName')}
                           asyncRequest={(s) =>
-                            searchWorkCenterQualityControlPlanFail({
+                            searchWorkCenterApi({
                               keyword: s,
                               limit: ASYNC_SEARCH_LIMIT,
                               filter: convertFilterParams({
-                                factoryId: values?.factoryId,
+                                factoryId: values?.factoryId?.id,
                               }),
                             })
                           }

@@ -74,27 +74,31 @@ const Toolbar = (props) => {
           </CustomButton>
         </Box>
       </Grid>
-      <Grid item xs={6} lg={12}>
-        <Box>
-          <Autocomplete
-            options={props.planList}
-            placeholder="Kế hoạch sản xuất"
-            uncontrolled
-            sx={{ maxWidth: '300px' }}
-            onChange={(e) => props.onChangePlanFilter(e)}
-          />
-        </Box>
-      </Grid>
-      <Grid item xs={6} lg={12}>
-        <Box sx={{ float: 'right' }}>
-          <CustomButton onClick={handleReset}>
-            {t('common.cancel')}
-          </CustomButton>
-          <Button onClick={handleReset} sx={{ ml: 1 }}>
-            {t('common.save')}
-          </Button>
-        </Box>
-      </Grid>
+      {props?.display && (
+        <>
+          <Grid item xs={6} lg={12}>
+            <Box>
+              <Autocomplete
+                options={props.planList}
+                placeholder="Kế hoạch sản xuất"
+                uncontrolled
+                sx={{ maxWidth: '300px' }}
+                onChange={(e) => props.onChangePlanFilter(e)}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={6} lg={12}>
+            <Box sx={{ float: 'right' }}>
+              <CustomButton onClick={handleReset}>
+                {t('common.cancel')}
+              </CustomButton>
+              <Button onClick={handleReset} sx={{ ml: 1 }}>
+                {t('common.save')}
+              </Button>
+            </Box>
+          </Grid>
+        </>
+      )}
     </Box>
   )
 }
