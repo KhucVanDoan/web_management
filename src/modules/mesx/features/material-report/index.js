@@ -7,7 +7,6 @@ import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -39,10 +38,6 @@ function MaterialReport() {
     itemName: '',
   }
 
-  const {
-    data: { itemTypeList },
-    actions: ItemTypeAction,
-  } = useItemType()
   const {
     data: { isLoading, total, moList },
     actions,
@@ -206,7 +201,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {
@@ -268,7 +263,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {
@@ -321,7 +316,6 @@ function MaterialReport() {
 
   useEffect(() => {
     refreshData()
-    ItemTypeAction.searchItemTypes({ isGetAll: 1 })
     actionSaleOrder.searchSaleOrders({ isGetAll: 1 })
   }, [pageSize, page, filters, sort, filters, keyword])
 

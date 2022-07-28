@@ -28,6 +28,9 @@ import {
   UPDATE_MASTER_PLAN_FAILED,
   UPDATE_MASTER_PLAN_START,
   UPDATE_MASTER_PLAN_SUCCESS,
+  PREVIEW_GANTT_MASTER_PLAN_START,
+  PREVIEW_GANTT_MASTER_PLAN_SUCCESS,
+  PREVIEW_GANTT_MASTER_PLAN_FAILED,
 } from '~/modules/mesx/redux/actions/master-plan'
 
 const initialState = {
@@ -38,6 +41,7 @@ const initialState = {
   moderationSuggestSpread: [],
   moderationInput: {},
   jobDetail: [],
+  previewGantt: {},
 }
 
 /**
@@ -57,6 +61,7 @@ export default function defineMasterPlan(state = initialState, action) {
     case GET_PRODUCING_STEP_DETAIL_START:
     case UPDATE_MASTER_PLAN_START:
     case GET_JOB_DETAILS_START:
+    case PREVIEW_GANTT_MASTER_PLAN_START:
       return {
         ...state,
         isLoading: true,
@@ -101,6 +106,7 @@ export default function defineMasterPlan(state = initialState, action) {
     case GET_PRODUCING_STEP_DETAIL_FAILED:
     case UPDATE_MASTER_PLAN_SUCCESS:
     case UPDATE_MASTER_PLAN_FAILED:
+    case PREVIEW_GANTT_MASTER_PLAN_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -128,6 +134,12 @@ export default function defineMasterPlan(state = initialState, action) {
       return {
         ...state,
         masterPlanDetails: {},
+      }
+    case PREVIEW_GANTT_MASTER_PLAN_SUCCESS:
+      return {
+        ...state,
+        previewGantt: action.payload,
+        isLoading: false,
       }
     default:
       return state

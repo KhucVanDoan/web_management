@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
 import { FormControlLabel, Grid, InputAdornment } from '@mui/material'
-import { createFilterOptions } from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import { Formik, Form, FieldArray } from 'formik'
@@ -25,8 +24,8 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { searchItemGroupsApi } from '~/modules/database/redux/sagas/item-group-setting/search-item-groups'
+import { searchItemTypesApi } from '~/modules/database/redux/sagas/item-type-setting/search-item-types'
 import { searchItemUnitsApi } from '~/modules/database/redux/sagas/item-unit-setting/search-item-units'
 import { ROUTE } from '~/modules/database/routes/config'
 import {
@@ -63,16 +62,6 @@ function DefineItemForm() {
     data: { itemDetails, isLoading },
     actions,
   } = useDefineItem()
-
-  const {
-    data: { itemTypeList },
-    actions: itemTypeActions,
-  } = useItemType()
-
-  useEffect(() => {
-    itemTypeActions.searchItemTypes({ isGetAll: 1 })
-  }, [])
-
   const {
     data: { detailList },
     actions: commonManagementActions,
@@ -351,15 +340,15 @@ function DefineItemForm() {
                             name="itemType"
                             label={t('defineItem.typeCode')}
                             placeholder={t('defineItem.typeCode')}
-                            options={itemTypeList}
+                            asyncRequest={(s) =>
+                              searchItemTypesApi({
+                                keyword: s,
+                                limit: ASYNC_SEARCH_LIMIT,
+                              })
+                            }
+                            asyncRequestHelper={(res) => res?.data?.items}
                             getOptionLabel={(opt) => opt?.code}
                             getOptionSubLabel={(opt) => opt?.name}
-                            isOptionEqualToValue={(opt, val) =>
-                              opt?.code === val?.code
-                            }
-                            filterOptions={createFilterOptions({
-                              stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                            })}
                             required
                           />
                         </Grid>

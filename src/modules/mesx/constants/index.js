@@ -1033,10 +1033,6 @@ export const MODERATION_TYPE = {
 
 export const MODERATION_TYPE_OPTIONS = [
   {
-    id: MODERATION_TYPE.EXTEND_DEADLINE,
-    text: 'defineMasterPlan.autoModeration.extendDeadline',
-  },
-  {
     id: MODERATION_TYPE.SPREAD_EVENLY,
     text: 'defineMasterPlan.autoModeration.spreadProductEvenly',
   },
