@@ -23,13 +23,7 @@ export const getPackagesApi = (params) => {
  */
 function* doGetPackages(action) {
   try {
-    const payload = {
-      keyword: '',
-      withItemDetails: [],
-      filter: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getPackagesApi, payload)
+    const response = yield call(getPackagesApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getPackagesSuccess(response.data.items))

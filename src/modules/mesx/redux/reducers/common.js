@@ -38,9 +38,6 @@ import {
   GET_ALL_ITEM_DETAILS_START,
   GET_ALL_ITEM_DETAILS_SUCCESS,
   GET_ALL_ITEM_DETAILS_FAILED,
-  GET_PRODUCING_STEPS_START,
-  GET_PRODUCING_STEPS_SUCCESS,
-  GET_PRODUCING_STEPS_FAILED,
   GET_BOMS_START,
   GET_BOMS_SUCCESS,
   GET_BOMS_FAILED,
@@ -121,7 +118,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_WAREHOUSES_START:
     case GET_CUSTOMERS_START:
     case GET_ALL_ITEM_DETAILS_START:
-    case GET_PRODUCING_STEPS_START:
     case GET_BOMS_START:
     case GET_FACTORIES_START:
     case GET_QUALITY_POINT_DETAILS_START:
@@ -273,12 +269,6 @@ export default function commonManagement(state = initialState, action) {
         isLoading: false,
       }
 
-    case GET_PRODUCING_STEPS_SUCCESS:
-      return {
-        ...state,
-        list: action.payload,
-        isLoading: false,
-      }
     case GET_BOMS_SUCCESS:
       return {
         ...state,
@@ -325,7 +315,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_DEPARTMENTS_FAILED:
     case GET_ROLES_FAILED:
     case GET_WAREHOUSES_BY_FACTORIES_FAILED:
-    case GET_PRODUCING_STEPS_FAILED:
       return {
         ...state,
         isLoading: false,

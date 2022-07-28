@@ -23,13 +23,7 @@ const getPalletsApi = (params) => {
  */
 function* doGetPallets(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getPalletsApi, payload)
+    const response = yield call(getPalletsApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getPalletsSuccess(response.data.items))

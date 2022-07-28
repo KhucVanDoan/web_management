@@ -11,11 +11,8 @@ import {
 } from '../../actions/device-category'
 
 const getAllConfirmDeviceCategory = () => {
-  const queryParams = {
-    isGetAll: 1,
-  }
   const url = `v1/mms/device-groups/list`
-  return api.get(url, queryParams)
+  return api.get(url)
 }
 
 function* doGetAllConfirmDeviceCategory(action) {
