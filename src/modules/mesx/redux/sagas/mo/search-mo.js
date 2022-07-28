@@ -2,7 +2,6 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
   searchMOSuccess,
-  getListMoAll,
   searchMOFailed,
   SEARCH_MO_START,
 } from '~/modules/mesx/redux/actions/mo'
@@ -25,7 +24,6 @@ export const searchMOApi = (params) => {
 function* doSearchMO(action) {
   try {
     const response = yield call(searchMOApi, action?.payload)
-    const responseAll = yield call(searchMOApi, { isGetAll: 1 })
 
     if (response?.statusCode === 200) {
       const payload = {
@@ -34,7 +32,6 @@ function* doSearchMO(action) {
       }
 
       yield put(searchMOSuccess(payload))
-      yield put(getListMoAll(responseAll.data.items))
 
       // Call callback action if provided
       if (action.onSuccess) {
