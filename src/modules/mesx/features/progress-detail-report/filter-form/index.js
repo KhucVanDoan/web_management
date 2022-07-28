@@ -10,6 +10,7 @@ import { Field } from '~/components/Formik'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useProgressDetailReport from '~/modules/mesx/redux/hooks/useProgressDetailReport'
+import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 
 import progressDetailReportSchema from '../schema'
 
@@ -17,14 +18,12 @@ function ProgressDetailReport() {
   const { t } = useTranslation(['mesx'])
 
   const {
-    data: { moProducingStep, moList },
+    data: { moProducingStep },
     actions: actionMo,
   } = useMo()
 
   const { actions: actionProgress } = useProgressDetailReport()
   useEffect(() => {
-    actionMo.searchMO({ isGetAll: 1 })
-
     return () => {
       actionMo.resetMoProducingStep()
     }
@@ -115,18 +114,26 @@ function ProgressDetailReport() {
                     name="moId"
                     label={t('productivityReport.moCode')}
                     placeholder={t('productivityReport.moCode')}
-                    options={
-                      values?.soId
-                        ? moList?.filter(
-                            (mo) => mo?.saleOrderId === values?.soId?.id,
-                          )
-                        : []
+                    asyncRequest={(s) =>
+                      searchMOApi({
+                        keyword: s,
+                        limit: ASYNC_SEARCH_LIMIT,
+                        filter: values?.soId
+                          ? JSON.stringify([
+                              {
+                                column: 'saleOrderIds',
+                                text: [values?.soId?.id],
+                              },
+                            ])
+                          : [],
+                      })
                     }
-                    getOptionValue={(opt) => opt?.id}
-                    getOptionLabel={(opt) => opt?.code || opt?.item?.name}
+                    disabled={!values?.soId}
+                    asyncRequestHelper={(res) => res?.data?.items}
+                    getOptionLabel={(opt) => opt?.code}
                     onChange={(val) => {
                       if (val) {
-                        actionMo.getListMoProducingStepById(val)
+                        actionMo.getListMoProducingStepById(val?.id)
                       } else {
                         actionMo.resetMoProducingStep()
                       }

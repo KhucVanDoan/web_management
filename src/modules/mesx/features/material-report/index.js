@@ -32,8 +32,8 @@ function MaterialReport() {
   const { t } = useTranslation(['mesx'])
 
   const DEFAULT_FILTERS = {
-    manufacturingOrderIds: '',
-    saleOrderIds: '',
+    manufacturingOrderIds: null,
+    saleOrder: null,
     itemName: '',
   }
 
@@ -328,10 +328,10 @@ function MaterialReport() {
               text: [filters?.manufacturingOrderIds?.id],
             }
           : {},
-        filters?.saleOrderIds
+        filters?.saleOrder?.name
           ? {
               column: 'saleOrderIds',
-              text: filters?.saleOrderIds,
+              text: filters?.saleOrder?.name,
             }
           : {},
         filters?.itemName

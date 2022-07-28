@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
@@ -8,14 +8,11 @@ import { Field } from '~/components/Formik'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import { MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
+import { searchPlansApi } from '~/modules/mesx/redux/sagas/define-plan/search-plans'
 import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const {
-    data: { planList },
-  } = useDefinePlan()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -46,13 +43,16 @@ const FilterForm = () => {
           name="planName"
           label={t('Mo.planName')}
           placeholder={t('Mo.planName')}
-          options={planList}
-          getOptionLabel={(opt) => opt?.name}
+          asyncRequest={(s) =>
+            searchPlansApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(option) => option.name}
           getOptionSubLabel={(opt) => opt?.code}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
-          getOptionValue={(option) => option?.code}
+          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
         />
       </Grid>
       <Grid item xs={12}>
