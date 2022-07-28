@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -19,6 +23,7 @@ import {
 import useBOM from '~/modules/mesx/redux/hooks/useBOM'
 import useBomProducingStep from '~/modules/mesx/redux/hooks/useBomProducingStep'
 import { getBomProducingStepDetailsApi } from '~/modules/mesx/redux/sagas/bom-producing-step/get-bom-producing-step-details'
+import { searchBOMApi } from '~/modules/mesx/redux/sagas/define-bom/search-bom'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams } from '~/utils'
 
@@ -37,19 +42,14 @@ function BomProducingStepForm() {
   }
 
   const {
-    data: { bomProducingStepList, bomProducingStepDetails, isLoading },
+    data: { bomProducingStepDetails, isLoading },
     actions,
   } = useBomProducingStep()
 
   const {
-    data: { BOMList, BOMDetails },
+    data: { BOMDetails },
     actions: bomActions,
   } = useBOM()
-
-  const a = bomProducingStepList.map((item) => item.itemId)
-  const itemOptions = BOMList.filter(
-    (bom) => !a.includes(bom.itemId) && bom.status === BOM_STATUS.CONFIRMED,
-  )
 
   const initialValues = !id
     ? {
@@ -103,10 +103,6 @@ function BomProducingStepForm() {
       bomActions.resetBomState()
     }
   }, [id])
-
-  useEffect(() => {
-    actions.searchBomProducingStep({ isGetAll: 1 })
-  }, [])
 
   const handleProductChange = async (productId, setFieldValue) => {
     if (!productId) return
@@ -266,13 +262,19 @@ function BomProducingStepForm() {
                         name="product"
                         label={t('bomProducingStep.itemCode')}
                         placeholder={t('bomProducingStep.itemCode')}
-                        options={itemOptions}
+                        asyncRequest={(s) =>
+                          searchBOMApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              isHasBomProducingStep: false,
+                              status: BOM_STATUS.CONFIRMED,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.item?.code}
                         getOptionSubLabel={(opt) => opt?.item?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) =>
-                            `${opt?.item?.code}|${opt?.item?.name}`,
-                        })}
                         onChange={(val) =>
                           handleProductChange(val?.id, setFieldValue)
                         }
