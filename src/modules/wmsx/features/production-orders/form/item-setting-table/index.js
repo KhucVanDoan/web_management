@@ -51,7 +51,6 @@ function ItemSettingTable(props) {
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
     commonActions.getWarehouses({ isGetAll: 1 })
-    commonActions.getBoms({ isGetAll: 1 })
   }, [])
 
   const getItemObject = (id) => {
