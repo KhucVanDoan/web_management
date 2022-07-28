@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -8,15 +8,10 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { searchItemGroupsApi } from '~/modules/database/redux/sagas/item-group-setting/search-item-groups'
+import { searchItemTypesApi } from '~/modules/database/redux/sagas/item-type-setting/search-item-types'
 const FilterForm = () => {
   const { t } = useTranslation('database')
-
-  const {
-    data: { itemTypeList },
-  } = useItemType()
-
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
@@ -44,13 +39,15 @@ const FilterForm = () => {
           name="itemTypeCode"
           label={t('defineItem.type')}
           placeholder={t('defineItem.type')}
-          options={itemTypeList}
-          getOptionValue={(opt) => opt?.code}
+          asyncRequest={(s) =>
+            searchItemTypesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
           multiple
         />
       </Grid>

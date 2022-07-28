@@ -71,7 +71,7 @@ const DefineSuppliesForm = () => {
     groupSupplyId: suppliesDetail?.supplyGroup?.id || '',
     type: suppliesDetail?.type ? `${suppliesDetail?.type}` : '0',
     vendorId: suppliesDetail?.vendor?.id,
-    receivedDate: suppliesDetail?.receivedDate,
+    receivedDate: suppliesDetail?.receivedDate || '',
     price: suppliesDetail?.price || '',
     itemUnitId: suppliesDetail?.itemUnit?.id || '',
     responsibleUser: suppliesDetail?.responsibleUser?.id || '',
@@ -87,15 +87,6 @@ const DefineSuppliesForm = () => {
   }, [id])
 
   const handleSubmit = (values) => {
-    const findUser = responsibleSubject?.responsibleUsers?.find(
-      (e) => e?.id === values?.responsibleUserId,
-    )
-    const findMaintainTeam =
-      responsibleSubject?.responsibleMaintenanceTeams?.find(
-        (e) => e?.id === values?.responsibleUserId,
-      )
-    const subject = findUser || findMaintainTeam
-
     if (isUpdate) {
       const params = {
         id: id,
@@ -107,11 +98,8 @@ const DefineSuppliesForm = () => {
           itemUnitId: values?.itemUnitId,
           price: +values?.price || null,
           vendorId: values?.vendorId,
-          receivedDate: values?.receivedDate,
-          responsibleUser: {
-            id: subject?.id,
-            type: subject?.type,
-          },
+          receivedDate: values?.receivedDate || null,
+          responsibleUser: values?.responsibleUser || null,
           type: +values?.type || 0,
         },
       }
@@ -125,11 +113,8 @@ const DefineSuppliesForm = () => {
         itemUnitId: values?.itemUnitId,
         price: +values?.price || null,
         vendorId: values?.vendorId,
-        receivedDate: values?.receivedDate,
-        responsibleUser: {
-          id: subject?.id,
-          type: subject?.type,
-        },
+        receivedDate: values?.receivedDate || null,
+        responsibleUser: values?.responsibleUser || null,
         type: +values?.type || 0,
       }
       actions.createSupplies(params, backToList)
@@ -354,7 +339,7 @@ const DefineSuppliesForm = () => {
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.DateRangePicker
+                    <Field.DatePicker
                       name="receivedDate"
                       label={t('supplies.form.field.dateAdded')}
                       placeholder={t('supplies.form.field.dateAdded')}
@@ -390,7 +375,6 @@ const DefineSuppliesForm = () => {
                       placeholder={t('deviceCategory.responsibleUser')}
                       options={responsibleSubject?.responsibleUsers}
                       getOptionLabel={(opt) => opt?.username}
-                      getOptionValue={(opt) => opt?.id}
                     />
                   </Grid>
                 </Grid>

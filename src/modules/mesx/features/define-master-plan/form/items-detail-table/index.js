@@ -292,7 +292,10 @@ const ItemsDetailTable = (props) => {
       ),
       'isProductionObject',
     )
-    setProductionObjectByItemId(newProductionObjectState)
+    setProductionObjectByItemId({
+      ...productionObjectByItemId,
+      ...newProductionObjectState
+    })
 
     const newDisabledProductionObjects = { ...disabledProductionObjects }
     Object.keys(newProductionObjectState).forEach((key) => {

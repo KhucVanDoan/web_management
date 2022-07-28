@@ -5,7 +5,7 @@ import Icon from '~/components/Icon'
 import TableCollapse from '~/components/TableCollapse'
 
 function PriceTable(props) {
-  const { itemTypeList, PriceStructure } = props
+  const { PriceStructure } = props
   const { t } = useTranslation(['mesx'])
   const getColumns = [
     {
@@ -45,7 +45,7 @@ function PriceTable(props) {
       align: 'center',
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList?.find((i) => i.id === item?.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {

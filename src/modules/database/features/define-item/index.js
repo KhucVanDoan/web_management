@@ -17,7 +17,6 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import {
   exportItemApi,
   getItemTemplateApi,
@@ -55,17 +54,10 @@ function DefineItem() {
     data: { itemList, total, isLoading },
     actions,
   } = useDefineItem()
-
-  const { actions: itemTypeActions } = useItemType()
-
-  useEffect(() => {
-    itemTypeActions.searchItemTypes({ isGetAll: 1 })
-  }, [])
-
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
-    itemTypeCode: '',
+    itemTypeCode: [],
     itemGroupCode: [],
     createTime: [],
   }
@@ -291,6 +283,7 @@ function DefineItem() {
       filter: convertFilterParams(
         {
           ...filters,
+          itemTypeCode: (filters?.itemTypeCode || []).map((item) => item?.code),
           itemGroupCode: (filters?.itemGroupCode || []).map(
             (item) => item?.code,
           ),

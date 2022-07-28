@@ -32,7 +32,7 @@ function ProgressDetailReport() {
 
   const getItemList = (moId) => {
     if (!moId) return []
-    return moProducingStep?.moDetail.map((item) => item.moPlanBom).flat() || []
+    return moProducingStep?.moDetail?.map((item) => item.moPlanBom).flat() || []
   }
 
   const getProducingStepList = (moId, itemId) => {

@@ -195,7 +195,6 @@ function ProgressManufacturingByWorkCenter() {
 
   const refreshData = () => {
     const params = {
-      isGetAll: 1,
       keyword: keyword.trim(),
       page,
       limit: pageSize,
