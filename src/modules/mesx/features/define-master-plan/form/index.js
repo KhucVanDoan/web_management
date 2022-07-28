@@ -68,7 +68,6 @@ const DefineMasterPlanForm = () => {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    commonManagementActions.getSaleOrders({ isGetAll: 1 })
     commonManagementActions.getFactories()
     return () => {
       actions.resetMasterPlanDetails()

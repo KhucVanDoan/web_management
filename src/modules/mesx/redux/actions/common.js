@@ -70,10 +70,6 @@ export const GET_FACTORIES_SUCCESS = 'MESX_GET_FACTORIES_SUCCESS'
 export const GET_FACTORIES_FAILED = 'MESX_GET_FACTORIES_FAILED'
 export const RESET_FACTORIES_LIST_STATE = 'MESX_RESET_FACTORIES_LIST_STATE'
 
-export const GET_SALE_ORDERS_START = 'MESX_GET_SALE_ORDERS_START'
-export const GET_SALE_ORDERS_SUCCESS = 'MESX_GET_SALE_ORDERS_SUCCESS'
-export const GET_SALE_ORDERS_FAILED = 'MESX_GET_SALE_ORDERS_FAILED'
-
 export const SEARCH_QUALITY_POINTS_START = 'MESX_SEARCH_QUALITY_POINTS_START'
 export const SEARCH_QUALITY_POINTS_SUCCESS =
   'MESX_SEARCH_QUALITY_POINTS_SUCCESS'
@@ -605,43 +601,6 @@ export function getFactoriesFailed() {
     type: GET_FACTORIES_FAILED,
   }
 }
-/**
- * Get sale order
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getSaleOrders(payload, onSuccess, onError) {
-  return {
-    type: GET_SALE_ORDERS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get sale order success
- * @param {*} payload
- * @returns {object}
- */
-export function getSaleOrdersSuccess(payload) {
-  return {
-    type: GET_SALE_ORDERS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get sale order failed
- * @returns {object}
- */
-export function getSaleOrdersFailed() {
-  return {
-    type: GET_SALE_ORDERS_FAILED,
-  }
-}
 
 /**
  * search quality points
@@ -917,9 +876,6 @@ export default {
   getFactories,
   getFactoriesSuccess,
   getFactoriesFailed,
-  getSaleOrders,
-  getSaleOrdersSuccess,
-  getSaleOrdersFailed,
   searchQualityPoints,
   searchQualityPointsSuccess,
   getQualityPoints,

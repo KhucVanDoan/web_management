@@ -13,7 +13,6 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import {
   MO_STATUS_OPTIONS,
   MO_STATUS_TO_CONFIRM,
@@ -77,8 +76,6 @@ const Mo = () => {
     // data: { planList },
     actions: planActions,
   } = useDefinePlan()
-
-  const { actions: saleOrderAction } = useSaleOrder()
 
   const columns = [
     {
@@ -246,7 +243,6 @@ const Mo = () => {
 
   useEffect(() => {
     planActions.searchPlans({ isGetAll: 1 })
-    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
   }, [])
 
   useEffect(() => {
