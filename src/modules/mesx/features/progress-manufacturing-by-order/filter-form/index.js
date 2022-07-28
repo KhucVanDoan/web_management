@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Grid, FormControlLabel, createFilterOptions, Box } from '@mui/material'
+import { Grid, FormControlLabel, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -8,7 +8,7 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import {
   MASTER_PLAN_STATUS,
   PROGRESS_ORDER_STATUS_OPTIONS,
@@ -29,14 +29,6 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
   const onSubmit = (values) => {
     setFilters(values)
   }
-  const {
-    data: { saleOrderList },
-    actions,
-  } = useSaleOrder()
-
-  useEffect(() => {
-    actions.searchSaleOrders({ isGetAll: 1 })
-  }, [])
 
   return (
     <Formik
@@ -59,13 +51,15 @@ const ProgressManufacturingFilter = ({ setFilters }) => {
                       name="soIds"
                       label={t('progressManufacturingByOrder.saleOrder')}
                       placeholder={t('progressManufacturingByOrder.saleOrder')}
-                      options={saleOrderList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchSaleOrdersApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
                       multiple
                     />
                   </Grid>

@@ -210,6 +210,7 @@ const progressManufacturingByOrder = () => {
       filter: convertFilterParams(
         {
           ...filters,
+          soIds: filters?.soIds?.map((s) => s.id),
           masterPlanIds: filters?.masterPlanIds?.map((e) => e?.id),
           isHasPlan: filters?.isHasPlan === true ? filters?.isHasPlan : '',
         },
