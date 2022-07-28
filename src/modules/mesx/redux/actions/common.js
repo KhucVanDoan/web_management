@@ -57,10 +57,6 @@ export const GET_ALL_ITEM_DETAILS_START = 'MESX_GET_ALL_ITEM_DETAILS_START'
 export const GET_ALL_ITEM_DETAILS_SUCCESS = 'MESX_GET_ALL_ITEM_DETAILS_SUCCESS'
 export const GET_ALL_ITEM_DETAILS_FAILED = 'MESX_GET_ALL_ITEM_DETAILS_FAILED'
 
-export const GET_PRODUCING_STEPS_START = 'MESX_GET_PRODUCING_STEPS_START'
-export const GET_PRODUCING_STEPS_SUCCESS = 'MESX_GET_PRODUCING_STEPS_SUCCESS'
-export const GET_PRODUCING_STEPS_FAILED = 'MESX_GET_PRODUCING_STEPS_FAILED'
-
 export const GET_BOMS_START = 'MESX_GET_BOMS_START'
 export const GET_BOMS_SUCCESS = 'MESX_GET_BOMS_SUCCESS'
 export const GET_BOMS_FAILED = 'MESX_GET_BOMS_FAILED'
@@ -490,44 +486,6 @@ export function getAllItemDetailsFailed() {
 }
 
 /**
- * Get producing steps
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getProducingSteps(payload, onSuccess, onError) {
-  return {
-    type: GET_PRODUCING_STEPS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get producing steps success action
- * @param {*} payload
- * @returns {object}
- */
-export function getProducingStepsSuccess(payload) {
-  return {
-    type: GET_PRODUCING_STEPS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get producing steps failed action
- * @returns {object}
- */
-export function getProducingStepsFailed() {
-  return {
-    type: GET_PRODUCING_STEPS_FAILED,
-  }
-}
-
-/**
  * Get boms
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -867,9 +825,6 @@ export default {
   getAllItemDetails,
   getAllItemDetailsSuccess,
   getAllItemDetailsFailed,
-  getProducingSteps,
-  getProducingStepsSuccess,
-  getProducingStepsFailed,
   getBoms,
   getBomsSuccess,
   getBomsFailed,

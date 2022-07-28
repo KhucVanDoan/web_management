@@ -23,13 +23,7 @@ const getGroupPermissionsApi = (params) => {
  */
 function* doGetGroupPermissions(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getGroupPermissionsApi, payload)
+    const response = yield call(getGroupPermissionsApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put({
