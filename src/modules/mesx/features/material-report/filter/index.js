@@ -78,7 +78,10 @@ function FilterForm() {
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
               filter: convertFilterParams({
-                status: SALE_ORDER_STATUS.CONFIRMED,
+                ...(values?.manufacturingOrderIds?.saleOrderId
+                  ? { id: values?.manufacturingOrderIds?.saleOrderId }
+                  : {}),
+                status: SALE_ORDER_STATUS.CONFIRMED.toString(),
               }),
               // @TODO: <doan.khucvan - yen.nguyenhai> update this filter later
             })
