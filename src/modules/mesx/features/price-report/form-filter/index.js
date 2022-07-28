@@ -71,8 +71,10 @@ const FilterForm = () => {
             searchMOApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
-              filter: values?.saleOrderIds
-                ? JSON.stringify([{ column: 'soName', text: [values?.soName] }])
+              filter: values?.soName
+                ? JSON.stringify([
+                    { column: 'saleOrderIds', text: [values?.soName] },
+                  ])
                 : [],
             })
           }

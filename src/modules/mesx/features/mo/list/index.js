@@ -20,7 +20,6 @@ import {
   MO_STATUS_TO_DELETE,
   MO_STATUS,
 } from '~/modules/mesx/constants'
-import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import {
   importMoApi,
@@ -72,10 +71,6 @@ const Mo = () => {
     data: { isLoading, moList, total },
     actions,
   } = useMo()
-  const {
-    // data: { planList },
-    actions: planActions,
-  } = useDefinePlan()
 
   const columns = [
     {
@@ -230,6 +225,7 @@ const Mo = () => {
       filter: convertFilterParams(
         {
           ...filters,
+          planName: filters?.planName?.code,
           code: filters?.code?.code,
           saleOrderId: filters?.saleOrderId?.name,
           factoryId: filters?.factoryId?.id,
@@ -240,10 +236,6 @@ const Mo = () => {
     }
     actions.searchMO(params)
   }
-
-  useEffect(() => {
-    planActions.searchPlans({ isGetAll: 1 })
-  }, [])
 
   useEffect(() => {
     refreshData()

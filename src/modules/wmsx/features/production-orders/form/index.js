@@ -128,7 +128,6 @@ function ProductionOrderForm() {
       }
     })
     commomnManagementActions.getItemQualityPoint()
-    moActions.searchMO({ isGetAll: 1 })
     return () => actions.resetProductionOrderDetail()
   }, [mode])
 
