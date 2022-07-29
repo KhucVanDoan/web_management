@@ -58,6 +58,7 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio, setIsLoading }) => {
         )
       }
     })
+    return () => defineWarehouseActions.restStateWarehouseCanvas()
   }, [])
 
   useEffect(() => {

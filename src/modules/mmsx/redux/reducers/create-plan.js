@@ -27,7 +27,7 @@ const initialState = {
   isLoading: false,
   createPlanList: [],
   meta: {},
-  detailPlan: [],
+  detailPlan: {},
   ganttChartData: [],
 }
 

@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createWarehouseReportApi = (params) => {
-  const uri = `/v1/warehouses/reports`
+  const uri = `/v1/warehouses/reports/create`
   return api.post(uri, params)
 }
 
