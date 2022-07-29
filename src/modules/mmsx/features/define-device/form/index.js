@@ -596,6 +596,7 @@ const DefineDeviceForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
                         required
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                     <Grid item xs={12}>
