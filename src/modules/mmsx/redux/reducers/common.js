@@ -153,7 +153,7 @@ export default function commonManagement(state = initialState, action) {
     case MMSX_GET_ALL_SUPPLIES_CONFIRM_SUCCESS:
       return {
         ...state,
-        suppliesList: action?.payload,
+        suppliesList: action?.payload?.items,
       }
     case MMSX_GET_ALL_SUPPLIES_CONFIRM_FAILED:
       return {
@@ -163,7 +163,7 @@ export default function commonManagement(state = initialState, action) {
     case MMSX_GET_ATTRIBUTE_MAINTAIN_SUCCESS:
       return {
         ...state,
-        attributeMaintainList: action?.payload,
+        attributeMaintainList: action?.payload?.items,
       }
     case MMSX_GET_ATTRIBUTE_MAINTAIN_FAILED:
       return {
