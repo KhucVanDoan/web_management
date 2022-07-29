@@ -229,6 +229,7 @@ function DefineWarehouseFrom() {
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       multiple
                       required
                     />
