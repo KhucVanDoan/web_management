@@ -353,43 +353,6 @@ function ItemSettingTable(props) {
       },
     },
     {
-      field: 'palletCode',
-      headerName: t('purchasedOrderImport.item.palletCode'),
-      width: 180,
-      renderCell: (params, index) => {
-        const { evenRow } = params.row
-        return isView ? (
-          <>{params?.row?.palletId}</>
-        ) : (
-          <Field.Autocomplete
-            name={`items[${index}].palletId`}
-            options={evenRow ? palletsEvenByItem : []}
-            disabled={isView}
-            getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id || null}
-          />
-        )
-      },
-    },
-    {
-      field: 'storageLocation',
-      headerName: t(`purchasedOrderImport.item.storageLocation`),
-      width: 180,
-      renderCell: (params, index) => {
-        return isView ? (
-          <>{params?.row?.location}</>
-        ) : (
-          <Field.Autocomplete
-            name={`items[${index}].location`}
-            options={locationSettingsList}
-            disabled={isView}
-            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
-            getOptionValue={(opt) => opt?.id}
-          />
-        )
-      },
-    },
-    {
       field: 'quantity',
       headerName: t('purchasedOrderImport.item.quantity'),
       width: 180,

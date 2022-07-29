@@ -23,13 +23,7 @@ const getAllErrorGroupApi = () => {
  */
 function* doGetAllErrorGroup(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getAllErrorGroupApi, payload)
+    const response = yield call(getAllErrorGroupApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getAllErrorGroupSuccess(response.data))

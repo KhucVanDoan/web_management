@@ -34,10 +34,8 @@ import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItemTypes from './common/get-item-types'
 import watchGetItemUnits from './common/get-item-units'
 import watchGetItems from './common/get-items'
-import watchGetProducingSteps from './common/get-producing-steps'
 import watchGetQualityPointDetails from './common/get-quality-point-details'
 import watchGetRoles from './common/get-role'
-import watchGetSaleOrders from './common/get-sale-orders'
 import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
 import watchGetWarehouses from './common/get-warehouses'
 import watchSearchQualityPoints from './common/search-quality-points'
@@ -218,10 +216,8 @@ export default function* sagas() {
     watchGetWarehouses(),
     watchGetCustomers(),
     watchGetAllItemDetails(),
-    watchGetProducingSteps(),
     watchGetBoms(),
     watchGetFactories(),
-    watchGetSaleOrders(),
     watchGetQualityPoints(),
     watchGetItemQualityPoint(),
     watchGetSaleOrderDetailByIds(),
@@ -264,7 +260,6 @@ export default function* sagas() {
     watchGetProducingStepDetails(),
     watchCreateProducingStep(),
     watchDeleteProducingStep(),
-    watchGetProducingSteps(),
     watchGetProducingStepsByRoutingVersion(),
     watchConfirmProducingStep(),
 
