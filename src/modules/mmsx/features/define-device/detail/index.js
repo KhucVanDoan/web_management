@@ -319,6 +319,12 @@ const DefineDeviceDetail = () => {
                   }
                 />
               </Grid>
+              <Grid item xs={12} lg={6}>
+                <LV
+                  label={t('deviceList.templateChecklist')}
+                  value={deviceDetail?.checkListTemplate?.name}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="description"
