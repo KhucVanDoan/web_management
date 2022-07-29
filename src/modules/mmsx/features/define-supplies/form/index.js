@@ -41,7 +41,7 @@ const DefineSuppliesForm = () => {
     actions: defineVendorAcions,
   } = useDefineVendor()
   const {
-    data: { suppliesCategoryList },
+    data: { confirmSuppliesCategory },
     actions: suppliesCategoryActions,
   } = useSuppliesCategory()
   const {
@@ -59,11 +59,12 @@ const DefineSuppliesForm = () => {
   const backToList = () => {
     history.push(ROUTE.DEFINE_SUPPLIES.LIST.PATH)
   }
+
   useEffect(() => {
     commonAction.getResponsibleSubject()
     commonAction.getItemUnits()
     defineVendorAcions.searchVendors({ isGetAll: 1 })
-    suppliesCategoryActions.searchListSuppliesCategory()
+    suppliesCategoryActions.getAllConfirmSuppliesCategory()
   }, [])
   const initialValues = {
     code: suppliesDetail?.code || PRE_FIX_CODE,
@@ -74,7 +75,12 @@ const DefineSuppliesForm = () => {
     receivedDate: suppliesDetail?.receivedDate || '',
     price: suppliesDetail?.price || '',
     itemUnitId: suppliesDetail?.itemUnit?.id || '',
-    responsibleUser: suppliesDetail?.responsibleUser?.id || '',
+    responsibleUser:
+      {
+        id: suppliesDetail?.responsibleUser?.id,
+        username: suppliesDetail?.responsibleUser?.name,
+        type: suppliesDetail?.responsibleUser?.type,
+      } || '',
     description: suppliesDetail?.description || '',
   }
   useEffect(() => {
@@ -197,9 +203,9 @@ const DefineSuppliesForm = () => {
           <Button
             variant="outlined"
             sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
+            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
           >
-            {t('supplies.button.suppliesCategory')}
+            {t('supplies.button.deviceButton')}
           </Button>
         </Box>
       </>
@@ -252,7 +258,7 @@ const DefineSuppliesForm = () => {
                       placeholder={t('supplies.form.field.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       onInput={(val) => {
@@ -271,7 +277,7 @@ const DefineSuppliesForm = () => {
                       placeholder={t(
                         'supplies.form.field.suppliesCategoryName',
                       )}
-                      options={suppliesCategoryList}
+                      options={confirmSuppliesCategory}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -374,7 +380,7 @@ const DefineSuppliesForm = () => {
                       label={t('deviceCategory.responsibleUser')}
                       placeholder={t('deviceCategory.responsibleUser')}
                       options={responsibleSubject?.responsibleUsers}
-                      getOptionLabel={(opt) => opt?.username}
+                      getOptionLabel={(opt) => opt?.username || opt?.name}
                     />
                   </Grid>
                 </Grid>

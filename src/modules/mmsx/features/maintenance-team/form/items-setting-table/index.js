@@ -91,13 +91,10 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
       {
         field: 'remove',
         width: 100,
-        renderCell: (params) => {
-          const idx = items.findIndex(
-            (item) => item?.memberName?.id === params.row?.memberName?.id,
-          )
+        renderCell: (_, index) => {
           return isView ? null : (
             <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
+              onClick={() => arrayHelpers.remove(index)}
               disabled={items?.length === 1}
               size="large"
             >
