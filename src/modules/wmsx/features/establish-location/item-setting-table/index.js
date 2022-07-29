@@ -45,6 +45,7 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].area`, null)
               setFieldValue(`items[${index}].shelf`, null)
@@ -78,6 +79,7 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].shelf`, null)
               setFieldValue(`items[${index}].floor`, null)
@@ -110,6 +112,7 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].floor`, null)
             }}
@@ -141,6 +144,7 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           />
         )
       },
