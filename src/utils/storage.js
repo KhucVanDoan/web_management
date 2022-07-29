@@ -7,7 +7,10 @@ export const setSessionItem = (key, value) => {
 export const getLocalItem = (key) => {
   const data = window.localStorage.getItem(key)
 
-  if (data) return JSON.parse(data)
+  if (!!data && data !== 'undefined') {
+    return JSON.parse(data)
+  }
+
   return data
 }
 
