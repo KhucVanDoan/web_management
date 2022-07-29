@@ -23,13 +23,7 @@ export const getDetailsApi = (params) => {
  */
 function* doGetDetails(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getDetailsApi, payload)
+    const response = yield call(getDetailsApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getDetailsSuccess(response.data.items))

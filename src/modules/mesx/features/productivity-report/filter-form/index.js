@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { MO_STATUS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import useProductivityReport from '~/modules/mesx/redux/hooks/useProductivityReport'
 import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
@@ -31,30 +30,12 @@ function ProductivityFilter() {
   const { actions } = useProductivityReport()
 
   useEffect(() => {
-    refreshData()
-  }, [])
-  const refreshData = () => {
-    const filterData = [
-      {
-        column: 'status',
-        text: MO_STATUS.IN_PROGRESS.toString(),
-      },
-    ]
-    const params = {
-      isGetAll: 1,
-      filter: JSON.stringify(filterData),
-    }
-    actionMo.searchMO(params)
-  }
-
-  useEffect(() => {
     if (!isEmpty(moProducingStep)) {
       setListItem(
         moProducingStep?.moDetail.map((item) => item.moPlanBom).flat(),
       )
     }
   }, [moProducingStep])
-
   useEffect(() => {
     if (itemId) {
       const listProducingStep = listItem?.find(

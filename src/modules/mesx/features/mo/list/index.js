@@ -13,7 +13,6 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import {
   MO_STATUS_OPTIONS,
   MO_STATUS_TO_CONFIRM,
@@ -21,7 +20,6 @@ import {
   MO_STATUS_TO_DELETE,
   MO_STATUS,
 } from '~/modules/mesx/constants'
-import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import {
   importMoApi,
@@ -73,12 +71,6 @@ const Mo = () => {
     data: { isLoading, moList, total },
     actions,
   } = useMo()
-  const {
-    // data: { planList },
-    actions: planActions,
-  } = useDefinePlan()
-
-  const { actions: saleOrderAction } = useSaleOrder()
 
   const columns = [
     {
@@ -233,6 +225,7 @@ const Mo = () => {
       filter: convertFilterParams(
         {
           ...filters,
+          planName: filters?.planName?.code,
           code: filters?.code?.code,
           saleOrderId: filters?.saleOrderId?.name,
           factoryId: filters?.factoryId?.id,
@@ -243,11 +236,6 @@ const Mo = () => {
     }
     actions.searchMO(params)
   }
-
-  useEffect(() => {
-    planActions.searchPlans({ isGetAll: 1 })
-    saleOrderAction.searchSaleOrders({ isGetAll: 1 })
-  }, [])
 
   useEffect(() => {
     refreshData()

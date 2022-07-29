@@ -37,7 +37,7 @@ function ItemSettingTable(props) {
   } = props
   const isView = mode === MODAL_MODE.DETAIL
   const {
-    data: { lotNumberList, productionOrderDetails },
+    data: { lotNumberList },
   } = useProductionOrder()
   const {
     data: { itemList, warehouseList },
@@ -45,13 +45,11 @@ function ItemSettingTable(props) {
   } = useCommonManagement()
 
   const {
-    data: { moList },
+    data: { moDetails },
   } = useMo()
-
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
     commonActions.getWarehouses({ isGetAll: 1 })
-    commonActions.getBoms({ isGetAll: 1 })
   }, [])
 
   const getItemObject = (id) => {
@@ -125,10 +123,9 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.name'),
       width: 250,
       renderCell: (_, index) => {
-        const itemFilterList =
-          moList?.find(
-            (mo) => productionOrderDetails?.manufacturingOrder?.id === mo.id,
-          )?.manufacturingOrderDetails || lotNumberList
+        const itemFilterList = moDetails?.manufacturingOrderDetails?.map(
+          (item) => item?.item,
+        )
         const materialPlanDetailIds =
           materialPlanDetail.materialPlanStructures?.map(
             (material) => material.itemId,
@@ -146,7 +143,6 @@ function ItemSettingTable(props) {
           values?.type === TRANSACTION_TYPE_ENUM.IMPORT
             ? itemFilterList
             : materialFilterList
-
         return (
           <Field.Autocomplete
             name={`items[${index}].itemId`}

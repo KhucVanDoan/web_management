@@ -57,10 +57,6 @@ export const GET_ALL_ITEM_DETAILS_START = 'MESX_GET_ALL_ITEM_DETAILS_START'
 export const GET_ALL_ITEM_DETAILS_SUCCESS = 'MESX_GET_ALL_ITEM_DETAILS_SUCCESS'
 export const GET_ALL_ITEM_DETAILS_FAILED = 'MESX_GET_ALL_ITEM_DETAILS_FAILED'
 
-export const GET_PRODUCING_STEPS_START = 'MESX_GET_PRODUCING_STEPS_START'
-export const GET_PRODUCING_STEPS_SUCCESS = 'MESX_GET_PRODUCING_STEPS_SUCCESS'
-export const GET_PRODUCING_STEPS_FAILED = 'MESX_GET_PRODUCING_STEPS_FAILED'
-
 export const GET_BOMS_START = 'MESX_GET_BOMS_START'
 export const GET_BOMS_SUCCESS = 'MESX_GET_BOMS_SUCCESS'
 export const GET_BOMS_FAILED = 'MESX_GET_BOMS_FAILED'
@@ -69,10 +65,6 @@ export const GET_FACTORIES_START = 'MESX_GET_FACTORIES_START'
 export const GET_FACTORIES_SUCCESS = 'MESX_GET_FACTORIES_SUCCESS'
 export const GET_FACTORIES_FAILED = 'MESX_GET_FACTORIES_FAILED'
 export const RESET_FACTORIES_LIST_STATE = 'MESX_RESET_FACTORIES_LIST_STATE'
-
-export const GET_SALE_ORDERS_START = 'MESX_GET_SALE_ORDERS_START'
-export const GET_SALE_ORDERS_SUCCESS = 'MESX_GET_SALE_ORDERS_SUCCESS'
-export const GET_SALE_ORDERS_FAILED = 'MESX_GET_SALE_ORDERS_FAILED'
 
 export const SEARCH_QUALITY_POINTS_START = 'MESX_SEARCH_QUALITY_POINTS_START'
 export const SEARCH_QUALITY_POINTS_SUCCESS =
@@ -494,44 +486,6 @@ export function getAllItemDetailsFailed() {
 }
 
 /**
- * Get producing steps
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getProducingSteps(payload, onSuccess, onError) {
-  return {
-    type: GET_PRODUCING_STEPS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get producing steps success action
- * @param {*} payload
- * @returns {object}
- */
-export function getProducingStepsSuccess(payload) {
-  return {
-    type: GET_PRODUCING_STEPS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get producing steps failed action
- * @returns {object}
- */
-export function getProducingStepsFailed() {
-  return {
-    type: GET_PRODUCING_STEPS_FAILED,
-  }
-}
-
-/**
  * Get boms
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -603,43 +557,6 @@ export function getFactoriesSuccess(payload) {
 export function getFactoriesFailed() {
   return {
     type: GET_FACTORIES_FAILED,
-  }
-}
-/**
- * Get sale order
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getSaleOrders(payload, onSuccess, onError) {
-  return {
-    type: GET_SALE_ORDERS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get sale order success
- * @param {*} payload
- * @returns {object}
- */
-export function getSaleOrdersSuccess(payload) {
-  return {
-    type: GET_SALE_ORDERS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get sale order failed
- * @returns {object}
- */
-export function getSaleOrdersFailed() {
-  return {
-    type: GET_SALE_ORDERS_FAILED,
   }
 }
 
@@ -908,18 +825,12 @@ export default {
   getAllItemDetails,
   getAllItemDetailsSuccess,
   getAllItemDetailsFailed,
-  getProducingSteps,
-  getProducingStepsSuccess,
-  getProducingStepsFailed,
   getBoms,
   getBomsSuccess,
   getBomsFailed,
   getFactories,
   getFactoriesSuccess,
   getFactoriesFailed,
-  getSaleOrders,
-  getSaleOrdersSuccess,
-  getSaleOrdersFailed,
   searchQualityPoints,
   searchQualityPointsSuccess,
   getQualityPoints,

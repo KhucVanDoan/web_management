@@ -24,7 +24,6 @@ function ItemSettingTableDetail(props) {
   useEffect(() => {
     actions.getItems({ isGetAll: 1 })
     actions.getWarehouses({ isGetAll: 1 })
-    actions.getBoms({ isGetAll: 1 })
   }, [])
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)

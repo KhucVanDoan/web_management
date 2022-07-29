@@ -1,12 +1,12 @@
-import {call, put, takeLatest} from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
-import {NOTIFICATION_TYPE} from '~/common/constants'
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   GET_RELATED_USER_BY_WAREHOUSE_ID_START,
   getRelatedUserByWarehouseIdFail,
   getRelatedUserByWarehouseIdSuccess,
 } from '~/modules/qmsx/redux/actions/define-quality-alert'
-import {api} from '~/services/api'
+import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 //@TODO: load list user of Role qc
@@ -26,13 +26,7 @@ const getRelatedUserByWarehouseIdApi = (params) => {
  */
 function* doGetRelatedUserByWarehouseId(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getRelatedUserByWarehouseIdApi, payload)
+    const response = yield call(getRelatedUserByWarehouseIdApi, action?.payload)
 
     if (response?.statusCode === 200) {
       const responseData = response?.data?.items
