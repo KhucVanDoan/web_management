@@ -18,25 +18,13 @@ import {
   watchGetListFactoryEvent,
   watchGetDetailFactoryCalendar,
 } from './calendar'
-import watchGetAllItemDetails from './common/get-all-item-details'
-import watchGetQualityPoints from './common/get-all-quality-points'
 import watchGetBoms from './common/get-boms'
-import watchGetCompanies from './common/get-company'
-import watchGetCustomers from './common/get-customers'
 import watchGetDepartments from './common/get-department'
 import watchGetDepartmentsRole from './common/get-departments-role'
 import watchGetDetails from './common/get-details'
-import watchGetFactories from './common/get-factories'
-import watchGetFactoriesByCompany from './common/get-factory-by-company'
 import watchGetGroupPermissions from './common/get-group-permissions'
-import watchGetItemGroups from './common/get-item-groups'
-import watchGetItemQualityPoint from './common/get-item-quality-point'
-import watchGetItemTypes from './common/get-item-types'
-import watchGetItemUnits from './common/get-item-units'
 import watchGetItems from './common/get-items'
-import watchGetQualityPointDetails from './common/get-quality-point-details'
 import watchGetRoles from './common/get-role'
-import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
 import watchGetWarehouses from './common/get-warehouses'
 import watchSearchQualityPoints from './common/search-quality-points'
 import watchDashboard from './dashboard'
@@ -203,23 +191,12 @@ export default function* sagas() {
     watchDeleteCustomer(),
 
     // common
-    watchGetCompanies(),
-    watchGetFactoriesByCompany(),
     watchGetRoles(),
     watchGetDepartments(),
-    watchGetWarehousesByFactories(),
     watchGetDetails(),
-    watchGetItemGroups(),
-    watchGetItemTypes(),
-    watchGetItemUnits(),
     watchGetItems(),
     watchGetWarehouses(),
-    watchGetCustomers(),
-    watchGetAllItemDetails(),
     watchGetBoms(),
-    watchGetFactories(),
-    watchGetQualityPoints(),
-    watchGetItemQualityPoint(),
     watchGetSaleOrderDetailByIds(),
 
     //routing
@@ -300,7 +277,6 @@ export default function* sagas() {
 
     // quality-point
     watchSearchQualityPoints(),
-    watchGetQualityPointDetails(),
 
     //price-report
     watchGetPriceReport(),

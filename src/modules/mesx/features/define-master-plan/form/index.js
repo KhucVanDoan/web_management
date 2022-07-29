@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { createFilterOptions, Grid, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { isEmpty, orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -24,12 +24,12 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import {
   SALE_ORDER_STATUS,
   MASTER_PLAN_STATUS_OPTIONS,
 } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertUtcDateTimeToLocalTz } from '~/utils'
@@ -51,10 +51,7 @@ const DefineMasterPlanForm = () => {
     data: { isLoading, masterPlanDetails },
     actions,
   } = useDefineMasterPlan()
-  const {
-    data: { factoryList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
+
   const {
     data: { saleOrderDetailList },
     actions: actionSaleOrder,
@@ -68,7 +65,6 @@ const DefineMasterPlanForm = () => {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
-    commonManagementActions.getFactories()
     return () => {
       actions.resetMasterPlanDetails()
     }
@@ -105,7 +101,7 @@ const DefineMasterPlanForm = () => {
     const convertValues = {
       name: values.name,
       code: values.code,
-      factoryId: values.factoryId,
+      factoryId: values?.factoryId?.id,
       description: values.description,
       dateFrom: values?.planDate
         ? convertUtcDateTimeToLocalTz(values?.planDate[0], UNSAFE_DATE_FORMAT_3)
@@ -208,8 +204,7 @@ const DefineMasterPlanForm = () => {
             id: saleOrderSchedule.saleOrderId,
           }
         }),
-        factoryId:
-          masterPlanDetails?.factory?.id || masterPlanDetails?.factoryId,
+        factoryId: masterPlanDetails?.factory,
       }
     : {
         code: '',
@@ -331,12 +326,14 @@ const DefineMasterPlanForm = () => {
                       label={t('defineMasterPlan.moFactory')}
                       placeholder={t('defineMasterPlan.moFactory')}
                       required
-                      options={factoryList?.items || []}
                       getOptionLabel={(option) => option?.name || ''}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(option) => option?.id || ''}
+                      asyncRequest={(s) =>
+                        searchFactoriesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       disabled={!values?.soId?.length}
                     />
                   </Grid>
