@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { Checkbox, FormControlLabel, IconButton } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
@@ -14,6 +15,7 @@ import {
   WORK_TYPE,
   WORK_TYPE_MAP,
 } from '~/modules/mmsx/constants'
+import useCreatePlan from '~/modules/mmsx/redux/hooks/useCreatePlan'
 import useJob from '~/modules/mmsx/redux/hooks/useJob'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
@@ -21,6 +23,7 @@ import {
   convertSortParams,
   convertUtcDateToLocalTz,
 } from '~/utils'
+import qs from '~/utils/qs'
 
 import FilterForm from './filter-form'
 import JobQuickFilter from './filter-quick-form'
@@ -42,7 +45,20 @@ const Job = () => {
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
   const [checked, setChecked] = useState(true)
+  const { id } = useParams()
+  const location = useLocation()
+  const { groupId } = qs.parse(location.search)
+  const {
+    data: { detailPlan },
+    actions: createPlanAction,
+  } = useCreatePlan()
 
+  useEffect(() => {
+    createPlanAction.getDetailPlan(groupId)
+    return () => {
+      createPlanAction.resetStateCreatePlan()
+    }
+  }, [id])
   const DEFAULT_FILTERS = {
     code: '',
     requestCode: '',
@@ -57,7 +73,10 @@ const Job = () => {
   const DEFAULT_QUICK_FILTERS = {
     type: '',
     status: null,
-    createdAt: null,
+    createdAt:
+      groupId && !isEmpty(detailPlan)
+        ? [new Date(detailPlan?.planFrom), new Date(detailPlan?.planTo)]
+        : null,
     assign: '',
   }
 
@@ -303,7 +322,13 @@ const Job = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          ...quickFilters,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
       user: checked ? userId : null,
     }

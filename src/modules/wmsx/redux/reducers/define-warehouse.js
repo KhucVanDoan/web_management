@@ -31,6 +31,7 @@ import {
   UPDATE_WAREHOUSE_CANVAS_FAILED,
   UPDATE_WAREHOUSE_CANVAS_START,
   UPDATE_WAREHOUSE_CANVAS_SUCCESS,
+  RESET_STATE_WAREHOUSE_CANVAS,
 } from '../actions/define-warehouse'
 
 const initialState = {
@@ -134,6 +135,13 @@ export default function defineWarehouse(state = initialState, action) {
         warehouseDetails: {},
         isLoading: false,
       }
+    case RESET_STATE_WAREHOUSE_CANVAS: {
+      return {
+        ...state,
+        warehouseDetails: {},
+        isLoading: false,
+      }
+    }
     default:
       return state
   }
