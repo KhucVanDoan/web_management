@@ -12,11 +12,8 @@ import {
  * @returns {Promise}
  */
 const getAttributeMaintainApi = () => {
-  const isGetAll = {
-    isGetAll: 1,
-  }
   const uri = `v1/mms/maintenance-attributes/list`
-  return api.get(uri, isGetAll)
+  return api.get(uri)
 }
 
 /*Worker */

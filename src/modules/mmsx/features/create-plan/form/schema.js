@@ -6,13 +6,13 @@ export const validateShema = (t) => {
   return Yup.object().shape({
     code: Yup.string()
       .length(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         t('general:form.length', {
-          length: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         }),
       )
       .required(t('general:form.required')),
-    name: Yup.string()
+    planName: Yup.string()
       .required(t('general:form.required'))
       .max(
         TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
@@ -20,7 +20,7 @@ export const validateShema = (t) => {
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    time: Yup.string().required(t('general:form.required')),
-    factoryId: Yup.string().required(t('general:form.required')),
+    time: Yup.array().nullable().required(t('general:form.required')),
+    factoryId: Yup.object().nullable().required(t('general:form.required')),
   })
 }

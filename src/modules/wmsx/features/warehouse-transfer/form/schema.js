@@ -4,10 +4,10 @@ const warehouseTranferSchema = (t) =>
   Yup.object().shape({
     code: Yup.string().nullable().required(t('general:form.required')),
     name: Yup.string().nullable().required(t('general:form.required')),
-    destinationFactoryName: Yup.string()
+    destinationFactoryName: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    sourceFactoryName: Yup.string()
+    sourceFactoryName: Yup.object()
       .nullable()
       .required(t('general:form.required')),
     destinationWarehouseName: Yup.string()

@@ -7,8 +7,6 @@ import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { PLAN_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { exportMaterialReportApi } from '~/modules/mesx/redux/sagas/material-report/import-export-material-report'
@@ -34,24 +32,15 @@ function MaterialReport() {
   const { t } = useTranslation(['mesx'])
 
   const DEFAULT_FILTERS = {
-    manufacturingOrderIds: '',
-    saleOrderIds: '',
+    manufacturingOrderIds: null,
+    saleOrder: null,
     itemName: '',
   }
 
   const {
-    data: { itemTypeList },
-    actions: ItemTypeAction,
-  } = useItemType()
-  const {
     data: { isLoading, total, moList },
     actions,
   } = useMo()
-
-  const {
-    data: { saleOrderList },
-    actions: actionSaleOrder,
-  } = useSaleOrder()
 
   const [bomTree, setBomTree] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -101,8 +90,8 @@ function MaterialReport() {
       headerName: t('materialReport.saleOrder'),
       sortable: true,
       renderCell: (params) => {
-        const { saleOrderId } = params.row
-        return saleOrderList.find((i) => i.id === saleOrderId)?.name
+        const { saleOrder } = params.row
+        return saleOrder?.name
       },
     },
     {
@@ -206,7 +195,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {
@@ -268,7 +257,7 @@ function MaterialReport() {
       sortable: false,
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList.find((i) => i.id === item.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {
@@ -321,8 +310,6 @@ function MaterialReport() {
 
   useEffect(() => {
     refreshData()
-    ItemTypeAction.searchItemTypes({ isGetAll: 1 })
-    actionSaleOrder.searchSaleOrders({ isGetAll: 1 })
   }, [pageSize, page, filters, sort, filters, keyword])
 
   useEffect(() => {
@@ -341,10 +328,10 @@ function MaterialReport() {
               text: [filters?.manufacturingOrderIds?.id],
             }
           : {},
-        filters?.saleOrderIds
+        filters?.saleOrder?.name
           ? {
               column: 'saleOrderIds',
-              text: filters?.saleOrderIds,
+              text: filters?.saleOrder?.name,
             }
           : {},
         filters?.itemName

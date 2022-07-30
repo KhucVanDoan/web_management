@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
 import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
   Autocomplete as MuiAutocomplete,
   Box,
   ListItemButton,
+  Popper as MuiPopper,
+  Paper as MuiPaper,
   Typography,
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
@@ -20,6 +21,7 @@ import { useDebounce } from '~/common/hooks'
 import VirtualList from '~/components/Autocomplete/VirtualList'
 import TextField from '~/components/TextField'
 import { useClasses } from '~/themes'
+import qs from '~/utils/qs'
 
 import Icon from '../Icon'
 import style from './style'
@@ -31,6 +33,7 @@ const Autocomplete = ({
   renderOption,
   asyncRequest,
   asyncRequestHelper,
+  asyncRequestDeps,
   noOptionsText,
   loadingText,
   vertical,
@@ -46,6 +49,9 @@ const Autocomplete = ({
   onChange,
   isOptionEqualToValue,
   uncontrolled,
+  dropdownLarger,
+  dropdownWidth,
+  dropdownHeader,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -61,6 +67,7 @@ const Autocomplete = ({
 
   const { t } = useTranslation()
   const debouncedInputValue = useDebounce(inputValue, 200)
+  const refetchWhen = useDebounce(qs.stringify(asyncRequestDeps ?? ''), 200)
 
   const isOptEqual = (opt, v) =>
     typeof isOptionEqualToValue === 'function'
@@ -126,7 +133,7 @@ const Autocomplete = ({
     if (isAsync) {
       prefetchOptions()
     }
-  }, [isAsync])
+  }, [isAsync, refetchWhen])
 
   const getDisplayedAsyncOptions = () => {
     if (isSearchingMode) {
@@ -146,26 +153,38 @@ const Autocomplete = ({
     return reverse(uniqWith(reverse(arr), isOptEqual))
   }
 
+  const dropdownMinWidth = useMemo(() => {
+    if (dropdownWidth) return dropdownWidth
+    if (dropdownLarger || hasSubLabel) return 500
+    return 0
+  }, [dropdownWidth, dropdownLarger, hasSubLabel])
+
   const renderCustomizedOption = (optProps, opt, selected) => {
+    const sx = {
+      wordBreak: 'break-word',
+      display: 'block !important',
+      ...(multiple
+        ? {
+            pr: '30px !important',
+            position: 'relative',
+          }
+        : {}),
+    }
+
+    const icon = multiple && selected && (
+      <Icon
+        name="check"
+        size={16}
+        sx={{ position: 'absolute', top: 8, right: 8 }}
+      />
+    )
+
     if (typeof renderOption === 'function') {
-      return renderOption(optProps, opt, selected)
+      return renderOption(optProps, opt, selected, sx, icon)
     }
 
     return (
-      <ListItemButton
-        {...optProps}
-        component="li"
-        sx={{
-          wordBreak: 'break-word',
-          display: 'block !important',
-          ...(multiple
-            ? {
-                pr: '30px !important',
-                position: 'relative',
-              }
-            : {}),
-        }}
-      >
+      <ListItemButton {...optProps} component="li" sx={sx}>
         <Typography component="span">{getOptionLabel(opt)}</Typography>
 
         {hasSubLabel && (
@@ -180,13 +199,7 @@ const Autocomplete = ({
           </Typography>
         )}
 
-        {multiple && selected && (
-          <Icon
-            name="check"
-            size={16}
-            sx={{ position: 'absolute', top: 8, right: 8 }}
-          />
-        )}
+        {icon}
       </ListItemButton>
     )
   }
@@ -270,8 +283,33 @@ const Autocomplete = ({
     )
   }
 
+  const Popper = useCallback(
+    (popperProps) => (
+      <MuiPopper
+        {...popperProps}
+        placement="bottom-start"
+        style={{
+          ...popperProps?.style,
+          minWidth: `min(${dropdownMinWidth}px, 100vw)`,
+        }}
+      />
+    ),
+    [dropdownMinWidth],
+  )
+
+  const Paper = useCallback(
+    ({ children, ...paperProps }) => (
+      <MuiPaper {...paperProps}>
+        {dropdownHeader}
+        {children}
+      </MuiPaper>
+    ),
+    [dropdownHeader],
+  )
+
   return (
     <MuiAutocomplete
+      key={JSON.stringify(value)}
       classes={{
         root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
@@ -283,8 +321,11 @@ const Autocomplete = ({
       }}
       multiple={multiple}
       renderTags={renderTags}
+      {...(dropdownMinWidth ? { PopperComponent: Popper } : {})}
+      {...(dropdownHeader ? { PaperComponent: Paper } : {})}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
+      noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
       getOptionLabel={(opt) => getOptionLabel(opt) || ''}
       renderOption={(p, opt, { selected }) =>
         renderCustomizedOption(
@@ -326,6 +367,7 @@ const Autocomplete = ({
         />
       )}
       {...props}
+      isOptionEqualToValue={isOptEqual}
       {...(multiple
         ? {
             disableCloseOnSelect: true,
@@ -336,16 +378,7 @@ const Autocomplete = ({
             value,
             options: getDisplayedAsyncOptions(),
             filterOptions: (opts) => opts,
-            isOptionEqualToValue: isOptEqual,
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
-            noOptionsText: inputValue ? (
-              noOptionsText || t('autocomplete.noOptionsText')
-            ) : (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InfoOutlinedIcon fontSize="small" sx={{ mr: 0.5 }} />
-                {t('autocomplete.hint')}
-              </Box>
-            ),
             ...(multiple
               ? {
                   // async multiple
@@ -407,7 +440,6 @@ const Autocomplete = ({
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
-            noOptionsText: noOptionsText || t('autocomplete.noOptionsText'),
           })}
     />
   )
@@ -427,6 +459,8 @@ Autocomplete.defaultProps = {
   getOptionValue: (opt) => opt,
   onChange: () => {},
   uncontrolled: false,
+  dropdownLarger: false,
+  dropdownHeader: null,
 }
 
 Autocomplete.propTypes = {
@@ -435,6 +469,13 @@ Autocomplete.propTypes = {
   multiple: PropTypes.bool,
   renderOption: PropTypes.func,
   asyncRequest: PropTypes.func,
+  asyncRequestDeps: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.array,
+    PropTypes.object,
+  ]),
   noOptionsText: PropTypes.node,
   loadingText: PropTypes.node,
   vertical: PropTypes.bool,
@@ -449,6 +490,9 @@ Autocomplete.propTypes = {
   onChange: PropTypes.func,
   isOptionEqualToValue: PropTypes.func,
   uncontrolled: PropTypes.bool,
+  dropdownLarger: PropTypes.bool,
+  dropdownWidth: PropTypes.number,
+  dropdownHeader: PropTypes.node,
 }
 
 export default Autocomplete

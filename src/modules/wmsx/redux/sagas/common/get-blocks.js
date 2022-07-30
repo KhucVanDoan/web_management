@@ -23,13 +23,7 @@ export const getBlocksApi = (params) => {
  */
 function* doGetBlocks(action) {
   try {
-    const payload = {
-      keyword: '',
-      withItemDetails: [],
-      filter: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getBlocksApi, payload)
+    const response = yield call(getBlocksApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getBlocksSuccess(response.data.items))

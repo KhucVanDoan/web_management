@@ -335,3 +335,5 @@ export const BULK_ACTION_OPTIONS = [
     icon: 'delete',
   },
 ]
+
+export const ONE_DAY_IN_MILISECOND = 86400000

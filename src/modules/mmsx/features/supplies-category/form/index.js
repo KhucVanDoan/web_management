@@ -77,6 +77,7 @@ const SuppliesCategoryForm = () => {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      responsibleUser: values?.responsibleUser || null,
       id,
     }
     if (mode === MODAL_MODE.CREATE) {

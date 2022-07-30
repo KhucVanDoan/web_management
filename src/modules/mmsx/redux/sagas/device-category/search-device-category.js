@@ -10,7 +10,7 @@ import {
   SEARCH_DEVICE_CATEGORY_START,
 } from '../../actions/device-category'
 
-const searchDeviceCategory = (params) => {
+export const searchDeviceCategory = (params) => {
   const url = `v1/mms/device-groups/list`
   return api.get(url, params)
 }

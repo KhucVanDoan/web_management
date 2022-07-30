@@ -23,13 +23,7 @@ const getRolesApi = (params) => {
  */
 function* doGetRoles(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getRolesApi, payload)
+    const response = yield call(getRolesApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put({

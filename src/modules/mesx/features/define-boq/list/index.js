@@ -243,7 +243,7 @@ const DefineBOQ = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
+      filter: convertFilterParams({ ...filters, pmName: filters?.pmName?.id }, [
         ...columns,
         { field: 'createdAt', filterFormat: 'date' },
       ]),

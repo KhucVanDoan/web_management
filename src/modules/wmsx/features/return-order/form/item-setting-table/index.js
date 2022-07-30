@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Checkbox, IconButton, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -26,6 +27,9 @@ function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
   const { items, mode, arrayHelpers, values, setFieldValue } = props
   const isView = mode === MODAL_MODE.DETAIL
+  const isUpdate = mode === MODAL_MODE.UPDATE
+  const packageOpts = []
+  const palletOpts = []
 
   const {
     data: { itemByOrderList },
@@ -65,6 +69,13 @@ function ItemSettingTable(props) {
     actions.getItemsByOrderReturnOrder(params)
   }, [values?.orderCode])
 
+  if (isUpdate) {
+    values?.items?.forEach((item) => {
+      packageOpts.push(item.package)
+      palletOpts.push(item.pallet)
+    })
+  }
+
   const handleGetData = (val, index) => {
     const params = items[index]?.itemId?.id
     if (val) {
@@ -72,11 +83,14 @@ function ItemSettingTable(props) {
         filter: convertFilterParams({
           type: LOCATION_SETTING_TYPE.EVEN,
           itemId: items[index]?.itemId?.id,
+          warehouseId: values?.orderCode?.warehouseId,
         }),
       })
       packageActs.getPackagesEvenByItem(params)
       palletActs.getPalletsEvenByItem(params)
     }
+    setFieldValue(`items[${index}].packageId`, null)
+    setFieldValue(`items[${index}].palletId`, null)
   }
 
   const itemIdList = itemByOrderList?.items?.map((item) => item?.itemId)
@@ -143,7 +157,7 @@ function ItemSettingTable(props) {
       align: 'center',
       renderCell: (params, index) => {
         return isView ? (
-          <Checkbox disabled checked={params.row?.isEven} />
+          <Checkbox disabled checked={params.row?.evenRow} />
         ) : (
           <Field.Checkbox
             name={`items[${index}].evenRow`}
@@ -205,7 +219,11 @@ function ItemSettingTable(props) {
           <Field.Autocomplete
             name={`items[${index}].packageId`}
             options={
-              evenRow ? packagesEvenByItem : items[index]?.itemId?.packages
+              evenRow
+                ? isEmpty(packagesEvenByItem)
+                  ? packageOpts
+                  : packagesEvenByItem
+                : items[index]?.itemId?.packages
             }
             disabled={isView}
             getOptionLabel={(opt) => opt?.code}
@@ -225,7 +243,13 @@ function ItemSettingTable(props) {
         ) : (
           <Field.Autocomplete
             name={`items[${index}].palletId`}
-            options={evenRow ? palletsEvenByItem : []}
+            options={
+              evenRow
+                ? isEmpty(palletsEvenByItem)
+                  ? palletOpts
+                  : palletsEvenByItem
+                : []
+            }
             disabled={isView}
             getOptionLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id || null}

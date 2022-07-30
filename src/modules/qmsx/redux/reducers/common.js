@@ -2,9 +2,6 @@ import {
   GET_COMPANIES_START,
   GET_COMPANIES_SUCCESS,
   GET_COMPANIES_FAILED,
-  GET_DEPARTMENTS_START,
-  GET_DEPARTMENTS_SUCCESS,
-  GET_DEPARTMENTS_FAILED,
   GET_ROLES_START,
   GET_ROLES_SUCCESS,
   GET_ROLES_FAILED,
@@ -62,7 +59,6 @@ const initialState = {
 export default function commonManagement(state = initialState, action) {
   switch (action.type) {
     case GET_COMPANIES_START:
-    case GET_DEPARTMENTS_START:
     case GET_ROLES_START:
     case GET_ITEM_UNITS_START:
     case GET_ITEMS_START:
@@ -83,12 +79,7 @@ export default function commonManagement(state = initialState, action) {
         companyList: action.payload,
         isLoading: false,
       }
-    case GET_DEPARTMENTS_SUCCESS:
-      return {
-        ...state,
-        departmentList: action.payload,
-        isLoading: false,
-      }
+
     case GET_ROLES_SUCCESS:
       return {
         ...state,
@@ -200,7 +191,6 @@ export default function commonManagement(state = initialState, action) {
       }
     case GET_PRODUCTS_BY_STAGEQC_FAILED:
     case GET_COMPANIES_FAILED:
-    case GET_DEPARTMENTS_FAILED:
     case GET_ROLES_FAILED:
       return {
         ...state,

@@ -13,7 +13,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { MO_STATUS, MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -38,10 +37,6 @@ function MoDetail() {
     data: { moDetails, BOMStructure, PriceStructure, materialCheck },
     actions,
   } = useMo()
-  const {
-    data: { itemTypeList },
-    actions: actionsItemType,
-  } = useItemType()
 
   const { actions: masterPlanActions } = useDefineMasterPlan()
 
@@ -54,7 +49,6 @@ function MoDetail() {
     actions.getMODetailsById(id)
     actions.getBOMProducingStepStructureById(id)
     actions.getPriceStructureById(id)
-    actionsItemType.searchItemTypes({ isGetAll: 1 })
     masterPlanActions.getMasterPlanDetailsById(id, (data) => {
       setSaleOrders(data.saleOrderSchedules)
     })
@@ -203,15 +197,9 @@ function MoDetail() {
             isView={true}
             moDetails={moDetails}
           />
-          <BomTable BOMStructure={BOMStructure} itemTypeList={itemTypeList} />
-          <BomProducingStepTable
-            BOMStructure={BOMStructure}
-            itemTypeList={itemTypeList}
-          />
-          <PriceTable
-            PriceStructure={PriceStructure}
-            itemTypeList={itemTypeList}
-          />
+          <BomTable BOMStructure={BOMStructure} />
+          <BomProducingStepTable BOMStructure={BOMStructure} />
+          <PriceTable PriceStructure={PriceStructure} />
         </Tabs>
       </Box>
       <ActionBar

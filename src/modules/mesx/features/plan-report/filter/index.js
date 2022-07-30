@@ -55,7 +55,7 @@ const FilterForm = () => {
               limit: ASYNC_SEARCH_LIMIT,
               filter: values?.saleOrderIds
                 ? JSON.stringify([
-                    { column: 'saleOrderIds', text: values?.saleOrderIds },
+                    { column: 'saleOrderIds', text: [values?.saleOrderIds] },
                   ])
                 : [],
             })

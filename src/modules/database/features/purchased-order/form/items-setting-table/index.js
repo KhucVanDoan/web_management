@@ -42,11 +42,9 @@ function ItemSettingTable({
   const requestBuyMaterial = values?.requestBuyMaterialCode
     ? requestBuyMaterialDetails?.itemDetails?.map((item) => item)
     : itemList
-
   useEffect(() => {
     actions.getItems({})
     actions.getWarehouses({})
-    actions.getBoms({ isGetAll: 1 })
   }, [])
 
   useEffect(() => {

@@ -2,10 +2,6 @@ export const GET_COMPANIES_START = 'QMSX_GET_COMPANIES_START'
 export const GET_COMPANIES_SUCCESS = 'QMSX_GET_COMPANIES_SUCCESS'
 export const GET_COMPANIES_FAILED = 'QMSX_GET_COMPANIES_FAILED'
 
-export const GET_DEPARTMENTS_START = 'QMSX_GET_DEPARTMENTS_START'
-export const GET_DEPARTMENTS_SUCCESS = 'QMSX_GET_DEPARTMENTS_SUCCESS'
-export const GET_DEPARTMENTS_FAILED = 'QMSX_GET_DEPARTMENTS_FAILED'
-
 export const GET_ROLES_START = 'QMSX_GET_ROLES_START'
 export const GET_ROLES_SUCCESS = 'QMSX_GET_ROLES_SUCCESS'
 export const GET_ROLES_FAILED = 'QMSX_GET_ROLES_FAILED'
@@ -58,22 +54,6 @@ export const GET_ALL_CHECK_LIST_FAILED = 'QMSX_GET_ALL_CHECK_LIST_FAILED'
 export function getCompanies(payload, onSuccess, onError) {
   return {
     type: GET_COMPANIES_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get department
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getDepartments(payload, onSuccess, onError) {
-  return {
-    type: GET_DEPARTMENTS_START,
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
@@ -443,7 +423,6 @@ export default {
   getCustomersSuccess,
   getCustomersFailed,
   getCompanies,
-  getDepartments,
   getRoles,
   getItemUnits,
   getItemUnitsSuccess,

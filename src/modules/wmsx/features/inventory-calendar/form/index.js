@@ -39,9 +39,9 @@ const InventoryCalendarForm = () => {
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
     warehouseName: '',
-    warehouseSectorName: null,
-    warehouseShelfName: null,
-    warehousePalletName: null,
+    warehouseSector: null,
+    warehouseShelf: null,
+    warehousePallet: null,
     itemId: null,
     itemName: '',
   }
@@ -64,9 +64,9 @@ const InventoryCalendarForm = () => {
           ? inventoryCalendarDetails?.items?.map((i, index) => ({
               id: index,
               itemId: i.item,
-              warehouseSectorName: i.warehouseSector?.id,
-              warehouseShelfName: i.warehouseShelf?.id,
-              warehousePalletName: i.warehouseShelfFloor?.id,
+              warehouseSector: i.warehouseSector,
+              warehouseShelf: i.warehouseShelf,
+              warehousePallet: i.warehouseShelfFloor,
             }))
           : [{ ...DEFAULT_ITEM }],
     }),
@@ -145,9 +145,9 @@ const InventoryCalendarForm = () => {
         values?.type === INVENTORY_TYPE.PARTIAL_INVENTORY
           ? values.items?.map((item) => ({
               id: item?.itemId?.id || item?.itemId?.itemId,
-              sectorId: item?.warehouseSectorName,
-              shelfId: item?.warehouseShelfName,
-              floorId: item?.warehousePalletName,
+              sectorId: item?.warehouseSector?.id,
+              shelfId: item?.warehouseShelf?.id,
+              floorId: item?.warehousePallet?.id,
             }))
           : [],
     }

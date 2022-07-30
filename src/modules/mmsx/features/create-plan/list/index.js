@@ -202,7 +202,10 @@ function CreatePlan() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams({ ...filters, ...quickFilters }, [
+        ...columns,
+        { field: 'time', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.getCreatePlanList(params)

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { Checkbox, IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -31,14 +32,24 @@ import addNotification from '~/utils/toast'
 
 function ItemSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, status, itemsFilter, setFieldValue } =
-    props
+  const {
+    items,
+    mode,
+    arrayHelpers,
+    status,
+    itemsFilter,
+    setFieldValue,
+    values,
+  } = props
   const hideCols = ![
     ORDER_STATUS.IN_PROGRESS,
     ORDER_STATUS.APPROVED,
     ORDER_STATUS.COMPLETED,
   ].includes(status)
   const isView = mode === MODAL_MODE.DETAIL
+  const isUpdate = mode === MODAL_MODE.UPDATE
+  const packageOpts = []
+  const palletOpts = []
 
   const {
     data: { itemList },
@@ -79,6 +90,13 @@ function ItemSettingTable(props) {
     })
   }, [itemIds])
 
+  if (isUpdate) {
+    values?.items?.forEach((item) => {
+      packageOpts.push(item.package)
+      palletOpts.push(item.pallet)
+    })
+  }
+
   const handleGetData = (val, index) => {
     const params = items[index]?.itemId
     if (val) {
@@ -91,6 +109,8 @@ function ItemSettingTable(props) {
     }
     packageActs.getPackagesEvenByItem(params)
     palletActs.getPalletsEvenByItem(params)
+    setFieldValue(`items[${index}].packageId`, null)
+    setFieldValue(`items[${index}].palletId`, null)
   }
   const getItemObject = (id) => {
     return itemList?.find((item) => item?.id === id)
@@ -277,7 +297,13 @@ function ItemSettingTable(props) {
         ) : (
           <Field.Autocomplete
             name={`items[${index}].packageId`}
-            options={evenRow ? packagesEvenByItem : packageFilter}
+            options={
+              evenRow
+                ? isEmpty(packagesEvenByItem)
+                  ? packageOpts
+                  : packagesEvenByItem
+                : packageFilter
+            }
             getOptionLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
           />
@@ -295,7 +321,13 @@ function ItemSettingTable(props) {
         ) : (
           <Field.Autocomplete
             name={`items[${index}].palletId`}
-            options={evenRow ? palletsEvenByItem : []}
+            options={
+              evenRow
+                ? isEmpty(palletsEvenByItem)
+                  ? palletOpts
+                  : palletsEvenByItem
+                : []
+            }
             getOptionLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
           />
@@ -315,43 +347,6 @@ function ItemSettingTable(props) {
             options={locationSettingsList}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id}
-          />
-        )
-      },
-    },
-    {
-      field: 'palletCode',
-      headerName: t('purchasedOrderImport.item.palletCode'),
-      width: 180,
-      renderCell: (params, index) => {
-        const { evenRow } = params.row
-        return isView ? (
-          <>{params?.row?.palletId}</>
-        ) : (
-          <Field.Autocomplete
-            name={`items[${index}].palletId`}
-            options={evenRow ? palletsEvenByItem : []}
-            disabled={isView}
-            getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id || null}
-          />
-        )
-      },
-    },
-    {
-      field: 'storageLocation',
-      headerName: t(`purchasedOrderImport.item.storageLocation`),
-      width: 180,
-      renderCell: (params, index) => {
-        return isView ? (
-          <>{params?.row?.location}</>
-        ) : (
-          <Field.Autocomplete
-            name={`items[${index}].location`}
-            options={locationSettingsList}
-            disabled={isView}
-            getOptionLabel={(opt) => `${opt?.code} - ${opt?.name}`}
             getOptionValue={(opt) => opt?.id}
           />
         )

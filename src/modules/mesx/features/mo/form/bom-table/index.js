@@ -5,7 +5,7 @@ import Icon from '~/components/Icon'
 import TableCollapse from '~/components/TableCollapse'
 
 function BomTable(props) {
-  const { itemTypeList, BOMStructure } = props
+  const { BOMStructure } = props
   const { t } = useTranslation(['mesx'])
 
   const getColumns = [
@@ -46,7 +46,7 @@ function BomTable(props) {
       align: 'center',
       renderCell: (params) => {
         const { item } = params.row
-        return itemTypeList?.find((i) => i.id === item?.itemTypeId)?.name
+        return item?.itemType?.name
       },
     },
     {
@@ -68,7 +68,7 @@ function BomTable(props) {
       align: 'center',
       renderCell: (params) => {
         return Number(params.row?.item?.remainingQuantity)
-      }
+      },
     },
     {
       field: 'remainningMinQuantity',
@@ -83,7 +83,7 @@ function BomTable(props) {
       align: 'center',
       renderCell: (params) => {
         return Number(params.row?.item?.planningQuantity)
-      }
+      },
     },
     {
       field: 'manufactureQuantity',

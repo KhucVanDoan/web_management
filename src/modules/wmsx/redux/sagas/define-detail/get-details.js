@@ -12,7 +12,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const getDetailsApi = () => {
-  const uri = `/v1/items/item-details/list?isGetAll=1`
+  const uri = `/v1/items/item-details/list`
   return api.get(uri)
 }
 

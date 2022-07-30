@@ -2,9 +2,9 @@ image: gitlab/dind
 
 variables:
   DOCKER_DRIVER: overlay
-  DEMO_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  DEV_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  STAGING_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  DEV_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
+  STAGING_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
+  DEMO_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
 
 services:
   - docker:dind
@@ -20,7 +20,7 @@ stages:
 build:
   stage: build
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
     - chmod +x ./setup_env.sh
     - ./setup_env.sh
   script:
@@ -52,16 +52,17 @@ deploy:
 
     - >
       ssh $SSH_USER@$SSH_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+      "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  mesx_web || true; 
-      docker run --rm -d --name mesx_web -p 5080:80 ${STAGING_CONTAINER_IMAGE};
+      docker rm  mesx_web || true; 
+      docker run -d --name mesx_web --restart=always  -p 5080:80 ${DEV_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_staging:
   stage: build_staging
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
     - chmod +x ./setup_env_staging.sh
     - ./setup_env_staging.sh
   script:
@@ -93,7 +94,7 @@ deploy:
 
     - >
       ssh $SSH_USER@$SSH_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+      "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  avenue_wmsx_dev_web || true; 
       docker run --rm -d --name avenue_wmsx_dev_web -p 20088:80 ${DEV_CONTAINER_IMAGE};
@@ -102,7 +103,7 @@ deploy:
 build_demo:
   before_script:
     - docker version
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
     - ls -la
     - chmod +x ./setup_env_demo.sh
     - ./setup_env_demo.sh

@@ -496,20 +496,6 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: ROUTE.JOB.LIST.TITLE,
-        path: ROUTE.JOB.LIST.PATH,
-        component: Job,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.JOB.DETAIL.TITLE,
-            path: ROUTE.JOB.DETAIL.PATH,
-            component: JobDetail,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
         name: ROUTE.CREATE_PLAN.LIST.TITLE,
         path: ROUTE.CREATE_PLAN.LIST.PATH,
         component: CreatePlan,

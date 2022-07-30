@@ -24,7 +24,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { MASTER_PLAN_STATUS, MO_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { useMo } from '~/modules/mesx/redux/hooks/useMo'
@@ -71,11 +70,6 @@ const MOForm = () => {
     actions,
   } = useMo()
 
-  const {
-    data: { itemTypeList },
-    actions: actionsItemType,
-  } = useItemType()
-
   useEffect(() => {
     setMode(MODE_MAP[path?.replace(id, ':id')])
   }, [])
@@ -86,7 +80,6 @@ const MOForm = () => {
       actions.getMODetailsById(moId)
       actions.getBOMProducingStepStructureById(moId)
       actions.getPriceStructureById(moId)
-      actionsItemType.searchItemTypes({ isGetAll: 1 })
     }
 
     return () => {
@@ -447,18 +440,9 @@ const MOForm = () => {
                     isUpdate={isUpdate}
                     moDetails={moDetails}
                   />
-                  <BomTable
-                    BOMStructure={BOMStructure}
-                    itemTypeList={itemTypeList}
-                  />
-                  <BomProducingStepTable
-                    BOMStructure={BOMStructure}
-                    itemTypeList={itemTypeList}
-                  />
-                  <PriceTable
-                    PriceStructure={PriceStructure}
-                    itemTypeList={itemTypeList}
-                  />
+                  <BomTable BOMStructure={BOMStructure} />
+                  <BomProducingStepTable BOMStructure={BOMStructure} />
+                  <PriceTable PriceStructure={PriceStructure} />
                 </Tabs>
               </Box>
             )}
