@@ -309,6 +309,7 @@ const Autocomplete = ({
 
   return (
     <MuiAutocomplete
+      key={JSON.stringify(value)}
       classes={{
         root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
@@ -366,6 +367,7 @@ const Autocomplete = ({
         />
       )}
       {...props}
+      isOptionEqualToValue={isOptEqual}
       {...(multiple
         ? {
             disableCloseOnSelect: true,
@@ -376,7 +378,6 @@ const Autocomplete = ({
             value,
             options: getDisplayedAsyncOptions(),
             filterOptions: (opts) => opts,
-            isOptionEqualToValue: isOptEqual,
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
             ...(multiple
               ? {

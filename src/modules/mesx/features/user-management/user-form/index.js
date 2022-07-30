@@ -70,6 +70,7 @@ function UserManagementForm() {
     companyActions.searchCompanies({ isGetAll: 1 })
     commonActions.getDepartments()
     commonActions.getRoles()
+    commonActions.getWarehouses()
   }, [])
 
   const initialValues = useMemo(
@@ -92,10 +93,6 @@ function UserManagementForm() {
     }),
     [userDetails],
   )
-
-  useEffect(() => {
-    commonActions.getWarehouses()
-  }, [])
 
   useEffect(() => {
     if (isUpdate) {
@@ -425,7 +422,9 @@ function UserManagementForm() {
                       label={t('userManagement.warehouse')}
                       placeholder={t('userManagement.warehouse')}
                       options={(warehouseList || []).filter((w) =>
-                        values.factories?.includes(w.factoryId),
+                        values.factories
+                          ?.map((f) => f.id)
+                          .includes(w.factoryId),
                       )}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({

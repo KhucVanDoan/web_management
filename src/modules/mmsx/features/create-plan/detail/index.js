@@ -76,7 +76,7 @@ const CreatePlanDetail = () => {
           <Button
             variant="outlined"
             sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.JOB.LIST.PATH)}
+            onClick={() => history.push(`${ROUTE.JOB.LIST.PATH}?groupId=${id}`)}
           >
             {t('createPlanList.jobBtn')}
           </Button>

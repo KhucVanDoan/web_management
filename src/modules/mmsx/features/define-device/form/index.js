@@ -30,6 +30,7 @@ import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
 import useDefineDevice from '~/modules/mmsx/redux/hooks/useDefineDevice'
 import useDeviceCategory from '~/modules/mmsx/redux/hooks/useDeviceCategory'
 import useTemplateInstall from '~/modules/mmsx/redux/hooks/useTemplateInstall'
+import { searchTemplateListApi } from '~/modules/mmsx/redux/sagas/template-checklist/search-template-checklist'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 
@@ -100,6 +101,7 @@ const DefineDeviceForm = () => {
       disableMttf: deviceDetail?.canRepair || false,
       attributeType: deviceDetail?.attributeType || '',
       installTemplate: deviceDetail?.installTemplate || '',
+      templateChecklist: isUpdate ? deviceDetail?.checkListTemplate : null,
       description: deviceDetail?.description || '',
       supplier: deviceDetail?.vendor || null,
       importDate: deviceDetail?.importDate || '',
@@ -266,7 +268,8 @@ const DefineDeviceForm = () => {
         type: subject?.type || '',
       },
 
-      canRepair: values?.disableMttf, //Có cho sửa chữa hay không
+      canRepair: values?.disableMttf, //Có cho sửa chữa hay không,
+      checkListTemplateId: values?.templateChecklist?.id,
     }
 
     if (mode === MODAL_MODE.CREATE) {
@@ -575,6 +578,25 @@ const DefineDeviceForm = () => {
                         getOptionValue={(opt) => opt?.id || ''}
                         getOptionLabel={(opt) => opt?.name || ''}
                         required
+                      />
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Field.Autocomplete
+                        name="templateChecklist"
+                        label={t('deviceList.templateChecklist')}
+                        placeholder={t(
+                          'deviceList.placeholder.templateChecklist',
+                        )}
+                        asyncRequest={(s) =>
+                          searchTemplateListApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        required
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                     <Grid item xs={12}>

@@ -48,6 +48,8 @@ export const UPDATE_WAREHOUSE_CANVAS_SUCCESS =
   'WMSX_UPDATE_WAREHOUSE_CANVAS_SUCCESS'
 export const UPDATE_WAREHOUSE_CANVAS_FAILED =
   'WMSX_UPDATE_WAREHOUSE_CANVAS_FAILED'
+
+export const RESET_STATE_WAREHOUSE_CANVAS = 'WMSX_RESET_STATE_WAREHOUSE_CANVAS'
 /**
  * Search warehouse
  * @param {object} payload
@@ -421,6 +423,11 @@ export function updateWarehouseCanvasFailed() {
   }
 }
 
+export function restStateWarehouseCanvas() {
+  return {
+    type: RESET_STATE_WAREHOUSE_CANVAS,
+  }
+}
 export default {
   searchWarehouses,
   searchWarehousesSuccess,
@@ -451,4 +458,5 @@ export default {
   getWarehouseDetailsCanvasById,
   getWarehouseDetailsCanvasByIdSuccess,
   getWarehouseDetailsCanvasByIdFailed,
+  restStateWarehouseCanvas,
 }

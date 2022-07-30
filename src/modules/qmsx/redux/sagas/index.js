@@ -5,7 +5,6 @@ import watchGetAllCheckList from './common/get-all-check-list'
 import watchGetAllErrorGroup from './common/get-all-error-group'
 import watchGetCompanies from './common/get-company'
 import watchGetCustomers from './common/get-customers'
-import watchGetDepartments from './common/get-department'
 import watchGetFactories from './common/get-factories'
 import watchGetItemUnits from './common/get-item-units'
 import watchGetItems from './common/get-items'
@@ -152,7 +151,6 @@ export default function* sagas() {
     // common
     watchGetCompanies(),
     watchGetRoles(),
-    watchGetDepartments(),
     watchGetItemUnits(),
     watchGetItems(),
     watchGetCustomers(),

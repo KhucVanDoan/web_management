@@ -6,9 +6,9 @@ export const validateShema = (t) => {
   return Yup.object().shape({
     code: Yup.string()
       .length(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         t('general:form.length', {
-          length: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
         }),
       )
       .required(t('general:form.required')),

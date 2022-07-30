@@ -80,7 +80,7 @@ const CreatePlanForm = () => {
     warning: detailPlan?.jobTypeTotal?.warningTotal || 0, //cảnh báo
     request: detailPlan?.jobTypeTotal?.maintainRequestTotal || 0, //yêu cầu
     install: detailPlan?.jobTypeTotal?.installingTotal || 0, //lắp đặt
-    time: isUpdate ? [detailPlan?.planFrom, detailPlan?.planTo] : [],
+    time: isUpdate ? [detailPlan?.planFrom, detailPlan?.planTo] : '',
   }
   useEffect(() => {
     if (isUpdate) {
@@ -383,28 +383,6 @@ const CreatePlanForm = () => {
       setFieldValue('maintain', listMaintain?.length || 0)
     }
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
-          >
-            {t('supplies.button.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.JOB.LIST.PATH)}
-          >
-            {t('createPlanList.jobBtn')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
 
   const histories = detailPlan?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
@@ -421,7 +399,6 @@ const CreatePlanForm = () => {
       title={t(`menu.${getTitle()}`)}
       loading={isLoading}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>
@@ -485,7 +462,7 @@ const CreatePlanForm = () => {
 
                       <Grid item lg={6} xs={12}>
                         <Field.DateRangePicker
-                          name="times"
+                          name="time"
                           label={t('createPlanList.form.time')}
                           placeholder={t('createPlanList.form.time')}
                           minDate={startOfToday()}

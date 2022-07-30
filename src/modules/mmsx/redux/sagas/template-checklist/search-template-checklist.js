@@ -7,14 +7,14 @@ import {
 } from '~/modules/mmsx/redux/actions/template-checklist'
 import { api } from '~/services/api'
 
-const searchTemplateList = (params) => {
+export const searchTemplateListApi = (params) => {
   const url = `v1/mms/check-list-templates`
   return api.get(url, params)
 }
 
 function* doSearchTemplateChecklist(action) {
   try {
-    const response = yield call(searchTemplateList, action.payload)
+    const response = yield call(searchTemplateListApi, action.payload)
     if (response.statusCode === 200) {
       yield put(searchTemplateChecklistSuccess(response?.data))
       if (action.onSuccess) yield action.onSuccess(response?.data)
