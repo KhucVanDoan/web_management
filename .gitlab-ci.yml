@@ -31,13 +31,13 @@ build:
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
 deploy:
   stage: deploy
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
   script:
     - eval `ssh-agent -s`
 
@@ -75,13 +75,13 @@ build_staging:
       --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_STAGING_DOMAIN" --no-cache .
     - docker push $STAGING_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
 deploy_staging:
   stage: deploy_staging
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
   script:
     - eval `ssh-agent -s`
 
@@ -124,29 +124,3 @@ build_demo:
     - docker push $DEMO_CONTAINER_IMAGE
   only:
     - master
-# deploy_demo:
-#   stage: deploy_demo
-#   variables:
-#     GIT_STRATEGY: none
-#   only:
-#     - master
-#   script:
-#     - eval `ssh-agent -s`
-
-#     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
-#     - mkdir -p ~/.ssh
-
-#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
-
-#     - mkdir -p ~/.ssh
-
-#     - chmod 644 ~/.ssh/known_hosts
-
-#     - >
-#       ssh $SSH_USER@$SSH_SERVER_IP
-#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-#       cd ${PATH_TO_DEMO_PROJECT};
-#       docker pull ${DEMO_CONTAINER_IMAGE};
-#       docker-compose down;
-#       docker-compose up -d;
-#       docker image prune -f;"
