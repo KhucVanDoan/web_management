@@ -54,8 +54,8 @@ deploy:
       ssh $SSH_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
-      docker stop  mesx_web || true; 
-      docker rm  mesx_web || true; 
+      docker stop  avenue_dev_mesx_web || true; 
+      docker rm  avenue_dev_mesx_web || true; 
       docker run -d --name avenue_dev_mesx_web --restart=always  -p 20088:80 ${DEV_CONTAINER_IMAGE};
       docker image prune -f;"
 
@@ -98,8 +98,8 @@ deploy_staging:
       ssh $SSH_STAGING_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${STAGING_CONTAINER_IMAGE};
-      docker stop  mesx_grand_stg_web || true; 
-      docker rm  mesx_grand_stg_web || true; 
+      docker stop  avenue_stg_web || true; 
+      docker rm  avenue_stg_web || true; 
       docker run -d --name avenue_stg_web --restart=always -p 20188:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
