@@ -56,7 +56,7 @@ deploy:
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  mesx_web || true; 
       docker rm  mesx_web || true; 
-      docker run -d --name mesx_web --restart=always  -p 5080:80 ${DEV_CONTAINER_IMAGE};
+      docker run -d --name avenue_dev_mesx_web --restart=always  -p 5080:80 ${DEV_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_staging:
@@ -66,20 +66,22 @@ build_staging:
     - chmod +x ./setup_env_staging.sh
     - ./setup_env_staging.sh
   script:
-    - docker build -t $DEV_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="http://10.1.14.17:20000"
+    - docker build -t $STAGING_CONTAINER_IMAGE
+      --build-arg REACT_APP_HOST="$REACT_APP_HOST_STAGING"
+      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_STAGING_URL"
+      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_STAGING_URL"
       --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
-    - docker push $DEV_CONTAINER_IMAGE
+      --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_STAGING_DOMAIN" --no-cache .
+    - docker push $STAGING_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
-deploy:
-  stage: deploy
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+deploy_staging:
+  stage: deploy_staging
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
+    - if: '$CI_COMMIT_BRANCH == "staging"'
   script:
     - eval `ssh-agent -s`
 
@@ -93,11 +95,12 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
 
     - >
-      ssh $SSH_USER@$SSH_SERVER_IP
+      ssh $SSH_STAGING_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
-      docker pull ${DEV_CONTAINER_IMAGE};
-      docker stop  avenue_wmsx_dev_web || true; 
-      docker run --rm -d --name avenue_wmsx_dev_web -p 20088:80 ${DEV_CONTAINER_IMAGE};
+      docker pull ${STAGING_CONTAINER_IMAGE};
+      docker stop  mesx_grand_stg_web || true; 
+      docker rm  mesx_grand_stg_web || true; 
+      docker run -d --name mesx_grand_stg_web --restart=always -p 10088:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_demo:
