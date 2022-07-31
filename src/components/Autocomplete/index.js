@@ -368,7 +368,11 @@ const Autocomplete = ({
       )}
       {...props}
       isOptionEqualToValue={isOptEqual}
-      disableCloseOnSelect={multiple ? true : false}
+      {...(multiple
+        ? {
+            disableCloseOnSelect: true,
+          }
+        : {})}
       {...(isAsync
         ? {
             value,
@@ -482,7 +486,7 @@ Autocomplete.propTypes = {
   getOptionLabel: PropTypes.func,
   getOptionSubLabel: PropTypes.func,
   getOptionValue: PropTypes.func,
-  labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  labelWidth: PropTypes.number,
   onChange: PropTypes.func,
   isOptionEqualToValue: PropTypes.func,
   uncontrolled: PropTypes.bool,
