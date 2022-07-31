@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
@@ -6,29 +6,36 @@ import { Form, Formik } from 'formik'
 import { flatMap, flatten } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
+import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
-import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
+import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 function PopupDetail(props) {
-  const { open, handleClose, factory, date } = props
+  const { open, handleClose, factoryId, date } = props
   const { t } = useTranslation(['mesx'])
-
-  const factoryId = factory?.id
+  const [initialSearch, setInitialValues] = useState({ factoryId: factoryId })
 
   const {
     actions,
     data: { detailCalendar },
   } = useCalendar()
 
-  const handleSearch = (id) => {
-    getDetailFactoryCalendar(id)
+  const {
+    data: {
+      factoryList: { items: factories },
+    },
+  } = useCommonManagement()
+
+  const handleSearch = (values) => {
+    setInitialValues({ factoryId: values.factoryId })
+    getDetailFactoryCalendar(values.factoryId)
   }
 
   useEffect(() => {
+    setInitialValues({ factoryId })
     getDetailFactoryCalendar(factoryId)
   }, [factoryId, date, actions])
 
@@ -93,31 +100,26 @@ function PopupDetail(props) {
       noBorderBottom
       maxWidth="lg"
     >
-      <Formik initialValues={{ factory }}>
+      <Formik initialValues={initialSearch} onSubmit={handleSearch}>
         {() => (
           <Form>
             <Grid container rowSpacing={4 / 3}>
-              <Grid item xl={5} lg={6} xs={12}>
-                <Field.Autocomplete
-                  name="factory"
-                  label={t('planCalendar.factory')}
-                  placeholder={t('planCalendar.factory')}
-                  asyncRequest={(s) =>
-                    searchFactoriesApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                    })
-                  }
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  getOptionLabel={(opt) => opt?.name}
-                  sx={{ mb: 3 }}
-                  required
-                  labelWidth="auto"
-                  onChange={(val) => {
-                    if (!val) return
-                    handleSearch(val?.id)
-                  }}
-                />
+              <Grid item xs={12} display="flex">
+                <Grid item xs={12} sx={{ mr: 3 }}>
+                  <Field.Autocomplete
+                    name="factoryId"
+                    label={t('planCalendar.factory')}
+                    placeholder={t('planCalendar.factory')}
+                    options={factories}
+                    getOptionValue={(opt) => opt?.id}
+                    getOptionLabel={(opt) => opt?.name}
+                    sx={{ mb: 3 }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Button type="submit">{t('general:common.filter')}</Button>
+                </Grid>
               </Grid>
             </Grid>
           </Form>

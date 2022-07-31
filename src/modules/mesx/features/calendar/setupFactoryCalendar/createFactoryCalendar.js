@@ -37,7 +37,7 @@ function CalendarCreate() {
   const initialValues = {
     code: '',
     timePlan: null,
-    fatoryIds: [],
+    fatoryIds: null,
     description: '',
     monday: false,
     tuesday: false,
@@ -179,16 +179,8 @@ function CalendarCreate() {
               <Box>
                 <Tabs
                   list={[
-                    {
-                      label: t(
-                        'planCalendar.setupYearCalendar.workingDayInWeek',
-                      ),
-                      required: true,
-                    },
-                    {
-                      label: t('planCalendar.setupYearCalendar.shift'),
-                      required: true,
-                    },
+                    t('planCalendar.setupYearCalendar.workingDayInWeek'),
+                    t('planCalendar.setupYearCalendar.shift'),
                   ]}
                   sx={{ mt: 2 }}
                 >
