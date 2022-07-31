@@ -27,7 +27,9 @@ export const createEventSchema = (t) =>
       .nullable()
       .required(t('general:form.required'))
       .min(2, t('general:form.required')),
-    factories: Yup.array().required().min(1, t('general:form.required')),
+    factories: Yup.array()
+      .required(t('general:form.required'))
+      .min(1, t('general:form.required')),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {
