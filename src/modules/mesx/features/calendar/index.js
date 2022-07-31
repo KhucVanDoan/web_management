@@ -79,17 +79,11 @@ const PlanCalendar = () => {
   const [isUpdate, setIsUpdate] = useState(false)
   const [openDetail, setIsOpenDetail] = useState(false)
   const [dateSelected, setDateSelected] = useState(false)
-  const [factoryId, setFactoryId] = useState()
+  const [factory, setFactory] = useState({})
   const [disableEdit, setDisableEdit] = useState(false)
-  const [initialValues, setInitialValues] = useState({
-    id: null,
-    title: '',
-    code: '',
-    time: [],
-    factoryIds: [],
-    description: '',
-  })
-  const initialSearch = { factoryId: null }
+  const [initialValues, setInitialValues] = useState({})
+
+  const factoryId = factory?.id
 
   const renderHeaderRight = () => {
     return (
@@ -141,7 +135,7 @@ const PlanCalendar = () => {
       title: info.event.title,
       time: [event.from, event.to],
       type: event.type,
-      factoryIds: event.factoryIds,
+      factories: event.factories, // @TODO: need BE return an array of factories (instead of fatoryIds)
       description: event.description,
     })
     setIsOpenCreateEventModal(true)
@@ -154,8 +148,9 @@ const PlanCalendar = () => {
       id: null,
       title: '',
       code: '',
-      time: [null, null],
-      factoryIds: [],
+      type: '',
+      time: null,
+      factories: [],
       description: '',
     })
     setIsOpenCreateEventModal(true)
@@ -168,10 +163,6 @@ const PlanCalendar = () => {
 
   const onClose = () => {
     setIsOpenCreateEventModal(false)
-  }
-
-  const handleSearch = (values) => {
-    setFactoryId(values?.factoryId?.id)
   }
 
   const handleDateClick = (info) => {
@@ -251,32 +242,27 @@ const PlanCalendar = () => {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
-      <Formik initialValues={initialSearch} onSubmit={handleSearch}>
+      <Formik initialValues={{ factory: null }}>
         {() => (
           <Form>
-            <Grid container justifyContent="">
+            <Grid container>
               <Grid item xl={5} lg={6} xs={12}>
-                <Box sx={{ display: 'flex' }}>
-                  <Field.Autocomplete
-                    name="factoryId"
-                    label={t('planCalendar.factory')}
-                    placeholder={t('planCalendar.factory')}
-                    asyncRequest={(s) =>
-                      searchFactoriesApi({
-                        keyword: s,
-                        limit: ASYNC_SEARCH_LIMIT,
-                      })
-                    }
-                    asyncRequestHelper={(res) => res?.data?.items}
-                    getOptionLabel={(opt) => opt?.name}
-                    sx={{ flex: 1 }}
-                    required
-                    labelWidth="auto"
-                  />
-                  <Button type="submit" ml={3}>
-                    {t('general:common.filter')}
-                  </Button>
-                </Box>
+                <Field.Autocomplete
+                  name="factory"
+                  label={t('planCalendar.factory')}
+                  placeholder={t('planCalendar.factory')}
+                  asyncRequest={(s) =>
+                    searchFactoriesApi({
+                      keyword: s,
+                      limit: ASYNC_SEARCH_LIMIT,
+                    })
+                  }
+                  asyncRequestHelper={(res) => res?.data?.items}
+                  getOptionLabel={(opt) => opt?.name}
+                  required
+                  labelWidth="auto"
+                  onChange={(val) => setFactory(val)}
+                />
               </Grid>
             </Grid>
           </Form>
@@ -318,7 +304,7 @@ const PlanCalendar = () => {
         open={openDetail}
         handleClose={() => setIsOpenDetail(false)}
         date={dateSelected}
-        factoryId={factoryId}
+        factory={factory}
       />
     </Page>
   )
