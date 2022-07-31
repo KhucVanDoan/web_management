@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
-import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
@@ -226,8 +226,11 @@ const Autocomplete = ({
             <Chip
               classes={{ root: classes.tag }}
               onClick={() => setIsShowFullTags(false)}
-              label={<HighlightAltOutlinedIcon />}
-              sx={{ m: '3px', '.MuiChip-label': { px: '6px' } }}
+              label={<ArrowDropUpIcon fontSize="small" />}
+              sx={{
+                m: '3px',
+                '.MuiChip-label': { display: 'flex', px: '6px' },
+              }}
             />
           )}
         </>
@@ -253,13 +256,13 @@ const Autocomplete = ({
             arrow
             placement="top"
             title={
-              <ul className={classes.tooltipList}>
+              <ol className={classes.tooltipList}>
                 {tags.slice(0, -1)?.map((tag, i) => (
                   <li key={i}>
                     <Typography fontSize={12}>{getOptionLabel(tag)}</Typography>
                   </li>
                 ))}
-              </ul>
+              </ol>
             }
             PopperProps={{
               sx: {
@@ -275,6 +278,9 @@ const Autocomplete = ({
               onClick={() => {
                 setIsShowFullTags(true)
                 setInputValue('')
+              }}
+              sx={{
+                '.MuiChip-label': { px: '6px' },
               }}
             />
           </Tooltip>
@@ -309,7 +315,6 @@ const Autocomplete = ({
 
   return (
     <MuiAutocomplete
-      key={JSON.stringify(value)}
       classes={{
         root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
@@ -367,7 +372,7 @@ const Autocomplete = ({
         />
       )}
       {...props}
-      isOptionEqualToValue={isOptEqual}
+      isOptionEqualToValue={(opt, val) => isOptEqual(opt, val)}
       disableCloseOnSelect={multiple ? true : false}
       {...(isAsync
         ? {
@@ -395,6 +400,7 @@ const Autocomplete = ({
                 }
               : {
                   // async single
+                  key: JSON.stringify(value),
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
 
