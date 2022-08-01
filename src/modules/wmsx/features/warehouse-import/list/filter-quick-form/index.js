@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Grid, createFilterOptions, Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { WAREHOUSE_IMPORT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
+import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 
 const WarehouseImportFilter = ({
   setQuickFilters,
@@ -19,14 +20,6 @@ const WarehouseImportFilter = ({
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
-  const {
-    data: { warehouseList },
-    actions: warehouseActions,
-  } = useDefineWarehouse()
-
-  useEffect(() => {
-    warehouseActions.searchWarehouses({ isGetAll: 1 })
-  }, [])
 
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
@@ -52,13 +45,15 @@ const WarehouseImportFilter = ({
                       name="warehouseId"
                       label={t('movements.importExport.warehouseName')}
                       placeholder={t('movements.importExport.warehouseName')}
-                      options={warehouseList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchWarehousesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

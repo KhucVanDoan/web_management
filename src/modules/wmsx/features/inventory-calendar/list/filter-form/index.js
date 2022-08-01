@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { INVENTORY_CALENDAR_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
+import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
-
-  const {
-    data: { warehouseList },
-    actions,
-  } = useDefineWarehouse()
-
-  useEffect(() => {
-    actions.searchWarehouses({ isGetAll: 1 })
-  }, [])
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -47,13 +41,15 @@ const FilterForm = () => {
           name="warehouseName"
           label={t('inventoryCalendar.warehouses')}
           placeholder={t('inventoryCalendar.warehouses')}
-          options={warehouseList}
-          getOptionValue={(opt) => opt?.name}
+          asyncRequest={(s) =>
+            searchWarehousesApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
-          filterOptions={createFilterOptions({
-            stringify: (opt) => `${opt?.code}|${opt?.name}`,
-          })}
         />
       </Grid>
       <Grid item xs={12}>
