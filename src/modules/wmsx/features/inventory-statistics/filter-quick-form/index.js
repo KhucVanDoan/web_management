@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { Form, Formik } from 'formik'
@@ -8,7 +8,7 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { searchItemTypesApi } from '~/modules/database/redux/sagas/item-type-setting/search-item-types'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
+import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 
 const InventoryStatisticFilter = ({
   setQuickFilters,
@@ -20,15 +20,6 @@ const InventoryStatisticFilter = ({
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
-
-  const {
-    data: { warehouseList },
-    actions: warehouseActions,
-  } = useDefineWarehouse()
-
-  useEffect(() => {
-    warehouseActions.searchWarehouses({ isGetAll: 1 })
-  }, [])
 
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
@@ -69,8 +60,13 @@ const InventoryStatisticFilter = ({
                       name="warehouseId"
                       label={t('inventoryStatistics.warehouseName')}
                       placeholder={t('inventoryStatistics.warehouseName')}
-                      options={warehouseList}
-                      getOptionValue={(opt) => opt?.id || ''}
+                      asyncRequest={(s) =>
+                        searchWarehousesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
