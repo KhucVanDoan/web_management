@@ -290,23 +290,23 @@ export const ROUTE = {
   },
   CREATE_PLAN: {
     LIST: {
-      PATH: '/mmsx/create-plan',
+      PATH: '/mmsx/plans',
       TITLE: 'createPlan',
     },
     CREATE: {
-      PATH: '/mmsx/create-plan/create',
+      PATH: '/mmsx/plans/create',
       TITLE: 'createPlanCreate',
     },
     EDIT: {
-      PATH: '/mmsx/create-plan/:id/edit',
+      PATH: '/mmsx/plans/:id/edit',
       TITLE: 'createPlanEdit',
     },
     DETAIL: {
-      PATH: '/mmsx/create-plan/:id/detail',
+      PATH: '/mmsx/plans/:id/detail',
       TITLE: 'createPlanDetail',
     },
     GANNT_CHART: {
-      PATH: '/mmsx/create-plan/gantt-chart',
+      PATH: '/mmsx/plans/gantt-chart',
       TITLE: 'createPlan',
     },
   },
