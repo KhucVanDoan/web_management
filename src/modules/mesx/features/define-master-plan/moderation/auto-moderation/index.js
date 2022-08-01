@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { UNSAFE_DATE_TIME_FORMAT, MODAL_MODE } from '~/common/constants'
+import { UNSAFE_DATE_TIME_FORMAT, UNSAFE_DATE_FORMAT_3, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
@@ -18,7 +18,7 @@ import {
 import GanttChart from '~/modules/mesx/partials/gantt-chart'
 import { useDefineMasterPlan } from '~/modules/mesx/redux/hooks/useDefineMasterPlan'
 import { ROUTE } from '~/modules/mesx/routes/config'
-import { redirectRouter, convertUtcDateTimeToLocalTz } from '~/utils'
+import { redirectRouter, convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
 const AutoModeration = () => {
   const { t } = useTranslation(['mesx'])
@@ -143,6 +143,7 @@ const AutoModeration = () => {
             isOverQuantity: step.overQuantity > 0,
             itemId: item.itemId,
             itemFinishId: item.itemFinishId,
+            stepNumber: step.stepNumber
           })) || []
 
         const subBom =
@@ -154,7 +155,11 @@ const AutoModeration = () => {
             item.id,
           ) || []
 
-        return [itemSchedule, ...producingSteps, ...subBom]
+        return [
+          itemSchedule,
+          ...producingSteps.sort((prev, cur) => prev.stepNumber < cur.stepNumber ? 1 : -1),
+          ...subBom
+        ]
       })
       .flat()
   }
@@ -237,8 +242,8 @@ const AutoModeration = () => {
       saleOrderId: Number(changedTask?.saleOrderId),
       itemId: changedTask?.itemFinishId,
       itemProducingStepId: changedTask?.producingStepId,
-      dateFrom: changedTask?.start_date,
-      dateTo: changedTask?.end_date,
+      dateFrom: convertUtcDateToLocalTz(changedTask?.start_date, UNSAFE_DATE_FORMAT_3),
+      dateTo: convertUtcDateToLocalTz(changedTask?.end_date, UNSAFE_DATE_FORMAT_3),
     }
     masterPlanActions.previewGanttMasterPlan(
       payload,
