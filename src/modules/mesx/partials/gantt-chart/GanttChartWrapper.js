@@ -224,6 +224,7 @@ class GanttChartWrapper extends Component {
     })
 
     gantt.config.open_tree_initially = true
+    gantt.config.round_dnd_dates = false
 
     gantt.init(this.ganttContainer)
     this.initGanttDataProcessor()
