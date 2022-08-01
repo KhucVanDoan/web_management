@@ -79,7 +79,11 @@ function ItemSettingTable(props) {
   useEffect(() => {
     actions.getItems({})
     packageActs.searchPackages()
-    lsActions.searchLocationSetting()
+    lsActions.searchLocationSetting({
+      filter: convertFilterParams({
+        warehouseId: values?.warehouseId,
+      }),
+    })
   }, [])
 
   const itemIds = items?.map((item) => item?.itemId).join(',')
@@ -111,9 +115,6 @@ function ItemSettingTable(props) {
     palletActs.getPalletsEvenByItem(params)
     setFieldValue(`items[${index}].packageId`, null)
     setFieldValue(`items[${index}].palletId`, null)
-  }
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
   }
 
   const handleCheckQc = (itemId, value) => {
@@ -172,7 +173,6 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.name'),
       width: 180,
       renderCell: (params, index) => {
-        const itemId = params.row?.itemId
         const itemListFilter =
           itemsFilter?.length > 0
             ? itemList.filter((item) =>
@@ -180,13 +180,13 @@ function ItemSettingTable(props) {
               )
             : itemList
         return isView ? (
-          <>{getItemObject(itemId)?.name || ''}</>
+          <>{params.row?.itemName}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].itemId`}
             options={itemListFilter}
             getOptionLabel={(opt) => opt?.name}
-            getOptionValue={(opt) => opt?.id || ''}
+            isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
             onChange={() => {
               setFieldValue(`items[${index}]['qcCheck']`, false)
             }}
@@ -199,13 +199,12 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.code'),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params.row
         return isView ? (
-          <>{getItemObject(itemId)?.code || ''}</>
+          <>{params.row?.itemCode}</>
         ) : (
           <Field.TextField
-            name={`itemName[${index}]`}
-            value={getItemObject(itemId)?.code || ''}
+            name={`items[${index}].itemCode`}
+            value={items[index]?.itemId?.code || ''}
             disabled={true}
           />
         )
@@ -288,10 +287,7 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.packageCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { packageId, itemId, evenRow } = params.row
-        const packageFilter = packageList?.filter((pk) =>
-          pk?.packageItems?.map((item) => item.itemId)?.includes(itemId),
-        )
+        const { packageId, evenRow } = params.row
         return isView ? (
           <>{packageList?.find((pk) => pk?.id === packageId)?.code || ''}</>
         ) : (
@@ -302,7 +298,7 @@ function ItemSettingTable(props) {
                 ? isEmpty(packagesEvenByItem)
                   ? packageOpts
                   : packagesEvenByItem
-                : packageFilter
+                : items[index]?.itemId?.packages
             }
             getOptionLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
@@ -339,8 +335,9 @@ function ItemSettingTable(props) {
       headerName: t(`purchasedOrderImport.item.storageLocation`),
       width: 180,
       renderCell: (params, index) => {
+        const { location, itemId } = params.row
         return isView ? (
-          <>{params?.row?.location}</>
+          <>{location}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].location`}
@@ -348,6 +345,7 @@ function ItemSettingTable(props) {
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
+            disabled={!itemId}
           />
         )
       },
@@ -431,13 +429,16 @@ function ItemSettingTable(props) {
       headerName: t('purchasedOrderImport.item.unitType'),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params.row
         return isView ? (
-          <>{getItemObject(itemId)?.itemUnit?.name || ''}</>
+          <>{params.row?.unitType}</>
         ) : (
           <Field.TextField
             name={`items[${index}].unitType`}
-            value={getItemObject(itemId)?.itemUnit?.name || ''}
+            value={
+              items[index]?.itemId?.itemUnit?.name ||
+              items[index]?.itemId?.itemUnit ||
+              ''
+            }
             disabled={true}
           />
         )
