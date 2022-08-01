@@ -58,7 +58,11 @@ function ItemSettingTable(props) {
 
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
-    lsActions.searchLocationSetting()
+    lsActions.searchLocationSetting({
+      filter: convertFilterParams({
+        warehouseId: values?.orderCode?.warehouseId?.toString(),
+      }),
+    })
   }, [])
 
   useEffect(() => {
@@ -212,7 +216,7 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.packageCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { packageId, evenRow } = params.row
+        const { packageId, evenRow, palletId } = params.row
         return isView ? (
           <>{packageId}</>
         ) : (
@@ -222,7 +226,9 @@ function ItemSettingTable(props) {
               evenRow
                 ? isEmpty(packagesEvenByItem)
                   ? packageOpts
-                  : packagesEvenByItem
+                  : !palletId
+                  ? packagesEvenByItem
+                  : palletId?.packages
                 : items[index]?.itemId?.packages
             }
             disabled={isView}
@@ -237,7 +243,7 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.palletCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { evenRow } = params.row
+        const { evenRow, palletId } = params.row
         return isView ? (
           <>{params?.row?.palletId}</>
         ) : (
@@ -252,7 +258,9 @@ function ItemSettingTable(props) {
             }
             disabled={isView}
             getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id || null}
+            onChange={() =>
+              setFieldValue(`items[${index}].packageId`, palletId?.packages)
+            }
           />
         )
       },

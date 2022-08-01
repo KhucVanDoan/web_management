@@ -82,6 +82,8 @@ const PODetail = () => {
       items: purchasedOrderImportWarehouseLots?.map((detailLot, index) => ({
         id: index,
         itemId: detailLot.itemId,
+        itemName: detailLot?.item?.name,
+        itemCode: detailLot?.item?.code,
         quantity: detailLot.quantity,
         actualQuantity: detailLot.actualQuantity,
         lotNumber: detailLot?.lotNumber,
@@ -106,6 +108,7 @@ const PODetail = () => {
                   detail.id === detailLot.purchasedOrderImportWarehouseDetailId,
               )?.qcCriteriaId,
           )?.code || '',
+        unitType: detailLot?.item?.itemUnit,
         storedQuantity: detailLot?.storedQuantity,
         evenRow: detailLot?.isEven,
         palletId: detailLot?.pallet?.code,
