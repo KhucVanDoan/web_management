@@ -13,7 +13,6 @@ export const validateShema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    deviceName: Yup.object().nullable().required(t('general:form.required')),
     checkType: Yup.boolean().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object()
