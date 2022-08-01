@@ -90,18 +90,7 @@ const TemplateChecklistDetail = () => {
                   value={templateChecklistDetail?.name}
                 />
               </Grid>
-              <Grid item lg={6} xs={12}>
-                <LV
-                  label={t('templateChecklist.form.deviceName')}
-                  value={templateChecklistDetail?.devices?.name}
-                />
-              </Grid>
-              <Grid item lg={6} xs={12}>
-                <LV
-                  label={t('templateChecklist.form.deviceCode')}
-                  value={templateChecklistDetail?.devices?.code}
-                />
-              </Grid>
+
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('templateChecklist.form.checkType')}
