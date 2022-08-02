@@ -29,6 +29,8 @@ import { ReactComponent as ListView } from '~/assets/images/icons/listView.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Overdue } from '~/assets/images/icons/overdue.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
+import { ReactComponent as QRWhite } from '~/assets/images/icons/qr-white.svg'
+import { ReactComponent as QR } from '~/assets/images/icons/qr.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
 import { ReactComponent as Rhombus } from '~/assets/images/icons/rhombus.svg'
 import { ReactComponent as Save } from '~/assets/images/icons/save.svg'
@@ -92,6 +94,8 @@ const icons = {
   filter: <Filter />,
   listView: <ListView />,
   ganttChart: <GanntChart />,
+  qr: <QR />,
+  qrWhite: <QRWhite />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

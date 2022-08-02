@@ -252,7 +252,9 @@ function DefinePackage() {
         <Button variant="outlined" color="subText" onClick={resetForm}>
           {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('general:common.print')}</Button>
+        <Button type="submit" icon="qrWhite">
+          {t('general:common.print')}
+        </Button>
       </Box>
     )
   }
@@ -299,6 +301,7 @@ function DefinePackage() {
           disabled={selectedRows.length === 0}
           onClick={() => setIsOpenPrintQRModal(true)}
           sx={{ mr: 4 / 3 }}
+          icon="qr"
         >
           {t('definePackage.printQRButton')}
         </Button>
