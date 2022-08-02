@@ -204,7 +204,7 @@ function CreatePlan() {
       limit: pageSize,
       filter: convertFilterParams({ ...filters, ...quickFilters }, [
         ...columns,
-        { field: 'time', filterFormat: 'date' },
+        { field: 'date', filterFormat: 'date' },
       ]),
       sort: convertSortParams(sort),
     }
@@ -232,7 +232,11 @@ function CreatePlan() {
   }
 
   const submitConfirm = () => {
-    actions.confirmPlan(tempItem?._id, () => {
+    const params = {
+      id: tempItem?._id,
+      reason: null,
+    }
+    actions.confirmPlan(params, () => {
       refreshData()
     })
     setTempItem(null)
@@ -282,7 +286,7 @@ function CreatePlan() {
       title={t('createPlanList.title')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
-      placeholder={t('deviceCategory.searchPlaceholder')}
+      placeholder={t('createPlanList.searchPlaceholder')}
       loading={isLoading}
     >
       <JobQuickFilter
@@ -372,7 +376,7 @@ function CreatePlan() {
           enableReinitialize: true,
         }}
       >
-        {t('common.modalDelete.description')}
+        {t('common.modalDecline.description')}
         <LV
           label={t('warningList.table.code')}
           value={tempItem?.code}

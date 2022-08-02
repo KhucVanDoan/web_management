@@ -1576,6 +1576,7 @@
       "request": "Yêu cầu người dùng",
       "maintain": "Bảo dưỡng"
     },
+    "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "title": "Danh sách kế hoạch công việc",
     "jobBtn": "Công việc",
     "placeholder": {
