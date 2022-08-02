@@ -63,7 +63,7 @@ const POForm = () => {
       isGetAll: 1,
     }
     commonActions.getWarehouses({})
-    commonActions.getItems({})
+    commonActions.getItems({ isGetAll: 1 })
     commonActions.getItemQualityPoint({})
     actionPO.searchPurchasedOrders(params)
   }, [])
@@ -274,7 +274,7 @@ const POForm = () => {
 
         purchasedOrderDetails?.map((detailLot, index) => ({
           id: index,
-          itemId: detailLot.itemId,
+          itemId: { ...detailLot.item, id: detailLot.itemId },
           quantity: detailLot.quantity,
           actualQuantity: 0,
           lotNumber: DEFAULT_ITEM.lotNumber,

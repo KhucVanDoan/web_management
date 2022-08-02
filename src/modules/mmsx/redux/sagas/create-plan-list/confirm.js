@@ -10,8 +10,8 @@ import {
   CONFIRM_PLAN_START,
 } from '../../actions/create-plan'
 const confirmApi = (params) => {
-  const url = `v1/mms/plan/${params}/approve`
-  return api.put(url)
+  const url = `v1/mms/plan/${params?.id}/approve`
+  return api.put(url, params)
 }
 
 function* doConfirm(action) {
