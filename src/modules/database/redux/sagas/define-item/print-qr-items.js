@@ -2,20 +2,20 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  printQRWorkOrderFailed,
-  printQRWorkOrderSuccess,
-  PRINT_QR_WORK_ORDER_START,
-} from '~/modules/mesx/redux/actions/work-order'
+  printQRItemsFailed,
+  printQRItemsSuccess,
+  PRINT_QR_ITEMS_START,
+} from '~/modules/database/redux/actions/define-item'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Print QR work order
+ * Print QR items
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const printQRWorkOrderApi = (params) => {
-  const uri = `/v1/produces/work-orders/qr-code/print`
+const printQRItemsApi = (params) => {
+  const uri = `/v1/items/qr-code/print`
   return api.post(uri, params)
 }
 
@@ -23,12 +23,12 @@ const printQRWorkOrderApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doPrintQRWorkOrder(action) {
+function* doPrintQRItems(action) {
   try {
-    const response = yield call(printQRWorkOrderApi, action?.payload)
+    const response = yield call(printQRItemsApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(printQRWorkOrderSuccess(response.results))
+      yield put(printQRItemsSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -40,7 +40,7 @@ function* doPrintQRWorkOrder(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(printQRWorkOrderFailed())
+    yield put(printQRItemsFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +49,8 @@ function* doPrintQRWorkOrder(action) {
 }
 
 /**
- * Watch print QR work order
+ * Watch print QR items
  */
-export default function* watchPrintQRWorkOrder() {
-  yield takeLatest(PRINT_QR_WORK_ORDER_START, doPrintQRWorkOrder)
+export default function* watchPrintQRItems() {
+  yield takeLatest(PRINT_QR_ITEMS_START, doPrintQRItems)
 }

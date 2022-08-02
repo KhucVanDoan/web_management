@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { BULK_ACTION } from '~/common/constants'
+import { BULK_ACTION, QR_CODE_TYPE, TEXTFIELD_ALLOW } from '~/common/constants'
 import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -22,6 +25,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
+import { validationSchema } from './schema'
 
 const breadcrumbs = [
   {
@@ -35,6 +39,7 @@ const breadcrumbs = [
 function DefineBlock() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
+  const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
 
   const {
@@ -170,9 +175,89 @@ function DefineBlock() {
     })
   }
 
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
+  }
+  const handleSubmitPrintQR = (values) => {
+    const params = {
+      items: values?.items.map((item) => ({
+        id: item.id,
+        quantity: item.amount,
+      })),
+      type: QR_CODE_TYPE.BLOCK,
+    }
+    actions.printQRBlocks(params, () => {
+      setIsOpenPrintQRModal(false)
+    })
+  }
+  const renderFooterPrintModal = () => {
+    const { resetForm } = useFormikContext()
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          '& button + button': {
+            ml: 4 / 3,
+          },
+        }}
+      >
+        <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
+          {t('general:common.close')}
+        </Button>
+        <Button variant="outlined" color="subText" onClick={resetForm}>
+          {t('general:common.cancel')}
+        </Button>
+        <Button type="submit">{t('general:common.print')}</Button>
+      </Box>
+    )
+  }
+
+  const printQRColumns = useMemo(() => [
+    {
+      field: 'id',
+      headerName: '#',
+      width: 80,
+      renderCell: (_, index) => {
+        return index + 1
+      },
+    },
+    {
+      field: 'code',
+      headerName: t('defineBlock.code'),
+      width: 200,
+    },
+    {
+      field: 'name',
+      headerName: t('defineBlock.name'),
+      width: 200,
+    },
+    {
+      field: 'amount',
+      headerName: t('defineBlock.productAmount'),
+      width: 200,
+      renderCell: (_, index) => {
+        return (
+          <Field.TextField
+            name={`items[${index}].amount`}
+            type="number"
+            allow={TEXTFIELD_ALLOW.NUMERIC}
+          />
+        )
+      },
+    },
+  ])
   const renderHeaderRight = () => {
     return (
       <>
+        <Button
+          variant="outlined"
+          disabled={selectedRows.length === 0}
+          onClick={() => setIsOpenPrintQRModal(true)}
+          sx={{ mr: 4 / 3 }}
+        >
+          {t('defineBlock.printQRButton')}
+        </Button>
         <Button variant="outlined" icon="download" disabled>
           {t('menu.importExportData')}
         </Button>
@@ -207,7 +292,7 @@ function DefineBlock() {
         total={total}
         sort={sort}
         filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
-        onSelectionChange={setSelectedRows}
+        onSelectionChange={onSelectionChange}
         selected={selectedRows}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
@@ -244,6 +329,32 @@ function DefineBlock() {
           label={t('defineBlock.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenPrintQRModal}
+        title={t('defineBlock.printQRModalTitle')}
+        maxWidth="md"
+        renderFooter={renderFooterPrintModal}
+        onCancel={() => setIsOpenPrintQRModal(false)}
+        formikProps={{
+          initialValues: { items: selectedRows },
+          validationSchema: validationSchema(t),
+          onSubmit: handleSubmitPrintQR,
+          enableReinitialize: true,
+        }}
+      >
+        <FieldArray
+          name="items"
+          render={() => (
+            <DataTable
+              rows={selectedRows}
+              columns={printQRColumns}
+              striped={false}
+              hideSetting
+              hideFooter
+            />
+          )}
         />
       </Dialog>
     </Page>

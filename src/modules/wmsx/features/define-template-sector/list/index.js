@@ -93,8 +93,10 @@ const defineTemplateSector = () => {
       {
         field: 'numberOfShelfs',
         headerName: t('templateSector.numberOfShelfs'),
-        width: 150,
+        width: 100,
         sortable: true,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params) => {
           return params?.row?.totalShelfsInSector || 0
         },

@@ -92,8 +92,9 @@ function DefineTemplateShelf() {
     {
       field: 'totalTemplateShelfFloors',
       headerName: t('defineTemplateShelf.totalTemplateShelfFloors'),
-      width: 150,
+      width: 100,
       align: 'right',
+      headerAlign: 'left',
     },
     {
       field: 'createdAt',

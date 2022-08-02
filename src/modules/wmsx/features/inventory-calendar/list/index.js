@@ -24,7 +24,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -114,7 +114,7 @@ function InventoryCalendar() {
       sortable: false,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
-        return convertUtcDateTimeToLocalTz(createdAt)
+        return convertUtcDateToLocalTz(createdAt)
       },
     },
     {

@@ -26,7 +26,6 @@ import watchGetCustomers from './common/get-customers'
 import watchGetDepartments from './common/get-department'
 import watchGetDepartmentsRole from './common/get-departments-role'
 import watchGetDetails from './common/get-details'
-import watchGetFactories from './common/get-factories'
 import watchGetFactoriesByCompany from './common/get-factory-by-company'
 import watchGetGroupPermissions from './common/get-group-permissions'
 import watchGetItemGroups from './common/get-item-groups'
@@ -217,7 +216,7 @@ export default function* sagas() {
     watchGetCustomers(),
     watchGetAllItemDetails(),
     watchGetBoms(),
-    watchGetFactories(),
+
     watchGetQualityPoints(),
     watchGetItemQualityPoint(),
     watchGetSaleOrderDetailByIds(),

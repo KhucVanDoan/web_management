@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid } from '@mui/material'
 import { useFormikContext } from 'formik'
@@ -6,57 +6,13 @@ import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
+import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
+import { searchSaleOrdersApi } from '~/modules/database/redux/sagas/sale-order/search-sale-orders'
 import { SALE_ORDER_STATUS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import { searchMOApi } from '~/modules/mesx/redux/sagas/mo/search-mo'
 const FilterForm = () => {
   const { t } = useTranslation(['mesx'])
-  const { values } = useFormikContext()
-  const {
-    data: { moList, moItems },
-    actions: moActions,
-  } = useMo()
-  const {
-    data: { saleOrderList },
-    actions: actionSaleOrder,
-  } = useSaleOrder()
-  const {
-    data: { itemList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
-  useEffect(() => {
-    actionSaleOrder.searchSaleOrders({
-      isGetAll: 1,
-      filter: JSON.stringify([
-        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
-      ]),
-    })
-    moActions.searchMO({ isGetAll: 1 })
-    commonManagementActions.getItems({ isGetAll: 1 })
-  }, [values.moName])
-
-  const getDataItem = () => {
-    const items = []
-    moItems?.moDetail?.forEach((parentItem) => {
-      parentItem?.moPlanBom?.forEach((i) => {
-        const listItem = itemList?.find((item) => i.itemId === item.id)
-        items.push(listItem)
-      })
-    })
-    return items
-  }
-  const getDataSaleOder = () => {
-    const saleOrderLists = []
-    const soId = moList?.find(
-      (mo) => mo?.id === values?.moName?.id,
-    )?.saleOrderId
-    const saleOrders = saleOrderList?.find((so) => so?.id === soId)
-    saleOrderLists.push(saleOrders)
-    return saleOrderLists
-  }
+  const { values, setFieldValue } = useFormikContext()
 
   return (
     <Grid container rowSpacing={4 / 3}>
@@ -69,16 +25,20 @@ const FilterForm = () => {
             searchMOApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
-              filter: values?.soName
+              filter: values?.saleOrderName?.id
                 ? JSON.stringify([
-                    { column: 'saleOrderIds', text: [values?.soName] },
+                    {
+                      column: 'saleOrderIds',
+                      text: [values?.saleOrderName?.id],
+                    },
                   ])
                 : [],
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
+          asyncRequestDeps={values?.saleOrderName?.id}
           getOptionLabel={(opt) => opt?.name}
-          onChange={(val) => moActions.getMoItemsById(val?.id)}
+          onChange={() => setFieldValue('itemName', '')}
         />
       </Grid>
       <Grid item xs={12}>
@@ -86,12 +46,28 @@ const FilterForm = () => {
           name="saleOrderName"
           label={t('qualityReport.saleOrder')}
           placeholder={t('qualityReport.saleOrder')}
-          options={
-            values?.moName && values?.soName === ''
-              ? getDataSaleOder()
-              : saleOrderList
+          asyncRequest={(s) =>
+            searchSaleOrdersApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+              filter: JSON.stringify([
+                ...(values?.moName
+                  ? [
+                      {
+                        column: 'moId',
+                        text: values?.moName?.id,
+                      },
+                    ]
+                  : []),
+                {
+                  column: 'status',
+                  text: SALE_ORDER_STATUS.CONFIRMED.toString(),
+                },
+              ]),
+            })
           }
-          getOptionValue={(opt) => opt?.name}
+          asyncRequestHelper={(res) => res?.data?.items}
+          asyncRequestDeps={values?.moName?.id}
           getOptionLabel={(opt) => opt?.name}
         />
       </Grid>
@@ -100,9 +76,19 @@ const FilterForm = () => {
           name="itemName"
           label={t('qualityReport.productName')}
           placeholder={t('qualityReport.productName')}
-          options={getDataItem()}
-          getOptionValue={(opt) => opt?.name}
+          asyncRequest={(s) =>
+            searchItemsApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+              filter: values?.moName?.id
+                ? JSON.stringify([{ column: 'moId', text: values?.moName?.id }])
+                : [],
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          asyncRequestDeps={values?.moName?.id}
           getOptionLabel={(opt) => opt?.name}
+          disabled={!values?.moName}
         />
       </Grid>
     </Grid>

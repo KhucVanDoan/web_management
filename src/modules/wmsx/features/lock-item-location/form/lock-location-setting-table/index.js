@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Button, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -8,31 +8,16 @@ import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { searchDefineWarehousePalletApi } from '~/modules/wmsx/redux/sagas/define-warehouse-pallet/search-define-warehouse-pallet'
 import { searchDefineWarehouseShelfApi } from '~/modules/wmsx/redux/sagas/define-warehouse-shelf/search-define-warehouse-shelf'
+import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 import { searchWarehouseAreasApi } from '~/modules/wmsx/redux/sagas/warehouse-area/search-warehouse-areas'
 import { convertFilterParams } from '~/utils'
 const LocklocationTable = (props) => {
-  const { mode, arrayHelpers, locations } = props
+  const { mode, arrayHelpers, locations, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
-  const {
-    data: { warehouseList },
-    actions: defineWarehouseAction,
-  } = useDefineWarehouse()
-
-  const {
-    data: { factoryList },
-    actions: commonManagementActions,
-  } = useCommonManagement()
-
-  useEffect(() => {
-    commonManagementActions.getFactories({ isGetAll: 1 })
-    defineWarehouseAction.searchWarehouses({ isGetAll: 1 })
-  }, [])
 
   const getColumns = () => {
     return [
@@ -54,9 +39,14 @@ const LocklocationTable = (props) => {
           ) : (
             <Field.Autocomplete
               name={`locations[${index}].factoryId`}
-              options={factoryList?.items}
+              asyncRequest={(s) =>
+                searchFactoriesApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
-              getOptionValue={(option) => option?.id || ''}
             />
           )
         },
@@ -72,11 +62,30 @@ const LocklocationTable = (props) => {
           ) : (
             <Field.Autocomplete
               name={`locations[${index}].warehouseId`}
-              options={warehouseList?.filter(
-                (warehouse) => warehouse?.factory?.id === factoryId,
-              )}
+              asyncRequest={(s) =>
+                searchWarehousesApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    factoryIds: factoryId?.id,
+                  }),
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
+              asyncRequestDeps={factoryId}
               getOptionLabel={(opt) => opt?.name}
-              getOptionValue={(option) => option?.id || ''}
+              getOptionSubLabel={(opt) => opt?.code}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              onChange={(val) => {
+                if (!val) {
+                  setFieldValue(`locations[${index}].warehouseSector`, '')
+                  setFieldValue(`locations[${index}].warehouseShelf`, '')
+                  setFieldValue(`locations[${index}].warehouseFloor`, '')
+                }
+                setFieldValue(`locations[${index}].warehouseSector`, '')
+                setFieldValue(`locations[${index}].warehouseShelf`, '')
+                setFieldValue(`locations[${index}].warehouseFloor`, '')
+              }}
             />
           )
         },
@@ -87,7 +96,6 @@ const LocklocationTable = (props) => {
         width: 200,
         renderCell: (params, index) => {
           const { warehouseId, warehouseSector } = params?.row
-
           return isView ? (
             <>{warehouseSector?.name || ''}</>
           ) : (
@@ -98,12 +106,22 @@ const LocklocationTable = (props) => {
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
                   filter: convertFilterParams({
-                    warehouseId: warehouseId,
+                    warehouseId: warehouseId?.id,
                   }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              asyncRequestDeps={warehouseId}
+              onChange={(val) => {
+                if (!val) {
+                  setFieldValue(`locations[${index}].warehouseShelf`, '')
+                  setFieldValue(`locations[${index}].warehouseFloor`, '')
+                }
+                setFieldValue(`locations[${index}].warehouseShelf`, '')
+                setFieldValue(`locations[${index}].warehouseFloor`, '')
+              }}
             />
           )
         },
@@ -131,7 +149,15 @@ const LocklocationTable = (props) => {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               disabled={isView}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.name}
+              asyncRequestDeps={warehouseSector}
+              onChange={(val) => {
+                if (!val) {
+                  setFieldValue(`locations[${index}].warehouseFloor`, '')
+                }
+                setFieldValue(`locations[${index}].warehouseFloor`, '')
+              }}
             />
           )
         },
@@ -157,7 +183,9 @@ const LocklocationTable = (props) => {
                   }),
                 })
               }
+              asyncRequestDeps={warehouseShelf}
               asyncRequestHelper={(res) => res?.data?.items}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               disabled={isView}
               getOptionLabel={(opt) => opt?.name}
             />

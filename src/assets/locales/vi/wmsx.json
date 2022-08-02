@@ -917,7 +917,7 @@
   "orderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Cất hàng",
+    "inProgress": "Đang thực hiện",
     "approved": "Xác nhận",
     "completed": "Hoàn thành",
     "rejected": "Từ chối",
@@ -1540,7 +1540,7 @@
     "updateModalSubmitLabel": "Cập nhật",
     "detailsModalTitle": "Chi tiết về kiện",
     "detailsModalSubmitLabel": "Lưu",
-    "printQRModalTitle": "Danh sách in mã kiện",
+    "printQRModalTitle": "Thông tin in mã QR",
     "createBlockSuccess": "Tạo kiện thành công",
     "updateBlockSuccess": "Cập nhật kiện thành công",
     "deleteBlockSuccess": "Xoá kiện thành công",
@@ -1654,6 +1654,7 @@
     "productList": "Danh sách sản phẩm",
     "descriptionInput": "Nhập mô tả về package",
     "productCode": "Mã sản phẩm",
+    "printQRModalTitle": "Thông tin in mã QR",
     "productName": "Tên sản phẩm",
     "productAmount": "Số lượng",
     "addProductButton": "Thêm sản phẩm",
@@ -2272,12 +2273,13 @@
     "deleteInventoryCalendarSuccess": "Xoá lệnh trả hàng thành công",
     "rejectInventoryCalendarSuccess": "Từ chối lệnh trả hàng thành công",
     "confirmDelete": "Bạn có chắc chắn muốn xóa lệnh trả hàng này không?",
-    "returnOrderDelete": "Xóa lệnh trả hàng"
+    "returnOrderDelete": "Xóa lệnh trả hàng",
+    "requirePackageIdOrPalletId": "Bắt buộc chọn mã package hoặc mã pallet"
   },
   "returnOrderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Cất hàng",
+    "inProgress": "Đang thực hiện",
     "completed": "Hoàn thành",
     "rejected": "Từ chối"
   }
