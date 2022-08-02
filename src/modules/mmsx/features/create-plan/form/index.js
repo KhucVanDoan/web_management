@@ -502,6 +502,8 @@ const CreatePlanForm = () => {
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
                           }
+                          onChange={() => setFieldValue('workCenterId', '')}
+                          required
                         />
                       </Grid>
                       <Grid item xs={12} lg={6}>
@@ -519,7 +521,7 @@ const CreatePlanForm = () => {
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
-                          asyncRequestDeps={values?.factoryId}
+                          asyncRequestDeps={values?.factoryId?.id}
                           getOptionLabel={(opt) => opt?.name}
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
