@@ -2,20 +2,19 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  printQRWorkOrderFailed,
-  printQRWorkOrderSuccess,
-  PRINT_QR_WORK_ORDER_START,
-} from '~/modules/mesx/redux/actions/work-order'
+  printQRBlocksFailed,
+  printQRBlocksSuccess,
+  PRINT_QR_BLOCKS_START,
+} from '~/modules/wmsx/redux/actions/define-block'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
-
 /**
- * Print QR work order
+ * Print QR blocks
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const printQRWorkOrderApi = (params) => {
-  const uri = `/v1/produces/work-orders/qr-code/print`
+const printQRBlocksApi = (params) => {
+  const uri = `/v1/items/qr-code/print`
   return api.post(uri, params)
 }
 
@@ -23,12 +22,12 @@ const printQRWorkOrderApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doPrintQRWorkOrder(action) {
+function* doPrintQRBlocks(action) {
   try {
-    const response = yield call(printQRWorkOrderApi, action?.payload)
+    const response = yield call(printQRBlocksApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(printQRWorkOrderSuccess(response.results))
+      yield put(printQRBlocksSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,10 +36,11 @@ function* doPrintQRWorkOrder(action) {
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
+      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(printQRWorkOrderFailed())
+    yield put(printQRBlocksFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -49,8 +49,8 @@ function* doPrintQRWorkOrder(action) {
 }
 
 /**
- * Watch print QR work order
+ * Watch print QR blocks
  */
-export default function* watchPrintQRWorkOrder() {
-  yield takeLatest(PRINT_QR_WORK_ORDER_START, doPrintQRWorkOrder)
+export default function* watchPrintQRBlocks() {
+  yield takeLatest(PRINT_QR_BLOCKS_START, doPrintQRBlocks)
 }

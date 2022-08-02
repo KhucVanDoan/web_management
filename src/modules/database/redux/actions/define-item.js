@@ -18,6 +18,10 @@ export const GET_ITEM_DETAILS_START = 'DATABASE_GET_ITEM_DETAILS_START'
 export const GET_ITEM_DETAILS_SUCCESS = 'DATABASE_GET_ITEM_DETAILS_SUCCESS'
 export const GET_ITEM_DETAILS_FAILED = 'DATABASE_GET_ITEM_DETAILS_FAILED'
 
+export const PRINT_QR_ITEMS_START = 'DATABASE_PRINT_QR_ITEMS_START'
+export const PRINT_QR_ITEMS_SUCCESS = 'DATABASE_PRINT_QR_ITEMS_SUCCESS'
+export const PRINT_QR_ITEMS_FAILED = 'DATABASE_PRINT_QR_ITEMS_FAILED'
+
 export const RESET_ITEM_DETAILS_STATE = 'DATABASE_RESET_ITEM_DETAILS_STATE'
 
 /**
@@ -214,6 +218,43 @@ export function resetItemDetailsState() {
   }
 }
 
+/**
+ * Print QR items
+ * @param {int} itemId
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+export function printQRItems(itemId, onSuccess, onError) {
+  return {
+    type: PRINT_QR_ITEMS_START,
+    payload: itemId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Print QR items by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function printQRItemsSuccess(payload) {
+  return {
+    type: PRINT_QR_ITEMS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Print QR items by id failed action
+ * @returns {object}
+ */
+export function printQRItemsFailed() {
+  return {
+    type: PRINT_QR_ITEMS_FAILED,
+  }
+}
 export default {
   searchItems,
   searchItemsSuccess,
@@ -231,4 +272,7 @@ export default {
   getItemDetailsByIdSuccess,
   getItemDetailsByIdFailed,
   resetItemDetailsState,
+  printQRItems,
+  printQRItemsSuccess,
+  printQRItemsFailed,
 }
