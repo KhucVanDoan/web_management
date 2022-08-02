@@ -344,6 +344,7 @@ const WorkOrder = () => {
           variant="outlined"
           disabled={selectedRows.length === 0}
           onClick={() => setIsOpenPrintQRModal(true)}
+          icon="qr"
         >
           {t('workOrder.printQRButton')}
         </Button>
@@ -370,7 +371,9 @@ const WorkOrder = () => {
         <Button variant="outlined" color="subText" onClick={resetForm}>
           {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('general:common.print')}</Button>
+        <Button type="submit" icon="qrWhite">
+          {t('general:common.print')}
+        </Button>
       </Box>
     )
   }
