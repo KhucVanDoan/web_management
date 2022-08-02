@@ -18,6 +18,10 @@ export const GET_BLOCK_DETAILS_START = 'WMSX_GET_BLOCK_DETAILS_START'
 export const GET_BLOCK_DETAILS_SUCCESS = 'WMSX_GET_BLOCK_DETAILS_SUCCESS'
 export const GET_BLOCK_DETAILS_FAILED = 'WMSX_GET_BLOCK_DETAILS_FAILED'
 
+export const PRINT_QR_BLOCKS_START = 'WMSX_PRINT_QR_BLOCKS_START'
+export const PRINT_QR_BLOCKS_SUCCESS = 'WMSX_PRINT_QR_BLOCKS_SUCCESS'
+export const PRINT_QR_BLOCKS_FAILED = 'WMSX_PRINT_QR_BLOCKS_FAILED'
+
 export const RESET_BLOCK_DETAILS_STATE = 'WMSX_RESET_BLOCK_DETAILS_STATE'
 /**
  * Search block
@@ -213,6 +217,44 @@ export function resetBlockDetailsState() {
   }
 }
 
+/**
+ * Print QR blocks
+ * @param {int} blockId
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+export function printQRBlocks(blockId, onSuccess, onError) {
+  return {
+    type: PRINT_QR_BLOCKS_START,
+    payload: blockId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Print QR blocks by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function printQRBlocksSuccess(payload) {
+  return {
+    type: PRINT_QR_BLOCKS_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Print QR blocks by id failed action
+ * @returns {object}
+ */
+export function printQRBlocksFailed() {
+  return {
+    type: PRINT_QR_BLOCKS_FAILED,
+  }
+}
+
 export default {
   searchBlocks,
   searchBlocksSuccess,
@@ -230,4 +272,7 @@ export default {
   getBlockDetailsByIdSuccess,
   getBlockDetailsByIdFailed,
   resetBlockDetailsState,
+  printQRBlocks,
+  printQRBlocksSuccess,
+  printQRBlocksFailed,
 }

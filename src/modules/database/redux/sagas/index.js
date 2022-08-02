@@ -8,6 +8,7 @@ import watchUpdateCompany from './define-company/update-company'
 import watchCreateItem from './define-item/create-item'
 import watchDeleteItem from './define-item/delete-item'
 import watchGetItemDetails from './define-item/get-item-details'
+import watchPrintQRItems from './define-item/print-qr-items'
 import watchSearchItems from './define-item/search-items'
 import watchUpdateItem from './define-item/update-item'
 import watchCreateFactory from './factory/create-factory'
@@ -79,6 +80,7 @@ export default function* sagas() {
     watchUpdateItem(),
     watchDeleteItem(),
     watchGetItemDetails(),
+    watchPrintQRItems(),
 
     //define-company
     watchSearchCompanies(),
