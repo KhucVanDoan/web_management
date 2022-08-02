@@ -135,7 +135,6 @@ const DefineSupplies = () => {
           return params?.row?.vendor?.name
         },
       },
-
       {
         field: 'status',
         headerName: t('deviceCategory.form.status'),
