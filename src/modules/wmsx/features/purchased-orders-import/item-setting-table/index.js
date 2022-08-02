@@ -77,7 +77,7 @@ function ItemSettingTable(props) {
   } = useLocationSetting()
 
   useEffect(() => {
-    actions.getItems({})
+    actions.getItems({ isGetAll: 1 })
     packageActs.searchPackages()
     lsActions.searchLocationSetting({
       filter: convertFilterParams({
@@ -86,7 +86,7 @@ function ItemSettingTable(props) {
     })
   }, [])
 
-  const itemIds = items?.map((item) => item?.itemId).join(',')
+  const itemIds = items?.map((item) => item?.itemId?.id).join(',')
 
   useEffect(() => {
     actionsPurchasedOrdersImport.getLotNumberList({
@@ -186,7 +186,7 @@ function ItemSettingTable(props) {
             name={`items[${index}].itemId`}
             options={itemListFilter}
             getOptionLabel={(opt) => opt?.name}
-            isOptionEqualToValue={(opt, val) => opt?.code === val?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}]['qcCheck']`, false)
             }}
