@@ -11,7 +11,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { LETTER_TYPE, LOCATION_SETTING_TYPE } from '~/modules/wmsx/constants'
+import {
+  LETTER_TYPE,
+  LOCATION_SETTING_TYPE,
+  PALLET_ITEM_STORAGE_TYPE,
+} from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
 import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
@@ -52,7 +56,7 @@ function ItemSettingTable(props) {
   } = useDefinePackage()
 
   const {
-    data: { palletsEvenByItem },
+    data: { palletList, palletsEvenByItem },
     actions: palletActs,
   } = useDefinePallet()
 
@@ -102,6 +106,12 @@ function ItemSettingTable(props) {
 
   const handleChange = (val, values, index) => {
     setFieldValue(`items[${index}].lotNumber`, '')
+    palletActs.searchPallets({
+      filter: convertFilterParams({
+        type: PALLET_ITEM_STORAGE_TYPE.SINGLE,
+        itemId: val?.id,
+      }),
+    })
   }
 
   const fieldName =
@@ -243,7 +253,7 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.palletCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { evenRow, palletId } = params.row
+        const { evenRow } = params.row
         return isView ? (
           <>{params?.row?.palletId}</>
         ) : (
@@ -254,13 +264,12 @@ function ItemSettingTable(props) {
                 ? isEmpty(palletsEvenByItem)
                   ? palletOpts
                   : palletsEvenByItem
-                : []
+                : palletList
             }
             disabled={isView}
             getOptionLabel={(opt) => opt?.code}
-            onChange={() =>
-              setFieldValue(`items[${index}].packageId`, palletId?.packages)
-            }
+            getOptionValue={(opt) => opt?.id || ''}
+            onChange={() => setFieldValue(`items[${index}].packageId`, null)}
           />
         )
       },
@@ -421,6 +430,7 @@ function ItemSettingTable(props) {
                   lotNumber: '',
                   mfg: null,
                   packageId: null,
+                  palletId: null,
                 })
                 scrollToBottom()
               }}
