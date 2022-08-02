@@ -103,18 +103,18 @@ const DeviceAssignForm = () => {
   }
 
   const initialValues = {
-    code: deviceAssignDetail?.requestId || '',
+    code: deviceAssignDetail?.requestId || null,
     assignDate: deviceAssignDetail?.assignedAt,
     codeAssign: deviceAssignDetail?.deviceCode,
     assignUser: deviceAssignDetail?.assignUser?.username,
-    deviceName: deviceAssignDetail?.deviceName || '',
+    deviceName: deviceAssignDetail?.deviceName || null,
     usageTime: deviceAssignDetail?.usedAt,
-    serial: deviceAssignDetail?.serial || '',
-    model: deviceAssignDetail?.model || '',
-    workTimeDataSource: deviceAssignDetail?.workTimeDataSource || '',
+    serial: deviceAssignDetail?.serial || null,
+    model: deviceAssignDetail?.model || null,
+    workTimeDataSource: deviceAssignDetail?.workTimeDataSource || null,
     responsibleUser: deviceAssignDetail?.responsibleUser?.userId,
-    oee: deviceAssignDetail?.oee || '',
-    productivityTarget: deviceAssignDetail?.productivityTarget || '',
+    oee: deviceAssignDetail?.oee || null,
+    productivityTarget: deviceAssignDetail?.productivityTarget || null,
     hasMO: deviceAssignDetail?.deviceType === 1 || false,
   }
 
