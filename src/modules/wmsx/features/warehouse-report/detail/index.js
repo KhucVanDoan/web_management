@@ -9,7 +9,6 @@ import ActionBar from '~/components/ActionBar'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import useWarehouseReport from '~/modules/wmsx/redux/hooks/useWarehouseReport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -37,14 +36,8 @@ function warehouseReportDetail() {
     actions,
   } = useWarehouseReport()
 
-  const {
-    data: { factoryList },
-    actions: actionFactory,
-  } = useDefineFactory()
-
   useEffect(() => {
     actions.getWarehouseReportDetailsById(id)
-    actionFactory.searchFactories({ isGetAll: 1 })
     return () => actions.resetWarehouseReportState()
   }, [id])
 
@@ -53,16 +46,10 @@ function warehouseReportDetail() {
   }
 
   const genFactoryName = () => {
-    const factoryIds =
-      warehouseReportDetails?.warehouses
-        ?.map((item) => item.factoryId)
-        ?.filter((value, index, self) => index === self.indexOf(value)) || []
-    return factoryList
-      .reduce((acc, cur) => {
-        if (factoryIds.includes(cur.id)) return [...acc, cur?.name]
-        return acc
-      }, [])
+    const factoryIds = warehouseReportDetails?.warehouses
+      ?.map((item) => item.factory?.name)
       .join(', ')
+    return factoryIds
   }
   return (
     <Page

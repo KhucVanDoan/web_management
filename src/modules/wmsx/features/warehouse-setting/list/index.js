@@ -16,7 +16,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateToLocalTz,
+  convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
 import FilterForm from './filter-form'
@@ -94,7 +94,7 @@ const warehouseSetting = () => {
 
         fixed: true,
         renderCell: (params) => {
-          return convertUtcDateToLocalTz(params?.row?.createdAt)
+          return convertUtcDateTimeToLocalTz(params?.row?.createdAt)
         },
       },
       {
@@ -103,7 +103,7 @@ const warehouseSetting = () => {
         width: 200,
 
         renderCell: (params) => {
-          return convertUtcDateToLocalTz(params?.row?.updatedAt)
+          return convertUtcDateTimeToLocalTz(params?.row?.updatedAt)
         },
       },
       {

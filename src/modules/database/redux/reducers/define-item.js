@@ -15,6 +15,9 @@ import {
   UPDATE_ITEM_START,
   UPDATE_ITEM_SUCCESS,
   RESET_ITEM_DETAILS_STATE,
+  PRINT_QR_ITEMS_FAILED,
+  PRINT_QR_ITEMS_START,
+  PRINT_QR_ITEMS_SUCCESS,
 } from '~/modules/database/redux/actions/define-item'
 
 const initialState = {
@@ -37,6 +40,7 @@ export default function defineItem(state = initialState, action) {
     case UPDATE_ITEM_START:
     case DELETE_ITEM_START:
     case GET_ITEM_DETAILS_START:
+    case PRINT_QR_ITEMS_START:
       return {
         ...state,
         isLoading: true,
@@ -50,6 +54,8 @@ export default function defineItem(state = initialState, action) {
       }
 
     case SEARCH_ITEMS_FAILED:
+    case PRINT_QR_ITEMS_SUCCESS:
+    case PRINT_QR_ITEMS_FAILED:
       return {
         ...state,
         isLoading: false,

@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { isArray, isEqual, last, reverse, uniqWith } from 'lodash'
+import { isArray, isEqual, isNil, last, reverse, uniqWith } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -67,7 +67,15 @@ const Autocomplete = ({
 
   const { t } = useTranslation()
   const debouncedInputValue = useDebounce(inputValue, 200)
-  const refetchWhen = useDebounce(qs.stringify(asyncRequestDeps ?? ''), 200)
+  const refetchWhen = useDebounce(
+    isNil(asyncRequestDeps) ||
+      typeof asyncRequestDeps === 'string' ||
+      typeof asyncRequestDeps === 'number' ||
+      typeof asyncRequestDeps === 'boolean'
+      ? asyncRequestDeps
+      : qs.stringify(asyncRequestDeps),
+    200,
+  )
 
   const isOptEqual = (opt, v) =>
     typeof isOptionEqualToValue === 'function'
@@ -114,7 +122,7 @@ const Autocomplete = ({
       uniqWith([...oldOpts, ...opts], isOptEqual),
     )
 
-  const prefetchOptions = () => fetchOptionsFn('', persist)
+  const prefetchOptions = () => fetchOptionsFn('', setPersistedOptions)
 
   const fetchOptions = (keyword) =>
     fetchOptionsFn(keyword, (opts) => {

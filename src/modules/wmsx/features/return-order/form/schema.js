@@ -11,24 +11,44 @@ export const returnOrderSchema = (t, itemByOrderList) => {
     orderCode: Yup.object().nullable().required(t('general:form.required')),
     description: Yup.string(),
     items: Yup.array().of(
-      Yup.object().shape({
-        itemId: Yup.object().nullable().required(t('general:form.required')),
-        lotNumber: Yup.string().nullable().required(t('general:form.required')),
-        quantity: Yup.number()
-          .required(t('general:form.required'))
-          .min(
-            NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
-            t('general:form.minNumber', {
-              min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
-            }),
-          )
-          .max(
-            Number(itemByOrderList?.items?.[0]?.actualQuantity),
-            t('general:form.maxNumber', {
-              max: Number(itemByOrderList?.items?.[0]?.actualQuantity),
-            }),
-          ),
-      }),
+      Yup.object()
+        .shape({
+          itemId: Yup.object().nullable().required(t('general:form.required')),
+          lotNumber: Yup.string()
+            .nullable()
+            .required(t('general:form.required')),
+          ...(itemByOrderList?.items?.[0]?.actualQuantity
+            ? {
+                quantity: Yup.number()
+                  .required(t('general:form.required'))
+                  .min(
+                    NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+                    t('general:form.minNumber', {
+                      min: NUMBER_FIELD_REQUIRED_SIZE.QUANTITY.MIN,
+                    }),
+                  )
+                  .max(
+                    Number(itemByOrderList?.items?.[0]?.actualQuantity),
+                    t('general:form.maxNumber', {
+                      max: Number(itemByOrderList?.items?.[0]?.actualQuantity),
+                    }),
+                  ),
+              }
+            : {}),
+        })
+        .test('name', '', (value, context) => {
+          if (
+            (value.packageId === null || value.packageId === undefined) &&
+            (value.palletId === null || value.palletId === undefined) &&
+            value?.evenRow
+          ) {
+            return context.createError({
+              message: t('returnOrder.requirePackageIdOrPalletId'),
+              path: `${context.path}.packageId`,
+            })
+          }
+          return true
+        }),
     ),
   })
 }

@@ -54,6 +54,8 @@ const ReturnOrderForm = () => {
     evenRow: false,
     warehouseName: '',
     lotNumber: '',
+    packageId: null,
+    palletId: null,
   }
 
   const {

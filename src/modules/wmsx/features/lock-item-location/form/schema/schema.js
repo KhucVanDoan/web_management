@@ -33,7 +33,7 @@ export const validateSchema = (t) =>
         is: (val) => Boolean(val === '1'),
         then: Yup.array().of(
           Yup.object().shape({
-            factoryId: Yup.string()
+            factoryId: Yup.object()
               .nullable()
               .required(t('general:form.required')),
           }),

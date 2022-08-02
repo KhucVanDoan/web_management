@@ -172,6 +172,7 @@ const DataTable = (props) => {
       <TableContainer
         sx={{
           maxHeight: 'calc(100vh - 160px)',
+          '.MuiDialog-container &': { maxHeight: 'calc(100vh - 280px)' },
           ...(height ? { maxHeight: height } : { flex: 1, overflow: 'auto' }),
         }}
       >
