@@ -2273,7 +2273,8 @@
     "deleteInventoryCalendarSuccess": "Xoá lệnh trả hàng thành công",
     "rejectInventoryCalendarSuccess": "Từ chối lệnh trả hàng thành công",
     "confirmDelete": "Bạn có chắc chắn muốn xóa lệnh trả hàng này không?",
-    "returnOrderDelete": "Xóa lệnh trả hàng"
+    "returnOrderDelete": "Xóa lệnh trả hàng",
+    "requirePackageIdOrPalletId": "Bắt buộc chọn mã package hoặc mã pallet"
   },
   "returnOrderStatus": {
     "pending": "Chờ xác nhận",
