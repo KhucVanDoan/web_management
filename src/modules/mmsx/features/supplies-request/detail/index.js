@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -54,18 +53,18 @@ const SuppliesRequestDetail = () => {
     history.push(ROUTE.SUPPLIES_REQUEST.LIST.PATH)
   }
   const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
+    // return (
+    //   <>
+    //     <Box>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('deviceCategory.button.device')}
+    //       </Button>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('deviceCategory.button.job')}
+    //       </Button>
+    //     </Box>
+    //   </>
+    // )
   }
   const histories = suppliesRequestDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
