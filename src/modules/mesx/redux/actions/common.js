@@ -61,9 +61,6 @@ export const GET_BOMS_START = 'MESX_GET_BOMS_START'
 export const GET_BOMS_SUCCESS = 'MESX_GET_BOMS_SUCCESS'
 export const GET_BOMS_FAILED = 'MESX_GET_BOMS_FAILED'
 
-export const GET_FACTORIES_START = 'MESX_GET_FACTORIES_START'
-export const GET_FACTORIES_SUCCESS = 'MESX_GET_FACTORIES_SUCCESS'
-export const GET_FACTORIES_FAILED = 'MESX_GET_FACTORIES_FAILED'
 export const RESET_FACTORIES_LIST_STATE = 'MESX_RESET_FACTORIES_LIST_STATE'
 
 export const SEARCH_QUALITY_POINTS_START = 'MESX_SEARCH_QUALITY_POINTS_START'
@@ -522,43 +519,6 @@ export function getBomsFailed() {
     type: GET_BOMS_FAILED,
   }
 }
-/**
- * Get factories
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getFactories(payload, onSuccess, onError) {
-  return {
-    type: GET_FACTORIES_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get factories success
- * @param {*} payload
- * @returns {object}
- */
-export function getFactoriesSuccess(payload) {
-  return {
-    type: GET_FACTORIES_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get factories failed
- * @returns {object}
- */
-export function getFactoriesFailed() {
-  return {
-    type: GET_FACTORIES_FAILED,
-  }
-}
 
 /**
  * search quality points
@@ -828,9 +788,6 @@ export default {
   getBoms,
   getBomsSuccess,
   getBomsFailed,
-  getFactories,
-  getFactoriesSuccess,
-  getFactoriesFailed,
   searchQualityPoints,
   searchQualityPointsSuccess,
   getQualityPoints,

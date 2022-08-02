@@ -41,9 +41,6 @@ import {
   GET_BOMS_START,
   GET_BOMS_SUCCESS,
   GET_BOMS_FAILED,
-  GET_FACTORIES_FAILED,
-  GET_FACTORIES_START,
-  GET_FACTORIES_SUCCESS,
   SEARCH_QUALITY_POINTS_START,
   SEARCH_QUALITY_POINTS_SUCCESS,
   SEARCH_QUALITY_POINTS_FAILED,
@@ -88,7 +85,6 @@ const initialState = {
   itemDetailList: [],
   lists: [],
   BOMList: [],
-  factoryList: [],
   qcList: [],
   qcDetails: {},
   qualityPointList: [],
@@ -119,7 +115,6 @@ export default function commonManagement(state = initialState, action) {
     case GET_CUSTOMERS_START:
     case GET_ALL_ITEM_DETAILS_START:
     case GET_BOMS_START:
-    case GET_FACTORIES_START:
     case GET_QUALITY_POINT_DETAILS_START:
     case SEARCH_QUALITY_POINTS_START:
     case GET_ITEM_QUALITY_POINT_START:
@@ -281,22 +276,11 @@ export default function commonManagement(state = initialState, action) {
         BOMList: [],
         isLoading: false,
       }
-    case GET_FACTORIES_SUCCESS:
-      return {
-        ...state,
-        factoryList: action.payload,
-        isLoading: false,
-      }
+
     case RESET_FACTORIES_LIST_STATE:
       return {
         ...state,
         factoryList: [],
-      }
-    case GET_FACTORIES_FAILED:
-      return {
-        ...state,
-        factoryList: [],
-        isLoading: false,
       }
     case GET_QUALITY_POINTS_SUCCESS:
       return {
