@@ -9,7 +9,6 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -185,18 +184,19 @@ const SuppliesRequestForm = () => {
     }
   }
   const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
+    //<doan.khucvan> BA confirm tạm thời không hiện button này nữa
+    // return (
+    //   <>
+    //     <Box>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('deviceCategory.button.device')}
+    //       </Button>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('deviceCategory.button.job')}
+    //       </Button>
+    //     </Box>
+    //   </>
+    // )
   }
   const histories =
     suppliesRequestDetail?.histories?.map((item) => ({

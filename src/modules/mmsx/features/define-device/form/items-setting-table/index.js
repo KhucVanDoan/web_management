@@ -14,6 +14,7 @@ import {
   SUPPLIES_ACCESSORY,
   SUPPLIES_ACCESSORY_OPTION,
   SUPPLIES_ACCESSORY_OPTION_MAP,
+  SUPPLIES_STATUS,
   TYPE_ITEM,
 } from '~/modules/mmsx/constants'
 import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
@@ -73,7 +74,9 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].supplyId`}
               placeholder={t('deviceList.infoList.name')}
-              options={suppliesList}
+              options={suppliesList.filter(
+                (item) => item?.status !== SUPPLIES_STATUS.PENDING,
+              )}
               getOptionValue={(opt) => opt?.id || ''}
               getOptionLabel={(opt) => opt?.name || ''}
               getOptionDisabled={(opt) =>
