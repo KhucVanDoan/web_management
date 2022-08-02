@@ -226,6 +226,7 @@ function InventoryStatistics() {
             ...filters,
             ...quickFilters,
             itemTypeId: quickFilters?.itemTypeId?.id,
+            warehouseId: quickFilters?.warehouseId?.id,
           },
           ['reportDate'],
         ),

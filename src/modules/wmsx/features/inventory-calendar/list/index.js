@@ -209,7 +209,10 @@ function InventoryCalendar() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(
+        { ...filters, warehouseName: filters?.warehouseName?.name },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchInventoryCalendars(params)

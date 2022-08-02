@@ -105,7 +105,7 @@ const POForm = () => {
             (detailLot, index) => ({
               ...detailLot,
               id: index,
-              itemId: detailLot.itemId,
+              itemId: { ...detailLot.item, id: detailLot.itemId },
               warehouseId: detailLot.warehouseId,
               qcCheck:
                 poImportDetails?.purchasedOrderImportWarehouseDetails.find(
@@ -217,7 +217,7 @@ const POForm = () => {
       warehouseId: values?.warehouseId,
       assignUserIds: [1], //@Todo: handle CR assignUser
       items: values?.items?.map((item) => ({
-        id: item.itemId,
+        id: item.itemId?.id,
         warehouseId: values?.warehouseId,
         quantity: +item.quantity,
         lotNumber: item.lotNumber,

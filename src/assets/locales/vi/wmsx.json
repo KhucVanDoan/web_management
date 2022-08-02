@@ -2277,7 +2277,7 @@
   "returnOrderStatus": {
     "pending": "Chờ xác nhận",
     "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
+    "inProgress": "Cất hàng",
     "completed": "Hoàn thành",
     "rejected": "Từ chối"
   }
