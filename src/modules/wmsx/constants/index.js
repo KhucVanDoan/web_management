@@ -1228,11 +1228,11 @@ export const RETURN_ORDER_STATUS_OPTIONS = [
     text: 'returnOrderStatus.inProgress',
     color: 'inProgress',
   },
-  {
-    id: 3,
-    text: 'returnOrderStatus.approved',
-    color: 'approved',
-  },
+  // {
+  //   id: 3,
+  //   text: 'returnOrderStatus.approved',
+  //   color: 'approved',
+  // },
   {
     id: 4,
     text: 'returnOrderStatus.completed',
