@@ -25,6 +25,7 @@ import { DEFAULT_UNITS } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import { searchWarehouseSettingApi } from '~/modules/wmsx/redux/sagas/warehouse-setting/search-warehouse-setting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
 import { warehouseSchema } from './schema'
@@ -184,7 +185,7 @@ function DefineWarehouseFrom() {
             onSubmit={handleSubmit}
             enableReinitialize
           >
-            {({ handleReset }) => (
+            {({ handleReset, values }) => (
               <Form>
                 <Grid
                   container
@@ -260,10 +261,15 @@ function DefineWarehouseFrom() {
                         searchFactoriesApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filters: convertFilterParams({
+                            companyId: values?.companyId?.id,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      asyncRequestDeps={values?.companyId}
                       getOptionLabel={(option) => option.name}
+                      disabled={!values?.companyId}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       required
                     />
