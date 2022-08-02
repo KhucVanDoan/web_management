@@ -197,7 +197,12 @@ const QualityReports = () => {
       page: page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, moName: filters?.moName?.name },
+        {
+          ...filters,
+          moName: filters?.moName?.name,
+          saleOrderName: filters?.saleOrderName?.name,
+          itemName: filters?.itemName?.name,
+        },
         columns,
       ),
       sort: convertSortParams(sort),

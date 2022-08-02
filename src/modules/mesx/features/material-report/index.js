@@ -331,13 +331,13 @@ function MaterialReport() {
         filters?.saleOrder?.name
           ? {
               column: 'saleOrderIds',
-              text: filters?.saleOrder?.name,
+              text: [filters?.saleOrder?.id],
             }
           : {},
         filters?.itemName
           ? {
               column: 'itemName',
-              text: filters?.itemName,
+              text: filters?.itemName?.name,
             }
           : {},
       ]),
