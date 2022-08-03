@@ -98,7 +98,7 @@ deploy_avenue_stg:
       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  stg_avenue_mesx_web || true; 
-      docker run --rm -d --name stg_avenue_mesx_web -p 12000:80 ${STAGING_CONTAINER_IMAGE};
+      docker run --restart=always -d --name stg_avenue_mesx_web -p 12000:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_staging:
