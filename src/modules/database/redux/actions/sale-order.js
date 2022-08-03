@@ -40,8 +40,6 @@ export const GET_SALE_ORDER_DETAIL_BY_IDS_SUCCESS =
 export const GET_SALE_ORDER_DETAIL_BY_IDS_FAILED =
   'DATABASE_GET_SALE_ORDER_DETAIL_BY_IDS_FAILED'
 
-export const GET_SALE_ORDER_LIST_ALL = 'DATABASE_GET_SALE_ORDER_LIST_ALL'
-
 /**
  * Search SaleOrder
  * @param {object} payload
@@ -340,13 +338,6 @@ export function getSaleOrderDetailsByIdsFailed() {
   }
 }
 
-export function getSaleOrderListAll(payload) {
-  return {
-    type: GET_SALE_ORDER_LIST_ALL,
-    payload,
-  }
-}
-
 export default {
   searchSaleOrders,
   searchSaleOrdersFailed,
@@ -374,5 +365,4 @@ export default {
   getSaleOrderDetailsByIds,
   getSaleOrderDetailsByIdsSuccess,
   getSaleOrderDetailsByIdsFailed,
-  getSaleOrderListAll,
 }

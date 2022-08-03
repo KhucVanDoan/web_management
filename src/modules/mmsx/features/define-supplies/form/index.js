@@ -41,7 +41,7 @@ const DefineSuppliesForm = () => {
     actions: defineVendorAcions,
   } = useDefineVendor()
   const {
-    data: { suppliesCategoryList },
+    data: { confirmSuppliesCategory },
     actions: suppliesCategoryActions,
   } = useSuppliesCategory()
   const {
@@ -59,22 +59,28 @@ const DefineSuppliesForm = () => {
   const backToList = () => {
     history.push(ROUTE.DEFINE_SUPPLIES.LIST.PATH)
   }
+
   useEffect(() => {
     commonAction.getResponsibleSubject()
     commonAction.getItemUnits()
     defineVendorAcions.searchVendors({ isGetAll: 1 })
-    suppliesCategoryActions.searchListSuppliesCategory()
+    suppliesCategoryActions.getAllConfirmSuppliesCategory()
   }, [])
   const initialValues = {
     code: suppliesDetail?.code || PRE_FIX_CODE,
     name: suppliesDetail?.name || '',
-    groupSupplyId: suppliesDetail?.supplyGroup?.name || '',
+    groupSupplyId: suppliesDetail?.supplyGroup?.id || '',
     type: suppliesDetail?.type ? `${suppliesDetail?.type}` : '0',
-    vendorId: suppliesDetail?.vendorId,
-    receivedDate: suppliesDetail?.receivedDate,
+    vendorId: suppliesDetail?.vendor?.id,
+    receivedDate: suppliesDetail?.receivedDate || '',
     price: suppliesDetail?.price || '',
     itemUnitId: suppliesDetail?.itemUnit?.id || '',
-    responsibleUser: suppliesDetail?.responsibleUser?.id || '',
+    responsibleUser:
+      {
+        id: suppliesDetail?.responsibleUser?.id,
+        username: suppliesDetail?.responsibleUser?.name,
+        type: suppliesDetail?.responsibleUser?.type,
+      } || '',
     description: suppliesDetail?.description || '',
   }
   useEffect(() => {
@@ -87,15 +93,6 @@ const DefineSuppliesForm = () => {
   }, [id])
 
   const handleSubmit = (values) => {
-    const findUser = responsibleSubject?.responsibleUsers?.find(
-      (e) => e?.id === values?.responsibleUserId,
-    )
-    const findMaintainTeam =
-      responsibleSubject?.responsibleMaintenanceTeams?.find(
-        (e) => e?.id === values?.responsibleUserId,
-      )
-    const subject = findUser || findMaintainTeam
-
     if (isUpdate) {
       const params = {
         id: id,
@@ -107,11 +104,8 @@ const DefineSuppliesForm = () => {
           itemUnitId: values?.itemUnitId,
           price: +values?.price || null,
           vendorId: values?.vendorId,
-          receivedDate: values?.receivedDate,
-          responsibleUser: {
-            id: subject?.id,
-            type: subject?.type,
-          },
+          receivedDate: values?.receivedDate || null,
+          responsibleUser: values?.responsibleUser || null,
           type: +values?.type || 0,
         },
       }
@@ -125,11 +119,8 @@ const DefineSuppliesForm = () => {
         itemUnitId: values?.itemUnitId,
         price: +values?.price || null,
         vendorId: values?.vendorId,
-        receivedDate: values?.receivedDate,
-        responsibleUser: {
-          id: subject?.id,
-          type: subject?.type,
-        },
+        receivedDate: values?.receivedDate || null,
+        responsibleUser: values?.responsibleUser || null,
         type: +values?.type || 0,
       }
       actions.createSupplies(params, backToList)
@@ -212,9 +203,9 @@ const DefineSuppliesForm = () => {
           <Button
             variant="outlined"
             sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
+            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
           >
-            {t('supplies.button.suppliesCategory')}
+            {t('supplies.button.deviceButton')}
           </Button>
         </Box>
       </>
@@ -267,7 +258,7 @@ const DefineSuppliesForm = () => {
                       placeholder={t('supplies.form.field.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       onInput={(val) => {
@@ -286,7 +277,7 @@ const DefineSuppliesForm = () => {
                       placeholder={t(
                         'supplies.form.field.suppliesCategoryName',
                       )}
-                      options={suppliesCategoryList}
+                      options={confirmSuppliesCategory}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -354,7 +345,7 @@ const DefineSuppliesForm = () => {
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
-                    <Field.DateRangePicker
+                    <Field.DatePicker
                       name="receivedDate"
                       label={t('supplies.form.field.dateAdded')}
                       placeholder={t('supplies.form.field.dateAdded')}
@@ -389,8 +380,7 @@ const DefineSuppliesForm = () => {
                       label={t('deviceCategory.responsibleUser')}
                       placeholder={t('deviceCategory.responsibleUser')}
                       options={responsibleSubject?.responsibleUsers}
-                      getOptionLabel={(opt) => opt?.username}
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => opt?.username || opt?.name}
                     />
                   </Grid>
                 </Grid>

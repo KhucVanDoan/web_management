@@ -21,6 +21,9 @@ import {
   CONFIRM_PACKAGE_START,
   CONFIRM_PACKAGE_SUCCESS,
   RESET_PACKAGE_DETAILS_STATE,
+  PRINT_QR_PACKAGES_FAILED,
+  PRINT_QR_PACKAGES_START,
+  PRINT_QR_PACKAGES_SUCCESS,
 } from '~/modules/wmsx/redux/actions/define-package'
 
 const initialState = {
@@ -46,6 +49,7 @@ export default function definePackage(state = initialState, action) {
     case DELETE_PACKAGE_START:
     case CONFIRM_PACKAGE_START:
     case GET_PACKAGE_DETAILS_START:
+    case PRINT_QR_PACKAGES_START:
       return {
         ...state,
         isLoading: true,
@@ -59,6 +63,8 @@ export default function definePackage(state = initialState, action) {
       }
 
     case SEARCH_PACKAGES_FAILED:
+    case PRINT_QR_PACKAGES_SUCCESS:
+    case PRINT_QR_PACKAGES_FAILED:
       return {
         ...state,
         isLoading: false,

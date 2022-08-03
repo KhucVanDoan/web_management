@@ -86,24 +86,7 @@ const TemplateChecklist = () => {
         sortable: true,
         fixed: true,
       },
-      {
-        field: 'deviceCode',
-        headerName: t('templateChecklist.deviceCode'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          return params.row.device?.code
-        },
-      },
-      {
-        field: 'deviceName',
-        headerName: t('templateChecklist.deviceName'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          return params.row.device?.name
-        },
-      },
+
       {
         field: 'createdAt',
         headerName: t('templateChecklist.createdAt'),

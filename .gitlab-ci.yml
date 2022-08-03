@@ -2,9 +2,9 @@ image: gitlab/dind
 
 variables:
   DOCKER_DRIVER: overlay
-  DEMO_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  DEV_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  STAGING_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  DEV_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
+  STAGING_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
+  DEMO_CONTAINER_IMAGE: $PRIVATE_REGISTRY_HOST/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_REF_SLUG
 
 services:
   - docker:dind
@@ -22,24 +22,24 @@ stages:
 build:
   stage: build
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
     - chmod +x ./setup_env.sh
     - ./setup_env.sh
   script:
     - docker build -t $DEV_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="$REACT_APP_HOST"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
+      --build-arg REACT_APP_HOST="http://10.1.14.17:20000"
+      --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.14.17:20000"
+      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.14.17:20000"
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
 deploy:
   stage: deploy
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
   script:
     - eval `ssh-agent -s`
 
@@ -54,31 +54,34 @@ deploy:
 
     - >
       ssh $SSH_USER@$SSH_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
+      "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
-      docker stop  mesx_web || true; 
-      docker run --rm -d --name mesx_web -p 5080:80 ${STAGING_CONTAINER_IMAGE};
+      docker stop  avenue_dev_mesx_web || true; 
+      docker rm  avenue_dev_mesx_web || true; 
+      docker run -d --name avenue_dev_mesx_web --restart=always  -p 20088:80 ${DEV_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_avenue_stg:
   stage: build_avenue_stg
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - chmod +x ./setup_env.sh
-    - ./setup_env.sh
+    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
+    - chmod +x ./setup_env_staging.sh
+    - ./setup_env_staging.sh
   script:
-    - docker build -t $DEV_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST=https://avenue-wmsx-api.vti.com.vn
+    - docker build -t $STAGING_CONTAINER_IMAGE
+      --build-arg REACT_APP_HOST="$REACT_APP_HOST_STAGING"
+      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_STAGING_URL"
+      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_STAGING_URL"
       --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN=""
-      --no-cache .
-    - docker push $DEV_CONTAINER_IMAGE
+      --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_STAGING_DOMAIN" --no-cache .
+    - docker push $STAGING_CONTAINER_IMAGE
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
-
-deploy_avenue_stg:
-  stage: deploy_avenue_stg
+deploy_staging:
+  stage: deploy_staging
+  variables:
+    GIT_STRATEGY: none
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
   script:
@@ -94,99 +97,14 @@ deploy_avenue_stg:
     - chmod 644 ~/.ssh/known_hosts
 
     - >
-      ssh $SSH_STAGING_USER@$SSH_STAGING_SERVER_IP
-      "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-      docker pull ${DEV_CONTAINER_IMAGE};
-      docker stop  stg_avenue_mesx_web || true; 
-      docker run --restart=always -d --name stg_avenue_mesx_web -p 12000:80 ${STAGING_CONTAINER_IMAGE};
+      ssh $SSH_STAGING_USER@$SSH_SERVER_IP
+      "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
+      docker pull ${STAGING_CONTAINER_IMAGE};
+      docker stop  avenue_stg_web || true; 
+      docker rm  avenue_stg_web || true; 
+      docker run -d --name avenue_stg_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
 
 build_staging:
   stage: build_staging
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - chmod +x ./setup_env_staging.sh
-    - ./setup_env_staging.sh
-  script:
-    - docker build -t $DEV_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="http://10.1.14.17:20000"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
-    - docker push $DEV_CONTAINER_IMAGE
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
-
-# deploy_avenue_stg:
-#   stage: deploy_avenue_stg
-#   variables:
-#     GIT_STRATEGY: none
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
-#   script:
-#     - eval `ssh-agent -s`
-
-#     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
-#     - mkdir -p ~/.ssh
-
-#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
-
-#     - mkdir -p ~/.ssh
-
-#     - chmod 644 ~/.ssh/known_hosts
-
-#     - >
-#       ssh $SSH_USER@$SSH_SERVER_IP
-#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-#       docker pull ${DEV_CONTAINER_IMAGE};
-#       docker stop  avenue_wmsx_dev_web || true;
-#       docker run --rm -d --name avenue_wmsx_dev_web -p 20088:80 ${DEV_CONTAINER_IMAGE};
-#       docker image prune -f;"
-
-build_demo:
-  before_script:
-    - docker version
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - ls -la
-    - chmod +x ./setup_env_demo.sh
-    - ./setup_env_demo.sh
-  stage: build_demo
-  script:
-    - echo "$REACT_APP_DEMO_HOST"
-    - docker build --tag $DEMO_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="$REACT_APP_DEMO_HOST"
-      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_DEMO_URL"
-      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL"
-      --build-arg	REACT_APP_QMSX_URL="$REACT_APP_QMSX_DEMO_URL"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_DEMO_HOST"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_DEMO_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN"  .
-    - docker push $DEMO_CONTAINER_IMAGE
-  only:
-    - master
-# deploy_demo:
-#   stage: deploy_demo
-#   variables:
-#     GIT_STRATEGY: none
-#   only:
-#     - master
-#   script:
-#     - eval `ssh-agent -s`
-
-#     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
-#     - mkdir -p ~/.ssh
-
-#     - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
-
-#     - mkdir -p ~/.ssh
-
-#     - chmod 644 ~/.ssh/known_hosts
-
-#     - >
-#       ssh $SSH_USER@$SSH_SERVER_IP
-#       "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY};
-#       cd ${PATH_TO_DEMO_PROJECT};
-#       docker pull ${DEMO_CONTAINER_IMAGE};
-#       docker-compose down;
-#       docker-compose up -d;
-#       docker image prune -f;"

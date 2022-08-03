@@ -98,6 +98,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 100000,
   },
+  INTEGER_10K: {
+    MIN: 1,
+    MAX: 10000,
+  },
   INTEGER_1000: {
     MIN: 1,
     MAX: 999,
@@ -335,3 +339,5 @@ export const BULK_ACTION_OPTIONS = [
     icon: 'delete',
   },
 ]
+
+export const ONE_DAY_IN_MILISECOND = 86400000

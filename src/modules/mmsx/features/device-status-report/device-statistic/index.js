@@ -12,7 +12,7 @@ import Status from '~/components/Status'
 import { DEVICE_ASSIGN_STATUS } from '~/modules/mmsx/constants'
 import useDeviceStatus from '~/modules/mmsx/redux/hooks/useDeviceStatusReport'
 import { exportDeviceStatisticReportApi } from '~/modules/mmsx/redux/sagas/device-status-report/import-export-device-statistic'
-import { ROUTE } from '~/modules/wmsx/routes/config'
+import { ROUTE } from '~/modules/mmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
@@ -33,10 +33,10 @@ const DeviceStatisticTable = ({ keyword }) => {
     actions,
   } = useDeviceStatus()
   const DEFAULT_QUICK_FILTERS = {
-    deviceGroup: '',
     factoryId: '',
-    deviceCode: '',
-    userId: '',
+    workCenterId: '',
+    deviceId: '',
+    assignUserId: '',
   }
   const {
     page,
@@ -129,7 +129,7 @@ const DeviceStatisticTable = ({ keyword }) => {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.DEVICE_ASIGN.DETAIL.PATH.replace(
+                  ROUTE.DEVICE_ASSIGN.DETAIL.PATH.replace(
                     ':id',
                     `${deviceAssignId}`,
                   ),
@@ -145,10 +145,14 @@ const DeviceStatisticTable = ({ keyword }) => {
   ]
   const refreshData = () => {
     const params = {
+      factoryId: quickFilters?.factoryId?.id || null,
+      workCenterId: quickFilters?.workCenterId?.id || null,
+      deviceId: quickFilters?.deviceId?.id || null,
+      assignUserId: quickFilters?.assignUserId?.id || null,
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
     actions.searchDeviceStatistic(params)

@@ -4,14 +4,7 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const validateShema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_7.MAX,
-        }),
-      ),
+    code: Yup.string().required(t('general:form.required')),
     name: Yup.string()
       .required(t('general:form.required'))
       .max(
@@ -20,7 +13,6 @@ export const validateShema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    deviceName: Yup.object().nullable().required(t('general:form.required')),
     checkType: Yup.boolean().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object()

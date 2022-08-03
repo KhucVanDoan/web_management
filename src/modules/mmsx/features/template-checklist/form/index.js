@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { createFilterOptions, Grid, Paper } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -15,7 +15,6 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ACTION_MAP, CHECK_TYPE_OPTIONS } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
-import useDefineDevice from '~/modules/mmsx/redux/hooks/useDefineDevice'
 import useTemplateChecklist from '~/modules/mmsx/redux/hooks/useTemplateChecklist'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 
@@ -40,11 +39,6 @@ const TemplateChecklistForm = () => {
     actions,
   } = useTemplateChecklist()
 
-  const {
-    data: { deviceList },
-    actions: deviceActs,
-  } = useDefineDevice()
-
   const MODE_MAP = {
     [ROUTE.TEMPLATE_CHECKLIST.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.TEMPLATE_CHECKLIST.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -59,7 +53,6 @@ const TemplateChecklistForm = () => {
   const initialValues = {
     code: templateChecklistDetail?.code || '',
     name: templateChecklistDetail?.name || '',
-    deviceName: templateChecklistDetail?.devices || '',
     checkType: templateChecklistDetail?.checkType,
     description: templateChecklistDetail?.description || '',
     items: templateChecklistDetail?.details?.map((detail, index) => ({
@@ -69,10 +62,6 @@ const TemplateChecklistForm = () => {
       obligatory: detail.obligatory === 1 ? true : false,
     })) || [{ ...DEFAULT_ITEM }],
   }
-
-  useEffect(() => {
-    deviceActs.searchDevice()
-  }, [])
 
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
@@ -87,7 +76,6 @@ const TemplateChecklistForm = () => {
     const convertValues = {
       ...values,
       id,
-      deviceId: values.deviceName?.id,
       details: values.items.map((item) => ({
         title: item.title,
         description: item.descriptionDetail,
@@ -204,7 +192,7 @@ const TemplateChecklistForm = () => {
                         placeholder={t('templateChecklist.form.code')}
                         disabled={mode === MODAL_MODE.UPDATE}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                         required
@@ -219,27 +207,6 @@ const TemplateChecklistForm = () => {
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
                         required
-                      />
-                    </Grid>
-                    <Grid item xs={12} lg={6}>
-                      <Field.Autocomplete
-                        name="deviceName"
-                        label={t('templateChecklist.form.deviceName')}
-                        placeholder={t('templateChecklist.form.deviceName')}
-                        options={deviceList}
-                        getOptionLabel={(opt) => opt?.name}
-                        filterOptions={createFilterOptions({
-                          stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                        })}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="deviceName.code"
-                        label={t('templateChecklist.form.deviceCode')}
-                        disabled
                       />
                     </Grid>
                     <Grid item xs={12} lg={6}>

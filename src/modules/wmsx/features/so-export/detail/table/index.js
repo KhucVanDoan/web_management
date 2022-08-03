@@ -1,35 +1,24 @@
-import { useEffect } from 'react'
-
 import { Box, Checkbox, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ORDER_STATUS_SO_EXPORT } from '~/modules/wmsx/constants'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 function TableDetail(props) {
   const { t } = useTranslation(['wmsx'])
   const { items, status } = props
-  const {
-    data: { itemList },
-    actions,
-  } = useCommonManagement()
+
   const isDisplay =
     status === ORDER_STATUS_SO_EXPORT.PENDING ||
     status === ORDER_STATUS_SO_EXPORT.CONFIRMED ||
     status === ORDER_STATUS_SO_EXPORT.REJECTED
-  useEffect(() => {
-    actions.getItems()
-  }, [])
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
+
   const columns = [
     {
       field: 'id',
       headerName: '#',
-      width: 80,
+      width: 50,
       renderCell: (_, index) => {
         return index + 1
       },
@@ -37,28 +26,33 @@ function TableDetail(props) {
     {
       field: 'code',
       headerName: t('soExport.item.code'),
-      width: 250,
+      width: 150,
       renderCell: (params) => {
-        return getItemObject(params?.row?.itemId)?.code
+        return params?.row?.itemCode
       },
     },
     {
       field: 'itemName',
       headerName: t('soExport.item.name'),
-      width: 180,
+      width: 150,
+    },
+    {
+      field: 'evenRow',
+      headerName: t('soExport.item.evenRow'),
+      width: 120,
       renderCell: (params) => {
-        return getItemObject(params?.row?.itemId)?.name
+        return <Checkbox disabled checked={params.row?.evenRow} />
       },
     },
     {
       field: 'lotNumber',
       headerName: t('soExport.item.lotNumber'),
-      width: 180,
+      width: 150,
     },
     {
       field: 'mfg',
       headerName: t('soExport.item.mfg'),
-      width: 180,
+      width: 150,
       renderCell: (params) => {
         return convertUtcDateToLocalTz(params?.row?.mfg)
       },
@@ -66,33 +60,46 @@ function TableDetail(props) {
     {
       field: 'packageId',
       headerName: t('soExport.item.packageCode'),
-      width: 180,
+      width: 150,
       renderCell: (params) => {
-        return getItemObject(params?.row?.itemId)?.packages
+        return params?.row?.packageId
+      },
+    },
+    {
+      field: 'palletId',
+      headerName: t('soExport.item.palletCode'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.palletId
+      },
+    },
+    {
+      field: 'storageLocation',
+      headerName: t('soExport.item.storageLocation'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.location
       },
     },
     {
       field: 'quantity',
       headerName: t('soExport.item.quantity'),
-      width: 180,
+      width: 150,
     },
     !isDisplay && {
       field: 'actualQuantity',
       headerName: t('soExport.item.actualQuantity'),
-      width: 180,
+      width: 150,
     },
     {
       field: 'unitType',
       headerName: t('soExport.item.unitType'),
-      width: 180,
-      renderCell: (params) => {
-        return getItemObject(params?.row?.itemId)?.itemUnit?.name
-      },
+      width: 150,
     },
     {
       field: 'qcCheck',
       headerName: t('soExport.item.qcCheck'),
-      width: 180,
+      width: 150,
       renderCell: (params) => {
         return <Checkbox checked={params?.row?.qcCheck} disabled />
       },
@@ -100,7 +107,7 @@ function TableDetail(props) {
     {
       field: 'qcCriteriaId',
       headerName: t('soExport.item.qcCriteria'),
-      width: 180,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.qcCriteria
       },

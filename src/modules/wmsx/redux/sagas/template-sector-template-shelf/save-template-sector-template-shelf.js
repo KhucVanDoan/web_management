@@ -16,7 +16,7 @@ import {
  * @returns {Promise}
  */
 const saveTemplateSectorTemplateShelfApi = (params) => {
-  const uri = `/v1/warehouses/template-sector-template-shelf`
+  const uri = `/v1/warehouses/template-sector-template-shelfs`
   return api.post(uri, params)
 }
 

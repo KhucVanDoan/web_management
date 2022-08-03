@@ -17,7 +17,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ROUTE } from '~/modules/configuration/routes/config'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -71,12 +70,6 @@ function UserManagement() {
     actions,
   } = useUserManagement()
 
-  const { actions: commonActions } = useCommonManagement()
-
-  useEffect(() => {
-    commonActions.getDepartments({ isGetAll: 1 })
-  }, [])
-
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
@@ -85,12 +78,6 @@ function UserManagement() {
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
-    // {
-    //   field: 'id',
-    //   headerName: '#',
-    //   width: 50,
-    //   sortable: false,
-    // },
     {
       field: 'username',
       headerName: t('userManagement.username'),

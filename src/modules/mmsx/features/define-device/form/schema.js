@@ -24,7 +24,10 @@ export const deviceSchema = (t) =>
     price: Yup.string().required(t('general:form.required')),
     frequency: Yup.string().required(t('general:form.required')),
     installTemplate: Yup.string().required(t('general:form.required')),
-    supplier: Yup.string().required(t('general:form.required')),
+    templateChecklist: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
+    supplier: Yup.object().nullable().required(t('general:form.required')),
     importDate: Yup.string().required(t('general:form.required')),
     insuranceDay: Yup.string().required(t('general:form.required')),
 

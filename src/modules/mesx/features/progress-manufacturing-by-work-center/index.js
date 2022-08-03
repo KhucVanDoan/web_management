@@ -195,12 +195,15 @@ function ProgressManufacturingByWorkCenter() {
 
   const refreshData = () => {
     const params = {
-      isGetAll: 1,
       keyword: keyword.trim(),
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, workCenterIds: filters?.workCenterIds?.id },
+        {
+          ...filters,
+          workCenterIds: filters?.workCenterIds?.id,
+          masterPlanIds: filters?.masterPlanIds?.id,
+        },
         columns,
       ),
       sort: convertSortParams(sort),

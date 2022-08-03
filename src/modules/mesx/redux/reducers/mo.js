@@ -36,14 +36,13 @@ import {
   GET_PRICE_STRUCTURE_START,
   GET_PRICE_STRUCTURE_SUCCESS,
   GET_PRICE_STRUCTURE_FAILED,
-  GET_MO_LIST_ALL,
   RESET_MO_DETAIL_STATE,
+  RESET_MO_PRODUCING_STEP,
 } from '~/modules/mesx/redux/actions/mo'
 
 const initialState = {
   isLoading: false,
   moList: [],
-  moListAll: [],
   moDetails: {},
   total: null,
   BOMStructure: [],
@@ -66,11 +65,6 @@ export default function Mo(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
-      }
-    case GET_MO_LIST_ALL:
-      return {
-        ...state,
-        moListAll: action.payload,
       }
     case SEARCH_MO_SUCCESS:
       return {
@@ -173,6 +167,11 @@ export default function Mo(state = initialState, action) {
       return {
         ...state,
         materialCheck: {},
+      }
+    case RESET_MO_PRODUCING_STEP:
+      return {
+        ...state,
+        moProducingStep: {},
       }
     default:
       return state

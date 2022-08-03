@@ -2,10 +2,10 @@ import * as Yup from 'yup'
 
 export const validateShema = (t) => {
   return Yup.object().shape({
-    code: Yup.string().required(t('general:form.required')),
+    code: Yup.string().nullable().required(t('general:form.required')),
     assignDate: Yup.string().required(t('general:form.required')),
     usageTime: Yup.string().required(t('general:form.required')),
-    serial: Yup.string().required(t('general:form.required')),
+    serial: Yup.string().nullable().required(t('general:form.required')),
     hasMO: Yup.boolean(),
     workTimeDataSource: Yup.number()
       .nullable()

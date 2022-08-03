@@ -23,13 +23,7 @@ const getWarehousesApi = (params) => {
  */
 function* doGetWarehouses(action) {
   try {
-    const payload = {
-      keyword: '',
-      filter: [],
-      sort: [],
-      isGetAll: 1,
-    }
-    const response = yield call(getWarehousesApi, payload)
+    const response = yield call(getWarehousesApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(getWarehousesSuccess(response.data.items))

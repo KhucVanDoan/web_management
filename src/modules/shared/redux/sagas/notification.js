@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { api } from '~/services/api/notification'
+import { notiApi } from '~/services/api'
 
 import {
   getNotificationsFailed,
@@ -16,7 +16,7 @@ import {
 
 const getNotificationsApi = (params) => {
   const uri = `v1/notifications/users-notification`
-  return api.get(uri, params)
+  return notiApi.get(uri, params)
 }
 
 /**
@@ -45,7 +45,7 @@ function* getNotifications(action) {
 
 const seenOneApi = (id) => {
   const uri = `v1/notifications/notification-users/${id}/seen`
-  return api.put(uri, {})
+  return notiApi.put(uri, {})
 }
 
 /**
@@ -74,7 +74,7 @@ function* seenOne(action) {
 
 const seenAllApi = () => {
   const uri = `v1/notifications/notification-users/seen/all`
-  return api.put(uri, {})
+  return notiApi.put(uri, {})
 }
 
 /**

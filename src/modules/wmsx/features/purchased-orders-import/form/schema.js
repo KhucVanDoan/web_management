@@ -15,7 +15,7 @@ export const schema = (t) =>
     deliveredAt: Yup.date().nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
-        itemId: Yup.string().nullable().required(t('general:form.required')),
+        itemId: Yup.object().nullable().required(t('general:form.required')),
         lotNumber: Yup.string()
           .nullable()
           .required(t('general:form.required'))

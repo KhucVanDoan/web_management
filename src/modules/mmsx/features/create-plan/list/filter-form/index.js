@@ -33,12 +33,6 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="date"
-          label={t('createPlanList.table.time')}
-        />
-      </Grid>
-      <Grid item xs={12}>
         <Field.Autocomplete
           name="status"
           label={t('createPlanList.table.status')}

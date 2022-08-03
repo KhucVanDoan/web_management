@@ -221,7 +221,15 @@ function InventoryStatistics() {
       reportDate: quickFilters?.reportDate,
       limit: pageSize,
       filter: convertFilterParams(
-        omit({ ...filters, ...quickFilters }, ['reportDate']),
+        omit(
+          {
+            ...filters,
+            ...quickFilters,
+            itemTypeId: quickFilters?.itemTypeId?.id,
+            warehouseId: quickFilters?.warehouseId?.id,
+          },
+          ['reportDate'],
+        ),
         columns,
       ),
       sort: convertSortParams(sort),

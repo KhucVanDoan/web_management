@@ -12,11 +12,8 @@ import {
  * @returns {Promise}
  */
 const getAllSuppliesConfirmApi = () => {
-  const isGetAll = {
-    isGetAll: 1,
-  }
   const uri = `v1/mms/supplies`
-  return api.get(uri, isGetAll)
+  return api.get(uri)
 }
 
 /*Worker */

@@ -62,6 +62,9 @@ function SOExportDetail() {
   const items = cloneSOExportWarehouseLots?.map((detailLot, index) => ({
     id: index,
     itemId: detailLot?.itemId,
+    itemCode: detailLot?.item?.code,
+    itemName: detailLot?.item?.name,
+    unitType: detailLot?.item?.itemUnit,
     warehouseId: detailLot?.warehouseId,
     actualQuantity: detailLot?.actualQuantity,
     confirmQuantity: detailLot?.confirmQuantity,
@@ -84,7 +87,10 @@ function SOExportDetail() {
     )?.code,
     lotNumber: detailLot?.lotNumber,
     mfg: detailLot?.mfg,
-    packageId: detailLot?.packageId,
+    packageId: detailLot?.package?.code,
+    evenRow: detailLot?.isEven,
+    palletId: detailLot?.pallet?.code,
+    location: detailLot?.suggestItemLocation?.name,
   }))
   return (
     <Page

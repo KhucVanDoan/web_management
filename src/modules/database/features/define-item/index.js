@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { BULK_ACTION } from '~/common/constants'
+import { BULK_ACTION, QR_CODE_TYPE, TEXTFIELD_ALLOW } from '~/common/constants'
 import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useDefineItem from '~/modules/database/redux/hooks/useDefineItem'
-import useItemType from '~/modules/database/redux/hooks/useItemType'
 import {
   exportItemApi,
   getItemTemplateApi,
@@ -34,6 +36,7 @@ import {
 
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
+import { validationSchema } from './schema'
 
 const breadcrumbs = [
   // {
@@ -51,21 +54,15 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />
 function DefineItem() {
   const { t } = useTranslation('database')
   const history = useHistory()
+  const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
   const {
     data: { itemList, total, isLoading },
     actions,
   } = useDefineItem()
-
-  const { actions: itemTypeActions } = useItemType()
-
-  useEffect(() => {
-    itemTypeActions.searchItemTypes({ isGetAll: 1 })
-  }, [])
-
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
-    itemTypeCode: '',
+    itemTypeCode: [],
     itemGroupCode: [],
     createTime: [],
   }
@@ -291,6 +288,7 @@ function DefineItem() {
       filter: convertFilterParams(
         {
           ...filters,
+          itemTypeCode: (filters?.itemTypeCode || []).map((item) => item?.code),
           itemGroupCode: (filters?.itemGroupCode || []).map(
             (item) => item?.code,
           ),
@@ -329,9 +327,22 @@ function DefineItem() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
+  const onSelectionChange = (selected) => {
+    setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
+        <Button
+          variant="outlined"
+          disabled={selectedRows.length === 0}
+          onClick={() => setIsOpenPrintQRModal(true)}
+          sx={{ mr: 4 / 3 }}
+          icon="qr"
+        >
+          {t('defineItem.printQRButton')}
+        </Button>
         <ImportExport
           name={t('defineItem.import')}
           onImport={(params) => {
@@ -365,6 +376,77 @@ function DefineItem() {
     )
   }
 
+  const handleSubmitPrintQR = (values) => {
+    const params = {
+      items: values?.items.map((item) => ({
+        id: item.id,
+        quantity: item.amount,
+      })),
+      type: QR_CODE_TYPE.ITEM,
+    }
+    actions.printQRItems(params, () => {
+      setIsOpenPrintQRModal(false)
+    })
+  }
+  const renderFooterPrintModal = () => {
+    const { resetForm } = useFormikContext()
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          '& button + button': {
+            ml: 4 / 3,
+          },
+        }}
+      >
+        <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
+          {t('general:common.close')}
+        </Button>
+        <Button variant="outlined" color="subText" onClick={resetForm}>
+          {t('general:common.cancel')}
+        </Button>
+        <Button type="submit" icon="qrWhite">
+          {t('general:common.print')}
+        </Button>
+      </Box>
+    )
+  }
+
+  const printQRColumns = useMemo(() => [
+    {
+      field: 'id',
+      headerName: t('defineItem.orderNumber'),
+      width: 80,
+      renderCell: (_, index) => {
+        return index + 1
+      },
+    },
+    {
+      field: 'code',
+      headerName: t('defineItem.code'),
+      width: 200,
+    },
+    {
+      field: 'name',
+      headerName: t('defineItem.name'),
+      width: 200,
+    },
+    {
+      field: 'amount',
+      headerName: t('defineItem.productAmount'),
+      width: 200,
+      renderCell: (_, index) => {
+        return (
+          <Field.TextField
+            name={`items[${index}].amount`}
+            type="number"
+            allow={TEXTFIELD_ALLOW.NUMERIC}
+          />
+        )
+      },
+    },
+  ])
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -384,7 +466,7 @@ function DefineItem() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        onSelectionChange={onSelectionChange}
         selected={selectedRows}
         total={total}
         sort={sort}
@@ -430,6 +512,32 @@ function DefineItem() {
           label={t('defineItem.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isOpenPrintQRModal}
+        title={t('defineItem.printQRModalTitle')}
+        maxWidth="md"
+        renderFooter={renderFooterPrintModal}
+        onCancel={() => setIsOpenPrintQRModal(false)}
+        formikProps={{
+          initialValues: { items: selectedRows },
+          validationSchema: validationSchema(t),
+          onSubmit: handleSubmitPrintQR,
+          enableReinitialize: true,
+        }}
+      >
+        <FieldArray
+          name="items"
+          render={() => (
+            <DataTable
+              rows={selectedRows}
+              columns={printQRColumns}
+              striped={false}
+              hideSetting
+              hideFooter
+            />
+          )}
         />
       </Dialog>
     </Page>

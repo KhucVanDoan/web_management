@@ -45,9 +45,9 @@ const LockItemLocaionForm = () => {
       id: new Date().getTime(),
       factoryId: null,
       warehouseId: null,
-      warehouseSectorId: null,
-      warehouseShelfId: null,
-      warehouseFloorId: null,
+      warehouseSector: null,
+      warehouseShelf: null,
+      warehouseFloor: null,
     },
   ]
   const { actions } = useBlockItemLocation()
@@ -133,7 +133,14 @@ const LockItemLocaionForm = () => {
     } else {
       params = {
         description: values?.description?.trim(),
-        locations: locationParams,
+        locations: locationParams.map((item) => ({
+          ...item,
+          factoryId: item?.factoryId?.id,
+          warehouseId: item?.warehouseId?.id,
+          warehouseShelfId: item?.warehouseShelf?.id,
+          warehouseFloorId: item?.warehouseFloor?.id,
+          warehouseSectorId: item?.warehouseSector?.id,
+        })),
       }
       actions.createBlockLocation(params, backToList)
     }

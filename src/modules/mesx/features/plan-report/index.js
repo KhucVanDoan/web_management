@@ -6,10 +6,8 @@ import { useQueryState } from '~/common/hooks'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
-import { SALE_ORDER_STATUS, PLAN_PROGRESS_MAP } from '~/modules/mesx/constants'
+import { PLAN_PROGRESS_MAP } from '~/modules/mesx/constants'
 import { useDefinePlan } from '~/modules/mesx/redux/hooks/useDefinePlan'
-import { useMo } from '~/modules/mesx/redux/hooks/useMo'
 import usePlanReport from '~/modules/mesx/redux/hooks/usePlanReport'
 import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
 import { ROUTE } from '~/modules/mesx/routes/config'
@@ -59,8 +57,6 @@ function PlanReport() {
     actions: actionPlan,
   } = useDefinePlan()
 
-  const { actions: actionMo } = useMo()
-  const { actions: actionSaleOrder } = useSaleOrder()
   const { actions: actionPlanReport } = usePlanReport()
   const [columnsSettings, setColumnsSettings] = useState([])
 
@@ -342,13 +338,6 @@ function PlanReport() {
 
   useEffect(() => {
     refreshData()
-    actionMo.searchMO({ isGetAll: 1 })
-    actionSaleOrder.searchSaleOrders({
-      isGetAll: 1,
-      filter: JSON.stringify([
-        { column: 'status', text: SALE_ORDER_STATUS.CONFIRMED.toString() },
-      ]),
-    })
     actionPlanReport.exportPlanReport()
   }, [pageSize, page, sort, filters, keyword])
 
@@ -361,9 +350,14 @@ function PlanReport() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          moName: filters?.moName?.name,
+          saleOrderIds: filters?.saleOrderIds?.id,
+        },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actionPlan.searchPlans(params)
@@ -437,7 +431,6 @@ function PlanReport() {
           filters={{
             form: <FilterForm />,
             values: filters,
-            defaultValue: DEFAULT_FILTERS,
             onApply: setFilters,
           }}
         />

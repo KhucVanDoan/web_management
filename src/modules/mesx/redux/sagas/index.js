@@ -26,7 +26,6 @@ import watchGetCustomers from './common/get-customers'
 import watchGetDepartments from './common/get-department'
 import watchGetDepartmentsRole from './common/get-departments-role'
 import watchGetDetails from './common/get-details'
-import watchGetFactories from './common/get-factories'
 import watchGetFactoriesByCompany from './common/get-factory-by-company'
 import watchGetGroupPermissions from './common/get-group-permissions'
 import watchGetItemGroups from './common/get-item-groups'
@@ -34,17 +33,10 @@ import watchGetItemQualityPoint from './common/get-item-quality-point'
 import watchGetItemTypes from './common/get-item-types'
 import watchGetItemUnits from './common/get-item-units'
 import watchGetItems from './common/get-items'
-import watchGetProducingSteps from './common/get-producing-steps'
-import watchGetProducts from './common/get-products'
 import watchGetQualityPointDetails from './common/get-quality-point-details'
 import watchGetRoles from './common/get-role'
-import watchGetSaleOrders from './common/get-sale-orders'
-import watchGetUsers from './common/get-users'
-import watchGetVendors from './common/get-vendors'
 import watchGetWarehousesByFactories from './common/get-warehouse-by-factory'
 import watchGetWarehouses from './common/get-warehouses'
-import watchGetWarehousesSector from './common/get-warehouses-sector'
-import watchGetWarehousesShelf from './common/get-warehouses-shelf'
 import watchSearchQualityPoints from './common/search-quality-points'
 import watchDashboard from './dashboard'
 import watchConfirmBOM from './define-bom/confirm-bom'
@@ -76,6 +68,7 @@ import watchJobDetails from './define-master-plan/get-job-detail'
 import watchGetMasterPlanDetails from './define-master-plan/get-master-plan-details'
 import watchGetModerationSuggestSpread from './define-master-plan/get-moderation-suggest-spread'
 import watchGetProducingStepDetail from './define-master-plan/get-producing-step-detail'
+import watchPreviewGanttMasterPlan from './define-master-plan/preview-plan'
 import watchRejectMasterPlan from './define-master-plan/reject-master-plan'
 import watchSearchMasterPlans from './define-master-plan/search-master-plans'
 import watchSubmitModerationInput from './define-master-plan/submit-moderation-input'
@@ -220,17 +213,10 @@ export default function* sagas() {
     watchGetItemUnits(),
     watchGetItems(),
     watchGetWarehouses(),
-    watchGetWarehousesSector(),
-    watchGetWarehousesShelf(),
     watchGetCustomers(),
-    watchGetVendors(),
     watchGetAllItemDetails(),
-    watchGetProducts(),
-    watchGetProducingSteps(),
-    watchGetUsers(),
     watchGetBoms(),
-    watchGetFactories(),
-    watchGetSaleOrders(),
+
     watchGetQualityPoints(),
     watchGetItemQualityPoint(),
     watchGetSaleOrderDetailByIds(),
@@ -263,6 +249,7 @@ export default function* sagas() {
     watchExtendDeadline(),
     watchGetProducingStepDetail(),
     watchApproveMasterPlan(),
+    watchPreviewGanttMasterPlan(),
     watchRejectMasterPlan(),
     watchDeleteMasterPlan(),
     watchUpdateMasterPlan(),
@@ -272,7 +259,6 @@ export default function* sagas() {
     watchGetProducingStepDetails(),
     watchCreateProducingStep(),
     watchDeleteProducingStep(),
-    watchGetProducingSteps(),
     watchGetProducingStepsByRoutingVersion(),
     watchConfirmProducingStep(),
 

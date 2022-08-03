@@ -9,7 +9,7 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const getAllConfirmSuppliesCategory = () => {
+export const getAllConfirmSuppliesCategory = () => {
   const url = `v1/mms/supply-groups/list/confirmed`
   return api.get(url)
 }

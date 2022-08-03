@@ -15,6 +15,9 @@ import {
   UPDATE_BLOCK_START,
   UPDATE_BLOCK_SUCCESS,
   RESET_BLOCK_DETAILS_STATE,
+  PRINT_QR_BLOCKS_FAILED,
+  PRINT_QR_BLOCKS_START,
+  PRINT_QR_BLOCKS_SUCCESS,
 } from '~/modules/wmsx/redux/actions/define-block'
 
 const initialState = {
@@ -37,6 +40,7 @@ export default function defineBlock(state = initialState, action) {
     case UPDATE_BLOCK_START:
     case DELETE_BLOCK_START:
     case GET_BLOCK_DETAILS_START:
+    case PRINT_QR_BLOCKS_START:
       return {
         ...state,
         isLoading: true,
@@ -60,6 +64,8 @@ export default function defineBlock(state = initialState, action) {
     case UPDATE_BLOCK_FAILED:
     case DELETE_BLOCK_SUCCESS:
     case DELETE_BLOCK_FAILED:
+    case PRINT_QR_BLOCKS_SUCCESS:
+    case PRINT_QR_BLOCKS_FAILED:
       return {
         ...state,
         isLoading: false,

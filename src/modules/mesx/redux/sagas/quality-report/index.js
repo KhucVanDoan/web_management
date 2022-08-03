@@ -12,9 +12,8 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getQualityReportsApi = (params) => {
-  const uri = `/v1/reports/produces/boqs-quality/reports/list`
+  const uri = `/v1/produces/reports/boqs-quality/list`
   return api.get(uri, params)
-  // return res;
 }
 
 /**

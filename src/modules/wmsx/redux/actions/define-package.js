@@ -29,6 +29,9 @@ export const GET_PACKAGES_EVEN_BY_ITEM_SUCCESS =
 export const GET_PACKAGES_EVEN_BY_ITEM_FAILED =
   'WMSX_GET_PACKAGES_EVEN_BY_ITEM_FAILED'
 
+export const PRINT_QR_PACKAGES_START = 'WMSX_PRINT_QR_PACKAGES_START'
+export const PRINT_QR_PACKAGES_SUCCESS = 'WMSX_PRINT_QR_PACKAGES_SUCCESS'
+export const PRINT_QR_PACKAGES_FAILED = 'WMSX_PRINT_QR_PACKAGES_FAILED'
 export const RESET_PACKAGE_DETAILS_STATE = 'WMSX_RESET_PACKAGE_DETAILS_STATE'
 
 /**
@@ -285,6 +288,43 @@ export function resetPackageDetailsState() {
   }
 }
 
+/**
+ * Print QR packages
+ * @param {int} packageId
+ * @param {function=} onSuccess Callback function on success
+ * @param {function=} onError Callback function on error
+ * @returns {object}
+ */
+export function printQRPackages(packageId, onSuccess, onError) {
+  return {
+    type: PRINT_QR_PACKAGES_START,
+    payload: packageId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Print QR packages by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function printQRPackagesSuccess(payload) {
+  return {
+    type: PRINT_QR_PACKAGES_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Print QR packages by id failed action
+ * @returns {object}
+ */
+export function printQRPackagesFailed() {
+  return {
+    type: PRINT_QR_PACKAGES_FAILED,
+  }
+}
 export default {
   searchPackages,
   searchPackagesSuccess,
@@ -308,4 +348,7 @@ export default {
   confirmPackageByIdSuccess,
   confirmPackageByIdFailed,
   resetPackageDetailsState,
+  printQRPackages,
+  printQRPackagesSuccess,
+  printQRPackagesFailed,
 }

@@ -54,6 +54,8 @@ const ReturnOrderForm = () => {
     evenRow: false,
     warehouseName: '',
     lotNumber: '',
+    packageId: null,
+    palletId: null,
   }
 
   const {
@@ -144,11 +146,14 @@ const ReturnOrderForm = () => {
       items: returnOrderDetails?.returnOrderWarehouseLots?.map((ro) => ({
         ...ro,
         itemId: { ...ro.item, id: ro.itemId },
-        package: ro.package,
         lotNumber: ro.lotNumber,
         mfg: ro.mfg,
         quantity: ro.quantity,
         unitType: ro.item.itemUnit,
+        package: ro.package,
+        evenRow: ro?.isEven === 1 ? true : false,
+        palletId: ro?.pallet?.id,
+        location: ro?.suggestItemLocation?.id,
       })) || [{ ...DEFAULT_ITEM }],
     }),
     [returnOrderDetails],
@@ -224,14 +229,17 @@ const ReturnOrderForm = () => {
       warehouseId: values?.orderCode?.warehouseId || values?.warehouseId,
       returnType: Number(values?.switchMode),
       deadline: values?.deadline,
+      assignUserIds: [],
       items: values?.items?.map((item, index) => ({
-        // ...item,
         id: item.itemId?.id,
         quantity: Number(item.quantity),
         lotNumber: item.lotNumber,
         mfg: itemByOrderList?.items?.[index]?.mfg,
-        packageId: item.packageId?.id,
+        packageId: item.packageId,
         warehouseId: values?.orderCode?.warehouseId || values?.warehouseId,
+        palletId: item?.palletId,
+        isEven: item?.evenRow ? '1' : '0',
+        suggestItemLocationId: item?.location,
       })),
     }
 

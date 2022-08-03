@@ -24,10 +24,6 @@ export const GET_WAREHOUSES_BY_FACTORIES_SUCCESS =
 export const GET_WAREHOUSES_BY_FACTORIES_FAILED =
   'MESX_GET_WAREHOUSES_BY_FACTORIES_FAILED'
 
-export const GET_PRODUCTS_START = 'MESX_GET_PRODUCTS_START'
-export const GET_PRODUCTS_SUCCESS = 'MESX_GET_PRODUCTS_SUCCESS'
-export const GET_PRODUCTS_FAILED = 'MESX_GET_PRODUCTS_FAILED'
-
 export const GET_DETAILS_START = 'MESX_GET_DETAILS_START'
 export const GET_DETAILS_SUCCESS = 'MESX_GET_DETAILS_SUCCESS'
 export const GET_DETAILS_FAILED = 'MESX_GET_DETAILS_FAILED'
@@ -53,47 +49,19 @@ export const GET_WAREHOUSES_START = 'MESX_GET_WAREHOUSES_START'
 export const GET_WAREHOUSES_SUCCESS = 'MESX_GET_WAREHOUSES_SUCCESS'
 export const GET_WAREHOUSES_FAILED = 'MESX_GET_WAREHOUSES_FAILED'
 
-export const GET_WAREHOUSES_SECTOR_START = 'MESX_GET_WAREHOUSES_SECTOR_START'
-export const GET_WAREHOUSES_SECTOR_SUCCESS =
-  'MESX_GET_WAREHOUSES_SECTOR_SUCCESS'
-export const GET_WAREHOUSES_SECTOR_FAILED = 'MESX_GET_WAREHOUSES_SECTOR_FAILED'
-
-export const GET_WAREHOUSES_SHELF_START = 'MESX_GET_WAREHOUSES_SHELF_START'
-export const GET_WAREHOUSES_SHELF_SUCCESS = 'MESX_GET_WAREHOUSES_SHELF_SUCCESS'
-export const GET_WAREHOUSES_SHELF_FAILED = 'MESX_GET_WAREHOUSES_SHELF_FAILED'
-
 export const GET_CUSTOMERS_START = 'MESX_GET_CUSTOMERS_START'
 export const GET_CUSTOMERS_SUCCESS = 'MESX_GET_CUSTOMERS_SUCCESS'
 export const GET_CUSTOMERS_FAILED = 'MESX_GET_CUSTOMERS_FAILED'
-
-export const GET_VENDORS_START = 'MESX_GET_VENDORS_START'
-export const GET_VENDORS_SUCCESS = 'MESX_GET_VENDORS_SUCCESS'
-export const GET_VENDORS_FAILED = 'MESX_GET_VENDORS_FAILED'
 
 export const GET_ALL_ITEM_DETAILS_START = 'MESX_GET_ALL_ITEM_DETAILS_START'
 export const GET_ALL_ITEM_DETAILS_SUCCESS = 'MESX_GET_ALL_ITEM_DETAILS_SUCCESS'
 export const GET_ALL_ITEM_DETAILS_FAILED = 'MESX_GET_ALL_ITEM_DETAILS_FAILED'
 
-export const GET_PRODUCING_STEPS_START = 'MESX_GET_PRODUCING_STEPS_START'
-export const GET_PRODUCING_STEPS_SUCCESS = 'MESX_GET_PRODUCING_STEPS_SUCCESS'
-export const GET_PRODUCING_STEPS_FAILED = 'MESX_GET_PRODUCING_STEPS_FAILED'
-
-export const GET_USERS_START = 'MESX_GET_USERS_START'
-export const GET_USERS_SUCCESS = 'MESX_GET_USERS_SUCCESS'
-export const GET_USERS_FAILED = 'MESX_GET_USERS_FAILED'
-
 export const GET_BOMS_START = 'MESX_GET_BOMS_START'
 export const GET_BOMS_SUCCESS = 'MESX_GET_BOMS_SUCCESS'
 export const GET_BOMS_FAILED = 'MESX_GET_BOMS_FAILED'
 
-export const GET_FACTORIES_START = 'MESX_GET_FACTORIES_START'
-export const GET_FACTORIES_SUCCESS = 'MESX_GET_FACTORIES_SUCCESS'
-export const GET_FACTORIES_FAILED = 'MESX_GET_FACTORIES_FAILED'
 export const RESET_FACTORIES_LIST_STATE = 'MESX_RESET_FACTORIES_LIST_STATE'
-
-export const GET_SALE_ORDERS_START = 'MESX_GET_SALE_ORDERS_START'
-export const GET_SALE_ORDERS_SUCCESS = 'MESX_GET_SALE_ORDERS_SUCCESS'
-export const GET_SALE_ORDERS_FAILED = 'MESX_GET_SALE_ORDERS_FAILED'
 
 export const SEARCH_QUALITY_POINTS_START = 'MESX_SEARCH_QUALITY_POINTS_START'
 export const SEARCH_QUALITY_POINTS_SUCCESS =
@@ -207,44 +175,6 @@ export function getWarehousesByFactories(payload, onSuccess, onError) {
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
-  }
-}
-
-/**
- * Get products
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getProducts(payload, onSuccess, onError) {
-  return {
-    type: GET_PRODUCTS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get products success action
- * @param {*} payload
- * @returns {object}
- */
-export function getProductsSuccess(payload) {
-  return {
-    type: GET_PRODUCTS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get products failed action
- * @returns {object}
- */
-export function getProductsFailed() {
-  return {
-    type: GET_PRODUCTS_FAILED,
   }
 }
 
@@ -476,67 +406,6 @@ export function getWarehousesFailed() {
   }
 }
 
-export function getWarehousesSector(payload, onSuccess, onError) {
-  return {
-    type: GET_WAREHOUSES_SECTOR_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get warehouses success action
- * @param {*} payload
- * @returns {object}
- */
-export function getWarehousesSectorSuccess(payload) {
-  return {
-    type: GET_WAREHOUSES_SECTOR_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get warehouses failed action
- * @returns {object}
- */
-export function getWarehousesSectorFailed() {
-  return {
-    type: GET_WAREHOUSES_SECTOR_FAILED,
-  }
-}
-
-export function getWarehousesShelf(payload, onSuccess, onError) {
-  return {
-    type: GET_WAREHOUSES_SHELF_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get warehouses success action
- * @param {*} payload
- * @returns {object}
- */
-export function getWarehousesShelfSuccess(payload) {
-  return {
-    type: GET_WAREHOUSES_SHELF_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get warehouses failed action
- * @returns {object}
- */
-export function getWarehousesShelfFailed() {
-  return {
-    type: GET_WAREHOUSES_SHELF_FAILED,
-  }
-}
 /**
  * Get customers
  * @param {object} payload
@@ -572,44 +441,6 @@ export function getCustomersSuccess(payload) {
 export function getCustomersFailed() {
   return {
     type: GET_CUSTOMERS_FAILED,
-  }
-}
-
-/**
- * Get vendors
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getVendors(payload, onSuccess, onError) {
-  return {
-    type: GET_VENDORS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get vendors success action
- * @param {*} payload
- * @returns {object}
- */
-export function getVendorsSuccess(payload) {
-  return {
-    type: GET_VENDORS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get vendors failed action
- * @returns {object}
- */
-export function getVendorsFailed() {
-  return {
-    type: GET_VENDORS_FAILED,
   }
 }
 
@@ -652,81 +483,6 @@ export function getAllItemDetailsFailed() {
 }
 
 /**
- * Get producing steps
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getProducingSteps(payload, onSuccess, onError) {
-  return {
-    type: GET_PRODUCING_STEPS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get producing steps success action
- * @param {*} payload
- * @returns {object}
- */
-export function getProducingStepsSuccess(payload) {
-  return {
-    type: GET_PRODUCING_STEPS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get producing steps failed action
- * @returns {object}
- */
-export function getProducingStepsFailed() {
-  return {
-    type: GET_PRODUCING_STEPS_FAILED,
-  }
-}
-
-/**
- * Get users
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getUsers(payload, onSuccess, onError) {
-  return {
-    type: GET_USERS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get routings success
- * @param {*} payload
- * @returns {object}
- */
-export function getUsersSuccess(payload) {
-  return {
-    type: GET_USERS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get routings failed
- * @returns {object}
- */
-export function getUsersFailed() {
-  return {
-    type: GET_USERS_FAILED,
-  }
-}
-/**
  * Get boms
  * @param {object} payload
  * @param {function} onSuccess Callback function on success
@@ -761,80 +517,6 @@ export function getBomsSuccess(payload) {
 export function getBomsFailed() {
   return {
     type: GET_BOMS_FAILED,
-  }
-}
-/**
- * Get factories
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getFactories(payload, onSuccess, onError) {
-  return {
-    type: GET_FACTORIES_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get factories success
- * @param {*} payload
- * @returns {object}
- */
-export function getFactoriesSuccess(payload) {
-  return {
-    type: GET_FACTORIES_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get factories failed
- * @returns {object}
- */
-export function getFactoriesFailed() {
-  return {
-    type: GET_FACTORIES_FAILED,
-  }
-}
-/**
- * Get sale order
- * @param {object} payload
- * @param {function} onSuccess Callback function on success
- * @param {function} onError Callback function on error
- * @returns {object}
- */
-export function getSaleOrders(payload, onSuccess, onError) {
-  return {
-    type: GET_SALE_ORDERS_START,
-    payload: payload,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-/**
- * Get sale order success
- * @param {*} payload
- * @returns {object}
- */
-export function getSaleOrdersSuccess(payload) {
-  return {
-    type: GET_SALE_ORDERS_SUCCESS,
-    payload: payload,
-  }
-}
-
-/**
- * Get sale order failed
- * @returns {object}
- */
-export function getSaleOrdersFailed() {
-  return {
-    type: GET_SALE_ORDERS_FAILED,
   }
 }
 
@@ -1082,9 +764,6 @@ export default {
   getDepartments,
   getRoles,
   getWarehousesByFactories,
-  getProducts,
-  getProductsSuccess,
-  getProductsFailed,
   getDetails,
   getDetailsSuccess,
   getDetailsFailed,
@@ -1103,33 +782,12 @@ export default {
   getWarehouses,
   getWarehousesSuccess,
   getWarehousesFailed,
-  getWarehousesSector,
-  getWarehousesSectorSuccess,
-  getWarehousesSectorFailed,
-  getWarehousesShelf,
-  getWarehousesShelfSuccess,
-  getWarehousesShelfFailed,
-  getVendors,
-  getVendorsSuccess,
-  getVendorsFailed,
   getAllItemDetails,
   getAllItemDetailsSuccess,
   getAllItemDetailsFailed,
-  getProducingSteps,
-  getProducingStepsSuccess,
-  getProducingStepsFailed,
-  getUsers,
-  getUsersSuccess,
-  getUsersFailed,
   getBoms,
   getBomsSuccess,
   getBomsFailed,
-  getFactories,
-  getFactoriesSuccess,
-  getFactoriesFailed,
-  getSaleOrders,
-  getSaleOrdersSuccess,
-  getSaleOrdersFailed,
   searchQualityPoints,
   searchQualityPointsSuccess,
   getQualityPoints,

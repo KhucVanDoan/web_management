@@ -53,8 +53,8 @@ export const GET_PRICE_STRUCTURE_START = 'MESX_GET_PRICE_STRUCTURE_START'
 export const GET_PRICE_STRUCTURE_SUCCESS = 'MESX_GET_PRICE_STRUCTURE_SUCCESS'
 export const GET_PRICE_STRUCTURE_FAILED = 'MESX_GET_PRICE_STRUCTURE_FAILED'
 
-export const GET_MO_LIST_ALL = 'MESX_GET_MO_LIST_ALL'
 export const RESET_MO_DETAIL_STATE = 'MESX_RESET_MO_DETAIL_STATE'
+export const RESET_MO_PRODUCING_STEP = 'MESX_RESET_MO_PRODUCING_STEP'
 
 export function searchMO(payload, onSuccess, onError) {
   return {
@@ -473,13 +473,6 @@ export function getPriceStructureByIdFailed() {
   }
 }
 
-export function getListMoAll(payload) {
-  return {
-    type: GET_MO_LIST_ALL,
-    payload,
-  }
-}
-
 export function resetMoDetail() {
   return {
     type: RESET_MO_DETAIL_STATE,
@@ -489,6 +482,12 @@ export function resetMoDetail() {
 export function resetMaterialCheck() {
   return {
     type: RESET_CHECK_MATERIAL_PLAN,
+  }
+}
+
+export function resetMoProducingStep() {
+  return {
+    type: RESET_MO_PRODUCING_STEP,
   }
 }
 

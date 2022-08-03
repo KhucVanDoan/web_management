@@ -62,6 +62,13 @@ export const DELETE_MASTER_PLAN_START = 'MESX_DELETE_MASTER_PLAN_START'
 export const DELETE_MASTER_PLAN_SUCCESS = 'MESX_DELETE_MASTER_PLAN_SUCCESS'
 export const DELETE_MASTER_PLAN_FAILED = 'MESX_DELETE_MASTER_PLAN_FAILED'
 
+export const PREVIEW_GANTT_MASTER_PLAN_START =
+  'MESX_PREVIEW_GANTT_MASTER_PLAN_START'
+export const PREVIEW_GANTT_MASTER_PLAN_SUCCESS =
+  'MESX_PREVIEW_GANTT_MASTER_PLAN_SUCCESS'
+export const PREVIEW_GANTT_MASTER_PLAN_FAILED =
+  'MESX_PREVIEW_GANTT_MASTER_PLAN_FAILED'
+
 /**
  * Search master plans
  * @param {object} payload
@@ -466,6 +473,27 @@ export function updateMasterPlanFailed() {
   }
 }
 
+export function previewGanttMasterPlan(payload, onSuccess, onError) {
+  return {
+    type: PREVIEW_GANTT_MASTER_PLAN_START,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function previewGanttMasterPlanSuccess(payload) {
+  return {
+    type: PREVIEW_GANTT_MASTER_PLAN_SUCCESS,
+    payload,
+  }
+}
+
+export function previewGanttMasterPlanFailed() {
+  return {
+    type: PREVIEW_GANTT_MASTER_PLAN_FAILED,
+  }
+}
 export default {
   approveMasterPlan,
   approveMasterPlanSuccess,
@@ -505,4 +533,7 @@ export default {
   updateMasterPlan,
   updateMasterPlanSuccess,
   updateMasterPlanFailed,
+  previewGanttMasterPlan,
+  previewGanttMasterPlanSuccess,
+  previewGanttMasterPlanFailed,
 }

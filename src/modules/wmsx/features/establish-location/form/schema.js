@@ -7,9 +7,9 @@ export const schema = (t) =>
     items: Yup.array().of(
       Yup.object().shape({
         warehouse: Yup.object().nullable().required(t('general:form.required')),
-        area: Yup.number().nullable().required(t('general:form.required')),
-        shelf: Yup.number().nullable().required(t('general:form.required')),
-        floor: Yup.number().nullable().required(t('general:form.required')),
+        area: Yup.object().nullable().required(t('general:form.required')),
+        shelf: Yup.object().nullable().required(t('general:form.required')),
+        floor: Yup.object().nullable().required(t('general:form.required')),
       }),
     ),
   })

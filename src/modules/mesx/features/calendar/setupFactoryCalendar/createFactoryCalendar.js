@@ -1,19 +1,17 @@
-import { useEffect } from 'react'
-
-import { createFilterOptions, FormControlLabel } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import { ROUTE } from '~/modules/mesx/routes/config'
 
 import { createCalendarSchema } from './createCalendarSchema'
@@ -34,27 +32,12 @@ function CalendarCreate() {
   ]
   const history = useHistory()
 
-  const {
-    actions: commonAction,
-    data: {
-      factoryList: { items: factories },
-    },
-  } = useCommonManagement()
-
   const { actions } = useCalendar()
-
-  useEffect(() => {
-    const params = { isGetAll: 1 }
-    commonAction.getFactories(params)
-    return () => {
-      commonAction.resetFactoriesListState()
-    }
-  }, [])
 
   const initialValues = {
     code: '',
     timePlan: null,
-    fatoryIds: null,
+    fatoryIds: [],
     description: '',
     monday: false,
     tuesday: false,
@@ -103,7 +86,7 @@ function CalendarCreate() {
       description: values.description,
       from: values.timePlan[0],
       to: values.timePlan[1],
-      factoryIds: values.fatoryIds,
+      factoryIds: values.fatoryIds?.map((item) => item?.id),
       workDays: workDays,
       shifts: values.shifts.map((item) => ({
         title: item.title,
@@ -164,12 +147,14 @@ function CalendarCreate() {
                       name="fatoryIds"
                       label={t('planCalendar.factory')}
                       placeholder={t('planCalendar.factory')}
-                      options={factories}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchFactoriesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
                       multiple
                       required
                     />
@@ -194,8 +179,16 @@ function CalendarCreate() {
               <Box>
                 <Tabs
                   list={[
-                    t('planCalendar.setupYearCalendar.workingDayInWeek'),
-                    t('planCalendar.setupYearCalendar.shift'),
+                    {
+                      label: t(
+                        'planCalendar.setupYearCalendar.workingDayInWeek',
+                      ),
+                      required: true,
+                    },
+                    {
+                      label: t('planCalendar.setupYearCalendar.shift'),
+                      required: true,
+                    },
                   ]}
                   sx={{ mt: 2 }}
                 >

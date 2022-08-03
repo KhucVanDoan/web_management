@@ -23,7 +23,7 @@ const DEFAULT_ITEM = [
     id: new Date().getTime(),
     title: '',
     description: '',
-    isRequire: false,
+    isRequire: true,
   },
 ]
 const DefineInstallationTemplateForm = () => {
@@ -191,7 +191,7 @@ const DefineInstallationTemplateForm = () => {
                       name="name"
                       placeholder={t('templateInstall.form.field.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -11,7 +11,6 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -77,6 +76,7 @@ const SuppliesCategoryForm = () => {
   const handleSubmit = (values) => {
     const convertValues = {
       ...values,
+      responsibleUser: values?.responsibleUser || null,
       id,
     }
     if (mode === MODAL_MODE.CREATE) {
@@ -158,18 +158,19 @@ const SuppliesCategoryForm = () => {
   }))
 
   const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('suppliesCategory.button.supply')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('suppliesCategory.button.device')}
-          </Button>
-        </Box>
-      </>
-    )
+    //<doan.khucvan> BA confirm tạm thời ẩn button này
+    // return (
+    //   <>
+    //     <Box>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('suppliesCategory.button.supply')}
+    //       </Button>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('suppliesCategory.button.device')}
+    //       </Button>
+    //     </Box>
+    //   </>
+    // )
   }
 
   return (

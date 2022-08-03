@@ -326,7 +326,7 @@ const WorkOrder = () => {
 
   const handleSubmitPrintQR = (values) => {
     const params = {
-      items: values.map((item) => ({
+      items: values?.items?.map((item) => ({
         id: item.id,
         quantity: item.amount,
       })),
@@ -344,8 +344,9 @@ const WorkOrder = () => {
           variant="outlined"
           disabled={selectedRows.length === 0}
           onClick={() => setIsOpenPrintQRModal(true)}
+          icon="qr"
         >
-          {t('defineItem.printQRButton')}
+          {t('workOrder.printQRButton')}
         </Button>
         {/* @TODO: <khanh.nguyenvan> handle import data */}
       </>
@@ -370,7 +371,9 @@ const WorkOrder = () => {
         <Button variant="outlined" color="subText" onClick={resetForm}>
           {t('general:common.cancel')}
         </Button>
-        <Button type="submit">{t('general:common.print')}</Button>
+        <Button type="submit" icon="qrWhite">
+          {t('general:common.print')}
+        </Button>
       </Box>
     )
   }
@@ -378,7 +381,7 @@ const WorkOrder = () => {
   const printQRColumns = useMemo(() => [
     {
       field: 'id',
-      headerName: t('defineItem.orderNumber'),
+      headerName: '#',
       width: 80,
       renderCell: (_, index) => {
         return index + 1
@@ -386,17 +389,17 @@ const WorkOrder = () => {
     },
     {
       field: 'code',
-      headerName: t('defineItem.code'),
+      headerName: t('workOrder.lblcodeWorkOrder'),
       width: 200,
     },
     {
       field: 'name',
-      headerName: t('defineItem.name'),
+      headerName: t('workOrder.lblNameWorkOrder'),
       width: 200,
     },
     {
       field: 'amount',
-      headerName: t('defineItem.productAmount'),
+      headerName: t('workOrder.productAmount'),
       width: 200,
       renderCell: (_, index) => {
         return <Field.TextField name={`items[${index}].amount`} type="number" />
@@ -430,7 +433,7 @@ const WorkOrder = () => {
       />
       <Dialog
         open={isOpenPrintQRModal}
-        title={t('defineItem.printQRModalTitle')}
+        title={t('workOrder.printQRModalTitle')}
         maxWidth="md"
         renderFooter={renderFooterPrintModal}
         onCancel={() => setIsOpenPrintQRModal(false)}

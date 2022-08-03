@@ -1,6 +1,6 @@
 export const ROUTE = {
-  ELEMENTS: {
-    PATH: '/elements',
+  REDIRECT: {
+    PATH: '/redirect',
     TITLE: '',
   },
 }

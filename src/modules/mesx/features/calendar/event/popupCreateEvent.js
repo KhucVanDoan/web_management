@@ -1,17 +1,17 @@
 import React from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { startOfDay, endOfDay } from 'date-fns'
 import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_ALLOW } from '~/common/constants'
+import { TEXTFIELD_ALLOW, ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
+import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { EVENT_TYPE_OPTIONS } from '~/modules/mesx/constants'
 import useCalendar from '~/modules/mesx/redux/hooks/useCalendar'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 import { createEventSchema } from './createEventSchema'
 
@@ -26,12 +26,6 @@ function PopupCreateEvent(props) {
   } = props
   const { t } = useTranslation(['mesx'])
   const { actions } = useCalendar()
-
-  const {
-    data: {
-      factoryList: { items: factories },
-    },
-  } = useCommonManagement()
 
   const renderActionButtons = () => {
     const { resetForm } = useFormikContext()
@@ -63,10 +57,14 @@ function PopupCreateEvent(props) {
       code: values.code.trim(),
       title: values.title,
       type: values.type,
-      factoryIds: values.factoryIds,
+      factoryIds: values.factories?.map((f) => f?.id),
       description: values.description,
-      from: values.time[0] ? startOfDay(values.time[0]).toISOString() : null,
-      to: values.time[1] ? endOfDay(values.time[1]).toISOString() : null,
+      from: values.time[0]
+        ? startOfDay(new Date(values.time[0])).toISOString()
+        : null,
+      to: values.time[1]
+        ? endOfDay(new Date(values.time[1])).toISOString()
+        : null,
     }
     if (isUpdate) {
       actions.updateFactoryCalendar(params, getListFactoryEvent)
@@ -143,15 +141,17 @@ function PopupCreateEvent(props) {
         </Grid> */}
           <Grid item xs={12}>
             <Field.Autocomplete
-              name="factoryIds"
+              name="factories"
               label={t('planCalendar.factory')}
               placeholder={t('planCalendar.factory')}
-              options={factories}
-              getOptionValue={(opt) => opt?.id}
+              asyncRequest={(s) =>
+                searchFactoriesApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
-              filterOptions={createFilterOptions({
-                stringify: (opt) => `${opt?.code}|${opt?.name}`,
-              })}
               disabled={isDetail}
               multiple
               required

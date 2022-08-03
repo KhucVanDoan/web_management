@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { Box, IconButton, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
@@ -8,37 +6,16 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import useDefineWarehousePallet from '~/modules/wmsx/redux/hooks/useDefineWarehousePallet'
-import useDefineWarehouseShelf from '~/modules/wmsx/redux/hooks/useDefineWarehouseShelf'
-import useWarehouseArea from '~/modules/wmsx/redux/hooks/useWarehouseArea'
+import { searchDefineWarehousePalletApi } from '~/modules/wmsx/redux/sagas/define-warehouse-pallet/search-define-warehouse-pallet'
+import { searchDefineWarehouseShelfApi } from '~/modules/wmsx/redux/sagas/define-warehouse-shelf/search-define-warehouse-shelf'
 import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
-import { scrollToBottom } from '~/utils'
+import { searchWarehouseAreasApi } from '~/modules/wmsx/redux/sagas/warehouse-area/search-warehouse-areas'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 function ItemSettingTableDetail(props) {
   const { t } = useTranslation(['wmsx'])
   const { items = [], mode, arrayHelpers, setFieldValue } = props
   const isView = mode === MODAL_MODE.DETAIL
-
-  const {
-    data: { warehouseAreaList },
-    actions: actionArea,
-  } = useWarehouseArea()
-
-  const {
-    data: { defineWarehouseShelfList },
-    actions: actionShelf,
-  } = useDefineWarehouseShelf()
-
-  const {
-    data: { defineWarehousePalletList },
-    actions: actionPallet,
-  } = useDefineWarehousePallet()
-
-  useEffect(() => {
-    actionArea.searchWarehouseAreas({ isGetAll: 1 })
-    actionShelf.searchDefineWarehouseShelf({ isGetAll: 1 })
-    actionPallet.searchDefineWarehousePallet({ isGetAll: 1 })
-  }, [])
 
   const columns = [
     {
@@ -68,6 +45,7 @@ function ItemSettingTableDetail(props) {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].area`, null)
               setFieldValue(`items[${index}].shelf`, null)
@@ -83,18 +61,25 @@ function ItemSettingTableDetail(props) {
       width: 180,
       renderCell: (params, index) => {
         const warehouseId = params.row?.warehouse?.id
-        const listArea = warehouseAreaList.filter(
-          (item) => item?.warehouseId === warehouseId,
-        )
+
         return isView ? (
           <>{params.row?.warehouseSetor?.name}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].area`}
-            options={listArea}
+            asyncRequest={(s) =>
+              searchWarehouseAreasApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  warehouseId: warehouseId,
+                }),
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
-            getOptionValue={(option) => option?.id || ''}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].shelf`, null)
               setFieldValue(`items[${index}].floor`, null)
@@ -108,21 +93,26 @@ function ItemSettingTableDetail(props) {
       headerName: t('locationSetting.item.shelf'),
       width: 180,
       renderCell: (params, index) => {
-        const areaId = params.row?.area
-        const listShelf = areaId
-          ? defineWarehouseShelfList.filter(
-              (item) => item?.warehouseSector?.id === areaId,
-            )
-          : []
+        const areaId = params.row?.area?.id
+
         return isView ? (
           <>{params.row?.warehouseShelf?.name}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].shelf`}
-            options={listShelf}
+            asyncRequest={(s) =>
+              searchDefineWarehouseShelfApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  warehouseSectorId: areaId,
+                }),
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
-            getOptionValue={(option) => option?.id || ''}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             onChange={() => {
               setFieldValue(`items[${index}].floor`, null)
             }}
@@ -135,21 +125,26 @@ function ItemSettingTableDetail(props) {
       headerName: t('locationSetting.item.floor'),
       width: 180,
       renderCell: (params, index) => {
-        const shelfId = params.row?.shelf
-        const listFloor = shelfId
-          ? defineWarehousePalletList.filter(
-              (item) => item?.warehouseShelf?.id === shelfId,
-            )
-          : []
+        const shelfId = params.row?.shelf?.id
+
         return isView ? (
           <>{params.row?.warehouseShelfFloor?.name}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].floor`}
-            options={listFloor}
+            asyncRequest={(s) =>
+              searchDefineWarehousePalletApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  warehouseShelfId: shelfId,
+                }),
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
-            getOptionValue={(option) => option?.id || ''}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           />
         )
       },

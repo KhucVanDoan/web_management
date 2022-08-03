@@ -35,7 +35,7 @@ function* doPrintQRWorkOrder(action) {
         yield action.onSuccess()
       }
 
-      addNotification('defineItem.printQRSuccess', NOTIFICATION_TYPE.SUCCESS)
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       throw new Error(response?.message)
     }
