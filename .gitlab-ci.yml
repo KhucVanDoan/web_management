@@ -102,9 +102,5 @@ deploy_staging:
       docker pull ${STAGING_CONTAINER_IMAGE};
       docker stop  avenue_stg_web || true; 
       docker rm  avenue_stg_web || true; 
-      docker run -d --name avenue_stg_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
+      docker run -d --name avenue_stg_web --restart=always -p 20188:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
-
-build_staging:
-  stage: build_staging
-  before_script:
