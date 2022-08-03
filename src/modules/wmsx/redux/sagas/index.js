@@ -35,6 +35,7 @@ import watchUpdateBill from './define-bill/update-bill'
 import watchCreateBlock from './define-block/create-block'
 import watchDeleteBlock from './define-block/delete-block'
 import watchGetBlockDetails from './define-block/get-block-details'
+import watchPrintQRBlocks from './define-block/print-qr-blocks'
 import watchSearchBlocks from './define-block/search-blocks'
 import watchUpdateBlock from './define-block/update-block'
 import watchConfirmCurrencyUnit from './define-currency-unit/confirm-currency-unit'
@@ -68,6 +69,7 @@ import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
 import watchGetPackageDetails from './define-package/get-package-details'
 import watchGetPackagesEvenByItem from './define-package/get-packages-even-by-item'
+import watchPrintQRPackages from './define-package/print-qr-packages'
 import watchSearchPackages from './define-package/search-packages'
 import watchUpdatePackage from './define-package/update-package'
 import watchCreatePallet from './define-pallet/create-pallet'
@@ -438,6 +440,7 @@ export default function* sagas() {
     watchSearchBlocks(),
     watchUpdateBlock(),
     watchGetBlockDetails(),
+    watchPrintQRBlocks(),
     // producion-order
     watchConfirmProductionOrder(),
     watchDeleteProductionOrder(),
@@ -457,6 +460,7 @@ export default function* sagas() {
     watchGetPackageDetails(),
     watchGetPackagesEvenByItem(),
     watchConfirmPackage(),
+    watchPrintQRPackages(),
 
     //define-warehouse-shelf
     watchGetDefineWarehouseShelf(),

@@ -20,9 +20,7 @@ export const validationSchema = (t) =>
       }),
     ),
     soId: Yup.array().nullable().required().min(1, t('general:form.required')),
-    factoryId: Yup.number()
-      .typeError(t('general:form.required'))
-      .required(t('general:form.required')),
+    factoryId: Yup.object().nullable().required(t('general:form.required')),
     planDate: Yup.array()
       .nullable()
       .of(Yup.string().nullable())

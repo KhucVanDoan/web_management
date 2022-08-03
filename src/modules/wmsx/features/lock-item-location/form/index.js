@@ -135,6 +135,8 @@ const LockItemLocaionForm = () => {
         description: values?.description?.trim(),
         locations: locationParams.map((item) => ({
           ...item,
+          factoryId: item?.factoryId?.id,
+          warehouseId: item?.warehouseId?.id,
           warehouseShelfId: item?.warehouseShelf?.id,
           warehouseFloorId: item?.warehouseFloor?.id,
           warehouseSectorId: item?.warehouseSector?.id,

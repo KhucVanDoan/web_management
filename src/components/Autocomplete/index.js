@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
-import HighlightAltOutlinedIcon from '@mui/icons-material/HighlightAltOutlined'
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { isArray, isEqual, last, reverse, uniqWith } from 'lodash'
+import { isArray, isEqual, isNil, last, reverse, uniqWith } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
@@ -67,7 +67,15 @@ const Autocomplete = ({
 
   const { t } = useTranslation()
   const debouncedInputValue = useDebounce(inputValue, 200)
-  const refetchWhen = useDebounce(qs.stringify(asyncRequestDeps ?? ''), 200)
+  const refetchWhen = useDebounce(
+    isNil(asyncRequestDeps) ||
+      typeof asyncRequestDeps === 'string' ||
+      typeof asyncRequestDeps === 'number' ||
+      typeof asyncRequestDeps === 'boolean'
+      ? asyncRequestDeps
+      : qs.stringify(asyncRequestDeps),
+    200,
+  )
 
   const isOptEqual = (opt, v) =>
     typeof isOptionEqualToValue === 'function'
@@ -114,7 +122,7 @@ const Autocomplete = ({
       uniqWith([...oldOpts, ...opts], isOptEqual),
     )
 
-  const prefetchOptions = () => fetchOptionsFn('', persist)
+  const prefetchOptions = () => fetchOptionsFn('', setPersistedOptions)
 
   const fetchOptions = (keyword) =>
     fetchOptionsFn(keyword, (opts) => {
@@ -226,8 +234,11 @@ const Autocomplete = ({
             <Chip
               classes={{ root: classes.tag }}
               onClick={() => setIsShowFullTags(false)}
-              label={<HighlightAltOutlinedIcon />}
-              sx={{ m: '3px', '.MuiChip-label': { px: '6px' } }}
+              label={<ArrowDropUpIcon fontSize="small" />}
+              sx={{
+                m: '3px',
+                '.MuiChip-label': { display: 'flex', px: '6px' },
+              }}
             />
           )}
         </>
@@ -253,13 +264,13 @@ const Autocomplete = ({
             arrow
             placement="top"
             title={
-              <ul className={classes.tooltipList}>
+              <ol className={classes.tooltipList}>
                 {tags.slice(0, -1)?.map((tag, i) => (
                   <li key={i}>
                     <Typography fontSize={12}>{getOptionLabel(tag)}</Typography>
                   </li>
                 ))}
-              </ul>
+              </ol>
             }
             PopperProps={{
               sx: {
@@ -275,6 +286,9 @@ const Autocomplete = ({
               onClick={() => {
                 setIsShowFullTags(true)
                 setInputValue('')
+              }}
+              sx={{
+                '.MuiChip-label': { px: '6px' },
               }}
             />
           </Tooltip>
@@ -309,7 +323,6 @@ const Autocomplete = ({
 
   return (
     <MuiAutocomplete
-      key={JSON.stringify(value)}
       classes={{
         root: multiple ? classes.rootMultiple : classes.root,
         tag: classes.tag,
@@ -367,12 +380,8 @@ const Autocomplete = ({
         />
       )}
       {...props}
-      isOptionEqualToValue={isOptEqual}
-      {...(multiple
-        ? {
-            disableCloseOnSelect: true,
-          }
-        : {})}
+      isOptionEqualToValue={(opt, val) => isOptEqual(opt, val)}
+      disableCloseOnSelect={multiple ? true : false}
       {...(isAsync
         ? {
             value,
@@ -399,6 +408,7 @@ const Autocomplete = ({
                 }
               : {
                   // async single
+                  key: JSON.stringify(value),
                   onChange: (_, newVal, reason) => {
                     onChange(newVal)
 
@@ -486,7 +496,7 @@ Autocomplete.propTypes = {
   getOptionLabel: PropTypes.func,
   getOptionSubLabel: PropTypes.func,
   getOptionValue: PropTypes.func,
-  labelWidth: PropTypes.number,
+  labelWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onChange: PropTypes.func,
   isOptionEqualToValue: PropTypes.func,
   uncontrolled: PropTypes.bool,

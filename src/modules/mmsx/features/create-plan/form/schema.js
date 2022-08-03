@@ -21,6 +21,5 @@ export const validateShema = (t) => {
         }),
       ),
     time: Yup.array().nullable().required(t('general:form.required')),
-    factoryId: Yup.object().nullable().required(t('general:form.required')),
   })
 }

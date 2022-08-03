@@ -183,7 +183,14 @@ function WarehouseExport() {
     const params = {
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, columns),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          ...quickFilters,
+          warehouseId: quickFilters?.warehouseId?.id,
+        },
+        columns,
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExport(params)

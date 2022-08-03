@@ -43,7 +43,7 @@ function ItemSettingTable({
     ? requestBuyMaterialDetails?.itemDetails?.map((item) => item)
     : itemList
   useEffect(() => {
-    actions.getItems({})
+    actions.getItems({ isGetAll: 1 })
     actions.getWarehouses({})
   }, [])
 

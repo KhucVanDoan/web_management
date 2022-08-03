@@ -107,7 +107,7 @@ const CreatePlanForm = () => {
       name: values?.planName,
       planFrom: values?.time[0],
       planTo: values?.time[1],
-      factoryId: values?.factoryId?.id,
+      factoryId: values?.factoryId?.id || null,
       workCenterId: values?.workCenterId?.id || null,
       jobTypeTotal: {
         warningTotal: values?.warning,
@@ -127,7 +127,7 @@ const CreatePlanForm = () => {
         name: values?.planName,
         planFrom: values?.time[0],
         planTo: values?.time[1],
-        factoryId: values?.factoryId?.id,
+        factoryId: values?.factoryId?.id || null,
         workCenterId: values?.workCenterId?.id || null,
         jobTypeTotal: {
           warningTotal: values?.warning,
@@ -367,8 +367,8 @@ const CreatePlanForm = () => {
   const handleRefreshData = (val, setFieldValue) => {
     if (val) {
       const params = {
-        factoryId: val?.factoryId,
-        workCenterId: val?.workCenterId || null,
+        factoryId: val?.factoryId?.id || null,
+        workCenterId: val?.workCenterId?.id || null,
         planFrom: val?.time[0],
         planTo: val?.time[1],
       }
@@ -502,6 +502,7 @@ const CreatePlanForm = () => {
                           isOptionEqualToValue={(opt, val) =>
                             opt?.id === val?.id
                           }
+                          onChange={() => setFieldValue('workCenterId', '')}
                           required
                         />
                       </Grid>
@@ -520,7 +521,11 @@ const CreatePlanForm = () => {
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
+                          asyncRequestDeps={values?.factoryId?.id}
                           getOptionLabel={(opt) => opt?.name}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
                           disabled={!values.factoryId}
                         />
                       </Grid>
