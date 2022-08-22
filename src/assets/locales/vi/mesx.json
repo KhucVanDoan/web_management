@@ -136,7 +136,7 @@
   },
   "userStatus": {
     "active": "Hoạt động",
-    "tempLocked": "Tạm khóa"
+    "inactive": "Tạm khóa"
   },
   "userPermission": {
     "department": "Chọn bộ phận",

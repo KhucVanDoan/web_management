@@ -868,7 +868,7 @@ export const CUSTOMER_LEVEL_STATUS_OPTIONS = [
   {
     id: 2,
     text: 'defineCustomerLevel.disabled',
-    color: 'tempLocked',
+    color: 'inactive',
   },
 ]
 export const DEFINE_PAYMENT_TYPE_STATUS = {
@@ -1267,3 +1267,26 @@ export const DEFINE_PACKAGE_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const STATUS = {
+  ACTIVE: 0,
+  INACTIVE: 1,
+}
+
+export const STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'general.active',
+    color: 'active',
+  },
+  {
+    id: 1,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+]
+
+export const STATUS_MAP = {
+  [STATUS.ACTIVE]: 'general.active',
+  [STATUS.INACTIVE]: 'general.inactive',
+}

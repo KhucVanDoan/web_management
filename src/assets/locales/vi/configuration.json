@@ -21,6 +21,6 @@
   },
   "userStatus": {
     "active": "Hoạt động",
-    "tempLocked": "Tạm khóa"
+    "inactive": "Tạm khóa"
   }
 }

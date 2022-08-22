@@ -204,7 +204,7 @@
   },
   "userStatus": {
     "active": "稼働中",
-    "tempLocked": "稼働停止"
+    "inactive": "稼働停止"
   },
   "defineItem": {
     "title": "商品登録",

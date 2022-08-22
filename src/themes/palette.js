@@ -151,7 +151,7 @@ const palette = {
       background: '#FF0909',
       contrastText: '#FFF',
     },
-    tempLocked: {
+    inactive: {
       text: '#666',
       background: '#666',
       contrastText: '#FFF',

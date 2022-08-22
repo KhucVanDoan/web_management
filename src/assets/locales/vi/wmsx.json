@@ -6,7 +6,9 @@
     "warehouseShelfName": "Tên kệ",
     "warehousePalletName": "Tên tầng",
     "create": "Tạo mới",
-    "selectWarehouse": "Chọn kho"
+    "selectWarehouse": "Chọn kho",
+    "active": "Active",
+    "inactive": "Inactive"
   },
   "menu": {
     "wmsx": "WMSX",
@@ -164,7 +166,11 @@
     "returnOrder": "Lệnh trả hàng",
     "returnOrderCreate": "Tạo lệnh trả hàng",
     "returnOrderEdit": "Sửa lệnh trả hàng",
-    "returnOrderDetail": "Chi tiết lệnh trả hàng"
+    "returnOrderDetail": "Chi tiết lệnh trả hàng",
+    "defineCompany": "Quản lý công ty",
+    "defineCompanyCreate": "Tạo công ty",
+    "defineCompanyEdit": "Sửa công ty",
+    "defineCompanyDetail": "Chi tiết công ty"
   },
   "locationSetting": {
     "title": "Danh sách thiết lập vị trí",
@@ -2282,5 +2288,22 @@
     "inProgress": "Đang thực hiện",
     "completed": "Hoàn thành",
     "rejected": "Từ chối"
+  },
+  "defineCompany": {
+    "title": "Định nghĩa công ty",
+    "companyList": "Danh sách công ty",
+    "searchPlaceholder": "Tìm kiếm công ty theo mã hoặc tên",
+    "code": "Mã công ty",
+    "name": "Tên công ty",
+    "address": "Địa chỉ",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "createTime": "Thời gian tạo",
+    "defineCompanyDelete": "Xóa công ty",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
+    "user": "Người tạo",
+    "createDate": "Ngày tạo"
   }
 }
