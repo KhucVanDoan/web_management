@@ -91,6 +91,9 @@ import LockItemDetail from '../features/lock-item-location/detail/block-item'
 import LockLocationDetail from '../features/lock-item-location/detail/block-location'
 import LockItemLocaionForm from '../features/lock-item-location/form'
 import LockItemLocation from '../features/lock-item-location/list'
+import ManagementDetail from '../features/management-unit/detail'
+import ManagementUnitForm from '../features/management-unit/form'
+import ManagementUnit from '../features/management-unit/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
@@ -147,6 +150,39 @@ const routes = [
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+  },
+  {
+    name: ROUTE.DATABASE.TITLE,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.MANAGEMENT_UNIT.LIST.TITLE,
+        path: ROUTE.MANAGEMENT_UNIT.LIST.PATH,
+        component: ManagementUnit,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.MANAGEMENT_UNIT.CREATE.TITLE,
+            path: ROUTE.MANAGEMENT_UNIT.CREATE.PATH,
+            component: ManagementUnitForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MANAGEMENT_UNIT.DETAIL.TITLE,
+            path: ROUTE.MANAGEMENT_UNIT.DETAIL.PATH,
+            component: ManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.MANAGEMENT_UNIT.EDIT.TITLE,
+            path: ROUTE.MANAGEMENT_UNIT.EDIT.PATH,
+            component: ManagementUnitForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
   },
   {
     name: ROUTE.DEFINE_CATEGORY.TITLE,

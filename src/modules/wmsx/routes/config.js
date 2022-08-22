@@ -3,6 +3,10 @@ export const ROUTE = {
     PATH: '/wmsx',
     TITLE: 'dashboard',
   },
+  DATABASE: {
+    PATH: '/wmsx',
+    TITLE: 'database',
+  },
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
@@ -741,6 +745,24 @@ export const ROUTE = {
         PATH: '/wmsx/return-order/:parentId/transactions/:id',
         TITLE: 'movementDetail',
       },
+    },
+  },
+  MANAGEMENT_UNIT: {
+    LIST: {
+      PATH: '/wmsx/managent-unit',
+      TITLE: 'managementUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/managent-unit/create',
+      TITLE: 'managementUnitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/managent-unit/:id/detail',
+      TITLE: 'managementUnitDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/managent-unit/:id/edit',
+      TITLE: 'managementUnitEdit',
     },
   },
   DEFINE_COMPANY: {
