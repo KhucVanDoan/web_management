@@ -38,6 +38,9 @@ import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 import DefineBill from '../features/define-bill'
 import DefineBillDetail from '../features/define-bill/detail'
 import DefineBillForm from '../features/define-bill/form'
+import DefineCompanyDetail from '../features/define-company/detail'
+import DefineCompanyForm from '../features/define-company/form'
+import DefineCompany from '../features/define-company/list'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
@@ -250,6 +253,32 @@ const routes = [
             name: ROUTE.DEFINE_PALLET.EDIT.TITLE,
             path: ROUTE.DEFINE_PALLET.EDIT.PATH,
             component: DefinePalletForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_COMPANY.LIST.TITLE,
+        path: ROUTE.DEFINE_COMPANY.LIST.PATH,
+        component: DefineCompany,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_COMPANY.CREATE.TITLE,
+            path: ROUTE.DEFINE_COMPANY.CREATE.PATH,
+            component: DefineCompanyForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_COMPANY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_COMPANY.DETAIL.PATH,
+            component: DefineCompanyDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_COMPANY.EDIT.TITLE,
+            path: ROUTE.DEFINE_COMPANY.EDIT.PATH,
+            component: DefineCompanyForm,
             isInSidebar: false,
           },
         ],

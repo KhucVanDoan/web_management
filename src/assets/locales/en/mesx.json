@@ -204,7 +204,7 @@
   },
   "userStatus": {
     "active": "Active",
-    "tempLocked": "Inactive"
+    "inactive": "Inactive"
   },
   "defineItem": {
     "title": "Item list",

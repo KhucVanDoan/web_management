@@ -743,4 +743,22 @@ export const ROUTE = {
       },
     },
   },
+  DEFINE_COMPANY: {
+    LIST: {
+      PATH: '/wmsx/define-company',
+      TITLE: 'defineCompany',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-company/create',
+      TITLE: 'defineCompanyCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-company/:id/detail',
+      TITLE: 'defineCompanyDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-company/:id/edit',
+      TITLE: 'defineCompanyEdit',
+    },
+  },
 }

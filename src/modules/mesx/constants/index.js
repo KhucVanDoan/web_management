@@ -1048,15 +1048,15 @@ export const USER_MANAGEMENT_STATUS = {
 }
 
 export const USER_MANAGEMENT_STATUS_MAP = {
-  [USER_MANAGEMENT_STATUS.TEMP_LOCKED]: 'userStatus.tempLocked',
+  [USER_MANAGEMENT_STATUS.TEMP_LOCKED]: 'userStatus.inactive',
   [USER_MANAGEMENT_STATUS.ACTIVE]: 'userStatus.active',
 }
 
 export const USER_MANAGEMENT_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'userStatus.tempLocked',
-    color: 'tempLocked',
+    text: 'userStatus.inactive',
+    color: 'inactive',
   },
   {
     id: 1,
