@@ -175,6 +175,10 @@ import watchDeleteLocationSetting from './location-setting/delete'
 import watchGetLocationSettingDetails from './location-setting/get-detail'
 import watchSearchLocationSettings from './location-setting/search'
 import watchUpdateLocationSetting from './location-setting/update'
+import watchCreateManagementUnit from './management-unit/create'
+import watchDeleteManagementUnit from './management-unit/delete'
+import watchGetDetailManagementUnit from './management-unit/get-detail'
+import watchSearchManagementUnit from './management-unit/search'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements'
 import watchConfirmProductionOrder from './production-order/confirm-production-order'
@@ -566,5 +570,10 @@ export default function* sagas() {
     watchGetReturnOrderDetails(),
     watchRejectReturnOrder(),
     watchUpdateReturnOrder(),
+    // management-unit
+    watchCreateManagementUnit(),
+    watchDeleteManagementUnit(),
+    watchGetDetailManagementUnit(),
+    watchSearchManagementUnit(),
   ])
 }

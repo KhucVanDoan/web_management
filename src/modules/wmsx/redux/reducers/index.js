@@ -30,6 +30,7 @@ import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
 import invoiceType from './invoice-type'
 import locationSetting from './location-setting'
+import managementUnit from './management-unit'
 import movementManagement from './movements'
 import productionOrder from './production-order'
 import purchasedOrdersImport from './purchased-orders-import'
@@ -95,4 +96,5 @@ export default combineReducers({
   locationSetting,
   blockItemLocation,
   returnOrder,
+  managementUnit,
 })

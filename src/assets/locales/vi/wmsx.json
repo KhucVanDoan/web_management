@@ -13,6 +13,7 @@
   "menu": {
     "wmsx": "WMSX",
     "dashboard": "Dashboard",
+    "database": "Quản lý dữ liệu cơ sở",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
     "defineDetail": "Định nghĩa chi tiết",
@@ -167,6 +168,10 @@
     "returnOrderCreate": "Tạo lệnh trả hàng",
     "returnOrderEdit": "Sửa lệnh trả hàng",
     "returnOrderDetail": "Chi tiết lệnh trả hàng",
+    "managementUnit": "Quản lý đơn vị",
+    "managementUnitCreate": "Tạo đơn vị",
+    "managementUnitEdit": "Sửa đơn vị",
+    "managementUnitDetail": "Chi tiết đơn vị",
     "defineCompany": "Quản lý công ty",
     "defineCompanyCreate": "Tạo công ty",
     "defineCompanyEdit": "Sửa công ty",
@@ -2288,6 +2293,16 @@
     "inProgress": "Đang thực hiện",
     "completed": "Hoàn thành",
     "rejected": "Từ chối"
+  },
+  "managementUnit": {
+    "title": "Danh sách đơn vị",
+    "code": "Mã đơn vị",
+    "name": "Tên đơn vị",
+    "description": "Mô tả ",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Ngày tạo",
+    "searchPlaceHolder": "Tìm kiếm thông tin...",
+    "export": "Quanlydonvi"
   },
   "defineCompany": {
     "title": "Định nghĩa công ty",
