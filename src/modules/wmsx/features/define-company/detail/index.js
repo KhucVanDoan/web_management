@@ -19,12 +19,12 @@ const breadcrumbs = [
     title: 'defineCategory',
   },
   {
-    route: ROUTE.DEFINE_COMPANY.LIST.PATH,
-    title: ROUTE.DEFINE_COMPANY.LIST.TITLE,
+    route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
+    title: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
   },
   {
-    route: ROUTE.DEFINE_COMPANY.DETAIL.PATH,
-    title: ROUTE.DEFINE_COMPANY.DETAIL.TITLE,
+    route: ROUTE.COMPANY_MANAGEMENT.DETAIL.PATH,
+    title: ROUTE.COMPANY_MANAGEMENT.DETAIL.TITLE,
   },
 ]
 
@@ -45,7 +45,7 @@ function DefineCompanyDetail() {
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.DEFINE_COMPANY.LIST.PATH)
+    history.push(ROUTE.COMPANY_MANAGEMENT.LIST.PATH)
   }
 
   return (

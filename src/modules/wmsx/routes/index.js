@@ -91,9 +91,6 @@ import LockItemDetail from '../features/lock-item-location/detail/block-item'
 import LockLocationDetail from '../features/lock-item-location/detail/block-location'
 import LockItemLocaionForm from '../features/lock-item-location/form'
 import LockItemLocation from '../features/lock-item-location/list'
-import ManagementDetail from '../features/management-unit/detail'
-import ManagementUnitForm from '../features/management-unit/form'
-import ManagementUnit from '../features/management-unit/list'
 import ProductionOrder from '../features/production-orders'
 import ProductionOrderDetail from '../features/production-orders/detail'
 import ProductionOrderForm from '../features/production-orders/form'
@@ -120,6 +117,9 @@ import {
   Transactions as SOExportTransactions,
   TransactionDetail as SOExportTransactionDetail,
 } from '../features/so-export/transactions'
+import UnitManagementDetail from '../features/unit-management/detail'
+import UnitManagementForm from '../features/unit-management/form'
+import UnitManagement from '../features/unit-management/list'
 import DefineVoucher from '../features/voucher'
 import DefineVoucherDetail from '../features/voucher/detail'
 import DefineVoucherForm from '../features/voucher/form'
@@ -157,27 +157,287 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: ROUTE.MANAGEMENT_UNIT.LIST.TITLE,
-        path: ROUTE.MANAGEMENT_UNIT.LIST.PATH,
-        component: ManagementUnit,
+        name: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
+        component: DefineCompany,
         isInSidebar: true,
         subMenu: [
           {
-            name: ROUTE.MANAGEMENT_UNIT.CREATE.TITLE,
-            path: ROUTE.MANAGEMENT_UNIT.CREATE.PATH,
-            component: ManagementUnitForm,
+            name: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.COMPANY_MANAGEMENT.CREATE.PATH,
+            component: DefineCompanyForm,
             isInSidebar: false,
           },
           {
-            name: ROUTE.MANAGEMENT_UNIT.DETAIL.TITLE,
-            path: ROUTE.MANAGEMENT_UNIT.DETAIL.PATH,
-            component: ManagementDetail,
+            name: ROUTE.COMPANY_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.COMPANY_MANAGEMENT.DETAIL.PATH,
+            component: DefineCompanyDetail,
             isInSidebar: false,
           },
           {
-            name: ROUTE.MANAGEMENT_UNIT.EDIT.TITLE,
-            path: ROUTE.MANAGEMENT_UNIT.EDIT.PATH,
-            component: ManagementUnitForm,
+            name: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
+            component: DefineCompanyForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
+        component: UnitManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.DETAIL.PATH,
+            component: UnitManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.SOURCE_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.SOURCE_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.SOURCE_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.SOURCE_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SOURCE_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.SOURCE_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SOURCE_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.SOURCE_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.REASON_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.REASON_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.REASON_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.REASON_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REASON_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.REASON_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.REASON_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.REASON_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_UOM.LIST.TITLE,
+        path: ROUTE.DEFINE_UOM.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_UOM.CREATE.TITLE,
+            path: ROUTE.DEFINE_UOM.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_UOM.DETAIL.TITLE,
+            path: ROUTE.DEFINE_UOM.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_UOM.EDIT.TITLE,
+            path: ROUTE.DEFINE_UOM.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.TITLE,
+        path: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.TITLE,
+            path: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_OBJECT_CATEGORY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_OBJECT_CATEGORY.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_OBJECT_CATEGORY.EDIT.TITLE,
+            path: ROUTE.DEFINE_OBJECT_CATEGORY.EDIT.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.TITLE,
+        path: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH,
+            component: () => null,
             isInSidebar: false,
           },
         ],
@@ -289,32 +549,6 @@ const routes = [
             name: ROUTE.DEFINE_PALLET.EDIT.TITLE,
             path: ROUTE.DEFINE_PALLET.EDIT.PATH,
             component: DefinePalletForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.DEFINE_COMPANY.LIST.TITLE,
-        path: ROUTE.DEFINE_COMPANY.LIST.PATH,
-        component: DefineCompany,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.DEFINE_COMPANY.CREATE.TITLE,
-            path: ROUTE.DEFINE_COMPANY.CREATE.PATH,
-            component: DefineCompanyForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_COMPANY.DETAIL.TITLE,
-            path: ROUTE.DEFINE_COMPANY.DETAIL.PATH,
-            component: DefineCompanyDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.DEFINE_COMPANY.EDIT.TITLE,
-            path: ROUTE.DEFINE_COMPANY.EDIT.PATH,
-            component: DefineCompanyForm,
             isInSidebar: false,
           },
         ],

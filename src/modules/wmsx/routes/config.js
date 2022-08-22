@@ -7,6 +7,205 @@ export const ROUTE = {
     PATH: '/wmsx',
     TITLE: 'database',
   },
+  COMPANY_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/company-management',
+      TITLE: 'defineCompany',
+    },
+    CREATE: {
+      PATH: '/wmsx/company-management/create',
+      TITLE: 'defineCompanyCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/company-management/:id/detail',
+      TITLE: 'defineCompanyDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/company-management/:id/edit',
+      TITLE: 'defineCompanyEdit',
+    },
+  },
+  UNIT_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/unit-management',
+      TITLE: 'managementUnit',
+    },
+    CREATE: {
+      PATH: '/wmsx/unit-management/create',
+      TITLE: 'managementUnitCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/unit-management/:id/detail',
+      TITLE: 'managementUnitDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/unit-management/:id/edit',
+      TITLE: 'managementUnitEdit',
+    },
+  },
+  RECEIPT_DEPARTMENT_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/receipt-department-management',
+      TITLE: 'receiptDepartmentManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/receipt-department-management/create',
+      TITLE: 'receiptDepartmentManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/receipt-department-management/:id/detail',
+      TITLE: 'receiptDepartmentManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/receipt-department-management/:id/edit',
+      TITLE: 'receiptDepartmentManagementEdit',
+    },
+  },
+  CONSTRUCTION_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/construction-management',
+      TITLE: 'constructionManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/construction-management/create',
+      TITLE: 'constructionManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/construction-management/:id/detail',
+      TITLE: 'constructionManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/construction-management/:id/edit',
+      TITLE: 'constructionManagementEdit',
+    },
+  },
+  CONSTRUCTION_ITEMS_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/construction-items-management',
+      TITLE: 'constructionItemsManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/construction-items-management/create',
+      TITLE: 'constructionItemsManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/construction-items-management/:id/detail',
+      TITLE: 'constructionItemsManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/construction-items-management/:id/edit',
+      TITLE: 'constructionItemsManagementEdit',
+    },
+  },
+  SOURCE_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/source-management',
+      TITLE: 'sourceManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/source-management/create',
+      TITLE: 'sourceManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/source-management/:id/detail',
+      TITLE: 'sourceManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/source-management/:id/edit',
+      TITLE: 'sourceManagementEdit',
+    },
+  },
+  REASON_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/reason-management',
+      TITLE: 'reasonManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/reason-management/create',
+      TITLE: 'reasonManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/reason-management/:id/detail',
+      TITLE: 'reasonManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/reason-management/:id/edit',
+      TITLE: 'reasonManagementEdit',
+    },
+  },
+  DEFINE_UOM: {
+    LIST: {
+      PATH: '/wmsx/uom-management',
+      TITLE: 'defineUom',
+    },
+    CREATE: {
+      PATH: '/wmsx/uom-management/create',
+      TITLE: 'defineUomCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/uom-management/:id/detail',
+      TITLE: 'defineUomDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/uom-management/:id/edit',
+      TITLE: 'defineUomEdit',
+    },
+  },
+  BUSINESS_TYPE_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/business-type-management',
+      TITLE: 'businessTypeManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/business-type-management/create',
+      TITLE: 'businessTypeManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/business-type-management/:id/detail',
+      TITLE: 'businessTypeManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/business-type-management/:id/edit',
+      TITLE: 'businessTypeManagementEdit',
+    },
+  },
+  DEFINE_OBJECT_CATEGORY: {
+    LIST: {
+      PATH: '/wmsx/define-object-category',
+      TITLE: 'defineObjectCategory',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-object-category/create',
+      TITLE: 'defineObjectCategoryCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-object-category/:id/detail',
+      TITLE: 'defineObjectCategoryDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-object-category/:id/edit',
+      TITLE: 'defineObjectCategoryEdit',
+    },
+  },
+  DEFINE_MATERIAL_CATEGORY: {
+    LIST: {
+      PATH: '/wmsx/define-object-category',
+      TITLE: 'defineMaterialCategory',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-object-category/create',
+      TITLE: 'defineMaterialCategoryCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-object-category/:id/detail',
+      TITLE: 'defineMaterialCategoryDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-object-category/:id/edit',
+      TITLE: 'defineMaterialCategoryEdit',
+    },
+  },
+
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
@@ -745,42 +944,6 @@ export const ROUTE = {
         PATH: '/wmsx/return-order/:parentId/transactions/:id',
         TITLE: 'movementDetail',
       },
-    },
-  },
-  MANAGEMENT_UNIT: {
-    LIST: {
-      PATH: '/wmsx/managent-unit',
-      TITLE: 'managementUnit',
-    },
-    CREATE: {
-      PATH: '/wmsx/managent-unit/create',
-      TITLE: 'managementUnitCreate',
-    },
-    DETAIL: {
-      PATH: '/wmsx/managent-unit/:id/detail',
-      TITLE: 'managementUnitDetail',
-    },
-    EDIT: {
-      PATH: '/wmsx/managent-unit/:id/edit',
-      TITLE: 'managementUnitEdit',
-    },
-  },
-  DEFINE_COMPANY: {
-    LIST: {
-      PATH: '/wmsx/define-company',
-      TITLE: 'defineCompany',
-    },
-    CREATE: {
-      PATH: '/wmsx/define-company/create',
-      TITLE: 'defineCompanyCreate',
-    },
-    DETAIL: {
-      PATH: '/wmsx/define-company/:id/detail',
-      TITLE: 'defineCompanyDetail',
-    },
-    EDIT: {
-      PATH: '/wmsx/define-company/:id/edit',
-      TITLE: 'defineCompanyEdit',
     },
   },
 }
