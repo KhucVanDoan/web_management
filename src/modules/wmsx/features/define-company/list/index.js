@@ -30,8 +30,8 @@ const breadcrumbs = [
     title: 'defineCategory',
   },
   {
-    route: ROUTE.DEFINE_COMPANY.LIST.PATH,
-    title: ROUTE.DEFINE_COMPANY.LIST.TITLE,
+    route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
+    title: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
   },
 ]
 
@@ -131,7 +131,7 @@ function DefineCompany() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.DEFINE_COMPANY.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.COMPANY_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -140,7 +140,7 @@ function DefineCompany() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.DEFINE_COMPANY.EDIT.PATH.replace(':id', `${id}`),
+                  ROUTE.COMPANY_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -152,7 +152,7 @@ function DefineCompany() {
             {/* <IconButton
               onClick={() =>
                 history.push(
-                  `${ROUTE.DEFINE_COMPANY.CREATE.PATH}?cloneId=${id}`,
+                  `${ROUTE.COMPANY_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
                 )
               }
             >
@@ -222,7 +222,7 @@ function DefineCompany() {
           onRefresh={refreshData}
         />
         <Button
-          onClick={() => history.push(ROUTE.DEFINE_COMPANY.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.COMPANY_MANAGEMENT.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >

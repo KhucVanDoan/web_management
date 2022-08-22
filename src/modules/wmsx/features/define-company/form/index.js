@@ -39,8 +39,8 @@ function DefineCompanyForm() {
     actions,
   } = useDefineCompany()
   const MODE_MAP = {
-    [ROUTE.DEFINE_COMPANY.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.DEFINE_COMPANY.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.COMPANY_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.COMPANY_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
@@ -63,21 +63,21 @@ function DefineCompanyForm() {
         title: 'defineCategory',
       },
       {
-        route: ROUTE.DEFINE_COMPANY.LIST.PATH,
-        title: ROUTE.DEFINE_COMPANY.LIST.TITLE,
+        route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
+        title: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
       },
     ]
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumbs.push({
-          route: ROUTE.DEFINE_COMPANY.CREATE.PATH,
-          title: ROUTE.DEFINE_COMPANY.CREATE.TITLE,
+          route: ROUTE.COMPANY_MANAGEMENT.CREATE.PATH,
+          title: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumbs.push({
-          route: ROUTE.DEFINE_COMPANY.EDIT.PATH,
-          title: ROUTE.DEFINE_COMPANY.EDIT.TITLE,
+          route: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
+          title: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
         })
         break
       default:
@@ -102,16 +102,16 @@ function DefineCompanyForm() {
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.DEFINE_COMPANY.CREATE.TITLE
+        return ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.DEFINE_COMPANY.EDIT.TITLE
+        return ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE
       default:
         break
     }
   }
 
   const backToList = () => {
-    history.push(ROUTE.DEFINE_COMPANY.LIST.PATH)
+    history.push(ROUTE.COMPANY_MANAGEMENT.LIST.PATH)
   }
 
   const onSubmit = (values) => {
