@@ -35,15 +35,15 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import CompanyManagementDetail from '../features/company-management/detail'
+import CompanyManagementForm from '../features/company-management/form'
+import CompanyManagement from '../features/company-management/list'
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
 import DefineBill from '../features/define-bill'
 import DefineBillDetail from '../features/define-bill/detail'
 import DefineBillForm from '../features/define-bill/form'
-import DefineCompanyDetail from '../features/define-company/detail'
-import DefineCompanyForm from '../features/define-company/form'
-import DefineCompany from '../features/define-company/list'
 import DefineCurrencyUnitDetail from '../features/define-currency-unit/detail'
 import DefineCurrencyUnitForm from '../features/define-currency-unit/form'
 import DefineCurrencyUnit from '../features/define-currency-unit/list'
@@ -162,25 +162,25 @@ const routes = [
       {
         name: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
         path: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
-        component: DefineCompany,
+        component: CompanyManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.COMPANY_MANAGEMENT.CREATE.PATH,
-            component: DefineCompanyForm,
+            component: CompanyManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.COMPANY_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.COMPANY_MANAGEMENT.DETAIL.PATH,
-            component: DefineCompanyDetail,
+            component: CompanyManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
-            component: DefineCompanyForm,
+            component: CompanyManagementForm,
             isInSidebar: false,
           },
         ],

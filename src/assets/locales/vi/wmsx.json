@@ -14,10 +14,10 @@
     "wmsx": "WMSX",
     "dashboard": "Dashboard",
     "database": "Quản lý dữ liệu cơ sở",
-    "defineCompany": "Quản lý công ty",
-    "defineCompanyCreate": "Tạo công ty",
-    "defineCompanyEdit": "Sửa công ty",
-    "defineCompanyDetail": "Chi tiết công ty",
+    "companyManagement": "Quản lý công ty",
+    "companyManagementCreate": "Tạo công ty",
+    "companyManagementEdit": "Sửa công ty",
+    "companyManagementDetail": "Chi tiết công ty",
     "managementUnit": "Quản lý đơn vị",
     "managementUnitCreate": "Tạo đơn vị",
     "managementUnitEdit": "Sửa đơn vị",
@@ -2340,7 +2340,7 @@
     "searchPlaceHolder": "Tìm kiếm thông tin...",
     "export": "Quanlydonvi"
   },
-  "defineCompany": {
+  "companyManagement": {
     "title": "Định nghĩa công ty",
     "companyList": "Danh sách công ty",
     "searchPlaceholder": "Tìm kiếm công ty theo mã hoặc tên",
@@ -2352,7 +2352,7 @@
     "description": "Mô tả",
     "status": "Trạng thái hoạt động",
     "createTime": "Thời gian tạo",
-    "defineCompanyDelete": "Xóa công ty",
+    "companyManagementDelete": "Xóa công ty",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "user": "Người tạo",
     "createDate": "Ngày tạo"

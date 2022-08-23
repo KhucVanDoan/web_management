@@ -2,33 +2,33 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateCompanyFailed,
-  updateCompanySuccess,
-  UPDATE_COMPANY_START,
-} from '~/modules/database/redux/actions/define-company'
+  deleteCompanyFailed,
+  deleteCompanySuccess,
+  DELETE_COMPANY_START,
+} from '~/modules/wmsx/redux/actions/company-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
- * Search factory API
+ * Search user API
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const updateCompanyApi = (params) => {
-  const uri = `/v1/users/companies/${params.id}`
-  return api.put(uri, params)
+const deleteCompanyApi = (params) => {
+  const uri = `/v1/users/companies/${params}`
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateCompany(action) {
+function* doDeleteCompany(action) {
   try {
-    const response = yield call(updateCompanyApi, action?.payload)
+    const response = yield call(deleteCompanyApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateCompanySuccess(response.data))
+      yield put(deleteCompanySuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -41,7 +41,7 @@ function* doUpdateCompany(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateCompanyFailed())
+    yield put(deleteCompanyFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -50,8 +50,8 @@ function* doUpdateCompany(action) {
 }
 
 /**
- * Watch search factorys
+ * Watch search users
  */
-export default function* watchUpdateCompany() {
-  yield takeLatest(UPDATE_COMPANY_START, doUpdateCompany)
+export default function* watchDeleteCompany() {
+  yield takeLatest(DELETE_COMPANY_START, doDeleteCompany)
 }

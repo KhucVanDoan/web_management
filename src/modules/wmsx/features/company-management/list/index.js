@@ -17,8 +17,8 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
-import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/define-company/import-export-company'
+import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
+import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/company-management/import-export-company'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -27,7 +27,7 @@ import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'defineCategory',
+    title: 'database',
   },
   {
     route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
@@ -35,7 +35,7 @@ const breadcrumbs = [
   },
 ]
 
-function DefineCompany() {
+function CompanyManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
 
@@ -63,7 +63,7 @@ function DefineCompany() {
   const {
     data: { companyList, total, isLoading },
     actions,
-  } = useDefineCompany()
+  } = useCompanyManagement()
 
   const [modal, setModal] = useState({
     tempItem: null,
@@ -76,42 +76,42 @@ function DefineCompany() {
   const columns = [
     {
       field: 'code',
-      headerName: t('defineCompany.code'),
+      headerName: t('companyManagement.code'),
       width: 100,
       sortable: true,
       fixed: true,
     },
     {
       field: 'name',
-      headerName: t('defineCompany.name'),
+      headerName: t('companyManagement.name'),
       width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'email',
-      headerName: t('defineCompany.email'),
+      headerName: t('companyManagement.email'),
       width: 100,
       sortable: true,
     },
     {
       field: 'phone',
-      headerName: t('defineCompany.phone'),
+      headerName: t('companyManagement.phone'),
       width: 100,
     },
     {
       field: 'address',
-      headerName: t('defineCompany.address'),
+      headerName: t('companyManagement.address'),
       width: 150,
     },
     {
       field: 'description',
-      headerName: t('defineCompany.description'),
+      headerName: t('companyManagement.description'),
       width: 100,
     },
     {
       field: 'status',
-      headerName: t('defineCompany.status'),
+      headerName: t('companyManagement.status'),
       width: 120,
       renderCell: (params) => {
         const status = Number(params?.row.status)
@@ -155,15 +155,6 @@ function DefineCompany() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
-            {/* <IconButton
-              onClick={() =>
-                history.push(
-                  `${ROUTE.COMPANY_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
-                )
-              }
-            >
-              <Icon name="clone" />
-            </IconButton> */}
           </div>
         )
       },
@@ -210,7 +201,7 @@ function DefineCompany() {
     return (
       <>
         <ImportExport
-          name={t('defineCompany.export')}
+          name={t('companyManagement.export')}
           onExport={() =>
             exportCompanyApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -241,14 +232,14 @@ function DefineCompany() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.defineCompany')}
+      title={t('menu.companyManagement')}
       onSearch={setKeyword}
-      placeholder={t('defineCompany.searchPlaceholder')}
+      placeholder={t('companyManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
-        title={t('defineCompany.companyList')}
+        title={t('companyManagement.companyList')}
         rows={companyList}
         pageSize={pageSize}
         page={page}
@@ -283,7 +274,7 @@ function DefineCompany() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('defineCompany.defineCompanyDelete')}
+        title={t('companyManagement.companyManagementDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -293,14 +284,14 @@ function DefineCompany() {
         }}
         noBorderBottom
       >
-        {t('defineCompany.deleteConfirm')}
+        {t('companyManagement.deleteConfirm')}
         <LV
-          label={t('defineCompany.code')}
+          label={t('companyManagement.code')}
           value={modal?.tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineCompany.name')}
+          label={t('companyManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -309,4 +300,4 @@ function DefineCompany() {
   )
 }
 
-export default DefineCompany
+export default CompanyManagement

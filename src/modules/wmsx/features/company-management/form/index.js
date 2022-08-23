@@ -3,12 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import {
-  useHistory,
-  useParams,
-  useRouteMatch,
-  useLocation,
-} from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -21,23 +16,20 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
+import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import qs from '~/utils/qs'
 
-import { defineCompanySchema } from './schema'
+import { companyManagementSchema } from './schema'
 
-function DefineCompanyForm() {
+function CompanyManagementForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
-  const location = useLocation()
-  const { cloneId } = qs.parse(location.search)
   const {
     data: { companyDetails, isLoading },
     actions,
-  } = useDefineCompany()
+  } = useCompanyManagement()
   const MODE_MAP = {
     [ROUTE.COMPANY_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.COMPANY_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -60,7 +52,7 @@ function DefineCompanyForm() {
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
-        title: 'defineCategory',
+        title: 'database',
       },
       {
         route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
@@ -91,13 +83,10 @@ function DefineCompanyForm() {
       const id = params?.id
       actions.getCompanyDetailsById(id)
     }
-    if (cloneId) {
-      actions.getCompanyDetailsById(cloneId)
-    }
     return () => {
       actions.resetCompanyDetailsState()
     }
-  }, [params?.id, cloneId])
+  }, [params?.id])
 
   const getTitle = () => {
     switch (mode) {
@@ -161,7 +150,7 @@ function DefineCompanyForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={defineCompanySchema(t)}
+            validationSchema={companyManagementSchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >
@@ -176,7 +165,9 @@ function DefineCompanyForm() {
                     <Grid item xs={12}>
                       <LV
                         label={
-                          <Typography>{t('defineCompany.status')}</Typography>
+                          <Typography>
+                            {t('companyManagement.status')}
+                          </Typography>
                         }
                         value={
                           <Status
@@ -189,23 +180,22 @@ function DefineCompanyForm() {
                   )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('defineCompany.code')}
+                      label={t('companyManagement.code')}
                       name="code"
-                      placeholder={t('defineCompany.code')}
+                      placeholder={t('companyManagement.code')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
-                      {...(cloneId ? { autoFocus: true } : {})}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('defineCompany.name')}
+                      label={t('companyManagement.name')}
                       name="name"
-                      placeholder={t('defineCompany.name')}
+                      placeholder={t('companyManagement.name')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -215,8 +205,8 @@ function DefineCompanyForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="email"
-                      label={t('defineCompany.email')}
-                      placeholder={t('defineCompany.email')}
+                      label={t('companyManagement.email')}
+                      placeholder={t('companyManagement.email')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
@@ -225,8 +215,8 @@ function DefineCompanyForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="phone"
-                      label={t('defineCompany.phone')}
-                      placeholder={t('defineCompany.phone')}
+                      label={t('companyManagement.phone')}
+                      placeholder={t('companyManagement.phone')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
@@ -235,9 +225,9 @@ function DefineCompanyForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('defineCompany.address')}
+                      label={t('companyManagement.address')}
                       name="address"
-                      placeholder={t('defineCompany.address')}
+                      placeholder={t('companyManagement.address')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -246,8 +236,8 @@ function DefineCompanyForm() {
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
-                      label={t('defineCompany.description')}
-                      placeholder={t('defineCompany.description')}
+                      label={t('companyManagement.description')}
+                      placeholder={t('companyManagement.description')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -266,4 +256,4 @@ function DefineCompanyForm() {
   )
 }
 
-export default DefineCompanyForm
+export default CompanyManagementForm

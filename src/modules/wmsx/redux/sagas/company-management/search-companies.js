@@ -4,7 +4,7 @@ import {
   searchCompaniesFailed,
   searchCompaniesSuccess,
   SEARCH_COMPANIES_START,
-} from '~/modules/database/redux/actions/define-company'
+} from '~/modules/wmsx/redux/actions/company-management'
 import { api } from '~/services/api'
 
 /**

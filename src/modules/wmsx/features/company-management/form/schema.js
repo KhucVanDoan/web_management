@@ -2,7 +2,7 @@ import * as Yup from 'yup'
 
 import { phoneSchema } from '~/common/schemas'
 
-export const defineCompanySchema = (t) =>
+export const companyManagementSchema = (t) =>
   Yup.object().shape({
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),

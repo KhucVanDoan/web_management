@@ -10,13 +10,13 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
+import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
-    title: 'defineCategory',
+    title: 'database',
   },
   {
     route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
@@ -28,14 +28,14 @@ const breadcrumbs = [
   },
 ]
 
-function DefineCompanyDetail() {
+function CompanyManagementDetail() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
   const {
     data: { isLoading, companyDetails },
     actions,
-  } = useDefineCompany()
+  } = useCompanyManagement()
 
   useEffect(() => {
     actions.getCompanyDetailsById(id)
@@ -51,7 +51,7 @@ function DefineCompanyDetail() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.defineCompanyDetail')}
+      title={t('menu.companyManagementDetail')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -60,7 +60,7 @@ function DefineCompanyDetail() {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item xs={12}>
               <LV
-                label={t('defineCompany.status')}
+                label={t('companyManagement.status')}
                 value={
                   <Status
                     options={ACTIVE_STATUS_OPTIONS}
@@ -70,26 +70,32 @@ function DefineCompanyDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('defineCompany.code')} value={companyDetails.code} />
+              <LV
+                label={t('companyManagement.code')}
+                value={companyDetails.code}
+              />
             </Grid>
             <Grid item lg={6} xs={12} variant="detail">
-              <LV label={t('defineCompany.name')} value={companyDetails.name} />
+              <LV
+                label={t('companyManagement.name')}
+                value={companyDetails.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineCompany.email')}
+                label={t('companyManagement.email')}
                 value={companyDetails.email}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineCompany.phone')}
+                label={t('companyManagement.phone')}
                 value={companyDetails.phone}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineCompany.address')}
+                label={t('companyManagement.address')}
                 value={companyDetails.address}
               />
             </Grid>
@@ -98,20 +104,20 @@ function DefineCompanyDetail() {
             </Hidden>{' '}
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineCompany.user')}
+                label={t('companyManagement.user')}
                 value={companyDetails.createdBy?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineCompany.createDate')}
+                label={t('companyManagement.createDate')}
                 value={convertUtcDateTimeToLocalTz(companyDetails.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
-                label={t('defineCompany.description')}
+                label={t('companyManagement.description')}
                 multiline
                 rows={3}
                 value={companyDetails.description}
@@ -131,4 +137,4 @@ function DefineCompanyDetail() {
   )
 }
 
-export default DefineCompanyDetail
+export default CompanyManagementDetail
