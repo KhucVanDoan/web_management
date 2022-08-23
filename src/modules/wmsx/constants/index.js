@@ -1280,12 +1280,12 @@ export const MANAGEMENT_UNIT_STATUS_OPTIONS = [
   },
 ]
 
-export const STATUS = {
+export const ACTIVE_STATUS = {
   ACTIVE: 0,
   INACTIVE: 1,
 }
 
-export const STATUS_OPTIONS = [
+export const ACTIVE_STATUS_OPTIONS = [
   {
     id: 0,
     text: 'general.active',
@@ -1298,7 +1298,7 @@ export const STATUS_OPTIONS = [
   },
 ]
 
-export const STATUS_MAP = {
-  [STATUS.ACTIVE]: 'general.active',
-  [STATUS.INACTIVE]: 'general.inactive',
+export const ACTIVE_STATUS_MAP = {
+  [ACTIVE_STATUS.ACTIVE]: 'general.active',
+  [ACTIVE_STATUS.INACTIVE]: 'general.inactive',
 }

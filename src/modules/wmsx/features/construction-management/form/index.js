@@ -3,12 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
-import {
-  useHistory,
-  useParams,
-  useRouteMatch,
-  useLocation,
-} from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
   MODAL_MODE,
@@ -21,63 +16,58 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
+import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import qs from '~/utils/qs'
 
 import { defineCompanySchema } from './schema'
 
-function DefineCompanyForm() {
+function ConstructionManagementForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
-  const location = useLocation()
-  const { cloneId } = qs.parse(location.search)
+
   const {
-    data: { companyDetails, isLoading },
+    data: { isLoading, constructionDetails },
     actions,
-  } = useDefineCompany()
+  } = useConstructionManagement()
+
   const MODE_MAP = {
-    [ROUTE.COMPANY_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.COMPANY_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const initialValues = useMemo(
     () => ({
-      code: companyDetails?.code || '',
-      name: companyDetails?.name || '',
-      address: companyDetails?.address || '',
-      email: companyDetails?.email || '',
-      phone: companyDetails?.phone || '',
-      description: companyDetails?.description || '',
+      code: constructionDetails?.code || '',
+      description: constructionDetails?.description || '',
     }),
-    [companyDetails],
+    [constructionDetails],
   )
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
-        title: 'defineCategory',
+        title: 'database',
       },
       {
-        route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
-        title: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
+        route: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
+        title: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
       },
     ]
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumbs.push({
-          route: ROUTE.COMPANY_MANAGEMENT.CREATE.PATH,
-          title: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
+          route: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH,
+          title: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumbs.push({
-          route: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
-          title: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
+          route: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH,
+          title: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.TITLE,
         })
         break
       default:
@@ -89,41 +79,38 @@ function DefineCompanyForm() {
   useEffect(() => {
     if (isUpdate) {
       const id = params?.id
-      actions.getCompanyDetailsById(id)
-    }
-    if (cloneId) {
-      actions.getCompanyDetailsById(cloneId)
+      actions.getConstructionDetailsById(id)
     }
     return () => {
-      actions.resetCompanyDetailsState()
+      actions.resetConstructionDetailsState()
     }
-  }, [params?.id, cloneId])
+  }, [params?.id])
 
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE
+        return ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE
+        return ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.TITLE
       default:
         break
     }
   }
 
   const backToList = () => {
-    history.push(ROUTE.COMPANY_MANAGEMENT.LIST.PATH)
+    history.push(ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH)
   }
 
   const onSubmit = (values) => {
     if (mode === MODAL_MODE.CREATE) {
-      actions.createCompany(values, backToList)
+      actions.createConstruction(values, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const id = Number(params?.id)
       const paramUpdate = {
         ...values,
         id,
       }
-      actions.updateCompany(paramUpdate, backToList)
+      actions.updateConstruction(paramUpdate, backToList)
     }
   }
 
@@ -176,12 +163,14 @@ function DefineCompanyForm() {
                     <Grid item xs={12}>
                       <LV
                         label={
-                          <Typography>{t('defineCompany.status')}</Typography>
+                          <Typography>
+                            {t('constructionManagement.status')}
+                          </Typography>
                         }
                         value={
                           <Status
                             options={ACTIVE_STATUS_OPTIONS}
-                            value={companyDetails?.status}
+                            value={constructionDetails?.status}
                           />
                         }
                       />
@@ -189,65 +178,22 @@ function DefineCompanyForm() {
                   )}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      label={t('defineCompany.code')}
+                      label={t('constructionManagement.code')}
                       name="code"
-                      placeholder={t('defineCompany.code')}
+                      placeholder={t('constructionManagement.code')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
                       required
-                      {...(cloneId ? { autoFocus: true } : {})}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('defineCompany.name')}
-                      name="name"
-                      placeholder={t('defineCompany.name')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="email"
-                      label={t('defineCompany.email')}
-                      placeholder={t('defineCompany.email')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="phone"
-                      label={t('defineCompany.phone')}
-                      placeholder={t('defineCompany.phone')}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('defineCompany.address')}
-                      name="address"
-                      placeholder={t('defineCompany.address')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
-                      label={t('defineCompany.description')}
-                      placeholder={t('defineCompany.description')}
+                      label={t('constructionManagement.description')}
+                      placeholder={t('constructionManagement.description')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -266,4 +212,4 @@ function DefineCompanyForm() {
   )
 }
 
-export default DefineCompanyForm
+export default ConstructionManagementForm

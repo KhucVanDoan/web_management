@@ -9,7 +9,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -63,7 +63,7 @@ function DefineCompanyDetail() {
                 label={t('defineCompany.status')}
                 value={
                   <Status
-                    options={STATUS_OPTIONS}
+                    options={ACTIVE_STATUS_OPTIONS}
                     value={companyDetails?.status}
                   />
                 }
