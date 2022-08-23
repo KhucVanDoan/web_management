@@ -1,10 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getCompaniesFailed,
-  getCompaniesSuccess,
-  GET_COMPANIES_START,
-} from '~/modules/database/redux/actions/common'
+  getCompanyDetailsByIdFailed,
+  getCompanyDetailsByIdSuccess,
+  GET_COMPANY_DETAILS_START,
+} from '~/modules/wmsx/redux/actions/company-management'
 import { api } from '~/services/api'
 
 /**
@@ -12,8 +12,8 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getCompaniesApi = () => {
-  const uri = `/v1/users/companies/list`
+const getCompanyDetailsApi = (params) => {
+  const uri = `/v1/users/companies/${params}`
   return api.get(uri)
 }
 
@@ -21,22 +21,22 @@ const getCompaniesApi = () => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doGetCompanies(action) {
+function* doGetCompanyDetails(action) {
   try {
-    const response = yield call(getCompaniesApi, action?.payload)
+    const response = yield call(getCompanyDetailsApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(getCompaniesSuccess(response.data))
+      yield put(getCompanyDetailsByIdSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data)
       }
     } else {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getCompaniesFailed())
+    yield put(getCompanyDetailsByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -47,6 +47,6 @@ function* doGetCompanies(action) {
 /**
  * Watch search users
  */
-export default function* watchGetCompanies() {
-  yield takeLatest(GET_COMPANIES_START, doGetCompanies)
+export default function* watchGetCompanyDetails() {
+  yield takeLatest(GET_COMPANY_DETAILS_START, doGetCompanyDetails)
 }

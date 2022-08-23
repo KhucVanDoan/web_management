@@ -10,19 +10,19 @@ export const ROUTE = {
   COMPANY_MANAGEMENT: {
     LIST: {
       PATH: '/wmsx/company-management',
-      TITLE: 'defineCompany',
+      TITLE: 'companyManagement',
     },
     CREATE: {
       PATH: '/wmsx/company-management/create',
-      TITLE: 'defineCompanyCreate',
+      TITLE: 'companyManagementCreate',
     },
     DETAIL: {
       PATH: '/wmsx/company-management/:id/detail',
-      TITLE: 'defineCompanyDetail',
+      TITLE: 'companyManagementDetail',
     },
     EDIT: {
       PATH: '/wmsx/company-management/:id/edit',
-      TITLE: 'defineCompanyEdit',
+      TITLE: 'companyManagementEdit',
     },
   },
   UNIT_MANAGEMENT: {

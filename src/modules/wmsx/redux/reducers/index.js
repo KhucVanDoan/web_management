@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 
 import blockItemLocation from './block-item-location'
 import commonManagement from './common'
+import companyManagement from './company-management'
 import constructionManagement from './construction-management'
 import dashboard from './dashboard'
 import bill from './define-bill'
@@ -98,5 +99,6 @@ export default combineReducers({
   blockItemLocation,
   returnOrder,
   managementUnit,
+  companyManagement,
   constructionManagement,
 })

@@ -22,6 +22,12 @@ import watchGetPackages from './common/get-packages'
 import watchGetPallets from './common/get-pallets'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchCreateCompany from './company-management/create-company'
+import watchDeleteCompany from './company-management/delete-company'
+import watchGetCompanies from './company-management/get-companies'
+import watchGetCompanyDetails from './company-management/get-company-details'
+import watchSearchCompanies from './company-management/search-companies'
+import watchUpdateCompany from './company-management/update-company'
 import watchCreateConstruction from './construction-management/create-construction'
 import watchDeleteConstruction from './construction-management/delete-construction'
 import watchGetConstructionDetails from './construction-management/get-construction-details'
@@ -575,12 +581,20 @@ export default function* sagas() {
     watchGetReturnOrderDetails(),
     watchRejectReturnOrder(),
     watchUpdateReturnOrder(),
+
     // management-unit
     watchCreateManagementUnit(),
     watchDeleteManagementUnit(),
     watchGetDetailManagementUnit(),
     watchSearchManagementUnit(),
 
+    //company-management
+    watchCreateCompany(),
+    watchDeleteCompany(),
+    watchGetCompanies(),
+    watchGetCompanyDetails(),
+    watchSearchCompanies(),
+    watchUpdateCompany(),
     //construction-management
     watchCreateConstruction(),
     watchUpdateConstruction(),

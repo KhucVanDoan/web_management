@@ -18,7 +18,7 @@ import {
   UPDATE_COMPANY_START,
   UPDATE_COMPANY_SUCCESS,
   RESET_COMPANY_DETAILS_STATE,
-} from '~/modules/database/redux/actions/define-company'
+} from '~/modules/wmsx/redux/actions/company-management'
 
 const initialState = {
   isLoading: false,
@@ -27,7 +27,7 @@ const initialState = {
   total: null,
 }
 
-export default function defineCompany(state = initialState, action) {
+export default function companyManagement(state = initialState, action) {
   switch (action.type) {
     case SEARCH_COMPANIES_START:
     case GET_COMPANIES_START:

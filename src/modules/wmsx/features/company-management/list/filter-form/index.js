@@ -7,15 +7,15 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 
 const FilterForm = () => {
-  const { t } = useTranslation('database')
+  const { t } = useTranslation('wmsx')
 
   return (
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
           name="code"
-          label={t('defineCompany.code')}
-          placeholder={t('defineCompany.code')}
+          label={t('companyManagement.code')}
+          placeholder={t('companyManagement.code')}
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
@@ -24,8 +24,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.TextField
           name="name"
-          label={t('defineCompany.name')}
-          placeholder={t('defineCompany.name')}
+          label={t('companyManagement.name')}
+          placeholder={t('companyManagement.name')}
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
@@ -34,7 +34,7 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('defineCompany.createTime')}
+          label={t('companyManagement.createTime')}
         />
       </Grid>
     </Grid>
