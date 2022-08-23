@@ -58,7 +58,6 @@
     "defineMaterialCategoryCreate": "Tạo phân loại vật tư",
     "defineMaterialCategoryEdit": "Sửa phân loại vật tư",
     "defineMaterialCategoryDetail": "Chi tiết phân loại vật tư",
-
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
     "defineDetail": "Định nghĩa chi tiết",
@@ -2357,5 +2356,15 @@
     "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "user": "Người tạo",
     "createDate": "Ngày tạo"
+  },
+  "constructionManagement": {
+    "list": "Danh sách công trình",
+    "searchPlaceholder": "Tìm kiếm công trình theo mã",
+    "code": "Mã công trình",
+    "description": "Mô tả công trình",
+    "status": "Trạng thái hoạt động",
+    "createTime": "Thời gian tạo",
+    "defineConstructionDelete": "Xóa công trình",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá công trình này không?"
   }
 }

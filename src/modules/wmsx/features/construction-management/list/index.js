@@ -15,10 +15,10 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useDefineCompany from '~/modules/wmsx/redux/hooks/useDefineCompany'
-import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/define-company/import-export-company'
+import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -27,21 +27,20 @@ import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'defineCategory',
+    title: 'database',
   },
   {
-    route: ROUTE.COMPANY_MANAGEMENT.LIST.PATH,
-    title: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
+    route: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
+    title: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
   },
 ]
 
-function DefineCompany() {
+function ConstructionManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
 
   const DEFAULT_FILTERS = {
     code: '',
-    name: '',
     createTime: [],
   }
 
@@ -61,9 +60,9 @@ function DefineCompany() {
   })
 
   const {
-    data: { companyList, total, isLoading },
+    data: { constructionList, total, isLoading },
     actions,
-  } = useDefineCompany()
+  } = useConstructionManagement()
 
   const [modal, setModal] = useState({
     tempItem: null,
@@ -76,42 +75,19 @@ function DefineCompany() {
   const columns = [
     {
       field: 'code',
-      headerName: t('defineCompany.code'),
+      headerName: t('constructionManagement.code'),
       width: 100,
       sortable: true,
       fixed: true,
-    },
-    {
-      field: 'name',
-      headerName: t('defineCompany.name'),
-      width: 150,
-      sortable: true,
-      fixed: true,
-    },
-    {
-      field: 'email',
-      headerName: t('defineCompany.email'),
-      width: 100,
-      sortable: true,
-    },
-    {
-      field: 'phone',
-      headerName: t('defineCompany.phone'),
-      width: 100,
-    },
-    {
-      field: 'address',
-      headerName: t('defineCompany.address'),
-      width: 150,
     },
     {
       field: 'description',
-      headerName: t('defineCompany.description'),
+      headerName: t('constructionManagement.description'),
       width: 100,
     },
     {
       field: 'status',
-      headerName: t('defineCompany.status'),
+      headerName: t('constructionManagement.status'),
       width: 120,
       renderCell: (params) => {
         const status = Number(params?.row.status)
@@ -137,7 +113,10 @@ function DefineCompany() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.COMPANY_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
                 )
               }
             >
@@ -146,7 +125,10 @@ function DefineCompany() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.COMPANY_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                  ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
                 )
               }
             >
@@ -155,15 +137,6 @@ function DefineCompany() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
-            {/* <IconButton
-              onClick={() =>
-                history.push(
-                  `${ROUTE.COMPANY_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
-                )
-              }
-            >
-              <Icon name="clone" />
-            </IconButton> */}
           </div>
         )
       },
@@ -180,7 +153,7 @@ function DefineCompany() {
       ]),
       sort: convertSortParams(sort),
     }
-    actions.searchCompanies(params)
+    actions.searchConstructions(params)
   }
 
   useEffect(() => {
@@ -196,7 +169,7 @@ function DefineCompany() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteCompany(modal.tempItem?.id, () => {
+    actions.deleteConstruction(modal.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
@@ -210,7 +183,7 @@ function DefineCompany() {
     return (
       <>
         <ImportExport
-          name={t('defineCompany.export')}
+          name={t('constructionManagement.export')}
           onExport={() =>
             exportCompanyApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -228,7 +201,9 @@ function DefineCompany() {
           onRefresh={refreshData}
         />
         <Button
-          onClick={() => history.push(ROUTE.COMPANY_MANAGEMENT.CREATE.PATH)}
+          onClick={() =>
+            history.push(ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH)
+          }
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
@@ -241,15 +216,15 @@ function DefineCompany() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.defineCompany')}
+      title={t('menu.constructionManagement')}
       onSearch={setKeyword}
-      placeholder={t('defineCompany.searchPlaceholder')}
+      placeholder={t('constructionManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
-        title={t('defineCompany.companyList')}
-        rows={companyList}
+        title={t('constructionManagement.list')}
+        rows={constructionList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -283,7 +258,7 @@ function DefineCompany() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('defineCompany.defineCompanyDelete')}
+        title={t('constructionManagement.defineConstructionDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -293,15 +268,15 @@ function DefineCompany() {
         }}
         noBorderBottom
       >
-        {t('defineCompany.deleteConfirm')}
+        {t('constructionManagement.deleteConfirm')}
         <LV
-          label={t('defineCompany.code')}
+          label={t('constructionManagement.code')}
           value={modal?.tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineCompany.name')}
-          value={modal?.tempItem?.name}
+          label={t('constructionManagement.description')}
+          value={modal?.tempItem?.description}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -309,4 +284,4 @@ function DefineCompany() {
   )
 }
 
-export default DefineCompany
+export default ConstructionManagement

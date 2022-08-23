@@ -35,6 +35,9 @@ import WarehouseReport from '~/modules/wmsx/features/warehouse-report'
 import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import ConstructionManagementDetail from '../features/construction-management/detail'
+import ConstructionManagementForm from '../features/construction-management/form'
+import ConstructionManagement from '../features/construction-management/list'
 import DefineBill from '../features/define-bill'
 import DefineBillDetail from '../features/define-bill/detail'
 import DefineBillForm from '../features/define-bill/form'
@@ -237,25 +240,25 @@ const routes = [
       {
         name: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
         path: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: ConstructionManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: ConstructionManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: ConstructionManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: ConstructionManagementForm,
             isInSidebar: false,
           },
         ],
