@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -33,6 +34,7 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter-form'
 const breadcrumbs = [
   {
@@ -53,6 +55,7 @@ const Mo = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -242,6 +245,16 @@ const Mo = () => {
   }, [keyword, page, pageSize, sort, filters])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (moList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, moList])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
@@ -268,15 +281,6 @@ const Mo = () => {
   const onClickDelete = (tempItem) => {
     setTempItem(tempItem)
     setIsOpenDeleteModal(true)
-  }
-
-  /**
-   * Submit confirm purchased order
-   */
-  const onSubmitConfirm = () => {
-    actions.confirmMOById(tempItem?.id, refreshData)
-    setIsOpenConfirmModal(false)
-    setTempItem(null)
   }
 
   /**
@@ -380,28 +384,18 @@ const Mo = () => {
             sx={{ mt: 4 / 3 }}
           />
         </Dialog>
-        <Dialog
+
+        <DialogApprove
           open={isOpenConfirmModal}
-          title={t('general:common.notify')}
-          maxWidth="sm"
-          onCancel={() => setIsOpenConfirmModal(false)}
-          onSubmit={onSubmitConfirm}
-          cancelLabel={t('general:common.no')}
-          submitLabel={t('general:common.yes')}
-          noBorderBottom
-        >
-          {t('general:common.confirmMessage.confirm')}
-          <LV
-            label={t('Mo.moCode')}
-            value={tempItem?.code}
-            sx={{ mt: 4 / 3 }}
-          />
-          <LV
-            label={t('Mo.moName')}
-            value={tempItem?.name}
-            sx={{ mt: 4 / 3 }}
-          />
-        </Dialog>
+          onClose={() => {
+            setTempItem(null)
+            setIsOpenConfirmModal(false)
+          }}
+          data={tempItem}
+          onSuccess={() => {
+            refreshData()
+          }}
+        />
       </Page>
     </>
   )

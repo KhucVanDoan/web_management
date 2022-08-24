@@ -18,6 +18,7 @@ import {
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
@@ -47,6 +48,8 @@ const DefineMasterPlanForm = () => {
   const { cloneId } = qs.parse(location.search)
   const [soId, setSoId] = useState([])
   const [saleOrderDetails, setSaleOrderDetails] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const {
     data: { isLoading, masterPlanDetails },
     actions,
@@ -65,14 +68,22 @@ const DefineMasterPlanForm = () => {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   useEffect(() => {
+    getMasterPlanDetail()
+
     return () => {
       actions.resetMasterPlanDetails()
     }
-  }, [])
+  }, [id, cloneId])
 
   useEffect(() => {
-    getMasterPlanDetail()
-  }, [mode, cloneId])
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.MASTER_PLAN.DETAIL.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   useEffect(() => {
     // set soId when update
@@ -241,7 +252,7 @@ const DefineMasterPlanForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={isUpdate ? null : validationSchema(t)}
+        validationSchema={validationSchema(t)}
         onSubmit={handleSubmit}
         enableReinitialize
       >
@@ -303,6 +314,7 @@ const DefineMasterPlanForm = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       multiple
                       onChange={(val) => {
                         handleChangeSoId(val, setFieldValue)

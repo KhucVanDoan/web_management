@@ -479,7 +479,7 @@ export const TRANSFER_STATUS = {
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
-  EXPORTING: 5,
+  IN_PROGRESS: 5,
 }
 
 export const TRANSFER_STATUS_MAP = {
@@ -487,7 +487,7 @@ export const TRANSFER_STATUS_MAP = {
   [TRANSFER_STATUS.COMPLETED]: 'warehouseTransfer.transferStatus.completed',
   [TRANSFER_STATUS.REJECTED]: 'warehouseTransfer.transferStatus.rejected',
   [TRANSFER_STATUS.CONFIRMED]: 'warehouseTransfer.transferStatus.confirmed',
-  [TRANSFER_STATUS.EXPORTING]: 'warehouseTransfer.transferStatus.exporting',
+  [TRANSFER_STATUS.IN_PROGRESS]: 'warehouseTransfer.transferStatus.exporting',
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {

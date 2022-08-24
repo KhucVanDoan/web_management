@@ -268,11 +268,9 @@ const DefineSupplies = () => {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importDefineSuppliesApi(params)
-          }}
-          onExport={() => {
+          name={t('define_supplies.export')}
+          onImport={(params) => importDefineSuppliesApi(params)}
+          onExport={() =>
             exportDefineSuppliesApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -284,10 +282,9 @@ const DefineSupplies = () => {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getDefineSuppliesTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFINE_SUPPLIES.CREATE.PATH)}

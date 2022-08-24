@@ -1,0 +1,245 @@
+import { useEffect, useState } from 'react'
+
+import { IconButton } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
+
+import { useQueryState } from '~/common/hooks'
+import Button from '~/components/Button'
+import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
+import LabelValue from '~/components/LabelValue'
+import Page from '~/components/Page'
+import {
+  exportAttributeTypeApi,
+  getAttributeTypeTemplateApi,
+  importAttributeTypeApi,
+} from '~/modules/mmsx/redux/sagas/attribute-type/import-export'
+import { ROUTE } from '~/modules/mmsx/routes/config'
+import { convertFilterParams, convertSortParams } from '~/utils'
+
+import FilterForm from './filter'
+
+const breadcrumbs = [
+  {
+    title: 'database',
+  },
+  {
+    route: ROUTE.DEFINE_UNIT.LIST.PATH,
+    title: ROUTE.DEFINE_UNIT.LIST.TITLE,
+  },
+]
+function DefineUnit() {
+  const { t } = useTranslation('mmsx')
+  const history = useHistory()
+  const {
+    page,
+    pageSize,
+    sort,
+    filters,
+    keyword,
+    setPage,
+    setPageSize,
+    setSort,
+    setFilters,
+    setKeyword,
+  } = useQueryState()
+
+  const [modal, setModal] = useState({
+    tempItem: null,
+    isOpenDeleteModal: false,
+    isOpenConfirmModal: false,
+  })
+
+  const [columnsSettings, setColumnsSettings] = useState([])
+  const [selectedRows, setSelectedRows] = useState([])
+
+  const columns = [
+    {
+      field: 'code',
+      headerName: t('defineUnit.code'),
+      width: 200,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'name',
+      headerName: t('defineUnit.name'),
+      width: 200,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'description',
+      headerName: t('defineUnit.description'),
+      width: 300,
+      sortable: true,
+    },
+    {
+      field: 'action',
+      headerName: t('common.action'),
+      width: 200,
+      sortable: false,
+      align: 'center',
+      fixed: true,
+      renderCell: (params) => {
+        const { id } = params.row
+        return (
+          <>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.DEFINE_UNIT.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="show" />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.DEFINE_UNIT.EDIT.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="edit" />
+            </IconButton>
+            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
+              <Icon name="delete" />
+            </IconButton>
+          </>
+        )
+      },
+    },
+  ]
+
+  const refreshData = () => {
+    // const params = {
+    //   keyword: keyword.trim(),
+    //   page,
+    //   limit: pageSize,
+    //   filter: convertFilterParams(filters, columns),
+    //   sort: convertSortParams(sort),
+    // }
+  }
+
+  useEffect(() => {
+    refreshData()
+  }, [page, pageSize, filters, sort, keyword])
+
+  useEffect(() => {
+    setSelectedRows([])
+  }, [keyword, sort, filters])
+
+  const handleOpenDeleteModal = (tempItem) => {
+    setModal({
+      tempItem,
+      isOpenDeleteModal: true,
+    })
+  }
+
+  const onCloseDeleteModal = () => {
+    setModal({
+      tempItem: null,
+      isOpenDeleteModal: false,
+    })
+  }
+
+  const onSubmitDeleteModal = () => {
+    // actions.deleteAttributeType(modal?.tempItem?.id, () => {
+    //   refreshData()
+    // })
+    // setModal({ isOpenDeleteModal: false, tempItem: null })
+  }
+
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <ImportExport
+          name={t('common.import')}
+          onImport={(params) => {
+            importAttributeTypeApi(params)
+          }}
+          onExport={() => {
+            exportAttributeTypeApi({
+              columnSettings: JSON.stringify(columnsSettings),
+              queryIds: JSON.stringify(
+                selectedRows?.map((x) => ({ id: x?.id })),
+              ),
+              keyword: keyword.trim(),
+              filter: convertFilterParams(filters, [
+                { field: 'createdAt', filterFormat: 'date' },
+              ]),
+              sort: convertSortParams(sort),
+            })
+          }}
+          onDownloadTemplate={getAttributeTypeTemplateApi}
+          onRefresh={refreshData}
+          disabled
+        />
+        <Button
+          onClick={() => history.push(ROUTE.DEFINE_UNIT.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
+        >
+          {t('general:common.create')}
+        </Button>
+      </>
+    )
+  }
+  return (
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('menu.defineUnit')}
+      onSearch={setKeyword}
+      placeholder={t('defineUnit.searchPlaceholder')}
+      renderHeaderRight={renderHeaderRight}
+      // loading={isLoading}
+    >
+      <DataTable
+        title={t('defineUnit.title')}
+        rows={[]}
+        pageSize={pageSize}
+        page={page}
+        columns={columns}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+        onSortChange={setSort}
+        onSettingChange={setColumnsSettings}
+        onSelectionChange={setSelectedRows}
+        selected={selectedRows}
+        // total={total}
+        sort={sort}
+        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+      />
+      <Dialog
+        open={modal.isOpenDeleteModal}
+        title={t('attributeType.modalDelete.title')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDeleteModal}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('attributeType.modalDelete.description')}
+        <LabelValue
+          label={t('defineUnit.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LabelValue
+          label={t('defineUnit.name')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+    </Page>
+  )
+}
+
+export default DefineUnit

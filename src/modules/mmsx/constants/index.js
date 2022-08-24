@@ -927,3 +927,15 @@ export const GANTT_CHART_TYPE = {
   job: 'job',
   plan: 'plan',
 }
+
+export const TYPE_ENUM = {
+  DEFECTS: 0,
+  DEVICE_GROUP: 1,
+  CHECKLIST_TEMPLATE: 2,
+  INSTALLATION_TEMPLATE: 3,
+  ATTRIBUTE_TYPE: 4,
+  MAINTENANCE_ATTRIBUTE: 5,
+  SUPPLY_GROUP: 6,
+  SUPPLY: 7,
+  DEVICE: 8,
+}

@@ -88,7 +88,9 @@ function ProducingStepProgressReport(props) {
         <Typography variant="h2">
           {t('dashboard.producingStepProgress')}
         </Typography>
-        <Filter inProgressMos={inProgressMos} />
+        <Box>
+          <Filter inProgressMos={inProgressMos} />
+        </Box>
       </Box>
       <Box sx={{ height: 400 }}>
         <DualAxes {...config} />

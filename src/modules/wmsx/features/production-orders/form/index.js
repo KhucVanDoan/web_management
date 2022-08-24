@@ -26,6 +26,7 @@ import { QC_CHECK, TRANSACTION_TYPE_ENUM } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useProductionOrder from '~/modules/wmsx/redux/hooks/useProductionOrder'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import { validateShema } from './schema'
@@ -94,7 +95,7 @@ function ProductionOrderForm() {
     actualQuantity: detailLot.actualQuantity || '',
     quantity: +detailLot?.quantity,
     lotNumber: detailLot?.lotNumber || '',
-    mfg: detailLot?.mfg || '',
+    mfg: convertUtcDateToLocalTz(detailLot?.mfg) || '',
     packageId: detailLot?.packageId || '',
   }))
   const initialValues = useMemo(
@@ -111,7 +112,7 @@ function ProductionOrderForm() {
           ]
         : null,
       description: productionOrderDetails?.description || '',
-      items: items || [{ ...DEFAULT_ITEM }],
+      items: isUpdate ? items : [{ ...DEFAULT_ITEM }],
     }),
     [productionOrderDetails],
   )

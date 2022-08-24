@@ -178,6 +178,7 @@ function AttributeTypeForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                       required
                     />
                   </Grid>

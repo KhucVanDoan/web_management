@@ -56,7 +56,7 @@ export default function requestDevice(state = initialState, action) {
       return {
         ...state,
         requestDeviceList: action?.payload?.items,
-        total: action?.payload,
+        total: action?.payload?.meta?.total,
         isLoading: false,
       }
     case SEARCH_REQUEST_DEVICE_FAILED:

@@ -291,11 +291,4 @@ export const refreshAccessToken = () => {
 
 const api = createApi(instance)
 
-/**
- * NOTIFICATION API
- */
-const NOTI_BASE_URL = process.env.REACT_APP_NOTIFICATION_HOST + '/api'
-const notiInstance = createInstance(NOTI_BASE_URL)
-const notiApi = createApi(notiInstance)
-
-export { api, notiApi }
+export { api }

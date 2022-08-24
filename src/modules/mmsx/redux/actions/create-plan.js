@@ -30,7 +30,16 @@ export const GET_GANTT_CHART_DATA = 'MMSX_GET_GANTT_CHART_DATA'
 export const GET_GANTT_CHART_DATA_SUCCESS = 'MMSX_GET_GANTT_CHART_DATA_SUCCESS'
 export const GET_GANTT_CHART_DATA_FAIL = 'MMSX_GET_GANTT_CHART_DATA_FAIL'
 
+export const GET_JOB_DRAFT_LIST = 'MMSX_GET_JOB_DRAFT_LIST'
+export const GET_JOB_DRAFT_LIST_SUCCESS = 'MMSX_GET_JOB_DRAFT_LIST_SUCCESS'
+export const GET_JOB_DRAFT_LIST_FAIL = 'MMSX_GET_JOB_DRAFT_LIST_FAIL'
+
+export const DELETE_JOB_DRAFT_START = 'MMSX_DELETE_JOB_DRAFT_START'
+export const DELETE_JOB_DRAFT_SUCCESS = 'MMSX_DELETE_JOB_DRAFT_SUCCESS'
+export const DELETE_JOB_DRAFT_FAIL = 'MMSX_DELETE_JOB_DRAFT_FAIL'
 export const RESET_STATE_CREATE_PLAN = 'MMSX_RESET_STATE_CREATE_PLAN'
+export const RESET_STATE_JOB_DRAFT = 'MMSX_RESET_STATE_JOB_DRAFT'
+
 export function getCreatePlanList(payload, onSuccess, onError) {
   return {
     type: GET_CREATE_PLAN_LIST,
@@ -218,6 +227,55 @@ export function resetStateCreatePlan() {
     type: RESET_STATE_CREATE_PLAN,
   }
 }
+export function resetJobDraftList() {
+  return {
+    type: RESET_STATE_JOB_DRAFT,
+  }
+}
+export function getJobDraftList(payload, onSuccess, onError) {
+  return {
+    type: GET_JOB_DRAFT_LIST,
+    payload: payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function getJobDraftListSuccess(payload) {
+  return {
+    type: GET_JOB_DRAFT_LIST_SUCCESS,
+    payload,
+  }
+}
+
+export function getJobDraftListFail(payload) {
+  return {
+    type: GET_JOB_DRAFT_LIST_FAIL,
+    payload,
+  }
+}
+
+export function deleteJobDraft(payload, onSuccess, onError) {
+  return {
+    type: DELETE_JOB_DRAFT_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function deleteJobDraftSuccess(payload) {
+  return {
+    type: DELETE_JOB_DRAFT_SUCCESS,
+    payload,
+  }
+}
+
+export function deleteJobDraftFail() {
+  return {
+    type: DELETE_JOB_DRAFT_FAIL,
+  }
+}
 export default {
   getCreatePlanList,
   getCreatePlanListSuccess,
@@ -237,6 +295,9 @@ export default {
   updateMakePlan,
   updateMakePlanFail,
   updateMakePlanSuccess,
+  deleteJobDraft,
+  deleteJobDraftFail,
+  deleteJobDraftSuccess,
   deleteMakePlan,
   deleteMakePlanFail,
   deleteMakePlanSuccess,
@@ -244,4 +305,8 @@ export default {
   getGanttChartDataSuccess,
   getGanttChartDataFail,
   resetStateCreatePlan,
+  getJobDraftList,
+  getJobDraftListSuccess,
+  getJobDraftListFail,
+  resetJobDraftList,
 }

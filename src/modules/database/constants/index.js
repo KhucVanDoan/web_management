@@ -91,7 +91,7 @@ export const DEFAULT_ITEM_TYPE_ENUM = {
   SEMI: {
     id: 2,
     code: '02',
-    name: 'itemType.product',
+    name: 'itemType.semi',
   },
 }
 

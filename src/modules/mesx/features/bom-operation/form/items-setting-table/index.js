@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -8,27 +8,11 @@ import { useTranslation } from 'react-i18next'
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const ItemSettingTable = ({ items, mode }) => {
   const { t } = useTranslation(['mesx'])
   const isView = mode === MODAL_MODE.DETAIL
-
-  const {
-    data: { itemList },
-    actions,
-  } = useCommonManagement()
-
-  const getItemObject = (id) => {
-    return itemList.find((item) => item?.id === id)
-  }
-
-  useEffect(() => {
-    actions.getItems()
-  }, [])
-
   const extendedColumns = items?.[0]?.producingStepData || []
-
   const columns = [
     // {
     //   field: 'id',
@@ -45,8 +29,8 @@ const ItemSettingTable = ({ items, mode }) => {
       width: 150,
       align: 'center',
       renderCell: (params) => {
-        const itemId = params.row?.bomDetail?.itemId
-        return getItemObject(itemId)?.code || ''
+        const item = params.row?.item
+        return item?.code || ''
       },
     },
     {
@@ -55,8 +39,8 @@ const ItemSettingTable = ({ items, mode }) => {
       width: 150,
       align: 'center',
       renderCell: (params) => {
-        const itemId = params.row?.bomDetail?.itemId
-        return getItemObject(itemId)?.name || ''
+        const item = params.row?.item
+        return item?.name || ''
       },
     },
     {
@@ -74,8 +58,8 @@ const ItemSettingTable = ({ items, mode }) => {
       width: 120,
       align: 'center',
       renderCell: (params) => {
-        const itemId = params.row?.bomDetail?.itemId
-        return getItemObject(itemId)?.itemUnit?.name || ''
+        const item = params.row?.item
+        return item?.itemUnit?.name || ''
       },
     },
     ...extendedColumns.map((col, stepIndex) => {

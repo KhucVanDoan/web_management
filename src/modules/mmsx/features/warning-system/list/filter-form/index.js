@@ -3,6 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { WARNING_STATUS_LIST } from '~/modules/mmsx/constants'
 
@@ -15,6 +16,7 @@ const FilterForm = () => {
           name="code"
           label={t('warningList.table.code')}
           placeholder={t('warningList.table.code')}
+          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
       <Grid item xs={12}>
@@ -22,6 +24,7 @@ const FilterForm = () => {
           name="name"
           label={t('warningList.table.name')}
           placeholder={t('warningList.table.name')}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

@@ -210,11 +210,9 @@ function DefectList() {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importDefectListApi(params)
-          }}
-          onExport={() => {
+          name={t('defect.export')}
+          onImport={(params) => importDefectListApi(params)}
+          onExport={() =>
             exportDefectListApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -226,10 +224,9 @@ function DefectList() {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getDefectListTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEFECT_LIST.CREATE.PATH)}

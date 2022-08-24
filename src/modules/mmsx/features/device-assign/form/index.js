@@ -15,7 +15,6 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Autocomplete from '~/components/Autocomplete'
-import Button from '~/components/Button'
 import DateRangePicker from '~/components/DateRangePicker'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
@@ -521,27 +520,27 @@ const DeviceAssignForm = () => {
     }
   }
 
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.PATH)}
-          >
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.REQUEST_DEVICE.PATH)}
-          >
-            {t('menu.requestDevice')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.PATH)}
+  //         >
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.REQUEST_DEVICE.PATH)}
+  //         >
+  //           {t('menu.requestDevice')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
 
   const histories = deviceAssignDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
@@ -683,7 +682,7 @@ const DeviceAssignForm = () => {
       title={t(`menu.${getTitle()}`)}
       loading={isLoading}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>
@@ -767,6 +766,7 @@ const DeviceAssignForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                         disabled
                       />
                     </Grid>
@@ -777,6 +777,11 @@ const DeviceAssignForm = () => {
                         placeholder={t('deviceAssign.assign.usageTime')}
                         onChange={(val) =>
                           handleChangeUsageTime(val, setFieldValue)
+                        }
+                        minDate={
+                          isUpdate
+                            ? new Date(deviceAssignDetail?.usedAt)
+                            : new Date()
                         }
                         required
                       />

@@ -171,6 +171,8 @@
     "noData": "Không có thông báo",
     "readAll": "Đã đọc tất cả",
     "turnOff": "Tắt thông báo",
+    "turnOn": "Bật thông báo",
+    "notificationIsOff": "Thông báo đang Tắt",
     "hoursAgo": "{{time}} giờ trước",
     "minutesAgo": "{{time}} phút trước",
     "created": "đã tạo",

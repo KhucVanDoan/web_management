@@ -3,7 +3,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import { CREATE_PLAN_STATUS_OPTIONS } from '~/modules/mmsx/constants'
 
@@ -20,6 +20,7 @@ const FilterForm = () => {
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
+          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
         />
       </Grid>
       <Grid item xs={12}>
@@ -30,6 +31,7 @@ const FilterForm = () => {
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

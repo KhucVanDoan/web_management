@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -31,12 +32,13 @@ import {
 } from '~/utils'
 
 import { exportBoqApi } from '../../../redux/sagas/define-boq/import-export-boq'
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'plan',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.DEFINE_BOQ.LIST.PATH,
@@ -60,6 +62,7 @@ const DefineBOQ = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -258,16 +261,18 @@ const DefineBOQ = () => {
   }, [page, pageSize, filters, sort, keyword])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (boqList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, boqList])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const submitConfirm = () => {
-    boqActions.confirmBOQById(tempItem?.id, () => {
-      refreshData()
-    })
-    setIsOpenConfirmModal(false)
-    setTempItem(null)
-  }
 
   const onSubmitDelete = () => {
     boqActions.deleteBOQ(tempItem?.id, () => {
@@ -365,28 +370,18 @@ const DefineBOQ = () => {
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
-      <Dialog
+
+      <DialogApprove
         open={isOpenConfirmModal}
-        title={t('general:common.notify')}
-        maxWidth="sm"
-        onSubmit={submitConfirm}
-        onCancel={() => setIsOpenConfirmModal(false)}
-        submitLabel={t('general:common.yes')}
-        cancelLabel={t('general:common.no')}
-        noBorderBottom
-      >
-        {t('general:common.confirmMessage.confirm')}
-        <LV
-          label={t('defineBOQ.boqCode')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineBOQ.boqName')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
+        onClose={() => {
+          setTempItem(null)
+          setIsOpenConfirmModal(false)
+        }}
+        data={tempItem}
+        onSuccess={() => {
+          refreshData()
+        }}
+      />
     </Page>
   )
 }

@@ -147,10 +147,13 @@ function MaterialReport() {
       sortable: false,
     },
     {
-      field: 'manufactureQuantity',
+      field: 'inputQuantity',
       headerName: t('materialReport.producedQuantity'),
       align: 'center',
       sortable: false,
+      renderCell: (params) => {
+        return +params?.row?.inputQuantity
+      },
     },
     {
       field: 'status',

@@ -26,7 +26,7 @@ export default function supplies(state = initialState, action) {
       return {
         ...state,
         suppliesList: action?.payload?.items,
-        total: action?.payload,
+        total: action?.payload?.meta?.total,
         isLoading: false,
       }
     case SEARCH_SUPPLIES_FAIL:

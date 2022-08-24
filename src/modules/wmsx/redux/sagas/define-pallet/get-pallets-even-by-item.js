@@ -12,7 +12,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const getPalletsEvenByItemApi = (params) => {
+export const getPalletsEvenByItemApi = (params) => {
   const uri = `/v1/items/pallets/${params}/evenly`
   return api.get(uri)
 }

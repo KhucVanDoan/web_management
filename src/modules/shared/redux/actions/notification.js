@@ -11,6 +11,15 @@ export const SEEN_ALL_NOTIFICATIONS_SUCCESS = 'SEEN_ALL_NOTIFICATIONS_SUCCESS'
 export const SEEN_ALL_NOTIFICATIONS_FAILED = 'SEEN_ALL_NOTIFICATIONS_FAILED'
 
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION'
+export const CHANGE_NOTIFICATION_ACTION_TO_VIEW =
+  'CHANGE_NOTIFICATION_ACTION_TO_VIEW'
+
+export const CHANGE_NOTIFICATION_STATUS_START =
+  'CHANGE_NOTIFICATION_STATUS_START'
+export const CHANGE_NOTIFICATION_STATUS_SUCCESS =
+  'CHANGE_NOTIFICATION_STATUS_SUCCESS'
+export const CHANGE_NOTIFICATION_STATUS_FAILED =
+  'CHANGE_NOTIFICATION_STATUS_FAILED'
 
 export function getNotifications(payload, onSuccess, onError) {
   return {
@@ -56,10 +65,9 @@ export function seenOneNotificationFailed() {
   }
 }
 
-export function seenAllNotifications(payload, onSuccess, onError) {
+export function seenAllNotifications(onSuccess, onError) {
   return {
     type: SEEN_ALL_NOTIFICATIONS_START,
-    payload: payload,
     onSuccess: onSuccess,
     onError: onError,
   }
@@ -85,6 +93,35 @@ export function addNotification(payload) {
   }
 }
 
+export function changeNotificationActionToView(payload) {
+  return {
+    type: CHANGE_NOTIFICATION_ACTION_TO_VIEW,
+    payload: payload,
+  }
+}
+
+export function changeNotificationStatus(payload, onSuccess, onError) {
+  return {
+    type: CHANGE_NOTIFICATION_STATUS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function changeNotificationStatusSuccess(payload) {
+  return {
+    type: CHANGE_NOTIFICATION_STATUS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function changeNotificationStatusFailed() {
+  return {
+    type: CHANGE_NOTIFICATION_STATUS_FAILED,
+  }
+}
+
 export default {
   getNotifications,
   getNotificationsSuccess,
@@ -96,4 +133,8 @@ export default {
   seenAllNotificationsSuccess,
   seenAllNotificationsFailed,
   addNotification,
+  changeNotificationActionToView,
+  changeNotificationStatus,
+  changeNotificationStatusSuccess,
+  changeNotificationStatusFailed,
 }

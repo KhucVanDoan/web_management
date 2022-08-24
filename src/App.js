@@ -19,6 +19,7 @@ import store from '~/store'
 import theme, { globalStyles } from '~/themes'
 import i18n from '~/utils/i18n'
 
+import { AppProvider } from './contexts/AppContext'
 import { SocketProvider } from './contexts/SocketContext'
 import { getLocale } from './utils'
 import { DateFns } from './utils/date-time'
@@ -33,56 +34,58 @@ function App() {
           <I18nextProvider i18n={i18n}>
             <ReduxProvider store={store}>
               <LocalizationProvider dateAdapter={DateFns} locale={getLocale()}>
-                <SocketProvider>
-                  <ReactNotification />
+                <AppProvider>
+                  <SocketProvider>
+                    <ReactNotification />
 
-                  <Router history={history}>
-                    <Switch>
-                      {publicRoutes.map((route) => (
-                        <Route
-                          key={route.path}
-                          path={route.path}
-                          render={(props) => (
-                            <PublicLayout>
-                              <route.component {...props} />
-                            </PublicLayout>
-                          )}
-                          exact
-                        />
-                      ))}
+                    <Router history={history}>
+                      <Switch>
+                        {publicRoutes.map((route) => (
+                          <Route
+                            key={route.path}
+                            path={route.path}
+                            render={(props) => (
+                              <PublicLayout>
+                                <route.component {...props} />
+                              </PublicLayout>
+                            )}
+                            exact
+                          />
+                        ))}
 
-                      {authRoutes.map((route) => (
-                        <Route
-                          key={route.path}
-                          path={route.path}
-                          render={(props) => (
-                            <AuthLayout>
-                              <route.component {...props} />
-                            </AuthLayout>
-                          )}
-                          exact
-                        />
-                      ))}
+                        {authRoutes.map((route) => (
+                          <Route
+                            key={route.path}
+                            path={route.path}
+                            render={(props) => (
+                              <AuthLayout>
+                                <route.component {...props} />
+                              </AuthLayout>
+                            )}
+                            exact
+                          />
+                        ))}
 
-                      {privateRoutesFlatten.map((route) => (
+                        {privateRoutesFlatten.map((route) => (
+                          <Route
+                            key={route.path}
+                            path={route.path}
+                            render={(props) => (
+                              <PrivateLayout>
+                                <route.component {...props} />
+                              </PrivateLayout>
+                            )}
+                            exact
+                          />
+                        ))}
                         <Route
-                          key={route.path}
-                          path={route.path}
-                          render={(props) => (
-                            <PrivateLayout>
-                              <route.component {...props} />
-                            </PrivateLayout>
-                          )}
-                          exact
+                          path="*"
+                          component={() => <h1>404 not found</h1>}
                         />
-                      ))}
-                      <Route
-                        path="*"
-                        component={() => <h1>404 not found</h1>}
-                      />
-                    </Switch>
-                  </Router>
-                </SocketProvider>
+                      </Switch>
+                    </Router>
+                  </SocketProvider>
+                </AppProvider>
               </LocalizationProvider>
             </ReduxProvider>
           </I18nextProvider>

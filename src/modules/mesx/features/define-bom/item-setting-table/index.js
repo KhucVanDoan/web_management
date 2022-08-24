@@ -26,12 +26,10 @@ const ItemSettingTable = (props) => {
     data: { itemList },
     actions,
   } = useCommonManagement()
-
   const {
     data: { BOMList },
     actions: bomActions,
   } = useBOM()
-
   useEffect(() => {
     bomActions.searchBOM({ isGetAll: 1 })
   }, [])
@@ -41,10 +39,6 @@ const ItemSettingTable = (props) => {
   useEffect(() => {
     actions.getItems()
   }, [])
-
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
 
   const getColumns = useMemo(
     () => [
@@ -63,9 +57,8 @@ const ItemSettingTable = (props) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const { itemId } = params.row
           return isView ? (
-            <>{getItemObject(itemId)?.itemType?.name || ''}</>
+            params?.row?.item?.itemType?.name
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemType`}
@@ -88,7 +81,6 @@ const ItemSettingTable = (props) => {
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
-          const itemId = params.row?.itemId
           const itemType = params.row?.itemType
           let itemListFilter = []
 
@@ -108,12 +100,12 @@ const ItemSettingTable = (props) => {
 
           const itemIdCodeList = items.map((item) => item.itemId)
           return isView ? (
-            <>{getItemObject(itemId)?.code || ''}</>
+            params?.row?.item?.code
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemId`}
               options={itemListFilter}
-              getOptionValue={(opt) => opt?.id}
+              getOptionValue={(opt) => opt}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               filterOptions={createFilterOptions({
@@ -123,6 +115,7 @@ const ItemSettingTable = (props) => {
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.itemId
               }
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             />
           )
         },
@@ -135,11 +128,11 @@ const ItemSettingTable = (props) => {
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           return isView ? (
-            <>{getItemObject(itemId)?.name || ''}</>
+            params?.row?.item?.name
           ) : (
             <Field.TextField
               name={`items[${index}].name`}
-              value={getItemObject(itemId)?.name || ''}
+              value={itemId?.name || ''}
               disabled={true}
             />
           )
@@ -171,11 +164,11 @@ const ItemSettingTable = (props) => {
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           return isView ? (
-            <>{getItemObject(itemId)?.itemUnit?.name || ''}</>
+            params?.row?.item?.itemUnit?.name
           ) : (
             <Field.TextField
               name={`items[${index}].unitType`}
-              value={getItemObject(itemId)?.itemUnit?.name || ''}
+              value={itemId?.itemUnit?.name || ''}
               disabled={true}
             />
           )
@@ -188,8 +181,7 @@ const ItemSettingTable = (props) => {
         align: 'center',
         renderCell: (params) => {
           const itemId = params.row?.itemId
-          const isProductionObject = getItemObject(itemId)?.isProductionObject
-          return isProductionObject ? (
+          return itemId?.isProductionObject ? (
             <IconButton>
               <Icon name="tick" />
             </IconButton>

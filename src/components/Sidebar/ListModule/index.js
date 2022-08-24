@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
 import logo from '~/assets/images/logo.svg'
-import { ROUTE as MESX_ROUTE } from '~/modules/mesx/routes/config'
 import { getCurrentModule } from '~/utils/menu'
 
 import { useSidebar } from '../hooks'
@@ -57,7 +56,7 @@ const ModuleList = () => {
       </Hidden>
       <ListModuleStyled
         component={Link}
-        to={MESX_ROUTE.DASHBOARD.PATH}
+        to="/"
         sx={{
           height: '80px',
           opacity: 1,

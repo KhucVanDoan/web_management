@@ -16,7 +16,6 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -176,20 +175,20 @@ const DefineDeviceDetail = () => {
     username: item?.username,
   }))
 
-  const renderHeaderRight = () => (
-    <>
-      <Button
-        onClick={() => history.push(ROUTE.DEVICE_CATEGORY.PATH)}
-        variant="outlined"
-        sx={{ mr: 4 / 3 }}
-      >
-        {t('deviceList.form.deviceCategoryButtonTitle')}
-      </Button>
-      <Button onClick={() => history.push(ROUTE.DEVICE_ASSIGN.PATH)}>
-        {t('deviceList.form.assignButtonTitle')}
-      </Button>
-    </>
-  )
+  // const renderHeaderRight = () => (
+  //   <>
+  //     <Button
+  //       onClick={() => history.push(ROUTE.DEVICE_CATEGORY.PATH)}
+  //       variant="outlined"
+  //       sx={{ mr: 4 / 3 }}
+  //     >
+  //       {t('deviceList.form.deviceCategoryButtonTitle')}
+  //     </Button>
+  //     <Button onClick={() => history.push(ROUTE.DEVICE_ASSIGN.PATH)}>
+  //       {t('deviceList.form.assignButtonTitle')}
+  //     </Button>
+  //   </>
+  // )
 
   return (
     <Page
@@ -198,7 +197,7 @@ const DefineDeviceDetail = () => {
       onBack={backToList}
       loading={isLoading}
       freeSolo
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
     >
       <Paper sx={{ p: 2 }}>
         <Grid container justifyContent="center">
@@ -412,9 +411,6 @@ const DefineDeviceDetail = () => {
 
               {/* Tab 2 */}
               <Box sx={{ mt: 2 }}>
-                <Typography variant="h4" mb={2}>
-                  {t('deviceList.maintenanceInformation')}
-                </Typography>
                 <MaintainTable
                   accessoriesMaintenanceInformation={[
                     ...(deviceDetail?.accessoriesMaintenanceInformation || []),

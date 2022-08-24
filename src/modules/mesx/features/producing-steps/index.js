@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -32,6 +33,7 @@ import {
   getProducingStepTemplateApi,
   importProducingStepApi,
 } from '../../redux/sagas/producing-steps/import-export'
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter'
 
 const breadcrumbs = [
@@ -61,6 +63,7 @@ function ProducingStep() {
   const [confirmModal, setConfirmModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -215,6 +218,16 @@ function ProducingStep() {
   }, [page, pageSize, sort, filters, keyword])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (list?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, list])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
@@ -268,11 +281,6 @@ function ProducingStep() {
   const onSubmitDelete = () => {
     actions.deleteProducingStep(tempItem?.id, () => refreshData())
     setDeleteModal(false)
-  }
-
-  const onSubmitConfirm = () => {
-    actions.confirmProducingStep(tempItem?.id, () => refreshData())
-    setConfirmModal(false)
   }
 
   return (
@@ -330,27 +338,18 @@ function ProducingStep() {
             sx={{ mt: 4 / 3 }}
           />
         </Dialog>
-        <Dialog
+
+        <DialogApprove
           open={confirmModal}
-          title={t('producingStep.confirmTitle')}
-          onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('general:common.no')}
-          onSubmit={onSubmitConfirm}
-          submitLabel={t('general:common.yes')}
-          noBorderBottom
-        >
-          {t('producingStep.confirmBody')}
-          <LV
-            label={t('producingStep.code')}
-            value={tempItem?.code}
-            sx={{ mt: 4 / 3 }}
-          />
-          <LV
-            label={t('producingStep.name')}
-            value={tempItem?.name}
-            sx={{ mt: 4 / 3 }}
-          />
-        </Dialog>
+          onClose={() => {
+            setTempItem(null)
+            setConfirmModal(false)
+          }}
+          data={tempItem}
+          onSuccess={() => {
+            refreshData()
+          }}
+        />
       </Page>
     </>
   )

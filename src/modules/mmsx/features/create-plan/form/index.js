@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import { startOfToday } from 'date-fns'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
@@ -14,28 +14,25 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
-import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
-import Icon from '~/components/Icon'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { searchWorkCenterApi } from '~/modules/mesx/redux/sagas/work-center/search-work-center'
-import {
-  ACTION_MAP,
-  CREATE_PLAN_STATUS_OPTIONS,
-  WORK_TYPE,
-} from '~/modules/mmsx/constants'
-import TableCollsape from '~/modules/mmsx/features/device-assign/table-maintenance'
-import Activities from '~/modules/mmsx/partials/Activities'
-import useCommonInfo from '~/modules/mmsx/redux/hooks/useCommonInfo'
+import { CREATE_PLAN_STATUS_OPTIONS } from '~/modules/mmsx/constants'
 import useCreatePlan from '~/modules/mmsx/redux/hooks/useCreatePlan'
 import useJobDraft from '~/modules/mmsx/redux/hooks/useJobDraft'
 import { ROUTE } from '~/modules/mmsx/routes/config'
-import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+import { convertFilterParams } from '~/utils'
 
+import Install from './install'
+import Maintenance from './maintenance'
+import PeriodCheck from './period-check'
+import Request from './request'
 import { validateShema } from './schema'
+import Warning from './warning'
 const CreatePlanForm = () => {
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
@@ -49,11 +46,6 @@ const CreatePlanForm = () => {
     data: { jobDraftLists },
     actions: jobDraftAction,
   } = useJobDraft()
-
-  const {
-    data: { responsibleSubject },
-    actions: commonAction,
-  } = useCommonInfo()
   const MODE_MAP = {
     [ROUTE.CREATE_PLAN.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.CREATE_PLAN.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -65,7 +57,6 @@ const CreatePlanForm = () => {
   const backToList = () => {
     history.push(ROUTE.CREATE_PLAN.LIST.PATH)
   }
-
   const initialValues = {
     code: detailPlan?.code || '',
     planName: detailPlan?.name || '',
@@ -75,17 +66,18 @@ const CreatePlanForm = () => {
     workCenterId: detailPlan?.workCenterId
       ? { id: detailPlan?.workCenterId, name: detailPlan?.workCenterName }
       : null,
-    periodCheck: detailPlan?.jobTypeTotal?.checklistTemplateTotal || 0, //kiểm tra định kỳ
-    maintain: detailPlan?.jobTypeTotal?.maintainPeriodWarningTotal || 0, //bảo dưỡng
-    warning: detailPlan?.jobTypeTotal?.warningTotal || 0, //cảnh báo
-    request: detailPlan?.jobTypeTotal?.maintainRequestTotal || 0, //yêu cầu
-    install: detailPlan?.jobTypeTotal?.installingTotal || 0, //lắp đặt
+    // periodCheck: detailPlan?.jobTypeTotal?.checklistTemplateTotal || 0, //kiểm tra định kỳ
+    // maintain: detailPlan?.jobTypeTotal?.maintainPeriodWarningTotal || 0, //bảo dưỡng
+    // warning: detailPlan?.jobTypeTotal?.warningTotal || 0, //cảnh báo
+    // request: detailPlan?.jobTypeTotal?.maintainRequestTotal || 0, //yêu cầu
+    // install: detailPlan?.jobTypeTotal?.installingTotal || 0, //lắp đặt
     time: isUpdate ? [detailPlan?.planFrom, detailPlan?.planTo] : '',
   }
   useEffect(() => {
     if (isUpdate) {
       actions.getDetailPlan(id, (data) => {
         const params = {
+          planId: id,
           factoryId: data?.result?.factoryId,
           workCenterId: data?.result?.workCenterId || null,
           planFrom: data?.result?.planFrom,
@@ -93,10 +85,12 @@ const CreatePlanForm = () => {
         }
         jobDraftAction.generateJobForPlan(params)
       })
-      commonAction.getResponsibleSubject()
     }
+
     return () => {
+      actions.deleteJobDraft(jobDraftLists?.uuid)
       actions.resetStateCreatePlan()
+      actions.resetJobDraftList()
       jobDraftAction.resetGenerateJobForPlan()
     }
   }, [id])
@@ -109,6 +103,7 @@ const CreatePlanForm = () => {
       planTo: values?.time[1],
       factoryId: values?.factoryId?.id || null,
       workCenterId: values?.workCenterId?.id || null,
+      uuid: jobDraftLists?.uuid || null,
       jobTypeTotal: {
         warningTotal: values?.warning,
         maintainRequestTotal: values?.request,
@@ -129,6 +124,7 @@ const CreatePlanForm = () => {
         planTo: values?.time[1],
         factoryId: values?.factoryId?.id || null,
         workCenterId: values?.workCenterId?.id || null,
+        uuid: jobDraftLists?.uuid || null,
         jobTypeTotal: {
           warningTotal: values?.warning,
           maintainRequestTotal: values?.request,
@@ -183,165 +179,6 @@ const CreatePlanForm = () => {
       default:
     }
   }
-
-  const columnJobReal = [
-    {
-      field: 'jobName',
-      headerName: t('createPlanList.form.table.jobName'),
-      width: 100,
-    },
-    {
-      field: 'jobType',
-      headerName: t('createPlanList.form.table.jobType'),
-      width: 100,
-    },
-    {
-      field: 'serial',
-      headerName: t('createPlanList.form.table.serial'),
-      width: 150,
-    },
-    {
-      field: 'deviceName',
-      headerName: t('createPlanList.form.table.deviceName'),
-      width: 150,
-    },
-    {
-      field: 'description',
-      headerName: t('createPlanList.form.table.description'),
-      width: 150,
-    },
-    {
-      field: 'expectedDate',
-      headerName: t('createPlanList.form.table.expectedDate'),
-      width: 150,
-    },
-    {
-      field: 'action',
-      headerName: t('common.action'),
-      width: 150,
-    },
-  ]
-
-  const columnsJobPlan = [
-    {
-      field: 'index',
-
-      width: 50,
-    },
-    {
-      field: 'type',
-      headerName: t('createPlanList.form.table.jobType'),
-      width: 200,
-    },
-    {
-      field: 'number',
-      headerName: t('createPlanList.form.table.planQuantity'),
-      width: 50,
-    },
-  ]
-  const subColumns = [
-    {
-      field: 'index',
-      headerName: '#',
-    },
-    {
-      field: 'deviceName',
-      headerName: t('createPlanList.form.subTable.deviceName'),
-    },
-    {
-      field: 'serial',
-      headerName: t('createPlanList.form.subTable.serial'),
-    },
-    {
-      field: 'assignUser',
-      headerName: t('createPlanList.form.subTable.assignUser'),
-    },
-    {
-      field: 'datePlan',
-      headerName: t('createPlanList.form.subTable.datePlan'),
-    },
-    {
-      field: 'dateReal',
-      headerName: t('createPlanList.form.subTable.dateReal'),
-    },
-    {
-      field: 'action',
-      headerName: t('createPlanList.form.subTable.action'),
-      renderCell: (params) => {
-        const { id } = params?.row
-        return (
-          id && (
-            <IconButton onClick={() => history.push()}>
-              <Icon name="show" />
-            </IconButton>
-          )
-        )
-      },
-    },
-  ]
-  const getRow = () => {
-    const listPeriodCheck = jobDraftLists?.filter(
-      (item) => item?.type === WORK_TYPE?.PERIOD_CHECK,
-    )
-
-    const listMaintain = jobDraftLists?.filter(
-      (item) => item?.type === WORK_TYPE.SCHEDULE_MAINTAIN,
-    )
-
-    const rows = [
-      {
-        type: t('createPlanList.jobType.maintainPeriod'),
-        number: <Field.TextField name="periodCheck" disabled={true} />,
-        details: listPeriodCheck?.length
-          ? listPeriodCheck?.map((item) => ({
-              id: item?.id,
-              deviceName: item?.deviceName,
-              serial: item?.serial,
-              assignUser: null,
-              datePlan:
-                item?.planFrom && item?.planTo
-                  ? `${convertUtcDateToLocalTz(
-                      item?.planFrom,
-                    )} - ${convertUtcDateToLocalTz(item?.planTo)}`
-                  : null,
-              dateReal: null,
-            }))
-          : [{}],
-      },
-      {
-        type: t('createPlanList.jobType.maintain'),
-        number: <Field.TextField name="maintain" disabled={true} />,
-        details: listMaintain?.length
-          ? listMaintain?.map((item) => ({
-              id: item?.id,
-              deviceName: item?.deviceName,
-              serial: item?.serial,
-              assignUser: null,
-              datePlan:
-                item?.planFrom && item?.planTo
-                  ? `${convertUtcDateToLocalTz(
-                      item?.planFrom,
-                    )} - ${convertUtcDateToLocalTz(item?.planTo)}`
-                  : null,
-              dateReal: null,
-            }))
-          : [{}],
-      },
-      {
-        type: t('createPlanList.jobType.warning'),
-        number: <Field.TextField name="warning" />,
-      },
-      {
-        type: t('createPlanList.jobType.request'),
-        number: <Field.TextField name="request" />,
-      },
-      {
-        type: t('createPlanList.jobType.install'),
-        number: <Field.TextField name="install" />,
-      },
-    ]
-    return rows
-  }
   const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
@@ -364,35 +201,39 @@ const CreatePlanForm = () => {
         break
     }
   }
-  const handleRefreshData = (val, setFieldValue) => {
+  const handleRefreshData = (val) => {
     if (val) {
-      const params = {
-        factoryId: val?.factoryId?.id || null,
-        workCenterId: val?.workCenterId?.id || null,
-        planFrom: val?.time[0],
-        planTo: val?.time[1],
+      if (isUpdate) {
+        const params = {
+          planId: id,
+          factoryId: val?.factoryId?.id || null,
+          workCenterId: val?.workCenterId?.id || null,
+          planFrom: val?.time[0],
+          planTo: val?.time[1],
+        }
+        jobDraftAction.generateJobForPlan(params)
+      } else {
+        const params = {
+          uuid: jobDraftLists?.uuid || null,
+          factoryId: val?.factoryId?.id || null,
+          workCenterId: val?.workCenterId?.id || null,
+          planFrom: val?.time[0],
+          planTo: val?.time[1],
+        }
+        jobDraftAction.generateJobForPlan(params)
       }
-      const listPeriodCheck = jobDraftLists?.filter(
-        (item) => item?.type === WORK_TYPE?.PERIOD_CHECK,
-      )
-      const listMaintain = jobDraftLists?.filter(
-        (item) => item?.type === WORK_TYPE.SCHEDULE_MAINTAIN,
-      )
-      jobDraftAction.generateJobForPlan(params)
-      setFieldValue('periodCheck', listPeriodCheck?.length || 0)
-      setFieldValue('maintain', listMaintain?.length || 0)
     }
   }
 
-  const histories = detailPlan?.histories?.map((item) => ({
-    content: ACTION_MAP[item?.action]
-      ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
-      : '',
-    createdAt: item?.createdAt,
-    username: responsibleSubject?.responsibleUsers?.find(
-      (e) => e?.id === item?.userId,
-    )?.username,
-  }))
+  // const histories = detailPlan?.histories?.map((item) => ({
+  //   content: ACTION_MAP[item?.action]
+  //     ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
+  //     : '',
+  //   createdAt: item?.createdAt,
+  //   username: responsibleSubject?.responsibleUsers?.find(
+  //     (e) => e?.id === item?.userId,
+  //   )?.username,
+  // }))
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -456,6 +297,7 @@ const CreatePlanForm = () => {
                           inputProps={{
                             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                           }}
+                          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                           required
                         />
                       </Grid>
@@ -467,18 +309,6 @@ const CreatePlanForm = () => {
                           placeholder={t('createPlanList.form.time')}
                           minDate={startOfToday()}
                           required
-                        />
-                      </Grid>
-                      <Grid item xs={12} lg={6}>
-                        <LabelValue
-                          label={t('createPlanList.form.totalPlanQuantity')}
-                          value={
-                            Number(values?.periodCheck) +
-                              Number(values?.maintain) +
-                              Number(values?.warning) +
-                              Number(values?.request) +
-                              Number(values?.install) || 0
-                          }
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -503,7 +333,6 @@ const CreatePlanForm = () => {
                             opt?.id === val?.id
                           }
                           onChange={() => setFieldValue('workCenterId', '')}
-                          required
                         />
                       </Grid>
                       <Grid item xs={12} lg={6}>
@@ -544,31 +373,50 @@ const CreatePlanForm = () => {
                         </Button>
                       </Grid>
                     </Grid>
-                    <Box mt={3}>
-                      <TableCollsape
-                        columns={columnsJobPlan}
-                        subColumns={subColumns}
-                        rows={getRow()}
-                        striped={false}
-                        hideSetting
-                        hideFooter
+                    <Tabs
+                      list={[
+                        t('createPlanList.jobType.maintainPeriod'),
+                        t('createPlanList.jobType.maintain'),
+                        t('createPlanList.jobType.warning'),
+                        t('createPlanList.jobType.install'),
+                        t('createPlanList.jobType.request'),
+                      ]}
+                    >
+                      <PeriodCheck
+                        jobDraftLists={jobDraftLists}
+                        isUpdate={isUpdate}
+                        id={id}
+                        mode={mode}
+                        status={detailPlan?.status}
                       />
-                    </Box>
-                    <Grid item xs={12} mt={3}>
-                      <Typography variant="h4" component="span">
-                        {t('createPlanList.form.table.jobActual')}
-                      </Typography>
-                    </Grid>
-
-                    <Box mt={3}>
-                      <DataTable
-                        columns={columnJobReal}
-                        rows={[]}
-                        striped={false}
-                        hideSetting
-                        hideFooter
+                      <Maintenance
+                        jobDraftLists={jobDraftLists}
+                        isUpdate={isUpdate}
+                        id={id}
+                        mode={mode}
+                        status={detailPlan?.status}
                       />
-                    </Box>
+                      <Warning
+                        jobDraftLists={jobDraftLists}
+                        isUpdate={isUpdate}
+                        id={id}
+                        mode={mode}
+                        status={detailPlan?.status}
+                      />
+                      <Install
+                        jobDraftLists={jobDraftLists}
+                        isUpdate={isUpdate}
+                        mode={mode}
+                        status={detailPlan?.status}
+                      />
+                      <Request
+                        jobDraftLists={jobDraftLists}
+                        isUpdate={isUpdate}
+                        id={id}
+                        mode={mode}
+                        status={detailPlan?.status}
+                      />
+                    </Tabs>
                     {renderActionBar(handleReset)}
                   </Form>
                 )
@@ -577,7 +425,7 @@ const CreatePlanForm = () => {
           </Grid>
         </Grid>
       </Paper>
-      {isUpdate && <Activities data={histories} />}
+      {/* {isUpdate && <Activities data={histories} />} */}
     </Page>
   )
 }

@@ -52,7 +52,7 @@ function ActionGroup() {
     },
     tooltip: {
       fields: [nameField, quantityField, ratioField],
-      formatter: ({name, quantity, ratio}) => ({
+      formatter: ({ name, quantity, ratio }) => ({
         name: name,
         value: `${quantity} (${ratio}%)`,
       }),
@@ -66,7 +66,9 @@ function ActionGroup() {
           {t('dashboard.errorReport.actionGroup')}
         </Typography>
 
-        <ActionGroupFilterForm />
+        <Box>
+          <ActionGroupFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

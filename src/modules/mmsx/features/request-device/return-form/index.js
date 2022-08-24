@@ -6,9 +6,12 @@ import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -145,28 +148,28 @@ const ReturnDeviceForm = () => {
     }
   }
 
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
-          >
-            {t('requestDevice.buttonTitle.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
-          >
-            {t('requestDevice.buttonTitle.assignment')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+  //         >
+  //           {t('requestDevice.buttonTitle.device')}
+  //         </Button>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
+  //         >
+  //           {t('requestDevice.buttonTitle.assignment')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
 
   const histories = returnDeviceDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
@@ -182,7 +185,7 @@ const ReturnDeviceForm = () => {
       title={t(`menu.${getTitle()}`)}
       loading={isLoading}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>
@@ -222,6 +225,7 @@ const ReturnDeviceForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                         required
                       />
                     </Grid>

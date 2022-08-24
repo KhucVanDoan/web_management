@@ -6,7 +6,15 @@
     "userManagementCreate": "Tạo người dùng",
     "userManagementEdit": "Sửa người dùng",
     "userManagementDetail": "Chi tiết người dùng",
-    "userPermission": "Phân quyền"
+    "userPermission": "Phân quyền vai trò người dùng",
+    "decentralization": "Phân quyền hệ thống",
+    "companyChart": "Sơ đồ tổ chức công ty",
+    "defineDepartment": "Định nghĩa bộ phận",
+    "departmentList": "Quản lý danh sách bộ phận",
+    "departmentAssign": "Phân quyền bộ phận",
+    "defineRole": "Định nghĩa vai trò",
+    "roleList": "Quản lý vai trò người dùng",
+    "roleAssign": "Phân quyền vai trò"
   },
   "companyCustomerSetting": {
     "searchPlaceholder": "Tìm kiếm thông tin",
@@ -22,5 +30,58 @@
   "userStatus": {
     "active": "Hoạt động",
     "inactive": "Tạm khóa"
+  },
+  "companyChart": {
+    "title": "Thông tin sơ đồ tổ chức",
+    "searchPlaceholder": "Tìm kiếm công ty theo mã hoặc tên",
+    "companyCode": "Mã công ty",
+    "companyName": "Tên công ty",
+    "numOfEmployees": "SL nhân sự",
+    "address": "Địa chỉ",
+    "phone": "Số điện thoại",
+    "tax": "Mã số thuế",
+    "email": "Email",
+    "factoryCode": "Mã nhà máy",
+    "factoryName": "Tên nhà máy",
+    "employeeList": "Danh sách nhân sự",
+    "viewList": "Xem danh sách"
+  },
+  "departmentList": {
+    "title": "Danh sách bộ phận",
+    "searchPlaceholder": "Tìm kiếm bộ phận theo mã hoặc tên",
+    "code": "Mã bộ phận",
+    "name": "Tên bộ phận",
+    "note": "Ghi chú"
+  },
+  "departmentAssign": {
+    "title": "Phân quyền chức năng bộ phận",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "departmentName": "Tên bộ phận",
+    "featureName": "Tên chức năng",
+    "assign": "Phân quyền",
+    "description": "Mô tả"
+  },
+  "roleList": {
+    "title": "Danh sách vai trò",
+    "searchPlaceholder": "Tìm kiếm vai trò theo mã hoặc tên",
+    "code": "Mã vai trò",
+    "name": "Tên vai trò"
+  },
+  "roleAssign": {
+    "title": "Phân quyền vai trò người dùng",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "departmentName": "Tên bộ phận",
+    "role": "Vai trò",
+    "feature": "Chức năng",
+    "assign": "Phân quyền"
+  },
+  "userPermission": {
+    "title": "Phân quyền vai trò người dùng",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "departmentName": "Tên bộ phận",
+    "role": "Vai trò",
+    "id": "Id",
+    "feature": "Chức năng",
+    "assign": "Phân quyền"
   }
 }

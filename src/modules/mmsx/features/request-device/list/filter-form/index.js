@@ -24,6 +24,15 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
+        <Field.TextField
+          name="name"
+          label={t('requestDevice.category.requestName')}
+          placeholder={t('requestDevice.category.requestName')}
+          inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Field.Autocomplete
           name="type"
           label={t('requestDevice.category.requestType')}

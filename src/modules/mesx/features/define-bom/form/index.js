@@ -153,10 +153,6 @@ function BOMForm() {
     [itemList],
   )
 
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
-
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
@@ -204,7 +200,7 @@ function BOMForm() {
       routingId: values?.routingId?.id,
       itemId: values?.itemId?.itemId || values?.itemId?.id,
       bomItems: values?.items?.map((item) => ({
-        id: item?.itemId,
+        id: item?.itemId?.id,
         quantity: Number(item?.quantity),
       })),
     }
@@ -244,11 +240,10 @@ function BOMForm() {
       actions.getBOMStructureById(id)
     }
     // actionCommon.getRoutings()
-    actionCommon.getItems()
+    actionCommon.getItems({ isGetAll: 1 })
     actionsItemType.searchItemTypes({ isGetAll: 1 })
     return () => actions.resetBomState()
   }, [mode])
-
   const initialValues = {
     code: BOMDetails?.code || '',
     name: BOMDetails?.name || '',
@@ -256,10 +251,9 @@ function BOMForm() {
     description: BOMDetails?.description || '',
     itemId: BOMDetails?.item || itemId || null,
     items: BOMDetails?.bomDetails?.map((e) => ({
-      id: e.id,
-      itemId: e.itemId,
+      itemId: { ...e?.item, id: e?.item?.itemId },
       quantity: e.quantity,
-      itemType: getItemObject(e.itemId)?.itemType?.code,
+      itemType: e?.item?.itemType?.code,
     })) || [{ ...DEFAULT_ITEM }],
     itemName: '',
     itemQuanlity: '',
@@ -376,7 +370,7 @@ function BOMForm() {
                         name="itemName"
                         label={t('defineBOM.item.name')}
                         placeholder={t('defineBOM.item.name')}
-                        value={getItemObject(values.itemId?.id)?.name || ''}
+                        value={values?.itemId?.name || ''}
                         required
                         disabled
                       />

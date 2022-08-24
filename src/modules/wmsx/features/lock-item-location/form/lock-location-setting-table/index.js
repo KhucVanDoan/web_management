@@ -47,6 +47,12 @@ const LocklocationTable = (props) => {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              onChange={() => {
+                setFieldValue(`locations[${index}].warehouseId`, null)
+                setFieldValue(`locations[${index}].warehouseSector`, null)
+                setFieldValue(`locations[${index}].warehouseShelf`, null)
+                setFieldValue(`locations[${index}].warehouseFloor`, null)
+              }}
             />
           )
         },
@@ -76,15 +82,10 @@ const LocklocationTable = (props) => {
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              onChange={(val) => {
-                if (!val) {
-                  setFieldValue(`locations[${index}].warehouseSector`, '')
-                  setFieldValue(`locations[${index}].warehouseShelf`, '')
-                  setFieldValue(`locations[${index}].warehouseFloor`, '')
-                }
-                setFieldValue(`locations[${index}].warehouseSector`, '')
-                setFieldValue(`locations[${index}].warehouseShelf`, '')
-                setFieldValue(`locations[${index}].warehouseFloor`, '')
+              onChange={() => {
+                setFieldValue(`locations[${index}].warehouseSector`, null)
+                setFieldValue(`locations[${index}].warehouseShelf`, null)
+                setFieldValue(`locations[${index}].warehouseFloor`, null)
               }}
             />
           )
@@ -114,11 +115,7 @@ const LocklocationTable = (props) => {
               getOptionLabel={(opt) => opt?.name}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestDeps={warehouseId}
-              onChange={(val) => {
-                if (!val) {
-                  setFieldValue(`locations[${index}].warehouseShelf`, '')
-                  setFieldValue(`locations[${index}].warehouseFloor`, '')
-                }
+              onChange={() => {
                 setFieldValue(`locations[${index}].warehouseShelf`, '')
                 setFieldValue(`locations[${index}].warehouseFloor`, '')
               }}
@@ -148,16 +145,12 @@ const LocklocationTable = (props) => {
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
-              disabled={isView}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.name}
               asyncRequestDeps={warehouseSector}
-              onChange={(val) => {
-                if (!val) {
-                  setFieldValue(`locations[${index}].warehouseFloor`, '')
-                }
+              onChange={() =>
                 setFieldValue(`locations[${index}].warehouseFloor`, '')
-              }}
+              }
             />
           )
         },
@@ -186,7 +179,6 @@ const LocklocationTable = (props) => {
               asyncRequestDeps={warehouseShelf}
               asyncRequestHelper={(res) => res?.data?.items}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              disabled={isView}
               getOptionLabel={(opt) => opt?.name}
             />
           )

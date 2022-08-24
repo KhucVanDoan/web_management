@@ -109,7 +109,6 @@ const PriceDetail = () => {
       width: 250,
       sortable: false,
       align: 'center',
-      headerAlign: 'center',
     },
     {
       field: 'costMaterialActual',
@@ -117,7 +116,6 @@ const PriceDetail = () => {
       width: 250,
       sortable: false,
       align: 'center',
-      headerAlign: 'center',
     },
   ]
   return (

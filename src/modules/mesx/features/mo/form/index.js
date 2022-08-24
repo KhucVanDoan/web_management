@@ -17,6 +17,7 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
@@ -54,7 +55,8 @@ const MOForm = () => {
   const [dataPlan, setDataPlan] = useState()
   const masterPlanId = +urlSearchParams.masterPlanId
   const { cloneId } = urlSearchParams
-  const [isSubmitForm] = useState(false)
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const MODE_MAP = {
     [ROUTE.MO.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.MO.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -86,7 +88,17 @@ const MOForm = () => {
       actions.resetMoDetail()
       masterPlanActions.resetMasterPlanDetails()
     }
-  }, [mode, cloneId])
+  }, [id, cloneId])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.MO.DETAIL.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const backToList = () => {
     history.push(ROUTE.MO.LIST.PATH)
@@ -415,7 +427,6 @@ const MOForm = () => {
               <Box sx={{ mt: 3 }}>
                 <ItemsSettingTable
                   saleOrder={saleOrder}
-                  isSubmitForm={isSubmitForm}
                   updateSelectedItems={(itemIds) =>
                     setFieldValue('itemIds', itemIds)
                   }
@@ -433,7 +444,6 @@ const MOForm = () => {
                 >
                   <ItemsSettingTable
                     saleOrder={saleOrder}
-                    isSubmitForm={isSubmitForm}
                     updateSelectedItems={(itemIds) =>
                       setFieldValue('itemIds', itemIds)
                     }

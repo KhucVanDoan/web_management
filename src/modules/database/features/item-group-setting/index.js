@@ -191,7 +191,7 @@ const ItemGroupSetting = () => {
     return (
       <>
         <ImportExport
-          name={t('itemGroupDefine.import')}
+          name={t('itemGroupDefine.export')}
           onImport={(params) => {
             importItemGroupApi(params)
           }}

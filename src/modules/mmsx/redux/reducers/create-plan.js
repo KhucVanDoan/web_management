@@ -21,14 +21,23 @@ import {
   GET_GANTT_CHART_DATA_FAIL,
   GET_GANTT_CHART_DATA_SUCCESS,
   RESET_STATE_CREATE_PLAN,
+  GET_JOB_DRAFT_LIST,
+  GET_JOB_DRAFT_LIST_SUCCESS,
+  GET_JOB_DRAFT_LIST_FAIL,
+  DELETE_JOB_DRAFT_FAIL,
+  DELETE_JOB_DRAFT_SUCCESS,
+  DELETE_JOB_DRAFT_START,
+  RESET_STATE_JOB_DRAFT,
 } from '../actions/create-plan'
 
 const initialState = {
   isLoading: false,
   createPlanList: [],
   meta: {},
+  metaJobDraft: {},
   detailPlan: {},
   ganttChartData: [],
+  jobDraftList: [],
 }
 
 export default function createPlanList(state = initialState, action) {
@@ -40,6 +49,8 @@ export default function createPlanList(state = initialState, action) {
     case UPDATE_MAKE_PLAN_START:
     case DELETE_MAKE_PLAN_START:
     case GET_GANTT_CHART_DATA:
+    case GET_JOB_DRAFT_LIST:
+    case DELETE_JOB_DRAFT_START:
       return {
         ...state,
         isLoading: true,
@@ -63,6 +74,13 @@ export default function createPlanList(state = initialState, action) {
         createPlanList: action?.payload?.items,
         meta: action?.payload?.meta,
       }
+    case GET_JOB_DRAFT_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jobDraftList: action?.payload?.items,
+        metaJobDraft: action?.payload?.meta,
+      }
     case GET_CREATE_PLAN_LIST_FAIL:
     case REJECT_PLAN_FAIL:
     case REJECT_PLAN_SUCCESS:
@@ -74,6 +92,9 @@ export default function createPlanList(state = initialState, action) {
     case DELETE_MAKE_PLAN_SUCCESS:
     case DELETE_MAKE_PLAN_FAIL:
     case GET_GANTT_CHART_DATA_FAIL:
+    case GET_JOB_DRAFT_LIST_FAIL:
+    case DELETE_JOB_DRAFT_SUCCESS:
+    case DELETE_JOB_DRAFT_FAIL:
       return {
         ...state,
         isLoading: false,
@@ -82,6 +103,11 @@ export default function createPlanList(state = initialState, action) {
       return {
         ...state,
         detailPlan: [],
+      }
+    case RESET_STATE_JOB_DRAFT:
+      return {
+        ...state,
+        jobDraftList: [],
       }
     default:
       return state

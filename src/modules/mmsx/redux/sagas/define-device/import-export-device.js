@@ -1,3 +1,4 @@
+import { TYPE_ENUM } from '~/modules/mmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -6,7 +7,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importDeviceApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/api/v1/mms/import?type=${TYPE_ENUM?.DEVICE}`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)
@@ -18,7 +19,7 @@ export const importDeviceApi = (params) => {
  * @returns {Promise}
  */
 export const exportDeviceApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/api/v1/mms/export?type=${TYPE_ENUM?.DEVICE}`
   return api.get(uri, params)
 }
 

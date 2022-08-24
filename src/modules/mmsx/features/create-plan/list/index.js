@@ -119,6 +119,9 @@ function CreatePlan() {
         headerName: t('createPlanList.table.planJobQuantity'),
         width: 150,
         sortable: true,
+        renderCell: (params) => {
+          return params?.row?.jobPlanTotal || 0
+        },
       },
       {
         field: 'jobExecutionTotal',
@@ -202,10 +205,10 @@ function CreatePlan() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams({ ...filters, ...quickFilters }, [
-        ...columns,
-        { field: 'date', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, ...quickFilters, time: quickFilters?.time, typyGet: 1 },
+        [...columns, { field: 'time', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.getCreatePlanList(params)

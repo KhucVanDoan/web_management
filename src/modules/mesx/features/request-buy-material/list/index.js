@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
@@ -25,6 +26,7 @@ import {
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
 
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter'
 import filterSchema from './filter/schema'
 const breadcrumbs = [
@@ -54,6 +56,7 @@ function RequestBuyMaterial() {
   const [confirmModal, setConfirmModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -226,6 +229,16 @@ function RequestBuyMaterial() {
   }, [page, pageSize, sort, filters, keyword])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (requestBuyMaterialList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, requestBuyMaterialList])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
@@ -251,10 +264,7 @@ function RequestBuyMaterial() {
     actions.deleteRequestBuyMaterial(tempItem?.id, () => refreshData())
     setDeleteModal(false)
   }
-  const onSubmitConfirm = () => {
-    actions.confirmRequestBuyMaterialById(tempItem?.id, () => refreshData())
-    setConfirmModal(false)
-  }
+
   const renderHeaderRight = () => {
     return (
       <>
@@ -335,27 +345,18 @@ function RequestBuyMaterial() {
             sx={{ mt: 4 / 3 }}
           />
         </Dialog>
-        <Dialog
+
+        <DialogApprove
           open={confirmModal}
-          title={t('requestBuyMaterial.confirmTitle')}
-          onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('general:common.no')}
-          onSubmit={onSubmitConfirm}
-          submitLabel={t('general:common.yes')}
-          noBorderBottom
-        >
-          {t('requestBuyMaterial.confirmBody')}
-          <LV
-            label={t('requestBuyMaterial.requestCode')}
-            value={tempItem?.code}
-            sx={{ mt: 4 / 3 }}
-          />
-          <LV
-            label={t('requestBuyMaterial.requestName')}
-            value={tempItem?.name}
-            sx={{ mt: 4 / 3 }}
-          />
-        </Dialog>
+          onClose={() => {
+            setTempItem(null)
+            setConfirmModal(false)
+          }}
+          data={tempItem}
+          onSuccess={() => {
+            refreshData()
+          }}
+        />
       </Page>
     </>
   )

@@ -28,6 +28,8 @@ const style = (theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    minHeight: 46,
+    boxSizing: 'border-box',
   },
 })
 

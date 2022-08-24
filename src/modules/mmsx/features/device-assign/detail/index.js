@@ -9,7 +9,6 @@ import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
 import Autocomplete from '~/components/Autocomplete'
-import Button from '~/components/Button'
 import DateRangePicker from '~/components/DateRangePicker'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -291,27 +290,27 @@ const DeviceAssignDetail = () => {
     },
   ]
 
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.PATH)}
-          >
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.REQUEST_DEVICE.PATH)}
-          >
-            {t('menu.requestDevice')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.PATH)}
+  //         >
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.REQUEST_DEVICE.PATH)}
+  //         >
+  //           {t('menu.requestDevice')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   const histories = deviceAssignDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
       ? t(`deviceAssign.comment.${ACTION_MAP[item?.action]}`)
@@ -345,7 +344,7 @@ const DeviceAssignDetail = () => {
       title={t('menu.deviceAssignDetail')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>

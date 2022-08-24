@@ -189,6 +189,7 @@ function DefectListForm() {
                         sx={{
                           mt: 4 / 3,
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

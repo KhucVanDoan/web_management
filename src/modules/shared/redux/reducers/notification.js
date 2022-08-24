@@ -1,3 +1,5 @@
+import { NOTIFICATION_ACTION_ENUM } from '~/common/constants/notification'
+
 import {
   GET_NOTIFICATIONS_FAILED,
   GET_NOTIFICATIONS_START,
@@ -9,6 +11,10 @@ import {
   SEEN_ALL_NOTIFICATIONS_FAILED,
   SEEN_ALL_NOTIFICATIONS_START,
   ADD_NOTIFICATION,
+  CHANGE_NOTIFICATION_ACTION_TO_VIEW,
+  CHANGE_NOTIFICATION_STATUS_START,
+  CHANGE_NOTIFICATION_STATUS_SUCCESS,
+  CHANGE_NOTIFICATION_STATUS_FAILED,
 } from '../actions/notification'
 
 const initialState = {
@@ -23,6 +29,7 @@ export default function notification(state = initialState, action) {
     case GET_NOTIFICATIONS_START:
     case SEEN_ONE_NOTIFICATION_START:
     case SEEN_ALL_NOTIFICATIONS_START:
+    case CHANGE_NOTIFICATION_STATUS_START:
       return {
         ...state,
         isLoading: true,
@@ -30,6 +37,7 @@ export default function notification(state = initialState, action) {
     case GET_NOTIFICATIONS_FAILED:
     case SEEN_ONE_NOTIFICATION_FAILED:
     case SEEN_ALL_NOTIFICATIONS_FAILED:
+    case CHANGE_NOTIFICATION_STATUS_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -42,7 +50,6 @@ export default function notification(state = initialState, action) {
         isLoading: false,
       }
     case SEEN_ONE_NOTIFICATION_SUCCESS:
-      // @TODO: check seenone handle
       let newItems = [...state.items]
 
       const index = state.items.findIndex(
@@ -78,6 +85,31 @@ export default function notification(state = initialState, action) {
         items: [action.payload, ...state.items],
         totalUnRead: state.totalUnRead + 1,
       }
+
+    case CHANGE_NOTIFICATION_ACTION_TO_VIEW:
+      const updatedItems = state.items.map((item) => {
+        if (item?._id === action.payload) {
+          return {
+            ...item,
+            notificationId: {
+              ...item.notificationId,
+              action: NOTIFICATION_ACTION_ENUM.VIEW,
+            },
+          }
+        }
+        return item
+      })
+
+      return {
+        ...state,
+        items: updatedItems,
+      }
+    case CHANGE_NOTIFICATION_STATUS_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      }
+    }
     default:
       return state
   }
