@@ -63,37 +63,37 @@ export const ROUTE = {
   },
   CONSTRUCTION_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/construction-management',
+      PATH: '/wmsx/project-management',
       TITLE: 'constructionManagement',
     },
     CREATE: {
-      PATH: '/wmsx/construction-management/create',
+      PATH: '/wmsx/project-management/create',
       TITLE: 'constructionManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/construction-management/:id/detail',
+      PATH: '/wmsx/project-management/:id/detail',
       TITLE: 'constructionManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/construction-management/:id/edit',
+      PATH: '/wmsx/project-management/:id/edit',
       TITLE: 'constructionManagementEdit',
     },
   },
   CONSTRUCTION_ITEMS_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/construction-items-management',
+      PATH: '/wmsx/task-management',
       TITLE: 'constructionItemsManagement',
     },
     CREATE: {
-      PATH: '/wmsx/construction-items-management/create',
+      PATH: '/wmsx/task-management/create',
       TITLE: 'constructionItemsManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/construction-items-management/:id/detail',
+      PATH: '/wmsx/task-management/:id/detail',
       TITLE: 'constructionItemsManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/construction-items-management/:id/edit',
+      PATH: '/wmsx/task-management/:id/edit',
       TITLE: 'constructionItemsManagementEdit',
     },
   },

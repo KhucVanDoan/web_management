@@ -7,7 +7,7 @@ import {
 } from '~/modules/wmsx/redux/actions/construction-management'
 import { api } from '~/services/api'
 
-const searchConstructionsApi = (params) => {
+export const searchConstructionsApi = (params) => {
   const uri = `/v1/sales/constructions/list`
   return api.get(uri, params)
 }

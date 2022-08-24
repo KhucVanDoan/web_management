@@ -38,6 +38,9 @@ import Dashboard from '~/modules/wmsx/features/dashboard'
 import CompanyManagementDetail from '../features/company-management/detail'
 import CompanyManagementForm from '../features/company-management/form'
 import CompanyManagement from '../features/company-management/list'
+import ConstructionItemsManagementDetail from '../features/construction-items-management/detail'
+import ConstructionItemsManagementForm from '../features/construction-items-management/form'
+import ConstructionItemsManagement from '../features/construction-items-management/list'
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
@@ -266,25 +269,25 @@ const routes = [
       {
         name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.TITLE,
         path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: ConstructionItemsManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: ConstructionItemsManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: ConstructionItemsManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: ConstructionItemsManagementForm,
             isInSidebar: false,
           },
         ],

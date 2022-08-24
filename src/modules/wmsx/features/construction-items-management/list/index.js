@@ -17,35 +17,29 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
-import {
-  ACTIVE_STATUS,
-  ACTIVE_STATUS_MAP,
-  ACTIVE_STATUS_OPTIONS,
-} from '~/modules/wmsx/constants'
-import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useConstructionItemsManagement from '~/modules/wmsx/redux/hooks/useConstructionItemsManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
-import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
     title: 'database',
   },
   {
-    route: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
-    title: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
+    route: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.PATH,
+    title: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.TITLE,
   },
 ]
 
-function ConstructionManagement() {
+function ConstructionItemsManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
 
   const DEFAULT_FILTERS = {
     code: '',
-    name: '',
     createTime: [],
   }
 
@@ -65,14 +59,13 @@ function ConstructionManagement() {
   })
 
   const {
-    data: { constructionList, total, isLoading },
+    data: { constructionItemsList, total, isLoading },
     actions,
-  } = useConstructionManagement()
+  } = useConstructionItemsManagement()
 
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
-    isOpenUpdateStatusModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -81,26 +74,35 @@ function ConstructionManagement() {
   const columns = [
     {
       field: 'code',
-      headerName: t('constructionManagement.code'),
-      width: 100,
+      headerName: t('constructionItemsManagement.code'),
+      width: 120,
       sortable: true,
       fixed: true,
     },
     {
       field: 'name',
-      headerName: t('constructionManagement.name'),
-      width: 100,
+      headerName: t('constructionItemsManagement.name'),
+      width: 120,
       sortable: true,
       fixed: true,
     },
     {
+      field: 'constructionCode',
+      headerName: t('constructionItemsManagement.constructionCode'),
+      width: 120,
+      sortable: true,
+      renderCell: (params) => {
+        return params.row.construction?.code
+      },
+    },
+    {
       field: 'description',
-      headerName: t('constructionManagement.description'),
+      headerName: t('constructionItemsManagement.description'),
       width: 120,
     },
     {
       field: 'status',
-      headerName: t('constructionManagement.status'),
+      headerName: t('constructionItemsManagement.status'),
       width: 120,
       renderCell: (params) => {
         const status = Number(params?.row.status)
@@ -120,14 +122,13 @@ function ConstructionManagement() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id, status } = params?.row
-        const isLocked = status === ACTIVE_STATUS.ACTIVE
+        const { id } = params?.row
         return (
           <div>
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.CONSTRUCTION_MANAGEMENT.DETAIL.PATH.replace(
+                  ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.PATH.replace(
                     ':id',
                     `${id}`,
                   ),
@@ -139,7 +140,7 @@ function ConstructionManagement() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.CONSTRUCTION_MANAGEMENT.EDIT.PATH.replace(
+                  ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH.replace(
                     ':id',
                     `${id}`,
                   ),
@@ -151,16 +152,6 @@ function ConstructionManagement() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
-            {isLocked && (
-              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-                <Icon name="locked" />
-              </IconButton>
-            )}
-            {!isLocked && (
-              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-                <Icon name="unlock" />
-              </IconButton>
-            )}
           </div>
         )
       },
@@ -177,7 +168,7 @@ function ConstructionManagement() {
       ]),
       sort: convertSortParams(sort),
     }
-    actions.searchConstructions(params)
+    actions.searchConstructionItems(params)
   }
 
   useEffect(() => {
@@ -193,7 +184,7 @@ function ConstructionManagement() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteConstruction(modal.tempItem?.id, () => {
+    actions.deleteConstructionItems(modal.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
@@ -203,30 +194,11 @@ function ConstructionManagement() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
-  const onClickUpdateStatus = (tempItem) => {
-    setModal({ tempItem, isOpenUpdateStatusModal: true })
-  }
-
-  const onSubmitUpdateStatus = () => {
-    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
-    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
-      actions.confirmConstructionById(modal.tempItem?.id, () => {
-        refreshData()
-      })
-    }
-    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
-  }
-
-  const onCloseUpdateStatusModal = () => {
-    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
-  }
-
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
-          name={t('constructionManagement.export')}
-          onImport={() => {}}
+          name={t('constructionItemsManagement.export')}
           onExport={() =>
             exportCompanyApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -242,11 +214,10 @@ function ConstructionManagement() {
             })
           }
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() =>
-            history.push(ROUTE.CONSTRUCTION_MANAGEMENT.CREATE.PATH)
+            history.push(ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH)
           }
           sx={{ ml: 4 / 3 }}
           icon="add"
@@ -260,15 +231,15 @@ function ConstructionManagement() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.constructionManagement')}
+      title={t('menu.constructionItemsManagement')}
       onSearch={setKeyword}
-      placeholder={t('constructionManagement.searchPlaceholder')}
+      placeholder={t('constructionItemsManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
-        title={t('constructionManagement.list')}
-        rows={constructionList}
+        title={t('constructionItemsManagement.list')}
+        rows={constructionItemsList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -285,7 +256,6 @@ function ConstructionManagement() {
           values: filters,
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
-          validationSchema: filterSchema(t),
         }}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
@@ -302,7 +272,9 @@ function ConstructionManagement() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('constructionManagement.constructionManagementDelete')}
+        title={t(
+          'constructionItemsManagement.constructionItemsManagementDelete',
+        )}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -312,48 +284,15 @@ function ConstructionManagement() {
         }}
         noBorderBottom
       >
-        {t('constructionManagement.deleteConfirm')}
+        {t('constructionItemsManagement.deleteConfirm')}
         <LV
-          label={t('constructionManagement.code')}
+          label={t('constructionItemsManagement.code')}
           value={modal?.tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionManagement.description')}
+          label={t('constructionItemsManagement.description')}
           value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
-        open={modal.isOpenUpdateStatusModal}
-        title={t('general.updateStatus')}
-        onCancel={onCloseUpdateStatusModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitUpdateStatus}
-        submitLabel={t('general:common.yes')}
-        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
-          ? {
-              submitProps: {
-                color: 'error',
-              },
-            }
-          : {})}
-        noBorderBottom
-      >
-        {t('general.confirmMessage')}
-        <LV
-          label={t('constructionManagement.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('constructionManagement.description')}
-          value={modal?.tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('general.status')}
-          value={t(ACTIVE_STATUS_MAP[modal?.tempItem?.status])}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -361,4 +300,4 @@ function ConstructionManagement() {
   )
 }
 
-export default ConstructionManagement
+export default ConstructionItemsManagement
