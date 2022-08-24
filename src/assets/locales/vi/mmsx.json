@@ -180,7 +180,11 @@
     "deviceCategoryCreate": "Tạo nhóm thiết bị",
     "deviceCategoryEdit": "Sửa nhóm thiết bị",
     "deviceSerialManagement": "Quản lý serial thiết bị",
-    "deviceStatistical": "Thống kê thiết bị"
+    "deviceStatistical": "Thống kê thiết bị",
+    "defineUnit": "Định nghĩa đơn vị",
+    "defineUnitCreate": "Tạo mới đơn vị",
+    "defineUnitEdit": "Sửa đơn vị",
+    "defineUnitDetail": "Chi tiết đơn vị"
   },
   "ganttChart": {
     "title": "Kế hoạch",
@@ -404,7 +408,7 @@
     },
     "statusList": {
       "title": "Trạng thái",
-      "nonAssign": "Chưa được phân công",
+      "nonAssign": "Chờ phân công",
       "waitingToComfirm": "Chờ xác nhận",
       "reject": "Từ chối",
       "toDo": "Chưa thực hiện",
@@ -914,10 +918,13 @@
       "code": "Mã thiết bị",
       "name": "Tên thiết bị",
       "deviceCategory": "Nhóm thiết bị",
+      "type": "Loại",
       "description": "Mô tả",
       "descriptionForm": "Mô tả về thiết bị",
       "quantity": "Số lượng",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "forProduction": "Dùng cho sản xuất",
+      "notForProduction": "Không dùng cho sản xuất"
     },
     "text": {
       "create": "Tạo thiết bị",
@@ -1157,6 +1164,7 @@
     },
     "category": {
       "requestCode": "Mã yêu cầu",
+      "requestName": "Tên yêu cầu",
       "requestType": "Loại yêu cầu",
       "deviceCode": "Mã thiết bị",
       "deviceName": "Tên thiết bị",
@@ -1579,6 +1587,7 @@
     "searchPlaceholder": "Tìm kiếm theo mã hoặc tên",
     "title": "Danh sách kế hoạch công việc",
     "jobBtn": "Công việc",
+    "code": "Mã công việc",
     "placeholder": {
       "planCode": "Nhập mã mẫu phiếu",
       "workType": "Chọn loại công việc",
@@ -1636,6 +1645,7 @@
       "subTable": {
         "deviceName": "Tên thiết bị",
         "serial": "Serial",
+        "workCenterName": "Tên xưởng",
         "assignUser": "Người thực hiện",
         "datePlan": "Ngày thực hiện dự kiến",
         "dateReal": "Ngày thực hiện thực tế",
@@ -1680,6 +1690,7 @@
     "title": "Danh sách công việc",
     "button": {
       "myTask": "Công việc của tôi",
+      "jobs": "Công việc",
       "listView": "List View",
       "ganttChart": "GanttChart",
       "deviceButton": "Thiết bị",
@@ -1981,5 +1992,11 @@
       "description": "Mô tả hạng mục",
       "obligatory": "Bắt buộc"
     }
+  },
+  "defineUnit": {
+    "code": "Mã đơn vị",
+    "name": "Tên đơn vị",
+    "description": "Mô tả",
+    "title": "Danh sách đơn vị"
   }
 }

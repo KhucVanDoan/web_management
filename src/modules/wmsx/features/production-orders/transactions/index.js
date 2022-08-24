@@ -11,7 +11,7 @@ export const Transactions = () => {
   const history = useHistory()
   const breadcrumbs = [
     {
-      title: 'warehouseSetup',
+      title: 'orderManagement',
     },
     {
       route: ROUTE.PRODUCTION_ORDER.LIST.PATH,

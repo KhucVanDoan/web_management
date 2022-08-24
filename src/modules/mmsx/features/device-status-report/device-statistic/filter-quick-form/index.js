@@ -66,6 +66,7 @@ const DeviceStatisticQuickFilter = ({
                           }),
                         })
                       }
+                      asyncRequestDeps={values?.factoryId}
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       disabled={!values.factoryId}

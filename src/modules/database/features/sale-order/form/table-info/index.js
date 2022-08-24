@@ -94,6 +94,7 @@ function TableInfo(props) {
       headerName: t('saleOrder.itemInfo.quantity'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return params.row?.material?.planQuantity
       },
@@ -103,6 +104,7 @@ function TableInfo(props) {
       headerName: t('saleOrder.itemInfo.remainQuantity'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return params.row?.material?.availableStock
       },
@@ -112,6 +114,7 @@ function TableInfo(props) {
       headerName: t('saleOrder.itemInfo.actualQuantity'),
       width: 120,
       align: 'right',
+      headerAlign: 'left',
       renderCell: (params) => {
         return params.row?.material?.requestQuantity
       },

@@ -11,7 +11,6 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -189,35 +188,35 @@ const DefineSuppliesForm = () => {
         break
     }
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
-          >
-            {t('supplies.button.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
-          >
-            {t('supplies.button.deviceButton')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+  //         >
+  //           {t('supplies.button.device')}
+  //         </Button>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
+  //         >
+  //           {t('supplies.button.deviceButton')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
       title={t(`menu.${getTitle()}`)}
       loading={isLoading}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
     >
       <Formik
         initialValues={initialValues}

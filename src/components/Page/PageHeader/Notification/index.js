@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { Box, IconButton, Popover, Typography } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
 import Dropdown from '~/components/Dropdown'
+import NoData from '~/components/NoData'
+import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { useClasses } from '~/themes'
 
@@ -16,21 +19,20 @@ const Notification = () => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
+  const { userInfo, isLoading: isLoadingStatus } = useAuth()
+
+  const open = Boolean(anchorEl)
+  const onClose = () => setAnchorEl(null)
+  const isOn = !!userInfo?.statusNotification
 
   const {
     actions,
-    data: { totalUnRead },
+    data: { totalUnRead, items, isLoading },
   } = useNotification()
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
-
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const open = Boolean(anchorEl)
 
   const options = [
     {
@@ -39,9 +41,41 @@ const Notification = () => {
     },
     {
       label: t('notification.turnOff'),
-      onClick: () => {},
+      onClick: () => {
+        actions.changeNotificationStatus({
+          userId: userInfo?.id,
+          statusNotification: false,
+        })
+      },
     },
   ]
+
+  const renderContent = () => {
+    if (!isOn) {
+      return (
+        <Box sx={{ p: 4 / 3, pb: 2 }}>
+          <Button
+            icon="notification"
+            onClick={() => {
+              actions.changeNotificationStatus({
+                userId: userInfo?.id || 1,
+                statusNotification: true,
+              })
+            }}
+            loading={isLoading}
+          >
+            {t('notification.turnOn')}
+          </Button>
+        </Box>
+      )
+    }
+
+    if (isEmpty(items)) {
+      return <NoData sx={{ p: 4 / 3 }} text={t('notification.noData')} />
+    }
+
+    return <NotificationList onClose={onClose} />
+  }
 
   return (
     <>
@@ -54,12 +88,30 @@ const Notification = () => {
           width: 40,
           minWidth: 40,
           padding: '9px 21px',
+          position: 'relative',
+
           '.MuiButton-startIcon': {
             margin: 0,
           },
+
+          ...(!isLoadingStatus && !isOn
+            ? {
+                '&:before': {
+                  content: '""',
+                  display: 'inline-block',
+                  width: '1px',
+                  height: '25px',
+                  backgroundColor: '#222',
+                  position: 'absolute',
+                  top: '7px',
+                  left: '20px',
+                  transform: 'rotate(-45deg)',
+                },
+              }
+            : {}),
         }}
       >
-        {!!totalUnRead && (
+        {isOn && !!totalUnRead && (
           <Box className={classes.badge}>
             {totalUnRead > 999 ? '999+' : totalUnRead}
           </Box>
@@ -69,7 +121,7 @@ const Notification = () => {
       <Popover
         open={open}
         anchorEl={anchorEl}
-        onClose={handleClose}
+        onClose={onClose}
         PaperProps={{
           variant: 'caret',
           sx: { overflow: 'hidden' },
@@ -85,19 +137,26 @@ const Notification = () => {
       >
         <Box className={classes.container}>
           <Box className={classes.header}>
-            <Typography variant="h5">{t('notification.heading')}</Typography>
-            <Dropdown
-              options={options}
-              handleMenuItemClick={(opt) => opt.onClick()}
-              renderButton={(btnProps) => (
-                <IconButton {...btnProps} size="small">
-                  <MoreHorizIcon />
-                </IconButton>
-              )}
-            />
+            <Typography variant="h5">
+              {isOn
+                ? t('notification.heading')
+                : t('notification.notificationIsOff')}
+            </Typography>
+
+            {isOn && (
+              <Dropdown
+                options={options}
+                handleMenuItemClick={(opt) => opt.onClick()}
+                renderButton={(btnProps) => (
+                  <IconButton {...btnProps} size="small">
+                    <MoreHorizIcon />
+                  </IconButton>
+                )}
+              />
+            )}
           </Box>
 
-          <NotificationList />
+          {renderContent()}
         </Box>
       </Popover>
     </>

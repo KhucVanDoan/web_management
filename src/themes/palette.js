@@ -196,6 +196,11 @@ const palette = {
       background: '#0FA44A',
       contrastText: '#FFF',
     },
+    inReturning: {
+      text: '#FFAC38',
+      background: '#FFAC38',
+      contrastText: '#FFF',
+    },
   },
   borderField: '#0761AD',
   bgPrimaryOpacity: '#DAE7F3',

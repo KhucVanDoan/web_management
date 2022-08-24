@@ -4,6 +4,7 @@ import { Box, Grid, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import DataTable from '~/components/DataTable'
 import LV from '~/components/LabelValue'
@@ -11,7 +12,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { ORDER_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useRequestBuyMaterial from '~/modules/mesx/redux/hooks/useRequestBuyMaterial'
 import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -34,32 +34,33 @@ function RequestBuyMaterialDetail() {
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
   const history = useHistory()
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const {
     data: { isLoading, requestBuyMaterialDetails },
     actions,
   } = useRequestBuyMaterial()
-
-  const {
-    data: { itemList },
-    actions: commonActions,
-  } = useCommonManagement()
-
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
-
   const backToList = () => {
     history.push(ROUTE.REQUEST_BUY_MATERIAL.LIST.PATH)
   }
 
   useEffect(() => {
     actions.getRequestBuyMaterialDetailsById(id)
-    commonActions.getItems({})
+
     return () => {
       actions.resetRequestBuyMaterialState()
-      commonActions.resetItems()
     }
-  }, [])
+  }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getRequestBuyMaterialDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const getColumns = () => [
     {
@@ -89,8 +90,8 @@ function RequestBuyMaterialDetail() {
       width: 180,
       align: 'center',
       renderCell: (params) => {
-        const { id } = params.row
-        return <>{getItemObject(id)?.itemType?.name || ''}</>
+        const { itemType } = params.row
+        return itemType?.name
       },
     },
     {
@@ -105,8 +106,8 @@ function RequestBuyMaterialDetail() {
       width: 180,
       align: 'center',
       renderCell: (params) => {
-        const { id } = params.row
-        return <>{getItemObject(id)?.itemUnit?.name || ''}</>
+        const { itemUnit } = params.row
+        return itemUnit?.name
       },
     },
   ]

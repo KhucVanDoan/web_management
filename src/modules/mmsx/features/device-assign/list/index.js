@@ -220,7 +220,7 @@ const DeviceAssign = () => {
     setIsOpenDeleteModal(true)
   }
   const onSubmitDelete = () => {
-    actions.deleteDeviceAssign(tempItem?.id, () => {
+    actions.deleteDeviceAssign(tempItem?._id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -240,7 +240,6 @@ const DeviceAssign = () => {
       </>
     )
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -284,12 +283,12 @@ const DeviceAssign = () => {
         {t('deviceAssign.deleteDeviceAssign.description')}
         <LV
           label={t('deviceAssign.assign.code')}
-          value={tempItem?.code}
+          value={tempItem?.deviceRequest[0]?.device[0]?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
           label={t('deviceAssign.assign.name')}
-          value={tempItem?.name}
+          value={tempItem?.deviceRequest[0]?.device[0]?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>

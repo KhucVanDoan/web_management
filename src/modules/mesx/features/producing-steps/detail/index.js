@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -26,6 +27,8 @@ const ProducingStepDetail = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const {
     data: { isLoading, details },
     actions,
@@ -51,6 +54,16 @@ const ProducingStepDetail = () => {
       actions.resetProducingStepState()
     }
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getProducingStepDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const backToList = () => {
     history.push(ROUTE.PRODUCING_STEP.LIST.PATH)

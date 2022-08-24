@@ -60,7 +60,8 @@ export const globalStyles = (theme) => ({
       WebkitBoxShadow: '0 0 0 30px white inset !important',
     },
   '.MuiButton-root.MuiButton-outlined.MuiButton-outlinedSubText': {
-    border: `1px solid ${theme.palette.subText.a2} !important`,
+    border: '1px solid',
+    borderColor: theme.palette.subText.a2,
   },
   '.MuiFormLabel-root .MuiFormLabel-asterisk': {
     display: 'inline-block',

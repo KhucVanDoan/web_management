@@ -16,7 +16,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
   ORDER_STATUS_SO_EXPORT,
-  ORDER_STATUS_SO_EXPORT_OPTIONS,
+  ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -117,7 +117,7 @@ function SOExport() {
         const { status } = params.row
         return (
           <Status
-            options={ORDER_STATUS_SO_EXPORT_OPTIONS}
+            options={ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />

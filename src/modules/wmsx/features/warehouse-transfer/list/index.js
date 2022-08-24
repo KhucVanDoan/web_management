@@ -177,7 +177,7 @@ const WarehouseTransfer = () => {
 
           const hasTransaction =
             status === TRANSFER_STATUS.COMPLETED ||
-            status === TRANSFER_STATUS.EXPORTING
+            status === TRANSFER_STATUS.IN_PROGRESS
           return (
             <div>
               <IconButton

@@ -2,32 +2,29 @@ import React, { useEffect, useState, createContext } from 'react'
 
 import io from 'socket.io-client'
 
-import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import { SOCKET_EVENTS } from '~/common/constants/socket'
+import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
-import { isAuth } from '~/utils'
-import { getLocalItem } from '~/utils/storage'
 
 export const SocketContext = createContext({})
 
 const host = process.env.REACT_APP_SOCKET_HOST
-const notiHost = process.env.REACT_APP_SOCKET_NOTIFICATION_HOST
 
 export const SocketProvider = ({ children }) => {
-  const [socket, setSocket] = useState(null)
+  const [itemSocket, setItemSocket] = useState(null)
   const [notiSocket, setNotiSocket] = useState(null)
   const { actions } = useNotification()
-  const isAuthenticated = isAuth()
+  const { userInfo } = useAuth()
 
   useEffect(() => {
-    const socketInit = io(host, {
+    const itemSck = io(`${host}/items`, {
       transports: ['websocket'],
     })
 
-    socketInit.connect()
-    setSocket(socketInit)
+    itemSck.connect()
+    setItemSocket(itemSck)
 
-    socketInit.on(SOCKET_EVENTS.PRINT_ITEM_QR_CODE, (res) => {
+    itemSck.on(SOCKET_EVENTS.PRINT_ITEM_QR_CODE, (res) => {
       try {
         window.checkPrinterStatus(function (text) {
           if (text === 'Ready to Print') {
@@ -45,7 +42,7 @@ export const SocketProvider = ({ children }) => {
       }
     })
 
-    socketInit.on(SOCKET_EVENTS.PRINT_WORK_ORDER_QR_CODE, (res) => {
+    itemSck.on(SOCKET_EVENTS.PRINT_WORK_ORDER_QR_CODE, (res) => {
       try {
         window.checkPrinterStatus(function (text) {
           if (text === 'Ready to Print') {
@@ -64,41 +61,35 @@ export const SocketProvider = ({ children }) => {
     })
 
     return () => {
-      socketInit?.disconnect()
+      itemSck?.disconnect()
     }
   }, [])
 
   useEffect(() => {
-    const userId = getLocalItem('userInfo')?.id
-    if (!isAuthenticated || !userId) return
+    const userId = userInfo?.id
+    if (!userId) return
 
-    const socketInit = io(notiHost, {
+    const notiSck = io(`${host}/notifications`, {
       transports: ['websocket'],
     })
 
-    socketInit.connect()
-    setNotiSocket(socketInit)
+    notiSck.connect()
+    setNotiSocket(notiSck)
 
     const receivingEvent = `${SOCKET_EVENTS.PREFIX_CHANNEL_WEB}-${userId}`
-    socketInit.on(receivingEvent, (res) => {
+    notiSck.on(receivingEvent, (res) => {
       if (res?.user) {
         actions.addNotification(res?.user)
       }
     })
 
     return () => {
-      socketInit?.disconnect()
+      notiSck?.disconnect()
     }
-  }, [isAuthenticated])
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      actions.getNotifications({ limit: ROWS_PER_PAGE_OPTIONS[0] })
-    }
-  }, [isAuthenticated])
+  }, [userInfo?.id])
 
   const value = {
-    socket,
+    itemSocket,
     notiSocket,
   }
 

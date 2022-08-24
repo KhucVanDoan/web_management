@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -25,6 +26,8 @@ const FormDetail = () => {
   const history = useHistory()
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const mode = MODAL_MODE.DETAIL
 
   const [shifts, setShifts] = useState([
@@ -54,6 +57,16 @@ const FormDetail = () => {
     actions.getWorkCenterDetailsById(id)
     return () => actions.resetWorkCenterDetailState()
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getWorkCenterDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   useEffect(() => {
     getValueShifts()

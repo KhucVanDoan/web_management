@@ -17,7 +17,7 @@ import { convertFilterParams, convertSortParams } from '~/utils'
 import FilterForm from './form-filter'
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'plan',
   },
   {
     route: ROUTE.WORK_CENTER_PLAN.LIST.PATH,

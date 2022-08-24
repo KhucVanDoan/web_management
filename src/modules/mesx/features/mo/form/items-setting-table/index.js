@@ -6,7 +6,6 @@ import { useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 
 const ItemsSettingTable = (props) => {
   const { isView, moDetails } = props
@@ -16,17 +15,7 @@ const ItemsSettingTable = (props) => {
   const [pageSize] = useState(20)
   const [page] = useState(1)
   const [selectedRows, setSelectedRows] = useState([])
-  const {
-    data: { itemList },
-    actions,
-  } = useCommonManagement()
 
-  useEffect(() => {
-    actions.getItems({})
-  }, [])
-  const getItemObject = (id) => {
-    return itemList?.find((item) => item?.id === id)
-  }
   const columns = [
     {
       field: 'itemCode',
@@ -35,7 +24,6 @@ const ItemsSettingTable = (props) => {
       sortable: false,
       filterable: false,
       align: 'center',
-      headerAlign: 'center',
     },
     {
       field: 'itemName',
@@ -44,7 +32,6 @@ const ItemsSettingTable = (props) => {
       sortable: false,
       filterable: false,
       align: 'center',
-      headerAlign: 'center',
     },
     {
       field: 'quantity',
@@ -53,7 +40,6 @@ const ItemsSettingTable = (props) => {
       sortable: false,
       filterable: false,
       align: 'center',
-      headerAlign: 'center',
     },
     {
       field: 'itemUnitName',
@@ -62,7 +48,6 @@ const ItemsSettingTable = (props) => {
       sortable: false,
       filterable: false,
       align: 'center',
-      headerAlign: 'center',
     },
   ]
 
@@ -99,8 +84,8 @@ const ItemsSettingTable = (props) => {
       width: 100,
       align: 'center',
       renderCell: (params) => {
-        const { itemId } = params?.row
-        return getItemObject(itemId)?.itemUnit?.name
+        const { row } = params
+        return row?.item?.itemUnit?.name
       },
     },
   ]

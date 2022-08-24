@@ -27,14 +27,6 @@ import SupperCapacity from '../capacity'
 import TransactionVendor from '../transaction'
 import defineVendorSchema from './schema'
 
-const DEFAULT_ITEM = [
-  {
-    id: '',
-    itemId: null,
-    quantity: '',
-    deliveryTime: '',
-  },
-]
 const DefineVendorForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
@@ -72,7 +64,7 @@ const DefineVendorForm = () => {
             name: item?.item?.itemUnit,
           },
         },
-      })) || DEFAULT_ITEM,
+      })) || [],
     description: vendorDetails?.description || '',
   }
   useEffect(() => {

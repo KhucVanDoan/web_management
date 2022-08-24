@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -47,35 +46,35 @@ const DefineSuppliesDetail = () => {
   const backToList = () => {
     history.push(ROUTE.DEFINE_SUPPLIES.LIST.PATH)
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
-          >
-            {t('supplies.button.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
-          >
-            {t('supplies.button.suppliesCategory')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+  //         >
+  //           {t('supplies.button.device')}
+  //         </Button>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.LIST.PATH)}
+  //         >
+  //           {t('supplies.button.suppliesCategory')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.suppliesDetail')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>

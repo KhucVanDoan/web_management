@@ -88,6 +88,13 @@ const RequestDeviceList = () => {
         fixed: true,
       },
       {
+        field: 'name',
+        headerName: t('requestDevice.category.requestName'),
+        width: 150,
+        sortable: true,
+        fixed: true,
+      },
+      {
         field: 'type',
         headerName: t('requestDevice.category.requestType'),
         width: 150,

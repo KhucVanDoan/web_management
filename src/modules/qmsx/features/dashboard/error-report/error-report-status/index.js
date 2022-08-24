@@ -58,7 +58,7 @@ function ErrorReportStatus() {
     },
     tooltip: {
       fields: [nameField, quantityField, ratioField],
-      formatter: ({name, quantity, ratio}) => ({
+      formatter: ({ name, quantity, ratio }) => ({
         name: name,
         value: `${quantity} (${ratio}%)`,
       }),
@@ -69,8 +69,9 @@ function ErrorReportStatus() {
     <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t(`${transKey}.title`)}</Typography>
-
-        <ErrorReportStatusFilterForm />
+        <Box>
+          <ErrorReportStatusFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

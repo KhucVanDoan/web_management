@@ -61,13 +61,13 @@ function ProgressDetailReport() {
   }
   const onSubmit = (values) => {
     const params = {
-      id: values?.soId?.id,
-      itemIds: values?.itemId,
-      manufacturingOrderId: values?.moId?.id,
-      producingStepId: values?.producingStepId,
-      workCenterId: values?.workCenterId,
-      dateFrom: values?.created[0],
-      dateTo: values?.created[1],
+      id: values?.soId?.id || null,
+      itemIds: values?.itemId || null,
+      moIds: values?.moId?.id || null,
+      producingStepIds: values?.producingStepId || null,
+      workCenterIds: values?.workCenterId || null,
+      dateFrom: values?.created[0] || null,
+      dateTo: values?.created[1] || null,
     }
     actionProgress.getProgressDetailReport(params)
   }
@@ -131,6 +131,7 @@ function ProgressDetailReport() {
                     disabled={!values?.soId}
                     asyncRequestHelper={(res) => res?.data?.items}
                     getOptionLabel={(opt) => opt?.code}
+                    asyncRequestDeps={values?.soId}
                     onChange={(val) => {
                       if (val) {
                         actionMo.getListMoProducingStepById(val?.id)

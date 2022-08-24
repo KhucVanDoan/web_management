@@ -204,6 +204,33 @@ const routes = [
           },
         ],
       },
+      // tạm thời chưa dùng
+      // {
+      //   name: ROUTE.DEFINE_UNIT.LIST.TITLE,
+      //   path: ROUTE.DEFINE_UNIT.LIST.PATH,
+      //   component: DefineUnit,
+      //   isInSidebar: true,
+      //   subMenu: [
+      //     {
+      //       name: ROUTE.DEFINE_UNIT.CREATE.TITLE,
+      //       path: ROUTE.DEFINE_UNIT.CREATE.PATH,
+      //       component: DefineUnitForm,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.DEFINE_UNIT.DETAIL.TITLE,
+      //       path: ROUTE.DEFINE_UNIT.DETAIL.PATH,
+      //       component: DefineUnitDetail,
+      //       isInSidebar: false,
+      //     },
+      //     {
+      //       name: ROUTE.DEFINE_UNIT.EDIT.TITLE,
+      //       path: ROUTE.DEFINE_UNIT.EDIT.PATH,
+      //       component: DefineUnitForm,
+      //       isInSidebar: false,
+      //     },
+      //   ],
+      // },
     ],
   },
   {

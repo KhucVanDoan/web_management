@@ -21,7 +21,7 @@ import ItemsSettingTable from '../form/items-setting-table'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.BOM_PRODUCING_STEP.LIST.PATH,

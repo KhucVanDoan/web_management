@@ -26,6 +26,7 @@ const FilterForm = () => {
           label={t('maintainRequest.name')}
           placeholder={t('maintainRequest.name')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

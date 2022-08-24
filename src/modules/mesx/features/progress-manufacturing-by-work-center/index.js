@@ -14,7 +14,6 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
   convertUtcDateToLocalTz,
 } from '~/utils'
 
@@ -78,7 +77,7 @@ function ProgressManufacturingByWorkCenter() {
       width: 150,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.moPlan?.name
+        return params?.row?.masterPlan?.name
       },
     },
     {
@@ -127,7 +126,7 @@ function ProgressManufacturingByWorkCenter() {
       width: 100,
       sortable: true,
       renderCell: (params) => {
-        const { status } = params.row?.moPlan
+        const { status } = params.row?.mo
         return (
           <Status
             options={PROGRESS_MANUFACTURING_BY_WORK_CENTER_STATUS_OPTIONS}
@@ -158,8 +157,8 @@ function ProgressManufacturingByWorkCenter() {
       sortable: true,
       filterFormat: 'date',
       renderCell: (params) => {
-        const { deadline } = params.row
-        return convertUtcDateTimeToLocalTz(deadline)
+        const { planFrom } = params.row?.mo
+        return convertUtcDateToLocalTz(planFrom)
       },
     },
     {
@@ -169,8 +168,8 @@ function ProgressManufacturingByWorkCenter() {
       sortable: true,
       filterFormat: 'date',
       renderCell: (params) => {
-        const { deadline } = params.row
-        return convertUtcDateTimeToLocalTz(deadline)
+        const { planTo } = params.row?.mo
+        return convertUtcDateToLocalTz(planTo)
       },
     },
     {

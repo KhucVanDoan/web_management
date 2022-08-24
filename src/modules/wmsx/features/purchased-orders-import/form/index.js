@@ -7,6 +7,7 @@ import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import {
   MODAL_MODE,
+  ORDER_DIRECTION,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
@@ -24,8 +25,11 @@ import {
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import usePurchasedOrdersImport from '~/modules/wmsx/redux/hooks/usePurchasedOrdersImport'
+import { searchPackagesApi } from '~/modules/wmsx/redux/sagas/define-package/search-packages'
+import { searchPalletsApi } from '~/modules/wmsx/redux/sagas/define-pallet/search-pallets'
+import { searchLocationSettingsApi } from '~/modules/wmsx/redux/sagas/location-setting/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import ItemSettingTable from '../item-setting-table'
 import { schema } from './schema'
@@ -35,6 +39,8 @@ const POForm = () => {
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
+  const [allOpts, setAllOpts] = useState([])
+  const [locations, setLocations] = useState([])
 
   const {
     data: { poImportDetails, isLoading },
@@ -42,16 +48,14 @@ const POForm = () => {
   } = usePurchasedOrdersImport()
 
   const {
-    data: { purchasedOrderList },
-    actions: actionPO,
-  } = usePurchasedOrder()
-
-  const {
     data: { warehouseList, itemQualityPoint },
     actions: commonActions,
   } = useCommonManagement()
 
-  const { actions: actionsPurchasedOrderDetails } = usePurchasedOrder()
+  const {
+    data: { purchasedOrderList },
+    actions: actionsPurchasedOrderDetails,
+  } = usePurchasedOrder()
 
   const [itemsFilter, setItemsFilter] = useState([])
 
@@ -65,7 +69,7 @@ const POForm = () => {
     commonActions.getWarehouses({})
     commonActions.getItems({ isGetAll: 1 })
     commonActions.getItemQualityPoint({})
-    actionPO.searchPurchasedOrders(params)
+    actionsPurchasedOrderDetails.searchPurchasedOrders(params)
   }, [])
   const initCode = (domainName) => {
     const domain = CODE_SETTINGS[domainName]
@@ -135,7 +139,7 @@ const POForm = () => {
               mfg: detailLot?.mfg,
               packageId: detailLot?.packageId,
               evenRow: detailLot?.isEven,
-              palletId: detailLot?.palletId,
+              palletId: detailLot?.pallet,
               location: detailLot?.locationId,
             }),
           )
@@ -226,7 +230,7 @@ const POForm = () => {
         mfg: item.mfg,
         packageId: item?.packageId,
         storedQuantity: +item?.storedQuantity,
-        palletId: item?.palletId,
+        palletId: item?.palletId?.id,
         isEven: item?.evenRow,
         locationId: item?.location,
       })),
@@ -261,7 +265,68 @@ const POForm = () => {
     }
   }
 
-  const onChangePo = (value, setFieldValue) => {
+  const fetchData = ({ poDetail = [], warehouseId = '' }) => {
+    const tempArr = []
+    const tempLocations = []
+    let response
+    poDetail?.forEach(async (po) => {
+      const resPackage = await searchPackagesApi({
+        filter: convertFilterParams({
+          itemId: po.itemId,
+        }),
+      })
+      const resPallet = await searchPalletsApi({
+        filter: convertFilterParams({
+          itemId: po.itemId,
+        }),
+      })
+
+      if (!!warehouseId && !!po) {
+        response = await searchLocationSettingsApi({
+          sort: convertSortParams({
+            order: ORDER_DIRECTION.ASC,
+            orderBy: 'itemId',
+          }),
+          filter: convertFilterParams({
+            warehouseId: warehouseId,
+            itemId: po.itemId,
+          }),
+        })
+      }
+      tempArr.push({
+        itemId: po.itemId,
+        packages: resPackage?.data?.items,
+        pallets: resPallet?.data?.items,
+        locations: response?.data?.items,
+      })
+      tempLocations.push({
+        itemId: po.itemId,
+        locations: response?.data?.items,
+      })
+      setAllOpts(tempArr)
+      setLocations(tempLocations)
+    })
+  }
+
+  useEffect(() => {
+    fetchData({
+      poDetail: poImportDetails?.purchasedOrderImportWarehouseLots,
+      warehouseId: poImportDetails?.warehouseId,
+    })
+  }, [poImportDetails])
+
+  const onChangePo = (value, setFieldValue, values) => {
+    if (!value) {
+      setItemsFilter([])
+      setFieldValue('codePO', '')
+      setFieldValue('purchasedAt', '')
+      setFieldValue('deliveredAt', '')
+      setFieldValue('purchasedOrderId', '')
+      setFieldValue('items', [{ ...DEFAULT_ITEM }])
+      setAllOpts([])
+      return
+    }
+
     actionsPurchasedOrderDetails.getPurchasedOrderDetailsById(value, (data) => {
       const { code, purchasedAt, deadline, purchasedOrderDetails } = data
       setItemsFilter(purchasedOrderDetails)
@@ -286,6 +351,39 @@ const POForm = () => {
           storedQuantity: 0,
         })),
       )
+      fetchData({
+        poDetail: purchasedOrderDetails,
+        warehouseId: values?.warehouseId,
+      })
+    })
+  }
+
+  const onChangeWarehouse = (val, values, setFieldValue) => {
+    if (!val)
+      setFieldValue(
+        'items',
+        values?.items?.map((i) => ({
+          ...i,
+          location: [],
+        })),
+      )
+    const tempLocations = []
+    values?.items?.forEach(async (item) => {
+      const resLocation = await searchLocationSettingsApi({
+        sort: convertSortParams({
+          order: ORDER_DIRECTION.ASC,
+          orderBy: 'itemId',
+        }),
+        filter: convertFilterParams({
+          warehouseId: val,
+          itemId: item?.itemId?.id,
+        }),
+      })
+      tempLocations.push({
+        itemId: item?.itemId?.id,
+        locations: resLocation?.data?.items,
+      })
+      setLocations(tempLocations)
     })
   }
 
@@ -359,7 +457,7 @@ const POForm = () => {
                       options={purchasedOrderList}
                       getOptionLabel={(opt) => t(opt.code) || ''}
                       getOptionValue={(opt) => opt?.id || ''}
-                      onChange={(id) => onChangePo(id, setFieldValue)}
+                      onChange={(id) => onChangePo(id, setFieldValue, values)}
                       required
                     />
                   </Grid>
@@ -381,6 +479,9 @@ const POForm = () => {
                       required
                       getOptionLabel={(opt) => opt?.name || ''}
                       getOptionValue={(opt) => opt?.id || ''}
+                      onChange={(val) =>
+                        onChangeWarehouse(val, values, setFieldValue)
+                      }
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -422,6 +523,8 @@ const POForm = () => {
                     type={values?.type}
                     setFieldValue={setFieldValue}
                     values={values}
+                    allOpts={allOpts}
+                    locations={locations}
                   />
                 )}
               />

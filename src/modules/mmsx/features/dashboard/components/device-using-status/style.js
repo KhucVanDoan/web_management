@@ -4,45 +4,60 @@ const style = (theme) => ({
     justifyContent: 'space-between',
     marginBottom: theme.spacing(2),
   },
+  stageHeader: {
+    marginTop: 24,
+    height: 40,
+    width: '100%',
+    background: 'rgba(7, 97, 173, 0.3)',
+    borderRadius: '0px 0px 3px 3px',
+    display: 'flex',
+    justifyItems: 'center',
+    '& .text': {
+      color: '#222222',
+      fontWeight: 600,
+      fontSize: 14,
+      lineHeight: 22,
+      padding: '9px 16px',
+    },
+  },
   stage: {
-    maxHeight: 230,
+    maxHeight: 450,
     overflowY: 'auto',
-    '.stage-header': {
-      marginTop: 24,
-      height: 40,
-      width: '100%',
-      background: 'rgba(7, 97, 173, 0.3)',
-      borderRadius: '0px 0px 3px 3px',
-      display: 'flex',
-      justifyItems: 'center',
-      '& .text': {
-        color: '#222222',
-        fontWeight: 600,
-        fontSize: 14,
-        lineHeight: 22,
-        padding: '9px 16px',
-      },
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  deviceContainer: {
+    width: '20%',
+    paddingRight: 40,
+    paddingTop: 20,
+    boxSizing: 'border-box',
+
+    [theme.breakpoints.down(1600)]: {
+      width: '25%',
+    },
+    [theme.breakpoints.down(1400)]: {
+      width: '33.33%',
+    },
+    [theme.breakpoints.down(1200)]: {
+      width: '50%',
     },
   },
   devicePanel: {
-    height: 40,
-    width: '50%',
-    marginTop: 10,
     background: '#f4f5f5',
     border: '1px solid #f4f5f5',
-    boxSizing: 'border-box',
     borderRadius: 3,
-    padding: 2,
     display: 'flex',
+
     '.title': {
-      justifyContent: 'center',
       alignItems: 'center',
       background: '#ffffff',
       boxShadow: '0px 8px 8px rgba(102, 102, 102, 0.05)',
       borderRadius: 3,
       width: '50%',
+      padding: 6,
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      boxSizing: 'border-box',
     },
     '.data': {
       borderRadius: 3,
@@ -75,7 +90,8 @@ const style = (theme) => ({
   boxContainer: {
     marginBottom: 12,
     '.overall-background': {
-      height: 113,
+      height: '100%',
+      minHeight: 113,
       background:
         'linear-gradient(0deg,rgba(15, 164, 74, 0.1),rgba(15, 164, 74, 0.1))',
       borderRadius: '3px 3px 0px 0px',

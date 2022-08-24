@@ -3,7 +3,6 @@ import React from 'react'
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
@@ -62,7 +61,7 @@ function ItemSettingTable({
         renderCell: (params, index) => {
           const { warehouseSector } = params.row
 
-          const itemIdCodeList = items.map((item) => item.warehouseSector?.id)
+          // const itemIdCodeList = items.map((item) => item.warehouseSector?.id)
           return isView ? (
             <>{warehouseSector?.name || ''}</>
           ) : (
@@ -77,14 +76,18 @@ function ItemSettingTable({
                   }),
                 })
               }
+              asyncRequestDeps={values?.warehouses?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !== items[index]?.warehouseSector?.id
-              }
-              onChange={() => setFieldValue('warehouseShelf', null)}
+              // getOptionDisabled={(opt) =>
+              //   itemIdCodeList.some((id) => id === opt?.id) &&
+              //   opt?.id !== items[index]?.warehouseSector?.id
+              // }
+              onChange={() => {
+                setFieldValue(`items[${index}].warehouseShelf`, null)
+                setFieldValue(`items[${index}].warehousePallet`, null)
+              }}
             />
           )
         },
@@ -96,7 +99,7 @@ function ItemSettingTable({
         renderCell: (params, index) => {
           const { warehouseShelf } = params.row
 
-          const itemIdCodeList = items.map((item) => item.warehouseShelf?.id)
+          // const itemIdCodeList = items.map((item) => item.warehouseShelf?.id)
           return isView ? (
             <>{warehouseShelf?.name || ''}</>
           ) : (
@@ -111,12 +114,16 @@ function ItemSettingTable({
                   }),
                 })
               }
+              asyncRequestDeps={items[index].warehouseSector?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !== items[index]?.warehouseShelf?.id
+              // getOptionDisabled={(opt) =>
+              //   itemIdCodeList.some((id) => id === opt?.id) &&
+              //   opt?.id !== items[index]?.warehouseShelf?.id
+              // }
+              onChange={() =>
+                setFieldValue(`items[${index}].warehousePallet`, null)
               }
             />
           )
@@ -144,6 +151,7 @@ function ItemSettingTable({
                   }),
                 })
               }
+              asyncRequestDeps={items[index]?.warehouseShelf?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
               getOptionSubLabel={(opt) => opt?.code}
@@ -271,12 +279,6 @@ function ItemSettingTable({
       />
     </>
   )
-}
-
-ItemSettingTable.propTypes = {
-  arrayHelpers: PropTypes.shape(),
-  items: PropTypes.array,
-  mode: PropTypes.string,
 }
 
 export default ItemSettingTable

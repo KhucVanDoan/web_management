@@ -66,7 +66,6 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio, setIsLoading }) => {
       displayWarehouseDesign()
     }
   }, [warehouseId])
-
   useEffect(() => {
     setDesigns(
       warehouseDetailCanvas?.warehouseSectors?.map((sector) => ({
@@ -267,8 +266,8 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio, setIsLoading }) => {
                   id: uuid(),
                   warehouseShelfs: templateSector?.templateShelfs?.map(
                     (item) => ({
-                      ...item,
                       ...templateShelf,
+                      ...item,
                       warehouseShelfFloors: templateShelf?.templateShelfFloors,
                     }),
                   ),
@@ -612,7 +611,6 @@ const WarehouseCanvas = ({ onChangeWarehouseRatio, setIsLoading }) => {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
-
   return (
     <div className="warehouse-canvas">
       <Card

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -49,28 +48,28 @@ const RequestDeviceDetail = () => {
   const backToList = () => {
     history.push(ROUTE.REQUEST_DEVICE.LIST.PATH)
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
-          >
-            {t('requestDevice.buttonTitle.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
-          >
-            {t('requestDevice.buttonTitle.assignment')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+  //         >
+  //           {t('requestDevice.buttonTitle.device')}
+  //         </Button>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_ASSIGN.LIST.PATH)}
+  //         >
+  //           {t('requestDevice.buttonTitle.assignment')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   const histories = requestDeviceDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
       ? t(`requestDevice.comment.${ACTION_MAP[item?.action]}`)
@@ -85,7 +84,7 @@ const RequestDeviceDetail = () => {
       title={t('requestDevice.form.viewDetailRequestDevice')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>

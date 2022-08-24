@@ -49,7 +49,7 @@ const ImportManufacturingOrderForm = () => {
   const [itemsFilter, setItemsFilter] = useState([])
   useEffect(() => {
     commonActions.getSupplyRequest({})
-    commonActions.getItems({})
+    commonActions.getItems({ isGetAll: 1 })
     commonActions.getItemQualityPoint({})
   }, [])
 

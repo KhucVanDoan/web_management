@@ -84,8 +84,9 @@ function QcProgress() {
     <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t(`${transKey}.qcProgress`)}</Typography>
-
-        <QcProgressFilterForm />
+        <Box>
+          <QcProgressFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>
