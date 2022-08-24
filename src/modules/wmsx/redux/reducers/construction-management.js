@@ -14,6 +14,9 @@ import {
   UPDATE_CONSTRUCTION_FAILED,
   UPDATE_CONSTRUCTION_START,
   UPDATE_CONSTRUCTION_SUCCESS,
+  CONFIRM_CONSTRUCTION_FAILED,
+  CONFIRM_CONSTRUCTION_START,
+  CONFIRM_CONSTRUCTION_SUCCESS,
   RESET_CONSTRUCTION_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/construction-management'
 
@@ -36,6 +39,7 @@ export default function constructionManagement(state = initialState, action) {
     case CREATE_CONSTRUCTION_START:
     case UPDATE_CONSTRUCTION_START:
     case DELETE_CONSTRUCTION_START:
+    case CONFIRM_CONSTRUCTION_START:
     case GET_CONSTRUCTION_DETAILS_START:
       return {
         ...state,
@@ -54,6 +58,8 @@ export default function constructionManagement(state = initialState, action) {
         ...state,
         isLoading: false,
       }
+    case CONFIRM_CONSTRUCTION_FAILED:
+    case CONFIRM_CONSTRUCTION_SUCCESS:
     case CREATE_CONSTRUCTION_SUCCESS:
     case CREATE_CONSTRUCTION_FAILED:
     case UPDATE_CONSTRUCTION_SUCCESS:

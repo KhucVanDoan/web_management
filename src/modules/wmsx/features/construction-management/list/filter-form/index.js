@@ -22,6 +22,16 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
+        <Field.TextField
+          name="name"
+          label={t('constructionManagement.name')}
+          placeholder={t('constructionManagement.name')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
           label={t('constructionManagement.createTime')}

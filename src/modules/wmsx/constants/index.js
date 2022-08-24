@@ -1281,24 +1281,24 @@ export const MANAGEMENT_UNIT_STATUS_OPTIONS = [
 ]
 
 export const ACTIVE_STATUS = {
-  ACTIVE: 0,
-  INACTIVE: 1,
+  INACTIVE: 0,
+  ACTIVE: 1,
 }
 
 export const ACTIVE_STATUS_OPTIONS = [
   {
     id: 0,
-    text: 'general.active',
-    color: 'active',
+    text: 'general.inactive',
+    color: 'inactive',
   },
   {
     id: 1,
-    text: 'general.inactive',
-    color: 'inactive',
+    text: 'general.active',
+    color: 'active',
   },
 ]
 
 export const ACTIVE_STATUS_MAP = {
-  [ACTIVE_STATUS.ACTIVE]: 'general.active',
   [ACTIVE_STATUS.INACTIVE]: 'general.inactive',
+  [ACTIVE_STATUS.ACTIVE]: 'general.active',
 }

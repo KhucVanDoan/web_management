@@ -26,6 +26,7 @@ import { ReactComponent as Invoid } from '~/assets/images/icons/invoid.svg'
 import { ReactComponent as Lock } from '~/assets/images/icons/keylock.svg'
 import { ReactComponent as UnLock } from '~/assets/images/icons/keyunlock.svg'
 import { ReactComponent as ListView } from '~/assets/images/icons/listView.svg'
+import { ReactComponent as Locked } from '~/assets/images/icons/locked.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Overdue } from '~/assets/images/icons/overdue.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
@@ -40,6 +41,7 @@ import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
+import { ReactComponent as Unlock } from '~/assets/images/icons/unlock.svg'
 import { ReactComponent as Upload } from '~/assets/images/icons/upload.svg'
 import { ReactComponent as User } from '~/assets/images/icons/user.svg'
 import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
@@ -96,6 +98,8 @@ const icons = {
   ganttChart: <GanntChart />,
   qr: <QR />,
   qrWhite: <QRWhite />,
+  locked: <Locked />,
+  unlock: <Unlock />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

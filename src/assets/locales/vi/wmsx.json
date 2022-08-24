@@ -7,8 +7,11 @@
     "warehousePalletName": "Tên tầng",
     "create": "Tạo mới",
     "selectWarehouse": "Chọn kho",
-    "active": "Active",
-    "inactive": "Inactive"
+    "updateStatus": "Cập nhật trạng thái",
+    "status": "Trạng thái hiện tại",
+    "active": "Hoạt động",
+    "inactive": "Tạm dừng",
+    "confirmMessage": "Bạn chắc chắn muốn cập nhật trạng thái bản ghi?"
   },
   "menu": {
     "wmsx": "WMSX",
@@ -2360,12 +2363,25 @@
   },
   "constructionManagement": {
     "list": "Danh sách công trình",
-    "searchPlaceholder": "Tìm kiếm công trình theo mã",
+    "searchPlaceholder": "Tìm kiếm công trình theo mã hoặc tên",
     "code": "Mã công trình",
+    "name": "Tên công trình",
     "description": "Mô tả công trình",
     "status": "Trạng thái hoạt động",
     "createTime": "Thời gian tạo",
-    "defineConstructionDelete": "Xóa công trình",
+    "constructionManagementDelete": "Xóa công trình",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá công trình này không?"
+  },
+  "constructionItemsManagement": {
+    "list": "Danh sách hạng mục",
+    "searchPlaceholder": "Tìm kiếm hạng mục theo mã hoặc tên",
+    "code": "Mã hạng mục",
+    "name": "Tên hạng mục",
+    "constructionCode": "Mã công trình",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "createTime": "Thời gian tạo",
+    "constructionItemsManagementDelete": "Xóa hạng mục",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá hạng mục này không?"
   }
 }

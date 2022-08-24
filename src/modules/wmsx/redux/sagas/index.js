@@ -28,6 +28,12 @@ import watchGetCompanies from './company-management/get-companies'
 import watchGetCompanyDetails from './company-management/get-company-details'
 import watchSearchCompanies from './company-management/search-companies'
 import watchUpdateCompany from './company-management/update-company'
+import watchCreateConstructionItems from './construction-items-management/create-construction-items'
+import watchDeleteConstructionItems from './construction-items-management/delete-construction-items'
+import watchGetConstructionItemsDetails from './construction-items-management/get-construction-items-details'
+import watchSearchConstructionItems from './construction-items-management/search-construction-items'
+import watchUpdateConstructionItems from './construction-items-management/update-construction-items'
+import watchConfirmConstruction from './construction-management/confirm-construction'
 import watchCreateConstruction from './construction-management/create-construction'
 import watchDeleteConstruction from './construction-management/delete-construction'
 import watchGetConstructionDetails from './construction-management/get-construction-details'
@@ -595,11 +601,20 @@ export default function* sagas() {
     watchGetCompanyDetails(),
     watchSearchCompanies(),
     watchUpdateCompany(),
+
     //construction-management
     watchCreateConstruction(),
     watchUpdateConstruction(),
     watchSearchConstructions(),
     watchGetConstructionDetails(),
     watchDeleteConstruction(),
+    watchConfirmConstruction(),
+
+    //construction-items-management
+    watchCreateConstructionItems(),
+    watchUpdateConstructionItems(),
+    watchSearchConstructionItems(),
+    watchGetConstructionItemsDetails(),
+    watchDeleteConstructionItems(),
   ])
 }

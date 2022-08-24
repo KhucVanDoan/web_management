@@ -21,6 +21,10 @@ export const GET_CONSTRUCTION_DETAILS_SUCCESS =
 export const GET_CONSTRUCTION_DETAILS_FAILED =
   'WMSX_GET_CONSTRUCTION_DETAILS_FAILED'
 
+export const CONFIRM_CONSTRUCTION_START = 'WMSX_CONFIRM_CONSTRUCTION_START'
+export const CONFIRM_CONSTRUCTION_SUCCESS = 'WMSX_CONFIRM_CONSTRUCTION_SUCCESS'
+export const CONFIRM_CONSTRUCTION_FAILED = 'WMSX_CONFIRM_CONSTRUCTION_FAILED'
+
 export const RESET_CONSTRUCTION_DETAILS_STATE =
   'WMSX_RESET_CONSTRUCTION_DETAILS_STATE'
 
@@ -134,6 +138,28 @@ export function getConstructionDetailsByIdFailed() {
   }
 }
 
+export function confirmConstructionById(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_CONSTRUCTION_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmConstructionByIdSuccess(payload) {
+  return {
+    type: CONFIRM_CONSTRUCTION_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmConstructionByIdFailed() {
+  return {
+    type: CONFIRM_CONSTRUCTION_FAILED,
+  }
+}
+
 export function resetConstructionDetailsState() {
   return {
     type: RESET_CONSTRUCTION_DETAILS_STATE,
@@ -156,5 +182,8 @@ export default {
   getConstructionDetailsById,
   getConstructionDetailsByIdSuccess,
   getConstructionDetailsByIdFailed,
+  confirmConstructionById,
+  confirmConstructionByIdSuccess,
+  confirmConstructionByIdFailed,
   resetConstructionDetailsState,
 }
