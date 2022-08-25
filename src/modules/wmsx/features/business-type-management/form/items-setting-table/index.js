@@ -10,7 +10,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
   const { t } = useTranslation(['wmsx'])
@@ -23,14 +22,7 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
         headerName: t('businessTypeManagement.items.fieldName'),
         width: 250,
         renderCell: (params, index) => {
-          return (
-            <Field.Autocomplete
-              name={`items[${index}].fieldName`}
-              options={[]}
-              getOptionLabel={(opt) => opt?.name}
-              required
-            />
-          )
+          return <Field.TextField name={`items[${index}].fieldName`} required />
         },
       },
       {
@@ -103,9 +95,10 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
 
         {!isView && (
           <Button
+            variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: '',
+                id: new Date().getTime(),
                 fieldName: '',
                 code: '',
                 type: '',
@@ -113,7 +106,6 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
                 tableName: '',
                 required: true,
               })
-              scrollToBottom()
             }}
           >
             {t('businessTypeManagement.addButton')}
