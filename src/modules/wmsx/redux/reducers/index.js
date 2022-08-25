@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import blockItemLocation from './block-item-location'
+import businessTypeManagement from './business-type-management'
 import commonManagement from './common'
 import companyManagement from './company-management'
 import constructionItemsManagement from './construction-items-management'
@@ -103,4 +104,5 @@ export default combineReducers({
   companyManagement,
   constructionManagement,
   constructionItemsManagement,
+  businessTypeManagement,
 })

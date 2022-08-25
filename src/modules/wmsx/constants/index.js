@@ -1302,3 +1302,30 @@ export const ACTIVE_STATUS_MAP = {
   [ACTIVE_STATUS.INACTIVE]: 'general.inactive',
   [ACTIVE_STATUS.ACTIVE]: 'general.active',
 }
+
+export const PARENT_BUSINESS_TYPE = {
+  IMPORT: 0,
+  EXPORT: 1,
+  TRANSFER: 2,
+}
+
+export const PARENT_BUSINESS_TYPE_MAP = {
+  [PARENT_BUSINESS_TYPE.IMPORT]: 'businessTypeManagement.import',
+  [PARENT_BUSINESS_TYPE.EXPORT]: 'businessTypeManagement.export',
+  [PARENT_BUSINESS_TYPE.TRANSFER]: 'businessTypeManagement.transfer',
+}
+
+export const PARENT_BUSINESS_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'businessTypeManagement.import',
+  },
+  {
+    id: 1,
+    text: 'businessTypeManagement.export',
+  },
+  {
+    id: 2,
+    text: 'businessTypeManagement.transfer',
+  },
+]
