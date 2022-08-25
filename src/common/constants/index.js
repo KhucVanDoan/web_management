@@ -88,6 +88,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   TARGET: {
     MAX: 5,
   },
+  CODE_100: {
+    MAX: 100,
+  },
 }
 
 export const NUMBER_FIELD_REQUIRED_SIZE = {
