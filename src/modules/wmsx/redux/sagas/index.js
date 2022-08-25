@@ -13,6 +13,13 @@ import watchGetBlockLocationDetail from './block-item-location/block-location/ge
 import watchGetDesignByWarehouse from './block-item-location/block-location/get-design-by-warehouse'
 import watchOpenBlockLocation from './block-item-location/block-location/open-block-location'
 import watchSearchBlockLocations from './block-item-location/block-location/search-block-location'
+import watchConfirmBussinessType from './business-type-management/confirm-business-type'
+import watchCreateBussinessType from './business-type-management/create-business-type'
+import watchDeleteBussinessType from './business-type-management/delete-business-type'
+import watchGetBussinessTypeDetails from './business-type-management/get-business-type-details'
+import watchRejectBussinessType from './business-type-management/reject-business-type'
+import watchSearchBussinessTypes from './business-type-management/search-business-types'
+import watchUpdateBussinessType from './business-type-management/update-business-type'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
@@ -616,5 +623,14 @@ export default function* sagas() {
     watchSearchConstructionItems(),
     watchGetConstructionItemsDetails(),
     watchDeleteConstructionItems(),
+
+    //bussiness-type-management
+    watchCreateBussinessType(),
+    watchUpdateBussinessType(),
+    watchSearchBussinessTypes(),
+    watchGetBussinessTypeDetails(),
+    watchDeleteBussinessType(),
+    watchConfirmBussinessType(),
+    watchRejectBussinessType(),
   ])
 }

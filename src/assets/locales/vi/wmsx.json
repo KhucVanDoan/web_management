@@ -2383,5 +2383,28 @@
     "createTime": "Thời gian tạo",
     "constructionItemsManagementDelete": "Xóa hạng mục",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá hạng mục này không?"
+  },
+  "businessTypeManagement": {
+    "list": "Danh sách loại nghiệp vụ",
+    "searchPlaceholder": "Tìm kiếm loại nghiệp vụ theo mã hoặc tên",
+    "code": "Mã loại nghiệp vụ",
+    "name": "Tên loại nghiệp vụ",
+    "parentBusiness": "Nghiệp vụ cha",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Thời gian tạo",
+    "constructionItemsManagementDelete": "Xóa loại nghiệp vụ",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá loại nghiệp vụ này không?",
+    "addButton": "Thêm trường dữ liệu",
+    "import": "Nhập kho",
+    "export": "Xuất kho",
+    "transfer": "Chuyển kho",
+    "items": {
+      "list": "Danh sách trường dữ liệu",
+      "fieldName": "Tên trường",
+      "type": "Kiểu dữ liệu",
+      "show": "Hiển thị?",
+      "required": "Bắt buộc?"
+    }
   }
 }

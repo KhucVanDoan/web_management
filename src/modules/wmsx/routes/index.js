@@ -1,4 +1,5 @@
 import Dashboard from '~/modules/wmsx/features/dashboard'
+
 // import DefineBlockDetail from '~/modules/wmsx/features/define-block/detail'
 // import DefineBlockForm from '~/modules/wmsx/features/define-block/form'
 // import DefineBlock from '~/modules/wmsx/features/define-block/list'
@@ -35,6 +36,9 @@ import Dashboard from '~/modules/wmsx/features/dashboard'
 // import WarehouseReportDetail from '~/modules/wmsx/features/warehouse-report/detail'
 // import WarehouseReportForm from '~/modules/wmsx/features/warehouse-report/form'
 
+import BusinessTypeManagementDetail from '../features/business-type-management/detail'
+import BusinessTypeManagementForm from '../features/business-type-management/form'
+import BussinessTypeManagement from '../features/business-type-management/list'
 import CompanyManagementDetail from '../features/company-management/detail'
 import CompanyManagementForm from '../features/company-management/form'
 import CompanyManagement from '../features/company-management/list'
@@ -373,25 +377,25 @@ const routes = [
       {
         name: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.TITLE,
         path: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: BussinessTypeManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: BusinessTypeManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: BusinessTypeManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: BusinessTypeManagementForm,
             isInSidebar: false,
           },
         ],
