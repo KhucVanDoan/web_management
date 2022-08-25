@@ -2399,12 +2399,20 @@
     "import": "Nhập kho",
     "export": "Xuất kho",
     "transfer": "Chuyển kho",
+    "deleteTitlePopup": "Xóa loại nghiệp vụ",
     "items": {
-      "list": "Danh sách trường dữ liệu",
+      "fieldList": "Danh sách trường dữ liệu",
       "fieldName": "Tên trường",
       "type": "Kiểu dữ liệu",
+      "list": "Chọn danh sách",
+      "contruction": "Công trình",
+      "contructionName": "Tên công trình",
       "show": "Hiển thị?",
       "required": "Bắt buộc?"
+    },
+    "types": {
+      "textField": "Text Field",
+      "list": "Danh sách"
     }
   },
   "defineObjectCategory": {

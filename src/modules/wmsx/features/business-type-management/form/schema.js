@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import { DATA_TYPE } from '~/modules/wmsx/constants'
 
 export const defineSchema = (t) =>
   Yup.object().shape({
@@ -52,4 +53,36 @@ export const defineSchema = (t) =>
           ),
       }),
     ),
+  })
+
+export const defineFieldSchema = (t) =>
+  Yup.object().shape({
+    type: Yup.string()
+      .required(t('general:form.required'))
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+        }),
+      ),
+    list: Yup.string()
+      .nullable()
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+        }),
+      )
+      .when('type', {
+        is: (type) => Boolean(+type === DATA_TYPE.LIST),
+        then: Yup.string().nullable().required(t('general:form.required')),
+      }),
+    fieldName: Yup.string()
+      .required(t('general:form.required'))
+      .max(
+        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        t('general:form.maxLength', {
+          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+        }),
+      ),
   })

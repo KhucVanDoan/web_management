@@ -33,6 +33,7 @@ const DEFAULT_ITEM = {
   columnName: '',
   tableName: '',
   required: true,
+  show: true,
 }
 
 function BusinessTypeManagementForm() {

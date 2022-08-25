@@ -288,8 +288,7 @@ function BussinessTypeManagement() {
         }}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
-          // @TODO khanh.nguyenvan add apiURL business type
-          apiUrl: API_URL.COMPANY,
+          apiUrl: API_URL.BUSINESS_TYPE,
           onSuccess: () => {
             if (page === 1) {
               refreshData()
@@ -302,7 +301,7 @@ function BussinessTypeManagement() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('businessTypeManagement.constructionManagementDelete')}
+        title={t('businessTypeManagement.deleteTitlePopup')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
