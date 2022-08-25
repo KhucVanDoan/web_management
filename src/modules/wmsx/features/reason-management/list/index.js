@@ -12,15 +12,16 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
-import LabelValue from '~/components/LabelValue'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
+import useReasonManagement from '~/modules/wmsx/redux/hooks/useReasonManagement'
 import {
-  exportUnitApi,
-  importUnitApi,
-} from '~/modules/wmsx/redux/sagas/management-unit/import-export'
+  exportReasonApi,
+  importReasonApi,
+} from '~/modules/wmsx/redux/sagas/reason-management/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -30,15 +31,16 @@ const breadcrumbs = [
     title: 'database',
   },
   {
-    route: ROUTE.MANAGEMENT_UNIT.LIST.PATH,
-    title: ROUTE.MANAGEMENT_UNIT.LIST.TITLE,
+    route: ROUTE.REASON_MANAGEMENT.LIST.PATH,
+    title: ROUTE.REASON_MANAGEMENT.LIST.TITLE,
   },
 ]
-function ManagementUnit() {
+function ReasonManagement() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
+  const [isActiveModal, setIsActiveModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
   const DEFAULT_FILTERS = {
@@ -60,9 +62,9 @@ function ManagementUnit() {
   } = useQueryState()
 
   const {
-    data: { isLoading, managementUnitList, total },
+    data: { isLoading, reasonManagementList, total },
     actions,
-  } = useManagementUnit()
+  } = useReasonManagement()
 
   useEffect(() => {
     setSelectedRows([])
@@ -71,32 +73,33 @@ function ManagementUnit() {
   const columns = [
     {
       field: 'code',
-      headerName: t('managementUnit.code'),
+      headerName: t('reasonManagement.code'),
       width: 150,
       fixed: true,
       sortable: true,
     },
     {
       field: 'name',
-      headerName: t('managementUnit.name'),
+      headerName: t('reasonManagement.name'),
       width: 150,
       fixed: true,
       sortable: true,
     },
     {
       field: 'description',
-      headerName: t('managementUnit.description'),
+      headerName: t('reasonManagement.description'),
       width: 150,
       fixed: true,
       sortable: true,
     },
     {
       field: 'status',
-      headerName: t('managementUnit.status'),
+      headerName: t('reasonManagement.status'),
       width: 150,
       sortable: false,
       renderCell: (params) => {
         const { status } = params.row
+
         return (
           <Status
             options={ACTIVE_STATUS_OPTIONS}
@@ -114,13 +117,14 @@ function ManagementUnit() {
       align: 'center',
       renderCell: (params) => {
         const { row } = params
-        const { id } = row
+        const { id, status } = row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <>
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.MANAGEMENT_UNIT.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.REASON_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -129,7 +133,7 @@ function ManagementUnit() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.MANAGEMENT_UNIT.EDIT.PATH.replace(':id', `${id}`),
+                  ROUTE.REASON_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -137,6 +141,9 @@ function ManagementUnit() {
             </IconButton>
             <IconButton onClick={() => handleDeleteOpenModal(row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </>
         )
@@ -156,7 +163,7 @@ function ManagementUnit() {
       filter: convertFilterParams(filters, columns),
       sort: convertSortParams(sort),
     }
-    actions.searchManagementUnit(params)
+    actions.searchReasonManagement(params)
   }
 
   const handleDeleteOpenModal = (tempItem) => {
@@ -164,20 +171,43 @@ function ManagementUnit() {
     setTempItem(tempItem)
   }
   const onSubmitDelete = () => {
-    actions.deleteManagementUnit(tempItem?.id, () => {
+    actions.deleteReasonManagement(tempItem?.id, () => {
       refreshData()
     })
     setDeleteModal(false)
     setTempItem(null)
   }
 
+  const onClickUpdateStatus = (tempItem) => {
+    setIsActiveModal(true)
+    setTempItem(tempItem)
+  }
+
+  const onSubmitUpdateStatus = () => {
+    if (tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectReasonManagementById(tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmReasonManagementById(tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
+
+  const onCloseUpdateStatusModal = () => {
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
-          name={t('managementUnit.export')}
+          name={t('reasonManagement.export')}
           onExport={() =>
-            exportUnitApi({
+            exportReasonApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
                 selectedRows?.map((x) => ({ id: `${x?.id}` })),
@@ -187,11 +217,10 @@ function ManagementUnit() {
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
-              // type: TYPE_ENUM_EXPORT.COMPANY,
             })
           }
           onImport={() =>
-            importUnitApi({
+            importReasonApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
                 selectedRows?.map((x) => ({ id: `${x?.id}` })),
@@ -201,13 +230,13 @@ function ManagementUnit() {
                 { field: 'createdAt', filterFormat: 'date' },
               ]),
               sort: convertSortParams(sort),
-              // type: TYPE_ENUM_EXPORT.COMPANY,
             })
           }
           onRefresh={refreshData}
+          disabled
         />
         <Button
-          onClick={() => history.push(ROUTE.MANAGEMENT_UNIT.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.REASON_MANAGEMENT.CREATE.PATH)}
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
@@ -219,15 +248,15 @@ function ManagementUnit() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.managementUnit')}
+      title={t('menu.reasonManagement')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
-      placeholder={t('managementUnit.searchPlaceHolder')}
+      placeholder={t('reasonManagement.searchPlaceHolder')}
       loading={isLoading}
     >
       <DataTable
-        title={t('managementUnit.title')}
-        rows={managementUnitList}
+        title={t('reasonManagement.title')}
+        rows={reasonManagementList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -260,7 +289,7 @@ function ManagementUnit() {
       />
       <Dialog
         open={deleteModal}
-        title={t('definePaymentType.deleteModalTitle')}
+        title={t('reasonManagement.reasonManagementDelete')}
         onCancel={() => setDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -270,15 +299,53 @@ function ManagementUnit() {
         }}
         noBorderBottom
       >
-        {t('definePaymentType.deleteConfirm')}
-        <LabelValue
-          label={t('definePaymentType.code')}
+        {t('reasonManagement.deleteConfirm')}
+        <LV
+          label={t('reasonManagement.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
-        <LabelValue
-          label={t('definePaymentType.name')}
+        <LV
+          label={t('reasonManagement.name')}
           value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isActiveModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitUpdateStatus}
+        submitLabel={t('general:common.yes')}
+        {...(tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
+        noBorderBottom
+      >
+        {t('general.confirmMessage')}
+        <LV
+          label={t('constructionManagement.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('constructionManagement.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -286,4 +353,4 @@ function ManagementUnit() {
   )
 }
 
-export default ManagementUnit
+export default ReasonManagement

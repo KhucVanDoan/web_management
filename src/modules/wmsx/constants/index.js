@@ -1267,18 +1267,6 @@ export const DEFINE_PACKAGE_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
-export const MANAGEMENT_UNIT_STATUS_OPTIONS = [
-  {
-    id: 0,
-    text: 'managmentUnit.inactive',
-    color: 'pending',
-  },
-  {
-    id: 1,
-    text: 'managmentUnit.active',
-    color: 'confirmed',
-  },
-]
 
 export const ACTIVE_STATUS = {
   INACTIVE: 0,

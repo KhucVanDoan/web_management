@@ -15,7 +15,7 @@ import ImportExport from '~/components/ImportExport'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { MANAGEMENT_UNIT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import {
   exportUnitApi,
@@ -99,7 +99,7 @@ function ManagementUnit() {
         const { status } = params.row
         return (
           <Status
-            options={MANAGEMENT_UNIT_STATUS_OPTIONS}
+            options={ACTIVE_STATUS_OPTIONS}
             value={status}
             variant="text"
           />

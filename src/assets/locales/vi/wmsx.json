@@ -2406,5 +2406,17 @@
       "show": "Hiển thị?",
       "required": "Bắt buộc?"
     }
+  },
+  "reasonManagement": {
+    "title": "Danh sách Reason",
+    "code": "Mã lý do",
+    "name": "Tên lý do",
+    "description": "Mô tả ",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Ngày tạo",
+    "searchPlaceHolder": "Tìm kiếm thông tin...",
+    "export": "Quanlylydo",
+    "reasonManagementDelete": "Xóa lý do",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá lý do này không?"
   }
 }

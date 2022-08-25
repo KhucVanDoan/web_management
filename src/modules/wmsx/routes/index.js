@@ -48,6 +48,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import ReasonManagementDetail from '../features/reason-management/detail'
+import ReasonManagementForm from '../features/reason-management/form'
+import ReasonManagement from '../features/reason-management/list'
 // import DefineBill from '../features/define-bill'
 // import DefineBillDetail from '../features/define-bill/detail'
 // import DefineBillForm from '../features/define-bill/form'
@@ -325,25 +328,25 @@ const routes = [
       {
         name: ROUTE.REASON_MANAGEMENT.LIST.TITLE,
         path: ROUTE.REASON_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: ReasonManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.REASON_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.REASON_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: ReasonManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.REASON_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.REASON_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: ReasonManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.REASON_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.REASON_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: ReasonManagementForm,
             isInSidebar: false,
           },
         ],
