@@ -2415,6 +2415,31 @@
       "list": "Danh sách"
     }
   },
+  "sourceManagement": {
+    "list": "Danh sách sorce",
+    "searchPlaceholder": "Tìm kiếm source theo mã hoặc tên",
+    "code": "Mã source",
+    "name": "Tên source",
+    "description": "Mô tả TKKT",
+    "descriptionPlaceholder": "Mô tả tài khoản kế toán ",
+    "status": "Trạng thái hoạt động",
+    "createTime": "Thời gian tạo",
+    "sourceManagementDelete": "Xóa source",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá source này không?",
+    "accountant": "Tài khoản Kế toán",
+    "effectiveDate": "Ngày hiệu lực",
+    "accountDetail": "Chi tiết tài khoản",
+    "companyId": "Công ty",
+    "produceTypeCode": "Loại hình SXKD",
+    "branchCode": "Chi nhánh",
+    "productCode": "Sản phẩm",
+    "costCenterCode": "Trung tâm chi phí",
+    "factorialCode": "Yếu tố",
+    "accountIdentifier": "Tài khoản định danh",
+    "internalDepartmentCode": "Đơn vị nội bộ",
+    "departmentBackupCode": "Dự phòng đơn vị",
+    "EVNBackupCode": "Dự phòng EVN"
+  },
   "defineObjectCategory": {
     "list": "Danh sách danh mục đối tượng",
     "searchPlaceholder": "Tìm kiếm danh mục đối tượng theo mã hoặc tên",

@@ -43,6 +43,7 @@ import reasonManagement from './reason-management'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
 import returnOrder from './return-order'
 import soExport from './so-export'
+import sourceManagement from './source-management'
 import templateSectorTemplateShelf from './template-sector-template-shelf'
 import voucher from './voucher'
 import warehouseArea from './warehouse-area'
@@ -107,6 +108,7 @@ export default combineReducers({
   constructionManagement,
   constructionItemsManagement,
   businessTypeManagement,
+  sourceManagement,
   defineObjectCategory,
   reasonManagement,
 })

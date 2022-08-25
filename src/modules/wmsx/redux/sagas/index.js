@@ -260,6 +260,13 @@ import watchGetSOExportDetails from './so-export/get-so-export-details'
 import watchRejectSOExport from './so-export/reject-so-export'
 import watchSearchSOExport from './so-export/search-so-export'
 import watchUpdateSOExport from './so-export/update-so-export'
+import watchConfirmSourceManagement from './source-management/confirm'
+import watchCreateSourceManagement from './source-management/create'
+import watchDeleteSourceManagement from './source-management/delete'
+import watchGetSourceManagement from './source-management/get-detail'
+import watchRejectSourceManagement from './source-management/reject'
+import watchSearchSourceManagement from './source-management/search'
+import watchUpdateSourceManagement from './source-management/update'
 import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
@@ -657,6 +664,15 @@ export default function* sagas() {
     watchDeleteBussinessType(),
     watchConfirmBussinessType(),
     watchRejectBussinessType(),
+
+    //source-management
+    watchConfirmSourceManagement(),
+    watchCreateSourceManagement(),
+    watchDeleteSourceManagement(),
+    watchGetSourceManagement(),
+    watchRejectSourceManagement(),
+    watchSearchSourceManagement(),
+    watchUpdateSourceManagement(),
 
     //define-object-category
     watchCreateObjectCategory(),

@@ -54,6 +54,9 @@ import DefineObjectCategory from '../features/define-object-category/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
+import SourceManagementDetail from '../features/source-management/detail'
+import SourceManagementForm from '../features/source-management/form'
+import SourceManagement from '../features/source-management/list'
 // import DefineBill from '../features/define-bill'
 // import DefineBillDetail from '../features/define-bill/detail'
 // import DefineBillForm from '../features/define-bill/form'
@@ -305,25 +308,25 @@ const routes = [
       {
         name: ROUTE.SOURCE_MANAGEMENT.LIST.TITLE,
         path: ROUTE.SOURCE_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: SourceManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.SOURCE_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.SOURCE_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: SourceManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.SOURCE_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.SOURCE_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: SourceManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.SOURCE_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.SOURCE_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: SourceManagementForm,
             isInSidebar: false,
           },
         ],
