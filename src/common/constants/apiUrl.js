@@ -37,4 +37,6 @@ export const API_URL = {
   WAREHOUSE_REPORT: 'warehouses/reports',
   WAREHOUSE_SETTING: 'warehouses/warehouse-type-settings',
   WAREHOUSE_TRANSFER: 'warehouses/transfers',
+  CONSTRUCTION: 'sales/constructions',
+  CONSTRUCTION_ITEMS: 'sales/construction-categories',
 }

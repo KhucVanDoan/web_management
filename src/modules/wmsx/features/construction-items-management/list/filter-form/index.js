@@ -37,7 +37,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="constructionCode"
+          name="constructionId"
           label={t('constructionItemsManagement.constructionCode')}
           placeholder={t('constructionItemsManagement.constructionCode')}
           asyncRequest={(s) =>

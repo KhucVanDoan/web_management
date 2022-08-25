@@ -74,6 +74,12 @@ function ConstructionManagementDetail() {
                 value={constructionDetails.code}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('constructionManagement.name')}
+                value={constructionDetails.name}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"

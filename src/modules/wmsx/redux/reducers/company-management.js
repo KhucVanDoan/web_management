@@ -17,6 +17,12 @@ import {
   UPDATE_COMPANY_FAILED,
   UPDATE_COMPANY_START,
   UPDATE_COMPANY_SUCCESS,
+  CONFIRM_COMPANY_FAILED,
+  CONFIRM_COMPANY_START,
+  CONFIRM_COMPANY_SUCCESS,
+  REJECT_COMPANY_START,
+  REJECT_COMPANY_SUCCESS,
+  REJECT_COMPANY_FAILED,
   RESET_COMPANY_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/company-management'
 
@@ -34,6 +40,8 @@ export default function companyManagement(state = initialState, action) {
     case CREATE_COMPANY_START:
     case UPDATE_COMPANY_START:
     case DELETE_COMPANY_START:
+    case CONFIRM_COMPANY_START:
+    case REJECT_COMPANY_START:
     case GET_COMPANY_DETAILS_START:
       return {
         ...state,
@@ -65,6 +73,10 @@ export default function companyManagement(state = initialState, action) {
         isLoading: false,
         total: 0,
       }
+    case CONFIRM_COMPANY_SUCCESS:
+    case CONFIRM_COMPANY_FAILED:
+    case REJECT_COMPANY_SUCCESS:
+    case REJECT_COMPANY_FAILED:
     case CREATE_COMPANY_SUCCESS:
     case CREATE_COMPANY_FAILED:
     case UPDATE_COMPANY_SUCCESS:

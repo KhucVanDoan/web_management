@@ -29,21 +29,26 @@ import watchGetPackages from './common/get-packages'
 import watchGetPallets from './common/get-pallets'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchConfirmCompany from './company-management/confirm-company'
 import watchCreateCompany from './company-management/create-company'
 import watchDeleteCompany from './company-management/delete-company'
 import watchGetCompanies from './company-management/get-companies'
 import watchGetCompanyDetails from './company-management/get-company-details'
+import watchRejectCompany from './company-management/reject-company'
 import watchSearchCompanies from './company-management/search-companies'
 import watchUpdateCompany from './company-management/update-company'
+import watchConfirmConstructionItems from './construction-items-management/confirm-construction-items'
 import watchCreateConstructionItems from './construction-items-management/create-construction-items'
 import watchDeleteConstructionItems from './construction-items-management/delete-construction-items'
 import watchGetConstructionItemsDetails from './construction-items-management/get-construction-items-details'
+import watchRejectConstructionItems from './construction-items-management/reject-construction-items'
 import watchSearchConstructionItems from './construction-items-management/search-construction-items'
 import watchUpdateConstructionItems from './construction-items-management/update-construction-items'
 import watchConfirmConstruction from './construction-management/confirm-construction'
 import watchCreateConstruction from './construction-management/create-construction'
 import watchDeleteConstruction from './construction-management/delete-construction'
 import watchGetConstructionDetails from './construction-management/get-construction-details'
+import watchRejectConstruction from './construction-management/reject-construction'
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
@@ -608,6 +613,8 @@ export default function* sagas() {
     watchGetCompanyDetails(),
     watchSearchCompanies(),
     watchUpdateCompany(),
+    watchConfirmCompany(),
+    watchRejectCompany(),
 
     //construction-management
     watchCreateConstruction(),
@@ -616,6 +623,7 @@ export default function* sagas() {
     watchGetConstructionDetails(),
     watchDeleteConstruction(),
     watchConfirmConstruction(),
+    watchRejectConstruction(),
 
     //construction-items-management
     watchCreateConstructionItems(),
@@ -623,6 +631,8 @@ export default function* sagas() {
     watchSearchConstructionItems(),
     watchGetConstructionItemsDetails(),
     watchDeleteConstructionItems(),
+    watchConfirmConstructionItems(),
+    watchRejectConstructionItems(),
 
     //bussiness-type-management
     watchCreateBussinessType(),

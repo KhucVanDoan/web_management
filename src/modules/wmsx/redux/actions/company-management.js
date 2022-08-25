@@ -22,6 +22,14 @@ export const GET_COMPANY_DETAILS_START = 'WMSX_GET_COMPANY_DETAILS_START'
 export const GET_COMPANY_DETAILS_SUCCESS = 'WMSX_GET_COMPANY_DETAILS_SUCCESS'
 export const GET_COMPANY_DETAILS_FAILED = 'WMSX_GET_COMPANY_DETAILS_FAILED'
 
+export const CONFIRM_COMPANY_START = 'WMSX_CONFIRM_COMPANY_START'
+export const CONFIRM_COMPANY_SUCCESS = 'WMSX_CONFIRM_COMPANY_SUCCESS'
+export const CONFIRM_COMPANY_FAILED = 'WMSX_CONFIRM_COMPANY_FAILED'
+
+export const REJECT_COMPANY_START = 'WMSX_REJECT_COMPANY_START'
+export const REJECT_COMPANY_SUCCESS = 'WMSX_REJECT_COMPANY_SUCCESS'
+export const REJECT_COMPANY_FAILED = 'WMSX_REJECT_COMPANY_FAILED'
+
 export const RESET_COMPANY_DETAILS_STATE = 'WMSX_RESET_COMPANY_DETAILS_STATE'
 
 export function getCompanies(payload, onSuccess, onError) {
@@ -236,6 +244,50 @@ export function getCompanyDetailsByIdFailed() {
   }
 }
 
+export function confirmCompanyById(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_COMPANY_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmCompanyByIdSuccess(payload) {
+  return {
+    type: CONFIRM_COMPANY_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmCompanyByIdFailed() {
+  return {
+    type: CONFIRM_COMPANY_FAILED,
+  }
+}
+
+export function rejectCompanyById(Id, onSuccess, onError) {
+  return {
+    type: REJECT_COMPANY_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function rejectCompanyByIdSuccess(payload) {
+  return {
+    type: REJECT_COMPANY_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function rejectCompanyByIdFailed() {
+  return {
+    type: REJECT_COMPANY_FAILED,
+  }
+}
+
 export function resetCompanyDetailsState() {
   return {
     type: RESET_COMPANY_DETAILS_STATE,
@@ -261,5 +313,11 @@ export default {
   getCompanyDetailsById,
   getCompanyDetailsByIdSuccess,
   getCompanyDetailsByIdFailed,
+  confirmCompanyById,
+  confirmCompanyByIdSuccess,
+  confirmCompanyByIdFailed,
+  rejectCompanyById,
+  rejectCompanyByIdSuccess,
+  rejectCompanyByIdFailed,
   resetCompanyDetailsState,
 }
