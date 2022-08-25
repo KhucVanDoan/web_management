@@ -2407,6 +2407,18 @@
       "required": "Bắt buộc?"
     }
   },
+  "defineObjectCategory": {
+    "list": "Danh sách danh mục đối tượng",
+    "searchPlaceholder": "Tìm kiếm danh mục đối tượng theo mã hoặc tên",
+    "code": "Mã đối tượng",
+    "name": "Tên đối tượng",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Thời gian tạo",
+    "constructionItemsManagementDelete": "Xóa đối tượng",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá đối tượng này không?",
+    "addButton": "Thêm trường dữ liệu"
+  },
   "reasonManagement": {
     "title": "Danh sách Reason",
     "code": "Mã lý do",

@@ -13,6 +13,7 @@ import defineCurrencyUnit from './define-currency-unit'
 import defineCustomer from './define-customer'
 import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
+import defineObjectCategory from './define-object-category'
 import definePackage from './define-package'
 import definePallet from './define-pallet'
 import definePaymentType from './define-payment-type'
@@ -106,5 +107,6 @@ export default combineReducers({
   constructionManagement,
   constructionItemsManagement,
   businessTypeManagement,
+  defineObjectCategory,
   reasonManagement,
 })

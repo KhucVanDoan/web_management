@@ -48,6 +48,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineObjectCategoryDetail from '../features/define-object-category/detail'
+import DefineObjectCategoryForm from '../features/define-object-category/form'
+import DefineObjectCategory from '../features/define-object-category/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -406,25 +409,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.TITLE,
         path: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.PATH,
-        component: () => null,
+        component: DefineObjectCategory,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.TITLE,
             path: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.PATH,
-            component: () => null,
+            component: DefineObjectCategoryForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_OBJECT_CATEGORY.DETAIL.TITLE,
             path: ROUTE.DEFINE_OBJECT_CATEGORY.DETAIL.PATH,
-            component: () => null,
+            component: DefineObjectCategoryDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_OBJECT_CATEGORY.EDIT.TITLE,
             path: ROUTE.DEFINE_OBJECT_CATEGORY.EDIT.PATH,
-            component: () => null,
+            component: DefineObjectCategoryForm,
             isInSidebar: false,
           },
         ],

@@ -189,19 +189,19 @@ export const ROUTE = {
   },
   DEFINE_MATERIAL_CATEGORY: {
     LIST: {
-      PATH: '/wmsx/define-object-category',
+      PATH: '/wmsx/define-material-category',
       TITLE: 'defineMaterialCategory',
     },
     CREATE: {
-      PATH: '/wmsx/define-object-category/create',
+      PATH: '/wmsx/define-material-category/create',
       TITLE: 'defineMaterialCategoryCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-object-category/:id/detail',
+      PATH: '/wmsx/define-material-category/:id/detail',
       TITLE: 'defineMaterialCategoryDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-object-category/:id/edit',
+      PATH: '/wmsx/define-material-category/:id/edit',
       TITLE: 'defineMaterialCategoryEdit',
     },
   },
