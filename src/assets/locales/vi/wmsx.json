@@ -8,7 +8,7 @@
     "create": "Tạo mới",
     "selectWarehouse": "Chọn kho",
     "updateStatus": "Cập nhật trạng thái",
-    "status": "Trạng thái hiện tại",
+    "status": "Trạng thái",
     "active": "Hoạt động",
     "inactive": "Tạm dừng",
     "confirmMessage": "Bạn chắc chắn muốn cập nhật trạng thái bản ghi?"

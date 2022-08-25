@@ -291,8 +291,8 @@ function ConstructionItemsManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionItemsManagement.description')}
-          value={modal?.tempItem?.description}
+          label={t('constructionItemsManagement.name')}
+          value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>

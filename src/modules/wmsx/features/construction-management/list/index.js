@@ -17,11 +17,8 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
-import {
-  ACTIVE_STATUS,
-  ACTIVE_STATUS_MAP,
-  ACTIVE_STATUS_OPTIONS,
-} from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -151,16 +148,9 @@ function ConstructionManagement() {
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton>
-            {isLocked && (
-              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-                <Icon name="locked" />
-              </IconButton>
-            )}
-            {!isLocked && (
-              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-                <Icon name="unlock" />
-              </IconButton>
-            )}
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
+            </IconButton>
           </div>
         )
       },
@@ -319,8 +309,8 @@ function ConstructionManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionManagement.description')}
-          value={modal?.tempItem?.description}
+          label={t('constructionManagement.name')}
+          value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -347,13 +337,18 @@ function ConstructionManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionManagement.description')}
+          label={t('constructionManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
         <LV
           label={t('general.status')}
-          value={t(ACTIVE_STATUS_MAP[modal?.tempItem?.status])}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={modal?.tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
