@@ -1317,3 +1317,24 @@ export const PARENT_BUSINESS_TYPE_OPTIONS = [
     text: 'businessTypeManagement.transfer',
   },
 ]
+
+export const DATA_TYPE = {
+  TEXTFIELD: 0,
+  LIST: 1,
+}
+
+export const DATA_TYPE_MAP = {
+  [DATA_TYPE.TEXTFIELD]: 'businessTypeManagement.types.textField',
+  [DATA_TYPE.LIST]: 'businessTypeManagement.types.list',
+}
+
+export const DATA_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'businessTypeManagement.types.textField',
+  },
+  {
+    id: 1,
+    text: 'businessTypeManagement.types.list',
+  },
+]
