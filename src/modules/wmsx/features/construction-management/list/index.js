@@ -199,6 +199,9 @@ function ConstructionManagement() {
 
   const onSubmitUpdateStatus = () => {
     if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectConstructionById(modal.tempItem?.id, () => {
+        refreshData()
+      })
     } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
       actions.confirmConstructionById(modal.tempItem?.id, () => {
         refreshData()
@@ -279,7 +282,7 @@ function ConstructionManagement() {
         }}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
-          apiUrl: API_URL.COMPANY,
+          apiUrl: API_URL.CONSTRUCTION,
           onSuccess: () => {
             if (page === 1) {
               refreshData()

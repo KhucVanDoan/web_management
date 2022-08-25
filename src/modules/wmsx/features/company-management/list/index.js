@@ -16,7 +16,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
 import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/company-management/import-export-company'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -68,6 +69,7 @@ function CompanyManagement() {
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
+    isOpenUpdateStatusModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -84,7 +86,7 @@ function CompanyManagement() {
     {
       field: 'name',
       headerName: t('companyManagement.name'),
-      width: 150,
+      width: 120,
       sortable: true,
       fixed: true,
     },
@@ -102,12 +104,12 @@ function CompanyManagement() {
     {
       field: 'address',
       headerName: t('companyManagement.address'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'description',
       headerName: t('companyManagement.description'),
-      width: 100,
+      width: 120,
     },
     {
       field: 'status',
@@ -131,7 +133,8 @@ function CompanyManagement() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params?.row
+        const { id, status } = params?.row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
@@ -154,6 +157,9 @@ function CompanyManagement() {
             </IconButton>
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </div>
         )
@@ -197,11 +203,33 @@ function CompanyManagement() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
+  const onClickUpdateStatus = (tempItem) => {
+    setModal({ tempItem, isOpenUpdateStatusModal: true })
+  }
+
+  const onSubmitUpdateStatus = () => {
+    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectCompanyById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmCompanyById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  }
+
+  const onCloseUpdateStatusModal = () => {
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
           name={t('companyManagement.export')}
+          onImport={() => {}}
           onExport={() =>
             exportCompanyApi({
               columnSettings: JSON.stringify(columnsSettings),
@@ -217,6 +245,7 @@ function CompanyManagement() {
             })
           }
           onRefresh={refreshData}
+          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.COMPANY_MANAGEMENT.CREATE.PATH)}
@@ -293,6 +322,44 @@ function CompanyManagement() {
         <LV
           label={t('companyManagement.name')}
           value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={modal.isOpenUpdateStatusModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitUpdateStatus}
+        submitLabel={t('general:common.yes')}
+        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
+        noBorderBottom
+      >
+        {t('general.confirmMessage')}
+        <LV
+          label={t('companyManagement.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('companyManagement.name')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={modal?.tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
