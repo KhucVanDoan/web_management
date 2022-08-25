@@ -15,7 +15,7 @@ import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { MANAGEMENT_UNIT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -167,7 +167,7 @@ const ManagementUnitForm = () => {
                         }
                         value={
                           <Status
-                            options={MANAGEMENT_UNIT_STATUS_OPTIONS}
+                            options={ACTIVE_STATUS_OPTIONS}
                             value={detailManagementUnit?.status}
                           />
                         }

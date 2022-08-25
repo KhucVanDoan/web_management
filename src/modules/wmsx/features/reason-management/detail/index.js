@@ -10,7 +10,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
+import useReasonManagement from '~/modules/wmsx/redux/hooks/useReasonManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
@@ -18,12 +18,12 @@ const breadcrumbs = [
     title: 'database',
   },
   {
-    route: ROUTE.MANAGEMENT_UNIT.LIST.PATH,
-    title: ROUTE.MANAGEMENT_UNIT.LIST.TITLE,
+    route: ROUTE.REASON_MANAGEMENT.LIST.PATH,
+    title: ROUTE.REASON_MANAGEMENT.LIST.TITLE,
   },
   {
-    route: ROUTE.MANAGEMENT_UNIT.DETAIL.PATH,
-    title: ROUTE.MANAGEMENT_UNIT.DETAIL.TITLE,
+    route: ROUTE.REASON_MANAGEMENT.DETAIL.PATH,
+    title: ROUTE.REASON_MANAGEMENT.DETAIL.TITLE,
   },
 ]
 
@@ -33,23 +33,23 @@ const ManagementDetail = () => {
   const { id } = useParams()
 
   const {
-    data: { detailManagementUnit, isLoading },
+    data: { detailReasonManagement, isLoading },
     actions,
-  } = useManagementUnit()
+  } = useReasonManagement()
   useEffect(() => {
-    actions.getDetailManagementUnitById(id)
+    actions.getDetailReasonManagementById(id)
     return () => {
-      actions?.resetManagementUnitState()
+      actions?.resetReasonManagementState()
     }
   }, [id])
   const backToList = () => {
-    history.push(ROUTE.MANAGEMENT_UNIT.LIST.PATH)
+    history.push(ROUTE.REASON_MANAGEMENT.LIST.PATH)
   }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.mansgementUnitDetail')}
+      title={t('menu.reasonManagement')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -58,35 +58,35 @@ const ManagementDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item xs={12}>
               <LV
-                label={t('managementUnit.status')}
+                label={t('reasonManagement.status')}
                 value={
                   <Status
                     options={ACTIVE_STATUS_OPTIONS}
-                    value={detailManagementUnit?.staus}
+                    value={detailReasonManagement?.staus}
                   />
                 }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('managementUnit.code')}
-                value={detailManagementUnit?.code}
+                label={t('reasonManagement.code')}
+                value={detailReasonManagement?.code}
               />
             </Grid>
 
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('managementUnit.name')}
-                value={detailManagementUnit?.name}
+                label={t('reasonManagement.name')}
+                value={detailReasonManagement?.name}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 name="description"
-                label={t('managementUnit.description')}
+                label={t('reasonManagement.description')}
                 multiline
                 rows={3}
-                value={detailManagementUnit?.description}
+                value={detailReasonManagement?.description}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {

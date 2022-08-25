@@ -16,46 +16,46 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
+import useReasonManagement from '~/modules/wmsx/redux/hooks/useReasonManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import { validateShema } from './schema'
 
-const ManagementUnitForm = () => {
+const ReasonManagementForm = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
 
   const {
-    data: { detailManagementUnit, isLoading },
+    data: { detailReasonManagement, isLoading },
     actions,
-  } = useManagementUnit()
+  } = useReasonManagement()
 
   const MODE_MAP = {
-    [ROUTE.UNIT_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.UNIT_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.REASON_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.REASON_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
 
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const backToList = () => {
-    history.push(ROUTE.UNIT_MANAGEMENT.LIST.PATH)
+    history.push(ROUTE.REASON_MANAGEMENT.LIST.PATH)
   }
 
   useEffect(() => {}, [])
   const initialValues = {
-    code: detailManagementUnit?.code || '',
-    name: detailManagementUnit?.name || '',
-    description: detailManagementUnit?.description || '',
+    code: detailReasonManagement?.code || '',
+    name: detailReasonManagement?.name || '',
+    description: detailReasonManagement?.description || '',
   }
   useEffect(() => {
     if (isUpdate) {
-      actions.getDetailManagementUnitById(id)
+      actions.getDetailReasonManagementById(id)
     }
     return () => {
-      actions?.resetManagementUnitState()
+      actions?.resetReasonManagementState()
     }
   }, [id])
 
@@ -66,9 +66,9 @@ const ManagementUnitForm = () => {
       description: values?.description,
     }
     if (isUpdate) {
-      actions.updateManagementUnit({ ...params, id: id }, backToList)
+      actions.updateReasonManagement({ ...params, id: id }, backToList)
     } else {
-      actions.createManagementUnit(params, backToList)
+      actions.createReasonManagement(params, backToList)
     }
   }
 
@@ -78,22 +78,22 @@ const ManagementUnitForm = () => {
         title: 'database',
       },
       {
-        route: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
-        title: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
+        route: ROUTE.REASON_MANAGEMENT.LIST.PATH,
+        title: ROUTE.REASON_MANAGEMENT.LIST.TITLE,
       },
     ]
 
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumb.push({
-          route: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
-          title: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
+          route: ROUTE.REASON_MANAGEMENT.CREATE.PATH,
+          title: ROUTE.REASON_MANAGEMENT.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumb.push({
-          route: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
-          title: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
+          route: ROUTE.REASON_MANAGEMENT.EDIT.PATH,
+          title: ROUTE.REASON_MANAGEMENT.EDIT.TITLE,
         })
         break
       default:
@@ -105,9 +105,9 @@ const ManagementUnitForm = () => {
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.UNIT_MANAGEMENT.CREATE.TITLE
+        return ROUTE.REASON_MANAGEMENT.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.UNIT_MANAGEMENT.EDIT.TITLE
+        return ROUTE.REASON_MANAGEMENT.EDIT.TITLE
       default:
     }
   }
@@ -162,13 +162,13 @@ const ManagementUnitForm = () => {
                       <LabelValue
                         label={
                           <Typography>
-                            {t('deviceCategory.form.status')}
+                            {t('reasonManagement.status')}
                           </Typography>
                         }
                         value={
                           <Status
                             options={ACTIVE_STATUS_OPTIONS}
-                            value={detailManagementUnit?.status}
+                            value={detailReasonManagement?.status}
                           />
                         }
                       />
@@ -176,9 +176,9 @@ const ManagementUnitForm = () => {
                   )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
-                      label={t('managementUnit.code')}
+                      label={t('reasonManagement.code')}
                       name="code"
-                      placeholder={t('managementUnit.code')}
+                      placeholder={t('reasonManagement.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
@@ -189,9 +189,9 @@ const ManagementUnitForm = () => {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
-                      label={t('managementUnit.name')}
+                      label={t('reasonManagement.name')}
                       name="name"
-                      placeholder={t('managementUnit.name')}
+                      placeholder={t('reasonManagement.name')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -202,8 +202,8 @@ const ManagementUnitForm = () => {
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
-                      label={t('managementUnit.description')}
-                      placeholder={t('managementUnit.description')}
+                      label={t('reasonManagement.description')}
+                      placeholder={t('reasonManagement.description')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -222,4 +222,4 @@ const ManagementUnitForm = () => {
   )
 }
 
-export default ManagementUnitForm
+export default ReasonManagementForm

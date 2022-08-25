@@ -223,6 +223,13 @@ import watchGetPurchasedOrderNotCreatePOimp from './purchased-orders-import/get-
 import watchRejectPOSImport from './purchased-orders-import/reject-purchased-order-imp'
 import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
 import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
+import watchConfirmReasonManagement from './reason-management/confirm'
+import watchCreateReasonManagement from './reason-management/create'
+import watchDeleteReasonManagement from './reason-management/delete'
+import watchGetDetailReasonManagement from './reason-management/get-detail'
+import watchRejectReasonManagement from './reason-management/reject'
+import watchSearchReasonManagement from './reason-management/search'
+import watchUpdateReasonManagement from './reason-management/update'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
 import watchConfirmReturnOrder from './return-order/confirm-return-order'
 import watchCreateReturnOrder from './return-order/create-return-order'
@@ -632,5 +639,13 @@ export default function* sagas() {
     watchDeleteBussinessType(),
     watchConfirmBussinessType(),
     watchRejectBussinessType(),
+    //reason-management
+    watchCreateReasonManagement(),
+    watchDeleteReasonManagement(),
+    watchGetDetailReasonManagement(),
+    watchSearchReasonManagement(),
+    watchUpdateReasonManagement(),
+    watchConfirmReasonManagement(),
+    watchRejectReasonManagement(),
   ])
 }
