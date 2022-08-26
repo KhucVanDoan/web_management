@@ -46,6 +46,7 @@ function DefineObjectCategory() {
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
+    createdAt: [],
   }
 
   const {
@@ -294,7 +295,7 @@ function DefineObjectCategory() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('defineObjectCategory.constructionManagementDelete')}
+        title={t('defineObjectCategory.defineObjectCategoryDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}

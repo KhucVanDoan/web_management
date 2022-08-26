@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const createObjectCategoryApi = (body) => {
-  /* @TODO update uri */
-  const uri = `/v1/warehouses/bussiness-types/create`
+  const uri = `/v1/items/object-categories/create`
   return api.post(uri, body)
 }
 

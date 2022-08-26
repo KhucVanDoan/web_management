@@ -10,9 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const deleteObjectCategoryApi = (params) => {
-  /* @TODO update uri */
-
-  const uri = `/v1/warehouses/bussiness-types/${params}`
+  const uri = `/v1/items/object-categories/${params}`
   return api.delete(uri)
 }
 
