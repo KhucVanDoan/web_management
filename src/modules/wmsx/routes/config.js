@@ -205,11 +205,27 @@ export const ROUTE = {
       TITLE: 'defineMaterialCategoryEdit',
     },
   },
-
+  DEFINE_MATERIAL_QUALITY: {
+    LIST: {
+      PATH: '/wmsx/define-material-quality',
+      TITLE: 'defineMaterialQuality',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-material-quality/create',
+      TITLE: 'defineMaterialQualityCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-material-quality/:id/detail',
+      TITLE: 'defineMaterialQualityDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-material-quality/:id/edit',
+      TITLE: 'defineMaterialQualityEdit',
+    },
+  },
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
-
   ORDER_MANAGEMENT: {
     TITLE: 'orderManagement',
   },

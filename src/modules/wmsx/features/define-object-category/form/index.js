@@ -19,7 +19,7 @@ import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineObjectCategory from '~/modules/wmsx/redux/hooks/useDefineObjectCategory'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import { defineSchema } from './schema'
+import { formSchema } from './schema'
 
 function DefineObjectCategoryForm() {
   const { t } = useTranslation(['wmsx'])
@@ -150,7 +150,7 @@ function DefineObjectCategoryForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={defineSchema(t)}
+            validationSchema={formSchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >

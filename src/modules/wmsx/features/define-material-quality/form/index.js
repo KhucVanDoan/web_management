@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
-  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -17,38 +16,36 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useConstructionItemsManagement from '~/modules/wmsx/redux/hooks/useConstructionItemsManagement'
-import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
+import useDefineMaterialQuality from '~/modules/wmsx/redux/hooks/useDefineMaterialQuality'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import { formSchema } from './schema'
 
-function ConstructionItemsManagementForm() {
+function DefineMaterialQualityForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
 
   const {
-    data: { isLoading, constructionItemsDetails },
+    data: { isLoading, materialQualityDetails },
     actions,
-  } = useConstructionItemsManagement()
+  } = useDefineMaterialQuality()
 
   const MODE_MAP = {
-    [ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
+    [ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const initialValues = useMemo(
     () => ({
-      code: constructionItemsDetails?.code || '',
-      name: constructionItemsDetails?.name || '',
-      construction: constructionItemsDetails?.construction || '',
-      description: constructionItemsDetails?.description || '',
+      code: materialQualityDetails?.code || '',
+      name: materialQualityDetails?.name || '',
+      description: materialQualityDetails?.description || '',
     }),
-    [constructionItemsDetails],
+    [materialQualityDetails],
   )
 
   const getBreadcrumb = () => {
@@ -57,21 +54,21 @@ function ConstructionItemsManagementForm() {
         title: 'database',
       },
       {
-        route: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.PATH,
-        title: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.TITLE,
+        route: ROUTE.DEFINE_MATERIAL_QUALITY.LIST.PATH,
+        title: ROUTE.DEFINE_MATERIAL_QUALITY.LIST.TITLE,
       },
     ]
     switch (mode) {
       case MODAL_MODE.CREATE:
         breadcrumbs.push({
-          route: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH,
-          title: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.TITLE,
+          route: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.PATH,
+          title: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.TITLE,
         })
         break
       case MODAL_MODE.UPDATE:
         breadcrumbs.push({
-          route: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH,
-          title: ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.TITLE,
+          route: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH,
+          title: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.TITLE,
         })
         break
       default:
@@ -83,39 +80,38 @@ function ConstructionItemsManagementForm() {
   useEffect(() => {
     if (isUpdate) {
       const id = params?.id
-      actions.getConstructionItemsDetailsById(id)
+      actions.getMaterialQualityDetailsById(id)
     }
     return () => {
-      actions.resetConstructionItemsDetailsState()
+      actions.resetMaterialQualityDetailsState()
     }
   }, [params?.id])
 
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
-        return ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.TITLE
+        return ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.TITLE
+        return ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.TITLE
       default:
         break
     }
   }
 
   const backToList = () => {
-    history.push(ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.LIST.PATH)
+    history.push(ROUTE.DEFINE_MATERIAL_QUALITY.LIST.PATH)
   }
 
   const onSubmit = (values) => {
-    const id = Number(params?.id)
-    const convertValues = {
-      id,
-      ...values,
-      constructionId: values?.construction?.id,
-    }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createConstructionItems(convertValues, backToList)
+      actions.createMaterialQuality(values, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateConstructionItems(convertValues, backToList)
+      const id = Number(params?.id)
+      const paramUpdate = {
+        ...values,
+        id,
+      }
+      actions.updateMaterialQuality(paramUpdate, backToList)
     }
   }
 
@@ -169,13 +165,13 @@ function ConstructionItemsManagementForm() {
                       <LV
                         label={
                           <Typography>
-                            {t('constructionItemsManagement.status')}
+                            {t('defineMaterialQuality.status')}
                           </Typography>
                         }
                         value={
                           <Status
                             options={ACTIVE_STATUS_OPTIONS}
-                            value={constructionItemsDetails?.status}
+                            value={materialQualityDetails?.status}
                           />
                         }
                       />
@@ -184,8 +180,8 @@ function ConstructionItemsManagementForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="code"
-                      label={t('constructionItemsManagement.code')}
-                      placeholder={t('constructionItemsManagement.code')}
+                      label={t('defineMaterialQuality.code')}
+                      placeholder={t('defineMaterialQuality.code')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
@@ -197,38 +193,19 @@ function ConstructionItemsManagementForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="name"
-                      label={t('constructionItemsManagement.name')}
-                      placeholder={t('constructionItemsManagement.name')}
+                      label={t('defineMaterialQuality.name')}
+                      placeholder={t('defineMaterialQuality.name')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="construction"
-                      label={t('constructionItemsManagement.constructionCode')}
-                      placeholder={t(
-                        'constructionItemsManagement.constructionCode',
-                      )}
-                      asyncRequest={(s) =>
-                        searchConstructionsApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.code}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      required
-                    />
-                  </Grid>
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"
-                      label={t('constructionItemsManagement.description')}
-                      placeholder={t('constructionItemsManagement.description')}
+                      label={t('defineMaterialQuality.description')}
+                      placeholder={t('defineMaterialQuality.description')}
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
@@ -247,4 +224,4 @@ function ConstructionItemsManagementForm() {
   )
 }
 
-export default ConstructionItemsManagementForm
+export default DefineMaterialQualityForm
