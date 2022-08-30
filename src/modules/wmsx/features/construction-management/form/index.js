@@ -19,7 +19,7 @@ import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import { defineCompanySchema } from './schema'
+import { formSchema } from './schema'
 
 function ConstructionManagementForm() {
   const { t } = useTranslation(['wmsx'])
@@ -149,7 +149,7 @@ function ConstructionManagementForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={defineCompanySchema(t)}
+            validationSchema={formSchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >

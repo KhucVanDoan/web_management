@@ -93,6 +93,13 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
+import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
+import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
+import watchGetMaterialQualityDetails from './define-material-quality/get-material-quality-details'
+import watchRejectMaterialQuality from './define-material-quality/reject-material-quality'
+import watchSearchMaterialQuality from './define-material-quality/search-material-quality'
+import watchUpdateMaterialQuality from './define-material-quality/update-material-quality'
 import watchConfirmObjectCategory from './define-object-category/confirm-object-category'
 import watchCreateObjectCategory from './define-object-category/create-object-category'
 import watchDeleteObjectCategory from './define-object-category/delete-object-category'
@@ -690,5 +697,14 @@ export default function* sagas() {
     watchUpdateReasonManagement(),
     watchConfirmReasonManagement(),
     watchRejectReasonManagement(),
+
+    //define-material-quality
+    watchCreateMaterialQuality(),
+    watchUpdateMaterialQuality(),
+    watchSearchMaterialQuality(),
+    watchGetMaterialQualityDetails(),
+    watchDeleteMaterialQuality(),
+    watchConfirmMaterialQuality(),
+    watchRejectMaterialQuality(),
   ])
 }

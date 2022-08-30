@@ -13,6 +13,7 @@ import defineCurrencyUnit from './define-currency-unit'
 import defineCustomer from './define-customer'
 import defineCustomerLevel from './define-customer-level'
 import defineDetail from './define-detail'
+import defineMaterialQuality from './define-material-quality'
 import defineObjectCategory from './define-object-category'
 import definePackage from './define-package'
 import definePallet from './define-pallet'
@@ -111,4 +112,5 @@ export default combineReducers({
   sourceManagement,
   defineObjectCategory,
   reasonManagement,
+  defineMaterialQuality,
 })

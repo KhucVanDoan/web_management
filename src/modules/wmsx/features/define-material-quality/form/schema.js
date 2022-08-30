@@ -13,6 +13,5 @@ export const formSchema = (t) =>
           min: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
         }),
       ),
-    construction: Yup.object().nullable().required(t('general:form.required')),
     description: Yup.string(),
   })

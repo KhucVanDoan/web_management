@@ -61,6 +61,10 @@
     "defineMaterialCategoryCreate": "Tạo phân loại vật tư",
     "defineMaterialCategoryEdit": "Sửa phân loại vật tư",
     "defineMaterialCategoryDetail": "Chi tiết phân loại vật tư",
+    "defineMaterialQuality": "Định nghĩa chất lượng vật tư",
+    "defineMaterialQualityCreate": "Tạo chất lượng vật tư",
+    "defineMaterialQualityEdit": "Sửa chất lượng vật tư",
+    "defineMaterialQualityDetail": "Chi tiết chất lượng vật tư",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2462,5 +2466,16 @@
     "export": "Quanlylydo",
     "reasonManagementDelete": "Xóa lý do",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá lý do này không?"
+  },
+  "defineMaterialQuality": {
+    "list": "Danh sách chất lượng vật tư",
+    "searchPlaceholder": "Tìm kiếm chất lượng vật tư theo mã hoặc tên",
+    "code": "Mã chất lượng vật tư",
+    "name": "Tên chất lượng vật tư",
+    "status": "Trạng thái hoạt động",
+    "description": "Mô tả",
+    "createTime": "Thời gian tạo",
+    "defineMaterialQualityDelete": "Xóa chất lượng vật tư",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá chất lượng vật tư này không?"
   }
 }

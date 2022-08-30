@@ -48,6 +48,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineMaterialQualityDetail from '../features/define-material-quality/detail'
+import DefineMaterialQualityForm from '../features/define-material-quality/form'
+import DefineMaterialQuality from '../features/define-material-quality/list'
 import DefineObjectCategoryDetail from '../features/define-object-category/detail'
 import DefineObjectCategoryForm from '../features/define-object-category/form'
 import DefineObjectCategory from '../features/define-object-category/list'
@@ -457,6 +460,32 @@ const routes = [
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH,
             component: () => null,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_MATERIAL_QUALITY.LIST.TITLE,
+        path: ROUTE.DEFINE_MATERIAL_QUALITY.LIST.PATH,
+        component: DefineMaterialQuality,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.PATH,
+            component: DefineMaterialQualityForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_MATERIAL_QUALITY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_QUALITY.DETAIL.PATH,
+            component: DefineMaterialQualityDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.TITLE,
+            path: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH,
+            component: DefineMaterialQualityForm,
             isInSidebar: false,
           },
         ],
