@@ -23,6 +23,7 @@ import templateSector from './define-template-sector'
 import defineTemplateShelf from './define-template-shelf'
 import defineTypeService from './define-type-service'
 import defineTypeUnit from './define-type-unit'
+import defineUom from './define-uom'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehousePallet from './define-warehouse-pallet'
@@ -112,5 +113,6 @@ export default combineReducers({
   sourceManagement,
   defineObjectCategory,
   reasonManagement,
+  defineUom,
   defineMaterialQuality,
 })

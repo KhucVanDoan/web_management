@@ -160,6 +160,13 @@ import watchGetTypeUnitDetails from './define-type-unit/get-define-type-unit-det
 import watchImportTypeUnit from './define-type-unit/import-type-unit'
 import watchSearchTypeUnits from './define-type-unit/search-define-type-units'
 import watchUpdateTypeUnit from './define-type-unit/update-define-type-unit'
+import watchConfirmUom from './define-uom/confirm-uom'
+import watchCreateUom from './define-uom/create-uom'
+import watchDeleteUom from './define-uom/delete-uom'
+import watchGetUomDetails from './define-uom/get-uom-details'
+import watchRejectUom from './define-uom/reject-uom'
+import watchSearchUoms from './define-uom/search-uom'
+import watchUpdateUom from './define-uom/update-uom'
 import watchCreateVendor from './define-vendor/create-vendor'
 import watchDeleteVendor from './define-vendor/delete-vendor'
 import watchGetVendorDetails from './define-vendor/get-vendor-details'
@@ -698,6 +705,14 @@ export default function* sagas() {
     watchConfirmReasonManagement(),
     watchRejectReasonManagement(),
 
+    //define-uom
+    watchSearchUoms(),
+    watchCreateUom(),
+    watchUpdateUom(),
+    watchDeleteUom(),
+    watchGetUomDetails(),
+    watchConfirmUom(),
+    watchRejectUom(),
     //define-material-quality
     watchCreateMaterialQuality(),
     watchUpdateMaterialQuality(),

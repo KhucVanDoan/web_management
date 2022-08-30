@@ -54,6 +54,9 @@ import DefineMaterialQuality from '../features/define-material-quality/list'
 import DefineObjectCategoryDetail from '../features/define-object-category/detail'
 import DefineObjectCategoryForm from '../features/define-object-category/form'
 import DefineObjectCategory from '../features/define-object-category/list'
+import DefineUomDetail from '../features/define-uom/detail'
+import DefineUomForm from '../features/define-uom/form'
+import DefineUom from '../features/define-uom/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -363,25 +366,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_UOM.LIST.TITLE,
         path: ROUTE.DEFINE_UOM.LIST.PATH,
-        component: () => null,
+        component: DefineUom,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_UOM.CREATE.TITLE,
             path: ROUTE.DEFINE_UOM.CREATE.PATH,
-            component: () => null,
+            component: DefineUomForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_UOM.DETAIL.TITLE,
             path: ROUTE.DEFINE_UOM.DETAIL.PATH,
-            component: () => null,
+            component: DefineUomDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_UOM.EDIT.TITLE,
             path: ROUTE.DEFINE_UOM.EDIT.PATH,
-            component: () => null,
+            component: DefineUomForm,
             isInSidebar: false,
           },
         ],
