@@ -192,15 +192,15 @@ export function deleteSaleOrderFailed() {
 
 /**
  * Get SaleOrder details
- * @param {int} SaleOrderId
+ * @param {int} saleOrderId
  * @param {function=} onSuccess Callback function on success
  * @param {function=} onError Callback function on error
  * @returns {object}
  */
-export function getSaleOrderDetailsById(SaleOrderId, onSuccess, onError) {
+export function getSaleOrderDetailsById(saleOrderId, onSuccess, onError) {
   return {
     type: GET_SALE_ORDER_DETAILS_START,
-    payload: SaleOrderId,
+    payload: saleOrderId,
     onSuccess: onSuccess,
     onError: onError,
   }

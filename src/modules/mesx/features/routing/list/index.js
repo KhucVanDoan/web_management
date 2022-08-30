@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -27,6 +28,7 @@ import {
   importRoutingApi,
   getRoutingTemplateApi,
 } from '../../../redux/sagas/routing/import-export-routing'
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter-form'
 import { filterSchema } from './filter-form/schema'
 
@@ -56,6 +58,7 @@ function Routing() {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -195,6 +198,16 @@ function Routing() {
   }, [page, pageSize, filters, sort, keyword])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (routingList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, routingList])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
@@ -203,14 +216,6 @@ function Routing() {
       refreshData()
     })
     setIsOpenDeleteModal(false)
-    setTempItem(null)
-  }
-
-  const onSubmitConfirm = () => {
-    actions.confirmRoutingById(tempItem?.id, () => {
-      refreshData()
-    })
-    setIsOpenConfirmModal(false)
     setTempItem(null)
   }
 
@@ -305,28 +310,18 @@ function Routing() {
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
-      <Dialog
+
+      <DialogApprove
         open={isOpenConfirmModal}
-        title={t('general:common.notify')}
-        maxWidth="sm"
-        onCancel={() => setIsOpenConfirmModal(false)}
-        onSubmit={onSubmitConfirm}
-        cancelLabel={t('general:common.no')}
-        submitLabel={t('general:common.yes')}
-        noBorderBottom
-      >
-        {t('general:common.confirmMessage.confirm')}
-        <LV
-          label={t('routing.code')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('routing.name')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
+        onClose={() => {
+          setTempItem(null)
+          setIsOpenConfirmModal(false)
+        }}
+        data={tempItem}
+        onSuccess={() => {
+          refreshData()
+        }}
+      />
     </Page>
   )
 }

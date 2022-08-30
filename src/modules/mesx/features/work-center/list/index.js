@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -30,6 +31,7 @@ import { ROUTE } from '~/modules/mesx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from '../form-fillter'
+import { DialogApprove } from './dialogs/approve'
 
 const breadcrumbs = [
   {
@@ -55,6 +57,7 @@ const WorkCenter = () => {
   const history = useHistory()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -79,6 +82,16 @@ const WorkCenter = () => {
   useEffect(() => {
     refreshData()
   }, [keyword, page, pageSize, filters, sort])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (wcList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, wcList])
 
   useEffect(() => {
     setSelectedRows([])
@@ -225,14 +238,6 @@ const WorkCenter = () => {
     setIsOpenConfirmModal(true)
   }
 
-  const submitConfirm = () => {
-    actions.confirmWorkCenter(tempItem?.id, () => {
-      refreshData()
-    })
-    setTempItem(null)
-    setIsOpenConfirmModal(false)
-  }
-
   const onSubmitDelete = () => {
     actions.deleteWorkCenter(tempItem?.id, () => {
       refreshData()
@@ -332,27 +337,18 @@ const WorkCenter = () => {
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
-      <Dialog
+
+      <DialogApprove
         open={isOpenConfirmModal}
-        title={t('general:common.notify')}
-        onCancel={() => setIsOpenConfirmModal(false)}
-        cancelLabel={t('general:common.no')}
-        onSubmit={submitConfirm}
-        submitLabel={t('general:common.yes')}
-        noBorderBottom
-      >
-        {t('general:common.confirmMessage.confirm')}
-        <LV
-          label={t('workCenter.code')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('workCenter.name')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
+        onClose={() => {
+          setTempItem(null)
+          setIsOpenConfirmModal(false)
+        }}
+        data={tempItem}
+        onSuccess={() => {
+          refreshData()
+        }}
+      />
     </Page>
   )
 }

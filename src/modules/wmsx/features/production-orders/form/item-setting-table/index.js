@@ -243,7 +243,6 @@ function ItemSettingTable(props) {
           itemId && values?.type === TRANSACTION_TYPE_ENUM.IMPORT
             ? lotNumberList
             : lotNumberList.filter((item) => item?.itemId === itemId)
-
         return (
           <Field.Autocomplete
             name={`items[${index}].lotNumber`}
@@ -256,7 +255,10 @@ function ItemSettingTable(props) {
                 const data = lotNumberList?.find(
                   (i) => i.itemId === itemId,
                 )?.mfg
-                setFieldValue(`items[${index}].mfg`, data)
+                setFieldValue(
+                  `items[${index}].mfg`,
+                  convertUtcDateToLocalTz(data),
+                )
               } else {
                 setFieldValue(`items[${index}].mfg`, '')
               }
@@ -270,15 +272,7 @@ function ItemSettingTable(props) {
       headerName: t('productionOrder.item.mfg'),
       width: 180,
       renderCell: (params, index) => {
-        const { itemId } = params?.row
-        const data = lotNumberList?.find((i) => i.itemId === itemId)?.mfg
-        return (
-          <Field.TextField
-            name={`items[${index}].mfg`}
-            disabled={true}
-            value={convertUtcDateToLocalTz(data)}
-          />
-        )
+        return <Field.TextField name={`items[${index}].mfg`} disabled={true} />
       },
     },
     {

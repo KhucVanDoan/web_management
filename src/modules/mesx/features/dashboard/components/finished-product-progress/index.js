@@ -75,10 +75,12 @@ function FinishedProductProgressReport(props) {
         <Typography variant="h2">
           {t('dashboard.finishedItemProgress')}
         </Typography>
-        <Filter
-          setTmpFinishedItemProgress={setTmpFinishedItemProgress}
-          inProgressMos={inProgressMos}
-        />
+        <Box>
+          <Filter
+            setTmpFinishedItemProgress={setTmpFinishedItemProgress}
+            inProgressMos={inProgressMos}
+          />
+        </Box>
       </Box>
       <Box sx={{ height: 400 }}>
         <DualAxes {...config} />

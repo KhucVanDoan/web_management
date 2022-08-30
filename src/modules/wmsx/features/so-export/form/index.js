@@ -24,8 +24,8 @@ import {
   QC_CHECK,
 } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
+import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import ItemSettingTable from './item-setting-table'
@@ -45,10 +45,6 @@ function SOExportForm() {
     data: { itemQualityPoint },
     actions: commonActions,
   } = useCommonManagement()
-  const {
-    data: { warehouseList },
-    actions: actionWarehouse,
-  } = useDefineWarehouse()
 
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
@@ -64,7 +60,6 @@ function SOExportForm() {
   }
 
   useEffect(() => {
-    actionWarehouse.searchWarehouses({ isGetAll: 1 })
     commonActions.getItemQualityPoint()
   }, [])
 
@@ -115,7 +110,7 @@ function SOExportForm() {
       code: soExportDetails?.code || '',
       name: soExportDetails?.name || '',
       soCode: soExportDetails?.saleOrder || null,
-      warehouse: soExportDetails?.warehouseId || null,
+      warehouse: soExportDetails?.warehouse || null,
       deliveredAt: soExportDetails?.deliveredAt || null,
       description: soExportDetails?.description || '',
       companyName: soExportDetails?.company?.name,
@@ -145,11 +140,11 @@ function SOExportForm() {
       customerId: val?.soCode?.customer?.id || soExportDetails?.customer?.id,
       orderedAt: val?.soCode?.orderedAt || soExportDetails?.orderedAt,
       deliveredAt: val?.deliveredAt,
-      warehouseId: Number(val?.warehouse),
+      warehouseId: Number(val?.warehouse?.id),
       assignUserIds: [],
       items: val?.items?.map((item) => ({
         id: item.itemId,
-        warehouseId: val?.warehouse,
+        warehouseId: val?.warehouse?.id,
         quantity: +item.quantity,
         qcCheck: item?.qcCheck ? BOOLEAN_ENUM.TRUE : BOOLEAN_ENUM.FALSE,
         qcCriteriaId: item?.qcCriteriaId,
@@ -320,8 +315,13 @@ function SOExportForm() {
                       name="warehouse"
                       label={t('soExport.exportWarehouse')}
                       placeholder={t('soExport.exportWarehouse')}
-                      options={warehouseList}
-                      getOptionValue={(opt) => opt?.id}
+                      asyncRequest={(s) =>
+                        searchWarehousesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       required

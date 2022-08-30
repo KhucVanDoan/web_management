@@ -236,6 +236,7 @@ const SuppliesCategoryForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                         required
                       />
                     </Grid>

@@ -32,7 +32,6 @@
     "userManagementCreate": "Tạo người dùng",
     "userManagementEdit": "Sửa người dùng",
     "userManagementDetail": "Chi tiết người dùng",
-    "userPermission": "Phân quyền",
     "routing": "Định nghĩa quy trình",
     "routingCreate": "Tạo quy trình",
     "routingDetail": "Chi tiết quy trình",
@@ -136,17 +135,7 @@
   },
   "userStatus": {
     "active": "Hoạt động",
-    "tempLocked": "Tạm khóa"
-  },
-  "userPermission": {
-    "department": "Chọn bộ phận",
-    "role": "Chọn chức vụ",
-    "screen": "Chọn màn",
-    "system": "Chọn hệ thống",
-    "searchPlaceholder": "Tìm kiếm thông tin",
-    "id": "ID",
-    "permission": "Quyền",
-    "status": "Trạng thái"
+    "inactive": "Tạm khóa"
   },
   "producingStep": {
     "title": "Danh sách công đoạn",
@@ -282,7 +271,7 @@
     "name": "Tên sản phẩm",
     "createButton": "Tạo mới",
     "title": "Định nghĩa kế hoạch sản xuất",
-    "searchPlaceholder": "Tìm kiếm theo mã kế hoạch",
+    "searchPlaceholder": "Tìm kiếm kế hoạch theo mã hoặc tên",
     "import": "Import",
     "export": "Export",
     "tableTitle": "Danh sách kế hoạch sản xuất",
@@ -1500,14 +1489,6 @@
     "reason": "Lý do",
     "totalPrice": "Tổng tiền",
     "payStatus": "TT thanh toán"
-  },
-  "purchasedOrderStatus": {
-    "pending": "Chờ xác nhận",
-    "confirmed": "Xác nhận",
-    "inProgress": "Đang thực hiện",
-    "approved": "Đã được chấp nhận",
-    "rejected": "Từ chối",
-    "completed": "Hoàn thành"
   },
   "purchasedOrderStatus": {
     "pending": "Chờ xác nhận",

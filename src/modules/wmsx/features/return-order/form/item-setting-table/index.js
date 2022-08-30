@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Checkbox, IconButton, InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -6,23 +6,22 @@ import Typography from '@mui/material/Typography'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, ORDER_DIRECTION } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import {
-  LETTER_TYPE,
-  LOCATION_SETTING_TYPE,
-  PALLET_ITEM_STORAGE_TYPE,
-} from '~/modules/wmsx/constants'
+import { LETTER_TYPE, LOCATION_SETTING_TYPE } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
-import useDefinePackage from '~/modules/wmsx/redux/hooks/useDefinePackage'
-import useDefinePallet from '~/modules/wmsx/redux/hooks/useDefinePallet'
 import useLocationSetting from '~/modules/wmsx/redux/hooks/useLocationSetting'
 import useReturnOrder from '~/modules/wmsx/redux/hooks/useReturnOrder'
+import { getPackagesEvenByItemApi } from '~/modules/wmsx/redux/sagas/define-package/get-packages-even-by-item'
+import { getPalletsEvenByItemApi } from '~/modules/wmsx/redux/sagas/define-pallet/get-pallets-even-by-item'
+import { searchPalletsApi } from '~/modules/wmsx/redux/sagas/define-pallet/search-pallets'
+import { searchLocationSettingsApi } from '~/modules/wmsx/redux/sagas/location-setting/search'
 import {
   convertFilterParams,
+  convertSortParams,
   convertUtcDateToLocalTz,
   scrollToBottom,
 } from '~/utils'
@@ -34,6 +33,8 @@ function ItemSettingTable(props) {
   const isUpdate = mode === MODAL_MODE.UPDATE
   const packageOpts = []
   const palletOpts = []
+  const [allOpts, setAllOpts] = useState([])
+  const [evenList, setEvenList] = useState([])
 
   const {
     data: { itemByOrderList },
@@ -50,23 +51,8 @@ function ItemSettingTable(props) {
     actions: lsActions,
   } = useLocationSetting()
 
-  const {
-    data: { packagesEvenByItem },
-    actions: packageActs,
-  } = useDefinePackage()
-
-  const {
-    data: { palletList, palletsEvenByItem },
-    actions: palletActs,
-  } = useDefinePallet()
-
   useEffect(() => {
     commonActions.getItems({ isGetAll: 1 })
-    lsActions.searchLocationSetting({
-      filter: convertFilterParams({
-        warehouseId: values?.orderCode?.warehouseId?.toString(),
-      }),
-    })
   }, [])
 
   useEffect(() => {
@@ -84,18 +70,33 @@ function ItemSettingTable(props) {
     })
   }
 
-  const handleGetData = (val, index) => {
+  const handleGetData = async (val, index) => {
     const params = items[index]?.itemId?.id
     if (val) {
       lsActions.searchLocationSetting({
+        sort: convertSortParams({
+          order: ORDER_DIRECTION.ASC,
+          orderBy: 'itemId',
+        }),
         filter: convertFilterParams({
           type: LOCATION_SETTING_TYPE.EVEN,
           itemId: items[index]?.itemId?.id,
           warehouseId: values?.orderCode?.warehouseId,
         }),
       })
-      packageActs.getPackagesEvenByItem(params)
-      palletActs.getPalletsEvenByItem(params)
+      const resPackage = await getPackagesEvenByItemApi(params)
+      const resPallet = await getPalletsEvenByItemApi(params)
+
+      const tempArr = []
+      const hasData = evenList.find((i) => i?.itemId === params)
+      if (hasData === undefined) {
+        tempArr.push({
+          itemId: items[index]?.itemId?.id,
+          packages: resPackage?.data,
+          pallets: resPallet?.data,
+        })
+      }
+      setEvenList([...evenList, ...tempArr])
     }
     setFieldValue(`items[${index}].packageId`, null)
     setFieldValue(`items[${index}].palletId`, null)
@@ -104,14 +105,31 @@ function ItemSettingTable(props) {
   const itemIdList = itemByOrderList?.items?.map((item) => item?.itemId)
   const itemOptions = itemList?.filter((i) => itemIdList?.includes(i?.id))
 
-  const handleChange = (val, values, index) => {
+  const handleChange = async (val, values, index) => {
     setFieldValue(`items[${index}].lotNumber`, '')
-    palletActs.searchPallets({
+
+    const tempArr = []
+    const resPallet = await searchPalletsApi({
       filter: convertFilterParams({
-        type: PALLET_ITEM_STORAGE_TYPE.SINGLE,
         itemId: val?.id,
       }),
     })
+    const resLocation = await searchLocationSettingsApi({
+      sort: convertSortParams({
+        order: ORDER_DIRECTION.ASC,
+        orderBy: 'itemId',
+      }),
+      filter: convertFilterParams({
+        warehouseId: values?.orderCode?.warehouseId,
+        itemId: val?.id,
+      }),
+    })
+    tempArr.push({
+      itemId: val?.id,
+      pallets: resPallet?.data?.items,
+      locations: resLocation?.data?.items,
+    })
+    setAllOpts([...allOpts, ...tempArr])
   }
 
   const fieldName =
@@ -187,14 +205,17 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.lotNumber'),
       width: 180,
       renderCell: (params, index) => {
+        const lotNumberOpts = itemByOrderList?.items?.filter(
+          (i) => i?.itemId === params.row?.itemId?.id,
+        )
         return isView ? (
           <>{params?.row?.lotNumber}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].lotNumber`}
-            options={itemByOrderList?.items?.map((i) => i.lotNumber)}
-            disabled={isView}
-            getOptionLabel={(opt) => opt}
+            options={lotNumberOpts}
+            getOptionLabel={(opt) => opt?.lotNumber}
+            isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
             getOptionValue={(opt) => opt}
           />
         )
@@ -212,11 +233,7 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].mfg`}
             disabled={true}
-            value={convertUtcDateToLocalTz(
-              itemByOrderList?.items?.find(
-                (item) => item.lotNumber === lotNumber,
-              )?.mfg,
-            )}
+            value={convertUtcDateToLocalTz(lotNumber?.mfg)}
           />
         )
       },
@@ -226,7 +243,8 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.packageCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { packageId, evenRow, palletId } = params.row
+        const { itemId, packageId, evenRow, palletId } = params.row
+        const evenListFilter = evenList?.find((i) => i?.itemId === itemId?.id)
         return isView ? (
           <>{packageId}</>
         ) : (
@@ -234,16 +252,15 @@ function ItemSettingTable(props) {
             name={`items[${index}].packageId`}
             options={
               evenRow
-                ? isEmpty(packagesEvenByItem)
+                ? isEmpty(evenList)
                   ? packageOpts
                   : !palletId
-                  ? packagesEvenByItem
+                  ? evenListFilter?.packages
                   : palletId?.packages
                 : items[index]?.itemId?.packages
             }
-            disabled={isView}
             getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id || ''}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           />
         )
       },
@@ -253,7 +270,10 @@ function ItemSettingTable(props) {
       headerName: t('returnOrder.items.palletCode'),
       width: 180,
       renderCell: (params, index) => {
-        const { evenRow } = params.row
+        const { itemId, evenRow } = params.row
+        const evenListFilter = evenList?.find((i) => i?.itemId === itemId?.id)
+        const allOptsFilter = allOpts?.find((i) => i?.itemId === itemId?.id)
+
         return isView ? (
           <>{params?.row?.palletId}</>
         ) : (
@@ -261,15 +281,12 @@ function ItemSettingTable(props) {
             name={`items[${index}].palletId`}
             options={
               evenRow
-                ? isEmpty(palletsEvenByItem)
+                ? isEmpty(evenList)
                   ? palletOpts
-                  : palletsEvenByItem
-                : palletList
+                  : evenListFilter?.pallets
+                : allOptsFilter?.pallets
             }
-            disabled={isView}
             getOptionLabel={(opt) => opt?.code}
-            getOptionValue={(opt) => opt?.id || ''}
-            onChange={() => setFieldValue(`items[${index}].packageId`, null)}
           />
         )
       },
@@ -279,16 +296,19 @@ function ItemSettingTable(props) {
       headerName: t(`returnOrder.items.${fieldName}`),
       width: 180,
       renderCell: (params, index) => {
+        const { evenRow, location, itemId } = params.row
+        const allOptsFilter = allOpts?.find((i) => i?.itemId === itemId?.id)
+
         return isView ? (
-          <>{params?.row?.location}</>
+          <>{location}</>
         ) : (
           <Field.Autocomplete
             name={`items[${index}].location`}
-            options={locationSettingsList}
-            disabled={isView}
+            options={evenRow ? locationSettingsList : allOptsFilter?.locations}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
             getOptionValue={(opt) => opt?.id}
+            disabled={!itemId}
           />
         )
       },
@@ -304,7 +324,6 @@ function ItemSettingTable(props) {
           <Field.TextField
             name={`items[${index}].quantity`}
             type="number"
-            disabled={isView}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>

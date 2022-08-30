@@ -38,7 +38,6 @@ function ItemSettingTable(props) {
         field: 'code',
         headerName: t('saleOrder.item.code'),
         width: 250,
-        align: 'center',
         renderCell: (params, index) => {
           const item = params?.row?.item
           const itemIdCodeList = items.map((i) => i?.item?.id)
@@ -80,7 +79,6 @@ function ItemSettingTable(props) {
         field: 'itemName',
         headerName: t('saleOrder.item.name'),
         width: 180,
-        align: 'center',
         renderCell: (params, index) => {
           const item = params.row?.item
           return isView ? (
@@ -98,8 +96,9 @@ function ItemSettingTable(props) {
       {
         field: 'quantity',
         headerName: t('saleOrder.item.quantity'),
-        width: 180,
-        align: 'center',
+        width: 100,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (
@@ -117,12 +116,11 @@ function ItemSettingTable(props) {
       {
         field: 'unitType',
         headerName: t('saleOrder.item.unitType'),
-        width: 180,
-        align: 'center',
+        width: 200,
         renderCell: (params, index) => {
           const item = params?.row?.item
           return isView ? (
-            <>{item?.itemUnit?.name || ''}</>
+            <>{item?.itemUnit || ''}</>
           ) : (
             <Field.TextField
               name={`items[${index}].item.itemUnit`}
@@ -135,8 +133,9 @@ function ItemSettingTable(props) {
       {
         field: 'price',
         headerName: t('saleOrder.item.itemPrice'),
-        width: 180,
-        align: 'center',
+        width: 100,
+        align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { itemId } = params.row
           return isView ? (

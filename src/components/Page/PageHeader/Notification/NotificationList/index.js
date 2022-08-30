@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import List from '@mui/material/List'
-import { last, isEmpty } from 'lodash'
-import { useTranslation } from 'react-i18next'
+import { last } from 'lodash'
+import { PropTypes } from 'prop-types'
 
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import { useIntersectionObserver } from '~/common/hooks'
@@ -14,9 +14,8 @@ import { useClasses } from '~/themes'
 import NotificationItem from '../NotificationItem'
 import style from './style'
 
-const NotificationList = () => {
+const NotificationList = ({ onClose }) => {
   const classes = useClasses(style)
-  const { t } = useTranslation()
   const loadMoreRef = useRef(null)
   const rootRef = useRef(null)
   const [loadable, setLoadable] = useState(true)
@@ -43,18 +42,10 @@ const NotificationList = () => {
     enabled: !isLoading && loadable,
   })
 
-  if (isEmpty(items)) {
-    return (
-      <Typography variant="body2" sx={{ p: 4 / 3 }}>
-        {t('notification.noData')}
-      </Typography>
-    )
-  }
-
   return (
     <List className={classes.list} ref={rootRef}>
       {(items || []).map((item) => (
-        <NotificationItem key={item?._id} data={item} />
+        <NotificationItem key={item?._id} data={item} onClose={onClose} />
       ))}
 
       <Box ref={loadMoreRef} sx={{ position: 'relative', p: 1 }}>
@@ -74,8 +65,12 @@ const NotificationList = () => {
   )
 }
 
-NotificationList.defaultProps = {}
+NotificationList.defaultProps = {
+  onClose: () => {},
+}
 
-NotificationList.propTypes = {}
+NotificationList.propTypes = {
+  onClose: PropTypes.func,
+}
 
 export default NotificationList

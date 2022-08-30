@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -20,7 +21,7 @@ import ItemsSettingTable from '../form/items-setting-table'
 
 const breadcrumbs = [
   {
-    title: 'plan',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.DEFINE_BOQ.LIST.PATH,
@@ -36,6 +37,7 @@ const BOQDetail = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     data: { isLoading, boqDetails },
@@ -48,6 +50,16 @@ const BOQDetail = () => {
       actions.resetBOQDetailState()
     }
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getBOQDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_BOQ.LIST.PATH)

@@ -14,6 +14,10 @@ export const UPDATE_PLAN_START = 'MMSX_UPDATE_PLAN_START'
 export const UPDATE_PLAN_SUCCESS = 'MMSX_UPDATE_PLAN_SUCCESS'
 export const UPDATE_PLAN_FAIL = 'MMSX_UPDATE_PLAN_FAIL'
 
+export const DELETE_JOB_START = 'MMSX_DELETE_JOB_START'
+export const DELETE_JOB_SUCCESS = 'MMSX_DELETE_JOB_SUCCESS'
+export const DELETE_JOB_FAIL = 'MMSX_DELETE_MAKE_PLAN_FAIL'
+
 export const RESET_JOB = 'MMSX_RESET_JOB'
 
 /**
@@ -117,6 +121,28 @@ export function resetJob() {
   }
 }
 
+export function deleteJob(payload, onSuccess, onError) {
+  return {
+    type: DELETE_JOB_START,
+    payload,
+    onSuccess,
+    onError,
+  }
+}
+
+export function deleteJobSuccess(payload) {
+  return {
+    type: DELETE_JOB_SUCCESS,
+    payload,
+  }
+}
+
+export function deleteJobFail() {
+  return {
+    type: DELETE_JOB_FAIL,
+  }
+}
+
 export default {
   searchJobList,
   searchJobListSuccess,
@@ -131,4 +157,7 @@ export default {
   updatePlanSuccess,
   updatePlan,
   resetJob,
+  deleteJob,
+  deleteJobSuccess,
+  deleteJobFail,
 }

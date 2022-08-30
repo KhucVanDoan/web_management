@@ -1,42 +1,20 @@
 import React, { useEffect, useState } from 'react'
 
-import {
-  Box,
-  Card,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Box, Card, Typography } from '@mui/material'
 import { format, getDay, parse } from 'date-fns'
-import { first, isNull } from 'lodash'
+import { first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import Autocomplete from '~/components/Autocomplete'
-import DateSelection from '~/components/DateSelection'
+import DateGroupSelection from '~/components/DateGroupSelection'
+import DateGroupToggle from '~/components/DateGroupToggle'
 import useItemType from '~/modules/database/redux/hooks/useItemType'
 import { useDashboardItemStockReport } from '~/modules/wmsx/redux/hooks/useDashboard'
 
 import BarChartReport from '../barchart'
 
-const groupOptions = [
-  {
-    name: 'week',
-    value: 0,
-  },
-  {
-    name: 'month',
-    value: 1,
-  },
-  {
-    name: 'quarter',
-    value: 2,
-  },
-]
-
 const ItemReport = () => {
   const { t } = useTranslation(['wmsx'])
-  const theme = useTheme()
 
   const { data, actions } = useDashboardItemStockReport()
   const {
@@ -110,12 +88,6 @@ const ItemReport = () => {
     }))
   }
 
-  const handleChangeGroupBy = (_, id) => {
-    if (!isNull(id)) {
-      setGroupBy(id)
-    }
-  }
-
   const handleChangeSelect = (value) => {
     setFilterBy(value)
   }
@@ -133,35 +105,9 @@ const ItemReport = () => {
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t('dashboard.itemReport.title')}</Typography>
-        <ToggleButtonGroup
-          color="primary"
-          variant="contained"
-          size="small"
-          value={groupBy}
-          exclusive
-          onChange={handleChangeGroupBy}
-        >
-          {groupOptions.map((group) => (
-            <ToggleButton
-              key={group.value}
-              value={group.value}
-              sx={{
-                textTransform: 'capitalize',
-                color: theme.palette.text.main,
-                width: 55,
-                '&.Mui-selected': {
-                  color: theme.palette.primary.contrastText,
-                  backgroundColor: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                  },
-                },
-              }}
-            >
-              {t(`dashboard.${group.name}`)}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
+        <Box>
+          <DateGroupToggle groupBy={groupBy} setGroupBy={setGroupBy} />
+        </Box>
       </Box>
       <Box sx={{ mb: 2, width: '50%' }}>
         <Autocomplete
@@ -182,7 +128,10 @@ const ItemReport = () => {
           seriesField="type"
         />
       </Box>
-      <DateSelection reportType={groupBy} handleChange={handleChangeDate} />
+      <DateGroupSelection
+        reportType={groupBy}
+        handleChange={handleChangeDate}
+      />
     </Card>
   )
 }

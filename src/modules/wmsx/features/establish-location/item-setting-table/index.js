@@ -76,6 +76,7 @@ function ItemSettingTableDetail(props) {
                 }),
               })
             }
+            asyncRequestDeps={warehouseId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
@@ -109,6 +110,7 @@ function ItemSettingTableDetail(props) {
                 }),
               })
             }
+            asyncRequestDeps={areaId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}
@@ -141,6 +143,7 @@ function ItemSettingTableDetail(props) {
                 }),
               })
             }
+            asyncRequestDeps={shelfId}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
             getOptionSubLabel={(opt) => opt?.code}

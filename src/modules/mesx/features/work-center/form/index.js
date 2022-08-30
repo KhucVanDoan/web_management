@@ -17,6 +17,7 @@ import {
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -48,6 +49,8 @@ const WorkCenterForm = () => {
   const { t } = useTranslation(['mesx'])
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const MODE_MAP = {
     [ROUTE.WORK_CENTER.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WORK_CENTER.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -69,7 +72,18 @@ const WorkCenterForm = () => {
     }
 
     return () => actions.resetWorkCenterDetailState()
-  }, [mode])
+  }, [isUpdate, id, cloneId])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.WORK_CENTER.DETAIL.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
+
   const defaultShifts = [
     {
       id: new Date().getTime(),

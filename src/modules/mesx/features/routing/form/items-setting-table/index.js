@@ -41,6 +41,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         headerName: t('producingStep.code'),
         width: 200,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map((item) => item?.itemId?.id)
           return isView ? (
             <>{params.row?.code}</>
           ) : (
@@ -57,6 +58,10 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code || ''}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemId?.id
+              }
               disabled={isView}
             />
           )
@@ -246,12 +251,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       />
     </>
   )
-}
-
-ItemSettingTable.defaultProps = {
-  items: [],
-  mode: '',
-  arrayHelpers: {},
 }
 
 ItemSettingTable.propTypes = {

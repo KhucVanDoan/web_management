@@ -12,7 +12,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchPackagesApi = (params) => {
+export const searchPackagesApi = (params) => {
   const uri = `/v1/items/packages/list`
   return api.get(uri, params)
 }

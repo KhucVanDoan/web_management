@@ -184,11 +184,9 @@ const TemplateChecklist = () => {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importTemplateChecklistApi(params)
-          }}
-          onExport={() => {
+          name={t('template_checklist.export')}
+          onImport={(params) => importTemplateChecklistApi(params)}
+          onExport={() =>
             exportTemplateChecklistApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -200,10 +198,9 @@ const TemplateChecklist = () => {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getTemplateChecklistTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.TEMPLATE_CHECKLIST.CREATE.PATH)}

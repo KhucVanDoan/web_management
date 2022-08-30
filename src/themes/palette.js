@@ -151,7 +151,7 @@ const palette = {
       background: '#FF0909',
       contrastText: '#FFF',
     },
-    tempLocked: {
+    inactive: {
       text: '#666',
       background: '#666',
       contrastText: '#FFF',
@@ -194,6 +194,11 @@ const palette = {
     exported: {
       text: '#0FA44A',
       background: '#0FA44A',
+      contrastText: '#FFF',
+    },
+    inReturning: {
+      text: '#FFAC38',
+      background: '#FFAC38',
       contrastText: '#FFF',
     },
   },

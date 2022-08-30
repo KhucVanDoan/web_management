@@ -28,7 +28,7 @@ import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'producingInfo',
   },
   {
     route: ROUTE.BOM_PRODUCING_STEP.LIST.PATH,

@@ -73,38 +73,34 @@ function DeviceUsingStatus() {
       </Box>
       <Box className={classes.container}>
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={6} md={6} sx={{ display: 'flex' }}>
-            <Grid item xs={12}>
-              <Autocomplete
-                value={factoryId}
-                options={factoryList}
-                getOptionValue={(opt) => opt?.id || ''}
-                getOptionLabel={(opt) => opt?.name}
-                onChange={(val) => {
-                  setFactoryId(val)
-                }}
-                placeholder={t(
-                  'dashboard.deviceUsingStatus.factoryPlaceholder',
-                )}
-                sx={{ mr: 1 }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Autocomplete
-                value={manufacturingOrderId}
-                options={moListByFactory}
-                getOptionValue={(opt) => opt?.id || ''}
-                getOptionLabel={(opt) => opt?.name}
-                placeholder={t(
-                  'dashboard.deviceUsingStatus.productOrderPlaceholder',
-                )}
-                onChange={(val) => {
-                  setManufacturingOrderId(val)
-                }}
-              />
-            </Grid>
+          <Grid item lg={3} md={4} xs={6}>
+            <Autocomplete
+              value={factoryId}
+              options={factoryList}
+              getOptionValue={(opt) => opt?.id || ''}
+              getOptionLabel={(opt) => opt?.name}
+              onChange={(val) => {
+                setFactoryId(val)
+              }}
+              placeholder={t('dashboard.deviceUsingStatus.factoryPlaceholder')}
+            />
           </Grid>
-          <Grid item xs={12} lg={6} md={6}>
+          <Grid item lg={3} md={4} xs={6}>
+            <Autocomplete
+              value={manufacturingOrderId}
+              options={moListByFactory}
+              getOptionValue={(opt) => opt?.id || ''}
+              getOptionLabel={(opt) => opt?.name}
+              placeholder={t(
+                'dashboard.deviceUsingStatus.productOrderPlaceholder',
+              )}
+              onChange={(val) => {
+                setManufacturingOrderId(val)
+              }}
+            />
+          </Grid>
+
+          <Grid item lg={6} md={4} xs={12}>
             <Button onClick={handleOnClickSearch} icon="filter">
               {t('general.filter')}
             </Button>
@@ -113,7 +109,7 @@ function DeviceUsingStatus() {
       </Box>
       <Box className={classes.boxContainer}>
         <Grid container spacing={2}>
-          <Grid item xs={12} lg={2} md={2}>
+          <Grid item xs={12} lg={2} md={3}>
             <Box className="overall-background">
               <Box className="overall-text">
                 <span className="device-text">
@@ -127,7 +123,7 @@ function DeviceUsingStatus() {
               </Box>
             </Box>
           </Grid>
-          <Grid item sx={12} lg={10} md={10} display="flex" alignItems="center">
+          <Grid item sx={12} lg={10} md={9} display="flex" alignItems="center">
             <Grid container spacing={2}>
               <Grid item xl={2} lg={4} xs={6} md={6}>
                 <Box className="item">
@@ -202,14 +198,15 @@ function DeviceUsingStatus() {
           {t('dashboard.deviceUsingStatus.listView')}
         </Button>
       </Box>
-      {data?.deviceStatusData?.map((device, index) => (
-        <DevicePanel
-          key={index}
-          type={device?.status}
-          title={device?.serial}
-          data={device?.activeTime}
-        />
-      ))}
+
+      {data?.deviceStatusData?.length > 0 && (
+        <Box className={classes.stageHeader} />
+      )}
+      <Box className={classes.stage}>
+        {data?.deviceStatusData?.map((device, index) => (
+          <DevicePanel key={index} device={device} />
+        ))}
+      </Box>
     </Card>
   )
 }

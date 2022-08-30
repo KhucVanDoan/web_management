@@ -1,40 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { Line } from '@ant-design/plots'
-import {
-  Box,
-  Card,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from '@mui/material'
-import { useTheme } from '@mui/material/styles'
+import { Box, Card, Typography } from '@mui/material'
 import { format } from 'date-fns'
-import { isNull } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import DateSelection from '~/components/DateSelection'
+import DateGroupSelection from '~/components/DateGroupSelection'
+import DateGroupToggle from '~/components/DateGroupToggle'
 import { PRIORITY_DASHBOARD } from '~/modules/mmsx/constants'
 import { useDashboardDeviceError } from '~/modules/mmsx/redux/hooks/useDashboard'
 
-const groupOptions = [
-  {
-    name: 'week',
-    value: 0,
-  },
-  {
-    name: 'month',
-    value: 1,
-  },
-  {
-    name: 'quarter',
-    value: 2,
-  },
-]
-
 const DeviceError = () => {
   const { t } = useTranslation(['mmsx'])
-  const theme = useTheme()
 
   const { data, actions } = useDashboardDeviceError()
 
@@ -42,28 +19,18 @@ const DeviceError = () => {
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
 
-  const getData = () => {
+  const getData = useCallback(() => {
     const payload = {
       reportType: groupBy,
       startDate,
       endDate,
     }
     actions.getDeviceError(payload)
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
-
-  useEffect(() => {
-    getData()
   }, [groupBy, startDate, endDate])
 
-  const handleChangeGroupBy = (_, id) => {
-    if (!isNull(id)) {
-      setGroupBy(id)
-    }
-  }
+  useEffect(() => {
+    getData()
+  }, [getData])
 
   const handleChangeDate = (unit, { start, end }) => {
     setGroupBy(unit.value)
@@ -85,83 +52,71 @@ const DeviceError = () => {
     return col
   }, [data])
 
-  const config = {
-    data: convertData,
-    height: 255,
-    xField: 'time',
-    yField: 'value',
-    seriesField: 'category',
-    lineStyle: { lineDash: [6 - 1] },
-    color: [
-      '#5B8FF9',
-      '#5AD8A6',
-      '#5D7092',
-      '#F6BD16',
-      '#E8684A',
-      '#6DC8EC',
-      '#9270CA',
-      '#FF9D4D',
-      '#269A99',
-      '#FF99C3',
-    ],
-    legend: {
-      position: 'bottom',
-      style: {
-        ShapeAttrs: 'square',
-      },
-      itemSpacing: 1,
-      itemName: {
-        style: { fill: '#000' },
-        formatter: function formatter(name) {
-          return name
+  const config = useMemo(
+    () => ({
+      data: convertData,
+      height: 255,
+      xField: 'time',
+      yField: 'value',
+      seriesField: 'category',
+      lineStyle: { lineDash: [6 - 1] },
+      color: [
+        '#5B8FF9',
+        '#5AD8A6',
+        '#5D7092',
+        '#F6BD16',
+        '#E8684A',
+        '#6DC8EC',
+        '#9270CA',
+        '#FF9D4D',
+        '#269A99',
+        '#FF99C3',
+      ],
+      legend: {
+        position: 'bottom',
+        style: {
+          ShapeAttrs: 'square',
+        },
+        itemSpacing: 1,
+        itemName: {
+          style: { fill: '#000' },
+          formatter: function formatter(name) {
+            return name
+          },
         },
       },
-    },
-    yAxis: {
-      label: {
-        formatter: (v) =>
-          `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+      yAxis: {
+        label: {
+          formatter: (v) =>
+            `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+        },
       },
-    },
-  }
+    }),
+    [convertData],
+  )
 
   return (
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t('dashboard.chart.deviceError')}</Typography>
-        <ToggleButtonGroup
-          color="primary"
-          size="small"
-          value={groupBy}
-          exclusive
-          onChange={handleChangeGroupBy}
-        >
-          {groupOptions.map((group) => (
-            <ToggleButton
-              key={group.value}
-              value={group.value}
-              sx={{
-                textTransform: 'capitalize',
-                color: theme.palette.text.main,
-                width: 55,
-                '&.Mui-selected': {
-                  color: theme.palette.primary.contrastText,
-                  backgroundColor: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                  },
-                },
-              }}
-            >
-              {t(`common.${group.name}`)}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
+        <Box>
+          <DateGroupToggle
+            groupBy={groupBy}
+            setGroupBy={(val) => {
+              setGroupBy(val)
+              setStartDate(null)
+              setEndDate(null)
+            }}
+          />
+        </Box>
       </Box>
       <Box sx={{ height: 230 }}>
         <Line {...config} />
       </Box>
-      <DateSelection reportType={groupBy} handleChange={handleChangeDate} />
+      <DateGroupSelection
+        reportType={groupBy}
+        handleChange={handleChangeDate}
+      />
     </Card>
   )
 }

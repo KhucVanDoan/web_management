@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
@@ -27,6 +28,8 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import { DialogApprove } from './dialogs/approve'
+import { DialogReject } from './dialogs/reject'
 import FilterForm from './filter-form'
 import { validationSchema } from './filter-form/schema'
 
@@ -59,6 +62,7 @@ const DefineMasterPlan = () => {
   const [isOpenApproveModal, setIsOpenApproveModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -399,6 +403,16 @@ const DefineMasterPlan = () => {
   }, [pageSize, page, sort, filters, keyword])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (masterPlans?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, masterPlans])
+
+  useEffect(() => {
     setMasterPlans(masterPlanList)
   }, [masterPlanList])
 
@@ -533,18 +547,6 @@ const DefineMasterPlan = () => {
     )
   }
 
-  const onSubmitApprove = () => {
-    masterPlanActions.approveMasterPlan(tempItem?.id, refreshData)
-    setIsOpenApproveModal(false)
-    setTempItem(null)
-  }
-
-  const onSubmitReject = () => {
-    masterPlanActions.rejectMasterPlan(tempItem?.id, refreshData)
-    setIsOpenRejectModal(false)
-    setTempItem(null)
-  }
-
   const onSubmitDelete = () => {
     masterPlanActions.deleteMasterPlan(tempItem?.id, refreshData)
     setDeleteModal(false)
@@ -591,50 +593,30 @@ const DefineMasterPlan = () => {
           onApply: setFilters,
         }}
       />
-      <Dialog
+
+      <DialogApprove
         open={isOpenApproveModal}
-        title={t('general:common.notify')}
-        maxWidth="sm"
-        onCancel={() => setIsOpenApproveModal(false)}
-        onSubmit={onSubmitApprove}
-        cancelLabel={t('general:common.no')}
-        submitLabel={t('general:common.yes')}
-        noBorderBottom
-      >
-        {t('general:common.confirmMessage.confirm')}
-        <LV
-          label={t('defineMasterPlan.code')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineMasterPlan.planName')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
+        onClose={() => {
+          setTempItem(null)
+          setIsOpenApproveModal(false)
+        }}
+        data={tempItem}
+        onSuccess={() => {
+          refreshData()
+        }}
+      />
+      <DialogReject
         open={isOpenRejectModal}
-        title={t('general:common.notify')}
-        maxWidth="sm"
-        onCancel={() => setIsOpenRejectModal(false)}
-        onSubmit={onSubmitReject}
-        cancelLabel={t('general:common.no')}
-        submitLabel={t('general:common.yes')}
-        noBorderBottom
-      >
-        {t('general:common.confirmMessage.reject')}
-        <LV
-          label={t('defineMasterPlan.code')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineMasterPlan.planName')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
+        onClose={() => {
+          setTempItem(null)
+          setIsOpenRejectModal(false)
+        }}
+        data={tempItem}
+        onSuccess={() => {
+          refreshData()
+        }}
+      />
+
       <Dialog
         open={deleteModal}
         title={t('defineBOM.deleteModalTitle')}

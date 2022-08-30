@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -35,6 +36,7 @@ const RoutingDetail = () => {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     data: { isLoading, routingDetails },
@@ -47,6 +49,16 @@ const RoutingDetail = () => {
       actions.resetRoutingDetailState()
     }
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getRoutingDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const backToList = () => {
     history.push(ROUTE.ROUTING.LIST.PATH)

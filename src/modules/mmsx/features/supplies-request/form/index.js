@@ -7,7 +7,11 @@ import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
@@ -15,7 +19,6 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { ACTION_MAP, SUPPLY_REQUEST_STATUS } from '~/modules/mmsx/constants'
 import Activities from '~/modules/mmsx/partials/Activities'
-import useDefineSupplies from '~/modules/mmsx/redux/hooks/useDefineSupplies'
 import useSuppliesRequest from '~/modules/mmsx/redux/hooks/useSuppliesRequest'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 
@@ -38,7 +41,6 @@ const SuppliesRequestForm = () => {
     actions,
   } = useSuppliesRequest()
 
-  const { actions: actionDefineSupplies } = useDefineSupplies()
   const MODE_MAP = {
     [ROUTE.SUPPLIES_REQUEST.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.SUPPLIES_REQUEST.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -51,7 +53,6 @@ const SuppliesRequestForm = () => {
   }
   useEffect(() => {
     actions.getJobListInSuppliesRequest()
-    actionDefineSupplies.searchListSupplies({ isGetAll: 1 })
   }, [])
 
   const initialValues = useMemo(
@@ -266,6 +267,11 @@ const SuppliesRequestForm = () => {
                         label={t('suppliesRequest.table.name')}
                         name="name"
                         placeholder={t('suppliesRequest.table.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
+                        required
                       />
                     </Grid>
                     <Grid item xs={12} lg={6}>

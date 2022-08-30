@@ -7,7 +7,9 @@ import { useHistory, useLocation, useParams } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -42,19 +44,24 @@ const Job = () => {
     data: { jobLists, isLoading, total },
     actions,
   } = useJob()
+
+  const [tempItem, setTempItem] = useState(null)
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const { t } = useTranslation(['mmsx'])
   const history = useHistory()
   const [checked, setChecked] = useState(true)
   const { id } = useParams()
   const location = useLocation()
-  const { groupId } = qs.parse(location.search)
+  const { plan } = qs.parse(location.search)
   const {
     data: { detailPlan },
     actions: createPlanAction,
   } = useCreatePlan()
 
   useEffect(() => {
-    createPlanAction.getDetailPlan(groupId)
+    if (plan) {
+      createPlanAction.getDetailPlan(plan)
+    }
     return () => {
       createPlanAction.resetStateCreatePlan()
     }
@@ -74,7 +81,7 @@ const Job = () => {
     type: '',
     status: null,
     createdAt:
-      groupId && !isEmpty(detailPlan)
+      plan && !isEmpty(detailPlan)
         ? [new Date(detailPlan?.planFrom), new Date(detailPlan?.planTo)]
         : null,
     assign: '',
@@ -286,7 +293,11 @@ const Job = () => {
         renderCell: (params) => {
           const { id, status } = params.row
           const nonAssign =
-            status === (JOB_STATUS_LIST[0].id || JOB_STATUS_LIST[2].id)
+            status === JOB_STATUS_LIST[0].id || status === JOB_STATUS_LIST[2].id
+          const canDelete =
+            status === JOB_STATUS_LIST[0].id ||
+            status === JOB_STATUS_LIST[1].id ||
+            status === JOB_STATUS_LIST[2].id
           return (
             <>
               <IconButton
@@ -304,6 +315,11 @@ const Job = () => {
                   }
                 >
                   <Icon name="assign" />
+                </IconButton>
+              )}
+              {canDelete && (
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
                 </IconButton>
               )}
             </>
@@ -330,7 +346,7 @@ const Job = () => {
         columns,
       ),
       sort: convertSortParams(sort),
-      user: checked ? userId : null,
+      curUser: checked ? userId : null,
     }
     actions.searchJobList(params)
   }
@@ -354,6 +370,17 @@ const Job = () => {
     )
   }
 
+  const onClickDelete = (tempItem) => {
+    setTempItem(tempItem)
+    setIsOpenDeleteModal(true)
+  }
+  const onSubmitDelete = () => {
+    actions.deleteJob(tempItem?.id, () => {
+      refreshData()
+    })
+    setTempItem(null)
+    setIsOpenDeleteModal(false)
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -385,6 +412,30 @@ const Job = () => {
           onApply: setFilters,
         }}
       />
+      <Dialog
+        open={isOpenDeleteModal}
+        title={t('common.modalDelete.title')}
+        onCancel={() => setIsOpenDeleteModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDelete}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('common.modalDelete.description')}
+        <LV
+          label={t('job.workCode')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('job.workType')}
+          value={t(WORK_TYPE_MAP[tempItem?.type])}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
     </Page>
   )
 }

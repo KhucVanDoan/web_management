@@ -78,7 +78,7 @@ function ItemSettingTable({
       {
         field: 'itemName',
         headerName: t('purchasedOrder.item.name'),
-        width: 220,
+        width: 150,
         renderCell: (params, index) => {
           const { itemId } = params.row
 
@@ -103,7 +103,6 @@ function ItemSettingTable({
                 )
               }
               onChange={(id) => onChangeItem(id, index, setFieldValue)}
-              disabled={isView}
             />
           )
         },
@@ -111,6 +110,7 @@ function ItemSettingTable({
       {
         field: 'itemCode',
         headerName: t('purchasedOrder.item.code'),
+        width: 100,
         renderCell: (params, index) => {
           const itemId = params.row?.itemId
           return isView ? (
@@ -119,7 +119,7 @@ function ItemSettingTable({
             <Field.TextField
               name={`items[${index}].code`}
               value={getItemObject(itemId)?.code || ''}
-              disabled={true}
+              disabled
             />
           )
         },
@@ -135,7 +135,7 @@ function ItemSettingTable({
             <Field.TextField
               name={`items[${index}].type`}
               value={getItemObject(itemId)?.itemType.name || ''}
-              disabled={true}
+              disabled
             />
           )
         },
@@ -144,6 +144,7 @@ function ItemSettingTable({
         field: 'quantity',
         headerName: t('purchasedOrder.item.quantity'),
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           const { quantity } = params.row
           return isView ? (
@@ -152,7 +153,6 @@ function ItemSettingTable({
             <Field.TextField
               name={`items[${index}].quantity`}
               type="number"
-              disabled={isView}
               numberProps={{
                 decimalScale: 3,
               }}
@@ -168,6 +168,7 @@ function ItemSettingTable({
               field: 'remainQuantity',
               headerName: t('purchasedOrder.item.remainQuantity'),
               align: 'right',
+              headerAlign: 'left',
               renderCell: (params, index) => {
                 const { quantity } = params.row
                 return (
@@ -183,6 +184,7 @@ function ItemSettingTable({
               field: 'actualQuantity',
               headerName: t('purchasedOrder.item.actualQuantity'),
               align: 'right',
+              headerAlign: 'left',
               renderCell: (params, index) => {
                 return Number(
                   purchasedOrderDetails?.purchasedOrderDetails?.[index]
@@ -203,7 +205,7 @@ function ItemSettingTable({
             <Field.TextField
               name={`items[${index}].unitType`}
               value={getItemObject(itemId)?.itemUnit?.name || ''}
-              disabled={true}
+              disabled
             />
           )
         },
@@ -212,6 +214,7 @@ function ItemSettingTable({
         field: 'itemPrice',
         headerName: t('purchasedOrder.item.price'),
         align: 'right',
+        headerAlign: 'left',
         renderCell: (params, index) => {
           return isView ? (
             <>{<NumberFormatText value={items[index]?.price || ''} />}</>

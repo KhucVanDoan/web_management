@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -54,18 +53,18 @@ const MaintainRequestDetail = () => {
   }
 
   const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('maintainRequest.deviceButton')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('maintainRequest.partsButton')}
-          </Button>
-        </Box>
-      </>
-    )
+    // return (
+    //   <>
+    //     <Box>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('maintainRequest.deviceButton')}
+    //       </Button>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('maintainRequest.partsButton')}
+    //       </Button>
+    //     </Box>
+    //   </>
+    // )
   }
 
   return (

@@ -10,7 +10,6 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import useDefineFactory from '~/modules/database/redux/hooks/useDefineFactory'
 import {
   MOVEMENT_STATUS,
   MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT,
@@ -37,15 +36,9 @@ function WarehouseTransferMovementsDetail() {
     actions,
   } = useWarehouseTransferMovements()
 
-  const {
-    data: { factoryList },
-    actions: actionFactory,
-  } = useDefineFactory()
-
   useEffect(() => {
     if (id) {
       actions.getWarehouseTransferMovementsDetailsById(id)
-      actionFactory.searchFactories({ isGetAll: 1 })
     }
     return () => {
       actions.resetWarehouseTransferMovementsState()
@@ -209,12 +202,7 @@ function WarehouseTransferMovementsDetail() {
                   'warehouseTransferMovement.calendar.sourceFactoryName',
                 )}
                 value={
-                  factoryList?.find(
-                    (f) =>
-                      f.id ===
-                      warehouseTransferMovementDetail?.order?.sourceWarehouse
-                        ?.factoryId,
-                  )?.name
+                  warehouseTransferMovementDetail?.order?.sourceWarehouse?.name
                 }
               />
             </Grid>
@@ -224,12 +212,8 @@ function WarehouseTransferMovementsDetail() {
                   'warehouseTransferMovement.calendar.destinationFactoryName',
                 )}
                 value={
-                  factoryList?.find(
-                    (f) =>
-                      f.id ===
-                      warehouseTransferMovementDetail?.order
-                        ?.destinationWarehouse?.factoryId,
-                  )?.name
+                  warehouseTransferMovementDetail?.order?.destinationWarehouse
+                    ?.name
                 }
               />
             </Grid>

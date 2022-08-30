@@ -20,20 +20,13 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
-          name="devideName"
+          name="deviceName"
           label={t('reportDevice.serialTable.name')}
           placeholder={t('reportDevice.serialTable.name')}
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="fullName"
-          label={t('reportDevice.serialTable.user')}
-          placeholder={t('reportDevice.serialTable.user')}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.DatePicker
+        <Field.DateRangePicker
           name="usedAt"
           label={t('reportDevice.serialTable.usageDate')}
           placeholder={t('reportDevice.serialTable.usageDate')}

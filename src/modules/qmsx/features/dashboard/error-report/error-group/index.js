@@ -52,7 +52,7 @@ function ErrorGroup() {
     },
     tooltip: {
       fields: [nameField, quantityField, ratioField],
-      formatter: ({name, quantity, ratio}) => ({
+      formatter: ({ name, quantity, ratio }) => ({
         name: name,
         value: `${quantity} (${ratio}%)`,
       }),
@@ -66,7 +66,9 @@ function ErrorGroup() {
           {t('dashboard.errorReport.errorGroup')}
         </Typography>
 
-        <ErrorGroupFilterForm />
+        <Box>
+          <ErrorGroupFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

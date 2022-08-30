@@ -13,6 +13,13 @@ import watchGetBlockLocationDetail from './block-item-location/block-location/ge
 import watchGetDesignByWarehouse from './block-item-location/block-location/get-design-by-warehouse'
 import watchOpenBlockLocation from './block-item-location/block-location/open-block-location'
 import watchSearchBlockLocations from './block-item-location/block-location/search-block-location'
+import watchConfirmBussinessType from './business-type-management/confirm-business-type'
+import watchCreateBussinessType from './business-type-management/create-business-type'
+import watchDeleteBussinessType from './business-type-management/delete-business-type'
+import watchGetBussinessTypeDetails from './business-type-management/get-business-type-details'
+import watchRejectBussinessType from './business-type-management/reject-business-type'
+import watchSearchBussinessTypes from './business-type-management/search-business-types'
+import watchUpdateBussinessType from './business-type-management/update-business-type'
 import watchGetSupplyRequest from './common/get-all-supply-request'
 import watchGetBlocks from './common/get-blocks'
 import watchGetItemQualityPoint from './common/get-item-quality-point'
@@ -22,6 +29,28 @@ import watchGetPackages from './common/get-packages'
 import watchGetPallets from './common/get-pallets'
 import watchGetTypeServices from './common/get-type-services'
 import watchGetWarehouses from './common/get-warehouses'
+import watchConfirmCompany from './company-management/confirm-company'
+import watchCreateCompany from './company-management/create-company'
+import watchDeleteCompany from './company-management/delete-company'
+import watchGetCompanies from './company-management/get-companies'
+import watchGetCompanyDetails from './company-management/get-company-details'
+import watchRejectCompany from './company-management/reject-company'
+import watchSearchCompanies from './company-management/search-companies'
+import watchUpdateCompany from './company-management/update-company'
+import watchConfirmConstructionItems from './construction-items-management/confirm-construction-items'
+import watchCreateConstructionItems from './construction-items-management/create-construction-items'
+import watchDeleteConstructionItems from './construction-items-management/delete-construction-items'
+import watchGetConstructionItemsDetails from './construction-items-management/get-construction-items-details'
+import watchRejectConstructionItems from './construction-items-management/reject-construction-items'
+import watchSearchConstructionItems from './construction-items-management/search-construction-items'
+import watchUpdateConstructionItems from './construction-items-management/update-construction-items'
+import watchConfirmConstruction from './construction-management/confirm-construction'
+import watchCreateConstruction from './construction-management/create-construction'
+import watchDeleteConstruction from './construction-management/delete-construction'
+import watchGetConstructionDetails from './construction-management/get-construction-details'
+import watchRejectConstruction from './construction-management/reject-construction'
+import watchSearchConstructions from './construction-management/search-constructions'
+import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
 import watchCompleteBill from './define-bill/complete-bill'
 import watchConfirmBill from './define-bill/confirm-bill'
@@ -64,6 +93,20 @@ import watchGetDetailDetails from './define-detail/get-detail-details'
 import watchGetDetails from './define-detail/get-details'
 import watchSearchDetails from './define-detail/search-detail'
 import watchUpdateDetail from './define-detail/update-detail'
+import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
+import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
+import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
+import watchGetMaterialQualityDetails from './define-material-quality/get-material-quality-details'
+import watchRejectMaterialQuality from './define-material-quality/reject-material-quality'
+import watchSearchMaterialQuality from './define-material-quality/search-material-quality'
+import watchUpdateMaterialQuality from './define-material-quality/update-material-quality'
+import watchConfirmObjectCategory from './define-object-category/confirm-object-category'
+import watchCreateObjectCategory from './define-object-category/create-object-category'
+import watchDeleteObjectCategory from './define-object-category/delete-object-category'
+import watchGetObjectCategoryDetails from './define-object-category/get-object-category-details'
+import watchRejectObjectCategory from './define-object-category/reject-object-category'
+import watchSearchObjectCategory from './define-object-category/search-object-category'
+import watchUpdateObjectCategory from './define-object-category/update-object-category'
 import watchConfirmPackage from './define-package/confirm-package'
 import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
@@ -117,6 +160,13 @@ import watchGetTypeUnitDetails from './define-type-unit/get-define-type-unit-det
 import watchImportTypeUnit from './define-type-unit/import-type-unit'
 import watchSearchTypeUnits from './define-type-unit/search-define-type-units'
 import watchUpdateTypeUnit from './define-type-unit/update-define-type-unit'
+import watchConfirmUom from './define-uom/confirm-uom'
+import watchCreateUom from './define-uom/create-uom'
+import watchDeleteUom from './define-uom/delete-uom'
+import watchGetUomDetails from './define-uom/get-uom-details'
+import watchRejectUom from './define-uom/reject-uom'
+import watchSearchUoms from './define-uom/search-uom'
+import watchUpdateUom from './define-uom/update-uom'
 import watchCreateVendor from './define-vendor/create-vendor'
 import watchDeleteVendor from './define-vendor/delete-vendor'
 import watchGetVendorDetails from './define-vendor/get-vendor-details'
@@ -175,6 +225,10 @@ import watchDeleteLocationSetting from './location-setting/delete'
 import watchGetLocationSettingDetails from './location-setting/get-detail'
 import watchSearchLocationSettings from './location-setting/search'
 import watchUpdateLocationSetting from './location-setting/update'
+import watchCreateManagementUnit from './management-unit/create'
+import watchDeleteManagementUnit from './management-unit/delete'
+import watchGetDetailManagementUnit from './management-unit/get-detail'
+import watchSearchManagementUnit from './management-unit/search'
 import watchGetMovementsDetails from './movements/get-movement-details.'
 import watchSearchMovements from './movements/search-movements'
 import watchConfirmProductionOrder from './production-order/confirm-production-order'
@@ -195,6 +249,13 @@ import watchGetPurchasedOrderNotCreatePOimp from './purchased-orders-import/get-
 import watchRejectPOSImport from './purchased-orders-import/reject-purchased-order-imp'
 import watchSearchPOImport from './purchased-orders-import/search-purchased-orders-imp'
 import watchUpdatePOImport from './purchased-orders-import/update-purchased-order-imp'
+import watchConfirmReasonManagement from './reason-management/confirm'
+import watchCreateReasonManagement from './reason-management/create'
+import watchDeleteReasonManagement from './reason-management/delete'
+import watchGetDetailReasonManagement from './reason-management/get-detail'
+import watchRejectReasonManagement from './reason-management/reject'
+import watchSearchReasonManagement from './reason-management/search'
+import watchUpdateReasonManagement from './reason-management/update'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
 import watchConfirmReturnOrder from './return-order/confirm-return-order'
 import watchCreateReturnOrder from './return-order/create-return-order'
@@ -212,6 +273,13 @@ import watchGetSOExportDetails from './so-export/get-so-export-details'
 import watchRejectSOExport from './so-export/reject-so-export'
 import watchSearchSOExport from './so-export/search-so-export'
 import watchUpdateSOExport from './so-export/update-so-export'
+import watchConfirmSourceManagement from './source-management/confirm'
+import watchCreateSourceManagement from './source-management/create'
+import watchDeleteSourceManagement from './source-management/delete'
+import watchGetSourceManagement from './source-management/get-detail'
+import watchRejectSourceManagement from './source-management/reject'
+import watchSearchSourceManagement from './source-management/search'
+import watchUpdateSourceManagement from './source-management/update'
 import watchSaveTemplateSectorTemplateShelf from './template-sector-template-shelf/save-template-sector-template-shelf'
 import watchConfirmVoucher from './voucher/confirm-voucher'
 import watchCreateVoucher from './voucher/create-voucher'
@@ -566,5 +634,92 @@ export default function* sagas() {
     watchGetReturnOrderDetails(),
     watchRejectReturnOrder(),
     watchUpdateReturnOrder(),
+
+    // management-unit
+    watchCreateManagementUnit(),
+    watchDeleteManagementUnit(),
+    watchGetDetailManagementUnit(),
+    watchSearchManagementUnit(),
+
+    //company-management
+    watchCreateCompany(),
+    watchDeleteCompany(),
+    watchGetCompanies(),
+    watchGetCompanyDetails(),
+    watchSearchCompanies(),
+    watchUpdateCompany(),
+    watchConfirmCompany(),
+    watchRejectCompany(),
+
+    //construction-management
+    watchCreateConstruction(),
+    watchUpdateConstruction(),
+    watchSearchConstructions(),
+    watchGetConstructionDetails(),
+    watchDeleteConstruction(),
+    watchConfirmConstruction(),
+    watchRejectConstruction(),
+
+    //construction-items-management
+    watchCreateConstructionItems(),
+    watchUpdateConstructionItems(),
+    watchSearchConstructionItems(),
+    watchGetConstructionItemsDetails(),
+    watchDeleteConstructionItems(),
+    watchConfirmConstructionItems(),
+    watchRejectConstructionItems(),
+
+    //bussiness-type-management
+    watchCreateBussinessType(),
+    watchUpdateBussinessType(),
+    watchSearchBussinessTypes(),
+    watchGetBussinessTypeDetails(),
+    watchDeleteBussinessType(),
+    watchConfirmBussinessType(),
+    watchRejectBussinessType(),
+
+    //source-management
+    watchConfirmSourceManagement(),
+    watchCreateSourceManagement(),
+    watchDeleteSourceManagement(),
+    watchGetSourceManagement(),
+    watchRejectSourceManagement(),
+    watchSearchSourceManagement(),
+    watchUpdateSourceManagement(),
+
+    //define-object-category
+    watchCreateObjectCategory(),
+    watchUpdateObjectCategory(),
+    watchSearchObjectCategory(),
+    watchGetObjectCategoryDetails(),
+    watchConfirmObjectCategory(),
+    watchRejectObjectCategory(),
+    watchDeleteObjectCategory(),
+
+    //reason-management
+    watchCreateReasonManagement(),
+    watchDeleteReasonManagement(),
+    watchGetDetailReasonManagement(),
+    watchSearchReasonManagement(),
+    watchUpdateReasonManagement(),
+    watchConfirmReasonManagement(),
+    watchRejectReasonManagement(),
+
+    //define-uom
+    watchSearchUoms(),
+    watchCreateUom(),
+    watchUpdateUom(),
+    watchDeleteUom(),
+    watchGetUomDetails(),
+    watchConfirmUom(),
+    watchRejectUom(),
+    //define-material-quality
+    watchCreateMaterialQuality(),
+    watchUpdateMaterialQuality(),
+    watchSearchMaterialQuality(),
+    watchGetMaterialQualityDetails(),
+    watchDeleteMaterialQuality(),
+    watchConfirmMaterialQuality(),
+    watchRejectMaterialQuality(),
   ])
 }

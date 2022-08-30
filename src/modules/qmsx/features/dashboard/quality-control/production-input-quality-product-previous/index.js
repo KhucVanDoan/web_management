@@ -4,7 +4,7 @@ import { DualAxes } from '@ant-design/plots'
 import { Box, Typography, Card, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import ProductionInputQualityProductPreviousFilterForm from '~/modules/qmsx/features/dashboard/quality-control/production-input-quality-product-previous/filter-form';
+import ProductionInputQualityProductPreviousFilterForm from '~/modules/qmsx/features/dashboard/quality-control/production-input-quality-product-previous/filter-form'
 import { useDashboardProductionInputQualityProductPrevious } from '~/modules/qmsx/redux/hooks/useDashboard'
 
 function ProductionInputQualityProductPrevious() {
@@ -111,7 +111,9 @@ function ProductionInputQualityProductPrevious() {
           </Grid>
         </Grid>
 
-        <ProductionInputQualityProductPreviousFilterForm />
+        <Box>
+          <ProductionInputQualityProductPreviousFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

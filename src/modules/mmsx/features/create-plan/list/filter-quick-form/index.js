@@ -26,7 +26,7 @@ const JobQuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                 >
                   <Grid item lg={4} xs={12}>
                     <Field.DateRangePicker
-                      name="date"
+                      name="time"
                       label={t('general.filterInfor')}
                       placeholder={t('general.filterInfor')}
                       vertical

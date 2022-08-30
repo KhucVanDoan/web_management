@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Hidden, Paper, Typography } from '@mui/material'
+import { Grid, Hidden, Paper, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  CREATE_PLAN_STATUS,
   JOB_STATUS_LIST,
   PRIORITY_LEVEL_MAP,
   WORK_TYPE,
@@ -24,6 +24,8 @@ import useJob from '~/modules/mmsx/redux/hooks/useJob'
 import { getPlanListApi } from '~/modules/mmsx/redux/sagas/plan-list/get-plan-list'
 import { ROUTE } from '~/modules/mmsx/routes/config'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+
+import { validateShema } from './schema'
 
 const breadcrumbs = [
   {
@@ -68,7 +70,7 @@ const JobAssign = () => {
   }, [actions, id])
 
   const initialValues = {
-    planDay: '',
+    planDay: null,
     plan: null,
     responsibleUser: '',
   }
@@ -115,27 +117,27 @@ const JobAssign = () => {
     username: item?.userName,
   }))
 
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('job.button.deviceButton')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('job.button.createPlan')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('job.button.deviceButton')}
+  //         </Button>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('job.button.createPlan')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.jobAssign')}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       loading={isLoading}
       freeSolo
     >
@@ -144,182 +146,194 @@ const JobAssign = () => {
           <Grid item xl={11} xs={12}>
             <Formik
               initialValues={initialValues}
-              // validationSchema={validateShema(t)}
+              validationSchema={validateShema(t)}
               onSubmit={handleSubmit}
               enableReinitialize
             >
-              {({ handleReset, values }) => (
-                <Form>
-                  <Grid
-                    container
-                    rowSpacing={4 / 3}
-                    columnSpacing={{ xl: 8, xs: 4 }}
-                  >
-                    <Grid item xs={12}>
-                      <LV
-                        label={t('job.status')}
-                        value={
-                          <Status
-                            options={JOB_STATUS_LIST}
-                            value={jobDetail?.status}
-                          />
-                        }
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.workCode')}
-                        value={jobDetail?.code}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.priority')}
-                        value={t(PRIORITY_LEVEL_MAP[job?.priority])}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.requestCode')}
-                        value={jobDetail?.deviceAssignment?.serial}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.serial')}
-                        value={jobDetail?.deviceAssignment?.serial}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.description')}
-                        value={jobDetail?.description}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.deviceName')}
-                        value={job?.deviceAssignment?.device?.name}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.requestName')}
-                        value={job?.name}
-                      />
-                    </Grid>
+              {({ handleReset, values }) => {
+                return (
+                  <Form>
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      <Grid item xs={12}>
+                        <LV
+                          label={t('job.status')}
+                          value={
+                            <Status
+                              options={JOB_STATUS_LIST}
+                              value={jobDetail?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.workCode')}
+                          value={jobDetail?.code}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.priority')}
+                          value={t(PRIORITY_LEVEL_MAP[job?.priority])}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.requestCode')}
+                          value={jobDetail?.deviceAssignment?.serial}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.serial')}
+                          value={jobDetail?.deviceAssignment?.serial}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.description')}
+                          value={jobDetail?.description}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.deviceName')}
+                          value={job?.deviceAssignment?.device?.name}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.requestName')}
+                          value={job?.name}
+                        />
+                      </Grid>
 
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.expectDay')}
-                        value={convertUtcDateToLocalTz(
-                          job?.completeExpectedDate,
-                        )}
-                      />
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.expectDay')}
+                          value={convertUtcDateToLocalTz(
+                            job?.completeExpectedDate,
+                          )}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.workType')}
+                          value={t(WORK_TYPE_MAP[jobDetail?.type])}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.detail.maintainTime')}
+                          value={`${jobDetail?.estMaintenance} ${t(
+                            'job.detail.minute',
+                          )}`}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.DateRangePicker
+                          name="planDay"
+                          label={t('job.planDay')}
+                          placeholder={t('job.planDay')}
+                          vertical
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="plan"
+                          label={t('job.assign.plan')}
+                          placeholder={t('job.assign.plan')}
+                          asyncRequest={(s) =>
+                            getPlanListApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams(
+                                {
+                                  time: values?.planDay,
+                                  status: CREATE_PLAN_STATUS.CONFIRMED,
+                                },
+                                [
+                                  { field: 'time', filterFormat: 'date' },
+                                  { field: 'status' },
+                                ],
+                              ),
+                            })
+                          }
+                          asyncRequestDeps={values?.planDay}
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.name}
+                          disabled={!values?.planDay}
+                          vertical
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant="h4" component="span">
+                          {t('job.assign.smallTitle')}
+                        </Typography>
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.assign.factory')}
+                          value={job?.deviceAssignment?.user?.factories?.map(
+                            (fac) => fac?.name,
+                          )}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.assign.workCenter')}
+                          value={job?.deviceAssignment?.workCenter?.name}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.assign.usageUser')}
+                          value={job?.deviceAssignment?.user?.fullName}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.assign.location')}
+                          value={job?.deviceAssignment?.user?.location}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('job.assign.phone')}
+                          value={job?.deviceAssignment?.user?.phone}
+                        />
+                      </Grid>
+                      <Hidden lgDown>
+                        <Grid item lg={6} xs={12}></Grid>
+                      </Hidden>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="responsibleUser"
+                          label={t('suppliesCategory.responsibleUser')}
+                          placeholder={t('suppliesCategory.responsibleUser')}
+                          options={responsibleSubject?.responsibleUsers}
+                          getOptionLabel={(opt) => opt?.username}
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          required
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.workType')}
-                        value={t(WORK_TYPE_MAP[jobDetail?.type])}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.detail.maintainTime')}
-                        value={`${jobDetail?.estMaintenance} ${t(
-                          'job.detail.minute',
-                        )}`}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.DateRangePicker
-                        name="planDay"
-                        label={t('job.planDay')}
-                        placeholder={t('job.planDay')}
-                        vertical
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="plan"
-                        label={t('job.assign.plan')}
-                        placeholder={t('job.assign.plan')}
-                        asyncRequest={(s) =>
-                          getPlanListApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              planForm: values?.planDay[0],
-                              planTo: values?.planDay[1],
-                            }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        vertical
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="h4" component="span">
-                        {t('job.assign.smallTitle')}
-                      </Typography>
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.assign.factory')}
-                        value={job?.deviceAssignment?.user?.factories?.map(
-                          (fac) => fac?.name,
-                        )}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.assign.workCenter')}
-                        value={job?.deviceAssignment?.workCenter?.name}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.assign.usageUser')}
-                        value={job?.deviceAssignment?.user?.fullName}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.assign.location')}
-                        value={job?.deviceAssignment?.user?.location}
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
-                        label={t('job.assign.phone')}
-                        value={job?.deviceAssignment?.user?.phone}
-                      />
-                    </Grid>
-                    <Hidden lgDown>
-                      <Grid item lg={6} xs={12}></Grid>
-                    </Hidden>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="responsibleUser"
-                        label={t('suppliesCategory.responsibleUser')}
-                        placeholder={t('suppliesCategory.responsibleUser')}
-                        options={responsibleSubject?.responsibleUsers}
-                        getOptionLabel={(opt) => opt?.username}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
-                  </Grid>
-                  <ActionBar
-                    onBack={backToList}
-                    onCancel={handleReset}
-                    mode={MODAL_MODE.UPDATE}
-                  />
-                </Form>
-              )}
+                    <ActionBar
+                      onBack={backToList}
+                      onCancel={handleReset}
+                      mode={MODAL_MODE.UPDATE}
+                    />
+                  </Form>
+                )
+              }}
             </Formik>
           </Grid>
         </Grid>

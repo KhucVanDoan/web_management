@@ -13,7 +13,7 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchPalletsApi = (params) => {
+export const searchPalletsApi = (params) => {
   const uri = `/v1/items/pallets/list`
   return api.get(uri, params)
 }

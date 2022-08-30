@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Avatar } from '~/components/Avatar'
 import Button from '~/components/Button'
+import NoData from '~/components/NoData'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 const Activities = ({ data, sx }) => {
   const { t } = useTranslation('mmsx')
@@ -30,34 +31,39 @@ const Activities = ({ data, sx }) => {
       }}
     >
       <Typography variant="h3">{t('common.activityReport')}</Typography>
-      <List>
-        {(data || [])
-          .slice(0, expanded ? data?.length : 2)
-          .map((item, index) => (
-            <ListItem alignItems="flex-start" key={index} disableGutters>
-              <ListItemAvatar>
-                <Avatar alt="" src="" name={getName(item)} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <>
-                    <Typography
-                      variant="h5"
-                      component="span"
-                      sx={{ mr: getName(item) ? 1 : 0 }}
-                    >
-                      {getName(item)}
-                    </Typography>
-                    <Typography variant="body2" component="span">
-                      {convertUtcDateTimeToLocalTz(item?.createdAt)}
-                    </Typography>
-                  </>
-                }
-                secondary={<Typography>{item?.content}</Typography>}
-              />
-            </ListItem>
-          ))}
-      </List>
+
+      {!data.length ? (
+        <NoData text={t('dataTable.noData')} />
+      ) : (
+        <List>
+          {(data || [])
+            .slice(0, expanded ? data?.length : 2)
+            .map((item, index) => (
+              <ListItem alignItems="flex-start" key={index} disableGutters>
+                <ListItemAvatar>
+                  <Avatar alt="" src="" name={getName(item)} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <>
+                      <Typography
+                        variant="h5"
+                        component="span"
+                        sx={{ mr: getName(item) ? 1 : 0 }}
+                      >
+                        {getName(item)}
+                      </Typography>
+                      <Typography variant="body2" component="span">
+                        {convertUtcDateTimeToLocalTz(item?.createdAt)}
+                      </Typography>
+                    </>
+                  }
+                  secondary={<Typography>{item?.content}</Typography>}
+                />
+              </ListItem>
+            ))}
+        </List>
+      )}
 
       {data?.length > 2 && (
         <Button

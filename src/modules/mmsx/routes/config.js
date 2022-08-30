@@ -384,4 +384,22 @@ export const ROUTE = {
       TITLE: 'attributeMaintenanceDetail',
     },
   },
+  DEFINE_UNIT: {
+    LIST: {
+      PATH: '/mmsx/define-unit',
+      TITLE: 'defineUnit',
+    },
+    CREATE: {
+      PATH: '/mmsx/define-unit/create',
+      TITLE: 'defineUnitCreate',
+    },
+    EDIT: {
+      PATH: '/mmsx/define-unit/:id/edit',
+      TITLE: 'defineUnitEdit',
+    },
+    DETAIL: {
+      PATH: '/mmsx/define-unit/:id/detail',
+      TITLE: 'defineUnitDetail',
+    },
+  },
 }

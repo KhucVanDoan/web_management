@@ -14,9 +14,9 @@ export const returnOrderSchema = (t, itemByOrderList) => {
       Yup.object()
         .shape({
           itemId: Yup.object().nullable().required(t('general:form.required')),
-          lotNumber: Yup.string()
-            .nullable()
-            .required(t('general:form.required')),
+          // lotNumber: Yup.string()
+          //   .nullable()
+          //   .required(t('general:form.required')),
           ...(itemByOrderList?.items?.[0]?.actualQuantity
             ? {
                 quantity: Yup.number()

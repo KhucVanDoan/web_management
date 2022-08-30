@@ -15,7 +15,7 @@ import {
  * @returns {Promise}
  */
 const deleteDeviceApi = (params) => {
-  const uri = `v1/mms/web/devices/${params}`
+  const uri = `v1/mms/web/devices/${params?.id}`
   return api.delete(uri, params)
 }
 

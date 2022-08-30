@@ -1,3 +1,4 @@
+import { TYPE_ENUM } from '~/modules/mmsx/constants'
 import { api } from '~/services/api'
 
 /**
@@ -5,7 +6,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 export const importDefectListApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/mms/import?type=${TYPE_ENUM.DEFECTS}`
   const formData = new FormData()
   formData.append('file', params)
   return api.postMultiplePart(uri, formData)
@@ -16,7 +17,7 @@ export const importDefectListApi = (params) => {
  * @returns {Promise}
  */
 export const exportDefectListApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `v1/mms/export?type=${TYPE_ENUM.DEFECTS}`
   return api.get(uri, params)
 }
 

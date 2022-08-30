@@ -19,7 +19,6 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
@@ -346,20 +345,20 @@ const DefineDeviceForm = () => {
     }
   }
 
-  const renderHeaderRight = () => (
-    <>
-      <Button
-        onClick={() => history.push(ROUTE.DEVICE_CATEGORY.PATH)}
-        variant="outlined"
-        sx={{ mr: 4 / 3 }}
-      >
-        {t('deviceList.form.deviceCategoryButtonTitle')}
-      </Button>
-      <Button onClick={() => history.push(ROUTE.DEVICE_ASSIGN.PATH)}>
-        {t('deviceList.form.assignButtonTitle')}
-      </Button>
-    </>
-  )
+  // const renderHeaderRight = () => (
+  //   <>
+  //     <Button
+  //       onClick={() => history.push(ROUTE.DEVICE_CATEGORY.PATH)}
+  //       variant="outlined"
+  //       sx={{ mr: 4 / 3 }}
+  //     >
+  //       {t('deviceList.form.deviceCategoryButtonTitle')}
+  //     </Button>
+  //     <Button onClick={() => history.push(ROUTE.DEVICE_ASSIGN.PATH)}>
+  //       {t('deviceList.form.assignButtonTitle')}
+  //     </Button>
+  //   </>
+  // )
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -367,7 +366,7 @@ const DefineDeviceForm = () => {
       onBack={backToList}
       loading={isLoading}
       freeSolo
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
     >
       <Paper sx={{ p: 2 }}>
         <Grid container justifyContent="center">
@@ -446,6 +445,7 @@ const DefineDeviceForm = () => {
                             )
                           }
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                         required
                       />
                     </Grid>

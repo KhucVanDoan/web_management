@@ -14,8 +14,7 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchLocationSettingsApi = (params) => {
-  // @TODO:phunv: api link
+export const searchLocationSettingsApi = (params) => {
   const uri = `/v1/warehouses/suggest-item-locations/list`
   return api.get(uri, params)
 }

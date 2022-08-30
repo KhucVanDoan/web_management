@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import { Grid, Paper, Typography } from '@mui/material'
-import { Box } from '@mui/system'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -12,7 +11,6 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -167,28 +165,28 @@ const DeviceCategoryForm = () => {
         break
     }
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
-          >
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ ml: 4 / 3 }}
-            onClick={() => history.push(ROUTE.JOB.LIST.PATH)}
-          >
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.DEVICE_LIST.LIST.PATH)}
+  //         >
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button
+  //           variant="outlined"
+  //           sx={{ ml: 4 / 3 }}
+  //           onClick={() => history.push(ROUTE.JOB.LIST.PATH)}
+  //         >
+  //           {t('deviceCategory.button.job')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   const histories = deviceCategoryDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
       ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
@@ -202,7 +200,7 @@ const DeviceCategoryForm = () => {
       title={t(`menu.${getTitle()}`)}
       loading={isLoading}
       onBack={backToList}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>
@@ -259,6 +257,7 @@ const DeviceCategoryForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
+                        allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
                         required
                       />
                     </Grid>

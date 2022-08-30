@@ -71,6 +71,9 @@ const PODetail = () => {
     actionsPurchasedOrderDetails.getPurchasedOrderDetailsById(
       purchasedOrder?.id,
     )
+    return () => {
+      actionsPurchasedOrderDetails.resetPurchasedOrderDetailsState()
+    }
   }, [poImportDetails])
 
   useEffect(() => {

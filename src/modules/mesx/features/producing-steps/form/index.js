@@ -20,6 +20,7 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -44,6 +45,7 @@ function ProducingStepForm() {
 
   const [checked, setChecked] = useState(false)
   const [checkedUpdate, setCheckedUpdate] = useState(true)
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     data: { isLoading, details },
@@ -193,6 +195,16 @@ function ProducingStepForm() {
     }
     return () => actions.resetProducingStepState()
   }, [id, cloneId])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.PRODUCING_STEP.DETAIL.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   return (
     <Page

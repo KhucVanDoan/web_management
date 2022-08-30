@@ -24,53 +24,52 @@ export const downloadFile = async (buffer, fileName, mimeType, accept) => {
   const blob = new Blob([buffer], {
     type: mimeType,
   })
+  // const showSaveFilePicker = window.showSaveFilePicker
 
-  const showSaveFilePicker = window.showSaveFilePicker
+  // // window.showSaveFilePicker supports Chrome, Opera, Edge only
+  // if (showSaveFilePicker) {
+  //   // set accepted file extensions by mime type in Save as dialog
+  //   const acceptFileType = {
+  //     [mimeType]: accept,
+  //   }
 
-  // window.showSaveFilePicker supports Chrome, Opera, Edge only
-  if (showSaveFilePicker) {
-    // set accepted file extensions by mime type in Save as dialog
-    const acceptFileType = {
-      [mimeType]: accept,
-    }
-
-    const handle = await showSaveFilePicker({
-      suggestedName: fileName,
-      types: [
-        {
-          accept: acceptFileType,
-        },
-      ],
-    })
-
-    const writable = await handle.createWritable()
-
-    await writable.write(blob)
-    writable.close()
-  } else {
-    // Create a link pointing to the ObjectURL containing the blob
-    const blobURL = window.URL.createObjectURL(blob)
-    const tempLink = document.createElement('a')
-    tempLink.style.display = 'none'
-    tempLink.href = blobURL
-    tempLink.setAttribute('download', fileName)
-    // Safari thinks _blank anchor are pop ups. We only want to set _blank
-    // target if the browser does not support the HTML5 download attribute.
-    // This allows you to download files in desktop safari if pop up blocking
-    // is enabled.
-    if (typeof tempLink.download === 'undefined') {
-      tempLink.setAttribute('target', '_blank')
-    }
-
-    document.body.appendChild(tempLink)
-    tempLink.click()
-    document.body.removeChild(tempLink)
-
-    setTimeout(() => {
-      // For Firefox it is necessary to delay revoking the ObjectURL
-      window.URL.revokeObjectURL(blobURL)
-    }, 100)
+  //   const handle = await showSaveFilePicker({
+  //     suggestedName: `${fileName}`,
+  //     types: [
+  //       {
+  //         accept: acceptFileType,
+  //       },
+  //     ],
+  //   })
+  //   // handle.name = 'abc.xlsx'
+  //   const writable = await handle.createWritable()
+  //   await writable.write(blob)
+  //   writable.close()
+  //   return
+  // } else {
+  // Create a link pointing to the ObjectURL containing the blob
+  const blobURL = window.URL.createObjectURL(blob)
+  const tempLink = document.createElement('a')
+  tempLink.style.display = 'none'
+  tempLink.href = blobURL
+  tempLink.setAttribute('download', `${fileName}.${accept[0]}`)
+  // Safari thinks _blank anchor are pop ups. We only want to set _blank
+  // target if the browser does not support the HTML5 download attribute.
+  // This allows you to download files in desktop safari if pop up blocking
+  // is enabled.
+  if (typeof tempLink.download === 'undefined') {
+    tempLink.setAttribute('target', '_blank')
   }
+
+  document.body.appendChild(tempLink)
+  tempLink.click()
+  document.body.removeChild(tempLink)
+
+  setTimeout(() => {
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(blobURL)
+  }, 100)
+  // }
 }
 
 export const isValidFileType = (fileName, validType) => {

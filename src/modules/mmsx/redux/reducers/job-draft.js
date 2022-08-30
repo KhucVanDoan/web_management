@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  jobDraftLists: [],
+  jobDraftLists: {},
 }
 
 export default function jobDraftList(state = initialState, action) {
@@ -31,7 +31,7 @@ export default function jobDraftList(state = initialState, action) {
     case RESET_GENERATE_JOB_FOR_PLAN:
       return {
         ...state,
-        jobDraftLists: [],
+        jobDraftLists: {},
       }
     default:
       return state

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -23,6 +24,7 @@ function SaleOrderDetail() {
   const history = useHistory()
   const { t } = useTranslation(['database'])
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     data: { saleOrderDetails: saleOrder, isLoading },
@@ -37,10 +39,17 @@ function SaleOrderDetail() {
     return () => saleOrderAction.resetSaleOrderState()
   }, [id])
 
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        saleOrderAction.getSaleOrderDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
+
   const breadcrumbs = [
-    // {
-    //   title: 'database',
-    // },
     {
       route: ROUTE.SALE_ORDER.LIST.PATH,
       title: ROUTE.SALE_ORDER.LIST.TITLE,
@@ -88,7 +97,10 @@ function SaleOrderDetail() {
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
-                <LV label={t('saleOrder.boqCode')} value={saleOrder.boqId} />
+                <LV
+                  label={t('saleOrder.boqCode')}
+                  value={saleOrder?.boq?.name}
+                />
               </Grid>
               <Grid item lg={6} xs={12}>
                 <Box>

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -86,18 +85,19 @@ const JobDetail = () => {
   }))
 
   const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('job.button.deviceButton')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('job.button.jobs')}
-          </Button>
-        </Box>
-      </>
-    )
+    //BA confirn tạm thời ẩn button
+    // return (
+    //   <>
+    //     <Box>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('job.button.deviceButton')}
+    //       </Button>
+    //       <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+    //         {t('job.button.jobs')}
+    //       </Button>
+    //     </Box>
+    //   </>
+    // )
   }
 
   return (
@@ -170,9 +170,11 @@ const JobDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('job.detail.maintainTime')}
-                  value={`${jobDetail?.estMaintenance} ${t(
-                    'job.detail.minute',
-                  )}`}
+                  value={
+                    jobDetail?.estMaintenance
+                      ? `${jobDetail?.estMaintenance} ${t('job.detail.minute')}`
+                      : ''
+                  }
                 />
               </Grid>
               <Grid item lg={6} xs={12}>
@@ -224,13 +226,13 @@ const JobDetail = () => {
                   <Grid item xs={12} lg={6}>
                     <LV
                       label={t('job.detail.factory')}
-                      value={jobDetail?.installationTemplate?.factory}
+                      value={jobDetail?.installationTemplate?.factory?.name}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <LV
                       label={t('job.detail.workCenter')}
-                      value={jobDetail?.installationTemplate?.workCenter}
+                      value={jobDetail?.installationTemplate?.workCenter?.name}
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
