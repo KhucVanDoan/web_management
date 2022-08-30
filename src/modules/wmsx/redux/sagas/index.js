@@ -263,6 +263,13 @@ import watchGetDetailReasonManagement from './reason-management/get-detail'
 import watchRejectReasonManagement from './reason-management/reject'
 import watchSearchReasonManagement from './reason-management/search'
 import watchUpdateReasonManagement from './reason-management/update'
+import watchConfirmReceiptDepartment from './receipt-department-management/confirm-receipt-department'
+import watchCreateReceiptDepartment from './receipt-department-management/create-receipt-department'
+import watchDeleteReceiptDepartment from './receipt-department-management/delete-receipt-department'
+import watchGetReceiptDepartmentDetails from './receipt-department-management/get-receipt-department-details'
+import watchRejectReceiptDepartment from './receipt-department-management/reject-receipt-department'
+import watchSearchReceiptDepartment from './receipt-department-management/search-receipt-department'
+import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
 import watchGetRentWarehouseDashboardList from './rent-warehouse-dashboard/get-rent-warehouse-dashboard-list'
 import watchConfirmReturnOrder from './return-order/confirm-return-order'
 import watchCreateReturnOrder from './return-order/create-return-order'
@@ -728,6 +735,14 @@ export default function* sagas() {
     watchDeleteMaterialQuality(),
     watchConfirmMaterialQuality(),
     watchRejectMaterialQuality(),
+    //receipt-department-management
+    watchCreateReceiptDepartment(),
+    watchUpdateReceiptDepartment(),
+    watchSearchReceiptDepartment(),
+    watchGetReceiptDepartmentDetails(),
+    watchDeleteReceiptDepartment(),
+    watchConfirmReceiptDepartment(),
+    watchRejectReceiptDepartment(),
 
     //define-producing-country
     watchCreateProducingCountry(),

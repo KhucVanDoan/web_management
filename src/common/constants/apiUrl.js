@@ -40,4 +40,5 @@ export const API_URL = {
   BUSINESS_TYPE: 'warehouses/bussiness-types',
   CONSTRUCTION: 'sales/constructions',
   CONSTRUCTION_ITEMS: 'sales/construction-categories',
+  RECEIPT_DEPARTMENT: 'users/department-receipts',
 }

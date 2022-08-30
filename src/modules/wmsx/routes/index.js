@@ -66,6 +66,9 @@ import DefineVendor from '../features/define-vendor/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
+import ReceiptDepartmentManagementDetail from '../features/receipt-department-management/detail'
+import ReceiptDepartmentManagementForm from '../features/receipt-department-management/form'
+import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
@@ -239,25 +242,25 @@ const routes = [
       {
         name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.LIST.TITLE,
         path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: ReceiptDepartmentManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: ReceiptDepartmentManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: ReceiptDepartmentManagementDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.RECEIPT_DEPARTMENT_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: ReceiptDepartmentManagementForm,
             isInSidebar: false,
           },
         ],
