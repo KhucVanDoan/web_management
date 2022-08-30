@@ -33,13 +33,13 @@ build:
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
 deploy:
   stage: deploy
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
   script:
     - eval `ssh-agent -s`
 
@@ -100,5 +100,5 @@ deploy_staging:
       docker pull ${STAGING_CONTAINER_IMAGE};
       docker stop  stg-avenue_web || true; 
       docker rm  stg-avenue_web || true; 
-      docker run -d --name avenue_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
+      docker run -d --name stg-avenue_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
