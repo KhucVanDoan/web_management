@@ -131,8 +131,6 @@ import watchResetPassword from './user-management/reset-password'
 import watchSearchUsers from './user-management/search-users'
 import watchUpdateUser from './user-management/update-user'
 import watchVerifyOTP from './user-management/verify-otp-code'
-import watchGetUserPermission from './user-permission/get-user-permission'
-import watchUpdateUserPermission from './user-permission/update-user-permission'
 import watchConfirmWorkCenterPlan from './work-center-plan/confirm-work-center-plan'
 import watchCreateWorkCenterPlan from './work-center-plan/create-work-center-plan'
 import watchDeleteWorkCenterPlan from './work-center-plan/delete-work-center-plan'
@@ -346,10 +344,6 @@ export default function* sagas() {
     watchCreateFactoryCalendarSetup(),
     watchGetListFactoryEvent(),
     watchGetDetailFactoryCalendar(),
-
-    //user-permission
-    watchGetUserPermission(),
-    watchUpdateUserPermission(),
 
     //progress-detail-report
     watchProgressDetailReportData(),

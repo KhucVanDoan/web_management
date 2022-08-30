@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 
 import { Grid, Paper } from '@mui/material'
-import { Box } from '@mui/system'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -49,20 +47,20 @@ const DeviceCategoryDetail = () => {
   const backToList = () => {
     history.push(ROUTE.DEVICE_CATEGORY.LIST.PATH)
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.job')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
   const histories = deviceCategoryDetail?.histories?.map((item) => ({
     content: ACTION_MAP[item?.action]
       ? t(`deviceCategory.actionHistory.${ACTION_MAP[item?.action]}`)
@@ -77,7 +75,7 @@ const DeviceCategoryDetail = () => {
       title={t('menu.deviceCategoryDetail')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>

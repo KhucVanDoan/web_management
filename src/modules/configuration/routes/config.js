@@ -3,6 +3,10 @@ export const ROUTE = {
     PATH: '/configuration',
     TITLE: 'configuration',
   },
+  DECENTRALIZATION: {
+    PATH: '/decentralization',
+    TITLE: 'decentralization',
+  },
   USER_MANAGEMENT: {
     LIST: {
       PATH: '/configuration/user-management',
@@ -28,5 +32,27 @@ export const ROUTE = {
   COMPANY_CUSTOMER_SETTING: {
     PATH: '/configuration/company-customer-setting',
     TITLE: 'companyCustomerSetting',
+  },
+  COMPANY_CHART: {
+    LIST: {
+      PATH: '/configuration/company-chart',
+      TITLE: 'companyChart',
+    },
+  },
+  DEPARTMENT_LIST: {
+    LIST: {
+      PATH: '/configuration/department-list',
+      TITLE: 'defineDepartment',
+    },
+    ASSIGN: {
+      PATH: '/configuration/department-list/:id/assign',
+      TITLE: 'departmentAssign',
+    },
+  },
+  ROLE_LIST: {
+    LIST: {
+      PATH: '/configuration/role-list',
+      TITLE: 'defineRole',
+    },
   },
 }

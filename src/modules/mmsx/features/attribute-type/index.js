@@ -171,11 +171,9 @@ function AttributeType() {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importAttributeTypeApi(params)
-          }}
-          onExport={() => {
+          name={t('attribute_type.export')}
+          onImport={(params) => importAttributeTypeApi(params)}
+          onExport={() =>
             exportAttributeTypeApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -187,10 +185,9 @@ function AttributeType() {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getAttributeTypeTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ATTRIBUTE_TYPE.CREATE.PATH)}

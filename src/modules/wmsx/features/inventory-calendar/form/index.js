@@ -289,6 +289,9 @@ const InventoryCalendarForm = () => {
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        }
                         required
                       />
                     </Grid>

@@ -10,10 +10,7 @@ import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import {
-  ORDER_STATUS_SO_EXPORT_OPTIONS,
-  QC_CHECK,
-} from '~/modules/wmsx/constants'
+import { ORDER_STATUS_OPTIONS, QC_CHECK } from '~/modules/wmsx/constants'
 import useCommonManagement from '~/modules/wmsx/redux/hooks/useCommonManagement'
 import useSOExport from '~/modules/wmsx/redux/hooks/useSOExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -107,7 +104,7 @@ function SOExportDetail() {
                 label={t('soExport.status')}
                 value={
                   <Status
-                    options={ORDER_STATUS_SO_EXPORT_OPTIONS}
+                    options={ORDER_STATUS_OPTIONS}
                     value={soExportDetails?.status}
                   />
                 }

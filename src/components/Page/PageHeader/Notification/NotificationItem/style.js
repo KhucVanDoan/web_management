@@ -15,7 +15,7 @@ const style = (theme) => ({
   },
   listItemButton: {
     width: '100%',
-    display: 'block',
+    display: 'flex',
     padding: '16px 16px 16px 0',
     position: 'relative',
     cursor: 'pointer',
@@ -25,7 +25,7 @@ const style = (theme) => ({
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingTop: 14,
+    paddingTop: 8,
   },
   readOne: {
     '&:before': {

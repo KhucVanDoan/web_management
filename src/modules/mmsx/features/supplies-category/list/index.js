@@ -232,11 +232,9 @@ const SuppliesCategory = () => {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importSuppliesCategoryApi(params)
-          }}
-          onExport={() => {
+          name={t('supplies_category.export')}
+          onImport={(params) => importSuppliesCategoryApi(params)}
+          onExport={() =>
             exportSuppliesCategoryApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -248,10 +246,9 @@ const SuppliesCategory = () => {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getSuppliesCategoryTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.SUPPLIES_CATEGORY.CREATE.PATH)}

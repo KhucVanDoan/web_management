@@ -4,6 +4,7 @@ import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -32,6 +33,7 @@ function MasterPlanDetail() {
   const history = useHistory()
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     data: { masterPlanDetails },
@@ -44,6 +46,16 @@ function MasterPlanDetail() {
       actions.resetMasterPlanDetails()
     }
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getMasterPlanDetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const backToList = () => {
     history.push(ROUTE.MASTER_PLAN.LIST.PATH)

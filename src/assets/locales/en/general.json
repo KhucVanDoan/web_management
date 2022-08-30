@@ -162,6 +162,8 @@
     "noData": "No notifications",
     "readAll": "All read",
     "turnOff": "Turn off notification",
+    "turnOn": "Turn on notification",
+    "notificationIsOff": "Notification is Off",
     "hoursAgo": "{{time}} hours ago",
     "minutesAgo": "{{time}} minutes ago",
     "action": { "confirm": "Confirm", "reject": "Reject" }

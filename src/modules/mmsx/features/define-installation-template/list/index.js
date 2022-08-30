@@ -191,11 +191,9 @@ const DefineInstallationTemplate = () => {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importInstallationTemplateApi(params)
-          }}
-          onExport={() => {
+          name={t('installation_template.export')}
+          onImport={(params) => importInstallationTemplateApi(params)}
+          onExport={() =>
             exportInstallationTemplateApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -207,10 +205,9 @@ const DefineInstallationTemplate = () => {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getInstallationTemplateTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.INSTALLATION_TEMPLATE.CREATE.PATH)}

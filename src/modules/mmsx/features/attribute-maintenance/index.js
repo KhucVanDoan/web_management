@@ -192,13 +192,10 @@ function AttributeMaintenance() {
   const renderHeaderRight = () => {
     return (
       <>
-        {/* @TODO: handle import export */}
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importAttributeMaintainApi(params)
-          }}
-          onExport={() => {
+          name={t('maintenance_attribute.export')}
+          onImport={(params) => importAttributeMaintainApi(params)}
+          onExport={() =>
             exportAttributeMaintainApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -210,10 +207,9 @@ function AttributeMaintenance() {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getAttributeMaintainTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.ATTRIBUTE_MAINTENANCE.CREATE.PATH)}

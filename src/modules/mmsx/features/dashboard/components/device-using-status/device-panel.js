@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Box, Tooltip } from '@mui/material'
+import { Box } from '@mui/material'
 
 import { useClasses } from '~/themes'
 
 import style from './style'
 
-function DeviceItem(props) {
-  const { type, data, title } = props
+function DeviceItem({ device = {} }) {
+  const { activeTime, serial, status } = device
   const classes = useClasses(style)
 
   const cssEnum = {
@@ -19,14 +19,11 @@ function DeviceItem(props) {
     6: 'using',
   }
   return (
-    <Box className={classes.stage}>
-      <Box className="stage-header" />
-      <Tooltip arrow placement="top" title={title}>
-        <Box className={classes.devicePanel}>
-          <Box className="title">{title}</Box>
-          <Box className={`data ${cssEnum[type]}`}>{data}</Box>
-        </Box>
-      </Tooltip>
+    <Box className={classes.deviceContainer} title={serial}>
+      <Box className={classes.devicePanel}>
+        <Box className="title">{serial}</Box>
+        <Box className={`data ${cssEnum[status]}`}>{activeTime}</Box>
+      </Box>
     </Box>
   )
 }

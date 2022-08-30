@@ -193,7 +193,7 @@ function ItemUnitSetting() {
     return (
       <>
         <ImportExport
-          name={t('itemUnitDefine.import')}
+          name={t('itemUnitDefine.export')}
           onImport={(params) => {
             importItemUnitSettingApi(params)
           }}

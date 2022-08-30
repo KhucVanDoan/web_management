@@ -237,11 +237,9 @@ const DeviceCategory = () => {
     return (
       <>
         <ImportExport
-          name={t('common.import')}
-          onImport={(params) => {
-            importDeviceCategoryApi(params)
-          }}
-          onExport={() => {
+          name={t('device_category.export')}
+          onImport={(params) => importDeviceCategoryApi(params)}
+          onExport={() =>
             exportDeviceCategoryApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -253,10 +251,9 @@ const DeviceCategory = () => {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getDeviceCategoryTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEVICE_CATEGORY.CREATE.PATH)}

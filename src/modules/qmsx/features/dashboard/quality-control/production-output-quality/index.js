@@ -94,8 +94,9 @@ function ProductionOutputQuality() {
         <Typography variant="h2">
           {t(`${transKey}.qcProductionOutputQuality`)}
         </Typography>
-
-        <ProductionOutputQualityFilterForm />
+        <Box>
+          <ProductionOutputQualityFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

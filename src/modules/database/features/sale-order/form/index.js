@@ -19,6 +19,7 @@ import {
   ASYNC_SEARCH_LIMIT,
   ORDER_DIRECTION,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -29,7 +30,7 @@ import { SALE_ORDER_STATUS_OPTIONS } from '~/modules/database/constants'
 import useSaleOrder from '~/modules/database/redux/hooks/useSaleOrder'
 import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ROUTE } from '~/modules/database/routes/config'
-import { useDefineBOQ } from '~/modules/mesx/redux/hooks/useDefineBOQ'
+import { searchBOQApi } from '~/modules/mesx/redux/sagas/define-boq/search-boq'
 import { searchCustomersApi } from '~/modules/mesx/redux/sagas/define-customer/search-customers'
 import { convertSortParams } from '~/utils'
 import qs from '~/utils/qs'
@@ -45,10 +46,8 @@ function SaleOrderForm() {
   const { id } = useParams()
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
-  const {
-    data: { boqList },
-    actions: defineBoqAction,
-  } = useDefineBOQ()
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const {
     data: { saleOrderDetails: saleOrder, isLoading },
     actions: saleOrderAction,
@@ -72,14 +71,20 @@ function SaleOrderForm() {
   useEffect(() => {
     refreshData()
     return () => saleOrderAction.resetSaleOrderState()
-  }, [mode, cloneId])
+  }, [id, cloneId])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.SALE_ORDER.DETAILS.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const refreshData = () => {
-    const params = {
-      isGetAll: 1,
-    }
-    defineBoqAction.searchBOQ(params)
-    if (isUpdate) {
+    if (id) {
       saleOrderAction.getSaleOrderDetailsById(id)
     }
     if (cloneId) {
@@ -99,7 +104,8 @@ function SaleOrderForm() {
       name: values?.name,
       orderedAt: values?.orderedAt,
       customerId: values?.customerId?.id,
-      boqId: values?.boqId ? values?.boqId : null,
+      boqId: values?.boqId?.id || null,
+      description: values?.description,
       items: cloneId
         ? values?.items?.map((item) => ({
             id: item?.itemId,
@@ -185,7 +191,7 @@ function SaleOrderForm() {
       name: saleOrder?.name || '',
       description: saleOrder?.description || '',
       customerId: saleOrder?.customer || null,
-      boqId: saleOrder?.boqId || null,
+      boqId: saleOrder?.boq || null,
       companyId: saleOrder?.company || null,
       orderedAt: saleOrder?.orderedAt || null,
       deadline: saleOrder?.deadline || null,
@@ -264,11 +270,18 @@ function SaleOrderForm() {
                   </Grid>
                   <Grid item xs={12} lg={6}>
                     <Field.Autocomplete
-                      options={boqList}
-                      label={t('saleOrder.boqCode')}
                       name="boqId"
-                      getOptionValue={(opt) => opt?.id || ''}
-                      getOptionLabel={(opt) => opt?.code || opt?.name}
+                      label={t('saleOrder.boqCode')}
+                      placeholder={t('saleOrder.boqCode')}
+                      asyncRequest={(s) =>
+                        searchBOQApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.name}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                     />
                   </Grid>
                 </Grid>

@@ -185,7 +185,7 @@ function DefineWarehouseFrom() {
             onSubmit={handleSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
+            {({ handleReset, values, setFieldValue }) => (
               <Form>
                 <Grid
                   container
@@ -249,6 +249,7 @@ function DefineWarehouseFrom() {
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      onChange={() => setFieldValue('factoryId', null)}
                       required
                     />
                   </Grid>
@@ -261,7 +262,7 @@ function DefineWarehouseFrom() {
                         searchFactoriesApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
-                          filters: convertFilterParams({
+                          filter: convertFilterParams({
                             companyId: values?.companyId?.id,
                           }),
                         })

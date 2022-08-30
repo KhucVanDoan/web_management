@@ -16,6 +16,7 @@ import {
   TEXTFIELD_ALLOW,
   MODAL_MODE,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
@@ -44,6 +45,8 @@ function RoutingForm() {
   const params = useParams()
   const location = useLocation()
   const { cloneId } = qs.parse(location.search)
+  const { refreshKey, clearRefreshKey } = useApp()
+
   const MODE_MAP = {
     [ROUTE.ROUTING.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.ROUTING.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -62,7 +65,8 @@ function RoutingForm() {
       code: routingDetails?.code || '',
       name: routingDetails?.name || '',
       description: routingDetails?.description || '',
-      items: routingDetails?.producingSteps?.map((p) => ({
+      items: routingDetails?.producingSteps?.map((p, index) => ({
+        id: index + 1,
         itemId: {
           id: p.id,
           code: p.code,
@@ -87,9 +91,21 @@ function RoutingForm() {
     }
   }, [params?.id, cloneId])
 
+  useEffect(() => {
+    if (refreshKey) {
+      if (params?.id === refreshKey.toString()) {
+        history.push(ROUTE.ROUTING.DETAIL.PATH.replace(':id', params?.id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, params?.id])
+
   const onSubmit = (values) => {
+    const id = Number(params?.id)
     const convertValues = {
       ...values,
+      id,
       items: (values?.items || []).map((e) => ({
         id: e?.id,
         itemId: e?.itemId?.id,

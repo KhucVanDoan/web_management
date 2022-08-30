@@ -32,7 +32,7 @@ const DetailWorkCenterPlan = () => {
   }, [location.state.id, location.state.workCenterId])
   const breadcrumbs = [
     {
-      title: 'database',
+      title: 'plan',
     },
     {
       route: ROUTE.WORK_CENTER_PLAN.DETAIL.PATH,

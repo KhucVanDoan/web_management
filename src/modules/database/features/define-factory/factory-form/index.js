@@ -232,7 +232,6 @@ const DefineFactoryForm = () => {
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.name}
-                      getOptionValue={(opt) => opt?.id}
                       required
                     />
                   </Grid>

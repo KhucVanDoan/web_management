@@ -103,7 +103,9 @@ function ProductionInputQualityMaterial() {
           </Grid>
         </Grid>
 
-        <ProductionInputQualityMaterialFilterForm />
+        <Box>
+          <ProductionInputQualityMaterialFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

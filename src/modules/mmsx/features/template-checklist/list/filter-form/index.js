@@ -25,6 +25,7 @@ const FilterForm = () => {
           label={t('templateChecklist.name')}
           placeholder={t('templateChecklist.name')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

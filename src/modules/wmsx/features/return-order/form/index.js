@@ -90,6 +90,7 @@ const ReturnOrderForm = () => {
 
   useEffect(() => {
     poActions.searchPurchasedOrders({
+      isGetAll: 1,
       filter: convertFilterParams({
         status: [
           PURCHASED_ORDER_STATUS.IN_PROGRESS,
@@ -98,6 +99,7 @@ const ReturnOrderForm = () => {
       }),
     })
     soActions.searchSaleOrders({
+      isGetAll: 1,
       filter: convertFilterParams({
         status: [
           PURCHASED_ORDER_STATUS.IN_PROGRESS,
@@ -145,14 +147,14 @@ const ReturnOrderForm = () => {
       description: returnOrderDetails?.description || '',
       items: returnOrderDetails?.returnOrderWarehouseLots?.map((ro) => ({
         ...ro,
-        itemId: { ...ro.item, id: ro.itemId },
-        lotNumber: ro.lotNumber,
+        itemId: { ...ro.item, id: ro.itemId, packages: [ro?.package] },
+        lotNumber: ro,
         mfg: ro.mfg,
         quantity: ro.quantity,
         unitType: ro.item.itemUnit,
-        package: ro.package,
+        packageId: ro.package,
         evenRow: ro?.isEven === 1 ? true : false,
-        palletId: ro?.pallet?.id,
+        palletId: ro?.pallet,
         location: ro?.suggestItemLocation?.id,
       })) || [{ ...DEFAULT_ITEM }],
     }),
@@ -233,11 +235,11 @@ const ReturnOrderForm = () => {
       items: values?.items?.map((item, index) => ({
         id: item.itemId?.id,
         quantity: Number(item.quantity),
-        lotNumber: item.lotNumber,
+        lotNumber: item.lotNumber?.lotNumber,
         mfg: itemByOrderList?.items?.[index]?.mfg,
-        packageId: item.packageId,
+        packageId: isUpdate ? item?.packageId : item?.packageId?.id,
         warehouseId: values?.orderCode?.warehouseId || values?.warehouseId,
-        palletId: item?.palletId,
+        palletId: item?.palletId?.id,
         isEven: item?.evenRow ? '1' : '0',
         suggestItemLocationId: item?.location,
       })),

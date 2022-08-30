@@ -103,9 +103,9 @@ const TableCollapse = (props) => {
 
   let columns = []
   if (isRoot) {
-    columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
+    columns = rawColumns?.filter((col) => visibleColumns.includes(col.field))
   } else {
-    columns = rawColumns.filter((col) => !col.hide)
+    columns = rawColumns?.filter((col) => !col.hide)
   }
 
   const onOpen = (index, o, row, type) => {

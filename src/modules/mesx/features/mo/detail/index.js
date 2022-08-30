@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
@@ -29,6 +30,7 @@ function MoDetail() {
   const history = useHistory()
   const { t } = useTranslation(['mesx'])
   const { id } = useParams()
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const [saleOrders, setSaleOrders] = useState([])
   const [isOpenCreatePO, setIsOpenCreatePO] = useState(false)
@@ -57,6 +59,17 @@ function MoDetail() {
       actions.resetMoDetail()
     }
   }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        actions.getMODetailsById(id)
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
+
   const breadcrumb = [
     {
       title: 'plan',

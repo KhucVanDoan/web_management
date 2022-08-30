@@ -2,12 +2,8 @@ import { omit } from 'lodash'
 
 import authRoutes from '~/modules/auth/routes'
 import configurationRoutes from '~/modules/configuration/routes'
-import databaseRoutes from '~/modules/database/routes'
 import homeRoute from '~/modules/home/routes'
-import mesxRoutes from '~/modules/mesx/routes'
-import mmsxRoutes from '~/modules/mmsx/routes'
 import publicRoutes from '~/modules/public/routes'
-import qmsxRoutes from '~/modules/qmsx/routes'
 import wmsxRoutes from '~/modules/wmsx/routes'
 
 const flatten = (arr) => {
@@ -23,23 +19,11 @@ const flatten = (arr) => {
   )
 }
 
-export const privateRoutes = [
-  homeRoute,
-  ...mesxRoutes,
-  ...qmsxRoutes,
-  ...databaseRoutes,
-  ...configurationRoutes,
-  ...wmsxRoutes,
-  ...mmsxRoutes,
-]
+export const privateRoutes = [homeRoute, ...configurationRoutes, ...wmsxRoutes]
 export const privateRoutesFlatten = flatten(privateRoutes)
 export const appRoutes = [...publicRoutes, ...authRoutes, ...privateRoutes]
 export const appRoutesFlatten = flatten(appRoutes)
 export const appRoutesObj = {
-  mesx: mesxRoutes,
-  qmsx: qmsxRoutes,
   wmsx: wmsxRoutes,
-  database: databaseRoutes,
   configuration: configurationRoutes,
-  mmsx: mmsxRoutes,
 }

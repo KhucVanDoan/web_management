@@ -91,8 +91,9 @@ function OutputQuality() {
     <Card sx={{ p: 2, height: '100%', boxSizing: 'border-box' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">{t(`${transKey}.qcOutput`)}</Typography>
-
-        <OutputQualityFilterForm />
+        <Box>
+          <OutputQualityFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

@@ -479,7 +479,7 @@ export const TRANSFER_STATUS = {
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
-  EXPORTING: 5,
+  IN_PROGRESS: 5,
 }
 
 export const TRANSFER_STATUS_MAP = {
@@ -487,7 +487,7 @@ export const TRANSFER_STATUS_MAP = {
   [TRANSFER_STATUS.COMPLETED]: 'warehouseTransfer.transferStatus.completed',
   [TRANSFER_STATUS.REJECTED]: 'warehouseTransfer.transferStatus.rejected',
   [TRANSFER_STATUS.CONFIRMED]: 'warehouseTransfer.transferStatus.confirmed',
-  [TRANSFER_STATUS.EXPORTING]: 'warehouseTransfer.transferStatus.exporting',
+  [TRANSFER_STATUS.IN_PROGRESS]: 'warehouseTransfer.transferStatus.exporting',
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {
@@ -868,7 +868,7 @@ export const CUSTOMER_LEVEL_STATUS_OPTIONS = [
   {
     id: 2,
     text: 'defineCustomerLevel.disabled',
-    color: 'tempLocked',
+    color: 'inactive',
   },
 ]
 export const DEFINE_PAYMENT_TYPE_STATUS = {
@@ -1267,3 +1267,104 @@ export const DEFINE_PACKAGE_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const ACTIVE_STATUS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+}
+
+export const ACTIVE_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+  {
+    id: 1,
+    text: 'general.active',
+    color: 'active',
+  },
+]
+
+export const ACTIVE_STATUS_MAP = {
+  [ACTIVE_STATUS.INACTIVE]: 'general.inactive',
+  [ACTIVE_STATUS.ACTIVE]: 'general.active',
+}
+
+export const PARENT_BUSINESS_TYPE = {
+  IMPORT: 0,
+  EXPORT: 1,
+  TRANSFER: 2,
+}
+
+export const PARENT_BUSINESS_TYPE_MAP = {
+  [PARENT_BUSINESS_TYPE.IMPORT]: 'businessTypeManagement.import',
+  [PARENT_BUSINESS_TYPE.EXPORT]: 'businessTypeManagement.export',
+  [PARENT_BUSINESS_TYPE.TRANSFER]: 'businessTypeManagement.transfer',
+}
+
+export const PARENT_BUSINESS_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'businessTypeManagement.import',
+  },
+  {
+    id: 1,
+    text: 'businessTypeManagement.export',
+  },
+  {
+    id: 2,
+    text: 'businessTypeManagement.transfer',
+  },
+]
+
+export const DATA_TYPE = {
+  TEXTFIELD: 0,
+  LIST: 1,
+}
+
+export const DATA_TYPE_MAP = {
+  [DATA_TYPE.TEXTFIELD]: 'businessTypeManagement.types.textField',
+  [DATA_TYPE.LIST]: 'businessTypeManagement.types.list',
+}
+
+export const DATA_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'businessTypeManagement.types.textField',
+  },
+  {
+    id: 1,
+    text: 'businessTypeManagement.types.list',
+  },
+]
+
+export const UOM_ACTIVE_STATUS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+  REJECTED: 2,
+}
+
+export const UOM_ACTIVE_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+  {
+    id: 1,
+    text: 'general.active',
+    color: 'active',
+  },
+  {
+    id: 2,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+]
+
+export const UOM_ACTIVE_STATUS_MAP = {
+  [UOM_ACTIVE_STATUS.INACTIVE]: 'general.inactive',
+  [UOM_ACTIVE_STATUS.ACTIVE]: 'general.active',
+  [UOM_ACTIVE_STATUS.REJECTED]: 'general.inactive',
+}

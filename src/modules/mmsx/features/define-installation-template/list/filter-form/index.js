@@ -25,6 +25,7 @@ const FilterForm = () => {
           label={t('templateInstall.category.name')}
           placeholder={t('templateInstall.category.name')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
+          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

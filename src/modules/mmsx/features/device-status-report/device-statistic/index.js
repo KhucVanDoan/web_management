@@ -38,6 +38,14 @@ const DeviceStatisticTable = ({ keyword }) => {
     deviceId: '',
     assignUserId: '',
   }
+
+  const DEFAULT_FILTERS = {
+    serial: '',
+    deviceName: '',
+    status: '',
+    usedAt: '',
+    fullName: '',
+  }
   const {
     page,
     pageSize,
@@ -74,6 +82,9 @@ const DeviceStatisticTable = ({ keyword }) => {
       headerName: t('reportDevice.serialTable.user'),
       width: 150,
       sortable: true,
+      renderCell: (params) => {
+        return params?.row?.username
+      },
     },
     {
       field: 'usedAt',
@@ -206,7 +217,12 @@ const DeviceStatisticTable = ({ keyword }) => {
             disabled
           />
         }
-        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
+        filters={{
+          form: <FilterForm />,
+          values: filters,
+          defaultValue: DEFAULT_FILTERS,
+          onApply: setFilters,
+        }}
       />
     </>
   )

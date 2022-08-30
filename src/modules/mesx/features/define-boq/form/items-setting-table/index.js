@@ -23,7 +23,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const isView = mode === MODAL_MODE.DETAIL
 
   useEffect(() => {
-    actions.getItems({})
+    actions.getItems({ isGetAll: 1 })
   }, [])
 
   const getItemObject = (id) => {

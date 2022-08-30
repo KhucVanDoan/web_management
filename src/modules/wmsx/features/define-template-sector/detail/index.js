@@ -106,16 +106,16 @@ const TemplateSectorDetail = () => {
                 value={templateSectorDetails?.templateShelfs?.length}
               />
             </Grid>
-            {[...(templateSectorDetails?.templateShelfs || [])]
-              .reverse()
-              .map((shelf, index) => (
+            {(templateSectorDetails?.templateShelfs || []).map(
+              (shelf, index) => (
                 <Grid item lg={6} xs={12} key={shelf?.id}>
                   <LV
                     label={`${t('templateSector.nameSheft')} ${index + 1}`}
                     value={shelf?.name}
                   />
                 </Grid>
-              ))}
+              ),
+            )}
           </Grid>
           <ActionBar onBack={backToList} />
         </Grid>

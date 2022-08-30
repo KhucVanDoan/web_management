@@ -32,7 +32,7 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
   } = useMovements()
 
   const DEFAULT_FILTERS = {
-    warehouseTypeId: '',
+    warehouseId: '',
     createdAt: '',
   }
 
@@ -69,13 +69,11 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       },
     },
     {
-      field: 'warehouseType',
-      headerName: t('movements.warehouseType'),
+      field: 'warehouse',
+      headerName: t('movements.warehouse'),
       width: 150,
       renderCell: (params) => {
-        return params?.row?.warehouse?.warehouseTypes
-          ?.map((w) => w?.name)
-          ?.join('; ')
+        return params.row?.warehouse?.name
       },
     },
     {

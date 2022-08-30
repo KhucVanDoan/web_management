@@ -25,9 +25,11 @@ import watchGetResponsibleSubject from './common/get-responsible-subject'
 import watchGetUsingDeviceAssign from './common/get-using-devide-assign'
 import watchConfirmPlan from './create-plan-list/confirm'
 import watchCreatePlan from './create-plan-list/create-plan'
+import watchDeleteJobDraft from './create-plan-list/delete-job-draft'
 import watchDeletePlan from './create-plan-list/delete-plan'
 import watchdoGetPlanGanttChartData from './create-plan-list/gantt-chart'
 import watchGetCreatePlanList from './create-plan-list/get-list'
+import watchGetJobDraftList from './create-plan-list/get-list-type-job'
 import watchGetPlanDetail from './create-plan-list/plans-detail'
 import watchRejectPlan from './create-plan-list/reject'
 import watchUpdateMakePlan from './create-plan-list/update'
@@ -47,6 +49,11 @@ import watchCreateTemplateInstall from './define-installation-template/create'
 import watchDeleteTemplateInstall from './define-installation-template/delete'
 import watchGetTemplateInstall from './define-installation-template/get-detail'
 import watchUpdateTemplateInstall from './define-installation-template/update'
+import watchCreateUnit from './define-unit/create-unit'
+import watchDeleteUnit from './define-unit/delete-unit'
+import watchGetUnitDetail from './define-unit/get-unit-detail'
+import watchGetUnitList from './define-unit/search-unit-list'
+import watchUpdateUnit from './define-unit/update-unit'
 import watchCheckSerial from './device-assign/check-serial'
 import watchCreateDeviceAssign from './device-assign/create-assign'
 import watchDeleteDeviceAssign from './device-assign/delete-assign'
@@ -72,6 +79,7 @@ import watchGetInfoData from './device-status/get-create-infor-form-data'
 import watchGetDetailDeviceStatus from './device-status/get-detail-device-status'
 import watchGetListDeviceStatus from './device-status/get-list-device-status'
 import watchGenerateJobForPlan from './job-draft/job-draft-list'
+import watchDeleteJob from './job/delete-job'
 import watchGetjobDetail from './job/job-detail'
 import watchGetJobList from './job/job-list'
 import watchSearchJobList from './job/search-job'
@@ -165,8 +173,6 @@ export default function* sagas() {
     watchGetAllUser(),
     watchGetAllWorkCenter(),
     watchGetUsingDeviceAssign(),
-    // Dashboard
-    watchGetSummary(),
     // Database
     watchConfirmDevice(),
     watchCreateDevice(),
@@ -258,6 +264,8 @@ export default function* sagas() {
     watchGetJobList(),
     watchSearchJobList(),
     watchUpdatePlan(),
+    watchDeleteJob(),
+
     //create plan
     watchConfirmPlan(),
     watchCreatePlan(),
@@ -267,7 +275,8 @@ export default function* sagas() {
     watchGetPlanDetail(),
     watchRejectPlan(),
     watchUpdateMakePlan(),
-
+    watchGetJobDraftList(),
+    watchDeleteJobDraft(),
     //maintainance-progress
     watchGetReportProgress(),
     watchGetDetailMaintainanceProgress(),
@@ -307,5 +316,11 @@ export default function* sagas() {
     watchCreateInfoData(),
     //job-darft
     watchGenerateJobForPlan(),
+    // define unit
+    watchCreateUnit(),
+    watchDeleteUnit(),
+    watchGetUnitDetail(),
+    watchGetUnitList(),
+    watchUpdateUnit(),
   ])
 }

@@ -65,12 +65,10 @@ const TemplateSectorForm = () => {
           )
         : '',
     items: templateSectorDetails?.templateShelfs?.length
-      ? [...templateSectorDetails?.templateShelfs]
-          .reverse()
-          .map((item, index) => ({
-            id: index,
-            nameSheft: item?.name,
-          }))
+      ? templateSectorDetails?.templateShelfs.map((item, index) => ({
+          id: index,
+          nameSheft: item?.name,
+        }))
       : DEFAULT_ITEM,
   }
 

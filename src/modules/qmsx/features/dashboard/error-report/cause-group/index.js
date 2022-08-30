@@ -52,7 +52,7 @@ function CauseGroup() {
     },
     tooltip: {
       fields: [nameField, quantityField, ratioField],
-      formatter: ({name, quantity, ratio}) => ({
+      formatter: ({ name, quantity, ratio }) => ({
         name: name,
         value: `${quantity} (${ratio}%)`,
       }),
@@ -65,8 +65,9 @@ function CauseGroup() {
         <Typography variant="h2">
           {t('dashboard.errorReport.causeGroup')}
         </Typography>
-
-        <CauseGroupFilterForm />
+        <Box>
+          <CauseGroupFilterForm />
+        </Box>
       </Box>
 
       <Box sx={{ height: 400 }}>

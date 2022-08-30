@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
@@ -49,20 +49,20 @@ const WarningChecklistDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WARNING_SYSTEM.LIST.PATH)
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.job')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
 
   const checklistResult = CHECKLIST_RESULT.find(
     (clc) => clc.value === warningDetail?.job?.checklistResult,
@@ -76,7 +76,7 @@ const WarningChecklistDetail = () => {
       title={t('warningList.headerTitle.checklist')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>

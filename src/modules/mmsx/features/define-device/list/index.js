@@ -71,37 +71,48 @@ function DefineDevice() {
     {
       field: 'code',
       headerName: t('deviceList.device.code'),
-      width: 200,
+      width: 120,
       sortable: true,
       fixed: true,
     },
     {
       field: 'name',
       headerName: t('deviceList.device.name'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'deviceGroup',
       headerName: t('deviceList.device.deviceCategory'),
-      width: 200,
+      width: 150,
       sortable: true,
       renderCell: (params) => {
         return params?.row?.deviceGroup?.name
       },
     },
     {
+      field: 'type',
+      headerName: t('deviceList.device.type'),
+      width: 180,
+      sortable: true,
+      renderCell: (params) => {
+        const { type } = params.row
+        return type === 1
+          ? t('deviceList.device.forProduction')
+          : t('deviceList.device.notForProduction')
+      },
+    },
+    {
       field: 'description',
       headerName: t('deviceList.device.description'),
-      width: 300,
+      width: 150,
       sortable: false,
     },
     {
       field: 'status',
       headerName: t('deviceList.device.status'),
-      align: 'center',
-      width: 200,
+      width: 120,
       sortable: true,
       renderCell: (params) => {
         const { status } = params.row
@@ -115,16 +126,10 @@ function DefineDevice() {
       },
     },
     {
-      field: 'checkbox',
-      headerName: t('deviceList.checkbox'),
-      width: 300,
-      sortable: false,
-    },
-    {
       field: 'createdAt',
       headerName: t('common.createdAt'),
       filterFormat: 'date',
-      width: 200,
+      width: 150,
       sortable: true,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
@@ -135,7 +140,7 @@ function DefineDevice() {
       field: 'updatedAt',
       headerName: t('common.updatedAt'),
       filterFormat: 'date',
-      width: 200,
+      width: 150,
       sortable: true,
       renderCell: (params) => {
         const updatedAt = params.row.updatedAt
@@ -145,7 +150,7 @@ function DefineDevice() {
     {
       field: 'action',
       headerName: t('common.action'),
-      width: 200,
+      width: 150,
       sortable: false,
       align: 'center',
       fixed: true,
@@ -215,7 +220,11 @@ function DefineDevice() {
   }
 
   const onSubmitDeleteModal = () => {
-    actions.deleteDevice(modal?.tempItem?.id, () => {
+    const params = {
+      id: modal?.tempItem?.id,
+      reason: null,
+    }
+    actions.deleteDevice(params, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
@@ -253,11 +262,9 @@ function DefineDevice() {
     return (
       <>
         <ImportExport
-          name={t('menu.importExportData')}
-          onImport={(params) => {
-            importDeviceApi(params)
-          }}
-          onExport={() => {
+          name={t('device.export')}
+          onImport={(params) => importDeviceApi(params)}
+          onExport={() =>
             exportDeviceApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
@@ -269,10 +276,9 @@ function DefineDevice() {
               ]),
               sort: convertSortParams(sort),
             })
-          }}
+          }
           onDownloadTemplate={getDeviceTemplateApi}
           onRefresh={refreshData}
-          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.DEVICE_LIST.CREATE.PATH)}

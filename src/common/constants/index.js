@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 const VTI_DOMAIN = process.env.REACT_APP_VTI_DOMAIN
 
 export const LANG_OPTIONS = {
@@ -87,6 +88,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   TARGET: {
     MAX: 5,
   },
+  CODE_100: {
+    MAX: 100,
+  },
 }
 
 export const NUMBER_FIELD_REQUIRED_SIZE = {
@@ -170,8 +174,8 @@ export const TEXTFIELD_ALLOW = {
   ALPHABET: /[^a-zA-Z]/g,
   ALPHANUMERIC: /[^0-9a-zA-Z]/g,
   ALPHANUMERIC_SPECIALS:
-    // eslint-disable-next-line no-useless-escape
     /[^0-9a-zA-Z-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
+  EXCEPT_SPECIALS: /[._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
 }
 
 export const TEXTFIELD_PREVENT = {

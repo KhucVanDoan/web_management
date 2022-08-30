@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { BULK_ACTION } from '~/common/constants'
 import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
@@ -33,6 +34,7 @@ import {
   convertSortParams,
 } from '~/utils'
 
+import { DialogApprove } from './dialogs/approve'
 import FilterForm from './filter'
 import { filterSchema } from './filter/schema'
 
@@ -66,6 +68,7 @@ function SaleOrder() {
   const [tempItem, setTempItem] = useState()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const { refreshKey, clearRefreshKey } = useApp()
 
   const {
     page,
@@ -212,6 +215,16 @@ function SaleOrder() {
   }, [sort, keyword, filters, page, pageSize])
 
   useEffect(() => {
+    if (refreshKey) {
+      if (saleOrderList?.some((item) => item?.id === refreshKey)) {
+        refreshData()
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, saleOrderList])
+
+  useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
@@ -240,18 +253,11 @@ function SaleOrder() {
     setTempItem(tempItem)
   }
 
-  const submitConfirm = () => {
-    actions.confirmSaleOrderById(tempItem?.id, () => {
-      refreshData()
-    })
-    setConfirmModal(false)
-  }
-
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
-          name={t('saleOrderDefine.import')}
+          name={t('saleOrderDefine.export')}
           onImport={(params) => {
             importSaleOrderApi(params)
           }}
@@ -351,27 +357,18 @@ function SaleOrder() {
             sx={{ mt: 4 / 3 }}
           />
         </Dialog>
-        <Dialog
+
+        <DialogApprove
           open={confirmModal}
-          title={t('saleOrder.confirmTitle')}
-          onCancel={() => setConfirmModal(false)}
-          cancelLabel={t('general:common.no')}
-          onSubmit={submitConfirm}
-          submitLabel={t('general:common.yes')}
-          noBorderBottom
-        >
-          {t('saleOrder.confirmBody')}
-          <LV
-            label={t('saleOrder.code')}
-            value={tempItem?.code}
-            sx={{ mt: 4 / 3 }}
-          />
-          <LV
-            label={t('saleOrder.name')}
-            value={tempItem?.name}
-            sx={{ mt: 4 / 3 }}
-          />
-        </Dialog>
+          onClose={() => {
+            setTempItem(null)
+            setConfirmModal(false)
+          }}
+          data={tempItem}
+          onSuccess={() => {
+            refreshData()
+          }}
+        />
       </Page>
     </>
   )

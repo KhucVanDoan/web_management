@@ -13,6 +13,7 @@ import {
   TEXTFIELD_ALLOW,
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
@@ -51,19 +52,26 @@ const BOQForm = () => {
   const isUpdate = mode === MODAL_MODE.UPDATE
 
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
+  const { refreshKey, clearRefreshKey } = useApp()
 
   useEffect(() => {
     refreshData()
     return () => {
       actions.resetBOQDetailState()
     }
-  }, [mode])
+  }, [id])
+
+  useEffect(() => {
+    if (refreshKey) {
+      if (id === refreshKey.toString()) {
+        history.push(ROUTE.DEFINE_BOQ.DETAIL.PATH.replace(':id', id))
+      }
+
+      clearRefreshKey()
+    }
+  }, [refreshKey, id])
 
   const refreshData = () => {
-    getBOQDetail()
-  }
-
-  const getBOQDetail = () => {
     if (isUpdate) {
       actions.getBOQDetailsById(id)
     }

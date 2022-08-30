@@ -3,15 +3,16 @@ import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
-import MovementDetail from '~/modules/wmsx/features/movements/detail'
-import Movements from '~/modules/wmsx/features/movements/list'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+
+import MovementDetail from '../movements/detail'
+import Movements from '../movements/list'
 
 export const Transactions = () => {
   const history = useHistory()
   const breadcrumbs = [
     {
-      title: 'warehouseSetup',
+      title: 'orderManagement',
     },
     {
       route: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,

@@ -5,6 +5,7 @@ import {
   watchGetNotifications,
   watchSeenOneNotification,
   watchSeenAllNotifications,
+  watchChangeNotificationStatus,
 } from './notification'
 
 /**
@@ -16,5 +17,6 @@ export default function* sagas() {
     watchGetNotifications(),
     watchSeenOneNotification(),
     watchSeenAllNotifications(),
+    watchChangeNotificationStatus(),
   ])
 }

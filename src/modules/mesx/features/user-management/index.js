@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import { BULK_ACTION } from '~/common/constants'
 import { API_URL } from '~/common/constants/apiUrl'
@@ -19,6 +19,7 @@ import { ROUTE } from '~/modules/configuration/routes/config'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
 import { convertFilterParams, convertSortParams } from '~/utils'
+import qs from '~/utils/qs'
 
 import {
   exportUserApi,
@@ -41,6 +42,8 @@ const breadcrumbs = [
 function UserManagement() {
   const { t } = useTranslation('mesx')
   const history = useHistory()
+  const location = useLocation()
+  const { factoryId } = qs.parse(location.search)
 
   const DEFAULT_FILTERS = {
     username: '',
@@ -48,6 +51,7 @@ function UserManagement() {
     department: '',
     status: '',
     createTime: [],
+    factoryId: factoryId,
   }
 
   const {
@@ -277,6 +281,9 @@ function UserManagement() {
       placeholder={t('userManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
+      {...(factoryId
+        ? { onBack: () => history.push(ROUTE.COMPANY_CHART.LIST.PATH) }
+        : {})}
     >
       <DataTable
         title={t('userManagement.title')}

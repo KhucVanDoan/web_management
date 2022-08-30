@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import { Box, Grid, Paper, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -47,20 +47,20 @@ const WarningListErrorForm = () => {
   const backToList = () => {
     history.push(ROUTE.WARNING_SYSTEM.LIST.PATH)
   }
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <Box>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.device')}
-          </Button>
-          <Button variant="outlined" sx={{ ml: 4 / 3 }}>
-            {t('deviceCategory.button.job')}
-          </Button>
-        </Box>
-      </>
-    )
-  }
+  // const renderHeaderRight = () => {
+  //   return (
+  //     <>
+  //       <Box>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.device')}
+  //         </Button>
+  //         <Button variant="outlined" sx={{ ml: 4 / 3 }}>
+  //           {t('deviceCategory.button.job')}
+  //         </Button>
+  //       </Box>
+  //     </>
+  //   )
+  // }
 
   const warningType = WARNING_TYPE.filter(
     (warning) => warning.value === warningDetail.type,
@@ -82,7 +82,7 @@ const WarningListErrorForm = () => {
       title={t('warningList.headerTitle.scheduled')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
+      // renderHeaderRight={renderHeaderRight}
       freeSolo
     >
       <Paper sx={{ p: 2 }}>
