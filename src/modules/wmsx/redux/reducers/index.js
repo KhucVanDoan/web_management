@@ -43,6 +43,7 @@ import movementManagement from './movements'
 import productionOrder from './production-order'
 import purchasedOrdersImport from './purchased-orders-import'
 import reasonManagement from './reason-management'
+import receiptDepartmentManagement from './receipt-department-management'
 import rentWarehouseDashboard from './rent-warehouse-dashboard'
 import returnOrder from './return-order'
 import soExport from './so-export'
@@ -116,5 +117,6 @@ export default combineReducers({
   reasonManagement,
   defineUom,
   defineMaterialQuality,
+  receiptDepartmentManagement,
   defineProducingCountry,
 })

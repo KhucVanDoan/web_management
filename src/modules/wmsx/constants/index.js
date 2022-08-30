@@ -1368,3 +1368,24 @@ export const UOM_ACTIVE_STATUS_MAP = {
   [UOM_ACTIVE_STATUS.ACTIVE]: 'general.active',
   [UOM_ACTIVE_STATUS.REJECTED]: 'general.inactive',
 }
+
+export const RECEIPT_DEPARTMENT_TYPE = {
+  INTERNAL: 0,
+  OUTSIDE: 1,
+}
+
+export const RECEIPT_DEPARTMENT_TYPE_MAP = {
+  [RECEIPT_DEPARTMENT_TYPE.INTERNAL]: 'receiptDepartmentManagement.internal',
+  [RECEIPT_DEPARTMENT_TYPE.OUTSIDE]: 'receiptDepartmentManagement.outside',
+}
+
+export const RECEIPT_DEPARTMENT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'receiptDepartmentManagement.internal',
+  },
+  {
+    id: 1,
+    text: 'receiptDepartmentManagement.outside',
+  },
+]

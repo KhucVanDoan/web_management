@@ -2461,6 +2461,20 @@
     "defineMaterialQualityDelete": "Xóa chất lượng vật tư",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá chất lượng vật tư này không?"
   },
+  "receiptDepartmentManagement": {
+    "list": "Danh sách phòng ban nhận",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã phòng ban nhận",
+    "name": "Tên phòng ban nhận",
+    "departmentType": "Loại phòng ban",
+    "status": "Trạng thái hoạt động",
+    "description": "Mô tả",
+    "createdTime": "Thời gian tạo",
+    "deleteTitlePopup": "Xóa phòng ban nhận",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá phòng ban nhận này không?",
+    "internal": "nội bộ",
+    "outside": "bên ngoài"
+  },
   "defineProducingCountry": {
     "list": "Danh sách nước sản xuất",
     "searchPlaceholder": "Tìm kiếm nước sản xuất theo mã hoặc tên",
