@@ -135,19 +135,19 @@ export const ROUTE = {
   },
   DEFINE_UOM: {
     LIST: {
-      PATH: '/wmsx/uom-management',
+      PATH: '/wmsx/define-uom',
       TITLE: 'defineUom',
     },
     CREATE: {
-      PATH: '/wmsx/uom-management/create',
+      PATH: '/wmsx/define-uom/create',
       TITLE: 'defineUomCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/uom-management/:id/detail',
+      PATH: '/wmsx/define-uom/:id/detail',
       TITLE: 'defineUomDetail',
     },
     EDIT: {
-      PATH: '/wmsx/uom-management/:id/edit',
+      PATH: '/wmsx/define-uom/:id/edit',
       TITLE: 'defineUomEdit',
     },
   },

@@ -2467,6 +2467,18 @@
     "reasonManagementDelete": "Xóa lý do",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá lý do này không?"
   },
+  "defineUom": {
+    "title": "Danh sách đơn vị tính",
+    "code": "Mã đơn vị tính",
+    "name": "Tên đơn vị tính",
+    "shortName": "Tên viết tắt",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "searchPlaceholder": "Tìm kiếm đơn vị tính theo mã hoặc tên",
+    "createdAt": "Thời gian tạo",
+    "defineUomDelete": "Xoá đơn vị tính",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá đơn vị tính này không?"
+  },
   "defineMaterialQuality": {
     "list": "Danh sách chất lượng vật tư",
     "searchPlaceholder": "Tìm kiếm chất lượng vật tư theo mã hoặc tên",

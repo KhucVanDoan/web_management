@@ -1338,3 +1338,33 @@ export const DATA_TYPE_OPTIONS = [
     text: 'businessTypeManagement.types.list',
   },
 ]
+
+export const UOM_ACTIVE_STATUS = {
+  INACTIVE: 0,
+  ACTIVE: 1,
+  REJECTED: 2,
+}
+
+export const UOM_ACTIVE_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+  {
+    id: 1,
+    text: 'general.active',
+    color: 'active',
+  },
+  {
+    id: 2,
+    text: 'general.inactive',
+    color: 'inactive',
+  },
+]
+
+export const UOM_ACTIVE_STATUS_MAP = {
+  [UOM_ACTIVE_STATUS.INACTIVE]: 'general.inactive',
+  [UOM_ACTIVE_STATUS.ACTIVE]: 'general.active',
+  [UOM_ACTIVE_STATUS.REJECTED]: 'general.inactive',
+}
