@@ -223,6 +223,42 @@ export const ROUTE = {
       TITLE: 'defineMaterialQualityEdit',
     },
   },
+  DEFINE_PRODUCING_COUNTRY: {
+    LIST: {
+      PATH: '/wmsx/define-producing-country',
+      TITLE: 'defineProducingCountry',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-producing-country/create',
+      TITLE: 'defineProducingCountryCreate',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-producing-country/:id/detail',
+      TITLE: 'defineProducingCountryDetail',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-producing-country/:id/edit',
+      TITLE: 'defineProducingCountryEdit',
+    },
+  },
+  DEFINE_VENDOR: {
+    LIST: {
+      PATH: '/wmsx/define-supplier',
+      TITLE: 'defineVendor',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-supplier/create',
+      TITLE: 'defineVendorCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-supplier/:id/edit',
+      TITLE: 'defineVendorEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-supplier/:id/detail',
+      TITLE: 'defineVendorDetail',
+    },
+  },
   WAREHOUSE_SETUP: {
     TITLE: 'warehouseSetup',
   },
@@ -443,24 +479,6 @@ export const ROUTE = {
   PRODUCTION_INFORMATION_MANAGENMENT: {
     PATH: '/wmsx/production-information-management',
     TITLE: 'productionInformationManagement',
-  },
-  DEFINE_VENDEOR: {
-    LIST: {
-      PATH: '/wmsx/define-vendor',
-      TITLE: 'defineVendor',
-    },
-    CREATE: {
-      PATH: '/wmsx/define-vendor/create',
-      TITLE: 'defineVendorCreate',
-    },
-    EDIT: {
-      PATH: '/wmsx/define-vendor/:id/edit',
-      TITLE: 'defineVendorEdit',
-    },
-    DETAIL: {
-      PATH: '/wmsx/define-vendor/:id/detail',
-      TITLE: 'defineVendorDetail',
-    },
   },
   SETTING: {
     TITLE: 'setting',

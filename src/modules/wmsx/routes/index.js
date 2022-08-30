@@ -54,9 +54,15 @@ import DefineMaterialQuality from '../features/define-material-quality/list'
 import DefineObjectCategoryDetail from '../features/define-object-category/detail'
 import DefineObjectCategoryForm from '../features/define-object-category/form'
 import DefineObjectCategory from '../features/define-object-category/list'
+import DefineProducingCountryDetail from '../features/define-producing-country/detail'
+import DefineProducingCountryForm from '../features/define-producing-country/form'
+import DefineProducingCountry from '../features/define-producing-country/list'
 import DefineUomDetail from '../features/define-uom/detail'
 import DefineUomForm from '../features/define-uom/form'
 import DefineUom from '../features/define-uom/list'
+import DefineVendorDetail from '../features/define-vendor/detail'
+import DefineVendorForm from '../features/define-vendor/form'
+import DefineVendor from '../features/define-vendor/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -87,9 +93,6 @@ import SourceManagement from '../features/source-management/list'
 // import DefineTypeUnitDetail from '../features/define-type-unit/detail'
 // import DefineTypeUnitForm from '../features/define-type-unit/form'
 // import DefineTypeUnit from '../features/define-type-unit/list'
-// import DefineVendorDetail from '../features/define-vendor/detail'
-// import DefineVendorForm from '../features/define-vendor/form'
-// import DefineVendor from '../features/define-vendor/list'
 // import DefineWarehouse from '../features/define-warehouse'
 // import DefineWarehousePalletDetail from '../features/define-warehouse-pallet/detail'
 // import DefineWarehousePallet from '../features/define-warehouse-pallet/list'
@@ -260,6 +263,32 @@ const routes = [
         ],
       },
       {
+        name: ROUTE.DEFINE_VENDOR.LIST.TITLE,
+        path: ROUTE.DEFINE_VENDOR.LIST.PATH,
+        component: DefineVendor,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_VENDOR.CREATE.TITLE,
+            path: ROUTE.DEFINE_VENDOR.CREATE.PATH,
+            component: DefineVendorForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_VENDOR.EDIT.TITLE,
+            path: ROUTE.DEFINE_VENDOR.EDIT.PATH,
+            component: DefineVendorForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_VENDOR.DETAIL.TITLE,
+            path: ROUTE.DEFINE_VENDOR.DETAIL.PATH,
+            component: DefineVendorDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
         name: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.TITLE,
         path: ROUTE.CONSTRUCTION_MANAGEMENT.LIST.PATH,
         component: ConstructionManagement,
@@ -390,32 +419,6 @@ const routes = [
         ],
       },
       {
-        name: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.TITLE,
-        path: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.PATH,
-        component: BussinessTypeManagement,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
-            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH,
-            component: BusinessTypeManagementForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.TITLE,
-            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH,
-            component: BusinessTypeManagementDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.TITLE,
-            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH,
-            component: BusinessTypeManagementForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
         name: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.TITLE,
         path: ROUTE.DEFINE_OBJECT_CATEGORY.LIST.PATH,
         component: DefineObjectCategory,
@@ -489,6 +492,58 @@ const routes = [
             name: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.TITLE,
             path: ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH,
             component: DefineMaterialQualityForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_PRODUCING_COUNTRY.LIST.TITLE,
+        path: ROUTE.DEFINE_PRODUCING_COUNTRY.LIST.PATH,
+        component: DefineProducingCountry,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.TITLE,
+            path: ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.PATH,
+            component: DefineProducingCountryForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.PATH,
+            component: DefineProducingCountryDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.TITLE,
+            path: ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.PATH,
+            component: DefineProducingCountryForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.PATH,
+        component: BussinessTypeManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH,
+            component: BusinessTypeManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH,
+            component: BusinessTypeManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH,
+            component: BusinessTypeManagementForm,
             isInSidebar: false,
           },
         ],
@@ -611,32 +666,6 @@ const routes = [
   //   isInSidebar: true,
   //   icon: 'prettyBag',
   //   subMenu: [
-  //     {
-  //       name: ROUTE.DEFINE_VENDEOR.LIST.TITLE,
-  //       path: ROUTE.DEFINE_VENDEOR.LIST.PATH,
-  //       component: DefineVendor,
-  //       isInSidebar: true,
-  //       subMenu: [
-  //         {
-  //           name: ROUTE.DEFINE_VENDEOR.CREATE.TITLE,
-  //           path: ROUTE.DEFINE_VENDEOR.CREATE.PATH,
-  //           component: DefineVendorForm,
-  //           isInSidebar: false,
-  //         },
-  //         {
-  //           name: ROUTE.DEFINE_VENDEOR.EDIT.TITLE,
-  //           path: ROUTE.DEFINE_VENDEOR.EDIT.PATH,
-  //           component: DefineVendorForm,
-  //           isInSidebar: true,
-  //         },
-  //         {
-  //           name: ROUTE.DEFINE_VENDEOR.DETAIL.TITLE,
-  //           path: ROUTE.DEFINE_VENDEOR.DETAIL.PATH,
-  //           component: DefineVendorDetail,
-  //           isInSidebar: true,
-  //         },
-  //       ],
-  //     },
   //     {
   //       name: ROUTE.DEFINE_CUSTOMER.LIST.TITLE,
   //       path: ROUTE.DEFINE_CUSTOMER.LIST.PATH,

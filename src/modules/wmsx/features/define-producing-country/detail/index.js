@@ -7,8 +7,10 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useDefineProducingCountry from '~/modules/wmsx/redux/hooks/useDefineProducingCountry'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
@@ -16,74 +18,75 @@ const breadcrumbs = [
     title: 'database',
   },
   {
-    route: ROUTE.DEFINE_VENDOR.LIST.PATH,
-    title: ROUTE.DEFINE_VENDOR.LIST.TITLE,
+    route: ROUTE.DEFINE_PRODUCING_COUNTRY.LIST.PATH,
+    title: ROUTE.DEFINE_PRODUCING_COUNTRY.LIST.TITLE,
   },
   {
-    route: ROUTE.DEFINE_VENDOR.DETAIL.PATH,
-    title: ROUTE.DEFINE_VENDOR.DETAIL.TITLE,
+    route: ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.PATH,
+    title: ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.TITLE,
   },
 ]
 
-const DefineVendorDetail = () => {
+function DefineProducingCountryDetail() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
   const {
-    data: { isLoading, vendorDetails },
+    data: { isLoading, producingCountryDetails },
     actions,
-  } = useDefineVendor()
+  } = useDefineProducingCountry()
 
   useEffect(() => {
-    actions.getVendorDetailsById(id)
+    actions.getProducingCountryDetailsById(id)
     return () => {
-      actions.resetDetailVendorState()
+      actions.resetProducingCountryDetailsState()
     }
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.DEFINE_VENDOR.LIST.PATH)
+    history.push(ROUTE.DEFINE_PRODUCING_COUNTRY.LIST.PATH)
   }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.defineVendorDetail')}
+      title={t('menu.defineProducingCountryDetail')}
       onBack={backToList}
       loading={isLoading}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('defineVendor.code')} value={vendorDetails.code} />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('defineVendor.name')} value={vendorDetails.name} />
-            </Grid>
-            <Grid item lg={6} xs={12}>
+            <Grid item xs={12}>
               <LV
-                label={t('defineVendor.address')}
-                value={vendorDetails.address}
+                label={t('defineProducingCountry.status')}
+                value={
+                  <Status
+                    options={ACTIVE_STATUS_OPTIONS}
+                    value={producingCountryDetails?.status}
+                  />
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('defineVendor.phone')} value={vendorDetails.phone} />
+              <LV
+                label={t('defineProducingCountry.code')}
+                value={producingCountryDetails.code}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('defineVendor.fax')} value={vendorDetails.fax} />
+              <LV
+                label={t('defineProducingCountry.name')}
+                value={producingCountryDetails.name}
+              />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('defineVendor.email')} value={vendorDetails.email} />
-            </Grid>
-
             <Grid item xs={12}>
               <TextField
                 name="description"
-                label={t('defineVendor.description')}
+                label={t('defineProducingCountry.description')}
                 multiline
                 rows={3}
-                value={vendorDetails.description}
+                value={producingCountryDetails.description}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
@@ -93,11 +96,11 @@ const DefineVendorDetail = () => {
               />
             </Grid>
           </Grid>
+          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
-      <ActionBar onBack={backToList} />
     </Page>
   )
 }
 
-export default DefineVendorDetail
+export default DefineProducingCountryDetail

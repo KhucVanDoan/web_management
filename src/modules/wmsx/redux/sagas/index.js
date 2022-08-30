@@ -128,6 +128,13 @@ import watchGetPaymentTypeDetails from './define-payment-type/get-payment-type-d
 import watchImportPaymentType from './define-payment-type/import-payment-type'
 import watchSearchPaymentTypes from './define-payment-type/search-payment-type'
 import watchUpdatePaymentType from './define-payment-type/update-payment-type'
+import watchConfirmProducingCountry from './define-producing-country/confirm-producing-country'
+import watchCreateProducingCountry from './define-producing-country/create-producing-country'
+import watchDeleteProducingCountry from './define-producing-country/delete-producing-country'
+import watchGetProducingCountryDetails from './define-producing-country/get-producing-country-details'
+import watchRejectProducingCountry from './define-producing-country/reject-producing-country'
+import watchSearchProducingCountry from './define-producing-country/search-producing-country'
+import watchUpdateProducingCountry from './define-producing-country/update-producing-country'
 import watchConfirmService from './define-service/confirm-service'
 import watchCreateService from './define-service/create-service'
 import watchDeleteService from './define-service/delete-service'
@@ -721,5 +728,14 @@ export default function* sagas() {
     watchDeleteMaterialQuality(),
     watchConfirmMaterialQuality(),
     watchRejectMaterialQuality(),
+
+    //define-producing-country
+    watchCreateProducingCountry(),
+    watchUpdateProducingCountry(),
+    watchSearchProducingCountry(),
+    watchGetProducingCountryDetails(),
+    watchDeleteProducingCountry(),
+    watchConfirmProducingCountry(),
+    watchRejectProducingCountry(),
   ])
 }

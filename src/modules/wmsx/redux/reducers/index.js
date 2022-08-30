@@ -18,6 +18,7 @@ import defineObjectCategory from './define-object-category'
 import definePackage from './define-package'
 import definePallet from './define-pallet'
 import definePaymentType from './define-payment-type'
+import defineProducingCountry from './define-producing-country'
 import defineService from './define-service'
 import templateSector from './define-template-sector'
 import defineTemplateShelf from './define-template-shelf'
@@ -115,4 +116,5 @@ export default combineReducers({
   reasonManagement,
   defineUom,
   defineMaterialQuality,
+  defineProducingCountry,
 })
