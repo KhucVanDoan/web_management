@@ -6,8 +6,9 @@ import { PropTypes } from 'prop-types'
 
 import Status from '~/components/Status'
 
-const StatusSwitcher = ({ sx, value, options }) => {
-  const upcomingValue = options.find((opt) => opt?.id !== value)?.id
+const StatusSwitcher = ({ sx, value, nextValue, options }) => {
+  const upcomingValue =
+    nextValue ?? options.find((opt) => opt?.id !== value)?.id
   return (
     <Box sx={{ display: 'inline-flex', ...sx }}>
       <Status options={options} value={value} variant="text" />
@@ -26,8 +27,9 @@ StatusSwitcher.defaultProps = {
 }
 
 StatusSwitcher.propTypes = {
-  value: PropTypes.number,
-  options: PropTypes.array,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  nextValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  options: PropTypes.array.isRequired,
   sx: PropTypes.shape(),
   t: PropTypes.func,
 }
