@@ -2448,9 +2448,8 @@
     "description": "Mô tả",
     "status": "Trạng thái hoạt động",
     "createdAt": "Thời gian tạo",
-    "constructionItemsManagementDelete": "Xóa đối tượng",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá đối tượng này không?",
-    "addButton": "Thêm trường dữ liệu"
+    "defineObjectCategoryDelete": "Xóa danh mục đối tượng",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá danh mục đối tượng này không?"
   },
   "reasonManagement": {
     "title": "Danh sách Reason",

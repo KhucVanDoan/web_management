@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const confirmObjectCategoryApi = (params) => {
-  /* @TODO update uri */
-  const uri = `/v1/warehouses/bussiness-types/${params}/confirm`
+  const uri = `/v1/items/object-categories/${params}/confirm`
   return api.put(uri)
 }
 

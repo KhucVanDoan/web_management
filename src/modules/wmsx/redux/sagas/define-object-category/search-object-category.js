@@ -8,9 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const searchObjectCategoryApi = (params) => {
-  /* @TODO update uri */
-
-  const uri = `/v1/warehouses/bussiness-types/list`
+  const uri = `/v1/items/object-categories/list`
   return api.get(uri, params)
 }
 

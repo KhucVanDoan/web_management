@@ -1,7 +1,5 @@
 import { all } from 'redux-saga/effects'
 
-import watchUpdateDeviceCategory from '~/modules/mmsx/redux/sagas/device-category/update-device-category'
-
 import watchCloseBlockItem from './block-item-location/block-item/close-block-item.saga'
 import watchCreateBlockItem from './block-item-location/block-item/create-block-item'
 import watchDeleteBlockItem from './block-item-location/block-item/delete-block-item'
@@ -101,6 +99,7 @@ import watchDeleteObjectCategory from './define-object-category/delete-object-ca
 import watchGetObjectCategoryDetails from './define-object-category/get-object-category-details'
 import watchRejectObjectCategory from './define-object-category/reject-object-category'
 import watchSearchObjectCategory from './define-object-category/search-object-category'
+import watchUpdateObjectCategory from './define-object-category/update-object-category'
 import watchConfirmPackage from './define-package/confirm-package'
 import watchCreatePackage from './define-package/create-package'
 import watchDeletePackage from './define-package/delete-package'
@@ -676,12 +675,13 @@ export default function* sagas() {
 
     //define-object-category
     watchCreateObjectCategory(),
-    watchUpdateDeviceCategory(),
+    watchUpdateObjectCategory(),
     watchSearchObjectCategory(),
     watchGetObjectCategoryDetails(),
     watchConfirmObjectCategory(),
     watchRejectObjectCategory(),
     watchDeleteObjectCategory(),
+
     //reason-management
     watchCreateReasonManagement(),
     watchDeleteReasonManagement(),
