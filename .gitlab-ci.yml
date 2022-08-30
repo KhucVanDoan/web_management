@@ -33,13 +33,13 @@ build:
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
 deploy:
   stage: deploy
   variables:
     GIT_STRATEGY: none
   rules:
-    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
+    - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_dev"'
   script:
     - eval `ssh-agent -s`
 
