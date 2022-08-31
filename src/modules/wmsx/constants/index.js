@@ -57,20 +57,6 @@ export const PIE_CHART_COLORS = [
   '#FF8042',
 ]
 
-export const LANGUAGES_ENUM = {
-  VI: 0,
-  EN: 1,
-  JP: 2,
-}
-
-export const LANGUAGES_ENUM_MAP = {
-  [LANGUAGES_ENUM.VI]: 'vi',
-  [LANGUAGES_ENUM.EN]: 'en',
-  [LANGUAGES_ENUM.JP]: 'jp',
-}
-
-export const DEFAULT_LANGUAGE = LANGUAGES_ENUM.VI
-
 export const ORDER_TYPE_ENUM = {
   PO: 1,
   PRO: 2,
