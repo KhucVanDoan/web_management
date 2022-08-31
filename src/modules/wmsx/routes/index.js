@@ -12,6 +12,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineExpenditureOrgDetail from '../features/define-expenditure-org/detail'
+import DefineExpenditureOrgForm from '../features/define-expenditure-org/form'
+import DefineExpenditureOrg from '../features/define-expenditure-org/list'
 import DefineMaterialQualityDetail from '../features/define-material-quality/detail'
 import DefineMaterialQualityForm from '../features/define-material-quality/form'
 import DefineMaterialQuality from '../features/define-material-quality/list'
@@ -388,6 +391,32 @@ const routes = [
             name: ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.TITLE,
             path: ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.PATH,
             component: DefineProducingCountryForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_EXPENDITURE_ORG.LIST.TITLE,
+        path: ROUTE.DEFINE_EXPENDITURE_ORG.LIST.PATH,
+        component: DefineExpenditureOrg,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_EXPENDITURE_ORG.CREATE.TITLE,
+            path: ROUTE.DEFINE_EXPENDITURE_ORG.CREATE.PATH,
+            component: DefineExpenditureOrgForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_EXPENDITURE_ORG.DETAIL.TITLE,
+            path: ROUTE.DEFINE_EXPENDITURE_ORG.DETAIL.PATH,
+            component: DefineExpenditureOrgDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_EXPENDITURE_ORG.EDIT.TITLE,
+            path: ROUTE.DEFINE_EXPENDITURE_ORG.EDIT.PATH,
+            component: DefineExpenditureOrgForm,
             isInSidebar: false,
           },
         ],

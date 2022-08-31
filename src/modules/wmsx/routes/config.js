@@ -259,4 +259,22 @@ export const ROUTE = {
       TITLE: 'defineVendorDetail',
     },
   },
+  DEFINE_EXPENDITURE_ORG: {
+    LIST: {
+      PATH: '/wmsx/define-expenditure-org',
+      TITLE: 'defineExpenditureOrg',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-expenditure-org/create',
+      TITLE: 'defineExpenditureOrgCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-expenditure-org/:id/edit',
+      TITLE: 'defineExpenditureOrgEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-expenditure-org/:id/detail',
+      TITLE: 'defineExpenditureOrgDetail',
+    },
+  },
 }
