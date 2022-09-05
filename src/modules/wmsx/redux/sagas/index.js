@@ -30,6 +30,13 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchConfirmExpenditureOrg from './define-expenditure-org/confirm-expenditure-org'
+import watchCreateExpenditureOrg from './define-expenditure-org/create-expenditure-org'
+import watchDeleteExpenditureOrg from './define-expenditure-org/delete-expenditure-org'
+import watchGetExpenditureOrgDetails from './define-expenditure-org/get-expenditure-org-details'
+import watchRejectExpenditureOrg from './define-expenditure-org/reject-expenditure-org'
+import watchSearchExpenditureOrg from './define-expenditure-org/search-expenditure-org'
+import watchUpdateExpenditureOrg from './define-expenditure-org/update-expenditure-org'
 import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
 import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
 import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
@@ -209,5 +216,14 @@ export default function* sagas() {
     watchDeleteProducingCountry(),
     watchConfirmProducingCountry(),
     watchRejectProducingCountry(),
+
+    //define-expenditure-org
+    watchCreateExpenditureOrg(),
+    watchUpdateExpenditureOrg(),
+    watchSearchExpenditureOrg(),
+    watchGetExpenditureOrgDetails(),
+    watchDeleteExpenditureOrg(),
+    watchConfirmExpenditureOrg(),
+    watchRejectExpenditureOrg(),
   ])
 }
