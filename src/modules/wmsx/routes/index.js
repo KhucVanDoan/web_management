@@ -12,6 +12,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineBinDetail from '../features/define-bin/detail'
+import DefineBinForm from '../features/define-bin/form'
+import DefineBin from '../features/define-bin/list'
 import DefineDrawerDetail from '../features/define-drawer/detail'
 import DefineDrawerForm from '../features/define-drawer/form'
 import DefineDrawer from '../features/define-drawer/list'
@@ -622,25 +625,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_BIN.LIST.TITLE,
         path: ROUTE.DEFINE_BIN.LIST.PATH,
-        component: () => null,
+        component: DefineBin,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_BIN.CREATE.TITLE,
             path: ROUTE.DEFINE_BIN.CREATE.PATH,
-            component: () => null,
+            component: DefineBinForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_BIN.EDIT.TITLE,
             path: ROUTE.DEFINE_BIN.EDIT.PATH,
-            component: () => null,
+            component: DefineBinForm,
             isInSidebar: true,
           },
           {
             name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
             path: ROUTE.DEFINE_BIN.DETAIL.PATH,
-            component: () => null,
+            component: DefineBinDetail,
             isInSidebar: true,
           },
         ],
