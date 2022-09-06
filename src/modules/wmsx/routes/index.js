@@ -45,6 +45,9 @@ import DefineUom from '../features/define-uom/list'
 import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
+import DefineWarehouseGroupDetail from '../features/define-warehouse-group/detail'
+import DefineWarehouseGroupForm from '../features/define-warehouse-group/form'
+import DefineWarehouseGroup from '../features/define-warehouse-group/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseForm from '../features/define-warehouse/form'
 import DefineWarehouse from '../features/define-warehouse/list'
@@ -549,6 +552,32 @@ const routes = [
             name: ROUTE.LOCATION_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH,
             component: () => null,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.TITLE,
+        path: ROUTE.DEFINE_WAREHOUSE_GROUP.LIST.PATH,
+        component: DefineWarehouseGroup,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH,
+            component: DefineWarehouseGroupForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH,
+            component: DefineWarehouseGroupForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH,
+            component: DefineWarehouseGroupDetail,
             isInSidebar: true,
           },
         ],

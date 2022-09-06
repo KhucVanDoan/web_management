@@ -106,6 +106,13 @@ import watchGetVendorDetails from './define-vendor/get-vendor-details'
 import watchImportVendor from './define-vendor/import-vendor'
 import watchSearchVendors from './define-vendor/search-vendors'
 import watchUpdateVendor from './define-vendor/updata-vendor'
+import watchConfirmWarehouseGroup from './define-warehouse-group/confirm-warehouse-group'
+import watchCreateWarehouseGroup from './define-warehouse-group/create-warehouse-group'
+import watchDeleteWarehouseGroup from './define-warehouse-group/delete-warehouse-group'
+import watchGetWarehouseGroupDetails from './define-warehouse-group/get-warehouse-group-details'
+import watchRejectWarehouseGroup from './define-warehouse-group/reject-warehouse-group'
+import watchSearchWarehouseGroup from './define-warehouse-group/search-warehouse-group'
+import watchUpdateWarehouseGroup from './define-warehouse-group/update-warehouse-group'
 import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
 import watchCreateWarehouse from './define-warehouse/create-warehouse'
 import watchDeleteWarehouse from './define-warehouse/delete-warehouse'
@@ -272,6 +279,14 @@ export default function* sagas() {
     watchDeleteWarehouse(),
     watchConfirmWarehouse(),
     watchRejectWarehouse(),
+    //define-warehouse-group
+    watchCreateWarehouseGroup(),
+    watchUpdateWarehouseGroup(),
+    watchSearchWarehouseGroup(),
+    watchGetWarehouseGroupDetails(),
+    watchDeleteWarehouseGroup(),
+    watchConfirmWarehouseGroup(),
+    watchRejectWarehouseGroup(),
 
     //define-shelf
     watchCreateShelf(),
