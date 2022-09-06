@@ -30,6 +30,13 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchConfirmAssembly from './define-assembly/confirm-assembly'
+import watchCreateAssembly from './define-assembly/create-assembly'
+import watchDeleteAssembly from './define-assembly/delete-assembly'
+import watchGetAssemblyDetails from './define-assembly/get-assembly-details'
+import watchRejectAssembly from './define-assembly/reject-assembly'
+import watchSearchAssembly from './define-assembly/search-assembly'
+import watchUpdateAssembly from './define-assembly/update-assembly'
 import watchConfirmBin from './define-bin/confirm'
 import watchCreateBin from './define-bin/create'
 import watchDeleteBin from './define-bin/delete'
@@ -254,6 +261,14 @@ export default function* sagas() {
     watchConfirmWarehouse(),
     watchRejectWarehouse(),
 
+    //define-assembly
+    watchCreateAssembly(),
+    watchUpdateAssembly(),
+    watchSearchAssembly(),
+    watchGetAssemblyDetails(),
+    watchDeleteAssembly(),
+    watchConfirmAssembly(),
+    watchRejectAssembly(),
     //define-bin
     watchCreateBin(),
     watchUpdateBin(),
