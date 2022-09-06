@@ -277,4 +277,22 @@ export const ROUTE = {
       TITLE: 'defineExpenditureOrgDetail',
     },
   },
+  DEFINE_EXPENDITURE_TYPE: {
+    LIST: {
+      PATH: '/wmsx/define-expenditure-type',
+      TITLE: 'defineExpenditureType',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-expenditure-type/create',
+      TITLE: 'defineExpenditureTypeCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-expenditure-type/:id/edit',
+      TITLE: 'defineExpenditureTypeEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-expenditure-type/:id/detail',
+      TITLE: 'defineExpenditureTypeDetail',
+    },
+  },
 }
