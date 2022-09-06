@@ -12,7 +12,7 @@ services:
 stages:
   - build
   - deploy
-  - build_staging
+  - build_avenue_stg
   - deploy_staging
   - build_demo
   # - deploy_demo
@@ -59,20 +59,18 @@ deploy:
       docker run -d --name avenue_dev_mesx_web --restart=always  -p 20088:80 ${DEV_CONTAINER_IMAGE};
       docker image prune -f;"
 
-build_staging:
-  stage: build_staging
+build_avenue_stg:
+  stage: build_avenue_stg
   before_script:
     - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
     - chmod +x ./setup_env_staging.sh
     - ./setup_env_staging.sh
   script:
     - docker build -t $STAGING_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="$REACT_APP_HOST_STAGING"
-      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_STAGING_URL"
-      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_STAGING_URL"
+      --build-arg REACT_APP_HOST="http://10.1.14.17:12001"
       --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_STAGING_DOMAIN" --no-cache .
+      --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
     - docker push $STAGING_CONTAINER_IMAGE
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_staging"'
@@ -98,29 +96,7 @@ deploy_staging:
       ssh $SSH_STAGING_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${STAGING_CONTAINER_IMAGE};
-      docker stop  avenue_stg_web || true; 
-      docker rm  avenue_stg_web || true; 
-      docker run -d --name avenue_stg_web --restart=always -p 20188:80 ${STAGING_CONTAINER_IMAGE};
+      docker stop  stg-avenue_web || true; 
+      docker rm  stg-avenue_web || true; 
+      docker run -d --name stg-avenue_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
-
-build_demo:
-  before_script:
-    - docker version
-    - docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD
-    - ls -la
-    - chmod +x ./setup_env_demo.sh
-    - ./setup_env_demo.sh
-  stage: build_demo
-  script:
-    - echo "$REACT_APP_DEMO_HOST"
-    - docker build --tag $DEMO_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="$REACT_APP_DEMO_HOST"
-      --build-arg	REACT_APP_WMSX_URL="$REACT_APP_WMSX_DEMO_URL"
-      --build-arg	REACT_APP_MMSX_URL="$REACT_APP_MMSX_DEMO_URL"
-      --build-arg	REACT_APP_QMSX_URL="$REACT_APP_QMSX_DEMO_URL"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_DEMO_HOST"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_DEMO_HOST"
-      --build-arg	REACT_APP_VTI_DOMAIN="$REACT_APP_VTI_DOMAIN"  .
-    - docker push $DEMO_CONTAINER_IMAGE
-  only:
-    - master
