@@ -51,6 +51,9 @@ import DefineWarehouseGroup from '../features/define-warehouse-group/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseForm from '../features/define-warehouse/form'
 import DefineWarehouse from '../features/define-warehouse/list'
+import InventorySettingDetail from '../features/inventory-setting/detail'
+import InventorySettingForm from '../features/inventory-setting/form'
+import InventorySetting from '../features/inventory-setting/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -709,6 +712,32 @@ const routes = [
             name: ROUTE.SET_STORAGE_PERIOD.EDIT.TITLE,
             path: ROUTE.SET_STORAGE_PERIOD.EDIT.PATH,
             component: SetStoragePeriodForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.INVENTORY_SETTING.LIST.TITLE,
+        path: ROUTE.INVENTORY_SETTING.LIST.PATH,
+        component: InventorySetting,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_SETTING.CREATE.TITLE,
+            path: ROUTE.INVENTORY_SETTING.CREATE.PATH,
+            component: InventorySettingForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_SETTING.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_SETTING.DETAIL.PATH,
+            component: InventorySettingDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_SETTING.EDIT.TITLE,
+            path: ROUTE.INVENTORY_SETTING.EDIT.PATH,
+            component: InventorySettingForm,
             isInSidebar: false,
           },
         ],

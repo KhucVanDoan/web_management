@@ -120,6 +120,11 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchRejectWarehouse from './define-warehouse/reject-warehouse'
 import watchSearchWarehouse from './define-warehouse/search-warehouse'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchCreateInventorySetting from './inventory-setting/create'
+import watchDeleteInventorySetting from './inventory-setting/delete'
+import watchGetDetailInventorySetting from './inventory-setting/get-detail'
+import watchSearchInventorySetting from './inventory-setting/search'
+import watchUpdateInventorySetting from './inventory-setting/update'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
@@ -279,6 +284,12 @@ export default function* sagas() {
     watchDeleteWarehouse(),
     watchConfirmWarehouse(),
     watchRejectWarehouse(),
+    //inventory-setting
+    watchCreateInventorySetting(),
+    watchUpdateInventorySetting(),
+    watchDeleteInventorySetting(),
+    watchSearchInventorySetting(),
+    watchGetDetailInventorySetting(),
     //define-warehouse-group
     watchCreateWarehouseGroup(),
     watchUpdateWarehouseGroup(),

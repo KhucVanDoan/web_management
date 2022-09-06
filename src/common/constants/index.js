@@ -172,6 +172,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 100000000,
   },
+  INVENTORY_LIMIT: {
+    MIN: 0,
+    MAX: 999999999,
+  },
   EXPIRY_WAREHOUSE: {
     MIN: 0,
     MAX: 9999,
