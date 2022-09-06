@@ -169,6 +169,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 100000000,
   },
+  EXPIRY_WAREHOUSE: {
+    MIN: 0,
+    MAX: 9999,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {

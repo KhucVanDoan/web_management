@@ -2,6 +2,7 @@
   "general": {
     "search": "Tìm kiếm",
     "list": "Danh sách",
+    "day": "ngày",
     "warehouseSectorName": "Tên khu vực",
     "warehouseShelfName": "Tên kệ",
     "warehousePalletName": "Tên tầng",
@@ -17,6 +18,7 @@
     "wmsx": "WMSX",
     "dashboard": "Dashboard",
     "database": "Quản lý dữ liệu cơ sở",
+    "warehouseManagement": "Quản lý kho",
     "companyManagement": "Quản lý công ty",
     "companyManagementCreate": "Tạo công ty",
     "companyManagementEdit": "Sửa công ty",
@@ -102,6 +104,10 @@
     "defineExpenditureTypeCreate": "Tạo loại chi phí",
     "defineExpenditureTypeEdit": "Sửa loại chi phí",
     "defineExpenditureTypeDetail": "Chi tiết loại chi phí",
+    "setStoragePeriod": "Thiết lập thời hạn lưu kho",
+    "setStoragePeriodCreate": "Tạo thiết lập thời hạn lưu kho",
+    "setStoragePeriodEdit": "Sửa thiết lập thời hạn lưu kho",
+    "setStoragePeriodDetail": "Chi tiết thiết lập thời hạn lưu kho",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2577,5 +2583,21 @@
     "createdTime": "Thời gian tạo",
     "defineProducingCountryDelete": "Xóa loại chi phí",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá loại chi phí này không?"
+  },
+  "setStoragePeriod": {
+    "list": "Danh sách thiết lập thời hạn lưu kho",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "warehouseCode": "Mã kho",
+    "warehouseName": "Tên kho",
+    "materialCode": "Mã vật tư",
+    "materialName": "Tên vật tư",
+    "storageLimit": "Giới hạn lưu kho (ngày)",
+    "storageLimitTitle": "Giới hạn lưu kho",
+    "warningPeriod": "Thời hạn cảnh báo lưu kho (ngày)",
+    "warningPeriodTitle": "Thời hạn cảnh báo lưu kho",
+    "createTime": "Thời gian tạo",
+    "setStoragePeriodDelete": "Xóa thiết lập thời hạn lưu kho",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập thời hạn lưu kho này không?",
+    "messageWarning": "Thời hạn cảnh báo lưu kho phải nhỏ hơn giới hạn lưu kho"
   }
 }
