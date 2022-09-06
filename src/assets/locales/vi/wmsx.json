@@ -2382,6 +2382,19 @@
     "export": "Xuất kho",
     "transfer": "Chuyển kho",
     "deleteTitlePopup": "Xóa loại nghiệp vụ",
+    "defaultFieldList": "Danh sách trường dữ liệu mặc định",
+    "optionFieldList": "Danh sách trường dữ liệu tự chọn",
+    "poImport": "Phiếu nhập kho",
+    "poExport": "Phiếu xuất kho",
+    "proposalPaperExportSupplies": "Giấy đề nghị xuất vật tư",
+    "constructionManagement": "Quản lý công trình",
+    "construction": "Công trình",
+    "categoryManagement": "Quản lý hạng mục",
+    "category": "Hạng mục",
+    "receiptManagement": "Quản lý receipt",
+    "receipt": "Số Receipt",
+    "poImportId": "ID phiếu nhập WMSX",
+    "poExportId": "ID phiếu xuất WMSX",
     "items": {
       "fieldList": "Danh sách trường dữ liệu",
       "fieldName": "Tên trường",
@@ -2390,11 +2403,20 @@
       "contruction": "Công trình",
       "contructionName": "Tên công trình",
       "show": "Hiển thị?",
-      "required": "Bắt buộc?"
+      "required": "Bắt buộc?",
+      "labelEBS": "Label trên EBS",
+      "tableName": "Tên bảng",
+      "columnName": "Tên cột"
     },
     "types": {
-      "textField": "Text Field",
-      "list": "Danh sách"
+      "text": "Text",
+      "number": "Number",
+      "date": "Date",
+      "list": "Danh sách",
+      "defineReceptionDepartment": "Định nghĩa phòng ban nhận",
+      "defineVendor": "Định nghĩa nhà cung cấp",
+      "defineCost": "Định nghĩa loại chi phí",
+      "defineOrganization": "Định nghĩa tổ chức chi"
     }
   },
   "sourceManagement": {

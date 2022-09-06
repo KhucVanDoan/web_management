@@ -15,27 +15,38 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
 import {
   ACTIVE_STATUS_OPTIONS,
+  DATA_TYPE_OPTIONS,
+  DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT,
+  DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT,
+  PARENT_BUSINESS_TYPE,
   PARENT_BUSINESS_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useBusinessTypeManagement from '~/modules/wmsx/redux/hooks/useBusinessTypeManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import ItemsSettingTable from './items-setting-table'
+import DefaultFieldList from './default-field-list'
+import ItemsSettingTable from './option-field-list/index'
 import { defineSchema } from './schema'
 
-const DEFAULT_ITEM = {
+const DEFAULT_ITEM_OPTION = {
   id: '',
   fieldName: '',
-  code: '',
+  labelEBS: '',
   type: '',
-  columnName: '',
-  tableName: '',
+  required: false,
+  show: true,
+}
+const DEFAULT_ITEM_DEFAULT = {
+  id: '',
+  fieldName: '',
+  labelEBS: '',
+  type: '',
   required: true,
   show: true,
 }
-
 function BusinessTypeManagementForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
@@ -58,11 +69,37 @@ function BusinessTypeManagementForm() {
     () => ({
       code: businessTypeDetails?.code || '',
       name: businessTypeDetails?.name || '',
-      parentBusiness: businessTypeDetails?.parentBusiness || '',
+      parentBusiness: `${businessTypeDetails?.parentBussiness}` || '',
       description: businessTypeDetails?.description || '',
-      items: businessTypeDetails?.bussinessTypeAttributes?.map((item) => ({
-        ...item,
-      })) || [{ ...DEFAULT_ITEM }],
+      itemOption: businessTypeDetails?.bussinessTypeAttributes
+        ?.filter((e) => e?.code === null)
+        ?.map((item) => ({
+          id: item?.id,
+          labelEBS: item?.ebsLabel,
+          fieldName: item?.fieldName,
+          required: item?.required,
+          type: {
+            id: item?.type,
+            text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
+            type: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.type,
+            tableName: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)
+              ?.tableName,
+            code: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.code,
+          },
+        })) || [{ ...DEFAULT_ITEM_OPTION }],
+      itemDefault: businessTypeDetails?.bussinessTypeAttributes
+        ?.filter((e) => e?.code !== null)
+        ?.map((item) => ({
+          id: item?.id,
+          labelEBS: item?.ebsLabel,
+          fieldName: item?.fieldName,
+          required: item?.required,
+          show: item?.required ? true : false,
+          type: '',
+          code: item?.code,
+          columnName: item?.columnName,
+          tableName: item?.tableName,
+        })) || [{ ...DEFAULT_ITEM_DEFAULT }],
     }),
     [businessTypeDetails],
   )
@@ -121,15 +158,40 @@ function BusinessTypeManagementForm() {
   }
 
   const onSubmit = (values) => {
-    const convertValues = {
-      ...values,
-      bussinessTypeAttributes: values.items.map((item) => ({ ...item })),
+    const parmas = {
+      code: values?.code,
+      name: values?.name,
+      parentBussiness: Number(values?.parentBusiness),
+      description: values?.description || null,
+      bussinessTypeAttributes: [
+        ...values?.itemDefault
+          ?.filter((e) => e?.show === true)
+          ?.map((item) => ({
+            fieldName: t(`${item?.fieldName}`),
+            type: 1,
+            ebsLabel: item?.labelEBS,
+            columnName: item?.columnName,
+            tableName: item?.tableName,
+            code: item?.code,
+            required: item?.required,
+          })),
+        ...values?.itemOption
+          ?.filter((e) => e?.required === true)
+          ?.map((item) => ({
+            fieldName: item?.fieldName,
+            type: item.type?.type,
+            ebsLabel: item?.labelEBS,
+            columnName: item?.type?.code ? item?.type?.code : null,
+            tableName: item?.type?.tableName ? item?.type?.tableName : null,
+            required: item?.required,
+          })),
+      ],
     }
     if (mode === MODAL_MODE.CREATE) {
-      actions.createBusinessType(convertValues, backToList)
+      actions.createBusinessType(parmas, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const paramUpdate = {
-        ...convertValues,
+        ...parmas,
         id: +id,
       }
       actions.updateBusinessType(paramUpdate, backToList)
@@ -158,7 +220,19 @@ function BusinessTypeManagementForm() {
         break
     }
   }
-
+  const handleChangeParentBusiness = (val, setFieldValue) => {
+    if (!val) {
+      setFieldValue('itemDefault', [{ ...DEFAULT_ITEM_DEFAULT }])
+      setFieldValue('itemOption', [{ ...DEFAULT_ITEM_OPTION }])
+    } else {
+      if (Number(val) === Number(PARENT_BUSINESS_TYPE.EXPORT)) {
+        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT)
+      } else if (Number(val) === Number(PARENT_BUSINESS_TYPE.IMPORT)) {
+        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT)
+      } else {
+      }
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -174,7 +248,7 @@ function BusinessTypeManagementForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
+            {({ handleReset, values, setFieldValue }) => (
               <Form>
                 <Grid
                   container
@@ -230,6 +304,9 @@ function BusinessTypeManagementForm() {
                       options={PARENT_BUSINESS_TYPE_OPTIONS}
                       getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
                       getOptionValue={(opt) => opt?.id?.toString()}
+                      onChange={(val) =>
+                        handleChangeParentBusiness(val, setFieldValue)
+                      }
                       required
                     />
                   </Grid>
@@ -246,18 +323,47 @@ function BusinessTypeManagementForm() {
                     />
                   </Grid>
                 </Grid>
-                <Box sx={{ mt: 3 }}>
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemsSettingTable
-                        items={values?.items || []}
-                        arrayHelpers={arrayHelpers}
-                        mode={mode}
-                      />
-                    )}
-                  />
-                </Box>
+
+                <Tabs
+                  list={[
+                    {
+                      label: t('businessTypeManagement.defaultFieldList'),
+                    },
+                    {
+                      label: t('businessTypeManagement.optionFieldList'),
+                    },
+                  ]}
+                  sx={{ mt: 3 }}
+                >
+                  {/* Tab 1 */}
+                  <Box sx={{ mt: 3 }}>
+                    <FieldArray
+                      name="itemDefault"
+                      render={(arrayHelpers) => (
+                        <DefaultFieldList
+                          itemDefault={values?.itemDefault || []}
+                          arrayHelpers={arrayHelpers}
+                          mode={mode}
+                        />
+                      )}
+                    />
+                  </Box>
+
+                  {/* Tab 2 */}
+                  <Box sx={{ mt: 3 }}>
+                    <FieldArray
+                      name="itemOption"
+                      render={(arrayHelpers) => (
+                        <ItemsSettingTable
+                          itemOption={values?.itemOption || []}
+                          arrayHelpers={arrayHelpers}
+                          mode={mode}
+                        />
+                      )}
+                    />
+                  </Box>
+                </Tabs>
+
                 {renderActionBar(handleReset)}
               </Form>
             )}
