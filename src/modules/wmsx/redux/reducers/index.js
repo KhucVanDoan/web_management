@@ -20,6 +20,7 @@ import defineWarehouse from './define-warehouse'
 import managementUnit from './management-unit'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
+import setStoragePeriod from './set-storage-period'
 import sourceManagement from './source-management'
 
 export default combineReducers({
@@ -44,4 +45,5 @@ export default combineReducers({
   defineDrawer,
   defineExpenditureOrg,
   defineExpenditureType,
+  setStoragePeriod,
 })

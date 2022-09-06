@@ -4,8 +4,10 @@ export const ROUTE = {
     TITLE: 'dashboard',
   },
   DATABASE: {
-    PATH: '/wmsx',
     TITLE: 'database',
+  },
+  WAREHOUSE_MANAGEMENT: {
+    TITLE: 'warehouseManagement',
   },
   COMPANY_MANAGEMENT: {
     LIST: {
@@ -259,9 +261,6 @@ export const ROUTE = {
       TITLE: 'defineVendorDetail',
     },
   },
-  WAREHOUSE_MANAGEMENT: {
-    TITLE: 'warehouseManagement',
-  },
   DEFINE_WAREHOUSE: {
     LIST: {
       PATH: '/wmsx/define-warehouse',
@@ -404,6 +403,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/wmsx/define-expenditure-type/:id/detail',
       TITLE: 'defineExpenditureTypeDetail',
+    },
+  },
+  SET_STORAGE_PERIOD: {
+    LIST: {
+      PATH: '/wmsx/set-storage-period',
+      TITLE: 'setStoragePeriod',
+    },
+    CREATE: {
+      PATH: '/wmsx/set-storage-period/create',
+      TITLE: 'setStoragePeriodCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/set-storage-period/:id/edit',
+      TITLE: 'setStoragePeriodEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/set-storage-period/:id/detail',
+      TITLE: 'setStoragePeriodDetail',
     },
   },
 }

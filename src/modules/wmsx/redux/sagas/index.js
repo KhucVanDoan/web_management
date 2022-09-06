@@ -131,6 +131,11 @@ import watchGetReceiptDepartmentDetails from './receipt-department-management/ge
 import watchRejectReceiptDepartment from './receipt-department-management/reject-receipt-department'
 import watchSearchReceiptDepartment from './receipt-department-management/search-receipt-department'
 import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
+import watchCreateStoragePeriod from './set-storage-period/create-construction'
+import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
+import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
+import watchSearchStoragePeriods from './set-storage-period/search-constructions'
+import watchUpdateStoragePeriod from './set-storage-period/update-construction'
 import watchConfirmSourceManagement from './source-management/confirm'
 import watchCreateSourceManagement from './source-management/create'
 import watchDeleteSourceManagement from './source-management/delete'
@@ -316,5 +321,12 @@ export default function* sagas() {
     watchDeleteExpenditureType(),
     watchConfirmExpenditureType(),
     watchRejectExpenditureType(),
+
+    //set-storage-period
+    watchCreateStoragePeriod(),
+    watchUpdateStoragePeriod(),
+    watchSearchStoragePeriods(),
+    watchGetStoragePeriodDetails(),
+    watchDeleteStoragePeriod(),
   ])
 }

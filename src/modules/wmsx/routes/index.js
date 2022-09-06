@@ -54,6 +54,9 @@ import ReasonManagement from '../features/reason-management/list'
 import ReceiptDepartmentManagementDetail from '../features/receipt-department-management/detail'
 import ReceiptDepartmentManagementForm from '../features/receipt-department-management/form'
 import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
+import SetStoragePeriodDetail from '../features/set-storage-period/detail'
+import SetStoragePeriodForm from '../features/set-storage-period/form'
+import SetStoragePeriod from '../features/set-storage-period/list'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
@@ -628,6 +631,7 @@ const routes = [
           },
         ],
       },
+
       {
         name: ROUTE.DEFINE_BIN.LIST.TITLE,
         path: ROUTE.DEFINE_BIN.LIST.PATH,
@@ -651,6 +655,32 @@ const routes = [
             path: ROUTE.DEFINE_BIN.DETAIL.PATH,
             component: DefineBinDetail,
             isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.SET_STORAGE_PERIOD.LIST.TITLE,
+        path: ROUTE.SET_STORAGE_PERIOD.LIST.PATH,
+        component: SetStoragePeriod,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.SET_STORAGE_PERIOD.CREATE.TITLE,
+            path: ROUTE.SET_STORAGE_PERIOD.CREATE.PATH,
+            component: SetStoragePeriodForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SET_STORAGE_PERIOD.DETAIL.TITLE,
+            path: ROUTE.SET_STORAGE_PERIOD.DETAIL.PATH,
+            component: SetStoragePeriodDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.SET_STORAGE_PERIOD.EDIT.TITLE,
+            path: ROUTE.SET_STORAGE_PERIOD.EDIT.PATH,
+            component: SetStoragePeriodForm,
+            isInSidebar: false,
           },
         ],
       },
