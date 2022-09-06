@@ -13,6 +13,7 @@ import defineExpenditureType from './define-expenditure-type'
 import defineMaterialQuality from './define-material-quality'
 import defineObjectCategory from './define-object-category'
 import defineProducingCountry from './define-producing-country'
+import defineShelf from './define-shelf'
 import defineUom from './define-uom'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
@@ -37,6 +38,7 @@ export default combineReducers({
   receiptDepartmentManagement,
   defineProducingCountry,
   defineWarehouse,
+  defineShelf,
   defineAssembly,
   defineBin,
   defineDrawer,
