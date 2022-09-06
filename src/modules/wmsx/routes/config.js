@@ -6,9 +6,6 @@ export const ROUTE = {
   DATABASE: {
     TITLE: 'database',
   },
-  WAREHOUSE_MANAGEMENT: {
-    TITLE: 'warehouseManagement',
-  },
   COMPANY_MANAGEMENT: {
     LIST: {
       PATH: '/wmsx/company-management',
@@ -261,6 +258,9 @@ export const ROUTE = {
       TITLE: 'defineVendorDetail',
     },
   },
+  WAREHOUSE_MANAGEMENT: {
+    TITLE: 'warehouseManagement',
+  },
   DEFINE_WAREHOUSE: {
     LIST: {
       PATH: '/wmsx/define-warehouse',
@@ -295,6 +295,24 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/wmsx/location-management/:id/detail',
       TITLE: 'locationManagementDetail',
+    },
+  },
+  DEFINE_WAREHOUSE_GROUP: {
+    LIST: {
+      PATH: '/wmsx/define-warehouse-group',
+      TITLE: 'defineWarehouseGroup',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-warehouse-group/create',
+      TITLE: 'defineWarehouseGroupCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-warehouse-group/:id/edit',
+      TITLE: 'defineWarehouseGroupEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-warehouse-group/:id/detail',
+      TITLE: 'defineWarehouseGroupDetail',
     },
   },
   DEFINE_ASSEMBLY: {
