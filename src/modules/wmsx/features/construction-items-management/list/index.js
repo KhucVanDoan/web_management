@@ -65,7 +65,6 @@ function ConstructionItemsManagement() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -151,9 +150,6 @@ function ConstructionItemsManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -184,21 +180,6 @@ function ConstructionItemsManagement() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteConstructionItems(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -299,32 +280,6 @@ function ConstructionItemsManagement() {
         //   },
         // }}
       />
-      <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t(
-          'constructionItemsManagement.constructionItemsManagementDelete',
-        )}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('constructionItemsManagement.deleteConfirm')}
-        <LV
-          label={t('constructionItemsManagement.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('constructionItemsManagement.name')}
-          value={modal?.tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}
