@@ -152,13 +152,13 @@ const palette = {
       contrastText: '#FFF',
     },
     inactive: {
-      text: '#666',
-      background: '#666',
+      text: '#FF9054',
+      background: '#FF9054',
       contrastText: '#FFF',
     },
     active: {
-      text: '#0761AD',
-      background: '#0761AD',
+      text: '#0FA44A',
+      background: '#0FA44A',
       contrastText: '#FFF',
     },
     inReceiving: {
