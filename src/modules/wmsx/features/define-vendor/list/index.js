@@ -27,11 +27,11 @@ import FilterForm from './form-filters'
 
 const breadcrumbs = [
   {
-    title: ROUTE.PRODUCTION_INFORMATION_MANAGENMENT.TITLE,
+    title: 'database',
   },
   {
-    route: ROUTE.DEFINE_VENDEOR.LIST.PATH,
-    title: ROUTE.DEFINE_VENDEOR.LIST.TITLE,
+    route: ROUTE.DEFINE_VENDOR.LIST.PATH,
+    title: ROUTE.DEFINE_VENDOR.LIST.TITLE,
   },
 ]
 function DefineVendor() {
@@ -77,7 +77,6 @@ function DefineVendor() {
       sortable: true,
       fixed: true,
     },
-
     {
       field: 'email',
       headerName: t('defineVendor.email'),
@@ -86,25 +85,19 @@ function DefineVendor() {
     },
     {
       field: 'phone',
-      headerName: t('defineVendor.phoneColumn'),
+      headerName: t('defineVendor.phone'),
       width: 200,
       sortable: true,
-      fixed: true,
-    },
-    {
-      field: 'fax',
-      headerName: t('defineVendor.faxColumn'),
-      width: 100,
     },
     {
       field: 'address',
-      headerName: t('defineVendor.addressColumn'),
+      headerName: t('defineVendor.address'),
       filterFormat: 'date',
       width: 200,
     },
     {
       field: 'action',
-      headerName: t('defineVendor.action'),
+      headerName: t('general:common.action'),
       width: 200,
       sortable: false,
       align: 'center',
@@ -116,7 +109,7 @@ function DefineVendor() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.DEFINE_VENDEOR.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.DEFINE_VENDOR.DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -125,7 +118,7 @@ function DefineVendor() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.DEFINE_VENDEOR.EDIT.PATH.replace(':id', `${id}`),
+                  ROUTE.DEFINE_VENDOR.EDIT.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -133,15 +126,6 @@ function DefineVendor() {
             </IconButton>
             <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
               <Icon name="delete" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  `${ROUTE.DEFINE_VENDEOR.CREATE.PATH}?cloneId=${id}`,
-                )
-              }
-            >
-              <Icon name="clone" />
             </IconButton>
           </div>
         )
@@ -215,7 +199,7 @@ function DefineVendor() {
           disabled
         />
         <Button
-          onClick={() => history.push(ROUTE.DEFINE_VENDEOR.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.DEFINE_VENDOR.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >

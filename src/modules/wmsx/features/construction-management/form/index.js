@@ -196,7 +196,7 @@ function ConstructionManagementForm() {
                       label={t('constructionManagement.name')}
                       placeholder={t('constructionManagement.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
                       required
                     />

@@ -57,20 +57,6 @@ export const PIE_CHART_COLORS = [
   '#FF8042',
 ]
 
-export const LANGUAGES_ENUM = {
-  VI: 0,
-  EN: 1,
-  JP: 2,
-}
-
-export const LANGUAGES_ENUM_MAP = {
-  [LANGUAGES_ENUM.VI]: 'vi',
-  [LANGUAGES_ENUM.EN]: 'en',
-  [LANGUAGES_ENUM.JP]: 'jp',
-}
-
-export const DEFAULT_LANGUAGE = LANGUAGES_ENUM.VI
-
 export const ORDER_TYPE_ENUM = {
   PO: 1,
   PRO: 2,
@@ -1319,8 +1305,10 @@ export const PARENT_BUSINESS_TYPE_OPTIONS = [
 ]
 
 export const DATA_TYPE = {
-  TEXTFIELD: 0,
+  TEXT: 0,
   LIST: 1,
+  DATE: 2,
+  NUMBER: 5,
 }
 
 export const DATA_TYPE_MAP = {
@@ -1328,14 +1316,67 @@ export const DATA_TYPE_MAP = {
   [DATA_TYPE.LIST]: 'businessTypeManagement.types.list',
 }
 
+export const TABLE_NAME_ENUM = {
+  DEPARTMENT_RECEIPT: 'department_receipts',
+  VENDOR: 'vendors',
+  COST_TYPE: 'cost_types',
+  ORGANIZATION_PAYMENT: 'organization_payments',
+  PURCHASED_ODER_IMPORT: 'purchased_order_imports',
+  SALE_ORDER_EXPORT: 'sale_order_exports',
+  WAREHOUSE_EXPORT_PROPOSAL: 'warehouse_export_proposals',
+  CONSTRUCTION: 'constructions',
+  CATEGORY_CONSTRUCTION: 'category_constructions',
+  RECEIPT: 'receipts',
+}
 export const DATA_TYPE_OPTIONS = [
   {
     id: 0,
-    text: 'businessTypeManagement.types.textField',
+    text: 'businessTypeManagement.types.text',
+    type: DATA_TYPE.TEXT,
+    tableName: '',
+    code: '',
+  },
+  {
+    id: 2,
+    text: 'businessTypeManagement.types.date',
+    type: DATA_TYPE.DATE,
+    tableName: '',
+    code: '',
+  },
+  {
+    id: 5,
+    text: 'businessTypeManagement.types.number',
+    type: DATA_TYPE.NUMBER,
+    tableName: '',
+    code: '',
   },
   {
     id: 1,
-    text: 'businessTypeManagement.types.list',
+    text: 'businessTypeManagement.types.defineReceptionDepartment',
+    type: DATA_TYPE.LIST,
+    tableName: TABLE_NAME_ENUM.DEPARTMENT_RECEIPT,
+    code: 'code',
+  },
+  {
+    id: 3,
+    text: 'businessTypeManagement.types.defineVendor',
+    type: DATA_TYPE.LIST,
+    tableName: TABLE_NAME_ENUM.VENDOR,
+    code: 'code',
+  },
+  {
+    id: 4,
+    text: 'businessTypeManagement.types.defineCost',
+    type: DATA_TYPE.LIST,
+    tableName: TABLE_NAME_ENUM.COST_TYPE,
+    code: 'code',
+  },
+  {
+    id: 6,
+    text: 'businessTypeManagement.types.defineOrganization',
+    type: DATA_TYPE.LIST,
+    tableName: TABLE_NAME_ENUM.ORGANIZATION_PAYMENT,
+    code: 'code',
   },
 ]
 
@@ -1368,3 +1409,234 @@ export const UOM_ACTIVE_STATUS_MAP = {
   [UOM_ACTIVE_STATUS.ACTIVE]: 'general.active',
   [UOM_ACTIVE_STATUS.REJECTED]: 'general.inactive',
 }
+
+export const RECEIPT_DEPARTMENT_TYPE = {
+  INTERNAL: 0,
+  OUTSIDE: 1,
+}
+
+export const RECEIPT_DEPARTMENT_TYPE_MAP = {
+  [RECEIPT_DEPARTMENT_TYPE.INTERNAL]: 'receiptDepartmentManagement.internal',
+  [RECEIPT_DEPARTMENT_TYPE.OUTSIDE]: 'receiptDepartmentManagement.outside',
+}
+
+export const RECEIPT_DEPARTMENT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'receiptDepartmentManagement.internal',
+  },
+  {
+    id: 1,
+    text: 'receiptDepartmentManagement.outside',
+  },
+]
+export const CODE_TYPE_DATA_FATHER_JOB = {
+  PO_IMPORT_ID: 'PO_IMPORT_ID',
+  WAREHOUSE_EXPORT_PROPOSAL_ID: 'WAREHOUSE_EXPORT_PROPOSAL_ID',
+  CONSTRUCTION_ID: 'CONSTRUCTION_ID',
+  CATEGORY_CONSTRUCTION_ID: 'CATEGORY_CONSTRUCTION_ID',
+  RECEIPT_ID: 'RECEIPT_ID',
+  SO_EXPORT_ID: 'SO_EXPORT_ID',
+}
+export const TYPE_DATA_FATHER_JOB_OPTIONS = [
+  {
+    id: 0,
+    name: 'businessTypeManagement.poImport',
+    code: CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+    tableName: TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+    columnName: 'id',
+  },
+  {
+    id: 1,
+    name: 'businessTypeManagement.proposalPaperExportSupplies',
+    code: CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+    tableName: TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+    columnName: 'id',
+  },
+  {
+    id: 2,
+    name: 'businessTypeManagement.constructionManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CONSTRUCTION,
+    columnName: 'id',
+  },
+  {
+    id: 3,
+    name: 'businessTypeManagement.categoryManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CATEGORY_CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+    columnName: 'id',
+  },
+  {
+    id: 4,
+    name: 'businessTypeManagement.receiptManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.RECEIPT_ID,
+    tableName: TABLE_NAME_ENUM.RECEIPT,
+    columnName: 'id',
+  },
+  {
+    id: 5,
+    name: 'businessTypeManagement.poExport',
+    code: CODE_TYPE_DATA_FATHER_JOB.SO_EXPORT_ID,
+    tableName: TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+    columnName: 'id',
+  },
+]
+export const DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT = [
+  {
+    labelEBS: '',
+    fieldName: 'businessTypeManagement.poImportId',
+    type: 'businessTypeManagement.poImport',
+    code: CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+    tableName: TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: '',
+    fieldName: 'businessTypeManagement.proposalPaperExportSupplies',
+    type: 'businessTypeManagement.proposalPaperExportSupplies',
+    code: CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+    tableName: TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Project',
+    fieldName: 'businessTypeManagement.construction',
+    type: 'businessTypeManagement.constructionManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Task',
+    fieldName: 'businessTypeManagement.category',
+    type: 'businessTypeManagement.categoryManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CATEGORY_CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+]
+
+export const DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT = [
+  {
+    labelEBS: '',
+    fieldName: 'businessTypeManagement.poExportId',
+    type: 'businessTypeManagement.poExport',
+    code: CODE_TYPE_DATA_FATHER_JOB.SO_EXPORT_ID,
+    tableName: TABLE_NAME_ENUM.SALE_ORDER_EXPORT,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: '',
+    fieldName: 'businessTypeManagement.proposalPaperExportSupplies',
+    type: 'businessTypeManagement.proposalPaperExportSupplies',
+    code: CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+    tableName: TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Receipt',
+    fieldName: 'businessTypeManagement.receipt',
+    type: 'businessTypeManagement.receiptManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.RECEIPT_ID,
+    tableName: TABLE_NAME_ENUM.RECEIPT,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Project',
+    fieldName: 'businessTypeManagement.construction',
+    type: 'businessTypeManagement.constructionManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Task',
+    fieldName: 'businessTypeManagement.category',
+    type: 'businessTypeManagement.categoryManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CATEGORY_CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+]
+
+export const WAREHOUSE_TYPE = {
+  SXKD: 0,
+  XDCB: 1,
+}
+
+export const WAREHOUSE_TYPE_MAP = {
+  [WAREHOUSE_TYPE.SXKD]: 'defineWarehouse.sxkd',
+  [WAREHOUSE_TYPE.XDCB]: 'defineWarehouse.xdcb',
+}
+
+export const WAREHOUSE_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.sxkd',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.xdcb',
+  },
+]
+
+export const WAREHOUSE_NATURE = {
+  SHORT_TERM: 0,
+  LONG_TERM: 1,
+}
+
+export const WAREHOUSE_NATURE_MAP = {
+  [WAREHOUSE_NATURE.SHORT_TERM]: 'defineWarehouse.shortTerm',
+  [WAREHOUSE_NATURE.LONG_TERM]: 'defineWarehouse.longTerm',
+}
+
+export const WAREHOUSE_NATURE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.shortTerm',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.longTerm',
+  },
+]
+
+export const WAREHOUSE_LOT_TYPE = {
+  LOT: 0,
+  NO_LOT: 1,
+}
+
+export const WAREHOUSE_LOT_TYPE_MAP = {
+  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
+  [WAREHOUSE_LOT_TYPE.NO_LOT]: 'defineWarehouse.noLot',
+}
+
+export const WAREHOUSE_LOT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.lot',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.noLot',
+  },
+]

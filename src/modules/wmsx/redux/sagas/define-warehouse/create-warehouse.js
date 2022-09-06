@@ -1,32 +1,23 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
-import { api } from '~/services/api'
-import addNotification from '~/utils/toast'
-
 import {
   createWarehouseFailed,
   createWarehouseSuccess,
-  WMSX_CREATE_WAREHOUSE_START,
-} from '../../actions/define-warehouse'
+  CREATE_WAREHOUSE_START,
+} from '~/modules/wmsx/redux/actions/define-warehouse'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
-/**
- * Search user API
- * @param {any} params Params will be sent to server
- * @returns {Promise}
- */
-const createWarehousesApi = (params) => {
-  const uri = `/v1/warehouses/create`
-  return api.post(uri, params)
+const createWarehouseApi = (body) => {
+  /* @TODO update api */
+  const uri = `/v1/items/object-categories/create`
+  return api.post(uri, body)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
 function* doCreateWarehouse(action) {
   try {
-    const response = yield call(createWarehousesApi, action?.payload)
+    const response = yield call(createWarehouseApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(createWarehouseSuccess(response.data))
@@ -35,6 +26,7 @@ function* doCreateWarehouse(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
@@ -49,9 +41,6 @@ function* doCreateWarehouse(action) {
   }
 }
 
-/**
- * Watch search users
- */
 export default function* watchCreateWarehouse() {
-  yield takeLatest(WMSX_CREATE_WAREHOUSE_START, doCreateWarehouse)
+  yield takeLatest(CREATE_WAREHOUSE_START, doCreateWarehouse)
 }
