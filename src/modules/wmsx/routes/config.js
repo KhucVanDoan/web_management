@@ -387,6 +387,24 @@ export const ROUTE = {
       TITLE: 'defineBinDetail',
     },
   },
+  INVENTORY_SETTING: {
+    LIST: {
+      PATH: '/wmsx/inventory-setting',
+      TITLE: 'inventorySetting',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-setting/create',
+      TITLE: 'inventorySettingCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-setting/:id/edit',
+      TITLE: 'inventorySettingEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-setting/:id/detail',
+      TITLE: 'inventorySettingDetail',
+    },
+  },
   DEFINE_EXPENDITURE_ORG: {
     LIST: {
       PATH: '/wmsx/define-expenditure-org',
