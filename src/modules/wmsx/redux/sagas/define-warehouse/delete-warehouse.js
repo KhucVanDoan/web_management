@@ -1,29 +1,20 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
-import { api } from '~/services/api'
-import addNotification from '~/utils/toast'
-
 import {
   deleteWarehouseFailed,
   deleteWarehouseSuccess,
-  WMSX_DELETE_WAREHOUSE_START,
-} from '../../actions/define-warehouse'
+  DELETE_WAREHOUSE_START,
+} from '~/modules/wmsx/redux/actions/define-warehouse'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
-/**
- * Search user API
- * @param {any} params Params will be sent to server
- * @returns {Promise}
- */
 const deleteWarehouseApi = (params) => {
-  const uri = `/v1/warehouses/${params}`
+  /* @TODO update api */
+  const uri = `/v1/items/object-categories/${params}`
   return api.delete(uri)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
 function* doDeleteWarehouse(action) {
   try {
     const response = yield call(deleteWarehouseApi, action?.payload)
@@ -35,6 +26,7 @@ function* doDeleteWarehouse(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
@@ -49,9 +41,6 @@ function* doDeleteWarehouse(action) {
   }
 }
 
-/**
- * Watch search users
- */
 export default function* watchDeleteWarehouse() {
-  yield takeLatest(WMSX_DELETE_WAREHOUSE_START, doDeleteWarehouse)
+  yield takeLatest(DELETE_WAREHOUSE_START, doDeleteWarehouse)
 }

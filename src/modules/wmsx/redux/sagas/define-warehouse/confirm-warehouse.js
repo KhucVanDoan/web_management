@@ -1,40 +1,43 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmWarehouseFailed,
-  confirmWarehouseSuccess,
-  WMSX_CONFIRM_WAREHOUSE_START,
-} from '../../actions/define-warehouse'
+  confirmWarehouseByIdFailed,
+  confirmWarehouseByIdSuccess,
+  CONFIRM_WAREHOUSE_START,
+} from '~/modules/wmsx/redux/actions/define-warehouse'
+import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
-/**
- * Confirm purchased order
- * @returns {Promise}
- */
-const confirmWarehouseApi = () => {
-  // const uri = `/v1/warehouse/${params}/confirm`;
-  // return api.put(uri);
+const confirmWarehouseApi = (params) => {
+  /* @TODO update api */
+  const uri = `/v1/items/object-categories/${params}/confirm`
+  return api.put(uri)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
 function* doConfirmWarehouse(action) {
   try {
     const response = yield call(confirmWarehouseApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmWarehouseSuccess(response.payload))
+      yield put(confirmWarehouseByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
+
+      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
+      addNotification(
+        response?.message || response?.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmWarehouseFailed())
+    yield put(confirmWarehouseByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -42,9 +45,6 @@ function* doConfirmWarehouse(action) {
   }
 }
 
-/**
- * Watch search users
- */
 export default function* watchConfirmWarehouse() {
-  yield takeLatest(WMSX_CONFIRM_WAREHOUSE_START, doConfirmWarehouse)
+  yield takeLatest(CONFIRM_WAREHOUSE_START, doConfirmWarehouse)
 }

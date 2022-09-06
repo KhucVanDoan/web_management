@@ -2,19 +2,21 @@ import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useBusinessTypeManagement from '~/modules/wmsx/redux/hooks/useBusinessTypeManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import ItemsSettingTable from '../form/items-setting-table'
+import DefaultFieldList from '../form/default-field-list'
+import ItemsSettingTable from '../form/option-field-list'
 
 const breadcrumbs = [
   {
@@ -34,6 +36,11 @@ function BusinessTypeManagementDetail() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const routeMatch = useRouteMatch()
+  const MODE_MAP = {
+    [ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH]: MODAL_MODE.DETAIL,
+  }
+  const mode = MODE_MAP[routeMatch.path]
   const {
     data: { isLoading, businessTypeDetails },
     actions,
@@ -49,7 +56,19 @@ function BusinessTypeManagementDetail() {
   const backToList = () => {
     history.push(ROUTE.BUSINESS_TYPE_MANAGEMENT.LIST.PATH)
   }
-
+  const itemDefault = businessTypeDetails?.bussinessTypeAttributes
+    ?.filter((e) => e?.code !== null)
+    ?.map((item) => ({
+      id: item?.id,
+      labelEBS: item?.ebsLabel,
+      fieldName: item?.fieldName,
+      required: item?.required,
+      show: item?.isShow,
+      type: '',
+      code: item?.code,
+      columnName: item?.columnName,
+      tableName: item?.tableName,
+    }))
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -105,12 +124,34 @@ function BusinessTypeManagementDetail() {
               />
             </Grid>
           </Grid>
-          <Box sx={{ mt: 3 }}>
-            <ItemsSettingTable
-              items={businessTypeDetails?.bussinessTypeAttributes || []}
-              mode={MODAL_MODE.DETAIL}
-            />
-          </Box>
+          <Tabs
+            list={[
+              {
+                label: t('businessTypeManagement.defaultFieldList'),
+              },
+              {
+                label: t('businessTypeManagement.optionFieldList'),
+              },
+            ]}
+            sx={{ mt: 3 }}
+          >
+            {/* Tab 1 */}
+            <Box sx={{ mt: 3 }}>
+              <DefaultFieldList itemDefault={itemDefault || []} mode={mode} />
+            </Box>
+            {/* Tab 2 */}
+            <Box sx={{ mt: 3 }}>
+              <ItemsSettingTable
+                itemOption={
+                  businessTypeDetails?.bussinessTypeAttributes?.filter(
+                    (e) => e?.code === null,
+                  ) || []
+                }
+                mode={mode}
+              />
+            </Box>
+          </Tabs>
+
           <ActionBar onBack={backToList} />
         </Grid>
       </Grid>

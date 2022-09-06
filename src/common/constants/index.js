@@ -35,7 +35,10 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   },
   EMAIL: {
     MIN: 6,
-    MAX: 50,
+    MAX: 100,
+  },
+  ADDRESS: {
+    MAX: 100,
   },
   FAX: {
     MAX: 50,
@@ -59,6 +62,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   },
   CODE_4: {
     MAX: 4,
+  },
+  CODE_5: {
+    MAX: 5,
   },
   CODE_6: {
     MIN: 6,
@@ -165,6 +171,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
   PLAN_QUANTITY: {
     MIN: 1,
     MAX: 100000000,
+  },
+  EXPIRY_WAREHOUSE: {
+    MIN: 0,
+    MAX: 9999,
   },
 }
 

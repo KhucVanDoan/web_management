@@ -1,27 +1,18 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { api } from '~/services/api'
-
 import {
   getWarehouseDetailsByIdFailed,
   getWarehouseDetailsByIdSuccess,
-  WMSX_GET_WAREHOUSE_DETAILS_START,
-} from '../../actions/define-warehouse'
+  GET_WAREHOUSE_DETAILS_START,
+} from '~/modules/wmsx/redux/actions/define-warehouse'
+import { api } from '~/services/api'
 
-/**
- * Search user API
- * @param {any} params Params will be sent to server
- * @returns {Promise}
- */
-export const getWarehouseDetailsApi = (params) => {
-  const uri = `/v1/warehouses/${params}`
+const getWarehouseDetailsApi = (params) => {
+  /* @TODO update api */
+  const uri = `/v1/items/object-categories/${params}`
   return api.get(uri)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
 function* doGetWarehouseDetails(action) {
   try {
     const response = yield call(getWarehouseDetailsApi, action?.payload)
@@ -45,9 +36,6 @@ function* doGetWarehouseDetails(action) {
   }
 }
 
-/**
- * Watch search users
- */
 export default function* watchGetWarehouseDetails() {
-  yield takeLatest(WMSX_GET_WAREHOUSE_DETAILS_START, doGetWarehouseDetails)
+  yield takeLatest(GET_WAREHOUSE_DETAILS_START, doGetWarehouseDetails)
 }
