@@ -30,6 +30,13 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchConfirmBin from './define-bin/confirm'
+import watchCreateBin from './define-bin/create'
+import watchDeleteBin from './define-bin/delete'
+import watchGetBinDetails from './define-bin/get-details'
+import watchRejectBin from './define-bin/reject'
+import watchSearchBin from './define-bin/search'
+import watchUpdateBin from './define-bin/update'
 import watchConfirmDrawer from './define-drawer/confirm'
 import watchCreateDrawer from './define-drawer/create'
 import watchDeleteDrawer from './define-drawer/delete'
@@ -247,6 +254,14 @@ export default function* sagas() {
     watchConfirmWarehouse(),
     watchRejectWarehouse(),
 
+    //define-bin
+    watchCreateBin(),
+    watchUpdateBin(),
+    watchSearchBin(),
+    watchGetBinDetails(),
+    watchDeleteBin(),
+    watchConfirmBin(),
+    watchRejectBin(),
     //define-drawer
     watchCreateDrawer(),
     watchUpdateDrawer(),

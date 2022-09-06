@@ -2508,6 +2508,17 @@
     "lot": "Lot",
     "noLot": "NoLot"
   },
+  "defineBin": {
+    "list": "Danh sách hộc",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã hộc",
+    "name": "Tên hộc",
+    "status": "Trạng thái hoạt động",
+    "description": "Mô tả",
+    "createdAt": "Thời gian tạo",
+    "defineBinDelete": "Xóa hộc",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá hộc này không?"
+  },
   "defineDrawer": {
     "list": "Danh sách ngăn",
     "searchPlaceholder": "Tìm kiếm thông tin...",
