@@ -30,6 +30,13 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchConfirmDrawer from './define-drawer/confirm'
+import watchCreateDrawer from './define-drawer/create'
+import watchDeleteDrawer from './define-drawer/delete'
+import watchGetDrawerDetails from './define-drawer/get-details'
+import watchRejectDrawer from './define-drawer/reject'
+import watchSearchDrawer from './define-drawer/search'
+import watchUpdateDrawer from './define-drawer/update'
 import watchConfirmExpenditureOrg from './define-expenditure-org/confirm-expenditure-org'
 import watchCreateExpenditureOrg from './define-expenditure-org/create-expenditure-org'
 import watchDeleteExpenditureOrg from './define-expenditure-org/delete-expenditure-org'
@@ -78,6 +85,13 @@ import watchGetVendorDetails from './define-vendor/get-vendor-details'
 import watchImportVendor from './define-vendor/import-vendor'
 import watchSearchVendors from './define-vendor/search-vendors'
 import watchUpdateVendor from './define-vendor/updata-vendor'
+import watchConfirmWarehouse from './define-warehouse/confirm-warehouse'
+import watchCreateWarehouse from './define-warehouse/create-warehouse'
+import watchDeleteWarehouse from './define-warehouse/delete-warehouse'
+import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
+import watchRejectWarehouse from './define-warehouse/reject-warehouse'
+import watchSearchWarehouse from './define-warehouse/search-warehouse'
+import watchUpdateWarehouse from './define-warehouse/update-warehouse'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
@@ -224,6 +238,23 @@ export default function* sagas() {
     watchConfirmProducingCountry(),
     watchRejectProducingCountry(),
 
+    //define-warehouse
+    watchCreateWarehouse(),
+    watchUpdateWarehouse(),
+    watchSearchWarehouse(),
+    watchGetWarehouseDetails(),
+    watchDeleteWarehouse(),
+    watchConfirmWarehouse(),
+    watchRejectWarehouse(),
+
+    //define-drawer
+    watchCreateDrawer(),
+    watchUpdateDrawer(),
+    watchSearchDrawer(),
+    watchGetDrawerDetails(),
+    watchDeleteDrawer(),
+    watchConfirmDrawer(),
+    watchRejectDrawer(),
     //define-expenditure-org
     watchCreateExpenditureOrg(),
     watchUpdateExpenditureOrg(),

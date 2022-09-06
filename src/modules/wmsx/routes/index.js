@@ -12,6 +12,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineDrawerDetail from '../features/define-drawer/detail'
+import DefineDrawerForm from '../features/define-drawer/form'
+import DefineDrawer from '../features/define-drawer/list'
 import DefineExpenditureOrgDetail from '../features/define-expenditure-org/detail'
 import DefineExpenditureOrgForm from '../features/define-expenditure-org/form'
 import DefineExpenditureOrg from '../features/define-expenditure-org/list'
@@ -33,6 +36,9 @@ import DefineUom from '../features/define-uom/list'
 import DefineVendorDetail from '../features/define-vendor/detail'
 import DefineVendorForm from '../features/define-vendor/form'
 import DefineVendor from '../features/define-vendor/list'
+import DefineWarehouseDetail from '../features/define-warehouse/detail'
+import DefineWarehouseForm from '../features/define-warehouse/form'
+import DefineWarehouse from '../features/define-warehouse/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -473,6 +479,169 @@ const routes = [
             path: ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH,
             component: BusinessTypeManagementForm,
             isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_MANAGEMENT.TITLE,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.DEFINE_WAREHOUSE.LIST.TITLE,
+        path: ROUTE.DEFINE_WAREHOUSE.LIST.PATH,
+        component: DefineWarehouse,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.CREATE.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.CREATE.PATH,
+            component: DefineWarehouseForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.EDIT.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.EDIT.PATH,
+            component: DefineWarehouseForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_WAREHOUSE.DETAIL.TITLE,
+            path: ROUTE.DEFINE_WAREHOUSE.DETAIL.PATH,
+            component: DefineWarehouseDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.LOCATION_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.LOCATION_MANAGEMENT.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.LOCATION_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.LOCATION_MANAGEMENT.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.LOCATION_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.LOCATION_MANAGEMENT.EDIT.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.LOCATION_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_ASSEMBLY.LIST.TITLE,
+        path: ROUTE.DEFINE_ASSEMBLY.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_ASSEMBLY.CREATE.TITLE,
+            path: ROUTE.DEFINE_ASSEMBLY.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_ASSEMBLY.EDIT.TITLE,
+            path: ROUTE.DEFINE_ASSEMBLY.EDIT.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_ASSEMBLY.DETAIL.TITLE,
+            path: ROUTE.DEFINE_ASSEMBLY.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_SHELF.LIST.TITLE,
+        path: ROUTE.DEFINE_SHELF.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_SHELF.CREATE.TITLE,
+            path: ROUTE.DEFINE_SHELF.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_SHELF.EDIT.TITLE,
+            path: ROUTE.DEFINE_SHELF.EDIT.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_SHELF.DETAIL.TITLE,
+            path: ROUTE.DEFINE_SHELF.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_DRAWER.LIST.TITLE,
+        path: ROUTE.DEFINE_DRAWER.LIST.PATH,
+        component: DefineDrawer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_DRAWER.CREATE.TITLE,
+            path: ROUTE.DEFINE_DRAWER.CREATE.PATH,
+            component: DefineDrawerForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_DRAWER.EDIT.TITLE,
+            path: ROUTE.DEFINE_DRAWER.EDIT.PATH,
+            component: DefineDrawerForm,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_DRAWER.DETAIL.TITLE,
+            path: ROUTE.DEFINE_DRAWER.DETAIL.PATH,
+            component: DefineDrawerDetail,
+            isInSidebar: true,
+          },
+        ],
+      },
+      {
+        name: ROUTE.DEFINE_BIN.LIST.TITLE,
+        path: ROUTE.DEFINE_BIN.LIST.PATH,
+        component: () => null,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.DEFINE_BIN.CREATE.TITLE,
+            path: ROUTE.DEFINE_BIN.CREATE.PATH,
+            component: () => null,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.EDIT.TITLE,
+            path: ROUTE.DEFINE_BIN.EDIT.PATH,
+            component: () => null,
+            isInSidebar: true,
+          },
+          {
+            name: ROUTE.DEFINE_BIN.DETAIL.TITLE,
+            path: ROUTE.DEFINE_BIN.DETAIL.PATH,
+            component: () => null,
+            isInSidebar: true,
           },
         ],
       },

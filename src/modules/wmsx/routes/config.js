@@ -259,6 +259,117 @@ export const ROUTE = {
       TITLE: 'defineVendorDetail',
     },
   },
+  WAREHOUSE_MANAGEMENT: {
+    TITLE: 'warehouseManagement',
+  },
+  DEFINE_WAREHOUSE: {
+    LIST: {
+      PATH: '/wmsx/define-warehouse',
+      TITLE: 'defineWarehouse',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-warehouse/create',
+      TITLE: 'defineWarehouseCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-warehouse/:id/edit',
+      TITLE: 'defineWarehouseEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-warehouse/:id/detail',
+      TITLE: 'defineWarehouseDetail',
+    },
+  },
+  LOCATION_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/location-management',
+      TITLE: 'locationManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/location-management/create',
+      TITLE: 'locationManagementCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/location-management/:id/edit',
+      TITLE: 'locationManagementEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/location-management/:id/detail',
+      TITLE: 'locationManagementDetail',
+    },
+  },
+  DEFINE_ASSEMBLY: {
+    LIST: {
+      PATH: '/wmsx/define-assembly',
+      TITLE: 'defineAssembly',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-assembly/create',
+      TITLE: 'defineAssemblyCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-assembly/:id/edit',
+      TITLE: 'defineAssemblyEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-assembly/:id/detail',
+      TITLE: 'defineAssemblyDetail',
+    },
+  },
+  DEFINE_SHELF: {
+    LIST: {
+      PATH: '/wmsx/define-shelf',
+      TITLE: 'defineShelf',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-shelf/create',
+      TITLE: 'defineShelfCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-shelf/:id/edit',
+      TITLE: 'defineShelfEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-shelf/:id/detail',
+      TITLE: 'defineShelfDetail',
+    },
+  },
+  DEFINE_DRAWER: {
+    LIST: {
+      PATH: '/wmsx/define-drawer',
+      TITLE: 'defineDrawer',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-drawer/create',
+      TITLE: 'defineDrawerCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-drawer/:id/edit',
+      TITLE: 'defineDrawerEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-drawer/:id/detail',
+      TITLE: 'defineDrawerDetail',
+    },
+  },
+  DEFINE_BIN: {
+    LIST: {
+      PATH: '/wmsx/define-bin',
+      TITLE: 'defineBin',
+    },
+    CREATE: {
+      PATH: '/wmsx/define-bin/create',
+      TITLE: 'defineBinCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/define-bin/:id/edit',
+      TITLE: 'defineBinEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/define-bin/:id/detail',
+      TITLE: 'defineBinDetail',
+    },
+  },
   DEFINE_EXPENDITURE_ORG: {
     LIST: {
       PATH: '/wmsx/define-expenditure-org',
