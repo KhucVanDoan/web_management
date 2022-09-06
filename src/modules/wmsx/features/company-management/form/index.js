@@ -229,7 +229,7 @@ function CompanyManagementForm() {
                       name="address"
                       placeholder={t('companyManagement.address')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.ADDRESS.MAX,
                       }}
                     />
                   </Grid>

@@ -35,7 +35,10 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   },
   EMAIL: {
     MIN: 6,
-    MAX: 50,
+    MAX: 100,
+  },
+  ADDRESS: {
+    MAX: 100,
   },
   FAX: {
     MAX: 50,
