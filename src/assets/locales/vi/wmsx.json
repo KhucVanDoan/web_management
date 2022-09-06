@@ -2508,6 +2508,17 @@
     "lot": "Lot",
     "noLot": "NoLot"
   },
+  "defineShelf": {
+    "list": "Danh sách kệ",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã kệ",
+    "name": "Tên kệ",
+    "status": "Trạng thái hoạt động",
+    "description": "Mô tả",
+    "createdAt": "Thời gian tạo",
+    "defineShelfDelete": "Xóa kệ",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá kệ này không?"
+  },
   "defineAssembly": {
     "list": "Danh sách tổ máy",
     "searchPlaceholder": "Tìm kiếm thông tin...",

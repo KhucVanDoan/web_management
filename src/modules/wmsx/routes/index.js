@@ -36,6 +36,9 @@ import DefineObjectCategory from '../features/define-object-category/list'
 import DefineProducingCountryDetail from '../features/define-producing-country/detail'
 import DefineProducingCountryForm from '../features/define-producing-country/form'
 import DefineProducingCountry from '../features/define-producing-country/list'
+import DefineShelfDetail from '../features/define-shelf/detail'
+import DefineShelfForm from '../features/define-shelf/form'
+import DefineShelf from '../features/define-shelf/list'
 import DefineUomDetail from '../features/define-uom/detail'
 import DefineUomForm from '../features/define-uom/form'
 import DefineUom from '../features/define-uom/list'
@@ -576,25 +579,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_SHELF.LIST.TITLE,
         path: ROUTE.DEFINE_SHELF.LIST.PATH,
-        component: () => null,
+        component: DefineShelf,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_SHELF.CREATE.TITLE,
             path: ROUTE.DEFINE_SHELF.CREATE.PATH,
-            component: () => null,
+            component: DefineShelfForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_SHELF.EDIT.TITLE,
             path: ROUTE.DEFINE_SHELF.EDIT.PATH,
-            component: () => null,
+            component: DefineShelfForm,
             isInSidebar: true,
           },
           {
             name: ROUTE.DEFINE_SHELF.DETAIL.TITLE,
             path: ROUTE.DEFINE_SHELF.DETAIL.PATH,
-            component: () => null,
+            component: DefineShelfDetail,
             isInSidebar: true,
           },
         ],

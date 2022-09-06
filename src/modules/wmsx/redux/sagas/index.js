@@ -86,6 +86,13 @@ import watchGetProducingCountryDetails from './define-producing-country/get-prod
 import watchRejectProducingCountry from './define-producing-country/reject-producing-country'
 import watchSearchProducingCountry from './define-producing-country/search-producing-country'
 import watchUpdateProducingCountry from './define-producing-country/update-producing-country'
+import watchConfirmShelf from './define-shelf/confirm-shelf'
+import watchCreateShelf from './define-shelf/create-shelf'
+import watchDeleteShelf from './define-shelf/delete-shelf'
+import watchGetShelfDetails from './define-shelf/get-shelf-details'
+import watchRejectShelf from './define-shelf/reject-shelf'
+import watchSearchShelf from './define-shelf/search-shelf'
+import watchUpdateShelf from './define-shelf/update-shelf'
 import watchConfirmUom from './define-uom/confirm-uom'
 import watchCreateUom from './define-uom/create-uom'
 import watchDeleteUom from './define-uom/delete-uom'
@@ -261,6 +268,14 @@ export default function* sagas() {
     watchConfirmWarehouse(),
     watchRejectWarehouse(),
 
+    //define-shelf
+    watchCreateShelf(),
+    watchUpdateShelf(),
+    watchSearchShelf(),
+    watchGetShelfDetails(),
+    watchDeleteShelf(),
+    watchConfirmShelf(),
+    watchRejectShelf(),
     //define-assembly
     watchCreateAssembly(),
     watchUpdateAssembly(),
