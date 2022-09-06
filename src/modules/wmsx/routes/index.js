@@ -12,6 +12,9 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DefineAssemblyDetail from '../features/define-assembly/detail'
+import DefineAssemblyForm from '../features/define-assembly/form'
+import DefineAssembly from '../features/define-assembly/list'
 import DefineBinDetail from '../features/define-bin/detail'
 import DefineBinForm from '../features/define-bin/form'
 import DefineBin from '../features/define-bin/list'
@@ -547,25 +550,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_ASSEMBLY.LIST.TITLE,
         path: ROUTE.DEFINE_ASSEMBLY.LIST.PATH,
-        component: () => null,
+        component: DefineAssembly,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_ASSEMBLY.CREATE.TITLE,
             path: ROUTE.DEFINE_ASSEMBLY.CREATE.PATH,
-            component: () => null,
+            component: DefineAssemblyForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_ASSEMBLY.EDIT.TITLE,
             path: ROUTE.DEFINE_ASSEMBLY.EDIT.PATH,
-            component: () => null,
+            component: DefineAssemblyForm,
             isInSidebar: true,
           },
           {
             name: ROUTE.DEFINE_ASSEMBLY.DETAIL.TITLE,
             path: ROUTE.DEFINE_ASSEMBLY.DETAIL.PATH,
-            component: () => null,
+            component: DefineAssemblyDetail,
             isInSidebar: true,
           },
         ],

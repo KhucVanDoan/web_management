@@ -2508,6 +2508,17 @@
     "lot": "Lot",
     "noLot": "NoLot"
   },
+  "defineAssembly": {
+    "list": "Danh sách tổ máy",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã tổ máy",
+    "name": "Tên tổ máy",
+    "description": "Mô tả",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Thời gian tạo",
+    "defineAssemblyDelete": "Xóa tổ máy",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá tổ máy này không?"
+  },
   "defineBin": {
     "list": "Danh sách hộc",
     "searchPlaceholder": "Tìm kiếm thông tin...",
