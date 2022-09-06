@@ -1375,3 +1375,66 @@ export const RECEIPT_DEPARTMENT_TYPE_OPTIONS = [
     text: 'receiptDepartmentManagement.outside',
   },
 ]
+
+export const WAREHOUSE_TYPE = {
+  SXKD: 0,
+  XDCB: 1,
+}
+
+export const WAREHOUSE_TYPE_MAP = {
+  [WAREHOUSE_TYPE.SXKD]: 'defineWarehouse.sxkd',
+  [WAREHOUSE_TYPE.XDCB]: 'defineWarehouse.xdcb',
+}
+
+export const WAREHOUSE_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.sxkd',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.xdcb',
+  },
+]
+
+export const WAREHOUSE_NATURE = {
+  SHORT_TERM: 0,
+  LONG_TERM: 1,
+}
+
+export const WAREHOUSE_NATURE_MAP = {
+  [WAREHOUSE_NATURE.SHORT_TERM]: 'defineWarehouse.shortTerm',
+  [WAREHOUSE_NATURE.LONG_TERM]: 'defineWarehouse.longTerm',
+}
+
+export const WAREHOUSE_NATURE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.shortTerm',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.longTerm',
+  },
+]
+
+export const WAREHOUSE_LOT_TYPE = {
+  LOT: 0,
+  NO_LOT: 1,
+}
+
+export const WAREHOUSE_LOT_TYPE_MAP = {
+  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
+  [WAREHOUSE_LOT_TYPE.NO_LOT]: 'defineWarehouse.noLot',
+}
+
+export const WAREHOUSE_LOT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'defineWarehouse.lot',
+  },
+  {
+    id: 1,
+    text: 'defineWarehouse.noLot',
+  },
+]

@@ -5,6 +5,7 @@ import companyManagement from './company-management'
 import constructionItemsManagement from './construction-items-management'
 import constructionManagement from './construction-management'
 import dashboard from './dashboard'
+import defineDrawer from './define-drawer'
 import defineExpenditureOrg from './define-expenditure-org'
 import defineExpenditureType from './define-expenditure-type'
 import defineMaterialQuality from './define-material-quality'
@@ -12,6 +13,7 @@ import defineObjectCategory from './define-object-category'
 import defineProducingCountry from './define-producing-country'
 import defineUom from './define-uom'
 import defineVendor from './define-vendor'
+import defineWarehouse from './define-warehouse'
 import managementUnit from './management-unit'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
@@ -32,6 +34,8 @@ export default combineReducers({
   defineMaterialQuality,
   receiptDepartmentManagement,
   defineProducingCountry,
+  defineWarehouse,
+  defineDrawer,
   defineExpenditureOrg,
   defineExpenditureType,
 })

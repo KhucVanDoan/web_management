@@ -60,6 +60,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   CODE_4: {
     MAX: 4,
   },
+  CODE_5: {
+    MAX: 5,
+  },
   CODE_6: {
     MIN: 6,
     MAX: 6,
