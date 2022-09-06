@@ -73,6 +73,10 @@
     "defineExpenditureOrgCreate": "Tạo tổ chức chi",
     "defineExpenditureOrgEdit": "Sửa tổ chức chi",
     "defineExpenditureOrgDetail": "Chi tiết tổ chức chi",
+    "defineExpenditureType": "Định nghĩa loại chi phí",
+    "defineExpenditureTypeCreate": "Tạo loại chi phí",
+    "defineExpenditureTypeEdit": "Sửa loại chi phí",
+    "defineExpenditureTypeDetail": "Chi tiết loại chi phí",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2502,5 +2506,18 @@
     "createTime": "Thời gian tạo",
     "defineExpenditureOrgDelete": "Xóa tổ chức chi",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá tổ chức chi này không?"
+  },
+  "defineExpenditureType": {
+    "list": "Danh sách loại chi phí",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã loại chi phí",
+    "name": "Tên loại chi phí",
+    "status": "Trạng thái hoạt động",
+    "organizationPayment": "Tổ chức chi",
+    "source": "Tài khoản kế toán",
+    "description": "Mô tả",
+    "createdTime": "Thời gian tạo",
+    "defineProducingCountryDelete": "Xóa loại chi phí",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá loại chi phí này không?"
   }
 }

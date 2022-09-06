@@ -37,6 +37,13 @@ import watchGetExpenditureOrgDetails from './define-expenditure-org/get-expendit
 import watchRejectExpenditureOrg from './define-expenditure-org/reject-expenditure-org'
 import watchSearchExpenditureOrg from './define-expenditure-org/search-expenditure-org'
 import watchUpdateExpenditureOrg from './define-expenditure-org/update-expenditure-org'
+import watchConfirmExpenditureType from './define-expenditure-type/confirm-expenditure-type'
+import watchCreateExpenditureType from './define-expenditure-type/create-expenditure-type'
+import watchDeleteExpenditureType from './define-expenditure-type/delete-expenditure-type'
+import watchGetExpenditureTypeDetails from './define-expenditure-type/get-expenditure-type-details'
+import watchRejectExpenditureType from './define-expenditure-type/reject-expenditure-type'
+import watchSearchExpenditureType from './define-expenditure-type/search-expenditure-type'
+import watchUpdateExpenditureType from './define-expenditure-type/update-expenditure-type'
 import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
 import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
 import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
@@ -225,5 +232,13 @@ export default function* sagas() {
     watchDeleteExpenditureOrg(),
     watchConfirmExpenditureOrg(),
     watchRejectExpenditureOrg(),
+    //define expenditure type
+    watchCreateExpenditureType(),
+    watchUpdateExpenditureType(),
+    watchSearchExpenditureType(),
+    watchGetExpenditureTypeDetails(),
+    watchDeleteExpenditureType(),
+    watchConfirmExpenditureType(),
+    watchRejectExpenditureType(),
   ])
 }

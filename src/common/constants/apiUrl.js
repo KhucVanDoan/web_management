@@ -41,4 +41,5 @@ export const API_URL = {
   CONSTRUCTION: 'sales/constructions',
   CONSTRUCTION_ITEMS: 'sales/construction-categories',
   RECEIPT_DEPARTMENT: 'users/department-receipts',
+  EXPENDITURE_TYPE: 'sales/cost-types',
 }
