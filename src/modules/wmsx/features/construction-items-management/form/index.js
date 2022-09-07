@@ -16,10 +16,11 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useConstructionItemsManagement from '~/modules/wmsx/redux/hooks/useConstructionItemsManagement'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -216,10 +217,14 @@ function ConstructionItemsManagementForm() {
                         searchConstructionsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       required
                     />

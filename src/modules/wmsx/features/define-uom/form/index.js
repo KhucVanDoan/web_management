@@ -202,7 +202,7 @@ function DefineUomForm() {
                       label={t('defineUom.shortName')}
                       placeholder={t('defineUom.shortName')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                       }}
                     />
                   </Grid>
