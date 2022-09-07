@@ -16,10 +16,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import {
-  importInventorySettingApi,
   exportInventorySettingApi,
   getInventorySettingTemplateApi,
-} from '~/modules/wmsx/redux/sagas/inventory-setting/import-export'
+  importInventorySettingApi,
+} from '~/modules/wmsx/redux/sagas/inventory-setting/import-export-inventory-setting'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -85,16 +85,6 @@ function InventorySetting() {
       },
     },
     {
-      field: 'warehouseName',
-      headerName: t('inventorySetting.warehouseName'),
-      width: 120,
-      sortable: true,
-      fixed: true,
-      renderCell: (params) => {
-        return params.row.warehouse?.name
-      },
-    },
-    {
       field: 'itemCode',
       headerName: t('inventorySetting.itemCode'),
       width: 120,
@@ -114,21 +104,20 @@ function InventorySetting() {
     {
       field: 'unit',
       headerName: t('inventorySetting.unit'),
-      width: 120,
-      sortable: true,
+      width: 100,
       renderCell: (params) => {
         return params.row.itenUnit?.name
       },
     },
     {
-      field: 'inventoryLimit',
-      headerName: t('inventorySetting.inventoryLimit'),
+      field: 'minInventoryLimit',
+      headerName: t('inventorySetting.minInventoryLimit'),
       width: 50,
       sortable: true,
     },
     {
-      field: 'minInventoryLimit',
-      headerName: t('inventorySetting.minInventoryLimit'),
+      field: 'inventoryLimit',
+      headerName: t('inventorySetting.inventoryLimit'),
       width: 50,
       sortable: true,
     },
@@ -141,7 +130,7 @@ function InventorySetting() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 150,
+      width: 120,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
@@ -306,8 +295,8 @@ function InventorySetting() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('inventorySetting.warehouseName')}
-          value={modal?.tempItem?.warehouse?.name}
+          label={t('inventorySetting.itemCode')}
+          value={modal?.tempItem?.item?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
