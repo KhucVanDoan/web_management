@@ -42,9 +42,9 @@ function InventorySettingForm() {
       warehouse: iventorySettingDetail?.warehouse || null,
       item: iventorySettingDetail?.item || null,
       unit: '',
-      inventoryLimit: iventorySettingDetail?.inventoryLimit || '',
-      minInventoryLimit: iventorySettingDetail?.minInventoryLimit || '',
-      maxInventoryLimit: iventorySettingDetail?.maxInventoryLimit || '',
+      inventoryLimit: iventorySettingDetail?.inventoryLimit || 0,
+      minInventoryLimit: iventorySettingDetail?.minInventoryLimit || 0,
+      maxInventoryLimit: iventorySettingDetail?.maxInventoryLimit || 0,
     }),
     [iventorySettingDetail],
   )
