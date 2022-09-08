@@ -21,6 +21,7 @@ import defineWarehouseGroup from './define-warehouse-group'
 import inventorySetting from './inventory-setting'
 import locationManagement from './location-management'
 import managementUnit from './management-unit'
+import qrCode from './qr-code'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import setStoragePeriod from './set-storage-period'
@@ -52,4 +53,5 @@ export default combineReducers({
   defineExpenditureOrg,
   defineExpenditureType,
   setStoragePeriod,
+  qrCode,
 })

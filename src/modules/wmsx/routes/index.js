@@ -57,6 +57,7 @@ import InventorySetting from '../features/inventory-setting/list'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
+import QrCode from '../features/qr-code'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -744,6 +745,19 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'setting',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.QR_CODE.TITLE,
+        path: ROUTE.QR_CODE.PATH,
+        component: QrCode,
+        isInSidebar: true,
       },
     ],
   },

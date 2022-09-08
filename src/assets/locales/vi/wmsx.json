@@ -115,6 +115,8 @@
     "setStoragePeriodCreate": "Tạo thiết lập thời hạn lưu kho",
     "setStoragePeriodEdit": "Sửa thiết lập thời hạn lưu kho",
     "setStoragePeriodDetail": "Chi tiết thiết lập thời hạn lưu kho",
+    "setting": "Cài đặt",
+    "qrCode": "Cấu hình QRCode vật tư",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -181,7 +183,6 @@
     "defineVendorCreate": "Tạo nhà cung cấp",
     "defineVendorEdit": "Sửa nhà cung cấp",
     "inventoryLimit": "Cài đặt tồn kho",
-    "setting": "Cài đặt",
     "inventoryLimitCreate": "Tạo cài đặt tồn kho",
     "inventoryLimitDetails": "Chi tiết cài đặt tồn kho",
     "inventoryLimitEdit": "Sửa cài đặt tồn kho",
@@ -2683,5 +2684,22 @@
     "setStoragePeriodDelete": "Xóa thiết lập thời hạn lưu kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập thời hạn lưu kho này không?",
     "messageWarning": "Thời hạn cảnh báo lưu kho phải nhỏ hơn giới hạn lưu kho"
+  },
+  "qrCode": {
+    "dataVersion": "Phiên bản dữ liệu",
+    "initMethod": "Phương thức khởi tạo",
+    "identifyId": "Id phân định đơn nhất",
+    "id": "ID",
+    "subId1": "Sub ID1",
+    "subId2": "Sub ID2",
+    "subId3": "Sub ID3",
+    "length": "Độ dài",
+    "length1": "Độ dài giá trị 1",
+    "length2": "Độ dài giá trị 2",
+    "length3": "Độ dài giá trị 3",
+    "value": "Giá trị",
+    "value1": "Giá trị 1",
+    "value2": "Giá trị 2",
+    "value3": "Giá trị 3"
   }
 }
