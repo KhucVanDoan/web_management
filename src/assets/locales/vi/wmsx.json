@@ -2617,6 +2617,31 @@
     "defineDrawerDelete": "Xóa ngăn",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá ngăn này không?"
   },
+  "locationManagement": {
+    "list": "Danh sách vị trí",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã vị trí",
+    "name": "Tên vị trí",
+    "warehouseCode": "Mã kho",
+    "assemblyCode": "Mã tổ máy",
+    "drawerCode": "Mã ngăn",
+    "shelfCode": "Mã kệ",
+    "binCode": "Mã hộc",
+    "status": "Trạng thái hoạt động",
+    "description": "Mô tả",
+    "createdAt": "Thời gian tạo",
+    "locationManagementDelete": "Xóa vị trí",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá vị trí này không?",
+    "itemsDetails": "Danh sách vật tư",
+    "item": {
+      "code": "Mã vật tư",
+      "name": "Tên vật tư",
+      "quantity": "Số lượng",
+      "lotNumber": "Số lô",
+      "price": "Đơn giá",
+      "intoMoney": "Thành tiền"
+    }
+  },
   "defineExpenditureOrg": {
     "list": "Danh sách tổ chức chi",
     "searchPlaceholder": "Tìm kiếm tổ chức chi theo mã hoặc tên",

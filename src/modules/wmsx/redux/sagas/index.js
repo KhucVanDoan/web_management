@@ -125,6 +125,13 @@ import watchDeleteInventorySetting from './inventory-setting/delete-inventory-se
 import watchGetDetailInventorySetting from './inventory-setting/get-inventory-setting-detail'
 import watchSearchInventorySetting from './inventory-setting/search-inventory-setting'
 import watchUpdateInventorySetting from './inventory-setting/update-inventory-setting'
+import watchConfirmLocation from './location-management/confirm-location'
+import watchCreateLocation from './location-management/create-location'
+import watchDeleteLocation from './location-management/delete-location'
+import watchGetLocationDetails from './location-management/get-location-details'
+import watchRejectLocation from './location-management/reject-location'
+import watchSearchLocations from './location-management/search-locations'
+import watchUpdateLocation from './location-management/update-location'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
@@ -347,6 +354,14 @@ export default function* sagas() {
     watchDeleteExpenditureType(),
     watchConfirmExpenditureType(),
     watchRejectExpenditureType(),
+    // location-management
+    watchCreateLocation(),
+    watchUpdateLocation(),
+    watchSearchLocations(),
+    watchGetLocationDetails(),
+    watchDeleteLocation(),
+    watchConfirmLocation(),
+    watchRejectLocation(),
 
     //set-storage-period
     watchCreateStoragePeriod(),
