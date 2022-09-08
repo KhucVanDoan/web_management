@@ -54,6 +54,9 @@ import DefineWarehouse from '../features/define-warehouse/list'
 import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
+import LocationManagementDetail from '../features/location-management/detail'
+import LocationManagementForm from '../features/location-management/form'
+import LocationManagement from '../features/location-management/list'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -536,25 +539,25 @@ const routes = [
       {
         name: ROUTE.LOCATION_MANAGEMENT.LIST.TITLE,
         path: ROUTE.LOCATION_MANAGEMENT.LIST.PATH,
-        component: () => null,
+        component: LocationManagement,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.LOCATION_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.LOCATION_MANAGEMENT.CREATE.PATH,
-            component: () => null,
+            component: LocationManagementForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.LOCATION_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.LOCATION_MANAGEMENT.EDIT.PATH,
-            component: () => null,
+            component: LocationManagementForm,
             isInSidebar: true,
           },
           {
             name: ROUTE.LOCATION_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH,
-            component: () => null,
+            component: LocationManagementDetail,
             isInSidebar: true,
           },
         ],
