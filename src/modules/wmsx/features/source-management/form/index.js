@@ -60,9 +60,9 @@ const SourceManagementForm = () => {
       description: detailSourceManagement?.description || '',
       effectiveDate: !isEmpty(detailSourceManagement)
         ? [detailSourceManagement?.dateFrom, detailSourceManagement?.dateTo]
-        : [new Date(), new Date()],
+        : '',
       accountIdentifier: detailSourceManagement?.accountIdentifier || '',
-      companyId: detailSourceManagement?.company?.id || '',
+      companyId: detailSourceManagement?.company || '',
       produceTypeCode: detailSourceManagement?.produceTypeCode || '0000',
       branchCode: detailSourceManagement?.branchCode || '000000',
       productCode: detailSourceManagement?.productCode || '0000',
@@ -103,7 +103,7 @@ const SourceManagementForm = () => {
       internalDepartmentCode: values?.internalDepartmentCode || '000000',
       departmentBackupCode: values?.departmentBackupCode || '0000',
       EVNBackupCode: values?.EVNBackupCode || '0000',
-      companyId: values?.companyId,
+      companyId: values?.companyId?.id,
       description: values?.description,
     }
     if (isUpdate) {
@@ -175,7 +175,30 @@ const SourceManagementForm = () => {
         break
     }
   }
+  const getCodeAcount = (values) => {
+    const companyId = values?.companyId?.code || ''
+    const branchCode = values?.branchCode || ''
+    const costCenterCode = values?.costCenterCode || ''
+    const accountant = values?.accountant || ''
+    const produceTypeCode = values?.produceTypeCode || ''
+    const productCode = values?.productCode || ''
+    const factorialCode = values?.factorialCode || ''
+    const internalDepartmentCode = values?.internalDepartmentCode || ''
+    const departmentBackupCode = values?.departmentBackupCode || ''
+    const EVNBackupCode = values?.EVNBackupCode || ''
 
+    return `${companyId ? `${companyId}` : ''}${
+      branchCode ? `.${branchCode}` : ''
+    }${costCenterCode ? `.${costCenterCode}` : ''}${
+      accountant ? `.${accountant}` : ''
+    }${produceTypeCode ? `.${produceTypeCode}` : ''}${
+      productCode ? `.${productCode}` : ''
+    }${factorialCode ? `.${factorialCode}` : ''}${
+      internalDepartmentCode ? `.${internalDepartmentCode}` : ''
+    }${departmentBackupCode ? `.${departmentBackupCode}` : ''}${
+      EVNBackupCode ? `.${EVNBackupCode}` : ''
+    }`
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -189,7 +212,7 @@ const SourceManagementForm = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ handleReset }) => (
+        {({ handleReset, values }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -244,8 +267,7 @@ const SourceManagementForm = () => {
                       label={t('sourceManagement.accountIdentifier')}
                       name="accountIdentifier"
                       placeholder={t('sourceManagement.accountIdentifier')}
-                      //@TODO doan.khucvan
-                      // value={`${values?.companyId}.${values?.branchCode}.${values?.costCenterCode}.${values?.accountant}.${values?.produceTypeCode}.${values?.productCode}.${values?.factorialCode}.${values?.internalDepartmentCode}.${values?.departmentBackupCode}.${values?.EVNBackupCode}`}
+                      value={getCodeAcount(values)}
                       disabled
                     />
                   </Grid>
@@ -268,7 +290,7 @@ const SourceManagementForm = () => {
                       placeholder={t('sourceManagement.companyId')}
                       options={companyList}
                       getOptionLabel={(opt) => opt?.code}
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionValue={(opt) => opt}
                       required
                     />
                   </Grid>
@@ -382,7 +404,6 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       multiline
-                      required
                       rows={3}
                     />
                   </Grid>

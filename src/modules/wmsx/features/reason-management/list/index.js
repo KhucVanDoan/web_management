@@ -139,9 +139,7 @@ function ReasonManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleDeleteOpenModal(row)}>
-              <Icon name="delete" />
-            </IconButton>
+
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -160,15 +158,13 @@ function ReasonManagement() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        ...columns,
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchReasonManagement(params)
-  }
-
-  const handleDeleteOpenModal = (tempItem) => {
-    setDeleteModal(true)
-    setTempItem(tempItem)
   }
   const onSubmitDelete = () => {
     actions.deleteReasonManagement(tempItem?.id, () => {

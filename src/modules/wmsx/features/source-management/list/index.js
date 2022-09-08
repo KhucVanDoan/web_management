@@ -139,9 +139,6 @@ function SourceManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleDeleteOpenModal(row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -166,10 +163,6 @@ function SourceManagement() {
     actions.searchSourceManagement(params)
   }
 
-  const handleDeleteOpenModal = (tempItem) => {
-    setDeleteModal(true)
-    setTempItem(tempItem)
-  }
   const onSubmitDelete = () => {
     actions.deleteSourceManagement(tempItem?.id, () => {
       refreshData()
