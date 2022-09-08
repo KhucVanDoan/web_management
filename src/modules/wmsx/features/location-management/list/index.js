@@ -14,35 +14,39 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
+import Status from '~/components/Status'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
+import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import {
-  exportInventorySettingApi,
-  getInventorySettingTemplateApi,
-  importInventorySettingApi,
-} from '~/modules/wmsx/redux/sagas/inventory-setting/import-export-inventory-setting'
+  exportLocationApi,
+  getLocationTemplateApi,
+  importLocationApi,
+} from '~/modules/wmsx/redux/sagas/location-management/import-export-location'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
+import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
     title: ROUTE.WAREHOUSE_MANAGEMENT.TITLE,
   },
   {
-    route: ROUTE.INVENTORY_SETTING.LIST.PATH,
-    title: ROUTE.INVENTORY_SETTING.LIST.TITLE,
+    route: ROUTE.LOCATION_MANAGEMENT.LIST.PATH,
+    title: ROUTE.LOCATION_MANAGEMENT.LIST.TITLE,
   },
 ]
 
-function InventorySetting() {
+function LocationManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
 
   const DEFAULT_FILTERS = {
-    warehouseId: '',
-    itemCode: '',
-    itemName: '',
+    code: '',
+    name: '',
+    createdAt: '',
   }
 
   const {
@@ -61,13 +65,14 @@ function InventorySetting() {
   })
 
   const {
-    data: { inventorySettingList, total, isLoading },
+    data: { locationList, total, isLoading },
     actions,
-  } = useInventorySetting()
+  } = useLocationManagement()
 
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
+    isOpenUpdateStatusModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -76,71 +81,53 @@ function InventorySetting() {
   const columns = [
     {
       field: 'warehouseCode',
-      headerName: t('inventorySetting.warehouseCode'),
-      width: 120,
+      headerName: t('locationManagement.warehouseCode'),
+      width: 100,
       sortable: true,
       fixed: true,
-      renderCell: (params) => {
-        return params.row.warehouse?.code
-      },
     },
     {
-      field: 'itemCode',
-      headerName: t('inventorySetting.itemCode'),
-      width: 120,
-      sortable: true,
-      renderCell: (params) => {
-        return params.row.item?.code
-      },
-    },
-    {
-      field: 'itemName',
-      headerName: t('inventorySetting.itemName'),
-      width: 120,
-      renderCell: (params) => {
-        return params.row.item?.name
-      },
-    },
-    {
-      field: 'unit',
-      headerName: t('inventorySetting.unit'),
+      field: 'code',
+      headerName: t('locationManagement.code'),
       width: 100,
+      sortable: true,
+      fixed: true,
+    },
+    {
+      field: 'description',
+      headerName: t('locationManagement.description'),
+      width: 120,
+    },
+    {
+      field: 'status',
+      headerName: t('locationManagement.status'),
+      width: 120,
       renderCell: (params) => {
-        return params.row.itenUnit?.name
+        const status = Number(params?.row.status)
+        return (
+          <Status
+            options={ACTIVE_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
-    },
-    {
-      field: 'minInventoryLimit',
-      headerName: t('inventorySetting.minInventoryLimit'),
-      width: 50,
-      sortable: true,
-    },
-    {
-      field: 'inventoryLimit',
-      headerName: t('inventorySetting.inventoryLimit'),
-      width: 50,
-      sortable: true,
-    },
-    {
-      field: 'maxInventoryLimit',
-      headerName: t('inventorySetting.maxInventoryLimit'),
-      width: 50,
-      sortable: true,
     },
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 120,
+      width: 150,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params?.row
+        const { id, status } = params?.row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.INVENTORY_SETTING.DETAIL.PATH.replace(':id', `${id}`),
+                  ROUTE.LOCATION_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -149,7 +136,7 @@ function InventorySetting() {
             <IconButton
               onClick={() =>
                 history.push(
-                  ROUTE.INVENTORY_SETTING.EDIT.PATH.replace(':id', `${id}`),
+                  ROUTE.LOCATION_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
                 )
               }
             >
@@ -157,6 +144,9 @@ function InventorySetting() {
             </IconButton>
             <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </div>
         )
@@ -169,13 +159,12 @@ function InventorySetting() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(
-        { ...filters, warehouseId: filters?.warehouse?.id },
-        [{ field: 'createdAt', filterFormat: 'date' }],
-      ),
+      filter: convertFilterParams(filters, [
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
-    actions.searchInventorySetting(params)
+    actions.searchLocations(params)
   }
 
   useEffect(() => {
@@ -191,7 +180,7 @@ function InventorySetting() {
   }
 
   const onSubmitDelete = () => {
-    actions.deleteInventorySetting(modal.tempItem?.id, () => {
+    actions.deleteLocation(modal.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
@@ -201,13 +190,32 @@ function InventorySetting() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
+  const onClickUpdateStatus = (tempItem) => {
+    setModal({ tempItem, isOpenUpdateStatusModal: true })
+  }
+
+  const onSubmitUpdateStatus = () => {
+    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectLocationById(modal.tempItem?.id, () => refreshData())
+    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmLocationById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  }
+
+  const onCloseUpdateStatusModal = () => {
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  }
+
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
-          onImport={(params) => importInventorySettingApi(params)}
+          onImport={(params) => importLocationApi(params)}
           onExport={() =>
-            exportInventorySettingApi({
+            exportLocationApi({
               columnSettings: JSON.stringify(columnsSettings),
               queryIds: JSON.stringify(
                 selectedRows?.map((x) => ({ id: `${x?.id}` })),
@@ -219,12 +227,12 @@ function InventorySetting() {
               sort: convertSortParams(sort),
             })
           }
-          onDownloadTemplate={getInventorySettingTemplateApi}
+          onDownloadTemplate={getLocationTemplateApi}
           onRefresh={refreshData}
           disabled
         />
         <Button
-          onClick={() => history.push(ROUTE.INVENTORY_SETTING.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.LOCATION_MANAGEMENT.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
           icon="add"
         >
@@ -237,15 +245,15 @@ function InventorySetting() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.inventorySetting')}
+      title={t('menu.locationManagement')}
       onSearch={setKeyword}
-      placeholder={t('inventorySetting.searchPlaceholder')}
+      placeholder={t('locationManagement.searchPlaceholder')}
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <DataTable
-        title={t('inventorySetting.list')}
-        rows={inventorySettingList}
+        title={t('locationManagement.list')}
+        rows={locationList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -262,10 +270,13 @@ function InventorySetting() {
           values: filters,
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
+          validationSchema: filterSchema(t),
         }}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
-          apiUrl: API_URL.INVENTORY_SETTING,
+          /* @TODO update uri */
+
+          apiUrl: API_URL.COMPANY,
           onSuccess: () => {
             if (page === 1) {
               refreshData()
@@ -278,7 +289,7 @@ function InventorySetting() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('inventorySetting.inventorySettingDelete')}
+        title={t('locationManagement.locationManagementDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -288,15 +299,53 @@ function InventorySetting() {
         }}
         noBorderBottom
       >
-        {t('inventorySetting.deleteConfirm')}
+        {t('locationManagement.deleteConfirm')}
         <LV
-          label={t('inventorySetting.warehouseCode')}
-          value={modal?.tempItem?.warehouse?.code}
+          label={t('locationManagement.code')}
+          value={modal?.tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('inventorySetting.itemCode')}
-          value={modal?.tempItem?.item?.name}
+          label={t('locationManagement.description')}
+          value={modal?.tempItem?.description}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={modal.isOpenUpdateStatusModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitUpdateStatus}
+        submitLabel={t('general:common.yes')}
+        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
+        noBorderBottom
+      >
+        {t('general.confirmMessage')}
+        <LV
+          label={t('locationManagement.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('locationManagement.description')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={modal?.tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -304,4 +353,4 @@ function InventorySetting() {
   )
 }
 
-export default InventorySetting
+export default LocationManagement

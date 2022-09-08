@@ -19,6 +19,7 @@ import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehouseGroup from './define-warehouse-group'
 import inventorySetting from './inventory-setting'
+import locationManagement from './location-management'
 import managementUnit from './management-unit'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
@@ -42,6 +43,7 @@ export default combineReducers({
   defineProducingCountry,
   defineWarehouse,
   inventorySetting,
+  locationManagement,
   defineWarehouseGroup,
   defineShelf,
   defineAssembly,
