@@ -459,4 +459,11 @@ export const ROUTE = {
       TITLE: 'setStoragePeriodDetail',
     },
   },
+  SETTING: {
+    TITLE: 'setting',
+  },
+  QR_CODE: {
+    PATH: '/wmsx/qr-code',
+    TITLE: 'qrCode',
+  },
 }

@@ -136,6 +136,8 @@ import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchSearchManagementUnit from './management-unit/search'
+import watchGetQrCodeDetails from './qr-code/get-qr-code-details'
+import watchUpdateQrCode from './qr-code/update-qr-code'
 import watchConfirmReasonManagement from './reason-management/confirm'
 import watchCreateReasonManagement from './reason-management/create'
 import watchDeleteReasonManagement from './reason-management/delete'
@@ -369,5 +371,9 @@ export default function* sagas() {
     watchSearchStoragePeriods(),
     watchGetStoragePeriodDetails(),
     watchDeleteStoragePeriod(),
+
+    //QR-code
+    watchGetQrCodeDetails(),
+    watchUpdateQrCode(),
   ])
 }
