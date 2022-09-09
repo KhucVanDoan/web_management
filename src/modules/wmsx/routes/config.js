@@ -466,4 +466,25 @@ export const ROUTE = {
     PATH: '/wmsx/qr-code',
     TITLE: 'qrCode',
   },
+  RECEIPT_MANAGEMENT: {
+    TITLE: 'receiptCommandManagement',
+  },
+  WAREHOUSE_EXPORT_RECEIPT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-export-receipt',
+      TITLE: 'warehouseExportReceipt',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-export-receipt/create',
+      TITLE: 'warehouseExportReceiptCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-export-receipt/:id/edit',
+      TITLE: 'warehouseExportReceiptEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-export-receipt/:id/detail',
+      TITLE: 'warehouseExportReceiptDetail',
+    },
+  },
 }

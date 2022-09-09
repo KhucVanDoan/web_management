@@ -26,7 +26,7 @@ import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import setStoragePeriod from './set-storage-period'
 import sourceManagement from './source-management'
-
+import warehouseExportReceipt from './warehouse-export-receipt'
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -54,4 +54,5 @@ export default combineReducers({
   defineExpenditureType,
   setStoragePeriod,
   qrCode,
+  warehouseExportReceipt,
 })

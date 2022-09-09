@@ -119,12 +119,12 @@ const ItemSettingTable = ({ items, arrayHelpers, mode }) => {
         }}
       >
         <Typography variant="h4" component="span">
-          {t('businessTypeManagement.items.fieldList')}
+          {t('businessTypeManagement.items.suppliesList')}
         </Typography>
 
         {!isView && (
           <Button variant="outlined" onClick={() => setIsOpenModal(true)}>
-            {t('businessTypeManagement.addButton')}
+            {t('businessTypeManagement.items.addSupplies')}
           </Button>
         )}
       </Box>
