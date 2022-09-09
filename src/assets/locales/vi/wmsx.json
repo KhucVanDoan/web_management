@@ -2346,8 +2346,6 @@
     "description": "Mô tả",
     "status": "Trạng thái hoạt động",
     "createTime": "Thời gian tạo",
-    "companyManagementDelete": "Xóa công ty",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá không?",
     "user": "Người tạo",
     "createDate": "Ngày tạo"
   },
@@ -2358,9 +2356,7 @@
     "name": "Tên công trình",
     "description": "Mô tả công trình",
     "status": "Trạng thái hoạt động",
-    "createTime": "Thời gian tạo",
-    "constructionManagementDelete": "Xóa công trình",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá công trình này không?"
+    "createTime": "Thời gian tạo"
   },
   "constructionItemsManagement": {
     "list": "Danh sách hạng mục",
@@ -2370,9 +2366,7 @@
     "constructionCode": "Mã công trình",
     "description": "Mô tả",
     "status": "Trạng thái hoạt động",
-    "createTime": "Thời gian tạo",
-    "constructionItemsManagementDelete": "Xóa hạng mục",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá hạng mục này không?"
+    "createTime": "Thời gian tạo"
   },
   "businessTypeManagement": {
     "list": "Danh sách loại nghiệp vụ",
@@ -2459,9 +2453,7 @@
     "name": "Tên đối tượng",
     "description": "Mô tả",
     "status": "Trạng thái hoạt động",
-    "createdAt": "Thời gian tạo",
-    "defineObjectCategoryDelete": "Xóa danh mục đối tượng",
-    "deleteConfirm": "Bạn có chắc chắn muốn xoá danh mục đối tượng này không?"
+    "createdAt": "Thời gian tạo"
   },
   "reasonManagement": {
     "title": "Danh sách Reason",

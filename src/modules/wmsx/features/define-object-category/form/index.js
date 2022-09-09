@@ -184,7 +184,7 @@ function DefineObjectCategoryForm() {
                       label={t('defineObjectCategory.code')}
                       placeholder={t('defineObjectCategory.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}

@@ -27,7 +27,6 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
-import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
@@ -46,7 +45,7 @@ function DefineObjectCategory() {
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
-    createdAt: [],
+    createdAt: null,
   }
 
   const {
@@ -71,7 +70,6 @@ function DefineObjectCategory() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -148,9 +146,6 @@ function DefineObjectCategory() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -180,21 +175,6 @@ function DefineObjectCategory() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteObjectCategory(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -276,7 +256,6 @@ function DefineObjectCategory() {
           values: filters,
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
-          validationSchema: filterSchema(t),
         }}
         bulkActions={{
           actions: [BULK_ACTION.DELETE],
@@ -293,30 +272,6 @@ function DefineObjectCategory() {
           },
         }}
       />
-      <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineObjectCategory.defineObjectCategoryDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('defineObjectCategory.deleteConfirm')}
-        <LV
-          label={t('defineObjectCategory.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineObjectCategory.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}

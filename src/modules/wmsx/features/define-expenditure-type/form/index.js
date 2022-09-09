@@ -16,11 +16,12 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineExpenditureType from '~/modules/wmsx/redux/hooks/useDefineExpenditureType'
 import { searchExpenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/search-expenditure-org'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -209,6 +210,9 @@ function DefineExpenditureTypeForm() {
                         searchSourceManagementApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -258,7 +262,6 @@ function DefineExpenditureTypeForm() {
                       }}
                       multiline
                       rows={3}
-                      required
                     />
                   </Grid>
                 </Grid>
