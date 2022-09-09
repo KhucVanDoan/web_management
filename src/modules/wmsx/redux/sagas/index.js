@@ -164,6 +164,13 @@ import watchGetSourceManagement from './source-management/get-detail'
 import watchRejectSourceManagement from './source-management/reject'
 import watchSearchSourceManagement from './source-management/search'
 import watchUpdateSourceManagement from './source-management/update'
+import watchConfirmWarehouseExportReceipt from './warehouse-export-receipt/confirm'
+import watchCreateWarehouseExportReceipt from './warehouse-export-receipt/create'
+import watchDeleteWarehouseExportReceipt from './warehouse-export-receipt/delete'
+import watchGetWarehouseExportReceiptDetails from './warehouse-export-receipt/get-details'
+import watchRejectWarehouseExportReceipt from './warehouse-export-receipt/reject'
+import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search'
+import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
 
 /**
  * Root saga
@@ -375,5 +382,13 @@ export default function* sagas() {
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),
+    //warehouse-export-receipt
+    watchSearchWarehouseExportReceipt(),
+    watchCreateWarehouseExportReceipt(),
+    watchUpdateWarehouseExportReceipt(),
+    watchGetWarehouseExportReceiptDetails(),
+    watchDeleteWarehouseExportReceipt(),
+    watchConfirmWarehouseExportReceipt(),
+    watchRejectWarehouseExportReceipt(),
   ])
 }

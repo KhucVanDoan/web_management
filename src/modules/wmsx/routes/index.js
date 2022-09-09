@@ -73,6 +73,9 @@ import SourceManagement from '../features/source-management/list'
 import UnitManagementDetail from '../features/unit-management/detail'
 import UnitManagementForm from '../features/unit-management/form'
 import UnitManagement from '../features/unit-management/list'
+import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
+import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
+import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -742,6 +745,39 @@ const routes = [
             name: ROUTE.INVENTORY_SETTING.EDIT.TITLE,
             path: ROUTE.INVENTORY_SETTING.EDIT.PATH,
             component: InventorySettingForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.RECEIPT_MANAGEMENT.TITLE,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH,
+        component: WarehouseExportReceipt,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH,
+            component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH,
+            component: WarehouseExportReceiptDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
+            component: WarehouseExportReceiptForm,
             isInSidebar: false,
           },
         ],
