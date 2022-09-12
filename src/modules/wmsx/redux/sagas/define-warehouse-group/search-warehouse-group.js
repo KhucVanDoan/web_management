@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const searchWarehouseGroupApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/list`
+  const uri = `/v1/warehouses/warehouse-type-settings/list/pagination`
   return api.get(uri, params)
 }
 

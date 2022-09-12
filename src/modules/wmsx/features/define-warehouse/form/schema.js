@@ -1,33 +1,14 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-
 export const formSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-        }),
-      ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
-        }),
-      ),
-    companyCode: Yup.string().required(t('general:form.required')),
-    type: Yup.string().required(t('general:form.required')),
-    nature: Yup.string().required(t('general:form.required')),
-    lotManagement: Yup.string().required(t('general:form.required')),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    code: Yup.string().required(t('general:form.required')),
+    name: Yup.string().required(t('general:form.required')),
+    warehouseTypeSetting: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
+    warehouseType: Yup.string().required(t('general:form.required')),
+    warehouseCharacteristic: Yup.string().required(t('general:form.required')),
+    manageByLot: Yup.string().required(t('general:form.required')),
+    description: Yup.string(),
   })
