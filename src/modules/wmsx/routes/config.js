@@ -459,6 +459,28 @@ export const ROUTE = {
       TITLE: 'setStoragePeriodDetail',
     },
   },
+  MATERIAL_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/material-management',
+      TITLE: 'materialManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/material-management/create',
+      TITLE: 'materialManagementCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/material-management/:id/edit',
+      TITLE: 'materialManagementEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/material-management/:id/detail',
+      TITLE: 'materialManagementDetail',
+    },
+    EDIT_WAREHOUSE_SOURCE: {
+      PATH: '/wmsx/material-management/:id/edit-warehouse-source',
+      TITLE: 'materialManagementEditWarehouseSource',
+    },
+  },
   SETTING: {
     TITLE: 'setting',
   },

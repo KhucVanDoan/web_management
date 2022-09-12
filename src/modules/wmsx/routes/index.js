@@ -57,6 +57,9 @@ import InventorySetting from '../features/inventory-setting/list'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
+import MaterialManagementDetail from '../features/material-management/detail'
+import MaterialManagementForm from '../features/material-management/form'
+import MaterialManagement from '../features/material-management/list'
 import QrCode from '../features/qr-code'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
@@ -751,6 +754,39 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.MATERIAL_MANAGEMENT.LIST.TITLE,
+    icon: 'database',
+    path: ROUTE.MATERIAL_MANAGEMENT.LIST.PATH,
+    component: MaterialManagement,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.CREATE.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH,
+        component: MaterialManagementForm,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.DETAIL.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.DETAIL.PATH,
+        component: MaterialManagementDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH,
+        component: MaterialManagementDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.EDIT.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.EDIT.PATH,
+        component: MaterialManagementForm,
+        isInSidebar: false,
       },
     ],
   },

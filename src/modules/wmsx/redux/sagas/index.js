@@ -138,6 +138,14 @@ import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchSearchManagementUnit from './management-unit/search'
+import watchConfirmMaterial from './material-management/confirm-material'
+import watchCreateMaterial from './material-management/create-material'
+import watchDeleteMaterial from './material-management/delete-material'
+import watchGetMaterialDetails from './material-management/get-material-details'
+import watchRejectMaterial from './material-management/reject-material'
+import watchSearchMaterials from './material-management/search-materials'
+import watchUpdateMaterial from './material-management/update-material'
+import watchUpdateWarehouseSource from './material-management/update-warehouse-source'
 import watchGetQrCodeDetails from './qr-code/get-qr-code-details'
 import watchUpdateQrCode from './qr-code/update-qr-code'
 import watchConfirmReasonManagement from './reason-management/confirm'
@@ -383,6 +391,15 @@ export default function* sagas() {
     watchGetStoragePeriodDetails(),
     watchDeleteStoragePeriod(),
 
+    //material-management
+    watchCreateMaterial(),
+    watchUpdateMaterial(),
+    watchSearchMaterials(),
+    watchGetMaterialDetails(),
+    watchDeleteMaterial(),
+    watchConfirmMaterial(),
+    watchRejectMaterial(),
+    watchUpdateWarehouseSource(),
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),
