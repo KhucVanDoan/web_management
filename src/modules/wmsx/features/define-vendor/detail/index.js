@@ -7,7 +7,9 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -55,6 +57,17 @@ const DefineVendorDetail = () => {
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item xs={12}>
+              <LV
+                label={t('defineVendor.status')}
+                value={
+                  <Status
+                    options={ACTIVE_STATUS_OPTIONS}
+                    value={vendorDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV label={t('defineVendor.code')} value={vendorDetails.code} />
             </Grid>

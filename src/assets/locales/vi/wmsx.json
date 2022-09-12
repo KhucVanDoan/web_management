@@ -1109,6 +1109,7 @@
     "fax": "FAX",
     "email": "Email",
     "taxNo": "Mã số thuế",
+    "status": "Trạng thái hoạt động",
     "description": "Mô tả nhà cung cấp",
     "confirmDelete": "Bạn có chắc chắn muốn xoá nhà cung cấp này không?",
     "deleteModalTitle": "Xóa nhà cung cấp"

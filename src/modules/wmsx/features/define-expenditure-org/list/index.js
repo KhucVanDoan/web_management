@@ -14,7 +14,10 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
 import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/company-management/import-export-company'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -41,7 +44,7 @@ function DefineExpenditureOrg() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
+    isOpenUpdateStatusModal: false,
   })
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
@@ -63,44 +66,59 @@ function DefineExpenditureOrg() {
     {
       field: 'code',
       headerName: t('defineExpenditureOrg.code'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'name',
       headerName: t('defineExpenditureOrg.name'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'email',
       headerName: t('defineExpenditureOrg.email'),
-      width: 200,
+      width: 150,
       sortable: true,
     },
     {
       field: 'phone',
       headerName: t('defineExpenditureOrg.phone'),
-      width: 200,
+      width: 150,
       sortable: true,
     },
     {
       field: 'description',
       headerName: t('defineExpenditureOrg.description'),
       filterFormat: 'date',
-      width: 200,
+      width: 150,
+    },
+    {
+      field: 'status',
+      headerName: t('defineExpenditureOrg.status'),
+      width: 120,
+      renderCell: (params) => {
+        const status = Number(params?.row?.status)
+        return (
+          <Status
+            options={ACTIVE_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
+      },
     },
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 200,
-      sortable: false,
+      width: 150,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params.row
+        const { id, status } = params.row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
@@ -127,8 +145,8 @@ function DefineExpenditureOrg() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
-              <Icon name="delete" />
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </div>
         )
@@ -155,25 +173,25 @@ function DefineExpenditureOrg() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const handleOpenDeleteModal = (tempItem) => {
-    setModal({
-      tempItem,
-      isOpenDeleteModal: true,
-    })
+  const onClickUpdateStatus = (tempItem) => {
+    setModal({ tempItem, isOpenUpdateStatusModal: true })
   }
 
-  const onSubmitDeleteModal = () => {
-    actions.deleteExpenditureOrg(modal?.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+  const onSubmitUpdateStatus = () => {
+    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectExpenditureOrgById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmExpenditureOrgById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
   }
 
-  const onCloseDeleteModal = () => {
-    setModal({
-      tempItem: null,
-      isOpenDeleteModal: false,
-    })
+  const onCloseUpdateStatusModal = () => {
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
   }
 
   const renderHeaderRight = () => {
@@ -248,18 +266,22 @@ function DefineExpenditureOrg() {
         }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineExpenditureOrg.defineExpenditureOrgDelete')}
-        onCancel={onCloseDeleteModal}
+        open={modal.isOpenUpdateStatusModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDeleteModal}
+        onSubmit={onSubmitUpdateStatus}
         submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
+        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
         noBorderBottom
       >
-        {t('defineExpenditureOrg.deleteConfirm')}
+        {t('general.confirmMessage')}
         <LV
           label={t('defineExpenditureOrg.code')}
           value={modal?.tempItem?.code}
@@ -268,6 +290,16 @@ function DefineExpenditureOrg() {
         <LV
           label={t('defineExpenditureOrg.name')}
           value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={modal?.tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
