@@ -487,4 +487,22 @@ export const ROUTE = {
       TITLE: 'warehouseExportReceiptDetail',
     },
   },
+  WAREHOUSE_IMPORT_RECEIPT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-import-receipt',
+      TITLE: 'warehouseImportReceipt',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-import-receipt/create',
+      TITLE: 'warehouseImportReceiptCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-import-receipt/:id/edit',
+      TITLE: 'warehouseImportReceiptEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-import-receipt/:id/detail',
+      TITLE: 'warehouseImportReceiptDetail',
+    },
+  },
 }
