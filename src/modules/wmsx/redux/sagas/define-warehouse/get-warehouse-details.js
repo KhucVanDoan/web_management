@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 const getWarehouseDetailsApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}`
+  const uri = `/v1/warehouses/${params}`
   return api.get(uri)
 }
 

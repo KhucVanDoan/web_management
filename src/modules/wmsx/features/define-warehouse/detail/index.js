@@ -87,28 +87,30 @@ function DefineWarehouseDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('defineWarehouse.companyCode')}
-                value={warehouseDetails?.oompany?.code || ''}
+                label={t('defineWarehouse.groupCode')}
+                value={warehouseDetails?.warehouseTypeSetting?.code || ''}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineWarehouse.type')}
-                value={t(WAREHOUSE_TYPE_MAP[warehouseDetails?.type])}
+                value={t(WAREHOUSE_TYPE_MAP[warehouseDetails?.warehouseType])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineWarehouse.nature')}
-                value={t(WAREHOUSE_NATURE_MAP[warehouseDetails?.nature])}
+                value={t(
+                  WAREHOUSE_NATURE_MAP[
+                    warehouseDetails?.warehouseCharacteristic
+                  ],
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineWarehouse.lotManagement')}
-                value={t(
-                  WAREHOUSE_LOT_TYPE_MAP[warehouseDetails?.lotManagement],
-                )}
+                value={t(WAREHOUSE_LOT_TYPE_MAP[warehouseDetails?.manageByLot])}
               />
             </Grid>
             <Grid item xs={12}>

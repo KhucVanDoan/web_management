@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateWarehouseGroupApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params?.id}`
+  const uri = `/v1/warehouses/warehouse-type-settings/${params?.id}`
   return api.put(uri, params)
 }
 
