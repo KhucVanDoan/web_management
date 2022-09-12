@@ -8,7 +8,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -21,8 +21,7 @@ const FilterForm = () => {
           label={t('inventorySetting.warehouseCode')}
           placeholder={t('inventorySetting.warehouseCode')}
           asyncRequest={(s) =>
-            // @TODO update api
-            searchCompaniesApi({
+            searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
