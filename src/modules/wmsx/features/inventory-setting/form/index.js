@@ -15,6 +15,7 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import { formSchema } from './schema'
@@ -170,8 +171,7 @@ function InventorySettingForm() {
                       label={t('inventorySetting.warehouseCode')}
                       placeholder={t('inventorySetting.warehouseCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })

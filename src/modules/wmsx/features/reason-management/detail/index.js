@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -49,7 +49,7 @@ const ManagementDetail = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.reasonManagement')}
+      title={t('menu.reasonManagementDetail')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -58,11 +58,11 @@ const ManagementDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             <Grid item xs={12}>
               <LV
-                label={t('reasonManagement.status')}
+                label={<Typography>{t('reasonManagement.status')}</Typography>}
                 value={
                   <Status
                     options={ACTIVE_STATUS_OPTIONS}
-                    value={detailReasonManagement?.staus}
+                    value={detailReasonManagement?.status}
                   />
                 }
               />

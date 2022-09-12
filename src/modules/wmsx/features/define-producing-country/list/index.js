@@ -68,7 +68,6 @@ function DefineProducingCountry() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -145,9 +144,6 @@ function DefineProducingCountry() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -177,21 +173,6 @@ function DefineProducingCountry() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteProducingCountry(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -293,30 +274,6 @@ function DefineProducingCountry() {
           },
         }}
       />
-      <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineProducingCountry.defineProducingCountryDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('defineProducingCountry.deleteConfirm')}
-        <LV
-          label={t('defineProducingCountry.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineProducingCountry.name')}
-          value={modal?.tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}

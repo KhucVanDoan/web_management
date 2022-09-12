@@ -14,6 +14,14 @@ export const DELETE_VENDOR_START = 'WMSX_DELETE_VENDOR_START'
 export const DELETE_VENDOR_SUCCESS = 'WMSX_DELETE_VENDOR_SUCCESS'
 export const DELETE_VENDOR_FAILED = 'WMSX_DELETE_VENDOR_FAILED'
 
+export const CONFIRM_VENDOR_START = 'WMSX_CONFIRM_VENDOR_START'
+export const CONFIRM_VENDOR_SUCCESS = 'WMSX_CONFIRM_VENDOR_SUCCESS'
+export const CONFIRM_VENDOR_FAILED = 'WMSX_CONFIRM_VENDOR_FAILED'
+
+export const REJECT_VENDOR_START = 'WMSX_REJECT_VENDOR_START'
+export const REJECT_VENDOR_SUCCESS = 'WMSX_REJECT_VENDOR_SUCCESS'
+export const REJECT_VENDOR_FAILED = 'WMSX_REJECT_VENDOR_FAILED'
+
 export const GET_VENDOR_DETAILS_START = 'WMSX_GET_VENDOR_DETAILS_START'
 export const GET_VENDOR_DETAILS_SUCCESS = 'WMSX_GET_VENDOR_DETAILS_SUCCESS'
 export const GET_VENDOR_DETAILS_FAILED = 'WMSX_GET_VENDOR_DETAILS_FAILED'
@@ -248,6 +256,51 @@ export function importVendorFailed() {
     type: IMPORT_VENDOR_FAILED,
   }
 }
+
+export function confirmVendorById(Id, onSuccess, onError) {
+  return {
+    type: CONFIRM_VENDOR_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmVendorByIdSuccess(payload) {
+  return {
+    type: CONFIRM_VENDOR_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmVendorByIdFailed() {
+  return {
+    type: CONFIRM_VENDOR_FAILED,
+  }
+}
+
+export function rejectVendorById(Id, onSuccess, onError) {
+  return {
+    type: REJECT_VENDOR_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function rejectVendorByIdSuccess(payload) {
+  return {
+    type: REJECT_VENDOR_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function rejectVendorByIdFailed() {
+  return {
+    type: REJECT_VENDOR_FAILED,
+  }
+}
+
 export function resetDetailVendorState() {
   return {
     type: RESET_DETAIL_VENDOR_STATE,
@@ -272,5 +325,11 @@ export default {
   importVendor,
   importVendorSuccess,
   importVendorFailed,
+  confirmVendorById,
+  confirmVendorByIdSuccess,
+  confirmVendorByIdFailed,
+  rejectVendorById,
+  rejectVendorByIdSuccess,
+  rejectVendorByIdFailed,
   resetDetailVendorState,
 }

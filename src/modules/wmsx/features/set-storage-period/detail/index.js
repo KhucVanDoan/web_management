@@ -68,18 +68,6 @@ function SetStoragePeriodDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('setStoragePeriod.materialCode')}
-                value={storagePeriodDetails?.item?.code}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('setStoragePeriod.materialName')}
-                value={storagePeriodDetails?.item?.name}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
                 label={t('setStoragePeriod.storageLimitTitle')}
                 value={`${storagePeriodDetails?.expiryWarehouse} ${t(
                   'general.day',

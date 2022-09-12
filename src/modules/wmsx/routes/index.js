@@ -57,6 +57,7 @@ import InventorySetting from '../features/inventory-setting/list'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
+import QrCode from '../features/qr-code'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
 import ReasonManagement from '../features/reason-management/list'
@@ -72,6 +73,12 @@ import SourceManagement from '../features/source-management/list'
 import UnitManagementDetail from '../features/unit-management/detail'
 import UnitManagementForm from '../features/unit-management/form'
 import UnitManagement from '../features/unit-management/list'
+import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
+import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
+import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
+import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
+import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/form'
+import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -744,6 +751,78 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.RECEIPT_MANAGEMENT.TITLE,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
+        component: WarehouseImportReceipt,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH,
+            component: WarehouseImportReceiptForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH,
+            component: WarehouseImportReceiptDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH,
+            component: WarehouseImportReceiptForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH,
+        component: WarehouseExportReceipt,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH,
+            component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH,
+            component: WarehouseExportReceiptDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
+            component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.SETTING.TITLE,
+    icon: 'setting',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.QR_CODE.TITLE,
+        path: ROUTE.QR_CODE.PATH,
+        component: QrCode,
+        isInSidebar: true,
       },
     ],
   },

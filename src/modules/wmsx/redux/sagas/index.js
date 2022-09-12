@@ -100,10 +100,12 @@ import watchGetUomDetails from './define-uom/get-uom-details'
 import watchRejectUom from './define-uom/reject-uom'
 import watchSearchUoms from './define-uom/search-uom'
 import watchUpdateUom from './define-uom/update-uom'
+import watchConfirmVendor from './define-vendor/confirm-vendor'
 import watchCreateVendor from './define-vendor/create-vendor'
 import watchDeleteVendor from './define-vendor/delete-vendor'
 import watchGetVendorDetails from './define-vendor/get-vendor-details'
 import watchImportVendor from './define-vendor/import-vendor'
+import watchRejectVendor from './define-vendor/reject-vendor'
 import watchSearchVendors from './define-vendor/search-vendors'
 import watchUpdateVendor from './define-vendor/updata-vendor'
 import watchConfirmWarehouseGroup from './define-warehouse-group/confirm-warehouse-group'
@@ -136,6 +138,8 @@ import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchSearchManagementUnit from './management-unit/search'
+import watchGetQrCodeDetails from './qr-code/get-qr-code-details'
+import watchUpdateQrCode from './qr-code/update-qr-code'
 import watchConfirmReasonManagement from './reason-management/confirm'
 import watchCreateReasonManagement from './reason-management/create'
 import watchDeleteReasonManagement from './reason-management/delete'
@@ -162,6 +166,13 @@ import watchGetSourceManagement from './source-management/get-detail'
 import watchRejectSourceManagement from './source-management/reject'
 import watchSearchSourceManagement from './source-management/search'
 import watchUpdateSourceManagement from './source-management/update'
+import watchConfirmWarehouseExportReceipt from './warehouse-export-receipt/confirm'
+import watchCreateWarehouseExportReceipt from './warehouse-export-receipt/create'
+import watchDeleteWarehouseExportReceipt from './warehouse-export-receipt/delete'
+import watchGetWarehouseExportReceiptDetails from './warehouse-export-receipt/get-details'
+import watchRejectWarehouseExportReceipt from './warehouse-export-receipt/reject'
+import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search'
+import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
 
 /**
  * Root saga
@@ -178,6 +189,8 @@ export default function* sagas() {
     watchImportVendor(),
     watchSearchVendors(),
     watchUpdateVendor(),
+    watchConfirmVendor(),
+    watchRejectVendor(),
 
     // management-unit
     watchCreateManagementUnit(),
@@ -369,5 +382,17 @@ export default function* sagas() {
     watchSearchStoragePeriods(),
     watchGetStoragePeriodDetails(),
     watchDeleteStoragePeriod(),
+
+    //QR-code
+    watchGetQrCodeDetails(),
+    watchUpdateQrCode(),
+    //warehouse-export-receipt
+    watchSearchWarehouseExportReceipt(),
+    watchCreateWarehouseExportReceipt(),
+    watchUpdateWarehouseExportReceipt(),
+    watchGetWarehouseExportReceiptDetails(),
+    watchDeleteWarehouseExportReceipt(),
+    watchConfirmWarehouseExportReceipt(),
+    watchRejectWarehouseExportReceipt(),
   ])
 }
