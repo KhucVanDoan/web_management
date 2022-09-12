@@ -14,7 +14,7 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useSetStoragePeriod from '~/modules/wmsx/redux/hooks/useSetStoragePeriod'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import { formSchema } from './schema'
@@ -40,7 +40,6 @@ function SetStoragePeriodForm() {
   const initialValues = useMemo(
     () => ({
       warehouse: storagePeriodDetails?.warehouse || null,
-      material: storagePeriodDetails?.item || null,
       expiryWarehouse: storagePeriodDetails?.expiryWarehouse || 365,
       expiryWarningWarehouse: storagePeriodDetails?.expiryWarningWarehouse || 0,
     }),
@@ -106,7 +105,6 @@ function SetStoragePeriodForm() {
     const convertValues = {
       id,
       ...values,
-      itemId: values?.material?.id,
       warehouseId: values?.warehouse?.id,
       expiryWarehouse: Number(values?.expiryWarehouse),
       expiryWarningWarehouse: Number(values?.expiryWarningWarehouse),
@@ -169,8 +167,7 @@ function SetStoragePeriodForm() {
                       label={t('setStoragePeriod.warehouseCode')}
                       placeholder={t('setStoragePeriod.warehouseCode')}
                       asyncRequest={(s) =>
-                        //TODO: đổi api đúng, hiện tại chưa có màn đó nên dùng tạm
-                        searchCompaniesApi({
+                        searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
@@ -187,33 +184,6 @@ function SetStoragePeriodForm() {
                       name="warehouse.name"
                       label={t('setStoragePeriod.warehouseName')}
                       placeholder={t('setStoragePeriod.warehouseName')}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="material"
-                      label={t('setStoragePeriod.materialCode')}
-                      placeholder={t('setStoragePeriod.materialCode')}
-                      asyncRequest={(s) =>
-                        //TODO: đổi api đúng, hiện tại chưa có màn đó nên dùng tạm
-                        searchCompaniesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="material.name"
-                      label={t('setStoragePeriod.materialName')}
-                      placeholder={t('setStoragePeriod.materialName')}
                       disabled
                     />
                   </Grid>

@@ -2671,8 +2671,6 @@
     "searchPlaceholder": "Tìm kiếm thông tin...",
     "warehouseCode": "Mã kho",
     "warehouseName": "Tên kho",
-    "materialCode": "Mã vật tư",
-    "materialName": "Tên vật tư",
     "storageLimit": "Giới hạn lưu kho (ngày)",
     "storageLimitTitle": "Giới hạn lưu kho",
     "warningPeriod": "Thời hạn cảnh báo lưu kho (ngày)",

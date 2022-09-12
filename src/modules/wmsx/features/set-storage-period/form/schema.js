@@ -5,7 +5,6 @@ import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 export const formSchema = (t) =>
   Yup.object().shape({
     warehouse: Yup.object().nullable().required(t('general:form.required')),
-    material: Yup.object().nullable().required(t('general:form.required')),
     expiryWarehouse: Yup.number()
       .nullable()
       .required(t('general:form.required'))

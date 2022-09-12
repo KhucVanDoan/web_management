@@ -92,23 +92,6 @@ function SetStoragePeriod() {
       },
     },
     {
-      field: 'materialCode',
-      headerName: t('setStoragePeriod.materialCode'),
-      width: 120,
-      sortable: true,
-      renderCell: (params) => {
-        return params.row.item?.code
-      },
-    },
-    {
-      field: 'materialName',
-      headerName: t('setStoragePeriod.materialName'),
-      width: 120,
-      renderCell: (params) => {
-        return params.row.item?.name
-      },
-    },
-    {
       field: 'expiryWarehouse',
       headerName: t('setStoragePeriod.storageLimit'),
       width: 120,
@@ -164,7 +147,7 @@ function SetStoragePeriod() {
       limit: pageSize,
       filter: convertFilterParams(
         { ...filters, warehouseId: filters?.warehouse?.id },
-        [{ field: 'createdAt', filterFormat: 'date' }],
+        columns,
       ),
       sort: convertSortParams(sort),
     }
