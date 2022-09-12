@@ -12,7 +12,7 @@ import {
   WAREHOUSE_NATURE_OPTIONS,
   WAREHOUSE_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseGroupApi } from '~/modules/wmsx/redux/sagas/define-warehouse-group/search-warehouse-group'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -41,37 +41,37 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="companyCode"
-          label={t('defineWarehouse.companyCode')}
-          placeholder={t('defineWarehouse.companyCode')}
+          name="warehouseTypeSetting"
+          label={t('defineWarehouse.group')}
+          placeholder={t('defineWarehouse.group')}
           asyncRequest={(s) =>
-            searchCompaniesApi({
+            searchWarehouseGroupApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="type"
+          name="warehouseType"
           label={t('defineWarehouse.type')}
           placeholder={t('defineWarehouse.type')}
           options={WAREHOUSE_TYPE_OPTIONS}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
+          getOptionValue={(opt) => opt?.id}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="nature"
+          name="warehouseCharacteristic"
           label={t('defineWarehouse.nature')}
           placeholder={t('defineWarehouse.nature')}
           options={WAREHOUSE_NATURE_OPTIONS}
-          getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-          getOptionValue={(opt) => opt?.id?.toString()}
+          getOptionLabel={(opt) => t(opt?.text)}
+          getOptionValue={(opt) => opt?.id}
         />
       </Grid>
       <Grid item xs={12}>

@@ -15,7 +15,13 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LOT_TYPE_MAP,
+  WAREHOUSE_NATURE_MAP,
+  WAREHOUSE_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import {
@@ -46,6 +52,9 @@ function DefineWarehouse() {
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
+    warehouseTypeSetting: '',
+    warehouseType: '',
+    warehouseCharacteristic: '',
     createdAt: '',
   }
 
@@ -71,7 +80,6 @@ function DefineWarehouse() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -94,28 +102,40 @@ function DefineWarehouse() {
       fixed: true,
     },
     {
-      field: 'companyCode',
-      headerName: t('defineWarehouse.companyCode'),
+      field: 'warehouseTypeSetting',
+      headerName: t('defineWarehouse.group'),
       sortable: true,
       width: 120,
+      renderCell: (params) => {
+        return params.row?.warehouseTypeSetting?.code
+      },
     },
     {
-      field: 'type',
+      field: 'warehouseType',
       headerName: t('defineWarehouse.type'),
       sortable: true,
       width: 120,
+      renderCell: (params) => {
+        return t(WAREHOUSE_TYPE_MAP[params.row?.warehouseType])
+      },
     },
     {
-      field: 'lotManagement',
+      field: 'manageByLot',
       headerName: t('defineWarehouse.lotManagement'),
       sortable: true,
       width: 120,
+      renderCell: (params) => {
+        return t(WAREHOUSE_LOT_TYPE_MAP[params.row?.manageByLot])
+      },
     },
     {
-      field: 'nature',
+      field: 'warehouseCharacteristic',
       headerName: t('defineWarehouse.nature'),
       sortable: true,
       width: 120,
+      renderCell: (params) => {
+        return t(WAREHOUSE_NATURE_MAP[params.row?.warehouseCharacteristic])
+      },
     },
     {
       field: 'description',
@@ -166,9 +186,6 @@ function DefineWarehouse() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -183,9 +200,13 @@ function DefineWarehouse() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          warehouseTypeSettingId: filters?.warehouseTypeSetting?.id,
+        },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouse(params)
@@ -198,21 +219,6 @@ function DefineWarehouse() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteWarehouse(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -312,30 +318,6 @@ function DefineWarehouse() {
         }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineWarehouse.defineWarehouseDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('defineWarehouse.deleteConfirm')}
-        <LV
-          label={t('defineWarehouse.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineWarehouse.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}
         onCancel={onCloseUpdateStatusModal}
@@ -358,7 +340,7 @@ function DefineWarehouse() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineWarehouse.description')}
+          label={t('defineWarehouse.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

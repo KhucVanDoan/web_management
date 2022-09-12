@@ -181,7 +181,7 @@ const ReasonManagementForm = () => {
                       placeholder={t('reasonManagement.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -193,7 +193,7 @@ const ReasonManagementForm = () => {
                       name="name"
                       placeholder={t('reasonManagement.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />

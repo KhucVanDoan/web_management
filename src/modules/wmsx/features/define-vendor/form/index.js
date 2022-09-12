@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import {
@@ -17,7 +17,10 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import qs from '~/utils/qs'
@@ -182,6 +185,21 @@ const DefineVendorForm = () => {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>{t('defineVendor.status')}</Typography>
+                        }
+                        value={
+                          <Status
+                            options={ACTIVE_STATUS_OPTIONS}
+                            value={vendorDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('defineVendor.code')}
@@ -201,7 +219,7 @@ const DefineVendorForm = () => {
                       name="name"
                       placeholder={t('defineVendor.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
                       required
                     />
@@ -233,7 +251,7 @@ const DefineVendorForm = () => {
                       name="address"
                       placeholder={t('defineVendor.address')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.ADDRESS.MAX,
                       }}
                     />
                   </Grid>
@@ -243,8 +261,9 @@ const DefineVendorForm = () => {
                       name="fax"
                       placeholder={t('defineVendor.fax')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                     />
                   </Grid>
 

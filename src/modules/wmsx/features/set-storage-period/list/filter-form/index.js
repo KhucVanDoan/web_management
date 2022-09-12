@@ -3,12 +3,9 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -21,7 +18,7 @@ const FilterForm = () => {
           label={t('setStoragePeriod.warehouseCode')}
           placeholder={t('setStoragePeriod.warehouseCode')}
           asyncRequest={(s) =>
-            searchCompaniesApi({
+            searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
@@ -30,26 +27,6 @@ const FilterForm = () => {
           isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
           getOptionLabel={(opt) => opt?.code}
           getOptionSubLabel={(opt) => opt?.name}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.TextField
-          name="itemCode"
-          label={t('setStoragePeriod.materialCode')}
-          placeholder={t('setStoragePeriod.materialCode')}
-          inputProps={{
-            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-          }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Field.TextField
-          name="itemName"
-          label={t('setStoragePeriod.materialName')}
-          placeholder={t('setStoragePeriod.materialName')}
-          inputProps={{
-            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-          }}
         />
       </Grid>
     </Grid>

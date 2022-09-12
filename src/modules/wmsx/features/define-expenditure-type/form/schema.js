@@ -24,12 +24,10 @@ export const formSchema = (t) =>
     organizationPayment: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    description: Yup.string()
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      )
-      .required(t('general:form.required')),
+    description: Yup.string().max(
+      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      t('general:form.maxLength', {
+        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+      }),
+    ),
   })

@@ -17,14 +17,16 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   ACTIVE_STATUS_OPTIONS,
   WAREHOUSE_LOT_TYPE_OPTIONS,
   WAREHOUSE_NATURE_OPTIONS,
   WAREHOUSE_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseGroupApi } from '~/modules/wmsx/redux/sagas/define-warehouse-group/search-warehouse-group'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -50,10 +52,10 @@ function DefineWarehouseForm() {
     () => ({
       code: warehouseDetails?.code || '',
       name: warehouseDetails?.name || '',
-      type: warehouseDetails?.type || '',
-      companyCode: warehouseDetails?.company?.code || '',
-      nature: warehouseDetails?.nature || '',
-      lotManagement: '',
+      warehouseType: warehouseDetails?.warehouseType || '',
+      warehouseTypeSetting: warehouseDetails?.warehouseTypeSetting || null,
+      warehouseCharacteristic: warehouseDetails?.warehouseCharacteristic || '',
+      manageByLot: warehouseDetails?.manageByLot || '',
       description: warehouseDetails?.description || '',
     }),
     [warehouseDetails],
@@ -115,6 +117,7 @@ function DefineWarehouseForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      warehouseTypeSettingId: values?.warehouseTypeSetting?.id,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouse(convertValues, backToList)
@@ -206,58 +209,65 @@ function DefineWarehouseForm() {
                       label={t('defineWarehouse.name')}
                       placeholder={t('defineWarehouse.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
                       required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="companyCode"
-                      label={t('defineWarehouse.companyCode')}
-                      placeholder={t('defineWarehouse.companyCode')}
+                      name="warehouseTypeSetting"
+                      label={t('defineWarehouse.groupCode')}
+                      placeholder={t('defineWarehouse.groupCode')}
                       asyncRequest={(s) =>
-                        searchCompaniesApi({
+                        searchWarehouseGroupApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="type"
+                      name="warehouseType"
                       label={t('defineWarehouse.type')}
                       placeholder={t('defineWarehouse.type')}
                       options={WAREHOUSE_TYPE_OPTIONS}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionLabel={(opt) => t(opt?.text)}
+                      getOptionValue={(opt) => opt?.id}
                       required
+                      disableClearable
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="nature"
+                      name="warehouseCharacteristic"
                       label={t('defineWarehouse.nature')}
                       placeholder={t('defineWarehouse.nature')}
                       options={WAREHOUSE_NATURE_OPTIONS}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionLabel={(opt) => t(opt?.text)}
+                      getOptionValue={(opt) => opt?.id}
                       required
+                      disableClearable
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="lotManagement"
+                      name="manageByLot"
                       label={t('defineWarehouse.lotManagement')}
                       placeholder={t('defineWarehouse.lotManagement')}
                       options={WAREHOUSE_LOT_TYPE_OPTIONS}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      getOptionLabel={(opt) => t(opt?.text)}
+                      getOptionValue={(opt) => opt?.id}
                       required
+                      disableClearable
                     />
                   </Grid>
                   <Grid item xs={12}>

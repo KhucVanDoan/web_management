@@ -459,4 +459,50 @@ export const ROUTE = {
       TITLE: 'setStoragePeriodDetail',
     },
   },
+  SETTING: {
+    TITLE: 'setting',
+  },
+  QR_CODE: {
+    PATH: '/wmsx/qr-code',
+    TITLE: 'qrCode',
+  },
+  RECEIPT_MANAGEMENT: {
+    TITLE: 'receiptCommandManagement',
+  },
+  WAREHOUSE_EXPORT_RECEIPT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-export-receipt',
+      TITLE: 'warehouseExportReceipt',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-export-receipt/create',
+      TITLE: 'warehouseExportReceiptCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-export-receipt/:id/edit',
+      TITLE: 'warehouseExportReceiptEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-export-receipt/:id/detail',
+      TITLE: 'warehouseExportReceiptDetail',
+    },
+  },
+  WAREHOUSE_IMPORT_RECEIPT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-import-receipt',
+      TITLE: 'warehouseImportReceipt',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-import-receipt/create',
+      TITLE: 'warehouseImportReceiptCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-import-receipt/:id/edit',
+      TITLE: 'warehouseImportReceiptEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-import-receipt/:id/detail',
+      TITLE: 'warehouseImportReceiptDetail',
+    },
+  },
 }
