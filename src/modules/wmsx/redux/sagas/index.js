@@ -100,10 +100,12 @@ import watchGetUomDetails from './define-uom/get-uom-details'
 import watchRejectUom from './define-uom/reject-uom'
 import watchSearchUoms from './define-uom/search-uom'
 import watchUpdateUom from './define-uom/update-uom'
+import watchConfirmVendor from './define-vendor/confirm-vendor'
 import watchCreateVendor from './define-vendor/create-vendor'
 import watchDeleteVendor from './define-vendor/delete-vendor'
 import watchGetVendorDetails from './define-vendor/get-vendor-details'
 import watchImportVendor from './define-vendor/import-vendor'
+import watchRejectVendor from './define-vendor/reject-vendor'
 import watchSearchVendors from './define-vendor/search-vendors'
 import watchUpdateVendor from './define-vendor/updata-vendor'
 import watchConfirmWarehouseGroup from './define-warehouse-group/confirm-warehouse-group'
@@ -187,6 +189,8 @@ export default function* sagas() {
     watchImportVendor(),
     watchSearchVendors(),
     watchUpdateVendor(),
+    watchConfirmVendor(),
+    watchRejectVendor(),
 
     // management-unit
     watchCreateManagementUnit(),

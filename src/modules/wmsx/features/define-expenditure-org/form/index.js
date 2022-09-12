@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom'
@@ -12,7 +12,10 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -153,6 +156,23 @@ const DefineExpenditureOrgForm = () => {
                   columnSpacing={{ xl: 8, xs: 4 }}
                   rowSpacing={4 / 3}
                 >
+                  {isUpdate && (
+                    <Grid item xs={12}>
+                      <LV
+                        label={
+                          <Typography>
+                            {t('defineExpenditureType.status')}
+                          </Typography>
+                        }
+                        value={
+                          <Status
+                            options={ACTIVE_STATUS_OPTIONS}
+                            value={expenditureOrgDetails?.status}
+                          />
+                        }
+                      />
+                    </Grid>
+                  )}
                   <Grid item xs={12} lg={6}>
                     <Field.TextField
                       label={t('defineExpenditureOrg.code')}

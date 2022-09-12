@@ -17,6 +17,12 @@ import {
   IMPORT_VENDOR_START,
   IMPORT_VENDOR_SUCCESS,
   IMPORT_VENDOR_FAILED,
+  CONFIRM_VENDOR_FAILED,
+  CONFIRM_VENDOR_START,
+  CONFIRM_VENDOR_SUCCESS,
+  REJECT_VENDOR_FAILED,
+  REJECT_VENDOR_START,
+  REJECT_VENDOR_SUCCESS,
   RESET_DETAIL_VENDOR_STATE,
 } from '../actions/define-vendor'
 
@@ -41,6 +47,8 @@ export default function defineVendor(state = initialState, action) {
     case UPDATE_VENDOR_START:
     case DELETE_VENDOR_START:
     case IMPORT_VENDOR_START:
+    case CONFIRM_VENDOR_START:
+    case REJECT_VENDOR_START:
     case GET_VENDOR_DETAILS_START:
       return {
         ...state,
@@ -61,7 +69,10 @@ export default function defineVendor(state = initialState, action) {
         isLoading: false,
         total: 0,
       }
-
+    case REJECT_VENDOR_FAILED:
+    case REJECT_VENDOR_SUCCESS:
+    case CONFIRM_VENDOR_FAILED:
+    case CONFIRM_VENDOR_SUCCESS:
     case CREATE_VENDOR_SUCCESS:
     case CREATE_VENDOR_FAILED:
     case UPDATE_VENDOR_SUCCESS:

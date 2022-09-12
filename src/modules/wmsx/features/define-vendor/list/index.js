@@ -14,6 +14,9 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineVendor from '~/modules/wmsx/redux/hooks/useDefineVendor'
 import {
   exportVendorApi,
@@ -44,7 +47,7 @@ function DefineVendor() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
+    isOpenUpdateStatusModal: false,
   })
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
@@ -66,44 +69,60 @@ function DefineVendor() {
     {
       field: 'code',
       headerName: t('defineVendor.code'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'name',
       headerName: t('defineVendor.name'),
-      width: 200,
+      width: 150,
       sortable: true,
       fixed: true,
     },
     {
       field: 'email',
       headerName: t('defineVendor.email'),
-      width: 200,
+      width: 150,
       sortable: true,
     },
     {
       field: 'phone',
       headerName: t('defineVendor.phone'),
-      width: 200,
+      width: 150,
       sortable: true,
     },
     {
       field: 'address',
       headerName: t('defineVendor.address'),
       filterFormat: 'date',
-      width: 200,
+      width: 150,
+    },
+    {
+      field: 'status',
+      headerName: t('defineVendor.status'),
+      width: 150,
+      renderCell: (params) => {
+        const status = Number(params?.row?.status)
+        return (
+          <Status
+            options={ACTIVE_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
+      },
     },
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 200,
+      width: 150,
       sortable: false,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params.row
+        const { id, status } = params.row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
@@ -124,8 +143,8 @@ function DefineVendor() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleOpenDeleteModal(params.row)}>
-              <Icon name="delete" />
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </div>
         )
@@ -152,25 +171,25 @@ function DefineVendor() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const handleOpenDeleteModal = (tempItem) => {
-    setModal({
-      tempItem,
-      isOpenDeleteModal: true,
-    })
+  const onClickUpdateStatus = (tempItem) => {
+    setModal({ tempItem, isOpenUpdateStatusModal: true })
   }
 
-  const onSubmitDeleteModal = () => {
-    actions.deleteVendor(modal?.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+  const onSubmitUpdateStatus = () => {
+    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectVendorById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmVendorById(modal.tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
   }
 
-  const onCloseDeleteModal = () => {
-    setModal({
-      tempItem: null,
-      isOpenDeleteModal: false,
-    })
+  const onCloseUpdateStatusModal = () => {
+    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
   }
 
   const renderHeaderRight = () => {
@@ -246,18 +265,22 @@ function DefineVendor() {
         }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineVendor.deleteModalTitle')}
-        onCancel={onCloseDeleteModal}
+        open={modal.isOpenUpdateStatusModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDeleteModal}
+        onSubmit={onSubmitUpdateStatus}
         submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
+        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
         noBorderBottom
       >
-        {t('defineVendor.confirmDelete')}
+        {t('general.confirmMessage')}
         <LV
           label={t('defineVendor.code')}
           value={modal?.tempItem?.code}
@@ -266,6 +289,16 @@ function DefineVendor() {
         <LV
           label={t('defineVendor.name')}
           value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={modal?.tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
