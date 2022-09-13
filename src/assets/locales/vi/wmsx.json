@@ -1154,13 +1154,17 @@
     "deleteSetting": "Xóa tồn kho"
   },
   "warehouseImport": {
-    "searchPlaceholder": "Tìm kiếm giao dịch theo mã lệnh hoặc tên lệnh"
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "code": "Mã phiếu nhập",
+    "warehouseName": "Kho nhập"
   },
   "warehouseExport": {
     "title": "Giao dịch xuất kho",
     "breadcrumbTitle": "Phiếu giao dịch",
     "formTitle": "Phiếu giao dịch",
-    "tableTitle": "Danh sách giao dịch"
+    "tableTitle": "Danh sách giao dịch",
+    "code": "Mã phiếu xuất",
+    "warehouseName": "Kho xuất"
   },
   "movements": {
     "breadcrumbTitle": "Phiếu giao dịch",
@@ -1177,7 +1181,7 @@
     "approveDate": "Ngày chứng từ",
     "createdByUser": "Người tạo",
     "movementStatus": "Trạng thái giao dịch",
-    "movementDateRange": "Ngày giao dịch",
+    "movementDateRange": "Ngày thực hiện",
     "purchasedOrder": "Đơn đặt hàng",
     "saleOrder": "Đơn bán hàng",
     "productionOrder": "Lệnh sản xuất",
@@ -1189,7 +1193,7 @@
     "importExport": {
       "formTitle": "Phiếu giao dịch",
       "movementCode": "Mã giao dịch",
-      "movementType": "Loại giao dịch",
+      "movementType": "Loại nghiệp vụ",
       "letterCode": "Mã đơn từ",
       "letterType": "Loại đơn từ",
       "warehouseCode": "Mã kho",
@@ -1199,9 +1203,11 @@
       "confirmUser": "Người xác nhận",
       "confirmDate": "Ngày chứng từ",
       "description": "Mô tả về phiếu giao dịch",
+      "formCode": "Mã phiếu",
+      "formNumber": "Số phiếu",
       "orderCode": "Mã lệnh",
       "orderName": "Tên lệnh",
-      "orderType": "Loại lệnh",
+      "orderType": "Loại nghiệp vụ",
       "executeDate": "Ngày thực hiện"
     },
     "inventoryCalendar": {
@@ -1219,10 +1225,12 @@
       "description": "Mô tả về phiếu kiểm kê"
     },
     "itemDetails": {
-      "titleTable": "Chi tiết sản phẩm",
-      "itemCode": "Mã sản phẩm",
-      "itemName": "Tên sản phẩm",
-      "itemType": "Loại sản phẩm",
+      "titleTable": "Chi tiết vật tư",
+      "itemCode": "Mã vật tư",
+      "itemName": "Tên vật tư",
+      "itemType": "Loại vật tư",
+      "locationCode": "Mã vị trí",
+      "unit": "Đơn vị tính",
       "lotNumber": "Số lô",
       "packageCode": "Mã package",
       "warehouseName": "Tên kho",
@@ -1230,7 +1238,10 @@
       "warehouseShelfName": "Tên kệ",
       "warehousePalletName": "Tên tầng",
       "planQuantity": "Số lượng dự kiến",
-      "actualQuantity": "Số lượng giao dịch"
+      "actualQuantity": "Số lượng giao dịch",
+      "receiveQuantity": "Số lượng nhận",
+      "storedQuantity": "Số lượng cất",
+      "unstoredQuantity": "Số lượng chưa cất"
     },
     "movementsStatus": {
       "poi": "Lệnh nhập theo đơn",

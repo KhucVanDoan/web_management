@@ -8,7 +8,7 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { WAREHOUSE_EXPORT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const WarehouseExportFilter = ({
   setQuickFilters,
@@ -46,7 +46,7 @@ const WarehouseExportFilter = ({
                       label={t('movements.importExport.warehouseName')}
                       placeholder={t('movements.importExport.warehouseName')}
                       asyncRequest={(s) =>
-                        searchWarehousesApi({
+                        searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
