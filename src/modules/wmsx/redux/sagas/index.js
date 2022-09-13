@@ -146,6 +146,8 @@ import watchRejectMaterial from './material-management/reject-material'
 import watchSearchMaterials from './material-management/search-materials'
 import watchUpdateMaterial from './material-management/update-material'
 import watchUpdateWarehouseSource from './material-management/update-warehouse-source'
+import watchGetMovementsDetails from './movements/get-movement-details.'
+import watchSearchMovements from './movements/search-movements'
 import watchGetQrCodeDetails from './qr-code/get-qr-code-details'
 import watchUpdateQrCode from './qr-code/update-qr-code'
 import watchConfirmReasonManagement from './reason-management/confirm'
@@ -181,6 +183,9 @@ import watchGetWarehouseExportReceiptDetails from './warehouse-export-receipt/ge
 import watchRejectWarehouseExportReceipt from './warehouse-export-receipt/reject'
 import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search'
 import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
+import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
+import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
+import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
 
 /**
  * Root saga
@@ -403,6 +408,17 @@ export default function* sagas() {
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),
+    //warehouse import
+    watchWarehouseImportData(),
+
+    // warehouse export
+    watchGetWarehouseExportDetails(),
+    watchSearchWarehouseExport(),
+
+    //movements
+    watchSearchMovements(),
+    watchGetMovementsDetails(),
+
     //warehouse-export-receipt
     watchSearchWarehouseExportReceipt(),
     watchCreateWarehouseExportReceipt(),

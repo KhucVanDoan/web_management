@@ -22,12 +22,16 @@ import inventorySetting from './inventory-setting'
 import locationManagement from './location-management'
 import managementUnit from './management-unit'
 import materialManagement from './material-management'
+import movementManagement from './movements'
 import qrCode from './qr-code'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import setStoragePeriod from './set-storage-period'
 import sourceManagement from './source-management'
+import warehouseExport from './warehouse-export'
 import warehouseExportReceipt from './warehouse-export-receipt'
+import warehouseImport from './warehouse-import'
+
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -57,4 +61,7 @@ export default combineReducers({
   materialManagement,
   qrCode,
   warehouseExportReceipt,
+  warehouseImport,
+  warehouseExport,
+  movementManagement,
 })
