@@ -12,7 +12,7 @@ export const formSchema = (t) =>
           length: TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
         }),
       ),
-    normalizedCode: Yup.string()
+    normalizeCode: Yup.string()
       .required(t('general:form.required'))
       .length(
         TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
@@ -20,20 +20,7 @@ export const formSchema = (t) =>
           length: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
         }),
       ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      .min(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-        t('general:form.minLength', {
-          min: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-        }),
-      )
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
+    name: Yup.string().required(t('general:form.required')),
     country: Yup.object().nullable().required(t('general:form.required')),
     objectCategory: Yup.object()
       .nullable()
@@ -44,10 +31,5 @@ export const formSchema = (t) =>
     materialQuality: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    description: Yup.string().max(
-      TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      t('general:form.maxLength', {
-        max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-      }),
-    ),
+    description: Yup.string(),
   })

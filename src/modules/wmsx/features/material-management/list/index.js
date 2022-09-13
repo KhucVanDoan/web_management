@@ -15,7 +15,10 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  MATERIAL_ACTIVE_STATUS,
+  MATERIAL_ACTIVE_STATUS_OPTIONS,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import {
@@ -68,7 +71,6 @@ function MaterialManagement() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -91,7 +93,7 @@ function MaterialManagement() {
       fixed: true,
     },
     {
-      field: 'normalizedCode',
+      field: 'normalizeCode',
       headerName: t('materialManagement.normalizedCode'),
       width: 120,
     },
@@ -99,7 +101,7 @@ function MaterialManagement() {
       field: 'country',
       headerName: t('materialManagement.country'),
       width: 120,
-      renderCell: (item) => item?.country?.name,
+      renderCell: (item) => item?.manufacturingCountry?.name,
     },
     {
       field: 'objectCategory',
@@ -120,7 +122,7 @@ function MaterialManagement() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ACTIVE_STATUS_OPTIONS}
+            options={MATERIAL_ACTIVE_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -135,7 +137,7 @@ function MaterialManagement() {
       fixed: true,
       renderCell: (params) => {
         const { id, status } = params?.row
-        const isLocked = status === ACTIVE_STATUS.ACTIVE
+        const isLocked = status === MATERIAL_ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
@@ -156,9 +158,6 @@ function MaterialManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            {/* <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton> */}
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -173,9 +172,14 @@ function MaterialManagement() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          manufacturingCountryId: filters?.manufacturingCountryId?.id,
+          objectCategoryId: filters?.objectCategoryId?.id,
+        },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchMaterials(params)
@@ -189,29 +193,17 @@ function MaterialManagement() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  // const onClickDelete = (tempItem) => {
-  //   setModal({ tempItem, isOpenDeleteModal: true })
-  // }
-
-  const onSubmitDelete = () => {
-    actions.deleteMaterial(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
   }
 
   const onSubmitUpdateStatus = () => {
-    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+    if (modal.tempItem?.status === MATERIAL_ACTIVE_STATUS.ACTIVE) {
       actions.rejectMaterialById(modal.tempItem?.id, () => refreshData())
-    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+    } else if (
+      modal.tempItem?.status === MATERIAL_ACTIVE_STATUS.INACTIVE ||
+      modal.tempItem?.status === MATERIAL_ACTIVE_STATUS.REJECTED
+    ) {
       actions.confirmMaterialById(modal.tempItem?.id, () => {
         refreshData()
       })
@@ -302,37 +294,13 @@ function MaterialManagement() {
         }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('materialManagement.materialManagementDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('materialManagement.deleteConfirm')}
-        <LV
-          label={t('materialManagement.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('materialManagement.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}
         onCancel={onCloseUpdateStatusModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitUpdateStatus}
         submitLabel={t('general:common.yes')}
-        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
+        {...(modal?.tempItem?.status === MATERIAL_ACTIVE_STATUS.ACTIVE
           ? {
               submitProps: {
                 color: 'error',
@@ -356,8 +324,13 @@ function MaterialManagement() {
           label={t('general.status')}
           value={
             <StatusSwitcher
-              options={ACTIVE_STATUS_OPTIONS}
+              options={MATERIAL_ACTIVE_STATUS_OPTIONS}
               value={modal?.tempItem?.status}
+              nextValue={
+                modal?.tempItem?.status === MATERIAL_ACTIVE_STATUS.ACTIVE
+                  ? MATERIAL_ACTIVE_STATUS.INACTIVE
+                  : MATERIAL_ACTIVE_STATUS.ACTIVE
+              }
             />
           }
           sx={{ mt: 4 / 3 }}

@@ -12,7 +12,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -156,7 +156,7 @@ function MaterialManagementDetail() {
                 label={t('materialManagement.status')}
                 value={
                   <Status
-                    options={ACTIVE_STATUS_OPTIONS}
+                    options={MATERIAL_ACTIVE_STATUS_OPTIONS}
                     value={materialDetails?.status}
                   />
                 }
@@ -177,25 +177,25 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.normalizedCode')}
-                value={materialDetails?.normalizedCode}
+                value={materialDetails?.normalizeCode}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.country')}
-                value={materialDetails?.country?.name}
+                value={materialDetails?.manufacturingCountry?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialCategory')}
-                value={materialDetails?.materialCategory?.name}
+                value={materialDetails?.itemType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialQuality')}
-                value={materialDetails?.materialQuality?.name}
+                value={materialDetails?.itemQuality?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

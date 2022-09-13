@@ -15,7 +15,7 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
@@ -49,11 +49,11 @@ function MaterialManagementForm() {
     () => ({
       code: materialDetails?.code || '',
       name: materialDetails?.name || '',
-      normalizedCode: materialDetails?.normalizedCode || '',
-      country: materialDetails?.country || null,
+      normalizeCode: materialDetails?.normalizeCode || '',
+      country: materialDetails?.manufacturingCountry || null,
       objectCategory: materialDetails?.objectCategory || null,
-      materialCategory: materialDetails?.materialCategory || null,
-      materialQuality: materialDetails?.materialQuality || null,
+      materialCategory: materialDetails?.itemType || null,
+      materialQuality: materialDetails?.itemQuality || null,
       specifications: materialDetails?.specifications || null,
       materialImage: materialDetails?.materialImage || null,
       description: materialDetails?.description || '',
@@ -114,10 +114,10 @@ function MaterialManagementForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
-      countryId: materialDetails?.country?.id,
-      objectCategoryId: materialDetails?.objectCategory?.id,
-      materialCategoryId: materialDetails?.materialCategory?.id,
-      materialQualityId: materialDetails?.materialQuality?.id,
+      manufacturingCountryId: values?.country?.id,
+      objectCategoryId: values?.objectCategory?.id,
+      itemTypeId: values?.materialCategory?.id,
+      itemQualityId: values?.materialQuality?.id,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMaterial(convertValues, backToList)
@@ -185,7 +185,7 @@ function MaterialManagementForm() {
                         }
                         value={
                           <Status
-                            options={ACTIVE_STATUS_OPTIONS}
+                            options={MATERIAL_ACTIVE_STATUS_OPTIONS}
                             value={materialDetails?.status}
                           />
                         }
@@ -198,7 +198,7 @@ function MaterialManagementForm() {
                       label={t('materialManagement.code')}
                       placeholder={t('materialManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_5.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -210,7 +210,7 @@ function MaterialManagementForm() {
                       label={t('materialManagement.name')}
                       placeholder={t('materialManagement.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -218,11 +218,11 @@ function MaterialManagementForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      name="normalizedCode"
+                      name="normalizeCode"
                       label={t('materialManagement.normalizedCode')}
                       placeholder={t('materialManagement.normalizedCode')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -310,17 +310,22 @@ function MaterialManagementForm() {
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={
-                        <FormLabel>
-                          <Typography color={'text.main'} component="span">
-                            {t('materialManagement.specifications')}
-                          </Typography>
-                        </FormLabel>
+                        <Box sx={{ mt: 8 / 12 }}>
+                          <FormLabel>
+                            <Typography color={'text.main'} component="span">
+                              {t('materialManagement.specifications')}
+                            </Typography>
+                          </FormLabel>
+                        </Box>
                       }
                     >
                       {values?.specifications ? (
                         <>
                           <label htmlFor="select-file">
-                            <Typography className={classes.uploadText}>
+                            <Typography
+                              className={classes.uploadText}
+                              sx={{ mt: 8 / 12 }}
+                            >
                               {values?.specifications?.name}
                             </Typography>
                           </label>
@@ -355,17 +360,22 @@ function MaterialManagementForm() {
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={
-                        <FormLabel>
-                          <Typography color={'text.main'} component="span">
-                            {t('materialManagement.materialImage')}
-                          </Typography>
-                        </FormLabel>
+                        <Box sx={{ mt: 8 / 12 }}>
+                          <FormLabel>
+                            <Typography color={'text.main'} component="span">
+                              {t('materialManagement.materialImage')}
+                            </Typography>
+                          </FormLabel>
+                        </Box>
                       }
                     >
                       {values?.materialImage ? (
                         <>
                           <label htmlFor="select-image">
-                            <Typography className={classes.uploadText}>
+                            <Typography
+                              className={classes.uploadText}
+                              sx={{ mt: 8 / 12 }}
+                            >
                               {values?.materialImage?.name}
                             </Typography>
                           </label>

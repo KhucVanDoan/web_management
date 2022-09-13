@@ -38,7 +38,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="country"
+          name="manufacturingCountryId"
           label={t('materialManagement.country')}
           placeholder={t('materialManagement.country')}
           asyncRequest={(s) =>
@@ -55,7 +55,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="objectCategory"
+          name="objectCategoryId"
           label={t('materialManagement.objectCategory')}
           placeholder={t('materialManagement.objectCategory')}
           asyncRequest={(s) =>

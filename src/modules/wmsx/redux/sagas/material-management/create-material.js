@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const createMaterialApi = (body) => {
   //@TODO update api
-  const uri = `/v1/sales/constructions/create`
+  const uri = `/v1/items/create`
   return api.post(uri, body)
 }
 
