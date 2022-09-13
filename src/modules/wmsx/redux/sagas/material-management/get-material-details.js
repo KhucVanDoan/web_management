@@ -9,7 +9,7 @@ import { api } from '~/services/api'
 
 const getMaterialDetailsApi = (params) => {
   //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}`
+  const uri = `/v1/items/${params}`
   return api.get(uri)
 }
 

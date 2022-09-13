@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const rejectMaterialApi = (params) => {
   //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}/reject`
+  const uri = `/v1/items/${params}/reject`
   return api.put(uri)
 }
 

@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const updateWarehouseSourceApi = (params) => {
   //@TODO update api
-  const uri = `/v1/sales/constructions/${params?.id}`
+  const uri = `/v1/items/${params?.id}`
   return api.put(uri, params)
 }
 

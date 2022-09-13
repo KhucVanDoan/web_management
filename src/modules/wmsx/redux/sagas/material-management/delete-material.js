@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const deleteMaterialApi = (params) => {
   //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}`
+  const uri = `/v1/items/${params}`
   return api.delete(uri)
 }
 
