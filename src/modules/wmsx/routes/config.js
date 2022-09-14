@@ -459,6 +459,28 @@ export const ROUTE = {
       TITLE: 'setStoragePeriodDetail',
     },
   },
+  MATERIAL_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/material-management',
+      TITLE: 'materialManagement',
+    },
+    CREATE: {
+      PATH: '/wmsx/material-management/create',
+      TITLE: 'materialManagementCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/material-management/:id/edit',
+      TITLE: 'materialManagementEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/material-management/:id/detail',
+      TITLE: 'materialManagementDetail',
+    },
+    EDIT_WAREHOUSE_SOURCE: {
+      PATH: '/wmsx/material-management/:id/edit-warehouse-source',
+      TITLE: 'materialManagementEditWarehouseSource',
+    },
+  },
   SETTING: {
     TITLE: 'setting',
   },
@@ -504,5 +526,37 @@ export const ROUTE = {
       PATH: '/wmsx/warehouse-import-receipt/:id/detail',
       TITLE: 'warehouseImportReceiptDetail',
     },
+  },
+  WAREHOUSE_EXPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-export',
+      TITLE: 'warehouseExport',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-export/:id/detail',
+      TITLE: 'warehouseExportDetail',
+    },
+  },
+  WAREHOUSE_IMPORT: {
+    LIST: {
+      PATH: '/wmsx/warehouse-import',
+      TITLE: 'warehouseImport',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-import/:id/detail',
+      TITLE: 'movementsDetail',
+    },
+  },
+  WAREHOUSE_REPORT_MANAGEMENT: {
+    PATH: '/wmsx/warehouse-report-management',
+    TITLE: 'warehouseReportManagement',
+  },
+  INVENTORY_STATISTICS: {
+    PATH: '/wmsx/inventory-statistics',
+    TITLE: 'inventoryStatistics',
+  },
+  INVENTORY_WARNING: {
+    PATH: '/wmsx/inventory-warning',
+    TITLE: 'inventoryWarning',
   },
 }
