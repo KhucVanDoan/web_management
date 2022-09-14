@@ -65,6 +65,13 @@ import watchGetExpenditureTypeDetails from './define-expenditure-type/get-expend
 import watchRejectExpenditureType from './define-expenditure-type/reject-expenditure-type'
 import watchSearchExpenditureType from './define-expenditure-type/search-expenditure-type'
 import watchUpdateExpenditureType from './define-expenditure-type/update-expenditure-type'
+import watchConfirmMaterialCategory from './define-material-category/confirm-material-category'
+import watchCreateMaterialCategory from './define-material-category/create-material-category'
+import watchDeleteMaterialCategory from './define-material-category/delete-material-category'
+import watchGetMaterialCategoryDetails from './define-material-category/get-material-category-details'
+import watchRejectMaterialCategory from './define-material-category/reject-material-category'
+import watchSearchMaterialCategory from './define-material-category/search-material-category'
+import watchUpdateMaterialCategory from './define-material-category/update-material-category'
 import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
 import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
 import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
@@ -127,6 +134,8 @@ import watchDeleteInventorySetting from './inventory-setting/delete-inventory-se
 import watchGetDetailInventorySetting from './inventory-setting/get-inventory-setting-detail'
 import watchSearchInventorySetting from './inventory-setting/search-inventory-setting'
 import watchUpdateInventorySetting from './inventory-setting/update-inventory-setting'
+import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
+import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
 import watchDeleteLocation from './location-management/delete-location'
@@ -138,6 +147,16 @@ import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchSearchManagementUnit from './management-unit/search'
+import watchConfirmMaterial from './material-management/confirm-material'
+import watchCreateMaterial from './material-management/create-material'
+import watchDeleteMaterial from './material-management/delete-material'
+import watchGetMaterialDetails from './material-management/get-material-details'
+import watchRejectMaterial from './material-management/reject-material'
+import watchSearchMaterials from './material-management/search-materials'
+import watchUpdateMaterial from './material-management/update-material'
+import watchUpdateWarehouseSource from './material-management/update-warehouse-source'
+import watchGetMovementsDetails from './movements/get-movement-details.'
+import watchSearchMovements from './movements/search-movements'
 import watchGetQrCodeDetails from './qr-code/get-qr-code-details'
 import watchUpdateQrCode from './qr-code/update-qr-code'
 import watchConfirmReasonManagement from './reason-management/confirm'
@@ -173,6 +192,9 @@ import watchGetWarehouseExportReceiptDetails from './warehouse-export-receipt/ge
 import watchRejectWarehouseExportReceipt from './warehouse-export-receipt/reject'
 import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search'
 import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
+import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
+import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
+import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
 
 /**
  * Root saga
@@ -278,6 +300,16 @@ export default function* sagas() {
     watchDeleteMaterialQuality(),
     watchConfirmMaterialQuality(),
     watchRejectMaterialQuality(),
+
+    //define-material-category
+    watchCreateMaterialCategory(),
+    watchUpdateMaterialCategory(),
+    watchSearchMaterialCategory(),
+    watchGetMaterialCategoryDetails(),
+    watchDeleteMaterialCategory(),
+    watchConfirmMaterialCategory(),
+    watchRejectMaterialCategory(),
+
     //receipt-department-management
     watchCreateReceiptDepartment(),
     watchUpdateReceiptDepartment(),
@@ -382,6 +414,35 @@ export default function* sagas() {
     watchSearchStoragePeriods(),
     watchGetStoragePeriodDetails(),
     watchDeleteStoragePeriod(),
+
+    //material-management
+    watchCreateMaterial(),
+    watchUpdateMaterial(),
+    watchSearchMaterials(),
+    watchGetMaterialDetails(),
+    watchDeleteMaterial(),
+    watchConfirmMaterial(),
+    watchRejectMaterial(),
+    watchUpdateWarehouseSource(),
+    //QR-code
+    watchGetQrCodeDetails(),
+    watchUpdateQrCode(),
+    //warehouse import
+    watchWarehouseImportData(),
+
+    // warehouse export
+    watchGetWarehouseExportDetails(),
+    watchSearchWarehouseExport(),
+
+    //movements
+    watchSearchMovements(),
+    watchGetMovementsDetails(),
+
+    // inventory statistic
+    watchSearchInventoryStatistics(),
+
+    // inventory warning
+    watchSearchInventoryWarning(),
 
     //QR-code
     watchGetQrCodeDetails(),

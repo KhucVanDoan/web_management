@@ -27,6 +27,9 @@ import DefineExpenditureOrg from '../features/define-expenditure-org/list'
 import DefineExpenditureTypeDetail from '../features/define-expenditure-type/detail'
 import DefineExpenditureTypeForm from '../features/define-expenditure-type/form'
 import DefineExpenditureType from '../features/define-expenditure-type/list'
+import DefineMaterialCategoryDetail from '../features/define-material-category/detail'
+import DefineMaterialCategoryForm from '../features/define-material-category/form'
+import DefineMaterialCategory from '../features/define-material-category/list'
 import DefineMaterialQualityDetail from '../features/define-material-quality/detail'
 import DefineMaterialQualityForm from '../features/define-material-quality/form'
 import DefineMaterialQuality from '../features/define-material-quality/list'
@@ -54,9 +57,14 @@ import DefineWarehouse from '../features/define-warehouse/list'
 import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
+import InventoryStatistics from '../features/inventory-statistics'
+import InventoryWarning from '../features/inventory-warning'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
+import MaterialManagementDetail from '../features/material-management/detail'
+import MaterialManagementForm from '../features/material-management/form'
+import MaterialManagement from '../features/material-management/list'
 import QrCode from '../features/qr-code'
 import ReasonManagementDetail from '../features/reason-management/detail'
 import ReasonManagementForm from '../features/reason-management/form'
@@ -76,9 +84,13 @@ import UnitManagement from '../features/unit-management/list'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
+import WarehouseExportDetail from '../features/warehouse-export/detail'
+import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
 import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/form'
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
+import WarehouseImportDetail from '../features/warehouse-import/detail'
+import WarehouseImport from '../features/warehouse-import/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -357,25 +369,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.TITLE,
         path: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.PATH,
-        component: () => null,
+        component: DefineMaterialCategory,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryForm,
             isInSidebar: false,
           },
         ],
@@ -755,6 +767,39 @@ const routes = [
     ],
   },
   {
+    name: ROUTE.MATERIAL_MANAGEMENT.LIST.TITLE,
+    icon: 'database',
+    path: ROUTE.MATERIAL_MANAGEMENT.LIST.PATH,
+    component: MaterialManagement,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.CREATE.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH,
+        component: MaterialManagementForm,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.DETAIL.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.DETAIL.PATH,
+        component: MaterialManagementDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH,
+        component: MaterialManagementDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.MATERIAL_MANAGEMENT.EDIT.TITLE,
+        path: ROUTE.MATERIAL_MANAGEMENT.EDIT.PATH,
+        component: MaterialManagementForm,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
     name: ROUTE.RECEIPT_MANAGEMENT.TITLE,
     icon: 'database',
     isInSidebar: true,
@@ -810,6 +855,55 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
+    component: WarehouseImport,
+    icon: 'key',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
+        component: WarehouseImportDetail,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
+    component: WarehouseExport,
+    icon: 'export',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
+        component: WarehouseExportDetail,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
+    icon: 'keylock',
+    isInSidebar: true,
+    subMenu: [
+      {
+        path: ROUTE.INVENTORY_STATISTICS.PATH,
+        name: ROUTE.INVENTORY_STATISTICS.TITLE,
+        component: InventoryStatistics,
+        isInSidebar: true,
+      },
+      {
+        path: ROUTE.INVENTORY_WARNING.PATH,
+        name: ROUTE.INVENTORY_WARNING.TITLE,
+        component: InventoryWarning,
+        isInSidebar: true,
       },
     ],
   },
