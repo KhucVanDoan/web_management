@@ -134,6 +134,7 @@ import watchDeleteInventorySetting from './inventory-setting/delete-inventory-se
 import watchGetDetailInventorySetting from './inventory-setting/get-inventory-setting-detail'
 import watchSearchInventorySetting from './inventory-setting/search-inventory-setting'
 import watchUpdateInventorySetting from './inventory-setting/update-inventory-setting'
+import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
 import watchDeleteLocation from './location-management/delete-location'
@@ -435,6 +436,9 @@ export default function* sagas() {
     //movements
     watchSearchMovements(),
     watchGetMovementsDetails(),
+
+    // inventory statistic
+    watchSearchInventoryStatistics(),
 
     //QR-code
     watchGetQrCodeDetails(),

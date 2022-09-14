@@ -547,4 +547,16 @@ export const ROUTE = {
       TITLE: 'movementsDetail',
     },
   },
+  WAREHOUSE_REPORT_MANAGEMENT: {
+    PATH: '/wmsx/warehouse-report-management',
+    TITLE: 'warehouseReportManagement',
+  },
+  INVENTORY_STATISTICS: {
+    PATH: '/wmsx/inventory-statistics',
+    TITLE: 'inventoryStatistics',
+  },
+  INVENTORY_WARNING: {
+    PATH: '/wmsx/inventory-warning',
+    TITLE: 'inventoryWarning',
+  },
 }
