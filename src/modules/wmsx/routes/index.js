@@ -27,6 +27,9 @@ import DefineExpenditureOrg from '../features/define-expenditure-org/list'
 import DefineExpenditureTypeDetail from '../features/define-expenditure-type/detail'
 import DefineExpenditureTypeForm from '../features/define-expenditure-type/form'
 import DefineExpenditureType from '../features/define-expenditure-type/list'
+import DefineMaterialCategoryDetail from '../features/define-material-category/detail'
+import DefineMaterialCategoryForm from '../features/define-material-category/form'
+import DefineMaterialCategory from '../features/define-material-category/list'
 import DefineMaterialQualityDetail from '../features/define-material-quality/detail'
 import DefineMaterialQualityForm from '../features/define-material-quality/form'
 import DefineMaterialQuality from '../features/define-material-quality/list'
@@ -364,25 +367,25 @@ const routes = [
       {
         name: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.TITLE,
         path: ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.PATH,
-        component: () => null,
+        component: DefineMaterialCategory,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryForm,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryDetail,
             isInSidebar: false,
           },
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.TITLE,
             path: ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH,
-            component: () => null,
+            component: DefineMaterialCategoryForm,
             isInSidebar: false,
           },
         ],

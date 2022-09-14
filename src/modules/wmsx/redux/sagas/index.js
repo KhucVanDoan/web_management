@@ -65,6 +65,13 @@ import watchGetExpenditureTypeDetails from './define-expenditure-type/get-expend
 import watchRejectExpenditureType from './define-expenditure-type/reject-expenditure-type'
 import watchSearchExpenditureType from './define-expenditure-type/search-expenditure-type'
 import watchUpdateExpenditureType from './define-expenditure-type/update-expenditure-type'
+import watchConfirmMaterialCategory from './define-material-category/confirm-material-category'
+import watchCreateMaterialCategory from './define-material-category/create-material-category'
+import watchDeleteMaterialCategory from './define-material-category/delete-material-category'
+import watchGetMaterialCategoryDetails from './define-material-category/get-material-category-details'
+import watchRejectMaterialCategory from './define-material-category/reject-material-category'
+import watchSearchMaterialCategory from './define-material-category/search-material-category'
+import watchUpdateMaterialCategory from './define-material-category/update-material-category'
 import watchConfirmMaterialQuality from './define-material-quality/confirm-material-quality'
 import watchCreateMaterialQuality from './define-material-quality/create-material-quality'
 import watchDeleteMaterialQuality from './define-material-quality/delete-material-quality'
@@ -291,6 +298,16 @@ export default function* sagas() {
     watchDeleteMaterialQuality(),
     watchConfirmMaterialQuality(),
     watchRejectMaterialQuality(),
+
+    //define-material-category
+    watchCreateMaterialCategory(),
+    watchUpdateMaterialCategory(),
+    watchSearchMaterialCategory(),
+    watchGetMaterialCategoryDetails(),
+    watchDeleteMaterialCategory(),
+    watchConfirmMaterialCategory(),
+    watchRejectMaterialCategory(),
+
     //receipt-department-management
     watchCreateReceiptDepartment(),
     watchUpdateReceiptDepartment(),

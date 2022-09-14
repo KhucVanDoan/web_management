@@ -2832,5 +2832,28 @@
       "debitAcc": "TK ghi nợ",
       "creditAcc": "TK ghi có"
     }
+  },
+  "defineMaterialCategory": {
+    "title": "Danh sách phân loại vật tư",
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "status": "Trạng thái hoạt động",
+    "createdAt": "Ngày tạo",
+    "materialType": "Loại vật tư",
+    "materialCode": "Mã loại vật tư",
+    "materialName": "Tên loại vật tư",
+    "materialDesc": "Mô tả",
+    "materialStatus": "Trạng thái hoạt động",
+    "mainGroup": "Nhóm chính",
+    "mainGroupCode": "Mã nhóm chính",
+    "mainGroupName": "Tên nhóm chính",
+    "mainGroupDesc": "Mô tả",
+    "mainGroupStatus": "Trạng thái hoạt động",
+    "addMainGroup": "Thêm nhóm chính",
+    "subGroup": "Nhóm phụ",
+    "subGroupCode": "Mã nhóm phụ",
+    "subGroupName": "Tên nhóm phụ",
+    "subGroupDesc": "Mô tả",
+    "subGroupStatus": "Trạng thái hoạt động",
+    "addSubGroup": "Thêm nhóm phụ"
   }
 }
