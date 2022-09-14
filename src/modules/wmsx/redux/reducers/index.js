@@ -19,6 +19,7 @@ import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehouseGroup from './define-warehouse-group'
 import inventorySetting from './inventory-setting'
+import inventoryStatistics from './inventory-statistics'
 import locationManagement from './location-management'
 import managementUnit from './management-unit'
 import materialManagement from './material-management'
@@ -64,4 +65,5 @@ export default combineReducers({
   warehouseImport,
   warehouseExport,
   movementManagement,
+  inventoryStatistics,
 })

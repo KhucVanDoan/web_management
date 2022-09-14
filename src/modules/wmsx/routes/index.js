@@ -54,6 +54,7 @@ import DefineWarehouse from '../features/define-warehouse/list'
 import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
+import InventoryStatistics from '../features/inventory-statistics'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
@@ -880,6 +881,25 @@ const routes = [
         path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
         component: WarehouseExportDetail,
         isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
+    icon: 'keylock',
+    isInSidebar: true,
+    subMenu: [
+      {
+        path: ROUTE.INVENTORY_STATISTICS.PATH,
+        name: ROUTE.INVENTORY_STATISTICS.TITLE,
+        component: InventoryStatistics,
+        isInSidebar: true,
+      },
+      {
+        path: ROUTE.INVENTORY_WARNING.PATH,
+        name: ROUTE.INVENTORY_WARNING.TITLE,
+        // component: InventoryWarning,
+        isInSidebar: true,
       },
     ],
   },
