@@ -419,6 +419,9 @@ export default function* sagas() {
     watchSearchMovements(),
     watchGetMovementsDetails(),
 
+    //QR-code
+    watchGetQrCodeDetails(),
+    watchUpdateQrCode(),
     //warehouse-export-receipt
     watchSearchWarehouseExportReceipt(),
     watchCreateWarehouseExportReceipt(),
