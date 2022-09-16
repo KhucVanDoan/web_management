@@ -173,6 +173,8 @@ import watchGetReceiptDepartmentDetails from './receipt-department-management/ge
 import watchRejectReceiptDepartment from './receipt-department-management/reject-receipt-department'
 import watchSearchReceiptDepartment from './receipt-department-management/search-receipt-department'
 import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
+import watchGetReceiptDetails from './receipt-management/get-receipt-details'
+import watchSearchReceipt from './receipt-management/search-receipt'
 import watchCreateStoragePeriod from './set-storage-period/create-construction'
 import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
 import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
@@ -195,7 +197,6 @@ import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
-
 /**
  * Root saga
  */
@@ -455,5 +456,9 @@ export default function* sagas() {
     watchDeleteWarehouseExportReceipt(),
     watchConfirmWarehouseExportReceipt(),
     watchRejectWarehouseExportReceipt(),
+
+    //receipt-management
+    watchGetReceiptDetails(),
+    watchSearchReceipt(),
   ])
 }

@@ -72,6 +72,8 @@ import ReasonManagement from '../features/reason-management/list'
 import ReceiptDepartmentManagementDetail from '../features/receipt-department-management/detail'
 import ReceiptDepartmentManagementForm from '../features/receipt-department-management/form'
 import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
+import ReceiptManagementDetail from '../features/receipt-management/detail'
+import ReceiptManagement from '../features/receipt-management/list'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
@@ -800,7 +802,7 @@ const routes = [
     ],
   },
   {
-    name: ROUTE.RECEIPT_MANAGEMENT.TITLE,
+    name: ROUTE.RECEIPT_COMMAND_MANAGEMENT.TITLE,
     icon: 'database',
     isInSidebar: true,
     subMenu: [
@@ -855,6 +857,21 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.RECEIPT_MANAGEMENT.LIST.TITLE,
+    icon: 'database',
+    path: ROUTE.RECEIPT_MANAGEMENT.LIST.PATH,
+    component: ReceiptManagement,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.RECEIPT_MANAGEMENT.DETAIL.TITLE,
+        path: ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH,
+        component: ReceiptManagementDetail,
+        isInSidebar: false,
       },
     ],
   },

@@ -131,6 +131,8 @@
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",
     "warehouseImportReceiptDetail": "Chi tiết phiếu nhập kho",
+    "receiptManagement": "Quản lý receipt",
+    "receiptManagementDetail": "Chi tiết receipt",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2869,5 +2871,14 @@
     "subGroupDesc": "Mô tả",
     "subGroupStatus": "Trạng thái hoạt động",
     "addSubGroup": "Thêm nhóm phụ"
+  },
+  "receiptManagement": {
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "receiptNo": "Số receipt",
+    "receiptCode": "Mã phiếu giao/nhận",
+    "contractNo": "Số hợp đồng",
+    "createdAt": "Ngày tạo",
+    "notYetStocked": "Chưa nhập kho",
+    "stocked": "Đã nhập kho"
   }
 }
