@@ -4,7 +4,9 @@
     "searchPlaceholder": "Tìm kiếm thông tin",
     "goBack": "Quay lại trang trước",
     "copyright": "Một sản phẩm của VTI - Solution ©{{year}}",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "userInfo": "Thông tin cá nhân",
+    "changePassword": "Đổi mật khẩu"
   },
   "form": {
     "required": "Mục này bắt buộc phải nhập",
