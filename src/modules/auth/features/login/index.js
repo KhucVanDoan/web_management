@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 
 // import Logo from '~/assets/images/logo-solutions.png'
+import { TEXTFIELD_ALLOW } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/auth/routes/config'
-import { ROUTE as WMSX_ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 import { isAuth } from '~/utils'
 import qs from '~/utils/qs'
@@ -41,7 +41,7 @@ const Login = () => {
     const params = { ...values, rememberPassword: +values.rememberPassword }
     actions.login(
       params,
-      () => history.push(callbackUrl || WMSX_ROUTE.DASHBOARD.PATH),
+      () => history.push(callbackUrl || '/'),
       (e) => {
         setError(e)
       },
@@ -99,6 +99,7 @@ const Login = () => {
                     )}
                   </IconButton>
                 }
+                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
                 sx={{ mt: 4 / 3 }}
               />
               {!!error && (
