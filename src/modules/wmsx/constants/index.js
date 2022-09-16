@@ -1670,3 +1670,27 @@ export const MATERIAL_ACTIVE_STATUS_MAP = {
   [MATERIAL_ACTIVE_STATUS.ACTIVE]: 'general.active',
   [MATERIAL_ACTIVE_STATUS.REJECTED]: 'general.inactive',
 }
+
+export const RECEIPT_MANAGEMENT_STATUS = {
+  NOT_YET_STOCKED: 0,
+  STOCKED: 1,
+}
+
+export const RECEIPT_MANAGEMENT_STATUS_MAP = {
+  [RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED]:
+    'receiptManagement.notYetStocked',
+  [RECEIPT_MANAGEMENT_STATUS.STOCKED]: 'receiptManagement.stocked',
+}
+
+export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'receiptManagement.notYetStocked',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'receiptManagement.stocked',
+    color: 'confirmed',
+  },
+]

@@ -17,6 +17,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
+import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
@@ -25,7 +26,6 @@ import { useClasses } from '~/themes'
 
 import { formSchema } from './schema'
 import style from './style'
-
 function MaterialManagementForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
@@ -212,7 +212,6 @@ function MaterialManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -224,7 +223,6 @@ function MaterialManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
                       }}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -243,7 +241,6 @@ function MaterialManagementForm() {
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -253,8 +250,7 @@ function MaterialManagementForm() {
                       label={t('materialManagement.materialCategory')}
                       placeholder={t('materialManagement.materialCategory')}
                       asyncRequest={(s) =>
-                        //@TODO udpate api
-                        searchProducingCountryApi({
+                        searchMaterialCategoryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
@@ -263,7 +259,6 @@ function MaterialManagementForm() {
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -282,7 +277,6 @@ function MaterialManagementForm() {
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
@@ -302,7 +296,6 @@ function MaterialManagementForm() {
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      disabled={isUpdate}
                       required
                     />
                   </Grid>
