@@ -180,6 +180,8 @@ import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
 import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
 import watchSearchStoragePeriods from './set-storage-period/search-constructions'
 import watchUpdateStoragePeriod from './set-storage-period/update-construction'
+import watchGetSignatureConfigurationDetails from './signature-configuration/get-signature-configuration-details'
+import watchUpdateSignatureConfiguration from './signature-configuration/update-signature-configuration'
 import watchConfirmSourceManagement from './source-management/confirm'
 import watchCreateSourceManagement from './source-management/create'
 import watchDeleteSourceManagement from './source-management/delete'
@@ -445,6 +447,9 @@ export default function* sagas() {
     // inventory warning
     watchSearchInventoryWarning(),
 
+    //signature configuration
+    watchGetSignatureConfigurationDetails(),
+    watchUpdateSignatureConfiguration(),
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),

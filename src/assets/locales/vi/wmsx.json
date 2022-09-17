@@ -122,6 +122,7 @@
     "setStoragePeriodDetail": "Chi tiết thiết lập thời hạn lưu kho",
     "setting": "Cài đặt",
     "qrCode": "Cấu hình QRCode vật tư",
+    "signatureConfiguration": "Cấu hình chữ ký",
     "receiptCommandManagement": "Quản lý lệnh, phiếu",
     "warehouseExportReceipt": "Phiếu xuất kho",
     "warehouseExportReceiptCreate": "Tạo phiếu xuất kho",
@@ -2761,6 +2762,15 @@
     "value1": "Giá trị 1",
     "value2": "Giá trị 2",
     "value3": "Giá trị 3"
+  },
+  "signatureConfiguration": {
+    "title": "Cấu hình chữ ký",
+    "formType": "Loại phiếu",
+    "list": "Danh sách chữ ký",
+    "add": "Thêm chữ ký",
+    "action": "Hành động",
+    "signerName": "Họ và tên người ký",
+    "role": "Vai trò"
   },
   "warehouseExportReceipt": {
     "list": "Danh sách phiếu xuất kho",

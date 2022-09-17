@@ -488,6 +488,10 @@ export const ROUTE = {
     PATH: '/wmsx/qr-code',
     TITLE: 'qrCode',
   },
+  SIGNATURE_CONFIGURATION: {
+    PATH: '/wmsx/signature-configuration',
+    TITLE: 'signatureConfiguration',
+  },
   RECEIPT_COMMAND_MANAGEMENT: {
     TITLE: 'receiptCommandManagement',
   },

@@ -31,6 +31,7 @@ import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import receiptManagement from './receipt-management'
 import setStoragePeriod from './set-storage-period'
+import signatureConfiguration from './signature-configuration'
 import sourceManagement from './source-management'
 import warehouseExport from './warehouse-export'
 import warehouseExportReceipt from './warehouse-export-receipt'
@@ -71,5 +72,6 @@ export default combineReducers({
   movementManagement,
   inventoryStatistics,
   inventoryWarning,
+  signatureConfiguration,
   receiptManagement,
 })
