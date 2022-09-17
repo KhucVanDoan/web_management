@@ -77,6 +77,7 @@ import ReceiptManagement from '../features/receipt-management/list'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
+import SignatureConfiguration from '../features/signature-configuration'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
@@ -929,6 +930,12 @@ const routes = [
     icon: 'setting',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
+        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
+        component: SignatureConfiguration,
+        isInSidebar: true,
+      },
       {
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,
