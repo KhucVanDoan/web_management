@@ -74,6 +74,7 @@ import ReceiptDepartmentManagementForm from '../features/receipt-department-mana
 import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
 import ReceiptManagementDetail from '../features/receipt-management/detail'
 import ReceiptManagement from '../features/receipt-management/list'
+import ReportExport from '../features/report-export'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
@@ -921,6 +922,19 @@ const routes = [
         path: ROUTE.INVENTORY_WARNING.PATH,
         name: ROUTE.INVENTORY_WARNING.TITLE,
         component: InventoryWarning,
+        isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.REPORT_STATISTICS.TITLE,
+    icon: 'export',
+    isInSidebar: true,
+    subMenu: [
+      {
+        path: ROUTE.REPORT_EXPORT.PATH,
+        name: ROUTE.REPORT_EXPORT.TITLE,
+        component: ReportExport,
         isInSidebar: true,
       },
     ],

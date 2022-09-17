@@ -134,6 +134,8 @@
     "warehouseImportReceiptDetail": "Chi tiết phiếu nhập kho",
     "receiptManagement": "Quản lý receipt",
     "receiptManagementDetail": "Chi tiết receipt",
+    "reportStatistics": "Thống kê báo cáo",
+    "reportExport": "Xuất báo cáo",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2890,5 +2892,15 @@
     "createdAt": "Ngày tạo",
     "notYetStocked": "Chưa nhập kho",
     "stocked": "Đã nhập kho"
+  },
+  "reportExport": {
+    "type": "Loại báo cáo",
+    "company": "Công ty",
+    "contruction": "Công trình",
+    "warehouse": "Kho",
+    "fromDate": "Từ ngày",
+    "fileFormat": "Định dạng",
+    "receivingDepartment": "Bộ phận nhận",
+    "export": "Xuất file"
   }
 }

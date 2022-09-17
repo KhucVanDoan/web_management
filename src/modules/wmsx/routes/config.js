@@ -573,4 +573,11 @@ export const ROUTE = {
     PATH: '/wmsx/inventory-warning',
     TITLE: 'inventoryWarning',
   },
+  REPORT_STATISTICS: {
+    TITLE: 'reportStatistics',
+  },
+  REPORT_EXPORT: {
+    PATH: '/wmsx/report-export',
+    TITLE: 'reportExport',
+  },
 }

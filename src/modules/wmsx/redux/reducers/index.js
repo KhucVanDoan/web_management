@@ -30,6 +30,7 @@ import qrCode from './qr-code'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import receiptManagement from './receipt-management'
+import reportExport from './report-export'
 import setStoragePeriod from './set-storage-period'
 import signatureConfiguration from './signature-configuration'
 import sourceManagement from './source-management'
@@ -74,4 +75,5 @@ export default combineReducers({
   inventoryWarning,
   signatureConfiguration,
   receiptManagement,
+  reportExport,
 })

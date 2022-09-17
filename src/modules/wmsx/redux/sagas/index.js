@@ -175,6 +175,7 @@ import watchSearchReceiptDepartment from './receipt-department-management/search
 import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
 import watchGetReceiptDetails from './receipt-management/get-receipt-details'
 import watchSearchReceipt from './receipt-management/search-receipt'
+import watchExportReport from './report-export/export-report'
 import watchCreateStoragePeriod from './set-storage-period/create-construction'
 import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
 import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
@@ -465,5 +466,7 @@ export default function* sagas() {
     //receipt-management
     watchGetReceiptDetails(),
     watchSearchReceipt(),
+    // export report
+    watchExportReport(),
   ])
 }
