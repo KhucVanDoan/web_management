@@ -2,32 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createManagementUnitFailed,
-  createManagementUnitSuccess,
-  CREATE_MANAGEMENT_UNIT_START,
+  rejectUnitManagementByIdFailed,
+  rejectUnitManagementByIdSuccess,
+  REJECT_UNIT_MANAGEMENT_START,
 } from '~/modules/wmsx/redux/actions/management-unit'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
-/**
- * Search user API
- * @param {any} body Params will be sent to server
- * @returns {Promise}
- */
-const createManagementUnitApi = (body) => {
-  const uri = `/v1/users/department-settings`
-  return api.post(uri, body)
+
+const rejectUnitManagementApi = (params) => {
+  const uri = `/v1/users/department-settings/${params}/reject`
+  return api.put(uri)
 }
 
-/**
- * Handle get data request and response
- * @param {object} action
- */
-function* doCreateManagementUnit(action) {
+function* doRejectUnitManagement(action) {
   try {
-    const response = yield call(createManagementUnitApi, action?.payload)
+    const response = yield call(rejectUnitManagementApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createManagementUnitSuccess(response.data))
+      yield put(rejectUnitManagementByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -44,7 +36,7 @@ function* doCreateManagementUnit(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createManagementUnitFailed())
+    yield put(rejectUnitManagementByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -52,9 +44,6 @@ function* doCreateManagementUnit(action) {
   }
 }
 
-/**
- * Watch search users
- */
-export default function* watchCreateManagementUnit() {
-  yield takeLatest(CREATE_MANAGEMENT_UNIT_START, doCreateManagementUnit)
+export default function* watchRejectUnitManagement() {
+  yield takeLatest(REJECT_UNIT_MANAGEMENT_START, doRejectUnitManagement)
 }

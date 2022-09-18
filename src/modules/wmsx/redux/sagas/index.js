@@ -152,10 +152,13 @@ import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
 import watchUpdateLocation from './location-management/update-location'
+import watchConfirmUnitManagement from './management-unit/confirm'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
+import watchRejectUnitManagement from './management-unit/reject'
 import watchSearchManagementUnit from './management-unit/search'
+import watchUpdateUnitManagement from './management-unit/update'
 import watchConfirmMaterial from './material-management/confirm-material'
 import watchCreateMaterial from './material-management/create-material'
 import watchDeleteMaterial from './material-management/delete-material'
@@ -232,7 +235,9 @@ export default function* sagas() {
     watchDeleteManagementUnit(),
     watchGetDetailManagementUnit(),
     watchSearchManagementUnit(),
-
+    watchUpdateUnitManagement(),
+    watchConfirmUnitManagement(),
+    watchRejectUnitManagement(),
     //company-management
     watchCreateCompany(),
     watchDeleteCompany(),
