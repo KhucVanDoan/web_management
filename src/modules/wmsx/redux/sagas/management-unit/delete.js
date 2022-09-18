@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const deleteApi = (params) => {
-  const uri = `${params}`
+  const uri = `/v1/users/department-settings/${params}`
   return api.delete(uri)
 }
 

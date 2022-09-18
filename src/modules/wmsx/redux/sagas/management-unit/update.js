@@ -2,10 +2,10 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateDetailFailed,
-  updateDetailSuccess,
-  UPDATE_DETAIL_START,
-} from '~/modules/wmsx/redux/actions/define-detail'
+  updateManagementUnitFailed,
+  updateManagementUnitSuccess,
+  UPDATE_MANAGEMENT_UNIT_START,
+} from '~/modules/wmsx/redux/actions/management-unit'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
@@ -14,21 +14,21 @@ import addNotification from '~/utils/toast'
  * @param {any} body Params will be sent to server
  * @returns {Promise}
  */
-const updateDetailApi = (body) => {
-  const uri = `/v1/items/item-details/${body.id}`
-  return api.put(uri, body)
+const updateUnitManagementApi = (params) => {
+  const uri = `/v1/users/department-settings/${params?.id}`
+  return api.put(uri, params)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doUpdateDetail(action) {
+function* doUpdateUnitManagement(action) {
   try {
-    const response = yield call(updateDetailApi, action?.payload)
+    const response = yield call(updateUnitManagementApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateDetailSuccess(response.results))
+      yield put(updateManagementUnitSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -45,7 +45,7 @@ function* doUpdateDetail(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateDetailFailed())
+    yield put(updateManagementUnitFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -56,6 +56,6 @@ function* doUpdateDetail(action) {
 /**
  * Watch search users
  */
-export default function* watchUpdateDetail() {
-  yield takeLatest(UPDATE_DETAIL_START, doUpdateDetail)
+export default function* watchUpdateUnitManagement() {
+  yield takeLatest(UPDATE_MANAGEMENT_UNIT_START, doUpdateUnitManagement)
 }

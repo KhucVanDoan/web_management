@@ -26,6 +26,18 @@ export const DELETE_MANAGEMENT_UNIT_SUCCESS =
 export const DELETE_MANAGEMENT_UNIT_FAILED =
   'WMSX_DELETE_MANAGEMENT_UNIT_FAILED'
 
+export const CONFIRM_UNIT_MANAGEMENT_START =
+  'WMSX_CONFIRM_UNIT_MANAGEMENT_START'
+export const CONFIRM_UNIT_MANAGEMENT_SUCCESS =
+  'WMSX_CONFIRM_UNIT_MANAGEMENT_SUCCESS'
+export const CONFIRM_UNIT_MANAGEMENT_FAILED =
+  'WMSX_CONFIRM_UNIT_MANAGEMENT_FAILED'
+
+export const REJECT_UNIT_MANAGEMENT_START = 'WMSX_REJECT_UNIT_MANAGEMENT_START'
+export const REJECT_UNIT_MANAGEMENT_SUCCESS =
+  'WMSX_REJECT_UNIT_MANAGEMENT_SUCCESS'
+export const REJECT_UNIT_MANAGEMENT_FAILED =
+  'WMSX_REJECT_UNIT_MANAGEMENT_FAILED'
 export const RESET_MANAGEMENT_UNIT_STATE = 'WMSX_RESET_MANAGEMENT_UNIT_STATE'
 
 /**
@@ -216,6 +228,53 @@ export function getDetailManagementUnitByIdFailed() {
   }
 }
 
+export function confirmUnitManagementById(
+  unitManagementId,
+  onSuccess,
+  onError,
+) {
+  return {
+    type: CONFIRM_UNIT_MANAGEMENT_START,
+    payload: unitManagementId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmUnitManagementByIdSuccess(payload) {
+  return {
+    type: CONFIRM_UNIT_MANAGEMENT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmUnitManagementByIdFailed() {
+  return {
+    type: CONFIRM_UNIT_MANAGEMENT_FAILED,
+  }
+}
+
+export function rejectUnitManagementById(unitManagementId, onSuccess, onError) {
+  return {
+    type: REJECT_UNIT_MANAGEMENT_START,
+    payload: unitManagementId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function rejectUnitManagementByIdSuccess(payload) {
+  return {
+    type: REJECT_UNIT_MANAGEMENT_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function rejectUnitManagementByIdFailed() {
+  return {
+    type: REJECT_UNIT_MANAGEMENT_FAILED,
+  }
+}
 export function resetManagementUnitState() {
   return {
     type: RESET_MANAGEMENT_UNIT_STATE,
@@ -238,5 +297,11 @@ export default {
   getDetailManagementUnitById,
   getDetailManagementUnitByIdSuccess,
   getDetailManagementUnitByIdFailed,
+  confirmUnitManagementById,
+  confirmUnitManagementByIdSuccess,
+  confirmUnitManagementByIdFailed,
+  rejectUnitManagementById,
+  rejectUnitManagementByIdSuccess,
+  rejectUnitManagementByIdFailed,
   resetManagementUnitState,
 }

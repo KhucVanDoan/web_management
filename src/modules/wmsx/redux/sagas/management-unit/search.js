@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const searchApi = (params) => {
-  const uri = `/v1/items/item-details/list`
+  const uri = `/v1/users/department-settings/list`
   return api.get(uri, params)
 }
 

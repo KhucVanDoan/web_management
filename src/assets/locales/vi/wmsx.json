@@ -2403,6 +2403,8 @@
     "status": "Trạng thái hoạt động",
     "createdAt": "Ngày tạo",
     "searchPlaceHolder": "Tìm kiếm thông tin...",
+    "deleteModalTitle": "Xóa đơn vị",
+    "deleteConfirm": "Bạn có chắc chắn muốn xoá đơn vị này không?",
     "export": "Quanlydonvi"
   },
   "companyManagement": {

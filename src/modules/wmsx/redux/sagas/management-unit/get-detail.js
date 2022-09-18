@@ -13,7 +13,7 @@ import { api } from '~/services/api'
  * @returns {Promise}
  */
 const getDetailApi = (params) => {
-  const uri = `${params}`
+  const uri = `/v1/users/department-settings/${params}`
   return api.get(uri)
 }
 
