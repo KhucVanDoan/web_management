@@ -19,6 +19,7 @@ import defineUom from './define-uom'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehouseGroup from './define-warehouse-group'
+import inventoryCalendar from './inventory-calendar'
 import inventorySetting from './inventory-setting'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
@@ -37,7 +38,6 @@ import sourceManagement from './source-management'
 import warehouseExport from './warehouse-export'
 import warehouseExportReceipt from './warehouse-export-receipt'
 import warehouseImport from './warehouse-import'
-
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -76,4 +76,5 @@ export default combineReducers({
   signatureConfiguration,
   receiptManagement,
   reportExport,
+  inventoryCalendar,
 })

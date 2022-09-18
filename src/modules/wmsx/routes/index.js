@@ -54,6 +54,10 @@ import DefineWarehouseGroup from '../features/define-warehouse-group/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseForm from '../features/define-warehouse/form'
 import DefineWarehouse from '../features/define-warehouse/list'
+import InventoryCalenderDetail from '../features/inventory-calendar/detail'
+import InventoryCalenderForm from '../features/inventory-calendar/form'
+import InventoryCalender from '../features/inventory-calendar/list'
+import ReciptDetail from '../features/inventory-calendar/recipt-transaction'
 import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
@@ -856,6 +860,38 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
             component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
+        path: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
+        component: InventoryCalender,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_CALENDAR.CREATE.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.CREATE.PATH,
+            component: InventoryCalenderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH,
+            component: InventoryCalenderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
+            component: InventoryCalenderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH,
+            component: ReciptDetail,
             isInSidebar: false,
           },
         ],
