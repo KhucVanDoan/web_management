@@ -10,22 +10,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { searchItemsApi } from '~/modules/database/redux/sagas/define-item/search-items'
-import { searchDefineWarehousePalletApi } from '~/modules/wmsx/redux/sagas/define-warehouse-pallet/search-define-warehouse-pallet'
-import { searchDefineWarehouseShelfApi } from '~/modules/wmsx/redux/sagas/define-warehouse-shelf/search-define-warehouse-shelf'
-import { searchWarehouseAreasApi } from '~/modules/wmsx/redux/sagas/warehouse-area/search-warehouse-areas'
-import { convertFilterParams, scrollToBottom } from '~/utils'
+import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 
-function ItemSettingTable({
-  items,
-  mode,
-  arrayHelpers,
-  values,
-  setFieldValue,
-}) {
+function ItemSettingTable({ items, mode, arrayHelpers }) {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
   const getColumns = () => {
     return [
       {
@@ -37,160 +26,24 @@ function ItemSettingTable({
         },
       },
       {
-        field: 'warehouseName',
-        headerName: t('inventoryCalendar.items.warehouseName'),
-        width: 180,
-        renderCell: (params, index) => {
-          const { warehouseName } = params.row
-
-          return isView ? (
-            <>{warehouseName}</>
-          ) : (
-            <Field.TextField
-              name={`items[${index}].warehouseName`}
-              value={values?.warehouses?.name || ''}
-              disabled={true}
-            />
-          )
-        },
-      },
-      {
-        field: 'warehouseSector',
-        headerName: t('inventoryCalendar.items.warehouseSectorName'),
-        width: 220,
-        renderCell: (params, index) => {
-          const { warehouseSector } = params.row
-
-          // const itemIdCodeList = items.map((item) => item.warehouseSector?.id)
-          return isView ? (
-            <>{warehouseSector?.name || ''}</>
-          ) : (
-            <Field.Autocomplete
-              name={`items[${index}].warehouseSector`}
-              asyncRequest={(s) =>
-                searchWarehouseAreasApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                  filter: convertFilterParams({
-                    warehouseId: values?.warehouses?.id,
-                  }),
-                })
-              }
-              asyncRequestDeps={values?.warehouses?.id}
-              asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
-              // getOptionDisabled={(opt) =>
-              //   itemIdCodeList.some((id) => id === opt?.id) &&
-              //   opt?.id !== items[index]?.warehouseSector?.id
-              // }
-              onChange={() => {
-                setFieldValue(`items[${index}].warehouseShelf`, null)
-                setFieldValue(`items[${index}].warehousePallet`, null)
-              }}
-            />
-          )
-        },
-      },
-      {
-        field: 'warehouseShelf',
-        headerName: t('inventoryCalendar.items.warehouseShelfName'),
-        width: 220,
-        renderCell: (params, index) => {
-          const { warehouseShelf } = params.row
-
-          // const itemIdCodeList = items.map((item) => item.warehouseShelf?.id)
-          return isView ? (
-            <>{warehouseShelf?.name || ''}</>
-          ) : (
-            <Field.Autocomplete
-              name={`items[${index}].warehouseShelf`}
-              asyncRequest={(s) =>
-                searchDefineWarehouseShelfApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                  filter: convertFilterParams({
-                    warehouseSectorId: items[index].warehouseSector?.id,
-                  }),
-                })
-              }
-              asyncRequestDeps={items[index].warehouseSector?.id}
-              asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
-              // getOptionDisabled={(opt) =>
-              //   itemIdCodeList.some((id) => id === opt?.id) &&
-              //   opt?.id !== items[index]?.warehouseShelf?.id
-              // }
-              onChange={() =>
-                setFieldValue(`items[${index}].warehousePallet`, null)
-              }
-            />
-          )
-        },
-      },
-      {
-        field: 'warehousePallet',
-        headerName: t('inventoryCalendar.items.warehousePalletName'),
-        width: 220,
-        renderCell: (params, index) => {
-          const { warehousePallet } = params.row
-
-          const itemIdCodeList = items.map((item) => item.warehousePallet?.id)
-          return isView ? (
-            <>{warehousePallet?.name || ''}</>
-          ) : (
-            <Field.Autocomplete
-              name={`items[${index}].warehousePallet`}
-              asyncRequest={(s) =>
-                searchDefineWarehousePalletApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                  filter: convertFilterParams({
-                    warehouseShelfId: items[index]?.warehouseShelf?.id,
-                  }),
-                })
-              }
-              asyncRequestDeps={items[index]?.warehouseShelf?.id}
-              asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !== items[index]?.warehousePallet?.id
-              }
-            />
-          )
-        },
-      },
-      {
         field: 'itemCode',
         headerName: t('inventoryCalendar.items.itemCode'),
-        width: 220,
+        width: 180,
         renderCell: (params, index) => {
-          const { itemCode } = params.row
-          const itemIdCodeList = items.map(
-            (item) => item.itemId?.itemId || item.itemId?.id,
-          )
           return isView ? (
-            <>{itemCode}</>
+            params?.row?.itemCode?.code
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].itemId`}
+              name={`items[${index}].itemCode`}
               asyncRequest={(s) =>
-                searchItemsApi({
+                searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
                 })
               }
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
-              getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !==
-                  (items[index]?.itemId?.itemId || items[index]?.itemId?.id)
-              }
+              getOptionLabel={(opt) => opt?.name}
             />
           )
         },
@@ -200,13 +53,26 @@ function ItemSettingTable({
         headerName: t('inventoryCalendar.items.itemName'),
         width: 180,
         renderCell: (params, index) => {
-          const { itemName } = params.row
           return isView ? (
-            <>{itemName}</>
+            params?.row?.itemCode?.name
           ) : (
             <Field.TextField
-              name={`items[${index}].itemName`}
-              value={items[index]?.itemId?.name || ''}
+              name={`items[${index}].itemCode.name`}
+              disabled={true}
+            />
+          )
+        },
+      },
+      {
+        field: 'unit',
+        headerName: t('inventoryCalendar.items.unit'),
+        width: 180,
+        renderCell: (params, index) => {
+          return isView ? (
+            params?.row?.itemCode?.itemUnit?.name
+          ) : (
+            <Field.TextField
+              name={`items[${index}].itemCode.itemUnit.name`}
               disabled={true}
             />
           )
@@ -254,14 +120,9 @@ function ItemSettingTable({
               onClick={() => {
                 arrayHelpers.push({
                   id: new Date().getTime(),
-                  warehouseName: '',
-                  warehouseSector: null,
-                  warehouseShelf: null,
-                  warehousePallet: null,
-                  itemId: null,
                   itemName: '',
+                  itemCode: '',
                 })
-                scrollToBottom()
               }}
             >
               {t('inventoryCalendar.items.addButton')}

@@ -580,4 +580,26 @@ export const ROUTE = {
     PATH: '/wmsx/report-export',
     TITLE: 'reportExport',
   },
+  INVENTORY_CALENDAR: {
+    LIST: {
+      PATH: '/wmsx/inventory-calendar',
+      TITLE: 'inventoryCalendar',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-calendar/create',
+      TITLE: 'inventoryCalendarCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-calendar/:id/edit',
+      TITLE: 'inventoryCalendarEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-calendar/:id/detail',
+      TITLE: 'inventoryCalendarDetail',
+    },
+    DETAIL_RECIPT: {
+      PATH: '/wmsx/inventory-calendar/:id/detail-recipt',
+      TITLE: 'inventorySheet',
+    },
+  },
 }
