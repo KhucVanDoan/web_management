@@ -87,7 +87,8 @@ const MaterialTable = ({ material, mode }) => {
                   placeholder={t('defineMaterialCategory.status')}
                   options={ACTIVE_STATUS_OPTIONS}
                   getOptionLabel={(opt) => t(opt.text)}
-                  getOptionValue={(opt) => opt?.id.toString()}
+                  getOptionValue={(opt) => opt?.id}
+                  disableClearable
                 />
               )
             },

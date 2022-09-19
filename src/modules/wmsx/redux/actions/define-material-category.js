@@ -33,6 +33,13 @@ export const GET_MATERIAL_CATEGORY_DETAILS_SUCCESS =
 export const GET_MATERIAL_CATEGORY_DETAILS_FAILED =
   'WMSX_GET_MATERIAL_CATEGORY_DETAILS_FAILED'
 
+export const GET_MATERIAL_CHILD_DETAILS_START =
+  'WMSX_GET_MATERIAL_CHILD_DETAILS_START'
+export const GET_MATERIAL_CHILD_DETAILS_SUCCESS =
+  'WMSX_GET_MATERIAL_CHILD_DETAILS_SUCCESS'
+export const GET_MATERIAL_CHILD_DETAILS_FAILED =
+  'WMSX_GET_MATERIAL_CHILD_DETAILS_FAILED'
+
 export const CONFIRM_MATERIAL_CATEGORY_START =
   'WMSX_CONFIRM_MATERIAL_CATEGORY_START'
 export const CONFIRM_MATERIAL_CATEGORY_SUCCESS =
@@ -160,6 +167,28 @@ export function getMaterialCategoryDetailsByIdFailed() {
   }
 }
 
+export function getMaterialChildDetailsById(packageId, onSuccess, onError) {
+  return {
+    type: GET_MATERIAL_CHILD_DETAILS_START,
+    payload: packageId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getMaterialChildDetailsByIdSuccess(payload) {
+  return {
+    type: GET_MATERIAL_CHILD_DETAILS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getMaterialChildDetailsByIdFailed() {
+  return {
+    type: GET_MATERIAL_CHILD_DETAILS_FAILED,
+  }
+}
+
 export function confirmMaterialCategoryById(Id, onSuccess, onError) {
   return {
     type: CONFIRM_MATERIAL_CATEGORY_START,
@@ -226,6 +255,9 @@ export default {
   getMaterialCategoryDetailsById,
   getMaterialCategoryDetailsByIdSuccess,
   getMaterialCategoryDetailsByIdFailed,
+  getMaterialChildDetailsById,
+  getMaterialChildDetailsByIdSuccess,
+  getMaterialChildDetailsByIdFailed,
   confirmMaterialCategoryById,
   confirmMaterialCategoryByIdSuccess,
   confirmMaterialCategoryByIdFailed,
