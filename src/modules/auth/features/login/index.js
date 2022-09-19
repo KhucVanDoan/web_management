@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom'
 
 // import Logo from '~/assets/images/logo-solutions.png'
-import { TEXTFIELD_ALLOW } from '~/common/constants'
+import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -76,6 +76,9 @@ const Login = () => {
                   handleChange(e)
                   setError('')
                 }}
+                inputProps={{
+                  maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
+                }}
               />
               <Field.TextField
                 vertical
@@ -100,6 +103,9 @@ const Login = () => {
                   </IconButton>
                 }
                 allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
+                inputProps={{
+                  maxLength: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
+                }}
                 sx={{ mt: 4 / 3 }}
               />
               {!!error && (

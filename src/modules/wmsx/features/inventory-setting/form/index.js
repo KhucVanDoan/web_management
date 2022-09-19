@@ -27,7 +27,7 @@ function InventorySettingForm() {
   const routeMatch = useRouteMatch()
 
   const {
-    data: { isLoading, iventorySettingDetail },
+    data: { isLoading, inventorySettingDetail },
     actions,
   } = useInventorySetting()
 
@@ -40,14 +40,14 @@ function InventorySettingForm() {
 
   const initialValues = useMemo(
     () => ({
-      warehouse: iventorySettingDetail?.warehouse || null,
-      item: iventorySettingDetail?.item || null,
+      warehouse: inventorySettingDetail?.warehouse || null,
+      item: inventorySettingDetail?.item || null,
       unit: '',
-      inventoryLimit: iventorySettingDetail?.inventoryLimit || 0,
-      minInventoryLimit: iventorySettingDetail?.minInventoryLimit || 0,
-      maxInventoryLimit: iventorySettingDetail?.maxInventoryLimit || 0,
+      inventoryLimit: Number(inventorySettingDetail?.inventoryLimit) || 0,
+      minInventoryLimit: Number(inventorySettingDetail?.minInventoryLimit) || 0,
+      maxInventoryLimit: Number(inventorySettingDetail?.maxInventoryLimit) || 0,
     }),
-    [iventorySettingDetail],
+    [inventorySettingDetail],
   )
 
   const getBreadcrumb = () => {
