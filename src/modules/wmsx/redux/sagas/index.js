@@ -69,6 +69,7 @@ import watchConfirmMaterialCategory from './define-material-category/confirm-mat
 import watchCreateMaterialCategory from './define-material-category/create-material-category'
 import watchDeleteMaterialCategory from './define-material-category/delete-material-category'
 import watchGetMaterialCategoryDetails from './define-material-category/get-material-category-details'
+import watchGetMaterialChildDetails from './define-material-category/get-material-child-details'
 import watchRejectMaterialCategory from './define-material-category/reject-material-category'
 import watchSearchMaterialCategory from './define-material-category/search-material-category'
 import watchUpdateMaterialCategory from './define-material-category/update-material-category'
@@ -327,6 +328,7 @@ export default function* sagas() {
     watchDeleteMaterialCategory(),
     watchConfirmMaterialCategory(),
     watchRejectMaterialCategory(),
+    watchGetMaterialChildDetails(),
 
     //receipt-department-management
     watchCreateReceiptDepartment(),
