@@ -41,7 +41,7 @@ function DefineMaterialQualityForm() {
 
   const initialValues = useMemo(
     () => ({
-      code: materialQualityDetails?.code || '',
+      code: materialQualityDetails?.code || '000',
       name: materialQualityDetails?.name || '',
       description: materialQualityDetails?.description || '',
     }),
@@ -183,7 +183,7 @@ function DefineMaterialQualityForm() {
                       label={t('defineMaterialQuality.code')}
                       placeholder={t('defineMaterialQuality.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
@@ -196,7 +196,7 @@ function DefineMaterialQualityForm() {
                       label={t('defineMaterialQuality.name')}
                       placeholder={t('defineMaterialQuality.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
                       required
                     />
