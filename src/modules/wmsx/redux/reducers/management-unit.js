@@ -14,6 +14,12 @@ import {
   UPDATE_MANAGEMENT_UNIT_FAILED,
   UPDATE_MANAGEMENT_UNIT_START,
   UPDATE_MANAGEMENT_UNIT_SUCCESS,
+  CONFIRM_UNIT_MANAGEMENT_FAILED,
+  CONFIRM_UNIT_MANAGEMENT_START,
+  CONFIRM_UNIT_MANAGEMENT_SUCCESS,
+  REJECT_UNIT_MANAGEMENT_FAILED,
+  REJECT_UNIT_MANAGEMENT_START,
+  REJECT_UNIT_MANAGEMENT_SUCCESS,
   RESET_MANAGEMENT_UNIT_STATE,
 } from '~/modules/wmsx/redux/actions/management-unit'
 
@@ -37,6 +43,8 @@ export default function managementUnit(state = initialState, action) {
     case UPDATE_MANAGEMENT_UNIT_START:
     case DELETE_MANAGEMENT_UNIT_START:
     case GET_MANAGEMENT_UNIT_START:
+    case CONFIRM_UNIT_MANAGEMENT_START:
+    case REJECT_UNIT_MANAGEMENT_START:
       return {
         ...state,
         isLoading: true,
@@ -58,6 +66,10 @@ export default function managementUnit(state = initialState, action) {
     case DELETE_MANAGEMENT_UNIT_SUCCESS:
     case DELETE_MANAGEMENT_UNIT_FAILED:
     case GET_MANAGEMENT_UNIT_FAILED:
+    case CONFIRM_UNIT_MANAGEMENT_SUCCESS:
+    case CONFIRM_UNIT_MANAGEMENT_FAILED:
+    case REJECT_UNIT_MANAGEMENT_SUCCESS:
+    case REJECT_UNIT_MANAGEMENT_FAILED:
       return {
         ...state,
         isLoading: false,

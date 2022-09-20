@@ -8,6 +8,9 @@ import watchUpdateDepartmentAssign from './department-list/update-department-ass
 import watchGetRoleAssignDetails from './role-list/get-role-assign'
 import watchSearchRoleList from './role-list/search-role-list'
 import watchUpdateRoleAssign from './role-list/update-role-assign'
+import watchChangePassword from './user-info/change-password'
+import watchGetUserInfoDetails from './user-info/get-user-info'
+import watchUpdateUserInfo from './user-info/update-user-info'
 import watchGetUserPermissionDetails from './user-permission/get-user-permission'
 import watchUpdateUserPermission from './user-permission/update-user-permission'
 
@@ -32,5 +35,10 @@ export default function* sagas() {
     //user-permission
     watchGetUserPermissionDetails(),
     watchUpdateUserPermission(),
+
+    //user-info
+    watchGetUserInfoDetails(),
+    watchUpdateUserInfo(),
+    watchChangePassword(),
   ])
 }

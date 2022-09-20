@@ -4,14 +4,14 @@ import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 
 export const formSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string().required(t('general:form.required')),
-    name: Yup.string()
+    code: Yup.string()
       .required(t('general:form.required'))
-      .min(
-        TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-        t('general:form.minLength', {
-          min: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+      .length(
+        TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
+        t('general:form.length', {
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
         }),
       ),
+    name: Yup.string().required(t('general:form.required')),
     description: Yup.string(),
   })

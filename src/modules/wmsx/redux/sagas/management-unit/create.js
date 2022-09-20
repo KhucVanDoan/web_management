@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createManagementUnitApi = (body) => {
-  const uri = ``
+  const uri = `/v1/users/department-settings`
   return api.post(uri, body)
 }
 

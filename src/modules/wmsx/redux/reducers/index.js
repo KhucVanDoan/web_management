@@ -19,6 +19,7 @@ import defineUom from './define-uom'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehouseGroup from './define-warehouse-group'
+import inventoryCalendar from './inventory-calendar'
 import inventorySetting from './inventory-setting'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
@@ -29,12 +30,14 @@ import movementManagement from './movements'
 import qrCode from './qr-code'
 import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
+import receiptManagement from './receipt-management'
+import reportExport from './report-export'
 import setStoragePeriod from './set-storage-period'
+import signatureConfiguration from './signature-configuration'
 import sourceManagement from './source-management'
 import warehouseExport from './warehouse-export'
 import warehouseExportReceipt from './warehouse-export-receipt'
 import warehouseImport from './warehouse-import'
-
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -70,4 +73,8 @@ export default combineReducers({
   movementManagement,
   inventoryStatistics,
   inventoryWarning,
+  signatureConfiguration,
+  receiptManagement,
+  reportExport,
+  inventoryCalendar,
 })

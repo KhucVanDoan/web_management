@@ -14,7 +14,9 @@
     "departmentAssign": "Phân quyền bộ phận",
     "defineRole": "Định nghĩa vai trò",
     "roleList": "Quản lý vai trò người dùng",
-    "roleAssign": "Phân quyền vai trò"
+    "roleAssign": "Phân quyền vai trò",
+    "userInfo": "Thông tin cá nhân",
+    "changePassword": "Đổi mật khẩu"
   },
   "companyCustomerSetting": {
     "searchPlaceholder": "Tìm kiếm thông tin",
@@ -83,5 +85,11 @@
     "id": "Id",
     "feature": "Chức năng",
     "assign": "Phân quyền"
+  },
+  "changePassword": {
+    "password": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu mới",
+    "forgotPassword": "Quên mật khẩu?"
   }
 }

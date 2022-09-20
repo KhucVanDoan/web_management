@@ -8,6 +8,9 @@ import {
   GET_MATERIAL_CATEGORY_DETAILS_FAILED,
   GET_MATERIAL_CATEGORY_DETAILS_START,
   GET_MATERIAL_CATEGORY_DETAILS_SUCCESS,
+  GET_MATERIAL_CHILD_DETAILS_FAILED,
+  GET_MATERIAL_CHILD_DETAILS_START,
+  GET_MATERIAL_CHILD_DETAILS_SUCCESS,
   SEARCH_MATERIAL_CATEGORY_FAILED,
   SEARCH_MATERIAL_CATEGORY_START,
   SEARCH_MATERIAL_CATEGORY_SUCCESS,
@@ -26,6 +29,7 @@ import {
 const initialState = {
   isLoading: false,
   materialCategoryList: [],
+  materialChildList: [],
   materialCategoryDetails: {},
   total: null,
 }
@@ -45,6 +49,7 @@ export default function defineMaterialCategory(state = initialState, action) {
     case CONFIRM_MATERIAL_CATEGORY_START:
     case REJECT_MATERIAL_CATEGORY_START:
     case GET_MATERIAL_CATEGORY_DETAILS_START:
+    case GET_MATERIAL_CHILD_DETAILS_START:
       return {
         ...state,
         isLoading: true,
@@ -83,6 +88,18 @@ export default function defineMaterialCategory(state = initialState, action) {
         isLoading: false,
       }
     case GET_MATERIAL_CATEGORY_DETAILS_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case GET_MATERIAL_CHILD_DETAILS_SUCCESS:
+      return {
+        ...state,
+        materialChildList: action.payload.list,
+        isLoading: false,
+        total: action.payload.total,
+      }
+    case GET_MATERIAL_CHILD_DETAILS_FAILED:
       return {
         ...state,
         isLoading: false,

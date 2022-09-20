@@ -7,6 +7,9 @@ import CompanyCustomerSetting from '../feature/company-customer-setting'
 import DepartmentAssign from '../feature/department-list/assign'
 import DepartmentList from '../feature/department-list/list'
 import RoleList from '../feature/role-list/list'
+import ChangePassword from '../feature/user-info/change-password'
+import UserInfoDetail from '../feature/user-info/user-detail'
+import UserInfoForm from '../feature/user-info/user-form'
 import UserPermission from '../feature/user-permission'
 import { ROUTE } from './config'
 
@@ -91,6 +94,21 @@ const routes = [
         ],
       },
     ],
+  },
+  {
+    name: ROUTE.ACCOUNT.DETAIL.TITLE,
+    path: ROUTE.ACCOUNT.DETAIL.PATH,
+    component: UserInfoDetail,
+  },
+  {
+    name: ROUTE.ACCOUNT.EDIT.TITLE,
+    path: ROUTE.ACCOUNT.EDIT.PATH,
+    component: UserInfoForm,
+  },
+  {
+    name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
+    path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
+    component: ChangePassword,
   },
 ]
 

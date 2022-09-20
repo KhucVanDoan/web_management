@@ -50,6 +50,11 @@ const style = (theme) => ({
     paddingTop: 48,
     marginTop: 'auto',
   },
+  logo: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '25vh 10% 0',
+  },
 })
 
 export default style

@@ -1086,30 +1086,32 @@ export const STAGES_OPTION = {
 export const DISTANCE_BETWEEN_SECTORS = 5
 
 export const INVENTORY_TYPE = {
-  FULL_INVENTORY: 0,
-  PARTIAL_INVENTORY: 1,
-  BLIND_COUNTS: 2,
+  PERIODIC: 0,
+  UNEXPECTED: 1,
 }
 
 export const INVENTORY_TYPE_MAP = {
-  [INVENTORY_TYPE.FULL_INVENTORY]: 'inventoryCalendar.fullInventory',
-  [INVENTORY_TYPE.PARTIAL_INVENTORY]: 'inventoryCalendar.partialInventory',
-  [INVENTORY_TYPE.BLIND_COUNTS]: 'inventoryCalendar.blindCounts',
+  [INVENTORY_TYPE.PERIODIC]: 'inventoryCalendar.periodic',
+  [INVENTORY_TYPE.UNEXPECTED]: 'inventoryCalendar.unexpected',
 }
 export const INVENTORY_TYPE_OPTIONS = [
   {
     id: 0,
-    text: 'inventoryCalendar.fullInventory',
+    text: 'inventoryCalendar.periodic',
   },
   {
     id: 1,
-    text: 'inventoryCalendar.partialInventory',
-  },
-  {
-    id: 2,
-    text: 'inventoryCalendar.blindCounts',
+    text: 'inventoryCalendar.unexpected',
   },
 ]
+export const CHECK_POINT_DATA_TYPE = {
+  EXTERNAL_SNAPSHOT: 0,
+  INTERNAL_SNAPSHOT: 1,
+}
+export const CHECK_POINT_DATA_TYPE_MAP = {
+  [INVENTORY_TYPE.EXTERNAL_SNAPSHOT]: 'inventoryCalendar.dataSnapshot',
+  [INVENTORY_TYPE.INTERNAL_SNAPSHOT]: 'inventoryCalendar.snapshotWmsx',
+}
 export const BLOCK_ITEM_LOCATION_STATUS = {
   UNLOCKED: 0,
   LOCKED: 1,
@@ -1670,3 +1672,27 @@ export const MATERIAL_ACTIVE_STATUS_MAP = {
   [MATERIAL_ACTIVE_STATUS.ACTIVE]: 'general.active',
   [MATERIAL_ACTIVE_STATUS.REJECTED]: 'general.inactive',
 }
+
+export const RECEIPT_MANAGEMENT_STATUS = {
+  NOT_YET_STOCKED: 0,
+  STOCKED: 1,
+}
+
+export const RECEIPT_MANAGEMENT_STATUS_MAP = {
+  [RECEIPT_MANAGEMENT_STATUS.NOT_YET_STOCKED]:
+    'receiptManagement.notYetStocked',
+  [RECEIPT_MANAGEMENT_STATUS.STOCKED]: 'receiptManagement.stocked',
+}
+
+export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'receiptManagement.notYetStocked',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'receiptManagement.stocked',
+    color: 'confirmed',
+  },
+]

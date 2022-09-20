@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, FormControlLabel, Grid, Radio, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
@@ -17,37 +17,33 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  CHECK_POINT_DATA_TYPE,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
   INVENTORY_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
-import { searchWarehousesApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouses'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import ItemsSettingTable from './items-setting-table'
-import { inventoryCalendarSchema } from './schema'
+import { defineSchema } from './schema'
 
 const InventoryCalendarForm = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const params = useParams()
   const routeMatch = useRouteMatch()
-
-  const [isPartial, setIsPartial] = useState(false)
-
+  const { id } = useParams()
   const DEFAULT_ITEM = {
     id: new Date().getTime(),
-    warehouseName: '',
-    warehouseSector: null,
-    warehouseShelf: null,
-    warehousePallet: null,
-    itemId: null,
     itemName: '',
+    itemCode: '',
+    unit: '',
   }
 
   const {
-    data: { isLoading, inventoryCalendarDetails },
+    data: { isLoading, inventoryCalendarDetails, items },
     actions,
   } = useInventoryCalendar()
 
@@ -56,17 +52,22 @@ const InventoryCalendarForm = () => {
       code: inventoryCalendarDetails?.code || '',
       name: inventoryCalendarDetails?.name || '',
       type: inventoryCalendarDetails?.type,
-      warehouses: inventoryCalendarDetails?.warehouses?.[0] || null,
-      executionDay: inventoryCalendarDetails?.executionDay || null,
+      warehouses:
+        inventoryCalendarDetails?.warehouses?.map((item) => item) || '',
+      executionDay: inventoryCalendarDetails?.executionDay
+        ? [
+            inventoryCalendarDetails?.executeFrom,
+            inventoryCalendarDetails?.executeTo,
+          ]
+        : '',
+      closingDay: inventoryCalendarDetails?.checkPointDate || '',
       description: inventoryCalendarDetails?.description || '',
+      switchMode: inventoryCalendarDetails?.checkPointDataType || 0,
       items:
-        inventoryCalendarDetails.type === INVENTORY_TYPE.PARTIAL_INVENTORY
-          ? inventoryCalendarDetails?.items?.map((i, index) => ({
+        inventoryCalendarDetails.type === INVENTORY_TYPE.UNEXPECTED
+          ? items?.map((i, index) => ({
               id: index,
-              itemId: i.item,
-              warehouseSector: i.warehouseSector,
-              warehouseShelf: i.warehouseShelf,
-              warehousePallet: i.warehouseShelfFloor,
+              itemCode: { ...i, name: i?.items?.name, code: i?.items?.code },
             }))
           : [{ ...DEFAULT_ITEM }],
     }),
@@ -83,7 +84,7 @@ const InventoryCalendarForm = () => {
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
-        title: 'orderManagement',
+        title: 'receiptCommandManagement',
       },
       {
         route: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
@@ -113,11 +114,14 @@ const InventoryCalendarForm = () => {
     if (mode === MODAL_MODE.UPDATE) {
       const id = params?.id
       actions.getInventoryCalendarDetailsById(id)
+      if (inventoryCalendarDetails?.type === INVENTORY_TYPE.UNEXPECTED) {
+        actions.getItem(id)
+      }
     }
     return () => {
-      if (isUpdate) actions.resetInventoryCalendarDetailsState()
+      actions.resetInventoryCalendarDetailsState()
     }
-  }, [params?.id])
+  }, [id])
 
   const getTitle = () => {
     switch (mode) {
@@ -135,27 +139,31 @@ const InventoryCalendarForm = () => {
   }
 
   const onSubmit = (values) => {
-    const id = Number(params?.id)
-
     const convertValues = {
-      ...values,
-      id,
-      warehouseId: values?.warehouses?.id,
+      name: values?.name,
+      executeFrom: values?.executionDay[0],
+      executeTo: values?.executionDay[1],
+      checkPointDate: values?.closingDay,
+      //@TODO:doankv
+      // warehouseIds: values?.warehouses
+      //   ?.map((warehouse) => warehouse?.id)
+      //   .join(','),
+      warehouseIds: [values?.warehouses?.id],
+      type: values?.type,
+      checkPointDataType: +values?.switchMode,
       items:
-        values?.type === INVENTORY_TYPE.PARTIAL_INVENTORY
+        values?.type === INVENTORY_TYPE.UNEXPECTED
           ? values.items?.map((item) => ({
-              id: item?.itemId?.id || item?.itemId?.itemId,
-              sectorId: item?.warehouseSector?.id,
-              shelfId: item?.warehouseShelf?.id,
-              floorId: item?.warehousePallet?.id,
+              id: item?.itemCode?.id || item?.itemCode?.itemId,
             }))
           : [],
+      // checkPointDataAttachment: values?.checkPointDataAttachment,
     }
 
     if (mode === MODAL_MODE.CREATE) {
       actions.createInventoryCalendar(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateInventoryCalendar(convertValues, backToList)
+      actions.updateInventoryCalendar({ ...convertValues, id: id }, backToList)
     }
   }
 
@@ -191,12 +199,11 @@ const InventoryCalendarForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={inventoryCalendarSchema(t, isPartial)}
+        validationSchema={defineSchema(t)}
         onSubmit={onSubmit}
         enableReinitialize
       >
         {({ handleReset, values, setFieldValue }) => {
-          setIsPartial(values?.type === INVENTORY_TYPE.PARTIAL_INVENTORY)
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -232,7 +239,7 @@ const InventoryCalendarForm = () => {
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
                         }}
                         allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        disabled={isUpdate}
+                        disabled
                         required
                       />
                     </Grid>
@@ -264,14 +271,9 @@ const InventoryCalendarForm = () => {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
-                        name="executionDay"
-                        label={t('inventoryCalendar.executionDay')}
-                        placeholder={t('inventoryCalendar.executionDay')}
-                        minDate={
-                          isUpdate
-                            ? new Date(inventoryCalendarDetails?.executionDay)
-                            : new Date()
-                        }
+                        name="closingDay"
+                        label={t('inventoryCalendar.closingDay')}
+                        placeholder={t('inventoryCalendar.closingDay')}
                         required
                       />
                     </Grid>
@@ -280,26 +282,33 @@ const InventoryCalendarForm = () => {
                         name="warehouses"
                         label={t('inventoryCalendar.warehouses')}
                         placeholder={t('inventoryCalendar.warehouses')}
-                        options={inventoryCalendarDetails?.warehouses}
                         asyncRequest={(s) =>
-                          searchWarehousesApi({
+                          searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
-                        onChange={() =>
-                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
-                        }
                         required
                       />
                     </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.DateRangePicker
+                        name="executionDay"
+                        label={t('inventoryCalendar.executionDay')}
+                        placeholder={t('inventoryCalendar.executionDay')}
+                        required
+                      />
+                    </Grid>
+
                     <Grid item xs={12}>
                       <Field.TextField
                         name="description"
                         label={t('inventoryCalendar.description')}
-                        placeholder={t('inventoryCalendar.description')}
+                        placeholder={t(
+                          'inventoryCalendar.descriptionPlaceholder',
+                        )}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                         }}
@@ -307,10 +316,44 @@ const InventoryCalendarForm = () => {
                         rows={3}
                       />
                     </Grid>
+                    {values?.type === INVENTORY_TYPE.PERIODIC && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('inventoryCalendar.dataClosing')}
+                            </Typography>
+                          }
+                          value={
+                            <Grid item xs={12} lg={6}>
+                              <Field.RadioGroup name="switchMode">
+                                <Box sx={{ display: 'flex' }}>
+                                  <FormControlLabel
+                                    value={
+                                      CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT
+                                    }
+                                    control={<Radio />}
+                                    label={t('inventoryCalendar.dataSnapshot')}
+                                  />
+                                  <FormControlLabel
+                                    value={
+                                      CHECK_POINT_DATA_TYPE.INTERNAL_SNAPSHOT
+                                    }
+                                    control={<Radio />}
+                                    label={t('inventoryCalendar.snapshotWmsx')}
+                                    sx={{ ml: 2 }}
+                                  />
+                                </Box>
+                              </Field.RadioGroup>
+                            </Grid>
+                          }
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
-              {isPartial && (
+              {values?.type === INVENTORY_TYPE.UNEXPECTED && (
                 <Box sx={{ mt: 3 }}>
                   <FieldArray
                     name="items"

@@ -69,6 +69,7 @@ import watchConfirmMaterialCategory from './define-material-category/confirm-mat
 import watchCreateMaterialCategory from './define-material-category/create-material-category'
 import watchDeleteMaterialCategory from './define-material-category/delete-material-category'
 import watchGetMaterialCategoryDetails from './define-material-category/get-material-category-details'
+import watchGetMaterialChildDetails from './define-material-category/get-material-child-details'
 import watchRejectMaterialCategory from './define-material-category/reject-material-category'
 import watchSearchMaterialCategory from './define-material-category/search-material-category'
 import watchUpdateMaterialCategory from './define-material-category/update-material-category'
@@ -129,6 +130,15 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchRejectWarehouse from './define-warehouse/reject-warehouse'
 import watchSearchWarehouse from './define-warehouse/search-warehouse'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
+import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
+import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
+import watchGetInventoryCalendarDetails from './inventory-calendar/get-inventory-calendar-details'
+import watchGetItem from './inventory-calendar/get-item-detail'
+import watchGetItemDetailRecipt from './inventory-calendar/get-item-detail-recipt'
+import watchRejectInventoryCalendar from './inventory-calendar/reject-inventory-calendar'
+import watchSearchInventoryCalendars from './inventory-calendar/search-inventory-calendars'
+import watchUpdateInventoryCalendar from './inventory-calendar/update-inventory-calendar'
 import watchCreateInventorySetting from './inventory-setting/create-inventory-setting'
 import watchDeleteInventorySetting from './inventory-setting/delete-inventory-setting'
 import watchGetDetailInventorySetting from './inventory-setting/get-inventory-setting-detail'
@@ -143,10 +153,13 @@ import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
 import watchUpdateLocation from './location-management/update-location'
+import watchConfirmUnitManagement from './management-unit/confirm'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
 import watchGetDetailManagementUnit from './management-unit/get-detail'
+import watchRejectUnitManagement from './management-unit/reject'
 import watchSearchManagementUnit from './management-unit/search'
+import watchUpdateUnitManagement from './management-unit/update'
 import watchConfirmMaterial from './material-management/confirm-material'
 import watchCreateMaterial from './material-management/create-material'
 import watchDeleteMaterial from './material-management/delete-material'
@@ -173,11 +186,16 @@ import watchGetReceiptDepartmentDetails from './receipt-department-management/ge
 import watchRejectReceiptDepartment from './receipt-department-management/reject-receipt-department'
 import watchSearchReceiptDepartment from './receipt-department-management/search-receipt-department'
 import watchUpdateReceiptDepartment from './receipt-department-management/update-receipt-department'
+import watchGetReceiptDetails from './receipt-management/get-receipt-details'
+import watchSearchReceipt from './receipt-management/search-receipt'
+import watchExportReport from './report-export/export-report'
 import watchCreateStoragePeriod from './set-storage-period/create-construction'
 import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
 import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
 import watchSearchStoragePeriods from './set-storage-period/search-constructions'
 import watchUpdateStoragePeriod from './set-storage-period/update-construction'
+import watchGetSignatureConfigurationDetails from './signature-configuration/get-signature-configuration-details'
+import watchUpdateSignatureConfiguration from './signature-configuration/update-signature-configuration'
 import watchConfirmSourceManagement from './source-management/confirm'
 import watchCreateSourceManagement from './source-management/create'
 import watchDeleteSourceManagement from './source-management/delete'
@@ -195,7 +213,6 @@ import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
-
 /**
  * Root saga
  */
@@ -219,7 +236,9 @@ export default function* sagas() {
     watchDeleteManagementUnit(),
     watchGetDetailManagementUnit(),
     watchSearchManagementUnit(),
-
+    watchUpdateUnitManagement(),
+    watchConfirmUnitManagement(),
+    watchRejectUnitManagement(),
     //company-management
     watchCreateCompany(),
     watchDeleteCompany(),
@@ -309,6 +328,7 @@ export default function* sagas() {
     watchDeleteMaterialCategory(),
     watchConfirmMaterialCategory(),
     watchRejectMaterialCategory(),
+    watchGetMaterialChildDetails(),
 
     //receipt-department-management
     watchCreateReceiptDepartment(),
@@ -444,6 +464,9 @@ export default function* sagas() {
     // inventory warning
     watchSearchInventoryWarning(),
 
+    //signature configuration
+    watchGetSignatureConfigurationDetails(),
+    watchUpdateSignatureConfiguration(),
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),
@@ -455,5 +478,21 @@ export default function* sagas() {
     watchDeleteWarehouseExportReceipt(),
     watchConfirmWarehouseExportReceipt(),
     watchRejectWarehouseExportReceipt(),
+
+    //receipt-management
+    watchGetReceiptDetails(),
+    watchSearchReceipt(),
+    // export report
+    watchExportReport(),
+    //inventory-calender
+    watchConfirmInventoryCalendar(),
+    watchCreateInventoryCalendar(),
+    watchDeleteInventoryCalendar(),
+    watchGetInventoryCalendarDetails(),
+    watchGetItemDetailRecipt(),
+    watchGetItem(),
+    watchRejectInventoryCalendar(),
+    watchSearchInventoryCalendars(),
+    watchUpdateInventoryCalendar(),
   ])
 }

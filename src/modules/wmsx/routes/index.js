@@ -54,6 +54,10 @@ import DefineWarehouseGroup from '../features/define-warehouse-group/list'
 import DefineWarehouseDetail from '../features/define-warehouse/detail'
 import DefineWarehouseForm from '../features/define-warehouse/form'
 import DefineWarehouse from '../features/define-warehouse/list'
+import InventoryCalenderDetail from '../features/inventory-calendar/detail'
+import InventoryCalenderForm from '../features/inventory-calendar/form'
+import InventoryCalender from '../features/inventory-calendar/list'
+import ReciptDetail from '../features/inventory-calendar/recipt-transaction'
 import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
@@ -72,9 +76,13 @@ import ReasonManagement from '../features/reason-management/list'
 import ReceiptDepartmentManagementDetail from '../features/receipt-department-management/detail'
 import ReceiptDepartmentManagementForm from '../features/receipt-department-management/form'
 import ReceiptDepartmentManagement from '../features/receipt-department-management/list'
+import ReceiptManagementDetail from '../features/receipt-management/detail'
+import ReceiptManagement from '../features/receipt-management/list'
+import ReportExport from '../features/report-export'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
+import SignatureConfiguration from '../features/signature-configuration'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
@@ -800,7 +808,7 @@ const routes = [
     ],
   },
   {
-    name: ROUTE.RECEIPT_MANAGEMENT.TITLE,
+    name: ROUTE.RECEIPT_COMMAND_MANAGEMENT.TITLE,
     icon: 'database',
     isInSidebar: true,
     subMenu: [
@@ -855,6 +863,115 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+      {
+        name: ROUTE.INVENTORY_CALENDAR.LIST.TITLE,
+        path: ROUTE.INVENTORY_CALENDAR.LIST.PATH,
+        component: InventoryCalender,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.INVENTORY_CALENDAR.CREATE.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.CREATE.PATH,
+            component: InventoryCalenderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL.PATH,
+            component: InventoryCalenderDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.EDIT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.EDIT.PATH,
+            component: InventoryCalenderForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.TITLE,
+            path: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH,
+            component: ReciptDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: ROUTE.RECEIPT_MANAGEMENT.LIST.TITLE,
+    icon: 'database',
+    path: ROUTE.RECEIPT_MANAGEMENT.LIST.PATH,
+    component: ReceiptManagement,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.RECEIPT_MANAGEMENT.DETAIL.TITLE,
+        path: ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH,
+        component: ReceiptManagementDetail,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
+    component: WarehouseImport,
+    icon: 'key',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
+        component: WarehouseImportDetail,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
+    component: WarehouseExport,
+    icon: 'export',
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
+        component: WarehouseExportDetail,
+        isInSidebar: false,
+      },
+    ],
+  },
+  {
+    name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
+    icon: 'keylock',
+    isInSidebar: true,
+    subMenu: [
+      {
+        path: ROUTE.INVENTORY_STATISTICS.PATH,
+        name: ROUTE.INVENTORY_STATISTICS.TITLE,
+        component: InventoryStatistics,
+        isInSidebar: true,
+      },
+      {
+        path: ROUTE.INVENTORY_WARNING.PATH,
+        name: ROUTE.INVENTORY_WARNING.TITLE,
+        component: InventoryWarning,
+        isInSidebar: true,
+      },
+    ],
+  },
+  {
+    name: ROUTE.REPORT_STATISTICS.TITLE,
+    icon: 'export',
+    isInSidebar: true,
+    subMenu: [
+      {
+        path: ROUTE.REPORT_EXPORT.PATH,
+        name: ROUTE.REPORT_EXPORT.TITLE,
+        component: ReportExport,
+        isInSidebar: true,
       },
     ],
   },
@@ -912,6 +1029,12 @@ const routes = [
     icon: 'setting',
     isInSidebar: true,
     subMenu: [
+      {
+        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
+        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
+        component: SignatureConfiguration,
+        isInSidebar: true,
+      },
       {
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,

@@ -1,15 +1,11 @@
 import React from 'react'
 
-import Box from '@mui/material/Box'
+import { Redirect } from 'react-router-dom'
 
-import CommingSoonImage from '~/assets/images/sample/coming-soon.jpeg'
+import { ROUTE as WMSX_ROUTE } from '~/modules/wmsx/routes/config'
 
 const HomePage = () => {
-  return (
-    <Box sx={{ textAlign: 'center', img: { maxWidth: '100%' } }}>
-      <img src={CommingSoonImage} alt="" />
-    </Box>
-  )
+  return <Redirect to={WMSX_ROUTE.DASHBOARD.PATH} />
 }
 
 export default HomePage

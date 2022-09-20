@@ -488,8 +488,22 @@ export const ROUTE = {
     PATH: '/wmsx/qr-code',
     TITLE: 'qrCode',
   },
-  RECEIPT_MANAGEMENT: {
+  SIGNATURE_CONFIGURATION: {
+    PATH: '/wmsx/signature-configuration',
+    TITLE: 'signatureConfiguration',
+  },
+  RECEIPT_COMMAND_MANAGEMENT: {
     TITLE: 'receiptCommandManagement',
+  },
+  RECEIPT_MANAGEMENT: {
+    LIST: {
+      PATH: '/wmsx/receipt-management',
+      TITLE: 'receiptManagement',
+    },
+    DETAIL: {
+      PATH: '/wmsx/receipt-management/:id/detail',
+      TITLE: 'receiptManagementDetail',
+    },
   },
   WAREHOUSE_EXPORT_RECEIPT: {
     LIST: {
@@ -558,5 +572,34 @@ export const ROUTE = {
   INVENTORY_WARNING: {
     PATH: '/wmsx/inventory-warning',
     TITLE: 'inventoryWarning',
+  },
+  REPORT_STATISTICS: {
+    TITLE: 'reportStatistics',
+  },
+  REPORT_EXPORT: {
+    PATH: '/wmsx/report-export',
+    TITLE: 'reportExport',
+  },
+  INVENTORY_CALENDAR: {
+    LIST: {
+      PATH: '/wmsx/inventory-calendar',
+      TITLE: 'inventoryCalendar',
+    },
+    CREATE: {
+      PATH: '/wmsx/inventory-calendar/create',
+      TITLE: 'inventoryCalendarCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/inventory-calendar/:id/edit',
+      TITLE: 'inventoryCalendarEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/inventory-calendar/:id/detail',
+      TITLE: 'inventoryCalendarDetail',
+    },
+    DETAIL_RECIPT: {
+      PATH: '/wmsx/inventory-calendar/:id/detail-recipt',
+      TITLE: 'inventorySheet',
+    },
   },
 }
