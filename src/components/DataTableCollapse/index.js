@@ -140,7 +140,6 @@ const DataTableCollapse = (props) => {
               rows?.map((row, index) => {
                 if (!row) return
                 const expandable = row?.[subDataKey]?.length > 0
-
                 return (
                   <React.Fragment>
                     <TableRow
@@ -160,8 +159,9 @@ const DataTableCollapse = (props) => {
                       {columns?.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
-                          ? renderCell({ row })
+                          ? renderCell({ row }, index)
                           : row[field]
+
                         return (
                           <TableCell
                             className={clsx(classes.tableCell, {
@@ -204,7 +204,11 @@ const DataTableCollapse = (props) => {
                           >
                             <DataTableCollapse
                               rows={row?.details}
-                              columns={subColumns}
+                              columns={
+                                typeof subColumns === 'function'
+                                  ? subColumns(row, index)
+                                  : subColumns
+                              }
                               classes={classes}
                               isRoot={false}
                               hideFooter
@@ -269,19 +273,22 @@ DataTableCollapse.propsTypes = {
       renderCell: PropTypes.func,
     }),
   ),
-  subColumns: PropTypes.arrayOf(
-    PropTypes.shape({
-      field: PropTypes.string.isRequired,
-      headerName: PropTypes.string.isRequired,
-      width: PropTypes.number,
-      filterable: PropTypes.bool,
-      sortable: PropTypes.bool,
-      hide: PropTypes.bool,
-      align: PropTypes.oneOf(['left', 'center', 'right']),
-      headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
-      renderCell: PropTypes.func,
-    }),
-  ),
+  subColumns: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        field: PropTypes.string.isRequired,
+        headerName: PropTypes.string.isRequired,
+        width: PropTypes.number,
+        filterable: PropTypes.bool,
+        sortable: PropTypes.bool,
+        hide: PropTypes.bool,
+        align: PropTypes.oneOf(['left', 'center', 'right']),
+        headerAlign: PropTypes.oneOf(['left', 'center', 'right']),
+        renderCell: PropTypes.func,
+      }),
+      PropTypes.func,
+    ),
+  ]),
   subDataKey: PropTypes.string,
   uniqKey: PropTypes.string,
   total: PropTypes.number,
