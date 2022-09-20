@@ -12,10 +12,11 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
-import LabelValue from '~/components/LabelValue'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import {
   exportUnitApi,
@@ -40,6 +41,7 @@ function ManagementUnit() {
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
+  const [isActiveModal, setIsActiveModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
   const DEFAULT_FILTERS = {
     code: '',
@@ -114,7 +116,8 @@ function ManagementUnit() {
       align: 'center',
       renderCell: (params) => {
         const { row } = params
-        const { id } = row
+        const { id, status } = row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <>
             <IconButton
@@ -137,6 +140,9 @@ function ManagementUnit() {
             </IconButton>
             <IconButton onClick={() => handleDeleteOpenModal(row)}>
               <Icon name="delete" />
+            </IconButton>
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </>
         )
@@ -170,7 +176,27 @@ function ManagementUnit() {
     setDeleteModal(false)
     setTempItem(null)
   }
-
+  const onClickUpdateStatus = (tempItem) => {
+    setIsActiveModal(true)
+    setTempItem(tempItem)
+  }
+  const onSubmitUpdateStatus = () => {
+    if (tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectUnitManagementById(tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmUnitManagementById(tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
+  const onCloseUpdateStatusModal = () => {
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
   const renderHeaderRight = () => {
     return (
       <>
@@ -205,6 +231,7 @@ function ManagementUnit() {
             })
           }
           onRefresh={refreshData}
+          disabled
         />
         <Button
           onClick={() => history.push(ROUTE.UNIT_MANAGEMENT.CREATE.PATH)}
@@ -260,7 +287,7 @@ function ManagementUnit() {
       />
       <Dialog
         open={deleteModal}
-        title={t('definePaymentType.deleteModalTitle')}
+        title={t('managementUnit.deleteModalTitle')}
         onCancel={() => setDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -270,15 +297,53 @@ function ManagementUnit() {
         }}
         noBorderBottom
       >
-        {t('definePaymentType.deleteConfirm')}
-        <LabelValue
-          label={t('definePaymentType.code')}
+        {t('managementUnit.deleteConfirm')}
+        <LV
+          label={t('managementUnit.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
-        <LabelValue
-          label={t('definePaymentType.name')}
+        <LV
+          label={t('managementUnit.name')}
           value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
+      <Dialog
+        open={isActiveModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitUpdateStatus}
+        submitLabel={t('general:common.yes')}
+        {...(tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
+        noBorderBottom
+      >
+        {t('general.confirmMessage')}
+        <LV
+          label={t('managementUnit.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('managementUnit.name')}
+          value={tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={tempItem?.status}
+            />
+          }
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>

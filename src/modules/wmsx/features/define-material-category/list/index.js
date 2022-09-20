@@ -13,11 +13,11 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TableCollapse from '~/components/TableCollapse'
-import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineMaterialCategory from '~/modules/wmsx/redux/hooks/useDefineMaterialCategory'
+import { getMaterialChildDetailsApi } from '~/modules/wmsx/redux/sagas/define-material-category/get-material-child-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -159,50 +159,70 @@ const DefineMaterialCategory = () => {
   const additionColums = [
     {
       field: 'code',
-      headerName: t('companyChart.factoryCode'),
+      headerName: t('defineMaterialCategory.mainGroupCode'),
       width: 150,
     },
     {
       field: 'name',
-      headerName: t('companyChart.factoryName'),
+      headerName: t('defineMaterialCategory.mainGroupName'),
       width: 150,
     },
     {
-      field: 'location',
-      headerName: t('companyChart.address'),
-      width: 150,
-    },
-    {
-      field: 'userQuantity',
-      headerName: t('companyChart.numOfEmployees'),
-      width: 150,
-    },
-    {
-      field: 'phone',
-      headerName: t('companyChart.phone'),
-      width: 150,
-    },
-    {
-      field: 'employeeList',
-      headerName: t('companyChart.employeeList'),
+      field: 'mainGroupStatus',
+      headerName: t('general.status'),
       width: 150,
       renderCell: (params) => {
-        const factoryId = params.row.id
+        const status = Number(params?.row?.status)
         return (
-          <Button
+          <Status
+            options={ACTIVE_STATUS_OPTIONS}
+            value={status}
             variant="text"
-            size="small"
-            bold={false}
-            onClick={() => {
-              history.push(
-                `${ROUTE.USER_MANAGEMENT.LIST.PATH}?factoryId=${factoryId}`,
-              )
-            }}
-          >
-            {t('companyChart.viewList')}
-          </Button>
+          />
         )
       },
+    },
+    {
+      field: 'createdAt',
+      headerName: t('defineMaterialCategory.createdAt'),
+      width: 120,
+      renderCell: (params) =>
+        convertUtcDateTimeToLocalTz(params.row?.createdAt),
+    },
+  ]
+
+  const producingStepColumns = [
+    {
+      field: 'code',
+      headerName: t('defineMaterialCategory.subGroupCode'),
+      width: 150,
+    },
+    {
+      field: 'name',
+      headerName: t('defineMaterialCategory.subGroupName'),
+      width: 150,
+    },
+    {
+      field: 'subGroupStatus',
+      headerName: t('general.status'),
+      width: 150,
+      renderCell: (params) => {
+        const status = Number(params?.row?.status)
+        return (
+          <Status
+            options={ACTIVE_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
+      },
+    },
+    {
+      field: 'createdAt',
+      headerName: t('defineMaterialCategory.createdAt'),
+      width: 120,
+      renderCell: (params) =>
+        convertUtcDateTimeToLocalTz(params.row?.createdAt),
     },
   ]
 
@@ -226,17 +246,16 @@ const DefineMaterialCategory = () => {
   }, [materialCategoryList])
 
   const handleGetData = async (id) => {
-    const resFactory = await searchFactoriesApi({
-      filter: convertFilterParams({
-        companyId: id,
-      }),
-    })
-
+    const response = await getMaterialChildDetailsApi(id)
+    const subRes = await getMaterialChildDetailsApi(20)
     const newBomTree = bomTree?.map((bom) => {
       if (bom?.id === id) {
         const newBom = { ...bom }
         if (!bom.subBom) {
-          newBom['subBom'] = resFactory?.data?.items
+          newBom['subBom'] = response?.data?.map((item) => ({
+            ...item,
+            producingSteps: subRes.data,
+          }))
         }
         return newBom
       } else {
@@ -317,6 +336,7 @@ const DefineMaterialCategory = () => {
         columns={columns}
         handleGetData={handleGetData}
         additionColums={additionColums}
+        producingStepColumns={producingStepColumns}
         isRoot={true}
         type={'list'}
         isView={true}

@@ -74,7 +74,7 @@ const ResetPassword = () => {
                     )}
                   </IconButton>
                 }
-                allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
                 sx={{ mt: 4 / 3 }}
               />
               <Field.TextField
@@ -95,7 +95,7 @@ const ResetPassword = () => {
                     )}
                   </IconButton>
                 }
-                allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                allow={TEXTFIELD_ALLOW.EXCEPT_SPACES}
                 sx={{ mt: 4 / 3 }}
               />
 

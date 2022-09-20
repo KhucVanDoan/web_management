@@ -196,6 +196,7 @@ export const TEXTFIELD_ALLOW = {
   ALPHANUMERIC_SPECIALS:
     /[^0-9a-zA-Z-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
   EXCEPT_SPECIALS: /[._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
+  EXCEPT_SPACES: /[\s]/g,
 }
 
 export const TEXTFIELD_PREVENT = {

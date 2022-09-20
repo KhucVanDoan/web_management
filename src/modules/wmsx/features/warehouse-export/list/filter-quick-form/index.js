@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { WAREHOUSE_EXPORT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const WarehouseExportFilter = ({
@@ -61,9 +61,15 @@ const WarehouseExportFilter = ({
                       name="movementType"
                       label={t('movements.importExport.orderType')}
                       placeholder={t('movements.importExport.orderType')}
-                      options={WAREHOUSE_EXPORT_STATUS_OPTIONS}
-                      getOptionValue={(opt) => opt?.id}
-                      getOptionLabel={(opt) => t(opt?.text)}
+                      asyncRequest={(s) =>
+                        searchBusinessTypesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                     />
                   </Grid>
 

@@ -60,7 +60,7 @@ function DefineMaterialCategoryForm() {
       // items: [{ ...DEFAULT_ITEMS }],
       // mainGroups: [...DEFAULT_ITEMS.children],
       // subGroups: [...DEFAULT_ITEMS.children[0].children],
-      material: [{ ...DEFAULT_MATERIAL }],
+      material: [{ ...materialCategoryDetails }] || [{ ...DEFAULT_MATERIAL }],
       mainGroups: [{ ...DEFAULT_MAIN_GROUP }],
       subGroups: [{ ...DEFAULT_SUB_GROUP }],
     }),

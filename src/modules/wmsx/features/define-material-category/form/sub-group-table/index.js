@@ -65,6 +65,7 @@ const SubGroupTable = ({
               options={mainGroups?.filter((main) => main.code !== '')}
               getOptionLabel={(opt) => opt?.code || null}
               getOptionValue={(opt) => opt?.code || null}
+              disabled={isUpdate}
             />
           )
         },
@@ -129,7 +130,8 @@ const SubGroupTable = ({
                   placeholder={t('defineMaterialCategory.status')}
                   options={ACTIVE_STATUS_OPTIONS}
                   getOptionLabel={(opt) => t(opt.text)}
-                  getOptionValue={(opt) => opt?.id.toString()}
+                  getOptionValue={(opt) => opt?.id}
+                  disableClearable
                 />
               )
             },

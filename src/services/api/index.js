@@ -55,9 +55,9 @@ export const createInstance = (baseURL) => {
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response
 
-      if (validateStatus(response.status)) {
+      if (validateStatus(response?.status)) {
         return response.data
-      } else if (response.status === 500) {
+      } else if (response?.status === 500) {
         addNotification(
           i18n.t('general:message.unknownError'),
           NOTIFICATION_TYPE.ERROR,
@@ -72,7 +72,7 @@ export const createInstance = (baseURL) => {
       const response = error.response
 
       if (
-        response.status === 403 &&
+        response?.status === 403 &&
         response.config &&
         !response.config._isRefreshBefore &&
         response.config.url !== REFRESH_TOKEN_URL &&
@@ -110,7 +110,7 @@ export const createInstance = (baseURL) => {
           .catch(() => {
             startLogout()
           })
-      } else if (response.status === 401) {
+      } else if (response?.status === 401) {
         startLogout()
       } else {
         return Promise.reject(error)

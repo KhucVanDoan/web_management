@@ -55,4 +55,18 @@ export const ROUTE = {
       TITLE: 'defineRole',
     },
   },
+  ACCOUNT: {
+    DETAIL: {
+      PATH: '/configuration/account',
+      TITLE: 'userInfoDetail',
+    },
+    EDIT: {
+      PATH: '/configuration/account/edit',
+      TITLE: 'userInfoEdit',
+    },
+    CHANGE_PASSWORD: {
+      PATH: '/configuration/account/change-password',
+      TITLE: 'changePassword',
+    },
+  },
 }

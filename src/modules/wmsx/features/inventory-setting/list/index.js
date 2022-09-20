@@ -170,7 +170,7 @@ function InventorySetting() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, warehouseId: filters?.warehouse?.id },
+        { ...filters, warehouseId: filters?.warehouseId?.id },
         [{ field: 'createdAt', filterFormat: 'date' }],
       ),
       sort: convertSortParams(sort),
