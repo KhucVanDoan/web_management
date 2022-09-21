@@ -153,7 +153,7 @@ function DefineMaterialQualityForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset }) => (
+            {({ handleReset, setFieldValue }) => (
               <Form>
                 <Grid
                   container
@@ -186,6 +186,23 @@ function DefineMaterialQualityForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      onInput={(val) => {
+                        const first = val?.[0]
+                        const second = val?.[1]
+                        const third = val?.[2]
+
+                        if (first && /[^a-zA-Z]/.test(first)) {
+                          return
+                        }
+                        if (second && /[^0-9]/.test(second)) {
+                          return
+                        }
+                        if (third && /[^0-9]/.test(third)) {
+                          return
+                        }
+
+                        setFieldValue('code', val?.toUpperCase())
+                      }}
                       disabled={isUpdate}
                       required
                     />
