@@ -1109,8 +1109,8 @@ export const CHECK_POINT_DATA_TYPE = {
   INTERNAL_SNAPSHOT: 1,
 }
 export const CHECK_POINT_DATA_TYPE_MAP = {
-  [INVENTORY_TYPE.EXTERNAL_SNAPSHOT]: 'inventoryCalendar.dataSnapshot',
-  [INVENTORY_TYPE.INTERNAL_SNAPSHOT]: 'inventoryCalendar.snapshotWmsx',
+  [CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT]: 'inventoryCalendar.dataSnapshot',
+  [CHECK_POINT_DATA_TYPE.INTERNAL_SNAPSHOT]: 'inventoryCalendar.snapshotWmsx',
 }
 export const BLOCK_ITEM_LOCATION_STATUS = {
   UNLOCKED: 0,

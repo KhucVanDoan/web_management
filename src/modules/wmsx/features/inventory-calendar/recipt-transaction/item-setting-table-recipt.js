@@ -22,10 +22,11 @@ function ItemSettingTableRecipt() {
   }, [id, page])
   const refreshData = () => {
     const params = {
+      id: id,
       page,
       limit: pageSize,
     }
-    actions.getListItemDetailRecipt(id, params)
+    actions.getListItemDetailRecipt(params)
   }
   const dataTable = itemListDetailRecipt?.map((item) => ({
     ...item,
@@ -47,7 +48,7 @@ function ItemSettingTableRecipt() {
       headerName: t('inventoryCalendar.items.itemCode'),
       width: 50,
       renderCell: (params) => {
-        return params?.row?.item?.name
+        return params?.row?.item?.code
       },
     },
     {

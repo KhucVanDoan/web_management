@@ -14,9 +14,14 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
+
 const createInventoryCalendarsApi = (params) => {
+  let form_data = new FormData()
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
   const uri = `/v1/warehouses/inventories/create`
-  return api.post(uri, params)
+  return api.postMultiplePart(uri, form_data)
 }
 
 /**

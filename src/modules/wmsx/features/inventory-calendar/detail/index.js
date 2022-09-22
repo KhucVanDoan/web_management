@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Hidden } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -47,8 +47,11 @@ const InventoryCalendarDetail = () => {
   } = useInventoryCalendar()
 
   useEffect(() => {
-    actions.getInventoryCalendarDetailsById(id)
-
+    actions.getInventoryCalendarDetailsById(id, (data) => {
+      if (data?.type === INVENTORY_TYPE.UNEXPECTED) {
+        actions.getItem(data?.id)
+      }
+    })
     return () => {
       actions.resetInventoryCalendarDetailsState()
     }
@@ -61,9 +64,9 @@ const InventoryCalendarDetail = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }
-  const listItem = (items?.items || [])?.map((i, index) => ({
+  const listItem = (items || [])?.map((i, index) => ({
     id: index,
-    itemCode: { ...i, name: i?.items?.name, code: i?.items?.code },
+    itemCode: { ...i, name: i?.item?.name, code: i?.item?.code },
   }))
   return (
     <Page
@@ -120,9 +123,7 @@ const InventoryCalendarDetail = () => {
                   .join(',')}
               />
             </Grid>
-            <Hidden lgDown>
-              <Grid item lg={6} xs={12}></Grid>
-            </Hidden>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
@@ -170,17 +171,13 @@ const InventoryCalendarDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('inventoryCalendar.dataClosing')}
-                  value={
-                    inventoryCalendarDetails?.checkPointDataType
-                      ? t(
-                          `${
-                            CHECK_POINT_DATA_TYPE_MAP[
-                              inventoryCalendarDetails?.checkPointDataType
-                            ]
-                          }`,
-                        )
-                      : ''
-                  }
+                  value={t(
+                    `${
+                      CHECK_POINT_DATA_TYPE_MAP[
+                        inventoryCalendarDetails?.checkPointDataType
+                      ]
+                    }`,
+                  )}
                 />
               </Grid>
             )}
