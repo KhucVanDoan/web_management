@@ -12,8 +12,8 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-export const getItemDetailReciptApi = (id, params) => {
-  const uri = `/v1/warehouses/inventories/${id}/item-inventory-quantity`
+export const getItemDetailReciptApi = (params) => {
+  const uri = `/v1/warehouses/inventories/${params?.id}/item-inventory-quantity`
   return api.get(uri, params)
 }
 

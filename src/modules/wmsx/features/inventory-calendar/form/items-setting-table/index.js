@@ -15,6 +15,7 @@ import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-manageme
 function ItemSettingTable({ items, mode, arrayHelpers }) {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+
   const getColumns = () => {
     return [
       {
@@ -87,11 +88,7 @@ function ItemSettingTable({ items, mode, arrayHelpers }) {
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return isView ? null : (
-            <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
-              disabled={items?.length === 1}
-              size="large"
-            >
+            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>
           )
