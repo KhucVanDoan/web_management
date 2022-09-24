@@ -25,9 +25,9 @@ build:
     - ./setup_env.sh
   script:
     - docker build -t $DEV_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="http://10.1.14.17:20000"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.14.17:20000"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.14.17:20000"
+      --build-arg REACT_APP_HOST="http://10.1.47.52:20000"
+      --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.47.52:20000"
+      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.47.52:20000"
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:
@@ -44,14 +44,14 @@ deploy:
     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
     - mkdir -p ~/.ssh
 
-    - ssh-keyscan -H 10.1.47.52 >> ~/.ssh/known_hosts
+    - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
 
     - mkdir -p ~/.ssh
 
     - chmod 644 ~/.ssh/known_hosts
 
     - >
-      ssh $SSH_USER@10.1.47.52
+      ssh $SSH_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${DEV_CONTAINER_IMAGE};
       docker stop  avenue_dev_mesx_web || true; 
@@ -67,7 +67,7 @@ build_avenue_stg:
     - ./setup_env_staging.sh
   script:
     - docker build -t $STAGING_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="http://10.1.14.17:12001"
+      --build-arg REACT_APP_HOST="http://10.1.47.52:12001"
       --build-arg	REACT_APP_NOTIFICATION_HOST="$REACT_APP_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="$REACT_APP_SOCKET_NOTIFICATION_STAGING_HOST"
       --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
@@ -86,14 +86,14 @@ deploy_staging:
     - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
     - mkdir -p ~/.ssh
 
-    - ssh-keyscan -H 10.1.47.52 >> ~/.ssh/known_hosts
+    - ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
 
     - mkdir -p ~/.ssh
 
     - chmod 644 ~/.ssh/known_hosts
 
     - >
-      ssh $SSH_STAGING_USER@10.1.47.52
+      ssh $SSH_STAGING_USER@$SSH_SERVER_IP
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${STAGING_CONTAINER_IMAGE};
       docker stop  stg-avenue_web || true; 
