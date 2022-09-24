@@ -217,7 +217,29 @@ export const createApi = (instance) => ({
         },
       )
   },
-
+  putMultiplePart: (endpoint, params) => {
+    return instance
+      .put(endpoint, params, {
+        headers: HEADERS_MULTIPLE_PART,
+        validateStatus: (status) => validateStatus(status),
+      })
+      .then(
+        (response) => {
+          return response
+        },
+        (err) => {
+          return err.response || err
+        },
+      )
+      .catch(
+        (response) => {
+          return response
+        },
+        (err) => {
+          return err.response || err
+        },
+      )
+  },
   patch: (endpoint, params) => {
     return instance
       .patch(endpoint, params, {

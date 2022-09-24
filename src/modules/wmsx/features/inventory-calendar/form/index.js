@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, FormControlLabel, Grid, Radio, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -32,29 +33,42 @@ import { defineSchema } from './schema'
 const InventoryCalendarForm = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
-  const params = useParams()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
-  const DEFAULT_ITEM = {
-    id: new Date().getTime(),
-    itemName: '',
-    itemCode: '',
-    unit: '',
+  const [inventoryType, setInventoryType] = useState(null)
+
+  const MODE_MAP = {
+    [ROUTE.INVENTORY_CALENDAR.CREATE.PATH]: MODAL_MODE.CREATE,
+    [ROUTE.INVENTORY_CALENDAR.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
+  const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
-    data: { isLoading, inventoryCalendarDetails, items },
+    data: { isLoading, inventoryCalendarDetails, itemUpdate },
     actions,
   } = useInventoryCalendar()
-
+  useEffect(() => {
+    if (mode === MODAL_MODE.UPDATE) {
+      actions.getInventoryCalendarDetailsById(id)
+    }
+    return () => {
+      actions.resetInventoryCalendarDetailsState()
+    }
+  }, [id, mode])
+  useEffect(() => {
+    if (isUpdate && !isEmpty(inventoryCalendarDetails)) {
+      actions.getItem(inventoryCalendarDetails?.id)
+    }
+  }, [inventoryCalendarDetails])
   const initialValues = useMemo(
     () => ({
       code: inventoryCalendarDetails?.code || '',
       name: inventoryCalendarDetails?.name || '',
       type: inventoryCalendarDetails?.type,
       warehouses:
-        inventoryCalendarDetails?.warehouses?.map((item) => item) || '',
-      executionDay: inventoryCalendarDetails?.executionDay
+        inventoryCalendarDetails?.warehouses?.map((item) => item) || [],
+      executionDay: inventoryCalendarDetails?.executeFrom
         ? [
             inventoryCalendarDetails?.executeFrom,
             inventoryCalendarDetails?.executeTo,
@@ -65,21 +79,19 @@ const InventoryCalendarForm = () => {
       switchMode: inventoryCalendarDetails?.checkPointDataType || 0,
       items:
         inventoryCalendarDetails.type === INVENTORY_TYPE.UNEXPECTED
-          ? items?.map((i, index) => ({
+          ? itemUpdate?.map((i, index) => ({
               id: index,
-              itemCode: { ...i, name: i?.items?.name, code: i?.items?.code },
+              itemCode: {
+                ...i,
+                id: i?.itemId,
+                name: i?.item?.name,
+                code: i?.item?.code,
+              },
             }))
-          : [{ ...DEFAULT_ITEM }],
+          : [],
     }),
-    [inventoryCalendarDetails],
+    [inventoryCalendarDetails, itemUpdate],
   )
-
-  const MODE_MAP = {
-    [ROUTE.INVENTORY_CALENDAR.CREATE.PATH]: MODAL_MODE.CREATE,
-    [ROUTE.INVENTORY_CALENDAR.EDIT.PATH]: MODAL_MODE.UPDATE,
-  }
-  const mode = MODE_MAP[routeMatch.path]
-  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -110,19 +122,6 @@ const InventoryCalendarForm = () => {
     return breadcrumbs
   }
 
-  useEffect(() => {
-    if (mode === MODAL_MODE.UPDATE) {
-      const id = params?.id
-      actions.getInventoryCalendarDetailsById(id)
-      if (inventoryCalendarDetails?.type === INVENTORY_TYPE.UNEXPECTED) {
-        actions.getItem(id)
-      }
-    }
-    return () => {
-      actions.resetInventoryCalendarDetailsState()
-    }
-  }, [id])
-
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
@@ -139,31 +138,79 @@ const InventoryCalendarForm = () => {
   }
 
   const onSubmit = (values) => {
-    const convertValues = {
-      name: values?.name,
-      executeFrom: values?.executionDay[0],
-      executeTo: values?.executionDay[1],
-      checkPointDate: values?.closingDay,
-      //@TODO:doankv
-      // warehouseIds: values?.warehouses
-      //   ?.map((warehouse) => warehouse?.id)
-      //   .join(','),
-      warehouseIds: [values?.warehouses?.id],
-      type: values?.type,
-      checkPointDataType: +values?.switchMode,
-      items:
-        values?.type === INVENTORY_TYPE.UNEXPECTED
-          ? values.items?.map((item) => ({
-              id: item?.itemCode?.id || item?.itemCode?.itemId,
-            }))
-          : [],
-      // checkPointDataAttachment: values?.checkPointDataAttachment,
-    }
-
     if (mode === MODAL_MODE.CREATE) {
-      actions.createInventoryCalendar(convertValues, backToList)
+      const convertValues = {
+        name: values?.name,
+        executeFrom: values?.executionDay[0].toISOString(),
+        executeTo: values?.executionDay[1].toISOString(),
+        checkPointDate: values?.closingDay.toISOString(),
+        warehouseIds: JSON.stringify(
+          values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        description: values?.description,
+        type: values?.type,
+        checkPointDataType: +values?.switchMode,
+        checkPointDataAttachment: values?.checkPointDataAttachment || null,
+      }
+      const params = {
+        name: values?.name,
+        executeFrom: values?.executionDay[0].toISOString(),
+        executeTo: values?.executionDay[1].toISOString(),
+        checkPointDate: values?.closingDay.toISOString(),
+        warehouseIds: JSON.stringify(
+          values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        description: values?.description,
+        checkPointDataType: 1,
+        type: values?.type,
+        items: JSON.stringify(
+          values.items?.map((item) => ({
+            id: item?.itemCode?.id || item?.itemCode?.itemId,
+          })),
+        ),
+      }
+      actions.createInventoryCalendar(
+        values?.type === INVENTORY_TYPE.UNEXPECTED ? params : convertValues,
+        backToList,
+      )
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateInventoryCalendar({ ...convertValues, id: id }, backToList)
+      const convertValues = {
+        name: values?.name,
+        executeFrom: values?.executionDay[0],
+        executeTo: values?.executionDay[1],
+        checkPointDate: values?.closingDay,
+        warehouseIds: JSON.stringify(
+          values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        description: values?.description,
+        type: values?.type,
+        items: '[]',
+        checkPointDataType: +values?.switchMode,
+        checkPointDataAttachment: values?.checkPointDataAttachment,
+      }
+      const params = {
+        name: values?.name,
+        executeFrom: values?.executionDay[0],
+        executeTo: values?.executionDay[1],
+        checkPointDate: values?.closingDay,
+        warehouseIds: JSON.stringify(
+          values?.warehouses?.map((warehouse) => warehouse?.id),
+        ),
+        description: values?.description,
+        checkPointDataType: 1,
+        type: values?.type,
+        items: JSON.stringify(
+          values.items?.map((item) => ({
+            id: item?.itemCode?.id || item?.itemCode?.itemId,
+          })),
+        ),
+      }
+      actions.updateInventoryCalendar(
+        values?.type === INVENTORY_TYPE.UNEXPECTED
+          ? { ...params, id: id, code: values?.code }
+          : { ...convertValues, id: id, code: values?.code },
+        backToList,
+      )
     }
   }
 
@@ -199,7 +246,7 @@ const InventoryCalendarForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={defineSchema(t)}
+        validationSchema={defineSchema(t, inventoryType)}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -262,9 +309,10 @@ const InventoryCalendarForm = () => {
                         options={INVENTORY_TYPE_OPTIONS}
                         getOptionValue={(opt) => opt?.id}
                         getOptionLabel={(opt) => t(opt?.text)}
-                        onChange={() =>
-                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
-                        }
+                        onChange={(val) => {
+                          setFieldValue('items', [])
+                          setInventoryType(val)
+                        }}
                         required
                         disableClearable
                       />
@@ -290,6 +338,7 @@ const InventoryCalendarForm = () => {
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
+                        multiple
                         required
                       />
                     </Grid>
@@ -353,6 +402,16 @@ const InventoryCalendarForm = () => {
                   </Grid>
                 </Grid>
               </Grid>
+              {values?.type === INVENTORY_TYPE.PERIODIC &&
+                values?.switchMode ===
+                  CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT && (
+                  <Grid item xs={12} lg={6} sx={{ mt: 2 }}>
+                    <Field.TextField
+                      name="checkPointDataAttachment"
+                      type="file"
+                    />
+                  </Grid>
+                )}
               {values?.type === INVENTORY_TYPE.UNEXPECTED && (
                 <Box sx={{ mt: 3 }}>
                   <FieldArray

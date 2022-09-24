@@ -87,11 +87,7 @@ function ItemSettingTable({ items, mode, arrayHelpers }) {
         renderCell: (params) => {
           const idx = items.findIndex((item) => item.id === params.row.id)
           return isView ? null : (
-            <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
-              disabled={items?.length === 1}
-              size="large"
-            >
+            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>
           )

@@ -34,7 +34,7 @@ const initialState = {
   isLoadingItem: false,
   inventoryCalendarList: [],
   inventoryCalendarDetails: {},
-  items: [],
+  itemUpdate: [],
   itemListDetailRecipt: [],
   total: null,
   totalItem: null,
@@ -85,7 +85,7 @@ export default function inventoryCalendar(state = initialState, action) {
     case GET_LIST_ITEM_DETAIL_RECIPT_FAILED:
       return {
         ...state,
-        // itemListDetailRecipt: [],
+        itemListDetailRecipt: [],
         isLoadingItem: false,
         totalItem: 0,
       }
@@ -118,7 +118,7 @@ export default function inventoryCalendar(state = initialState, action) {
     case GET_ITEM_SUCCESS:
       return {
         ...state,
-        items: action.payload,
+        itemUpdate: action?.payload?.items,
         isLoading: false,
       }
     case GET_ITEM_FAILED:
@@ -131,6 +131,7 @@ export default function inventoryCalendar(state = initialState, action) {
       return {
         ...state,
         inventoryCalendarDetails: {},
+        itemUpdate: [],
       }
     default:
       return state
