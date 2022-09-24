@@ -403,7 +403,7 @@ export function getListItemDetailReciptFailed() {
 
 export function resetInventoryCalendarDetailsState() {
   return {
-    type: GET_LIST_ITEM_DETAIL_RECIPT_START,
+    type: RESET_INVENTORY_CALENDAR_DETAILS_STATE,
   }
 }
 

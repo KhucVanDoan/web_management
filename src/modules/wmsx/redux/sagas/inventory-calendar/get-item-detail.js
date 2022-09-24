@@ -27,7 +27,6 @@ function* doGetItemDetails(action) {
 
     if (response?.statusCode === 200) {
       yield put(getItemSuccess(response?.data))
-
       // Call callback action if provided
       if (action.onSuccess) {
         action.onSuccess(response?.data)

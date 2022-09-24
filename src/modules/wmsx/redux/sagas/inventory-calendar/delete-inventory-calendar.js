@@ -16,10 +16,6 @@ import addNotification from '~/utils/toast'
 const deleteInventoryCalendarApi = (params) => {
   const uri = `/v1/warehouses/inventories/${params}`
   return api.delete(uri)
-  // return {
-  //   statusCode: 200,
-  //   results: { API: 'DELETE_USER', id: 0, name: 'abada' },
-  // };
 }
 
 /**

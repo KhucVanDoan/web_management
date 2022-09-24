@@ -369,7 +369,7 @@ function InventoryCalendar() {
       <Dialog
         open={isOpenRejectedModal}
         title={t('inventoryCalendar.rejectedModalTitle')}
-        onCancel={() => setIsOpenDeleteModal(false)}
+        onCancel={() => setIsOpenRejectedModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitRejected}
         submitLabel={t('general:common.yes')}
