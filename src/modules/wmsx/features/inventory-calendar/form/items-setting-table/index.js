@@ -15,7 +15,6 @@ import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-manageme
 function ItemSettingTable({ items, mode, arrayHelpers }) {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
   const getColumns = () => {
     return [
       {
