@@ -124,7 +124,7 @@ export default function inventoryCalendar(state = initialState, action) {
     case GET_ITEM_FAILED:
       return {
         ...state,
-        items: [],
+        itemUpdate: [],
         isLoading: false,
       }
     case RESET_INVENTORY_CALENDAR_DETAILS_STATE:

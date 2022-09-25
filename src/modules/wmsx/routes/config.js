@@ -573,6 +573,24 @@ export const ROUTE = {
     PATH: '/wmsx/inventory-warning',
     TITLE: 'inventoryWarning',
   },
+  WAREHOUSE_EXPORT_PROPOSAL: {
+    LIST: {
+      PATH: '/wmsx/warehouse-export-proposal',
+      TITLE: 'warehouseExportProposal',
+    },
+    CREATE: {
+      PATH: '/wmsx/warehouse-export-proposal/create',
+      TITLE: 'warehouseExportProposalCreate',
+    },
+    EDIT: {
+      PATH: '/wmsx/warehouse-export-proposal/:id/edit',
+      TITLE: 'warehouseExportProposalEdit',
+    },
+    DETAIL: {
+      PATH: '/wmsx/warehouse-export-proposal/:id/detail',
+      TITLE: 'warehouseExportProposalDetail',
+    },
+  },
   REPORT_STATISTICS: {
     TITLE: 'reportStatistics',
   },
