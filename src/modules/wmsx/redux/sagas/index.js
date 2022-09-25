@@ -203,6 +203,15 @@ import watchGetSourceManagement from './source-management/get-detail'
 import watchRejectSourceManagement from './source-management/reject'
 import watchSearchSourceManagement from './source-management/search'
 import watchUpdateSourceManagement from './source-management/update'
+import watchConfirmWarehouseExportProposal from './warehouse-export-proposal/confirm'
+import watchCreateWarehouseExportProposal from './warehouse-export-proposal/create'
+import watchDeleteWarehouseExportProposal from './warehouse-export-proposal/delete'
+import watchGetWarehouseExportProposalDetails from './warehouse-export-proposal/get-details'
+import watchRejectWarehouseExportProposal from './warehouse-export-proposal/reject'
+import watchRequestItemCode from './warehouse-export-proposal/request-item-code'
+import watchSearchWarehouseExportProposal from './warehouse-export-proposal/search'
+import watchUpdateWarehouseExportProposal from './warehouse-export-proposal/update'
+import watchUpdateWarehouseExportProposalQuantity from './warehouse-export-proposal/update-quantity'
 import watchConfirmWarehouseExportReceipt from './warehouse-export-receipt/confirm'
 import watchCreateWarehouseExportReceipt from './warehouse-export-receipt/create'
 import watchDeleteWarehouseExportReceipt from './warehouse-export-receipt/delete'
@@ -478,6 +487,16 @@ export default function* sagas() {
     watchDeleteWarehouseExportReceipt(),
     watchConfirmWarehouseExportReceipt(),
     watchRejectWarehouseExportReceipt(),
+    // warehouse-export-proposal
+    watchSearchWarehouseExportProposal(),
+    watchConfirmWarehouseExportProposal(),
+    watchCreateWarehouseExportProposal(),
+    watchDeleteWarehouseExportProposal(),
+    watchGetWarehouseExportProposalDetails(),
+    watchRejectWarehouseExportProposal(),
+    watchUpdateWarehouseExportProposal(),
+    watchUpdateWarehouseExportProposalQuantity(),
+    watchRequestItemCode(),
 
     //receipt-management
     watchGetReceiptDetails(),

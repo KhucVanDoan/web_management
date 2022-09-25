@@ -1672,7 +1672,51 @@ export const MATERIAL_ACTIVE_STATUS_MAP = {
   [MATERIAL_ACTIVE_STATUS.ACTIVE]: 'general.active',
   [MATERIAL_ACTIVE_STATUS.REJECTED]: 'general.inactive',
 }
+export const WAREHOUSE_EXPORT_PROPOSAL_STATUS = {
+  PENDING: 0,
+  CONFIRMED: 1,
+  REJECTED: 2,
+}
 
+export const WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION = [
+  {
+    id: 0,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.comfirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.rejected',
+    color: 'rejected',
+  },
+]
+export const WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS = {
+  NO_EXPORTED: 0,
+  IN_PROGRESS: 1,
+  COMPLETED: 2,
+}
+export const WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION = [
+  {
+    id: 0,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.noExport',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 2,
+    text: 'warehouseExportProposal.warehouseExportProposalStatus.completed',
+    color: 'completed',
+  },
+]
 export const RECEIPT_MANAGEMENT_STATUS = {
   NOT_YET_STOCKED: 0,
   STOCKED: 1,

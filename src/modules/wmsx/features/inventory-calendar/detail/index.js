@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -40,9 +40,9 @@ const InventoryCalendarDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
-
+  const [listItem, setListItem] = useState([])
   const {
-    data: { inventoryCalendarDetails, isLoading, items },
+    data: { inventoryCalendarDetails, isLoading, itemUpdate },
     actions,
   } = useInventoryCalendar()
 
@@ -64,10 +64,13 @@ const InventoryCalendarDetail = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }
-  const listItem = (items || [])?.map((i, index) => ({
-    id: index,
-    itemCode: { ...i, name: i?.item?.name, code: i?.item?.code },
-  }))
+  useEffect(() => {
+    const listItem = itemUpdate?.map((i, index) => ({
+      id: index,
+      itemCode: { ...i, name: i?.item?.name, code: i?.item?.code },
+    }))
+    setListItem(listItem)
+  }, [itemUpdate])
   return (
     <Page
       breadcrumbs={breadcrumbs}
