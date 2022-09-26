@@ -11,38 +11,44 @@ export const DrawerHeader = styled('div')(() => ({
 
 export const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'isMinimal',
-})(({ theme, isMinimal }) => ({
-  flexShrink: 0,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  position: 'static',
-  transition: 'all .3s ease',
-
-  '& .MuiDrawer-paper': {
+})(
+  ({
+    //  theme,
+    isMinimal,
+  }) => ({
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
     position: 'static',
-  },
+    transition: 'all .3s ease',
 
-  ...(isMinimal
-    ? {
-        width: 75,
-      }
-    : {
-        width: 272,
-      }),
-
-  [theme.breakpoints.down('md')]: {
-    position: 'absolute',
-    zIndex: 99,
-    height: '100%',
-    top: 0,
-    left: 88,
+    '& .MuiDrawer-paper': {
+      position: 'static',
+    },
 
     ...(isMinimal
       ? {
-          transform: 'translateX(-100%)',
+          width: 75,
         }
       : {
-          transform: 'translateX(0)',
+          width: 272,
         }),
-  },
-}))
+
+    // [theme.breakpoints.down('md')]: {
+    //   position: 'absolute',
+    //   zIndex: 99,
+    //   height: '100%',
+    //   top: 0,
+    //   left: 0,
+    //   width: 272,
+
+    //   ...(isMinimal
+    //     ? {
+    //         transform: 'translateX(-100%)',
+    //       }
+    //     : {
+    //         transform: 'translateX(0)',
+    //       }),
+    // },
+  }),
+)
