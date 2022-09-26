@@ -11,15 +11,12 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
-import { exportCompanyApi } from '~/modules/wmsx/redux/sagas/company-management/import-export-company'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -71,7 +68,6 @@ function CompanyManagement() {
     isOpenUpdateStatusModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -207,35 +203,13 @@ function CompanyManagement() {
 
   const renderHeaderRight = () => {
     return (
-      <>
-        <ImportExport
-          name={t('companyManagement.export')}
-          onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
-          onRefresh={refreshData}
-          disabled
-        />
-        <Button
-          onClick={() => history.push(ROUTE.COMPANY_MANAGEMENT.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
-      </>
+      <Button
+        onClick={() => history.push(ROUTE.COMPANY_MANAGEMENT.CREATE.PATH)}
+        sx={{ ml: 4 / 3 }}
+        icon="add"
+      >
+        {t('general:common.create')}
+      </Button>
     )
   }
 
@@ -257,7 +231,6 @@ function CompanyManagement() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

@@ -60,7 +60,7 @@ const DefineExpenditureOrgForm = () => {
       code: values?.code,
       name: values?.name,
       phone: values?.phone,
-      email: values?.email || null,
+      email: values?.email,
       description: values?.description || '',
     }
     if (mode === MODAL_MODE.CREATE) {

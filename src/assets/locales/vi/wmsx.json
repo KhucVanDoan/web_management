@@ -2728,7 +2728,7 @@
   },
   "defineExpenditureType": {
     "list": "Danh sách loại chi phí",
-    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "searchPlaceholder": "Tìm kiếm loại chi phí theo mã hoặc tên",
     "code": "Mã loại chi phí",
     "name": "Tên loại chi phí",
     "status": "Trạng thái hoạt động",
