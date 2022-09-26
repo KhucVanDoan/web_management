@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react'
 
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+// import { useTheme } from '@mui/material/styles'
+// import useMediaQuery from '@mui/material/useMediaQuery'
 
 import storage from '~/utils/storage'
 
@@ -12,9 +12,10 @@ const SidebarProvider = ({ children }) => {
     storage.getSessionItem('isMinimal') || false,
   )
 
-  const theme = useTheme()
+  // const theme = useTheme()
 
-  const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
+  // const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
+  const isMdUp = true
 
   const value = {
     isMinimal,
