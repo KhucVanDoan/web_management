@@ -89,6 +89,9 @@ import SourceManagement from '../features/source-management/list'
 import UnitManagementDetail from '../features/unit-management/detail'
 import UnitManagementForm from '../features/unit-management/form'
 import UnitManagement from '../features/unit-management/list'
+import WarehouseExportProposalDetail from '../features/warehouse-export-proposal/detail'
+import WarehouseExportProposalForm from '../features/warehouse-export-proposal/form'
+import WarehouseExportProposal from '../features/warehouse-export-proposal/list'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
@@ -771,6 +774,34 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+    ],
+  },
+
+  {
+    name: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.LIST.TITLE,
+    path: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.LIST.PATH,
+    icon: 'database',
+    component: WarehouseExportProposal,
+    isInSidebar: true,
+    subMenu: [
+      {
+        name: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.CREATE.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.CREATE.PATH,
+        component: WarehouseExportProposalForm,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.DETAIL.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.DETAIL.PATH,
+        component: WarehouseExportProposalDetail,
+        isInSidebar: false,
+      },
+      {
+        name: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.TITLE,
+        path: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH,
+        component: WarehouseExportProposalForm,
+        isInSidebar: false,
       },
     ],
   },
