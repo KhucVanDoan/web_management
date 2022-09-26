@@ -217,7 +217,8 @@ function DefineExpenditureTypeForm() {
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
                   </Grid>
@@ -244,11 +245,15 @@ function DefineExpenditureTypeForm() {
                         searchExpenditureOrgApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
                   </Grid>
