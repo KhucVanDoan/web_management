@@ -184,7 +184,7 @@ function DefineWarehouseGroupForm() {
                       label={t('defineWarehouseGroup.code')}
                       placeholder={t('defineWarehouseGroup.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_5.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
@@ -197,7 +197,7 @@ function DefineWarehouseGroupForm() {
                       label={t('defineWarehouseGroup.name')}
                       placeholder={t('defineWarehouseGroup.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
                       required
                     />

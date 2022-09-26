@@ -1,18 +1,20 @@
 import React from 'react'
 
-import { Box, Hidden } from '@mui/material'
+import {
+  Box,
+  //  Hidden
+} from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
 import { useLocation } from 'react-router-dom'
 
-import LogoSolution from '~/assets/images/logo-solutions.png'
+import LogoSrc from '~/assets/images/logo.png'
 import Icon from '~/components/Icon'
 import { appRoutesObj } from '~/routes'
 import { getCurrentModule } from '~/utils/menu'
 
 import ListMenu from '../ListMenu'
-import ListModule from '../ListModule'
 import { useSidebar } from '../hooks'
 import { Drawer, DrawerHeader } from './style'
 
@@ -30,51 +32,48 @@ export default function Sidebar() {
         position: 'relative',
       }}
     >
-      <ListModule />
-
       {currentModule && (
         <Drawer variant="permanent" isMinimal={isMinimal}>
-          <Hidden mdDown>
-            <DrawerHeader>
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  flex: 1,
-                  px: isMinimal ? 0.2 : 1,
-                  overflow: 'hidden',
-                  img: { maxHeight: theme.spacing(4) },
-                }}
-              >
-                {/* {isMinimal ? (
-                  <img src={LogoSolution} alt="minimal-logo" />
-                ) : (
-                  <img src={LogoSolution} alt="client-logo" />
-                )} */}
-              </Box>
+          {/* <Hidden mdDown> */}
+          <DrawerHeader>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                justifyContent: 'center',
+                flex: 1,
+                px: isMinimal ? 0.2 : 1,
+                overflow: 'hidden',
+                img: { maxHeight: theme.spacing(6), maxWidth: '100%' },
+              }}
+            >
+              {isMinimal ? (
+                <img src={LogoSrc} alt="" />
+              ) : (
+                <img src={LogoSrc} alt="" />
+              )}
+            </Box>
 
-              <IconButton
-                sx={{
-                  background: isMinimal
-                    ? 'transparent'
-                    : theme.palette.grayEE.main,
-                  borderRadius: '3px 0 0 3px',
-                  p: '2px',
-                  pl: 0,
-                  flex: '0 0 24px',
-                }}
-                onClick={() => setIsMinimal(!isMinimal)}
-              >
-                <Icon
-                  name="drawer"
-                  size={20}
-                  {...(isMinimal
-                    ? { sx: { transform: 'rotate(-180deg)' } }
-                    : {})}
-                />
-              </IconButton>
-            </DrawerHeader>
-          </Hidden>
-          <Hidden mdUp>
+            <IconButton
+              sx={{
+                background: isMinimal
+                  ? 'transparent'
+                  : theme.palette.grayEE.main,
+                borderRadius: '3px 0 0 3px',
+                p: '2px',
+                pl: 0,
+                flex: '0 0 24px',
+              }}
+              onClick={() => setIsMinimal(!isMinimal)}
+            >
+              <Icon
+                name="drawer"
+                size={20}
+                {...(isMinimal ? { sx: { transform: 'rotate(-180deg)' } } : {})}
+              />
+            </IconButton>
+          </DrawerHeader>
+          {/* </Hidden> */}
+          {/* <Hidden mdUp>
             <DrawerHeader>
               <Box
                 sx={{
@@ -85,10 +84,10 @@ export default function Sidebar() {
                   img: { maxHeight: theme.spacing(4) },
                 }}
               >
-                <img src={LogoSolution} alt="client-logo" />
+                <img src={LogoSrc} alt="client-logo" />
               </Box>
             </DrawerHeader>
-          </Hidden>
+          </Hidden> */}
           <ListMenu
             routes={appRoutesObj[currentModule]?.filter(
               (item) => item?.isInSidebar,
