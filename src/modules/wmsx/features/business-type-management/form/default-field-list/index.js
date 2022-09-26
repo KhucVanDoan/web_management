@@ -7,11 +7,78 @@ import { useTranslation } from 'react-i18next'
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
-import { TYPE_DATA_FATHER_JOB_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  PARENT_BUSINESS_TYPE,
+  TYPE_DATA_FATHER_JOB_OPTIONS,
+} from '~/modules/wmsx/constants'
 
-const DefaultFieldList = ({ itemDefault, mode }) => {
+const DefaultFieldList = ({ itemDefault, mode, setFieldValue, values }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  const handleChangeRequired = (val, index) => {
+    if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
+      if (val === true) {
+        setFieldValue(`itemDefault[${index}].show`, true)
+      }
+      if (val === true && index === 0) {
+        setFieldValue(`itemDefault[1].show`, false)
+        setFieldValue(`itemDefault[2].show`, false)
+        setFieldValue(`itemDefault[1].required`, false)
+        setFieldValue(`itemDefault[2].required`, false)
+      }
+      if (val === true && index === 1) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[2].show`, true)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+      if (val === true && index === 2) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[1].show`, true)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+    } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
+      if (val === true) {
+        setFieldValue(`itemDefault[${index}].show`, true)
+      }
+      if (val === true && index === 0) {
+        setFieldValue(`itemDefault[1].show`, false)
+        setFieldValue(`itemDefault[1].required`, false)
+      }
+      if (val === true && index === 1) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+    }
+  }
+  const handleChangeShow = (val, index) => {
+    if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
+      if (val === true && index === 0) {
+        setFieldValue(`itemDefault[1].show`, false)
+        setFieldValue(`itemDefault[2].show`, false)
+        setFieldValue(`itemDefault[1].required`, false)
+        setFieldValue(`itemDefault[2].required`, false)
+      }
+      if (val === true && index === 1) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[2].show`, true)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+      if (val === true && index === 2) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[1].show`, true)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+    } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
+      if (val === true && index === 0) {
+        setFieldValue(`itemDefault[1].show`, false)
+        setFieldValue(`itemDefault[1].required`, false)
+      }
+      if (val === true && index === 1) {
+        setFieldValue(`itemDefault[0].show`, false)
+        setFieldValue(`itemDefault[0].required`, false)
+      }
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -68,6 +135,7 @@ const DefaultFieldList = ({ itemDefault, mode }) => {
           ) : (
             <Field.Checkbox
               name={`itemDefault[${index}].show`}
+              onChange={(val) => handleChangeShow(val, index)}
               disabled={isView}
             />
           )
@@ -87,6 +155,7 @@ const DefaultFieldList = ({ itemDefault, mode }) => {
           ) : (
             <Field.Checkbox
               name={`itemDefault[${index}].required`}
+              onChange={(val) => handleChangeRequired(val, index)}
               disabled={isView}
             />
           )

@@ -77,7 +77,7 @@ function BusinessTypeManagementForm() {
           id: item?.id,
           labelEBS: item?.ebsLabel,
           fieldName: item?.fieldName,
-          required: item?.required,
+          required: item?.required === 1 ? true : false,
           type: {
             id: item?.type,
             text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
@@ -93,8 +93,8 @@ function BusinessTypeManagementForm() {
           id: item?.id,
           labelEBS: item?.ebsLabel,
           fieldName: item?.fieldName,
-          required: item?.required,
-          show: item?.required ? true : false,
+          required: item?.required === 1 ? true : false,
+          show: item?.required === 1 ? true : false,
           type: '',
           code: item?.code,
           columnName: item?.columnName,
@@ -173,7 +173,7 @@ function BusinessTypeManagementForm() {
             columnName: item?.columnName,
             tableName: item?.tableName,
             code: item?.code,
-            required: item?.required,
+            required: item?.required === true ? 1 : 0,
           })),
         ...values?.itemOption
           ?.filter((e) => e?.required === true)
@@ -183,7 +183,7 @@ function BusinessTypeManagementForm() {
             ebsLabel: item?.labelEBS,
             columnName: item?.type?.code ? item?.type?.code : null,
             tableName: item?.type?.tableName ? item?.type?.tableName : null,
-            required: item?.required,
+            required: item?.required === true ? 1 : 0,
           })),
       ],
     }
@@ -344,6 +344,8 @@ function BusinessTypeManagementForm() {
                           itemDefault={values?.itemDefault || []}
                           arrayHelpers={arrayHelpers}
                           mode={mode}
+                          setFieldValue={setFieldValue}
+                          values={values}
                         />
                       )}
                     />

@@ -2,6 +2,7 @@ import { Box } from '@mui/system'
 import { PropTypes } from 'prop-types'
 
 import { ReactComponent as Add } from '~/assets/images/icons/add.svg'
+import { ReactComponent as AddRow } from '~/assets/images/icons/addRow.svg'
 import { ReactComponent as ArrowBottom } from '~/assets/images/icons/arrowBottom.svg'
 import { ReactComponent as ArrowDown } from '~/assets/images/icons/arrowDown.svg'
 import { ReactComponent as ArrowLeft } from '~/assets/images/icons/arrowLeft.svg'
@@ -42,6 +43,7 @@ import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
 import { ReactComponent as Unlock } from '~/assets/images/icons/unlock.svg'
+import { ReactComponent as UpdateQuantity } from '~/assets/images/icons/updateQuantity.svg'
 import { ReactComponent as Upload } from '~/assets/images/icons/upload.svg'
 import { ReactComponent as User } from '~/assets/images/icons/user.svg'
 import { ReactComponent as Visible } from '~/assets/images/icons/visible.svg'
@@ -57,6 +59,7 @@ import { ReactComponent as Plan } from '~/assets/images/menu/plan.svg'
 import { ReactComponent as PrettyBag } from '~/assets/images/menu/prettyBag.svg'
 const icons = {
   add: <Add />,
+  addRow: <AddRow />,
   setting: <Setting />,
   close: <Close />,
   calendar: <Calendar />,
@@ -100,6 +103,7 @@ const icons = {
   qrWhite: <QRWhite />,
   locked: <Locked />,
   unlock: <Unlock />,
+  updateQuantity: <UpdateQuantity />,
   // menu
   drawer: <Drawer />,
   home: <Home />,
