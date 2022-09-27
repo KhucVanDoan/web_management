@@ -12,14 +12,12 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
-import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
 import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
-import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
+import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -61,13 +59,15 @@ function WarehouseImportReceipt() {
   })
 
   const {
-    data: { constructionList, total, isLoading },
+    data: { warehouseImportReceiptList, total, isLoading },
     actions,
-  } = useConstructionManagement()
+  } = useWarehouseImportReceipt()
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenUpdateStatusModal: false,
+    isOpenDeleteModal: false,
+    isOpenConfirmModal: false,
+    isOpenRejectedModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -75,7 +75,7 @@ function WarehouseImportReceipt() {
 
   const columns = [
     {
-      field: 'id',
+      field: '#',
       headerName: t('warehouseImportReceipt.id'),
       width: 150,
       sortable: true,
@@ -85,22 +85,34 @@ function WarehouseImportReceipt() {
       field: 'unit',
       headerName: t('warehouseImportReceipt.unit'),
       width: 150,
+      renderCell: (params) => {
+        return params?.row?.departmentReceipt?.name
+      },
     },
     {
       field: 'expenditureType',
       headerName: t('warehouseImportReceipt.expenditureType'),
       width: 150,
+      renderCell: (params) => {
+        return params?.row?.businessType?.name
+      },
     },
     {
       field: 'warehouse',
       headerName: t('warehouseImportReceipt.warehouse'),
       width: 150,
+      renderCell: (params) => {
+        return params?.row?.warehouse?.name
+      },
     },
     {
       field: 'createdAt',
       headerName: t('warehouseImportReceipt.createdAt'),
       width: 150,
       sortable: true,
+      renderCell: (params) => {
+        return params?.row?.receiptDate
+      },
     },
     {
       field: 'status',
@@ -111,7 +123,7 @@ function WarehouseImportReceipt() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ACTIVE_STATUS_OPTIONS}
+            options={ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -123,6 +135,9 @@ function WarehouseImportReceipt() {
       headerName: t('warehouseImportReceipt.receiptNo'),
       width: 150,
       sortable: true,
+      renderCell: (params) => {
+        return params?.row?.receiptNumber
+      },
     },
     {
       field: 'warehouseImportEbs',
@@ -132,12 +147,17 @@ function WarehouseImportReceipt() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 150,
+      width: 200,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
         const { id, status } = params?.row
-        const isLocked = status === ACTIVE_STATUS.ACTIVE
+        const isEdit =
+          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+        const isDelete =
+          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+        const isConfirmed = status === ORDER_STATUS.PENDING
+        const isRejected = status === ORDER_STATUS.PENDING
         return (
           <div>
             <IconButton
@@ -152,21 +172,35 @@ function WarehouseImportReceipt() {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+            {isEdit && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            )}
+            {isDelete && (
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+            )}
+            {isConfirmed && (
+              <IconButton onClick={() => onClickConfirm(params.row)}>
+                <Icon name="tick" />
+              </IconButton>
+            )}
+            {isRejected && (
+              <IconButton onClick={() => onClickRejected(params.row)}>
+                <Icon name="remove" />
+              </IconButton>
+            )}
           </div>
         )
       },
@@ -183,7 +217,7 @@ function WarehouseImportReceipt() {
       ]),
       sort: convertSortParams(sort),
     }
-    actions.searchConstructions(params)
+    actions.searchWarehouseImportReceipt(params)
   }
 
   useEffect(() => {
@@ -194,25 +228,40 @@ function WarehouseImportReceipt() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const onClickUpdateStatus = (tempItem) => {
-    setModal({ tempItem, isOpenUpdateStatusModal: true })
+  const onClickDelete = (tempItem) => {
+    setModal({ tempItem, isOpenDeleteModal: true })
   }
-
-  const onSubmitUpdateStatus = () => {
-    if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
-      actions.rejectConstructionById(modal.tempItem?.id, () => {
-        refreshData()
-      })
-    } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
-      actions.confirmConstructionById(modal.tempItem?.id, () => {
-        refreshData()
-      })
-    }
-    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  const onClickConfirm = (tempItem) => {
+    setModal({ tempItem, isOpenConfirmModal: true })
   }
-
-  const onCloseUpdateStatusModal = () => {
-    setModal({ isOpenUpdateStatusModal: false, tempItem: null })
+  const onClickRejected = (tempItem) => {
+    setModal({ tempItem, isOpenRejectedModal: true })
+  }
+  const onSubmitDelete = () => {
+    actions.deleteWarehouseImportReceipt(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
+  }
+  const onSubmitConfirm = () => {
+    actions.confirmWarehouseImportReceiptById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenConfirmModal: false, tempItem: null })
+  }
+  const onSubmitRejected = () => {
+    actions.deleteWarehouseImportReceipt(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
+  }
+  const onCloseDeleteModal = () => {
+    setModal({
+      isOpenDeleteModal: false,
+      tempItem: null,
+      isOpenConfirmModal: false,
+      isOpenRejectedModal: false,
+    })
   }
 
   const renderHeaderRight = () => {
@@ -262,7 +311,7 @@ function WarehouseImportReceipt() {
     >
       <DataTable
         title={t('warehouseImportReceipt.list')}
-        rows={constructionList}
+        rows={warehouseImportReceiptList}
         pageSize={pageSize}
         page={page}
         columns={columns}
@@ -294,42 +343,43 @@ function WarehouseImportReceipt() {
         }}
       />
       <Dialog
-        open={modal.isOpenUpdateStatusModal}
-        title={t('general.updateStatus')}
-        onCancel={onCloseUpdateStatusModal}
+        open={modal.isOpenDeleteModal}
+        title={t('warehouseImportReceipt.deleteTitlePopup')}
+        onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitUpdateStatus}
+        onSubmit={onSubmitDelete}
         submitLabel={t('general:common.yes')}
-        {...(modal?.tempItem?.status === ACTIVE_STATUS.ACTIVE
-          ? {
-              submitProps: {
-                color: 'error',
-              },
-            }
-          : {})}
+        submitProps={{
+          color: 'error',
+        }}
         noBorderBottom
       >
-        {t('general.confirmMessage')}
-        <LV
-          label={t('constructionManagement.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('constructionManagement.name')}
-          value={modal?.tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('general.status')}
-          value={
-            <StatusSwitcher
-              options={ACTIVE_STATUS_OPTIONS}
-              value={modal?.tempItem?.status}
-            />
-          }
-          sx={{ mt: 4 / 3 }}
-        />
+        {t('warehouseImportReceipt.deleteConfirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmModal}
+        title={t('warehouseImportReceipt.confirmTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirm}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseImportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenRejectedModal}
+        title={t('warehouseImportReceipt.rejectTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitRejected}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseImportReceipt.rejectConfirm')}
       </Dialog>
     </Page>
   )

@@ -7,7 +7,7 @@ import {
 } from '~/modules/wmsx/redux/actions/material-management'
 import { api } from '~/services/api'
 
-const getMaterialDetailsApi = (params) => {
+export const getMaterialDetailsApi = (params) => {
   //@TODO udpate api
   const uri = `/v1/items/${params}`
   return api.get(uri)
