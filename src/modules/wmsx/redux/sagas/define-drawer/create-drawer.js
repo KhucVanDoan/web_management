@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  rejectDrawerByIdFailed,
-  rejectDrawerByIdSuccess,
-  REJECT_DRAWER_START,
+  createDrawerFailed,
+  createDrawerSuccess,
+  CREATE_DRAWER_START,
 } from '~/modules/wmsx/redux/actions/define-drawer'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const rejectDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}/reject`
-  return api.put(uri)
+const createDrawerApi = (body) => {
+  const uri = `/v1/warehouse-layouts/locations/create`
+  return api.post(uri, body)
 }
 
-function* doRejectDrawer(action) {
+function* doCreateDrawer(action) {
   try {
-    const response = yield call(rejectDrawerApi, action?.payload)
+    const response = yield call(createDrawerApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(rejectDrawerByIdSuccess(response.payload))
+      yield put(createDrawerSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -29,15 +28,11 @@ function* doRejectDrawer(action) {
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
-      addNotification(
-        response?.message || response?.statusText,
-        NOTIFICATION_TYPE.ERROR,
-      )
-
+      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(rejectDrawerByIdFailed())
+    yield put(createDrawerFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -45,6 +40,6 @@ function* doRejectDrawer(action) {
   }
 }
 
-export default function* watchRejectDrawer() {
-  yield takeLatest(REJECT_DRAWER_START, doRejectDrawer)
+export default function* watchCreateDrawer() {
+  yield takeLatest(CREATE_DRAWER_START, doCreateDrawer)
 }

@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmDrawerByIdFailed,
-  confirmDrawerByIdSuccess,
-  CONFIRM_DRAWER_START,
+  rejectDrawerByIdFailed,
+  rejectDrawerByIdSuccess,
+  REJECT_DRAWER_START,
 } from '~/modules/wmsx/redux/actions/define-drawer'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const confirmDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}/confirm`
+const rejectDrawerApi = (params) => {
+  const uri = `/v1/warehouse-layouts/locations/${params}/reject`
   return api.put(uri)
 }
 
-function* doConfirmDrawer(action) {
+function* doRejectDrawer(action) {
   try {
-    const response = yield call(confirmDrawerApi, action?.payload)
+    const response = yield call(rejectDrawerApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmDrawerByIdSuccess(response.payload))
+      yield put(rejectDrawerByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +36,7 @@ function* doConfirmDrawer(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmDrawerByIdFailed())
+    yield put(rejectDrawerByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -45,6 +44,6 @@ function* doConfirmDrawer(action) {
   }
 }
 
-export default function* watchConfirmDrawer() {
-  yield takeLatest(CONFIRM_DRAWER_START, doConfirmDrawer)
+export default function* watchRejectDrawer() {
+  yield takeLatest(REJECT_DRAWER_START, doRejectDrawer)
 }

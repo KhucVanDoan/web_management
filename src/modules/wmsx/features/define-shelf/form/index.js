@@ -11,7 +11,10 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import useDefineShelf from '~/modules/wmsx/redux/hooks/useDefineShelf'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -100,13 +103,14 @@ function DefineShelfForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      level: WAREHOUSE_LAYOUTS.SHELF,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createShelf(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const paramUpdate = {
         ...convertValues,
-        id: +id,
+        id,
       }
       actions.updateShelf(paramUpdate, backToList)
     }

@@ -11,7 +11,10 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import useDefineDrawer from '~/modules/wmsx/redux/hooks/useDefineDrawer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -100,13 +103,14 @@ function DefineDrawerForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      level: WAREHOUSE_LAYOUTS.DRAWER,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createDrawer(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const paramUpdate = {
         ...convertValues,
-        id: +id,
+        id,
       }
       actions.updateDrawer(paramUpdate, backToList)
     }
