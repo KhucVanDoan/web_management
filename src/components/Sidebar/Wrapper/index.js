@@ -7,7 +7,7 @@ import {
 import Backdrop from '@mui/material/Backdrop'
 import IconButton from '@mui/material/IconButton'
 import { useTheme } from '@mui/material/styles'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import LogoSrc from '~/assets/images/logo.png'
 import Icon from '~/components/Icon'
@@ -46,11 +46,13 @@ export default function Sidebar() {
                 img: { maxHeight: theme.spacing(6), maxWidth: '100%' },
               }}
             >
-              {isMinimal ? (
-                <img src={LogoSrc} alt="" />
-              ) : (
-                <img src={LogoSrc} alt="" />
-              )}
+              <Link to="/">
+                {isMinimal ? (
+                  <img src={LogoSrc} alt="" />
+                ) : (
+                  <img src={LogoSrc} alt="" />
+                )}
+              </Link>
             </Box>
 
             <IconButton
