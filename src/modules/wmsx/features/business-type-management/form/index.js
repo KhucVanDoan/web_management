@@ -77,7 +77,7 @@ function BusinessTypeManagementForm() {
           id: item?.id,
           labelEBS: item?.ebsLabel,
           fieldName: item?.fieldName,
-          required: item?.required === 1 ? true : false,
+          required: item?.required === 0 ? false : true,
           type: {
             id: item?.type,
             text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
@@ -93,7 +93,7 @@ function BusinessTypeManagementForm() {
           id: item?.id,
           labelEBS: item?.ebsLabel,
           fieldName: item?.fieldName,
-          required: item?.required === 1 ? true : false,
+          required: item?.required === 0 ? false : true,
           show: item?.required === 1 ? true : false,
           type: '',
           code: item?.code,
@@ -175,16 +175,14 @@ function BusinessTypeManagementForm() {
             code: item?.code,
             required: item?.required === true ? 1 : 0,
           })),
-        ...values?.itemOption
-          ?.filter((e) => e?.required === true)
-          ?.map((item) => ({
-            fieldName: item?.fieldName,
-            type: item.type?.type,
-            ebsLabel: item?.labelEBS,
-            columnName: item?.type?.code ? item?.type?.code : null,
-            tableName: item?.type?.tableName ? item?.type?.tableName : null,
-            required: item?.required === true ? 1 : 0,
-          })),
+        ...values?.itemOption?.map((item) => ({
+          fieldName: item?.fieldName,
+          type: item.type?.type,
+          ebsLabel: item?.labelEBS,
+          columnName: item?.type?.code ? item?.type?.code : null,
+          tableName: item?.type?.tableName ? item?.type?.tableName : null,
+          required: item?.required === true ? 1 : 0,
+        })),
       ],
     }
     if (mode === MODAL_MODE.CREATE) {

@@ -264,7 +264,7 @@ function WarehouseExportReceiptForm() {
               onSubmit={onSubmit}
               enableReinitialize
             >
-              {({ handleReset, values }) => (
+              {({ handleReset, values, setFieldValue }) => (
                 <Form>
                   <Grid
                     container
@@ -374,6 +374,7 @@ function WarehouseExportReceiptForm() {
                           items={values?.items || []}
                           arrayHelpers={arrayHelpers}
                           mode={mode}
+                          setFieldValue={setFieldValue}
                         />
                       )}
                     />

@@ -221,6 +221,13 @@ import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search
 import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
+import watchConfirmWarehouseImportReceipt from './warehouse-import-receipt/confirm'
+import watchCreateWarehouseImportReceipt from './warehouse-import-receipt/create'
+import watchDeleteWarehouseImportReceipt from './warehouse-import-receipt/delete'
+import watchGetWarehouseImportReceiptDetails from './warehouse-import-receipt/get-details'
+import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject'
+import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
+import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
 /**
  * Root saga
@@ -513,5 +520,13 @@ export default function* sagas() {
     watchRejectInventoryCalendar(),
     watchSearchInventoryCalendars(),
     watchUpdateInventoryCalendar(),
+    //warehouse-import-receipt
+    watchSearchWarehouseImportReceipt(),
+    watchCreateWarehouseImportReceipt(),
+    watchUpdateWarehouseImportReceipt(),
+    watchGetWarehouseImportReceiptDetails(),
+    watchDeleteWarehouseImportReceipt(),
+    watchConfirmWarehouseImportReceipt(),
+    watchRejectWarehouseImportReceipt(),
   ])
 }

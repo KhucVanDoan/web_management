@@ -13,7 +13,7 @@ import Icon from '~/components/Icon'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const columns = useMemo(
@@ -46,6 +46,16 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              freeSolo
+              onBlur={(e) => {
+                const newVal = e.target.value
+                if (newVal) {
+                  setFieldValue(`items[${index}].suppliesName`, {
+                    code: '',
+                    name: newVal,
+                  })
+                }
+              }}
             />
           )
         },

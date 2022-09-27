@@ -9,9 +9,10 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useConstructionManagement from '~/modules/wmsx/redux/hooks/useConstructionManagement'
+import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -33,15 +34,16 @@ function WarehouseImportReceiptDetail() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+
   const {
-    data: { isLoading, constructionDetails },
+    data: { warehouseImportReceiptDetails, isLoading },
     actions,
-  } = useConstructionManagement()
+  } = useWarehouseImportReceipt()
 
   useEffect(() => {
-    actions.getConstructionDetailsById(id)
+    actions.getWarehouseImportReceiptDetailsById(id)
     return () => {
-      actions.resetConstructionDetailsState()
+      actions.resetWarehouseImportReceiptState()
     }
   }, [id])
 
@@ -64,8 +66,8 @@ function WarehouseImportReceiptDetail() {
                 label={t('warehouseImportReceipt.status')}
                 value={
                   <Status
-                    options={ACTIVE_STATUS_OPTIONS}
-                    value={constructionDetails?.status}
+                    options={ORDER_STATUS_OPTIONS}
+                    value={warehouseImportReceiptDetails?.status}
                   />
                 }
               />
@@ -73,109 +75,96 @@ function WarehouseImportReceiptDetail() {
             <Grid item xs={12}>
               <LV
                 label={t('warehouseImportReceipt.id')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.createdAt')}
-                value={constructionDetails.code}
+                value={convertUtcDateToLocalTz(
+                  warehouseImportReceiptDetails.receiptDate,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.shipper')}
-                value={constructionDetails.code}
-              />
+              <LV label={t('warehouseImportReceipt.shipper')} value={''} />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.unit')}
-                value={constructionDetails.code}
-              />
+              <LV label={t('warehouseImportReceipt.unit')} value={''} />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.expenditureType')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.businessType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.warehouse')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.reason')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.reason?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.source')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.source?.name}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.project')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.task')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.project')}
-                value={constructionDetails.code}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.task')}
-                value={constructionDetails.code}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
+            </Grid> */}
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.receiptNo')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.suggestExport')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.explain')}
-                value={constructionDetails.code}
+                label={t('warehouseImportReceipt.explaination')}
+                value={warehouseImportReceiptDetails.explaination}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.contractNo')}
-                value={constructionDetails.code}
+                value={warehouseImportReceiptDetails.code}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box sx={{ mt: 3 }}>
             <ItemsSettingTable
-              items={constructionDetails?.producingSteps || []}
+              items={
+                warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots ||
+                []
+              }
               mode={MODAL_MODE.DETAIL}
             />
           </Box>
