@@ -1006,55 +1006,7 @@ const routes = [
       },
     ],
   },
-  {
-    name: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
-    path: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
-    component: WarehouseImport,
-    icon: 'key',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
-        path: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
-        component: WarehouseImportDetail,
-        isInSidebar: false,
-      },
-    ],
-  },
-  {
-    name: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
-    path: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
-    component: WarehouseExport,
-    icon: 'export',
-    isInSidebar: true,
-    subMenu: [
-      {
-        name: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
-        path: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
-        component: WarehouseExportDetail,
-        isInSidebar: false,
-      },
-    ],
-  },
-  {
-    name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
-    icon: 'keylock',
-    isInSidebar: true,
-    subMenu: [
-      {
-        path: ROUTE.INVENTORY_STATISTICS.PATH,
-        name: ROUTE.INVENTORY_STATISTICS.TITLE,
-        component: InventoryStatistics,
-        isInSidebar: true,
-      },
-      {
-        path: ROUTE.INVENTORY_WARNING.PATH,
-        name: ROUTE.INVENTORY_WARNING.TITLE,
-        component: InventoryWarning,
-        isInSidebar: true,
-      },
-    ],
-  },
+
   {
     name: ROUTE.SETTING.TITLE,
     icon: 'setting',

@@ -15,7 +15,7 @@
     "confirmMessage": "Bạn chắc chắn muốn cập nhật trạng thái bản ghi?"
   },
   "menu": {
-    "wmsx": "WMSX",
+    "wmsx": "WMS",
     "dashboard": "Dashboard",
     "database": "Quản lý dữ liệu cơ sở",
     "companyManagement": "Quản lý công ty",
@@ -1561,7 +1561,7 @@
     "unexpected": "Kiểm kê đột xuất",
     "blindCounts": "Kiểm kê mù",
     "dataSnapshot": "Dữ liệu snapshot ngoài",
-    "snapshotWmsx": "snapshot trên WMSX",
+    "snapshotWmsx": "snapshot trên WMS",
     "dataClosing": "Dữ liệu chốt kỳ",
     "items": {
       "tableTitle": "Danh sách vật tư",
@@ -2472,8 +2472,8 @@
     "category": "Hạng mục",
     "receiptManagement": "Quản lý receipt",
     "receipt": "Số Receipt",
-    "poImportId": "ID phiếu nhập WMSX",
-    "poExportId": "ID phiếu xuất WMSX",
+    "poImportId": "ID phiếu nhập WMS",
+    "poExportId": "ID phiếu xuất WMS",
     "items": {
       "fieldList": "Danh sách trường dữ liệu",
       "fieldName": "Tên trường",
@@ -2809,7 +2809,7 @@
   "warehouseExportReceipt": {
     "list": "Danh sách phiếu xuất kho",
     "searchPlaceholder": "Tìm kiếm thông tin",
-    "receiptId": "ID phiếu xuất WMSX",
+    "receiptId": "ID phiếu xuất WMS",
     "unit": "Đơn vị",
     "nameOfReceiver": "Họ tên người nhận hàng",
     "departmentReception": "Phòng ban nhận",
