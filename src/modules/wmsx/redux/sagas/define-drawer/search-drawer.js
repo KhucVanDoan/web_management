@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const searchDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/list`
+  const uri = `/v1/warehouse-layouts/locations/list`
   return api.get(uri, params)
 }
 

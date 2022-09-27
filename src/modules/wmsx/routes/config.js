@@ -1,6 +1,6 @@
 export const ROUTE = {
   DASHBOARD: {
-    PATH: '/wmsx',
+    PATH: '/wms',
     TITLE: 'dashboard',
   },
   DATABASE: {
@@ -8,253 +8,253 @@ export const ROUTE = {
   },
   COMPANY_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/company-management',
+      PATH: '/wms/company-management',
       TITLE: 'companyManagement',
     },
     CREATE: {
-      PATH: '/wmsx/company-management/create',
+      PATH: '/wms/company-management/create',
       TITLE: 'companyManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/company-management/:id/detail',
+      PATH: '/wms/company-management/:id/detail',
       TITLE: 'companyManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/company-management/:id/edit',
+      PATH: '/wms/company-management/:id/edit',
       TITLE: 'companyManagementEdit',
     },
   },
   UNIT_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/unit-management',
+      PATH: '/wms/unit-management',
       TITLE: 'managementUnit',
     },
     CREATE: {
-      PATH: '/wmsx/unit-management/create',
+      PATH: '/wms/unit-management/create',
       TITLE: 'managementUnitCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/unit-management/:id/detail',
+      PATH: '/wms/unit-management/:id/detail',
       TITLE: 'managementUnitDetail',
     },
     EDIT: {
-      PATH: '/wmsx/unit-management/:id/edit',
+      PATH: '/wms/unit-management/:id/edit',
       TITLE: 'managementUnitEdit',
     },
   },
   RECEIPT_DEPARTMENT_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/receipt-department-management',
+      PATH: '/wms/receipt-department-management',
       TITLE: 'receiptDepartmentManagement',
     },
     CREATE: {
-      PATH: '/wmsx/receipt-department-management/create',
+      PATH: '/wms/receipt-department-management/create',
       TITLE: 'receiptDepartmentManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/receipt-department-management/:id/detail',
+      PATH: '/wms/receipt-department-management/:id/detail',
       TITLE: 'receiptDepartmentManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/receipt-department-management/:id/edit',
+      PATH: '/wms/receipt-department-management/:id/edit',
       TITLE: 'receiptDepartmentManagementEdit',
     },
   },
   CONSTRUCTION_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/project-management',
+      PATH: '/wms/project-management',
       TITLE: 'constructionManagement',
     },
     CREATE: {
-      PATH: '/wmsx/project-management/create',
+      PATH: '/wms/project-management/create',
       TITLE: 'constructionManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/project-management/:id/detail',
+      PATH: '/wms/project-management/:id/detail',
       TITLE: 'constructionManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/project-management/:id/edit',
+      PATH: '/wms/project-management/:id/edit',
       TITLE: 'constructionManagementEdit',
     },
   },
   CONSTRUCTION_ITEMS_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/task-management',
+      PATH: '/wms/task-management',
       TITLE: 'constructionItemsManagement',
     },
     CREATE: {
-      PATH: '/wmsx/task-management/create',
+      PATH: '/wms/task-management/create',
       TITLE: 'constructionItemsManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/task-management/:id/detail',
+      PATH: '/wms/task-management/:id/detail',
       TITLE: 'constructionItemsManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/task-management/:id/edit',
+      PATH: '/wms/task-management/:id/edit',
       TITLE: 'constructionItemsManagementEdit',
     },
   },
   SOURCE_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/source-management',
+      PATH: '/wms/source-management',
       TITLE: 'sourceManagement',
     },
     CREATE: {
-      PATH: '/wmsx/source-management/create',
+      PATH: '/wms/source-management/create',
       TITLE: 'sourceManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/source-management/:id/detail',
+      PATH: '/wms/source-management/:id/detail',
       TITLE: 'sourceManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/source-management/:id/edit',
+      PATH: '/wms/source-management/:id/edit',
       TITLE: 'sourceManagementEdit',
     },
   },
   REASON_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/reason-management',
+      PATH: '/wms/reason-management',
       TITLE: 'reasonManagement',
     },
     CREATE: {
-      PATH: '/wmsx/reason-management/create',
+      PATH: '/wms/reason-management/create',
       TITLE: 'reasonManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/reason-management/:id/detail',
+      PATH: '/wms/reason-management/:id/detail',
       TITLE: 'reasonManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/reason-management/:id/edit',
+      PATH: '/wms/reason-management/:id/edit',
       TITLE: 'reasonManagementEdit',
     },
   },
   DEFINE_UOM: {
     LIST: {
-      PATH: '/wmsx/define-uom',
+      PATH: '/wms/define-uom',
       TITLE: 'defineUom',
     },
     CREATE: {
-      PATH: '/wmsx/define-uom/create',
+      PATH: '/wms/define-uom/create',
       TITLE: 'defineUomCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-uom/:id/detail',
+      PATH: '/wms/define-uom/:id/detail',
       TITLE: 'defineUomDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-uom/:id/edit',
+      PATH: '/wms/define-uom/:id/edit',
       TITLE: 'defineUomEdit',
     },
   },
   BUSINESS_TYPE_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/business-type-management',
+      PATH: '/wms/business-type-management',
       TITLE: 'businessTypeManagement',
     },
     CREATE: {
-      PATH: '/wmsx/business-type-management/create',
+      PATH: '/wms/business-type-management/create',
       TITLE: 'businessTypeManagementCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/business-type-management/:id/detail',
+      PATH: '/wms/business-type-management/:id/detail',
       TITLE: 'businessTypeManagementDetail',
     },
     EDIT: {
-      PATH: '/wmsx/business-type-management/:id/edit',
+      PATH: '/wms/business-type-management/:id/edit',
       TITLE: 'businessTypeManagementEdit',
     },
   },
   DEFINE_OBJECT_CATEGORY: {
     LIST: {
-      PATH: '/wmsx/define-object-category',
+      PATH: '/wms/define-object-category',
       TITLE: 'defineObjectCategory',
     },
     CREATE: {
-      PATH: '/wmsx/define-object-category/create',
+      PATH: '/wms/define-object-category/create',
       TITLE: 'defineObjectCategoryCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-object-category/:id/detail',
+      PATH: '/wms/define-object-category/:id/detail',
       TITLE: 'defineObjectCategoryDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-object-category/:id/edit',
+      PATH: '/wms/define-object-category/:id/edit',
       TITLE: 'defineObjectCategoryEdit',
     },
   },
   DEFINE_MATERIAL_CATEGORY: {
     LIST: {
-      PATH: '/wmsx/define-material-category',
+      PATH: '/wms/define-material-category',
       TITLE: 'defineMaterialCategory',
     },
     CREATE: {
-      PATH: '/wmsx/define-material-category/create',
+      PATH: '/wms/define-material-category/create',
       TITLE: 'defineMaterialCategoryCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-material-category/:id/detail',
+      PATH: '/wms/define-material-category/:id/detail',
       TITLE: 'defineMaterialCategoryDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-material-category/:id/edit',
+      PATH: '/wms/define-material-category/:id/edit',
       TITLE: 'defineMaterialCategoryEdit',
     },
   },
   DEFINE_MATERIAL_QUALITY: {
     LIST: {
-      PATH: '/wmsx/define-material-quality',
+      PATH: '/wms/define-material-quality',
       TITLE: 'defineMaterialQuality',
     },
     CREATE: {
-      PATH: '/wmsx/define-material-quality/create',
+      PATH: '/wms/define-material-quality/create',
       TITLE: 'defineMaterialQualityCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-material-quality/:id/detail',
+      PATH: '/wms/define-material-quality/:id/detail',
       TITLE: 'defineMaterialQualityDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-material-quality/:id/edit',
+      PATH: '/wms/define-material-quality/:id/edit',
       TITLE: 'defineMaterialQualityEdit',
     },
   },
   DEFINE_PRODUCING_COUNTRY: {
     LIST: {
-      PATH: '/wmsx/define-producing-country',
+      PATH: '/wms/define-producing-country',
       TITLE: 'defineProducingCountry',
     },
     CREATE: {
-      PATH: '/wmsx/define-producing-country/create',
+      PATH: '/wms/define-producing-country/create',
       TITLE: 'defineProducingCountryCreate',
     },
     DETAIL: {
-      PATH: '/wmsx/define-producing-country/:id/detail',
+      PATH: '/wms/define-producing-country/:id/detail',
       TITLE: 'defineProducingCountryDetail',
     },
     EDIT: {
-      PATH: '/wmsx/define-producing-country/:id/edit',
+      PATH: '/wms/define-producing-country/:id/edit',
       TITLE: 'defineProducingCountryEdit',
     },
   },
   DEFINE_VENDOR: {
     LIST: {
-      PATH: '/wmsx/define-supplier',
+      PATH: '/wms/define-supplier',
       TITLE: 'defineVendor',
     },
     CREATE: {
-      PATH: '/wmsx/define-supplier/create',
+      PATH: '/wms/define-supplier/create',
       TITLE: 'defineVendorCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-supplier/:id/edit',
+      PATH: '/wms/define-supplier/:id/edit',
       TITLE: 'defineVendorEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-supplier/:id/detail',
+      PATH: '/wms/define-supplier/:id/detail',
       TITLE: 'defineVendorDetail',
     },
   },
@@ -263,221 +263,221 @@ export const ROUTE = {
   },
   DEFINE_WAREHOUSE: {
     LIST: {
-      PATH: '/wmsx/define-warehouse',
+      PATH: '/wms/define-warehouse',
       TITLE: 'defineWarehouse',
     },
     CREATE: {
-      PATH: '/wmsx/define-warehouse/create',
+      PATH: '/wms/define-warehouse/create',
       TITLE: 'defineWarehouseCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-warehouse/:id/edit',
+      PATH: '/wms/define-warehouse/:id/edit',
       TITLE: 'defineWarehouseEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-warehouse/:id/detail',
+      PATH: '/wms/define-warehouse/:id/detail',
       TITLE: 'defineWarehouseDetail',
     },
   },
   LOCATION_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/location-management',
+      PATH: '/wms/location-management',
       TITLE: 'locationManagement',
     },
     CREATE: {
-      PATH: '/wmsx/location-management/create',
+      PATH: '/wms/location-management/create',
       TITLE: 'locationManagementCreate',
     },
     EDIT: {
-      PATH: '/wmsx/location-management/:id/edit',
+      PATH: '/wms/location-management/:id/edit',
       TITLE: 'locationManagementEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/location-management/:id/detail',
+      PATH: '/wms/location-management/:id/detail',
       TITLE: 'locationManagementDetail',
     },
   },
   DEFINE_WAREHOUSE_GROUP: {
     LIST: {
-      PATH: '/wmsx/define-warehouse-group',
+      PATH: '/wms/define-warehouse-group',
       TITLE: 'defineWarehouseGroup',
     },
     CREATE: {
-      PATH: '/wmsx/define-warehouse-group/create',
+      PATH: '/wms/define-warehouse-group/create',
       TITLE: 'defineWarehouseGroupCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-warehouse-group/:id/edit',
+      PATH: '/wms/define-warehouse-group/:id/edit',
       TITLE: 'defineWarehouseGroupEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-warehouse-group/:id/detail',
+      PATH: '/wms/define-warehouse-group/:id/detail',
       TITLE: 'defineWarehouseGroupDetail',
     },
   },
   DEFINE_ASSEMBLY: {
     LIST: {
-      PATH: '/wmsx/define-assembly',
+      PATH: '/wms/define-assembly',
       TITLE: 'defineAssembly',
     },
     CREATE: {
-      PATH: '/wmsx/define-assembly/create',
+      PATH: '/wms/define-assembly/create',
       TITLE: 'defineAssemblyCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-assembly/:id/edit',
+      PATH: '/wms/define-assembly/:id/edit',
       TITLE: 'defineAssemblyEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-assembly/:id/detail',
+      PATH: '/wms/define-assembly/:id/detail',
       TITLE: 'defineAssemblyDetail',
     },
   },
   DEFINE_SHELF: {
     LIST: {
-      PATH: '/wmsx/define-shelf',
+      PATH: '/wms/define-shelf',
       TITLE: 'defineShelf',
     },
     CREATE: {
-      PATH: '/wmsx/define-shelf/create',
+      PATH: '/wms/define-shelf/create',
       TITLE: 'defineShelfCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-shelf/:id/edit',
+      PATH: '/wms/define-shelf/:id/edit',
       TITLE: 'defineShelfEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-shelf/:id/detail',
+      PATH: '/wms/define-shelf/:id/detail',
       TITLE: 'defineShelfDetail',
     },
   },
   DEFINE_DRAWER: {
     LIST: {
-      PATH: '/wmsx/define-drawer',
+      PATH: '/wms/define-drawer',
       TITLE: 'defineDrawer',
     },
     CREATE: {
-      PATH: '/wmsx/define-drawer/create',
+      PATH: '/wms/define-drawer/create',
       TITLE: 'defineDrawerCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-drawer/:id/edit',
+      PATH: '/wms/define-drawer/:id/edit',
       TITLE: 'defineDrawerEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-drawer/:id/detail',
+      PATH: '/wms/define-drawer/:id/detail',
       TITLE: 'defineDrawerDetail',
     },
   },
   DEFINE_BIN: {
     LIST: {
-      PATH: '/wmsx/define-bin',
+      PATH: '/wms/define-bin',
       TITLE: 'defineBin',
     },
     CREATE: {
-      PATH: '/wmsx/define-bin/create',
+      PATH: '/wms/define-bin/create',
       TITLE: 'defineBinCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-bin/:id/edit',
+      PATH: '/wms/define-bin/:id/edit',
       TITLE: 'defineBinEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-bin/:id/detail',
+      PATH: '/wms/define-bin/:id/detail',
       TITLE: 'defineBinDetail',
     },
   },
   INVENTORY_SETTING: {
     LIST: {
-      PATH: '/wmsx/inventory-setting',
+      PATH: '/wms/inventory-setting',
       TITLE: 'inventorySetting',
     },
     CREATE: {
-      PATH: '/wmsx/inventory-setting/create',
+      PATH: '/wms/inventory-setting/create',
       TITLE: 'inventorySettingCreate',
     },
     EDIT: {
-      PATH: '/wmsx/inventory-setting/:id/edit',
+      PATH: '/wms/inventory-setting/:id/edit',
       TITLE: 'inventorySettingEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/inventory-setting/:id/detail',
+      PATH: '/wms/inventory-setting/:id/detail',
       TITLE: 'inventorySettingDetail',
     },
   },
   DEFINE_EXPENDITURE_ORG: {
     LIST: {
-      PATH: '/wmsx/define-expenditure-org',
+      PATH: '/wms/define-expenditure-org',
       TITLE: 'defineExpenditureOrg',
     },
     CREATE: {
-      PATH: '/wmsx/define-expenditure-org/create',
+      PATH: '/wms/define-expenditure-org/create',
       TITLE: 'defineExpenditureOrgCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-expenditure-org/:id/edit',
+      PATH: '/wms/define-expenditure-org/:id/edit',
       TITLE: 'defineExpenditureOrgEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-expenditure-org/:id/detail',
+      PATH: '/wms/define-expenditure-org/:id/detail',
       TITLE: 'defineExpenditureOrgDetail',
     },
   },
   DEFINE_EXPENDITURE_TYPE: {
     LIST: {
-      PATH: '/wmsx/define-expenditure-type',
+      PATH: '/wms/define-expenditure-type',
       TITLE: 'defineExpenditureType',
     },
     CREATE: {
-      PATH: '/wmsx/define-expenditure-type/create',
+      PATH: '/wms/define-expenditure-type/create',
       TITLE: 'defineExpenditureTypeCreate',
     },
     EDIT: {
-      PATH: '/wmsx/define-expenditure-type/:id/edit',
+      PATH: '/wms/define-expenditure-type/:id/edit',
       TITLE: 'defineExpenditureTypeEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/define-expenditure-type/:id/detail',
+      PATH: '/wms/define-expenditure-type/:id/detail',
       TITLE: 'defineExpenditureTypeDetail',
     },
   },
   SET_STORAGE_PERIOD: {
     LIST: {
-      PATH: '/wmsx/set-storage-period',
+      PATH: '/wms/set-storage-period',
       TITLE: 'setStoragePeriod',
     },
     CREATE: {
-      PATH: '/wmsx/set-storage-period/create',
+      PATH: '/wms/set-storage-period/create',
       TITLE: 'setStoragePeriodCreate',
     },
     EDIT: {
-      PATH: '/wmsx/set-storage-period/:id/edit',
+      PATH: '/wms/set-storage-period/:id/edit',
       TITLE: 'setStoragePeriodEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/set-storage-period/:id/detail',
+      PATH: '/wms/set-storage-period/:id/detail',
       TITLE: 'setStoragePeriodDetail',
     },
   },
   MATERIAL_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/material-management',
+      PATH: '/wms/material-management',
       TITLE: 'materialManagement',
     },
     CREATE: {
-      PATH: '/wmsx/material-management/create',
+      PATH: '/wms/material-management/create',
       TITLE: 'materialManagementCreate',
     },
     EDIT: {
-      PATH: '/wmsx/material-management/:id/edit',
+      PATH: '/wms/material-management/:id/edit',
       TITLE: 'materialManagementEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/material-management/:id/detail',
+      PATH: '/wms/material-management/:id/detail',
       TITLE: 'materialManagementDetail',
     },
     EDIT_WAREHOUSE_SOURCE: {
-      PATH: '/wmsx/material-management/:id/edit-warehouse-source',
+      PATH: '/wms/material-management/:id/edit-warehouse-source',
       TITLE: 'materialManagementEditWarehouseSource',
     },
   },
@@ -485,11 +485,11 @@ export const ROUTE = {
     TITLE: 'setting',
   },
   QR_CODE: {
-    PATH: '/wmsx/qr-code',
+    PATH: '/wms/qr-code',
     TITLE: 'qrCode',
   },
   SIGNATURE_CONFIGURATION: {
-    PATH: '/wmsx/signature-configuration',
+    PATH: '/wms/signature-configuration',
     TITLE: 'signatureConfiguration',
   },
   RECEIPT_COMMAND_MANAGEMENT: {
@@ -497,97 +497,97 @@ export const ROUTE = {
   },
   RECEIPT_MANAGEMENT: {
     LIST: {
-      PATH: '/wmsx/receipt-management',
+      PATH: '/wms/receipt-management',
       TITLE: 'receiptManagement',
     },
     DETAIL: {
-      PATH: '/wmsx/receipt-management/:id/detail',
+      PATH: '/wms/receipt-management/:id/detail',
       TITLE: 'receiptManagementDetail',
     },
   },
   WAREHOUSE_EXPORT_RECEIPT: {
     LIST: {
-      PATH: '/wmsx/warehouse-export-receipt',
+      PATH: '/wms/warehouse-export-receipt',
       TITLE: 'warehouseExportReceipt',
     },
     CREATE: {
-      PATH: '/wmsx/warehouse-export-receipt/create',
+      PATH: '/wms/warehouse-export-receipt/create',
       TITLE: 'warehouseExportReceiptCreate',
     },
     EDIT: {
-      PATH: '/wmsx/warehouse-export-receipt/:id/edit',
+      PATH: '/wms/warehouse-export-receipt/:id/edit',
       TITLE: 'warehouseExportReceiptEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/warehouse-export-receipt/:id/detail',
+      PATH: '/wms/warehouse-export-receipt/:id/detail',
       TITLE: 'warehouseExportReceiptDetail',
     },
   },
   WAREHOUSE_IMPORT_RECEIPT: {
     LIST: {
-      PATH: '/wmsx/warehouse-import-receipt',
+      PATH: '/wms/warehouse-import-receipt',
       TITLE: 'warehouseImportReceipt',
     },
     CREATE: {
-      PATH: '/wmsx/warehouse-import-receipt/create',
+      PATH: '/wms/warehouse-import-receipt/create',
       TITLE: 'warehouseImportReceiptCreate',
     },
     EDIT: {
-      PATH: '/wmsx/warehouse-import-receipt/:id/edit',
+      PATH: '/wms/warehouse-import-receipt/:id/edit',
       TITLE: 'warehouseImportReceiptEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/warehouse-import-receipt/:id/detail',
+      PATH: '/wms/warehouse-import-receipt/:id/detail',
       TITLE: 'warehouseImportReceiptDetail',
     },
   },
   WAREHOUSE_EXPORT: {
     LIST: {
-      PATH: '/wmsx/warehouse-export',
+      PATH: '/wms/warehouse-export',
       TITLE: 'warehouseExport',
     },
     DETAIL: {
-      PATH: '/wmsx/warehouse-export/:id/detail',
+      PATH: '/wms/warehouse-export/:id/detail',
       TITLE: 'warehouseExportDetail',
     },
   },
   WAREHOUSE_IMPORT: {
     LIST: {
-      PATH: '/wmsx/warehouse-import',
+      PATH: '/wms/warehouse-import',
       TITLE: 'warehouseImport',
     },
     DETAIL: {
-      PATH: '/wmsx/warehouse-import/:id/detail',
+      PATH: '/wms/warehouse-import/:id/detail',
       TITLE: 'movementsDetail',
     },
   },
   WAREHOUSE_REPORT_MANAGEMENT: {
-    PATH: '/wmsx/warehouse-report-management',
+    PATH: '/wms/warehouse-report-management',
     TITLE: 'warehouseReportManagement',
   },
   INVENTORY_STATISTICS: {
-    PATH: '/wmsx/inventory-statistics',
+    PATH: '/wms/inventory-statistics',
     TITLE: 'inventoryStatistics',
   },
   INVENTORY_WARNING: {
-    PATH: '/wmsx/inventory-warning',
+    PATH: '/wms/inventory-warning',
     TITLE: 'inventoryWarning',
   },
   WAREHOUSE_EXPORT_PROPOSAL: {
     LIST: {
-      PATH: '/wmsx/warehouse-export-proposal',
+      PATH: '/wms/warehouse-export-proposal',
       TITLE: 'warehouseExportProposal',
     },
     CREATE: {
-      PATH: '/wmsx/warehouse-export-proposal/create',
+      PATH: '/wms/warehouse-export-proposal/create',
       TITLE: 'warehouseExportProposalCreate',
     },
     EDIT: {
-      PATH: '/wmsx/warehouse-export-proposal/:id/edit',
+      PATH: '/wms/warehouse-export-proposal/:id/edit',
       TITLE: 'warehouseExportProposalEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/warehouse-export-proposal/:id/detail',
+      PATH: '/wms/warehouse-export-proposal/:id/detail',
       TITLE: 'warehouseExportProposalDetail',
     },
   },
@@ -595,28 +595,28 @@ export const ROUTE = {
     TITLE: 'reportStatistics',
   },
   REPORT_EXPORT: {
-    PATH: '/wmsx/report-export',
+    PATH: '/wms/report-export',
     TITLE: 'reportExport',
   },
   INVENTORY_CALENDAR: {
     LIST: {
-      PATH: '/wmsx/inventory-calendar',
+      PATH: '/wms/inventory-calendar',
       TITLE: 'inventoryCalendar',
     },
     CREATE: {
-      PATH: '/wmsx/inventory-calendar/create',
+      PATH: '/wms/inventory-calendar/create',
       TITLE: 'inventoryCalendarCreate',
     },
     EDIT: {
-      PATH: '/wmsx/inventory-calendar/:id/edit',
+      PATH: '/wms/inventory-calendar/:id/edit',
       TITLE: 'inventoryCalendarEdit',
     },
     DETAIL: {
-      PATH: '/wmsx/inventory-calendar/:id/detail',
+      PATH: '/wms/inventory-calendar/:id/detail',
       TITLE: 'inventoryCalendarDetail',
     },
     DETAIL_RECIPT: {
-      PATH: '/wmsx/inventory-calendar/:id/detail-recipt',
+      PATH: '/wms/inventory-calendar/:id/detail-recipt',
       TITLE: 'inventorySheet',
     },
   },

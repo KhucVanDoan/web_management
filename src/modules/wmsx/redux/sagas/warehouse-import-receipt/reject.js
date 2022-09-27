@@ -2,25 +2,27 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmDrawerByIdFailed,
-  confirmDrawerByIdSuccess,
-  CONFIRM_DRAWER_START,
-} from '~/modules/wmsx/redux/actions/define-drawer'
+  rejectWarehouseImportReceiptByIdFailed,
+  rejectWarehouseImportReceiptByIdSuccess,
+  REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
+} from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const confirmDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}/confirm`
+const rejectWarehouseImportReceiptApi = (params) => {
+  const uri = `/v1/sales/purchased-order-imports/${params}/rejecte`
   return api.put(uri)
 }
 
-function* doConfirmDrawer(action) {
+function* doRejectWarehouseImportReceipt(action) {
   try {
-    const response = yield call(confirmDrawerApi, action?.payload)
+    const response = yield call(
+      rejectWarehouseImportReceiptApi,
+      action?.payload,
+    )
 
     if (response?.statusCode === 200) {
-      yield put(confirmDrawerByIdSuccess(response.payload))
+      yield put(rejectWarehouseImportReceiptByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -37,7 +39,7 @@ function* doConfirmDrawer(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmDrawerByIdFailed())
+    yield put(rejectWarehouseImportReceiptByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -45,6 +47,9 @@ function* doConfirmDrawer(action) {
   }
 }
 
-export default function* watchConfirmDrawer() {
-  yield takeLatest(CONFIRM_DRAWER_START, doConfirmDrawer)
+export default function* watchRejectWarehouseImportReceipt() {
+  yield takeLatest(
+    REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
+    doRejectWarehouseImportReceipt,
+  )
 }

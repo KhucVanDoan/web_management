@@ -37,20 +37,20 @@ import watchGetAssemblyDetails from './define-assembly/get-assembly-details'
 import watchRejectAssembly from './define-assembly/reject-assembly'
 import watchSearchAssembly from './define-assembly/search-assembly'
 import watchUpdateAssembly from './define-assembly/update-assembly'
-import watchConfirmBin from './define-bin/confirm'
-import watchCreateBin from './define-bin/create'
-import watchDeleteBin from './define-bin/delete'
-import watchGetBinDetails from './define-bin/get-details'
-import watchRejectBin from './define-bin/reject'
-import watchSearchBin from './define-bin/search'
-import watchUpdateBin from './define-bin/update'
-import watchConfirmDrawer from './define-drawer/confirm'
-import watchCreateDrawer from './define-drawer/create'
-import watchDeleteDrawer from './define-drawer/delete'
-import watchGetDrawerDetails from './define-drawer/get-details'
-import watchRejectDrawer from './define-drawer/reject'
-import watchSearchDrawer from './define-drawer/search'
-import watchUpdateDrawer from './define-drawer/update'
+import watchConfirmBin from './define-bin/confirm-bin'
+import watchCreateBin from './define-bin/create-bin'
+import watchDeleteBin from './define-bin/delete-bin'
+import watchGetBinDetails from './define-bin/get-bin-details'
+import watchRejectBin from './define-bin/reject-bin'
+import watchSearchBin from './define-bin/search-bin'
+import watchUpdateBin from './define-bin/update-bin'
+import watchConfirmDrawer from './define-drawer/confirm-drawer'
+import watchCreateDrawer from './define-drawer/create-drawer'
+import watchDeleteDrawer from './define-drawer/delete-drawer'
+import watchGetDrawerDetails from './define-drawer/get-drawer-details'
+import watchRejectDrawer from './define-drawer/reject-drawer'
+import watchSearchDrawer from './define-drawer/search-drawer'
+import watchUpdateDrawer from './define-drawer/update-drawer'
 import watchConfirmExpenditureOrg from './define-expenditure-org/confirm-expenditure-org'
 import watchCreateExpenditureOrg from './define-expenditure-org/create-expenditure-org'
 import watchDeleteExpenditureOrg from './define-expenditure-org/delete-expenditure-org'
@@ -221,6 +221,13 @@ import watchSearchWarehouseExportReceipt from './warehouse-export-receipt/search
 import watchUpdateWarehouseExportReceipt from './warehouse-export-receipt/update'
 import watchGetWarehouseExportDetails from './warehouse-export/get-warehouse-export-details'
 import watchSearchWarehouseExport from './warehouse-export/search-warehouse-export'
+import watchConfirmWarehouseImportReceipt from './warehouse-import-receipt/confirm'
+import watchCreateWarehouseImportReceipt from './warehouse-import-receipt/create'
+import watchDeleteWarehouseImportReceipt from './warehouse-import-receipt/delete'
+import watchGetWarehouseImportReceiptDetails from './warehouse-import-receipt/get-details'
+import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject'
+import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
+import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
 /**
  * Root saga
@@ -513,5 +520,13 @@ export default function* sagas() {
     watchRejectInventoryCalendar(),
     watchSearchInventoryCalendars(),
     watchUpdateInventoryCalendar(),
+    //warehouse-import-receipt
+    watchSearchWarehouseImportReceipt(),
+    watchCreateWarehouseImportReceipt(),
+    watchUpdateWarehouseImportReceipt(),
+    watchGetWarehouseImportReceiptDetails(),
+    watchDeleteWarehouseImportReceipt(),
+    watchConfirmWarehouseImportReceipt(),
+    watchRejectWarehouseImportReceipt(),
   ])
 }

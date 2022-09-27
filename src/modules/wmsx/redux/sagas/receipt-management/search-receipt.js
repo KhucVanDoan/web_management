@@ -9,9 +9,9 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const searchReceiptApi = (params) => {
+export const searchReceiptApi = (params) => {
   // @TODO: update api
-  const uri = `/v1/warehouses/movements/list`
+  const uri = `/v1/sales/receipts/list`
   return api.get(uri, params)
 }
 

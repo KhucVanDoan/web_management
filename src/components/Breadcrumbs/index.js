@@ -30,7 +30,10 @@ export const Breadcrumbs = ({ breadcrumbs, ...props }) => {
 
       {currentModule &&
         (breadcrumbs?.length ? (
-          <Link className={classes.link} to={`/${currentModule}`}>
+          <Link
+            className={classes.link}
+            to={`/${currentModule === 'wmsx' ? 'wms' : ''}`}
+          >
             {t(`menu.${currentModule}`)}
           </Link>
         ) : (

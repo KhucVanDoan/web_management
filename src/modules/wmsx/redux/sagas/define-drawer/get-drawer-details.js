@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 const getDrawerDetailsApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}`
+  const uri = `/v1/warehouse-layouts/locations/${params}`
   return api.get(uri)
 }
 

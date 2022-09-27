@@ -15,7 +15,11 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineAssembly from '~/modules/wmsx/redux/hooks/useDefineAssembly'
 import {
@@ -159,9 +163,10 @@ function DefineAssembly() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, level: WAREHOUSE_LAYOUTS.ASSEMBLY },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchAssembly(params)
@@ -306,8 +311,8 @@ function DefineAssembly() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineAssembly.description')}
-          value={modal?.tempItem?.description}
+          label={t('defineAssembly.name')}
+          value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -334,7 +339,7 @@ function DefineAssembly() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineAssembly.description')}
+          label={t('defineAssembly.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

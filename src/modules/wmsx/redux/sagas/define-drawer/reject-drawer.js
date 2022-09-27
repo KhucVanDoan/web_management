@@ -2,24 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  confirmAssemblyByIdFailed,
-  confirmAssemblyByIdSuccess,
-  CONFIRM_ASSEMBLY_START,
-} from '~/modules/wmsx/redux/actions/define-assembly'
+  rejectDrawerByIdFailed,
+  rejectDrawerByIdSuccess,
+  REJECT_DRAWER_START,
+} from '~/modules/wmsx/redux/actions/define-drawer'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const confirmAssemblyApi = (params) => {
-  const uri = `/v1/warehouse-layouts/locations/${params}/confirm`
+const rejectDrawerApi = (params) => {
+  const uri = `/v1/warehouse-layouts/locations/${params}/reject`
   return api.put(uri)
 }
 
-function* doConfirmAssembly(action) {
+function* doRejectDrawer(action) {
   try {
-    const response = yield call(confirmAssemblyApi, action?.payload)
+    const response = yield call(rejectDrawerApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(confirmAssemblyByIdSuccess(response.payload))
+      yield put(rejectDrawerByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -36,7 +36,7 @@ function* doConfirmAssembly(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(confirmAssemblyByIdFailed())
+    yield put(rejectDrawerByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -44,6 +44,6 @@ function* doConfirmAssembly(action) {
   }
 }
 
-export default function* watchConfirmAssembly() {
-  yield takeLatest(CONFIRM_ASSEMBLY_START, doConfirmAssembly)
+export default function* watchRejectDrawer() {
+  yield takeLatest(REJECT_DRAWER_START, doRejectDrawer)
 }

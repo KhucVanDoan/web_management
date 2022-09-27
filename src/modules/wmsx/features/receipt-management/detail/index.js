@@ -13,7 +13,7 @@ import {
   MOVEMENT_TYPE_MAP,
   // ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
-import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
@@ -35,14 +35,14 @@ const ReceiptManagementDetail = () => {
   const history = useHistory()
   const { id } = useParams()
   const {
-    data: { isLoading, movementDetail },
+    data: { isLoading, receiptDetail },
     actions,
-  } = useMovements()
+  } = useReceiptManagement()
 
   useEffect(() => {
-    actions.getMovementsDetailsById(id)
+    actions.getReceiptDetailsById(id)
     return () => {
-      actions.resetMovementsDetailsState()
+      actions.resetReceiptDetailsState()
     }
   }, [id])
 
@@ -74,51 +74,51 @@ const ReceiptManagementDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementCode')}
-                value={movementDetail?.id}
+                value={receiptDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementType')}
-                value={t(MOVEMENT_TYPE_MAP[movementDetail?.movementType])}
+                value={t(MOVEMENT_TYPE_MAP[receiptDetail?.movementType])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImport.code')}
-                value={movementDetail?.order?.code}
+                value={receiptDetail?.order?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.formNumber')}
-                value={t(MOVEMENT_ORDER_TYPE_MAP[movementDetail?.movementType])}
+                value={t(MOVEMENT_ORDER_TYPE_MAP[receiptDetail?.movementType])}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImport.warehouseName')}
-                value={movementDetail?.warehouse?.name}
+                value={receiptDetail?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={6} />
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.createdUser')}
-                value={movementDetail?.user?.username}
+                value={receiptDetail?.user?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.movementDate')}
-                value={convertUtcDateTimeToLocalTz(movementDetail?.createdAt)}
+                value={convertUtcDateTimeToLocalTz(receiptDetail?.createdAt)}
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={movementDetail?.items || []} />
+        <ItemsSettingTable items={[]} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

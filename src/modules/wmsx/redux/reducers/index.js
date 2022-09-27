@@ -39,6 +39,7 @@ import warehouseExport from './warehouse-export'
 import warehouseExportProposal from './warehouse-export-proposal'
 import warehouseExportReceipt from './warehouse-export-receipt'
 import warehouseImport from './warehouse-import'
+import warehouseImportReceipt from './warehouse-import-receipt'
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -79,4 +80,5 @@ export default combineReducers({
   receiptManagement,
   reportExport,
   inventoryCalendar,
+  warehouseImportReceipt,
 })
