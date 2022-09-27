@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const deleteShelfApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}`
+  const uri = `/v1/warehouse-layouts/locations/${params}`
   return api.delete(uri)
 }
 

@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateBinFailed,
-  updateBinSuccess,
-  UPDATE_BIN_START,
+  createBinFailed,
+  createBinSuccess,
+  CREATE_BIN_START,
 } from '~/modules/wmsx/redux/actions/define-bin'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const updateBinApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params?.id}`
-  return api.put(uri, params)
+const createBinApi = (body) => {
+  const uri = `/v1/warehouse-layouts/locations/create`
+  return api.post(uri, body)
 }
 
-function* doUpdateBin(action) {
+function* doCreateBin(action) {
   try {
-    const response = yield call(updateBinApi, action?.payload)
+    const response = yield call(createBinApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateBinSuccess(response.results))
+      yield put(createBinSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -33,7 +32,7 @@ function* doUpdateBin(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateBinFailed())
+    yield put(createBinFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -41,6 +40,6 @@ function* doUpdateBin(action) {
   }
 }
 
-export default function* watchUpdateBin() {
-  yield takeLatest(UPDATE_BIN_START, doUpdateBin)
+export default function* watchCreateBin() {
+  yield takeLatest(CREATE_BIN_START, doCreateBin)
 }

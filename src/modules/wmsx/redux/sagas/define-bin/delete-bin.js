@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteDrawerFailed,
-  deleteDrawerSuccess,
-  DELETE_DRAWER_START,
-} from '~/modules/wmsx/redux/actions/define-drawer'
+  deleteBinFailed,
+  deleteBinSuccess,
+  DELETE_BIN_START,
+} from '~/modules/wmsx/redux/actions/define-bin'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const deleteDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}`
+const deleteBinApi = (params) => {
+  const uri = `/v1/warehouse-layouts/locations/${params}`
   return api.delete(uri)
 }
 
-function* doDeleteDrawer(action) {
+function* doDeleteBin(action) {
   try {
-    const response = yield call(deleteDrawerApi, action?.payload)
+    const response = yield call(deleteBinApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteDrawerSuccess(response.results))
+      yield put(deleteBinSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -33,7 +32,7 @@ function* doDeleteDrawer(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteDrawerFailed())
+    yield put(deleteBinFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -41,6 +40,6 @@ function* doDeleteDrawer(action) {
   }
 }
 
-export default function* watchDeleteDrawer() {
-  yield takeLatest(DELETE_DRAWER_START, doDeleteDrawer)
+export default function* watchDeleteBin() {
+  yield takeLatest(DELETE_BIN_START, doDeleteBin)
 }

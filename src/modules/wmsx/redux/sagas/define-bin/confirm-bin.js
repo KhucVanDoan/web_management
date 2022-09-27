@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  deleteBinFailed,
-  deleteBinSuccess,
-  DELETE_BIN_START,
+  confirmBinByIdFailed,
+  confirmBinByIdSuccess,
+  CONFIRM_BIN_START,
 } from '~/modules/wmsx/redux/actions/define-bin'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const deleteBinApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params}`
-  return api.delete(uri)
+const confirmBinApi = (params) => {
+  const uri = `/v1/warehouse-layouts/locations/${params}/confirm`
+  return api.put(uri)
 }
 
-function* doDeleteBin(action) {
+function* doConfirmBin(action) {
   try {
-    const response = yield call(deleteBinApi, action?.payload)
+    const response = yield call(confirmBinApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(deleteBinSuccess(response.results))
+      yield put(confirmBinByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -29,11 +28,15 @@ function* doDeleteBin(action) {
 
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
-      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
+      addNotification(
+        response?.message || response?.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(deleteBinFailed())
+    yield put(confirmBinByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -41,6 +44,6 @@ function* doDeleteBin(action) {
   }
 }
 
-export default function* watchDeleteBin() {
-  yield takeLatest(DELETE_BIN_START, doDeleteBin)
+export default function* watchConfirmBin() {
+  yield takeLatest(CONFIRM_BIN_START, doConfirmBin)
 }

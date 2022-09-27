@@ -11,7 +11,7 @@ import addNotification from '~/utils/toast'
 
 const updateShelfApi = (params) => {
   /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params?.id}`
+  const uri = `/v1/warehouse-layouts/locations/${params?.id}`
   return api.put(uri, params)
 }
 
