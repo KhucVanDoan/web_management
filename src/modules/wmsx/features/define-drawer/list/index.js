@@ -15,14 +15,18 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineDrawer from '~/modules/wmsx/redux/hooks/useDefineDrawer'
 import {
   exportDrawerApi,
   getDrawerTemplateApi,
   importDrawerApi,
-} from '~/modules/wmsx/redux/sagas/define-drawer/import-export'
+} from '~/modules/wmsx/redux/sagas/define-drawer/import-export-drawer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -159,9 +163,10 @@ function DefineDrawer() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, level: WAREHOUSE_LAYOUTS.DRAWER },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchDrawer(params)
@@ -289,7 +294,7 @@ function DefineDrawer() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('defineDrawer.definedrawerDelete')}
+        title={t('defineDrawer.defineDrawerDelete')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -306,8 +311,8 @@ function DefineDrawer() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineDrawer.description')}
-          value={modal?.tempItem?.description}
+          label={t('defineDrawer.name')}
+          value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -334,7 +339,7 @@ function DefineDrawer() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineDrawer.description')}
+          label={t('defineDrawer.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

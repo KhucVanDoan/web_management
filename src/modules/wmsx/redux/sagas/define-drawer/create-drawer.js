@@ -2,25 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateShelfFailed,
-  updateShelfSuccess,
-  UPDATE_SHELF_START,
-} from '~/modules/wmsx/redux/actions/define-shelf'
+  createDrawerFailed,
+  createDrawerSuccess,
+  CREATE_DRAWER_START,
+} from '~/modules/wmsx/redux/actions/define-drawer'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const updateShelfApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/warehouse-layouts/locations/${params?.id}`
-  return api.put(uri, params)
+const createDrawerApi = (body) => {
+  const uri = `/v1/warehouse-layouts/locations/create`
+  return api.post(uri, body)
 }
 
-function* doUpdateShelf(action) {
+function* doCreateDrawer(action) {
   try {
-    const response = yield call(updateShelfApi, action?.payload)
+    const response = yield call(createDrawerApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateShelfSuccess(response.results))
+      yield put(createDrawerSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -33,7 +32,7 @@ function* doUpdateShelf(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateShelfFailed())
+    yield put(createDrawerFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -41,6 +40,6 @@ function* doUpdateShelf(action) {
   }
 }
 
-export default function* watchUpdateShelf() {
-  yield takeLatest(UPDATE_SHELF_START, doUpdateShelf)
+export default function* watchCreateDrawer() {
+  yield takeLatest(CREATE_DRAWER_START, doCreateDrawer)
 }

@@ -9,7 +9,7 @@ import { api } from '~/services/api'
 
 const getReceiptDetailsApi = (params) => {
   // @TODO: update api
-  const uri = `/v1/warehouses/movements/${params}/mobile`
+  const uri = `/v1/sales/receipts/${params}`
   return api.get(uri)
 }
 

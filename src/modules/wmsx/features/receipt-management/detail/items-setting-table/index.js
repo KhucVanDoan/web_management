@@ -47,7 +47,7 @@ const ItemSettingTable = ({ items }) => {
 
   const columns = [
     {
-      field: 'id',
+      field: '#',
       headerName: '#',
       width: 50,
     },

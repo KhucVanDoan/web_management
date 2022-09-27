@@ -15,14 +15,18 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineBin from '~/modules/wmsx/redux/hooks/useDefineBin'
 import {
   exportBinApi,
   getBinTemplateApi,
   importBinApi,
-} from '~/modules/wmsx/redux/sagas/define-bin/import-export'
+} from '~/modules/wmsx/redux/sagas/define-bin/import-export-bin'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -157,9 +161,10 @@ function DefineBin() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, level: WAREHOUSE_LAYOUTS.BIN },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchBin(params)
@@ -304,8 +309,8 @@ function DefineBin() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineBin.description')}
-          value={modal?.tempItem?.description}
+          label={t('defineBin.name')}
+          value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -332,7 +337,7 @@ function DefineBin() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineBin.description')}
+          label={t('defineBin.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

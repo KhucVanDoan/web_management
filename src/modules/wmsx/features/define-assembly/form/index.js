@@ -11,7 +11,10 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import useDefineAssembly from '~/modules/wmsx/redux/hooks/useDefineAssembly'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -100,13 +103,14 @@ function DefineAssemblyForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
+      level: WAREHOUSE_LAYOUTS.ASSEMBLY,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createAssembly(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const paramUpdate = {
         ...convertValues,
-        id: +id,
+        id,
       }
       actions.updateAssembly(paramUpdate, backToList)
     }

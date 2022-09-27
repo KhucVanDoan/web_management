@@ -1740,3 +1740,10 @@ export const RECEIPT_MANAGEMENT_STATUS_OPTIONS = [
     color: 'confirmed',
   },
 ]
+
+export const WAREHOUSE_LAYOUTS = {
+  ASSEMBLY: 0,
+  SHELF: 1,
+  DRAWER: 2,
+  BIN: 3,
+}

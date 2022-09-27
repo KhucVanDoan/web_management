@@ -2,25 +2,27 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateDrawerFailed,
-  updateDrawerSuccess,
-  UPDATE_DRAWER_START,
-} from '~/modules/wmsx/redux/actions/define-drawer'
+  updateWarehouseImportReceiptFailed,
+  updateWarehouseImportReceiptSuccess,
+  UPDATE_WAREHOUSE_IMPORT_RECEIPT_START,
+} from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const updateDrawerApi = (params) => {
-  /* @TODO update api */
-  const uri = `/v1/items/object-categories/${params?.id}`
+const updateWarehouseImportReceiptApi = (params) => {
+  const uri = ``
   return api.put(uri, params)
 }
 
-function* doUpdateDrawer(action) {
+function* doUpdateWarehouseImportReceipt(action) {
   try {
-    const response = yield call(updateDrawerApi, action?.payload)
+    const response = yield call(
+      updateWarehouseImportReceiptApi,
+      action?.payload,
+    )
 
     if (response?.statusCode === 200) {
-      yield put(updateDrawerSuccess(response.results))
+      yield put(updateWarehouseImportReceiptSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -33,7 +35,7 @@ function* doUpdateDrawer(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateDrawerFailed())
+    yield put(updateWarehouseImportReceiptFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -41,6 +43,9 @@ function* doUpdateDrawer(action) {
   }
 }
 
-export default function* watchUpdateDrawer() {
-  yield takeLatest(UPDATE_DRAWER_START, doUpdateDrawer)
+export default function* watchUpdateWarehouseImportReceipt() {
+  yield takeLatest(
+    UPDATE_WAREHOUSE_IMPORT_RECEIPT_START,
+    doUpdateWarehouseImportReceipt,
+  )
 }

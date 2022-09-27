@@ -125,6 +125,7 @@ function DefineMaterialCategoryForm() {
     const convertValues = {
       id,
       ...values?.material[0],
+      level: 0,
       children: values?.mainGroups?.map((main) => ({
         ...main,
         children: values?.subGroups?.filter(
