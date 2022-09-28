@@ -161,9 +161,7 @@ const ManagementUnitForm = () => {
                     <Grid item xs={12}>
                       <LabelValue
                         label={
-                          <Typography>
-                            {t('deviceCategory.form.status')}
-                          </Typography>
+                          <Typography>{t('managementUnit.status')}</Typography>
                         }
                         value={
                           <Status

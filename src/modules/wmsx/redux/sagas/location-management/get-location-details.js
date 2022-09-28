@@ -8,8 +8,7 @@ import {
 import { api } from '~/services/api'
 
 const getLocationDetailsApi = (params) => {
-  //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}`
+  const uri = `/v1/warehouse-layouts/locators/${params}`
   return api.get(uri)
 }
 

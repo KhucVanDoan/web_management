@@ -7,7 +7,7 @@ export const formSchema = (t) =>
     warehouseTypeSetting: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    warehouseType: Yup.string().required(t('general:form.required')),
+    warehouseCategory: Yup.string().required(t('general:form.required')),
     warehouseCharacteristic: Yup.string().required(t('general:form.required')),
     manageByLot: Yup.string().required(t('general:form.required')),
     description: Yup.string(),
