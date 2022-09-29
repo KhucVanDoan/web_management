@@ -8,7 +8,7 @@ import {
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -17,12 +17,11 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouse"
+          name="warehouseId"
           label={t('locationManagement.warehouseCode')}
           placeholder={t('locationManagement.warehouseCode')}
           asyncRequest={(s) =>
-            //@TODO update api
-            searchCompaniesApi({
+            searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })

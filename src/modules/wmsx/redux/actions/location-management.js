@@ -22,6 +22,13 @@ export const CONFIRM_LOCATION_START = 'WMSX_CONFIRM_LOCATION_START'
 export const CONFIRM_LOCATION_SUCCESS = 'WMSX_CONFIRM_LOCATION_SUCCESS'
 export const CONFIRM_LOCATION_FAILED = 'WMSX_CONFIRM_LOCATION_FAILED'
 
+export const GET_ITEM_BY_LOCATION_ID_START =
+  'WMSX_GET_ITEM_BY_LOCATION_ID_START'
+export const GET_ITEM_BY_LOCATION_ID_SUCCESS =
+  'WMSX_GET_ITEM_BY_LOCATION_ID_SUCCESS'
+export const GET_ITEM_BY_LOCATION_ID_FAILED =
+  'WMSX_GET_ITEM_BY_LOCATION_ID_FAILED'
+
 export const REJECT_LOCATION_START = 'WMSX_REJECT_LOCATION_START'
 export const REJECT_LOCATION_SUCCESS = 'WMSX_REJECT_LOCATION_SUCCESS'
 export const REJECT_LOCATION_FAILED = 'WMSX_REJECT_LOCATION_FAILED'
@@ -182,6 +189,28 @@ export function rejectLocationByIdFailed() {
   }
 }
 
+export function getItemByLocationId(Id, onSuccess, onError) {
+  return {
+    type: GET_ITEM_BY_LOCATION_ID_START,
+    payload: Id,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getItemByLocationIdSuccess(payload) {
+  return {
+    type: GET_ITEM_BY_LOCATION_ID_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getItemByLocationIdFailed() {
+  return {
+    type: GET_ITEM_BY_LOCATION_ID_FAILED,
+  }
+}
+
 export function resetLocationDetailsState() {
   return {
     type: RESET_LOCATION_DETAILS_STATE,
@@ -210,5 +239,8 @@ export default {
   rejectLocationById,
   rejectLocationByIdSuccess,
   rejectLocationByIdFailed,
+  getItemByLocationId,
+  getItemByLocationIdSuccess,
+  getItemByLocationIdFailed,
   resetLocationDetailsState,
 }
