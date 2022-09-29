@@ -22,7 +22,7 @@ function ItemsSettingTable(props) {
   } = useSourceManagement()
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
-    (item) => item?.tableName === 'receipts' && item?.required === 1,
+    (item) => item?.tableName === 'receipts' && item?.required,
   )
   const handleChangeItem = (val, index) => {
     setFieldValue(`items[${index}].itemName`, val?.item?.name)

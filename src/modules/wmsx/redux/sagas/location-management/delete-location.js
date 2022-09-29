@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const deleteLocationApi = (params) => {
-  //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}`
+  const uri = `/v1/warehouse-layouts/locators/${params}`
   return api.delete(uri)
 }
 

@@ -1440,6 +1440,10 @@ export const CODE_TYPE_DATA_FATHER_JOB = {
   RECEIPT_ID: 'RECEIPT_ID',
   SO_EXPORT_ID: 'SO_EXPORT_ID',
 }
+export const BUSINESS_TYPE_REQUIRED = {
+  REQUIRED: 1,
+  NO_REQUIRED: 0,
+}
 export const TYPE_DATA_FATHER_JOB_OPTIONS = [
   {
     id: 0,

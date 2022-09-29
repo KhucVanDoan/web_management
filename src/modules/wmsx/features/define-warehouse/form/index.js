@@ -52,10 +52,10 @@ function DefineWarehouseForm() {
     () => ({
       code: warehouseDetails?.code || '',
       name: warehouseDetails?.name || '',
-      warehouseType: warehouseDetails?.warehouseType || '',
       warehouseTypeSetting: warehouseDetails?.warehouseTypeSetting || null,
-      warehouseCharacteristic: warehouseDetails?.warehouseCharacteristic || '',
-      manageByLot: warehouseDetails?.manageByLot || '',
+      warehouseCategory: warehouseDetails?.warehouseCategory,
+      warehouseCharacteristic: warehouseDetails?.warehouseCharacteristic,
+      manageByLot: warehouseDetails?.manageByLot,
       description: warehouseDetails?.description || '',
     }),
     [warehouseDetails],
@@ -236,7 +236,7 @@ function DefineWarehouseForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="warehouseType"
+                      name="warehouseCategory"
                       label={t('defineWarehouse.type')}
                       placeholder={t('defineWarehouse.type')}
                       options={WAREHOUSE_TYPE_OPTIONS}

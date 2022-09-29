@@ -15,10 +15,18 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
-import { searchCompaniesApi } from '~/modules/wmsx/redux/sagas/company-management/search-companies'
+import { searchAssemblyApi } from '~/modules/wmsx/redux/sagas/define-assembly/search-assembly'
+import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
+import { searchDrawerApi } from '~/modules/wmsx/redux/sagas/define-drawer/search-drawer'
+import { searchShelfApi } from '~/modules/wmsx/redux/sagas/define-shelf/search-shelf'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -108,12 +116,26 @@ function LocationManagementForm() {
 
   const onSubmit = (values) => {
     const convertValues = {
-      ...values,
       warehouseId: values?.warehouse?.id,
-      assemblyId: values?.assembly?.id,
-      drawerId: values?.drawer?.id,
-      shelfId: values?.shelf?.id,
-      binId: values?.bin?.id,
+      description: values?.description,
+      locations: [
+        {
+          level: 0,
+          locationId: values?.assembly?.id,
+        },
+        {
+          level: 1,
+          locationId: values?.shelf?.id,
+        },
+        {
+          level: 2,
+          locationId: values?.drawer?.id,
+        },
+        {
+          level: 3,
+          locationId: values?.bin?.id,
+        },
+      ],
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createLocation(convertValues, backToList)
@@ -211,8 +233,7 @@ function LocationManagementForm() {
                       label={t('locationManagement.warehouseCode')}
                       placeholder={t('locationManagement.warehouseCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
@@ -267,10 +288,12 @@ function LocationManagementForm() {
                       label={t('locationManagement.assemblyCode')}
                       placeholder={t('locationManagement.assemblyCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchAssemblyApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: WAREHOUSE_LAYOUTS.ASSEMBLY,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -286,10 +309,12 @@ function LocationManagementForm() {
                       label={t('locationManagement.drawerCode')}
                       placeholder={t('locationManagement.drawerCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchDrawerApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: WAREHOUSE_LAYOUTS.DRAWER,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -304,10 +329,12 @@ function LocationManagementForm() {
                       label={t('locationManagement.shelfCode')}
                       placeholder={t('locationManagement.shelfCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchShelfApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: WAREHOUSE_LAYOUTS.SHELF,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -322,10 +349,12 @@ function LocationManagementForm() {
                       label={t('locationManagement.binCode')}
                       placeholder={t('locationManagement.binCode')}
                       asyncRequest={(s) =>
-                        //@TODO update api
-                        searchCompaniesApi({
+                        searchBinApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: WAREHOUSE_LAYOUTS.BIN,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}

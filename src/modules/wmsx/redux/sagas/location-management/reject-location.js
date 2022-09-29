@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const rejectLocationApi = (params) => {
-  //@TODO udpate api
-  const uri = `/v1/sales/constructions/${params}/reject`
+  const uri = `/v1/warehouse-layouts/locators/${params}/reject`
   return api.put(uri)
 }
 
