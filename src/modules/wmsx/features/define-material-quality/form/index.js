@@ -41,7 +41,7 @@ function DefineMaterialQualityForm() {
 
   const initialValues = useMemo(
     () => ({
-      code: materialQualityDetails?.code || '000',
+      code: materialQualityDetails?.code || '',
       name: materialQualityDetails?.name || '',
       description: materialQualityDetails?.description || '',
     }),

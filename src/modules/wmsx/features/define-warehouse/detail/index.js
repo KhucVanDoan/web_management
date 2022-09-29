@@ -94,7 +94,9 @@ function DefineWarehouseDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineWarehouse.type')}
-                value={t(WAREHOUSE_TYPE_MAP[warehouseDetails?.warehouseType])}
+                value={t(
+                  WAREHOUSE_TYPE_MAP[warehouseDetails?.warehouseCategory],
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

@@ -41,7 +41,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseTypeSetting"
+          name="warehouseTypeSettingId"
           label={t('defineWarehouse.group')}
           placeholder={t('defineWarehouse.group')}
           asyncRequest={(s) =>
@@ -52,11 +52,12 @@ const FilterForm = () => {
           }
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.code}
+          getOptionSubLabel={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseType"
+          name="warehouseCategory"
           label={t('defineWarehouse.type')}
           placeholder={t('defineWarehouse.type')}
           options={WAREHOUSE_TYPE_OPTIONS}

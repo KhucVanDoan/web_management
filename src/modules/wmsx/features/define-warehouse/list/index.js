@@ -107,7 +107,7 @@ function DefineWarehouse() {
       sortable: true,
       width: 120,
       renderCell: (params) => {
-        return params.row?.warehouseTypeSetting?.code
+        return params.row?.warehouseTypeSetting?.name
       },
     },
     {
@@ -116,7 +116,7 @@ function DefineWarehouse() {
       sortable: true,
       width: 120,
       renderCell: (params) => {
-        return t(WAREHOUSE_TYPE_MAP[params.row?.warehouseType])
+        return t(WAREHOUSE_TYPE_MAP[params.row?.warehouseCategory])
       },
     },
     {
@@ -131,7 +131,6 @@ function DefineWarehouse() {
     {
       field: 'warehouseCharacteristic',
       headerName: t('defineWarehouse.nature'),
-      sortable: true,
       width: 120,
       renderCell: (params) => {
         return t(WAREHOUSE_NATURE_MAP[params.row?.warehouseCharacteristic])
@@ -203,7 +202,7 @@ function DefineWarehouse() {
       filter: convertFilterParams(
         {
           ...filters,
-          warehouseTypeSettingId: filters?.warehouseTypeSetting?.id,
+          warehouseTypeSettingId: filters?.warehouseTypeSettingId?.id,
         },
         [{ field: 'createdAt', filterFormat: 'date' }],
       ),

@@ -26,7 +26,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
   const { actions: warehouseExportProposalAction } =
     useWarehouseExportProposal()
   const receiptRequired = type?.find(
-    (item) => item?.tableName === 'receipts' && item?.required === 1,
+    (item) => item?.tableName === 'receipts' && item?.required,
   )
   const handleChangeReceipt = (val) => {
     if (!isEmpty(receiptRequired)) {
