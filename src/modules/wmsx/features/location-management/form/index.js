@@ -52,10 +52,22 @@ function LocationManagementForm() {
     () => ({
       code: locationDetails?.code || '',
       warehouse: locationDetails?.warehouse || null,
-      assembly: locationDetails?.assembly || null,
-      drawer: locationDetails?.drawer || null,
-      shelf: locationDetails?.shelf || null,
-      bin: locationDetails?.bin || null,
+      assembly:
+        locationDetails?.locations?.find(
+          (i) => i?.level === WAREHOUSE_LAYOUTS.ASSEMBLY,
+        ) || null,
+      drawer:
+        locationDetails?.locations?.find(
+          (i) => i?.level === WAREHOUSE_LAYOUTS.DRAWER,
+        ) || null,
+      shelf:
+        locationDetails?.locations?.find(
+          (i) => i?.level === WAREHOUSE_LAYOUTS.SHELF,
+        ) || null,
+      bin:
+        locationDetails?.locations?.find(
+          (i) => i?.level === WAREHOUSE_LAYOUTS.BIN,
+        ) || null,
       description: locationDetails?.description || '',
     }),
     [locationDetails],
@@ -297,7 +309,9 @@ function LocationManagementForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.code === val?.code
+                      }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
@@ -318,7 +332,9 @@ function LocationManagementForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.code === val?.code
+                      }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                     />
@@ -338,7 +354,9 @@ function LocationManagementForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.code === val?.code
+                      }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                     />
@@ -358,7 +376,9 @@ function LocationManagementForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.code === val?.code
+                      }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                     />

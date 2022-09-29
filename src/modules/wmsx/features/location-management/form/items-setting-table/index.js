@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { IconButton, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Icon from '~/components/Icon'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
@@ -17,72 +16,67 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
 
   const getColumns = useMemo(
     () => [
-      // {
-      //   field: 'id',
-      //   headerName: t(''),
-      //   width: 50,
-      //   align: 'center',
-      //   renderCell: (_, index) => {
-      //     return index + 1
-      //   },
-      // },
+      {
+        field: 'id',
+        headerName: t(''),
+        width: 50,
+        renderCell: (_, index) => {
+          return index + 1
+        },
+      },
       {
         field: 'code',
         headerName: t('locationManagement.item.code'),
         width: 200,
-        align: 'center',
       },
       {
-        field: 'itemName',
+        field: 'name',
         headerName: t('locationManagement.item.name'),
         width: 200,
-        align: 'center',
       },
       {
         field: 'quantity',
         headerName: t('locationManagement.item.quantity'),
         width: 200,
-        align: 'center',
+        renderCell: (params) => Number(params.row?.quantity),
       },
       {
         field: 'lotNumber',
         headerName: t('locationManagement.item.lotNumber'),
         width: 200,
-        align: 'center',
+        renderCell: (params) => params.row.locations?.[0]?.lots?.[0]?.lotNumber,
       },
       {
         field: 'price',
         headerName: t('locationManagement.item.price'),
         width: 200,
-        align: 'center',
       },
       {
         field: 'intoMoney',
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
-        align: 'center',
       },
-      {
-        field: 'remove',
-        headerName: '',
-        width: 50,
-        align: 'center',
-        hide: isView,
-        renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
-          return (
-            <IconButton
-              type="button"
-              onClick={() => {
-                arrayHelpers.remove(idx)
-              }}
-              disabled={items?.length === 1}
-            >
-              <Icon name="remove" />
-            </IconButton>
-          )
-        },
-      },
+      // {
+      //   field: 'remove',
+      //   headerName: '',
+      //   width: 50,
+      //   align: 'center',
+      //   hide: isView,
+      //   renderCell: (params) => {
+      //     const idx = items.findIndex((item) => item.id === params.row.id)
+      //     return (
+      //       <IconButton
+      //         type="button"
+      //         onClick={() => {
+      //           arrayHelpers.remove(idx)
+      //         }}
+      //         disabled={items?.length === 1}
+      //       >
+      //         <Icon name="remove" />
+      //       </IconButton>
+      //     )
+      //   },
+      // },
     ],
     [items],
   )

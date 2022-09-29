@@ -10,7 +10,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  WAREHOUSE_LAYOUTS,
+} from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -40,8 +43,86 @@ function LocationManagementDetail() {
     actions,
   } = useLocationManagement()
 
+  const fakeData = [
+    {
+      quantity: '2.00',
+      id: 1,
+      name: 'Vật tư A',
+      code: '004',
+      locations: [
+        {
+          quantity: 2,
+          locator: {
+            id: '6331211e91e3a98c11b51e1f',
+            locatorId: 1,
+            name: 'Kho.Tổ máy.Ngăn.Kệ',
+            code: 'KH.TM.NG.KE',
+          },
+          warehouse: {
+            id: 1,
+            name: 'Kho Manh',
+            code: 'KHM',
+          },
+          lots: [
+            {
+              quantity: 2,
+              lotNumber: 'BBC',
+              mfg: '2022-09-26T14:09:05.000Z',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      quantity: '12.00',
+      id: 2,
+      name: 'Vật tư B',
+      code: '003',
+      locations: [
+        {
+          quantity: 2,
+          locator: {
+            id: '6331211e91e3a98c11b51e1f',
+            locatorId: 1,
+            name: 'Kho.Tổ máy.Ngăn.Kệ',
+            code: 'KH.TM.NG.KE',
+          },
+          warehouse: {
+            id: 1,
+            name: 'Kho Manh',
+            code: 'KHM',
+          },
+          lots: [
+            {
+              quantity: 2,
+              lotNumber: 'BBA',
+              mfg: '2022-09-26T14:09:32.000Z',
+            },
+          ],
+        },
+        {
+          quantity: 10,
+          warehouse: {
+            id: 2,
+            name: 'Kho Van Xuan',
+            code: 'KVX',
+          },
+          lots: [
+            {
+              quantity: 10,
+              lotNumber: null,
+              mfg: '2022-09-29T03:30:49.398Z',
+            },
+          ],
+        },
+      ],
+    },
+  ]
+
   useEffect(() => {
-    actions.getLocationDetailsById(id)
+    actions.getLocationDetailsById(id, (val) => {
+      actions.getItemByLocationId(val?.locatorId)
+    })
     return () => {
       actions.resetLocationDetailsState()
     }
@@ -122,32 +203,48 @@ function LocationManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('locationManagement.assemblyCode')}
-                value={locationDetails?.assembly?.code}
+                value={
+                  locationDetails?.locations?.find(
+                    (i) => i?.level === WAREHOUSE_LAYOUTS.ASSEMBLY,
+                  )?.code
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('locationManagement.drawerCode')}
-                value={locationDetails?.drawer?.code}
+                value={
+                  locationDetails?.locations?.find(
+                    (i) => i?.level === WAREHOUSE_LAYOUTS.DRAWER,
+                  )?.code
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('locationManagement.shelfCode')}
-                value={locationDetails?.shelf?.code}
+                value={
+                  locationDetails?.locations?.find(
+                    (i) => i?.level === WAREHOUSE_LAYOUTS.SHELF,
+                  )?.code
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('locationManagement.binCode')}
-                value={locationDetails?.bin?.code}
+                value={
+                  locationDetails?.locations?.find(
+                    (i) => i?.level === WAREHOUSE_LAYOUTS.BIN,
+                  )?.code
+                }
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={[]} mode={MODAL_MODE.DETAIL} />
+        <ItemsSettingTable items={fakeData} mode={MODAL_MODE.DETAIL} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

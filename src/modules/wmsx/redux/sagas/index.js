@@ -149,6 +149,7 @@ import watchSearchInventoryWarning from './inventory-warning/search-inventory-wa
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
 import watchDeleteLocation from './location-management/delete-location'
+import watchGetItemByLocationId from './location-management/get-item-by-location-id'
 import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
@@ -443,6 +444,7 @@ export default function* sagas() {
     watchDeleteLocation(),
     watchConfirmLocation(),
     watchRejectLocation(),
+    watchGetItemByLocationId(),
 
     //set-storage-period
     watchCreateStoragePeriod(),
