@@ -49,7 +49,7 @@ const ManagementDetail = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.mansgementUnitDetail')}
+      title={t('menu.managementUnitDetail')}
       onBack={backToList}
       loading={isLoading}
     >

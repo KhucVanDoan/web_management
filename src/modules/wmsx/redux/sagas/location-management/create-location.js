@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const createLocationApi = (body) => {
-  //@TODO update api
-  const uri = `/v1/sales/constructions/create`
+  const uri = `/v1/warehouse-layouts/locators/create`
   return api.post(uri, body)
 }
 
