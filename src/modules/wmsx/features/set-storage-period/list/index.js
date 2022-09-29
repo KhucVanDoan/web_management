@@ -146,7 +146,7 @@ function SetStoragePeriod() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, warehouseId: filters?.warehouse?.id },
+        { ...filters, warehouseId: filters?.warehouseId?.id },
         columns,
       ),
       sort: convertSortParams(sort),
