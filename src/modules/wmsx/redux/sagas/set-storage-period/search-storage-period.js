@@ -8,7 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const searchStoragePeriodsApi = (params) => {
-  const uri = `/v1/items/inventory-time-norms/list`
+  const uri = `/v1/warehouses/inventory-time-limits/list`
   return api.get(uri, params)
 }
 
