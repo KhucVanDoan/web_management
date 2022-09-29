@@ -71,7 +71,6 @@ function LocationManagement() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
