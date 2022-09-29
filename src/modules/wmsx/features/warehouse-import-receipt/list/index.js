@@ -250,10 +250,10 @@ function WarehouseImportReceipt() {
     setModal({ isOpenConfirmModal: false, tempItem: null })
   }
   const onSubmitRejected = () => {
-    actions.deleteWarehouseImportReceipt(modal.tempItem?.id, () => {
+    actions.rejectWarehouseImportReceiptById(modal.tempItem?.id, () => {
       refreshData()
     })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
+    setModal({ isOpenRejectedModal: false, tempItem: null })
   }
   const onCloseDeleteModal = () => {
     setModal({

@@ -18,6 +18,7 @@ import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import {
   ACTIVE_STATUS_OPTIONS,
+  BUSINESS_TYPE_REQUIRED,
   DATA_TYPE_OPTIONS,
   DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT,
   DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT,
@@ -31,22 +32,6 @@ import DefaultFieldList from './default-field-list'
 import ItemsSettingTable from './option-field-list/index'
 import { defineSchema } from './schema'
 
-const DEFAULT_ITEM_OPTION = {
-  id: '',
-  fieldName: '',
-  labelEBS: '',
-  type: '',
-  required: false,
-  show: true,
-}
-const DEFAULT_ITEM_DEFAULT = {
-  id: '',
-  fieldName: '',
-  labelEBS: '',
-  type: '',
-  required: true,
-  show: true,
-}
 function BusinessTypeManagementForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
@@ -71,35 +56,37 @@ function BusinessTypeManagementForm() {
       name: businessTypeDetails?.name || '',
       parentBusiness: `${businessTypeDetails?.parentBussiness}` || '',
       description: businessTypeDetails?.description || '',
-      itemOption: businessTypeDetails?.bussinessTypeAttributes
-        ?.filter((e) => e?.code === null)
-        ?.map((item) => ({
-          id: item?.id,
-          labelEBS: item?.ebsLabel,
-          fieldName: item?.fieldName,
-          required: item?.required === 0 ? false : true,
-          type: {
-            id: item?.type,
-            text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
-            type: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.type,
-            tableName: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)
-              ?.tableName,
-            code: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.code,
-          },
-        })) || [{ ...DEFAULT_ITEM_OPTION }],
-      itemDefault: businessTypeDetails?.bussinessTypeAttributes
-        ?.filter((e) => e?.code !== null)
-        ?.map((item) => ({
-          id: item?.id,
-          labelEBS: item?.ebsLabel,
-          fieldName: item?.fieldName,
-          required: item?.required === 0 ? false : true,
-          show: item?.required === 1 ? true : false,
-          type: '',
-          code: item?.code,
-          columnName: item?.columnName,
-          tableName: item?.tableName,
-        })) || [{ ...DEFAULT_ITEM_DEFAULT }],
+      itemOption:
+        businessTypeDetails?.bussinessTypeAttributes
+          ?.filter((e) => e?.code === null)
+          ?.map((item) => ({
+            id: item?.id,
+            labelEBS: item?.ebsLabel,
+            fieldName: item?.fieldName,
+            required: Boolean(item?.required),
+            type: {
+              id: item?.type,
+              text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
+              type: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.type,
+              tableName: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)
+                ?.tableName,
+              code: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.code,
+            },
+          })) || [],
+      itemDefault:
+        businessTypeDetails?.bussinessTypeAttributes
+          ?.filter((e) => e?.code !== null)
+          ?.map((item) => ({
+            id: item?.id,
+            labelEBS: item?.ebsLabel,
+            fieldName: item?.fieldName,
+            required: Boolean(item?.required),
+            show: Boolean(item?.required),
+            type: '',
+            code: item?.code,
+            columnName: item?.columnName,
+            tableName: item?.tableName,
+          })) || [],
     }),
     [businessTypeDetails],
   )
@@ -173,7 +160,9 @@ function BusinessTypeManagementForm() {
             columnName: item?.columnName,
             tableName: item?.tableName,
             code: item?.code,
-            required: item?.required === true ? 1 : 0,
+            required: item?.required
+              ? BUSINESS_TYPE_REQUIRED.REQUIRED
+              : BUSINESS_TYPE_REQUIRED.NO_REQUIRED,
           })),
         ...values?.itemOption?.map((item) => ({
           fieldName: item?.fieldName,
@@ -181,7 +170,9 @@ function BusinessTypeManagementForm() {
           ebsLabel: item?.labelEBS,
           columnName: item?.type?.code ? item?.type?.code : null,
           tableName: item?.type?.tableName ? item?.type?.tableName : null,
-          required: item?.required === true ? 1 : 0,
+          required: item?.required
+            ? BUSINESS_TYPE_REQUIRED.REQUIRED
+            : BUSINESS_TYPE_REQUIRED.NO_REQUIRED,
         })),
       ],
     }
@@ -220,8 +211,8 @@ function BusinessTypeManagementForm() {
   }
   const handleChangeParentBusiness = (val, setFieldValue) => {
     if (!val) {
-      setFieldValue('itemDefault', [{ ...DEFAULT_ITEM_DEFAULT }])
-      setFieldValue('itemOption', [{ ...DEFAULT_ITEM_OPTION }])
+      setFieldValue('itemDefault', [])
+      setFieldValue('itemOption', [])
     } else {
       if (Number(val) === Number(PARENT_BUSINESS_TYPE.EXPORT)) {
         setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT)
