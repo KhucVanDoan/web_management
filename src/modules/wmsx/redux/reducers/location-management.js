@@ -20,6 +20,9 @@ import {
   REJECT_LOCATION_FAILED,
   REJECT_LOCATION_START,
   REJECT_LOCATION_SUCCESS,
+  GET_ITEM_BY_LOCATION_ID_FAILED,
+  GET_ITEM_BY_LOCATION_ID_START,
+  GET_ITEM_BY_LOCATION_ID_SUCCESS,
   RESET_LOCATION_DETAILS_STATE,
 } from '~/modules/wmsx/redux/actions/location-management'
 
@@ -27,6 +30,7 @@ const initialState = {
   isLoading: false,
   locationList: [],
   locationDetails: {},
+  itemByLocationIdList: [],
   total: null,
 }
 
@@ -45,6 +49,7 @@ export default function locationManagement(state = initialState, action) {
     case CONFIRM_LOCATION_START:
     case REJECT_LOCATION_START:
     case GET_LOCATION_DETAILS_START:
+    case GET_ITEM_BY_LOCATION_ID_START:
       return {
         ...state,
         isLoading: true,
@@ -82,6 +87,14 @@ export default function locationManagement(state = initialState, action) {
         locationDetails: action.payload,
         isLoading: false,
       }
+
+    case GET_ITEM_BY_LOCATION_ID_SUCCESS:
+      return {
+        ...state,
+        itemByLocationIdList: action.payload,
+        isLoading: false,
+      }
+    case GET_ITEM_BY_LOCATION_ID_FAILED:
     case GET_LOCATION_DETAILS_FAILED:
       return {
         ...state,

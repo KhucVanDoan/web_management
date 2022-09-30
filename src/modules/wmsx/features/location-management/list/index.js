@@ -71,7 +71,6 @@ function LocationManagement() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -85,6 +84,7 @@ function LocationManagement() {
       width: 100,
       sortable: true,
       fixed: true,
+      renderCell: (params) => params.row?.warehouse?.code,
     },
     {
       field: 'code',
@@ -142,9 +142,6 @@ function LocationManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -159,9 +156,10 @@ function LocationManagement() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        { ...filters, warehouseId: filters?.warehouseId?.id },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchLocations(params)
@@ -174,21 +172,6 @@ function LocationManagement() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteLocation(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -288,30 +271,6 @@ function LocationManagement() {
         }}
       />
       <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('locationManagement.locationManagementDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('locationManagement.deleteConfirm')}
-        <LV
-          label={t('locationManagement.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('locationManagement.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
-      <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}
         onCancel={onCloseUpdateStatusModal}
@@ -334,7 +293,7 @@ function LocationManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('locationManagement.description')}
+          label={t('locationManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

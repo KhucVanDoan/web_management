@@ -2,24 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  createStoragePeriodFailed,
-  createStoragePeriodSuccess,
-  CREATE_STORAGE_PERIOD_START,
+  updateStoragePeriodFailed,
+  updateStoragePeriodSuccess,
+  UPDATE_STORAGE_PERIOD_START,
 } from '~/modules/wmsx/redux/actions/set-storage-period'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const createStoragePeriodApi = (body) => {
-  const uri = `/v1/items/inventory-time-norms/create`
-  return api.post(uri, body)
+const updateStoragePeriodApi = (params) => {
+  const uri = `/v1/warehouses/inventory-time-limits/${params?.id}`
+  return api.put(uri, params)
 }
 
-function* doCreateStoragePeriod(action) {
+function* doUpdateStoragePeriod(action) {
   try {
-    const response = yield call(createStoragePeriodApi, action?.payload)
+    const response = yield call(updateStoragePeriodApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(createStoragePeriodSuccess(response.data))
+      yield put(updateStoragePeriodSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -32,7 +32,7 @@ function* doCreateStoragePeriod(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(createStoragePeriodFailed())
+    yield put(updateStoragePeriodFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -40,6 +40,6 @@ function* doCreateStoragePeriod(action) {
   }
 }
 
-export default function* watchCreateStoragePeriod() {
-  yield takeLatest(CREATE_STORAGE_PERIOD_START, doCreateStoragePeriod)
+export default function* watchUpdateStoragePeriod() {
+  yield takeLatest(UPDATE_STORAGE_PERIOD_START, doUpdateStoragePeriod)
 }

@@ -149,6 +149,7 @@ import watchSearchInventoryWarning from './inventory-warning/search-inventory-wa
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
 import watchDeleteLocation from './location-management/delete-location'
+import watchGetItemByLocationId from './location-management/get-item-by-location-id'
 import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
@@ -189,11 +190,11 @@ import watchUpdateReceiptDepartment from './receipt-department-management/update
 import watchGetReceiptDetails from './receipt-management/get-receipt-details'
 import watchSearchReceipt from './receipt-management/search-receipt'
 import watchExportReport from './report-export/export-report'
-import watchCreateStoragePeriod from './set-storage-period/create-construction'
-import watchDeleteStoragePeriod from './set-storage-period/delete-construction'
-import watchGetStoragePeriodDetails from './set-storage-period/get-construction-details'
-import watchSearchStoragePeriods from './set-storage-period/search-constructions'
-import watchUpdateStoragePeriod from './set-storage-period/update-construction'
+import watchCreateStoragePeriod from './set-storage-period/create-storage-period'
+import watchDeleteStoragePeriod from './set-storage-period/delete-storage-period'
+import watchGetStoragePeriodDetails from './set-storage-period/get-storage-period-details'
+import watchSearchStoragePeriods from './set-storage-period/search-storage-period'
+import watchUpdateStoragePeriod from './set-storage-period/update-storage-period'
 import watchGetSignatureConfigurationDetails from './signature-configuration/get-signature-configuration-details'
 import watchUpdateSignatureConfiguration from './signature-configuration/update-signature-configuration'
 import watchConfirmSourceManagement from './source-management/confirm'
@@ -443,6 +444,7 @@ export default function* sagas() {
     watchDeleteLocation(),
     watchConfirmLocation(),
     watchRejectLocation(),
+    watchGetItemByLocationId(),
 
     //set-storage-period
     watchCreateStoragePeriod(),

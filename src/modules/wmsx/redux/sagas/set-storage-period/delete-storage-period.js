@@ -2,24 +2,24 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  updateStoragePeriodFailed,
-  updateStoragePeriodSuccess,
-  UPDATE_STORAGE_PERIOD_START,
+  deleteStoragePeriodFailed,
+  deleteStoragePeriodSuccess,
+  DELETE_STORAGE_PERIOD_START,
 } from '~/modules/wmsx/redux/actions/set-storage-period'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const updateStoragePeriodApi = (params) => {
-  const uri = `/v1/items/inventory-time-norms/${params?.id}`
-  return api.put(uri, params)
+const deleteStoragePeriodApi = (params) => {
+  const uri = `/v1/warehouses/inventory-time-limits/${params}`
+  return api.delete(uri)
 }
 
-function* doUpdateStoragePeriod(action) {
+function* doDeleteStoragePeriod(action) {
   try {
-    const response = yield call(updateStoragePeriodApi, action?.payload)
+    const response = yield call(deleteStoragePeriodApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(updateStoragePeriodSuccess(response.results))
+      yield put(deleteStoragePeriodSuccess(response.results))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -32,7 +32,7 @@ function* doUpdateStoragePeriod(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(updateStoragePeriodFailed())
+    yield put(deleteStoragePeriodFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -40,6 +40,6 @@ function* doUpdateStoragePeriod(action) {
   }
 }
 
-export default function* watchUpdateStoragePeriod() {
-  yield takeLatest(UPDATE_STORAGE_PERIOD_START, doUpdateStoragePeriod)
+export default function* watchDeleteStoragePeriod() {
+  yield takeLatest(DELETE_STORAGE_PERIOD_START, doDeleteStoragePeriod)
 }
