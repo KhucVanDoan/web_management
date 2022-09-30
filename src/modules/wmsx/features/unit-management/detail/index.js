@@ -9,7 +9,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { SUPPLIES_STATUS_OPTION } from '~/modules/mmsx/constants'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -61,8 +61,8 @@ const ManagementDetail = () => {
                 label={t('managementUnit.status')}
                 value={
                   <Status
-                    options={SUPPLIES_STATUS_OPTION}
-                    value={detailManagementUnit?.staus}
+                    options={ACTIVE_STATUS_OPTIONS}
+                    value={detailManagementUnit?.status}
                   />
                 }
               />

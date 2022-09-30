@@ -13,7 +13,7 @@ export const formSchema = (t) =>
       Yup.object().shape({
         code: Yup.string().required(t('general:form.required')),
         name: Yup.string().required(t('general:form.required')),
-        description: Yup.string(),
+        description: Yup.string().nullable(),
       }),
     ),
     subGroups: Yup.array().of(
@@ -21,7 +21,7 @@ export const formSchema = (t) =>
         mainCode: Yup.string().nullable().required(t('general:form.required')),
         code: Yup.string().required(t('general:form.required')),
         name: Yup.string().required(t('general:form.required')),
-        description: Yup.string(),
+        description: Yup.string().nullable(),
       }),
     ),
   })

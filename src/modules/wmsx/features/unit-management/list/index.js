@@ -39,7 +39,6 @@ function ManagementUnit() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const [tempItem, setTempItem] = useState()
-  const [deleteModal, setDeleteModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
   const [isActiveModal, setIsActiveModal] = useState(false)
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -138,9 +137,6 @@ function ManagementUnit() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => handleDeleteOpenModal(row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -165,17 +161,6 @@ function ManagementUnit() {
     actions.searchManagementUnit(params)
   }
 
-  const handleDeleteOpenModal = (tempItem) => {
-    setDeleteModal(true)
-    setTempItem(tempItem)
-  }
-  const onSubmitDelete = () => {
-    actions.deleteManagementUnit(tempItem?.id, () => {
-      refreshData()
-    })
-    setDeleteModal(false)
-    setTempItem(null)
-  }
   const onClickUpdateStatus = (tempItem) => {
     setIsActiveModal(true)
     setTempItem(tempItem)
@@ -285,30 +270,6 @@ function ManagementUnit() {
           },
         }}
       />
-      <Dialog
-        open={deleteModal}
-        title={t('managementUnit.deleteModalTitle')}
-        onCancel={() => setDeleteModal(false)}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('managementUnit.deleteConfirm')}
-        <LV
-          label={t('managementUnit.code')}
-          value={tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('managementUnit.name')}
-          value={tempItem?.name}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={isActiveModal}
         title={t('general.updateStatus')}

@@ -13,6 +13,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import { scrollToBottom } from '~/utils'
 
@@ -24,7 +25,6 @@ const SubGroupTable = ({
   mode,
 }) => {
   const { t } = useTranslation(['wmsx'])
-  const isUpdate = mode === MODAL_MODE.UPDATE
   const isView = mode === MODAL_MODE.DETAIL
   const isCreate = mode === MODAL_MODE.CREATE
 
@@ -43,7 +43,9 @@ const SubGroupTable = ({
         headerName: t('defineMaterialCategory.materialCode'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{material?.[0].code}</>
+          ) : (
             <Field.TextField
               name={`material[${index}].code`}
               value={material[0].code}
@@ -58,14 +60,16 @@ const SubGroupTable = ({
         headerName: t('defineMaterialCategory.mainGroupCode'),
         width: 200,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{mainGroups.find((m) => m?.id === params.row?.parentId)?.code}</>
+          ) : (
             <Field.Autocomplete
               name={`subGroups[${index}].mainCode`}
               placeholder={t('defineMaterialCategory.mainGroupCode')}
               options={mainGroups?.filter((main) => main.code !== '')}
               getOptionLabel={(opt) => opt?.code || null}
               getOptionValue={(opt) => opt?.code || null}
-              disabled={isUpdate}
+              disabled={subGroups[index].parentId}
             />
           )
         },
@@ -75,13 +79,15 @@ const SubGroupTable = ({
         headerName: t('defineMaterialCategory.subGroupCode'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.code}</>
+          ) : (
             <Field.TextField
               name={`subGroups[${index}].code`}
               placeholder={t('defineMaterialCategory.subGroupCode')}
               inputProps={{ maxLength: 2 }}
               allow={TEXTFIELD_ALLOW.NUMERIC}
-              disabled={isUpdate}
+              disabled={subGroups[index].parentId}
             />
           )
         },
@@ -91,7 +97,9 @@ const SubGroupTable = ({
         headerName: t('defineMaterialCategory.subGroupName'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.name}</>
+          ) : (
             <Field.TextField
               name={`subGroups[${index}].name`}
               placeholder={t('defineMaterialCategory.subGroupName')}
@@ -107,7 +115,9 @@ const SubGroupTable = ({
         headerName: t('defineMaterialCategory.subGroupDesc'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.description}</>
+          ) : (
             <Field.TextField
               name={`subGroups[${index}].description`}
               placeholder={t('defineMaterialCategory.subGroupDesc')}
@@ -124,7 +134,14 @@ const SubGroupTable = ({
             headerName: t('defineMaterialCategory.status'),
             width: 180,
             renderCell: (params, index) => {
-              return (
+              const status = Number(params.row?.status)
+              return isView ? (
+                <Status
+                  options={ACTIVE_STATUS_OPTIONS}
+                  value={status}
+                  variant="text"
+                />
+              ) : (
                 <Field.Autocomplete
                   name={`subGroups[${index}].status`}
                   placeholder={t('defineMaterialCategory.status')}
@@ -141,14 +158,15 @@ const SubGroupTable = ({
         field: 'action',
         width: 80,
         align: 'center',
-        renderCell: (params) => {
+        hide: isView,
+        renderCell: (params, index) => {
           const idx = subGroups.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={subGroups?.length === 1}
+              disabled={subGroups?.length === 1 || subGroups[index].parentId}
             >
               <Icon name="remove" />
             </IconButton>
@@ -176,7 +194,7 @@ const SubGroupTable = ({
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: new Date().getTime(),
+                // id: new Date().getTime(),
                 code: '',
                 name: '',
                 level: 2,

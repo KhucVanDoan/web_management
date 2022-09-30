@@ -12,7 +12,7 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
-          name="materialCode"
+          name="code"
           label={t('defineMaterialCategory.materialCode')}
           placeholder={t('defineMaterialCategory.materialCode')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
@@ -21,7 +21,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.TextField
-          name="materialName"
+          name="name"
           label={t('defineMaterialCategory.materialName')}
           placeholder={t('defineMaterialCategory.materialName')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}

@@ -11,11 +11,14 @@ import {
 } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
+import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 
 const MaterialTable = ({ material, mode }) => {
   const { t } = useTranslation(['wmsx'])
   const isUpdate = mode === MODAL_MODE.UPDATE
+  const isView = mode === MODAL_MODE.DETAIL
+  const isCreate = mode === MODAL_MODE.CREATE
 
   const columns = useMemo(
     () => [
@@ -32,7 +35,9 @@ const MaterialTable = ({ material, mode }) => {
         headerName: t('defineMaterialCategory.materialCode'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.code}</>
+          ) : (
             <Field.TextField
               name={`material[${index}].code`}
               placeholder={t('defineMaterialCategory.materialCode')}
@@ -48,7 +53,9 @@ const MaterialTable = ({ material, mode }) => {
         headerName: t('defineMaterialCategory.materialName'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.name}</>
+          ) : (
             <Field.TextField
               name={`material[${index}].name`}
               placeholder={t('defineMaterialCategory.materialName')}
@@ -64,7 +71,9 @@ const MaterialTable = ({ material, mode }) => {
         headerName: t('defineMaterialCategory.materialDesc'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.description}</>
+          ) : (
             <Field.TextField
               name={`material[${index}].description`}
               placeholder={t('defineMaterialCategory.materialDesc')}
@@ -75,13 +84,20 @@ const MaterialTable = ({ material, mode }) => {
           )
         },
       },
-      isUpdate
+      !isCreate
         ? {
             field: 'status',
             headerName: t('defineMaterialCategory.status'),
             width: 180,
             renderCell: (params, index) => {
-              return (
+              const status = Number(params.row?.status)
+              return isView ? (
+                <Status
+                  options={ACTIVE_STATUS_OPTIONS}
+                  value={status}
+                  variant="text"
+                />
+              ) : (
                 <Field.Autocomplete
                   name={`material[${index}].status`}
                   placeholder={t('defineMaterialCategory.status')}
