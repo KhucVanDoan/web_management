@@ -181,6 +181,7 @@ function InventorySettingForm() {
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
+                      disabled={isUpdate}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -207,6 +208,7 @@ function InventorySettingForm() {
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
+                      disabled={isUpdate}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

@@ -14,7 +14,7 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouse"
+          name="warehouseId"
           label={t('setStoragePeriod.warehouseCode')}
           placeholder={t('setStoragePeriod.warehouseCode')}
           asyncRequest={(s) =>

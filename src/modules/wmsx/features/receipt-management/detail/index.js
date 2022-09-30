@@ -47,7 +47,7 @@ const ReceiptManagementDetail = () => {
   }, [id])
 
   const backToList = () => {
-    history.push(ROUTE.WAREHOUSE_IMPORT.LIST.PATH)
+    history.push(ROUTE.RECEIPT_MANAGEMENT.LIST.PATH)
   }
 
   return (

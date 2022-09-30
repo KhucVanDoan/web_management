@@ -21,6 +21,7 @@ import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-mat
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
+import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 
@@ -348,8 +349,24 @@ function MaterialManagementForm() {
                       )}
                     </LV>
                   </Grid>
-                  <Grid item lg={6} xs={12} />
-
+                  <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="uom"
+                      label={t('materialManagement.uom')}
+                      placeholder={t('materialManagement.uom')}
+                      asyncRequest={(s) =>
+                        searchUomsApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      required
+                    />
+                  </Grid>
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={

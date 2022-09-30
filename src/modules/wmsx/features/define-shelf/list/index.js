@@ -75,7 +75,6 @@ function DefineShelf() {
 
   const [modal, setModal] = useState({
     tempItem: null,
-    isOpenDeleteModal: false,
     isOpenUpdateStatusModal: false,
   })
 
@@ -146,9 +145,6 @@ function DefineShelf() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -179,21 +175,6 @@ function DefineShelf() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteShelf(modal.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const onClickUpdateStatus = (tempItem) => {
     setModal({ tempItem, isOpenUpdateStatusModal: true })
@@ -292,30 +273,6 @@ function DefineShelf() {
           },
         }}
       />
-      <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('defineShelf.defineShelfDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('defineShelf.deleteConfirm')}
-        <LV
-          label={t('defineShelf.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('defineShelf.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
       <Dialog
         open={modal.isOpenUpdateStatusModal}
         title={t('general.updateStatus')}
