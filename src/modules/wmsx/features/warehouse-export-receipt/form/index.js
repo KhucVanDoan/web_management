@@ -1,28 +1,50 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  CODE_TYPE_DATA_FATHER_JOB,
+  PARENT_BUSINESS_TYPE,
+} from '~/modules/wmsx/constants'
+import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
+import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
+import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+import {
+  getWarehouseImportReceiptDetailsApi,
+  getWarehouseExportProposalItems,
+} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
+import DisplayFollowBusinessTypeManagement from '../../warehouse-import-receipt/display-field'
 import ItemSettingTable from './item-setting-table'
-import { defineSchema } from './schema'
+import { formSchema } from './schema'
 
-const DEFAULT_ITEM = [
+const DEFAULT_ITEMS = [
   {
     id: '',
-    suppliesCode: '',
-    suppliesName: '',
+    itemCode: '',
+    itemName: '',
     unit: '',
     lotNumber: '',
     quantityRequest: '',
@@ -44,20 +66,67 @@ function WarehouseExportReceiptForm() {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
   } = useWarehouseExportReceipt()
-
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: warehouseImportRecipt,
+  } = useWarehouseImportReceipt()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-
+  const [items, setItems] = useState([])
+  const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
     () => ({
-      items: DEFAULT_ITEM,
+      receiptDate: new Date(warehouseExportReceiptDetails?.receiptDate) || '',
+      deliver: warehouseExportReceiptDetails?.receiver || '',
+      businessTypeId: warehouseExportReceiptDetails?.businessType
+        ? {
+            ...warehouseExportReceiptDetails?.businessType,
+            bussinessTypeAttributes: warehouseExportReceiptDetails?.attributes,
+          }
+        : null,
+      departmentReceiptId:
+        warehouseExportReceiptDetails?.departmentReceipt || '',
+      warehouseId: warehouseExportReceiptDetails?.warehouse || '',
+      reasonId: warehouseExportReceiptDetails?.reason || '',
+      sourceId: warehouseExportReceiptDetails?.source || '',
+      explaination: warehouseExportReceiptDetails?.explanation || '',
+      project: warehouseExportReceiptDetails?.project || '',
+      task: warehouseExportReceiptDetails?.task || '',
+      suggestExport: warehouseExportReceiptDetails?.suggestExport || '',
+      receiptNo: warehouseExportReceiptDetails?.receiptNo || '',
+      warehouseExportReceipt:
+        warehouseExportReceiptDetails?.warehouseExportReceipt || '',
+      items:
+        warehouseExportReceiptDetails?.saleOrderExportDetails?.map((item) => ({
+          itemId: item?.itemId,
+          itemName: item?.item?.name,
+          unit: item?.item?.itemUnit,
+          price: item?.price,
+          money: item?.amount,
+          quantityExport: item?.quantity,
+          debitAcc: item?.debitAccount,
+          creditAcc: item?.creditAccount,
+          itemCode: {
+            itemId: item?.itemId,
+            item: { ...item?.item },
+          },
+        })) || DEFAULT_ITEMS,
     }),
     [warehouseExportReceiptDetails],
   )
+  warehouseExportReceiptDetails?.attributes?.forEach((item) => {
+    if (item.tableName) {
+      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
+        item.tableName
+      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
+    } else {
+      initialValues[`${item.id}`] = item.value
+    }
+  })
 
   const getBreadcrumb = () => {
     const breadcrumbs = [
@@ -90,13 +159,67 @@ function WarehouseExportReceiptForm() {
 
   useEffect(() => {
     if (isUpdate) {
-      actions.getWarehouseExportReceiptDetailsById(id)
+      actions.getWarehouseExportReceiptDetailsById(id, (data) => {
+        const attributes = data?.attributes?.filter((e) => e?.tableName)
+        const params = {
+          filter: JSON.stringify(
+            uniq(map(attributes, 'tableName'))?.map((item) => ({
+              tableName: item,
+              id: attributes
+                ?.filter((e) => e?.tableName === item)
+                ?.map((d) => d?.value)
+                .toString(),
+            })),
+          ),
+        }
+        warehouseImportRecipt.getAttribuiteBusinessTypeDetailsById(params)
+      })
     }
     return () => {
       actions.resetWarehouseExportReceiptState()
     }
   }, [id])
-
+  useEffect(async () => {
+    if (!isEmpty(warehouseExportReceiptDetails)) {
+      if (
+        !isEmpty(
+          warehouseExportReceiptDetails?.attributes?.find(
+            (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+          ),
+        )
+      ) {
+        const res = await getWarehouseImportReceiptDetailsApi(
+          Number(
+            warehouseExportReceiptDetails?.attributes?.find(
+              (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+            )?.value,
+          ),
+        )
+        setItems(res?.data?.items)
+      }
+      if (
+        !isEmpty(
+          warehouseExportReceiptDetails?.attributes?.find(
+            (item) =>
+              item?.code ===
+              CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+          ),
+        )
+      ) {
+        const res = await getWarehouseExportProposalItems({
+          id: Number(
+            warehouseExportReceiptDetails?.attributes?.find(
+              (item) =>
+                item?.code ===
+                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+            )?.value,
+          ),
+          warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
+        })
+        setItems(res?.data)
+      }
+    }
+  }, [warehouseExportReceiptDetails])
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
@@ -113,19 +236,48 @@ function WarehouseExportReceiptForm() {
   }
 
   const onSubmit = (values) => {
-    const parmas = {
-      code: values?.code,
-      name: values?.name,
-      parentBussiness: Number(values?.parentBusiness),
-      description: values?.description || null,
+    const params = {
+      receiver: values?.deliver,
+      businessTypeId: values?.businessTypeId?.id,
+      reasonId: values?.reasonId?.id,
+      explanation: values?.explaination,
+      receiptDate: values?.receiptDate.toISOString(),
+      departmentReceiptId: values?.departmentReceiptId?.id,
+      sourceId: values?.sourceId?.id,
+      warehouseId: values?.warehouseId?.id,
+      items: JSON.stringify(
+        values?.items?.map((item) => ({
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          itemCode: item?.itemCode?.item?.code,
+          lotNumber: item?.lotNumber || '',
+          quantity: +item?.quantityExport,
+          price: item?.price,
+          debitAccount: item?.debitAccount || null,
+          creditAccount: item?.creditAccount,
+          warehouseId: values?.warehouseId?.id,
+        })),
+      ),
     }
+    values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
+      // if (values[att.tableName]?.id) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
+      if (values[att.id]) {
+        params[`attributes[${index}].id`] = att.id
+        params[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id]
+      }
+    })
     if (mode === MODAL_MODE.CREATE) {
-      actions.createWarehouseExportReceipt(parmas, backToList)
+      actions.createWarehouseExportReceipt(params, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
       const paramUpdate = {
-        ...parmas,
+        ...params,
+        code: warehouseExportReceiptDetails?.code,
         id: +id,
       }
+
       actions.updateWarehouseExportReceipt(paramUpdate, backToList)
     }
   }
@@ -152,6 +304,14 @@ function WarehouseExportReceiptForm() {
         break
     }
   }
+  const handleChangeSource = (val) => {
+    if (val) {
+      sourceAction.getDetailSourceManagementById(val?.id)
+    }
+  }
+  const handleChangeWarehouse = (val, setFieldValue) => {
+    setFieldValue('items', DEFAULT_ITEMS)
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -163,187 +323,248 @@ function WarehouseExportReceiptForm() {
         <Grid item xl={11} xs={12}>
           <Formik
             initialValues={initialValues}
-            validationSchema={defineSchema(t)}
+            validationSchema={formSchema(t)}
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  {isUpdate && (
-                    <Grid item xs={12}>
-                      <LV
-                        label={
-                          <Typography>
-                            {t('warehouseExportReceipt.status')}
-                          </Typography>
-                        }
-                        value={
-                          <Status
-                            options={ACTIVE_STATUS_OPTIONS}
-                            value={warehouseExportReceiptDetails?.status}
-                          />
-                        }
+            {({ handleReset, values, setFieldValue }) => {
+              return (
+                <Form>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
+                    {isUpdate && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('warehouseExportReceipt.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={ACTIVE_STATUS_OPTIONS}
+                              value={warehouseExportReceiptDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
+                    <Grid item lg={6} xs={12}>
+                      <Field.DatePicker
+                        name="receiptDate"
+                        label={t('warehouseExportReceipt.createdAt')}
+                        placeholder={t('warehouseExportReceipt.createdAt')}
+                        required
                       />
                     </Grid>
-                  )}
-                  <Grid item lg={6} xs={12}>
-                    <Field.DatePicker
-                      name="createdAt"
-                      label={t('warehouseExportReceipt.createdAt')}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="proposalPaperExportSupplies"
-                      label={t(
-                        'warehouseExportReceipt.proposalPaperExportSupplies',
-                      )}
-                      placeholder={t(
-                        'warehouseExportReceipt.proposalPaperExportSupplies',
-                      )}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="nameOfReceiver"
-                      label={t('warehouseExportReceipt.nameOfReceiver')}
-                      placeholder={t('warehouseExportReceipt.nameOfReceiver')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="departmentReception"
-                      label={t('warehouseExportReceipt.departmentReception')}
-                      placeholder={t(
-                        'warehouseExportReceipt.departmentReception',
-                      )}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="typeBusiness"
-                      label={t('warehouseExportReceipt.typeBusiness')}
-                      placeholder={t('warehouseExportReceipt.typeBusiness')}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="suorceAccountant"
-                      label={t('warehouseExportReceipt.suorceAccountant')}
-                      placeholder={t('warehouseExportReceipt.suorceAccountant')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="exportInWarehouse"
-                      label={t('warehouseExportReceipt.exportInWarehouse')}
-                      placeholder={t(
-                        'warehouseExportReceipt.exportInWarehouse',
-                      )}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="warehouseExportReason"
-                      label={t('warehouseExportReceipt.warehouseExportReason')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="warehouseExportReceipt"
-                      label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="number"
-                      label={t('warehouseExportReceipt.number')}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="category"
-                      label={t('warehouseExportReceipt.category')}
-                      placeholder={t('warehouseExportReceipt.category')}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="construction"
-                      label={t('warehouseExportReceipt.construction')}
-                      placeholder={t('warehouseExportReceipt.construction')}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="explain"
-                      label={t('warehouseExportReceipt.explain')}
-                      placeholder={t(
-                        'warehouseExportReceipt.placeholderExplain',
-                      )}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
-                <Box sx={{ mt: 3 }}>
-                  <FieldArray
-                    name="items"
-                    render={(arrayHelpers) => (
-                      <ItemSettingTable
-                        items={values?.items || []}
-                        arrayHelpers={arrayHelpers}
-                        mode={mode}
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="deliver"
+                        label={t('warehouseExportReceipt.nameOfReceiver')}
+                        placeholder={t('warehouseExportReceipt.nameOfReceiver')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
                       />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="departmentReceiptId"
+                        label={t('warehouseExportReceipt.departmentReception')}
+                        placeholder={t(
+                          'warehouseExportReceipt.departmentReception',
+                        )}
+                        asyncRequest={(s) =>
+                          searchReceiptDepartmentApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        getOptionSubLabel={(opt) => opt?.code}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="businessTypeId"
+                        label={t('warehouseExportReceipt.typeBusiness')}
+                        placeholder={t('warehouseExportReceipt.typeBusiness')}
+                        asyncRequest={(s) =>
+                          searchBusinessTypesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: 1,
+                              parentBusiness: PARENT_BUSINESS_TYPE.EXPORT,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="sourceId"
+                        label={t('warehouseExportReceipt.suorceAccountant')}
+                        placeholder={t(
+                          'warehouseExportReceipt.suorceAccountant',
+                        )}
+                        asyncRequest={(s) =>
+                          searchSourceManagementApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={(val) => handleChangeSource(val)}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="warehouseId"
+                        label={t('warehouseExportReceipt.exportInWarehouse')}
+                        placeholder={t(
+                          'warehouseExportReceipt.exportInWarehouse',
+                        )}
+                        asyncRequest={(s) =>
+                          searchWarehouseApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            // filter: convertFilterParams({
+                            //   status: 1,
+                            // }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        onChange={(val) =>
+                          handleChangeWarehouse(val, setFieldValue)
+                        }
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="reasonId"
+                        label={t(
+                          'warehouseExportReceipt.warehouseExportReason',
+                        )}
+                        placeholder={t(
+                          'warehouseExportReceipt.warehouseExportReason',
+                        )}
+                        asyncRequest={(s) =>
+                          searchApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="warehouseExportReceipt"
+                        label={t(
+                          'warehouseExportReceipt.warehouseExportReceipt',
+                        )}
+                        value={`02${
+                          values?.warehouseId?.code
+                            ? `.${values?.warehouseId?.code}`
+                            : ''
+                        }${
+                          values?.reasonId?.code
+                            ? `.${values?.reasonId?.code}`
+                            : ''
+                        }`}
+                        disabled
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="number"
+                        label={t('warehouseExportReceipt.number')}
+                        value={`03${
+                          values?.warehouseId?.code
+                            ? `.${values?.warehouseId?.code}`
+                            : ''
+                        }${
+                          values?.reasonId?.code
+                            ? `.${values?.reasonId?.code}`
+                            : ''
+                        }`}
+                        disabled
+                      />
+                    </Grid>
+                    {DisplayFollowBusinessTypeManagement(
+                      values?.businessTypeId?.bussinessTypeAttributes,
+                      t,
+                      values,
+                      setItems,
                     )}
-                  />
-                </Box>
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="explain"
+                        label={t('warehouseExportReceipt.explain')}
+                        placeholder={t(
+                          'warehouseExportReceipt.placeholderExplain',
+                        )}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Box sx={{ mt: 3 }}>
+                    <FieldArray
+                      name="items"
+                      render={(arrayHelpers) => (
+                        <ItemSettingTable
+                          items={values?.items || []}
+                          arrayHelpers={arrayHelpers}
+                          itemList={items}
+                          setFieldValue={setFieldValue}
+                          values={values}
+                          mode={mode}
+                        />
+                      )}
+                    />
+                  </Box>
+                  {renderActionBar(handleReset)}
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>

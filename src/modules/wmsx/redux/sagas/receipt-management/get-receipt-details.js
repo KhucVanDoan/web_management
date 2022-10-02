@@ -7,7 +7,7 @@ import {
 } from '~/modules/wmsx/redux/actions/receipt-management'
 import { api } from '~/services/api'
 
-const getReceiptDetailsApi = (params) => {
+export const getReceiptDetailsApi = (params) => {
   // @TODO: update api
   const uri = `/v1/sales/receipts/${params}`
   return api.get(uri)

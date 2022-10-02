@@ -47,6 +47,13 @@ export const REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS =
 export const REJECT_WAREHOUSE_IMPORT_RECEIPT_FAILED =
   'WMSX_REJECT_WAREHOUSE_IMPORT_RECEIPT_FAILED'
 
+export const GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START =
+  'WMSX_GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START'
+export const GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS =
+  'WMSX_GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS'
+export const GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED =
+  'WMSX_GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED'
+
 export const RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE =
   'WMSX_RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE'
 
@@ -208,6 +215,32 @@ export function rejectWarehouseImportReceiptByIdFailed() {
   }
 }
 
+export function getAttribuiteBusinessTypeDetailsById(
+  packageId,
+  onSuccess,
+  onError,
+) {
+  return {
+    type: GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START,
+    payload: packageId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getAttribuiteBusinessTypeDetailsByIdSuccess(payload) {
+  return {
+    type: GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getAttribuiteBusinessTypeDetailsByIdFailed() {
+  return {
+    type: GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED,
+  }
+}
+
 export function resetWarehouseImportReceiptState() {
   return {
     type: RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE,
@@ -236,5 +269,8 @@ export default {
   rejectWarehouseImportReceiptById,
   rejectWarehouseImportReceiptByIdFailed,
   rejectWarehouseImportReceiptByIdSuccess,
+  getAttribuiteBusinessTypeDetailsById,
+  getAttribuiteBusinessTypeDetailsByIdSuccess,
+  getAttribuiteBusinessTypeDetailsByIdFailed,
   resetWarehouseImportReceiptState,
 }

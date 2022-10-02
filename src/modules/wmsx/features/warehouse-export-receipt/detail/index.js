@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -10,7 +11,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTableDetail from './item-setting-table'
 
@@ -41,9 +44,28 @@ function WarehouseExportReceiptDetail() {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
   } = useWarehouseExportReceipt()
-
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: useWarehouseImportReceiptAction,
+  } = useWarehouseImportReceipt()
   useEffect(() => {
-    actions.getWarehouseExportReceiptDetailsById(id)
+    actions.getWarehouseExportReceiptDetailsById(id, (data) => {
+      const attributes = data?.attributes?.filter((e) => e?.tableName)
+      const params = {
+        filter: JSON.stringify(
+          uniq(map(attributes, 'tableName'))?.map((item) => ({
+            tableName: item,
+            id: attributes
+              ?.filter((e) => e?.tableName === item)
+              ?.map((d) => d?.value)
+              .toString(),
+          })),
+        ),
+      }
+      useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+        params,
+      )
+    })
     return () => {
       actions.resetWarehouseExportReceiptState()
     }
@@ -56,7 +78,7 @@ function WarehouseExportReceiptDetail() {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.WarehouseExportReceiptDetail')}
+      title={t('menu.warehouseExportReceiptDetail')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -66,70 +88,104 @@ function WarehouseExportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
-                value={warehouseExportReceiptDetails?.createdAt}
+                value={convertUtcDateToLocalTz(
+                  warehouseExportReceiptDetails?.createdAt,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportProposalCode')}
-                value={''}
+                value={warehouseExportReceiptDetails?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
-                value={''}
+                value={warehouseExportReceiptDetails?.receiver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseExportReceipt.address')} value={''} />
+              <LV
+                label={t('warehouseExportReceipt.address')}
+                value={warehouseExportReceiptDetails?.departmentReceipt?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.exportInWarehouse')}
-                value={''}
+                value={warehouseExportReceiptDetails?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.accountingAccountCode')}
-                value={''}
+                value={warehouseExportReceiptDetails?.source?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={''}
+                value={warehouseExportReceiptDetails?.reason?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={''}
+                value={`02${
+                  warehouseExportReceiptDetails?.warehouse?.code
+                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                    : ''
+                }${
+                  warehouseExportReceiptDetails?.reason?.code
+                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                    : ''
+                }`}
               />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseExportReceipt.number')} value={''} />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseExportReceipt.category')} value={''} />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseExportReceipt.construction')} value={''} />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.warehouseImportReceipt')}
-                value={''}
+                label={t('warehouseExportReceipt.number')}
+                value={`03${
+                  warehouseExportReceiptDetails?.warehouse?.code
+                    ? `.${warehouseExportReceiptDetails?.warehouse?.code}`
+                    : ''
+                }${
+                  warehouseExportReceiptDetails?.reason?.code
+                    ? `.${warehouseExportReceiptDetails?.reason?.code}`
+                    : ''
+                }`}
               />
             </Grid>
+            {warehouseExportReceiptDetails?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV label={`${item.fieldName}`} value={item.value} />
+                  </Grid>
+                )
+              }
+            })}
             <Grid item xs={12}>
               <TextField
                 name="explain"
                 label={t('warehouseExportReceipt.explain')}
                 multiline
                 rows={3}
-                value={warehouseExportReceiptDetails?.description}
+                value={warehouseExportReceiptDetails?.explaination}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
@@ -140,7 +196,12 @@ function WarehouseExportReceiptDetail() {
             </Grid>
           </Grid>
           <Box sx={{ mt: 3 }}>
-            <ItemSettingTableDetail items={[]} mode={mode} />
+            <ItemSettingTableDetail
+              items={
+                warehouseExportReceiptDetails?.saleOrderExportDetails || []
+              }
+              mode={mode}
+            />
           </Box>
           <ActionBar onBack={backToList} />
         </Grid>

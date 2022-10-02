@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
+import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -16,7 +17,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ACTIVE_STATUS_OPTIONS,
+  CODE_TYPE_DATA_FATHER_JOB,
+  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
@@ -25,7 +27,10 @@ import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
+import { getReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/receipt-management/get-receipt-details'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
+import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
 
@@ -38,7 +43,6 @@ const DEFAULT_ITEMS = {
   itemCode: '',
   itemName: '',
   unit: '',
-  qcCheck: false,
   lotNumber: '',
   money: '',
   importQuantity: '',
@@ -49,14 +53,17 @@ const DEFAULT_ITEMS = {
 function WarehouseImportReceiptForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
-  const params = useParams()
+  const { id } = useParams()
   const routeMatch = useRouteMatch()
   const [items, setItems] = useState([])
   const {
-    data: { warehouseImportReceiptDetails, isLoading },
+    data: {
+      warehouseImportReceiptDetails,
+      isLoading,
+      attributesBusinessTypeDetails,
+    },
     actions,
   } = useWarehouseImportReceipt()
-
   const { actions: sourceAction } = useSourceManagement()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -67,27 +74,50 @@ function WarehouseImportReceiptForm() {
 
   const initialValues = useMemo(
     () => ({
-      receiptDate: warehouseImportReceiptDetails?.receiptDate || '',
+      receiptDate: new Date(warehouseImportReceiptDetails?.receiptDate) || '',
       deliver: warehouseImportReceiptDetails?.deliver || '',
-      businessTypeId: warehouseImportReceiptDetails?.businessTypeId || '',
+      businessTypeId: warehouseImportReceiptDetails?.businessType
+        ? {
+            ...warehouseImportReceiptDetails?.businessType,
+            bussinessTypeAttributes: warehouseImportReceiptDetails?.attributes,
+          }
+        : null,
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceiptId || '',
-      warehouseId: warehouseImportReceiptDetails?.warehouseId || '',
-      reasonId: warehouseImportReceiptDetails?.reasonId || '',
-      sourceId: warehouseImportReceiptDetails?.sourceId || '',
-      explaination: warehouseImportReceiptDetails?.explaination || '',
-      project: warehouseImportReceiptDetails?.project || '',
-      task: warehouseImportReceiptDetails?.task || '',
-      suggestExport: warehouseImportReceiptDetails?.suggestExport || '',
-      receiptNo: warehouseImportReceiptDetails?.receiptNo || '',
-      warehouseExportReceipt:
-        warehouseImportReceiptDetails?.warehouseExportReceipt || '',
-
-      items: [{ ...DEFAULT_ITEMS }],
+      warehouseId: warehouseImportReceiptDetails?.warehouse || '',
+      reasonId: warehouseImportReceiptDetails?.reason || '',
+      sourceId: warehouseImportReceiptDetails?.source || '',
+      explaination: warehouseImportReceiptDetails?.explanation || '',
+      items: warehouseImportReceiptDetails?.purchasedOrderImportDetails?.map(
+        (item) => ({
+          itemId: item?.itemId,
+          itemName: item?.item?.name,
+          unit: item?.item?.itemUnit,
+          price: item?.price,
+          money: item?.amount,
+          debitAcc: item?.debitAccount,
+          creditAcc: item?.creditAccount,
+          importQuantity: item?.quantity,
+          itemCode: {
+            id: 1,
+            itemId: item?.itemId,
+            requestedQuantity: 0,
+            item: { ...item?.item },
+          },
+        }),
+      ) || [{ ...DEFAULT_ITEMS }],
     }),
     [warehouseImportReceiptDetails],
   )
-
+  warehouseImportReceiptDetails?.attributes?.forEach((item) => {
+    if (item.tableName) {
+      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
+        item.tableName
+      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
+    } else {
+      initialValues[`${item.id}`] = item.value
+    }
+  })
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -119,14 +149,81 @@ function WarehouseImportReceiptForm() {
 
   useEffect(() => {
     if (isUpdate) {
-      const id = params?.id
-      actions.getWarehouseImportReceiptDetailsById(id)
+      actions.getWarehouseImportReceiptDetailsById(id, (data) => {
+        const attributes = data?.attributes?.filter((e) => e?.tableName)
+        const params = {
+          filter: JSON.stringify(
+            uniq(map(attributes, 'tableName'))?.map((item) => ({
+              tableName: item,
+              id: attributes
+                ?.filter((e) => e?.tableName === item)
+                ?.map((d) => d?.value)
+                .toString(),
+            })),
+          ),
+        }
+        actions.getAttribuiteBusinessTypeDetailsById(params)
+      })
     }
-    return () => {
-      actions.resetWarehouseImportReceiptState()
+    return () => actions.resetWarehouseImportReceiptState()
+  }, [id])
+  useEffect(async () => {
+    if (!isEmpty(warehouseImportReceiptDetails)) {
+      if (
+        !isEmpty(
+          warehouseImportReceiptDetails?.attributes?.find(
+            (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.RECEIPT_ID,
+          ),
+        )
+      ) {
+        const res = await getReceiptDetailsApi(
+          Number(
+            warehouseImportReceiptDetails?.attributes?.find(
+              (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.RECEIPT_ID,
+            )?.value,
+          ),
+        )
+        setItems(res?.data?.items)
+      }
+      if (
+        !isEmpty(
+          warehouseImportReceiptDetails?.attributes?.find(
+            (item) =>
+              item?.code ===
+              CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+          ),
+        )
+      ) {
+        const res = await getWarehouseExportProposalItems({
+          id: Number(
+            warehouseImportReceiptDetails?.attributes?.find(
+              (item) =>
+                item?.code ===
+                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+            )?.value,
+          ),
+          warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+        })
+        setItems(res?.data)
+      }
+      if (
+        !isEmpty(
+          warehouseImportReceiptDetails?.attributes?.find(
+            (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.SO_EXPORT_ID,
+          ),
+        )
+      ) {
+        const res = await getWarehouseExportReceiptDetailsApi(
+          Number(
+            warehouseImportReceiptDetails?.attributes?.find(
+              (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.SO_EXPORT_ID,
+            )?.value,
+          ),
+        )
+        setItems(res?.data?.items)
+      }
     }
-  }, [params?.id])
-
+  }, [warehouseImportReceiptDetails])
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
@@ -148,15 +245,15 @@ function WarehouseImportReceiptForm() {
       businessTypeId: values?.businessTypeId?.id,
       reasonId: values?.reasonId?.id,
       explanation: values?.explaination,
-      receiptDate: values?.receiptDate.toISOString(),
+      receiptDate: values?.receiptDate?.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouseId?.id,
       items: JSON.stringify(
         values?.items?.map((item) => ({
-          id: +item?.itemCode?.itemId,
+          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
           requestedItemIdImportActual: item?.itemCode?.item?.code,
-          lotNumber: item?.lotNumber,
+          lotNumber: '',
           quantity: +item?.importQuantity,
           price: item?.price,
           debitAccount: item?.debitAcc || null,
@@ -166,22 +263,23 @@ function WarehouseImportReceiptForm() {
       ),
     }
     values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
-      if (values[att.tableName]?.id) {
+      // if (values[att.tableName]) {
+      //   params[`attributes[${index}].id`] = att.id
+      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
+      // }
+      if (values[att.id]) {
         params[`attributes[${index}].id`] = att.id
-        params[`attributes[${index}].value`] = values[att.tableName]?.id
-      }
-      if (values[att.id]?.id) {
-        params[`attributes[${index}].id`] = att.id
-        params[`attributes[${index}].value`] = values[att.id]?.id
+        params[`attributes[${index}].value`] =
+          values[att.id]?.id || values[att.id]
       }
     })
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouseImportReceipt(params, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      const id = Number(params?.id)
       const paramUpdate = {
         ...params,
-        id,
+        code: warehouseImportReceiptDetails?.code,
+        id: id,
       }
       actions.updateWarehouseImportReceipt(paramUpdate, backToList)
     }
@@ -254,7 +352,7 @@ function WarehouseImportReceiptForm() {
                           }
                           value={
                             <Status
-                              options={ACTIVE_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={warehouseImportReceiptDetails?.status}
                             />
                           }
@@ -273,6 +371,7 @@ function WarehouseImportReceiptForm() {
                       <Field.TextField
                         name="deliver"
                         label={t('warehouseImportReceipt.deliver')}
+                        placeholder={t('warehouseImportReceipt.deliver')}
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}

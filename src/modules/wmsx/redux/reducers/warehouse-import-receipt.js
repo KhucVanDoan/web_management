@@ -21,12 +21,16 @@ import {
   REJECT_WAREHOUSE_IMPORT_RECEIPT_START,
   REJECT_WAREHOUSE_IMPORT_RECEIPT_SUCCESS,
   RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE,
+  GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED,
+  GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START,
+  GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS,
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 
 const initialState = {
   isLoading: false,
   warehouseImportReceiptList: [],
   warehouseImportReceiptDetails: {},
+  attributesBusinessTypeDetails: [],
   total: null,
 }
 
@@ -45,6 +49,7 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case CONFIRM_WAREHOUSE_IMPORT_RECEIPT_START:
     case REJECT_WAREHOUSE_IMPORT_RECEIPT_START:
     case GET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_START:
+    case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START:
       return {
         ...state,
         isLoading: true,
@@ -85,6 +90,17 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case GET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_FAILED:
       return {
         ...state,
+        isLoading: false,
+      }
+    case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS:
+      return {
+        ...state,
+        attributesBusinessTypeDetails: action.payload,
         isLoading: false,
       }
     case RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE:

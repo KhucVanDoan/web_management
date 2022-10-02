@@ -7,10 +7,10 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
   DATA_TYPE,
+  ORDER_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
 } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
-import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { searchExpenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/search-expenditure-org'
@@ -19,30 +19,51 @@ import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/searc
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/search-receipt'
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
+import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
+import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
+import {
+  getWarehouseExportProposalItems,
+  getWarehouseImportReceiptDetailsApi,
+} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
+import { searchWarehouseImportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/search'
 import { convertFilterParams } from '~/utils'
 
 const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
   const { actions } = useReceiptManagement()
-  const { actions: warehouseExportProposalAction } =
-    useWarehouseExportProposal()
   const receiptRequired = type?.find(
     (item) => item?.tableName === 'receipts' && item?.required,
   )
   const handleChangeReceipt = (val) => {
-    if (!isEmpty(receiptRequired)) {
-      actions.getReceiptDetailsById(val?.id, (data) => {
-        setItems(data?.items)
-      })
+    if (val) {
+      if (!isEmpty(receiptRequired)) {
+        actions.getReceiptDetailsById(val?.id, (data) => {
+          setItems(data?.items)
+        })
+      }
     }
   }
-  const handleChangeProposals = (val) => {
-    if (!receiptRequired) {
-      warehouseExportProposalAction.getWarehouseExportProposaltDetailsById(
-        val?.id,
-        (data) => {
-          setItems(data?.items)
-        },
-      )
+  const handleChangeProposals = async (val) => {
+    if (val) {
+      if (!isEmpty(values?.warehouseId)) {
+        const params = {
+          id: val?.id,
+          warehouseId: values?.warehouseId?.id,
+        }
+        const res = await getWarehouseExportProposalItems(params)
+        setItems(res?.data)
+      }
+    }
+  }
+  const handleChangeWarehouseImportReciept = async (val) => {
+    if (val) {
+      const res = await getWarehouseImportReceiptDetailsApi(val?.id)
+      setItems(res?.data?.purchasedOrderImportDetails)
+    }
+  }
+  const handleChangeWarehouseExportReceipt = async (val) => {
+    if (val) {
+      const res = await getWarehouseExportReceiptDetailsApi(val?.id)
+      setItems(res?.data?.saleOrderExportDetails)
     }
   }
   const display = []
@@ -52,7 +73,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={item?.id}
+              name={`${item.id}`}
               label={item?.fieldName}
               required={item?.required === 1 ? true : false}
             />
@@ -62,7 +83,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={item?.id}
+              name={`${item.id}`}
               label={item?.fieldName}
               type="number"
               required={item?.required === 1 ? true : false}
@@ -73,7 +94,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.DatePicker
-              name={item?.id}
+              name={`${item.id}`}
               label={item?.fieldName}
               required={item?.required === 1 ? true : false}
             />
@@ -85,7 +106,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="constructions"
+                  name={`${item.id}`}
                   label={t('warehouseImportReceipt.project')}
                   placeholder={t('warehouseImportReceipt.project')}
                   asyncRequest={(s) =>
@@ -110,7 +131,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="category_constructions"
+                  name={`${item.id}`}
                   label={t('warehouseImportReceipt.task')}
                   placeholder={t('warehouseImportReceipt.task')}
                   asyncRequest={(s) =>
@@ -135,7 +156,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="warehouse_export_proposals"
+                  name={`${item.id}`}
                   label={t('warehouseImportReceipt.suggestExport')}
                   placeholder={t('warehouseImportReceipt.suggestExport')}
                   asyncRequest={(s) =>
@@ -153,6 +174,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={item?.required === 1 ? true : false}
+                  disabled={!values?.warehouseId}
                   onChange={(val) => handleChangeProposals(val)}
                 />
               </Grid>,
@@ -161,7 +183,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="receipts"
+                  name={`${item.id}`}
                   label={t('warehouseImportReceipt.receiptNo')}
                   placeholder={t('warehouseImportReceipt.receiptNo')}
                   asyncRequest={(s) => {
@@ -187,27 +209,26 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="sale_order_exports"
+                  name={`${item.id}`}
                   label={t('warehouseImportReceipt.warehouseExportReceipt')}
                   placeholder={t(
                     'warehouseImportReceipt.warehouseExportReceipt',
                   )}
                   asyncRequest={(s) => {
-                    return searchReceiptApi({
+                    return searchWarehouseExportReceiptApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ORDER_STATUS.CONFIRMED,
                       }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
-                  getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={item?.required === 1 ? true : false}
-                  onChange={(val) => handleChangeReceipt(val)}
+                  onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                 />
               </Grid>,
             )
@@ -215,7 +236,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="department_receipts"
+                  name={`${item.id}`}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchReceiptDepartmentApi({
@@ -239,7 +260,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="vendors"
+                  name={`${item.id}`}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchVendorsApi({
@@ -263,7 +284,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="cost_types"
+                  name={`${item.id}`}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureTypeApi({
@@ -287,7 +308,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name="organization_payments"
+                  name={`${item.id}`}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureOrgApi({
@@ -304,6 +325,30 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={item?.required === 1 ? true : false}
+                />
+              </Grid>,
+            )
+          case 'purchased_order_imports':
+            return display.push(
+              <Grid item lg={6} xs={12}>
+                <Field.Autocomplete
+                  name={`${item.id}`}
+                  label={t(`warehouseExportReceipt.warehouseImportReceipt`)}
+                  asyncRequest={(s) => {
+                    return searchWarehouseImportReceiptApi({
+                      keyword: s,
+                      limit: ASYNC_SEARCH_LIMIT,
+                      filter: convertFilterParams({
+                        status: ORDER_STATUS.CONFIRMED,
+                      }),
+                    })
+                  }}
+                  asyncRequestHelper={(res) => res?.data?.items}
+                  asyncRequestDeps={values?.businessTypeId}
+                  getOptionLabel={(opt) => opt?.code}
+                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  required={item?.required === 1 ? true : false}
+                  onChange={(val) => handleChangeWarehouseImportReciept(val)}
                 />
               </Grid>,
             )
