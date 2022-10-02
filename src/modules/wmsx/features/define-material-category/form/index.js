@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Grid } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Formik, Form, FieldArray } from 'formik'
+import { flatten, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
@@ -25,14 +26,14 @@ const DEFAULT_MATERIAL = {
 }
 
 const DEFAULT_MAIN_GROUP = {
-  id: new Date().getTime(),
+  // id: new Date().getTime(),
   name: '',
   code: '',
   level: 1,
 }
 
 const DEFAULT_SUB_GROUP = {
-  id: new Date().getTime(),
+  // id: new Date().getTime(),
   name: '',
   code: '',
   mainCode: '',
@@ -49,20 +50,29 @@ function DefineMaterialCategoryForm() {
     [ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
+  const isUpdate = mode === MODAL_MODE.UPDATE
 
   const {
-    data: { materialCategoryDetails, isLoading },
+    data: { materialCategoryDetails, isLoading, materialChildList },
     actions,
   } = useDefineMaterialCategory()
 
+  const subGroups = flatten(
+    map(materialChildList, (item) =>
+      item.children?.map((c) => ({
+        ...c,
+        mainCode: item?.code,
+      })),
+    ),
+  )
+
   const initialValues = useMemo(
     () => ({
-      // items: [{ ...DEFAULT_ITEMS }],
-      // mainGroups: [...DEFAULT_ITEMS.children],
-      // subGroups: [...DEFAULT_ITEMS.children[0].children],
-      material: [{ ...materialCategoryDetails }] || [{ ...DEFAULT_MATERIAL }],
-      mainGroups: [{ ...DEFAULT_MAIN_GROUP }],
-      subGroups: [{ ...DEFAULT_SUB_GROUP }],
+      material: isUpdate
+        ? [{ ...materialCategoryDetails }]
+        : [{ ...DEFAULT_MATERIAL }],
+      mainGroups: isUpdate ? materialChildList : [{ ...DEFAULT_MAIN_GROUP }],
+      subGroups: isUpdate ? subGroups : [{ ...DEFAULT_SUB_GROUP }],
     }),
     [materialCategoryDetails],
   )
@@ -114,6 +124,7 @@ function DefineMaterialCategoryForm() {
   useEffect(() => {
     if (params?.id) {
       actions.getMaterialCategoryDetailsById(params?.id)
+      actions.getMaterialChildDetailsById(params?.id)
     }
     return () => {
       actions.resetMaterialCategoryDetailsState()

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { flatten, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -8,7 +9,7 @@ import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Page from '~/components/Page'
 import Tabs from '~/components/Tabs'
-import useDefineExpenditureOrg from '~/modules/wmsx/redux/hooks/useDefineExpenditureOrg'
+import useDefineMaterialCategory from '~/modules/wmsx/redux/hooks/useDefineMaterialCategory'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import MainGroupTable from '../form/main-group-table'
@@ -34,20 +35,23 @@ const DefineMaterialCategoryDetail = () => {
   const history = useHistory()
   const { id } = useParams()
   const {
-    data: { isLoading, expenditureOrgDetails },
+    data: { isLoading, materialCategoryDetails, materialChildList },
     actions,
-  } = useDefineExpenditureOrg()
+  } = useDefineMaterialCategory()
 
   useEffect(() => {
-    actions.getExpenditureOrgDetailsById(id)
+    actions.getMaterialCategoryDetailsById(id)
+    actions.getMaterialChildDetailsById(id)
     return () => {
-      actions.resetExpenditureOrgDetailsState()
+      actions.resetMaterialCategoryDetailsState()
     }
   }, [id])
 
   const backToList = () => {
     history.push(ROUTE.DEFINE_MATERIAL_CATEGORY.LIST.PATH)
   }
+
+  const subGroups = flatten(map(materialChildList, (item) => item.children))
 
   return (
     <Page
@@ -68,21 +72,24 @@ const DefineMaterialCategoryDetail = () => {
             {/* Tab 1 */}
             <Box sx={{ mt: 3 }}>
               <MaterialTable
-                items={expenditureOrgDetails?.producingSteps || []}
+                material={[materialCategoryDetails] || []}
                 mode={MODAL_MODE.DETAIL}
               />
             </Box>
             {/* Tab 2 */}
             <Box sx={{ mt: 3 }}>
               <MainGroupTable
-                items={expenditureOrgDetails?.producingSteps || []}
+                mainGroups={materialChildList || []}
+                material={[materialCategoryDetails] || []}
                 mode={MODAL_MODE.DETAIL}
               />
             </Box>
             {/* Tab 3 */}
             <Box sx={{ mt: 3 }}>
               <SubGroupTable
-                items={expenditureOrgDetails?.producingSteps || []}
+                subGroups={subGroups || []}
+                mainGroups={materialChildList || []}
+                material={[materialCategoryDetails] || []}
                 mode={MODAL_MODE.DETAIL}
               />
             </Box>
