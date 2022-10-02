@@ -8,6 +8,7 @@ import DataTable from '~/components/DataTable'
 
 const ItemSettingTableDetail = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
+
   const columns = useMemo(
     () => [
       {
@@ -21,10 +22,10 @@ const ItemSettingTableDetail = ({ items }) => {
 
       {
         field: 'itemName',
-        headerName: t('warehouseExportReceipt.items.itemName'),
+        headerName: t('warehouseExportReceipt.itemName'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.itemName
+          return params?.row?.item?.name
         },
       },
       {
@@ -32,7 +33,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
         width: 250,
         renderCell: (params) => {
-          return params?.row?.suplliesCode
+          return params?.row?.item?.code
         },
       },
 
@@ -41,7 +42,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.unit'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.unit
+          return params?.row?.item?.itemUnit
         },
       },
       {
@@ -57,12 +58,12 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.quantityExport
+          return params?.row?.quantity
         },
       },
       {
         field: 'actualExportedQuantity',
-        headerName: t('warehouseExportReceipt.items.actualExportedQuantity'),
+        headerName: t('warehouseExportReceipt.actualExportedQuantity'),
         width: 150,
         renderCell: (params) => {
           return params?.row?.actualExportedQuantity
@@ -81,7 +82,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.totalMoney'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.totalMoney
+          return params?.row?.amount
         },
       },
       {

@@ -1,65 +1,26 @@
 import * as Yup from 'yup'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
-
-export const defineSchema = (t) =>
+export const formSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string()
-      .required(t('general:form.required'))
-      // .min(
-      //   TEXTFIELD_REQUIRED_LENGTH.CODE_6.MIN,
-      //   t('general:form.minLength', {
-      //     min: TEXTFIELD_REQUIRED_LENGTH.CODE_6.MIN,
-      //   }),
-      // )
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-        }),
-      ),
-    name: Yup.string()
-      .required(t('general:form.required'))
-      // .min(
-      //   TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-      //   t('general:form.minLength', {
-      //     min: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
-      //   }),
-      // )
-      .max(
-        TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        t('general:form.maxLength', {
-          max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-        }),
-      ),
-    parentBusiness: Yup.string().required(t('general:form.required')),
-    description: Yup.string(),
-    itemOption: Yup.array().of(
+    receiptDate: Yup.date().nullable().required(t('general:form.required')),
+    deliver: Yup.string().nullable().required(t('general:form.required')),
+    departmentReceiptId: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
+    businessTypeId: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
+    warehouseId: Yup.object().nullable().required(t('general:form.required')),
+    reasonId: Yup.object().nullable().required(t('general:form.required')),
+    sourceId: Yup.object().nullable().required(t('general:form.required')),
+    // explaination: Yup.object().required(t('general:form.required')),
+    items: Yup.array().of(
       Yup.object().shape({
-        required: Yup.boolean(),
-        fieldName: Yup.string().when('required', {
-          is: true,
-          then: Yup.string()
-            .required(t('general:form.required'))
-            .max(
-              TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              t('general:form.maxLength', {
-                max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-              }),
-            ),
-        }),
-        labelEBS: Yup.string()
+        itemCode: Yup.object().nullable().required(t('general:form.required')),
+        quantityExport: Yup.string()
           .nullable()
-          .when('required', {
-            is: true,
-            then: Yup.string().nullable().required(t('general:form.required')),
-          }),
-        type: Yup.object()
-          .nullable()
-          .when('required', {
-            is: true,
-            then: Yup.object().nullable().required(t('general:form.required')),
-          }),
+          .required(t('general:form.required')),
+        // money: Yup.string().nullable().required(t('general:form.required')),
       }),
     ),
   })

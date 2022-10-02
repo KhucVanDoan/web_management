@@ -80,6 +80,9 @@ function WarehouseImportReceipt() {
       width: 150,
       sortable: true,
       fixed: true,
+      renderCell: (params) => {
+        return params?.row?.code
+      },
     },
     {
       field: 'unit',

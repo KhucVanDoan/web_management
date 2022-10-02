@@ -17,7 +17,7 @@ import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-mate
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { convertUtcDateToLocalTz } from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
@@ -264,6 +264,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchMaterialsApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  code: parentData?.itemCode,
+                }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -286,7 +289,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.unit'),
       width: 250,
       renderCell: (params) => {
-        return params?.row?.unit
+        return params?.row?.unit || params?.row?.itemUnit?.name
       },
     },
     {

@@ -12,10 +12,9 @@ import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
-import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import {
   exportWarehouseExportReceiptApi,
@@ -23,7 +22,11 @@ import {
   importWarehouseExportReceiptApi,
 } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -70,7 +73,8 @@ function WarehouseExportReceipt() {
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
-    isOpenUpdateStatusModal: false,
+    isOpenConfirmModal: false,
+    isOpenRejectedModal: false,
   })
 
   const [columnsSettings, setColumnsSettings] = useState([])
@@ -83,6 +87,9 @@ function WarehouseExportReceipt() {
       width: 100,
       sortable: true,
       fixed: true,
+      renderCell: (params) => {
+        return params?.row?.code
+      },
     },
     {
       field: 'unit',
@@ -90,23 +97,35 @@ function WarehouseExportReceipt() {
       width: 100,
       sortable: true,
       fixed: true,
+      renderCell: (params) => {
+        return params?.row?.departmentReceipt?.name
+      },
     },
     {
       field: 'typeBusiness',
       headerName: t('warehouseExportReceipt.typeBusiness'),
       width: 120,
       sortable: true,
+      renderCell: (params) => {
+        return params?.row?.businessType?.name
+      },
     },
     {
       field: 'warehouseExport',
       headerName: t('warehouseExportReceipt.warehouseExport'),
       width: 120,
       sortable: true,
+      renderCell: (params) => {
+        return params?.row?.warehouseId?.name
+      },
     },
     {
       field: 'createdAt',
       headerName: t('warehouseExportReceipt.createdAt'),
       width: 120,
+      renderCell: (params) => {
+        return convertUtcDateToLocalTz(params?.row?.createdAt)
+      },
     },
     {
       field: 'status',
@@ -116,7 +135,7 @@ function WarehouseExportReceipt() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ACTIVE_STATUS_OPTIONS}
+            options={ORDER_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -136,11 +155,17 @@ function WarehouseExportReceipt() {
     {
       field: 'action',
       headerName: t('general:common.action'),
-      width: 150,
+      width: 250,
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params?.row
+        const { id, status } = params?.row
+        const isEdit =
+          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+        const isDelete =
+          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
+        const isConfirmed = status === ORDER_STATUS.PENDING
+        const isRejected = status === ORDER_STATUS.PENDING
         return (
           <div>
             <IconButton
@@ -155,27 +180,35 @@ function WarehouseExportReceipt() {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="comfirm" />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="remove" />
-            </IconButton>
+            {isEdit && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            )}
+            {isDelete && (
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+            )}
+            {isConfirmed && (
+              <IconButton onClick={() => onClickConfirm(params.row)}>
+                <Icon name="tick" />
+              </IconButton>
+            )}
+            {isRejected && (
+              <IconButton onClick={() => onClickRejected(params.row)}>
+                <Icon name="remove" />
+              </IconButton>
+            )}
           </div>
         )
       },
@@ -206,14 +239,30 @@ function WarehouseExportReceipt() {
   const onClickDelete = (tempItem) => {
     setModal({ tempItem, isOpenDeleteModal: true })
   }
-
+  const onClickConfirm = (tempItem) => {
+    setModal({ tempItem, isOpenConfirmModal: true })
+  }
+  const onClickRejected = (tempItem) => {
+    setModal({ tempItem, isOpenRejectedModal: true })
+  }
   const onSubmitDelete = () => {
     actions.deleteWarehouseExportReceipt(modal.tempItem?.id, () => {
       refreshData()
     })
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
-
+  const onSubmitConfirm = () => {
+    actions.confirmWarehouseExportReceiptById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenConfirmModal: false, tempItem: null })
+  }
+  const onSubmitRejected = () => {
+    actions.rejectWarehouseExportReceiptById(modal.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
+  }
   const onCloseDeleteModal = () => {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
@@ -297,7 +346,7 @@ function WarehouseExportReceipt() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('warehouseExportReceipt.deleteTitlePopup')}
+        title={t('warehouseImportReceipt.deleteTitlePopup')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -307,17 +356,32 @@ function WarehouseExportReceipt() {
         }}
         noBorderBottom
       >
-        {t('warehouseExportReceipt.deleteConfirm')}
-        <LV
-          label={t('warehouseExportReceipt.code')}
-          value={modal?.tempItem?.code}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('warehouseExportReceipt.description')}
-          value={modal?.tempItem?.description}
-          sx={{ mt: 4 / 3 }}
-        />
+        {t('warehouseImportReceipt.deleteConfirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenConfirmModal}
+        title={t('warehouseImportReceipt.confirmTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitConfirm}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+      >
+        {t('warehouseImportReceipt.Confirm')}
+      </Dialog>
+      <Dialog
+        open={modal.isOpenRejectedModal}
+        title={t('warehouseImportReceipt.rejectTitlePopup')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitRejected}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('warehouseImportReceipt.rejectConfirm')}
       </Dialog>
     </Page>
   )

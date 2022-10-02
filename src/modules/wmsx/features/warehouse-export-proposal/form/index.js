@@ -80,22 +80,24 @@ function WarehouseExportReceiptForm() {
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',
       details: item?.itemId
-        ? item?.childrens?.map((childrens) => ({
-            id: childrens?.id,
-            itemCode: childrens?.itemCode || null,
-            itemName: childrens?.itemName || null,
-            itemId: childrens?.itemId,
-            unit: childrens?.itemResponse?.itemUnit?.name,
-            lotNumber: childrens?.lotNumber,
-            isKeepSlot: childrens?.isKeepSlot,
-            planExportedQuantity: childrens?.planExportedQuantity || 0,
-            quantityExport: childrens?.exportedQuantity || 0,
-            quantityExportActual: childrens?.exportedActualQuantity || 0,
-            warehouseExport: childrens?.warehouseExport,
-            reservation: false,
-            updatedBy: item?.updatedBy,
-            dayUpdate: item?.updatedAt,
-          }))
+        ? item?.childrens?.length > 0
+          ? item?.childrens?.map((childrens) => ({
+              id: childrens?.id,
+              itemCode: childrens?.itemCode || null,
+              itemName: childrens?.itemName || null,
+              itemId: childrens?.itemId,
+              unit: childrens?.itemResponse?.itemUnit?.name,
+              lotNumber: childrens?.lotNumber,
+              isKeepSlot: childrens?.isKeepSlot,
+              planExportedQuantity: childrens?.planExportedQuantity || 0,
+              quantityExport: childrens?.exportedQuantity || 0,
+              quantityExportActual: childrens?.exportedActualQuantity || 0,
+              warehouseExport: childrens?.warehouseExport,
+              reservation: false,
+              updatedBy: item?.updatedBy,
+              dayUpdate: item?.updatedAt,
+            }))
+          : DEFAULT_ITEM
         : [],
     }),
   )
