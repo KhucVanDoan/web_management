@@ -247,15 +247,15 @@ const DefineMaterialCategory = () => {
 
   const handleGetData = async (id) => {
     const response = await getMaterialChildDetailsApi(id)
-    const subRes = await getMaterialChildDetailsApi(20)
     const newBomTree = bomTree?.map((bom) => {
       if (bom?.id === id) {
         const newBom = { ...bom }
         if (!bom.subBom) {
-          newBom['subBom'] = response?.data?.map((item) => ({
-            ...item,
-            producingSteps: subRes.data,
-          }))
+          newBom['subBom'] =
+            response?.data?.map((i) => ({
+              ...i,
+              producingSteps: i?.children,
+            })) || []
         }
         return newBom
       } else {
@@ -271,11 +271,11 @@ const DefineMaterialCategory = () => {
 
   const onSubmitUpdateStatus = () => {
     if (modal.tempItem?.status === ACTIVE_STATUS.ACTIVE) {
-      actions.rejectExpenditureTypeById(modal.tempItem?.id, () => {
+      actions.rejectMaterialCategoryById(modal.tempItem?.id, () => {
         refreshData()
       })
     } else if (modal.tempItem?.status === ACTIVE_STATUS.INACTIVE) {
-      actions.confirmExpenditureTypeById(modal.tempItem?.id, () => {
+      actions.confirmMaterialCategoryById(modal.tempItem?.id, () => {
         refreshData()
       })
     }

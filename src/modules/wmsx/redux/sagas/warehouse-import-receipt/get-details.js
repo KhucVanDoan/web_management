@@ -7,11 +7,16 @@ import {
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 import { api } from '~/services/api'
 
-const getWarehouseImportReceiptDetailsApi = (params) => {
+export const getWarehouseImportReceiptDetailsApi = (params) => {
   const uri = `/v1/sales/purchased-order-imports/${params}`
   return api.get(uri)
 }
-
+export const getWarehouseExportProposalItems = (params) => {
+  const uri = `/v1/warehouses/warehouse-export-proposals/${
+    params?.id
+  }/items?warehouseId=${+params?.warehouseId}`
+  return api.get(uri)
+}
 function* doGetWarehouseImportReceiptDetails(action) {
   try {
     const response = yield call(

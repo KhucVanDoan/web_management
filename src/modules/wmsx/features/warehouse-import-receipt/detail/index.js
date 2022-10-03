@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import TextField from '~/components/TextField'
 import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -34,19 +36,39 @@ function WarehouseImportReceiptDetail() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
-
+  const routeMatch = useRouteMatch()
   const {
-    data: { warehouseImportReceiptDetails, isLoading },
+    data: {
+      warehouseImportReceiptDetails,
+      isLoading,
+      attributesBusinessTypeDetails,
+    },
     actions,
   } = useWarehouseImportReceipt()
-
+  const MODE_MAP = {
+    [ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH]: MODAL_MODE.DETAIL,
+  }
+  const mode = MODE_MAP[routeMatch.path]
   useEffect(() => {
-    actions.getWarehouseImportReceiptDetailsById(id)
+    actions.getWarehouseImportReceiptDetailsById(id, (data) => {
+      const attributes = data?.attributes?.filter((e) => e?.tableName)
+      const params = {
+        filter: JSON.stringify(
+          uniq(map(attributes, 'tableName'))?.map((item) => ({
+            tableName: item,
+            id: attributes
+              ?.filter((e) => e?.tableName === item)
+              ?.map((d) => d?.value)
+              .toString(),
+          })),
+        ),
+      }
+      actions.getAttribuiteBusinessTypeDetailsById(params)
+    })
     return () => {
       actions.resetWarehouseImportReceiptState()
     }
   }, [id])
-
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
   }
@@ -122,50 +144,50 @@ function WarehouseImportReceiptDetail() {
                 value={warehouseImportReceiptDetails.source?.name}
               />
             </Grid>
-            {/* <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.project')}
-                value={warehouseImportReceiptDetails.code}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.task')}
-                value={warehouseImportReceiptDetails.code}
-              />
-            </Grid> */}
-            {/* <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.receiptNo')}
-                value={warehouseImportReceiptDetails.code}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.suggestExport')}
-                value={warehouseImportReceiptDetails.code}
-              />
-            </Grid> */}
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.explaination')}
-                value={warehouseImportReceiptDetails.explaination}
-              />
-            </Grid>
-            {/* <Grid item lg={6} xs={12}>
-              <LV
-                label={t('warehouseImportReceipt.contractNo')}
-                value={warehouseImportReceiptDetails.code}
-              />
-            </Grid> */}
+            {warehouseImportReceiptDetails?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV label={`${item.fieldName}`} value={item.value} />
+                  </Grid>
+                )
+              }
+            })}
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="explain"
+              label={t('warehouseExportReceipt.explain')}
+              multiline
+              rows={3}
+              value={attributesBusinessTypeDetails?.explaination}
+              readOnly
+              sx={{
+                'label.MuiFormLabel-root': {
+                  color: (theme) => theme.palette.subText.main,
+                },
+              }}
+            />
           </Grid>
           <Box sx={{ mt: 3 }}>
             <ItemsSettingTable
               items={
-                warehouseImportReceiptDetails?.purchasedOrderImportWarehouseLots ||
-                []
+                warehouseImportReceiptDetails?.purchasedOrderImportDetails || []
               }
-              mode={MODAL_MODE.DETAIL}
+              mode={mode}
             />
           </Box>
           <ActionBar onBack={backToList} />

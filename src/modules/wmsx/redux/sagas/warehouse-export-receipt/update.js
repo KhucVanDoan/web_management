@@ -10,8 +10,15 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateWarehouseExportReceiptApi = (params) => {
-  const uri = ``
-  return api.put(uri, params)
+  const uri = `/v1/sales/sale-order-exports/${params?.id}`
+  const data = { ...params }
+  delete data['id']
+  let form_data = new FormData()
+  for (let key in data) {
+    form_data.append(key, data[key])
+  }
+
+  return api.put(uri, form_data)
 }
 
 function* doUpdateWarehouseExportReceipt(action) {

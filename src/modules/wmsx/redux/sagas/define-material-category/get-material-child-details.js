@@ -8,7 +8,7 @@ import {
 import { api } from '~/services/api'
 
 export const getMaterialChildDetailsApi = (params) => {
-  const uri = `/v1/items/item-type-settings/${params}/child`
+  const uri = `/v1/items/item-type-settings/${params}/descendant`
   return api.get(uri)
 }
 

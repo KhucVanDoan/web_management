@@ -7,8 +7,8 @@ import {
 } from '~/modules/wmsx/redux/actions/warehouse-export-receipt'
 import { api } from '~/services/api'
 
-const getWarehouseExportReceiptDetailsApi = () => {
-  const uri = ``
+export const getWarehouseExportReceiptDetailsApi = (params) => {
+  const uri = `/v1/sales/sale-order-exports/${params}`
   return api.get(uri)
 }
 

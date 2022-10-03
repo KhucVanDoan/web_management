@@ -9,8 +9,8 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const confirmWarehouseExportReceiptApi = () => {
-  const uri = ``
+const confirmWarehouseExportReceiptApi = (params) => {
+  const uri = `/v1/sales/sale-order-exports/${params}/confirm`
   return api.put(uri)
 }
 

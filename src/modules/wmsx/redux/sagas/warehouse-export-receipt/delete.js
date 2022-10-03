@@ -9,8 +9,8 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const deleteWarehouseExportReceiptApi = () => {
-  const uri = ``
+const deleteWarehouseExportReceiptApi = (params) => {
+  const uri = `/v1/sales/sale-order-exports/${params}`
   return api.delete(uri)
 }
 

@@ -14,82 +14,69 @@ const DefaultFieldList = ({ itemDefault, mode, setFieldValue }) => {
   const isView = mode === MODAL_MODE.DETAIL
 
   const handleChangeRequired = (val, index) => {
-    if (val) {
+    if (val === true) {
       setFieldValue(`itemDefault[${index}].show`, true)
     }
-    // const indexOfWarehouseExport = itemDefault?.findIndex(
-    //   (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.SO_EXPORT_ID,
-    // )
-    // const indexOfPaper = itemDefault?.findIndex(
-    //   (item) =>
-    //     item?.code === CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
-    // )
-    // const indexOfReciept = itemDefault?.findIndex(
-    //   (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.RECEIPT_ID,
-    // )
-    // const indexOfWarehouseImport = itemDefault?.findIndex(
-    //   (item) => item?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
-    // )
-    // if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
-    //   if (val) {
-    //     setFieldValue(`itemDefault[${index}].show`, true)
+    //   if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
+    //     if (val === true) {
+    //       setFieldValue(`itemDefault[${index}].show`, true)
+    //     }
+    //     if (val === true && index === 0) {
+    //       setFieldValue(`itemDefault[1].show`, false)
+    //       setFieldValue(`itemDefault[2].show`, false)
+    //       setFieldValue(`itemDefault[1].required`, false)
+    //       setFieldValue(`itemDefault[2].required`, false)
+    //     }
+    //     if (val === true && index === 1) {
+    //       setFieldValue(`itemDefault[0].show`, false)
+    //       setFieldValue(`itemDefault[2].show`, true)
+    //       setFieldValue(`itemDefault[0].required`, false)
+    //     }
+    //     if (val === true && index === 2) {
+    //       setFieldValue(`itemDefault[0].show`, false)
+    //       setFieldValue(`itemDefault[1].show`, true)
+    //       setFieldValue(`itemDefault[0].required`, false)
+    //     }
+    //   } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
+    //     if (val === true) {
+    //       setFieldValue(`itemDefault[${index}].show`, true)
+    //     }
+    //     if (val === true && index === 0) {
+    //       setFieldValue(`itemDefault[1].show`, false)
+    //       setFieldValue(`itemDefault[1].required`, false)
+    //     }
+    //     if (val === true && index === 1) {
+    //       setFieldValue(`itemDefault[0].show`, false)
+    //       setFieldValue(`itemDefault[0].required`, false)
+    //     }
     //   }
-    //   if (val && index === indexOfWarehouseExport) {
-    //     setFieldValue(`itemDefault[${indexOfPaper}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfReciept}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfPaper}].required`, false)
-    //     setFieldValue(`itemDefault[${indexOfReciept}].required`, false)
-    //   }
-    //   if (val && index === indexOfPaper) {
-    //     setFieldValue(`itemDefault[${indexOfWarehouseExport}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfReciept}].show`, true)
-    //     setFieldValue(`itemDefault[${indexOfWarehouseExport}].required`, false)
-    //   }
-    //   if (val && index === indexOfReciept) {
-    //     setFieldValue(`itemDefault[${indexOfWarehouseExport}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfPaper}].show`, true)
-    //     setFieldValue(`itemDefault[${indexOfWarehouseExport}].required`, false)
-    //   }
-    // } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
-    //   if (val) {
-    //     setFieldValue(`itemDefault[${index}].show`, true)
-    //   }
-    //   if (val && index === indexOfWarehouseImport) {
-    //     setFieldValue(`itemDefault[${indexOfPaper}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfPaper}].required`, false)
-    //   }
-    //   if (val && index === indexOfPaper) {
-    //     setFieldValue(`itemDefault[${indexOfWarehouseImport}].show`, false)
-    //     setFieldValue(`itemDefault[${indexOfWarehouseImport}].required`, false)
-    //   }
-    // }
   }
   // const handleChangeShow = (val, index) => {
   //   if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
-  //     if (val && index === indexOfWarehouseExport) {
-  //       setFieldValue(`itemDefault[${indexOfPaper}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfReciept}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfPaper}].required`, false)
-  //       setFieldValue(`itemDefault[${indexOfReciept}].required`, false)
+  //     if (val === true && index === 0) {
+  //       setFieldValue(`itemDefault[1].show`, false)
+  //       setFieldValue(`itemDefault[2].show`, false)
+  //       setFieldValue(`itemDefault[1].required`, false)
+  //       setFieldValue(`itemDefault[2].required`, false)
   //     }
-  //     if (val && index === indexOfPaper) {
-  //       setFieldValue(`itemDefault[${indexOfWarehouseExport}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfReciept}].show`, true)
-  //       setFieldValue(`itemDefault[${indexOfWarehouseExport}].required`, false)
+  //     if (val === true && index === 1) {
+  //       setFieldValue(`itemDefault[0].show`, false)
+  //       setFieldValue(`itemDefault[2].show`, true)
+  //       setFieldValue(`itemDefault[0].required`, false)
   //     }
-  //     if (val && index === indexOfReciept) {
-  //       setFieldValue(`itemDefault[${indexOfWarehouseExport}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfPaper}].show`, true)
-  //       setFieldValue(`itemDefault[${indexOfWarehouseExport}].required`, false)
+  //     if (val === true && index === 2) {
+  //       setFieldValue(`itemDefault[0].show`, false)
+  //       setFieldValue(`itemDefault[1].show`, true)
+  //       setFieldValue(`itemDefault[0].required`, false)
   //     }
   //   } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
-  //     if (val && index === indexOfWarehouseImport) {
-  //       setFieldValue(`itemDefault[${indexOfPaper}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfPaper}].required`, false)
+  //     if (val === true && index === 0) {
+  //       setFieldValue(`itemDefault[1].show`, false)
+  //       setFieldValue(`itemDefault[1].required`, false)
   //     }
-  //     if (val && index === indexOfPaper) {
-  //       setFieldValue(`itemDefault[${indexOfWarehouseImport}].show`, false)
-  //       setFieldValue(`itemDefault[${indexOfWarehouseImport}].required`, false)
+  //     if (val === true && index === 1) {
+  //       setFieldValue(`itemDefault[0].show`, false)
+  //       setFieldValue(`itemDefault[0].required`, false)
   //     }
   //   }
   // }

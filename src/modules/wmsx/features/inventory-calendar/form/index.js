@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
+import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormControlLabel, Grid, Radio, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
@@ -13,6 +14,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -26,17 +28,18 @@ import {
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { useClasses } from '~/themes'
 
 import ItemsSettingTable from './items-setting-table'
 import { defineSchema } from './schema'
-
+import style from './style'
 const InventoryCalendarForm = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const [inventoryType, setInventoryType] = useState(null)
-
+  const classes = useClasses(style)
   const MODE_MAP = {
     [ROUTE.INVENTORY_CALENDAR.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.INVENTORY_CALENDAR.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -366,7 +369,7 @@ const InventoryCalendarForm = () => {
                       />
                     </Grid>
                     {values?.type === INVENTORY_TYPE.PERIODIC && (
-                      <Grid item xs={12}>
+                      <Grid item xs={12} mt={1}>
                         <LV
                           label={
                             <Typography>
@@ -374,7 +377,7 @@ const InventoryCalendarForm = () => {
                             </Typography>
                           }
                           value={
-                            <Grid item xs={12} lg={6}>
+                            <Grid item xs={12} lg={6} mt={-1}>
                               <Field.RadioGroup name="switchMode">
                                 <Box sx={{ display: 'flex' }}>
                                   <FormControlLabel
@@ -403,13 +406,57 @@ const InventoryCalendarForm = () => {
                 </Grid>
               </Grid>
               {values?.type === INVENTORY_TYPE.PERIODIC &&
-                values?.switchMode ===
+                +values?.switchMode ===
                   CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT && (
-                  <Grid item xs={12} lg={6} sx={{ mt: 2 }}>
-                    <Field.TextField
-                      name="checkPointDataAttachment"
-                      type="file"
-                    />
+                  <Grid item xs={12} lg={6} mt={1}>
+                    <LV sx={{ ml: 6, mt: 1 }}>
+                      {values?.checkPointDataAttachment ? (
+                        <>
+                          <label htmlFor="select-file">
+                            <Typography
+                              className={classes.uploadText}
+                              sx={{ mt: 8 / 12 }}
+                            >
+                              {values?.checkPointDataAttachment?.name}
+                            </Typography>
+                          </label>
+                          <input
+                            hidden
+                            id="select-file"
+                            accept="file/*"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'checkPointDataAttachment',
+                                e.target.files[0],
+                              )
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          component="label"
+                          color="grayEE"
+                        >
+                          <FileUploadIcon /> Nhập dữ liệu
+                          <input
+                            hidden
+                            accept="file/*"
+                            id="select-file"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'checkPointDataAttachment',
+                                e.target.files[0],
+                              )
+                            }}
+                          />
+                        </Button>
+                      )}
+                    </LV>
                   </Grid>
                 )}
               {values?.type === INVENTORY_TYPE.UNEXPECTED && (
