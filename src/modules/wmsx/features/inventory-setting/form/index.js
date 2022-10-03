@@ -221,7 +221,7 @@ function InventorySettingForm() {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      name="unit"
+                      name="item.itemUnit.name"
                       label={t('inventorySetting.unit')}
                       placeholder={t('inventorySetting.unit')}
                       disabled
