@@ -67,9 +67,9 @@ build_avenue_stg:
     # - ./setup_env_staging.sh
   script:
     - docker build -t $STAGING_CONTAINER_IMAGE
-      --build-arg REACT_APP_HOST="http://10.1.47.52:12010"
-      --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.47.52:12010"
-      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.47.52:12010"
+      --build-arg REACT_APP_HOST="http://10.1.47.52:12101"
+      --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.47.52:12101"
+      --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.47.52:12101"
       --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
     - docker push $STAGING_CONTAINER_IMAGE
   rules:
