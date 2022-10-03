@@ -106,7 +106,7 @@ function InventorySetting() {
       headerName: t('inventorySetting.unit'),
       width: 100,
       renderCell: (params) => {
-        return params.row.itenUnit?.name
+        return params.row?.item?.itemUnit?.name
       },
     },
     {
