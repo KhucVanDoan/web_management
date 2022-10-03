@@ -210,7 +210,12 @@ function MaterialManagementDetail() {
                 value={materialDetails?.specifications}
               />
             </Grid>
-            <Grid item lg={6} xs={12} />
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('materialManagement.uom')}
+                value={materialDetails?.itemUnit?.name}
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialImage')}

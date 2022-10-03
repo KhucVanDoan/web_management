@@ -24,6 +24,7 @@ import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-pro
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 import style from './style'
@@ -53,6 +54,7 @@ function MaterialManagementForm() {
       normalizeCode: materialDetails?.normalizeCode || '',
       country: materialDetails?.manufacturingCountry || null,
       objectCategory: materialDetails?.objectCategory || null,
+      uom: materialDetails?.itemUnit || null,
       materialCategory: materialDetails?.itemType || null,
       materialQuality: materialDetails?.itemQuality || null,
       specifications: materialDetails?.specifications || null,
@@ -119,6 +121,7 @@ function MaterialManagementForm() {
       objectCategoryId: values?.objectCategory?.id,
       itemTypeId: values?.materialCategory?.id,
       itemQualityId: values?.materialQuality?.id,
+      itemUnitId: values?.uom?.id,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMaterial(convertValues, backToList)
@@ -199,7 +202,7 @@ function MaterialManagementForm() {
                       label={t('materialManagement.code')}
                       placeholder={t('materialManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
                       required
@@ -254,6 +257,9 @@ function MaterialManagementForm() {
                         searchMaterialCategoryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: 2,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}

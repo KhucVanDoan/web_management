@@ -2407,7 +2407,7 @@
     "description": "Mô tả ",
     "status": "Trạng thái hoạt động",
     "createdAt": "Ngày tạo",
-    "searchPlaceHolder": "Tìm kiếm thông tin...",
+    "searchPlaceHolder": "Tìm kiếm đơn vị theo mã hoặc tên",
     "deleteModalTitle": "Xóa đơn vị",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá đơn vị này không?",
     "export": "Quanlydonvi"
@@ -2595,7 +2595,7 @@
   },
   "defineWarehouse": {
     "list": "Danh sách kho",
-    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "searchPlaceholder": "Tìm kiếm kho theo mã hoặc tên",
     "code": "Mã kho",
     "name": "Tên kho",
     "group": "Nhóm kho",
@@ -2982,7 +2982,7 @@
   },
   "defineMaterialCategory": {
     "title": "Danh sách phân loại vật tư",
-    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "searchPlaceholder": "Tìm kiếm phân loại vật tư theo mã hoặc tên",
     "status": "Trạng thái hoạt động",
     "createdAt": "Ngày tạo",
     "materialType": "Loại vật tư",

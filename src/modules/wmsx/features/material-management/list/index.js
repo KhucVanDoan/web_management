@@ -101,13 +101,13 @@ function MaterialManagement() {
       field: 'country',
       headerName: t('materialManagement.country'),
       width: 120,
-      renderCell: (item) => item?.manufacturingCountry?.name,
+      renderCell: (params) => params?.row?.manufacturingCountry?.name,
     },
     {
       field: 'objectCategory',
       headerName: t('materialManagement.objectCategory'),
       width: 120,
-      renderCell: (item) => item?.objectCategory?.name,
+      renderCell: (params) => params?.row?.objectCategory?.name,
     },
     {
       field: 'description',
