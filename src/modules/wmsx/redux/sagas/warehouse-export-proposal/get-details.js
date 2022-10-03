@@ -7,7 +7,7 @@ import {
 } from '~/modules/wmsx/redux/actions/warehouse-export-proposal'
 import { api } from '~/services/api'
 
-const getWarehouseExportProposalDetailsApi = (params) => {
+export const getWarehouseExportProposalDetailsApi = (params) => {
   const uri = `/v1/warehouses/warehouse-export-proposals/${params}`
   return api.get(uri)
 }

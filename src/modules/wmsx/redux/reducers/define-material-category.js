@@ -95,7 +95,7 @@ export default function defineMaterialCategory(state = initialState, action) {
     case GET_MATERIAL_CHILD_DETAILS_SUCCESS:
       return {
         ...state,
-        materialChildList: action.payload.list,
+        materialChildList: action.payload,
         isLoading: false,
         total: action.payload.total,
       }

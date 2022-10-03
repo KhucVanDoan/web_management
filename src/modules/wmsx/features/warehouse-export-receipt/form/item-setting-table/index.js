@@ -4,15 +4,56 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
+import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
+import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
+const ItemSettingTable = ({
+  items,
+  mode,
+  arrayHelpers,
+  itemList,
+  setFieldValue,
+  values,
+}) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  const hiden = Boolean(values?.warehouseId?.manageByLot)
+  const {
+    data: { detailSourceManagement },
+  } = useSourceManagement()
+  const check = values?.businessTypeId?.bussinessTypeAttributes?.filter(
+    (item) =>
+      item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT ||
+      item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+  )
+  const handleChangeItem = (val, index) => {
+    setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
+    setFieldValue(
+      `items[${index}].unit`,
+      val?.item?.itemUnit || val?.itemUnit?.name,
+    )
+    setFieldValue(
+      `items[${index}].debitAccount`,
+      val?.item?.itemWarehouseSources?.accountIdentifier,
+    )
+    if (values?.sourceId) {
+      setFieldValue(
+        `items[${index}].creditAccount`,
+        [
+          detailSourceManagement?.accountant,
+          detailSourceManagement?.produceTypeCode,
+          detailSourceManagement?.productCode,
+          detailSourceManagement?.factorialCode,
+        ].join('.'),
+      )
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -24,25 +65,46 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         },
       },
       {
-        field: 'suppliesCode',
+        field: 'itemCode',
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
         width: 250,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suplliesCode
+          ) : check?.length > 0 ? (
+            <Field.Autocomplete
+              name={`items[${index}].itemCode`}
+              placeholder={t('warehouseExportReceipt.items.suppliesCode')}
+              options={itemList}
+              getOptionLabel={(opt) => opt?.item?.code}
+              onChange={(val) => handleChangeItem(val, index)}
+              disabled={!values?.warehouseId}
+              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+            />
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].suppliesCode`}
-              options={[]}
-              getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-              getOptionValue={(opt) => opt?.id?.toString()}
-              disabled
+              name={`items[${index}].itemCode`}
+              placeholder={t('warehouseExportReceipt.items.suppliesCode')}
+              asyncRequest={(s) =>
+                searchMaterialsApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  warehouseId: values?.warehouseId?.id,
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
+              onChange={(val) => handleChangeItem(val, index)}
+              asyncRequestDeps={values?.warehouseId}
+              disabled={!values?.warehouseId}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              getOptionLabel={(opt) => opt?.code}
+              required
             />
           )
         },
       },
       {
-        field: 'suppliesName',
+        field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
         width: 250,
         renderCell: (params, index) => {
@@ -50,7 +112,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             params?.row?.suppliesName
           ) : (
             <Field.TextField
-              name={`items[${index}].suppliesName`}
+              name={`items[${index}].itemName`}
               required
               disabled
             />
@@ -73,6 +135,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         field: 'lotNumber',
         headerName: t('warehouseExportReceipt.items.lotNumber'),
         width: 250,
+
         renderCell: (params, index) => {
           return (
             <Field.Autocomplete
@@ -80,7 +143,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               options={[]}
               getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
               getOptionValue={(opt) => opt?.id?.toString()}
-              disabled
+              disabled={!hiden}
             />
           )
         },
@@ -108,7 +171,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             params?.row?.quantityExport
           ) : (
             <Field.TextField
-              name={`items[${index}].items.quantityExport`}
+              name={`items[${index}].quantityExport`}
+              placeholder={t('warehouseExportReceipt.items.quantityExport')}
               required
             />
           )
@@ -204,7 +268,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         },
       },
     ],
-    [items],
+    [items, itemList, check],
   )
   return (
     <>

@@ -9,9 +9,13 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const createWarehouseExportReceiptApi = (body) => {
-  const uri = ``
-  return api.post(uri, body)
+const createWarehouseExportReceiptApi = (params) => {
+  let form_data = new FormData()
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
+  const uri = `/v1/sales/sale-order-exports/create`
+  return api.post(uri, form_data)
 }
 
 function* doCreateWarehouseExportReceipt(action) {

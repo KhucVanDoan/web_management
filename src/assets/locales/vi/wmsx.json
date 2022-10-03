@@ -1563,6 +1563,7 @@
     "dataSnapshot": "Dữ liệu snapshot ngoài",
     "snapshotWmsx": "snapshot trên WMS",
     "dataClosing": "Dữ liệu chốt kỳ",
+    "checkPointDataAttachment": "dữ liệu",
     "items": {
       "tableTitle": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

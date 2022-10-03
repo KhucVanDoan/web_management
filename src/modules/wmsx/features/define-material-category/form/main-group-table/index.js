@@ -13,12 +13,12 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import Status from '~/components/Status'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import { scrollToBottom } from '~/utils'
 
 const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
   const { t } = useTranslation(['wmsx'])
-  const isUpdate = mode === MODAL_MODE.UPDATE
   const isView = mode === MODAL_MODE.DETAIL
   const isCreate = mode === MODAL_MODE.CREATE
 
@@ -37,7 +37,9 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         headerName: t('defineMaterialCategory.materialCode'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{material?.[0].code}</>
+          ) : (
             <Field.TextField
               name={`material[${index}].code`}
               value={material[0].code}
@@ -52,13 +54,15 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         headerName: t('defineMaterialCategory.mainGroupCode'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.code}</>
+          ) : (
             <Field.TextField
               name={`mainGroups[${index}].code`}
               placeholder={t('defineMaterialCategory.mainGroupCode')}
               inputProps={{ maxLength: 2 }}
               allow={TEXTFIELD_ALLOW.NUMERIC}
-              disabled={isUpdate}
+              disabled={mainGroups[index].parentId}
             />
           )
         },
@@ -68,7 +72,9 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         headerName: t('defineMaterialCategory.mainGroupName'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.name}</>
+          ) : (
             <Field.TextField
               name={`mainGroups[${index}].name`}
               placeholder={t('defineMaterialCategory.mainGroupName')}
@@ -84,7 +90,9 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         headerName: t('defineMaterialCategory.mainGroupDesc'),
         width: 150,
         renderCell: (params, index) => {
-          return (
+          return isView ? (
+            <>{params.row?.description}</>
+          ) : (
             <Field.TextField
               name={`mainGroups[${index}].description`}
               placeholder={t('defineMaterialCategory.mainGroupDesc')}
@@ -101,7 +109,14 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
             headerName: t('defineMaterialCategory.status'),
             width: 180,
             renderCell: (params, index) => {
-              return (
+              const status = Number(params.row?.status)
+              return isView ? (
+                <Status
+                  options={ACTIVE_STATUS_OPTIONS}
+                  value={status}
+                  variant="text"
+                />
+              ) : (
                 <Field.Autocomplete
                   name={`mainGroups[${index}].status`}
                   placeholder={t('defineMaterialCategory.status')}
@@ -118,14 +133,15 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         field: 'action',
         width: 80,
         align: 'center',
-        renderCell: (params) => {
+        hide: isView,
+        renderCell: (params, index) => {
           const idx = mainGroups.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={mainGroups?.length === 1}
+              disabled={mainGroups?.length === 1 || mainGroups[index].parentId}
             >
               <Icon name="remove" />
             </IconButton>
@@ -153,7 +169,7 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: new Date().getTime(),
+                // id: new Date().getTime(),
                 code: '',
                 name: '',
                 level: 1,
