@@ -15,7 +15,11 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  PARENT_BUSINESS_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useBussinessTypeManagement from '~/modules/wmsx/redux/hooks/useBusinessTypeManagement'
 import {
@@ -98,6 +102,9 @@ function BussinessTypeManagement() {
       headerName: t('businessTypeManagement.parentBusiness'),
       width: 120,
       sortable: true,
+      renderCell: (params) => {
+        return t(`${PARENT_BUSINESS_TYPE_MAP[params?.row?.parentBussiness]}`)
+      },
     },
     {
       field: 'description',
@@ -154,9 +161,9 @@ function BussinessTypeManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
+            {/* <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
-            </IconButton>
+            </IconButton> */}
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -187,9 +194,9 @@ function BussinessTypeManagement() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
+  // const onClickDelete = (tempItem) => {
+  //   setModal({ tempItem, isOpenDeleteModal: true })
+  // }
 
   const onSubmitDelete = () => {
     actions.deleteBusinessType(modal.tempItem?.id, () => {

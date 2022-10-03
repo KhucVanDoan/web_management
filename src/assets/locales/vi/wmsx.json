@@ -2486,7 +2486,10 @@
       "required": "Bắt buộc?",
       "labelEBS": "Label trên EBS",
       "tableName": "Tên bảng",
-      "columnName": "Tên cột"
+      "columnName": "Tên cột",
+      "placeholderLabelEBS": "Nhập label",
+      "placeholderFieldName": "Nhập tên trường",
+      "placeholderType": "Chọn kiểu dữ liệu"
     },
     "types": {
       "text": "Text",

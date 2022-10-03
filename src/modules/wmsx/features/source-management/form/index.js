@@ -289,7 +289,7 @@ const SourceManagementForm = () => {
                       label={t('sourceManagement.companyId')}
                       placeholder={t('sourceManagement.companyId')}
                       options={companyList}
-                      getOptionLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => `${opt?.code}-${opt?.name}`}
                       getOptionValue={(opt) => opt}
                       required
                     />
@@ -315,6 +315,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_6.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -326,6 +327,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -337,6 +339,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -348,6 +351,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_3.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -371,6 +375,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_6.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -382,6 +387,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>{' '}
                   <Grid item xs={12} lg={6}>
@@ -393,6 +399,7 @@ const SourceManagementForm = () => {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                      required
                     />
                   </Grid>
                   <Grid item xs={12}>
