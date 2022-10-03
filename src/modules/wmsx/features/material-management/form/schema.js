@@ -7,9 +7,9 @@ export const formSchema = (t) =>
     code: Yup.string()
       .required(t('general:form.required'))
       .length(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
+        TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
         t('general:form.length', {
-          length: TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
+          length: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
         }),
       ),
     normalizeCode: Yup.string()
@@ -25,6 +25,7 @@ export const formSchema = (t) =>
     objectCategory: Yup.object()
       .nullable()
       .required(t('general:form.required')),
+    uom: Yup.object().nullable().required(t('general:form.required')),
     materialCategory: Yup.object()
       .nullable()
       .required(t('general:form.required')),
