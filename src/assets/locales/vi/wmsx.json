@@ -2860,7 +2860,7 @@
   "warehouseImportReceipt": {
     "list": "Danh sách phiếu nhập kho",
     "searchPlaceholder": "Tìm kiếm thông tin...",
-    "id": "ID phiếu nhập WMSx",
+    "id": "ID phiếu nhập WMS",
     "departmentReceipt": "Đơn vị nhập",
     "businessType": "Loại nghiệp vụ",
     "warehouse": "Kho nhập",
@@ -2875,7 +2875,7 @@
     "sourceFilter": "Nguồn TTKT",
     "project": "Công trình",
     "task": "Hạng mục",
-    "receiptNo": "Số receipt",
+    "receiptNo": "Số phiếu ",
     "suggestExport": "Giấy đề nghị xuất vật tư",
     "explaination": "Diễn giải",
     "contractNo": "Số hợp đồng",

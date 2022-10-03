@@ -423,8 +423,6 @@ const InventoryCalendarForm = () => {
                           <input
                             hidden
                             id="select-file"
-                            accept="file/*"
-                            multiple
                             type="file"
                             onChange={(e) => {
                               setFieldValue(
@@ -443,9 +441,7 @@ const InventoryCalendarForm = () => {
                           <FileUploadIcon /> Nhập dữ liệu
                           <input
                             hidden
-                            accept="file/*"
                             id="select-file"
-                            multiple
                             type="file"
                             onChange={(e) => {
                               setFieldValue(
