@@ -11,8 +11,9 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { convertFilterParams } from '~/utils'
 
-function ItemSettingTable({ items, mode, arrayHelpers }) {
+function ItemSettingTable({ items, mode, arrayHelpers, values }) {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const getColumns = () => {
@@ -39,6 +40,11 @@ function ItemSettingTable({ items, mode, arrayHelpers }) {
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    warehouseId: values?.warehouses
+                      ?.map((item) => item?.id)
+                      .join(','),
+                  }),
                 })
               }
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}

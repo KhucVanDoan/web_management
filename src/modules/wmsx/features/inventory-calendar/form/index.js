@@ -69,8 +69,9 @@ const InventoryCalendarForm = () => {
       code: inventoryCalendarDetails?.code || '',
       name: inventoryCalendarDetails?.name || '',
       type: inventoryCalendarDetails?.type,
-      warehouses:
-        inventoryCalendarDetails?.warehouses?.map((item) => item) || [],
+      warehouses: inventoryCalendarDetails
+        ? inventoryCalendarDetails?.warehouses?.map((item) => item)
+        : [],
       executionDay: inventoryCalendarDetails?.executeFrom
         ? [
             inventoryCalendarDetails?.executeFrom,
@@ -350,6 +351,7 @@ const InventoryCalendarForm = () => {
                         name="executionDay"
                         label={t('inventoryCalendar.executionDay')}
                         placeholder={t('inventoryCalendar.executionDay')}
+                        minDate={values?.closingDay}
                         required
                       />
                     </Grid>
@@ -423,8 +425,6 @@ const InventoryCalendarForm = () => {
                           <input
                             hidden
                             id="select-file"
-                            accept="file/*"
-                            multiple
                             type="file"
                             onChange={(e) => {
                               setFieldValue(
@@ -443,9 +443,7 @@ const InventoryCalendarForm = () => {
                           <FileUploadIcon /> Nhập dữ liệu
                           <input
                             hidden
-                            accept="file/*"
                             id="select-file"
-                            multiple
                             type="file"
                             onChange={(e) => {
                               setFieldValue(

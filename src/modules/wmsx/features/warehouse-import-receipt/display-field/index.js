@@ -27,8 +27,27 @@ import {
 } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { searchWarehouseImportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/search'
 import { convertFilterParams } from '~/utils'
-
-const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
+const DEFAULT_ITEMS = [
+  {
+    id: 1,
+    itemCode: '',
+    itemName: '',
+    unit: '',
+    lotNumber: '',
+    money: '',
+    importQuantity: '',
+    price: '',
+    debitAcc: '',
+    creditAcc: '',
+  },
+]
+const DisplayFollowBusinessTypeManagement = (
+  type,
+  t,
+  values,
+  setItems,
+  setFieldValue,
+) => {
   const { actions } = useReceiptManagement()
   const receiptRequired = type?.find(
     (item) => item?.tableName === 'receipts' && item?.required,
@@ -36,15 +55,18 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
   const handleChangeReceipt = (val) => {
     if (val) {
       if (!isEmpty(receiptRequired)) {
+        setFieldValue('items', DEFAULT_ITEMS)
         actions.getReceiptDetailsById(val?.id, (data) => {
           setItems(data?.items)
         })
       }
     }
   }
+
   const handleChangeProposals = async (val) => {
     if (val) {
-      if (!isEmpty(values?.warehouseId)) {
+      if (!isEmpty(values?.warehouseId) && isEmpty(receiptRequired)) {
+        setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
           warehouseId: values?.warehouseId?.id,
@@ -75,7 +97,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             <Field.TextField
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required === 1 ? true : false}
+              required={item?.required ? true : false}
             />
           </Grid>,
         )
@@ -86,7 +108,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
               name={`${item.id}`}
               label={item?.fieldName}
               type="number"
-              required={item?.required === 1 ? true : false}
+              required={item?.required ? true : false}
             />
           </Grid>,
         )
@@ -96,7 +118,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
             <Field.DatePicker
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required === 1 ? true : false}
+              required={item?.required ? true : false}
             />
           </Grid>,
         )
@@ -123,7 +145,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                 />
               </Grid>,
             )
@@ -147,7 +169,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                 />
               </Grid>,
@@ -173,8 +195,8 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
-                  disabled={!values?.warehouseId}
+                  required={item?.required ? true : false}
+                  disabled={isEmpty(receiptRequired) && !values?.warehouseId}
                   onChange={(val) => handleChangeProposals(val)}
                 />
               </Grid>,
@@ -200,7 +222,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                   onChange={(val) => handleChangeReceipt(val)}
                 />
               </Grid>,
@@ -227,7 +249,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                   onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                 />
               </Grid>,
@@ -252,7 +274,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                 />
               </Grid>,
             )
@@ -276,7 +298,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                 />
               </Grid>,
             )
@@ -300,7 +322,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                 />
               </Grid>,
             )
@@ -324,7 +346,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                 />
               </Grid>,
             )
@@ -347,7 +369,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values, setItems) => {
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required === 1 ? true : false}
+                  required={item?.required ? true : false}
                   onChange={(val) => handleChangeWarehouseImportReciept(val)}
                 />
               </Grid>,

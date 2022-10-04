@@ -74,7 +74,9 @@ function WarehouseImportReceiptForm() {
 
   const initialValues = useMemo(
     () => ({
-      receiptDate: new Date(warehouseImportReceiptDetails?.receiptDate) || '',
+      receiptDate: !isEmpty(warehouseImportReceiptDetails)
+        ? new Date(warehouseImportReceiptDetails?.receiptDate)
+        : null,
       deliver: warehouseImportReceiptDetails?.deliver || '',
       businessTypeId: warehouseImportReceiptDetails?.businessType
         ? {
@@ -101,7 +103,7 @@ function WarehouseImportReceiptForm() {
           itemCode: {
             id: 1,
             itemId: item?.itemId,
-            requestedQuantity: 0,
+            requestedQuantity: item?.requestedQuantity,
             item: { ...item?.item },
           },
         }),
@@ -493,6 +495,7 @@ function WarehouseImportReceiptForm() {
                       t,
                       values,
                       setItems,
+                      setFieldValue,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField

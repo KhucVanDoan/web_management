@@ -1584,6 +1584,28 @@ export const DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT = [
   },
 ]
 
+export const DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER = [
+  {
+    labelEBS: 'Source Project',
+    fieldName: 'businessTypeManagement.construction',
+    type: 'businessTypeManagement.constructionManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Task',
+    fieldName: 'businessTypeManagement.category',
+    type: 'businessTypeManagement.categoryManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CATEGORY_CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+]
 export const WAREHOUSE_TYPE = {
   SXKD: 0,
   XDCB: 1,
