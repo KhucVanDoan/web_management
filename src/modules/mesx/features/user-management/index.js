@@ -15,9 +15,9 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ROUTE } from '~/modules/configuration/routes/config'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 import qs from '~/utils/qs'
 
@@ -31,7 +31,7 @@ import { filterSchema } from './filter-form/schema'
 
 const breadcrumbs = [
   {
-    title: 'configuration',
+    title: 'setting',
   },
   {
     route: ROUTE.USER_MANAGEMENT.LIST.PATH,

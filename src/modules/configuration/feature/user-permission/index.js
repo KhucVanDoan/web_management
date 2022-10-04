@@ -14,11 +14,11 @@ import TableCollapse from '~/components/TableCollapse'
 import useDepartmentList from '~/modules/configuration/redux/hooks/useDepartmentList'
 import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
 import useUserPermission from '~/modules/configuration/redux/hooks/useUserPermission'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
   {
-    title: 'decentralization',
+    title: 'setting',
   },
   {
     route: ROUTE.USER_PERMISSION.PATH,
