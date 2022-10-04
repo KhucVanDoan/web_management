@@ -74,7 +74,9 @@ function WarehouseImportReceiptForm() {
 
   const initialValues = useMemo(
     () => ({
-      receiptDate: new Date(warehouseImportReceiptDetails?.receiptDate) || '',
+      receiptDate: !isEmpty(warehouseImportReceiptDetails)
+        ? new Date(warehouseImportReceiptDetails?.receiptDate)
+        : null,
       deliver: warehouseImportReceiptDetails?.deliver || '',
       businessTypeId: warehouseImportReceiptDetails?.businessType
         ? {

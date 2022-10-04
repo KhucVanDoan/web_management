@@ -161,9 +161,9 @@ function BussinessTypeManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
+            {/* <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
-            </IconButton>
+            </IconButton> */}
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -194,9 +194,9 @@ function BussinessTypeManagement() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
+  // const onClickDelete = (tempItem) => {
+  //   setModal({ tempItem, isOpenDeleteModal: true })
+  // }
 
   const onSubmitDelete = () => {
     actions.deleteBusinessType(modal.tempItem?.id, () => {

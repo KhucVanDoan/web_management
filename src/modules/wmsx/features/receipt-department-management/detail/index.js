@@ -9,7 +9,10 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  RECEIPT_DEPARTMENT_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -82,8 +85,14 @@ function ReceiptDepartmentManagementDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('receiptDepartmentManagement.type')}
-                value={receiptDepartmentDetails?.type}
+                label={t('receiptDepartmentManagement.departmentType')}
+                value={t(
+                  `${
+                    RECEIPT_DEPARTMENT_TYPE_MAP[
+                      receiptDepartmentDetails?.departmentType
+                    ]
+                  }`,
+                )}
               />
             </Grid>
             <Grid item xs={12}>
