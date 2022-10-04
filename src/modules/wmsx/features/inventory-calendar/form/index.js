@@ -21,9 +21,9 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
   CHECK_POINT_DATA_TYPE,
-  INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
   INVENTORY_TYPE_OPTIONS,
+  ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -274,7 +274,7 @@ const InventoryCalendarForm = () => {
                           }
                           value={
                             <Status
-                              options={INVENTORY_CALENDAR_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={inventoryCalendarDetails?.status}
                             />
                           }

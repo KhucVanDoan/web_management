@@ -36,7 +36,7 @@ import {
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
 
-import DisplayFollowBusinessTypeManagement from '../../warehouse-import-receipt/display-field'
+import DisplayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
 import { formSchema } from './schema'
 
@@ -76,7 +76,7 @@ function WarehouseExportReceiptForm() {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-  const [items, setItems] = useState([])
+  const [itemWarehouseExport, setItemWarehouseExport] = useState([])
   const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
     () => ({
@@ -195,7 +195,7 @@ function WarehouseExportReceiptForm() {
             )?.value,
           ),
         )
-        setItems(res?.data?.items)
+        setItemWarehouseExport(res?.data?.items)
       }
       if (
         !isEmpty(
@@ -216,7 +216,7 @@ function WarehouseExportReceiptForm() {
           ),
           warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
         })
-        setItems(res?.data)
+        setItemWarehouseExport(res?.data)
       }
     }
   }, [warehouseExportReceiptDetails])
@@ -248,7 +248,7 @@ function WarehouseExportReceiptForm() {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id: +item?.itemCode?.itemId || +item?.itemCode?.id,
-          itemCode: item?.itemCode?.item?.code,
+          itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
           lotNumber: item?.lotNumber || '',
           quantity: +item?.quantityExport,
           price: item?.price,
@@ -529,7 +529,7 @@ function WarehouseExportReceiptForm() {
                       values?.businessTypeId?.bussinessTypeAttributes,
                       t,
                       values,
-                      setItems,
+                      setItemWarehouseExport,
                       setFieldValue,
                     )}
                     <Grid item xs={12}>
@@ -554,7 +554,7 @@ function WarehouseExportReceiptForm() {
                         <ItemSettingTable
                           items={values?.items || []}
                           arrayHelpers={arrayHelpers}
-                          itemList={items}
+                          itemList={itemWarehouseExport}
                           setFieldValue={setFieldValue}
                           values={values}
                           mode={mode}

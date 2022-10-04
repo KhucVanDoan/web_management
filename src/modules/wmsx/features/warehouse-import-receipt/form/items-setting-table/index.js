@@ -3,7 +3,6 @@ import React, { useMemo } from 'react'
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
@@ -11,7 +10,6 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { scrollToBottom } from '~/utils'
@@ -25,14 +23,7 @@ function ItemsSettingTable(props) {
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === 'receipts' && item?.required,
-  )
-  const check = values?.businessTypeId?.bussinessTypeAttributes?.filter(
-    (item) =>
-      item?.tableName === TABLE_NAME_ENUM.RECEIPT ||
-      item?.tableName === TABLE_NAME_ENUM.SALE_ORDER_EXPORT ||
-      item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-  )
-
+  )?.id
   const handleChangeItem = (val, index) => {
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
@@ -56,7 +47,7 @@ function ItemsSettingTable(props) {
     }
     setFieldValue(`items[${index}].importQuantity`, '')
     setFieldValue(`items[${index}].money`, '')
-    if (!isEmpty(receiptRequired)) {
+    if (receiptRequired) {
       setFieldValue(`items[${index}].importQuantity`, val?.requestedQuantity)
     }
   }
@@ -94,13 +85,11 @@ function ItemsSettingTable(props) {
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
-                  warehouseId: values?.warehouseId?.id,
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
               asyncRequestDeps={values?.warehouseId}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               required
@@ -170,7 +159,7 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantity
-          ) : !isEmpty(receiptRequired) ? (
+          ) : receiptRequired ? (
             <Field.TextField
               name={`items[${index}].importQuantity`}
               disabled={true}
@@ -272,7 +261,7 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList, check],
+    [items, itemList],
   )
 
   return (
