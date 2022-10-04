@@ -81,7 +81,7 @@ function BusinessTypeManagementForm() {
             labelEBS: item?.ebsLabel,
             fieldName: item?.fieldName,
             required: Boolean(item?.required),
-            show: Boolean(item?.required),
+            show: true,
             type: '',
             code: item?.code,
             columnName: item?.columnName,

@@ -530,6 +530,7 @@ function WarehouseExportReceiptForm() {
                       t,
                       values,
                       setItems,
+                      setFieldValue,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField

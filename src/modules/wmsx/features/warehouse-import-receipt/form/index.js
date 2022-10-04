@@ -101,7 +101,7 @@ function WarehouseImportReceiptForm() {
           itemCode: {
             id: 1,
             itemId: item?.itemId,
-            requestedQuantity: 0,
+            requestedQuantity: item?.requestedQuantity,
             item: { ...item?.item },
           },
         }),
@@ -493,6 +493,7 @@ function WarehouseImportReceiptForm() {
                       t,
                       values,
                       setItems,
+                      setFieldValue,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
