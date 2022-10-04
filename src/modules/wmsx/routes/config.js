@@ -620,4 +620,66 @@ export const ROUTE = {
       TITLE: 'inventorySheet',
     },
   },
+  USER_MANAGEMENT: {
+    LIST: {
+      PATH: '/wms/user-management',
+      TITLE: 'userManagement',
+    },
+    CREATE: {
+      PATH: '/wms/user-management/create',
+      TITLE: 'userManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wms/user-management/:id/detail',
+      TITLE: 'userManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wms/user-management/:id/edit',
+      TITLE: 'userManagementEdit',
+    },
+  },
+  USER_PERMISSION: {
+    PATH: '/wms/user-permission',
+    TITLE: 'userPermission',
+  },
+  COMPANY_CUSTOMER_SETTING: {
+    PATH: '/wms/company-customer-setting',
+    TITLE: 'companyCustomerSetting',
+  },
+  COMPANY_CHART: {
+    LIST: {
+      PATH: '/wms/company-chart',
+      TITLE: 'companyChart',
+    },
+  },
+  DEPARTMENT_LIST: {
+    LIST: {
+      PATH: '/wms/department-list',
+      TITLE: 'defineDepartment',
+    },
+    ASSIGN: {
+      PATH: '/wms/department-list/:id/assign',
+      TITLE: 'departmentAssign',
+    },
+  },
+  ROLE_LIST: {
+    LIST: {
+      PATH: '/wms/role-list',
+      TITLE: 'defineRole',
+    },
+  },
+  ACCOUNT: {
+    DETAIL: {
+      PATH: '/wms/account',
+      TITLE: 'userInfoDetail',
+    },
+    EDIT: {
+      PATH: '/wms/account/edit',
+      TITLE: 'userInfoEdit',
+    },
+    CHANGE_PASSWORD: {
+      PATH: '/wms/account/change-password',
+      TITLE: 'changePassword',
+    },
+  },
 }

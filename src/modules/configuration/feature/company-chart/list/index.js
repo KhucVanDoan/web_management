@@ -12,16 +12,16 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { exportPlanReportApi } from '~/modules/mesx/redux/sagas/plan-report/import-export-plan-report'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
   {
-    title: 'decentralization',
+    title: 'setting',
   },
   {
     route: ROUTE.COMPANY_CHART.LIST.PATH,

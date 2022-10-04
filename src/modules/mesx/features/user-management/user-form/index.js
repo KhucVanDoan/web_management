@@ -25,12 +25,12 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
@@ -136,6 +136,9 @@ function UserManagementForm() {
 
   const getBreadcrumb = () => {
     const breadcrumb = [
+      {
+        title: 'setting',
+      },
       {
         route: ROUTE.USER_MANAGEMENT.LIST.PATH,
         title: ROUTE.USER_MANAGEMENT.LIST.TITLE,

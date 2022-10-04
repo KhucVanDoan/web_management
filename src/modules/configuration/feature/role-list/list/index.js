@@ -9,13 +9,13 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
   {
-    title: 'decentralization',
+    title: 'setting',
   },
   {
     route: ROUTE.ROLE_LIST.LIST.PATH,
