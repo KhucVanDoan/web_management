@@ -18,9 +18,9 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
-import { ROUTE } from '~/modules/configuration/routes/config'
 import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import { validationSchema } from './schema'
 

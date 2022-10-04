@@ -11,7 +11,7 @@ import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
 import LanguageSwitcher from '~/components/LanguageSwitcher'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 
 import Notification from '../Notification'
