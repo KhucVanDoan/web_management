@@ -1,3 +1,10 @@
+import ChangePassword from '~/modules/configuration/feature/user-info/change-password'
+import UserInfoDetail from '~/modules/configuration/feature/user-info/user-detail'
+import UserInfoForm from '~/modules/configuration/feature/user-info/user-form'
+import UserPermission from '~/modules/configuration/feature/user-permission'
+import UserManagement from '~/modules/mesx/features/user-management'
+import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
+import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
 import Dashboard from '~/modules/wmsx/features/dashboard'
 
 import BusinessTypeManagementDetail from '../features/business-type-management/detail'
@@ -1013,9 +1020,35 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
-        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
-        component: SignatureConfiguration,
+        name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.USER_MANAGEMENT.LIST.PATH,
+        component: UserManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
+            component: UserManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.USER_PERMISSION.TITLE,
+        path: ROUTE.USER_PERMISSION.PATH,
+        component: UserPermission,
         isInSidebar: true,
       },
       {
@@ -1023,6 +1056,27 @@ const routes = [
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
         isInSidebar: true,
+      },
+      {
+        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
+        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
+        component: SignatureConfiguration,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.ACCOUNT.DETAIL.TITLE,
+        path: ROUTE.ACCOUNT.DETAIL.PATH,
+        component: UserInfoDetail,
+      },
+      {
+        name: ROUTE.ACCOUNT.EDIT.TITLE,
+        path: ROUTE.ACCOUNT.EDIT.PATH,
+        component: UserInfoForm,
+      },
+      {
+        name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
+        path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
+        component: ChangePassword,
       },
     ],
   },
