@@ -15,7 +15,11 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  ACTIVE_STATUS_OPTIONS,
+  RECEIPT_DEPARTMENT_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useReceiptDepartmentManagement from '~/modules/wmsx/redux/hooks/useReceiptDepartmentManagement'
 import {
@@ -98,6 +102,9 @@ function ReceiptDepartmentManagement() {
       headerName: t('receiptDepartmentManagement.departmentType'),
       width: 120,
       sortable: true,
+      renderCell: (params) => {
+        return t(`${RECEIPT_DEPARTMENT_TYPE_MAP[params?.row?.departmentType]}`)
+      },
     },
     {
       field: 'description',
@@ -154,9 +161,9 @@ function ReceiptDepartmentManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
+            {/* <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
-            </IconButton>
+            </IconButton> */}
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -187,9 +194,9 @@ function ReceiptDepartmentManagement() {
     setSelectedRows([])
   }, [keyword, sort, filters])
 
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
+  // const onClickDelete = (tempItem) => {
+  //   setModal({ tempItem, isOpenDeleteModal: true })
+  // }
 
   const onSubmitDelete = () => {
     actions.deleteReceiptDepartment(modal.tempItem?.id, () => {

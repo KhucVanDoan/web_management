@@ -22,6 +22,7 @@ import {
   DATA_TYPE_OPTIONS,
   DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT,
   DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT,
+  DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER,
   PARENT_BUSINESS_TYPE,
   PARENT_BUSINESS_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
@@ -54,7 +55,9 @@ function BusinessTypeManagementForm() {
     () => ({
       code: businessTypeDetails?.code || '',
       name: businessTypeDetails?.name || '',
-      parentBusiness: `${businessTypeDetails?.parentBussiness}` || '',
+      parentBusiness: businessTypeDetails
+        ? `${businessTypeDetails?.parentBussiness}`
+        : '',
       description: businessTypeDetails?.description || '',
       itemOption:
         businessTypeDetails?.bussinessTypeAttributes
@@ -81,7 +84,7 @@ function BusinessTypeManagementForm() {
             labelEBS: item?.ebsLabel,
             fieldName: item?.fieldName,
             required: Boolean(item?.required),
-            show: Boolean(item?.required),
+            show: true,
             type: '',
             code: item?.code,
             columnName: item?.columnName,
@@ -219,6 +222,7 @@ function BusinessTypeManagementForm() {
       } else if (Number(val) === Number(PARENT_BUSINESS_TYPE.IMPORT)) {
         setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT)
       } else {
+        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER)
       }
     }
   }
@@ -267,7 +271,7 @@ function BusinessTypeManagementForm() {
                       label={t('businessTypeManagement.code')}
                       placeholder={t('businessTypeManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}
