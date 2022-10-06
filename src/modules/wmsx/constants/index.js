@@ -1649,23 +1649,23 @@ export const WAREHOUSE_NATURE_OPTIONS = [
 ]
 
 export const WAREHOUSE_LOT_TYPE = {
-  LOT: 0,
-  NO_LOT: 1,
+  NO_LOT: 0,
+  LOT: 1,
 }
 
 export const WAREHOUSE_LOT_TYPE_MAP = {
-  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
   [WAREHOUSE_LOT_TYPE.NO_LOT]: 'defineWarehouse.noLot',
+  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
 }
 
 export const WAREHOUSE_LOT_TYPE_OPTIONS = [
   {
     id: 0,
-    text: 'defineWarehouse.lot',
+    text: 'defineWarehouse.noLot',
   },
   {
     id: 1,
-    text: 'defineWarehouse.noLot',
+    text: 'defineWarehouse.lot',
   },
 ]
 
