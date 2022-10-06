@@ -6,6 +6,8 @@ import CompanyChart from '../feature/company-chart/list'
 import CompanyCustomerSetting from '../feature/company-customer-setting'
 import DepartmentAssign from '../feature/department-list/assign'
 import DepartmentList from '../feature/department-list/list'
+import DefineRoleDetail from '../feature/role-list/detail'
+import DefineRoleForm from '../feature/role-list/form'
 import RoleList from '../feature/role-list/list'
 import ChangePassword from '../feature/user-info/change-password'
 import UserInfoDetail from '../feature/user-info/user-detail'
@@ -59,7 +61,26 @@ const routes = [
         path: ROUTE.ROLE_LIST.LIST.PATH,
         component: RoleList,
         isInSidebar: true,
-        subMenu: [],
+        subMenu: [
+          {
+            name: ROUTE.ROLE_LIST.CREATE.TITLE,
+            path: ROUTE.ROLE_LIST.CREATE.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.DETAIL.TITLE,
+            path: ROUTE.ROLE_LIST.DETAIL.PATH,
+            component: DefineRoleDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.EDIT.TITLE,
+            path: ROUTE.ROLE_LIST.EDIT.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+        ],
       },
       {
         name: ROUTE.USER_PERMISSION.TITLE,
