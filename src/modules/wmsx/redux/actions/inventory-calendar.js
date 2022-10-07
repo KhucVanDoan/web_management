@@ -47,6 +47,20 @@ export const REJECT_INVENTORY_CALENDAR_SUCCESS =
 export const REJECT_INVENTORY_CALENDAR_FAILED =
   'WMSX_REJECT_INVENTORY_CALENDAR_FAILED'
 
+export const APPROVE_INVENTORY_CALENDAR_START =
+  'WMSX_APPROVE_INVENTORY_CALENDAR_START'
+export const APPROVE_INVENTORY_CALENDAR_SUCCESS =
+  'WMSX_APPROVE_INVENTORY_CALENDAR_SUCCESS'
+export const APPROVE_INVENTORY_CALENDAR_FAILED =
+  'WMSX_APPROVE_INVENTORY_CALENDAR_FAILED'
+
+export const CHECK_ITEM_NOT_EXECUTED_START =
+  'WMSX_CHECK_ITEM_NOT_EXECUTED_START'
+export const CHECK_ITEM_NOT_EXECUTED_SUCCESS =
+  'WMSX_CHECK_ITEM_NOT_EXECUTED_SUCCESS'
+export const CHECK_ITEM_NOT_EXECUTED_FAILED =
+  'WMSX_CHECK_ITEM_NOT_EXECUTED_FAILED'
+
 export const GET_LIST_ITEM_DETAIL_RECIPT_START =
   'WMSX_GET_LIST_ITEM_DETAIL_RECIPT_START'
 export const GET_LIST_ITEM_DETAIL_RECIPT_SUCCESS =
@@ -401,6 +415,72 @@ export function getListItemDetailReciptFailed() {
   }
 }
 
+export function approveInventoryCalendarById(
+  inventoryCalendarId,
+  onSuccess,
+  onError,
+) {
+  return {
+    type: APPROVE_INVENTORY_CALENDAR_START,
+    payload: inventoryCalendarId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get approve production order by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function approveInventoryCalendarByIdSuccess(payload) {
+  return {
+    type: APPROVE_INVENTORY_CALENDAR_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get approve production order by id failed action
+ * @returns {object}
+ */
+export function approveInventoryCalendarByIdFailed() {
+  return {
+    type: APPROVE_INVENTORY_CALENDAR_FAILED,
+  }
+}
+
+export function checkItemNotExecuted(payload, onSuccess, onError) {
+  return {
+    type: CHECK_ITEM_NOT_EXECUTED_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Search inventoryCalendar success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function checkItemNotExecutedSuccess(payload) {
+  return {
+    type: CHECK_ITEM_NOT_EXECUTED_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Search inventoryCalendar failed action
+ * @returns {object}
+ */
+export function checkItemNotExecutedFailed() {
+  return {
+    type: CHECK_ITEM_NOT_EXECUTED_FAILED,
+  }
+}
+
 export function resetInventoryCalendarDetailsState() {
   return {
     type: RESET_INVENTORY_CALENDAR_DETAILS_STATE,
@@ -436,4 +516,10 @@ export default {
   getListItemDetailRecipt,
   getListItemDetailReciptSuccess,
   getListItemDetailReciptFailed,
+  approveInventoryCalendarById,
+  approveInventoryCalendarByIdSuccess,
+  approveInventoryCalendarByIdFailed,
+  checkItemNotExecuted,
+  checkItemNotExecutedSuccess,
+  checkItemNotExecutedFailed,
 }

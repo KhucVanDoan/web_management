@@ -192,7 +192,10 @@ function InventoryCalendar() {
                 bold={false}
                 onClick={() => {
                   history.push(
-                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                    ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
                   )
                 }}
               >

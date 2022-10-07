@@ -15,6 +15,7 @@ import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Clone } from '~/assets/images/icons/clone.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
 import { ReactComponent as Collapse } from '~/assets/images/icons/collapse.svg'
+import { ReactComponent as Confirm } from '~/assets/images/icons/confirm.svg'
 import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
 import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as DownloadAlt } from '~/assets/images/icons/downloadAlt.svg'
@@ -104,6 +105,7 @@ const icons = {
   locked: <Locked />,
   unlock: <Unlock />,
   updateQuantity: <UpdateQuantity />,
+  confirm: <Confirm />,
   // menu
   drawer: <Drawer />,
   home: <Home />,
