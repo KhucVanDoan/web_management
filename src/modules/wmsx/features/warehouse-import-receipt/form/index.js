@@ -55,7 +55,12 @@ function WarehouseImportReceiptForm() {
   const history = useHistory()
   const { id } = useParams()
   const routeMatch = useRouteMatch()
-  const [items, setItems] = useState([])
+  const [itemReceipt, setItemReceipt] = useState([])
+  const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
+    useState([])
+  const [itemWarehouseExportReceipt, setItemWarehouseExportReceipt] = useState(
+    [],
+  )
   const {
     data: {
       warehouseImportReceiptDetails,
@@ -85,7 +90,7 @@ function WarehouseImportReceiptForm() {
           }
         : null,
       departmentReceiptId:
-        warehouseImportReceiptDetails?.departmentReceiptId || '',
+        warehouseImportReceiptDetails?.departmentReceipt || '',
       warehouseId: warehouseImportReceiptDetails?.warehouse || '',
       reasonId: warehouseImportReceiptDetails?.reason || '',
       sourceId: warehouseImportReceiptDetails?.source || '',
@@ -185,7 +190,7 @@ function WarehouseImportReceiptForm() {
             )?.value,
           ),
         )
-        setItems(res?.data?.items)
+        setItemReceipt(res?.data?.items)
       }
       if (
         !isEmpty(
@@ -206,7 +211,7 @@ function WarehouseImportReceiptForm() {
           ),
           warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
         })
-        setItems(res?.data)
+        setItemWarehouseExportProposal(res?.data)
       }
       if (
         !isEmpty(
@@ -222,7 +227,7 @@ function WarehouseImportReceiptForm() {
             )?.value,
           ),
         )
-        setItems(res?.data?.items)
+        setItemWarehouseExportReceipt(res?.data?.items)
       }
     }
   }, [warehouseImportReceiptDetails])
@@ -321,6 +326,7 @@ function WarehouseImportReceiptForm() {
     setFieldValue('receiptNo', '')
     setFieldValue('warehouseExportReceipt', '')
   }
+
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -337,6 +343,10 @@ function WarehouseImportReceiptForm() {
             enableReinitialize
           >
             {({ handleReset, values, setFieldValue }) => {
+              const receiptRequired =
+                values?.businessTypeId?.bussinessTypeAttributes?.find(
+                  (item) => item?.tableName === 'receipts' && item?.required,
+                )?.id
               return (
                 <Form>
                   <Grid
@@ -442,6 +452,7 @@ function WarehouseImportReceiptForm() {
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
+                        disabled={values[receiptRequired]}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
@@ -494,9 +505,20 @@ function WarehouseImportReceiptForm() {
                       values?.businessTypeId?.bussinessTypeAttributes,
                       t,
                       values,
-                      setItems,
+                      setItemWarehouseExportReceipt,
+                      setItemWarehouseExportProposal,
+                      setItemReceipt,
                       setFieldValue,
                     )}
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="contractNumber"
+                        label={t('warehouseImportReceipt.contractNumber')}
+                        placeholder={t('warehouseImportReceipt.contractNumber')}
+                        disabled
+                        required
+                      />
+                    </Grid>
                     <Grid item xs={12}>
                       <Field.TextField
                         name="explaination"
@@ -519,7 +541,13 @@ function WarehouseImportReceiptForm() {
                           mode={mode}
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
-                          itemList={items}
+                          itemList={
+                            itemReceipt?.length > 0
+                              ? itemReceipt
+                              : itemWarehouseExportProposal?.length > 0
+                              ? itemWarehouseExportProposal
+                              : itemWarehouseExportReceipt
+                          }
                           values={values}
                         />
                       )}

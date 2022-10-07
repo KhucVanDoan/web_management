@@ -10,7 +10,6 @@ import {
   ORDER_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
 } from '~/modules/wmsx/constants'
-import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { searchExpenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/search-expenditure-org'
@@ -19,7 +18,6 @@ import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/searc
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/search-receipt'
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
-import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import {
   getWarehouseExportProposalItems,
@@ -45,30 +43,13 @@ const DisplayFollowBusinessTypeManagement = (
   type,
   t,
   values,
-  setItemWarehouseExportReceipt,
-  setItemWarehouseExportProposal,
-  setItems,
   setItemWarehouseExport,
   setFieldValue,
 ) => {
-  const { actions } = useReceiptManagement()
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
   )?.id
-  const handleChangeReceipt = (val) => {
-    setItems([])
-    setFieldValue('items', DEFAULT_ITEMS)
-    if (val) {
-      setFieldValue('items', DEFAULT_ITEMS)
-      actions.getReceiptDetailsById(val?.id, (data) => {
-        setFieldValue('warehouseId', data?.warehouse)
-        setItems(data?.items)
-      })
-    }
-  }
-
   const handleChangeProposals = async (val) => {
-    setItemWarehouseExportProposal([])
     if (val) {
       if (!isEmpty(values?.warehouseId)) {
         setFieldValue('items', DEFAULT_ITEMS)
@@ -77,7 +58,7 @@ const DisplayFollowBusinessTypeManagement = (
           warehouseId: values?.warehouseId?.id,
         }
         const res = await getWarehouseExportProposalItems(params)
-        setItemWarehouseExportProposal(res?.data)
+
         setItemWarehouseExport(res?.data)
       }
     }
@@ -86,13 +67,6 @@ const DisplayFollowBusinessTypeManagement = (
     if (val) {
       const res = await getWarehouseImportReceiptDetailsApi(val?.id)
       setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
-    }
-  }
-  const handleChangeWarehouseExportReceipt = async (val) => {
-    setItemWarehouseExportReceipt([])
-    if (val) {
-      const res = await getWarehouseExportReceiptDetailsApi(val?.id)
-      setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
     }
   }
   const display = []
@@ -169,7 +143,6 @@ const DisplayFollowBusinessTypeManagement = (
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
                         status: 1,
-                        constructionId: values[constructions]?.id,
                       }),
                     })
                   }
@@ -235,7 +208,6 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={item?.required ? true : false}
-                  onChange={(val) => handleChangeReceipt(val)}
                 />
               </Grid>,
             )
@@ -262,7 +234,6 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={item?.required ? true : false}
-                  onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                 />
               </Grid>,
             )

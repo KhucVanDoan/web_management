@@ -54,6 +54,18 @@ export const ROUTE = {
       PATH: '/configuration/role-list',
       TITLE: 'defineRole',
     },
+    CREATE: {
+      PATH: '/configuration/role-list/create',
+      TITLE: 'roleCreate',
+    },
+    DETAIL: {
+      PATH: '/configuration/role-list/:id/detail',
+      TITLE: 'roleDetail',
+    },
+    EDIT: {
+      PATH: '/configuration/role-list/:id/edit',
+      TITLE: 'roleEdit',
+    },
   },
   ACCOUNT: {
     DETAIL: {

@@ -9,9 +9,9 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = ({
   items,
@@ -27,11 +27,6 @@ const ItemSettingTable = ({
   const {
     data: { detailSourceManagement },
   } = useSourceManagement()
-  const check = values?.businessTypeId?.bussinessTypeAttributes?.filter(
-    (item) =>
-      item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT ||
-      item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-  )
   const handleChangeItem = (val, index) => {
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
@@ -71,7 +66,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suplliesCode
-          ) : check?.length > 0 ? (
+          ) : itemList?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
@@ -89,7 +84,9 @@ const ItemSettingTable = ({
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
-                  warehouseId: values?.warehouseId?.id,
+                  filter: convertFilterParams({
+                    warehouseId: values?.warehouseId?.id,
+                  }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
@@ -268,7 +265,7 @@ const ItemSettingTable = ({
         },
       },
     ],
-    [items, itemList, check],
+    [items, itemList, values],
   )
   return (
     <>

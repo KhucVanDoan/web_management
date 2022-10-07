@@ -5,8 +5,12 @@ import watchUpdateCompanyCustomerSetting from './company-customer-setting/update
 import watchGetDepartmentAssignDetails from './department-list/get-department-assign'
 import watchSearchDepartmentList from './department-list/search-department-list'
 import watchUpdateDepartmentAssign from './department-list/update-department-assign'
+import watchCreateRole from './role-list/create-role'
+import watchDeleteRole from './role-list/delete-role'
 import watchGetRoleAssignDetails from './role-list/get-role-assign'
+import watchGetRoleDetails from './role-list/get-role-detail'
 import watchSearchRoleList from './role-list/search-role-list'
+import watchUpdateRole from './role-list/update-role'
 import watchUpdateRoleAssign from './role-list/update-role-assign'
 import watchChangePassword from './user-info/change-password'
 import watchGetUserInfoDetails from './user-info/get-user-info'
@@ -31,6 +35,10 @@ export default function* sagas() {
     watchGetRoleAssignDetails(),
     watchSearchRoleList(),
     watchUpdateRoleAssign(),
+    watchCreateRole(),
+    watchUpdateRole(),
+    watchGetRoleDetails(),
+    watchDeleteRole(),
 
     //user-permission
     watchGetUserPermissionDetails(),

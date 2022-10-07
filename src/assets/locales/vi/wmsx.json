@@ -2894,6 +2894,7 @@
     "source": "Nguồn tài khoản kế toán",
     "sourceFilter": "Nguồn TTKT",
     "project": "Công trình",
+    "contractNumber": "Số hợp đồng",
     "task": "Hạng mục",
     "receiptNo": "Số phiếu ",
     "suggestExport": "Giấy đề nghị xuất vật tư",
