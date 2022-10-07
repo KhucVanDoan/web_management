@@ -66,6 +66,7 @@ const DisplayFollowBusinessTypeManagement = (
       })
     }
   }
+
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (val) {
