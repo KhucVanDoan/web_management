@@ -385,7 +385,48 @@
     "dayOfWeeks5": "Thứ 6",
     "dayOfWeeks6": "Thứ 7",
     "movementReport": {
-      "title": "Số lượng giao dịch trong tháng"
+      "title": "Số lượng giao dịch trong tháng",
+      "movementQuantity": "Lượng hàng giao dịch",
+      "exportQuantity": "Số lượng xuất",
+      "importQuantity": "Số lượng nhập",
+      "exportValue": "Giá trị xuất ",
+      "importValue": "Giá trị nhập ",
+      "export": "Xuất",
+      "import": "Nhập",
+      "transfer": "Chuyển kho"
+    },
+    "importReceipt": {
+      "title": "Phiếu nhập kho",
+      "total": "Tổng",
+      "import": "Nhập kho",
+      "inStock": "Đang cất hàng",
+      "finishStock": "Cất hàng xong",
+      "ebsImport": "Nhập kho EBS"
+    },
+    "exportReceipt": {
+      "title": "Phiếu xuất kho",
+      "total": "Tổng",
+      "pickingItem": "Đang lấy hàng",
+      "pendingExport": "Chờ xuất kho",
+      "exported": "Đã xuất kho",
+      "ebsExport": "Xuất kho EBS"
+    },
+    "stockItemReport": {
+      "title": "Hàng tồn kho"
+    },
+    "exportProposal": {
+      "title": "Đề nghị xuất vật tư"
+    },
+    "inventoryQuantity": {
+      "title": "Lượng hàng tồn kho",
+      "quantity": "Số lượng",
+      "value": "Giá trị (triệu đồng)"
+    },
+    "stockItemSCL": {
+      "title": "Hàng tồn kho theo công trình SCL"
+    },
+    "materialUsed": {
+      "title": "Vật tư sử dụng nhiều nhất"
     }
   },
   "definePallet": {
