@@ -13,9 +13,9 @@ import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   CHECK_POINT_DATA_TYPE_MAP,
+  INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
   INVENTORY_TYPE_MAP,
-  ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import ItemsSettingTable from '~/modules/wmsx/features/inventory-calendar/form/items-setting-table'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
@@ -86,7 +86,7 @@ const InventoryCalendarDetail = () => {
                 label={t('inventoryCalendar.status')}
                 value={
                   <Status
-                    options={ORDER_STATUS_OPTIONS}
+                    options={INVENTORY_CALENDAR_STATUS_OPTIONS}
                     value={inventoryCalendarDetails?.status}
                   />
                 }
