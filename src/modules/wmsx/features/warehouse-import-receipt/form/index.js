@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { Formik, Form, FieldArray } from 'formik'
 import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +13,7 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -32,11 +34,13 @@ import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-man
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { useClasses } from '~/themes'
 import { convertFilterParams } from '~/utils'
 
 import DisplayFollowBusinessTypeManagement from '../display-field'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
+import style from './style'
 
 const DEFAULT_ITEMS = {
   id: 1,
@@ -54,6 +58,7 @@ function WarehouseImportReceiptForm() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
+  const classes = useClasses(style)
   const routeMatch = useRouteMatch()
   const [itemReceipt, setItemReceipt] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
@@ -345,7 +350,7 @@ function WarehouseImportReceiptForm() {
             {({ handleReset, values, setFieldValue }) => {
               const receiptRequired =
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
-                  (item) => item?.tableName === 'receipts' && item?.required,
+                  (item) => item?.tableName === 'receipts',
                 )?.id
               return (
                 <Form>
@@ -378,6 +383,59 @@ function WarehouseImportReceiptForm() {
                         placeholder={t('warehouseImportReceipt.receiptDate')}
                         required
                       />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={
+                          <Box sx={{ mt: 8 / 12 }}>
+                            <FormLabel>
+                              <Typography color={'text.main'} component="span">
+                                {t('warehouseImportReceipt.Attachments')}
+                              </Typography>
+                            </FormLabel>
+                          </Box>
+                        }
+                      >
+                        {values?.attachments ? (
+                          <>
+                            <label htmlFor="select-file">
+                              <Typography
+                                className={classes.uploadText}
+                                sx={{ mt: 8 / 12 }}
+                              >
+                                {values?.Attachments?.name}
+                              </Typography>
+                            </label>
+                            <input
+                              hidden
+                              id="select-file"
+                              accept="file/*"
+                              multiple
+                              type="file"
+                              onChange={(e) => {
+                                setFieldValue('attachments', e.target.files[0])
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <Button
+                            component="label"
+                            sx={{ background: '#ffff' }}
+                          >
+                            <FileUploadIcon color="primary" />
+                            <input
+                              hidden
+                              accept="file/*"
+                              id="select-file"
+                              multiple
+                              type="file"
+                              onChange={(e) => {
+                                setFieldValue('attachments', e.target.files[0])
+                              }}
+                            />
+                          </Button>
+                        )}
+                      </LV>
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
@@ -510,15 +568,20 @@ function WarehouseImportReceiptForm() {
                       setItemReceipt,
                       setFieldValue,
                     )}
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="contractNumber"
-                        label={t('warehouseImportReceipt.contractNumber')}
-                        placeholder={t('warehouseImportReceipt.contractNumber')}
-                        disabled
-                        required
-                      />
-                    </Grid>
+                    {receiptRequired && (
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="contractNumber"
+                          label={t('warehouseImportReceipt.contractNumber')}
+                          placeholder={t(
+                            'warehouseImportReceipt.contractNumber',
+                          )}
+                          disabled
+                          required
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item xs={12}>
                       <Field.TextField
                         name="explaination"

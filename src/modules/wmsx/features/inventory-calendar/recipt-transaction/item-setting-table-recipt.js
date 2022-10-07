@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
@@ -9,10 +7,13 @@ import { useQueryState } from '~/common/hooks'
 import DataTableCollapse from '~/components/DataTableCollapse'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 
+import FilterForm from './filter-form'
+
 function ItemSettingTableRecipt() {
   const { id } = useParams()
   const { t } = useTranslation(['wmsx'])
-  const { page, pageSize, setPage, setPageSize, setSort } = useQueryState()
+  const { page, pageSize, setPage, setPageSize, setSort, filters, setFilters } =
+    useQueryState()
   const {
     data: { isLoadingItem, totalItem, itemListDetailRecipt },
     actions,
@@ -28,6 +29,7 @@ function ItemSettingTableRecipt() {
     }
     actions.getListItemDetailRecipt(params)
   }
+
   const dataTable = itemListDetailRecipt?.map((item) => ({
     ...item,
     planQuantity: +item?.planQuantity,
@@ -80,7 +82,7 @@ function ItemSettingTableRecipt() {
       headerName: t('inventoryCalendar.items.warehouseCode'),
       width: 50,
       renderCell: (params) => {
-        return params?.row?.warehouse?.code
+        return params?.row?.warehouseCode
       },
     },
     {
@@ -157,26 +159,15 @@ function ItemSettingTableRecipt() {
   ]
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 1,
-          mt: 2,
-        }}
-      >
-        <Typography variant="h4">
-          {t('inventoryCalendar.items.tableTitle')}
-        </Typography>
-      </Box>
       <DataTableCollapse
         rows={dataTable}
+        title={t('inventoryCalendar.items.tableTitle')}
         loading={isLoadingItem}
         total={totalItem}
         columns={getColumns}
         pageSize={pageSize}
         page={page}
+        filters={{ form: <FilterForm />, values: filters, onApply: setFilters }}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}

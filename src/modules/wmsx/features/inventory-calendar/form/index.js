@@ -69,7 +69,7 @@ const InventoryCalendarForm = () => {
       code: inventoryCalendarDetails?.code || '',
       name: inventoryCalendarDetails?.name || '',
       type: inventoryCalendarDetails?.type,
-      warehouses: inventoryCalendarDetails
+      warehouses: inventoryCalendarDetails?.warehouses
         ? inventoryCalendarDetails?.warehouses?.map((item) => item)
         : [],
       executionDay: inventoryCalendarDetails?.executeFrom

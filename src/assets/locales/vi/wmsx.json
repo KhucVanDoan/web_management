@@ -1581,6 +1581,8 @@
     "snapshotWmsx": "snapshot trên WMS",
     "dataClosing": "Dữ liệu chốt kỳ",
     "checkPointDataAttachment": "dữ liệu",
+    "approve": "Xác nhận hoàn thành ",
+    "titleApprove": "Còn vật tư chưa được kiểm kê, bạn có muốn ghi nhận số lượng tồn kho theo hệ thống thành số lượng tồn kho theo kiểm kê vào cuối kỳ không?",
     "items": {
       "tableTitle": "Danh sách vật tư",
       "addButton": "Thêm vật tư",
@@ -2896,7 +2898,7 @@
     "project": "Công trình",
     "contractNumber": "Số hợp đồng",
     "task": "Hạng mục",
-    "receiptNo": "Số phiếu ",
+    "receiptNo": "Số receipt",
     "suggestExport": "Giấy đề nghị xuất vật tư",
     "explaination": "Diễn giải",
     "contractNo": "Số hợp đồng",
@@ -2915,6 +2917,7 @@
     "vendors": "Nhà cung cấp",
     "costTypes": "Loại chi phí",
     "organizationPayments": "Tổ chức chi",
+    "Attachments": "Tệp đính kèm",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

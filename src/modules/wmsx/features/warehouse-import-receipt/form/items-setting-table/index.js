@@ -22,7 +22,7 @@ function ItemsSettingTable(props) {
   } = useSourceManagement()
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
-    (item) => item?.tableName === 'receipts' && item?.required,
+    (item) => item?.tableName === 'receipts',
   )?.id
   const handleChangeItem = (val, index) => {
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
@@ -159,7 +159,7 @@ function ItemsSettingTable(props) {
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantity
-          ) : receiptRequired ? (
+          ) : values[receiptRequired] ? (
             <Field.TextField
               name={`items[${index}].importQuantity`}
               disabled={true}

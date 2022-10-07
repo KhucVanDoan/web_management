@@ -130,6 +130,8 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchRejectWarehouse from './define-warehouse/reject-warehouse'
 import watchSearchWarehouse from './define-warehouse/search-warehouse'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchApproveInventoryCalendar from './inventory-calendar/approve-inventory-calendar'
+import watchCheckItemNotExecuted from './inventory-calendar/check-items-not-executed'
 import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
 import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
 import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
@@ -523,6 +525,8 @@ export default function* sagas() {
     watchRejectInventoryCalendar(),
     watchSearchInventoryCalendars(),
     watchUpdateInventoryCalendar(),
+    watchApproveInventoryCalendar(),
+    watchCheckItemNotExecuted(),
     //warehouse-import-receipt
     watchSearchWarehouseImportReceipt(),
     watchCreateWarehouseImportReceipt(),
