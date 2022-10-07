@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
@@ -21,12 +21,9 @@ import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import {
-  getWarehouseExportProposalItems,
-  getWarehouseImportReceiptDetailsApi,
-} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
-import { searchWarehouseImportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/search'
+import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { convertFilterParams } from '~/utils'
+
 const DEFAULT_ITEMS = [
   {
     id: 1,
@@ -47,8 +44,7 @@ const DisplayFollowBusinessTypeManagement = (
   values,
   setItemWarehouseExportReceipt,
   setItemWarehouseExportProposal,
-  setItems,
-  setItemWarehouseExport,
+  setItemReceipt,
   setFieldValue,
 ) => {
   const { actions } = useReceiptManagement()
@@ -56,13 +52,12 @@ const DisplayFollowBusinessTypeManagement = (
     (item) => item?.tableName === 'constructions',
   )?.id
   const handleChangeReceipt = (val) => {
-    setItems([])
+    setItemReceipt([])
     setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
-      setFieldValue('items', DEFAULT_ITEMS)
       actions.getReceiptDetailsById(val?.id, (data) => {
         setFieldValue('warehouseId', data?.warehouse)
-        setItems(data?.items)
+        setItemReceipt(data?.items)
       })
     }
   }
@@ -78,14 +73,7 @@ const DisplayFollowBusinessTypeManagement = (
         }
         const res = await getWarehouseExportProposalItems(params)
         setItemWarehouseExportProposal(res?.data)
-        setItemWarehouseExport(res?.data)
       }
-    }
-  }
-  const handleChangeWarehouseImportReciept = async (val) => {
-    if (val) {
-      const res = await getWarehouseImportReceiptDetailsApi(val?.id)
-      setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
     }
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
@@ -104,7 +92,17 @@ const DisplayFollowBusinessTypeManagement = (
             <Field.TextField
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -115,7 +113,17 @@ const DisplayFollowBusinessTypeManagement = (
               name={`${item.id}`}
               label={item?.fieldName}
               type="number"
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -125,7 +133,17 @@ const DisplayFollowBusinessTypeManagement = (
             <Field.DatePicker
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -152,7 +170,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -181,7 +206,14 @@ const DisplayFollowBusinessTypeManagement = (
                   disabled={!values[constructions]}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                 />
               </Grid>,
@@ -207,8 +239,15 @@ const DisplayFollowBusinessTypeManagement = (
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
                   disabled={!values?.warehouseId}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeProposals(val)}
                 />
               </Grid>,
@@ -234,7 +273,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeReceipt(val)}
                 />
               </Grid>,
@@ -261,7 +307,14 @@ const DisplayFollowBusinessTypeManagement = (
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                 />
               </Grid>,
@@ -286,7 +339,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -310,7 +370,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -334,7 +401,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                 />
               </Grid>,
             )
@@ -358,31 +432,14 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
-                />
-              </Grid>,
-            )
-          case 'purchased_order_imports':
-            return display.push(
-              <Grid item lg={6} xs={12}>
-                <Field.Autocomplete
-                  name={`${item.id}`}
-                  label={t(`warehouseExportReceipt.warehouseImportReceipt`)}
-                  asyncRequest={(s) => {
-                    return searchWarehouseImportReceiptApi({
-                      keyword: s,
-                      limit: ASYNC_SEARCH_LIMIT,
-                      filter: convertFilterParams({
-                        status: ORDER_STATUS.CONFIRMED,
-                      }),
-                    })
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (!isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
                   }}
-                  asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={values?.businessTypeId}
-                  getOptionLabel={(opt) => opt?.code}
-                  isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
-                  onChange={(val) => handleChangeWarehouseImportReciept(val)}
                 />
               </Grid>,
             )

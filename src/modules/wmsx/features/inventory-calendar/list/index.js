@@ -15,9 +15,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  INVENTORY_CALENDAR_STATUS,
+  INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE_MAP,
-  ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -121,7 +121,7 @@ function InventoryCalendar() {
         const status = Number(params?.row.status)
         return (
           <Status
-            options={ORDER_STATUS_OPTIONS}
+            options={INVENTORY_CALENDAR_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -138,13 +138,14 @@ function InventoryCalendar() {
       renderCell: (params) => {
         const { status, id } = params.row
         const hasEditDeleteBtn =
-          status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
-        const isConfirmed = status === ORDER_STATUS.PENDING
-        const isRejected = status === ORDER_STATUS.PENDING
+          status === INVENTORY_CALENDAR_STATUS.PENDING ||
+          status === INVENTORY_CALENDAR_STATUS.REJECTED
+        const isConfirmed = status === INVENTORY_CALENDAR_STATUS.PENDING
+        const isRejected = status === INVENTORY_CALENDAR_STATUS.PENDING
 
         const hasTransaction =
-          status === ORDER_STATUS.COMPLETED ||
-          status === ORDER_STATUS.IN_PROGRESS
+          status === INVENTORY_CALENDAR_STATUS.COMPLETED ||
+          status === INVENTORY_CALENDAR_STATUS.IN_PROGRESS
         return (
           <div>
             <IconButton
@@ -192,7 +193,10 @@ function InventoryCalendar() {
                 bold={false}
                 onClick={() => {
                   history.push(
-                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                    ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
                   )
                 }}
               >
