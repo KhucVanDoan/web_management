@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Grid, Hidden } from '@mui/material'
+import { Box, Grid, Hidden } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
+import Dialog from '~/components/Dialog'
+import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
   CHECK_POINT_DATA_TYPE_MAP,
+  INVENTORY_CALENDAR_STATUS,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
   INVENTORY_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
+import { checkItemNotExecutedApi } from '~/modules/wmsx/redux/sagas/inventory-calendar/check-items-not-executed'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
 
@@ -43,7 +48,7 @@ const ReciptDetail = () => {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
-
+  const [openModal, setOpenModal] = useState(false)
   const {
     data: { inventoryCalendarDetails, isLoading },
     actions,
@@ -59,7 +64,17 @@ const ReciptDetail = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_CALENDAR.LIST.PATH)
   }
-
+  const handleClick = async () => {
+    const res = await checkItemNotExecutedApi(id)
+    if (res?.statusCode === 200) {
+      actions.approveInventoryCalendarById(id, backToList)
+    } else {
+      setOpenModal(true)
+    }
+  }
+  const onSubmit = () => {
+    actions.approveInventoryCalendarById(id, backToList)
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -174,11 +189,39 @@ const ReciptDetail = () => {
               </Grid>
             )}
           </Grid>
-          <ItemSettingTableRecipt />
+          <Box mt={2}>
+            <ItemSettingTableRecipt />
+          </Box>
         </Grid>
       </Grid>
-
-      <ActionBar onBack={backToList} />
+      <ActionBar
+        onBack={backToList}
+        elAfter={
+          inventoryCalendarDetails?.status ===
+          INVENTORY_CALENDAR_STATUS.IN_PROGRESS ? (
+            <Button onClick={handleClick}>
+              <Icon name="confirm" mr={1} />
+              {t(`inventoryCalendar.approve`)}
+            </Button>
+          ) : (
+            ''
+          )
+        }
+      />
+      <Dialog
+        open={openModal}
+        title={t('general:common.notify')}
+        onCancel={() => setOpenModal(false)}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmit}
+        submitLabel={t('general:common.yes')}
+        noBorderBottom
+        submitProps={{
+          color: 'error',
+        }}
+      >
+        {t('inventoryCalendar.titleApprove')}
+      </Dialog>
     </Page>
   )
 }
