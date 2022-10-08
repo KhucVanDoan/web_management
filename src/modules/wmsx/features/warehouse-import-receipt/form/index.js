@@ -503,9 +503,9 @@ function WarehouseImportReceiptForm() {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}

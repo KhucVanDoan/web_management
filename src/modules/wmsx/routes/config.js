@@ -620,6 +620,24 @@ export const ROUTE = {
       TITLE: 'inventorySheet',
     },
   },
+  WAREHOUSE_TRANSFER: {
+    LIST: {
+      PATH: '/wms/warehouse-transfer',
+      TITLE: 'warehouseTransfer',
+    },
+    CREATE: {
+      PATH: '/wms/warehouse-transfer/create',
+      TITLE: 'warehouseTransferCreate',
+    },
+    EDIT: {
+      PATH: '/wms/warehouse-transfer/:id/edit',
+      TITLE: 'warehouseTransferEdit',
+    },
+    DETAIL: {
+      PATH: '/wms/warehouse-transfer/:id/detail',
+      TITLE: 'warehouseTransferDetail',
+    },
+  },
   USER_MANAGEMENT: {
     LIST: {
       PATH: '/wms/user-management',

@@ -233,6 +233,14 @@ import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject
 import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
 import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
+import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer'
+import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer'
+import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer'
+import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item'
+import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-detail'
+import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer'
+import watchSearchWarehouseTransfers from './warehouse-transfer/search-warehouse-transfer'
+import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-transfer'
 /**
  * Root saga
  */
@@ -536,5 +544,14 @@ export default function* sagas() {
     watchConfirmWarehouseImportReceipt(),
     watchRejectWarehouseImportReceipt(),
     watchGetAttribuiteBusinessTypeDetails(),
+    // warehouse transfer
+    watchConfirmWarehouseTransfer(),
+    watchCreateWarehouseTransfer(),
+    watchDeleteWarehouseTransfer(),
+    watchGetWarehouseTransferDetails(),
+    watchRejectWarehouseTransfer(),
+    watchSearchWarehouseTransfers(),
+    watchUpdateWarehouseTransfer(),
+    watchGetListItemWarehouseStock(),
   ])
 }

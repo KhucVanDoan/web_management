@@ -109,6 +109,9 @@ import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/for
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
+import WarehouseTransferDetail from '../features/warehouse-transfer/detail'
+import WarehouseTransferForm from '../features/warehouse-transfer/form'
+import WarehouseTransfer from '../features/warehouse-transfer/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -930,6 +933,32 @@ const routes = [
             name: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.TITLE,
             path: ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH,
             component: ReciptDetail,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
+        component: WarehouseTransfer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH,
+            component: WarehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH,
+            component: WarehouseTransferDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH,
+            component: WarehouseTransferForm,
             isInSidebar: false,
           },
         ],

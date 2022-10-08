@@ -1773,3 +1773,22 @@ export const WAREHOUSE_LAYOUTS = {
   DRAWER: 2,
   BIN: 3,
 }
+export const WAREHOUSE_TRANSFER_TYPE = {
+  WAREHOUSE_TRANSFER_LONG: 2,
+  WAREHOUSE_TRANSFER_SHORT: 1,
+}
+export const WAREHOUSE_TRANSFER_MAP = {
+  [WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG]: 'warehouseTransfer.long',
+  [WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT]: 'warehouseTransfer.short',
+}
+
+export const WAREHOUSE_TRANSFER_TYPE_OPTIONS = [
+  {
+    id: 1,
+    text: 'warehouseTransfer.short',
+  },
+  {
+    id: 2,
+    text: 'warehouseTransfer.long',
+  },
+]
