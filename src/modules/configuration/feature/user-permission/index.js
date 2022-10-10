@@ -143,14 +143,8 @@ function UserPermission() {
 
   const columns = [
     {
-      field: 'id',
-      headerName: t('userPermission.id'),
-      width: 80,
-    },
-    {
       field: 'feature',
       headerName: t('userPermission.feature'),
-      width: 250,
       align: 'left',
       renderCell: (params) => {
         return params?.row?.name
@@ -159,7 +153,7 @@ function UserPermission() {
     {
       field: 'assign',
       headerName: t('userPermission.assign'),
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         const { permissionSettings } = params.row
         const permission = (permissionList || [])
@@ -188,14 +182,13 @@ function UserPermission() {
   const additionColums = [
     {
       field: 'permissionSetting',
-      width: 350,
       renderCell: (params) => {
         return params?.row?.name
       },
     },
     {
       field: 'status',
-      width: 110,
+      width: 150,
       renderCell: (params) => {
         const { code } = params.row
         const isChecked = permissionList?.find(

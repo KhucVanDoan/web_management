@@ -20,21 +20,17 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import {
-  convertFilterParams,
-  convertSortParams,
-  convertUtcDateToLocalTz,
-} from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 
 const breadcrumbs = [
   {
-    title: 'orderManagement',
+    title: 'receiptCommandManagement',
   },
   {
-    route: ROUTE.WAREHOUSE_TRANSFERS.LIST.PATH,
-    title: ROUTE.WAREHOUSE_TRANSFERS.LIST.TITLE,
+    route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
+    title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
   },
 ]
 
@@ -73,12 +69,6 @@ const WarehouseTransfer = () => {
 
   const columns = useMemo(
     () => [
-      // {
-      //   field: 'id',
-      //   headerName: '#',
-      //   width: 80,
-      //   fixed: true,
-      // },
       {
         field: 'code',
         headerName: t('warehouseTransfer.code'),
@@ -94,61 +84,41 @@ const WarehouseTransfer = () => {
         fixed: true,
       },
       {
-        field: 'sourceWarehouseName',
-        headerName: t('warehouseTransfer.sourceWarehouseName'),
+        field: 'type',
+        headerName: t('warehouseTransfer.type'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.sourceWarehouse?.name
+          return params?.row?.name
         },
       },
       {
-        field: 'sourceFactoryName',
-        headerName: t('warehouseTransfer.sourceFactoryName'),
+        field: 'warehouseImport',
+        headerName: t('warehouseTransfer.warehouseImport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.sourceWarehouse?.factory?.name
+          return params?.row?.name
         },
       },
       {
-        field: 'destinationWarehouseName',
-        headerName: t('warehouseTransfer.destinationWarehouseName'),
+        field: 'warehouseExport',
+        headerName: t('warehouseTransfer.warehouseExport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.destinationWarehouse?.name
+          return params?.row?.name
         },
       },
       {
-        field: 'destinationFactoryName',
-        headerName: t('warehouseTransfer.destinationFactoryName'),
+        field: 'receiptNoEbs',
+        headerName: t('warehouseTransfer.receiptNoEbs'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.destinationWarehouse?.factory?.name
-        },
-      },
-      {
-        field: 'createdAt',
-        headerName: t('warehouseTransfer.createdAt'),
-        width: 200,
-        filterFomat: 'date',
-        sortable: true,
-        fixed: true,
-        renderCell: (params) => {
-          return convertUtcDateToLocalTz(params?.row?.createdAt)
-        },
-      },
-      {
-        field: 'createbyuser',
-        headerName: t('warehouseTransfer.createbyuser'),
-        width: 150,
-        sortable: true,
-        renderCell: (params) => {
-          return params?.row?.createdByUser?.fullName
+          return params?.row?.name
         },
       },
       {
         field: 'status',
         headerName: t('warehouseTransfer.status'),
-        width: 200,
+        width: 150,
         renderCell: (params) => {
           const { status } = params.row
           return (
@@ -163,7 +133,7 @@ const WarehouseTransfer = () => {
       {
         field: 'actions',
         headerName: t('warehouseTransfer.actions'),
-        width: 200,
+        width: 250,
         align: 'center',
         fixed: true,
         renderCell: (params) => {
@@ -183,7 +153,7 @@ const WarehouseTransfer = () => {
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_TRANSFERS.DETAIL.PATH.replace(
+                    ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
@@ -197,7 +167,7 @@ const WarehouseTransfer = () => {
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.WAREHOUSE_TRANSFERS.EDIT.PATH.replace(
+                      ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(
                         ':id',
                         `${id}`,
                       ),
@@ -229,7 +199,7 @@ const WarehouseTransfer = () => {
                   bold={false}
                   onClick={() =>
                     history.push(
-                      `${ROUTE.WAREHOUSE_TRANSFERS.TRANSACTIONS.LIST.PATH.replace(
+                      `${ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.PATH.replace(
                         ':parentId',
                         `${id}`,
                       )}`,
@@ -271,9 +241,9 @@ const WarehouseTransfer = () => {
     setIsOpenDeleteModal(true)
   }
   const onSubmitDelete = () => {
-    actions.deleteWarehouseTransfer(tempItem?.id, () => {
-      refreshData()
-    })
+    // actions.deleteWarehouseTransfer(tempItem?.id, () => {
+    //   refreshData()
+    // })
     setTempItem(null)
     setIsOpenDeleteModal(false)
   }
@@ -284,9 +254,9 @@ const WarehouseTransfer = () => {
   }
 
   const submitConfirm = () => {
-    actions.confirmWarehouseTransferById(tempItem?.id, () => {
-      refreshData()
-    })
+    // actions.confirmWarehouseTransferById(tempItem?.id, () => {
+    //   refreshData()
+    // })
     setTempItem(null)
     setIsOpenConfirmModal(false)
   }
@@ -295,9 +265,9 @@ const WarehouseTransfer = () => {
     setIsOpenRejectModal(true)
   }
   const submitReject = () => {
-    actions.rejectWarehouseTransferById(tempItem?.id, () => {
-      refreshData()
-    })
+    // actions.rejectWarehouseTransferById(tempItem?.id, () => {
+    //   refreshData()
+    // })
     setTempItem(null)
     setIsOpenRejectModal(false)
   }
@@ -305,7 +275,7 @@ const WarehouseTransfer = () => {
     return (
       <>
         <Button
-          onClick={() => history.push(ROUTE.WAREHOUSE_TRANSFERS.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH)}
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
@@ -325,7 +295,7 @@ const WarehouseTransfer = () => {
       loading={isLoading}
     >
       <DataTable
-        title={t('warehouseTransfer.title')}
+        title={t('warehouseTransfer.list')}
         columns={columns}
         rows={warehouseTransferList}
         pageSize={pageSize}

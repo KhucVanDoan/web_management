@@ -13,14 +13,12 @@ export const formSchema = (t) =>
     warehouseId: Yup.object().nullable().required(t('general:form.required')),
     reasonId: Yup.object().nullable().required(t('general:form.required')),
     sourceId: Yup.object().nullable().required(t('general:form.required')),
-    // explaination: Yup.object().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
         // importQuantity: Yup.string()
         //   .nullable()
         //   .required(t('general:form.required')),
-        money: Yup.string().nullable().required(t('general:form.required')),
       }),
     ),
   })
