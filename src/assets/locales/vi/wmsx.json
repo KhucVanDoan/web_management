@@ -163,6 +163,9 @@
     "departmentAssign": "Phân quyền bộ phận",
     "defineRole": "Định nghĩa vai trò",
     "roleList": "Quản lý vai trò người dùng",
+    "roleCreate": "Tạo vai trò",
+    "roleDetail": "Chi tiết vai trò",
+    "roleEdit": "Sửa vai trò",
     "roleAssign": "Phân quyền vai trò",
     "userInfo": "Thông tin cá nhân",
     "changePassword": "Đổi mật khẩu",
@@ -3057,5 +3060,18 @@
       "money": "Thành tiền",
       "price": "Đơn giá"
     }
+  },
+  "roleList": {
+    "title": "Danh sách vai trò",
+    "searchPlaceholder": "Tìm kiếm vai trò theo mã hoặc tên",
+    "code": "Mã vai trò",
+    "name": "Tên vai trò",
+    "note": "Ghi chú",
+    "roleCreate": "Tạo vai trò",
+    "roleEdit": "Sửa vai trò",
+    "roleDelete": "Xóa vai trò",
+    "confirmDelete": "Bạn có chắc chắc muốn xóa không?",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa"
   }
 }
