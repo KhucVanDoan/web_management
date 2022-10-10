@@ -75,7 +75,7 @@ const ManagementUnitForm = () => {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'database',
+        title: 'setting',
       },
       {
         route: ROUTE.UNIT_MANAGEMENT.LIST.PATH,

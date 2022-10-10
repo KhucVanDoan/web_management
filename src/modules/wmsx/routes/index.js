@@ -96,6 +96,7 @@ import SignatureConfiguration from '../features/signature-configuration'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
+import UnitManagementAssign from '../features/unit-management/assign'
 import UnitManagementDetail from '../features/unit-management/detail'
 import UnitManagementForm from '../features/unit-management/form'
 import UnitManagement from '../features/unit-management/list'
@@ -152,32 +153,6 @@ const routes = [
             name: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
             component: CompanyManagementForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
-        path: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
-        component: UnitManagement,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
-            component: UnitManagementForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.UNIT_MANAGEMENT.DETAIL.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.DETAIL.PATH,
-            component: UnitManagementDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
-            component: UnitManagementForm,
             isInSidebar: false,
           },
         ],
@@ -1132,6 +1107,38 @@ const routes = [
             name: ROUTE.ROLE_LIST.EDIT.TITLE,
             path: ROUTE.ROLE_LIST.EDIT.PATH,
             component: DefineRoleForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
+        component: UnitManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.DETAIL.PATH,
+            component: UnitManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.ASSIGN.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH,
+            component: UnitManagementAssign,
             isInSidebar: false,
           },
         ],

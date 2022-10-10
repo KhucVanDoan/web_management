@@ -156,6 +156,7 @@ import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
 import watchUpdateLocation from './location-management/update-location'
+import watchGetDepartmentAssignDetails from './management-unit/assign'
 import watchConfirmUnitManagement from './management-unit/confirm'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
@@ -272,6 +273,8 @@ export default function* sagas() {
     watchUpdateUnitManagement(),
     watchConfirmUnitManagement(),
     watchRejectUnitManagement(),
+    watchGetDepartmentAssignDetails(),
+
     //company-management
     watchCreateCompany(),
     watchDeleteCompany(),

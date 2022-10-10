@@ -13,9 +13,11 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useSetStoragePeriod from '~/modules/wmsx/redux/hooks/useSetStoragePeriod'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -170,6 +172,9 @@ function SetStoragePeriodForm() {
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
