@@ -3,6 +3,10 @@ export const ROUTE = {
     PATH: '/wms',
     TITLE: 'dashboard',
   },
+  SUB_DASHBOARD: {
+    PATH: '/wms/dashboard',
+    TITLE: 'dashboard',
+  },
   DATABASE: {
     TITLE: 'database',
   },
