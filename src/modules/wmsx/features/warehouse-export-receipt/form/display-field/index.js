@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
