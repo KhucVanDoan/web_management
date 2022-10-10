@@ -26,6 +26,7 @@
     "managementUnitCreate": "Tạo đơn vị",
     "managementUnitEdit": "Sửa đơn vị",
     "managementUnitDetail": "Chi tiết đơn vị",
+    "managementUnitAssign": "Phân quyền chức năng đơn vị",
     "receiptDepartmentManagement": "Quản lý phòng ban nhận",
     "receiptDepartmentManagementCreate": "Tạo phòng ban nhận",
     "receiptDepartmentManagementEdit": "Sửa phòng ban nhận",
@@ -2771,14 +2772,14 @@
     "searchPlaceholder": "Tìm kiếm thông tin...",
     "warehouseCode": "Mã kho",
     "warehouseName": "Tên kho",
-    "storageLimit": "Giới hạn lưu kho (ngày)",
-    "storageLimitTitle": "Giới hạn lưu kho",
+    "storageLimit": "Thời hạn lưu kho (ngày)",
+    "storageLimitTitle": "Thời hạn lưu kho",
     "warningPeriod": "Thời hạn cảnh báo lưu kho (ngày)",
     "warningPeriodTitle": "Thời hạn cảnh báo lưu kho",
     "createTime": "Thời gian tạo",
     "setStoragePeriodDelete": "Xóa thiết lập thời hạn lưu kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập thời hạn lưu kho này không?",
-    "messageWarning": "Thời hạn cảnh báo lưu kho phải nhỏ hơn giới hạn lưu kho"
+    "messageWarning": "Thời hạn cảnh báo lưu kho phải nhỏ hơn thời hạn lưu kho"
   },
   "qrCode": {
     "dataVersion": "Phiên bản dữ liệu",
@@ -3114,5 +3115,14 @@
     "confirmDelete": "Bạn có chắc chắc muốn xóa không?",
     "createdAt": "Ngày tạo",
     "updatedAt": "Ngày sửa"
+  },
+  "departmentAssign": {
+    "title": "Phân quyền chức năng đơn vị",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "departmentName": "Tên đơn vị",
+    "id": "Id",
+    "featureName": "Tên chức năng",
+    "assign": "Phân quyền",
+    "description": "Mô tả"
   }
 }

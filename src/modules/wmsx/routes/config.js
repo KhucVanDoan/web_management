@@ -45,6 +45,10 @@ export const ROUTE = {
       PATH: '/wms/unit-management/:id/edit',
       TITLE: 'managementUnitEdit',
     },
+    ASSIGN: {
+      PATH: '/wms/unit-management/:id/assign',
+      TITLE: 'managementUnitAssign',
+    },
   },
   RECEIPT_DEPARTMENT_MANAGEMENT: {
     LIST: {
