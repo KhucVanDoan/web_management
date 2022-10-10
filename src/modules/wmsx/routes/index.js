@@ -86,6 +86,9 @@ import ReceiptDepartmentManagement from '../features/receipt-department-manageme
 import ReceiptManagementDetail from '../features/receipt-management/detail'
 import ReceiptManagement from '../features/receipt-management/list'
 import ReportExport from '../features/report-export'
+import DefineRoleDetail from '../features/role-list/detail'
+import DefineRoleForm from '../features/role-list/form'
+import RoleList from '../features/role-list/list'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
@@ -1106,6 +1109,32 @@ const routes = [
         name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
         path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
         component: ChangePassword,
+      },
+      {
+        name: ROUTE.ROLE_LIST.LIST.TITLE,
+        path: ROUTE.ROLE_LIST.LIST.PATH,
+        component: RoleList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ROLE_LIST.CREATE.TITLE,
+            path: ROUTE.ROLE_LIST.CREATE.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.DETAIL.TITLE,
+            path: ROUTE.ROLE_LIST.DETAIL.PATH,
+            component: DefineRoleDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.EDIT.TITLE,
+            path: ROUTE.ROLE_LIST.EDIT.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

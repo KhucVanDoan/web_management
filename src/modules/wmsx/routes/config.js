@@ -685,6 +685,18 @@ export const ROUTE = {
       PATH: '/wms/role-list',
       TITLE: 'defineRole',
     },
+    CREATE: {
+      PATH: '/wms/role-list/create',
+      TITLE: 'roleCreate',
+    },
+    DETAIL: {
+      PATH: '/wms/role-list/:id/detail',
+      TITLE: 'roleDetail',
+    },
+    EDIT: {
+      PATH: '/wms/role-list/:id/edit',
+      TITLE: 'roleEdit',
+    },
   },
   ACCOUNT: {
     DETAIL: {

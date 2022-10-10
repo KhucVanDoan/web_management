@@ -192,6 +192,11 @@ import watchUpdateReceiptDepartment from './receipt-department-management/update
 import watchGetReceiptDetails from './receipt-management/get-receipt-details'
 import watchSearchReceipt from './receipt-management/search-receipt'
 import watchExportReport from './report-export/export-report'
+import watchCreateRole from './role-list/create-role'
+import watchDeleteRole from './role-list/delete-role'
+import watchGetRoleDetails from './role-list/get-role-detail'
+import watchSearchRoleList from './role-list/search-role-list'
+import watchUpdateRole from './role-list/update-role'
 import watchCreateStoragePeriod from './set-storage-period/create-storage-period'
 import watchDeleteStoragePeriod from './set-storage-period/delete-storage-period'
 import watchGetStoragePeriodDetails from './set-storage-period/get-storage-period-details'
@@ -553,5 +558,12 @@ export default function* sagas() {
     watchSearchWarehouseTransfers(),
     watchUpdateWarehouseTransfer(),
     watchGetListItemWarehouseStock(),
+
+    //role list
+    watchSearchRoleList(),
+    watchCreateRole(),
+    watchUpdateRole(),
+    watchGetRoleDetails(),
+    watchDeleteRole(),
   ])
 }
