@@ -2,23 +2,47 @@ import React from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { flatMap, isEmpty } from 'lodash'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { WAREHOUSE_TRANSFER_TYPE } from '~/modules/wmsx/constants'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values } = props
+  const { mode, arrayHelpers, items } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const {
-    data: { itemWarehouseStockList },
-  } = useWarehouseTransfer()
+  const itemList = []
+  const lots = []
+  const locators = []
+  items
+    ?.filter((e) => !isEmpty(e?.itemCode))
+    ?.forEach((item) => {
+      lots.push({
+        itemId: item?.itemCode?.itemId || item?.itemCode?.id,
+        lotNumber: item?.lotNumber,
+      })
+      const findLocator = locators?.find(
+        (e) => e?.itemId === item?.itemCode?.itemId,
+      )
+      if (isEmpty(findLocator)) {
+        locators.push({
+          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
+          locatorId: item?.locator?.locatorId,
+          code: item?.locator?.code,
+          name: item?.locator?.name,
+        })
+      }
+      const findItem = itemList?.find(
+        (e) => e?.itemId === item?.itemCode?.itemId,
+      )
+      if (isEmpty(findItem)) {
+        itemList.push(item?.itemCode)
+      }
+    })
+
   const getColumns = () => {
     return [
       {
@@ -34,15 +58,12 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.itemCode'),
         width: 150,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.itemCode?.code}</>
-          ) : (
+          return (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
-              options={itemWarehouseStockList}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              options={itemList}
+              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionLabel={(opt) => opt?.code}
-              disabled={!values?.sourceWarehouseId}
               required
             />
           )
@@ -53,9 +74,7 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.itemName'),
         width: 200,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.itemName}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].itemCode.name`}
               disabled={true}
@@ -68,9 +87,7 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.unit'),
         width: 150,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.itemCode?.itemUnit?.name}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].itemCode.itemUnit.name`}
               disabled={true}
@@ -78,25 +95,74 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG && {
+      {
+        field: 'lotNumber',
+        headerName: t('warehouseTransfer.table.lotNumber'),
+        width: 150,
+        renderCell: (params, index) => {
+          const lotNumberList = lots?.filter(
+            (item) =>
+              item?.itemId === params?.row?.itemCode?.itemId ||
+              item?.itemId === params?.row?.itemCode?.id,
+          )
+          return (
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              options={lotNumberList}
+              getOptionLabel={(opt) => opt.lotNumber}
+              getOptionValue={(option) => option?.lotNumber}
+              isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
+            />
+          )
+        },
+      },
+      {
+        field: 'transferQuantity',
+        headerName: t('warehouseTransfer.table.transferQuantity'),
+        width: 180,
+        renderCell: (params, index) => {
+          return (
+            <Field.TextField
+              name={`items[${index}].transferQuantity`}
+              disabled
+            />
+          )
+        },
+      },
+
+      {
+        field: 'actualExportedQuantity',
+        headerName: t('warehouseTransfer.table.actualexportedQuantity'),
+        width: 180,
+        renderCell: (params, index) => {
+          return (
+            <Field.TextField
+              name={`items[${index}].actualExportedQuantity`}
+              disabled
+            />
+          )
+        },
+      },
+      {
+        field: 'inputedQuantity',
+        headerName: t('warehouseTransfer.table.inputedQuantity'),
+        width: 180,
+        renderCell: (params, index) => {
+          return <Field.TextField name={`items[${index}].inputedQuantity`} />
+        },
+      },
+      {
         field: 'locator',
-        headerName: t('warehouseTransfer.table.locator'),
+        headerName: t('warehouseTransfer.table.locatorStored'),
         width: 150,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
-          const locations = itemWarehouseStockList?.find(
+          const locationList = locators?.filter(
             (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
-          )?.locations
-          const locationList = locations?.map((item) => ({
-            code: item?.locator?.code,
-            name: item?.locator?.name,
-            locatorId: item?.locator?.locatorId,
-          }))
-          return isView ? (
-            <>{params?.row?.locator?.code}</>
-          ) : (
+              item?.itemId === params?.row?.itemCode?.itemId ||
+              params?.row?.itemCode?.id,
+          )
+          return (
             <Field.Autocomplete
               name={`items[${index}].locator`}
               options={locationList}
@@ -107,95 +173,15 @@ const ItemSettingTable = (props) => {
         },
       },
       {
-        field: 'lotNumber',
-        headerName: t('warehouseTransfer.table.lotNumber'),
-        width: 150,
-        renderCell: (params, index) => {
-          const { itemCode } = params?.row
-          const locationList = itemWarehouseStockList?.find(
-            (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
-          )
-          return isView ? (
-            <>{params?.row?.lotNumber}</>
-          ) : (
-            <Field.Autocomplete
-              name={`items[${index}].lotNumber`}
-              options={flatMap(locationList?.locations, 'lots')}
-              disabled={
-                Boolean(values?.sourceWarehouseId?.manageByLot) &&
-                isEmpty(itemCode)
-              }
-              getOptionLabel={(opt) => opt.lotNumber}
-              getOptionValue={(option) => option?.lotNumber}
-            />
-          )
-        },
-      },
-      values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG && {
-        field: 'warehouseImportDate',
-        headerName: t('warehouseTransfer.table.warehouseImportDate'),
-        width: 180,
-        renderCell: (params, index) => {
-          return isView ? (
-            params?.row?.transferQuantity
-          ) : (
-            <Field.TextField
-              name={`items[${index}].warehouseImportDate`}
-              disabled={true}
-              placeholder={t('warehouseTransfer.table.warehouseImportDate')}
-            />
-          )
-        },
-      },
-      {
-        field: 'planExportedQuantity',
-        headerName: t('warehouseTransfer.table.planExportedQuantity'),
-        width: 180,
-        renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.planExportedQuantity}</>
-          ) : (
-            <Field.TextField
-              name={`items[${index}].itemCode.quantity`}
-              disabled
-            />
-          )
-        },
-      },
-      {
-        field: 'transferQuantity',
-        headerName: t('warehouseTransfer.table.transferQuantity'),
-        width: 180,
-        renderCell: (params, index) => {
-          const { itemCode } = params?.row
-          return isView ? (
-            params?.row?.transferQuantity
-          ) : (
-            <Field.TextField
-              name={`items[${index}].transferQuantity`}
-              disabled={isEmpty(itemCode)}
-            />
-          )
-        },
-      },
-
-      {
         field: 'itemCodeWarehouseImp',
         headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
         width: 100,
-        renderCell: (params, index) => {
-          return isView ? (
+        renderCell: (params) => {
+          return (
             <Checkbox
               checked={params?.row?.required}
               name="itemCodeWarehouseImp"
               disabled
-            />
-          ) : (
-            <Field.Checkbox
-              name={`itemDefault[${index}].itemCodeWarehouseImp`}
-              disabled={isView}
             />
           )
         },
@@ -205,9 +191,7 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.price'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.price}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].price`}
               type="number"
@@ -221,9 +205,7 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.amount'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.amount}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].amount`}
               type="number"
@@ -237,12 +219,11 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.debitAcc'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.debitAcc}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].debitAcc`}
               type="number"
+              value={'1519'}
               disabled={true}
             />
           )
@@ -253,9 +234,7 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.creditAcc'),
         width: 180,
         renderCell: (params, index) => {
-          return isView ? (
-            <>{params?.row?.creditAcc}</>
-          ) : (
+          return (
             <Field.TextField
               name={`items[${index}].creditAcc`}
               disabled={true}
@@ -297,26 +276,20 @@ const ItemSettingTable = (props) => {
           {t('warehouseTransfer.table.title')}
         </Typography>
         <Box>
-          {!isView && (
-            <Button
-              variant="outlined"
-              onClick={() => {
-                arrayHelpers.push({
-                  ids: new Date().getTime(),
-                  itemcode: null,
-                  itemName: '',
-                  itemType: '',
-                  lotNumber: '',
-                  mfg: '',
-                  packageId: '',
-                  planQuantity: 1,
-                  unitType: '',
-                })
-              }}
-            >
-              {t('warehouseTransfer.table.addButton')}
-            </Button>
-          )}
+          <Button
+            variant="outlined"
+            onClick={() => {
+              arrayHelpers.push({
+                id: new Date().getTime(),
+                itemName: '',
+                itemUnit: '',
+                packageId: '',
+                planQuantity: 1,
+              })
+            }}
+          >
+            {t('warehouseTransfer.table.addButton')}
+          </Button>
         </Box>
       </Box>
       <DataTable
