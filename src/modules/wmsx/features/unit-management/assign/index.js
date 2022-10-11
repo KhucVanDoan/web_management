@@ -62,7 +62,7 @@ function UnitManagementAssign() {
 
   const handleChangeCheckbox = (e, code) => {
     const newPermission = permissionList?.map((permission) => {
-      if (permission.code === code) {
+      if (permission?.code === code) {
         return {
           ...permission,
           status: e.target.checked ? 1 : 0,
