@@ -1,6 +1,14 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, Button, FormLabel, Grid, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormLabel,
+  Grid,
+  ListItemButton,
+  Typography,
+} from '@mui/material'
+import clsx from 'clsx'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -264,9 +272,38 @@ function MaterialManagementForm() {
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
+                      dropdownWidth={800}
+                      dropdownHeader={
+                        <Box className={classes.autocompleteDropdownHeader}>
+                          <Typography variant="h5">Mã loại</Typography>
+                          <Typography variant="h5">Tên loại</Typography>
+                          <Typography variant="h5">Mã nhóm chính</Typography>
+                          <Typography variant="h5">Tên nhóm chính</Typography>
+                          <Typography variant="h5">Mã nhóm phụ</Typography>
+                          <Typography variant="h5">Tên nhóm phụ</Typography>
+                        </Box>
+                      }
+                      renderOption={(optProps, opt = {}, selected, sx) => (
+                        <ListItemButton
+                          {...optProps}
+                          component="li"
+                          sx={sx}
+                          className={clsx(classes.autocompleteListItemButton, {
+                            [classes.autocompleteListItemButtonSelected]:
+                              selected,
+                          })}
+                        >
+                          <Box>{opt.code}</Box>
+                          <Box>{opt.name}</Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                        </ListItemButton>
+                      )}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
