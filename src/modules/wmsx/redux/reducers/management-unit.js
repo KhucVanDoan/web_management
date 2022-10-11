@@ -23,6 +23,9 @@ import {
   GET_DEPARTMENT_ASSIGN_DETAILS_FAILED,
   GET_DEPARTMENT_ASSIGN_DETAILS_START,
   GET_DEPARTMENT_ASSIGN_DETAILS_SUCCESS,
+  UPDATE_DEPARTMENT_ASSIGN_FAILED,
+  UPDATE_DEPARTMENT_ASSIGN_START,
+  UPDATE_DEPARTMENT_ASSIGN_SUCCESS,
   RESET_DEPARTMENT_ASSIGN_DETAILS_STATE,
   RESET_MANAGEMENT_UNIT_STATE,
 } from '~/modules/wmsx/redux/actions/management-unit'
@@ -50,6 +53,7 @@ export default function managementUnit(state = initialState, action) {
     case GET_MANAGEMENT_UNIT_START:
     case CONFIRM_UNIT_MANAGEMENT_START:
     case REJECT_UNIT_MANAGEMENT_START:
+    case UPDATE_DEPARTMENT_ASSIGN_START:
       return {
         ...state,
         isLoading: true,
@@ -77,6 +81,8 @@ export default function managementUnit(state = initialState, action) {
     case REJECT_UNIT_MANAGEMENT_FAILED:
     case GET_DEPARTMENT_ASSIGN_DETAILS_START:
     case GET_DEPARTMENT_ASSIGN_DETAILS_FAILED:
+    case UPDATE_DEPARTMENT_ASSIGN_SUCCESS:
+    case UPDATE_DEPARTMENT_ASSIGN_FAILED:
       return {
         ...state,
         isLoading: false,
@@ -102,7 +108,7 @@ export default function managementUnit(state = initialState, action) {
     case RESET_DEPARTMENT_ASSIGN_DETAILS_STATE:
       return {
         ...state,
-        departmentAssign: {},
+        departmentAssign: [],
       }
     default:
       return state
