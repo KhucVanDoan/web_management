@@ -19,7 +19,11 @@ import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -114,7 +118,7 @@ function WarehouseImportReceipt() {
       width: 150,
       sortable: true,
       renderCell: (params) => {
-        return params?.row?.receiptDate
+        return convertUtcDateToLocalTz(params?.row?.receiptDate)
       },
     },
     {
@@ -134,8 +138,8 @@ function WarehouseImportReceipt() {
       },
     },
     {
-      field: 'receiptNo',
-      headerName: t('warehouseImportReceipt.receiptNo'),
+      field: 'receiptEBS',
+      headerName: t('warehouseImportReceipt.receiptEBS'),
       width: 150,
       sortable: true,
       renderCell: (params) => {

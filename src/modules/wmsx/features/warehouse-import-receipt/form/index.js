@@ -86,7 +86,7 @@ function WarehouseImportReceiptForm() {
     () => ({
       receiptDate: !isEmpty(warehouseImportReceiptDetails)
         ? new Date(warehouseImportReceiptDetails?.receiptDate)
-        : null,
+        : new Date(),
       deliver: warehouseImportReceiptDetails?.deliver || '',
       businessTypeId: warehouseImportReceiptDetails?.businessType
         ? {
@@ -111,7 +111,6 @@ function WarehouseImportReceiptForm() {
           creditAcc: item?.creditAccount,
           importQuantity: item?.quantity,
           itemCode: {
-            id: 1,
             itemId: item?.itemId,
             requestedQuantity: item?.requestedQuantity,
             item: { ...item?.item },

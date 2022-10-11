@@ -355,7 +355,7 @@ function ReceiptDepartmentManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('receiptDepartmentManagement.description')}
+          label={t('receiptDepartmentManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

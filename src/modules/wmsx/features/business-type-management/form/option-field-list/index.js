@@ -147,6 +147,7 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
             onClick={() => {
               arrayHelpers.push({
                 id: '',
+                labelEBS: '',
                 fieldName: '',
                 code: '',
                 type: '',
