@@ -164,6 +164,7 @@ import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchRejectUnitManagement from './management-unit/reject'
 import watchSearchManagementUnit from './management-unit/search'
 import watchUpdateUnitManagement from './management-unit/update'
+import watchUpdateDepartmentAssign from './management-unit/update-assign'
 import watchConfirmMaterial from './material-management/confirm-material'
 import watchCreateMaterial from './material-management/create-material'
 import watchDeleteMaterial from './material-management/delete-material'
@@ -274,6 +275,7 @@ export default function* sagas() {
     watchConfirmUnitManagement(),
     watchRejectUnitManagement(),
     watchGetDepartmentAssignDetails(),
+    watchUpdateDepartmentAssign(),
 
     //company-management
     watchCreateCompany(),

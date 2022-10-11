@@ -11,9 +11,9 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import useDepartmentList from '~/modules/configuration/redux/hooks/useDepartmentList'
 import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
 import useUserPermission from '~/modules/configuration/redux/hooks/useUserPermission'
+import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
@@ -40,9 +40,9 @@ function UserPermission() {
   } = useUserPermission()
 
   const {
-    data: { departmentList },
+    data: { managementUnitList },
     actions: departmentActs,
-  } = useDepartmentList()
+  } = useManagementUnit()
 
   const {
     data: { roleList },
@@ -50,7 +50,7 @@ function UserPermission() {
   } = useRoleList()
 
   useEffect(() => {
-    departmentActs.searchDepartmentList()
+    departmentActs.searchManagementUnit()
     roleActs.searchRoleList()
   }, [])
 
@@ -251,7 +251,7 @@ function UserPermission() {
                       name="departmentId"
                       label={t('userPermission.departmentName')}
                       placeholder={t('userPermission.departmentName')}
-                      options={departmentList}
+                      options={managementUnitList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       onChange={(val) => setDepartmentId(val)}
