@@ -15,12 +15,12 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import {
   ACTIVE_STATUS,
   ACTIVE_STATUS_OPTIONS,
   WAREHOUSE_LAYOUTS,
 } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineDrawer from '~/modules/wmsx/redux/hooks/useDefineDrawer'
 import {
   exportDrawerApi,

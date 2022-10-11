@@ -15,6 +15,7 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import {
   ACTIVE_STATUS,
   ACTIVE_STATUS_OPTIONS,
@@ -22,7 +23,6 @@ import {
   WAREHOUSE_NATURE_MAP,
   WAREHOUSE_TYPE_MAP,
 } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineWarehouse from '~/modules/wmsx/redux/hooks/useDefineWarehouse'
 import {
   exportWarehouseApi,
