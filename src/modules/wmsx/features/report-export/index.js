@@ -11,9 +11,15 @@ import Page from '~/components/Page'
 import useReportExport from '~/modules/wmsx/redux/hooks/useReportExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
+import {
+  REPORT_FILE_TYPE_OPTIONS,
+  REPORT_TYPE,
+  REPORT_TYPE_OPTIONS,
+} from '../../constants'
 import { searchCompaniesApi } from '../../redux/sagas/company-management/search-companies'
 import { searchConstructionsApi } from '../../redux/sagas/construction-management/search-constructions'
 import { searchWarehouseApi } from '../../redux/sagas/define-warehouse/search-warehouse'
+import { searchReceiptDepartmentApi } from '../../redux/sagas/receipt-department-management/search-receipt-department'
 import { formSchema } from './schema'
 
 const breadcrumbs = [
@@ -37,13 +43,20 @@ const ReportExport = () => {
   const initialValues = {
     type: '',
     company: null,
-    fromDate: '',
+    time: '',
     fileFormat: '',
   }
 
   const onSubmit = (values) => {
     const convertValues = {
-      ...values,
+      reportType: values?.type,
+      exportType: values?.fileFormat,
+      companyId: values?.company?.id,
+      constructionId: values?.construction?.id.toString(),
+      warehouseId: values?.warehouse?.id,
+      receiveDepartmentId: values?.receivingDepartment?.id,
+      dateFrom: values?.time?.[0]?.toISOString(),
+      dateTo: values?.time?.[1]?.toISOString(),
     }
     actions.exportReport(convertValues, () => {
       window.location.reload()
@@ -83,7 +96,7 @@ const ReportExport = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset }) => (
+        {({ handleReset, values }) => (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 3 }}>
               <Grid item xl={6} xs={12}>
@@ -97,10 +110,10 @@ const ReportExport = () => {
                       name="type"
                       label={t('reportExport.type')}
                       placeholder={t('reportExport.type')}
-                      labelWidth={160}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      options={REPORT_TYPE_OPTIONS}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => t(opt?.text)}
+                      getOptionValue={(opt) => opt?.id}
                       required
                     />
                   </Grid>
@@ -122,9 +135,9 @@ const ReportExport = () => {
                   </Grid>
                   <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
-                      name="contruction"
-                      label={t('reportExport.contruction')}
-                      placeholder={t('reportExport.contruction')}
+                      name="construction"
+                      label={t('reportExport.construction')}
+                      placeholder={t('reportExport.construction')}
                       asyncRequest={(s) =>
                         searchConstructionsApi({
                           keyword: s,
@@ -156,22 +169,23 @@ const ReportExport = () => {
                       label={t('reportExport.receivingDepartment')}
                       placeholder={t('reportExport.receivingDepartment')}
                       asyncRequest={(s) =>
-                        //@TODO udpate api
-                        searchWarehouseApi({
+                        searchReceiptDepartmentApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
+                      disabled={
+                        values?.type !== REPORT_TYPE.SITUATION_EXPORT_PERIOD
+                      }
                     />
                   </Grid>
                   <Grid item lg={12} xs={12}>
-                    <Field.DatePicker
-                      name="fromDate"
-                      label={t('reportExport.fromDate')}
-                      placeholder={t('reportExport.fromDate')}
-                      labelWidth={160}
+                    <Field.DateRangePicker
+                      name="time"
+                      label={t('reportExport.time')}
+                      placeholder={t('reportExport.time')}
                       required
                     />
                   </Grid>
@@ -181,9 +195,9 @@ const ReportExport = () => {
                       label={t('reportExport.fileFormat')}
                       placeholder={t('reportExport.fileFormat')}
                       labelWidth={160}
-                      options={[]}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
+                      options={REPORT_FILE_TYPE_OPTIONS}
+                      getOptionLabel={(opt) => t(opt?.text)}
+                      getOptionValue={(opt) => opt?.id}
                       required
                     />
                   </Grid>

@@ -3022,12 +3022,14 @@
   "reportExport": {
     "type": "Loại báo cáo",
     "company": "Công ty",
-    "contruction": "Công trình",
+    "construction": "Công trình",
     "warehouse": "Kho",
-    "fromDate": "Từ ngày",
-    "fileFormat": "Định dạng",
+    "time": "Thời gian",
+    "fileFormat": "Định dạng file",
     "receivingDepartment": "Bộ phận nhận",
-    "export": "Xuất file"
+    "export": "Xuất file",
+    "excel": "Excel",
+    "word": "Word"
   },
   "warehouseTransfer": {
     "list": "Danh sách lệnh chuyển kho",
@@ -3117,5 +3119,45 @@
       "inputedQuantity": "Số lượng nhập",
       "locatorStored": "Vị trí cất"
     }
+  },
+  "roleList": {
+    "title": "Danh sách vai trò",
+    "searchPlaceholder": "Tìm kiếm vai trò theo mã hoặc tên",
+    "code": "Mã vai trò",
+    "name": "Tên vai trò",
+    "note": "Ghi chú",
+    "roleCreate": "Tạo vai trò",
+    "roleEdit": "Sửa vai trò",
+    "roleDelete": "Xóa vai trò",
+    "confirmDelete": "Bạn có chắc chắc muốn xóa không?",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày sửa"
+  },
+  "departmentAssign": {
+    "title": "Phân quyền chức năng đơn vị",
+    "searchPlaceholder": "Tìm kiếm thông tin",
+    "departmentName": "Tên đơn vị",
+    "id": "Id",
+    "featureName": "Tên chức năng",
+    "assign": "Phân quyền",
+    "description": "Mô tả"
+  },
+  "reportType": {
+    "itemInventoryBelowMinimum": "Báo cáo hàng tồn kho dưới dưới mức tồn kho tối thiểu",
+    "itemInventoryBelowSafe": "Báo cáo hàng tồn kho dưới mức tồn kho an toàn",
+    "orderTransferInCompleted": "Báo cáo phiếu chuyển kho chưa chuyển kho trên EBS",
+    "orderExportInCompleted": "Báo cáo phiếu xuất kho chưa xuất kho trên EBS",
+    "orderImportInCompleted": "Báo cáo thống kê phiếu nhập kho chưa nhập kho trên EBS",
+    "itemImportedButNotPutToPosition": "Báo cáo vật tư đã nhập kho chưa cất vào vị trí",
+    "itemInventory": "Báo cáo vật tư tồn kho",
+    "orderImportByRequestForItem": "Thống kê đơn nhập kho theo yêu cầu cấp vật tư",
+    "inventory": "Thống kê tồn kho",
+    "itemInventoryImportedNoQRCode": "Thống kê vật tư đã được nhập kho nhưng chưa được in mã QR code",
+    "orderExportByRequestForItem": "Thống kê  vật tư xuất kho theo giấy đề nghị xuất vật tư",
+    "situationTransfer": "Thông kê tình hình chuyển kho",
+    "situationInventoryPeriod": "Thống kê tình hình kiểm kê theo kỳ",
+    "situationImportPeriod": "Thống kê tình hình nhập kho",
+    "situationExportPeriod": "Thống kê tình hình xuất kho",
+    "ageOfItemStock": "Thống kê tuổi hàng tồn kho"
   }
 }
