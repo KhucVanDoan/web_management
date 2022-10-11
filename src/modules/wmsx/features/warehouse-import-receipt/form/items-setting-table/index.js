@@ -66,6 +66,9 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseImportReceipt.table.itemCode'),
         width: 250,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map(
+            (item) => item?.itemCode?.itemId || item?.itemCode?.id,
+          )
           return isView ? (
             params?.row?.item?.code
           ) : itemList?.length > 0 ? (
@@ -76,6 +79,10 @@ function ItemsSettingTable(props) {
               onChange={(val) => handleChangeItem(val, index)}
               disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.itemId) &&
+                opt?.itemId !== items[index]?.itemCode?.id
+              }
             />
           ) : (
             <Field.Autocomplete
@@ -90,8 +97,12 @@ function ItemsSettingTable(props) {
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
               asyncRequestDeps={values?.warehouseId}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
               getOptionLabel={(opt) => opt?.code}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemCode?.itemId
+              }
               required
             />
           )

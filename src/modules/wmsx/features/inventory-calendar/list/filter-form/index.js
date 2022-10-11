@@ -8,7 +8,10 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { INVENTORY_CALENDAR_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  INVENTORY_CALENDAR_STATUS_OPTIONS,
+  INVENTORY_TYPE_OPTIONS,
+} from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
@@ -50,6 +53,23 @@ const FilterForm = () => {
           asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.Autocomplete
+          name="type"
+          label={t('inventoryCalendar.inventoryType')}
+          placeholder={t('inventoryCalendar.inventoryType')}
+          options={INVENTORY_TYPE_OPTIONS}
+          getOptionLabel={(opt) => t(`${opt?.text}`)}
+          getOptionValue={(opt) => opt?.id}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="checkPointDate"
+          label={t('inventoryCalendar.closingDay')}
+          placeholder={t('inventoryCalendar.closingDay')}
         />
       </Grid>
       <Grid item xs={12}>

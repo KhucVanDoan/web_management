@@ -2703,7 +2703,7 @@
     "createdAt": "Thời gian tạo",
     "locationManagementDelete": "Xóa vị trí",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá vị trí này không?",
-    "itemsDetails": "Danh sách vật tư",
+    "itemsDetails": "Danh sách vật tư đang chứa",
     "item": {
       "code": "Mã vật tư",
       "name": "Tên vật tư",
@@ -2874,6 +2874,7 @@
     "sourceFilter": "Nguồn TTKT",
     "project": "Công trình",
     "contractNumber": "Số hợp đồng",
+    "receiptEBS": "Số phiếu EBS",
     "task": "Hạng mục",
     "receiptNo": "Số receipt",
     "suggestExport": "Giấy đề nghị xuất vật tư",
