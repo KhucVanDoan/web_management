@@ -17,6 +17,7 @@ import Status from '~/components/Status'
 import {
   TRANSFER_STATUS,
   TRANSFER_STATUS_OPTIONS,
+  WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -88,7 +89,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.type'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.name
+          return t(`${WAREHOUSE_TRANSFER_MAP[params?.row?.type]}`)
         },
       },
       {
@@ -96,7 +97,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.warehouseImport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.name
+          return params?.row?.destinationWarehouseId?.name
         },
       },
       {
@@ -104,16 +105,16 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.warehouseExport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.name
+          return params?.row?.sourceWarehouse?.name
         },
       },
       {
         field: 'receiptNoEbs',
         headerName: t('warehouseTransfer.receiptNoEbs'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.name
-        },
+        // renderCell: (params) => {
+        //   return params?.row?.name
+        // },
       },
       {
         field: 'status',

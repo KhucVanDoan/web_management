@@ -115,6 +115,8 @@ import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseTransferDetail from '../features/warehouse-transfer/detail'
+import PickupAndWarehouseExport from '../features/warehouse-transfer/detail/pickup-and-warehouse-export'
+import ReceiveAndStored from '../features/warehouse-transfer/detail/receive-and-stored'
 import WarehouseTransferForm from '../features/warehouse-transfer/form'
 import WarehouseTransfer from '../features/warehouse-transfer/list'
 import { ROUTE } from './config'
@@ -945,6 +947,18 @@ const routes = [
             name: ROUTE.WAREHOUSE_TRANSFER.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH,
             component: WarehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.PICKUP.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH,
+            component: PickupAndWarehouseExport,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.PATH,
+            component: ReceiveAndStored,
             isInSidebar: false,
           },
         ],

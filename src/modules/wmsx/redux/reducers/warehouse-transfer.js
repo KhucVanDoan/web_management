@@ -30,6 +30,9 @@ import {
   GET_STOCK_BY_ITEM_AND_LOT_NUMBER_START,
   GET_STOCK_BY_ITEM_AND_LOT_NUMBER_SUCCESS,
   RESET_WAREHOUSE_TRANSFER,
+  CONFIRM_WAREHOUSE_EXPORT_START,
+  CONFIRM_WAREHOUSE_EXPORT_SUCCESS,
+  CONFIRM_WAREHOUSE_EXPORT_FAILED,
 } from '../actions/warehouse-transfer'
 
 const initialState = {
@@ -60,6 +63,7 @@ export default function warehouseTransfer(state = initialState, action) {
     case GET_LOT_NUMBER_LIST_WAREHOUSE_TRANSFER_START:
     case GET_LIST_ITEM_WAREHOUSE_STOCK_START:
     case GET_STOCK_BY_ITEM_AND_LOT_NUMBER_START:
+    case CONFIRM_WAREHOUSE_EXPORT_START:
       return {
         ...state,
         isLoading: true,
@@ -88,6 +92,8 @@ export default function warehouseTransfer(state = initialState, action) {
     case UPDATE_WAREHOUSE_TRANSFER_FAILED:
     case DELETE_WAREHOUSE_TRANSFER_SUCCESS:
     case DELETE_WAREHOUSE_TRANSFER_FAILED:
+    case CONFIRM_WAREHOUSE_EXPORT_SUCCESS:
+    case CONFIRM_WAREHOUSE_EXPORT_FAILED:
       return {
         ...state,
         isLoading: false,

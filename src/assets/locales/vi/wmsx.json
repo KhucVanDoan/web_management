@@ -170,6 +170,12 @@
     "roleAssign": "Phân quyền vai trò",
     "userInfo": "Thông tin cá nhân",
     "changePassword": "Đổi mật khẩu",
+    "warehouseTransfer": "Lệnh chuyển kho",
+    "warehouseTransferCreate": "Tạo lệnh chuyển kho",
+    "warehouseTransferEdit": "Sửa lệnh chuyển kho",
+    "warehouseTransferDetail": "Chi tiết lệnh chuyển kho",
+    "pickupAndWarehouseExport": "Lấy hàng & xuất kho",
+    "receiveAndStored": "Nhận hàng & cất hàng",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -3071,7 +3077,11 @@
     "vendors": "Nhà cung cấp",
     "costTypes": "Loại chi phí",
     "organizationPayments": "Tổ chức chi",
-
+    "pickupAndWarehouseExport": "Lấy hàng & xuất kho",
+    "receiveAndStored": "Nhận hàng & cất hàng",
+    "confirmWarehouseImport": "Xác nhận nhập kho",
+    "confirmWarehouseExport": "Xác nhận xuất kho",
+    "printReceipt": "In phiếu",
     "transferStatus": {
       "created": "Tạo thành công",
       "pending": "Chờ xác nhận",
@@ -3090,7 +3100,7 @@
       "unit": "Đơn vị tính",
       "lotNumber": "Số lô",
       "locator": "Vị trí",
-      "transferQuantity": "SL chuyển",
+      "transferQuantity": "Số lượng chuyển",
       "placeholderTransferQuantity": "Nhập số lượng",
       "planExportedQuantity": "SL có thể xuất",
       "itemCodeWarehouseImp": "Mã vật tư tồn tại trong kho nhập",
@@ -3099,30 +3109,13 @@
       "actualExportedQuantity": "SL thực xuất",
       "actualImportedQuantity": "SL thực nhập",
       "location": "Vị trí cất",
-      "money": "Thành tiền",
-      "price": "Đơn giá"
+      "amount": "Thành tiền WMS",
+      "price": "Đơn giá WMS",
+      "warehouseImportDate": "Ngày nhập kho",
+      "exportedQuantity": "Số lượng xuất",
+      "actualexportedQuantity": "Số lượng thực xuất",
+      "inputedQuantity": "Số lượng nhập",
+      "locatorStored": "Vị trí cất"
     }
-  },
-  "roleList": {
-    "title": "Danh sách vai trò",
-    "searchPlaceholder": "Tìm kiếm vai trò theo mã hoặc tên",
-    "code": "Mã vai trò",
-    "name": "Tên vai trò",
-    "note": "Ghi chú",
-    "roleCreate": "Tạo vai trò",
-    "roleEdit": "Sửa vai trò",
-    "roleDelete": "Xóa vai trò",
-    "confirmDelete": "Bạn có chắc chắc muốn xóa không?",
-    "createdAt": "Ngày tạo",
-    "updatedAt": "Ngày sửa"
-  },
-  "departmentAssign": {
-    "title": "Phân quyền chức năng đơn vị",
-    "searchPlaceholder": "Tìm kiếm thông tin",
-    "departmentName": "Tên đơn vị",
-    "id": "Id",
-    "featureName": "Tên chức năng",
-    "assign": "Phân quyền",
-    "description": "Mô tả"
   }
 }

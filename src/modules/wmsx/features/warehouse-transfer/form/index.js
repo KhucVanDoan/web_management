@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
-  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -46,7 +45,7 @@ const DEFAULT_ITEM = {
 const WarehouseTransferForm = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch()
-  // const { id } = useParams()
+  const { id } = useParams()
   const { t } = useTranslation(['wmsx'])
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -61,44 +60,45 @@ const WarehouseTransferForm = () => {
 
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
+      actions.getWarehouseTransferDetailsById(id, (data) => {
+        actions.getListItemWarehouseStock(data?.sourceWarehouse?.id)
+      })
     }
     return () => actions.resetWarehouseTransfer()
   }, [mode])
-
-  const initialValues = {
-    code: warehouseTransferDetails?.code || '',
-    name: warehouseTransferDetails?.name || '',
-    businessTypeId: warehouseTransferDetails?.bussinessType
-      ? warehouseTransferDetails?.bussinessType
-      : '',
-    type: warehouseTransferDetails?.type || '',
-    reasonId: warehouseTransferDetails?.reason || '',
-    sourceId: warehouseTransferDetails?.source || '',
-    destinationWarehouseId:
-      warehouseTransferDetails?.destinationFactory?.id || '',
-    sourceWarehouseId: warehouseTransferDetails?.sourceFactory?.id || '',
-    transferOn: warehouseTransferDetails?.transferOn || '',
-    deliver: warehouseTransferDetails?.deliver || '',
-    explaination: warehouseTransferDetails?.explaination || '',
-    items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-      (item) => ({
-        itemCode: {
-          itemId: item?.itemId,
-          id: item?.itemId,
-          name: item?.item?.name,
-        },
-        itemId: item?.itemId,
-        lotNumber: item?.lotNumber,
-        itemName: item?.item?.name,
-        itemType: item?.item?.itemType?.name,
-        mfg: item?.mfg,
-        packageId: item?.packageId,
-        planQuantity: +item?.planQuantity,
-        unitType: item?.item?.itemUnit?.name,
-      }),
-    ) || [{ ...DEFAULT_ITEM }],
-  }
-
+  const initialValues = useMemo(
+    () => ({
+      code: warehouseTransferDetails?.code || '',
+      name: warehouseTransferDetails?.name || '',
+      businessTypeId: warehouseTransferDetails?.bussinessType
+        ? warehouseTransferDetails?.bussinessType
+        : '',
+      type: warehouseTransferDetails?.type || '',
+      reasonId: warehouseTransferDetails?.reason || '',
+      sourceId: warehouseTransferDetails?.source || '',
+      destinationWarehouseId:
+        warehouseTransferDetails?.destinationWarehouse || '',
+      sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
+      createdAt: new Date(warehouseTransferDetails?.createdAt) || '',
+      deliver: warehouseTransferDetails?.receiver || '',
+      explaination: warehouseTransferDetails?.explanation || '',
+      items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+        (item) => ({
+          itemCode: {
+            itemId: item?.itemId,
+            id: item?.itemId,
+            ...item?.item,
+          },
+          lotNumber: item?.lotNumber,
+          itemName: item?.item?.name,
+          locator: { ...item?.locator, locatorId: item?.locatorId },
+          itemType: item?.item?.itemType?.name,
+          transferQuantity: +item?.planQuantity,
+        }),
+      ) || [{ ...DEFAULT_ITEM }],
+    }),
+    [warehouseTransferDetails],
+  )
   const onSubmit = (values) => {
     const params = {
       code: values?.code,
@@ -106,7 +106,7 @@ const WarehouseTransferForm = () => {
       name: values?.name,
       bussinessTypeId: values?.businessTypeId?.id,
       sourceWarehouseId: +values?.sourceWarehouseId?.id,
-      transferOn: values?.transferOn.toISOString(),
+      createdAt: values?.createdAt.toISOString(),
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
@@ -115,10 +115,9 @@ const WarehouseTransferForm = () => {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
-          planQuantity: item?.planQuantity || null,
-          quantity: +item.planExportedQuantity,
+          locatorId: +item?.locator,
+          planQuantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
-          mfg: item?.mfg || null,
         })),
       ),
     }
@@ -134,8 +133,9 @@ const WarehouseTransferForm = () => {
       }
     })
     if (isUpdate) {
+      actions.updateWarehouseTransfer({ ...params, id: id }, backToList)
     } else {
-      actions.createWarehouseTransfer(params)
+      actions.createWarehouseTransfer(params, backToList)
     }
   }
 
@@ -234,7 +234,7 @@ const WarehouseTransferForm = () => {
                     rowSpacing={4 / 3}
                   >
                     {isUpdate && (
-                      <Grid item lg={6} xs={12}>
+                      <Grid item xs={12}>
                         <LV
                           label={
                             <Typography>
@@ -250,19 +250,25 @@ const WarehouseTransferForm = () => {
                         />
                       </Grid>
                     )}
-                    <Grid item xs={12} lg={6}>
-                      <Field.TextField
-                        label={t('warehouseTransfer.code')}
-                        name="code"
-                        placeholder={t('warehouseTransfer.code')}
-                        disabled={mode === MODAL_MODE.UPDATE}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_4.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                    <Grid item lg={6} xs={12}>
+                      <Field.DatePicker
+                        name="createdAt"
+                        label={t('warehouseTransfer.createdAt')}
+                        placeholder={t('warehouseTransfer.createdAt')}
                         required
                       />
                     </Grid>
+                    {isUpdate && (
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('warehouseTransfer.code')}
+                          name="code"
+                          placeholder={t('warehouseTransfer.code')}
+                          disabled
+                          required
+                        />
+                      </Grid>
+                    )}
                     <Grid item xs={12} lg={6}>
                       <Field.TextField
                         label={t('warehouseTransfer.name')}
@@ -271,7 +277,6 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="businessTypeId"
@@ -399,12 +404,24 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-
                     <Grid item lg={6} xs={12}>
-                      <Field.DatePicker
-                        name="transferOn"
-                        label={t('warehouseTransfer.receiptDate')}
-                        placeholder={t('warehouseTransfer.receiptDate')}
+                      <Field.Autocomplete
+                        name="reasonId"
+                        label={t('warehouseTransfer.reason')}
+                        placeholder={t('warehouseTransfer.reason')}
+                        asyncRequest={(s) =>
+                          searchApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            // filter: convertFilterParams({
+                            //   status: 1,
+                            // }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
                     </Grid>
