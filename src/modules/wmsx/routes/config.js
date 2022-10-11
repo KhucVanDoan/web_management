@@ -3,6 +3,10 @@ export const ROUTE = {
     PATH: '/wms',
     TITLE: 'dashboard',
   },
+  SUB_DASHBOARD: {
+    PATH: '/wms/dashboard',
+    TITLE: 'dashboard',
+  },
   DATABASE: {
     TITLE: 'database',
   },
@@ -40,6 +44,10 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wms/unit-management/:id/edit',
       TITLE: 'managementUnitEdit',
+    },
+    ASSIGN: {
+      PATH: '/wms/unit-management/:id/assign',
+      TITLE: 'managementUnitAssign',
     },
   },
   RECEIPT_DEPARTMENT_MANAGEMENT: {
