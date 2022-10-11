@@ -39,6 +39,13 @@ export const REJECT_UNIT_MANAGEMENT_SUCCESS =
 export const REJECT_UNIT_MANAGEMENT_FAILED =
   'WMSX_REJECT_UNIT_MANAGEMENT_FAILED'
 
+export const UPDATE_DEPARTMENT_ASSIGN_START =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_START'
+export const UPDATE_DEPARTMENT_ASSIGN_SUCCESS =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_SUCCESS'
+export const UPDATE_DEPARTMENT_ASSIGN_FAILED =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_FAILED'
+
 export const GET_DEPARTMENT_ASSIGN_DETAILS_START =
   'WMSX_GET_DEPARTMENT_ASSIGN_DETAILS_START'
 export const GET_DEPARTMENT_ASSIGN_DETAILS_SUCCESS =
@@ -309,6 +316,28 @@ export function getDepartmentAssignDetailsFailed() {
   }
 }
 
+export function updateDepartmentAssign(payload, onSuccess, onError) {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function updateDepartmentAssignSuccess(payload) {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function updateDepartmentAssignFailed() {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_FAILED,
+  }
+}
+
 export function resetDepartmentAssignDetailsState() {
   return {
     type: RESET_DEPARTMENT_ASSIGN_DETAILS_STATE,
@@ -346,6 +375,9 @@ export default {
   getDepartmentAssignDetails,
   getDepartmentAssignDetailsSuccess,
   getDepartmentAssignDetailsFailed,
+  updateDepartmentAssign,
+  updateDepartmentAssignSuccess,
+  updateDepartmentAssignFailed,
   resetDepartmentAssignDetailsState,
   resetManagementUnitState,
 }
