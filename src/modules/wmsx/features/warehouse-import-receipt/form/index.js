@@ -37,7 +37,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 import { convertFilterParams } from '~/utils'
 
-import DisplayFollowBusinessTypeManagement from '../display-field'
+import displayFollowBusinessTypeManagement from '../display-field'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 import style from './style'
@@ -122,11 +122,12 @@ function WarehouseImportReceiptForm() {
   )
   warehouseImportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
-      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
-        item.tableName
-      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
+      initialValues[`${item.id}`] =
+        attributesBusinessTypeDetails[item.tableName]?.find(
+          (itemDetail) => itemDetail.id + '' === item.value,
+        ) || ''
     } else {
-      initialValues[`${item.id}`] = item.value
+      initialValues[`${item.id}`] = item.value || ''
     }
   })
   const getBreadcrumb = () => {
@@ -324,14 +325,13 @@ function WarehouseImportReceiptForm() {
       sourceAction.getDetailSourceManagementById(val?.id)
     }
   }
-  const handleChangeBusinessType = (setFieldValue) => {
-    setFieldValue('project', '')
-    setFieldValue('task', '')
-    setFieldValue('suggestExport', '')
-    setFieldValue('receiptNo', '')
-    setFieldValue('warehouseExportReceipt', '')
+  const handleChangeBusinessType = (val) => {
+    if (!isEmpty(val)) {
+      val?.bussinessTypeAttributes?.forEach((item) => {
+        initialValues[item?.id] = ''
+      })
+    }
   }
-
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -489,7 +489,7 @@ function WarehouseImportReceiptForm() {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
-                        onChange={() => handleChangeBusinessType(setFieldValue)}
+                        onChange={(val) => handleChangeBusinessType(val)}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -559,7 +559,7 @@ function WarehouseImportReceiptForm() {
                         required
                       />
                     </Grid>
-                    {DisplayFollowBusinessTypeManagement(
+                    {displayFollowBusinessTypeManagement(
                       values?.businessTypeId?.bussinessTypeAttributes,
                       t,
                       values,

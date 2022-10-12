@@ -16,7 +16,9 @@ import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-mat
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { getLotNumberItem } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
@@ -25,6 +27,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const [openModal, setOpenModal] = useState(false)
   const { actions } = useWarehouseExportProposal()
   const { id } = useParams()
+  const [lotNumberlist, setLotNumberList] = useState([])
   const handleAddRow = (parentData, parentIndex) => {
     const newObj = {
       id: new Date().getTime(),
@@ -46,6 +49,28 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const handleRemoveRow = (params, index, parentIndex) => {
     itemTableCollaspe[parentIndex].details.splice(index, 1)
     setFieldValue('itemTableCollaspe', itemTableCollaspe)
+  }
+  const handleChangeItem = async (val) => {
+    if (val) {
+      const lotNumberList = []
+      const res = await getLotNumberItem(val?.id)
+      if (res?.statusCode === 200) {
+        res?.data?.lots?.forEach((item) => {
+          lotNumberList.push(item)
+        })
+      }
+      const lotnumbers = lotNumberList.reduce((unique, o) => {
+        if (
+          !unique.some(
+            (obj) => obj.itemId === o.ItemId && obj.lotNumber === o.lotNumber,
+          )
+        ) {
+          unique.push(o)
+        }
+        return unique
+      }, [])
+      setLotNumberList(lotnumbers)
+    }
   }
   const columns = [
     {
@@ -271,7 +296,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
-            getOptionLabel={(opt) => opt?.name}
+            getOptionLabel={(opt) => opt?.code}
+            onChange={(val) => handleChangeItem(val)}
           />
         )
       },
@@ -281,7 +307,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.exportSuppliesName'),
       width: 200,
       renderCell: (params) => {
-        return params?.row?.itemName
+        return params?.row?.itemName || params?.row?.exportSuppliesCode?.name
       },
     },
     {
@@ -289,7 +315,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.unit'),
       width: 250,
       renderCell: (params) => {
-        return params?.row?.unit || params?.row?.itemUnit?.name
+        return (
+          params?.row?.unit || params?.row?.exportSuppliesCode?.itemUnit?.name
+        )
       },
     },
     {
@@ -302,9 +330,15 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
-            options={[]}
-            getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-            getOptionValue={(opt) => opt?.id?.toString()}
+            asyncRequest={(s) =>
+              searchWarehouseApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+              })
+            }
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
           />
         )
       },
@@ -319,9 +353,13 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].lotNumber`}
-            options={[]}
-            getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-            getOptionValue={(opt) => opt?.id?.toString()}
+            options={lotNumberlist?.filter(
+              (item) =>
+                item?.lotNumber &&
+                item?.itemId === params?.row?.exportSuppliesCode?.id,
+            )}
+            getOptionLabel={(opt) => opt?.lotNumber}
+            getOptionValue={(opt) => opt?.lotNumber}
           />
         )
       },
