@@ -35,6 +35,14 @@ export const REJECT_MATERIAL_FAILED = 'WMSX_REJECT_MATERIAL_FAILED'
 
 export const RESET_MATERIAL_DETAILS_STATE = 'WMSX_RESET_MATERIAL_DETAILS_STATE'
 
+export const CREATE_ITEM_WAREHOUSE_SOURCE_START = 'WMS_CREATE_ITEM_WAREHOUSE_SOURCE_START'
+export const CREATE_ITEM_WAREHOUSE_SOURCE_SUCCESS = 'WMS_CREATE_ITEM_WAREHOUSE_SOURCE_SUCCESS'
+export const CREATE_ITEM_WAREHOUSE_SOURCE_FAILED = 'WMS_CREATE_ITEM_WAREHOUSE_SOURCE_FAILED'
+
+export const UPDATE_ITEM_WAREHOUSE_SOURCE_START = 'WMS_UPDATE_ITEM_WAREHOUSE_SOURCE_START'
+export const UPDATE_ITEM_WAREHOUSE_SOURCE_SUCCESS = 'WMS_UPDATE_ITEM_WAREHOUSE_SOURCE_SUCCESS'
+export const UPDATE_ITEM_WAREHOUSE_SOURCE_FAILED = 'WMS_UPDATE_ITEM_WAREHOUSE_SOURCE_FAILED'
+
 export function searchMaterials(payload, onSuccess, onError) {
   return {
     type: SEARCH_MATERIALS_START,
@@ -217,6 +225,48 @@ export function resetMaterialDetailsState() {
   }
 }
 
+export function createItemWarehouseSource(payload, onSuccess, onError) {
+  return {
+    type: CREATE_ITEM_WAREHOUSE_SOURCE_START,
+    payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function createItemWarehouseSourceSuccess() {
+  return {
+    type: CREATE_ITEM_WAREHOUSE_SOURCE_SUCCESS
+  }
+}
+
+export function createItemWarehouseSourceFailed() {
+  return {
+    type: CREATE_ITEM_WAREHOUSE_SOURCE_FAILED
+  }
+}
+
+export function updateItemWarehouseSource(payload, onSuccess, onError) {
+  return {
+    type: UPDATE_ITEM_WAREHOUSE_SOURCE_START,
+    payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function updateItemWarehouseSourceSuccess() {
+  return {
+    type: UPDATE_ITEM_WAREHOUSE_SOURCE_SUCCESS
+  }
+}
+
+export function updateItemWarehouseSourceFailed() {
+  return {
+    type: UPDATE_ITEM_WAREHOUSE_SOURCE_FAILED
+  }
+}
+
 export default {
   searchMaterials,
   searchMaterialsSuccess,
@@ -243,4 +293,10 @@ export default {
   updateWarehouseSourceSuccess,
   updateWarehouseSourceFailed,
   resetMaterialDetailsState,
+  createItemWarehouseSource,
+  createItemWarehouseSourceSuccess,
+  createItemWarehouseSourceFailed,
+  updateItemWarehouseSource,
+  updateItemWarehouseSourceSuccess,
+  updateItemWarehouseSourceFailed,
 }
