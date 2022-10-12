@@ -86,7 +86,7 @@ function WarehouseImportReceiptForm() {
     () => ({
       receiptDate: !isEmpty(warehouseImportReceiptDetails)
         ? new Date(warehouseImportReceiptDetails?.receiptDate)
-        : null,
+        : new Date(),
       deliver: warehouseImportReceiptDetails?.deliver || '',
       businessTypeId: warehouseImportReceiptDetails?.businessType
         ? {
@@ -105,13 +105,12 @@ function WarehouseImportReceiptForm() {
           itemId: item?.itemId,
           itemName: item?.item?.name,
           unit: item?.item?.itemUnit,
-          price: item?.price,
+          // price: item?.price,
           money: item?.amount,
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount,
           importQuantity: item?.quantity,
           itemCode: {
-            id: 1,
             itemId: item?.itemId,
             requestedQuantity: item?.requestedQuantity,
             item: { ...item?.item },
@@ -268,6 +267,7 @@ function WarehouseImportReceiptForm() {
           lotNumber: '',
           quantity: +item?.importQuantity,
           price: item?.price,
+          amount: item?.money,
           debitAccount: item?.debitAcc || null,
           creditAccount: item?.creditAcc,
           warehouseId: values?.warehouseId?.id,

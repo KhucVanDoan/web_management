@@ -64,7 +64,6 @@ function InventoryCalendar() {
     setFilters,
     setKeyword,
   } = useQueryState()
-
   const columns = [
     {
       field: 'code',
@@ -102,9 +101,8 @@ function InventoryCalendar() {
       },
     },
     {
-      field: 'closingDay',
+      field: 'checkPointDate',
       headerName: t('inventoryCalendar.closingDay'),
-      filterFormat: 'date',
       width: 150,
       sortable: false,
       renderCell: (params) => {
@@ -215,7 +213,11 @@ function InventoryCalendar() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, warehouseName: filters?.warehouseName?.name },
+        {
+          ...filters,
+          warehouseName: filters?.warehouseName?.name,
+          checkPointDate: filters?.checkPointDate?.toISOString(),
+        },
         columns,
       ),
       sort: convertSortParams(sort),

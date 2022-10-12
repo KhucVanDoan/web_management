@@ -4,7 +4,6 @@ import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 
 const warehouseTranferSchema = (t) =>
   Yup.object().shape({
-    code: Yup.string().nullable().required(t('general:form.required')),
     name: Yup.string().nullable().required(t('general:form.required')),
     businessTypeId: Yup.object()
       .nullable()
@@ -18,12 +17,11 @@ const warehouseTranferSchema = (t) =>
     sourceWarehouseId: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    transferOn: Yup.date().nullable().required(t('general:form.required')),
     deliver: Yup.string().nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
-        planExportedQuantity: Yup.number()
+        transferQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required'))
           .test('', '', (value, context) => {

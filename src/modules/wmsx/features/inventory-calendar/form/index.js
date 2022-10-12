@@ -69,9 +69,8 @@ const InventoryCalendarForm = () => {
       code: inventoryCalendarDetails?.code || '',
       name: inventoryCalendarDetails?.name || '',
       type: inventoryCalendarDetails?.type,
-      warehouses: inventoryCalendarDetails?.warehouses
-        ? inventoryCalendarDetails?.warehouses?.map((item) => item)
-        : [],
+      warehouses:
+        inventoryCalendarDetails?.warehouses?.map((item) => item) || [],
       executionDay: inventoryCalendarDetails?.executeFrom
         ? [
             inventoryCalendarDetails?.executeFrom,
@@ -96,7 +95,6 @@ const InventoryCalendarForm = () => {
     }),
     [inventoryCalendarDetails, itemUpdate],
   )
-
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
