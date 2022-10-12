@@ -68,6 +68,20 @@ export const GET_STOCK_BY_ITEM_AND_LOT_NUMBER_SUCCESS =
 export const GET_STOCK_BY_ITEM_AND_LOT_NUMBER_FAILED =
   'WMSX_GET_STOCK_BY_ITEM_AND_LOT_NUMBER_FAILED'
 
+export const CONFIRM_WAREHOUSE_EXPORT_START =
+  'WMSX_CONFIRM_WAREHOUSE_EXPORT_START'
+export const CONFIRM_WAREHOUSE_EXPORT_SUCCESS =
+  'WMSX_CONFIRM_WAREHOUSE_EXPORT_SUCCESS'
+export const CONFIRM_WAREHOUSE_EXPORT_FAILED =
+  'WMSX_CONFIRM_WAREHOUSE_EXPORT_FAILED'
+
+export const CONFIRM_WAREHOUSE_IMPORT_START =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_START'
+export const CONFIRM_WAREHOUSE_IMPORT_SUCCESS =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_SUCCESS'
+export const CONFIRM_WAREHOUSE_IMPORT_FAILED =
+  'WMSX_CONFIRM_WAREHOUSE_IMPORT_FAILED'
+
 export const RESET_WAREHOUSE_TRANSFER = 'WMSX_RESET_WAREHOUSE_TRANSFER'
 /**
  * Search
@@ -443,6 +457,68 @@ export function getStockByItemAndLotNumberFailed() {
     type: GET_STOCK_BY_ITEM_AND_LOT_NUMBER_FAILED,
   }
 }
+
+export function confirmWarehouseExportById(payload, onSuccess, onError) {
+  return {
+    type: CONFIRM_WAREHOUSE_EXPORT_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function confirmWarehouseExportByIdSuccess(payload) {
+  return {
+    type: CONFIRM_WAREHOUSE_EXPORT_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function confirmWarehouseExportByIdFailed() {
+  return {
+    type: CONFIRM_WAREHOUSE_EXPORT_FAILED,
+  }
+}
+
+export function confirmWarehouseImportById(payload, onSuccess, onError) {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function confirmWarehouseImportByIdSuccess(payload) {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function confirmWarehouseImportByIdFailed() {
+  return {
+    type: CONFIRM_WAREHOUSE_IMPORT_FAILED,
+  }
+}
 export function resetWarehouseTransfer() {
   return {
     type: RESET_WAREHOUSE_TRANSFER,
@@ -479,5 +555,11 @@ export default {
   getStockByItemAndLotNumber,
   getStockByItemAndLotNumberSuccess,
   getStockByItemAndLotNumberFailed,
+  confirmWarehouseExportById,
+  confirmWarehouseExportByIdSuccess,
+  confirmWarehouseExportByIdFailed,
+  confirmWarehouseImportById,
+  confirmWarehouseImportByIdSuccess,
+  confirmWarehouseImportByIdFailed,
   resetWarehouseTransfer,
 }

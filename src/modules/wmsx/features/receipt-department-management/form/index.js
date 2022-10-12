@@ -202,7 +202,7 @@ function ReceiptDepartmentManagementForm() {
                       label={t('receiptDepartmentManagement.name')}
                       placeholder={t('receiptDepartmentManagement.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />

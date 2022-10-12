@@ -47,6 +47,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
                   }),
                 })
               }
+              disabled={!values?.warehouse}
               asyncRequestDeps={values?.warehouses}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}

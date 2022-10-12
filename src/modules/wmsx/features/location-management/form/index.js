@@ -16,6 +16,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   ACTIVE_STATUS_OPTIONS,
   WAREHOUSE_LAYOUTS,
 } from '~/modules/wmsx/constants'
@@ -185,9 +186,9 @@ function LocationManagementForm() {
     const shelfCode = values?.shelf?.code || ''
     const binCode = values?.bin?.code || ''
 
-    return `${assemblyCode}${drawerCode ? `-${drawerCode}` : ''}${
-      shelfCode ? `-${shelfCode}` : ''
-    }${binCode ? `-${binCode}` : ''}`
+    return `${assemblyCode}${drawerCode ? `.${drawerCode}` : ''}${
+      shelfCode ? `.${shelfCode}` : ''
+    }${binCode ? `.${binCode}` : ''}`
   }
 
   return (
@@ -248,6 +249,9 @@ function LocationManagementForm() {
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -305,6 +309,7 @@ function LocationManagementForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             level: WAREHOUSE_LAYOUTS.ASSEMBLY,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }
@@ -328,6 +333,7 @@ function LocationManagementForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             level: WAREHOUSE_LAYOUTS.DRAWER,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }
@@ -350,6 +356,7 @@ function LocationManagementForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             level: WAREHOUSE_LAYOUTS.SHELF,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }
@@ -372,6 +379,7 @@ function LocationManagementForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             level: WAREHOUSE_LAYOUTS.BIN,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }

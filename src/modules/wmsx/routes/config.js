@@ -645,6 +645,14 @@ export const ROUTE = {
       PATH: '/wms/warehouse-transfer/:id/detail',
       TITLE: 'warehouseTransferDetail',
     },
+    PICKUP: {
+      PATH: '/wms/warehouse-transfer/:id/pickup',
+      TITLE: 'pickupAndWarehouseExport',
+    },
+    RECEIVE: {
+      PATH: '/wms/warehouse-transfer/:id/receive',
+      TITLE: 'receiveAndStored',
+    },
   },
   USER_MANAGEMENT: {
     LIST: {

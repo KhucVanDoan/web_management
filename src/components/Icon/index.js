@@ -32,6 +32,7 @@ import { ReactComponent as Locked } from '~/assets/images/icons/locked.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Overdue } from '~/assets/images/icons/overdue.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
+import { ReactComponent as Print } from '~/assets/images/icons/print.svg'
 import { ReactComponent as QRWhite } from '~/assets/images/icons/qr-white.svg'
 import { ReactComponent as QR } from '~/assets/images/icons/qr.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
@@ -106,6 +107,7 @@ const icons = {
   unlock: <Unlock />,
   updateQuantity: <UpdateQuantity />,
   confirm: <Confirm />,
+  print: <Print />,
   // menu
   drawer: <Drawer />,
   home: <Home />,
