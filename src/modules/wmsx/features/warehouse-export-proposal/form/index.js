@@ -30,7 +30,7 @@ import { defineSchema } from './schema'
 
 const DEFAULT_ITEM = [
   {
-    id: '',
+    id: new Date().getTime(),
     suppliesCode: '',
     suppliesName: '',
     unit: '',
@@ -93,7 +93,7 @@ function WarehouseExportReceiptForm() {
               quantityExport: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouseExport: childrens?.warehouseExport,
-              reservation: false,
+              reservation: childrens?.isKeepSlot,
               updatedBy: item?.updatedBy,
               dayUpdate: item?.updatedAt,
             }))
@@ -109,7 +109,7 @@ function WarehouseExportReceiptForm() {
       nameAddressOfRecipient:
         warehouseExportProposalDetails?.receiverInfo || '',
       construction: warehouseExportProposalDetails?.construction || '',
-      createdAtPaper: warehouseExportProposalDetails?.receiptDate || '',
+      createdAtPaper: warehouseExportProposalDetails?.receiptDate || new Date(),
       reasonUse: warehouseExportProposalDetails?.reason || '',
       items:
         warehouseExportProposalDetails?.items?.map((item) => ({
@@ -222,7 +222,13 @@ function WarehouseExportReceiptForm() {
           id: item?.id,
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
-          childrens: item?.details,
+          childrens: item?.details?.map((e) => ({
+            id: e?.id,
+            itemId: e?.exportSuppliesCode?.itemId,
+            itemCode: e?.exportSuppliesCode?.code,
+            itemName: e?.exportSuppliesCodea?.name,
+            exportedQuantity: +e?.quantityExport,
+          })),
         })),
       }
       actions.updateWarehouseExportProposalQuantity(params, backToList)
@@ -266,124 +272,137 @@ function WarehouseExportReceiptForm() {
               onSubmit={onSubmit}
               enableReinitialize
             >
-              {({ handleReset, values, setFieldValue }) => (
-                <Form>
-                  <Grid
-                    container
-                    rowSpacing={4 / 3}
-                    columnSpacing={{ xl: 8, xs: 4 }}
-                  >
-                    {isUpdate && (
-                      <Grid item xs={12}>
-                        <LV
-                          label={
-                            <Typography>
-                              {t('warehouseExportProposal.status')}
-                            </Typography>
-                          }
-                          value={
-                            <Status
-                              options={WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION}
-                              value={warehouseExportProposalDetails?.status}
-                            />
-                          }
+              {({ handleReset, values, setFieldValue }) => {
+                return (
+                  <Form>
+                    <Grid
+                      container
+                      rowSpacing={4 / 3}
+                      columnSpacing={{ xl: 8, xs: 4 }}
+                    >
+                      {isUpdate && (
+                        <Grid item xs={12}>
+                          <LV
+                            label={
+                              <Typography>
+                                {t('warehouseExportProposal.status')}
+                              </Typography>
+                            }
+                            value={
+                              <Status
+                                options={
+                                  WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION
+                                }
+                                value={warehouseExportProposalDetails?.status}
+                              />
+                            }
+                          />
+                        </Grid>
+                      )}
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="unit"
+                          label={t('warehouseExportProposal.unit')}
+                          disabled
                         />
                       </Grid>
-                    )}
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="unit"
-                        label={t('warehouseExportProposal.unit')}
-                        disabled
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="dear"
-                        label={t('warehouseExportProposal.dear')}
-                        placeholder={t('warehouseExportProposal.dear')}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="proponent"
-                        label={t('warehouseExportProposal.proponent')}
-                        placeholder={t('warehouseExportProposal.proponent')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                        }}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        name="nameAddressOfRecipient"
-                        label={t(
-                          'warehouseExportProposal.nameAddressOfRecipient',
-                        )}
-                        placeholder={t(
-                          'warehouseExportProposal.nameAddressOfRecipient',
-                        )}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="construction"
-                        label={t('warehouseExportProposal.construction')}
-                        placeholder={t('warehouseExportProposal.construction')}
-                        asyncRequest={(s) =>
-                          searchConstructionsApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.DatePicker
-                        name="createdAtPaper"
-                        label={t('warehouseExportProposal.createdAtPaper')}
-                        required
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field.TextField
-                        name="reasonUse"
-                        label={t('warehouseExportProposal.reasonUse')}
-                        placeholder={t(
-                          'warehouseExportProposal.placeholderReasonUse',
-                        )}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                        }}
-                        required
-                        multiline
-                        rows={3}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Box sx={{ mt: 3 }}>
-                    <FieldArray
-                      name="items"
-                      render={(arrayHelpers) => (
-                        <ItemSettingTable
-                          items={values?.items || []}
-                          arrayHelpers={arrayHelpers}
-                          mode={mode}
-                          setFieldValue={setFieldValue}
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="dear"
+                          label={t('warehouseExportProposal.dear')}
+                          placeholder={t('warehouseExportProposal.dear')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                          }}
+                          required
                         />
-                      )}
-                    />
-                  </Box>
-                  {renderActionBar(handleReset)}
-                </Form>
-              )}
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="proponent"
+                          label={t('warehouseExportProposal.proponent')}
+                          placeholder={t('warehouseExportProposal.proponent')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="nameAddressOfRecipient"
+                          label={t(
+                            'warehouseExportProposal.nameAddressOfRecipient',
+                          )}
+                          placeholder={t(
+                            'warehouseExportProposal.nameAddressOfRecipient',
+                          )}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                          }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.Autocomplete
+                          name="construction"
+                          label={t('warehouseExportProposal.construction')}
+                          placeholder={t(
+                            'warehouseExportProposal.construction',
+                          )}
+                          asyncRequest={(s) =>
+                            searchConstructionsApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                            })
+                          }
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.code}
+                          getOptionSubLabel={(opt) => opt?.name}
+                          required
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <Field.DatePicker
+                          name="createdAtPaper"
+                          label={t('warehouseExportProposal.createdAtPaper')}
+                          maxDate={new Date()}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Field.TextField
+                          name="reasonUse"
+                          label={t('warehouseExportProposal.reasonUse')}
+                          placeholder={t(
+                            'warehouseExportProposal.placeholderReasonUse',
+                          )}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          }}
+                          required
+                          multiline
+                          rows={3}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Box sx={{ mt: 3 }}>
+                      <FieldArray
+                        name="items"
+                        render={(arrayHelpers) => (
+                          <ItemSettingTable
+                            items={values?.items || []}
+                            arrayHelpers={arrayHelpers}
+                            mode={mode}
+                            setFieldValue={setFieldValue}
+                          />
+                        )}
+                      />
+                    </Box>
+                    {renderActionBar(handleReset)}
+                  </Form>
+                )
+              }}
             </Formik>
           )}
           {isUpdate &&
