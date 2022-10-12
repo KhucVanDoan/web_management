@@ -5,7 +5,11 @@ import Box from '@mui/material/Box'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -46,6 +50,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
               freeSolo
               onBlur={(e) => {
                 const newVal = e.target.value
@@ -74,11 +81,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               required
             />
           ) : (
-            <Field.TextField
-              name={`items[${index}].suppliesCode`}
-              disabled={!params?.row?.suppliesName?.code}
-              required
-            />
+            <Field.TextField name={`items[${index}].suppliesCode`} />
           )
         },
       },
@@ -90,7 +93,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           return isView ? (
             params?.row?.info
           ) : (
-            <Field.TextField name={`items[${index}].details`} required />
+            <Field.TextField
+              name={`items[${index}].details`}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
+              required
+            />
           )
         },
       },
@@ -118,7 +127,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
-              disabled={!params?.row?.suppliesName?.itemUnit}
             />
           )
         },
@@ -133,6 +141,10 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           ) : (
             <Field.TextField
               name={`items[${index}].quantityRequest`}
+              type="number"
+              numberProps={{
+                decimalScale: 2,
+              }}
               required
             />
           )

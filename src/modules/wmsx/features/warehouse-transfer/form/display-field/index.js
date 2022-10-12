@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
+import { isEmpty, isNil } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
@@ -26,7 +27,17 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
             <Field.TextField
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -37,7 +48,17 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
               name={`${item.id}`}
               label={item?.fieldName}
               type="number"
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -47,7 +68,17 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
             <Field.DatePicker
               name={`${item.id}`}
               label={item?.fieldName}
-              required={item?.required ? true : false}
+              required={Boolean(item?.required)}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -74,7 +105,14 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -103,8 +141,15 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   disabled={!values[constructions]}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                 />
               </Grid>,
             )
@@ -128,7 +173,14 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -152,7 +204,14 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  required={Boolean(item?.required)}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                 />
               </Grid>,
             )
@@ -176,7 +235,14 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )
@@ -200,7 +266,14 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  required={item?.required ? true : false}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
+                  required={Boolean(item?.required)}
                 />
               </Grid>,
             )

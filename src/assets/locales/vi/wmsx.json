@@ -2766,7 +2766,8 @@
     "itemsDetails": "Danh sách kho chứa",
     "qrCode": "QR Code",
     "qrCodeVal": "Mã QR Code",
-    "updateWarehouseSource": "Cập nhật kho, tài khoản",
+    "updateSource": "Cập nhật tài khoản",
+    "updateWarehouse": "Cập nhật kho",
     "item": {
       "addItem": "Thêm kho, tài khoản",
       "name": "Tên kho",

@@ -24,6 +24,7 @@ import {
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
@@ -36,10 +37,9 @@ import {
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams } from '~/utils'
 
-import DisplayFollowBusinessTypeManagement from './display-field'
+import displayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './item-setting-table'
 import { formSchema } from './schema'
-
 const DEFAULT_ITEMS = [
   {
     id: '',
@@ -66,6 +66,8 @@ function WarehouseExportReceiptForm() {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
   } = useWarehouseExportReceipt()
+  const { actions: warehouseTransferAction } = useWarehouseTransfer()
+
   const {
     data: { attributesBusinessTypeDetails },
     actions: warehouseImportRecipt,
@@ -80,7 +82,9 @@ function WarehouseExportReceiptForm() {
   const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
     () => ({
-      receiptDate: new Date(warehouseExportReceiptDetails?.receiptDate) || '',
+      receiptDate: warehouseExportReceiptDetails?.receiptDate
+        ? new Date(warehouseExportReceiptDetails?.receiptDate)
+        : '',
       deliver: warehouseExportReceiptDetails?.receiver || '',
       businessTypeId: warehouseExportReceiptDetails?.businessType
         ? {
@@ -111,7 +115,9 @@ function WarehouseExportReceiptForm() {
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount,
           itemCode: {
+            ...item?.item,
             itemId: item?.itemId,
+            id: item?.itemId,
             item: { ...item?.item },
           },
         })) || DEFAULT_ITEMS,
@@ -120,11 +126,12 @@ function WarehouseExportReceiptForm() {
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
-      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
-        item.tableName
-      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
+      initialValues[`${item.id}`] =
+        attributesBusinessTypeDetails[item.tableName]?.find(
+          (itemDetail) => itemDetail.id + '' === item.value,
+        ) || ''
     } else {
-      initialValues[`${item.id}`] = item.value
+      initialValues[`${item.id}`] = item.value || ''
     }
   })
 
@@ -160,6 +167,20 @@ function WarehouseExportReceiptForm() {
   useEffect(() => {
     if (isUpdate) {
       actions.getWarehouseExportReceiptDetailsById(id, (data) => {
+        if (
+          isEmpty(
+            data?.attributes?.find(
+              (att) =>
+                att?.code ===
+                  CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID ||
+                att?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+            ),
+          )
+        ) {
+          warehouseTransferAction.getListItemWarehouseStock(
+            data?.warehouse?.id || data?.warehouseId,
+          )
+        }
         const attributes = data?.attributes?.filter((e) => e?.tableName)
         const params = {
           filter: JSON.stringify(
@@ -311,6 +332,14 @@ function WarehouseExportReceiptForm() {
   }
   const handleChangeWarehouse = (val, setFieldValue) => {
     setFieldValue('items', DEFAULT_ITEMS)
+    warehouseTransferAction.getListItemWarehouseStock(val?.id)
+  }
+  const handleChangeBusinessType = (val) => {
+    if (!isEmpty(val)) {
+      val?.bussinessTypeAttributes?.forEach((item) => {
+        initialValues[item?.id] = ''
+      })
+    }
   }
   return (
     <Page
@@ -409,6 +438,7 @@ function WarehouseExportReceiptForm() {
                             }),
                           })
                         }
+                        onChange={(val) => handleChangeBusinessType(val)}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
@@ -460,7 +490,7 @@ function WarehouseExportReceiptForm() {
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
                         onChange={(val) =>
-                          handleChangeWarehouse(val, setFieldValue)
+                          handleChangeWarehouse(val, setFieldValue, values)
                         }
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
@@ -525,7 +555,7 @@ function WarehouseExportReceiptForm() {
                         disabled
                       />
                     </Grid>
-                    {DisplayFollowBusinessTypeManagement(
+                    {displayFollowBusinessTypeManagement(
                       values?.businessTypeId?.bussinessTypeAttributes,
                       t,
                       values,

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -210,6 +211,13 @@ const WarehouseTransferForm = () => {
       actions.getListItemWarehouseStock(val?.id)
     }
   }
+  const handleChangeBusinessType = (val) => {
+    if (!isEmpty(val)) {
+      val?.bussinessTypeAttributes?.forEach((item) => {
+        initialValues[item?.id] = ''
+      })
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -292,6 +300,7 @@ const WarehouseTransferForm = () => {
                             }),
                           })
                         }
+                        onChange={(val) => handleChangeBusinessType(val)}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
@@ -398,27 +407,6 @@ const WarehouseTransferForm = () => {
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
                         asyncRequestDeps={values?.sourceWarehouseId}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="reasonId"
-                        label={t('warehouseTransfer.reason')}
-                        placeholder={t('warehouseTransfer.reason')}
-                        asyncRequest={(s) =>
-                          searchApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
-                          })
-                        }
-                        asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
