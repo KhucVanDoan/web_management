@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
+import { useParams, useHistory, useRouteMatch, useLocation } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -12,9 +12,15 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  MATERIAL_ACTIVE_STATUS_OPTIONS,
+  UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE,
+  CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION,
+  UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION,
+} from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { getLocalItem } from '~/utils';
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -28,6 +34,10 @@ function MaterialManagementDetail() {
   const history = useHistory()
   const { id } = useParams()
   const routeMatch = useRouteMatch()
+  const search = useLocation().search
+  const type = new URLSearchParams(search).get('type')
+  const [isPermittedToUpdateWarehouse, setIsPermittedToUpdateWarehouse] = useState(false)
+  const [isPermittedToUpdateSource, setIsPermittedToUpdateSource] = useState(false)
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH]: MODAL_MODE.UPDATE,
@@ -39,6 +49,18 @@ function MaterialManagementDetail() {
     data: { isLoading, materialDetails },
     actions,
   } = useMaterialManagement()
+
+  useEffect(() => {
+    const userInfo = getLocalItem('userInfo');
+    const isPermittedToUpdateWarehouse = userInfo?.userPermissions?.some(permission => (
+      permission.code === CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION
+    ))
+    const isPermittedToUpdateSource = userInfo?.userPermissions?.some(permission => (
+      permission.code === UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION
+    ))
+    setIsPermittedToUpdateWarehouse(isPermittedToUpdateWarehouse)
+    setIsPermittedToUpdateSource(isPermittedToUpdateSource)
+  }, [])
 
   useEffect(() => {
     actions.getMaterialDetailsById(id)
@@ -110,34 +132,76 @@ function MaterialManagementDetail() {
 
   const renderHeaderRight = () =>
     mode === MODAL_MODE.DETAIL ? (
-      <Button
-        onClick={() =>
-          history.push(
-            ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
-              ':id',
-              `${id}`,
-            ),
-          )
-        }
-        sx={{ ml: 4 / 3 }}
-        icon="edit"
-      >
-        {t('materialManagement.updateWarehouseSource')}
-      </Button>
+      <>
+        <Button
+          onClick={() =>
+            history.push(
+              `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
+                ':id',
+                `${id}`,
+              )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE}`,
+            )
+          }
+          sx={{ ml: 4 / 3 }}
+          icon="edit"
+          disabled={!isPermittedToUpdateSource}
+        >
+          {t('materialManagement.updateSource')}
+        </Button>
+        <Button
+          onClick={() =>
+            history.push(
+              `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
+                ':id',
+                `${id}`,
+              )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE}`,
+            )
+          }
+          sx={{ ml: 4 / 3 }}
+          icon="edit"
+          disabled={!isPermittedToUpdateWarehouse}
+        >
+          {t('materialManagement.updateWarehouse')}
+        </Button>
+      </>
     ) : (
       ''
     )
 
   const initialValues = useMemo(
     () => ({
-      items: materialDetails?.items || [{ ...DEFAULT_ITEM }],
+      itemWarehouseSources: materialDetails?.itemWarehouseSources || [{ ...DEFAULT_ITEM }],
     }),
     [materialDetails],
   )
 
   const handleSubmit = (values) => {
-    const convertValues = { ...values, id: +id }
-    actions.updateWarehouseSource(convertValues, backToList)
+    const { itemWarehouseSources } = values;
+    const payload = itemWarehouseSources.map(item => ({
+      itemId: Number(id),
+      warehouseId: item?.warehouse?.id,
+      sourceId: item?.source?.id,
+    }))
+    switch (type) {
+      case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE:
+        actions.createItemWarehouseSource(
+          { data: payload },
+          () => {
+            backToList()
+          }
+        )
+        break
+      case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE:
+        actions.updateItemWarehouseSource(
+          { data: payload },
+          () => {
+            backToList()
+          }
+        )
+        break
+      default:
+        break
+    }
   }
 
   return (
@@ -247,25 +311,16 @@ function MaterialManagementDetail() {
             {({ handleReset, values }) => (
               <Form>
                 <Box sx={{ mt: 3 }}>
-                  {mode === MODAL_MODE.DETAIL ? (
-                    <ItemsSettingTable
-                      items={materialDetails?.items}
-                      mode={MODAL_MODE.DETAIL}
-                    />
-                  ) : (
-                    <Box sx={{ mt: 3 }}>
-                      <FieldArray
-                        name="items"
-                        render={(arrayHelpers) => (
-                          <ItemsSettingTable
-                            items={values?.items || []}
-                            mode={mode}
-                            arrayHelpers={arrayHelpers}
-                          />
-                        )}
+                  <FieldArray
+                    name="itemWarehouseSources"
+                    render={(arrayHelpers) => (
+                      <ItemsSettingTable
+                        items={values?.itemWarehouseSources || []}
+                        mode={mode}
+                        arrayHelpers={arrayHelpers}
                       />
-                    </Box>
-                  )}
+                    )}
+                  />
                 </Box>
                 {renderActionBar(handleReset)}
               </Form>

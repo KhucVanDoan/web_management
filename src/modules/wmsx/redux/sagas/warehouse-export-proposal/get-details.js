@@ -11,7 +11,10 @@ export const getWarehouseExportProposalDetailsApi = (params) => {
   const uri = `/v1/warehouses/warehouse-export-proposals/${params}`
   return api.get(uri)
 }
-
+export const getLotNumberItem = (params) => {
+  const uri = `/v1/items/${params}/lots`
+  return api.get(uri)
+}
 function* doGetWarehouseExportProposalDetails(action) {
   try {
     const response = yield call(

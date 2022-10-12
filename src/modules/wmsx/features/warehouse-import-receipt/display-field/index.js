@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
-import { isEmpty } from 'lodash'
+import { isEmpty, isNil } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
@@ -38,7 +38,7 @@ const DEFAULT_ITEMS = [
     creditAcc: '',
   },
 ]
-const DisplayFollowBusinessTypeManagement = (
+const displayFollowBusinessTypeManagement = (
   type,
   t,
   values,
@@ -65,7 +65,7 @@ const DisplayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (val) {
-      if (!isEmpty(values?.warehouseId)) {
+      if (isEmpty(values?.warehouseId)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
@@ -90,19 +90,19 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               required={Boolean(item?.required)}
-              // validate={(val) => {
-              //   if (item?.required) {
-              //     if (typeof val === 'string' && val === '')
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && isNil(val))
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && !isNil(val) && +val < 0)
-              //       return t('general:form.minNumber', { min: 0 })
-              //   }
-              // }}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -110,20 +110,20 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.TextField
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               type="number"
               required={Boolean(item?.required)}
-              // validate={(val) => {
-              //   if (item?.required) {
-              //     if (typeof val === 'string' && val === '')
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && isNil(val))
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && !isNil(val) && +val < 0)
-              //       return t('general:form.minNumber', { min: 0 })
-              //   }
-              // }}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -131,19 +131,19 @@ const DisplayFollowBusinessTypeManagement = (
         return display.push(
           <Grid item lg={6} xs={12}>
             <Field.DatePicker
-              name={`${item.id}`}
+              name={item.id}
               label={item?.fieldName}
               required={Boolean(item?.required)}
-              // validate={(val) => {
-              //   if (item?.required) {
-              //     if (typeof val === 'string' && val === '')
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && isNil(val))
-              //       return t('general:form.required')
-              //     if (typeof val === 'number' && !isNil(val) && +val < 0)
-              //       return t('general:form.minNumber', { min: 0 })
-              //   }
-              // }}
+              validate={(val) => {
+                if (item?.required) {
+                  if (typeof val === 'string' && val === '')
+                    return t('general:form.required')
+                  if (typeof val === 'number' && isNil(val))
+                    return t('general:form.required')
+                  if (typeof val === 'number' && !isNil(val) && +val < 0)
+                    return t('general:form.minNumber', { min: 0 })
+                }
+              }}
             />
           </Grid>,
         )
@@ -153,7 +153,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.project')}
                   placeholder={t('warehouseImportReceipt.project')}
                   asyncRequest={(s) =>
@@ -170,13 +170,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   required={Boolean(item?.required)}
                 />
               </Grid>,
@@ -185,7 +185,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.task')}
                   placeholder={t('warehouseImportReceipt.task')}
                   asyncRequest={(s) =>
@@ -207,13 +207,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   required={Boolean(item?.required)}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                 />
               </Grid>,
@@ -222,7 +222,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.suggestExport')}
                   placeholder={t('warehouseImportReceipt.suggestExport')}
                   asyncRequest={(s) =>
@@ -241,13 +241,13 @@ const DisplayFollowBusinessTypeManagement = (
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
                   disabled={!values?.warehouseId}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeProposals(val)}
                 />
               </Grid>,
@@ -256,7 +256,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.receiptNo')}
                   placeholder={t('warehouseImportReceipt.receiptNo')}
                   asyncRequest={(s) => {
@@ -274,13 +274,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeReceipt(val)}
                 />
               </Grid>,
@@ -289,7 +289,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={t('warehouseImportReceipt.warehouseExportReceipt')}
                   placeholder={t(
                     'warehouseImportReceipt.warehouseExportReceipt',
@@ -308,13 +308,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   onChange={(val) => handleChangeWarehouseExportReceipt(val)}
                 />
               </Grid>,
@@ -323,7 +323,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchReceiptDepartmentApi({
@@ -339,13 +339,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   required={Boolean(item?.required)}
                 />
               </Grid>,
@@ -354,7 +354,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchVendorsApi({
@@ -370,13 +370,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                   required={Boolean(item?.required)}
                 />
               </Grid>,
@@ -385,7 +385,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureTypeApi({
@@ -402,13 +402,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                 />
               </Grid>,
             )
@@ -416,7 +416,7 @@ const DisplayFollowBusinessTypeManagement = (
             return display.push(
               <Grid item lg={6} xs={12}>
                 <Field.Autocomplete
-                  name={`${item.id}`}
+                  name={item.id}
                   label={item?.fieldName}
                   asyncRequest={(s) => {
                     return searchExpenditureOrgApi({
@@ -433,13 +433,13 @@ const DisplayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  // validate={(val) => {
-                  //   if (item?.required) {
-                  //     if (!isEmpty(val)) {
-                  //       return t('general:form.required')
-                  //     }
-                  //   }
-                  // }}
+                  validate={(val) => {
+                    if (item?.required) {
+                      if (isEmpty(val)) {
+                        return t('general:form.required')
+                      }
+                    }
+                  }}
                 />
               </Grid>,
             )
@@ -454,4 +454,4 @@ const DisplayFollowBusinessTypeManagement = (
 
   return display
 }
-export default DisplayFollowBusinessTypeManagement
+export default displayFollowBusinessTypeManagement

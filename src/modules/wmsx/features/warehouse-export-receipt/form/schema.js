@@ -1,5 +1,7 @@
 import * as Yup from 'yup'
 
+import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+
 export const formSchema = (t) =>
   Yup.object().shape({
     receiptDate: Yup.date().nullable().required(t('general:form.required')),
@@ -19,7 +21,24 @@ export const formSchema = (t) =>
         itemCode: Yup.object().nullable().required(t('general:form.required')),
         quantityExport: Yup.string()
           .nullable()
-          .required(t('general:form.required')),
+          .required(t('general:form.required'))
+          .test('', '', (value, context) => {
+            if (value <= 0) {
+              return context.createError({
+                message: t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                }),
+              })
+            } else if (value > context?.parent?.planExportedQuantity) {
+              return context.createError({
+                message: t('general:form.maxNumber', {
+                  max: context?.parent?.planExportedQuantity,
+                }),
+              })
+            } else {
+              return true
+            }
+          }),
         // money: Yup.string().nullable().required(t('general:form.required')),
       }),
     ),

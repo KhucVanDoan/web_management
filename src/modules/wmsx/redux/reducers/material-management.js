@@ -24,6 +24,12 @@ import {
   REJECT_MATERIAL_START,
   REJECT_MATERIAL_SUCCESS,
   RESET_MATERIAL_DETAILS_STATE,
+  CREATE_ITEM_WAREHOUSE_SOURCE_START,
+  CREATE_ITEM_WAREHOUSE_SOURCE_FAILED,
+  CREATE_ITEM_WAREHOUSE_SOURCE_SUCCESS,
+  UPDATE_ITEM_WAREHOUSE_SOURCE_START,
+  UPDATE_ITEM_WAREHOUSE_SOURCE_SUCCESS,
+  UPDATE_ITEM_WAREHOUSE_SOURCE_FAILED,
 } from '~/modules/wmsx/redux/actions/material-management'
 
 const initialState = {
@@ -49,6 +55,8 @@ export default function materialManagement(state = initialState, action) {
     case REJECT_MATERIAL_START:
     case UPDATE_WAREHOUSE_SOURCE_START:
     case GET_MATERIAL_DETAILS_START:
+    case CREATE_ITEM_WAREHOUSE_SOURCE_START:
+    case UPDATE_ITEM_WAREHOUSE_SOURCE_START:
       return {
         ...state,
         isLoading: true,
@@ -78,6 +86,10 @@ export default function materialManagement(state = initialState, action) {
     case DELETE_MATERIAL_FAILED:
     case UPDATE_WAREHOUSE_SOURCE_SUCCESS:
     case UPDATE_WAREHOUSE_SOURCE_FAILED:
+    case CREATE_ITEM_WAREHOUSE_SOURCE_SUCCESS:
+    case CREATE_ITEM_WAREHOUSE_SOURCE_FAILED:
+    case UPDATE_ITEM_WAREHOUSE_SOURCE_SUCCESS:
+    case UPDATE_ITEM_WAREHOUSE_SOURCE_FAILED:
       return {
         ...state,
         isLoading: false,
