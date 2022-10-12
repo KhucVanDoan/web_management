@@ -413,7 +413,6 @@ const WarehouseTransferForm = () => {
                         required
                       />
                     </Grid>
-
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="deliver"
