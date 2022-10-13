@@ -105,7 +105,7 @@ function WarehouseImportReceiptForm() {
           itemId: item?.itemId,
           itemName: item?.item?.name,
           unit: item?.item?.itemUnit,
-          // price: item?.price,
+          lotNumber: item?.lotNumber,
           money: item?.amount,
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount,
@@ -328,7 +328,7 @@ function WarehouseImportReceiptForm() {
   const handleChangeBusinessType = (val) => {
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
-        initialValues[item?.id] = ''
+        initialValues[item?.id] = null
       })
     }
   }
@@ -381,6 +381,7 @@ function WarehouseImportReceiptForm() {
                         name="receiptDate"
                         label={t('warehouseImportReceipt.receiptDate')}
                         placeholder={t('warehouseImportReceipt.receiptDate')}
+                        maxDate={new Date()}
                         required
                       />
                     </Grid>

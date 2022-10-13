@@ -3,7 +3,12 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Grid, Box } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory, useRouteMatch, useLocation } from 'react-router-dom'
+import {
+  useParams,
+  useHistory,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -20,7 +25,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { getLocalItem } from '~/utils';
+import { getLocalItem } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
 
@@ -36,8 +41,10 @@ function MaterialManagementDetail() {
   const routeMatch = useRouteMatch()
   const search = useLocation().search
   const type = new URLSearchParams(search).get('type')
-  const [isPermittedToUpdateWarehouse, setIsPermittedToUpdateWarehouse] = useState(false)
-  const [isPermittedToUpdateSource, setIsPermittedToUpdateSource] = useState(false)
+  const [isPermittedToUpdateWarehouse, setIsPermittedToUpdateWarehouse] =
+    useState(false)
+  const [isPermittedToUpdateSource, setIsPermittedToUpdateSource] =
+    useState(false)
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH]: MODAL_MODE.UPDATE,
@@ -51,13 +58,15 @@ function MaterialManagementDetail() {
   } = useMaterialManagement()
 
   useEffect(() => {
-    const userInfo = getLocalItem('userInfo');
-    const isPermittedToUpdateWarehouse = userInfo?.userPermissions?.some(permission => (
-      permission.code === CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION
-    ))
-    const isPermittedToUpdateSource = userInfo?.userPermissions?.some(permission => (
-      permission.code === UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION
-    ))
+    const userInfo = getLocalItem('userInfo')
+    const isPermittedToUpdateWarehouse = userInfo?.userPermissions?.some(
+      (permission) =>
+        permission.code === CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION,
+    )
+    const isPermittedToUpdateSource = userInfo?.userPermissions?.some(
+      (permission) =>
+        permission.code === UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION,
+    )
     setIsPermittedToUpdateWarehouse(isPermittedToUpdateWarehouse)
     setIsPermittedToUpdateSource(isPermittedToUpdateSource)
   }, [])
@@ -170,34 +179,30 @@ function MaterialManagementDetail() {
 
   const initialValues = useMemo(
     () => ({
-      itemWarehouseSources: materialDetails?.itemWarehouseSources || [{ ...DEFAULT_ITEM }],
+      itemWarehouseSources: materialDetails?.itemWarehouseSources || [
+        { ...DEFAULT_ITEM },
+      ],
     }),
     [materialDetails],
   )
 
   const handleSubmit = (values) => {
-    const { itemWarehouseSources } = values;
-    const payload = itemWarehouseSources.map(item => ({
+    const { itemWarehouseSources } = values
+    const payload = itemWarehouseSources.map((item) => ({
       itemId: Number(id),
       warehouseId: item?.warehouse?.id,
       sourceId: item?.source?.id,
     }))
     switch (type) {
       case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE:
-        actions.createItemWarehouseSource(
-          { data: payload },
-          () => {
-            backToList()
-          }
-        )
+        actions.createItemWarehouseSource({ data: payload }, () => {
+          backToList()
+        })
         break
       case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE:
-        actions.updateItemWarehouseSource(
-          { data: payload },
-          () => {
-            backToList()
-          }
-        )
+        actions.updateItemWarehouseSource({ data: payload }, () => {
+          backToList()
+        })
         break
       default:
         break

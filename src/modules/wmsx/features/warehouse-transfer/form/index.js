@@ -80,7 +80,9 @@ const WarehouseTransferForm = () => {
       destinationWarehouseId:
         warehouseTransferDetails?.destinationWarehouse || '',
       sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
-      createdAt: new Date(warehouseTransferDetails?.createdAt) || '',
+      createdAt: warehouseTransferDetails?.createdAt
+        ? new Date(warehouseTransferDetails?.createdAt)
+        : '',
       deliver: warehouseTransferDetails?.receiver || '',
       explaination: warehouseTransferDetails?.explanation || '',
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(

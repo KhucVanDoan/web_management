@@ -410,7 +410,7 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <LV
                       label={
                         <Box sx={{ mt: 8 / 12 }}>
@@ -459,10 +459,10 @@ function MaterialManagementForm() {
                         </Button>
                       )}
                     </LV>
-                  </Grid>
+                  </Grid> */}
                   {isUpdate && (
                     <>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -475,7 +475,7 @@ function MaterialManagementForm() {
                           <Box />
                         </LV>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>

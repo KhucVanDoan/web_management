@@ -316,7 +316,7 @@ function MaterialManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('materialManagement.description')}
+          label={t('materialManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
