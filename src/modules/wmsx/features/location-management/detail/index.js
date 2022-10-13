@@ -39,85 +39,9 @@ function LocationManagementDetail() {
   const { id } = useParams()
 
   const {
-    data: { isLoading, locationDetails },
+    data: { isLoading, locationDetails, itemByLocationIdList },
     actions,
   } = useLocationManagement()
-
-  const fakeData = [
-    {
-      quantity: '2.00',
-      id: 1,
-      name: 'Vật tư A',
-      code: '004',
-      locations: [
-        {
-          quantity: 2,
-          locator: {
-            id: '6331211e91e3a98c11b51e1f',
-            locatorId: 1,
-            name: 'Kho.Tổ máy.Ngăn.Kệ',
-            code: 'KH.TM.NG.KE',
-          },
-          warehouse: {
-            id: 1,
-            name: 'Kho Manh',
-            code: 'KHM',
-          },
-          lots: [
-            {
-              quantity: 2,
-              lotNumber: 'BBC',
-              mfg: '2022-09-26T14:09:05.000Z',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      quantity: '12.00',
-      id: 2,
-      name: 'Vật tư B',
-      code: '003',
-      locations: [
-        {
-          quantity: 2,
-          locator: {
-            id: '6331211e91e3a98c11b51e1f',
-            locatorId: 1,
-            name: 'Kho.Tổ máy.Ngăn.Kệ',
-            code: 'KH.TM.NG.KE',
-          },
-          warehouse: {
-            id: 1,
-            name: 'Kho Manh',
-            code: 'KHM',
-          },
-          lots: [
-            {
-              quantity: 2,
-              lotNumber: 'BBA',
-              mfg: '2022-09-26T14:09:32.000Z',
-            },
-          ],
-        },
-        {
-          quantity: 10,
-          warehouse: {
-            id: 2,
-            name: 'Kho Van Xuan',
-            code: 'KVX',
-          },
-          lots: [
-            {
-              quantity: 10,
-              lotNumber: null,
-              mfg: '2022-09-29T03:30:49.398Z',
-            },
-          ],
-        },
-      ],
-    },
-  ]
 
   useEffect(() => {
     actions.getLocationDetailsById(id, (val) => {
@@ -244,7 +168,10 @@ function LocationManagementDetail() {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={fakeData} mode={MODAL_MODE.DETAIL} />
+        <ItemsSettingTable
+          items={itemByLocationIdList?.items}
+          mode={MODAL_MODE.DETAIL}
+        />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

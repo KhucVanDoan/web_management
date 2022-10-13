@@ -186,7 +186,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 999999999,
   },
   EXPIRY_WAREHOUSE: {
-    MIN: 0,
+    MIN: 1,
     MAX: 9999,
   },
 }
