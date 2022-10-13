@@ -242,9 +242,9 @@ const WarehouseTransfer = () => {
     setIsOpenDeleteModal(true)
   }
   const onSubmitDelete = () => {
-    // actions.deleteWarehouseTransfer(tempItem?.id, () => {
-    //   refreshData()
-    // })
+    actions.deleteWarehouseTransfer(tempItem?.id, () => {
+      refreshData()
+    })
     setTempItem(null)
     setIsOpenDeleteModal(false)
   }
@@ -255,9 +255,9 @@ const WarehouseTransfer = () => {
   }
 
   const submitConfirm = () => {
-    // actions.confirmWarehouseTransferById(tempItem?.id, () => {
-    //   refreshData()
-    // })
+    actions.confirmWarehouseTransferById(tempItem?.id, () => {
+      refreshData()
+    })
     setTempItem(null)
     setIsOpenConfirmModal(false)
   }
@@ -266,9 +266,9 @@ const WarehouseTransfer = () => {
     setIsOpenRejectModal(true)
   }
   const submitReject = () => {
-    // actions.rejectWarehouseTransferById(tempItem?.id, () => {
-    //   refreshData()
-    // })
+    actions.rejectWarehouseTransferById(tempItem?.id, () => {
+      refreshData()
+    })
     setTempItem(null)
     setIsOpenRejectModal(false)
   }

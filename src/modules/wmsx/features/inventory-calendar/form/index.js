@@ -73,13 +73,15 @@ const InventoryCalendarForm = () => {
         inventoryCalendarDetails?.warehouses?.map((item) => item) || [],
       executionDay: inventoryCalendarDetails?.executeFrom
         ? [
-            inventoryCalendarDetails?.executeFrom,
-            inventoryCalendarDetails?.executeTo,
+            new Date(inventoryCalendarDetails?.executeFrom),
+            new Date(inventoryCalendarDetails?.executeTo),
           ]
         : '',
-      closingDay: inventoryCalendarDetails?.checkPointDate || '',
+      closingDay: new Date(inventoryCalendarDetails?.checkPointDate) || '',
       description: inventoryCalendarDetails?.description || '',
-      switchMode: inventoryCalendarDetails?.checkPointDataType || 0,
+      switchMode:
+        inventoryCalendarDetails?.checkPointDataType ||
+        CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT,
       items:
         inventoryCalendarDetails.type === INVENTORY_TYPE.UNEXPECTED
           ? itemUpdate?.map((i, index) => ({
@@ -143,9 +145,9 @@ const InventoryCalendarForm = () => {
     if (mode === MODAL_MODE.CREATE) {
       const convertValues = {
         name: values?.name,
-        executeFrom: values?.executionDay[0].toISOString(),
-        executeTo: values?.executionDay[1].toISOString(),
-        checkPointDate: values?.closingDay.toISOString(),
+        executeFrom: values?.executionDay[0]?.toISOString(),
+        executeTo: values?.executionDay[1]?.toISOString(),
+        checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
@@ -156,14 +158,14 @@ const InventoryCalendarForm = () => {
       }
       const params = {
         name: values?.name,
-        executeFrom: values?.executionDay[0].toISOString(),
-        executeTo: values?.executionDay[1].toISOString(),
-        checkPointDate: values?.closingDay.toISOString(),
+        executeFrom: values?.executionDay[0]?.toISOString(),
+        executeTo: values?.executionDay[1]?.toISOString(),
+        checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
         description: values?.description,
-        checkPointDataType: 1,
+        checkPointDataType: +values?.switchMode,
         type: values?.type,
         items: JSON.stringify(
           values.items?.map((item) => ({
@@ -178,28 +180,31 @@ const InventoryCalendarForm = () => {
     } else if (mode === MODAL_MODE.UPDATE) {
       const convertValues = {
         name: values?.name,
-        executeFrom: values?.executionDay[0],
-        executeTo: values?.executionDay[1],
-        checkPointDate: values?.closingDay,
+        executeFrom: values?.executionDay[0]?.toISOString(),
+        executeTo: values?.executionDay[1]?.toISOString(),
+        checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
         description: values?.description,
         type: values?.type,
-        items: '[]',
+        // items: '[]',
         checkPointDataType: +values?.switchMode,
-        checkPointDataAttachment: values?.checkPointDataAttachment,
+        checkPointDataAttachment:
+          values?.switchMode === CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT
+            ? values?.checkPointDataAttachment
+            : null,
       }
       const params = {
         name: values?.name,
-        executeFrom: values?.executionDay[0],
-        executeTo: values?.executionDay[1],
-        checkPointDate: values?.closingDay,
+        executeFrom: values?.executionDay[0]?.toISOString(),
+        executeTo: values?.executionDay[1]?.toISOString(),
+        checkPointDate: values?.closingDay?.toISOString(),
         warehouseIds: JSON.stringify(
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
         description: values?.description,
-        checkPointDataType: 1,
+        checkPointDataType: +values?.switchMode,
         type: values?.type,
         items: JSON.stringify(
           values.items?.map((item) => ({
@@ -339,6 +344,7 @@ const InventoryCalendarForm = () => {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         getOptionLabel={(opt) => opt?.name}
                         multiple
                         required
@@ -422,7 +428,6 @@ const InventoryCalendarForm = () => {
                           </label>
                           <input
                             hidden
-                            id="select-file"
                             type="file"
                             onChange={(e) => {
                               setFieldValue(
@@ -440,6 +445,7 @@ const InventoryCalendarForm = () => {
                         >
                           <FileUploadIcon /> Nhập dữ liệu
                           <input
+                            name="checkPointDataAttachment"
                             hidden
                             id="select-file"
                             type="file"

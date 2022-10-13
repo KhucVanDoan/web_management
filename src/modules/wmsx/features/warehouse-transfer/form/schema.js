@@ -5,6 +5,7 @@ import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
 const warehouseTranferSchema = (t) =>
   Yup.object().shape({
     name: Yup.string().nullable().required(t('general:form.required')),
+    createdAt: Yup.date().nullable().required(t('general:form.required')),
     businessTypeId: Yup.object()
       .nullable()
       .required(t('general:form.required')),

@@ -31,6 +31,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
         headerName: t('inventoryCalendar.items.itemCode'),
         width: 180,
         renderCell: (params, index) => {
+          const itemIdCodeList = items?.map((item) => item?.itemCode?.id)
           return isView ? (
             params?.row?.itemCode?.code
           ) : (
@@ -47,11 +48,15 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
                   }),
                 })
               }
-              disabled={!values?.warehouse}
+              disabled={!values?.warehouses}
               asyncRequestDeps={values?.warehouses}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.id) &&
+                opt?.id !== items[index]?.itemCode?.id
+              }
             />
           )
         },

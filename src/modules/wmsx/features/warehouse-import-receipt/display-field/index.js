@@ -65,7 +65,7 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (val) {
-      if (isEmpty(values?.warehouseId)) {
+      if (!isEmpty(values?.warehouseId)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
