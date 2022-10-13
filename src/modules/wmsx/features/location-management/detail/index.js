@@ -169,7 +169,7 @@ function LocationManagementDetail() {
       </Grid>
       <Box sx={{ mt: 3 }}>
         <ItemsSettingTable
-          items={itemByLocationIdList?.items}
+          items={itemByLocationIdList}
           mode={MODAL_MODE.DETAIL}
         />
       </Box>
