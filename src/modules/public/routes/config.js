@@ -3,4 +3,8 @@ export const ROUTE = {
     PATH: '/redirect',
     TITLE: '',
   },
+  LICENSE: {
+    PATH: '/license',
+    TITLE: 'license',
+  },
 }

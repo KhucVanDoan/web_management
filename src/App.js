@@ -21,6 +21,7 @@ import i18n from '~/utils/i18n'
 
 import { AppProvider } from './contexts/AppContext'
 import { SocketProvider } from './contexts/SocketContext'
+import LicenseChecking from './modules/public/features/license/license-checking'
 import { getLocale } from './utils'
 import { DateFns } from './utils/date-time'
 
@@ -39,6 +40,8 @@ function App() {
                     <ReactNotification />
 
                     <Router history={history}>
+                      <LicenseChecking />
+
                       <Switch>
                         {publicRoutes.map((route) => (
                           <Route
