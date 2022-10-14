@@ -118,7 +118,7 @@ const WarehouseTransferForm = () => {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
-          locatorId: +item?.locator,
+          locatorId: +item?.locator?.locatorId,
           planQuantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
         })),
