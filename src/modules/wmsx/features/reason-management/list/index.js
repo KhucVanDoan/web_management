@@ -325,12 +325,12 @@ function ReasonManagement() {
       >
         {t('general.confirmMessage')}
         <LV
-          label={t('constructionManagement.code')}
+          label={t('reasonManagement.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionManagement.name')}
+          label={t('reasonManagement.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

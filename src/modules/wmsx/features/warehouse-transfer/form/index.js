@@ -80,7 +80,9 @@ const WarehouseTransferForm = () => {
       destinationWarehouseId:
         warehouseTransferDetails?.destinationWarehouse || '',
       sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
-      createdAt: new Date(warehouseTransferDetails?.createdAt) || '',
+      createdAt: warehouseTransferDetails?.createdAt
+        ? new Date(warehouseTransferDetails?.createdAt)
+        : '',
       deliver: warehouseTransferDetails?.receiver || '',
       explaination: warehouseTransferDetails?.explanation || '',
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
@@ -116,7 +118,7 @@ const WarehouseTransferForm = () => {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
-          locatorId: +item?.locator,
+          locatorId: +item?.locator?.locatorId,
           planQuantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
         })),

@@ -84,7 +84,7 @@ function WarehouseExportReceiptForm() {
     () => ({
       receiptDate: warehouseExportReceiptDetails?.receiptDate
         ? new Date(warehouseExportReceiptDetails?.receiptDate)
-        : '',
+        : new Date(),
       deliver: warehouseExportReceiptDetails?.receiver || '',
       businessTypeId: warehouseExportReceiptDetails?.businessType
         ? {
@@ -386,6 +386,7 @@ function WarehouseExportReceiptForm() {
                         name="receiptDate"
                         label={t('warehouseExportReceipt.createdAt')}
                         placeholder={t('warehouseExportReceipt.createdAt')}
+                        maxDate={new Date()}
                         required
                       />
                     </Grid>
@@ -395,7 +396,7 @@ function WarehouseExportReceiptForm() {
                         label={t('warehouseExportReceipt.nameOfReceiver')}
                         placeholder={t('warehouseExportReceipt.nameOfReceiver')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
                         required
                       />

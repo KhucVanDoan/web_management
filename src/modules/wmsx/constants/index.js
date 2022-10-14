@@ -386,16 +386,16 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.rejectedReceived',
     color: 'rejectedReceived',
   },
-  {
-    id: 13,
-    text: 'orderStatus.inProducing',
-    color: 'inProducing',
-  },
-  {
-    id: 14,
-    text: 'orderStatus.produced',
-    color: 'produced',
-  },
+  // {
+  //   id: 13,
+  //   text: 'orderStatus.inProducing',
+  //   color: 'inProducing',
+  // },
+  // {
+  //   id: 14,
+  //   text: 'orderStatus.produced',
+  //   color: 'produced',
+  // },
   {
     id: 15,
     text: 'orderStatus.inReturning',

@@ -11,11 +11,8 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { exportCompanyApi } from '~/modules/database/redux/sagas/define-company/import-export-company'
-import { TYPE_ENUM_EXPORT } from '~/modules/mesx/constants'
 import useSetStoragePeriod from '~/modules/wmsx/redux/hooks/useSetStoragePeriod'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
@@ -67,7 +64,6 @@ function SetStoragePeriod() {
     isOpenDeleteModal: false,
   })
 
-  const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const columns = [
@@ -179,35 +175,13 @@ function SetStoragePeriod() {
 
   const renderHeaderRight = () => {
     return (
-      <>
-        <ImportExport
-          name={t('setStoragePeriod.export')}
-          onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
-          onRefresh={refreshData}
-          disabled
-        />
-        <Button
-          onClick={() => history.push(ROUTE.SET_STORAGE_PERIOD.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
-      </>
+      <Button
+        onClick={() => history.push(ROUTE.SET_STORAGE_PERIOD.CREATE.PATH)}
+        sx={{ ml: 4 / 3 }}
+        icon="add"
+      >
+        {t('general:common.create')}
+      </Button>
     )
   }
 
@@ -229,7 +203,6 @@ function SetStoragePeriod() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
         onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}

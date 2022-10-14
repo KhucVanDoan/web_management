@@ -37,6 +37,16 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
+        <Field.TextField
+          name="normalizedCode"
+          label={t('materialManagement.normalizedCode')}
+          placeholder={t('materialManagement.normalizedCode')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Field.Autocomplete
           name="manufacturingCountryId"
           label={t('materialManagement.country')}

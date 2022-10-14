@@ -153,7 +153,7 @@ function LocationManagementForm() {
     if (mode === MODAL_MODE.CREATE) {
       actions.createLocation(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateLocation({ ...convertValues, id: Number(id) }, backToList)
+      actions.updateLocation({ ...convertValues, id }, backToList)
     }
   }
 
