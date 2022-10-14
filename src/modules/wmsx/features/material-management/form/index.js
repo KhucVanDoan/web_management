@@ -16,6 +16,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -23,7 +24,11 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  MATERIAL_ACTIVE_STATUS_OPTIONS,
+  UOM_ACTIVE_STATUS,
+} from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
@@ -213,6 +218,7 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       required
                     />
                   </Grid>
@@ -247,6 +253,9 @@ function MaterialManagementForm() {
                         searchProducingCountryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -266,7 +275,7 @@ function MaterialManagementForm() {
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
-                            level: 2,
+                            status: ACTIVE_STATUS.ACTIVE,
                           }),
                         })
                       }
@@ -315,6 +324,9 @@ function MaterialManagementForm() {
                         searchMaterialQualityApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -334,6 +346,9 @@ function MaterialManagementForm() {
                         searchObjectCategoryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -401,6 +416,9 @@ function MaterialManagementForm() {
                         searchUomsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: UOM_ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -410,7 +428,7 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <LV
                       label={
                         <Box sx={{ mt: 8 / 12 }}>
@@ -459,10 +477,10 @@ function MaterialManagementForm() {
                         </Button>
                       )}
                     </LV>
-                  </Grid>
+                  </Grid> */}
                   {isUpdate && (
                     <>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -475,7 +493,7 @@ function MaterialManagementForm() {
                           <Box />
                         </LV>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>

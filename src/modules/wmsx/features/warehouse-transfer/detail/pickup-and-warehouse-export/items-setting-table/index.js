@@ -23,7 +23,7 @@ const ItemSettingTable = (props) => {
       const findLots = lots?.find(
         (e) =>
           e?.itemId === item?.itemCode?.itemId &&
-          e?.lotNumber !== item?.lotNumber,
+          e?.lotNumber === item?.lotNumber,
       )
       if (isEmpty(findLots)) {
         lots.push({
@@ -32,7 +32,9 @@ const ItemSettingTable = (props) => {
         })
       }
       const findLocator = locators?.find(
-        (e) => e?.itemId === item?.itemCode?.itemId,
+        (e) =>
+          e?.itemId === item?.itemCode?.itemId &&
+          e?.locatorId === item?.locator?.locatorId,
       )
       if (isEmpty(findLocator)) {
         locators.push({

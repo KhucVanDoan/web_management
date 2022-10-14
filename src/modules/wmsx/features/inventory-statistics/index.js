@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { Box, IconButton, Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
-import { omit } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
@@ -49,9 +48,9 @@ function InventoryStatistics() {
   }
 
   const DEFAULT_QUICK_FILTERS = {
-    reportDate: new Date(),
-    itemTypeId: '',
     warehouseId: '',
+    itemId: '',
+    locationId: '',
   }
 
   const {
@@ -92,24 +91,14 @@ function InventoryStatistics() {
       headerName: t('inventoryStatistics.code'),
       width: 80,
       fixed: true,
-      sortable: true,
+      renderCell: (params) => params?.row?.code,
     },
     {
       field: 'itemName',
       headerName: t('inventoryStatistics.name'),
       width: 150,
       fixed: true,
-      sortable: true,
-      renderCell: (params) => {
-        const row = params?.row
-        const warning = params?.row?.checkInventory
-        return (
-          <div>
-            {warning && <div style={{ color: 'red' }}>{row?.itemName}</div>}
-            {!warning && <>{row?.itemName}</>}
-          </div>
-        )
-      },
+      renderCell: (params) => params?.row?.name,
     },
     {
       field: 'unit',
@@ -121,37 +110,35 @@ function InventoryStatistics() {
       field: 'warehouseName',
       headerName: t('inventoryStatistics.warehouseName'),
       width: 150,
-      sortable: true,
+      renderCell: (params) => params?.row?.locations?.[0]?.warehouse?.name,
     },
     {
       field: 'location',
       headerName: t('inventoryStatistics.location'),
       width: 150,
-      sortable: true,
+      renderCell: (params) => params?.row?.locations?.[0]?.locator?.name,
     },
     {
       field: 'lotNumber',
       headerName: t('inventoryStatistics.lotNumber'),
       width: 150,
-      sortable: true,
+      renderCell: (params) => params?.row?.locations?.[0]?.lots?.[0]?.lotNumber,
     },
     {
       field: 'quantity',
       headerName: t('inventoryStatistics.quantity'),
       width: 150,
-      sortable: true,
+      renderCell: (params) => Number(params?.row?.quantity),
     },
     {
       field: 'price',
       headerName: t('inventoryStatistics.price'),
       width: 150,
-      sortable: true,
     },
     {
       field: 'intoMoney',
       headerName: t('inventoryStatistics.intoMoney'),
       width: 150,
-      sortable: true,
     },
     {
       field: 'type',
@@ -212,15 +199,13 @@ function InventoryStatistics() {
       reportDate: quickFilters?.reportDate,
       limit: pageSize,
       filter: convertFilterParams(
-        omit(
-          {
-            ...filters,
-            ...quickFilters,
-            itemTypeId: quickFilters?.itemTypeId?.id,
-            warehouseId: quickFilters?.warehouseId?.id,
-          },
-          ['reportDate'],
-        ),
+        {
+          ...filters,
+          ...quickFilters,
+          warehouseId: quickFilters?.warehouseId?.id,
+          itemId: quickFilters?.itemId?.id,
+          locationId: quickFilters?.locationId?.id,
+        },
         columns,
       ),
       sort: convertSortParams(sort),
@@ -286,7 +271,7 @@ function InventoryStatistics() {
         />
       </Box>
       <Dialog
-        open={modal.isOpenDeleteModal}
+        open={modal.isOpenUpdateModal}
         title={t('inventoryStatistics.update')}
         onCancel={onCloseUpdateModal}
         noBorderBottom
@@ -297,7 +282,7 @@ function InventoryStatistics() {
           onSubmit={onSubmitUpdate}
           enableReinitialize
         >
-          {({ handleReset }) => (
+          {() => (
             <Form>
               <Grid container rowSpacing={4 / 3}>
                 <Grid item xs={12}>
@@ -330,7 +315,7 @@ function InventoryStatistics() {
               </Grid>
 
               <ActionBar
-                onCancel={handleReset}
+                onCancel={onCloseUpdateModal}
                 mode={MODAL_MODE.UPDATE}
                 sx={{ borderTop: 0 }}
               />

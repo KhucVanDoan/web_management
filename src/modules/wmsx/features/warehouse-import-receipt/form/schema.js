@@ -15,25 +15,24 @@ export const formSchema = (t) =>
     warehouseId: Yup.object().nullable().required(t('general:form.required')),
     reasonId: Yup.object().nullable().required(t('general:form.required')),
     sourceId: Yup.object().nullable().required(t('general:form.required')),
+
     items: Yup.array().of(
-      Yup.object()
-        .shape({
-          itemCode: Yup.object()
-            .nullable()
-            .required(t('general:form.required')),
-          importQuantity: Yup.number()
-            .nullable()
-            .required(t('general:form.required')),
-        })
-        .test('', '', (values, context) => {
-          if (values <= 0) {
-            return context.createError({
-              message: t('general:form.moreThanNumber', {
-                min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-              }),
-            })
-          }
-          return true
-        }),
+      Yup.object().shape({
+        itemCode: Yup.object().nullable().required(t('general:form.required')),
+        money: Yup.string().nullable().required(t('general:form.required')),
+        importQuantity: Yup.number()
+          .nullable()
+          .required(t('general:form.required'))
+          .test('', '', (values, context) => {
+            if (values <= 0) {
+              return context.createError({
+                message: t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                }),
+              })
+            }
+            return true
+          }),
+      }),
     ),
   })

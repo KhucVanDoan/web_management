@@ -105,6 +105,7 @@ function InventoryCalendar() {
       headerName: t('inventoryCalendar.closingDay'),
       width: 150,
       sortable: false,
+      filterFormat: 'date',
       renderCell: (params) => {
         const checkPointDate = params.row.checkPointDate
         return convertUtcDateToLocalTz(checkPointDate)
@@ -216,7 +217,6 @@ function InventoryCalendar() {
         {
           ...filters,
           warehouseName: filters?.warehouseName?.name,
-          checkPointDate: filters?.checkPointDate?.toISOString(),
         },
         columns,
       ),
