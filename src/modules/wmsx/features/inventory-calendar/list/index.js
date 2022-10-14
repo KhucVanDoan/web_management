@@ -64,7 +64,6 @@ function InventoryCalendar() {
     setFilters,
     setKeyword,
   } = useQueryState()
-
   const columns = [
     {
       field: 'code',
@@ -102,11 +101,11 @@ function InventoryCalendar() {
       },
     },
     {
-      field: 'closingDay',
+      field: 'checkPointDate',
       headerName: t('inventoryCalendar.closingDay'),
-      filterFormat: 'date',
       width: 150,
       sortable: false,
+      filterFormat: 'date',
       renderCell: (params) => {
         const checkPointDate = params.row.checkPointDate
         return convertUtcDateToLocalTz(checkPointDate)
@@ -193,7 +192,10 @@ function InventoryCalendar() {
                 bold={false}
                 onClick={() => {
                   history.push(
-                    ROUTE.INVENTORY.DETAIL.PATH.replace(':id', `${id}`),
+                    ROUTE.INVENTORY_CALENDAR.DETAIL_RECIPT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
                   )
                 }}
               >
@@ -212,7 +214,10 @@ function InventoryCalendar() {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, warehouseName: filters?.warehouseName?.name },
+        {
+          ...filters,
+          warehouseName: filters?.warehouseName?.name,
+        },
         columns,
       ),
       sort: convertSortParams(sort),

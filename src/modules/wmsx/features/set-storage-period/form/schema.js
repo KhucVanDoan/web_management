@@ -23,6 +23,12 @@ export const formSchema = (t) =>
     expiryWarningWarehouse: Yup.number()
       .nullable()
       .required(t('general:form.required'))
+      .min(
+        NUMBER_FIELD_REQUIRED_SIZE.EXPIRY_WAREHOUSE.MIN,
+        t('general:form.minNumber', {
+          min: NUMBER_FIELD_REQUIRED_SIZE.EXPIRY_WAREHOUSE.MIN,
+        }),
+      )
       .test('number', '', (value, context) => {
         if (
           context?.parent?.expiryWarningWarehouse >=

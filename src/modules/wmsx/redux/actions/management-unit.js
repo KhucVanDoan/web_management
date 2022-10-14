@@ -38,6 +38,24 @@ export const REJECT_UNIT_MANAGEMENT_SUCCESS =
   'WMSX_REJECT_UNIT_MANAGEMENT_SUCCESS'
 export const REJECT_UNIT_MANAGEMENT_FAILED =
   'WMSX_REJECT_UNIT_MANAGEMENT_FAILED'
+
+export const UPDATE_DEPARTMENT_ASSIGN_START =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_START'
+export const UPDATE_DEPARTMENT_ASSIGN_SUCCESS =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_SUCCESS'
+export const UPDATE_DEPARTMENT_ASSIGN_FAILED =
+  'WMSX_UPDATE_DEPARTMENT_ASSIGN_FAILED'
+
+export const GET_DEPARTMENT_ASSIGN_DETAILS_START =
+  'WMSX_GET_DEPARTMENT_ASSIGN_DETAILS_START'
+export const GET_DEPARTMENT_ASSIGN_DETAILS_SUCCESS =
+  'WMSX_GET_DEPARTMENT_ASSIGN_DETAILS_SUCCESS'
+export const GET_DEPARTMENT_ASSIGN_DETAILS_FAILED =
+  'WMSX_GET_DEPARTMENT_ASSIGN_DETAILS_FAILED'
+
+export const RESET_DEPARTMENT_ASSIGN_DETAILS_STATE =
+  'CONFIGURATION_RESET_DEPARTMENT_ASSIGN_DETAILS_STATE'
+
 export const RESET_MANAGEMENT_UNIT_STATE = 'WMSX_RESET_MANAGEMENT_UNIT_STATE'
 
 /**
@@ -275,6 +293,57 @@ export function rejectUnitManagementByIdFailed() {
     type: REJECT_UNIT_MANAGEMENT_FAILED,
   }
 }
+
+export function getDepartmentAssignDetails(payload, onSuccess, onError) {
+  return {
+    type: GET_DEPARTMENT_ASSIGN_DETAILS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function getDepartmentAssignDetailsSuccess(payload) {
+  return {
+    type: GET_DEPARTMENT_ASSIGN_DETAILS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getDepartmentAssignDetailsFailed() {
+  return {
+    type: GET_DEPARTMENT_ASSIGN_DETAILS_FAILED,
+  }
+}
+
+export function updateDepartmentAssign(payload, onSuccess, onError) {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function updateDepartmentAssignSuccess(payload) {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function updateDepartmentAssignFailed() {
+  return {
+    type: UPDATE_DEPARTMENT_ASSIGN_FAILED,
+  }
+}
+
+export function resetDepartmentAssignDetailsState() {
+  return {
+    type: RESET_DEPARTMENT_ASSIGN_DETAILS_STATE,
+  }
+}
+
 export function resetManagementUnitState() {
   return {
     type: RESET_MANAGEMENT_UNIT_STATE,
@@ -303,5 +372,12 @@ export default {
   rejectUnitManagementById,
   rejectUnitManagementByIdSuccess,
   rejectUnitManagementByIdFailed,
+  getDepartmentAssignDetails,
+  getDepartmentAssignDetailsSuccess,
+  getDepartmentAssignDetailsFailed,
+  updateDepartmentAssign,
+  updateDepartmentAssignSuccess,
+  updateDepartmentAssignFailed,
+  resetDepartmentAssignDetailsState,
   resetManagementUnitState,
 }

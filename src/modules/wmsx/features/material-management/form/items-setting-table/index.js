@@ -4,18 +4,22 @@ import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from "react-router-dom";
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
+  const search = useLocation().search
+  const type = new URLSearchParams(search).get('type')
   const isView = mode === MODAL_MODE.DETAIL
 
   const getColumns = useMemo(
@@ -30,17 +34,18 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         },
       },
       {
-        field: 'name',
+        field: 'warehouse',
         headerName: t('materialManagement.item.name'),
         width: 200,
         align: 'center',
         renderCell: (params, index) => {
           const row = params.row
           return isView ? (
-            <>{row?.name || ''}</>
+            <>{row?.warehouse?.name || ''}</>
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].name`}
+              disabled={type !== UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE}
+              name={`itemWarehouseSources[${index}].warehouse`}
               placeholder={t('materialManagement.item.name')}
               asyncRequest={(s) =>
                 searchWarehouseApi({
@@ -64,10 +69,11 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         renderCell: (params, index) => {
           const row = params.row
           return isView ? (
-            <>{row?.name || ''}</>
+            <>{row?.source?.name || ''}</>
           ) : (
             <Field.Autocomplete
-              name={`items[${index}].source`}
+              disabled={type !== UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE}
+              name={`itemWarehouseSources[${index}].source`}
               placeholder={t('materialManagement.item.source')}
               asyncRequest={(s) =>
                 searchSourceManagementApi({
@@ -128,7 +134,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemId: '',
+                warehouseId: '',
               })
               scrollToBottom()
             }}

@@ -12,6 +12,7 @@ import addNotification from '~/utils/toast'
 const cookies = new Cookies()
 // common base instance
 const BASE_URL = process.env.REACT_APP_HOST + '/api'
+const REPORT_URL = process.env.REACT_APP_REPORT_HOST + '/api'
 
 const HEADERS_MULTIPLE_PART = {
   'Content-Type': 'multipart/form-data; boundary=something',
@@ -289,6 +290,7 @@ export const createApi = (instance) => ({
 })
 
 const instance = createInstance(BASE_URL)
+const reportInstance = createInstance(REPORT_URL)
 
 const startLogout = () => {
   if (history.location.pathname !== '/login') {
@@ -312,5 +314,6 @@ export const refreshAccessToken = () => {
 }
 
 const api = createApi(instance)
+const reportApi = createApi(reportInstance)
 
-export { api }
+export { api, reportApi }

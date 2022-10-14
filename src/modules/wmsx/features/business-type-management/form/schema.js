@@ -32,8 +32,9 @@ export const defineSchema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
         }),
       ),
-    parentBusiness: Yup.string().required(t('general:form.required')),
-    description: Yup.string(),
+    parentBusiness: Yup.string()
+      .nullable()
+      .required(t('general:form.required')),
     itemOption: Yup.array().of(
       Yup.object().shape({
         required: Yup.boolean(),

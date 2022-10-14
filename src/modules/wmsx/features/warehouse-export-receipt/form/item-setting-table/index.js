@@ -2,16 +2,16 @@ import React, { useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { flatMap } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
-import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = ({
   items,
@@ -27,11 +27,9 @@ const ItemSettingTable = ({
   const {
     data: { detailSourceManagement },
   } = useSourceManagement()
-  const check = values?.businessTypeId?.bussinessTypeAttributes?.filter(
-    (item) =>
-      item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT ||
-      item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-  )
+  const {
+    data: { itemWarehouseStockList },
+  } = useWarehouseTransfer()
   const handleChangeItem = (val, index) => {
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
@@ -42,6 +40,11 @@ const ItemSettingTable = ({
       `items[${index}].debitAccount`,
       val?.item?.itemWarehouseSources?.accountIdentifier,
     )
+    setFieldValue(
+      `items[${index}].planExportedQuantity`,
+      +val?.quantity || val?.exportedQuantity,
+    )
+
     if (values?.sourceId) {
       setFieldValue(
         `items[${index}].creditAccount`,
@@ -71,7 +74,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suplliesCode
-          ) : check?.length > 0 ? (
+          ) : itemList?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
@@ -85,19 +88,11 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              asyncRequest={(s) =>
-                searchMaterialsApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                  warehouseId: values?.warehouseId?.id,
-                })
-              }
-              asyncRequestHelper={(res) => res?.data?.items}
+              options={itemWarehouseStockList}
+              getOptionLabel={(opt) => opt?.code}
               onChange={(val) => handleChangeItem(val, index)}
-              asyncRequestDeps={values?.warehouseId}
               disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              getOptionLabel={(opt) => opt?.code}
               required
             />
           )
@@ -135,14 +130,18 @@ const ItemSettingTable = ({
         field: 'lotNumber',
         headerName: t('warehouseExportReceipt.items.lotNumber'),
         width: 250,
-
         renderCell: (params, index) => {
+          const locationList = itemWarehouseStockList?.find(
+            (item) =>
+              item?.id === params?.row?.itemCode?.id ||
+              params?.row?.itemCode?.itemId,
+          )
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={[]}
-              getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-              getOptionValue={(opt) => opt?.id?.toString()}
+              options={flatMap(locationList?.locations, 'lots')}
+              getOptionLabel={(opt) => opt.lotNumber}
+              getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}
             />
           )
@@ -155,7 +154,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].items.quantityRequest`}
+              name={`items[${index}].quantityRequest`}
               disabled
               required
             />
@@ -187,7 +186,7 @@ const ItemSettingTable = ({
             params?.row?.planExportedQuantity
           ) : (
             <Field.TextField
-              name={`items[${index}].items.planExportedQuantity`}
+              name={`items[${index}].planExportedQuantity`}
               disabled
               required
             />
@@ -201,7 +200,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].items.unitPriceRefer`}
+              name={`items[${index}].unitPriceRefer`}
               disabled
               required
             />
@@ -215,7 +214,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].items.totalMoney`}
+              name={`items[${index}].totalMoney`}
               disabled
               required
             />
@@ -229,7 +228,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].items.debitAccount`}
+              name={`items[${index}].debitAccount`}
               disabled
               required
             />
@@ -243,7 +242,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].items.creditAccount`}
+              name={`items[${index}].creditAccount`}
               disabled
               required
             />
@@ -268,7 +267,7 @@ const ItemSettingTable = ({
         },
       },
     ],
-    [items, itemList, check],
+    [items, itemList, values, itemWarehouseStockList],
   )
   return (
     <>

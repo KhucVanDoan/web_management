@@ -3,6 +3,10 @@ export const ROUTE = {
     PATH: '/wms',
     TITLE: 'dashboard',
   },
+  SUB_DASHBOARD: {
+    PATH: '/wms/dashboard',
+    TITLE: 'dashboard',
+  },
   DATABASE: {
     TITLE: 'database',
   },
@@ -40,6 +44,10 @@ export const ROUTE = {
     EDIT: {
       PATH: '/wms/unit-management/:id/edit',
       TITLE: 'managementUnitEdit',
+    },
+    ASSIGN: {
+      PATH: '/wms/unit-management/:id/assign',
+      TITLE: 'managementUnitAssign',
     },
   },
   RECEIPT_DEPARTMENT_MANAGEMENT: {
@@ -618,6 +626,106 @@ export const ROUTE = {
     DETAIL_RECIPT: {
       PATH: '/wms/inventory-calendar/:id/detail-recipt',
       TITLE: 'inventorySheet',
+    },
+  },
+  WAREHOUSE_TRANSFER: {
+    LIST: {
+      PATH: '/wms/warehouse-transfer',
+      TITLE: 'warehouseTransfer',
+    },
+    CREATE: {
+      PATH: '/wms/warehouse-transfer/create',
+      TITLE: 'warehouseTransferCreate',
+    },
+    EDIT: {
+      PATH: '/wms/warehouse-transfer/:id/edit',
+      TITLE: 'warehouseTransferEdit',
+    },
+    DETAIL: {
+      PATH: '/wms/warehouse-transfer/:id/detail',
+      TITLE: 'warehouseTransferDetail',
+    },
+    PICKUP: {
+      PATH: '/wms/warehouse-transfer/:id/pickup',
+      TITLE: 'pickupAndWarehouseExport',
+    },
+    RECEIVE: {
+      PATH: '/wms/warehouse-transfer/:id/receive',
+      TITLE: 'receiveAndStored',
+    },
+  },
+  USER_MANAGEMENT: {
+    LIST: {
+      PATH: '/wms/user-management',
+      TITLE: 'userManagement',
+    },
+    CREATE: {
+      PATH: '/wms/user-management/create',
+      TITLE: 'userManagementCreate',
+    },
+    DETAIL: {
+      PATH: '/wms/user-management/:id/detail',
+      TITLE: 'userManagementDetail',
+    },
+    EDIT: {
+      PATH: '/wms/user-management/:id/edit',
+      TITLE: 'userManagementEdit',
+    },
+  },
+  USER_PERMISSION: {
+    PATH: '/wms/user-permission',
+    TITLE: 'userPermission',
+  },
+  COMPANY_CUSTOMER_SETTING: {
+    PATH: '/wms/company-customer-setting',
+    TITLE: 'companyCustomerSetting',
+  },
+  COMPANY_CHART: {
+    LIST: {
+      PATH: '/wms/company-chart',
+      TITLE: 'companyChart',
+    },
+  },
+  DEPARTMENT_LIST: {
+    LIST: {
+      PATH: '/wms/department-list',
+      TITLE: 'defineDepartment',
+    },
+    ASSIGN: {
+      PATH: '/wms/department-list/:id/assign',
+      TITLE: 'departmentAssign',
+    },
+  },
+  ROLE_LIST: {
+    LIST: {
+      PATH: '/wms/role-list',
+      TITLE: 'defineRole',
+    },
+    CREATE: {
+      PATH: '/wms/role-list/create',
+      TITLE: 'roleCreate',
+    },
+    DETAIL: {
+      PATH: '/wms/role-list/:id/detail',
+      TITLE: 'roleDetail',
+    },
+    EDIT: {
+      PATH: '/wms/role-list/:id/edit',
+      TITLE: 'roleEdit',
+    },
+  },
+  ACCOUNT: {
+    DETAIL: {
+      PATH: '/wms/account',
+      TITLE: 'userInfoDetail',
+    },
+    EDIT: {
+      PATH: '/wms/account/edit',
+      TITLE: 'userInfoEdit',
+    },
+    CHANGE_PASSWORD: {
+      PATH: '/wms/account/change-password',
+      TITLE: 'changePassword',
     },
   },
 }

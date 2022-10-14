@@ -1,4 +1,12 @@
+import ChangePassword from '~/modules/configuration/feature/user-info/change-password'
+import UserInfoDetail from '~/modules/configuration/feature/user-info/user-detail'
+import UserInfoForm from '~/modules/configuration/feature/user-info/user-form'
+import UserPermission from '~/modules/configuration/feature/user-permission'
+import UserManagement from '~/modules/mesx/features/user-management'
+import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
+import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
 import Dashboard from '~/modules/wmsx/features/dashboard'
+import SubDashboard from '~/modules/wmsx/features/dashboard/sub-dashboard'
 
 import BusinessTypeManagementDetail from '../features/business-type-management/detail'
 import BusinessTypeManagementForm from '../features/business-type-management/form'
@@ -79,6 +87,9 @@ import ReceiptDepartmentManagement from '../features/receipt-department-manageme
 import ReceiptManagementDetail from '../features/receipt-management/detail'
 import ReceiptManagement from '../features/receipt-management/list'
 import ReportExport from '../features/report-export'
+import DefineRoleDetail from '../features/role-list/detail'
+import DefineRoleForm from '../features/role-list/form'
+import RoleList from '../features/role-list/list'
 import SetStoragePeriodDetail from '../features/set-storage-period/detail'
 import SetStoragePeriodForm from '../features/set-storage-period/form'
 import SetStoragePeriod from '../features/set-storage-period/list'
@@ -86,6 +97,7 @@ import SignatureConfiguration from '../features/signature-configuration'
 import SourceManagementDetail from '../features/source-management/detail'
 import SourceManagementForm from '../features/source-management/form'
 import SourceManagement from '../features/source-management/list'
+import UnitManagementAssign from '../features/unit-management/assign'
 import UnitManagementDetail from '../features/unit-management/detail'
 import UnitManagementForm from '../features/unit-management/form'
 import UnitManagement from '../features/unit-management/list'
@@ -102,6 +114,11 @@ import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/for
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
+import WarehouseTransferDetail from '../features/warehouse-transfer/detail'
+import PickupAndWarehouseExport from '../features/warehouse-transfer/detail/pickup-and-warehouse-export'
+import ReceiveAndStored from '../features/warehouse-transfer/detail/receive-and-stored'
+import WarehouseTransferForm from '../features/warehouse-transfer/form'
+import WarehouseTransfer from '../features/warehouse-transfer/list'
 import { ROUTE } from './config'
 
 const routes = [
@@ -109,6 +126,13 @@ const routes = [
     name: ROUTE.DASHBOARD.TITLE,
     path: ROUTE.DASHBOARD.PATH,
     component: Dashboard,
+    icon: 'home',
+    isInSidebar: true,
+  },
+  {
+    name: 'dashboard',
+    path: '/wms/dashboard',
+    component: SubDashboard,
     icon: 'home',
     isInSidebar: true,
   },
@@ -139,32 +163,6 @@ const routes = [
             name: ROUTE.COMPANY_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.COMPANY_MANAGEMENT.EDIT.PATH,
             component: CompanyManagementForm,
-            isInSidebar: false,
-          },
-        ],
-      },
-      {
-        name: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
-        path: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
-        component: UnitManagement,
-        isInSidebar: true,
-        subMenu: [
-          {
-            name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
-            component: UnitManagementForm,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.UNIT_MANAGEMENT.DETAIL.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.DETAIL.PATH,
-            component: UnitManagementDetail,
-            isInSidebar: false,
-          },
-          {
-            name: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
-            path: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
-            component: UnitManagementForm,
             isInSidebar: false,
           },
         ],
@@ -927,6 +925,44 @@ const routes = [
           },
         ],
       },
+      {
+        name: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+        path: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
+        component: WarehouseTransfer,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.CREATE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH,
+            component: WarehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH,
+            component: WarehouseTransferDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.EDIT.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH,
+            component: WarehouseTransferForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.PICKUP.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH,
+            component: PickupAndWarehouseExport,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.PATH,
+            component: ReceiveAndStored,
+            isInSidebar: false,
+          },
+        ],
+      },
     ],
   },
   {
@@ -1013,9 +1049,35 @@ const routes = [
     isInSidebar: true,
     subMenu: [
       {
-        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
-        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
-        component: SignatureConfiguration,
+        name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.USER_MANAGEMENT.LIST.PATH,
+        component: UserManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
+            component: UserManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
+            component: UserManagementForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.USER_PERMISSION.TITLE,
+        path: ROUTE.USER_PERMISSION.PATH,
+        component: UserPermission,
         isInSidebar: true,
       },
       {
@@ -1023,6 +1085,85 @@ const routes = [
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
         isInSidebar: true,
+      },
+      {
+        name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
+        path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
+        component: SignatureConfiguration,
+        isInSidebar: true,
+      },
+      {
+        name: ROUTE.ACCOUNT.DETAIL.TITLE,
+        path: ROUTE.ACCOUNT.DETAIL.PATH,
+        component: UserInfoDetail,
+      },
+      {
+        name: ROUTE.ACCOUNT.EDIT.TITLE,
+        path: ROUTE.ACCOUNT.EDIT.PATH,
+        component: UserInfoForm,
+      },
+      {
+        name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
+        path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
+        component: ChangePassword,
+      },
+      {
+        name: ROUTE.ROLE_LIST.LIST.TITLE,
+        path: ROUTE.ROLE_LIST.LIST.PATH,
+        component: RoleList,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.ROLE_LIST.CREATE.TITLE,
+            path: ROUTE.ROLE_LIST.CREATE.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.DETAIL.TITLE,
+            path: ROUTE.ROLE_LIST.DETAIL.PATH,
+            component: DefineRoleDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.ROLE_LIST.EDIT.TITLE,
+            path: ROUTE.ROLE_LIST.EDIT.PATH,
+            component: DefineRoleForm,
+            isInSidebar: false,
+          },
+        ],
+      },
+      {
+        name: ROUTE.UNIT_MANAGEMENT.LIST.TITLE,
+        path: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
+        component: UnitManagement,
+        isInSidebar: true,
+        subMenu: [
+          {
+            name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.CREATE.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.DETAIL.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.DETAIL.PATH,
+            component: UnitManagementDetail,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.EDIT.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.EDIT.PATH,
+            component: UnitManagementForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.UNIT_MANAGEMENT.ASSIGN.TITLE,
+            path: ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH,
+            component: UnitManagementAssign,
+            isInSidebar: false,
+          },
+        ],
       },
     ],
   },

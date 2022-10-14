@@ -130,6 +130,8 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchRejectWarehouse from './define-warehouse/reject-warehouse'
 import watchSearchWarehouse from './define-warehouse/search-warehouse'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchApproveInventoryCalendar from './inventory-calendar/approve-inventory-calendar'
+import watchCheckItemNotExecuted from './inventory-calendar/check-items-not-executed'
 import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
 import watchCreateInventoryCalendar from './inventory-calendar/create-inventory-calendar'
 import watchDeleteInventoryCalendar from './inventory-calendar/delete-inventory-calendar'
@@ -154,6 +156,7 @@ import watchGetLocationDetails from './location-management/get-location-details'
 import watchRejectLocation from './location-management/reject-location'
 import watchSearchLocations from './location-management/search-locations'
 import watchUpdateLocation from './location-management/update-location'
+import watchGetDepartmentAssignDetails from './management-unit/assign'
 import watchConfirmUnitManagement from './management-unit/confirm'
 import watchCreateManagementUnit from './management-unit/create'
 import watchDeleteManagementUnit from './management-unit/delete'
@@ -161,12 +164,15 @@ import watchGetDetailManagementUnit from './management-unit/get-detail'
 import watchRejectUnitManagement from './management-unit/reject'
 import watchSearchManagementUnit from './management-unit/search'
 import watchUpdateUnitManagement from './management-unit/update'
+import watchUpdateDepartmentAssign from './management-unit/update-assign'
 import watchConfirmMaterial from './material-management/confirm-material'
+import watchCreateItemWarehouseSource from './material-management/create-item-warehouse-source'
 import watchCreateMaterial from './material-management/create-material'
 import watchDeleteMaterial from './material-management/delete-material'
 import watchGetMaterialDetails from './material-management/get-material-details'
 import watchRejectMaterial from './material-management/reject-material'
 import watchSearchMaterials from './material-management/search-materials'
+import watchUpdateItemWarehouseSource from './material-management/update-item-warehouse-source'
 import watchUpdateMaterial from './material-management/update-material'
 import watchUpdateWarehouseSource from './material-management/update-warehouse-source'
 import watchGetMovementsDetails from './movements/get-movement-details.'
@@ -190,6 +196,11 @@ import watchUpdateReceiptDepartment from './receipt-department-management/update
 import watchGetReceiptDetails from './receipt-management/get-receipt-details'
 import watchSearchReceipt from './receipt-management/search-receipt'
 import watchExportReport from './report-export/export-report'
+import watchCreateRole from './role-list/create-role'
+import watchDeleteRole from './role-list/delete-role'
+import watchGetRoleDetails from './role-list/get-role-detail'
+import watchSearchRoleList from './role-list/search-role-list'
+import watchUpdateRole from './role-list/update-role'
 import watchCreateStoragePeriod from './set-storage-period/create-storage-period'
 import watchDeleteStoragePeriod from './set-storage-period/delete-storage-period'
 import watchGetStoragePeriodDetails from './set-storage-period/get-storage-period-details'
@@ -231,6 +242,16 @@ import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject
 import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
 import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
 import watchWarehouseImportData from './warehouse-import/get-warehouse-import-list'
+import watchConfirmWarehouseExport from './warehouse-transfer/confirm-warehouse-export'
+import watchConfirmWarehouseImport from './warehouse-transfer/confirm-warehouse-import'
+import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer'
+import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer'
+import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer'
+import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item'
+import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-detail'
+import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer'
+import watchSearchWarehouseTransfers from './warehouse-transfer/search-warehouse-transfer'
+import watchUpdateWarehouseTransfer from './warehouse-transfer/update-warehouse-transfer'
 /**
  * Root saga
  */
@@ -257,6 +278,9 @@ export default function* sagas() {
     watchUpdateUnitManagement(),
     watchConfirmUnitManagement(),
     watchRejectUnitManagement(),
+    watchGetDepartmentAssignDetails(),
+    watchUpdateDepartmentAssign(),
+
     //company-management
     watchCreateCompany(),
     watchDeleteCompany(),
@@ -456,6 +480,7 @@ export default function* sagas() {
 
     //material-management
     watchCreateMaterial(),
+    watchCreateItemWarehouseSource(),
     watchUpdateMaterial(),
     watchSearchMaterials(),
     watchGetMaterialDetails(),
@@ -463,6 +488,8 @@ export default function* sagas() {
     watchConfirmMaterial(),
     watchRejectMaterial(),
     watchUpdateWarehouseSource(),
+    watchUpdateItemWarehouseSource(),
+
     //QR-code
     watchGetQrCodeDetails(),
     watchUpdateQrCode(),
@@ -523,6 +550,8 @@ export default function* sagas() {
     watchRejectInventoryCalendar(),
     watchSearchInventoryCalendars(),
     watchUpdateInventoryCalendar(),
+    watchApproveInventoryCalendar(),
+    watchCheckItemNotExecuted(),
     //warehouse-import-receipt
     watchSearchWarehouseImportReceipt(),
     watchCreateWarehouseImportReceipt(),
@@ -532,5 +561,23 @@ export default function* sagas() {
     watchConfirmWarehouseImportReceipt(),
     watchRejectWarehouseImportReceipt(),
     watchGetAttribuiteBusinessTypeDetails(),
+    // warehouse transfer
+    watchConfirmWarehouseTransfer(),
+    watchCreateWarehouseTransfer(),
+    watchDeleteWarehouseTransfer(),
+    watchGetWarehouseTransferDetails(),
+    watchRejectWarehouseTransfer(),
+    watchSearchWarehouseTransfers(),
+    watchUpdateWarehouseTransfer(),
+    watchGetListItemWarehouseStock(),
+    watchConfirmWarehouseExport(),
+    watchConfirmWarehouseImport(),
+
+    //role list
+    watchSearchRoleList(),
+    watchCreateRole(),
+    watchUpdateRole(),
+    watchGetRoleDetails(),
+    watchDeleteRole(),
   ])
 }

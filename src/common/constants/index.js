@@ -94,6 +94,9 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   CODE_20: {
     MAX: 20,
   },
+  CODE_22: {
+    MAX: 22,
+  },
   CODE_50: {
     MAX: 50,
   },
@@ -183,7 +186,7 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MAX: 999999999,
   },
   EXPIRY_WAREHOUSE: {
-    MIN: 0,
+    MIN: 1,
     MAX: 9999,
   },
 }

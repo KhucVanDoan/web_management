@@ -1,21 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
+
 const breadcrumbs = [
   {
-    title: 'decentralization',
+    title: 'setting',
   },
   {
     route: ROUTE.ROLE_LIST.LIST.PATH,
@@ -24,11 +28,16 @@ const breadcrumbs = [
 ]
 const RoleList = () => {
   const { t } = useTranslation(['configuration'])
-
+  const history = useHistory()
   const {
     data: { roleList, isLoading, total },
     actions,
   } = useRoleList()
+
+  const [modal, setModal] = useState({
+    tempItem: null,
+    isOpenDeleteModal: false,
+  })
 
   const {
     page,
@@ -64,16 +73,32 @@ const RoleList = () => {
       width: 150,
       fixed: true,
       align: 'center',
-      renderCell: () => {
+      renderCell: (params) => {
+        const { row } = params
+        const { id } = row
         return (
           <div>
-            <IconButton onClick={() => {}}>
+            <IconButton
+              onClick={() => {
+                history.push(
+                  ROUTE.ROLE_LIST.DETAIL.PATH.replace(':id', `${id}`),
+                )
+              }}
+            >
               <Icon name="show" />
             </IconButton>
-            <IconButton onClick={() => {}}>
+            <IconButton
+              onClick={() => {
+                history.push(ROUTE.ROLE_LIST.EDIT.PATH.replace(':id', `${id}`))
+              }}
+            >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => {}}>
+            <IconButton
+              onClick={() => {
+                handleOpenDeleteModal(params.row)
+              }}
+            >
               <Icon name="delete" />
             </IconButton>
           </div>
@@ -100,11 +125,36 @@ const RoleList = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button onClick={() => {}} icon="add" sx={{ ml: 4 / 3 }}>
+        <Button
+          onClick={() => history.push(ROUTE.ROLE_LIST.CREATE.PATH)}
+          icon="add"
+          sx={{ ml: 4 / 3 }}
+        >
           {t('general:common.create')}
         </Button>
       </>
     )
+  }
+
+  const handleOpenDeleteModal = (tempItem) => {
+    setModal({
+      tempItem,
+      isOpenDeleteModal: true,
+    })
+  }
+
+  const onSubmitDeleteModal = () => {
+    actions.deleteRole(modal?.tempItem?.id, () => {
+      refreshData()
+    })
+    setModal({ isOpenDeleteModal: false, tempItem: null })
+  }
+
+  const onCloseDeleteModal = () => {
+    setModal({
+      tempItem: null,
+      isOpenDeleteModal: false,
+    })
   }
 
   return (
@@ -133,6 +183,30 @@ const RoleList = () => {
           onApply: setFilters,
         }}
       />
+      <Dialog
+        open={modal.isOpenDeleteModal}
+        title={t('roleList.roleDelete')}
+        onCancel={onCloseDeleteModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitDeleteModal}
+        submitLabel={t('general:common.yes')}
+        submitProps={{
+          color: 'error',
+        }}
+        noBorderBottom
+      >
+        {t('roleList.confirmDelete')}
+        <LV
+          label={t('roleList.code')}
+          value={modal?.tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('roleList.name')}
+          value={modal?.tempItem?.name}
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
     </Page>
   )
 }

@@ -32,6 +32,7 @@ import reasonManagement from './reason-management'
 import receiptDepartmentManagement from './receipt-department-management'
 import receiptManagement from './receipt-management'
 import reportExport from './report-export'
+import roleList from './role-list'
 import setStoragePeriod from './set-storage-period'
 import signatureConfiguration from './signature-configuration'
 import sourceManagement from './source-management'
@@ -40,6 +41,7 @@ import warehouseExportProposal from './warehouse-export-proposal'
 import warehouseExportReceipt from './warehouse-export-receipt'
 import warehouseImport from './warehouse-import'
 import warehouseImportReceipt from './warehouse-import-receipt'
+import warehouseTransfer from './warehouse-transfer'
 export default combineReducers({
   dashboard,
   defineVendor,
@@ -81,4 +83,6 @@ export default combineReducers({
   reportExport,
   inventoryCalendar,
   warehouseImportReceipt,
+  warehouseTransfer,
+  roleList,
 })

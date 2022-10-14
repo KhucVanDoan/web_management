@@ -15,11 +15,11 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import {
   MATERIAL_ACTIVE_STATUS,
   MATERIAL_ACTIVE_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import {
   exportMaterialApi,
@@ -101,13 +101,13 @@ function MaterialManagement() {
       field: 'country',
       headerName: t('materialManagement.country'),
       width: 120,
-      renderCell: (item) => item?.manufacturingCountry?.name,
+      renderCell: (params) => params?.row?.manufacturingCountry?.name,
     },
     {
       field: 'objectCategory',
       headerName: t('materialManagement.objectCategory'),
       width: 120,
-      renderCell: (item) => item?.objectCategory?.name,
+      renderCell: (params) => params?.row?.objectCategory?.name,
     },
     {
       field: 'description',
@@ -316,7 +316,7 @@ function MaterialManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('materialManagement.description')}
+          label={t('materialManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

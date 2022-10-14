@@ -15,8 +15,8 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useReasonManagement from '~/modules/wmsx/redux/hooks/useReasonManagement'
 import {
   exportReasonApi,
@@ -325,12 +325,12 @@ function ReasonManagement() {
       >
         {t('general.confirmMessage')}
         <LV
-          label={t('constructionManagement.code')}
+          label={t('reasonManagement.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('constructionManagement.name')}
+          label={t('reasonManagement.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

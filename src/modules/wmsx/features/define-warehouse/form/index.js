@@ -117,7 +117,7 @@ function DefineWarehouseForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
-      warehouseTypeSettingId: values?.warehouseTypeSetting?.id,
+      warehouseTypeSettings: [{ id: values?.warehouseTypeSetting?.id }],
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouse(convertValues, backToList)
@@ -229,6 +229,7 @@ function DefineWarehouseForm() {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       required

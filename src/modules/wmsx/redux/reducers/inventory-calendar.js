@@ -27,6 +27,12 @@ import {
   GET_LIST_ITEM_DETAIL_RECIPT_START,
   GET_LIST_ITEM_DETAIL_RECIPT_SUCCESS,
   GET_LIST_ITEM_DETAIL_RECIPT_FAILED,
+  APPROVE_INVENTORY_CALENDAR_FAILED,
+  APPROVE_INVENTORY_CALENDAR_START,
+  APPROVE_INVENTORY_CALENDAR_SUCCESS,
+  CHECK_ITEM_NOT_EXECUTED_START,
+  CHECK_ITEM_NOT_EXECUTED_SUCCESS,
+  CHECK_ITEM_NOT_EXECUTED_FAILED,
 } from '~/modules/wmsx/redux/actions/inventory-calendar'
 
 const initialState = {
@@ -36,6 +42,7 @@ const initialState = {
   inventoryCalendarDetails: {},
   itemUpdate: [],
   itemListDetailRecipt: [],
+  checkItemNotExecuted: [],
   total: null,
   totalItem: null,
 }
@@ -56,7 +63,9 @@ export default function inventoryCalendar(state = initialState, action) {
     case CONFIRM_INVENTORY_CALENDAR_START:
     case REJECT_INVENTORY_CALENDAR_START:
     case GET_ITEM_START:
+    case APPROVE_INVENTORY_CALENDAR_START:
     case GET_LIST_ITEM_DETAIL_RECIPT_START:
+    case CHECK_ITEM_NOT_EXECUTED_START:
       return {
         ...state,
         isLoading: true,
@@ -68,7 +77,19 @@ export default function inventoryCalendar(state = initialState, action) {
         isLoading: false,
         total: action.payload.total,
       }
+    case CHECK_ITEM_NOT_EXECUTED_SUCCESS:
+      return {
+        ...state,
+        checkItemNotExecuted: action.payload.list,
+        isLoading: false,
+      }
     case SEARCH_INVENTORY_CALENDARS_FAILED:
+      return {
+        ...state,
+        checkItemNotExecuted: [],
+        isLoading: false,
+      }
+    case CHECK_ITEM_NOT_EXECUTED_FAILED:
       return {
         ...state,
         inventoryCalendarList: [],
@@ -89,8 +110,10 @@ export default function inventoryCalendar(state = initialState, action) {
         isLoadingItem: false,
         totalItem: 0,
       }
+    case APPROVE_INVENTORY_CALENDAR_FAILED:
     case CONFIRM_INVENTORY_CALENDAR_FAILED:
     case CONFIRM_INVENTORY_CALENDAR_SUCCESS:
+    case APPROVE_INVENTORY_CALENDAR_SUCCESS:
     case REJECT_INVENTORY_CALENDAR_FAILED:
     case REJECT_INVENTORY_CALENDAR_SUCCESS:
     case CREATE_INVENTORY_CALENDAR_SUCCESS:

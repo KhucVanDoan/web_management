@@ -8,6 +8,7 @@ import {
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
@@ -43,9 +44,13 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.DateRangePicker
-          name="createdAt"
-          label={t('locationManagement.createdAt')}
+        <Field.Autocomplete
+          name="status"
+          label={t('locationManagement.status')}
+          placeholder={t('locationManagement.status')}
+          options={ACTIVE_STATUS_OPTIONS}
+          getOptionLabel={(opt) => t(`${opt?.text}`)}
+          getOptionValue={(opt) => opt?.id}
         />
       </Grid>
     </Grid>

@@ -11,14 +11,14 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import useDepartmentList from '~/modules/configuration/redux/hooks/useDepartmentList'
 import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
 import useUserPermission from '~/modules/configuration/redux/hooks/useUserPermission'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
   {
-    title: 'decentralization',
+    title: 'setting',
   },
   {
     route: ROUTE.USER_PERMISSION.PATH,
@@ -40,9 +40,9 @@ function UserPermission() {
   } = useUserPermission()
 
   const {
-    data: { departmentList },
+    data: { managementUnitList },
     actions: departmentActs,
-  } = useDepartmentList()
+  } = useManagementUnit()
 
   const {
     data: { roleList },
@@ -50,7 +50,7 @@ function UserPermission() {
   } = useRoleList()
 
   useEffect(() => {
-    departmentActs.searchDepartmentList()
+    departmentActs.searchManagementUnit()
     roleActs.searchRoleList()
   }, [])
 
@@ -143,14 +143,8 @@ function UserPermission() {
 
   const columns = [
     {
-      field: 'id',
-      headerName: t('userPermission.id'),
-      width: 80,
-    },
-    {
       field: 'feature',
       headerName: t('userPermission.feature'),
-      width: 250,
       align: 'left',
       renderCell: (params) => {
         return params?.row?.name
@@ -159,7 +153,7 @@ function UserPermission() {
     {
       field: 'assign',
       headerName: t('userPermission.assign'),
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         const { permissionSettings } = params.row
         const permission = (permissionList || [])
@@ -188,14 +182,13 @@ function UserPermission() {
   const additionColums = [
     {
       field: 'permissionSetting',
-      width: 350,
       renderCell: (params) => {
         return params?.row?.name
       },
     },
     {
       field: 'status',
-      width: 110,
+      width: 150,
       renderCell: (params) => {
         const { code } = params.row
         const isChecked = permissionList?.find(
@@ -258,7 +251,7 @@ function UserPermission() {
                       name="departmentId"
                       label={t('userPermission.departmentName')}
                       placeholder={t('userPermission.departmentName')}
-                      options={departmentList}
+                      options={managementUnitList}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       onChange={(val) => setDepartmentId(val)}
