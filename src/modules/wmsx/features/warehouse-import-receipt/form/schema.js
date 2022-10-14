@@ -19,7 +19,15 @@ export const formSchema = (t) =>
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
-        money: Yup.string().nullable().required(t('general:form.required')),
+        money: Yup.number()
+          .nullable()
+          .required(t('general:form.required'))
+          .max(
+            NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
+            t('general:form.maxLength', {
+              max: NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
+            }),
+          ),
         importQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required'))

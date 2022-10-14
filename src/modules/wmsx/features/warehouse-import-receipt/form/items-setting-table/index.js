@@ -5,11 +5,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  MODAL_MODE,
-  TEXTFIELD_ALLOW,
-} from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -81,7 +77,6 @@ function ItemsSettingTable(props) {
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code || ''}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
@@ -100,7 +95,6 @@ function ItemsSettingTable(props) {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               asyncRequestDeps={values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
               getOptionLabel={(opt) => opt?.code}
@@ -179,9 +173,8 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              allow={TEXTFIELD_ALLOW.NUMERIC}
+              type="number"
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 2,
               }}
             />
