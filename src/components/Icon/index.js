@@ -15,6 +15,7 @@ import { ReactComponent as Check } from '~/assets/images/icons/check.svg'
 import { ReactComponent as Clone } from '~/assets/images/icons/clone.svg'
 import { ReactComponent as Close } from '~/assets/images/icons/close.svg'
 import { ReactComponent as Collapse } from '~/assets/images/icons/collapse.svg'
+import { ReactComponent as Confirm } from '~/assets/images/icons/confirm.svg'
 import { ReactComponent as Delete } from '~/assets/images/icons/delete.svg'
 import { ReactComponent as Download } from '~/assets/images/icons/download.svg'
 import { ReactComponent as DownloadAlt } from '~/assets/images/icons/downloadAlt.svg'
@@ -31,6 +32,7 @@ import { ReactComponent as Locked } from '~/assets/images/icons/locked.svg'
 import { ReactComponent as Notification } from '~/assets/images/icons/notification.svg'
 import { ReactComponent as Overdue } from '~/assets/images/icons/overdue.svg'
 import { ReactComponent as Paper } from '~/assets/images/icons/paper.svg'
+import { ReactComponent as Print } from '~/assets/images/icons/print.svg'
 import { ReactComponent as QRWhite } from '~/assets/images/icons/qr-white.svg'
 import { ReactComponent as QR } from '~/assets/images/icons/qr.svg'
 import { ReactComponent as Remove } from '~/assets/images/icons/remove.svg'
@@ -104,6 +106,8 @@ const icons = {
   locked: <Locked />,
   unlock: <Unlock />,
   updateQuantity: <UpdateQuantity />,
+  confirm: <Confirm />,
+  print: <Print />,
   // menu
   drawer: <Drawer />,
   home: <Home />,

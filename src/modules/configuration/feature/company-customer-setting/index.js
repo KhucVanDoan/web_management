@@ -18,7 +18,7 @@ import Icon from '~/components/Icon'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import useCompanyCustomerSetting from '~/modules/configuration/redux/hooks/useCompanyCustomerSetting'
-import { ROUTE } from '~/modules/configuration/routes/config'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 
 import { validationSchema } from './schema'

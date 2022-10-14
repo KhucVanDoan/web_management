@@ -1,6 +1,14 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, Button, FormLabel, Grid, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormLabel,
+  Grid,
+  ListItemButton,
+  Typography,
+} from '@mui/material'
+import clsx from 'clsx'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -8,6 +16,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -15,7 +24,11 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { MATERIAL_ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  MATERIAL_ACTIVE_STATUS_OPTIONS,
+  UOM_ACTIVE_STATUS,
+} from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
@@ -24,6 +37,7 @@ import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-pro
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 import style from './style'
@@ -53,6 +67,7 @@ function MaterialManagementForm() {
       normalizeCode: materialDetails?.normalizeCode || '',
       country: materialDetails?.manufacturingCountry || null,
       objectCategory: materialDetails?.objectCategory || null,
+      uom: materialDetails?.itemUnit || null,
       materialCategory: materialDetails?.itemType || null,
       materialQuality: materialDetails?.itemQuality || null,
       specifications: materialDetails?.specifications || null,
@@ -119,6 +134,7 @@ function MaterialManagementForm() {
       objectCategoryId: values?.objectCategory?.id,
       itemTypeId: values?.materialCategory?.id,
       itemQualityId: values?.materialQuality?.id,
+      itemUnitId: values?.uom?.id,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createMaterial(convertValues, backToList)
@@ -199,9 +215,10 @@ function MaterialManagementForm() {
                       label={t('materialManagement.code')}
                       placeholder={t('materialManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_16.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       required
                     />
                   </Grid>
@@ -236,6 +253,9 @@ function MaterialManagementForm() {
                         searchProducingCountryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -254,13 +274,45 @@ function MaterialManagementForm() {
                         searchMaterialCategoryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
+                      dropdownWidth={800}
+                      dropdownHeader={
+                        <Box className={classes.autocompleteDropdownHeader}>
+                          <Typography variant="h5">Mã loại</Typography>
+                          <Typography variant="h5">Tên loại</Typography>
+                          <Typography variant="h5">Mã nhóm chính</Typography>
+                          <Typography variant="h5">Tên nhóm chính</Typography>
+                          <Typography variant="h5">Mã nhóm phụ</Typography>
+                          <Typography variant="h5">Tên nhóm phụ</Typography>
+                        </Box>
+                      }
+                      renderOption={(optProps, opt = {}, selected, sx) => (
+                        <ListItemButton
+                          {...optProps}
+                          component="li"
+                          sx={sx}
+                          className={clsx(classes.autocompleteListItemButton, {
+                            [classes.autocompleteListItemButtonSelected]:
+                              selected,
+                          })}
+                        >
+                          <Box>{opt.code}</Box>
+                          <Box>{opt.name}</Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                          <Box> </Box>
+                        </ListItemButton>
+                      )}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -272,6 +324,9 @@ function MaterialManagementForm() {
                         searchMaterialQualityApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -291,6 +346,9 @@ function MaterialManagementForm() {
                         searchObjectCategoryApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -358,6 +416,9 @@ function MaterialManagementForm() {
                         searchUomsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: UOM_ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
@@ -367,7 +428,7 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <LV
                       label={
                         <Box sx={{ mt: 8 / 12 }}>
@@ -416,10 +477,10 @@ function MaterialManagementForm() {
                         </Button>
                       )}
                     </LV>
-                  </Grid>
+                  </Grid> */}
                   {isUpdate && (
                     <>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -432,7 +493,7 @@ function MaterialManagementForm() {
                           <Box />
                         </LV>
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>

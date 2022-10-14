@@ -15,8 +15,8 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
 import {
   exportUnitApi,
@@ -28,7 +28,7 @@ import { convertFilterParams, convertSortParams } from '~/utils'
 import FilterForm from './filter-form'
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'setting',
   },
   {
     route: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
@@ -139,6 +139,15 @@ function ManagementUnit() {
             </IconButton>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                history.push(
+                  ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH.replace(':id', `${id}`),
+                )
+              }
+            >
+              <Icon name="assign" />
             </IconButton>
           </>
         )

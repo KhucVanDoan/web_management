@@ -106,6 +106,9 @@ const palette = {
     a9: 'rgba(231, 234, 238, 0.9)',
     contrastText: '#666',
   },
+  grayE4: {
+    main: '#e4e4e4',
+  },
   divider: '#EDF0F4',
   background: {
     main: '#F4F5F5',

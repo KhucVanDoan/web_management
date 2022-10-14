@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const searchInventoryStatisticsApi = (params) => {
-  const uri = `/v1/warehouses/reports/stock`
+  const uri = `/v1/items/warehouse-stock?warehouseId=5`
   return api.get(uri, params)
 }
 

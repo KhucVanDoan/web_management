@@ -386,16 +386,16 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.rejectedReceived',
     color: 'rejectedReceived',
   },
-  {
-    id: 13,
-    text: 'orderStatus.inProducing',
-    color: 'inProducing',
-  },
-  {
-    id: 14,
-    text: 'orderStatus.produced',
-    color: 'produced',
-  },
+  // {
+  //   id: 13,
+  //   text: 'orderStatus.inProducing',
+  //   color: 'inProducing',
+  // },
+  // {
+  //   id: 14,
+  //   text: 'orderStatus.produced',
+  //   color: 'produced',
+  // },
   {
     id: 15,
     text: 'orderStatus.inReturning',
@@ -1584,6 +1584,28 @@ export const DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT = [
   },
 ]
 
+export const DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER = [
+  {
+    labelEBS: 'Source Project',
+    fieldName: 'businessTypeManagement.construction',
+    type: 'businessTypeManagement.constructionManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+  {
+    labelEBS: 'Source Task',
+    fieldName: 'businessTypeManagement.category',
+    type: 'businessTypeManagement.categoryManagement',
+    code: CODE_TYPE_DATA_FATHER_JOB.CATEGORY_CONSTRUCTION_ID,
+    tableName: TABLE_NAME_ENUM.CATEGORY_CONSTRUCTION,
+    columnName: 'id',
+    show: false,
+    required: false,
+  },
+]
 export const WAREHOUSE_TYPE = {
   SXKD: 0,
   XDCB: 1,
@@ -1627,23 +1649,23 @@ export const WAREHOUSE_NATURE_OPTIONS = [
 ]
 
 export const WAREHOUSE_LOT_TYPE = {
-  LOT: 0,
-  NO_LOT: 1,
+  NO_LOT: 0,
+  LOT: 1,
 }
 
 export const WAREHOUSE_LOT_TYPE_MAP = {
-  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
   [WAREHOUSE_LOT_TYPE.NO_LOT]: 'defineWarehouse.noLot',
+  [WAREHOUSE_LOT_TYPE.LOT]: 'defineWarehouse.lot',
 }
 
 export const WAREHOUSE_LOT_TYPE_OPTIONS = [
   {
     id: 0,
-    text: 'defineWarehouse.lot',
+    text: 'defineWarehouse.noLot',
   },
   {
     id: 1,
-    text: 'defineWarehouse.noLot',
+    text: 'defineWarehouse.lot',
   },
 ]
 
@@ -1751,3 +1773,187 @@ export const WAREHOUSE_LAYOUTS = {
   DRAWER: 2,
   BIN: 3,
 }
+export const WAREHOUSE_TRANSFER_TYPE = {
+  WAREHOUSE_TRANSFER_LONG: 2,
+  WAREHOUSE_TRANSFER_SHORT: 1,
+}
+export const WAREHOUSE_TRANSFER_MAP = {
+  [WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG]: 'warehouseTransfer.long',
+  [WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT]: 'warehouseTransfer.short',
+}
+
+export const WAREHOUSE_TRANSFER_TYPE_OPTIONS = [
+  {
+    id: 1,
+    text: 'warehouseTransfer.short',
+  },
+  {
+    id: 2,
+    text: 'warehouseTransfer.long',
+  },
+]
+
+export const REPORT_TYPE = {
+  ITEM_INVENTORY_BELOW_MINIMUM: 1,
+  ITEM_INVENTORY_BELOW_SAFE: 2,
+  ORDER_TRANSFER_INCOMPLETED: 3,
+  ORDER_EXPORT_INCOMPLETED: 4,
+  ORDER_IMPORT_INCOMPLETED: 5,
+  ITEM_IMPORTED_BUT_NOT_PUT_TO_POSITION: 6,
+  ITEM_INVENTORY: 7,
+  ORDER_IMPORT_BY_REQUEST_FOR_ITEM: 8,
+  INVENTORY: 9,
+  ITEM_INVENTORY_IMPORTED_NO_QR_CODE: 10,
+  ORDER_EXPORT_BY_REQUEST_FOR_ITEM: 11,
+  SITUATION_TRANSFER: 12,
+  SITUATION_INVENTORY_PERIOD: 13,
+  SITUATION_IMPORT_PERIOD: 14,
+  SITUATION_EXPORT_PERIOD: 15,
+  AGE_OF_ITEM_STOCK: 16,
+  STORED: 17,
+}
+
+export const REPORT_TYPE_MAP = {
+  [REPORT_TYPE.ITEM_INVENTORY_BELOW_MINIMUM]:
+    'reportType.itemInventoryBelowMinimum',
+  [REPORT_TYPE.ITEM_INVENTORY_BELOW_SAFE]: 'reportType.itemInventoryBelowSafe',
+  [REPORT_TYPE.ORDER_TRANSFER_INCOMPLETED]:
+    'returnOrderStatus.orderTransferInCompleted',
+  [REPORT_TYPE.ORDER_EXPORT_INCOMPLETED]: 'reportType.orderExportInCompleted',
+  [REPORT_TYPE.ORDER_IMPORT_INCOMPLETED]: 'reportType.orderImportInCompleted',
+  [REPORT_TYPE.ITEM_IMPORTED_BUT_NOT_PUT_TO_POSITION]:
+    'reportType.itemImportedButNotPutToPosition',
+  [REPORT_TYPE.ITEM_INVENTORY]: 'reportType.itemInventory',
+  [REPORT_TYPE.ORDER_IMPORT_BY_REQUEST_FOR_ITEM]:
+    'reportType.orderImportByRequestForItem',
+  [REPORT_TYPE.INVENTORY]: 'reportType.inventory',
+  [REPORT_TYPE.ITEM_INVENTORY_IMPORTED_NO_QR_CODE]:
+    'reportType.itemInventoryImportedNoQRCode',
+  [REPORT_TYPE.ORDER_EXPORT_BY_REQUEST_FOR_ITEM]:
+    'reportType.orderExportByRequestForItem',
+  [REPORT_TYPE.SITUATION_TRANSFER]: 'reportType.situationTransfer',
+  [REPORT_TYPE.SITUATION_INVENTORY_PERIOD]:
+    'reportType.situationInventoryPeriod',
+  [REPORT_TYPE.SITUATION_IMPORT_PERIOD]: 'reportType.situationImportPeriod',
+  [REPORT_TYPE.SITUATION_EXPORT_PERIOD]: 'reportType.situationExportPeriod',
+  [REPORT_TYPE.AGE_OF_ITEM_STOCK]: 'reportType.ageOfItemStock',
+  [REPORT_TYPE.STORED]: 'reportType.stored',
+}
+
+export const REPORT_TYPE_OPTIONS = [
+  {
+    id: 5,
+    text: 'reportType.orderImportInCompleted',
+    code: 'W001',
+  },
+  {
+    id: 6,
+    text: 'reportType.itemImportedButNotPutToPosition',
+    code: 'W002',
+  },
+  {
+    id: 4,
+    text: 'reportType.orderExportInCompleted',
+    code: 'W003',
+  },
+  {
+    id: 3,
+    text: 'reportType.orderTransferInCompleted',
+    code: 'W004',
+  },
+  {
+    id: 2,
+    text: 'reportType.itemInventoryBelowSafe',
+    code: 'W005',
+  },
+  {
+    id: 1,
+    text: 'reportType.itemInventoryBelowMinimum',
+    code: 'W006',
+  },
+  {
+    id: 9,
+    text: 'reportType.inventory',
+    code: 'W007',
+  },
+  {
+    id: 8,
+    text: 'reportType.orderImportByRequestForItem',
+    code: 'W008',
+  },
+  {
+    id: 16,
+    text: 'reportType.ageOfItemStock',
+    code: 'W009',
+  },
+  {
+    id: 7,
+    text: 'reportType.itemInventory',
+    code: 'W010',
+  },
+  {
+    id: 14,
+    text: 'reportType.situationImportPeriod',
+    code: 'W011',
+  },
+  {
+    id: 15,
+    text: 'reportType.situationExportPeriod',
+    code: 'W012',
+  },
+  {
+    id: 12,
+    text: 'reportType.situationTransfer',
+    code: 'W013',
+  },
+  {
+    id: 13,
+    text: 'reportType.situationInventoryPeriod',
+    code: 'W014',
+  },
+  {
+    id: 10,
+    text: 'reportType.itemInventoryImportedNoQRCode',
+    code: 'W015',
+  },
+  {
+    id: 11,
+    text: 'reportType.orderExportByRequestForItem',
+    code: 'W016',
+  },
+  {
+    id: 17,
+    text: 'reportType.stored',
+    code: 'W017',
+  },
+]
+
+export const REPORT_FILE_TYPE = {
+  EXCEL: 0,
+  WORD: 1,
+}
+export const REPORT_FILE_TYPE_MAP = {
+  [REPORT_FILE_TYPE.EXCEL]: 'reportExport.excel',
+  [REPORT_FILE_TYPE.WORD]: 'reportExport.word',
+}
+
+export const REPORT_FILE_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'reportExport.excel',
+  },
+  {
+    id: 1,
+    text: 'reportExport.word',
+  },
+]
+
+export const UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE = {
+  UPDATE_WAREHOUSE: 'updateWarehouse',
+  UPDATE_SOURCE: 'updateSource',
+}
+
+export const CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION =
+  'CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION'
+export const UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION =
+  'UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION'

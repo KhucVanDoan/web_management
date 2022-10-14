@@ -56,27 +56,6 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         headerName: t('locationManagement.item.intoMoney'),
         width: 200,
       },
-      // {
-      //   field: 'remove',
-      //   headerName: '',
-      //   width: 50,
-      //   align: 'center',
-      //   hide: isView,
-      //   renderCell: (params) => {
-      //     const idx = items.findIndex((item) => item.id === params.row.id)
-      //     return (
-      //       <IconButton
-      //         type="button"
-      //         onClick={() => {
-      //           arrayHelpers.remove(idx)
-      //         }}
-      //         disabled={items?.length === 1}
-      //       >
-      //         <Icon name="remove" />
-      //       </IconButton>
-      //     )
-      //   },
-      // },
     ],
     [items],
   )

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ManageSearch from '@mui/icons-material/ManageSearch'
 import {
@@ -10,6 +11,7 @@ import {
   Popper as MuiPopper,
   Paper as MuiPaper,
   Typography,
+  Divider,
 } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
@@ -23,6 +25,7 @@ import TextField from '~/components/TextField'
 import { useClasses } from '~/themes'
 import qs from '~/utils/qs'
 
+import Button from '../Button'
 import Icon from '../Icon'
 import style from './style'
 
@@ -52,6 +55,7 @@ const Autocomplete = ({
   dropdownLarger,
   dropdownWidth,
   dropdownHeader,
+  quickCreate,
   ...props
 }) => {
   const classes = useClasses(style)
@@ -316,9 +320,27 @@ const Autocomplete = ({
       <MuiPaper {...paperProps}>
         {dropdownHeader}
         {children}
+        {typeof quickCreate === 'function' && (
+          <>
+            <Divider sx={{ mt: 0 }} />
+            <Box sx={{ py: 1, px: 4 / 3 }}>
+              <Button
+                size="small"
+                onMouseDown={(e) => {
+                  e.stopPropagation()
+                  quickCreate()
+                }}
+                startIcon={<BoltOutlinedIcon />}
+                color="secondary"
+              >
+                {t('autocomplete.quickCreate')}
+              </Button>
+            </Box>
+          </>
+        )}
       </MuiPaper>
     ),
-    [dropdownHeader],
+    [dropdownHeader, quickCreate],
   )
 
   return (
@@ -335,7 +357,9 @@ const Autocomplete = ({
       multiple={multiple}
       renderTags={renderTags}
       {...(dropdownMinWidth ? { PopperComponent: Popper } : {})}
-      {...(dropdownHeader ? { PaperComponent: Paper } : {})}
+      {...(!!dropdownHeader || typeof quickCreate === 'function'
+        ? { PaperComponent: Paper }
+        : {})}
       loading={loading}
       loadingText={loadingText || t('autocomplete.loadingText')}
       noOptionsText={noOptionsText || t('autocomplete.noOptionsText')}
@@ -380,13 +404,13 @@ const Autocomplete = ({
         />
       )}
       {...props}
-      isOptionEqualToValue={(opt, val) => isOptEqual(opt, val)}
       disableCloseOnSelect={multiple ? true : false}
       {...(isAsync
         ? {
             value,
             options: getDisplayedAsyncOptions(),
             filterOptions: (opts) => opts,
+            isOptionEqualToValue: (opt, val) => isOptEqual(opt, val),
             popupIcon: <ManageSearch sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />,
             ...(multiple
               ? {
@@ -450,6 +474,9 @@ const Autocomplete = ({
             popupIcon: (
               <KeyboardArrowDownIcon sx={{ color: 'rgba(51, 51, 51, 0.4)' }} />
             ),
+            ...(typeof isOptionEqualToValue === 'function'
+              ? { isOptionEqualToValue }
+              : {}),
           })}
     />
   )
@@ -503,6 +530,7 @@ Autocomplete.propTypes = {
   dropdownLarger: PropTypes.bool,
   dropdownWidth: PropTypes.number,
   dropdownHeader: PropTypes.node,
+  quickCreate: PropTypes.func,
 }
 
 export default Autocomplete

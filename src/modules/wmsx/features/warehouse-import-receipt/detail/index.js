@@ -153,7 +153,10 @@ function WarehouseImportReceiptDetail() {
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name
+                        )?.name ||
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code
                       }
                     />
                   </Grid>

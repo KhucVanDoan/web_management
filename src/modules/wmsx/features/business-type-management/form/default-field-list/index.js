@@ -17,69 +17,12 @@ const DefaultFieldList = ({ itemDefault, mode, setFieldValue }) => {
     if (val === true) {
       setFieldValue(`itemDefault[${index}].show`, true)
     }
-    //   if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
-    //     if (val === true) {
-    //       setFieldValue(`itemDefault[${index}].show`, true)
-    //     }
-    //     if (val === true && index === 0) {
-    //       setFieldValue(`itemDefault[1].show`, false)
-    //       setFieldValue(`itemDefault[2].show`, false)
-    //       setFieldValue(`itemDefault[1].required`, false)
-    //       setFieldValue(`itemDefault[2].required`, false)
-    //     }
-    //     if (val === true && index === 1) {
-    //       setFieldValue(`itemDefault[0].show`, false)
-    //       setFieldValue(`itemDefault[2].show`, true)
-    //       setFieldValue(`itemDefault[0].required`, false)
-    //     }
-    //     if (val === true && index === 2) {
-    //       setFieldValue(`itemDefault[0].show`, false)
-    //       setFieldValue(`itemDefault[1].show`, true)
-    //       setFieldValue(`itemDefault[0].required`, false)
-    //     }
-    //   } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
-    //     if (val === true) {
-    //       setFieldValue(`itemDefault[${index}].show`, true)
-    //     }
-    //     if (val === true && index === 0) {
-    //       setFieldValue(`itemDefault[1].show`, false)
-    //       setFieldValue(`itemDefault[1].required`, false)
-    //     }
-    //     if (val === true && index === 1) {
-    //       setFieldValue(`itemDefault[0].show`, false)
-    //       setFieldValue(`itemDefault[0].required`, false)
-    //     }
-    //   }
   }
-  // const handleChangeShow = (val, index) => {
-  //   if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.IMPORT) {
-  //     if (val === true && index === 0) {
-  //       setFieldValue(`itemDefault[1].show`, false)
-  //       setFieldValue(`itemDefault[2].show`, false)
-  //       setFieldValue(`itemDefault[1].required`, false)
-  //       setFieldValue(`itemDefault[2].required`, false)
-  //     }
-  //     if (val === true && index === 1) {
-  //       setFieldValue(`itemDefault[0].show`, false)
-  //       setFieldValue(`itemDefault[2].show`, true)
-  //       setFieldValue(`itemDefault[0].required`, false)
-  //     }
-  //     if (val === true && index === 2) {
-  //       setFieldValue(`itemDefault[0].show`, false)
-  //       setFieldValue(`itemDefault[1].show`, true)
-  //       setFieldValue(`itemDefault[0].required`, false)
-  //     }
-  //   } else if (+values?.parentBusiness === PARENT_BUSINESS_TYPE.EXPORT) {
-  //     if (val === true && index === 0) {
-  //       setFieldValue(`itemDefault[1].show`, false)
-  //       setFieldValue(`itemDefault[1].required`, false)
-  //     }
-  //     if (val === true && index === 1) {
-  //       setFieldValue(`itemDefault[0].show`, false)
-  //       setFieldValue(`itemDefault[0].required`, false)
-  //     }
-  //   }
-  // }
+  const handleChangeShow = (val, index) => {
+    if (!val) {
+      setFieldValue(`itemDefault[${index}].required`, false)
+    }
+  }
   const columns = useMemo(
     () => [
       {
@@ -136,7 +79,7 @@ const DefaultFieldList = ({ itemDefault, mode, setFieldValue }) => {
           ) : (
             <Field.Checkbox
               name={`itemDefault[${index}].show`}
-              // onChange={(val) => handleChangeShow(val, index)}
+              onChange={(val) => handleChangeShow(val, index)}
               disabled={isView}
             />
           )

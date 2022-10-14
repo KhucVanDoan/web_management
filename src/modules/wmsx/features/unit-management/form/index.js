@@ -75,7 +75,7 @@ const ManagementUnitForm = () => {
   const getBreadcrumb = () => {
     const breadcrumb = [
       {
-        title: 'database',
+        title: 'setting',
       },
       {
         route: ROUTE.UNIT_MANAGEMENT.LIST.PATH,
@@ -179,7 +179,7 @@ const ManagementUnitForm = () => {
                       placeholder={t('managementUnit.code')}
                       disabled={mode === MODAL_MODE.UPDATE}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_9.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
@@ -191,7 +191,7 @@ const ManagementUnitForm = () => {
                       name="name"
                       placeholder={t('managementUnit.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
                       required
                     />

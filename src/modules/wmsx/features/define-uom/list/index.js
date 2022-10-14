@@ -15,6 +15,7 @@ import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import { TYPE_ITEM_EXPORT } from '~/modules/database/constants'
 import {
   exportItemUnitSettingApi,
@@ -24,7 +25,6 @@ import {
   UOM_ACTIVE_STATUS,
   UOM_ACTIVE_STATUS_OPTIONS,
 } from '~/modules/wmsx/constants'
-import StatusSwitcher from '~/modules/wmsx/partials/StatusSwitcher'
 import useDefineUom from '~/modules/wmsx/redux/hooks/useDefineUom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'

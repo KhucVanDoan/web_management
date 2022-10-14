@@ -15,7 +15,7 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
   {
-    title: 'database',
+    title: 'setting',
   },
   {
     route: ROUTE.UNIT_MANAGEMENT.LIST.PATH,

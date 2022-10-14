@@ -25,7 +25,13 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
           return isView ? (
             params?.row?.ebsLabel
           ) : (
-            <Field.TextField name={`itemOption[${index}].labelEBS`} required />
+            <Field.TextField
+              name={`itemOption[${index}].labelEBS`}
+              placeholder={t(
+                'businessTypeManagement.items.placeholderLabelEBS',
+              )}
+              required
+            />
           )
         },
       },
@@ -37,7 +43,13 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
           return isView ? (
             params?.row?.fieldName
           ) : (
-            <Field.TextField name={`itemOption[${index}].fieldName`} required />
+            <Field.TextField
+              name={`itemOption[${index}].fieldName`}
+              placeholder={t(
+                'businessTypeManagement.items.placeholderFieldName',
+              )}
+              required
+            />
           )
         },
       },
@@ -55,6 +67,7 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
             <Field.Autocomplete
               name={`itemOption[${index}].type`}
               options={DATA_TYPE_OPTIONS}
+              placeholder={t('businessTypeManagement.items.placeholderType')}
               getOptionLabel={(opt) => t(`${opt?.text}`)}
               getOptionValue={(opt) => opt}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -102,8 +115,7 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
         field: 'action',
         width: 100,
         align: 'center',
-        renderCell: (params) => {
-          const idx = itemOption.findIndex((item) => item.id === params.row.id)
+        renderCell: (params, idx) => {
           return (
             <IconButton
               onClick={() => {
@@ -135,12 +147,13 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
             onClick={() => {
               arrayHelpers.push({
                 id: '',
+                labelEBS: '',
                 fieldName: '',
                 code: '',
                 type: '',
                 columnName: '',
                 tableName: '',
-                required: true,
+                required: false,
                 show: true,
               })
             }}
