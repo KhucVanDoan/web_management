@@ -5,7 +5,11 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -95,6 +99,7 @@ function ItemsSettingTable(props) {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
+              disabled={!values?.warehouseId}
               asyncRequestDeps={values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
               getOptionLabel={(opt) => opt?.code}
