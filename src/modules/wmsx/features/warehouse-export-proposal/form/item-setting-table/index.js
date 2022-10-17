@@ -125,6 +125,11 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                   limit: ASYNC_SEARCH_LIMIT,
                 })
               }
+              validate={(val) => {
+                if (!val) {
+                  return t('general:form.required')
+                }
+              }}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
             />

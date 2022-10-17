@@ -24,7 +24,7 @@ export const formSchema = (t) =>
           .required(t('general:form.required'))
           .max(
             NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
-            t('general:form.maxLength', {
+            t('general:form.maxNumber', {
               max: NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
             }),
           ),

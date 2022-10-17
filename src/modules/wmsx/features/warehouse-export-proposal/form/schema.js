@@ -30,20 +30,6 @@ export const defineSchema = (t) =>
             }
             return true
           }),
-        unit: Yup.object().nullable().required(t('general:form.required')),
-        importedQuantity: Yup.number()
-          .nullable()
-          .required(t('general:form.required'))
-          .test('', '', (value, context) => {
-            if (value <= 0) {
-              return context.createError({
-                message: t('general:form.moreThanNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-                }),
-              })
-            }
-            return true
-          }),
       }),
     ),
   })
