@@ -3082,6 +3082,7 @@
     "confirmWarehouseImport": "Xác nhận nhập kho",
     "confirmWarehouseExport": "Xác nhận xuất kho",
     "printReceipt": "In phiếu",
+    "view": "Preview",
     "transferStatus": {
       "created": "Tạo thành công",
       "pending": "Chờ xác nhận",

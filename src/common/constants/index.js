@@ -189,6 +189,10 @@ export const NUMBER_FIELD_REQUIRED_SIZE = {
     MIN: 1,
     MAX: 9999,
   },
+  MONEY: {
+    MIN: 0,
+    MAX: 9999999999999.99,
+  },
 }
 
 export const TEXTFIELD_ALLOW = {

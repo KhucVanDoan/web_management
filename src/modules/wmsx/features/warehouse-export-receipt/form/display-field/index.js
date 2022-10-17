@@ -52,14 +52,13 @@ const displayFollowBusinessTypeManagement = (
   )?.id
   const handleChangeProposals = async (val) => {
     if (val) {
-      if (isEmpty(values?.warehouseId)) {
+      if (!isEmpty(values?.warehouseId)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
           warehouseId: values?.warehouseId?.id,
         }
         const res = await getWarehouseExportProposalItems(params)
-
         setItemWarehouseExport(res?.data)
       }
     }
@@ -233,7 +232,7 @@ const displayFollowBusinessTypeManagement = (
                       }
                     }
                   }}
-                  disabled={!values?.warehouseId}
+                  // disabled={!values?.warehouseId}
                   onChange={(val) => handleChangeProposals(val)}
                 />
               </Grid>,
