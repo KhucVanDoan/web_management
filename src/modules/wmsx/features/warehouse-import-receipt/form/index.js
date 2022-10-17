@@ -22,6 +22,7 @@ import {
   CODE_TYPE_DATA_FATHER_JOB,
   ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -332,6 +333,21 @@ function WarehouseImportReceiptForm() {
       })
     }
   }
+  const handleChangeWarehouse = async (val, values, setFieldValue) => {
+    const findWarehouseExportProposal =
+      values?.businessTypeId?.bussinessTypeAttributes?.find(
+        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+      )?.id
+    if (!isEmpty(values[findWarehouseExportProposal])) {
+      setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+      const params = {
+        id: values[findWarehouseExportProposal]?.id,
+        warehouseId: values?.warehouseId?.id,
+      }
+      const res = await getWarehouseExportProposalItems(params)
+      setItemWarehouseExportProposal(res?.data)
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -404,7 +420,7 @@ function WarehouseImportReceiptForm() {
                                 className={classes.uploadText}
                                 sx={{ mt: 8 / 12 }}
                               >
-                                {values?.Attachments?.name}
+                                {values?.attachments?.name}
                               </Typography>
                             </label>
                             <input
@@ -514,6 +530,9 @@ function WarehouseImportReceiptForm() {
                         disabled={values[receiptRequired]}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={(val) =>
+                          handleChangeWarehouse(val, values, setFieldValue)
+                        }
                         required
                       />
                     </Grid>

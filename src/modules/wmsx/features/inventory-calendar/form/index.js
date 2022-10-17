@@ -77,7 +77,9 @@ const InventoryCalendarForm = () => {
             new Date(inventoryCalendarDetails?.executeTo),
           ]
         : '',
-      closingDay: new Date(inventoryCalendarDetails?.checkPointDate) || '',
+      closingDay: inventoryCalendarDetails?.checkPointDate
+        ? new Date(inventoryCalendarDetails?.checkPointDate)
+        : '',
       description: inventoryCalendarDetails?.description || '',
       switchMode:
         inventoryCalendarDetails?.checkPointDataType ||
@@ -329,6 +331,7 @@ const InventoryCalendarForm = () => {
                         name="closingDay"
                         label={t('inventoryCalendar.closingDay')}
                         placeholder={t('inventoryCalendar.closingDay')}
+                        maxDate={new Date()}
                         required
                       />
                     </Grid>

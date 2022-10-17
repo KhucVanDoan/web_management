@@ -81,7 +81,6 @@ function ItemsSettingTable(props) {
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code || ''}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
@@ -179,9 +178,8 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              allow={TEXTFIELD_ALLOW.NUMERIC}
+              type="number"
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 2,
               }}
             />

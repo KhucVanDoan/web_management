@@ -20,6 +20,7 @@ import {
   ACTIVE_STATUS_OPTIONS,
   CODE_TYPE_DATA_FATHER_JOB,
   PARENT_BUSINESS_TYPE,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
@@ -330,9 +331,24 @@ function WarehouseExportReceiptForm() {
       sourceAction.getDetailSourceManagementById(val?.id)
     }
   }
-  const handleChangeWarehouse = (val, setFieldValue) => {
+  const handleChangeWarehouse = async (val, setFieldValue, values) => {
+    const findWarehouseExportProposal =
+      values?.businessTypeId?.bussinessTypeAttributes?.find(
+        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+      )?.id
     setFieldValue('items', DEFAULT_ITEMS)
-    warehouseTransferAction.getListItemWarehouseStock(val?.id)
+    if (val) {
+      warehouseTransferAction.getListItemWarehouseStock(val?.id)
+      if (!isEmpty(values[findWarehouseExportProposal])) {
+        setFieldValue('items', DEFAULT_ITEMS)
+        const params = {
+          id: values[findWarehouseExportProposal]?.id,
+          warehouseId: val?.id,
+        }
+        const res = await getWarehouseExportProposalItems(params)
+        setItemWarehouseExport(res?.data)
+      }
+    }
   }
   const handleChangeBusinessType = (val) => {
     if (!isEmpty(val)) {
@@ -482,9 +498,9 @@ function WarehouseExportReceiptForm() {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
