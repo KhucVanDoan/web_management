@@ -240,7 +240,7 @@ const displayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  disabled={!values?.warehouseId}
+                  // disabled={!values?.warehouseId}
                   validate={(val) => {
                     if (item?.required) {
                       if (isEmpty(val)) {
