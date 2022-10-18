@@ -169,7 +169,7 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                // id: new Date().getTime(),
+                id: new Date().getTime(),
                 code: '',
                 name: '',
                 level: 1,

@@ -18,7 +18,6 @@ import { exportInventoryStatisticsApi } from '~/modules/wmsx/redux/sagas/invento
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
-import useMaterialManagement from '../../redux/hooks/useMaterialManagement'
 import FilterForm from './filter'
 import InventoryStatisticFilter from './filter-quick-form'
 import { formSchema } from './schema'
@@ -76,8 +75,6 @@ function InventoryStatistics() {
     actions,
   } = useInventoryStatistics()
 
-  const { actions: materialActions } = useMaterialManagement()
-
   const columns = [
     // {
     //   field: 'id',
@@ -91,44 +88,43 @@ function InventoryStatistics() {
       headerName: t('inventoryStatistics.code'),
       width: 80,
       fixed: true,
-      renderCell: (params) => params?.row?.code,
     },
     {
       field: 'itemName',
       headerName: t('inventoryStatistics.name'),
       width: 150,
       fixed: true,
-      renderCell: (params) => params?.row?.name,
     },
     {
       field: 'unit',
       headerName: t('inventoryStatistics.unit'),
       width: 100,
       sortable: false,
+      renderCell: (params) => params.row?.itemUnitName,
     },
     {
       field: 'warehouseName',
       headerName: t('inventoryStatistics.warehouseName'),
       width: 150,
-      renderCell: (params) => params?.row?.locations?.[0]?.warehouse?.name,
+      renderCell: (params) => params.row?.warehouseName,
     },
     {
       field: 'location',
       headerName: t('inventoryStatistics.location'),
       width: 150,
-      renderCell: (params) => params?.row?.locations?.[0]?.locator?.name,
+      renderCell: (params) => params.row?.locator?.name,
     },
     {
       field: 'lotNumber',
       headerName: t('inventoryStatistics.lotNumber'),
       width: 150,
-      renderCell: (params) => params?.row?.locations?.[0]?.lots?.[0]?.lotNumber,
+      renderCell: (params) => params.row?.lotNumber,
     },
     {
       field: 'quantity',
       headerName: t('inventoryStatistics.quantity'),
       width: 150,
-      renderCell: (params) => Number(params?.row?.quantity),
+      renderCell: (params) => Number(params.row?.stock),
     },
     {
       field: 'price',
@@ -136,7 +132,7 @@ function InventoryStatistics() {
       width: 150,
     },
     {
-      field: 'intoMoney',
+      field: 'amount',
       headerName: t('inventoryStatistics.intoMoney'),
       width: 150,
     },
@@ -185,18 +181,25 @@ function InventoryStatistics() {
     setModal({ isOpenUpdateModal: false, tempItem: null })
   }
 
-  const onSubmitUpdate = () => {
-    materialActions.updateMaterial(modal.tempItem?.id, () => {
+  const onSubmitUpdate = (values) => {
+    const convertParams = {
+      itemId: modal.tempItem?.itemId,
+      locatorId: modal.tempItem?.locatorId,
+      warehouseId: modal.tempItem?.warehouseId,
+      lotNumber: modal.tempItem?.lotNumber,
+      type: values?.type,
+      purpose: values?.purpose,
+    }
+    actions.updateInventoryStatistics(convertParams, () => {
       refreshData()
+      setModal({ isOpenUpdateModal: false, tempItem: null })
     })
-    setModal({ isOpenUpdateModal: false, tempItem: null })
   }
 
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
-      reportDate: quickFilters?.reportDate,
       limit: pageSize,
       filter: convertFilterParams(
         {
@@ -289,7 +292,7 @@ function InventoryStatistics() {
                   <Field.TextField
                     name="code"
                     label={t('inventoryStatistics.code')}
-                    placeholder={t('inventoryStatistics.code')}
+                    value={modal?.tempItem?.itemCode}
                     disabled
                   />
                 </Grid>
@@ -298,6 +301,9 @@ function InventoryStatistics() {
                     name="type"
                     label={t('inventoryStatistics.type')}
                     placeholder={t('inventoryStatistics.type')}
+                    inputProps={{
+                      maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -313,7 +319,6 @@ function InventoryStatistics() {
                   />
                 </Grid>
               </Grid>
-
               <ActionBar
                 onCancel={onCloseUpdateModal}
                 mode={MODAL_MODE.UPDATE}

@@ -147,6 +147,7 @@ import watchGetDetailInventorySetting from './inventory-setting/get-inventory-se
 import watchSearchInventorySetting from './inventory-setting/search-inventory-setting'
 import watchUpdateInventorySetting from './inventory-setting/update-inventory-setting'
 import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
+import watchUpdateInventoryStatistics from './inventory-statistics/update-inventory-statistics'
 import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
@@ -506,7 +507,7 @@ export default function* sagas() {
 
     // inventory statistic
     watchSearchInventoryStatistics(),
-
+    watchUpdateInventoryStatistics(),
     // inventory warning
     watchSearchInventoryWarning(),
 
