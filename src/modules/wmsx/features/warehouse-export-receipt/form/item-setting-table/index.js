@@ -42,7 +42,7 @@ const ItemSettingTable = ({
     )
     setFieldValue(
       `items[${index}].planExportedQuantity`,
-      +val?.quantity || val?.exportedQuantity,
+      +val?.quantity || val?.exportableQuantity,
     )
 
     if (values?.sourceId) {
@@ -81,7 +81,6 @@ const ItemSettingTable = ({
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
             />
           ) : (
@@ -91,7 +90,6 @@ const ItemSettingTable = ({
               options={itemWarehouseStockList}
               getOptionLabel={(opt) => opt?.code}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               required
             />
@@ -154,7 +152,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].quantityRequest`}
+              name={`items[${index}].itemCode.requestedQuantity`}
               disabled
               required
             />

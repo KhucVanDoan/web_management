@@ -76,6 +76,7 @@ function ItemsSettingTable(props) {
               name={`items[${index}].itemCode`}
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code || ''}
+              getOptionSubLabel={(opt) => opt?.item?.name || ''}
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionDisabled={(opt) =>
@@ -98,6 +99,7 @@ function ItemsSettingTable(props) {
               asyncRequestDeps={values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
               getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name || ''}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.itemCode?.itemId
