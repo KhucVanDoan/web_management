@@ -19,10 +19,10 @@ export const defineSchema = (t, inventoryType) =>
         const isValue = executionDay?.some((val) => val) || false
         return isValue
       }),
-    checkPointDataAttachment:
-      inventoryType === INVENTORY_TYPE.PERIODIC
-        ? Yup.object().nullable().required(t('general:form.required'))
-        : null,
+    // checkPointDataAttachment:
+    //   inventoryType === INVENTORY_TYPE.PERIODIC
+    //     ? Yup.object().nullable().required(t('general:form.required'))
+    //     : null,
     items: Yup.array().of(
       Yup.object().shape({
         itemCode:

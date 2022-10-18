@@ -149,7 +149,21 @@ function WarehouseImportReceipt() {
     {
       field: 'warehouseImportEbs',
       headerName: t('warehouseImportReceipt.warehouseImportEbs'),
-      width: 150,
+      width: 250,
+      renderCell: (params) => {
+        const { status } = params?.row
+        const isConfirmWarehouseImport =
+          status === ORDER_STATUS.IN_PROGRESS ||
+          status === ORDER_STATUS.COMPLETED ||
+          status === ORDER_STATUS.RECEIVED
+        return (
+          isConfirmWarehouseImport && (
+            <Button variant="text" size="small" bold={false}>
+              {t('warehouseImportReceipt.confirmWarehouseImport')}
+            </Button>
+          )
+        )
+      },
     },
     {
       field: 'action',
@@ -165,6 +179,9 @@ function WarehouseImportReceipt() {
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isRejected = status === ORDER_STATUS.PENDING
+        const hasTransaction =
+          status === ORDER_STATUS.IN_PROGRESS ||
+          status === ORDER_STATUS.COMPLETED
         return (
           <div>
             <IconButton
@@ -207,6 +224,18 @@ function WarehouseImportReceipt() {
               <IconButton onClick={() => onClickRejected(params.row)}>
                 <Icon name="remove" />
               </IconButton>
+            )}
+            {hasTransaction && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() =>
+                  history.push(`${ROUTE.WAREHOUSE_IMPORT.LIST.PATH}`)
+                }
+              >
+                {t('warehouseTransfer.transactions')}
+              </Button>
             )}
           </div>
         )

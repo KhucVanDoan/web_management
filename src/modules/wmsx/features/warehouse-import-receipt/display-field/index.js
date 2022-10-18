@@ -56,7 +56,7 @@ const displayFollowBusinessTypeManagement = (
     setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
       actions.getReceiptDetailsById(val?.id, (data) => {
-        setFieldValue('warehouseId', data?.warehouse)
+        setFieldValue('warehouse', data?.warehouse)
         setItemReceipt(data?.items)
       })
     }
@@ -65,11 +65,11 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (val) {
-      if (isEmpty(values?.warehouseId)) {
+      if (!isEmpty(values?.warehouse)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
-          warehouseId: values?.warehouseId?.id,
+          warehouseId: values?.warehouse?.id,
         }
         const res = await getWarehouseExportProposalItems(params)
         setItemWarehouseExportProposal(res?.data)
@@ -240,7 +240,6 @@ const displayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  // disabled={!values?.warehouseId}
                   validate={(val) => {
                     if (item?.required) {
                       if (isEmpty(val)) {
