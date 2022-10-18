@@ -238,11 +238,12 @@ const ItemSettingTable = (props) => {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.debitAcc}</>
+            1519
           ) : (
             <Field.TextField
-              name={`items[${index}].debitAcc`}
+              name={`items[${index}].d ebitAcc`}
               type="number"
+              value={'1519'}
               disabled={true}
             />
           )

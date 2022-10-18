@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -123,6 +124,8 @@ const WarehouseTransferForm = () => {
           locatorId: +item?.locator?.locatorId,
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
+          debitAcc: '1519',
+          creditAcc: item?.creditAccount,
         })),
       ),
     }
@@ -279,6 +282,19 @@ const WarehouseTransferForm = () => {
                         label={t('warehouseTransfer.createdAt')}
                         placeholder={t('warehouseTransfer.createdAt')}
                         maxDate={new Date()}
+                        minDate={
+                          new Date(
+                            sub(new Date(), {
+                              years: 0,
+                              months: 3,
+                              weeks: 0,
+                              days: 0,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                            }),
+                          )
+                        }
                         required
                       />
                     </Grid>
