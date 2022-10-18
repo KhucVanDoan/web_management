@@ -5,7 +5,11 @@ import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  NUMBER_FIELD_REQUIRED_SIZE,
+} from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import DataTableCollapse from '~/components/DataTableCollapse'
 import Dialog from '~/components/Dialog'
@@ -127,6 +131,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
+            validate={(val) => {
+              if (val <= 0) {
+                return t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                })
+              }
+              return true
+            }}
           />
         )
       },
@@ -379,6 +391,13 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${parentIndex}].details[${index}].quantityExport`}
+            validate={(val) => {
+              if (val <= 0) {
+                return t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                })
+              }
+            }}
           />
         )
       },

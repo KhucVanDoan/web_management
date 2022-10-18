@@ -278,6 +278,7 @@ const WarehouseTransferForm = () => {
                         name="createdAt"
                         label={t('warehouseTransfer.createdAt')}
                         placeholder={t('warehouseTransfer.createdAt')}
+                        maxDate={new Date()}
                         required
                       />
                     </Grid>

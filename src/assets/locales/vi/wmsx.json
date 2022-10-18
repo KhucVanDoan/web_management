@@ -2899,6 +2899,7 @@
     "costTypes": "Loại chi phí",
     "organizationPayments": "Tổ chức chi",
     "Attachments": "Tệp đính kèm",
+    "confirmWarehouseImport": "Xác nhận nhập kho",
     "table": {
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",

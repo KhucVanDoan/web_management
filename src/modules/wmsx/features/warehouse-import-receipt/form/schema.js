@@ -12,7 +12,7 @@ export const formSchema = (t) =>
     businessTypeId: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    warehouseId: Yup.object().nullable().required(t('general:form.required')),
+    warehouse: Yup.object().nullable().required(t('general:form.required')),
     reasonId: Yup.object().nullable().required(t('general:form.required')),
     sourceId: Yup.object().nullable().required(t('general:form.required')),
 
@@ -24,10 +24,20 @@ export const formSchema = (t) =>
           .required(t('general:form.required'))
           .max(
             NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
-            t('general:form.maxLength', {
+            t('general:form.maxNumber', {
               max: NUMBER_FIELD_REQUIRED_SIZE.MONEY.MAX,
             }),
-          ),
+          )
+          .test('', '', (values, context) => {
+            if (values <= 0) {
+              return context.createError({
+                message: t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                }),
+              })
+            }
+            return true
+          }),
         importQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required'))
