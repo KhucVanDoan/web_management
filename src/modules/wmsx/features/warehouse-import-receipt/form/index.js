@@ -97,7 +97,7 @@ function WarehouseImportReceiptForm() {
         : null,
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
-      warehouseId: warehouseImportReceiptDetails?.warehouse || '',
+      warehouse: warehouseImportReceiptDetails?.warehouse || '',
       reasonId: warehouseImportReceiptDetails?.reason || '',
       sourceId: warehouseImportReceiptDetails?.source || '',
       explaination: warehouseImportReceiptDetails?.explanation || '',
@@ -261,7 +261,7 @@ function WarehouseImportReceiptForm() {
       receiptDate: values?.receiptDate?.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
-      warehouseId: values?.warehouseId?.id,
+      warehouseId: values?.warehouse?.id,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id: +item?.itemCode?.itemId || +item?.itemCode?.id,
@@ -272,7 +272,7 @@ function WarehouseImportReceiptForm() {
           amount: item?.money,
           debitAccount: item?.debitAcc || null,
           creditAccount: item?.creditAcc,
-          warehouseId: values?.warehouseId?.id,
+          warehouseId: values?.warehouse?.id,
         })),
       ),
     }
@@ -342,7 +342,7 @@ function WarehouseImportReceiptForm() {
       setFieldValue('items', [{ ...DEFAULT_ITEMS }])
       const params = {
         id: values[findWarehouseExportProposal]?.id,
-        warehouseId: values?.warehouseId?.id,
+        warehouseId: values?.warehouse?.id,
       }
       const res = await getWarehouseExportProposalItems(params)
       setItemWarehouseExportProposal(res?.data)
@@ -513,7 +513,7 @@ function WarehouseImportReceiptForm() {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
-                        name="warehouseId"
+                        name="warehouse"
                         label={t('warehouseImportReceipt.warehouse')}
                         placeholder={t('warehouseImportReceipt.warehouse')}
                         asyncRequest={(s) =>
