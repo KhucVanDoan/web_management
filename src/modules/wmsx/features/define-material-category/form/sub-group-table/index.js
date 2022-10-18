@@ -194,7 +194,8 @@ const SubGroupTable = ({
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                // id: new Date().getTime(),
+                id: new Date().getTime(),
+                mainCode: '',
                 code: '',
                 name: '',
                 level: 2,
