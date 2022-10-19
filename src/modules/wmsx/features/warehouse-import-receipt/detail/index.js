@@ -115,10 +115,16 @@ function WarehouseImportReceiptDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseImportReceipt.shipper')} value={''} />
+              <LV
+                label={t('warehouseImportReceipt.shipper')}
+                value={warehouseImportReceiptDetails.deliver}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('warehouseImportReceipt.unit')} value={''} />
+              <LV
+                label={t('warehouseImportReceipt.unit')}
+                value={warehouseImportReceiptDetails?.departmentReceipt?.code}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
@@ -176,7 +182,7 @@ function WarehouseImportReceiptDetail() {
               label={t('warehouseExportReceipt.explain')}
               multiline
               rows={3}
-              value={attributesBusinessTypeDetails?.explaination}
+              value={warehouseImportReceiptDetails?.explaination}
               readOnly
               sx={{
                 'label.MuiFormLabel-root': {

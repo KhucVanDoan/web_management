@@ -97,7 +97,7 @@ function WarehouseImportReceipt() {
       },
     },
     {
-      field: 'expenditureType',
+      field: 'businessType',
       headerName: t('warehouseImportReceipt.expenditureType'),
       width: 150,
       renderCell: (params) => {
@@ -248,9 +248,14 @@ function WarehouseImportReceipt() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          businessType: filters?.businessType?.id,
+          departmentReceipt: filters?.departmentReceipt?.id,
+        },
+        [{ field: 'createdAt', filterFormat: 'date' }],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseImportReceipt(params)

@@ -5,10 +5,10 @@ import {
   Button,
   FormLabel,
   Grid,
-  ListItemButton,
+  // ListItemButton,
   Typography,
 } from '@mui/material'
-import clsx from 'clsx'
+// import clsx from 'clsx'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -16,7 +16,6 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
-  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -147,6 +146,43 @@ function MaterialManagementForm() {
     }
   }
 
+  const addSeperators = (str, mask) => {
+    const rawStr = str.replace(/[^\d]/g, '')
+    const chars = rawStr.split('')
+    let count = 0
+
+    let formatted = ''
+    for (let i = 0; i < mask.length; i++) {
+      const m = mask[i]
+      if (chars[count]) {
+        if (/#/.test(m)) {
+          formatted += chars[count]
+          count++
+        } else {
+          formatted += m
+        }
+      }
+    }
+    return formatted
+  }
+
+  const handleKeyDown = (e) => {
+    if (
+      /[^\d]/g.test(e?.key) &&
+      !['Enter', 'Backspace', 'ArrowLeft', 'ArrowRight'].includes(e?.key)
+    ) {
+      e.preventDefault()
+    }
+  }
+
+  const handleChangeCode = (val, setFieldValue) => {
+    setFieldValue('code', addSeperators(val, '#.##.##.###.###.##.###'))
+  }
+
+  const handleChangeNormalizeCode = (val, setFieldValue) => {
+    setFieldValue('normalizeCode', addSeperators(val, '#.##.##.###'))
+  }
+
   const renderActionBar = (handleReset) => {
     switch (mode) {
       case MODAL_MODE.CREATE:
@@ -218,8 +254,11 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       required
+                      onKeyDown={handleKeyDown}
+                      onInput={(val) => {
+                        handleChangeCode(val, setFieldValue)
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -242,6 +281,10 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
                       }}
                       required
+                      onKeyDown={handleKeyDown}
+                      onInput={(val) => {
+                        handleChangeNormalizeCode(val, setFieldValue)
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -281,38 +324,38 @@ function MaterialManagementForm() {
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
+                      getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
-                      dropdownWidth={800}
-                      dropdownHeader={
-                        <Box className={classes.autocompleteDropdownHeader}>
-                          <Typography variant="h5">Mã loại</Typography>
-                          <Typography variant="h5">Tên loại</Typography>
-                          <Typography variant="h5">Mã nhóm chính</Typography>
-                          <Typography variant="h5">Tên nhóm chính</Typography>
-                          <Typography variant="h5">Mã nhóm phụ</Typography>
-                          <Typography variant="h5">Tên nhóm phụ</Typography>
-                        </Box>
-                      }
-                      renderOption={(optProps, opt = {}, selected, sx) => (
-                        <ListItemButton
-                          {...optProps}
-                          component="li"
-                          sx={sx}
-                          className={clsx(classes.autocompleteListItemButton, {
-                            [classes.autocompleteListItemButtonSelected]:
-                              selected,
-                          })}
-                        >
-                          <Box>{opt.code}</Box>
-                          <Box>{opt.name}</Box>
-                          <Box> </Box>
-                          <Box> </Box>
-                          <Box> </Box>
-                          <Box> </Box>
-                        </ListItemButton>
-                      )}
+                      // dropdownWidth={800}
+                      // dropdownHeader={
+                      //   <Box className={classes.autocompleteDropdownHeader}>
+                      //     <Typography variant="h5">Mã loại</Typography>
+                      //     <Typography variant="h5">Tên loại</Typography>
+                      //     <Typography variant="h5">Mã nhóm chính</Typography>
+                      //     <Typography variant="h5">Tên nhóm chính</Typography>
+                      //     <Typography variant="h5">Mã nhóm phụ</Typography>
+                      //     <Typography variant="h5">Tên nhóm phụ</Typography>
+                      //   </Box>
+                      // }
+                      // renderOption={(optProps, opt = {}, selected, sx) => (
+                      //   <ListItemButton
+                      //     {...optProps}
+                      //     component="li"
+                      //     sx={sx}
+                      //     className={clsx(classes.autocompleteListItemButton, {
+                      //       [classes.autocompleteListItemButtonSelected]:
+                      //         selected,
+                      //     })}
+                      //   >
+                      //     <Box>{opt.code}</Box>
+                      //     <Box>{opt.name}</Box>
+                      //     <Box> </Box>
+                      //     <Box> </Box>
+                      //     <Box> </Box>
+                      //     <Box> </Box>
+                      //   </ListItemButton>
+                      // )}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

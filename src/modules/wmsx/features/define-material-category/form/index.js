@@ -26,14 +26,14 @@ const DEFAULT_MATERIAL = {
 }
 
 const DEFAULT_MAIN_GROUP = {
-  // id: new Date().getTime(),
+  id: new Date().getTime(),
   name: '',
   code: '',
   level: 1,
 }
 
 const DEFAULT_SUB_GROUP = {
-  // id: new Date().getTime(),
+  id: new Date().getTime(),
   name: '',
   code: '',
   mainCode: '',

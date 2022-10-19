@@ -336,11 +336,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.inProgress',
     color: 'inProgress',
   },
-  {
-    id: 3,
-    text: 'orderStatus.approved',
-    color: 'approved',
-  },
+  // {
+  //   id: 3,
+  //   text: 'orderStatus.approved',
+  //   color: 'approved',
+  // },
   {
     id: 4,
     text: 'orderStatus.completed',
@@ -361,11 +361,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.received',
     color: 'received',
   },
-  {
-    id: 8,
-    text: 'orderStatus.delivered',
-    color: 'delivered',
-  },
+  // {
+  //   id: 8,
+  //   text: 'orderStatus.delivered',
+  //   color: 'delivered',
+  // },
   {
     id: 9,
     text: 'orderStatus.inCollecting',
@@ -376,11 +376,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.collected',
     color: 'collected',
   },
-  {
-    id: 11,
-    text: 'orderStatus.exported',
-    color: 'completed',
-  },
+  // {
+  //   id: 11,
+  //   text: 'orderStatus.exported',
+  //   color: 'completed',
+  // },
   {
     id: 12,
     text: 'orderStatus.rejectedReceived',

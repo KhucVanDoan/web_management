@@ -5,6 +5,13 @@ export const WMSX_SEARCH_INVENTORIES_STATISTICS_SUCCESS =
 export const WMSX_SEARCH_INVENTORIES_STATISTICS_FAILED =
   'WMSX_SEARCH_INVENTORIES_STATISTICS_FAILED'
 
+export const WMSX_UPDATE_INVENTORIES_STATISTICS_START =
+  'WMSX_UPDATE_INVENTORIES_STATISTICS_START'
+export const WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS =
+  'WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS'
+export const WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED =
+  'WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED'
+
 /**
  * Get inventory details
  * @param {int} payload
@@ -43,8 +50,33 @@ export function searchInventoryStatisticsFailed() {
   }
 }
 
+export function updateInventoryStatistics(payload, onSuccess, onError) {
+  return {
+    type: WMSX_UPDATE_INVENTORIES_STATISTICS_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function updateInventoryStatisticsSuccess(payload) {
+  return {
+    type: WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function updateInventoryStatisticsFailed() {
+  return {
+    type: WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED,
+  }
+}
+
 export default {
   searchInventoryStatistics,
   searchInventoryStatisticsSuccess,
   searchInventoryStatisticsFailed,
+  updateInventoryStatistics,
+  updateInventoryStatisticsSuccess,
+  updateInventoryStatisticsFailed,
 }
