@@ -180,6 +180,7 @@ const displayFollowBusinessTypeManagement = (
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
                         status: 1,
+                        constructionId: values[constructions]?.id,
                       }),
                     })
                   }
