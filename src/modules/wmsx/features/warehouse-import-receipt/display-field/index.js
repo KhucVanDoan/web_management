@@ -328,9 +328,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchReceiptDepartmentApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: 1,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
@@ -359,9 +359,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchVendorsApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: 1,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}

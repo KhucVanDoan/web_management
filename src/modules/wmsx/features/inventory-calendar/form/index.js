@@ -21,6 +21,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   CHECK_POINT_DATA_TYPE,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
@@ -80,7 +81,7 @@ const InventoryCalendarForm = () => {
         : '',
       closingDay: inventoryCalendarDetails?.checkPointDate
         ? new Date(inventoryCalendarDetails?.checkPointDate)
-        : '',
+        : new Date(),
       description: inventoryCalendarDetails?.description || '',
       switchMode:
         inventoryCalendarDetails?.checkPointDataType ||
@@ -356,6 +357,7 @@ const InventoryCalendarForm = () => {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
+                            status: ACTIVE_STATUS.ACTIVE,
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}

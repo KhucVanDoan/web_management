@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { uniq, map, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -12,13 +13,15 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ACTIVE_STATUS_OPTIONS,
   CODE_TYPE_DATA_FATHER_JOB,
+  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
   TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
@@ -83,6 +86,7 @@ function WarehouseExportReceiptForm() {
   const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
     () => ({
+      code: warehouseExportReceiptDetails?.code,
       receiptDate: warehouseExportReceiptDetails?.receiptDate
         ? new Date(warehouseExportReceiptDetails?.receiptDate)
         : new Date(),
@@ -127,10 +131,9 @@ function WarehouseExportReceiptForm() {
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
-      initialValues[`${item.id}`] =
-        attributesBusinessTypeDetails[item.tableName]?.find(
-          (itemDetail) => itemDetail.id + '' === item.value,
-        ) || ''
+      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
+        item.tableName
+      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
     } else {
       initialValues[`${item.id}`] = item.value || ''
     }
@@ -312,6 +315,12 @@ function WarehouseExportReceiptForm() {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.CREATE}
+            elBefore={
+              <Button sx={{ mr: 'auto' }}>
+                <Icon name="print" mr={1} />
+                {t(`warehouseTransfer.view`)}
+              </Button>
+            }
           />
         )
       case MODAL_MODE.UPDATE:
@@ -320,6 +329,12 @@ function WarehouseExportReceiptForm() {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.UPDATE}
+            elBefore={
+              <Button sx={{ mr: 'auto' }}>
+                <Icon name="print" mr={1} />
+                {t(`warehouseTransfer.view`)}
+              </Button>
+            }
           />
         )
       default:
@@ -350,7 +365,8 @@ function WarehouseExportReceiptForm() {
       }
     }
   }
-  const handleChangeBusinessType = (val) => {
+  const handleChangeBusinessType = (val, setFieldValue) => {
+    setFieldValue('items', DEFAULT_ITEMS)
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         initialValues[item?.id] = ''
@@ -390,10 +406,21 @@ function WarehouseExportReceiptForm() {
                           }
                           value={
                             <Status
-                              options={ACTIVE_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={warehouseExportReceiptDetails?.status}
                             />
                           }
+                        />
+                      </Grid>
+                    )}
+                    {isUpdate && (
+                      <Grid item xs={12} lg={6}>
+                        <Field.TextField
+                          label={t('warehouseExportReceipt.receiptId')}
+                          name="code"
+                          placeholder={t('warehouseExportReceipt.receiptId')}
+                          disabled
+                          required
                         />
                       </Grid>
                     )}
@@ -403,6 +430,19 @@ function WarehouseExportReceiptForm() {
                         label={t('warehouseExportReceipt.createdAt')}
                         placeholder={t('warehouseExportReceipt.createdAt')}
                         maxDate={new Date()}
+                        minDate={
+                          new Date(
+                            sub(new Date(), {
+                              years: 0,
+                              months: 3,
+                              weeks: 0,
+                              days: 0,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                            }),
+                          )
+                        }
                         required
                       />
                     </Grid>
@@ -455,7 +495,9 @@ function WarehouseExportReceiptForm() {
                             }),
                           })
                         }
-                        onChange={(val) => handleChangeBusinessType(val)}
+                        onChange={(val) =>
+                          handleChangeBusinessType(val, setFieldValue)
+                        }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}

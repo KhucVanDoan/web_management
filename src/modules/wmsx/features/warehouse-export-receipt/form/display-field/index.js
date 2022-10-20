@@ -64,6 +64,7 @@ const displayFollowBusinessTypeManagement = (
     }
   }
   const handleChangeWarehouseImportReciept = async (val) => {
+    setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
       const res = await getWarehouseImportReceiptDetailsApi(val?.id)
       setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)

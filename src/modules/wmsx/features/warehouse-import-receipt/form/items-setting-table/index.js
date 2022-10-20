@@ -10,9 +10,10 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { scrollToBottom } from '~/utils'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -92,6 +93,9 @@ function ItemsSettingTable(props) {
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: ACTIVE_STATUS.ACTIVE,
+                  }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
@@ -179,6 +183,15 @@ function ItemsSettingTable(props) {
               numberProps={{
                 decimalScale: 2,
               }}
+              validate={(val) => {
+                if (val) {
+                  if (val > params?.row?.itemCode?.requestedQuantity) {
+                    return t('general:form.maxNumber', {
+                      max: params?.row?.itemCode?.requestedQuantity,
+                    })
+                  }
+                }
+              }}
             />
           )
         },
@@ -254,17 +267,13 @@ function ItemsSettingTable(props) {
           )
         },
       },
-      {
+      items?.length > 1 && {
         field: 'remove',
         headerName: '',
         width: 50,
         renderCell: (params, idx) => {
           return isView ? null : (
-            <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
-              disabled={items?.length === 1}
-              size="large"
-            >
+            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>
           )
