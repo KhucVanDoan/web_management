@@ -10,6 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams } from '~/utils'
 
@@ -45,6 +46,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
                     warehouseId: values?.warehouses
                       ?.map((item) => item?.id)
                       .join(','),
+                    status: ACTIVE_STATUS.ACTIVE,
                   }),
                 })
               }
@@ -97,8 +99,7 @@ function ItemSettingTable({ items, mode, arrayHelpers, values }) {
         width: 50,
         align: 'center',
         hide: isView,
-        renderCell: (params) => {
-          const idx = items.findIndex((item) => item.id === params.row.id)
+        renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
