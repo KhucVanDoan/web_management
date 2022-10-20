@@ -20,8 +20,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
-  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -269,13 +269,14 @@ const WarehouseTransferForm = () => {
                           }
                           value={
                             <Status
-                              options={TRANSFER_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={warehouseTransferDetails?.status}
                             />
                           }
                         />
                       </Grid>
                     )}
+
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
                         name="createdAt"
@@ -382,9 +383,9 @@ const WarehouseTransferForm = () => {
                           searchApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
@@ -453,7 +454,6 @@ const WarehouseTransferForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
-                        required
                       />
                     </Grid>
                     {DisplayFollowBusinessTypeManagement(

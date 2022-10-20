@@ -353,7 +353,7 @@ function BussinessTypeManagement() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('businessTypeManagement.description')}
+          label={t('businessTypeManagement.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
