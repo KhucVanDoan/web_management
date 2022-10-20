@@ -18,7 +18,7 @@ const warehouseTranferSchema = (t) =>
     sourceWarehouseId: Yup.object()
       .nullable()
       .required(t('general:form.required')),
-    deliver: Yup.string().nullable().required(t('general:form.required')),
+    // deliver: Yup.string().nullable().required(t('general:form.required')),
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
