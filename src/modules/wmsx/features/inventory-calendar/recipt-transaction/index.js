@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Grid, Hidden } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -22,7 +22,7 @@ import {
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { checkItemNotExecutedApi } from '~/modules/wmsx/redux/sagas/inventory-calendar/check-items-not-executed'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTableRecipt from './item-setting-table-recipt'
 
@@ -116,12 +116,13 @@ const ReciptDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('inventoryCalendar.executionDay')}
+                label={t('inventoryCalendar.closingDay')}
                 value={convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails?.executionDay,
+                  inventoryCalendarDetails?.checkPointDate,
                 )}
               />
             </Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.warehouses')}
@@ -130,9 +131,20 @@ const ReciptDetail = () => {
                   .join(',')}
               />
             </Grid>
-            <Hidden lgDown>
-              <Grid item lg={6} xs={12}></Grid>
-            </Hidden>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('inventoryCalendar.executionDay')}
+                value={`${convertUtcDateTimeToLocalTz(
+                  inventoryCalendarDetails?.executeFrom,
+                )}-${convertUtcDateTimeToLocalTz(
+                  inventoryCalendarDetails?.executeTo,
+                )}`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('inventoryCalendar.performer')} value={''} />
+            </Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdByUser')}
@@ -142,23 +154,18 @@ const ReciptDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdAt')}
-                value={convertUtcDateTimeToLocalTz(
+                value={convertUtcDateToLocalTz(
                   inventoryCalendarDetails?.createdAt,
                 )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('inventoryCalendar.confirmByUser')}
-                value={inventoryCalendarDetails?.confirmer?.username}
-              />
+              <LV label={t('inventoryCalendar.updatedByUser')} value={''} />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('inventoryCalendar.confirmedAt')}
-                value={convertUtcDateTimeToLocalTz(
-                  inventoryCalendarDetails?.confirmedAt,
-                )}
+                label={t('inventoryCalendar.updatedAt')}
+                value={convertUtcDateToLocalTz('')}
               />
             </Grid>
             <Grid item xs={12}>
@@ -180,11 +187,11 @@ const ReciptDetail = () => {
               <Grid item lg={6} xs={12}>
                 <LV
                   label={t('inventoryCalendar.dataClosing')}
-                  value={
+                  value={`${t(
                     CHECK_POINT_DATA_TYPE_MAP[
                       inventoryCalendarDetails?.checkPointDataType
-                    ]
-                  }
+                    ],
+                  )}`}
                 />
               </Grid>
             )}

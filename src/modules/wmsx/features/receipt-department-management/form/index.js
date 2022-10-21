@@ -189,7 +189,7 @@ function ReceiptDepartmentManagementForm() {
                       label={t('receiptDepartmentManagement.code')}
                       placeholder={t('receiptDepartmentManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
                       allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       disabled={isUpdate}

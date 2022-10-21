@@ -99,7 +99,7 @@ function WarehouseExportProposal() {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        return params?.row?.factory?.name
+        return params?.row?.departmentSetting?.name
       },
     },
     {

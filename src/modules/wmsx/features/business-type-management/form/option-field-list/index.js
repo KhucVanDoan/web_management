@@ -111,7 +111,7 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
           )
         },
       },
-      {
+      itemOption?.length > 1 && {
         field: 'action',
         width: 100,
         align: 'center',
@@ -121,7 +121,6 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={itemOption?.length === 1}
             >
               <Icon name="remove" />
             </IconButton>

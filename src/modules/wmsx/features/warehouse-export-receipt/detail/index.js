@@ -157,6 +157,12 @@ function WarehouseExportReceiptDetail() {
                 }`}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.suorceAccountant')}
+                value={warehouseExportReceiptDetails.source?.name}
+              />
+            </Grid>
             {warehouseExportReceiptDetails?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
@@ -166,7 +172,10 @@ function WarehouseExportReceiptDetail() {
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
                           (itemDetail) => itemDetail.id + '' === item.value,
-                        )?.name
+                        )?.name ||
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code
                       }
                     />
                   </Grid>

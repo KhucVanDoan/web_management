@@ -131,14 +131,15 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
-            validate={(val) => {
-              if (val <= 0) {
-                return t('general:form.moreThanNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-                })
-              }
-              return true
-            }}
+            type="number"
+            // validate={(val) => {
+            //   if (val <= 0) {
+            //     return t('general:form.moreThanNumber', {
+            //       min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+            //     })
+            //   }
+            //   return true
+            // }}
           />
         )
       },
