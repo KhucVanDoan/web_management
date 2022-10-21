@@ -42,7 +42,7 @@ const ItemSettingTable = ({
     )
     setFieldValue(
       `items[${index}].planExportedQuantity`,
-      val?.exportableQuantity,
+      +val?.exportableQuantity || +val?.quantity || 0,
     )
 
     if (values?.sourceId) {
