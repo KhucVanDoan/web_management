@@ -15,8 +15,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  TRANSFER_STATUS,
-  TRANSFER_STATUS_OPTIONS,
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -124,7 +124,7 @@ const WarehouseTransfer = () => {
           const { status } = params.row
           return (
             <Status
-              options={TRANSFER_STATUS_OPTIONS}
+              options={ORDER_STATUS_OPTIONS}
               value={status}
               variant="text"
             />
@@ -139,16 +139,15 @@ const WarehouseTransfer = () => {
         fixed: true,
         renderCell: (params) => {
           const { id, status } = params?.row
-          const isEdit = status === TRANSFER_STATUS.PENDING
-          const isConfirmed = status === TRANSFER_STATUS.PENDING
-          const isRejected = status === TRANSFER_STATUS.REJECTED
+          const isEdit = status === ORDER_STATUS.PENDING
+          const isConfirmed = status === ORDER_STATUS.PENDING
+          const isRejected = status === ORDER_STATUS.REJECTED
           const isDelete =
-            status === TRANSFER_STATUS.PENDING ||
-            status === TRANSFER_STATUS.REJECTED
+            status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
 
           const hasTransaction =
-            status === TRANSFER_STATUS.COMPLETED ||
-            status === TRANSFER_STATUS.IN_PROGRESS
+            status === ORDER_STATUS.COMPLETED ||
+            status === ORDER_STATUS.IN_PROGRESS
           return (
             <div>
               <IconButton

@@ -20,8 +20,8 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
-  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -269,7 +269,7 @@ const WarehouseTransferForm = () => {
                           }
                           value={
                             <Status
-                              options={TRANSFER_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={warehouseTransferDetails?.status}
                             />
                           }
