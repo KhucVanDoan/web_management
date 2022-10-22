@@ -97,7 +97,7 @@ const WarehouseTransfer = () => {
         headerName: t('warehouseTransfer.warehouseImport'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.destinationWarehouseId?.name
+          return params?.row?.destinationWarehouse?.name
         },
       },
       {
@@ -222,7 +222,10 @@ const WarehouseTransfer = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, columns),
+      filter: convertFilterParams(filters, [
+        ...columns,
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseTransfers(params)

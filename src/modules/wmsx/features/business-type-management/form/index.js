@@ -55,7 +55,7 @@ function BusinessTypeManagementForm() {
     () => ({
       code: businessTypeDetails?.code || '',
       name: businessTypeDetails?.name || '',
-      parentBusiness: businessTypeDetails
+      parentBusiness: businessTypeDetails?.parentBussiness
         ? `${businessTypeDetails?.parentBussiness}`
         : '',
       description: businessTypeDetails?.description || '',
@@ -241,127 +241,131 @@ function BusinessTypeManagementForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values, setFieldValue }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  {isUpdate && (
-                    <Grid item xs={12}>
-                      <LV
-                        label={
-                          <Typography>
-                            {t('businessTypeManagement.status')}
-                          </Typography>
-                        }
-                        value={
-                          <Status
-                            options={ACTIVE_STATUS_OPTIONS}
-                            value={businessTypeDetails?.status}
-                          />
-                        }
+            {({ handleReset, values, setFieldValue }) => {
+              return (
+                <Form>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
+                    {isUpdate && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('businessTypeManagement.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={ACTIVE_STATUS_OPTIONS}
+                              value={businessTypeDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="code"
+                        label={t('businessTypeManagement.code')}
+                        placeholder={t('businessTypeManagement.code')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
+                        }}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        disabled={isUpdate}
+                        required
                       />
                     </Grid>
-                  )}
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="code"
-                      label={t('businessTypeManagement.code')}
-                      placeholder={t('businessTypeManagement.code')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_8.MAX,
-                      }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      disabled={isUpdate}
-                      required
-                    />
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="name"
+                        label={t('businessTypeManagement.name')}
+                        placeholder={t('businessTypeManagement.name')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="parentBusiness"
+                        label={t('businessTypeManagement.parentBusiness')}
+                        placeholder={t('businessTypeManagement.parentBusiness')}
+                        options={PARENT_BUSINESS_TYPE_OPTIONS}
+                        getOptionLabel={(opt) =>
+                          opt?.text ? t(opt?.text) : ''
+                        }
+                        getOptionValue={(opt) => opt?.id?.toString()}
+                        onChange={(val) =>
+                          handleChangeParentBusiness(val, setFieldValue)
+                        }
+                        required
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field.TextField
+                        name="description"
+                        label={t('businessTypeManagement.description')}
+                        placeholder={t('businessTypeManagement.description')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                        }}
+                        multiline
+                        rows={3}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="name"
-                      label={t('businessTypeManagement.name')}
-                      placeholder={t('businessTypeManagement.name')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="parentBusiness"
-                      label={t('businessTypeManagement.parentBusiness')}
-                      placeholder={t('businessTypeManagement.parentBusiness')}
-                      options={PARENT_BUSINESS_TYPE_OPTIONS}
-                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
-                      getOptionValue={(opt) => opt?.id?.toString()}
-                      onChange={(val) =>
-                        handleChangeParentBusiness(val, setFieldValue)
-                      }
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field.TextField
-                      name="description"
-                      label={t('businessTypeManagement.description')}
-                      placeholder={t('businessTypeManagement.description')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-                      }}
-                      multiline
-                      rows={3}
-                    />
-                  </Grid>
-                </Grid>
 
-                <Tabs
-                  list={[
-                    {
-                      label: t('businessTypeManagement.defaultFieldList'),
-                    },
-                    {
-                      label: t('businessTypeManagement.optionFieldList'),
-                    },
-                  ]}
-                  sx={{ mt: 3 }}
-                >
-                  {/* Tab 1 */}
-                  <Box sx={{ mt: 3 }}>
-                    <FieldArray
-                      name="itemDefault"
-                      render={(arrayHelpers) => (
-                        <DefaultFieldList
-                          itemDefault={values?.itemDefault || []}
-                          arrayHelpers={arrayHelpers}
-                          mode={mode}
-                          setFieldValue={setFieldValue}
-                          values={values}
-                        />
-                      )}
-                    />
-                  </Box>
+                  <Tabs
+                    list={[
+                      {
+                        label: t('businessTypeManagement.defaultFieldList'),
+                      },
+                      {
+                        label: t('businessTypeManagement.optionFieldList'),
+                      },
+                    ]}
+                    sx={{ mt: 3 }}
+                  >
+                    {/* Tab 1 */}
+                    <Box sx={{ mt: 3 }}>
+                      <FieldArray
+                        name="itemDefault"
+                        render={(arrayHelpers) => (
+                          <DefaultFieldList
+                            itemDefault={values?.itemDefault || []}
+                            arrayHelpers={arrayHelpers}
+                            mode={mode}
+                            setFieldValue={setFieldValue}
+                            values={values}
+                          />
+                        )}
+                      />
+                    </Box>
 
-                  {/* Tab 2 */}
-                  <Box sx={{ mt: 3 }}>
-                    <FieldArray
-                      name="itemOption"
-                      render={(arrayHelpers) => (
-                        <ItemsSettingTable
-                          itemOption={values?.itemOption || []}
-                          arrayHelpers={arrayHelpers}
-                          mode={mode}
-                        />
-                      )}
-                    />
-                  </Box>
-                </Tabs>
+                    {/* Tab 2 */}
+                    <Box sx={{ mt: 3 }}>
+                      <FieldArray
+                        name="itemOption"
+                        render={(arrayHelpers) => (
+                          <ItemsSettingTable
+                            itemOption={values?.itemOption || []}
+                            arrayHelpers={arrayHelpers}
+                            mode={mode}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Tabs>
 
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
+                  {renderActionBar(handleReset)}
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>

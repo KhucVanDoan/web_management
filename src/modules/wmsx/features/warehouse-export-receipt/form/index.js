@@ -532,9 +532,9 @@ function WarehouseExportReceiptForm() {
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
                         name="warehouseId"
-                        label={t('warehouseExportReceipt.exportInWarehouse')}
+                        label={t('warehouseExportReceipt.warehouseExport')}
                         placeholder={t(
-                          'warehouseExportReceipt.exportInWarehouse',
+                          'warehouseExportReceipt.warehouseExport',
                         )}
                         asyncRequest={(s) =>
                           searchWarehouseApi({

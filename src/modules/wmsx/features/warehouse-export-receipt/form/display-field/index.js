@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
-import { isEmpty, isNil } from 'lodash'
+import { isEmpty } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
@@ -82,12 +82,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
@@ -103,12 +98,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
@@ -123,12 +113,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
