@@ -1529,7 +1529,10 @@
     "acceptedAt": "Ngày xác nhận",
     "formTitle": "LỆNH KIỂM KÊ",
     "executionDay": "Ngày kiểm kê",
+    "updatedByUser": "Người cập nhật",
+    "updatedAt": "Ngày cập nhật",
     "closingDay": "Ngày chốt kỳ",
+    "performer": "Người thực hiện",
     "planExecutionDay": "Ngày thực hiện",
     "confirmedAt": "Ngày xác nhận",
     "descriptionPlaceholder": "Mô tả về lệnh kiểm kê",
@@ -3087,15 +3090,17 @@
     "view": "Preview",
     "createdByUser": "Người tạo",
     "transferStatus": {
-      "created": "Tạo thành công",
       "pending": "Chờ xác nhận",
       "completed": "Hoàn thành",
       "rejected": "Từ chối",
       "confirmed": "Xác nhận",
-      "exporting": "Đang thực hiện",
-      "exported": "Đã xuất hàng"
+      "exported": "Xuất kho",
+      "received": "Lấy hàng",
+      "inStoring": "cất hàng",
+      "inProgress": "Đang thực hiện"
     },
     "table": {
+      "createdAt": "Ngày tạo",
       "title": "Danh sách vật tư",
       "addButton": "Thêm vật tư",
       "number": "STT",
