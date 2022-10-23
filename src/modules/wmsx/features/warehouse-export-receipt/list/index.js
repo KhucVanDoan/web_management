@@ -120,7 +120,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'createdAt',
+      field: 'receiptDate',
       headerName: t('warehouseExportReceipt.createdAt'),
       width: 120,
       renderCell: (params) => {
@@ -247,9 +247,16 @@ function WarehouseExportReceipt() {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          businessTypeId: filters?.businessTypeId?.id,
+          departmentReceiptId: filters?.departmentReceiptId?.id,
+        },
+        [
+          { field: 'createdAt', filterFormat: 'date' },
+        ]
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExportReceipt(params)
