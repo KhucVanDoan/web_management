@@ -6,10 +6,10 @@ import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import Button from '~/components/Button'
+// import Button from '~/components/Button'
 import Dropdown from '~/components/Dropdown'
 import Icon from '~/components/Icon'
-import LanguageSwitcher from '~/components/LanguageSwitcher'
+// import LanguageSwitcher from '~/components/LanguageSwitcher'
 import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
@@ -43,9 +43,9 @@ const Toolbar = () => {
 
   return (
     <Box className={classes.root}>
-      <Button className={classes.btn} icon="setting" color="grayEE" />
+      {/* <Button className={classes.btn} icon="setting" color="grayEE" /> */}
       <Notification />
-      <LanguageSwitcher />
+      {/* <LanguageSwitcher /> */}
       <Dropdown
         options={options}
         color="grayEE"
