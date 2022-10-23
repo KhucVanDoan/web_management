@@ -82,7 +82,7 @@ function WarehouseExportReceipt() {
 
   const columns = [
     {
-      field: 'receiptId',
+      field: 'code',
       headerName: t('warehouseExportReceipt.receiptId'),
       width: 100,
       sortable: true,
@@ -92,7 +92,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'unit',
+      field: 'departmentReceiptId',
       headerName: t('warehouseExportReceipt.unit'),
       width: 100,
       sortable: true,
@@ -102,7 +102,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'typeBusiness',
+      field: 'businessTypeId',
       headerName: t('warehouseExportReceipt.typeBusiness'),
       width: 120,
       sortable: true,
@@ -111,7 +111,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'warehouseExport',
+      field: 'warehouseId',
       headerName: t('warehouseExportReceipt.warehouseExport'),
       width: 120,
       sortable: true,
