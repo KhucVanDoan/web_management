@@ -24,7 +24,10 @@ function* doActiveLicense(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      addNotification(
+        'Kích hoạt license thành công!',
+        NOTIFICATION_TYPE.SUCCESS,
+      )
     } else {
       addNotification(
         'License hoặc số hợp đồng không tồn tại',

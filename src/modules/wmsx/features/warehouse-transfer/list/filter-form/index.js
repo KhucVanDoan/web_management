@@ -8,7 +8,10 @@ import {
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { TRANSFER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  TRANSFER_STATUS_OPTIONS,
+  WAREHOUSE_TRANSFER_TYPE_OPTIONS,
+} from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const FilterForm = () => {
@@ -40,7 +43,7 @@ const FilterForm = () => {
           name="type"
           label={t('warehouseTransfer.type')}
           placeholder={t('warehouseTransfer.type')}
-          options={TRANSFER_STATUS_OPTIONS}
+          options={WAREHOUSE_TRANSFER_TYPE_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
@@ -87,6 +90,23 @@ const FilterForm = () => {
           inputProps={{
             maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
           }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="createdByUser"
+          label={t('warehouseTransfer.createdByUser')}
+          placeholder={t('warehouseTransfer.createdByUser')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Field.DateRangePicker
+          name="createdAt"
+          label={t('warehouseTransfer.table.createdAt')}
+          placeholder={t('warehouseTransfer.table.createdAt')}
         />
       </Grid>
       <Grid item xs={12}>

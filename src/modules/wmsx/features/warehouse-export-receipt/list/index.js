@@ -124,7 +124,7 @@ function WarehouseExportReceipt() {
       headerName: t('warehouseExportReceipt.createdAt'),
       width: 120,
       renderCell: (params) => {
-        return convertUtcDateToLocalTz(params?.row?.createdAt)
+        return convertUtcDateToLocalTz(params?.row?.receiptDate)
       },
     },
     {
@@ -150,7 +150,18 @@ function WarehouseExportReceipt() {
     {
       field: 'warehouseExportEBS',
       headerName: t('warehouseExportReceipt.warehouseExportEBS'),
-      width: 120,
+      width: 150,
+      renderCell: (params) => {
+        const { status } = params?.row
+        const isConfirmWarehouseExport = status === ORDER_STATUS.COMPLETED
+        return (
+          isConfirmWarehouseExport && (
+            <Button variant="text" size="small" bold={false}>
+              {t('warehouseExportReceipt.confirmWarehouseExport')}
+            </Button>
+          )
+        )
+      },
     },
     {
       field: 'action',
@@ -166,6 +177,10 @@ function WarehouseExportReceipt() {
           status === ORDER_STATUS.PENDING || status === ORDER_STATUS.REJECTED
         const isConfirmed = status === ORDER_STATUS.PENDING
         const isRejected = status === ORDER_STATUS.PENDING
+        const hasTransaction =
+          status === ORDER_STATUS.IN_COLLECTING ||
+          status === ORDER_STATUS.COLLECTED ||
+          status === ORDER_STATUS.COMPLETED
         return (
           <div>
             <IconButton
@@ -208,6 +223,18 @@ function WarehouseExportReceipt() {
               <IconButton onClick={() => onClickRejected(params.row)}>
                 <Icon name="remove" />
               </IconButton>
+            )}
+            {hasTransaction && (
+              <Button
+                variant="text"
+                size="small"
+                bold={false}
+                onClick={() =>
+                  history.push(`${ROUTE.WAREHOUSE_IMPORT.LIST.PATH}`)
+                }
+              >
+                {t('warehouseTransfer.transactions')}
+              </Button>
             )}
           </div>
         )

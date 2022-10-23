@@ -56,7 +56,7 @@ const displayFollowBusinessTypeManagement = (
     setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
       actions.getReceiptDetailsById(val?.id, (data) => {
-        setFieldValue('warehouseId', data?.warehouse)
+        setFieldValue('warehouse', data?.warehouse)
         setItemReceipt(data?.items)
       })
     }
@@ -65,11 +65,11 @@ const displayFollowBusinessTypeManagement = (
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
     if (val) {
-      if (isEmpty(values?.warehouseId)) {
+      if (!isEmpty(values?.warehouse)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
           id: val?.id,
-          warehouseId: values?.warehouseId?.id,
+          warehouseId: values?.warehouse?.id,
         }
         const res = await getWarehouseExportProposalItems(params)
         setItemWarehouseExportProposal(res?.data)
@@ -95,12 +95,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
@@ -116,12 +111,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
@@ -136,12 +126,7 @@ const displayFollowBusinessTypeManagement = (
               required={Boolean(item?.required)}
               validate={(val) => {
                 if (item?.required) {
-                  if (typeof val === 'string' && val === '')
-                    return t('general:form.required')
-                  if (typeof val === 'number' && isNil(val))
-                    return t('general:form.required')
-                  if (typeof val === 'number' && !isNil(val) && +val < 0)
-                    return t('general:form.minNumber', { min: 0 })
+                  if (!val) return t('general:form.required')
                 }
               }}
             />
@@ -240,7 +225,6 @@ const displayFollowBusinessTypeManagement = (
                   getOptionSubLabel={(opt) => opt?.receiptNumber}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                   required={Boolean(item?.required)}
-                  disabled={!values?.warehouseId}
                   validate={(val) => {
                     if (item?.required) {
                       if (isEmpty(val)) {
@@ -329,9 +313,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchReceiptDepartmentApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: 1,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
@@ -360,9 +344,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchVendorsApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: 1,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}

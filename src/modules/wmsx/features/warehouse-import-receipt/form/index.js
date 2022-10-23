@@ -22,6 +22,7 @@ import {
   CODE_TYPE_DATA_FATHER_JOB,
   ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
+  TABLE_NAME_ENUM,
 } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -96,7 +97,7 @@ function WarehouseImportReceiptForm() {
         : null,
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
-      warehouseId: warehouseImportReceiptDetails?.warehouse || '',
+      warehouse: warehouseImportReceiptDetails?.warehouse || '',
       reasonId: warehouseImportReceiptDetails?.reason || '',
       sourceId: warehouseImportReceiptDetails?.source || '',
       explaination: warehouseImportReceiptDetails?.explanation || '',
@@ -260,7 +261,7 @@ function WarehouseImportReceiptForm() {
       receiptDate: values?.receiptDate?.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
-      warehouseId: values?.warehouseId?.id,
+      warehouseId: values?.warehouse?.id,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id: +item?.itemCode?.itemId || +item?.itemCode?.id,
@@ -271,7 +272,7 @@ function WarehouseImportReceiptForm() {
           amount: item?.money,
           debitAccount: item?.debitAcc || null,
           creditAccount: item?.creditAcc,
-          warehouseId: values?.warehouseId?.id,
+          warehouseId: values?.warehouse?.id,
         })),
       ),
     }
@@ -330,6 +331,21 @@ function WarehouseImportReceiptForm() {
       val?.bussinessTypeAttributes?.forEach((item) => {
         initialValues[item?.id] = null
       })
+    }
+  }
+  const handleChangeWarehouse = async (val, values, setFieldValue) => {
+    const findWarehouseExportProposal =
+      values?.businessTypeId?.bussinessTypeAttributes?.find(
+        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+      )?.id
+    if (!isEmpty(values[findWarehouseExportProposal])) {
+      setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+      const params = {
+        id: values[findWarehouseExportProposal]?.id,
+        warehouseId: values?.warehouse?.id,
+      }
+      const res = await getWarehouseExportProposalItems(params)
+      setItemWarehouseExportProposal(res?.data)
     }
   }
   return (
@@ -404,7 +420,7 @@ function WarehouseImportReceiptForm() {
                                 className={classes.uploadText}
                                 sx={{ mt: 8 / 12 }}
                               >
-                                {values?.Attachments?.name}
+                                {values?.attachments?.name}
                               </Typography>
                             </label>
                             <input
@@ -497,7 +513,7 @@ function WarehouseImportReceiptForm() {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
-                        name="warehouseId"
+                        name="warehouse"
                         label={t('warehouseImportReceipt.warehouse')}
                         placeholder={t('warehouseImportReceipt.warehouse')}
                         asyncRequest={(s) =>
@@ -514,6 +530,9 @@ function WarehouseImportReceiptForm() {
                         disabled={values[receiptRequired]}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={(val) =>
+                          handleChangeWarehouse(val, values, setFieldValue)
+                        }
                         required
                       />
                     </Grid>

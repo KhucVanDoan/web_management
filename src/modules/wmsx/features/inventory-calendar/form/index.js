@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormControlLabel, Grid, Radio, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -20,6 +21,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   CHECK_POINT_DATA_TYPE,
   INVENTORY_CALENDAR_STATUS_OPTIONS,
   INVENTORY_TYPE,
@@ -77,7 +79,9 @@ const InventoryCalendarForm = () => {
             new Date(inventoryCalendarDetails?.executeTo),
           ]
         : '',
-      closingDay: new Date(inventoryCalendarDetails?.checkPointDate) || '',
+      closingDay: inventoryCalendarDetails?.checkPointDate
+        ? new Date(inventoryCalendarDetails?.checkPointDate)
+        : new Date(),
       description: inventoryCalendarDetails?.description || '',
       switchMode:
         inventoryCalendarDetails?.checkPointDataType ||
@@ -165,7 +169,6 @@ const InventoryCalendarForm = () => {
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
         description: values?.description,
-        checkPointDataType: +values?.switchMode,
         type: values?.type,
         items: JSON.stringify(
           values.items?.map((item) => ({
@@ -204,7 +207,6 @@ const InventoryCalendarForm = () => {
           values?.warehouses?.map((warehouse) => warehouse?.id),
         ),
         description: values?.description,
-        checkPointDataType: +values?.switchMode,
         type: values?.type,
         items: JSON.stringify(
           values.items?.map((item) => ({
@@ -329,6 +331,20 @@ const InventoryCalendarForm = () => {
                         name="closingDay"
                         label={t('inventoryCalendar.closingDay')}
                         placeholder={t('inventoryCalendar.closingDay')}
+                        maxDate={new Date()}
+                        minDate={
+                          new Date(
+                            sub(new Date(), {
+                              years: 0,
+                              months: 3,
+                              weeks: 0,
+                              days: 0,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                            }),
+                          )
+                        }
                         required
                       />
                     </Grid>
@@ -341,6 +357,7 @@ const InventoryCalendarForm = () => {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
+                            status: ACTIVE_STATUS.ACTIVE,
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}

@@ -336,11 +336,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.inProgress',
     color: 'inProgress',
   },
-  {
-    id: 3,
-    text: 'orderStatus.approved',
-    color: 'approved',
-  },
+  // {
+  //   id: 3,
+  //   text: 'orderStatus.approved',
+  //   color: 'approved',
+  // },
   {
     id: 4,
     text: 'orderStatus.completed',
@@ -361,11 +361,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.received',
     color: 'received',
   },
-  {
-    id: 8,
-    text: 'orderStatus.delivered',
-    color: 'delivered',
-  },
+  // {
+  //   id: 8,
+  //   text: 'orderStatus.delivered',
+  //   color: 'delivered',
+  // },
   {
     id: 9,
     text: 'orderStatus.inCollecting',
@@ -376,11 +376,11 @@ export const ORDER_STATUS_OPTIONS = [
     text: 'orderStatus.collected',
     color: 'collected',
   },
-  {
-    id: 11,
-    text: 'orderStatus.exported',
-    color: 'completed',
-  },
+  // {
+  //   id: 11,
+  //   text: 'orderStatus.exported',
+  //   color: 'completed',
+  // },
   {
     id: 12,
     text: 'orderStatus.rejectedReceived',
@@ -465,7 +465,14 @@ export const TRANSFER_STATUS = {
   COMPLETED: 2,
   REJECTED: 3,
   CONFIRMED: 4,
-  IN_PROGRESS: 5,
+  IN_PROGRESS: 12,
+  EXPORTING: 5,
+  INRECEIVING: 6,
+  RECEIVED: 7,
+  INCOLLECTING: 8,
+  COLLECTED: 9,
+  EXPORTED: 10,
+  INSTORING: 11,
 }
 
 export const TRANSFER_STATUS_MAP = {
@@ -473,7 +480,15 @@ export const TRANSFER_STATUS_MAP = {
   [TRANSFER_STATUS.COMPLETED]: 'warehouseTransfer.transferStatus.completed',
   [TRANSFER_STATUS.REJECTED]: 'warehouseTransfer.transferStatus.rejected',
   [TRANSFER_STATUS.CONFIRMED]: 'warehouseTransfer.transferStatus.confirmed',
-  [TRANSFER_STATUS.IN_PROGRESS]: 'warehouseTransfer.transferStatus.exporting',
+  [TRANSFER_STATUS.IN_PROGRESS]: 'warehouseTransfer.transferStatus.inProgress',
+  [TRANSFER_STATUS.EXPORTING]: 'warehouseTransfer.transferStatus.exporting',
+  [TRANSFER_STATUS.INRECEIVING]: 'warehouseTransfer.transferStatus.inReceiving',
+  [TRANSFER_STATUS.RECEIVED]: 'warehouseTransfer.transferStatus.received',
+  [TRANSFER_STATUS.INCOLLECTING]:
+    'warehouseTransfer.transferStatus.incollecting',
+  [TRANSFER_STATUS.COLLECTED]: 'warehouseTransfer.transferStatus.collected',
+  [TRANSFER_STATUS.EXPORTED]: 'warehouseTransfer.transferStatus.exported',
+  [TRANSFER_STATUS.INSTORING]: 'warehouseTransfer.transferStatus.inStoring',
 }
 export const TRANSFER_STATUS_OPTIONS = [
   {
@@ -497,9 +512,24 @@ export const TRANSFER_STATUS_OPTIONS = [
     color: 'confirmed',
   },
   {
-    id: 5,
-    text: 'warehouseTransfer.transferStatus.exporting',
-    color: 'exporting',
+    id: 7,
+    text: 'warehouseTransfer.transferStatus.received',
+    color: 'received',
+  },
+  {
+    id: 10,
+    text: 'warehouseTransfer.transferStatus.exported',
+    color: 'exported',
+  },
+  {
+    id: 11,
+    text: 'warehouseTransfer.transferStatus.inStoring',
+    color: 'inStoring',
+  },
+  {
+    id: 12,
+    text: 'warehouseTransfer.transferStatus.inProgress',
+    color: 'inProgress',
   },
 ]
 

@@ -14,9 +14,10 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { scrollToBottom } from '~/utils'
+import { convertFilterParams, scrollToBottom } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
@@ -80,8 +81,8 @@ function ItemsSettingTable(props) {
               name={`items[${index}].itemCode`}
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code || ''}
+              getOptionSubLabel={(opt) => opt?.item?.name || ''}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
@@ -96,14 +97,17 @@ function ItemsSettingTable(props) {
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: ACTIVE_STATUS.ACTIVE,
+                  }),
                 })
               }
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               asyncRequestDeps={values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
               getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name || ''}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id) &&
                 opt?.id !== items[index]?.itemCode?.itemId
@@ -179,10 +183,18 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              allow={TEXTFIELD_ALLOW.NUMERIC}
+              type="number"
               numberProps={{
-                thousandSeparator: true,
                 decimalScale: 2,
+              }}
+              validate={(val) => {
+                if (val) {
+                  if (val > params?.row?.itemCode?.requestedQuantity) {
+                    return t('general:form.maxNumber', {
+                      max: params?.row?.itemCode?.requestedQuantity,
+                    })
+                  }
+                }
               }}
             />
           )
@@ -259,17 +271,13 @@ function ItemsSettingTable(props) {
           )
         },
       },
-      {
+      items?.length > 1 && {
         field: 'remove',
         headerName: '',
         width: 50,
         renderCell: (params, idx) => {
           return isView ? null : (
-            <IconButton
-              onClick={() => arrayHelpers.remove(idx)}
-              disabled={items?.length === 1}
-              size="large"
-            >
+            <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">
               <Icon name="remove" />
             </IconButton>
           )
