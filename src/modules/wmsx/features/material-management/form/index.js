@@ -16,6 +16,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -254,6 +255,7 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       required
                       onKeyDown={handleKeyDown}
                       onInput={(val) => {
@@ -324,7 +326,7 @@ function MaterialManagementForm() {
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.code}
+                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
                       getOptionSubLabel={(opt) => opt?.name}
                       required
                       // dropdownWidth={800}

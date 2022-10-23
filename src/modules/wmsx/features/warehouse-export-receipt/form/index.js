@@ -130,7 +130,11 @@ function WarehouseExportReceiptForm() {
     [warehouseExportReceiptDetails],
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
-    if (item.tableName && attributesBusinessTypeDetails[item.tableName] && attributesBusinessTypeDetails[item.tableName] instanceof Array) {
+    if (
+      item.tableName &&
+      attributesBusinessTypeDetails[item.tableName] &&
+      attributesBusinessTypeDetails[item.tableName] instanceof Array
+    ) {
       initialValues[`${item.id}`] = attributesBusinessTypeDetails[
         item.tableName
       ]?.find((itemDetail) => itemDetail.id + '' === item.value)
