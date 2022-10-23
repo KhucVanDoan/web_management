@@ -131,6 +131,10 @@ const ItemSettingTable = ({
         headerName: t('warehouseExportReceipt.items.lotNumber'),
         width: 250,
         renderCell: (params, index) => {
+          const lotsSelected = items?.filter(selectedItem => (
+            selectedItem?.itemCode?.code === params?.row?.itemCode?.code &&
+            selectedItem?.id !== params?.row?.id
+          ))?.map(selectedItem => selectedItem.lotNumber)
           const locationList = itemWarehouseStockList?.find(
             (item) =>
               item?.id === params?.row?.itemCode?.id ||
@@ -144,7 +148,7 @@ const ItemSettingTable = ({
           return itemList?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={lotNumbers?.lots}
+              options={lotNumbers?.lots?.filter(lot => !lotsSelected.includes(lot.lotNumber))}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}
@@ -159,7 +163,7 @@ const ItemSettingTable = ({
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={flatMap(locationList?.locations, 'lots')}
+              options={flatMap(locationList?.locations, 'lots')?.filter(lot => !lotsSelected.includes(lot.lotNumber))}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}

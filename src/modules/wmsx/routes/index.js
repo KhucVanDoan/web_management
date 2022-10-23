@@ -6,7 +6,6 @@ import UserManagement from '~/modules/mesx/features/user-management'
 import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
 import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
 import Dashboard from '~/modules/wmsx/features/dashboard'
-import SubDashboard from '~/modules/wmsx/features/dashboard/sub-dashboard'
 
 import BusinessTypeManagementDetail from '../features/business-type-management/detail'
 import BusinessTypeManagementForm from '../features/business-type-management/form'
@@ -126,13 +125,6 @@ const routes = [
     name: ROUTE.DASHBOARD.TITLE,
     path: ROUTE.DASHBOARD.PATH,
     component: Dashboard,
-    icon: 'home',
-    isInSidebar: true,
-  },
-  {
-    name: 'dashboard',
-    path: '/wms/dashboard',
-    component: SubDashboard,
     icon: 'home',
     isInSidebar: true,
   },
