@@ -223,11 +223,10 @@ function WarehouseExportReceiptForm() {
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
           childrens: item?.details?.map((e) => ({
-            id: e?.id,
             itemId: e?.exportSuppliesCode?.itemId,
-            itemCode: e?.exportSuppliesCode?.code,
-            itemName: e?.exportSuppliesCodea?.name,
             exportedQuantity: +e?.quantityExport,
+            lotNumber: e?.lotNumber,
+            warehouseExportId: e?.warehouseExport?.id,
           })),
         })),
       }

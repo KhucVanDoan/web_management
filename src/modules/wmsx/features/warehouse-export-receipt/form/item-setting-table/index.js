@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import { flatMap } from 'lodash'
+import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE } from '~/common/constants'
@@ -42,7 +42,7 @@ const ItemSettingTable = ({
     )
     setFieldValue(
       `items[${index}].planExportedQuantity`,
-      +val?.quantity || val?.exportedQuantity,
+      +val?.exportableQuantity || +val?.quantity || 0,
     )
 
     if (values?.sourceId) {
@@ -81,8 +81,8 @@ const ItemSettingTable = ({
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              disabled={isEmpty(values?.warehouseId)}
             />
           ) : (
             <Field.Autocomplete
@@ -91,8 +91,8 @@ const ItemSettingTable = ({
               options={itemWarehouseStockList}
               getOptionLabel={(opt) => opt?.code}
               onChange={(val) => handleChangeItem(val, index)}
-              disabled={!values?.warehouseId}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              disabled={isEmpty(values?.warehouseId)}
               required
             />
           )
@@ -134,15 +134,42 @@ const ItemSettingTable = ({
           const locationList = itemWarehouseStockList?.find(
             (item) =>
               item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
+              item?.id === params?.row?.itemCode?.itemId,
           )
-          return (
+          const lotNumbers = itemList?.find(
+            (item) =>
+              item?.itemId === params?.row?.itemCode?.id ||
+              item?.itemId === params?.row?.itemCode?.itemId,
+          )
+          return itemList?.length > 0 ? (
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              options={lotNumbers?.lots}
+              getOptionLabel={(opt) => opt.lotNumber}
+              getOptionValue={(option) => option?.lotNumber}
+              disabled={!hiden}
+              validate={(val) => {
+                if (values?.warehouseId?.manageByLot) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
+            />
+          ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
               options={flatMap(locationList?.locations, 'lots')}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}
+              validate={(val) => {
+                if (values?.warehouseId?.manageByLot) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },
@@ -154,7 +181,7 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].quantityRequest`}
+              name={`items[${index}].itemCode.requestedQuantity`}
               disabled
               required
             />
@@ -172,6 +199,9 @@ const ItemSettingTable = ({
             <Field.TextField
               name={`items[${index}].quantityExport`}
               placeholder={t('warehouseExportReceipt.items.quantityExport')}
+              numberProps={{
+                decimalScale: 2,
+              }}
               required
             />
           )
@@ -249,7 +279,7 @@ const ItemSettingTable = ({
           )
         },
       },
-      {
+      items?.length > 1 && {
         field: 'action',
         width: 100,
         align: 'center',
@@ -259,7 +289,6 @@ const ItemSettingTable = ({
               onClick={() => {
                 arrayHelpers.remove(idx)
               }}
-              disabled={items?.length === 1}
             >
               <Icon name="remove" />
             </IconButton>
@@ -302,6 +331,7 @@ const ItemSettingTable = ({
                 creditAccount: '',
               })
             }}
+            disabled={items?.length === 10}
           >
             {t('warehouseExportReceipt.addButton')}
           </Button>

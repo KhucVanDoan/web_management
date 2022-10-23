@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
@@ -12,13 +13,15 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
-  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -104,7 +107,7 @@ const WarehouseTransferForm = () => {
   )
   const onSubmit = (values) => {
     const params = {
-      code: values?.code,
+      // code: values?.code,
       destinationWarehouseId: +values?.destinationWarehouseId?.id,
       name: values?.name,
       bussinessTypeId: values?.businessTypeId?.id,
@@ -119,8 +122,10 @@ const WarehouseTransferForm = () => {
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
           locatorId: +item?.locator?.locatorId,
-          planQuantity: +item.transferQuantity,
+          quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
+          debitAcc: '1519',
+          creditAcc: item?.creditAccount,
         })),
       ),
     }
@@ -179,6 +184,12 @@ const WarehouseTransferForm = () => {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.CREATE}
+            elBefore={
+              <Button sx={{ mr: 'auto' }}>
+                <Icon name="print" mr={1} />
+                {t(`warehouseTransfer.view`)}
+              </Button>
+            }
           />
         )
       case MODAL_MODE.UPDATE:
@@ -187,10 +198,15 @@ const WarehouseTransferForm = () => {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.UPDATE}
+            elBefore={
+              <Button sx={{ mr: 'auto' }}>
+                <Icon name="print" mr={1} />
+                {t(`warehouseTransfer.view`)}
+              </Button>
+            }
           />
         )
       default:
-        break
     }
   }
   const getTitle = () => {
@@ -253,18 +269,33 @@ const WarehouseTransferForm = () => {
                           }
                           value={
                             <Status
-                              options={TRANSFER_STATUS_OPTIONS}
+                              options={ORDER_STATUS_OPTIONS}
                               value={warehouseTransferDetails?.status}
                             />
                           }
                         />
                       </Grid>
                     )}
+
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
                         name="createdAt"
                         label={t('warehouseTransfer.createdAt')}
                         placeholder={t('warehouseTransfer.createdAt')}
+                        maxDate={new Date()}
+                        minDate={
+                          new Date(
+                            sub(new Date(), {
+                              years: 0,
+                              months: 3,
+                              weeks: 0,
+                              days: 0,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                            }),
+                          )
+                        }
                         required
                       />
                     </Grid>
@@ -352,9 +383,9 @@ const WarehouseTransferForm = () => {
                           searchApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: 1,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
@@ -423,7 +454,6 @@ const WarehouseTransferForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
-                        required
                       />
                     </Grid>
                     {DisplayFollowBusinessTypeManagement(

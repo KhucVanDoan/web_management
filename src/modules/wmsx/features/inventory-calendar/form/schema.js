@@ -7,7 +7,7 @@ export const defineSchema = (t, inventoryType) =>
     name: Yup.string().nullable().required(t('general:form.required')),
     type: Yup.string().nullable().required(t('general:form.required')),
     switchMode: Yup.number().nullable().required(t('general:form.required')),
-    closingDay: Yup.string().nullable().required(t('general:form.required')),
+    closingDay: Yup.date().nullable().required(t('general:form.required')),
     warehouses: Yup.array().test({
       message: t('general:form.required'),
       test: (arr) => arr.length !== 0,
@@ -19,10 +19,10 @@ export const defineSchema = (t, inventoryType) =>
         const isValue = executionDay?.some((val) => val) || false
         return isValue
       }),
-    checkPointDataAttachment:
-      inventoryType === INVENTORY_TYPE.PERIODIC
-        ? Yup.object().nullable().required(t('general:form.required'))
-        : null,
+    // checkPointDataAttachment:
+    //   inventoryType === INVENTORY_TYPE.PERIODIC
+    //     ? Yup.object().nullable().required(t('general:form.required'))
+    //     : null,
     items: Yup.array().of(
       Yup.object().shape({
         itemCode:

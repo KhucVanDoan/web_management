@@ -13,7 +13,7 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
-  TRANSFER_STATUS_OPTIONS,
+  ORDER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -83,7 +83,7 @@ const ReceiveAndStored = () => {
         quantity: +item?.inputedQuantity,
       })),
     }
-    actions.confirmWarehouseImportById(params)
+    actions.confirmWarehouseImportById(params, backToList)
   }
   return (
     <Page
@@ -112,7 +112,7 @@ const ReceiveAndStored = () => {
                         label={t('warehouseTransfer.status')}
                         value={
                           <Status
-                            options={TRANSFER_STATUS_OPTIONS}
+                            options={ORDER_STATUS_OPTIONS}
                             value={warehouseTransferDetails?.status}
                           />
                         }

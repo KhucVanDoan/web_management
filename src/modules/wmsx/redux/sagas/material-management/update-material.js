@@ -10,7 +10,6 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateMaterialApi = (params) => {
-  //@TODO update api
   const uri = `/v1/items/${params?.id}`
   return api.put(uri, params)
 }

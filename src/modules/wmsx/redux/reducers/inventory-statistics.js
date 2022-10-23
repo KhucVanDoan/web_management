@@ -2,6 +2,9 @@ import {
   WMSX_SEARCH_INVENTORIES_STATISTICS_FAILED,
   WMSX_SEARCH_INVENTORIES_STATISTICS_START,
   WMSX_SEARCH_INVENTORIES_STATISTICS_SUCCESS,
+  WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED,
+  WMSX_UPDATE_INVENTORIES_STATISTICS_START,
+  WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS,
 } from '~/modules/wmsx/redux/actions/inventory-statistics'
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
 export default function inventoryStatistics(state = initialState, action) {
   switch (action.type) {
     case WMSX_SEARCH_INVENTORIES_STATISTICS_START:
+    case WMSX_UPDATE_INVENTORIES_STATISTICS_START:
       return {
         ...state,
         isLoading: true,
@@ -35,6 +39,12 @@ export default function inventoryStatistics(state = initialState, action) {
         totalCost: action.payload?.totalCost,
       }
     case WMSX_SEARCH_INVENTORIES_STATISTICS_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+      }
+    case WMSX_UPDATE_INVENTORIES_STATISTICS_SUCCESS:
+    case WMSX_UPDATE_INVENTORIES_STATISTICS_FAILED:
       return {
         ...state,
         isLoading: false,
