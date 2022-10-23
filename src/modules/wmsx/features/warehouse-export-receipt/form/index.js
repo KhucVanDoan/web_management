@@ -131,9 +131,10 @@ function WarehouseExportReceiptForm() {
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
-      initialValues[`${item.id}`] = attributesBusinessTypeDetails[
-        item.tableName
-      ]?.find((itemDetail) => itemDetail.id + '' === item.value)
+      initialValues[`${item.id}`] =
+        attributesBusinessTypeDetails[item.tableName]?.find(
+          (itemDetail) => itemDetail.id + '' === item.value,
+        ) || ''
     } else {
       initialValues[`${item.id}`] = item.value || ''
     }
