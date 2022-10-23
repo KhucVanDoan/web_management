@@ -3125,7 +3125,9 @@
       "actualexportedQuantity": "Số lượng thực xuất",
       "inputedQuantity": "Số lượng nhập",
       "locatorStored": "Vị trí cất"
-    }
+    },
+    "sourceWarehouseMustBeDiferenceWithDestinationWarehouse": "Kho xuất phải khác kho nhập",
+    "destinationWarehouseMustBeDiferenceWithSourceWarehouse": "Kho nhập phải khác kho xuất"
   },
   "roleList": {
     "title": "Danh sách vai trò",
