@@ -25,7 +25,7 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
-          name="id"
+          name="code"
           label={t('warehouseExportReceipt.receiptId')}
           placeholder={t('warehouseExportReceipt.receiptId')}
           inputProps={{
@@ -35,7 +35,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="typeBusiness"
+          name="businessTypeId"
           label={t('warehouseExportReceipt.typeBusiness')}
           placeholder={t('warehouseExportReceipt.typeBusiness')}
           asyncRequest={(s) =>
@@ -55,7 +55,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="departmentReceipt"
+          name="departmentReceiptId"
           label={t('warehouseExportReceipt.unit')}
           placeholder={t('warehouseExportReceipt.unit')}
           asyncRequest={(s) =>
