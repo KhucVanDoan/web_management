@@ -9,10 +9,8 @@ import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
-import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
-import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
@@ -74,10 +72,6 @@ function UserManagement() {
     actions,
   } = useUserManagement()
 
-  const [modal, setModal] = useState({
-    tempItem: null,
-    isOpenDeleteModal: false,
-  })
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
@@ -183,9 +177,6 @@ function UserManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
             <IconButton
               onClick={() =>
                 history.push(
@@ -221,21 +212,6 @@ function UserManagement() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
-  const onClickDelete = (tempItem) => {
-    setModal({ tempItem, isOpenDeleteModal: true })
-  }
-
-  const onSubmitDelete = () => {
-    actions.deleteUser(modal?.tempItem?.id, () => {
-      refreshData()
-    })
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
-
-  const onCloseDeleteModal = () => {
-    setModal({ isOpenDeleteModal: false, tempItem: null })
-  }
 
   const renderHeaderRight = () => {
     return (
@@ -319,30 +295,6 @@ function UserManagement() {
           },
         }}
       />
-      <Dialog
-        open={modal.isOpenDeleteModal}
-        title={t('userManagement.userManagementDelete')}
-        onCancel={onCloseDeleteModal}
-        cancelLabel={t('general:common.no')}
-        onSubmit={onSubmitDelete}
-        submitLabel={t('general:common.yes')}
-        submitProps={{
-          color: 'error',
-        }}
-        noBorderBottom
-      >
-        {t('userManagement.deleteConfirm')}
-        <LV
-          label={t('userManagement.username')}
-          value={modal?.tempItem?.username}
-          sx={{ mt: 4 / 3 }}
-        />
-        <LV
-          label={t('userManagement.fullName')}
-          value={modal?.tempItem?.fullName}
-          sx={{ mt: 4 / 3 }}
-        />
-      </Dialog>
     </Page>
   )
 }

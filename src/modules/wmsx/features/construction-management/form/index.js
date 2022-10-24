@@ -185,7 +185,7 @@ function ConstructionManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_DOT}
                       disabled={isUpdate}
                       required
                     />
