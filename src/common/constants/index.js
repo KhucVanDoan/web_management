@@ -200,6 +200,7 @@ export const TEXTFIELD_ALLOW = {
   POSITIVE_DECIMAL: /[^0-9.]/g,
   ALPHABET: /[^a-zA-Z]/g,
   ALPHANUMERIC: /[^0-9a-zA-Z]/g,
+  ALPHANUMERIC_DOT: /[^0-9a-zA-Z.]/g,
   ALPHANUMERIC_SPECIALS:
     /[^0-9a-zA-Z-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
   EXCEPT_SPECIALS: /[._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]/g,
