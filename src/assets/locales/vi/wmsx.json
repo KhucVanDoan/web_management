@@ -2754,7 +2754,7 @@
     "normalizedCode": "Mã chuẩn hóa",
     "materialCategory": "Phân loại vật tư",
     "materialQuality": "Chất lượng",
-    "specifications": "Thông số kĩ thuật",
+    "files": "Thông số kĩ thuật",
     "uom": "Đơn vị tinh",
     "materialImage": "Ảnh vật tư",
     "status": "Trạng thái",
@@ -2775,7 +2775,7 @@
   },
   "setStoragePeriod": {
     "list": "Danh sách thiết lập thời hạn lưu kho",
-    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "searchPlaceholder": "Tìm kiếm thời hạn lưu kho theo mã hoặc tên kho",
     "warehouseCode": "Mã kho",
     "warehouseName": "Tên kho",
     "storageLimit": "Thời hạn lưu kho (ngày)",
