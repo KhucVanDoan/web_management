@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import {
   Box,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 // import clsx from 'clsx'
 import { Formik, Form } from 'formik'
+import QRCode from 'qrcode'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -30,12 +31,12 @@ import {
   UOM_ACTIVE_STATUS,
 } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
-import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import { useClasses } from '~/themes'
 import { convertFilterParams } from '~/utils'
 
@@ -52,6 +53,20 @@ function MaterialManagementForm() {
     data: { isLoading, materialDetails },
     actions,
   } = useMaterialManagement()
+
+  const [qrCode, setQrCode] = useState(false)
+
+  const generateQR = async (text) => {
+    const link = await QRCode.toDataURL(text)
+    setQrCode(link)
+  }
+
+  generateQR('hai anh')
+
+  const getSubGroupApi = (params) => {
+    const uri = `/v1/items/item-type-settings/sub-groups`
+    return api.get(uri, params)
+  }
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -318,19 +333,19 @@ function MaterialManagementForm() {
                       label={t('materialManagement.materialCategory')}
                       placeholder={t('materialManagement.materialCategory')}
                       asyncRequest={(s) =>
-                        searchMaterialCategoryApi({
+                        getSubGroupApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
-                          filter: convertFilterParams({
-                            status: ACTIVE_STATUS.ACTIVE,
-                            level: 2,
-                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
-                      getOptionSubLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) =>
+                        `${opt?.code}.${opt?.mainGroupCode}.${opt?.subGroupCode}`
+                      }
+                      getOptionSubLabel={(opt) =>
+                        `${opt?.name}.${opt?.mainGroupName}.${opt?.subGroupName}`
+                      }
                       required
                       // dropdownWidth={800}
                       // dropdownHeader={
@@ -503,7 +518,7 @@ function MaterialManagementForm() {
                           {values?.materialImage}
                         </LV>
                       </Grid>
-                      {/* <Grid item lg={6} xs={12}>
+                      <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -513,10 +528,12 @@ function MaterialManagementForm() {
                             </FormLabel>
                           }
                         >
-                          <Box />
+                          <Box>
+                            <img src={qrCode} alt="" />
+                          </Box>
                         </LV>
                       </Grid>
-                      <Grid item lg={6} xs={12}>
+                      {/* <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>

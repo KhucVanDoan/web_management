@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import QRCode from 'qrcode'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -28,7 +29,6 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { getLocalItem } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
-
 const DEFAULT_ITEM = {
   id: new Date().getTime(),
   itemId: '',
@@ -45,6 +45,15 @@ function MaterialManagementDetail() {
     useState(false)
   const [isPermittedToUpdateSource, setIsPermittedToUpdateSource] =
     useState(false)
+
+  const [qrCode, setQrCode] = useState(false)
+
+  const generateQR = async (text) => {
+    const link = await QRCode.toDataURL(text)
+    setQrCode(link)
+  }
+
+  generateQR('hai anh')
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH]: MODAL_MODE.UPDATE,
@@ -255,7 +264,11 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.country')}
-                value={materialDetails?.manufacturingCountry?.name}
+                value={
+                  materialDetails?.manufacturingCountry?.code +
+                  ' - ' +
+                  materialDetails?.manufacturingCountry?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -267,19 +280,27 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialQuality')}
-                value={materialDetails?.itemQuality?.name}
+                value={
+                  materialDetails?.itemQuality?.code +
+                  ' - ' +
+                  materialDetails?.itemQuality?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.objectCategory')}
-                value={materialDetails?.objectCategory?.name}
+                value={
+                  materialDetails?.objectCategory?.code +
+                  ' - ' +
+                  materialDetails?.objectCategory?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('materialManagement.specifications')}
-                value={materialDetails?.specifications}
+                label={t('materialManagement.files')}
+                value={materialDetails?.files}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -292,6 +313,16 @@ function MaterialManagementDetail() {
               <LV
                 label={t('materialManagement.materialImage')}
                 value={materialDetails?.materialImage}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <LV
+                label={t('materialManagement.qrCode')}
+                value={
+                  <Box>
+                    <img src={qrCode} alt="" />
+                  </Box>
+                }
               />
             </Grid>
             <Grid item xs={12}>
