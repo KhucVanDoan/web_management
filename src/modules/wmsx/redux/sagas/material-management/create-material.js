@@ -10,17 +10,18 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const createMaterialApi = (params) => {
-  let data = new FormData()
+  let form_data = new FormData()
 
   if (params?.files) {
     for (let i = 0; i < params.files.length; i++) {
-      data.append('files', params.files[i])
+      form_data.append('files', params.files[i])
     }
   }
-
-  data.append('data', JSON.stringify(params))
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
   const uri = `/v1/items/create`
-  return api.post(uri, data)
+  return api.post(uri, form_data)
 }
 
 function* doCreateMaterial(action) {
