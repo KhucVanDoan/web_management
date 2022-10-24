@@ -66,7 +66,7 @@ function WarehouseExportReceiptForm() {
       itemId: item?.itemId,
       note: item?.note,
       quantityRequest: item?.requestedQuantity,
-      importedQuantity: item?.importedQuantity || 0,
+      importQuantity: item?.importedQuantity || 0,
       importedActualQuantity: item?.importedActualQuantity,
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
@@ -84,15 +84,15 @@ function WarehouseExportReceiptForm() {
           ? item?.childrens?.map((childrens) => ({
               id: childrens?.id,
               itemCode: childrens?.itemCode || null,
-              itemName: childrens?.itemName || null,
+              itemName: childrens?.itemName || childrens?.itemResponse?.name,
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit?.name,
-              lotNumber: childrens?.lotNumber,
+              lotNumbers: childrens?.lotNumber,
               isKeepSlot: childrens?.isKeepSlot,
               planExportedQuantity: childrens?.planExportedQuantity || 0,
-              quantityExport: childrens?.exportedQuantity || 0,
+              exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
-              warehouseExport: childrens?.warehouseExport,
+              warehouse: childrens?.warehouse?.name,
               reservation: childrens?.isKeepSlot,
               updatedBy: item?.updatedBy,
               dayUpdate: item?.updatedAt,
@@ -128,7 +128,6 @@ function WarehouseExportReceiptForm() {
     }),
     [warehouseExportProposalDetails],
   )
-
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -303,6 +302,7 @@ function WarehouseExportReceiptForm() {
                           name="unit"
                           label={t('warehouseExportProposal.unit')}
                           disabled
+                          required
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
@@ -441,6 +441,7 @@ function WarehouseExportReceiptForm() {
                           name="unit"
                           label={t('warehouseExportProposal.unit')}
                           disabled
+                          required
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
