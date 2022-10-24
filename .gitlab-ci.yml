@@ -96,7 +96,7 @@ deploy_staging:
       ssh $SSH_STAGING_USER@10.1.47.52
       "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
       docker pull ${STAGING_CONTAINER_IMAGE};
-      docker stop  stg-hq_avenue_web || true; 
-      docker rm  stg-hq_avenue_web || true; 
-      docker run -d --name stg-hq_avenue_web --restart=always -p 12100:80 ${STAGING_CONTAINER_IMAGE};
+      docker stop  stg-avenue_web || true; 
+      docker rm  stg-avenue_web || true; 
+      docker run -d --name stg-avenue_web --restart=always -p 12000:80 ${STAGING_CONTAINER_IMAGE};
       docker image prune -f;"
