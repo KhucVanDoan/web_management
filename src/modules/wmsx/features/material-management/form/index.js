@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import {
   Box,
@@ -10,7 +10,6 @@ import {
 } from '@mui/material'
 // import clsx from 'clsx'
 import { Formik, Form } from 'formik'
-import QRCode from 'qrcode'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -24,6 +23,7 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import QRCodeGenerator from '~/components/QRCodeGenerator'
 import Status from '~/components/Status'
 import {
   ACTIVE_STATUS,
@@ -53,15 +53,6 @@ function MaterialManagementForm() {
     data: { isLoading, materialDetails },
     actions,
   } = useMaterialManagement()
-
-  const [qrCode, setQrCode] = useState(false)
-
-  const generateQR = async (text) => {
-    const link = await QRCode.toDataURL(text)
-    setQrCode(link)
-  }
-
-  generateQR('hai anh')
 
   const getSubGroupApi = (params) => {
     const uri = `/v1/items/item-type-settings/sub-groups`
@@ -521,17 +512,12 @@ function MaterialManagementForm() {
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
-                            <FormLabel>
-                              <Typography color={'text.main'} component="span">
-                                {t('materialManagement.qrCode')}
-                              </Typography>
-                            </FormLabel>
+                            <Typography color={'text.main'} component="span">
+                              {t('materialManagement.qrCode')}
+                            </Typography>
                           }
-                        >
-                          <Box>
-                            <img src={qrCode} alt="" />
-                          </Box>
-                        </LV>
+                          value={<QRCodeGenerator value={'something'} />}
+                        />
                       </Grid>
                       {/* <Grid item lg={6} xs={12}>
                         <LV
