@@ -20,7 +20,7 @@ import {
 import ItemsSettingTable from '~/modules/wmsx/features/inventory-calendar/form/items-setting-table'
 import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalendar'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -112,8 +112,16 @@ const InventoryCalendarDetail = () => {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
+                label={t('inventoryCalendar.closingDay')}
+                value={convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.checkPointDate,
+                )}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
                 label={t('inventoryCalendar.executionDay')}
-                value={convertUtcDateTimeToLocalTz(
+                value={convertUtcDateToLocalTz(
                   inventoryCalendarDetails?.executionDay,
                 )}
               />
@@ -136,7 +144,7 @@ const InventoryCalendarDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.createdAt')}
-                value={convertUtcDateTimeToLocalTz(
+                value={convertUtcDateToLocalTz(
                   inventoryCalendarDetails?.createdAt,
                 )}
               />
@@ -150,7 +158,7 @@ const InventoryCalendarDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.confirmedAt')}
-                value={convertUtcDateTimeToLocalTz(
+                value={convertUtcDateToLocalTz(
                   inventoryCalendarDetails?.confirmedAt,
                 )}
               />

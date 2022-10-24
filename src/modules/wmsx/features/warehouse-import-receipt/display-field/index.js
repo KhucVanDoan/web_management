@@ -53,10 +53,12 @@ const displayFollowBusinessTypeManagement = (
   )?.id
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
+    if (isEmpty(val)) {
+      setItemReceipt([])
+    }
     setFieldValue('items', DEFAULT_ITEMS)
-    if (val) {
+    if (!isEmpty(val)) {
       actions.getReceiptDetailsById(val?.id, (data) => {
-        setFieldValue('warehouse', data?.warehouse)
         setItemReceipt(data?.items)
       })
     }
@@ -64,6 +66,9 @@ const displayFollowBusinessTypeManagement = (
 
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
+    if (isEmpty(val)) {
+      setItemWarehouseExportProposal([])
+    }
     if (val) {
       if (!isEmpty(values?.warehouse)) {
         setFieldValue('items', DEFAULT_ITEMS)
@@ -78,7 +83,10 @@ const displayFollowBusinessTypeManagement = (
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
     setItemWarehouseExportReceipt([])
-    if (val) {
+    if (isEmpty(val)) {
+      setItemWarehouseExportReceipt([])
+    }
+    if (!isEmpty(val)) {
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
     }

@@ -79,7 +79,7 @@ function WarehouseImportReceipt() {
 
   const columns = [
     {
-      field: '#',
+      field: 'code',
       headerName: t('warehouseImportReceipt.id'),
       width: 150,
       sortable: true,
