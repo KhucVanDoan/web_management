@@ -70,7 +70,7 @@ function MaterialManagementForm() {
       uom: materialDetails?.itemUnit || null,
       materialCategory: materialDetails?.itemType || null,
       materialQuality: materialDetails?.itemQuality || null,
-      specifications: materialDetails?.specifications || null,
+      files: materialDetails?.files || null,
       materialImage: materialDetails?.materialImage || null,
       description: materialDetails?.description || '',
     }),
@@ -135,7 +135,9 @@ function MaterialManagementForm() {
       itemTypeId: values?.materialCategory?.id,
       itemQualityId: values?.materialQuality?.id,
       itemUnitId: values?.uom?.id,
+      files: values?.files,
     }
+
     if (mode === MODAL_MODE.CREATE) {
       actions.createMaterial(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
@@ -321,6 +323,7 @@ function MaterialManagementForm() {
                           limit: ASYNC_SEARCH_LIMIT,
                           filter: convertFilterParams({
                             status: ACTIVE_STATUS.ACTIVE,
+                            level: 2,
                           }),
                         })
                       }
@@ -403,27 +406,26 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={
                         <Box sx={{ mt: 8 / 12 }}>
                           <FormLabel>
                             <Typography color={'text.main'} component="span">
-                              {t('materialManagement.specifications')}
+                              {t('materialManagement.files')}
                             </Typography>
                           </FormLabel>
                         </Box>
                       }
                     >
-                      {values?.specifications ? (
+                      {values?.files ? (
                         <>
                           <label htmlFor="select-file">
                             <Typography
                               className={classes.uploadText}
                               sx={{ mt: 8 / 12 }}
                             >
-                              {values?.specifications?.name}
+                              {values?.files?.map((i) => i?.name)?.join('\r\n')}
                             </Typography>
                           </label>
                           <input
@@ -431,8 +433,12 @@ function MaterialManagementForm() {
                             id="select-file"
                             multiple
                             type="file"
+                            accept="application/pdf"
                             onChange={(e) => {
-                              setFieldValue('specifications', e.target.files[0])
+                              setFieldValue(
+                                'files',
+                                Object.values(e.target.files),
+                              )
                             }}
                           />
                         </>
@@ -444,8 +450,12 @@ function MaterialManagementForm() {
                             id="select-file"
                             multiple
                             type="file"
+                            accept="application/pdf"
                             onChange={(e) => {
-                              setFieldValue('specifications', e.target.files[0])
+                              setFieldValue(
+                                'files',
+                                Object.values(e.target.files),
+                              )
                             }}
                           />
                         </Button>
@@ -473,59 +483,27 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-                  {/* <Grid item lg={6} xs={12}>
-                    <LV
-                      label={
-                        <Box sx={{ mt: 8 / 12 }}>
-                          <FormLabel>
-                            <Typography color={'text.main'} component="span">
-                              {t('materialManagement.materialImage')}
-                            </Typography>
-                          </FormLabel>
-                        </Box>
-                      }
-                    >
-                      {values?.materialImage ? (
-                        <>
-                          <label htmlFor="select-image">
-                            <Typography
-                              className={classes.uploadText}
-                              sx={{ mt: 8 / 12 }}
-                            >
-                              {values?.materialImage?.name}
-                            </Typography>
-                          </label>
-                          <input
-                            hidden
-                            id="select-image"
-                            accept="image/*"
-                            multiple
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue('materialImage', e.target.files[0])
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <Button variant="contained" component="label">
-                          Upload
-                          <input
-                            hidden
-                            accept="image/*"
-                            id="select-image"
-                            multiple
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue('materialImage', e.target.files[0])
-                            }}
-                          />
-                        </Button>
-                      )}
-                    </LV>
-                  </Grid> */}
                   {isUpdate && (
                     <>
                       <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Box sx={{ mt: 8 / 12 }}>
+                              <FormLabel>
+                                <Typography
+                                  color={'text.main'}
+                                  component="span"
+                                >
+                                  {t('materialManagement.materialImage')}
+                                </Typography>
+                              </FormLabel>
+                            </Box>
+                          }
+                        >
+                          {values?.materialImage}
+                        </LV>
+                      </Grid>
+                      {/* <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -550,7 +528,7 @@ function MaterialManagementForm() {
                         >
                           {materialDetails?.qrCode}
                         </LV>
-                      </Grid>
+                      </Grid> */}
                     </>
                   )}
                   <Grid item xs={12}>

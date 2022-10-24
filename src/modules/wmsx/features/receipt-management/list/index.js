@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
@@ -7,12 +7,10 @@ import { useHistory } from 'react-router-dom'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
-import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import { RECEIPT_MANAGEMENT_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
-import { exportWarehouseImportApi } from '~/modules/wmsx/redux/sagas/warehouse-import/import-export-warehouse-import'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
@@ -36,8 +34,6 @@ function ReceiptManagement() {
     data: { receiptList, total, isLoading },
     actions,
   } = useReceiptManagement()
-  const [columnsSettings, setColumnsSettings] = useState([])
-  const [selectedRows, setSelectedRows] = useState([])
 
   const DEFAULT_QUICK_FILTERS = {
     receiptNo: '',
@@ -170,45 +166,12 @@ function ReceiptManagement() {
     refreshData()
   }, [page, pageSize, filters, sort, keyword, quickFilters])
 
-  useEffect(() => {
-    setSelectedRows([])
-  }, [keyword, sort, filters, quickFilters])
-
-  useEffect(() => {
-    setSelectedRows([])
-  }, [keyword, sort, filters])
-
-  const renderHeaderRight = () => {
-    return (
-      <>
-        <ImportExport
-          name={t('menu.importExportData')}
-          onExport={() => {
-            exportWarehouseImportApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }}
-          onRefresh={refreshData}
-          disabled
-        />
-      </>
-    )
-  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.receiptManagement')}
       onSearch={setKeyword}
       placeholder={t('receiptManagement.searchPlaceholder')}
-      renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <ReceiptManagementFilter
@@ -224,9 +187,6 @@ function ReceiptManagement() {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
-        selected={selectedRows}
         total={total}
         sort={sort}
         filters={{
