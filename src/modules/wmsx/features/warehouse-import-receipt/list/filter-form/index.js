@@ -25,7 +25,7 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
-          name="id"
+          name="code"
           label={t('warehouseImportReceipt.id')}
           placeholder={t('warehouseImportReceipt.id')}
           inputProps={{

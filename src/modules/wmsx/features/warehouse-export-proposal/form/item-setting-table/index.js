@@ -183,23 +183,24 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           )
         },
       },
-      !isView && {
-        field: 'action',
-        width: 100,
-        align: 'center',
-        renderCell: (params, idx) => {
-          return (
-            <IconButton
-              onClick={() => {
-                arrayHelpers.remove(idx)
-              }}
-              disabled={items?.length === 1}
-            >
-              <Icon name="remove" />
-            </IconButton>
-          )
+      !isView &&
+        items?.length > 1 && {
+          field: 'action',
+          width: 100,
+          align: 'center',
+          renderCell: (params, idx) => {
+            return (
+              <IconButton
+                onClick={() => {
+                  arrayHelpers.remove(idx)
+                }}
+                disabled={items?.length === 1}
+              >
+                <Icon name="remove" />
+              </IconButton>
+            )
+          },
         },
-      },
     ],
     [items],
   )

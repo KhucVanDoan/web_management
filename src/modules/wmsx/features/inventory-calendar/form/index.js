@@ -31,6 +31,7 @@ import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalenda
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
+import { convertFilterParams } from '~/utils'
 
 import ItemsSettingTable from './items-setting-table'
 import { defineSchema } from './schema'
@@ -357,7 +358,9 @@ const InventoryCalendarForm = () => {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            status: ACTIVE_STATUS.ACTIVE,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}

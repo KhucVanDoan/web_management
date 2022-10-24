@@ -334,18 +334,25 @@ function WarehouseImportReceiptForm() {
     }
   }
   const handleChangeWarehouse = async (val, values, setFieldValue) => {
-    const findWarehouseExportProposal =
-      values?.businessTypeId?.bussinessTypeAttributes?.find(
-        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-      )?.id
-    if (!isEmpty(values[findWarehouseExportProposal])) {
-      setFieldValue('items', [{ ...DEFAULT_ITEMS }])
-      const params = {
-        id: values[findWarehouseExportProposal]?.id,
-        warehouseId: values?.warehouse?.id,
+    if (isEmpty(val)) {
+      setItemWarehouseExportProposal([])
+    }
+    if (val) {
+      const findWarehouseExportProposal =
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+
+      if (!isEmpty(values[findWarehouseExportProposal])) {
+        setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+        const params = {
+          id: values[findWarehouseExportProposal]?.id,
+          warehouseId: values?.warehouse?.id,
+        }
+        const res = await getWarehouseExportProposalItems(params)
+        setItemWarehouseExportProposal(res?.data)
       }
-      const res = await getWarehouseExportProposalItems(params)
-      setItemWarehouseExportProposal(res?.data)
     }
   }
   return (

@@ -93,12 +93,12 @@ function WarehouseExportReceiptDetail() {
                 )}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportProposalCode')}
                 value={warehouseExportReceiptDetails?.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
@@ -107,7 +107,7 @@ function WarehouseExportReceiptDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.address')}
+                label={t('warehouseExportReceipt.departmentReception')}
                 value={warehouseExportReceiptDetails?.departmentReceipt?.name}
               />
             </Grid>
@@ -117,12 +117,12 @@ function WarehouseExportReceiptDetail() {
                 value={warehouseExportReceiptDetails?.warehouse?.name}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.accountingAccountCode')}
                 value={warehouseExportReceiptDetails?.source?.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
