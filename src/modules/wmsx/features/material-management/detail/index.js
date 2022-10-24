@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import QRCode from 'qrcode'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -16,6 +15,7 @@ import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import QRCodeGenerator from '~/components/QRCodeGenerator'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
@@ -45,15 +45,6 @@ function MaterialManagementDetail() {
     useState(false)
   const [isPermittedToUpdateSource, setIsPermittedToUpdateSource] =
     useState(false)
-
-  const [qrCode, setQrCode] = useState(false)
-
-  const generateQR = async (text) => {
-    const link = await QRCode.toDataURL(text)
-    setQrCode(link)
-  }
-
-  generateQR('hai anh')
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH]: MODAL_MODE.UPDATE,
@@ -318,11 +309,7 @@ function MaterialManagementDetail() {
             <Grid item xs={12}>
               <LV
                 label={t('materialManagement.qrCode')}
-                value={
-                  <Box>
-                    <img src={qrCode} alt="" />
-                  </Box>
-                }
+                value={<QRCodeGenerator value={'something'} />}
               />
             </Grid>
             <Grid item xs={12}>
