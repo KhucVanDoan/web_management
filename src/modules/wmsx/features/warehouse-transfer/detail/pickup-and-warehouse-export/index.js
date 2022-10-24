@@ -73,6 +73,7 @@ const PickupAndWarehouseExport = () => {
       }),
     ),
   }
+
   const onSubmit = (values) => {
     const params = {
       items: values?.items?.map((item) => ({

@@ -14,8 +14,10 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
@@ -45,11 +47,19 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                 searchMaterialsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: ACTIVE_STATUS.ACTIVE,
+                  }),
                 })
               }
+              onChange={() => {
+                setFieldValue('suppliesCode', '')
+                setFieldValue('unit', '')
+              }}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
+              getOptionSubLabel={(opt) => opt?.code}
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
@@ -81,7 +91,12 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               required
             />
           ) : (
-            <Field.TextField name={`items[${index}].suppliesCode`} />
+            <Field.TextField
+              name={`items[${index}].suppliesCode`}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
+              }}
+            />
           )
         },
       },
@@ -91,7 +106,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.info
+            params?.row?.details
           ) : (
             <Field.TextField
               name={`items[${index}].details`}
@@ -109,7 +124,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.itemResponse?.itemUnit?.name
+            params?.row?.itemUnit
           ) : !isEmpty(params?.row?.suppliesName?.itemUnit) ? (
             <Field.TextField
               name={`items[${index}].suppliesName.itemUnit.name`}
@@ -123,6 +138,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                 searchUomsApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: ACTIVE_STATUS.ACTIVE,
+                  }),
                 })
               }
               validate={(val) => {
@@ -142,7 +160,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.requestedQuantity
+            params?.row?.quantityRequest
           ) : (
             <Field.TextField
               name={`items[${index}].quantityRequest`}
@@ -179,7 +197,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           return isView ? (
             params?.row?.note
           ) : (
-            <Field.TextField name={`items[${index}].note`} required />
+            <Field.TextField
+              name={`items[${index}].note`}
+              required
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+              }}
+            />
           )
         },
       },
@@ -232,6 +256,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                 note: '',
               })
             }}
+            disabled={items?.length >= 10}
           >
             {t('warehouseExportProposal.items.addSupplies')}
           </Button>

@@ -99,6 +99,22 @@ function WarehouseExportProposalDetail() {
         : [],
     }),
   )
+  const itemSettingTable = warehouseExportProposalDetails?.items?.map(
+    (item) => ({
+      suppliesName: {
+        id: item?.itemId,
+        code: item?.itemCode || item?.itemResponse?.code,
+        name: item?.itemName || item?.itemResponse?.name,
+        itemUnit: item?.itemResponse?.itemUnit,
+      },
+      itemUnit: item?.itemResponse?.itemUnit?.name,
+      details: item?.itemDetail,
+      quantityRequest: item?.requestedQuantity,
+      note: item?.note,
+      itemCode: item?.itemCode,
+      itemName: item?.itemName,
+    }),
+  )
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -154,7 +170,7 @@ function WarehouseExportProposalDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportProposal.unit')}
-                value={warehouseExportProposalDetails?.factory?.name}
+                value={warehouseExportProposalDetails?.departmentSetting?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -217,10 +233,7 @@ function WarehouseExportProposalDetail() {
                 mode={mode}
               />
             ) : (
-              <ItemSettingTable
-                items={warehouseExportProposalDetails?.items || []}
-                mode={mode}
-              />
+              <ItemSettingTable items={itemSettingTable || []} mode={mode} />
             )}
           </Box>
           <ActionBar onBack={backToList} />

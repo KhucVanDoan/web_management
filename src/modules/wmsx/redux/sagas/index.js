@@ -248,6 +248,7 @@ import watchConfirmWarehouseImport from './warehouse-transfer/confirm-warehouse-
 import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer'
 import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer'
 import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer'
+import watchGetItemWarehouseStockAvailable from './warehouse-transfer/get-item-warehouse-stock-available'
 import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item'
 import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-detail'
 import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer'
@@ -573,6 +574,7 @@ export default function* sagas() {
     watchGetListItemWarehouseStock(),
     watchConfirmWarehouseExport(),
     watchConfirmWarehouseImport(),
+    watchGetItemWarehouseStockAvailable(),
 
     //role list
     watchSearchRoleList(),

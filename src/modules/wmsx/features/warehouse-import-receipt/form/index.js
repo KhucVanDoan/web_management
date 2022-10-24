@@ -489,8 +489,8 @@ function WarehouseImportReceiptForm() {
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        getOptionSubLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
