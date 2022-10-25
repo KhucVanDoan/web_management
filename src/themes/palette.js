@@ -195,8 +195,8 @@ const palette = {
       contrastText: '#FFF',
     },
     exported: {
-      text: '#0FA44A',
-      background: '#0FA44A',
+      text: '#F25FFF',
+      background: '#F25FFF',
       contrastText: '#FFF',
     },
     inReturning: {
