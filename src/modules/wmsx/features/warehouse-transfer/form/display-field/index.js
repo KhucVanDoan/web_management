@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { DATA_TYPE } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS, DATA_TYPE } from '~/modules/wmsx/constants'
 import { searchConstructionItemsApi } from '~/modules/wmsx/redux/sagas/construction-items-management/search-construction-items'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { searchExpenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/search-expenditure-org'
@@ -81,7 +81,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }
@@ -113,7 +113,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                         constructionId: values[constructions]?.id,
                       }),
                     })
@@ -149,7 +149,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -180,7 +180,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
