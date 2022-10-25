@@ -710,6 +710,12 @@ export const ROUTE = {
       TITLE: 'roleEdit',
     },
   },
+  DATA_SYNC_MANAGEMENT: {
+    LIST: {
+      PATH: '/wms/data-sync-management',
+      TITLE: 'dataSyncManagement',
+    },
+  },
   ACCOUNT: {
     DETAIL: {
       PATH: '/wms/account',

@@ -164,6 +164,7 @@
     "roleDetail": "Chi tiết vai trò",
     "roleEdit": "Sửa vai trò",
     "roleAssign": "Phân quyền vai trò",
+    "dataSyncManagement": "Quản lý đồng bộ dữ liệu",
     "userInfo": "Thông tin cá nhân",
     "changePassword": "Đổi mật khẩu",
     "warehouseTransfer": "Lệnh chuyển kho",
@@ -262,7 +263,6 @@
     "importManufacturingOrderDetail": "Chi tiết lệnh xuất nhập khác",
     "createImportManufacturingOrder": "Tạo lệnh xuất nhập khác",
     "editImportManufacturingOrder": "Sửa lệnh xuất nhập khác",
-
     "warehouseArea": "Định nghĩa khu vực",
     "warehouseAreaDetail": "Chi tiết khu vực",
     "productionOrder": "Lệnh xuất nhập trong sản xuất",
@@ -3128,6 +3128,31 @@
     },
     "sourceWarehouseMustBeDiferenceWithDestinationWarehouse": "Kho xuất phải khác kho nhập",
     "destinationWarehouseMustBeDiferenceWithSourceWarehouse": "Kho nhập phải khác kho xuất"
+  },
+  "dataSyncManagement": {
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "title": "Quản lý đồng bộ dữ liệu",
+    "search": "Lọc thông tin",
+    "type": "Loại giao dịch",
+    "signalCode": "Mã tín hiệu",
+    "objectCode": "Mã đối tượng",
+    "fromSystem": "Từ hệ thống",
+    "toSystem": "Đến hệ thống",
+    "status": "Trạng thái",
+    "sentDate": "Ngày gửi",
+    "receivedDate": "Ngày nhận",
+    "action": "Hành động",
+    "date": "Ngày",
+    "syncTitle": "Đồng bộ dữ liệu",
+    "rejectTitle": "Từ chối đồng bộ dữ liệu",
+    "confirmSync": "Bạn có chắc chắn muốn đồng bộ không?",
+    "confirmReject": "Bạn có chắc chắn muốn từ chối không?",
+    "placeholder": {
+      "objectCode": "Nhập mã đối tượng",
+      "status": "Chọn trạng thái đồng bộ",
+      "type": "Chọn loại giao dịch",
+      "date": "Chọn ngày,"
+    }
   },
   "roleList": {
     "title": "Danh sách vai trò",
