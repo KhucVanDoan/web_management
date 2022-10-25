@@ -27,7 +27,7 @@ const ItemSettingTable = (props) => {
       const params = {
         items: items?.map((item) => ({
           itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
+          warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
           lotNumber: item?.lotNumber,
         })),
       }
@@ -132,13 +132,6 @@ const ItemSettingTable = (props) => {
               item?.itemId === params?.row?.itemCode?.itemId ||
               item?.itemId === params?.row?.itemCode?.id,
           )
-          const lotNumberCodeList = items
-            ?.filter((e) => e?.lotNumber)
-            ?.map((item) => ({
-              itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-              lotNumber: item?.lotNumber,
-              locatorId: item?.locator?.locatorId,
-            }))
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
@@ -146,14 +139,7 @@ const ItemSettingTable = (props) => {
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
-              getOptionDisabled={(opt) =>
-                lotNumberCodeList.some(
-                  (e) =>
-                    e?.itemId === opt?.itemId &&
-                    e?.lotNumber === opt?.lotNumber &&
-                    e?.locatorId === opt?.locatorId,
-                ) && opt?.lotNumber !== items[index]?.lotNumber
-              }
+              disabled={!Boolean(warehouseTransferDetails?.manageByLot)}
             />
           )
         },

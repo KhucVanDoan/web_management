@@ -287,19 +287,21 @@ const InventoryCalendarForm = () => {
                         />
                       </Grid>
                     )}
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        label={t('inventoryCalendar.code')}
-                        name="code"
-                        placeholder={t('inventoryCalendar.code')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        disabled
-                        required
-                      />
-                    </Grid>
+                    {isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          label={t('inventoryCalendar.code')}
+                          name="code"
+                          placeholder={t('inventoryCalendar.code')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
+                          }}
+                          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                          disabled
+                          required
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="name"
