@@ -5,6 +5,7 @@ import companyManagement from './company-management'
 import constructionItemsManagement from './construction-items-management'
 import constructionManagement from './construction-management'
 import dashboard from './dashboard'
+import dataSyncManagement from './data-sync-management'
 import defineAssembly from './define-assembly'
 import defineBin from './define-bin'
 import defineDrawer from './define-drawer'
@@ -85,4 +86,5 @@ export default combineReducers({
   warehouseImportReceipt,
   warehouseTransfer,
   roleList,
+  dataSyncManagement,
 })

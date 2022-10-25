@@ -12,7 +12,7 @@ import { api } from '~/services/api'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const searchApi = (params) => {
+export const searchManagamentUnitApi = (params) => {
   const uri = `/v1/users/department-settings/list`
   return api.get(uri, params)
 }
@@ -23,7 +23,7 @@ const searchApi = (params) => {
  */
 function* doSearch(action) {
   try {
-    const response = yield call(searchApi, action?.payload)
+    const response = yield call(searchManagamentUnitApi, action?.payload)
 
     if (response?.statusCode === 200) {
       const payload = {

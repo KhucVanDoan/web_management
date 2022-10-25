@@ -5,15 +5,15 @@ import { Formik, Form } from 'formik'
 import { flatten, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import { useQueryState } from '~/common/hooks'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import TableCollapse from '~/components/TableCollapse'
-import useRoleList from '~/modules/configuration/redux/hooks/useRoleList'
 import useUserPermission from '~/modules/configuration/redux/hooks/useUserPermission'
-import useManagementUnit from '~/modules/wmsx/redux/hooks/useManagementUnit'
+import { searchManagamentUnitApi } from '~/modules/wmsx/redux/sagas/management-unit/search'
+import { searchRoleListApi } from '~/modules/wmsx/redux/sagas/role-list/search-role-list'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 const breadcrumbs = [
@@ -38,21 +38,6 @@ function UserPermission() {
     data: { permissionDetails, isLoading, total },
     actions,
   } = useUserPermission()
-
-  const {
-    data: { managementUnitList },
-    actions: departmentActs,
-  } = useManagementUnit()
-
-  const {
-    data: { roleList },
-    actions: roleActs,
-  } = useRoleList()
-
-  useEffect(() => {
-    departmentActs.searchManagementUnit()
-    roleActs.searchRoleList()
-  }, [])
 
   const listRole = flatten(
     map(permissionDetails?.groupPermissions, (per) => per.permissionSettings),
@@ -122,8 +107,8 @@ function UserPermission() {
 
   const onSubmit = (values) => {
     const convertValues = {
-      departmentId: values.departmentId,
-      roleId: values.userRoleId,
+      departmentId: values.departmentId?.id,
+      roleId: values.userRoleId?.id,
       permissions: permissionList,
     }
     actions.updateUserPermission(convertValues, () => {
@@ -251,10 +236,15 @@ function UserPermission() {
                       name="departmentId"
                       label={t('userPermission.departmentName')}
                       placeholder={t('userPermission.departmentName')}
-                      options={managementUnitList}
+                      asyncRequest={(s) =>
+                        searchManagamentUnitApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
-                      getOptionValue={(opt) => opt?.id}
-                      onChange={(val) => setDepartmentId(val)}
+                      onChange={(val) => setDepartmentId(val?.id)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -262,10 +252,15 @@ function UserPermission() {
                       name="userRoleId"
                       label={t('userPermission.role')}
                       placeholder={t('userPermission.role')}
-                      options={roleList}
+                      asyncRequest={(s) =>
+                        searchRoleListApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.name}
-                      getOptionValue={(opt) => opt?.id}
-                      onChange={(val) => setUserRoleId(val)}
+                      onChange={(val) => setUserRoleId(val?.id)}
                     />
                   </Grid>
                 </Grid>
