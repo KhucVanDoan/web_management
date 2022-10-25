@@ -82,6 +82,13 @@ export const CONFIRM_WAREHOUSE_IMPORT_SUCCESS =
 export const CONFIRM_WAREHOUSE_IMPORT_FAILED =
   'WMSX_CONFIRM_WAREHOUSE_IMPORT_FAILED'
 
+export const ITEM_WAREHOUSE_STOCK_AVAILABLE_START =
+  'WMSX_ITEM_WAREHOUSE_STOCK_AVAILABLE_START'
+export const ITEM_WAREHOUSE_STOCK_AVAILABLE_SUCCESS =
+  'WMSX_ITEM_WAREHOUSE_STOCK_AVAILABLE_SUCCESS'
+export const ITEM_WAREHOUSE_STOCK_AVAILABLE_FAILED =
+  'WMSX_ITEM_WAREHOUSE_STOCK_AVAILABLE_FAILED'
+
 export const RESET_WAREHOUSE_TRANSFER = 'WMSX_RESET_WAREHOUSE_TRANSFER'
 /**
  * Search
@@ -519,6 +526,37 @@ export function confirmWarehouseImportByIdFailed() {
     type: CONFIRM_WAREHOUSE_IMPORT_FAILED,
   }
 }
+
+export function getItemWarehouseStockAvailable(payload, onSuccess, onError) {
+  return {
+    type: ITEM_WAREHOUSE_STOCK_AVAILABLE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id success action
+ * @param {*} payload
+ * @returns {object}
+ */
+export function getItemWarehouseStockAvailableSuccess(payload) {
+  return {
+    type: ITEM_WAREHOUSE_STOCK_AVAILABLE_SUCCESS,
+    payload: payload,
+  }
+}
+
+/**
+ * Get confirm warehouse transfer by id failed action
+ * @returns {object}
+ */
+export function getItemWarehouseStockAvailableFailed() {
+  return {
+    type: ITEM_WAREHOUSE_STOCK_AVAILABLE_FAILED,
+  }
+}
 export function resetWarehouseTransfer() {
   return {
     type: RESET_WAREHOUSE_TRANSFER,
@@ -561,5 +599,8 @@ export default {
   confirmWarehouseImportById,
   confirmWarehouseImportByIdSuccess,
   confirmWarehouseImportByIdFailed,
+  getItemWarehouseStockAvailable,
+  getItemWarehouseStockAvailableSuccess,
+  getItemWarehouseStockAvailableFailed,
   resetWarehouseTransfer,
 }

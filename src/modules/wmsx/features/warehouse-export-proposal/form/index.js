@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid, Typography } from '@mui/material'
+import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -16,6 +17,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION,
@@ -23,6 +25,7 @@ import {
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import ItemTableCollaspe from './item-table-collaspe'
@@ -106,6 +109,8 @@ function WarehouseExportReceiptForm() {
       unit: warehouseExportProposalDetails?.factory?.name || '',
       dear: warehouseExportProposalDetails?.greetingTitle || '',
       proponent: warehouseExportProposalDetails?.suggestedBy || '',
+      departmentSetting:
+        warehouseExportProposalDetails?.departmentSetting?.name,
       nameAddressOfRecipient:
         warehouseExportProposalDetails?.receiverInfo || '',
       construction: warehouseExportProposalDetails?.construction || '',
@@ -119,6 +124,7 @@ function WarehouseExportReceiptForm() {
             name: item?.itemName || item?.itemResponse?.name,
             itemUnit: item?.itemResponse?.itemUnit,
           },
+          details: item?.itemDetail,
           quantityRequest: item?.requestedQuantity,
           note: item?.note,
           itemCode: item?.itemCode,
@@ -190,6 +196,7 @@ function WarehouseExportReceiptForm() {
         itemName: item?.suppliesName?.name || null,
         itemId: item?.suppliesName?.id,
         itemCode: item?.suppliesCode || item?.suppliesName?.code || null,
+        itemDetail: item?.details || null,
         unitId: item?.unit?.id || item?.unit || null,
         requestedQuantity: +item?.quantityRequest,
         note: item?.note,
@@ -299,9 +306,13 @@ function WarehouseExportReceiptForm() {
                       )}
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
-                          name="unit"
+                          name="departmentSetting"
                           label={t('warehouseExportProposal.unit')}
                           disabled
+                          value={
+                            JSON.parse(localStorage.getItem('userInfo'))
+                              ?.departmentSettings[0]?.name
+                          }
                           required
                         />
                       </Grid>
@@ -353,6 +364,9 @@ function WarehouseExportReceiptForm() {
                             searchConstructionsApi({
                               keyword: s,
                               limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: ACTIVE_STATUS.ACTIVE,
+                              }),
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
@@ -366,6 +380,19 @@ function WarehouseExportReceiptForm() {
                           name="createdAtPaper"
                           label={t('warehouseExportProposal.createdAtPaper')}
                           maxDate={new Date()}
+                          minDate={
+                            new Date(
+                              sub(new Date(), {
+                                years: 1,
+                                months: 0,
+                                weeks: 0,
+                                days: 0,
+                                hours: 0,
+                                minutes: 0,
+                                seconds: 0,
+                              }),
+                            )
+                          }
                           required
                         />
                       </Grid>
@@ -413,7 +440,7 @@ function WarehouseExportReceiptForm() {
                 onSubmit={onSubmit}
                 enableReinitialize
               >
-                {({ handleReset, values }) => (
+                {({ handleReset, values, setFieldValue }) => (
                   <Form>
                     <Grid
                       container
@@ -438,7 +465,7 @@ function WarehouseExportReceiptForm() {
 
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
-                          name="unit"
+                          name="departmentSetting"
                           label={t('warehouseExportProposal.unit')}
                           disabled
                           required
@@ -486,6 +513,9 @@ function WarehouseExportReceiptForm() {
                             searchConstructionsApi({
                               keyword: s,
                               limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: ACTIVE_STATUS.ACTIVE,
+                              }),
                             })
                           }
                           asyncRequestHelper={(res) => res?.data?.items}
@@ -523,6 +553,7 @@ function WarehouseExportReceiptForm() {
                           <ItemSettingTable
                             items={values?.items || []}
                             arrayHelpers={arrayHelpers}
+                            setFieldValue={setFieldValue}
                             mode={mode}
                             values={values}
                           />
