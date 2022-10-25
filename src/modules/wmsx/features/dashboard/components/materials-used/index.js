@@ -249,7 +249,9 @@ const UsedMaterialsReport = () => {
   return (
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-        <Typography variant="h2">{t('dashboard.itemReport.title')}</Typography>
+        <Typography variant="h2">
+          {t('dashboard.materialUsed.title')}
+        </Typography>
         <Box sx={{ mb: 2, width: '50%' }}>
           <Autocomplete
             value={filterBy}

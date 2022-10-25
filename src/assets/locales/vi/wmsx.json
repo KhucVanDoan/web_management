@@ -164,6 +164,7 @@
     "roleDetail": "Chi tiết vai trò",
     "roleEdit": "Sửa vai trò",
     "roleAssign": "Phân quyền vai trò",
+    "dataSyncManagement": "Quản lý đồng bộ dữ liệu",
     "userInfo": "Thông tin cá nhân",
     "changePassword": "Đổi mật khẩu",
     "warehouseTransfer": "Lệnh chuyển kho",
@@ -262,7 +263,6 @@
     "importManufacturingOrderDetail": "Chi tiết lệnh xuất nhập khác",
     "createImportManufacturingOrder": "Tạo lệnh xuất nhập khác",
     "editImportManufacturingOrder": "Sửa lệnh xuất nhập khác",
-
     "warehouseArea": "Định nghĩa khu vực",
     "warehouseAreaDetail": "Chi tiết khu vực",
     "productionOrder": "Lệnh xuất nhập trong sản xuất",
@@ -354,6 +354,7 @@
     "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
   },
   "dashboard": {
+    "companyPlaceholder": "Chọn công ty",
     "chart": {
       "viewMore": "Xem đầy đủ",
       "thisPeriod": "kỳ này",
@@ -421,7 +422,8 @@
       "ebsExport": "Xuất kho EBS"
     },
     "stockItemReport": {
-      "title": "Hàng tồn kho"
+      "title": "Hàng tồn kho",
+      "warehouseTransfer": "Lệnh chuyển kho"
     },
     "exportProposal": {
       "title": "Đề nghị xuất vật tư"
@@ -2627,14 +2629,14 @@
     "itemCode": "Mã vật tư",
     "itemName": "Tên vật tư",
     "unit": "Đơn vị",
-    "inventoryLimit": "Số lượng lưu kho an toàn",
-    "minInventoryLimit": "Số lượng lưu kho tối thiểu",
-    "maxInventoryLimit": "Số lượng lưu kho tối đa",
+    "inventoryLimit": "Số lượng tồn kho an toàn",
+    "minInventoryLimit": "Số lượng tồn kho tối thiểu",
+    "maxInventoryLimit": "Số lượng tồn kho tối đa",
     "createdAt": "Thời gian tạo",
     "inventorySettingDelete": "Xóa thiết lập tồn kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập tồn kho này không?",
-    "messageWarningMin": "Số lượng lưu kho tối thiểu phải nhỏ hơn số lượng lưu kho an toàn và số lượng lưu kho tối đa",
-    "messageWarningMax": "Số lượng lưu kho tối đa phải lớn hơn số lượng lưu kho tối thiểu và số lượng lưu kho an toàn"
+    "messageWarningMin": "Số lượng tồn kho tối thiểu phải nhỏ hơn số lượng tồn kho an toàn và số lượng tồn kho tối đa",
+    "messageWarningMax": "Số lượng tồn kho tối đa phải lớn hơn số lượng tồn kho tối thiểu và số lượng tồn kho an toàn"
   },
   "defineWarehouseGroup": {
     "list": "Danh sách nhóm kho",
@@ -3128,6 +3130,31 @@
     },
     "sourceWarehouseMustBeDiferenceWithDestinationWarehouse": "Kho xuất phải khác kho nhập",
     "destinationWarehouseMustBeDiferenceWithSourceWarehouse": "Kho nhập phải khác kho xuất"
+  },
+  "dataSyncManagement": {
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "title": "Quản lý đồng bộ dữ liệu",
+    "search": "Lọc thông tin",
+    "type": "Loại giao dịch",
+    "signalCode": "Mã tín hiệu",
+    "objectCode": "Mã đối tượng",
+    "fromSystem": "Từ hệ thống",
+    "toSystem": "Đến hệ thống",
+    "status": "Trạng thái",
+    "sentDate": "Ngày gửi",
+    "receivedDate": "Ngày nhận",
+    "action": "Hành động",
+    "date": "Ngày",
+    "syncTitle": "Đồng bộ dữ liệu",
+    "rejectTitle": "Từ chối đồng bộ dữ liệu",
+    "confirmSync": "Bạn có chắc chắn muốn đồng bộ không?",
+    "confirmReject": "Bạn có chắc chắn muốn từ chối không?",
+    "placeholder": {
+      "objectCode": "Nhập mã đối tượng",
+      "status": "Chọn trạng thái đồng bộ",
+      "type": "Chọn loại giao dịch",
+      "date": "Chọn ngày,"
+    }
   },
   "roleList": {
     "title": "Danh sách vai trò",

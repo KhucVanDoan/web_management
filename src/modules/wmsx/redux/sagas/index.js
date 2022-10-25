@@ -30,6 +30,9 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchRejectDataSyncManagement from './data-sync-management/reject-data-sync-management'
+import watchRetryDataSyncManagement from './data-sync-management/retry-data-sync-management'
+import watchSearchDataSyncManagement from './data-sync-management/search-data-sync-management'
 import watchConfirmAssembly from './define-assembly/confirm-assembly'
 import watchCreateAssembly from './define-assembly/create-assembly'
 import watchDeleteAssembly from './define-assembly/delete-assembly'
@@ -576,6 +579,10 @@ export default function* sagas() {
     watchConfirmWarehouseImport(),
     watchGetItemWarehouseStockAvailable(),
 
+    // data sync management
+    watchSearchDataSyncManagement(),
+    watchRejectDataSyncManagement(),
+    watchRetryDataSyncManagement(),
     //role list
     watchSearchRoleList(),
     watchCreateRole(),

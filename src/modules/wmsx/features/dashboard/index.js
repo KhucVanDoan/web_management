@@ -1,11 +1,15 @@
 import React from 'react'
 
 import { Grid } from '@mui/material'
+import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
+import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
+import { searchCompaniesApi } from '../../redux/sagas/company-management/search-companies'
 import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
 import ImportReceipt from './components/import-export-receipt/import-receipt'
@@ -29,6 +33,34 @@ function Dashboard() {
   return (
     <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Formik initialValues={{}} onSubmit={() => {}} enableReinitialize>
+            {() => (
+              <Form>
+                <Grid container columnSpacing={{ xl: 4, xs: 2 }}>
+                  <Grid item xs={12} lg={6} />
+                  <Grid item xs={12} lg={3}>
+                    <Field.Autocomplete
+                      name="companyId"
+                      placeholder={t('dashboard.companyPlaceholder')}
+                      asyncRequest={(s) =>
+                        searchCompaniesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.name}
+                    />
+                  </Grid>
+                  <Grid item xs={12} lg={3}>
+                    <Field.DateRangePicker name="createdAt" />
+                  </Grid>
+                </Grid>
+              </Form>
+            )}
+          </Formik>
+        </Grid>
         <Grid item xs={12}>
           <ItemSummary />
         </Grid>
