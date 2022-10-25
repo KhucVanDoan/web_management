@@ -19,6 +19,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
   ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
@@ -484,7 +485,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -505,7 +506,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               parentBusiness: PARENT_BUSINESS_TYPE.IMPORT,
                             }),
                           })
@@ -528,7 +529,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -553,7 +554,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -574,7 +575,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }

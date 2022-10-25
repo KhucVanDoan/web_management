@@ -80,7 +80,7 @@ const WarehouseTransferDetail = () => {
             {t('warehouseTransfer.pickupAndWarehouseExport')}
           </Button>
         )
-      case TRANSFER_STATUS.COMPLETED:
+      case TRANSFER_STATUS.EXPORTED:
         return (
           <Button
             onClick={() =>

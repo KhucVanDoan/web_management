@@ -20,6 +20,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   PARENT_BUSINESS_TYPE,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
@@ -328,7 +329,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               parentBusiness: PARENT_BUSINESS_TYPE.TRANSFER,
                             }),
                           })
@@ -362,9 +363,9 @@ const WarehouseTransferForm = () => {
                           searchSourceManagementApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
@@ -384,7 +385,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -405,7 +406,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -429,7 +430,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               manageByLot:
                                 values?.sourceWarehouseId?.manageByLot,
                             }),

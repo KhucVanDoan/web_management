@@ -58,8 +58,8 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               }}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.name}
-              getOptionSubLabel={(opt) => opt?.code}
+              getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
