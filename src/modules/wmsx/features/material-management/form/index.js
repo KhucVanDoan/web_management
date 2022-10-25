@@ -156,8 +156,8 @@ function MaterialManagementForm() {
   }
 
   const addSeperators = (str, mask) => {
-    const rawStr = str.replace(/[^\d]/g, '')
-    const chars = rawStr.split('')
+    // const rawStr = str.replace(/[^\d]/g, '')
+    const chars = str.split('')
     let count = 0
 
     let formatted = ''
@@ -263,7 +263,7 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
                       onKeyDown={handleKeyDown}
                       onInput={(val) => {

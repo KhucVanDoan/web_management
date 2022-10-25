@@ -17,6 +17,7 @@ import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -158,7 +159,7 @@ function InventorySettingForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset }) => (
+            {({ handleReset, values, setFieldValue }) => (
               <Form>
                 <Grid
                   container
@@ -180,6 +181,7 @@ function InventorySettingForm() {
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      onChange={() => setFieldValue('item', null)}
                       required
                       disabled={isUpdate}
                     />
@@ -201,9 +203,13 @@ function InventorySettingForm() {
                         searchMaterialsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            warehouseId: values?.warehouse?.id,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      asyncRequestDeps={values?.warehouse}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}

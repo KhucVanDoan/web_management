@@ -256,9 +256,10 @@ function MaterialManagementDetail() {
               <LV
                 label={t('materialManagement.country')}
                 value={
+                  materialDetails?.manufacturingCountry &&
                   materialDetails?.manufacturingCountry?.code +
-                  ' - ' +
-                  materialDetails?.manufacturingCountry?.name
+                    ' - ' +
+                    materialDetails?.manufacturingCountry?.name
                 }
               />
             </Grid>
@@ -272,9 +273,10 @@ function MaterialManagementDetail() {
               <LV
                 label={t('materialManagement.materialQuality')}
                 value={
+                  materialDetails?.itemQuality &&
                   materialDetails?.itemQuality?.code +
-                  ' - ' +
-                  materialDetails?.itemQuality?.name
+                    ' - ' +
+                    materialDetails?.itemQuality?.name
                 }
               />
             </Grid>
@@ -282,9 +284,10 @@ function MaterialManagementDetail() {
               <LV
                 label={t('materialManagement.objectCategory')}
                 value={
+                  materialDetails?.objectCategory &&
                   materialDetails?.objectCategory?.code +
-                  ' - ' +
-                  materialDetails?.objectCategory?.name
+                    ' - ' +
+                    materialDetails?.objectCategory?.name
                 }
               />
             </Grid>
@@ -341,7 +344,12 @@ function MaterialManagementDetail() {
                     name="itemWarehouseSources"
                     render={(arrayHelpers) => (
                       <ItemsSettingTable
-                        items={values?.itemWarehouseSources || []}
+                        items={
+                          values?.itemWarehouseSources.map((item, index) => ({
+                            id: index,
+                            ...item,
+                          })) || []
+                        }
                         mode={mode}
                         arrayHelpers={arrayHelpers}
                       />

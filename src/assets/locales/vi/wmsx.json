@@ -354,6 +354,7 @@
     "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
   },
   "dashboard": {
+    "companyPlaceholder": "Chọn công ty",
     "chart": {
       "viewMore": "Xem đầy đủ",
       "thisPeriod": "kỳ này",
@@ -421,7 +422,8 @@
       "ebsExport": "Xuất kho EBS"
     },
     "stockItemReport": {
-      "title": "Hàng tồn kho"
+      "title": "Hàng tồn kho",
+      "warehouseTransfer": "Lệnh chuyển kho"
     },
     "exportProposal": {
       "title": "Đề nghị xuất vật tư"
@@ -2627,14 +2629,14 @@
     "itemCode": "Mã vật tư",
     "itemName": "Tên vật tư",
     "unit": "Đơn vị",
-    "inventoryLimit": "Số lượng lưu kho an toàn",
-    "minInventoryLimit": "Số lượng lưu kho tối thiểu",
-    "maxInventoryLimit": "Số lượng lưu kho tối đa",
+    "inventoryLimit": "Số lượng tồn kho an toàn",
+    "minInventoryLimit": "Số lượng tồn kho tối thiểu",
+    "maxInventoryLimit": "Số lượng tồn kho tối đa",
     "createdAt": "Thời gian tạo",
     "inventorySettingDelete": "Xóa thiết lập tồn kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập tồn kho này không?",
-    "messageWarningMin": "Số lượng lưu kho tối thiểu phải nhỏ hơn số lượng lưu kho an toàn và số lượng lưu kho tối đa",
-    "messageWarningMax": "Số lượng lưu kho tối đa phải lớn hơn số lượng lưu kho tối thiểu và số lượng lưu kho an toàn"
+    "messageWarningMin": "Số lượng tồn kho tối thiểu phải nhỏ hơn số lượng tồn kho an toàn và số lượng tồn kho tối đa",
+    "messageWarningMax": "Số lượng tồn kho tối đa phải lớn hơn số lượng tồn kho tối thiểu và số lượng tồn kho an toàn"
   },
   "defineWarehouseGroup": {
     "list": "Danh sách nhóm kho",
