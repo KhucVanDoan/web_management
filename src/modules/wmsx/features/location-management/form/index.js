@@ -131,24 +131,24 @@ function LocationManagementForm() {
     const locations = [
       {
         level: 0,
-        locationId: values?.assembly?.id,
+        locationId: values?.assembly?.id || values?.assembly?._id,
       },
     ]
 
     if (values?.shelf)
       locations.push({
         level: 1,
-        locationId: values?.shelf?.id,
+        locationId: values?.shelf?.id || values?.shelf?._id,
       })
     if (values?.drawer)
       locations.push({
         level: 2,
-        locationId: values?.drawer?.id,
+        locationId: values?.drawer?.id || values?.drawer?._id,
       })
     if (values?.bin)
       locations.push({
         level: 3,
-        locationId: values?.bin?.id,
+        locationId: values?.bin?.id || values?.bin?._id,
       })
     const convertValues = {
       warehouseId: values?.warehouse?.id,

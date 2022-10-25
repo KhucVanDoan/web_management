@@ -25,14 +25,14 @@ function ItemSummary() {
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="cart"
-          label={t('dashboard.itemReport.other')}
+          label={t('dashboard.exportProposal.title')}
           value={100}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="bag"
-          label={t('dashboard.itemReport.other')}
+          label={t('dashboard.stockItemReport.warehouseTransfer')}
           value={100}
         />
       </Grid>
