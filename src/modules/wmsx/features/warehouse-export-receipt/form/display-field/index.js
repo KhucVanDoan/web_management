@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
+  ACTIVE_STATUS,
   DATA_TYPE,
   ORDER_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
@@ -133,7 +134,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }
@@ -165,7 +166,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                         constructionId: values[constructions]?.id,
                       }),
                     })
@@ -232,7 +233,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -295,9 +296,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchReceiptDepartmentApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: ACTIVE_STATUS.ACTIVE,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
@@ -326,9 +327,9 @@ const displayFollowBusinessTypeManagement = (
                     return searchVendorsApi({
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
-                      // filter: convertFilterParams({
-                      //   status: 1,
-                      // }),
+                      filter: convertFilterParams({
+                        status: ACTIVE_STATUS.ACTIVE,
+                      }),
                     })
                   }}
                   asyncRequestHelper={(res) => res?.data?.items}
@@ -358,7 +359,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -389,7 +390,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}

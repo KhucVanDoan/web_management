@@ -13,10 +13,12 @@ import {
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useInventorySetting from '~/modules/wmsx/redux/hooks/useInventorySetting'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -174,6 +176,9 @@ function InventorySettingForm() {
                         searchWarehouseApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}

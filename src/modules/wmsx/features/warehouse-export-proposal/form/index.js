@@ -106,6 +106,7 @@ function WarehouseExportReceiptForm() {
   )
   const initialValues = useMemo(
     () => ({
+      code: warehouseExportProposalDetails?.code,
       unit: warehouseExportProposalDetails?.factory?.name || '',
       dear: warehouseExportProposalDetails?.greetingTitle || '',
       proponent: warehouseExportProposalDetails?.suggestedBy || '',
@@ -304,6 +305,7 @@ function WarehouseExportReceiptForm() {
                           />
                         </Grid>
                       )}
+
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
                           name="departmentSetting"
@@ -462,7 +464,16 @@ function WarehouseExportReceiptForm() {
                           }
                         />
                       </Grid>
-
+                      {isUpdate && (
+                        <Grid item lg={6} xs={12}>
+                          <Field.TextField
+                            name="code"
+                            label={t('warehouseExportProposal.votes')}
+                            disabled
+                            required
+                          />
+                        </Grid>
+                      )}
                       <Grid item lg={6} xs={12}>
                         <Field.TextField
                           name="departmentSetting"
