@@ -430,11 +430,8 @@ const WarehouseTransferForm = () => {
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: 1,
-                              manageByLot: Boolean(
+                              manageByLot:
                                 values?.sourceWarehouseId?.manageByLot,
-                              )
-                                ? values?.sourceWarehouseId?.manageByLot
-                                : null,
                             }),
                           })
                         }

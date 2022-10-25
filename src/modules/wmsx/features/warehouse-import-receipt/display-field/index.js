@@ -192,10 +192,7 @@ const displayFollowBusinessTypeManagement = (
                     })
                   }
                   asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={[
-                    values?.businessTypeId,
-                    values[constructions],
-                  ]}
+                  asyncRequestDeps={values[constructions]}
                   disabled={!values[constructions]}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}

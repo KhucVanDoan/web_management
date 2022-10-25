@@ -27,7 +27,7 @@ const ItemSettingTable = (props) => {
       const params = {
         items: items?.map((item) => ({
           itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
+          warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
           lotNumber: item?.lotNumber,
         })),
       }
@@ -123,6 +123,7 @@ const ItemSettingTable = (props) => {
               options={lotNumberList}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              disabled={!Boolean(warehouseTransferDetails?.manageByLot)}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
             />
           )
