@@ -41,6 +41,7 @@ import { ReactComponent as Save } from '~/assets/images/icons/save.svg'
 import { ReactComponent as Search } from '~/assets/images/icons/search.svg'
 import { ReactComponent as Setting } from '~/assets/images/icons/setting.svg'
 import { ReactComponent as Show } from '~/assets/images/icons/show.svg'
+import { ReactComponent as Sync } from '~/assets/images/icons/sync.svg'
 import { ReactComponent as TableFilter } from '~/assets/images/icons/tableFilter.svg'
 import { ReactComponent as TableSetting } from '~/assets/images/icons/tableSetting.svg'
 import { ReactComponent as Tick } from '~/assets/images/icons/tick.svg'
@@ -107,6 +108,7 @@ const icons = {
   unlock: <Unlock />,
   updateQuantity: <UpdateQuantity />,
   confirm: <Confirm />,
+  sync: <Sync />,
   print: <Print />,
   // menu
   drawer: <Drawer />,

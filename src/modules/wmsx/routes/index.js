@@ -19,6 +19,7 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DataSyncManagement from '../features/data-sync-management'
 import DefineAssemblyDetail from '../features/define-assembly/detail'
 import DefineAssemblyForm from '../features/define-assembly/form'
 import DefineAssembly from '../features/define-assembly/list'
@@ -1001,6 +1002,14 @@ const routes = [
         isInSidebar: false,
       },
     ],
+  },
+  {
+    name: ROUTE.DATA_SYNC_MANAGEMENT.LIST.TITLE,
+    path: ROUTE.DATA_SYNC_MANAGEMENT.LIST.PATH,
+    component: DataSyncManagement,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [{}],
   },
   {
     name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
