@@ -4,6 +4,7 @@ import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
@@ -15,9 +16,7 @@ const ItemSettingTable = (props) => {
   const { mode, arrayHelpers, items } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-
-  const itemList = []
-  const lots = []
+  const { id } = useParams()
   const {
     data: { warehouseTransferDetails, itemStockAvailabe },
     actions,
@@ -33,28 +32,19 @@ const ItemSettingTable = (props) => {
       }
       actions.getItemWarehouseStockAvailable(params)
     }
-  }, [items])
-  items
-    ?.filter((e) => !isEmpty(e?.itemCode))
-    ?.forEach((item) => {
-      const findLots = lots?.find(
-        (e) =>
-          e?.itemId === item?.itemCode?.itemId &&
-          e?.lotNumber === item?.lotNumber,
-      )
-      if (isEmpty(findLots)) {
-        lots.push({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          lotNumber: item?.lotNumber,
-        })
-      }
-      const findItem = itemList?.find(
-        (e) => e?.itemId === item?.itemCode?.itemId,
-      )
-      if (isEmpty(findItem)) {
-        itemList.push(item?.itemCode)
-      }
-    })
+  }, [id])
+  const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      ...item?.item,
+      itemId: item?.itemId,
+    }),
+  )
+  const lots = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      lotNumber: item?.lotNumber,
+      itemId: item?.itemId,
+    }),
+  )
   const getColumns = () => {
     return [
       {
@@ -123,7 +113,20 @@ const ItemSettingTable = (props) => {
               options={lotNumberList}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
-              disabled={!Boolean(warehouseTransferDetails?.manageByLot)}
+              disabled={
+                !Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot)
+              }
+              validate={(val) => {
+                if (
+                  Boolean(
+                    warehouseTransferDetails?.sourceWarehouse?.manageByLot,
+                  )
+                ) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
             />
           )
@@ -154,7 +157,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
-        width: 150,
+        width: 200,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
 

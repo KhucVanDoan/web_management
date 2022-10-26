@@ -125,6 +125,13 @@ const ItemSettingTable = (props) => {
               disabled={!Boolean(values?.sourceWarehouseId?.manageByLot)}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              validate={(val) => {
+                if (Boolean(values?.sourceWarehouseId?.manageByLot)) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },

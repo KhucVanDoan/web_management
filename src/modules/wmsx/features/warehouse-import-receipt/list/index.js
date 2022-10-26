@@ -97,7 +97,7 @@ function WarehouseImportReceipt() {
       },
     },
     {
-      field: 'businessType',
+      field: 'businessTypeId',
       headerName: t('warehouseImportReceipt.expenditureType'),
       width: 150,
       renderCell: (params) => {
@@ -113,9 +113,10 @@ function WarehouseImportReceipt() {
       },
     },
     {
-      field: 'createdAt',
+      field: 'receiptDate',
       headerName: t('warehouseImportReceipt.createdAt'),
       width: 150,
+      filterFormat: 'date',
       sortable: true,
       renderCell: (params) => {
         return convertUtcDateToLocalTz(params?.row?.receiptDate)
@@ -251,10 +252,12 @@ function WarehouseImportReceipt() {
       filter: convertFilterParams(
         {
           ...filters,
-          businessType: filters?.businessType?.id,
-          departmentReceipt: filters?.departmentReceipt?.id,
+          businessTypeId: filters?.businessTypeId?.id,
+          departmentReceiptId: filters?.departmentReceiptId?.id,
+          sourceId: filters?.sourceId?.id,
+          warehouseId: filters?.warehouseId?.id,
         },
-        [{ field: 'createdAt', filterFormat: 'date' }],
+        columns,
       ),
       sort: convertSortParams(sort),
     }

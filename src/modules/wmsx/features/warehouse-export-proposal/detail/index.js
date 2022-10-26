@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -86,12 +87,12 @@ function WarehouseExportProposalDetail() {
             itemName: childrens?.itemName || null,
             itemId: childrens?.itemId,
             unit: childrens?.itemResponse?.itemUnit?.name,
-            lotNumber: childrens?.lotNumber,
+            lotNumbers: childrens?.lotNumber,
             isKeepSlot: childrens?.isKeepSlot,
             planExportedQuantity: childrens?.planExportedQuantity || 0,
             exportQuantity: childrens?.exportedQuantity || 0,
             quantityExportActual: childrens?.exportedActualQuantity || 0,
-            warehouseExport: childrens?.warehouseExport,
+            warehouse: childrens?.warehouseExport,
             reservation: false,
             updatedBy: item?.updatedBy,
             dayUpdate: item?.updatedAt,
@@ -115,12 +116,23 @@ function WarehouseExportProposalDetail() {
       itemName: item?.itemName,
     }),
   )
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <Button sx={{ ml: 4 / 3 }}>
+          <Icon name="print" mr={1} />
+          {t('warehouseExportProposal.print')}
+        </Button>
+      </>
+    )
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseExportProposalDetail')}
       onBack={backToList}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
