@@ -107,6 +107,7 @@ import WarehouseExportProposal from '../features/warehouse-export-proposal/list'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
+import WarehouseExportReceiptPickAndExport from '../features/warehouse-export-receipt/pick-and-export'
 import WarehouseExportDetail from '../features/warehouse-export/detail'
 import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
@@ -882,6 +883,12 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
             component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
+            component: WarehouseExportReceiptPickAndExport,
             isInSidebar: false,
           },
         ],
