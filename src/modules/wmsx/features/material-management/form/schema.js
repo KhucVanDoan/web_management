@@ -12,14 +12,12 @@ export const formSchema = (t) =>
           length: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
         }),
       ),
-    normalizeCode: Yup.string()
-      .required(t('general:form.required'))
-      .length(
-        TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
-        t('general:form.length', {
-          length: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
-        }),
-      ),
+    normalizeCode: Yup.string().length(
+      TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
+      t('general:form.length', {
+        length: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
+      }),
+    ),
     name: Yup.string().required(t('general:form.required')),
     country: Yup.object().nullable().required(t('general:form.required')),
     objectCategory: Yup.object()
