@@ -38,7 +38,7 @@ import ItemSettingTable from './items-setting-table'
 import warehouseTranferSchema from './schema'
 const DEFAULT_ITEM = {
   ids: new Date().getTime(),
-  itemCode: {},
+  itemCode: '',
   itemName: '',
   itemType: '',
   lotNumber: '',
@@ -122,7 +122,7 @@ const WarehouseTransferForm = () => {
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
-          locatorId: +item?.locator?.locatorId,
+          locatorId: +item?.locator?.locatorId || null,
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
           debitAcc: '1519',
