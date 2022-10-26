@@ -57,6 +57,10 @@ export const GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED =
 export const RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE =
   'WMSX_RESET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_STATE'
 
+export const IMPORT_WAREHOUSE_START = 'IMPORT_WAREHOUSE_START'
+export const IMPORT_WAREHOUSE_SUCCESS = 'IMPORT_WAREHOUSE_SUCCESS'
+export const IMPORT_WAREHOUSE_FAILED = 'IMPORT_WAREHOUSE_FAILED'
+
 export function searchWarehouseImportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_IMPORT_RECEIPT_START,
@@ -247,6 +251,28 @@ export function resetWarehouseImportReceiptState() {
   }
 }
 
+export function importWarehouse(payload, onSuccess, onError) {
+  return {
+    type: IMPORT_WAREHOUSE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function importWarehouseSuccess(payload) {
+  return {
+    type: IMPORT_WAREHOUSE_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function importWarehouseFailed() {
+  return {
+    type: IMPORT_WAREHOUSE_FAILED,
+  }
+}
+
 export default {
   searchWarehouseImportReceipt,
   searchWarehouseImportReceiptSuccess,
@@ -273,4 +299,7 @@ export default {
   getAttribuiteBusinessTypeDetailsByIdSuccess,
   getAttribuiteBusinessTypeDetailsByIdFailed,
   resetWarehouseImportReceiptState,
+  importWarehouse,
+  importWarehouseSuccess,
+  importWarehouseFailed,
 }

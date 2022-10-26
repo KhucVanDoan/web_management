@@ -40,7 +40,8 @@
     "special": "Mục này không được chứa kí tự đặc biệt",
     "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
     "validTime": "Thời gian không hợp lệ",
-    "minItem": "Chọn tối thiểu {{min}} sản phẩm"
+    "minItem": "Chọn tối thiểu {{min}} sản phẩm",
+    "equalItem": "Nhập đủ {{quantity}}"
   },
   "toast": {
     "notificationTitle": "Thông báo",

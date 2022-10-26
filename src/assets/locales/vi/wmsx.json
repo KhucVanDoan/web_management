@@ -316,7 +316,8 @@
     "returnOrder": "Lệnh trả hàng",
     "returnOrderCreate": "Tạo lệnh trả hàng",
     "returnOrderEdit": "Sửa lệnh trả hàng",
-    "returnOrderDetail": "Chi tiết lệnh trả hàng"
+    "returnOrderDetail": "Chi tiết lệnh trả hàng",
+    "warehouseImportReceiveAndStorage": "Nhập kho & Cất hàng"
   },
   "locationSetting": {
     "title": "Danh sách thiết lập vị trí",
@@ -2919,8 +2920,11 @@
       "money": "Thành tiền",
       "price": "Đơn giá",
       "debitAcc": "TK ghi nợ",
-      "creditAcc": "TK ghi có"
-    }
+      "creditAcc": "TK ghi có",
+      "receivedQuantity": "SL thực nhập"
+    },
+    "receiveAndStorageBtn": "Nhập kho & Cất hàng",
+    "importedItemIsNotEnough": "Chưa nhập đủ vật tư"
   },
   "warehouseExportProposal": {
     "list": "Danh sách giấy đề nghị xuất vật tư",
