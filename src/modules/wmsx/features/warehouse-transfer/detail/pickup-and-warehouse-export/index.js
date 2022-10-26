@@ -95,6 +95,7 @@ const PickupAndWarehouseExport = () => {
       breadcrumbs={breadcrumbs}
       title={t('menu.pickupAndWarehouseExport')}
       onBack={backToList}
+      onSubmit={onSubmit}
       loading={isLoading}
     >
       <Formik

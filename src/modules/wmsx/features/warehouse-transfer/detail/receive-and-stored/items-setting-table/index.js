@@ -21,7 +21,6 @@ const ItemSettingTable = (props) => {
   const {
     data: { warehouseTransferDetails },
   } = useWarehouseTransfer()
-
   const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
     (item) => ({
       ...item?.item,
