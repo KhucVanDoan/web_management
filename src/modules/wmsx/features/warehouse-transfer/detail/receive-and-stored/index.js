@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
@@ -53,31 +53,35 @@ const ReceiveAndStored = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_TRANSFER.LIST.PATH)
   }
-  const initialValues = {
-    items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-      (item) => ({
-        itemCode:
-          {
-            itemId: item?.itemId,
-            id: item?.itemId,
-            ...item?.item,
-          } || null,
-        lotNumber: item?.lotNumber ? item?.lotNumber : '',
-        locator: !isEmpty(item?.locator)
-          ? {
-              ...item?.locator,
-              locatorId: item?.locatorId,
+  const initialValues = useMemo(
+    () => ({
+      items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+        (item) => ({
+          id: new Date().getTime(),
+          itemCode:
+            {
               itemId: item?.itemId,
-            }
-          : '',
-        itemName: item?.item?.name || '',
-        itemType: item?.item?.itemType?.name || '',
-        transferQuantity: +item?.planQuantity || '',
-        actualExportedQuantity: +item?.planQuantity || '',
-        inputedQuantity: item?.quantity || '',
-      }),
-    ),
-  }
+              id: item?.itemId,
+              ...item?.item,
+            } || null,
+          lotNumber: item?.lotNumber ? item?.lotNumber : null,
+          locator: !isEmpty(item?.locator)
+            ? {
+                ...item?.locator,
+                locatorId: item?.locatorId,
+                itemId: item?.itemId,
+              }
+            : '',
+          itemName: item?.item?.name || '',
+          itemType: item?.item?.itemType?.name || '',
+          transferQuantity: +item?.planQuantity || '',
+          actualExportedQuantity: +item?.planQuantity || '',
+          inputedQuantity: item?.quantity || '',
+        }),
+      ),
+    }),
+    [warehouseTransferDetails],
+  )
   const onSubmit = (values) => {
     const params = {
       items: values?.items?.map((item) => ({
@@ -106,7 +110,7 @@ const ReceiveAndStored = () => {
         enableReinitialize
         onSubmit={onSubmit}
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -224,6 +228,7 @@ const ReceiveAndStored = () => {
                     <ItemSettingTable
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                 />

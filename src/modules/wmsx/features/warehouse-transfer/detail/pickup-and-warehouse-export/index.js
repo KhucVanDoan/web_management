@@ -63,7 +63,7 @@ const PickupAndWarehouseExport = () => {
               ...item?.item,
             }
           : '',
-        lotNumber: item?.lotNumber || '',
+        lotNumber: item?.lotNumber || null,
         locator: !isEmpty(item?.locator)
           ? {
               ...item?.locator,
@@ -78,7 +78,6 @@ const PickupAndWarehouseExport = () => {
       }),
     ),
   }
-
   const onSubmit = (values) => {
     const params = {
       items: values?.items?.map((item) => ({
@@ -96,7 +95,6 @@ const PickupAndWarehouseExport = () => {
       breadcrumbs={breadcrumbs}
       title={t('menu.pickupAndWarehouseExport')}
       onBack={backToList}
-      onSubmit={onSubmit}
       loading={isLoading}
     >
       <Formik
@@ -105,9 +103,10 @@ const PickupAndWarehouseExport = () => {
           t,
           Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot),
         )}
+        onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -225,6 +224,7 @@ const PickupAndWarehouseExport = () => {
                     <ItemSettingTable
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                 />

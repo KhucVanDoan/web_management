@@ -88,7 +88,7 @@ const WarehouseTransferForm = () => {
         ? new Date(warehouseTransferDetails?.createdAt)
         : '',
       deliver: warehouseTransferDetails?.receiver || '',
-      explaination: warehouseTransferDetails?.explanation || '',
+      explanation: warehouseTransferDetails?.explanation || '',
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
         (item) => ({
           itemCode: {
@@ -118,7 +118,7 @@ const WarehouseTransferForm = () => {
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
-      explaination: values?.explaination || null,
+      explanation: values?.explanation || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
@@ -462,7 +462,7 @@ const WarehouseTransferForm = () => {
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
-                        name="explaination"
+                        name="explanation"
                         label={t('warehouseTransfer.explaination')}
                         placeholder={t('warehouseTransfer.explaination')}
                         inputProps={{
