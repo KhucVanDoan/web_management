@@ -129,6 +129,7 @@
     "warehouseExportReceiptCreate": "Tạo phiếu xuất kho",
     "warehouseExportReceiptEdit": "Sửa phiếu xuất kho",
     "warehouseExportReceiptDetail": "Chi tiết phiếu xuất kho",
+    "warehouseExportReceiptPickAndExport": "Lấy hàng & Xuất kho",
     "warehouseImportReceipt": "Phiếu nhập kho",
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",
@@ -2862,7 +2863,27 @@
       "debitAccount": "TK ghi nợ",
       "creditAccount": "TK ghi có",
       "suppliesList": "Danh sách vật tư",
-      "addSupplies": "Thêm vật tư"
+      "addSupplies": "Thêm vật tư",
+      "unit": "Đơn vị tính",
+      "quantityExportActual": "SL thực xuất",
+      "locator": "Vị trí"
+    },
+    "pickAndExport": {
+      "title": "Lấy hàng & Xuất kho",
+      "status": "Trạng thái",
+      "receiptId": "ID phiếu xuất WMS",
+      "createdAt": "Ngày lập phiếu",
+      "warehouseExportProposalCode": "Mã phiếu đề nghị xuất kho",
+      "nameOfReceiver": "Họ tên người nhận hàng",
+      "address": "Địa chỉ(Bộ phận)",
+      "exportInWarehouse": "Xuất tại kho",
+      "suorceAccountant": "Nguồn tài khoản kế toán",
+      "warehouseExportReason": "Lý do xuất kho",
+      "warehouseExportNumber": "Số phiếu xuất kho",
+      "deliverReceipt": "Phiếu giao hàng",
+      "explaination": "Diễn giải",
+      "construction": "Công trình",
+      "constructionItem": "Hạng mục"
     }
   },
   "warehouseImportReceipt": {

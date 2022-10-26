@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { FieldArray, Form, Formik } from 'formik'
 import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,7 +18,7 @@ import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseIm
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTableDetail from './item-setting-table'
+import ItemSettingTable from './item-setting-table'
 
 const breadcrumbs = [
   {
@@ -29,12 +29,12 @@ const breadcrumbs = [
     title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.TITLE,
   },
   {
-    route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH,
-    title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.TITLE,
+    route: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
+    title: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
   },
 ]
 
-function WarehouseExportReceiptDetail() {
+function WarehouseExportReceiptPickAndExport() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
   const { id } = useParams()
@@ -43,14 +43,24 @@ function WarehouseExportReceiptDetail() {
     [ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH]: MODAL_MODE.DETAIL,
   }
   const mode = MODE_MAP[routeMatch.path]
+
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
   } = useWarehouseExportReceipt()
+
   const {
     data: { attributesBusinessTypeDetails },
     actions: useWarehouseImportReceiptAction,
   } = useWarehouseImportReceipt()
+
+  const initialValues = useMemo(
+    () => ({
+      items: warehouseExportReceiptDetails?.saleOrderExportWarehouseLots,
+    }),
+    [warehouseExportReceiptDetails],
+  )
+
   useEffect(() => {
     actions.getWarehouseExportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -78,32 +88,22 @@ function WarehouseExportReceiptDetail() {
     history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH)
   }
 
-  const renderHeaderRight = () => {
+  const renderActionBar = (handleReset) => {
     return (
-      <Button
-        onClick={() =>
-          history.push(
-            ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
-              ':id',
-              `${id}`,
-            ),
-          )
-        }
-        sx={{ ml: 4 / 3 }}
-        icon="add"
-      >
-        {t('warehouseExportReceipt.pickAndExport.title')}
-      </Button>
+      <ActionBar
+        onBack={backToList}
+        onCancel={handleReset}
+        mode={MODAL_MODE.UPDATE}
+      />
     )
   }
 
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.warehouseExportReceiptDetail')}
+      title={t('warehouseExportReceipt.pickAndExport.title')}
       onBack={backToList}
       loading={isLoading}
-      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
@@ -239,18 +239,37 @@ function WarehouseExportReceiptDetail() {
             </Grid>
           </Grid>
           <Box sx={{ mt: 3 }}>
-            <ItemSettingTableDetail
-              items={
-                warehouseExportReceiptDetails?.saleOrderExportDetails || []
-              }
-              mode={mode}
-            />
+            <Formik
+              initialValues={initialValues}
+              // validationSchema={() => {}}
+              onSubmit={() => {}}
+              enableReinitialize
+            >
+              {({ handleReset, values, setFieldValue }) => {
+                return (
+                  <Form>
+                    <FieldArray
+                      name="items"
+                      render={(arrayHelpers) => (
+                        <ItemSettingTable
+                          items={values?.items || []}
+                          arrayHelpers={arrayHelpers}
+                          setFieldValue={setFieldValue}
+                          values={warehouseExportReceiptDetails}
+                          mode={mode}
+                        />
+                      )}
+                    />
+                    {renderActionBar(handleReset)}
+                  </Form>
+                )
+              }}
+            </Formik>
           </Box>
-          <ActionBar onBack={backToList} />
         </Grid>
       </Grid>
     </Page>
   )
 }
 
-export default WarehouseExportReceiptDetail
+export default WarehouseExportReceiptPickAndExport
