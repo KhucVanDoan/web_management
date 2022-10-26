@@ -22,6 +22,9 @@
     "validCode": "Mã chỉ gồm chữ và số, ít nhất 1 chữ và 1 số",
     "minNumber": "Giá trị tối thiểu là {{min}}",
     "maxNumber": "Không được nhập quá {{max}}",
+    "maxQuantityStock": "Không được nhập quá số lượng tồn kho là {{max}}",
+    "totalExportedQuantity": "Tổng số lượng xuất phải bằng số lượng chuyển là {{exportQuantity}}",
+    "totalInputedQuantity": "Tổng số lượng nhập phải bằng số lượng chuyển là {{inputQuantity}}",
     "moreThanNumber": "Giá trị phải lớn hơn {{min}}",
     "duplicates": "Mục này không được trùng lặp",
     "dateRange": "Ngày phải thuộc khoảng từ {{from}} đến {{to}}",
@@ -40,7 +43,8 @@
     "special": "Mục này không được chứa kí tự đặc biệt",
     "invalidBreakTime": "Thời gian nghỉ phải thuộc khoảng thời gian làm việc của ca",
     "validTime": "Thời gian không hợp lệ",
-    "minItem": "Chọn tối thiểu {{min}} sản phẩm"
+    "minItem": "Chọn tối thiểu {{min}} sản phẩm",
+    "equalItem": "Nhập đủ {{quantity}}"
   },
   "toast": {
     "notificationTitle": "Thông báo",

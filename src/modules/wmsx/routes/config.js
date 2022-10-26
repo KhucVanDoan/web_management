@@ -526,6 +526,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-receipt/:id/detail',
       TITLE: 'warehouseExportReceiptDetail',
     },
+    PICK_AND_EXPORT: {
+      PATH: '/wms/warehouse-export-receipt/:id/pick-and-export',
+      TITLE: 'warehouseExportReceiptPickAndExport',
+    },
   },
   WAREHOUSE_IMPORT_RECEIPT: {
     LIST: {
@@ -543,6 +547,10 @@ export const ROUTE = {
     DETAIL: {
       PATH: '/wms/warehouse-import-receipt/:id/detail',
       TITLE: 'warehouseImportReceiptDetail',
+    },
+    RECEIVE_AND_STORAGE: {
+      PATH: '/wms/warehouse-import-receipt/:id/receive-and-storage',
+      TITLE: 'warehouseImportReceiveAndStorage',
     },
   },
   WAREHOUSE_EXPORT: {

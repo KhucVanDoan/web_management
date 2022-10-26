@@ -129,6 +129,7 @@
     "warehouseExportReceiptCreate": "Tạo phiếu xuất kho",
     "warehouseExportReceiptEdit": "Sửa phiếu xuất kho",
     "warehouseExportReceiptDetail": "Chi tiết phiếu xuất kho",
+    "warehouseExportReceiptPickAndExport": "Lấy hàng & Xuất kho",
     "warehouseImportReceipt": "Phiếu nhập kho",
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",
@@ -316,7 +317,8 @@
     "returnOrder": "Lệnh trả hàng",
     "returnOrderCreate": "Tạo lệnh trả hàng",
     "returnOrderEdit": "Sửa lệnh trả hàng",
-    "returnOrderDetail": "Chi tiết lệnh trả hàng"
+    "returnOrderDetail": "Chi tiết lệnh trả hàng",
+    "warehouseImportReceiveAndStorage": "Nhập kho & Cất hàng"
   },
   "locationSetting": {
     "title": "Danh sách thiết lập vị trí",
@@ -2862,7 +2864,27 @@
       "debitAccount": "TK ghi nợ",
       "creditAccount": "TK ghi có",
       "suppliesList": "Danh sách vật tư",
-      "addSupplies": "Thêm vật tư"
+      "addSupplies": "Thêm vật tư",
+      "unit": "Đơn vị tính",
+      "quantityExportActual": "SL thực xuất",
+      "locator": "Vị trí"
+    },
+    "pickAndExport": {
+      "title": "Lấy hàng & Xuất kho",
+      "status": "Trạng thái",
+      "receiptId": "ID phiếu xuất WMS",
+      "createdAt": "Ngày lập phiếu",
+      "warehouseExportProposalCode": "Mã phiếu đề nghị xuất kho",
+      "nameOfReceiver": "Họ tên người nhận hàng",
+      "address": "Địa chỉ(Bộ phận)",
+      "exportInWarehouse": "Xuất tại kho",
+      "suorceAccountant": "Nguồn tài khoản kế toán",
+      "warehouseExportReason": "Lý do xuất kho",
+      "warehouseExportNumber": "Số phiếu xuất kho",
+      "deliverReceipt": "Phiếu giao hàng",
+      "explaination": "Diễn giải",
+      "construction": "Công trình",
+      "constructionItem": "Hạng mục"
     }
   },
   "warehouseImportReceipt": {
@@ -2919,8 +2941,11 @@
       "money": "Thành tiền",
       "price": "Đơn giá",
       "debitAcc": "TK ghi nợ",
-      "creditAcc": "TK ghi có"
-    }
+      "creditAcc": "TK ghi có",
+      "receivedQuantity": "SL thực nhập"
+    },
+    "receiveAndStorageBtn": "Nhập kho & Cất hàng",
+    "importedItemIsNotEnough": "Chưa nhập đủ vật tư"
   },
   "warehouseExportProposal": {
     "list": "Danh sách giấy đề nghị xuất vật tư",

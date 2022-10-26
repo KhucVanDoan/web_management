@@ -4,7 +4,6 @@ import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
@@ -13,10 +12,9 @@ import Icon from '~/components/Icon'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items } = props
+  const { mode, arrayHelpers, items, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const { id } = useParams()
   const {
     data: { warehouseTransferDetails, itemStockAvailabe },
     actions,
@@ -24,15 +22,33 @@ const ItemSettingTable = (props) => {
   useEffect(() => {
     if (!isEmpty(warehouseTransferDetails)) {
       const params = {
-        items: items?.map((item) => ({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
-          lotNumber: item?.lotNumber,
-        })),
+        items: warehouseTransferDetails?.warehouseTransferDetailLots?.map?.(
+          (item) => ({
+            itemId: item?.itemId,
+            warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
+            lotNumber: item?.lotNumber || null,
+          }),
+        ),
       }
       actions.getItemWarehouseStockAvailable(params)
     }
-  }, [id])
+  }, [warehouseTransferDetails])
+  const handleChangItem = (val, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) => item?.itemId === val?.itemId,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
+  const handleChangLotNumber = (val, params, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) =>
+          item?.itemId === params?.row?.itemCode?.itemId &&
+          item?.lotNumber === val,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
   const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
     (item) => ({
       ...item?.item,
@@ -66,6 +82,7 @@ const ItemSettingTable = (props) => {
               options={itemList}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionLabel={(opt) => opt?.code}
+              onChange={(val) => handleChangItem(val, index)}
               required
             />
           )
@@ -113,6 +130,7 @@ const ItemSettingTable = (props) => {
               options={lotNumberList}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              onChange={(val) => handleChangLotNumber(val, params, index)}
               disabled={
                 !Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot)
               }
@@ -151,7 +169,29 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.exportedQuantity'),
         width: 180,
         renderCell: (params, index) => {
-          return <Field.TextField name={`items[${index}].ExportedQuantity`} />
+          return (
+            <Field.TextField
+              name={`items[${index}].ExportedQuantity`}
+              type="number"
+              validate={(val) => {
+                const totalExportedQuantity = items
+                  .filter(
+                    (item) =>
+                      item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                      item?.id !== params?.row?.id,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.ExportedQuantity), 0)
+                if (
+                  totalExportedQuantity + Number(val) !==
+                  params?.row?.transferQuantity
+                ) {
+                  return t('general:form.totalExportedQuantity', {
+                    exportQuantity: params?.row?.transferQuantity,
+                  })
+                }
+              }}
+            />
+          )
         },
       },
       {
