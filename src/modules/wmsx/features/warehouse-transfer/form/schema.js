@@ -17,24 +17,38 @@ const warehouseTranferSchema = (t) =>
       .required(t('general:form.required'))
       .test(
         'isNotSameAsSourceWarehouseId',
-        t('warehouseTransfer.destinationWarehouseMustBeDiferenceWithSourceWarehouse'),
+        t(
+          'warehouseTransfer.destinationWarehouseMustBeDiferenceWithSourceWarehouse',
+        ),
         (value, context) => {
           const { sourceWarehouseId } = context.parent
-          return (sourceWarehouseId && value && sourceWarehouseId?.id !== value?.id) ||
-            !sourceWarehouseId || !value
-        }
+          return (
+            (sourceWarehouseId &&
+              value &&
+              sourceWarehouseId?.id !== value?.id) ||
+            !sourceWarehouseId ||
+            !value
+          )
+        },
       ),
     sourceWarehouseId: Yup.object()
       .nullable()
       .required(t('general:form.required'))
       .test(
         'isNotSameAsDestinationWarehouseId',
-        t('warehouseTransfer.sourceWarehouseMustBeDiferenceWithDestinationWarehouse'),
+        t(
+          'warehouseTransfer.sourceWarehouseMustBeDiferenceWithDestinationWarehouse',
+        ),
         (value, context) => {
           const { destinationWarehouseId } = context.parent
-          return (destinationWarehouseId && value && destinationWarehouseId?.id !== value?.id) ||
-            !destinationWarehouseId || !value
-        }
+          return (
+            (destinationWarehouseId &&
+              value &&
+              destinationWarehouseId?.id !== value?.id) ||
+            !destinationWarehouseId ||
+            !value
+          )
+        },
       ),
     // deliver: Yup.string().nullable().required(t('general:form.required')),
     items: Yup.array().of(

@@ -33,7 +33,7 @@ import {
 } from '~/utils'
 
 import FilterForm from './filter-form'
-
+import QuickFilter from './filter-quick-form'
 const breadcrumbs = [
   {
     route: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.LIST.PATH,
@@ -51,6 +51,10 @@ function WarehouseExportProposal() {
     createTime: [],
   }
 
+  const DEFAULT_QUICK_FILTERS = {
+    time: '',
+    statusWarehouseExport: '',
+  }
   const {
     page,
     pageSize,
@@ -62,8 +66,11 @@ function WarehouseExportProposal() {
     setSort,
     setFilters,
     setKeyword,
+    quickFilters,
+    setQuickFilters,
   } = useQueryState({
     filters: DEFAULT_FILTERS,
+    quickFilters: DEFAULT_QUICK_FILTERS,
   })
 
   const {
@@ -332,23 +339,6 @@ function WarehouseExportProposal() {
       </>
     )
   }
-  // const data = [
-  //   {
-  //     id: 1,
-  //     unit: 'hi',
-  //     status: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     unit: 'hi',
-  //     status: 2,
-  //   },
-  //   {
-  //     id: 3,
-  //     unit: 'hi',
-  //     status: 0,
-  //   },
-  // ]
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -358,6 +348,11 @@ function WarehouseExportProposal() {
       renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
+      <QuickFilter
+        setQuickFilters={setQuickFilters}
+        quickFilters={quickFilters}
+        defaultFilter={DEFAULT_QUICK_FILTERS}
+      />
       <DataTable
         title={t('warehouseExportProposal.list')}
         rows={warehouseExportProposalList}

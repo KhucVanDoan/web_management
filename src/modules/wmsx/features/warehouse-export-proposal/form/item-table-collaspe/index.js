@@ -339,7 +339,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.warehouse ? (
-          params?.row?.warehouse
+          params?.row?.warehouse?.name
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}

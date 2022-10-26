@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -20,6 +21,7 @@ import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfe
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import ItemSettingTable from './items-setting-table'
+import { formSchema } from './schema'
 const ReceiveAndStored = () => {
   const breadcrumbs = [
     {
@@ -54,22 +56,25 @@ const ReceiveAndStored = () => {
   const initialValues = {
     items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
       (item) => ({
-        itemCode: {
-          itemId: item?.itemId,
-          id: item?.itemId,
-          ...item?.item,
-        },
-        lotNumber: item?.lotNumber,
-        locator: {
-          ...item?.locator,
-          locatorId: item?.locatorId,
-          itemId: item?.itemId,
-        },
-        itemName: item?.item?.name,
-        itemType: item?.item?.itemType?.name,
-        transferQuantity: +item?.planQuantity,
-        actualExportedQuantity: +item?.planQuantity,
-        inputedQuantity: item?.quantity,
+        itemCode:
+          {
+            itemId: item?.itemId,
+            id: item?.itemId,
+            ...item?.item,
+          } || null,
+        lotNumber: item?.lotNumber ? item?.lotNumber : '',
+        locator: !isEmpty(item?.locator)
+          ? {
+              ...item?.locator,
+              locatorId: item?.locatorId,
+              itemId: item?.itemId,
+            }
+          : '',
+        itemName: item?.item?.name || '',
+        itemType: item?.item?.itemType?.name || '',
+        transferQuantity: +item?.planQuantity || '',
+        actualExportedQuantity: +item?.planQuantity || '',
+        inputedQuantity: item?.quantity || '',
       }),
     ),
   }
@@ -94,8 +99,12 @@ const ReceiveAndStored = () => {
     >
       <Formik
         initialValues={initialValues}
-        // validationSchema={warehouseTranferSchema(t)}
+        validationSchema={formSchema(
+          t,
+          Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot),
+        )}
         enableReinitialize
+        onSubmit={onSubmit}
       >
         {({ values }) => {
           return (
@@ -227,7 +236,7 @@ const ReceiveAndStored = () => {
                       <Icon name="print" mr={1} />
                       {t(`warehouseTransfer.printReceipt`)}
                     </Button>
-                    <Button onClick={() => onSubmit(values)}>
+                    <Button type="submit">
                       <Icon name="confirm" mr={1} />
                       {t(`warehouseTransfer.confirmWarehouseImport`)}
                     </Button>
