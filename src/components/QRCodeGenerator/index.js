@@ -23,7 +23,7 @@ export const QRCodeGenerator = ({ value, sx, size }) => {
         img: {
           width: size,
         },
-        display: 'inline-block',
+        display: 'inline-flex',
         background: '#FFF',
         border: `1px solid ${theme.palette.grayF4.main}`,
         boxShadow: '0px 8px 8px rgba(102, 102, 102, 0.05)',
