@@ -548,6 +548,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-import-receipt/:id/detail',
       TITLE: 'warehouseImportReceiptDetail',
     },
+    RECEIVE_AND_STORAGE: {
+      PATH: '/wms/warehouse-import-receipt/:id/receive-and-storage',
+      TITLE: 'warehouseImportReceiveAndStorage',
+    },
   },
   WAREHOUSE_EXPORT: {
     LIST: {

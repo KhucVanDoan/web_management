@@ -7,6 +7,7 @@ import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -45,10 +46,12 @@ function WarehouseImportReceiptDetail() {
     },
     actions,
   } = useWarehouseImportReceipt()
+
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH]: MODAL_MODE.DETAIL,
   }
   const mode = MODE_MAP[routeMatch.path]
+
   useEffect(() => {
     actions.getWarehouseImportReceiptDetailsById(id, (data) => {
       const attributes = data?.attributes?.filter((e) => e?.tableName)
@@ -69,8 +72,28 @@ function WarehouseImportReceiptDetail() {
       actions.resetWarehouseImportReceiptState()
     }
   }, [id])
+
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
+  }
+
+  const renderHeaderRight = () => {
+    return (
+      <>
+        <Button
+          onClick={() =>
+            history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH.replace(
+              ':id',
+              `${id}`,
+            ))
+          }
+          sx={{ ml: 4 / 3 }}
+          icon="add"
+        >
+          {t('warehouseImportReceipt.receiveAndStorageBtn')}
+        </Button>
+      </>
+    )
   }
 
   return (
@@ -78,6 +101,7 @@ function WarehouseImportReceiptDetail() {
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseImportReceiptDetail')}
       onBack={backToList}
+      renderHeaderRight={renderHeaderRight}
       loading={isLoading}
     >
       <Grid container justifyContent="center">
