@@ -156,7 +156,6 @@ function MaterialManagementForm() {
   }
 
   const addSeperators = (str, mask) => {
-    // const rawStr = str.replace(/[^\d]/g, '')
     const chars = str.split('')
     let count = 0
 
@@ -175,21 +174,21 @@ function MaterialManagementForm() {
     return formatted
   }
 
-  const handleKeyDown = (e) => {
-    if (
-      /[^\d]/g.test(e?.key) &&
-      !['Enter', 'Backspace', 'ArrowLeft', 'ArrowRight'].includes(e?.key)
-    ) {
-      e.preventDefault()
-    }
+  const handleChangeCode = (val = '', setFieldValue) => {
+    setFieldValue(
+      'code',
+      addSeperators(
+        val.replace(TEXTFIELD_ALLOW.ALPHANUMERIC, ''),
+        '#.##.##.###.###.##.###',
+      ),
+    )
   }
 
-  const handleChangeCode = (val, setFieldValue) => {
-    setFieldValue('code', addSeperators(val, '#.##.##.###.###.##.###'))
-  }
-
-  const handleChangeNormalizeCode = (val, setFieldValue) => {
-    setFieldValue('normalizeCode', addSeperators(val, '#.##.##.###'))
+  const handleChangeNormalizeCode = (val = '', setFieldValue) => {
+    setFieldValue(
+      'normalizeCode',
+      addSeperators(val.replace(TEXTFIELD_ALLOW.NUMERIC, ''), '#.##.##.###'),
+    )
   }
 
   const renderActionBar = (handleReset) => {
@@ -263,9 +262,7 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
                       required
-                      onKeyDown={handleKeyDown}
                       onInput={(val) => {
                         handleChangeCode(val, setFieldValue)
                       }}
@@ -290,8 +287,6 @@ function MaterialManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
                       }}
-                      required
-                      onKeyDown={handleKeyDown}
                       onInput={(val) => {
                         handleChangeNormalizeCode(val, setFieldValue)
                       }}
