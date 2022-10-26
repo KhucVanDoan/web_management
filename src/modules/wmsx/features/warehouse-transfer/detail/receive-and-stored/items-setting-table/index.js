@@ -1,37 +1,27 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
+import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items } = props
+  const { mode, arrayHelpers, items, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
 
   const {
-    data: { warehouseTransferDetails, itemStockAvailabe },
-    actions,
+    data: { warehouseTransferDetails },
   } = useWarehouseTransfer()
-  useEffect(() => {
-    if (!isEmpty(warehouseTransferDetails)) {
-      const params = {
-        items: items?.map((item) => ({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
-          lotNumber: item?.lotNumber,
-        })),
-      }
-      actions.getItemWarehouseStockAvailable(params)
-    }
-  }, [])
+
   const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
     (item) => ({
       ...item?.item,
@@ -44,7 +34,22 @@ const ItemSettingTable = (props) => {
       itemId: item?.itemId,
     }),
   )
-
+  const handleChangItem = (val, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) => item?.itemId === val?.itemId,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
+  const handleChangLotNumber = (val, params, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) =>
+          item?.itemId === params?.row?.itemCode?.itemId &&
+          item?.lotNumber === val,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
   const getColumns = () => {
     return [
       {
@@ -66,6 +71,7 @@ const ItemSettingTable = (props) => {
               options={itemList}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionLabel={(opt) => opt?.code}
+              onChange={(val) => handleChangItem(val, index)}
               required
             />
           )
@@ -114,6 +120,7 @@ const ItemSettingTable = (props) => {
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
+              onChange={(val) => handleChangLotNumber(val, params, index)}
               disabled={
                 !Boolean(
                   warehouseTransferDetails?.destinationWarehouse?.manageByLot,
@@ -130,6 +137,32 @@ const ItemSettingTable = (props) => {
                   }
                 }
               }}
+            />
+          )
+        },
+      },
+      {
+        field: 'locator',
+        headerName: t('warehouseTransfer.table.locatorStored'),
+        width: 200,
+        renderCell: (params, index) => {
+          return (
+            <Field.Autocomplete
+              name={`items[${index}].locator`}
+              asyncRequest={(s) =>
+                searchLocationsApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    status: ACTIVE_STATUS.ACTIVE,
+                    rootId: warehouseTransferDetails?.destinationWarehouse?.id,
+                  }),
+                })
+              }
+              asyncRequestHelper={(res) => res?.data?.items}
+              getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             />
           )
         },
@@ -166,35 +199,32 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.inputedQuantity'),
         width: 180,
         renderCell: (params, index) => {
-          return <Field.TextField name={`items[${index}].inputedQuantity`} />
-        },
-      },
-      {
-        field: 'locator',
-        headerName: t('warehouseTransfer.table.locatorStored'),
-        width: 200,
-        renderCell: (params, index) => {
-          const { itemCode } = params?.row
-          const locationList = itemStockAvailabe
-            ?.find(
-              (item) =>
-                item?.itemId === params?.row?.itemCode?.itemId &&
-                item?.itemAvailables?.length > 0,
-            )
-            ?.itemAvailables?.map((item) => ({
-              ...item,
-              code: item?.locator?.code,
-            }))
           return (
-            <Field.Autocomplete
-              name={`items[${index}].locator`}
-              options={locationList}
-              disabled={isEmpty(itemCode)}
-              getOptionLabel={(opt) => opt?.code}
+            <Field.TextField
+              name={`items[${index}].inputedQuantity`}
+              type="number"
+              validate={(val) => {
+                const totalInputedQuantity = items
+                  .filter(
+                    (item) =>
+                      item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                      item?.id !== params?.row?.id,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.inputedQuantity), 0)
+                if (
+                  totalInputedQuantity + Number(val) >
+                  params?.row?.transferQuantity
+                ) {
+                  return t('general:form.totalInputedQuantity', {
+                    inputQuantity: params?.row?.transferQuantity,
+                  })
+                }
+              }}
             />
           )
         },
       },
+
       {
         field: 'itemCodeWarehouseImp',
         headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
