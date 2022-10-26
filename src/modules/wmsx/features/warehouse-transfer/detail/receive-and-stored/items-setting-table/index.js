@@ -15,8 +15,6 @@ const ItemSettingTable = (props) => {
   const { mode, arrayHelpers, items } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const itemList = []
-  const lots = []
 
   const {
     data: { warehouseTransferDetails, itemStockAvailabe },
@@ -27,49 +25,26 @@ const ItemSettingTable = (props) => {
       const params = {
         items: items?.map((item) => ({
           itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
+          warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
           lotNumber: item?.lotNumber,
         })),
       }
       actions.getItemWarehouseStockAvailable(params)
     }
-  }, [items])
-  items
-    ?.filter((e) => !isEmpty(e?.itemCode))
-    ?.forEach((item) => {
-      const findLots = lots?.find(
-        (e) =>
-          e?.itemId === item?.itemCode?.itemId &&
-          e?.lotNumber === item?.lotNumber,
-      )
-      if (isEmpty(findLots)) {
-        lots.push({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          lotNumber: item?.lotNumber,
-          locatorId: item?.locator?.locatorId,
-        })
-      }
-      // const findLocator = locators?.find(
-      //   (e) =>
-      //     e?.itemId === item?.itemCode?.itemId &&
-      //     e?.locatorId === item?.locator?.locatorId,
-      // )
-      // if (isEmpty(findLocator)) {
-      //   locators.push({
-      //     itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-      //     locatorId: item?.locator?.locatorId,
-      //     lotNumber: item?.lotNumber,
-      //     code: item?.locator?.code,
-      //     name: item?.locator?.name,
-      //   })
-      // }
-      const findItem = itemList?.find(
-        (e) => e?.itemId === item?.itemCode?.itemId,
-      )
-      if (isEmpty(findItem)) {
-        itemList.push(item?.itemCode)
-      }
-    })
+  }, [])
+  const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      ...item?.item,
+      itemId: item?.itemId,
+    }),
+  )
+  const lots = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      lotNumber: item?.lotNumber,
+      itemId: item?.itemId,
+    }),
+  )
+
   const getColumns = () => {
     return [
       {
@@ -139,7 +114,22 @@ const ItemSettingTable = (props) => {
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
-              disabled={!Boolean(warehouseTransferDetails?.manageByLot)}
+              disabled={
+                !Boolean(
+                  warehouseTransferDetails?.destinationWarehouse?.manageByLot,
+                )
+              }
+              validate={(val) => {
+                if (
+                  Boolean(
+                    warehouseTransferDetails?.destinationWarehouse?.manageByLot,
+                  )
+                ) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },
@@ -182,7 +172,7 @@ const ItemSettingTable = (props) => {
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locatorStored'),
-        width: 150,
+        width: 200,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locationList = itemStockAvailabe
@@ -314,10 +304,13 @@ const ItemSettingTable = (props) => {
             onClick={() => {
               arrayHelpers.push({
                 id: new Date().getTime(),
-                itemName: '',
+                itemCode: null,
+                itemName: null,
                 itemUnit: '',
+                locator: '',
+                lotNumber: '',
                 packageId: '',
-                planQuantity: 1,
+                inputedQuantity: '',
               })
             }}
           >
