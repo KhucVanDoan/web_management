@@ -2965,6 +2965,7 @@
     "nameAddressOfRecipient": "Tên và địa chỉ người lĩnh",
     "createdAt": "Ngày lập phiếu",
     "createdAtPaper": "Ngày lập giấy",
+    "attachment": "Tệp đính kèm",
     "votes": "Số phiếu",
     "construction": "Công trình",
     "category": "Hạng mục",
@@ -2982,8 +2983,8 @@
     "nameMaterialCode": "Tên vật tư cần cấp mã",
     "items": {
       "STT": "STT",
-      "suppliesCode": "Mã vật tư",
-      "suppliesName": "Tên vật tư",
+      "suppliesCode": "Mã vật tư yêu cầu",
+      "suppliesName": "Tên vật tư yêu cầu",
       "lotNumber": "Số lô",
       "quantityRequest": "SL yêu cầu",
       "quantityExport": "SL xuất",
@@ -2999,7 +3000,7 @@
       "quantityExportActual": "SL thực xuất",
       "importedQuantity": "SL cần mua",
       "dayUpdate": "Ngày cập nhật",
-      "supplyCode": "Cấp mã vật tu",
+      "supplyCode": "Cấp mã vật tư?",
       "suppliesType": "Phân loại vật tư",
       "categorySubject": "Danh mục đối tượng",
       "suppliesNameNeedGrantCode": "Tên vật tư cần cấp mã",
@@ -3124,8 +3125,10 @@
       "rejected": "Từ chối",
       "confirmed": "Xác nhận",
       "exported": "Xuất kho",
+      "exporting": "Đang lấy hàng",
       "received": "Lấy hàng",
       "inStoring": "cất hàng",
+      "incollecting": "Đang cất hàng",
       "inProgress": "Đang thực hiện"
     },
     "table": {

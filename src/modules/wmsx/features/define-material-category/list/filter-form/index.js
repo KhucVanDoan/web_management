@@ -25,7 +25,6 @@ const FilterForm = () => {
           label={t('defineMaterialCategory.materialName')}
           placeholder={t('defineMaterialCategory.materialName')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>
@@ -34,7 +33,6 @@ const FilterForm = () => {
           label={t('defineMaterialCategory.mainGroupCode')}
           placeholder={t('defineMaterialCategory.mainGroupCode')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>
@@ -43,7 +41,6 @@ const FilterForm = () => {
           label={t('defineMaterialCategory.mainGroupName')}
           placeholder={t('defineMaterialCategory.mainGroupName')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>
@@ -52,7 +49,6 @@ const FilterForm = () => {
           label={t('defineMaterialCategory.subGroupCode')}
           placeholder={t('defineMaterialCategory.subGroupCode')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>
@@ -61,7 +57,6 @@ const FilterForm = () => {
           label={t('defineMaterialCategory.subGroupName')}
           placeholder={t('defineMaterialCategory.subGroupName')}
           inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX }}
-          allow={TEXTFIELD_ALLOW.EXCEPT_SPECIALS}
         />
       </Grid>
       <Grid item xs={12}>

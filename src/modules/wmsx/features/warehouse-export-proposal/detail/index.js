@@ -18,6 +18,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from '../form/item-setting-table'
 import ItemTableCollaspe from '../form/item-table-collaspe'
@@ -84,7 +85,8 @@ function WarehouseExportProposalDetail() {
         ? item?.childrens?.map((childrens) => ({
             id: childrens?.id,
             itemCode: childrens?.itemCode || null,
-            itemName: childrens?.itemName || null,
+            itemName:
+              childrens?.itemName || childrens?.itemResponse?.name || null,
             itemId: childrens?.itemId,
             unit: childrens?.itemResponse?.itemUnit?.name,
             lotNumbers: childrens?.lotNumber,
@@ -176,7 +178,9 @@ function WarehouseExportProposalDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportProposal.createAt')}
-                value={warehouseExportProposalDetails?.createdAt}
+                value={convertUtcDateToLocalTz(
+                  warehouseExportProposalDetails?.createdAt,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -212,7 +216,9 @@ function WarehouseExportProposalDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportProposal.createdAtPaper')}
-                value={warehouseExportProposalDetails?.receiptDate}
+                value={convertUtcDateToLocalTz(
+                  warehouseExportProposalDetails?.receiptDate,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
