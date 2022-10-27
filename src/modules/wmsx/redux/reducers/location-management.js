@@ -91,7 +91,7 @@ export default function locationManagement(state = initialState, action) {
     case GET_ITEM_BY_LOCATION_ID_SUCCESS:
       return {
         ...state,
-        itemByLocationIdList: action.payload,
+        itemByLocationIdList: action.payload.items,
         isLoading: false,
       }
     case GET_ITEM_BY_LOCATION_ID_FAILED:
