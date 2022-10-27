@@ -1,22 +1,39 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 
 import { IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { isEmpty, uniqBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
-import { convertFilterParams } from '~/utils'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
-const ItemSettingTable = ({ items, arrayHelpers, values }) => {
+const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
   const { t } = useTranslation(['wmsx'])
-  const itemList = values?.saleOrderExportWarehouseLots?.map(
-    (detail) => detail?.item,
-  )
+
+  const {
+    data: { itemStockAvailabe },
+    actions,
+  } = useWarehouseTransfer()
+
+  useEffect(() => {
+    if (!isEmpty(lots)) {
+      const params = {
+        items: lots?.map?.(
+          (lot) => ({
+            itemId: lot.itemId,
+            warehouseId: lot.warehouseId,
+            lotNumber: lot.lotNumber || null,
+          }),
+        ),
+      }
+      actions.getItemWarehouseStockAvailable(params)
+    }
+  }, [lots])
+
   const columns = useMemo(
     () => [
       {
@@ -37,7 +54,9 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
               name={`items[${index}].item`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
               options={itemList}
-              getOptionLabel={(opt) => opt?.code}
+              getOptionLabel={(opt) => opt?.item?.code || ''}
+              getOptionSubLabel={(opt) => opt?.item?.name || ''}
+              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               required
             />
           )
@@ -47,17 +66,33 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
         field: 'itemName',
         headerName: t('warehouseExportReceipt.items.suppliesName'),
         width: 250,
-        renderCell: (params, index) => {
-          return <Field.TextField name={`items[${index}].item.name`} disabled />
+        renderCell: (params) => {
+          return params?.row?.item?.item?.name
         },
       },
       {
         field: 'unit',
         headerName: t('warehouseExportReceipt.unit'),
         width: 150,
+        renderCell: (params) => {
+          return params?.row?.item?.item?.itemUnit
+        },
+      },
+      {
+        field: 'lotNumber',
+        headerName: t('warehouseExportReceipt.items.lotNumber'),
+        width: 250,
         renderCell: (params, index) => {
+          const lotNumbersOfItem = lots?.filter(lot => lot.itemId === params?.row?.item?.itemId)
           return (
-            <Field.TextField name={`items[${index}].item.itemUnit`} disabled />
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              dropdownWidth={250}
+              options={lotNumbersOfItem}
+              getOptionLabel={(opt) => opt?.lotNumber || ''}
+              required
+              disabled={lotNumbersOfItem.some(lot => !lot.lotNumber)}
+            />
           )
         },
       },
@@ -65,41 +100,37 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
         field: 'quantityRequest',
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].item.quantityRequest`}
-              disabled
-              required
-            />
-          )
+        renderCell: (params) => {
+          return params?.row?.lotNumber?.requestedQuantity
         },
       },
       {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
-        renderCell: (params, index) => {
-          return (
-            <Field.TextField
-              name={`items[${index}].quantity`}
-              numberProps={{
-                thousandSeparator: true,
-                decimalScale: 2,
-              }}
-              disabled
-            />
-          )
+        renderCell: (params) => {
+          return params?.row?.lotNumber?.quantity || params?.row?.item?.quantity
         },
       },
       {
-        field: 'quantityExportActual',
+        field: 'exportedQuantity',
         headerName: t('warehouseExportReceipt.items.quantityExportActual'),
         width: 150,
         renderCell: (params, index) => {
           return (
             <Field.TextField
-              name={`items[${index}].quantityExportActual`}
+              name={`items[${index}].exportedQuantity`}
+              validate={(val) => {
+                const exportPlanQuantity = params?.row?.lotNumber?.quantity || params?.row?.item?.quantity
+                const comparedQuantity = params?.row?.lotNumber?.requestedQuantity
+                  ? Math.min(params?.row?.lotNumber?.requestedQuantity, exportPlanQuantity)
+                  : exportPlanQuantity
+                if (Number(val) > comparedQuantity) {
+                  return t('general:form.maxNumber', {
+                    max: comparedQuantity
+                  })
+                }
+              }}
               required
             />
           )
@@ -110,22 +141,24 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
         headerName: t('warehouseExportReceipt.items.locator'),
         width: 250,
         renderCell: (params, index) => {
+          const locationList = uniqBy(itemStockAvailabe
+            ?.find(
+              (item) =>
+                item?.itemId === params?.row?.item?.itemId &&
+                item?.itemAvailables?.length > 0,
+            )
+            ?.itemAvailables?.map((item) => ({
+              ...item,
+              code: item?.locator?.code,
+              name: item?.locator?.name,
+            })), 'code')
+
           return (
             <Field.Autocomplete
               name={`items[${index}].locator`}
-              placeholder={t('warehouseExportReceipt.items.locator')}
-              asyncRequest={(s) =>
-                searchLocationsApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                  filter: convertFilterParams({
-                    warehouseId: params.row?.warehouseId,
-                  }),
-                })
-              }
-              asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.name}
-              asyncRequestDeps={params.row?.warehouseId}
+              dropdownWidth={250}
+              options={locationList}
+              getOptionLabel={(opt) => opt?.code || opt?.name}
               required
             />
           )
@@ -171,7 +204,7 @@ const ItemSettingTable = ({ items, arrayHelpers, values }) => {
               item: '',
               unit: '',
               quantityRequest: '',
-              quantityExport: '',
+              exportedQuantity: '',
             })
           }}
           disabled={items?.length === 10}
