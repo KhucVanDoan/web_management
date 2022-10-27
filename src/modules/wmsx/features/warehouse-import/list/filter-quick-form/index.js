@@ -7,7 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
+import {
+  MOVEMENT_IMPORT_TYPE_OPTIONS,
+  WAREHOUSE_IMPORT_TYPE_OPTIONS,
+} from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const WarehouseImportFilter = ({
@@ -58,22 +61,25 @@ const WarehouseImportFilter = ({
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="movementType"
-                      label={t('movements.importExport.orderType')}
-                      placeholder={t('movements.importExport.orderType')}
-                      asyncRequest={(s) =>
-                        searchBusinessTypesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
+                      name="receiptType"
+                      label={t('movements.importExport.receiptType')}
+                      placeholder={t('movements.importExport.receiptType')}
+                      options={WAREHOUSE_IMPORT_TYPE_OPTIONS}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
-
                   <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="movementType"
+                      label={t('movements.importExport.movementType')}
+                      placeholder={t('movements.importExport.movementType')}
+                      options={MOVEMENT_IMPORT_TYPE_OPTIONS}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => t(opt?.text)}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <Button
                         color="grayF4"

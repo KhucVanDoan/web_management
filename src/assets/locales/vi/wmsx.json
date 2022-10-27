@@ -1181,7 +1181,8 @@
     "formTitle": "Phiếu giao dịch",
     "tableTitle": "Danh sách giao dịch",
     "code": "Mã phiếu xuất",
-    "warehouseName": "Kho xuất"
+    "warehouseName": "Kho xuất",
+    "searchPlaceholder": "Tìm kiếm thông tin..."
   },
   "movements": {
     "breadcrumbTitle": "Phiếu giao dịch",
@@ -1210,9 +1211,7 @@
     "importExport": {
       "formTitle": "Phiếu giao dịch",
       "movementCode": "Mã giao dịch",
-      "movementType": "Loại nghiệp vụ",
-      "letterCode": "Mã đơn từ",
-      "letterType": "Loại đơn từ",
+      "movementType": "Loại giao dịch",
       "warehouseCode": "Mã kho",
       "warehouseName": "Tên kho",
       "createdUser": "Người giao dịch",
@@ -1221,11 +1220,13 @@
       "confirmDate": "Ngày chứng từ",
       "description": "Mô tả về phiếu giao dịch",
       "formCode": "Mã phiếu",
-      "formNumber": "Số phiếu",
+      "formNumber": "Số phiếu EBS",
       "orderCode": "Mã lệnh",
       "orderName": "Tên lệnh",
       "orderType": "Loại nghiệp vụ",
-      "executeDate": "Ngày thực hiện"
+      "executeDate": "Ngày thực hiện",
+      "receiptType": "Loại phiếu, lệnh",
+      "idWms": "ID phiếu WMS"
     },
     "inventoryCalendar": {
       "formTitle": "Phiếu kiểm kê",
@@ -3222,5 +3223,18 @@
     "situationImportPeriod": "Thống kê tình hình nhập kho",
     "situationExportPeriod": "Thống kê tình hình xuất kho",
     "ageOfItemStock": "Thống kê tuổi hàng tồn kho"
+  },
+  "receiptType": {
+    "impReceipt": "Phiếu nhập kho",
+    "expReceipt": "Phiếu xuất kho",
+    "inventoryTransfer": "Điều chỉnh tồn kho",
+    "transfer": "Lệnh chuyển kho",
+    "itemTransfer": "Đảo hàng"
+  },
+  "movementType": {
+    "import": "Nhập kho",
+    "export": "Xuất kho",
+    "stored": "Cất hàng",
+    "picked": "Lấy hàng"
   }
 }
