@@ -9,11 +9,9 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
-// import Status from '~/components/Status'
 import {
-  MOVEMENT_TYPE,
-  // WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
-  WAREHOUSE_IMPORT_STATUS_MAP,
+  MOVEMENT_IMPORT_TYPE_MAP,
+  WAREHOUSE_IMPORT_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
 import { exportWarehouseImportApi } from '~/modules/wmsx/redux/sagas/warehouse-import/import-export-warehouse-import'
@@ -47,11 +45,11 @@ function WarehouseImport() {
     createdAt: '',
     createdByUser: '',
     warehouseId: '',
-    movementType: [
-      MOVEMENT_TYPE.PO_IMPORT,
-      MOVEMENT_TYPE.PRO_IMPORT,
-      MOVEMENT_TYPE.SO_IMPORT,
-    ],
+    // movementType: [
+    //   MOVEMENT_TYPE.PO_IMPORT,
+    //   MOVEMENT_TYPE.PRO_IMPORT,
+    //   MOVEMENT_TYPE.SO_IMPORT,
+    // ],
   }
 
   const DEFAULT_FILTERS = {
@@ -97,18 +95,25 @@ function WarehouseImport() {
       },
     },
     {
-      field: 'formCode',
-      headerName: t('movements.importExport.formCode'),
+      field: 'idWms',
+      headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
     },
     {
-      field: 'orderType',
-      headerName: t('movements.importExport.orderType'),
+      field: 'receiptType',
+      headerName: t('movements.importExport.receiptType'),
       width: 120,
-      sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_IMPORT_STATUS_MAP[params.row?.movementType])}`
+        return t(WAREHOUSE_IMPORT_TYPE_MAP[params.row?.movementType])
+      },
+    },
+    {
+      field: 'movementType',
+      headerName: t('movements.importExport.movementType'),
+      width: 120,
+      renderCell: (params) => {
+        return t(MOVEMENT_IMPORT_TYPE_MAP[params.row?.movementType])
       },
     },
     {
@@ -140,22 +145,6 @@ function WarehouseImport() {
         return params?.row?.user?.fullName
       },
     },
-    // {
-    //   field: 'movementStatus',
-    //   headerName: t('movements.movementStatus'),
-    //   width: 120,
-    //   sortable: false,
-    //   renderCell: (params) => {
-    //     const status = Number(params?.row.status)
-    //     return (
-    //       <Status
-    //         options={WAREHOUSE_MOVEMENT_STATUS_OPTIONS}
-    //         value={status}
-    //         variant="text"
-    //       />
-    //     )
-    //   },
-    // },
     {
       field: 'action',
       headerName: t('movements.action'),
