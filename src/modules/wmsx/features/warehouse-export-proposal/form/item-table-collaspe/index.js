@@ -15,6 +15,7 @@ import DataTableCollapse from '~/components/DataTableCollapse'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
@@ -132,6 +133,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
             type="number"
+            numberProps={{
+              thousandSeparator: true,
+              decimalScale: 2,
+            }}
             // validate={(val) => {
             //   if (val <= 0) {
             //     return t('general:form.moreThanNumber', {
@@ -304,12 +309,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 limit: ASYNC_SEARCH_LIMIT,
                 filter: convertFilterParams({
                   codeSlice: parentData?.itemCode,
+                  status: ACTIVE_STATUS.ACTIVE,
                 }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.code}
+            getOptionSubLabel={(opt) => opt?.name}
             onChange={(val) => handleChangeItem(val)}
           />
         )
@@ -329,7 +336,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 250,
       renderCell: (params) => {
         return (
-          params?.row?.unit || params?.row?.exportSuppliesCode?.itemUnit?.name
+          params?.row?.unit?.name ||
+          params?.row?.exportSuppliesCode?.itemUnit?.name
         )
       },
     },
@@ -401,6 +409,10 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${parentIndex}].details[${index}].quantityExport`}
+            numberProps={{
+              thousandSeparator: true,
+              decimalScale: 2,
+            }}
             validate={(val) => {
               if (val <= 0) {
                 return t('general:form.moreThanNumber', {

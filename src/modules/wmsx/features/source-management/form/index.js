@@ -289,7 +289,7 @@ const SourceManagementForm = () => {
                       label={t('sourceManagement.companyId')}
                       placeholder={t('sourceManagement.companyId')}
                       options={companyList}
-                      getOptionLabel={(opt) => `${opt?.code}-${opt?.name}`}
+                      getOptionLabel={(opt) => opt?.code}
                       getOptionValue={(opt) => opt}
                       required
                     />

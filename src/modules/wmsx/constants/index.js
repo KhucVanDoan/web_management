@@ -554,9 +554,19 @@ export const TRANSFER_STATUS_OPTIONS = [
     color: 'confirmed',
   },
   {
+    id: 5,
+    text: 'warehouseTransfer.transferStatus.exporting',
+    color: 'exporting',
+  },
+  {
     id: 7,
     text: 'warehouseTransfer.transferStatus.received',
     color: 'received',
+  },
+  {
+    id: 7,
+    text: 'warehouseTransfer.transferStatus.incollecting',
+    color: 'incollecting',
   },
   {
     id: 10,

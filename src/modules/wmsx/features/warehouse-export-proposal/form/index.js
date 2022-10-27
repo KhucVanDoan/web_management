@@ -16,6 +16,7 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import TextField from '~/components/TextField'
 import {
   ACTIVE_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION,
@@ -25,7 +26,7 @@ import {
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import ItemTableCollaspe from './item-table-collaspe'
@@ -89,13 +90,13 @@ function WarehouseExportReceiptForm() {
               itemCode: childrens?.itemCode || null,
               itemName: childrens?.itemName || childrens?.itemResponse?.name,
               itemId: childrens?.itemId,
-              unit: childrens?.itemResponse?.itemUnit?.name,
+              unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,
               isKeepSlot: childrens?.isKeepSlot,
               planExportedQuantity: childrens?.planExportedQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
-              warehouse: childrens?.warehouse?.name,
+              warehouse: childrens?.warehouseExport,
               reservation: childrens?.isKeepSlot,
               updatedBy: item?.updatedBy,
               dayUpdate: item?.updatedAt,
@@ -128,6 +129,7 @@ function WarehouseExportReceiptForm() {
           details: item?.itemDetail,
           quantityRequest: item?.requestedQuantity,
           note: item?.note,
+          unit: item?.itemUnit,
           itemCode: item?.itemCode,
           itemName: item?.itemName,
         })) || DEFAULT_ITEM,
@@ -639,13 +641,21 @@ function WarehouseExportReceiptForm() {
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={t('warehouseExportProposal.createAt')}
-                          value={warehouseExportProposalDetails?.createdAt}
+                          value={convertUtcDateToLocalTz(
+                            warehouseExportProposalDetails?.createdAt,
+                          )}
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={t('warehouseExportProposal.unit')}
                           value={warehouseExportProposalDetails?.factory?.name}
+                        />
+                      </Grid>
+                      <Grid item lg={6} xs={12}>
+                        <LV
+                          label={t('warehouseExportProposal.attachment')}
+                          value={''}
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
@@ -677,7 +687,9 @@ function WarehouseExportReceiptForm() {
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={t('warehouseExportProposal.createdAtPaper')}
-                          value={warehouseExportProposalDetails?.receiptDate}
+                          value={convertUtcDateToLocalTz(
+                            warehouseExportProposalDetails?.receiptDate,
+                          )}
                         />
                       </Grid>
                       <Grid item lg={6} xs={12}>
@@ -686,6 +698,21 @@ function WarehouseExportReceiptForm() {
                           value={
                             warehouseExportProposalDetails?.construction?.name
                           }
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          name="reasonUse"
+                          label={t('warehouseExportProposal.reasonUse')}
+                          multiline
+                          rows={3}
+                          value={warehouseExportProposalDetails?.reason}
+                          readOnly
+                          sx={{
+                            'label.MuiFormLabel-root': {
+                              color: (theme) => theme.palette.subText.main,
+                            },
+                          }}
                         />
                       </Grid>
                     </Grid>
