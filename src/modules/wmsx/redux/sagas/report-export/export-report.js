@@ -9,9 +9,9 @@ import {
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const exportReportApi = (body) => {
+const exportReportApi = (params) => {
   const uri = `/v1/reports/export`
-  return api.post(uri, body)
+  return api.get(uri, params)
 }
 
 function* doExportReport(action) {
