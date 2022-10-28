@@ -25,6 +25,41 @@ export const WMSX_GET_ITEM_GROUP_STOCK_SUMMARY_SUCCESS =
 export const WMSX_GET_REPORT_GAP_IN_STOCK = 'WMSX_GET_REPORT_GAP_IN_STOCK'
 export const WMSX_GET_REPORT_GAP_IN_STOCK_SUCCESS =
   'WMSX_GET_REPORT_GAP_IN_STOCK_SUCCESS'
+export const WMSX_GET_PURCHASED_ORDER_IMPORTS =
+  'WMSX_GET_PURCHASED_ORDER_IMPORTS'
+export const WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS =
+  'WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS'
+export const WMSX_GET_SALE_ORDER_EXPORTS = 'WMSX_GET_SALE_ORDER_EXPORTS'
+export const WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS =
+  'WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS'
+
+export function getPurchasedOrderImports(payload) {
+  return {
+    type: WMSX_GET_PURCHASED_ORDER_IMPORTS,
+    payload: payload,
+  }
+}
+
+export function setPurchasedOrderImports(payload) {
+  return {
+    type: WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function getSaleOrderExports(payload) {
+  return {
+    type: WMSX_GET_SALE_ORDER_EXPORTS,
+    payload: payload,
+  }
+}
+
+export function setSaleOrderExports(payload) {
+  return {
+    type: WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS,
+    payload: payload,
+  }
+}
 
 export function getItemGroupStockSummary(payload) {
   return {
@@ -153,4 +188,8 @@ export default {
   setOrtherItemSummaryReport,
   getReportGapInstock,
   getReportGapInstockSuccess,
+  getPurchasedOrderImports,
+  setPurchasedOrderImports,
+  getSaleOrderExports,
+  setSaleOrderExports,
 }

@@ -1,81 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Line } from '@ant-design/plots/es'
+import { Line } from '@ant-design/plots'
 import { Box, Card, Typography } from '@mui/material'
+import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { useTranslation } from 'react-i18next'
 
 import DatePicker from '~/components/DatePicker'
+import { useDashboardMovementReport } from '~/modules/wmsx/redux/hooks/useDashboard'
 
 const MovementQuantityReport = () => {
   const { t } = useTranslation(['wmsx'])
+
+  const { data: movementReport, actions } = useDashboardMovementReport()
+
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
   const [selectedDate, setSelectedDate] = useState(new Date())
+
+  useEffect(() => {
+    const params = {
+      startDate:
+        startDate ??
+        `${format(startOfMonth(new Date()), 'yyyy-MM-dd')}T00:00:00.000Z`,
+      endDate:
+        endDate ??
+        `${format(endOfMonth(new Date()), 'yyyy-MM-dd')}T00:00:00.000Z`,
+    }
+    actions.getMovementReport(params)
+  }, [endDate, startDate])
+
+  const formatData = (dataList) => {
+    const newData = []
+    dataList.forEach((data) => {
+      newData.push({
+        tag: data.tag,
+        type: t('dashboard.chart.import'),
+        value: data.import,
+      })
+      newData.push({
+        tag: data.tag,
+        type: t('dashboard.chart.export'),
+        value: data.export,
+      })
+      newData.push({
+        tag: data.tag,
+        type: t('dashboard.chart.transfer'),
+        value: data.tranfer,
+      })
+    })
+    return newData
+  }
 
   const handleChangeSelect = (value) => {
     setSelectedDate(value)
+    setStartDate(`${format(startOfMonth(value), 'yyyy-MM-dd')}T00:00:00.000Z`)
+    setEndDate(`${format(endOfMonth(value), 'yyyy-MM-dd')}T23:59:59.999Z`)
   }
 
-  const data = [
-    {
-      time: '01',
-      count: 10,
-      name: t('dashboard.movementReport.export'),
-    },
-    {
-      time: '02',
-      count: 30,
-      name: t('dashboard.movementReport.export'),
-    },
-    {
-      time: '03',
-      count: 90,
-      name: t('dashboard.movementReport.export'),
-    },
-    {
-      time: '04',
-      count: 78,
-      name: t('dashboard.movementReport.export'),
-    },
-    {
-      time: '01',
-      count: 123,
-      name: t('dashboard.movementReport.import'),
-    },
-    {
-      time: '02',
-      count: 109,
-      name: t('dashboard.movementReport.import'),
-    },
-    {
-      time: '03',
-      count: 10,
-      name: t('dashboard.movementReport.import'),
-    },
-    {
-      time: '04',
-      count: 23,
-      name: t('dashboard.movementReport.import'),
-    },
-    {
-      time: '01',
-      count: 89,
-      name: t('dashboard.movementReport.transfer'),
-    },
-    {
-      time: '02',
-      count: 123,
-      name: t('dashboard.movementReport.transfer'),
-    },
-    {
-      time: '03',
-      count: 698,
-      name: t('dashboard.movementReport.transfer'),
-    },
-    {
-      time: '04',
-      count: 312,
-      name: t('dashboard.movementReport.transfer'),
-    },
-  ]
+  const data = formatData(movementReport)
 
   const COLOR_PLATE_10 = [
     '#1F78B4',
@@ -92,9 +74,9 @@ const MovementQuantityReport = () => {
 
   const config = {
     data,
-    xField: 'time',
-    yField: 'count',
-    seriesField: 'name',
+    xField: 'tag',
+    yField: 'value',
+    seriesField: 'type',
     yAxis: {
       label: {
         formatter: (v) =>

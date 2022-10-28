@@ -7,5 +7,5 @@ export const formSchema = (t) =>
     code: Yup.string().required(t('general:form.required')),
     name: Yup.string().required(t('general:form.required')),
     email: Yup.string().nullable().email(t('general:form.validEmail')),
-    phone: phoneSchema(t),
+    phone: phoneSchema(t).nullable(),
   })

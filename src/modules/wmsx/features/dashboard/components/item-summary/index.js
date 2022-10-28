@@ -1,10 +1,20 @@
+import { useEffect } from 'react'
+
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import Summary from '~/components/Summary'
+import { useDashboardTotalItemSummaryReport } from '~/modules/wmsx/redux/hooks/useDashboard'
 
 function ItemSummary() {
   const { t } = useTranslation(['wmsx'])
+
+  const { data: totalItemSummaryReport, actions } =
+    useDashboardTotalItemSummaryReport()
+
+  useEffect(() => {
+    actions.getTotalItemSummaryReport()
+  }, [])
 
   return (
     <Grid container spacing={2}>
@@ -12,28 +22,28 @@ function ItemSummary() {
         <Summary
           icon="arrowBottom"
           label={t('dashboard.importReceipt.title')}
-          value={100}
+          value={totalItemSummaryReport?.totalPurchasedOrderImport}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="rhombus"
           label={t('dashboard.exportReceipt.title')}
-          value={100}
+          value={totalItemSummaryReport?.totalSaleOrderExport}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="cart"
           label={t('dashboard.exportProposal.title')}
-          value={100}
+          value={totalItemSummaryReport?.totalWarehouseExportProposal}
         />
       </Grid>
       <Grid item xs={6} md={6} lg={3}>
         <Summary
           icon="bag"
           label={t('dashboard.stockItemReport.warehouseTransfer')}
-          value={100}
+          value={totalItemSummaryReport?.totalWarehouseTransfer}
         />
       </Grid>
     </Grid>
