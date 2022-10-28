@@ -266,7 +266,7 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialCategory')}
-                value={materialDetails?.itemType?.name}
+                value={`${materialDetails?.itemType?.code}.${materialDetails?.itemType?.mainGroupCode}.${materialDetails?.itemType?.subGroupCode}`}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
