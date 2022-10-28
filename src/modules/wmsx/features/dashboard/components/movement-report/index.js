@@ -1,103 +1,81 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DualAxes } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import DateGroupToggle from '~/components/DateGroupToggle'
+import { useDashboardTransferReport } from '~/modules/wmsx/redux/hooks/useDashboard'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 
 const MovementReport = () => {
   const { t } = useTranslation(['wmsx'])
 
-  const columnData = [
-    {
-      time: '2019-03',
-      value: 350,
-      type: t('dashboard.movementReport.exportQuantity'),
-    },
-    {
-      time: '2019-04',
-      value: 900,
-      type: t('dashboard.movementReport.exportQuantity'),
-    },
-    {
-      time: '2019-05',
-      value: 300,
-      type: t('dashboard.movementReport.exportQuantity'),
-    },
-    {
-      time: '2019-06',
-      value: 450,
-      type: t('dashboard.movementReport.exportQuantity'),
-    },
-    {
-      time: '2019-03',
-      value: 220,
-      type: t('dashboard.movementReport.importQuantity'),
-    },
-    {
-      time: '2019-04',
-      value: 300,
-      type: t('dashboard.movementReport.importQuantity'),
-    },
-    {
-      time: '2019-05',
-      value: 250,
-      type: t('dashboard.movementReport.importQuantity'),
-    },
-    {
-      time: '2019-06',
-      value: 220,
-      type: t('dashboard.movementReport.importQuantity'),
-    },
-  ]
+  const { data: transferReport, actions } = useDashboardTransferReport()
 
-  const lineData = [
-    {
-      time: '2019-03',
-      count: 800,
-      name: t('dashboard.movementReport.exportValue'),
-    },
-    {
-      time: '2019-04',
-      count: 600,
-      name: t('dashboard.movementReport.exportValue'),
-    },
-    {
-      time: '2019-05',
-      count: 400,
-      name: t('dashboard.movementReport.exportValue'),
-    },
-    {
-      time: '2019-06',
-      count: 380,
-      name: t('dashboard.movementReport.exportValue'),
-    },
-    {
-      time: '2019-03',
-      count: 750,
-      name: t('dashboard.movementReport.importValue'),
-    },
-    {
-      time: '2019-04',
-      count: 650,
-      name: t('dashboard.movementReport.importValue'),
-    },
-    {
-      time: '2019-05',
-      count: 450,
-      name: t('dashboard.movementReport.importValue'),
-    },
-    {
-      time: '2019-06',
-      count: 400,
-      name: t('dashboard.movementReport.importValue'),
-    },
-  ]
+  const [groupBy, setGroupBy] = useState(0)
+  const [warehouseId, setWarehouseId] = useState('')
+  const [itemId, setItemId] = useState('')
+
+  const handleChangeWarehouse = (value) => {
+    setWarehouseId(value?.id)
+  }
+
+  const handleChangeItem = (value) => {
+    setItemId(value?.id)
+  }
+
+  useEffect(() => {
+    const payload = {
+      reportType: groupBy,
+      itemId: itemId,
+      warehouseId: warehouseId,
+    }
+    actions.getTransferReport(payload)
+  }, [groupBy, itemId, warehouseId])
+
+  const formatDataStock = (dataList) => {
+    const newData = []
+    dataList.forEach((data) => {
+      newData.push({
+        time: data?.rangeDate,
+        type: t('dashboard.movementReport.importQuantity'),
+        value: data.importStock,
+      })
+      newData.push({
+        time: data?.rangeDate,
+        type: t('dashboard.movementReport.exportQuantity'),
+        value: data.exportStock,
+      })
+    })
+    return newData
+  }
+
+  const formatDataAmount = (dataList) => {
+    const newData = []
+    dataList.forEach((data) => {
+      newData.push({
+        time: data?.rangeDate,
+        name: t('dashboard.movementReport.importValue'),
+        count: data.importAmount,
+      })
+      newData.push({
+        time: data?.rangeDate,
+        name: t('dashboard.movementReport.exportValue'),
+        count: data.exportAmount,
+      })
+    })
+    return newData
+  }
+
+  const dataStockConvert = formatDataStock(transferReport)
+  const dataAmountConvert = formatDataAmount(transferReport)
 
   const config = {
-    data: [columnData, lineData],
+    data: [dataStockConvert, dataAmountConvert],
     xField: 'time',
     yField: ['value', 'count'],
     slider: {
@@ -134,7 +112,6 @@ const MovementReport = () => {
     },
   }
 
-  const [groupBy, setGroupBy] = useState(0)
   return (
     <Card sx={{ p: 2 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
@@ -154,8 +131,34 @@ const MovementReport = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Autocomplete sx={{ width: '45%' }} />
-        <Autocomplete sx={{ width: '45%' }} />
+        <Autocomplete
+          sx={{ width: '45%' }}
+          name="warehouseId"
+          placeholder={t('movements.importExport.warehouseName')}
+          asyncRequest={(s) =>
+            searchWarehouseApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={handleChangeWarehouse}
+        />
+        <Autocomplete
+          sx={{ width: '45%' }}
+          name="itemId"
+          placeholder={t('movements.importExport.itemCode')}
+          asyncRequest={(s) =>
+            searchMaterialsApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={handleChangeItem}
+        />
       </Box>
       <Box sx={{ height: 360 }}>
         <DualAxes {...config} />

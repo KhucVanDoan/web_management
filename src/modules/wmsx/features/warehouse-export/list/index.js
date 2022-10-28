@@ -9,11 +9,9 @@ import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
-// import Status from '~/components/Status'
 import {
-  MOVEMENT_TYPE,
-  // WAREHOUSE_MOVEMENT_STATUS_OPTIONS,
-  WAREHOUSE_EXPORT_STATUS_MAP,
+  MOVEMENT_EXPORT_TYPE_MAP,
+  WAREHOUSE_EXPORT_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { exportWarehouseExportApi } from '~/modules/wmsx/redux/sagas/warehouse-export/import-export-warehouse-export'
@@ -51,11 +49,11 @@ function WarehouseExport() {
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
     warehouseId: '',
-    movementType: [
-      MOVEMENT_TYPE.PO_EXPORT,
-      MOVEMENT_TYPE.PRO_EXPORT,
-      MOVEMENT_TYPE.SO_EXPORT,
-    ],
+    // movementType: [
+    //   MOVEMENT_TYPE.PO_EXPORT,
+    //   MOVEMENT_TYPE.PRO_EXPORT,
+    //   MOVEMENT_TYPE.SO_EXPORT,
+    // ],
   }
 
   const {
@@ -67,6 +65,7 @@ function WarehouseExport() {
     setPageSize,
     setSort,
     setFilters,
+    setKeyword,
     quickFilters,
     setQuickFilters,
   } = useQueryState({
@@ -93,19 +92,25 @@ function WarehouseExport() {
       },
     },
     {
-      field: 'formCode',
-      headerName: t('movements.importExport.formCode'),
+      field: 'idWms',
+      headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
-      fixed: true,
     },
     {
-      field: 'orderType',
-      headerName: t('movements.importExport.orderType'),
+      field: 'receiptType',
+      headerName: t('movements.importExport.receiptType'),
       width: 120,
-      sortable: false,
       renderCell: (params) => {
-        return `${t(WAREHOUSE_EXPORT_STATUS_MAP[params.row?.movementType])}`
+        return t(WAREHOUSE_EXPORT_TYPE_MAP[params.row?.movementType])
+      },
+    },
+    {
+      field: 'movementType',
+      headerName: t('movements.importExport.movementType'),
+      width: 120,
+      renderCell: (params) => {
+        return t(MOVEMENT_EXPORT_TYPE_MAP[params.row?.movementType])
       },
     },
     {
@@ -137,22 +142,6 @@ function WarehouseExport() {
         return params?.row?.user?.username
       },
     },
-    // {
-    //   field: 'movementStatus',
-    //   headerName: t('movements.movementStatus'),
-    //   width: 120,
-    //   sortable: false,
-    //   renderCell: (params) => {
-    //     const status = Number(params?.row.status)
-    //     return (
-    //       <Status
-    //         options={WAREHOUSE_MOVEMENT_STATUS_OPTIONS}
-    //         value={status}
-    //         variant="text"
-    //       />
-    //     )
-    //   },
-    // },
     {
       field: 'action',
       headerName: t('movements.action'),
@@ -236,6 +225,8 @@ function WarehouseExport() {
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseExport')}
       renderHeaderRight={renderHeaderRight}
+      onSearch={setKeyword}
+      placeholder={t('warehouseExport.searchPlaceholder')}
       loading={isLoading}
     >
       <WarehouseExportFilter

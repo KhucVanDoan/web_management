@@ -278,6 +278,48 @@ export const MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT = {
   [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'warehouseTransferMovement.transferExport',
 }
 
+export const MOVEMENT_IMPORT_TYPE = {
+  IMPORT: 0,
+  STORED: 1,
+}
+
+export const MOVEMENT_IMPORT_TYPE_MAP = {
+  [MOVEMENT_IMPORT_TYPE.IMPORT]: 'movementType.import',
+  [MOVEMENT_IMPORT_TYPE.STORED]: 'movementType.stored',
+}
+
+export const MOVEMENT_IMPORT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'movementType.import',
+  },
+  {
+    id: 1,
+    text: 'movementType.stored',
+  },
+]
+
+export const MOVEMENT_EXPORT_TYPE = {
+  EXPORT: 0,
+  PICKED: 1,
+}
+
+export const MOVEMENT_EXPORT_TYPE_MAP = {
+  [MOVEMENT_EXPORT_TYPE.EXPORT]: 'movementType.export',
+  [MOVEMENT_EXPORT_TYPE.PICKED]: 'movementType.picked',
+}
+
+export const MOVEMENT_EXPORT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'movementType.export',
+  },
+  {
+    id: 1,
+    text: 'movementType.picked',
+  },
+]
+
 export const ORDER_STATUS = {
   PENDING: 0,
   CONFIRMED: 1,
@@ -512,9 +554,19 @@ export const TRANSFER_STATUS_OPTIONS = [
     color: 'confirmed',
   },
   {
+    id: 5,
+    text: 'warehouseTransfer.transferStatus.exporting',
+    color: 'exporting',
+  },
+  {
     id: 7,
     text: 'warehouseTransfer.transferStatus.received',
     color: 'received',
+  },
+  {
+    id: 7,
+    text: 'warehouseTransfer.transferStatus.incollecting',
+    color: 'incollecting',
   },
   {
     id: 10,
@@ -646,35 +698,67 @@ export const TRANSFER_MOVEMENT_TYPE_OPTIONS = [
   },
 ]
 
-export const WAREHOUSE_IMPORT_STATUS = {
-  PO: 0,
-  PRO: 2,
+export const WAREHOUSE_IMPORT_TYPE = {
+  IMP_RECEIPT: 0,
+  INVENTORY_TRANSFER: 2,
   TRANSFER: 6,
-  IMO: 8,
+  ITEM_TRANSFER: 8,
 }
 
-export const WAREHOUSE_IMPORT_STATUS_MAP = {
-  [WAREHOUSE_IMPORT_STATUS.PO]: 'movementsStatus.po',
-  [WAREHOUSE_IMPORT_STATUS.PRO]: 'movementsStatus.pro',
-  [WAREHOUSE_IMPORT_STATUS.TRANSFER]: 'movementsStatus.transfer',
-  [WAREHOUSE_IMPORT_STATUS.IMO]: 'movementsStatus.imo',
+export const WAREHOUSE_IMPORT_TYPE_MAP = {
+  [WAREHOUSE_IMPORT_TYPE.IMP_RECEIPT]: 'receiptType.impReceipt',
+  [WAREHOUSE_IMPORT_TYPE.INVENTORY_TRANSFER]: 'receiptType.inventoryTransfer',
+  [WAREHOUSE_IMPORT_TYPE.TRANSFER]: 'receiptType.transfer',
+  [WAREHOUSE_IMPORT_TYPE.ITEM_TRANSFER]: 'receiptType.itemTransfer',
 }
-export const WAREHOUSE_IMPORT_STATUS_OPTIONS = [
+export const WAREHOUSE_IMPORT_TYPE_OPTIONS = [
   {
     id: 0,
-    text: 'movementsStatus.po',
+    text: 'receiptType.impReceipt',
   },
   {
     id: 2,
-    text: 'movementsStatus.pro',
+    text: 'receiptType.inventoryTransfer',
   },
   {
     id: 6,
-    text: 'movementsStatus.transfer',
+    text: 'receiptType.transfer',
   },
   {
     id: 8,
-    text: 'movementsStatus.imo',
+    text: 'receiptType.itemTransfer',
+  },
+]
+
+export const WAREHOUSE_EXPORT_TYPE = {
+  EXP_RECEIPT: 0,
+  INVENTORY_TRANSFER: 2,
+  TRANSFER: 6,
+  ITEM_TRANSFER: 8,
+}
+
+export const WAREHOUSE_EXPORT_TYPE_MAP = {
+  [WAREHOUSE_EXPORT_TYPE.EXP_RECEIPT]: 'receiptType.expReceipt',
+  [WAREHOUSE_EXPORT_TYPE.INVENTORY_TRANSFER]: 'receiptType.inventoryTransfer',
+  [WAREHOUSE_EXPORT_TYPE.TRANSFER]: 'receiptType.transfer',
+  [WAREHOUSE_EXPORT_TYPE.ITEM_TRANSFER]: 'receiptType.itemTransfer',
+}
+export const WAREHOUSE_EXPORT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'receiptType.expReceipt',
+  },
+  {
+    id: 2,
+    text: 'receiptType.inventoryTransfer',
+  },
+  {
+    id: 6,
+    text: 'receiptType.transfer',
+  },
+  {
+    id: 8,
+    text: 'receiptType.itemTransfer',
   },
 ]
 

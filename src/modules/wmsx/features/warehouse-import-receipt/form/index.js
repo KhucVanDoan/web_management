@@ -374,7 +374,7 @@ function WarehouseImportReceiptForm() {
             {({ handleReset, values, setFieldValue }) => {
               const receiptRequired =
                 values?.businessTypeId?.bussinessTypeAttributes?.find(
-                  (item) => item?.tableName === 'receipts',
+                  (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
                 )?.id
               return (
                 <Form>

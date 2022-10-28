@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 const groupOptions = [
   {
-    name: 'week',
+    name: 'day',
     value: 0,
   },
   {

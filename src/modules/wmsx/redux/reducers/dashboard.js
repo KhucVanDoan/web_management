@@ -7,6 +7,8 @@ import {
   WMSX_GET_OTHER_ITEM_SUMMARY_REPORT_SUCCESS,
   WMSX_GET_ITEM_GROUP_STOCK_SUMMARY_SUCCESS,
   WMSX_GET_REPORT_GAP_IN_STOCK_SUCCESS,
+  WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS,
+  WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS,
 } from '../actions/dashboard'
 
 const initialState = {
@@ -19,9 +21,11 @@ const initialState = {
   totalItemSummaryReport: {},
   itemGroupStockSummary: {},
   gapInStock: [],
+  purchasedOrderImports: {},
+  saleOrderExports: {},
 }
 
-export default function report(state = initialState, action) {
+export default function dashboard(state = initialState, action) {
   switch (action.type) {
     case WMSX_GET_TRANSFER_REPORT_SUCCESS:
       return {
@@ -62,6 +66,16 @@ export default function report(state = initialState, action) {
       return {
         ...state,
         gapInStock: action.payload,
+      }
+    case WMSX_GET_PURCHASED_ORDER_IMPORTS_SUCCESS:
+      return {
+        ...state,
+        purchasedOrderImports: action.payload,
+      }
+    case WMSX_GET_SALE_ORDER_EXPORTS_SUCCESS:
+      return {
+        ...state,
+        saleOrderExports: action.payload,
       }
     default:
       return state

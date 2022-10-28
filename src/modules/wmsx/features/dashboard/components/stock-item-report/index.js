@@ -1,17 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Pie } from '@ant-design/plots'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
+import { useDashboardItemGroupStockSummary } from '~/modules/wmsx/redux/hooks/useDashboard'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { convertFilterParams } from '~/utils'
 
 const StockItemReport = () => {
   const { t } = useTranslation(['wmsx'])
+  const [itemId, setItemId] = useState('')
+  const [warehouseId, setWarehouseId] = useState('')
+
+  const { data: itemGroupStockSummary, actions } =
+    useDashboardItemGroupStockSummary()
+
+  const handleChangeWarehouse = (value) => {
+    setWarehouseId(value?.id)
+  }
+
+  const handleChangeItem = (value) => {
+    setItemId(value?.id)
+  }
+
+  useEffect(() => {
+    actions.getItemGroupStockSummary(
+      {
+        filter: convertFilterParams({
+          itemId: itemId,
+          warehouseId: warehouseId,
+        }),
+      },
+      [itemId],
+    )
+  })
 
   const data = [
-    { type: 'SL có thể xuất ', value: 400 },
-    { type: 'SL Giữ', value: 300 },
+    {
+      type: 'SL có thể xuất ',
+      value: Number(itemGroupStockSummary?.totalItemStockAvaiable),
+    },
+    { type: 'SL Giữ', value: Number(itemGroupStockSummary?.totalItemPlanning) },
   ]
 
   const config = {
@@ -65,12 +98,35 @@ const StockItemReport = () => {
           }}
         >
           <Autocomplete
-            disableClearable
             sx={{
               mb: 1,
             }}
+            name="warehouseId"
+            placeholder={t('movements.importExport.warehouseName')}
+            asyncRequest={(s) =>
+              searchWarehouseApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
+            onChange={handleChangeWarehouse}
           />
-          <Autocomplete disableClearable sx={{}} />
+          <Autocomplete
+            sx={{}}
+            name="itemId"
+            placeholder={t('movements.importExport.itemCode')}
+            asyncRequest={(s) =>
+              searchMaterialsApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
+            onChange={handleChangeItem}
+          />
         </Box>
       </Box>
       <Box

@@ -102,6 +102,7 @@ const DefineMaterialCategory = () => {
       field: 'createdAt',
       headerName: t('defineMaterialCategory.createdAt'),
       width: 120,
+      filterFormat: 'date',
       sortable: true,
       renderCell: (params) =>
         convertUtcDateTimeToLocalTz(params.row?.createdAt),
