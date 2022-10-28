@@ -1248,7 +1248,7 @@
       "itemCode": "Mã vật tư",
       "itemName": "Tên vật tư",
       "itemType": "Loại vật tư",
-      "locationCode": "Mã vị trí",
+      "location": "Vị trí",
       "unit": "Đơn vị tính",
       "lotNumber": "Số lô",
       "packageCode": "Mã package",
@@ -1259,8 +1259,10 @@
       "planQuantity": "Số lượng dự kiến",
       "actualQuantity": "Số lượng giao dịch",
       "receiveQuantity": "Số lượng nhận",
-      "storedQuantity": "Số lượng cất",
-      "unstoredQuantity": "Số lượng chưa cất"
+      "storedQuantity": "SL cất",
+      "unstoredQuantity": "SL cần cất",
+      "pickedQuantity": "SL lấy",
+      "unpickedQuantity": "SL cần lấy"
     },
     "movementsStatus": {
       "poi": "Lệnh nhập theo đơn",
