@@ -7,16 +7,21 @@ import {
   EXPORT_REPORT_START,
 } from '~/modules/wmsx/redux/actions/report-export'
 import { api } from '~/services/api'
+import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
 export const exportReportApi = async (params) => {
   const uri = `/v1/reports/export`
-  const res = await api.get(uri, params, { responseType: 'blob' })
-  const blob = new Blob([res])
+  const res = await api.get(uri, params, {
+    responseType: 'blob',
+    getHeaders: true,
+  })
+  const filename = getFileNameFromHeader(res)
+  const blob = new Blob([res?.data])
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.setAttribute('download', 'file.docx')
+  link.setAttribute('download', filename)
   document.body.appendChild(link)
   link.click()
   URL.revokeObjectURL(url)
