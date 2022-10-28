@@ -155,11 +155,10 @@ function WarehouseExportProposal() {
       headerName: t('warehouseExportProposal.statusWarehouseExport'),
       width: 120,
       renderCell: (params) => {
-        const status = Number(params?.row.exportStatus)
         return (
           <Status
             options={WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION}
-            value={status}
+            value={params?.row.exportStatus}
             variant="text"
           />
         )
