@@ -93,7 +93,7 @@ const WarehouseTransfer = () => {
         },
       },
       {
-        field: 'warehouseImport',
+        field: 'destinationWarehouseId',
         headerName: t('warehouseTransfer.warehouseImport'),
         width: 150,
         renderCell: (params) => {
@@ -101,7 +101,7 @@ const WarehouseTransfer = () => {
         },
       },
       {
-        field: 'warehouseExport',
+        field: 'sourceWarehouseId',
         headerName: t('warehouseTransfer.warehouseExport'),
         width: 150,
         renderCell: (params) => {
@@ -223,10 +223,19 @@ const WarehouseTransfer = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        ...columns,
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          destinationWarehouseId: filters?.destinationWarehouseId?.id,
+          sourceWarehouseId: filters?.sourceWarehouseId?.id,
+          createdByUserId: filters?.createdByUserId?.id,
+        },
+        [
+          ...columns,
+          { field: 'createdAt', filterFormat: 'date' },
+          { field: 'createdByUserId' },
+        ],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseTransfers(params)

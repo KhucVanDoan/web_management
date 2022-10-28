@@ -79,7 +79,7 @@ function ItemsSettingTable(props) {
               getOptionLabel={(opt) => opt?.item?.code || ''}
               getOptionSubLabel={(opt) => opt?.item?.name || ''}
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
                 opt?.itemId !== items[index]?.itemCode?.id

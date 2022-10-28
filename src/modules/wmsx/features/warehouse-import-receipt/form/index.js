@@ -114,6 +114,9 @@ function WarehouseImportReceiptForm() {
           importQuantity: item?.quantity,
           itemCode: {
             itemId: item?.itemId,
+            id: item?.itemId,
+            code: item?.item?.code,
+            name: item?.item?.name,
             requestedQuantity: item?.requestedQuantity,
             item: { ...item?.item },
           },

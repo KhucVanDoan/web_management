@@ -8,11 +8,14 @@ import {
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import { searchUsersApi } from '~/modules/mesx/redux/sagas/user-management/search-users'
 import {
+  ACTIVE_STATUS,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { convertFilterParams } from '~/utils'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -50,36 +53,40 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseImportId"
+          name="destinationWarehouseId"
           label={t('warehouseTransfer.warehouseImport')}
           placeholder={t('warehouseTransfer.warehouseImport')}
           asyncRequest={(s) =>
             searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
+              filter: convertFilterParams({
+                status: ACTIVE_STATUS.ACTIVE,
+              }),
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseExportId"
+          name="sourceWarehouseId"
           label={t('warehouseTransfer.warehouseExport')}
           placeholder={t('warehouseTransfer.warehouseExport')}
           asyncRequest={(s) =>
             searchWarehouseApi({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
+              filter: convertFilterParams({
+                status: ACTIVE_STATUS.ACTIVE,
+              }),
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
         />
       </Grid>
       <Grid item xs={12}>
@@ -93,13 +100,19 @@ const FilterForm = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Field.TextField
-          name="createdByUser"
+        <Field.Autocomplete
+          name="createdByUserId"
           label={t('warehouseTransfer.createdByUser')}
           placeholder={t('warehouseTransfer.createdByUser')}
-          inputProps={{
-            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
-          }}
+          asyncRequest={(s) =>
+            searchUsersApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.username}
+          getOptionSubLabel={(opt) => opt?.fullName}
         />
       </Grid>
       <Grid item xs={12}>
