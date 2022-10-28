@@ -3186,6 +3186,14 @@
       "status": "Chọn trạng thái đồng bộ",
       "type": "Chọn loại giao dịch",
       "date": "Chọn ngày,"
+    },
+    "dataSyncManagementStatus": {
+      "pending": "Chờ xử lý",
+      "errorTransaction": "Lỗi giao dịch",
+      "errorSync": "Lỗi đồng bộ",
+      "success": "Thành công",
+      "inProgress": "Đang xử lý",
+      "cancel": "Huỷ"
     }
   },
   "roleList": {

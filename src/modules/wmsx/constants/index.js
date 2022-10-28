@@ -2071,3 +2071,62 @@ export const CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION =
   'CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION'
 export const UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION =
   'UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION'
+
+export const DATA_SYNC_STATUS = {
+  PENDING: 0,
+  IN_PROGRESS: 1,
+  ERROR_TRANSACTION: 2,
+  ERROR_SYNC: 3,
+  SUCCESS: 4,
+  CANCEL: 5,
+}
+
+export const DATA_SYNC_STATUS_MAP = {
+  [WAREHOUSE_MOVEMENT_STATUS.PENDING]:
+    'dataSyncManagement.dataSyncManagementStatus.pending',
+  [WAREHOUSE_MOVEMENT_STATUS.ERROR]:
+    'dataSyncManagement.dataSyncManagementStatus.error',
+  [WAREHOUSE_MOVEMENT_STATUS.IN_PROGRESS]:
+    'dataSyncManagement.dataSyncManagementStatus.inProgress',
+  [WAREHOUSE_MOVEMENT_STATUS.SUCCESS]:
+    'dataSyncManagement.dataSyncManagementStatus.success',
+  [WAREHOUSE_MOVEMENT_STATUS.ERROR_TRANSACTION]:
+    'dataSyncManagement.dataSyncManagementStatus.errorTransaction',
+  [WAREHOUSE_MOVEMENT_STATUS.ERROR_SYNC]:
+    'dataSyncManagement.dataSyncManagementStatus.errorSync',
+  [WAREHOUSE_MOVEMENT_STATUS.CANCEL]:
+    'dataSyncManagement.dataSyncManagementStatus.cancel',
+}
+
+export const DATA_SYNC_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'dataSyncManagement.dataSyncManagementStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'dataSyncManagement.dataSyncManagementStatus.inProgress',
+    color: 'inProgress',
+  },
+  {
+    id: 2,
+    text: 'dataSyncManagement.dataSyncManagementStatus.errorTransaction',
+    color: 'rejected',
+  },
+  {
+    id: 3,
+    text: 'dataSyncManagement.dataSyncManagementStatus.errorSync',
+    color: 'rejected',
+  },
+  {
+    id: 4,
+    text: 'dataSyncManagement.dataSyncManagementStatus.success',
+    color: 'completed',
+  },
+  {
+    id: 5,
+    text: 'dataSyncManagement.dataSyncManagementStatus.cancel',
+    color: 'rejected',
+  },
+]

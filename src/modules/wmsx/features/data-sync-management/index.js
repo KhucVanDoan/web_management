@@ -8,6 +8,7 @@ import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import useDataSyncManagement from '~/modules/wmsx/redux/hooks/useDataSyncManagement'
@@ -15,9 +16,10 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
-  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
 } from '~/utils'
 
+import { DATA_SYNC_STATUS, DATA_SYNC_STATUS_OPTIONS } from '../../constants'
 import FilterForm from './filter'
 import QuickFilter from './filter-quick-form'
 
@@ -33,6 +35,7 @@ const DataSyncManagement = () => {
     data: { dataSyncManagementList, isLoading, total },
     actions,
   } = useDataSyncManagement()
+
   const { t } = useTranslation(['wmsx'])
   const [selectedRows, setSelectedRows] = useState([])
   const [modal, setModal] = useState({
@@ -47,7 +50,7 @@ const DataSyncManagement = () => {
   }
 
   const DEFAULT_QUICK_FILTERS = {
-    objectCode: '',
+    resourceCode: '',
     type: '',
     status: '',
     date: '',
@@ -73,27 +76,27 @@ const DataSyncManagement = () => {
 
   const columns = [
     {
-      field: 'id',
+      field: '#',
       headerName: '#',
       width: 20,
     },
     {
       field: 'signalCode',
       headerName: t('dataSyncManagement.signalCode'),
-      width: 120,
+      width: 200,
       sortable: true,
       fixed: true,
     },
     {
-      field: 'objectCode',
+      field: 'resourceCode',
       headerName: t('dataSyncManagement.objectCode'),
-      width: 120,
+      width: 200,
       fixed: true,
     },
     {
       field: 'type',
       headerName: t('dataSyncManagement.type'),
-      width: 120,
+      width: 150,
     },
     {
       field: 'fromSystem',
@@ -103,36 +106,45 @@ const DataSyncManagement = () => {
     {
       field: 'toSystem',
       headerName: t('dataSyncManagement.toSystem'),
-      width: 120,
+      width: 150,
     },
     {
       field: 'status',
       headerName: t('dataSyncManagement.status'),
-      width: 120,
+      width: 150,
       renderCell: (params) => {
         const { status } = params.row
-        return <Status options={[]} value={status} variant="text" />
+        return (
+          <Status
+            options={DATA_SYNC_STATUS_OPTIONS}
+            value={status}
+            variant="text"
+          />
+        )
       },
     },
     {
       field: 'sentDate',
       headerName: t('dataSyncManagement.sentDate'),
       filterFormat: 'date',
-      width: 120,
+      width: 150,
     },
     {
       field: 'receivedDate',
       headerName: t('dataSyncManagement.receivedDate'),
       filterFormat: 'date',
-      width: 120,
+      width: 150,
     },
     {
       field: 'action',
       headerName: t('dataSyncManagement.action'),
-      width: 100,
+      width: 150,
       fixed: true,
       renderCell: (params) => {
-        // const { id } = params?.row
+        const { status } = params?.row
+        const isDisplay =
+          status === DATA_SYNC_STATUS.ERROR_TRANSACTION ||
+          status === DATA_SYNC_STATUS.ERROR_SYNC
         return (
           <div>
             <IconButton
@@ -145,29 +157,31 @@ const DataSyncManagement = () => {
             >
               <Icon name="show" />
             </IconButton>
-            <IconButton onClick={() => onClickRetry(params.row)}>
-              <Icon name="sync" />
-            </IconButton>
-            <IconButton onClick={() => onClickReject(params.row)}>
-              <Icon name="remove" />
-            </IconButton>
+            {isDisplay && (
+              <>
+                <IconButton onClick={() => onClickRetry(params.row)}>
+                  <Icon name="sync" />
+                </IconButton>
+                <IconButton onClick={() => onClickReject(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </>
+            )}
           </div>
         )
       },
     },
   ]
 
-  const formattedData = dataSyncManagementList?.map((item) => ({
+  const formattedData = dataSyncManagementList?.items?.map((item) => ({
     id: item?.id,
-    signalCode: item?.signalCode,
-    objectCode: item?.objectCode,
-    receivedDate: item?.receivedDate
-      ? convertUtcDateTimeToLocalTz(item?.receivedDate)
-      : '',
-    sentDate: item?.sentDate ? convertUtcDateTimeToLocalTz(item?.sentDate) : '',
+    signalCode: item?.id,
+    resourceCode: item?.resourceCode,
+    receivedDate: item?.dateFrom ? convertUtcDateToLocalTz(item?.dateFrom) : '',
+    sentDate: item?.dateNow ? convertUtcDateToLocalTz(item?.dateNow) : '',
     fromSystem: item?.fromSystem,
     toSystem: item?.toSystem,
-    type: item?.type,
+    type: item?.typeTransaction,
     status: item?.status,
   }))
 
@@ -265,6 +279,16 @@ const DataSyncManagement = () => {
         noBorderBottom
       >
         {t('dataSyncManagement.confirmSync')}
+        <LV
+          label={t('dataSyncManagement.signalCode')}
+          value={modal?.tempItem?.signalCode}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('dataSyncManagement.objectCode')}
+          value={modal?.tempItem?.objectCode}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
       <Dialog
         open={modal.isOpenRejectModal}
@@ -279,6 +303,16 @@ const DataSyncManagement = () => {
         noBorderBottom
       >
         {t('dataSyncManagement.confirmReject')}
+        <LV
+          label={t('dataSyncManagement.signalCode')}
+          value={modal?.tempItem?.signalCode}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('dataSyncManagement.objectCode')}
+          value={modal?.tempItem?.objectCode}
+          sx={{ mt: 4 / 3 }}
+        />
       </Dialog>
     </Page>
   )

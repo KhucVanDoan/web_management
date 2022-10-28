@@ -14,8 +14,8 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const retryDataSyncManagementApi = (params) => {
-  const uri = `/v1/warehouses/inventories/${params}/approve`
-  return api.post(uri)
+  const uri = `/v1/datasync/jobs/${params}/retry`
+  return api.put(uri)
 }
 
 /**

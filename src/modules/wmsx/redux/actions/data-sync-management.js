@@ -169,7 +169,7 @@ export function rejectDataSyncManagementFailed() {
 
 export function retryDataSyncManagement(payload, onSuccess, onError) {
   return {
-    type: WMSX_APPROVE_DATA_SYNC_MANAGEMENT_START,
+    type: WMSX_RETRY_DATA_SYNC_MANAGEMENT_START,
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
@@ -183,7 +183,7 @@ export function retryDataSyncManagement(payload, onSuccess, onError) {
  */
 export function retryDataSyncManagementSuccess(payload) {
   return {
-    type: WMSX_APPROVE_DATA_SYNC_MANAGEMENT_SUCCESS,
+    type: WMSX_RETRY_DATA_SYNC_MANAGEMENT_SUCCESS,
     payload: payload,
   }
 }
@@ -194,7 +194,7 @@ export function retryDataSyncManagementSuccess(payload) {
  */
 export function retryDataSyncManagementFailed() {
   return {
-    type: WMSX_APPROVE_DATA_SYNC_MANAGEMENT_FAILED,
+    type: WMSX_RETRY_DATA_SYNC_MANAGEMENT_FAILED,
   }
 }
 
