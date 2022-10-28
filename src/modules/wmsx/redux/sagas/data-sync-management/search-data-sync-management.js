@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const searchDataSyncManagementApi = (params) => {
-  const uri = `/v1/warehouses/inventories/warehouse-transactions/list`
+  const uri = `/v1/datasync/jobs/list`
   return api.get(uri, params)
 }
 
@@ -25,15 +25,13 @@ const searchDataSyncManagementApi = (params) => {
 function* doSearchDataSyncManagement(action) {
   try {
     const response = yield call(searchDataSyncManagementApi, action?.payload)
-
     if (response?.statusCode === 200) {
       const payload = {
-        list: response.data.items,
-        total: response.data.meta.total,
+        list: response?.data,
+        total: response?.data?.meta?.total,
       }
       // Call callback action if provided
       yield put(searchDataSyncManagementSuccess(payload))
-
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
@@ -43,7 +41,6 @@ function* doSearchDataSyncManagement(action) {
         response?.message || response?.statusText,
         NOTIFICATION_TYPE.ERROR,
       )
-
       throw new Error(response?.message)
     }
   } catch (error) {
