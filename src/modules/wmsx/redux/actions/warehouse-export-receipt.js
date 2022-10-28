@@ -50,6 +50,10 @@ export const REJECT_WAREHOUSE_EXPORT_RECEIPT_FAILED =
 export const RESET_WAREHOUSE_EXPORT_RECEIPT_DETAILS_STATE =
   'WMSX_RESET_WAREHOUSE_EXPORT_RECEIPT_DETAILS_STATE'
 
+export const EXPORT_WAREHOUSE_START = 'EXPORT_WAREHOUSE_START'
+export const EXPORT_WAREHOUSE_SUCCESS = 'EXPORT_WAREHOUSE_SUCCESS'
+export const EXPORT_WAREHOUSE_FAILED = 'EXPORT_WAREHOUSE_FAILED'
+
 export function searchWarehouseExportReceipt(payload, onSuccess, onError) {
   return {
     type: SEARCH_WAREHOUSE_EXPORT_RECEIPT_START,
@@ -214,6 +218,28 @@ export function resetWarehouseExportReceiptState() {
   }
 }
 
+export function exportWarehouse(payload, onSuccess, onError) {
+  return {
+    type: EXPORT_WAREHOUSE_START,
+    payload: payload,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function exportWarehouseSuccess(payload) {
+  return {
+    type: EXPORT_WAREHOUSE_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function exportWarehouseFailed() {
+  return {
+    type: EXPORT_WAREHOUSE_FAILED,
+  }
+}
+
 export default {
   searchWarehouseExportReceipt,
   searchWarehouseExportReceiptSuccess,
@@ -237,4 +263,7 @@ export default {
   rejectWarehouseExportReceiptByIdFailed,
   rejectWarehouseExportReceiptByIdSuccess,
   resetWarehouseExportReceiptState,
+  exportWarehouse,
+  exportWarehouseSuccess,
+  exportWarehouseFailed,
 }

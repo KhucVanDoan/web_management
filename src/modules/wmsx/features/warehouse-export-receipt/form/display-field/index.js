@@ -69,6 +69,7 @@ const displayFollowBusinessTypeManagement = (
     if (val) {
       const res = await getWarehouseImportReceiptDetailsApi(val?.id)
       setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
+      setFieldValue('warehouseId', res?.data?.warehouse)
     }
   }
   const display = []

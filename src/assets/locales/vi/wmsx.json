@@ -1181,7 +1181,8 @@
     "formTitle": "Phiếu giao dịch",
     "tableTitle": "Danh sách giao dịch",
     "code": "Mã phiếu xuất",
-    "warehouseName": "Kho xuất"
+    "warehouseName": "Kho xuất",
+    "searchPlaceholder": "Tìm kiếm thông tin..."
   },
   "movements": {
     "breadcrumbTitle": "Phiếu giao dịch",
@@ -1210,9 +1211,7 @@
     "importExport": {
       "formTitle": "Phiếu giao dịch",
       "movementCode": "Mã giao dịch",
-      "movementType": "Loại nghiệp vụ",
-      "letterCode": "Mã đơn từ",
-      "letterType": "Loại đơn từ",
+      "movementType": "Loại giao dịch",
       "warehouseCode": "Mã kho",
       "warehouseName": "Tên kho",
       "createdUser": "Người giao dịch",
@@ -1221,11 +1220,14 @@
       "confirmDate": "Ngày chứng từ",
       "description": "Mô tả về phiếu giao dịch",
       "formCode": "Mã phiếu",
-      "formNumber": "Số phiếu",
+      "formNumber": "Số phiếu EBS",
       "orderCode": "Mã lệnh",
       "orderName": "Tên lệnh",
       "orderType": "Loại nghiệp vụ",
-      "executeDate": "Ngày thực hiện"
+      "executeDate": "Ngày thực hiện",
+      "receiptType": "Loại phiếu, lệnh",
+      "idWms": "ID phiếu WMS",
+      "itemCode": "Mã vật tư"
     },
     "inventoryCalendar": {
       "formTitle": "Phiếu kiểm kê",
@@ -2965,6 +2967,7 @@
     "nameAddressOfRecipient": "Tên và địa chỉ người lĩnh",
     "createdAt": "Ngày lập phiếu",
     "createdAtPaper": "Ngày lập giấy",
+    "attachment": "Tệp đính kèm",
     "votes": "Số phiếu",
     "construction": "Công trình",
     "category": "Hạng mục",
@@ -2982,8 +2985,8 @@
     "nameMaterialCode": "Tên vật tư cần cấp mã",
     "items": {
       "STT": "STT",
-      "suppliesCode": "Mã vật tư",
-      "suppliesName": "Tên vật tư",
+      "suppliesCode": "Mã vật tư yêu cầu",
+      "suppliesName": "Tên vật tư yêu cầu",
       "lotNumber": "Số lô",
       "quantityRequest": "SL yêu cầu",
       "quantityExport": "SL xuất",
@@ -2999,7 +3002,7 @@
       "quantityExportActual": "SL thực xuất",
       "importedQuantity": "SL cần mua",
       "dayUpdate": "Ngày cập nhật",
-      "supplyCode": "Cấp mã vật tu",
+      "supplyCode": "Cấp mã vật tư?",
       "suppliesType": "Phân loại vật tư",
       "categorySubject": "Danh mục đối tượng",
       "suppliesNameNeedGrantCode": "Tên vật tư cần cấp mã",
@@ -3124,8 +3127,10 @@
       "rejected": "Từ chối",
       "confirmed": "Xác nhận",
       "exported": "Xuất kho",
+      "exporting": "Đang lấy hàng",
       "received": "Lấy hàng",
       "inStoring": "cất hàng",
+      "incollecting": "Đang cất hàng",
       "inProgress": "Đang thực hiện"
     },
     "table": {
@@ -3222,5 +3227,18 @@
     "situationImportPeriod": "Thống kê tình hình nhập kho",
     "situationExportPeriod": "Thống kê tình hình xuất kho",
     "ageOfItemStock": "Thống kê tuổi hàng tồn kho"
+  },
+  "receiptType": {
+    "impReceipt": "Phiếu nhập kho",
+    "expReceipt": "Phiếu xuất kho",
+    "inventoryTransfer": "Điều chỉnh tồn kho",
+    "transfer": "Lệnh chuyển kho",
+    "itemTransfer": "Đảo hàng"
+  },
+  "movementType": {
+    "import": "Nhập kho",
+    "export": "Xuất kho",
+    "stored": "Cất hàng",
+    "picked": "Lấy hàng"
   }
 }

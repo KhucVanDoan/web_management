@@ -63,7 +63,7 @@ function BusinessTypeManagementDetail() {
       labelEBS: item?.ebsLabel,
       fieldName: item?.fieldName,
       required: Boolean(item?.required),
-      isShow: Boolean(item?.required),
+      isShow: true,
       type: '',
       code: item?.code,
       columnName: item?.columnName,

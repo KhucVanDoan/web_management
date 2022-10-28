@@ -3,15 +3,23 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   exportReportFailed,
-  exportReportSuccess,
+  // exportReportSuccess,
   EXPORT_REPORT_START,
 } from '~/modules/wmsx/redux/actions/report-export'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const exportReportApi = (params) => {
+export const exportReportApi = async (params) => {
   const uri = `/v1/reports/export`
-  return api.get(uri, params)
+  const res = await api.get(uri, params, { responseType: 'blob' })
+  const blob = new Blob([res])
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', 'file.docx')
+  document.body.appendChild(link)
+  link.click()
+  URL.revokeObjectURL(url)
 }
 
 function* doExportReport(action) {
@@ -19,14 +27,12 @@ function* doExportReport(action) {
     const response = yield call(exportReportApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(exportReportSuccess(response.data))
-
-      // Call callback action if provided
-      if (action.onSuccess) {
-        yield action.onSuccess()
-      }
-
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      // yield put(exportReportSuccess(response.data))
+      // // Call callback action if provided
+      // if (action.onSuccess) {
+      //   yield action.onSuccess()
+      // }
+      // addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)

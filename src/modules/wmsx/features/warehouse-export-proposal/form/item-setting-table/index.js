@@ -58,8 +58,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               }}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
+              getOptionLabel={(opt) => opt?.name}
               inputProps={{
                 maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
               }}
@@ -166,6 +165,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
               name={`items[${index}].quantityRequest`}
               type="number"
               numberProps={{
+                thousandSeparator: true,
                 decimalScale: 2,
               }}
               required

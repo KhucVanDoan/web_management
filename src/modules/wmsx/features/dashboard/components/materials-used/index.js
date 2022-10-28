@@ -62,6 +62,7 @@ const UsedMaterialsReport = () => {
 
   const getData = () => {
     const payload = {
+      reportType: 0,
       itemTypeId: filterBy,
     }
     actions.getItemStockReport(payload)

@@ -393,6 +393,11 @@ function WarehouseExportReceiptForm() {
             enableReinitialize
           >
             {({ handleReset, values, setFieldValue }) => {
+              const warehouseImportReceipt =
+                values?.businessTypeId?.bussinessTypeAttributes?.find(
+                  (item) =>
+                    item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
+                )?.id
               return (
                 <Form>
                   <Grid
@@ -549,6 +554,7 @@ function WarehouseExportReceiptForm() {
                             }),
                           })
                         }
+                        disabled={values[warehouseImportReceipt]}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}

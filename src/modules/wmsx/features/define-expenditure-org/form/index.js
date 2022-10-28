@@ -43,7 +43,7 @@ const DefineExpenditureOrgForm = () => {
   const initialValues = {
     code: isUpdate ? expenditureOrgDetails?.code : '',
     name: expenditureOrgDetails?.name || '',
-    phone: expenditureOrgDetails?.phone || '',
+    phone: expenditureOrgDetails?.phone || null,
     email: expenditureOrgDetails?.email || null,
     description: expenditureOrgDetails?.description || '',
   }
