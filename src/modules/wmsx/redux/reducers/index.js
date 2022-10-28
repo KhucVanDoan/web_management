@@ -20,6 +20,7 @@ import defineUom from './define-uom'
 import defineVendor from './define-vendor'
 import defineWarehouse from './define-warehouse'
 import defineWarehouseGroup from './define-warehouse-group'
+import inventoryAdjust from './inventory-adjust'
 import inventoryCalendar from './inventory-calendar'
 import inventorySetting from './inventory-setting'
 import inventoryStatistics from './inventory-statistics'
@@ -87,4 +88,5 @@ export default combineReducers({
   warehouseTransfer,
   roleList,
   dataSyncManagement,
+  inventoryAdjust,
 })
