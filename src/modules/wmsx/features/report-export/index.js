@@ -20,6 +20,7 @@ import { searchCompaniesApi } from '../../redux/sagas/company-management/search-
 import { searchConstructionsApi } from '../../redux/sagas/construction-management/search-constructions'
 import { searchWarehouseApi } from '../../redux/sagas/define-warehouse/search-warehouse'
 import { searchReceiptDepartmentApi } from '../../redux/sagas/receipt-department-management/search-receipt-department'
+import { exportReportApi } from '../../redux/sagas/report-export/export-report'
 import { formSchema } from './schema'
 
 const breadcrumbs = [
@@ -63,7 +64,21 @@ const ReportExport = () => {
     })
   }
 
-  const renderActionBar = (handleReset) => {
+  const handleClickExport = (values) => {
+    const convertValues = {
+      reportType: values?.type,
+      exportType: values?.fileFormat,
+      companyId: values?.company?.id,
+      constructionId: values?.construction?.id.toString(),
+      warehouseId: values?.warehouse?.id,
+      receiveDepartmentId: values?.receivingDepartment?.id,
+      dateFrom: values?.time?.[0]?.toISOString(),
+      dateTo: values?.time?.[1]?.toISOString(),
+    }
+    exportReportApi(convertValues)
+  }
+
+  const renderActionBar = (handleReset, values) => {
     return (
       <Box
         sx={{
@@ -77,7 +92,7 @@ const ReportExport = () => {
         <Button variant="outlined" color="subText" onClick={handleReset}>
           {t('general:actionBar.cancel')}
         </Button>
-        <Button type="submit" icon="save">
+        <Button onClick={() => handleClickExport(values)} icon="save">
           {t('reportExport.export')}
         </Button>
       </Box>
@@ -204,7 +219,7 @@ const ReportExport = () => {
                 </Grid>
               </Grid>
             </Grid>
-            {renderActionBar(handleReset)}
+            {renderActionBar(handleReset, values)}
           </Form>
         )}
       </Formik>

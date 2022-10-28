@@ -171,9 +171,10 @@ export const createApi = (instance) => ({
       )
   },
 
-  get: (endpoint, params = {}) => {
+  get: (endpoint, params = {}, options = {}) => {
     return instance
       .get(endpoint, {
+        ...options,
         params: params,
         validateStatus: (status) => validateStatus(status),
       })

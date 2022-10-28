@@ -1226,7 +1226,8 @@
       "orderType": "Loại nghiệp vụ",
       "executeDate": "Ngày thực hiện",
       "receiptType": "Loại phiếu, lệnh",
-      "idWms": "ID phiếu WMS"
+      "idWms": "ID phiếu WMS",
+      "itemCode": "Mã vật tư"
     },
     "inventoryCalendar": {
       "formTitle": "Phiếu kiểm kê",

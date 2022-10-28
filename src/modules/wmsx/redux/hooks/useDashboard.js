@@ -153,3 +153,37 @@ export const useDashboardMovementReport = () => {
     data,
   }
 }
+
+export const useDashboardPurchasedOrderImports = () => {
+  const data = useSelector((state) =>
+    get(state, 'wmsx.dashboard.purchasedOrderImports'),
+  )
+
+  const dispatch = useDispatch()
+  const actions = useMemo(
+    () => bindActionCreators(dashboardActions, dispatch),
+    [dispatch],
+  )
+
+  return {
+    actions,
+    data,
+  }
+}
+
+export const useDashboardSaleOrderExports = () => {
+  const data = useSelector((state) =>
+    get(state, 'wmsx.dashboard.saleOrderExports'),
+  )
+
+  const dispatch = useDispatch()
+  const actions = useMemo(
+    () => bindActionCreators(dashboardActions, dispatch),
+    [dispatch],
+  )
+
+  return {
+    actions,
+    data,
+  }
+}
