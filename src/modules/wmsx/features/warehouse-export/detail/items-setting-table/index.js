@@ -37,16 +37,16 @@ const ItemSettingTable = ({ items }) => {
       width: 120,
     },
     {
-      field: 'storedQuantity',
-      headerName: t('movements.itemDetails.storedQuantity'),
+      field: 'pickedQuantity',
+      headerName: t('movements.itemDetails.pickedQuantity'),
       width: 120,
       renderCell: (params) => {
         return Number(params.row?.quantity)
       },
     },
     {
-      field: 'unstoredQuantity',
-      headerName: t('movements.itemDetails.unstoredQuantity'),
+      field: 'unpickedQuantity',
+      headerName: t('movements.itemDetails.unpickedQuantity'),
       width: 120,
       renderCell: (params) => {
         return Number(params.row?.quantity)

@@ -2,32 +2,33 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
-  retryDataSyncManagementSuccess,
-  retryDataSyncManagementFailed,
-  WMSX_RETRY_DATA_SYNC_MANAGEMENT_START,
-} from '~/modules/wmsx/redux/actions/data-sync-management'
+  deleteInventoryAdjustFailed,
+  deleteInventoryAdjustSuccess,
+  DELETE_INVENTORY_ADJUST_START,
+} from '~/modules/wmsx/redux/actions/inventory-adjust'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 /**
+ * Delete warehouse transfer
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const retryDataSyncManagementApi = (params) => {
-  const uri = `/v1/datasync/jobs/${params}/retry`
-  return api.put(uri)
+const deleteInventoryAdjustApi = () => {
+  const uri = ``
+  return api.delete(uri)
 }
 
 /**
  * Handle get data request and response
  * @param {object} action
  */
-function* doRetryDataSyncManagement(action) {
+function* doDeleteInventoryAdjust(action) {
   try {
-    const response = yield call(retryDataSyncManagementApi, action?.payload)
+    const response = yield call(deleteInventoryAdjustApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(retryDataSyncManagementSuccess(response.payload))
+      yield put(deleteInventoryAdjustSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -40,10 +41,11 @@ function* doRetryDataSyncManagement(action) {
         response?.message || response?.statusText,
         NOTIFICATION_TYPE.ERROR,
       )
+
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(retryDataSyncManagementFailed())
+    yield put(deleteInventoryAdjustFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -52,11 +54,8 @@ function* doRetryDataSyncManagement(action) {
 }
 
 /**
- * Watch search users
+ * Watch delete warehouse area
  */
-export default function* watchRetryDataSyncManagement() {
-  yield takeLatest(
-    WMSX_RETRY_DATA_SYNC_MANAGEMENT_START,
-    doRetryDataSyncManagement,
-  )
+export default function* watchDeleteInventoryAdjust() {
+  yield takeLatest(DELETE_INVENTORY_ADJUST_START, doDeleteInventoryAdjust)
 }

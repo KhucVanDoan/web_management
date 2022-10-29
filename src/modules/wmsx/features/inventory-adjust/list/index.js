@@ -14,12 +14,7 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import {
-  TRANSFER_STATUS,
-  TRANSFER_STATUS_OPTIONS,
-  WAREHOUSE_TRANSFER_MAP,
-} from '~/modules/wmsx/constants'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 
@@ -27,15 +22,15 @@ import FilterForm from './filter-form'
 
 const breadcrumbs = [
   {
-    title: 'receiptCommandManagement',
+    title: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
   },
   {
-    route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
-    title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+    route: ROUTE.INVENTORY_ADJUST.LIST.PATH,
+    title: ROUTE.INVENTORY_ADJUST.LIST.TITLE,
   },
 ]
 
-const WarehouseTransfer = () => {
+const InventoryAdjust = () => {
   const [tempItem, setTempItem] = useState(null)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
@@ -43,15 +38,16 @@ const WarehouseTransfer = () => {
   const [selectedRows, setSelectedRows] = useState([])
 
   const {
-    data: { warehouseTransferList, isLoading, total },
+    data: { inventoryAdjustList, isLoading, total },
     actions,
-  } = useWarehouseTransfer()
+  } = useInventoryAdjust()
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
 
   const DEFAULT_FILTERS = {
     code: '',
     name: '',
+    type: '',
     createdAt: '',
   }
 
@@ -72,144 +68,84 @@ const WarehouseTransfer = () => {
     () => [
       {
         field: 'code',
-        headerName: t('warehouseTransfer.code'),
+        headerName: t('inventoryAdjust.code'),
         width: 150,
         sortable: true,
         fixed: true,
       },
       {
         field: 'name',
-        headerName: t('warehouseTransfer.name'),
+        headerName: t('inventoryAdjust.name'),
         width: 150,
         sortable: true,
         fixed: true,
       },
       {
         field: 'type',
-        headerName: t('warehouseTransfer.type'),
+        headerName: t('inventoryAdjust.type'),
         width: 150,
-        renderCell: (params) => {
-          return t(`${WAREHOUSE_TRANSFER_MAP[params?.row?.type]}`)
-        },
       },
       {
-        field: 'destinationWarehouseId',
-        headerName: t('warehouseTransfer.warehouseImport'),
+        field: 'reason',
+        headerName: t('inventoryAdjust.reason'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.destinationWarehouse?.name
-        },
       },
       {
-        field: 'sourceWarehouseId',
-        headerName: t('warehouseTransfer.warehouseExport'),
+        field: 'licenseDate',
+        headerName: t('inventoryAdjust.licenseDate'),
         width: 150,
-        renderCell: (params) => {
-          return params?.row?.sourceWarehouse?.name
-        },
-      },
-      {
-        field: 'receiptNoEbs',
-        headerName: t('warehouseTransfer.receiptNoEbs'),
-        width: 150,
-        // renderCell: (params) => {
-        //   return params?.row?.name
-        // },
       },
       {
         field: 'status',
-        headerName: t('warehouseTransfer.status'),
+        headerName: t('inventoryAdjust.status'),
         width: 150,
         renderCell: (params) => {
           const { status } = params.row
-          return (
-            <Status
-              options={TRANSFER_STATUS_OPTIONS}
-              value={status}
-              variant="text"
-            />
-          )
+          return <Status options={[]} value={status} variant="text" />
         },
       },
       {
         field: 'actions',
-        headerName: t('warehouseTransfer.actions'),
+        headerName: t('inventoryAdjust.actions'),
         width: 250,
         align: 'center',
         fixed: true,
         renderCell: (params) => {
-          const { id, status } = params?.row
-          const isEdit = status === TRANSFER_STATUS.PENDING
-          const isConfirmed = status === TRANSFER_STATUS.PENDING
-          const isRejected = status === TRANSFER_STATUS.REJECTED
-          const isDelete =
-            status === TRANSFER_STATUS.PENDING ||
-            status === TRANSFER_STATUS.REJECTED
+          const { id } = params?.row
 
-          const hasTransaction =
-            status === TRANSFER_STATUS.COMPLETED ||
-            status === TRANSFER_STATUS.IN_PROGRESS
           return (
             <div>
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
+                    ROUTE.INVENTORY_ADJUST.DETAIL.PATH.replace(':id', `${id}`),
                   )
                 }
               >
                 <Icon name="show" />
               </IconButton>
 
-              {(isEdit || isRejected) && (
-                <IconButton
-                  onClick={() =>
-                    history.push(
-                      ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-              )}
-              {isDelete && (
-                <IconButton onClick={() => onClickDelete(params.row)}>
-                  <Icon name="delete" />
-                </IconButton>
-              )}
-              {isConfirmed && (
-                <IconButton onClick={() => onClickConfirmed(params.row)}>
-                  <Icon name="tick" />
-                </IconButton>
-              )}
-              {isEdit && (
-                <IconButton onClick={() => onClickRejected(params.row)}>
-                  <Icon name="remove" />
-                </IconButton>
-              )}
-              {hasTransaction && (
-                <Button
-                  variant="text"
-                  size="small"
-                  bold={false}
-                  onClick={() =>
-                    history.push(
-                      `${ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.PATH.replace(
-                        ':parentId',
-                        `${id}`,
-                      )}`,
-                    )
-                  }
-                >
-                  {t('warehouseTransfer.transactions')}
-                </Button>
-              )}
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.INVENTORY_ADJUST.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+
+              <IconButton onClick={() => onClickConfirmed(params.row)}>
+                <Icon name="tick" />
+              </IconButton>
+
+              <IconButton onClick={() => onClickRejected(params.row)}>
+                <Icon name="remove" />
+              </IconButton>
             </div>
           )
         },
@@ -223,22 +159,13 @@ const WarehouseTransfer = () => {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(
-        {
-          ...filters,
-          destinationWarehouseId: filters?.destinationWarehouseId?.id,
-          sourceWarehouseId: filters?.sourceWarehouseId?.id,
-          createdByUserId: filters?.createdByUserId?.id,
-        },
-        [
-          ...columns,
-          { field: 'createdAt', filterFormat: 'date' },
-          { field: 'createdByUserId' },
-        ],
-      ),
+      filter: convertFilterParams(filters, [
+        ...columns,
+        { field: 'createdAt', filterFormat: 'date' },
+      ]),
       sort: convertSortParams(sort),
     }
-    actions.searchWarehouseTransfers(params)
+    actions.searchInventoryAdjust(params)
   }
 
   useEffect(() => {
@@ -254,7 +181,7 @@ const WarehouseTransfer = () => {
     setIsOpenDeleteModal(true)
   }
   const onSubmitDelete = () => {
-    actions.deleteWarehouseTransfer(tempItem?.id, () => {
+    actions.deleteInventoryAdjust(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -267,7 +194,7 @@ const WarehouseTransfer = () => {
   }
 
   const submitConfirm = () => {
-    actions.confirmWarehouseTransferById(tempItem?.id, () => {
+    actions.confirmInventoryAdjustById(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -278,7 +205,7 @@ const WarehouseTransfer = () => {
     setIsOpenRejectModal(true)
   }
   const submitReject = () => {
-    actions.rejectWarehouseTransferById(tempItem?.id, () => {
+    actions.rejectInventoryAdjustById(tempItem?.id, () => {
       refreshData()
     })
     setTempItem(null)
@@ -288,7 +215,7 @@ const WarehouseTransfer = () => {
     return (
       <>
         <Button
-          onClick={() => history.push(ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH)}
+          onClick={() => history.push(ROUTE.INVENTORY_ADJUST.CREATE.PATH)}
           icon="add"
           sx={{ ml: 4 / 3 }}
         >
@@ -301,16 +228,16 @@ const WarehouseTransfer = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('menu.warehouseTransferOrder')}
+      title={t('menu.inventoryAdjust')}
       renderHeaderRight={renderHeaderRight}
       onSearch={setKeyword}
-      placeholder={t('warehouseTransfer.searchPlaceholder')}
+      placeholder={t('inventoryAdjust.searchPlaceholder')}
       loading={isLoading}
     >
       <DataTable
-        title={t('warehouseTransfer.list')}
+        title={t('inventoryAdjust.list')}
         columns={columns}
-        rows={warehouseTransferList}
+        rows={inventoryAdjustList}
         pageSize={pageSize}
         page={page}
         onPageChange={setPage}
@@ -332,7 +259,7 @@ const WarehouseTransfer = () => {
             BULK_ACTION.REJECT,
             BULK_ACTION.DELETE,
           ],
-          apiUrl: API_URL.WAREHOUSE_TRANSFER,
+          apiUrl: API_URL.INVENTORY_ADJUST,
           onSuccess: () => {
             if (page === 1) {
               refreshData()
@@ -345,7 +272,7 @@ const WarehouseTransfer = () => {
       />
       <Dialog
         open={isOpenDeleteModal}
-        title={t('warehouseTransfer.deleteModalTitle')}
+        title={t('inventoryAdjust.deleteModalTitle')}
         onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -355,14 +282,14 @@ const WarehouseTransfer = () => {
         }}
         noBorderBottom
       >
-        {t('warehouseTransfer.deleteConfirm')}
+        {t('inventoryAdjust.deleteConfirm')}
         <LV
-          label={t('warehouseTransfer.code')}
+          label={t('inventoryAdjust.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('warehouseTransfer.name')}
+          label={t('inventoryAdjust.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -378,12 +305,12 @@ const WarehouseTransfer = () => {
       >
         {t('general:common.confirmMessage.confirm')}
         <LV
-          label={t('warehouseTransfer.code')}
+          label={t('inventoryAdjust.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('warehouseTransfer.name')}
+          label={t('inventoryAdjust.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -399,12 +326,12 @@ const WarehouseTransfer = () => {
       >
         {t('general:common.confirmMessage.reject')}
         <LV
-          label={t('warehouseTransfer.code')}
+          label={t('inventoryAdjust.code')}
           value={tempItem?.code}
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('warehouseTransfer.name')}
+          label={t('inventoryAdjust.name')}
           value={tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />
@@ -413,4 +340,4 @@ const WarehouseTransfer = () => {
   )
 }
 
-export default WarehouseTransfer
+export default InventoryAdjust
