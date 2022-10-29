@@ -14,7 +14,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const rejectDataSyncManagementApi = (params) => {
-  const uri = `/v1/warehouses/inventories/${params}/approve`
+  const uri = `/v1/datasync/jobs/${params}/reject`
   return api.post(uri)
 }
 

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import { DATA_SYNC_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 
 import { validateSchema } from './schema'
 
@@ -55,7 +56,7 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
-                      name="objectCode"
+                      name="resourceCode"
                       label={t('dataSyncManagement.objectCode')}
                       placeholder={t(
                         'dataSyncManagement.placeholder.objectCode',
@@ -67,9 +68,9 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                       name="status"
                       label={t('dataSyncManagement.status')}
                       placeholder={t('dataSyncManagement.placeholder.status')}
-                      options={[]}
-                      getOptionValue={(opt) => opt?.id || ''}
-                      getOptionLabel={(opt) => opt?.name}
+                      options={DATA_SYNC_STATUS_OPTIONS}
+                      getOptionValue={(opt) => opt?.id}
+                      getOptionLabel={(opt) => t(`${opt?.text}`)}
                     />
                   </Grid>
 

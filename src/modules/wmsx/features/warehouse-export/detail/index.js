@@ -4,15 +4,21 @@ import { Box, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-import { MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
+import TextField from '~/components/TextField'
+import {
+  MOVEMENT_EXPORT_TYPE,
+  MOVEMENT_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useWarehouseExport from '~/modules/wmsx/redux/hooks/useWarehouseExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
-import ItemTable from '../../warehouse-import/detail/items-setting-table'
+import ItemSettingTableDetail from '../../warehouse-export-receipt/detail/item-setting-table'
+import ItemSettingTable from './items-setting-table'
 
 const breadcrumbs = [
   {
@@ -85,12 +91,137 @@ const WarehouseExportDetail = () => {
                 )}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.createdAt')}
+                value={convertUtcDateToLocalTz(
+                  warehouseExportDetail?.createdAt,
+                )}
+              />
+            </Grid>
+            {/* <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.warehouseExportProposalCode')}
+                value={warehouseExportDetail?.code}
+              />
+            </Grid> */}
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.nameOfReceiver')}
+                value={warehouseExportDetail?.receiver}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.departmentReception')}
+                value={warehouseExportDetail?.departmentReceipt?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.warehouseExport')}
+                value={warehouseExportDetail?.warehouse?.name}
+              />
+            </Grid>
+            {/* <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.accountingAccountCode')}
+                value={warehouseExportDetail?.source?.code}
+              />
+            </Grid> */}
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.warehouseExportReason')}
+                value={warehouseExportDetail?.reason?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.warehouseExportReceipt')}
+                value={`02${
+                  warehouseExportDetail?.warehouse?.code
+                    ? `.${warehouseExportDetail?.warehouse?.code}`
+                    : ''
+                }${
+                  warehouseExportDetail?.reason?.code
+                    ? `.${warehouseExportDetail?.reason?.code}`
+                    : ''
+                }`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.number')}
+                value={`03${
+                  warehouseExportDetail?.warehouse?.code
+                    ? `.${warehouseExportDetail?.warehouse?.code}`
+                    : ''
+                }${
+                  warehouseExportDetail?.reason?.code
+                    ? `.${warehouseExportDetail?.reason?.code}`
+                    : ''
+                }`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.suorceAccountant')}
+                value={warehouseExportDetail.source?.name}
+              />
+            </Grid>
+            {warehouseExportDetail?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        [][item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.name ||
+                        [][item.tableName]?.find(
+                          (itemDetail) => itemDetail.id + '' === item.value,
+                        )?.code
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV label={`${item.fieldName}`} value={item.value} />
+                  </Grid>
+                )
+              }
+            })}
+            <Grid item xs={12}>
+              <TextField
+                name="explain"
+                label={t('warehouseExportReceipt.explain')}
+                multiline
+                rows={3}
+                value={warehouseExportDetail?.explaination}
+                readOnly
+                sx={{
+                  'label.MuiFormLabel-root': {
+                    color: (theme) => theme.palette.subText.main,
+                  },
+                }}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3 }}>
-        <ItemTable items={warehouseExportDetail?.items || []} />
-      </Box>
+      {warehouseExportDetail?.movementType === MOVEMENT_EXPORT_TYPE.EXPORT && (
+        <Box sx={{ mt: 3 }}>
+          <ItemSettingTableDetail items={[]} mode={MODAL_MODE.DETAIL} />
+        </Box>
+      )}
+      {warehouseExportDetail?.movementType === MOVEMENT_EXPORT_TYPE.PICKED && (
+        <Box sx={{ mt: 3 }}>
+          <ItemSettingTable items={[]} />
+        </Box>
+      )}
       <ActionBar onBack={backToList} />
     </Page>
   )

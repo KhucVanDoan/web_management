@@ -133,6 +133,13 @@ import watchGetWarehouseDetails from './define-warehouse/get-warehouse-details'
 import watchRejectWarehouse from './define-warehouse/reject-warehouse'
 import watchSearchWarehouse from './define-warehouse/search-warehouse'
 import watchUpdateWarehouse from './define-warehouse/update-warehouse'
+import watchConfirmInventoryAdjust from './inventory-adjust/confirm-inventory-adjust'
+import watchCreateInventoryAdjust from './inventory-adjust/create-inventory-adjust'
+import watchDeleteInventoryAdjust from './inventory-adjust/delete-inventory-adjust'
+import watchGetInventoryAdjustDetails from './inventory-adjust/get-inventory-adjust-detail'
+import watchRejectInventoryAdjust from './inventory-adjust/reject-inventory-adjust'
+import watchSearchInventoryAdjust from './inventory-adjust/search-inventory-adjust'
+import watchUpdateInventoryAdjust from './inventory-adjust/update-inventory-adjust'
 import watchApproveInventoryCalendar from './inventory-calendar/approve-inventory-calendar'
 import watchCheckItemNotExecuted from './inventory-calendar/check-items-not-executed'
 import watchConfirmInventoryCalendar from './inventory-calendar/confirm-inventory-calendar'
@@ -593,5 +600,13 @@ export default function* sagas() {
     watchUpdateRole(),
     watchGetRoleDetails(),
     watchDeleteRole(),
+    //inventory adjust
+    watchCreateInventoryAdjust(),
+    watchUpdateInventoryAdjust(),
+    watchSearchInventoryAdjust(),
+    watchGetInventoryAdjustDetails(),
+    watchConfirmInventoryAdjust(),
+    watchDeleteInventoryAdjust(),
+    watchRejectInventoryAdjust(),
   ])
 }

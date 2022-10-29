@@ -738,4 +738,22 @@ export const ROUTE = {
       TITLE: 'changePassword',
     },
   },
+  INVENTORY_ADJUST: {
+    LIST: {
+      PATH: '/wms/inventory-adjust',
+      TITLE: 'inventoryAdjust',
+    },
+    CREATE: {
+      PATH: '/wms/inventory-adjust/create',
+      TITLE: 'inventoryAdjustCreate',
+    },
+    DETAIL: {
+      PATH: '/wms/inventory-adjust/:id/detail',
+      TITLE: 'inventoryAdjustDetail',
+    },
+    EDIT: {
+      PATH: '/wms/inventory-adjust/:id/edit',
+      TITLE: 'inventoryAdjustEdit',
+    },
+  },
 }

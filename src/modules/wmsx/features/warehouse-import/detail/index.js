@@ -9,12 +9,16 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import { MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
+import {
+  MOVEMENT_IMPORT_TYPE,
+  MOVEMENT_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
 import ItemsSettingTable from '../../warehouse-import-receipt/form/items-setting-table'
+import ItemSettingTable from './items-setting-table'
 
 const breadcrumbs = [
   {
@@ -178,9 +182,16 @@ const WarehouseImportDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3 }}>
-        <ItemsSettingTable items={[]} mode={MODAL_MODE.DETAIL} />
-      </Box>
+      {movementDetail?.movementType === MOVEMENT_IMPORT_TYPE.IMPORT && (
+        <Box sx={{ mt: 3 }}>
+          <ItemsSettingTable items={[]} mode={MODAL_MODE.DETAIL} />
+        </Box>
+      )}
+      {movementDetail?.movementType === MOVEMENT_IMPORT_TYPE.STORED && (
+        <Box sx={{ mt: 3 }}>
+          <ItemSettingTable items={[]} />
+        </Box>
+      )}
       <ActionBar onBack={backToList} />
     </Page>
   )
