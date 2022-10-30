@@ -11,6 +11,7 @@ import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import {
   MOVEMENT_IMPORT_TYPE_MAP,
+  MOVEMENT_TYPE,
   WAREHOUSE_IMPORT_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
@@ -45,11 +46,11 @@ function WarehouseImport() {
     createdAt: '',
     createdByUser: '',
     warehouseId: '',
-    // movementType: [
-    //   MOVEMENT_TYPE.PO_IMPORT,
-    //   MOVEMENT_TYPE.PRO_IMPORT,
-    //   MOVEMENT_TYPE.SO_IMPORT,
-    // ],
+    movementType: [
+      MOVEMENT_TYPE.PO_IMPORT,
+      MOVEMENT_TYPE.TRANSFER_IMPORT,
+      MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT,
+    ],
   }
 
   const DEFAULT_FILTERS = {
@@ -99,13 +100,14 @@ function WarehouseImport() {
       headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
+      renderCell: (params) => params.row?.order?.code,
     },
     {
       field: 'receiptType',
       headerName: t('movements.importExport.receiptType'),
       width: 120,
       renderCell: (params) => {
-        return t(WAREHOUSE_IMPORT_TYPE_MAP[params.row?.movementType])
+        return t(WAREHOUSE_IMPORT_TYPE_MAP[params.row?.orderType])
       },
     },
     {
@@ -142,7 +144,7 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.fullName
+        return params?.row?.user?.username
       },
     },
     {

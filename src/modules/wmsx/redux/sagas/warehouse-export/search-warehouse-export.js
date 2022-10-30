@@ -16,7 +16,6 @@ import addNotification from '~/utils/toast'
 const searchWarehouseExportApi = (params) => {
   const uri = `/v1/warehouses/movements/list`
   return api.get(uri, params)
-  // return res;
 }
 
 /**

@@ -14,7 +14,6 @@ import { api } from '~/services/api'
 const getMovementsApi = (params) => {
   const uri = `/v1/warehouses/movements/list`
   return api.get(uri, params)
-  // return res;
 }
 
 /**

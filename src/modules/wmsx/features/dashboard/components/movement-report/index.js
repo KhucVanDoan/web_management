@@ -29,13 +29,22 @@ const MovementReport = () => {
   }
 
   useEffect(() => {
+    if (groupBy && itemId && warehouseId) {
+      const payload = {
+        reportType: groupBy,
+        itemId: itemId,
+        warehouseId: warehouseId,
+      }
+      actions.getTransferReport(payload)
+    }
+  }, [groupBy, itemId, warehouseId])
+
+  useEffect(() => {
     const payload = {
       reportType: groupBy,
-      itemId: itemId,
-      warehouseId: warehouseId,
     }
     actions.getTransferReport(payload)
-  }, [groupBy, itemId, warehouseId])
+  }, [groupBy])
 
   const formatDataStock = (dataList) => {
     const newData = []

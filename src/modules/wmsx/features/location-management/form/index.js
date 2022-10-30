@@ -210,7 +210,7 @@ function LocationManagementForm() {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, values, setFieldValue }) => (
           <Form>
             <Grid container justifyContent="center">
               <Grid item xl={11} xs={12}>
@@ -349,6 +349,10 @@ function LocationManagementForm() {
                       }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      onChange={(val) => {
+                        !val && setFieldValue('bin', null)
+                      }}
+                      disabled={!values?.shelf}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -372,6 +376,12 @@ function LocationManagementForm() {
                       }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      onChange={(val) => {
+                        if (!val) {
+                          setFieldValue('drawer', null)
+                          setFieldValue('bin', null)
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -395,6 +405,7 @@ function LocationManagementForm() {
                       }
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      disabled={!values?.drawer}
                     />
                   </Grid>
                 </Grid>

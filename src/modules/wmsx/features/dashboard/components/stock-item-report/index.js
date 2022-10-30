@@ -28,16 +28,13 @@ const StockItemReport = () => {
   }
 
   useEffect(() => {
-    actions.getItemGroupStockSummary(
-      {
-        filter: convertFilterParams({
-          itemId: itemId,
-          warehouseId: warehouseId,
-        }),
-      },
-      [itemId],
-    )
-  })
+    actions.getItemGroupStockSummary({
+      filter: convertFilterParams({
+        itemId: itemId,
+        warehouseId: warehouseId,
+      }),
+    })
+  }, [itemId, warehouseId])
 
   const data = [
     {
