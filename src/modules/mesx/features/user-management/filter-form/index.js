@@ -3,19 +3,28 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
-
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 const FilterForm = () => {
-  const { t } = useTranslation('mesx')
-  const {
-    data: { departmentList },
-  } = useCommonManagement()
+  const { t } = useTranslation('wmsx')
 
   return (
     <Grid container rowSpacing={4 / 3}>
+      <Grid item xs={12}>
+        <Field.TextField
+          name="code"
+          label={t('userManagement.code')}
+          placeholder={t('userManagement.code')}
+          inputProps={{
+            maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+          }}
+        />
+      </Grid>
       <Grid item xs={12}>
         <Field.TextField
           name="username"
@@ -41,9 +50,14 @@ const FilterForm = () => {
           name="departmentName"
           label={t('userManagement.department')}
           placeholder={t('userManagement.department')}
-          options={departmentList}
+          asyncRequest={(s) =>
+            searchReceiptDepartmentApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
           getOptionLabel={(opt) => opt?.name}
-          getOptionValue={(opt) => opt?.name}
         />
       </Grid>
       <Grid item xs={12}>
@@ -51,7 +65,7 @@ const FilterForm = () => {
           name="status"
           label={t('userManagement.status')}
           placeholder={t('userManagement.status')}
-          options={USER_MANAGEMENT_STATUS_OPTIONS}
+          options={ACTIVE_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
