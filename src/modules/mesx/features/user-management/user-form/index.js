@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
-import { createFilterOptions, Grid } from '@mui/material'
-import IconButton from '@mui/material/IconButton'
+import { Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
+import { sub } from 'date-fns'
 import { Formik, Form } from 'formik'
+import { isEmpty, first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -19,18 +20,17 @@ import {
   ASYNC_SEARCH_LIMIT,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
-import { searchFactoriesApi } from '~/modules/database/redux/sagas/factory/search-factories'
-import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
-import { useCommonManagement } from '~/modules/mesx/redux/hooks/useCommonManagement'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { getRolesApi } from '~/modules/mesx/redux/sagas/user-management/get-role'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchManagamentUnitApi } from '~/modules/wmsx/redux/sagas/management-unit/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
@@ -49,47 +49,23 @@ function UserManagementForm() {
 
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-  const [visible, setVisible] = useState(false)
-
   const {
     data: { userDetails, isLoading },
     actions,
   } = useUserManagement()
 
-  const {
-    data: { warehouseList, departmentList, roleList },
-    actions: commonActions,
-  } = useCommonManagement()
-
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-    commonActions.getDepartments()
-    commonActions.getRoles()
-    commonActions.getWarehouses()
-  }, [])
-
   const initialValues = useMemo(
     () => ({
       code: isUpdate ? userDetails?.code : '',
       username: userDetails?.username || '',
-      password: userDetails?.password || '',
-      showPassword: false,
-      companyId: userDetails?.companyId || '',
+      companyId: userDetails?.company?.name || '',
       fullName: userDetails?.fullName || '',
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
-      status: userDetails?.status || '1',
-      factories: userDetails.factories?.map((item) => item) || [],
-      userRoleSettings: userDetails.userRoleSettings?.[0]?.id || null,
-      departmentSettings:
-        userDetails.departmentSettings?.map((item) => item.id) || [],
-      userWarehouses: userDetails.userWarehouses?.map((item) => item.id) || [],
+      role: first(userDetails?.userRoleSettings) || null,
+      departmentSettings: first(userDetails?.departmentSettings) || [],
+      userWarehouses: first(userDetails.userWarehouses) || [],
     }),
     [userDetails],
   )
@@ -110,23 +86,19 @@ function UserManagementForm() {
   const onSubmit = (values) => {
     const id = Number(params?.id)
     const convertValues = {
-      ...values,
-      id,
-      status: values?.status?.toString(),
-      factories: values?.factories?.map((item) => ({
-        id: item?.id,
-      })),
-      userRoleSettings: values.userRoleSettings
-        ? [{ id: values.userRoleSettings }]
-        : [{ id: 1 }],
-      departmentSettings: values.departmentSettings?.map((item) => ({
-        id: item,
-      })),
-      userWarehouses: values?.userWarehouses?.map((item) => ({
-        id: item,
-      })),
+      code: values?.code,
+      companyId: JSON.parse(localStorage.getItem('userInfo'))?.companyId,
+      email: values?.email,
+      fullName: values?.fullName,
+      username: values?.username,
+      id: id,
+      status: values?.status?.toString() || '1',
+      userRoleSettings: [{ id: values.role?.id }],
+      departmentSettings: [{ id: values?.departmentSettings?.id }],
+      userWarehouses: !isEmpty(values?.userWarehouses)
+        ? [{ id: values?.userWarehouses?.id }]
+        : [],
     }
-
     if (mode === MODAL_MODE.CREATE) {
       actions.createUser(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
@@ -179,15 +151,6 @@ function UserManagementForm() {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.UPDATE}
-            elBefore={
-              <Button
-                variant="outlined"
-                onClick={() => {}} //@TODO: <anh.nth> handle resetPassword
-                sx={{ mr: 'auto' }}
-              >
-                {t('userManagement.resetPassword')}
-              </Button>
-            }
           />
         )
       default:
@@ -225,222 +188,188 @@ function UserManagementForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
-              <Form>
-                <Grid
-                  container
-                  rowSpacing={4 / 3}
-                  columnSpacing={{ xl: 8, xs: 4 }}
-                >
-                  <Grid item xs={12}>
-                    <Typography variant="h4" mt={1}>
-                      {t('userManagement.commonInfo')}
-                    </Typography>
-                  </Grid>
-                  {isUpdate && (
+            {({ handleReset }) => {
+              const company = JSON.parse(
+                localStorage.getItem('userInfo'),
+              )?.company
+              return (
+                <Form>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
                     <Grid item xs={12}>
-                      <LV
-                        label={
-                          <Typography>{t('userManagement.status')}</Typography>
-                        }
-                        value={
-                          <Status
-                            options={USER_MANAGEMENT_STATUS_OPTIONS}
-                            value={userDetails?.status}
-                          />
-                        }
-                      />
+                      <Typography variant="h4" mt={1}>
+                        {t('userManagement.commonInfo')}
+                      </Typography>
                     </Grid>
-                  )}
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('userManagement.code')}
-                      name="code"
-                      placeholder={t('userManagement.code')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
-                      }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                      disabled={isUpdate}
-                      required
-                      {...(cloneId ? { autoFocus: true } : {})}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="email"
-                      label={t('userManagement.email')}
-                      placeholder={t('userManagement.email')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
-                      }}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      label={t('userManagement.username')}
-                      name="username"
-                      placeholder={t('userManagement.username')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-                      }}
-                      disabled={isUpdate}
-                      required
-                    />
-                  </Grid>
-                  {!isUpdate && (
+                    {isUpdate && (
+                      <Grid item xs={12}>
+                        <LV
+                          label={
+                            <Typography>
+                              {t('userManagement.status')}
+                            </Typography>
+                          }
+                          value={
+                            <Status
+                              options={ACTIVE_STATUS_OPTIONS}
+                              value={userDetails?.status}
+                            />
+                          }
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
-                        name="password"
-                        type={visible ? 'text' : 'password'}
-                        label={t('userManagement.password')}
-                        placeholder={t('userManagement.password')}
+                        label={t('userManagement.code')}
+                        name="code"
+                        placeholder={t('userManagement.code')}
                         inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
-                        endAdornment={
-                          <IconButton
-                            onClick={() => setVisible(!visible)}
-                            size="small"
-                            sx={{ mx: 0.5 }}
-                          >
-                            {visible ? (
-                              <Icon name="visible" />
-                            ) : (
-                              <Icon name="invisible" />
-                            )}
-                          </IconButton>
-                        }
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        disabled={isUpdate}
                         required
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                        {...(cloneId ? { autoFocus: true } : {})}
                       />
                     </Grid>
-                  )}
-                  {isUpdate && (
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="fullName"
+                        label={t('userManagement.fullName')}
+                        placeholder={t('userManagement.fullName')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
+                        disabled={isUpdate}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        label={t('userManagement.username')}
+                        name="username"
+                        placeholder={t('userManagement.username')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
+                        disabled={isUpdate}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="email"
+                        label={t('userManagement.email')}
+                        placeholder={t('userManagement.email')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
+                        }}
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="phone"
+                        label={t('userManagement.phone')}
+                        placeholder={t('userManagement.phone')}
+                        allow={TEXTFIELD_ALLOW.NUMERIC}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
+                        }}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.DatePicker
+                        name="dateOfBirth"
+                        label={t('userManagement.dateOfBirth')}
+                        maxDate={
+                          new Date(
+                            sub(new Date(), {
+                              years: 0,
+                              months: 0,
+                              weeks: 0,
+                              days: 1,
+                              hours: 0,
+                              minutes: 0,
+                              seconds: 0,
+                            }),
+                          )
+                        }
+                        placeholder={t('userManagement.dateOfBirth')}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="h4" mt={1}>
+                        {t('userManagement.workInfo')}
+                      </Typography>
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.TextField
+                        name="companyId"
+                        label={t('userManagement.companyName')}
+                        placeholder={t('userManagement.companyName')}
+                        value={company?.name}
+                        disabled
+                        required
+                      />
+                    </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
-                        name="status"
-                        label={t('userManagement.status')}
-                        placeholder={t('userManagement.status')}
-                        options={USER_MANAGEMENT_STATUS_OPTIONS}
-                        getOptionValue={(opt) => opt?.id}
-                        getOptionLabel={(opt) => t(opt?.text)}
+                        name="departmentSettings"
+                        label={t('userManagement.departmentName')}
+                        placeholder={t('userManagement.departmentName')}
+                        asyncRequest={(s) =>
+                          searchManagamentUnitApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                        required
                       />
                     </Grid>
-                  )}
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="fullName"
-                      label={t('userManagement.fullName')}
-                      placeholder={t('userManagement.fullName')}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
-                      }}
-                      required
-                    />
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="role"
+                        label={t('userManagement.role')}
+                        placeholder={t('userManagement.role')}
+                        asyncRequest={(s) =>
+                          getRolesApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data}
+                        getOptionLabel={(opt) => opt?.name}
+                      />
+                    </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <Field.Autocomplete
+                        name="userWarehouses"
+                        label={t('userManagement.warehouse')}
+                        placeholder={t('userManagement.warehouse')}
+                        asyncRequest={(s) =>
+                          searchWarehouseApi({
+                            keyword: s,
+                            limit: ASYNC_SEARCH_LIMIT,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
+                          })
+                        }
+                        asyncRequestHelper={(res) => res?.data?.items}
+                        getOptionLabel={(opt) => opt?.name}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.DatePicker
-                      name="dateOfBirth"
-                      label={t('userManagement.dateOfBirth')}
-                      placeholder={t('userManagement.dateOfBirth')}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.TextField
-                      name="phone"
-                      label={t('userManagement.phone')}
-                      placeholder={t('userManagement.phone')}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
-                      inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.PHONE.MAX,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="h4" mt={1}>
-                      {t('userManagement.workInfo')}
-                    </Typography>
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="companyId"
-                      label={t('userManagement.companyName')}
-                      placeholder={t('userManagement.companyName')}
-                      options={companyList}
-                      getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(opt) => opt?.id}
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="factories"
-                      label={t('userManagement.factoryName')}
-                      placeholder={t('userManagement.factoryName')}
-                      asyncRequest={(s) =>
-                        searchFactoriesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(option) => option.name}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      multiple
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="departmentSettings"
-                      label={t('userManagement.departmentName')}
-                      placeholder={t('userManagement.departmentName')}
-                      options={departmentList}
-                      getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(opt) => opt?.id}
-                      multiple
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="userRoleSettings"
-                      label={t('userManagement.roleAssign')}
-                      placeholder={t('userManagement.roleAssign')}
-                      options={roleList}
-                      getOptionLabel={(opt) => opt?.name}
-                      getOptionValue={(opt) => opt?.id}
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="userWarehouses"
-                      label={t('userManagement.warehouse')}
-                      placeholder={t('userManagement.warehouse')}
-                      options={(warehouseList || []).filter((w) =>
-                        values.factories
-                          ?.map((f) => f.id)
-                          .includes(w.factoryId),
-                      )}
-                      getOptionLabel={(opt) => opt?.name}
-                      filterOptions={createFilterOptions({
-                        stringify: (opt) => `${opt?.code}|${opt?.name}`,
-                      })}
-                      getOptionValue={(opt) => opt?.id}
-                      multiple
-                    />
-                  </Grid>
-                </Grid>
-                {renderActionBar(handleReset)}
-              </Form>
-            )}
+                  {renderActionBar(handleReset)}
+                </Form>
+              )
+            }}
           </Formik>
         </Grid>
       </Grid>

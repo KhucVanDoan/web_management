@@ -219,7 +219,7 @@ const DefineVendorForm = () => {
                       name="name"
                       placeholder={t('defineVendor.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />

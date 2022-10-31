@@ -286,7 +286,7 @@ const DataSyncManagement = () => {
         />
         <LV
           label={t('dataSyncManagement.objectCode')}
-          value={modal?.tempItem?.objectCode}
+          value={modal?.tempItem?.resourceCode}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
@@ -310,7 +310,7 @@ const DataSyncManagement = () => {
         />
         <LV
           label={t('dataSyncManagement.objectCode')}
-          value={modal?.tempItem?.objectCode}
+          value={modal?.tempItem?.resourceCode}
           sx={{ mt: 4 / 3 }}
         />
       </Dialog>
