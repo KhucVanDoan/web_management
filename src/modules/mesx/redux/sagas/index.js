@@ -123,10 +123,12 @@ import watchDeleteRouting from './routing/delete-routing'
 import watchGetRoutingDetails from './routing/get-routing-details'
 import watchSearchRoutings from './routing/search-routings'
 import watchUpdateRouting from './routing/update-routing'
+import watchConfirmUser from './user-management/confirm'
 import watchCreateUser from './user-management/create-user'
 import watchDeleteUser from './user-management/delete-user'
 import watchGenerateOTP from './user-management/generate-otp'
 import watchGetUserDetails from './user-management/get-user-details'
+import watchRejectUser from './user-management/reject'
 import watchResetPassword from './user-management/reset-password'
 import watchSearchUsers from './user-management/search-users'
 import watchUpdateUser from './user-management/update-user'
@@ -170,7 +172,8 @@ export default function* sagas() {
     watchGenerateOTP(),
     watchVerifyOTP(),
     watchResetPassword(),
-
+    watchConfirmUser(),
+    watchRejectUser(),
     //define-boq
     watchSearchBOQ(),
     watchCreateBOQ(),

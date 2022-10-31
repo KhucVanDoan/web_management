@@ -1290,15 +1290,16 @@
   },
   "warehouseMovementOrderType": {
     "poi": "Lệnh nhập theo đơn",
-    "po": "Lệnh đặt hàng",
+    "po": "Phiếu nhập kho",
     "pro": "Lệnh sản xuất",
-    "so": "Lệnh bán hàng",
+    "so": "Phiếu xuất kho",
     "transfer": "Lệnh chuyển kho",
     "imo": "Lệnh xuất nhập khác",
     "exo": "Lệnh xuất nhập khác",
     "ro": "abc",
     "proposal": "abc",
-    "swiftLocator": "abc"
+    "swiftLocator": "Đảo hàng",
+    "inventory": "Điều chỉnh tồn kho"
   },
   "warehouseMovementStatus": {
     "created": "Chờ xác nhận",
@@ -3246,19 +3247,6 @@
     "situationExportPeriod": "Thống kê tình hình xuất kho",
     "ageOfItemStock": "Thống kê tuổi hàng tồn kho"
   },
-  "receiptType": {
-    "impReceipt": "Phiếu nhập kho",
-    "expReceipt": "Phiếu xuất kho",
-    "inventoryTransfer": "Điều chỉnh tồn kho",
-    "transfer": "Lệnh chuyển kho",
-    "itemTransfer": "Đảo hàng"
-  },
-  "movementType": {
-    "import": "Nhập kho",
-    "export": "Xuất kho",
-    "stored": "Cất hàng",
-    "picked": "Lấy hàng"
-  },
   "inventoryAdjust": {
     "list": "Danh sách phiếu điều chỉnh",
     "searchPlaceholder": "Tìm kiếm thông tin...",
@@ -3317,5 +3305,50 @@
       "inputedQuantity": "Số lượng nhập",
       "locatorStored": "Vị trí cất"
     }
+  },
+  "movementType": {
+    "import": "Nhập kho",
+    "export": "Xuất kho",
+    "stored": "Cất hàng",
+    "picked": "Lấy hàng"
+  },
+  "userManagement": {
+    "title": "Danh sách người dùng",
+    "searchPlaceholder": "Tìm kiếm người dùng theo tên đăng nhập hoặc họ tên",
+    "deleteConfirm": "Bạn có chắc chắc muốn xóa người dùng không?",
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "comfirmPassword": "Xác nhận mật khẩu",
+    "fullName": "Họ tên",
+    "email": "Email",
+    "department": "Bộ phận",
+    "departmentName": "Tên bộ phận",
+    "role": "Vai trò",
+    "dateOfBirth": "Ngày sinh",
+    "phone": "Số điện thoại",
+    "warehouse": "Kho quản lý",
+    "warehouseName": "Tên kho quản lý",
+    "action": "Hành động",
+    "status": "Trạng thái",
+    "commonInfo": "Thông tin chung",
+    "workInfo": "Thông tin công việc",
+    "code": "Mã người dùng",
+    "factoryName": "Tên nhà máy",
+    "companyName": "Tên công ty",
+    "roleAssign": "Chọn quyền",
+    "changePasswordLabel": "Thay đổi mật khẩu",
+    "resetPassword": "Lấy lại mật khẩu",
+    "userManagementDelete": "Xóa người dùng",
+    "createUserSuccess": "Tạo người dùng thành công",
+    "deleteUserSuccess": "Xóa người dùng thành công",
+    "updateUserSuccess": "Cập nhật người dùng thành công",
+    "generateOTPSuccess": "Thành công ! Một mã OTP vừa được gửi về email của bạn",
+    "verifyOTPSuccess": "Xác thực mã OTP thành công",
+    "createTime": "Thời gian tạo",
+    "user": "Người tạo"
+  },
+  "userStatus": {
+    "active": "Hoạt động",
+    "inactive": "Tạm khóa"
   }
 }

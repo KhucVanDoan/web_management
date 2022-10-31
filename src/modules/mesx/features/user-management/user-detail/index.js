@@ -9,11 +9,10 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ROUTE } from '~/modules/configuration/routes/config'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 const breadcrumbs = [
   {
@@ -34,15 +33,6 @@ function UserManagementDetail() {
     data: { isLoading, userDetails },
     actions,
   } = useUserManagement()
-
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
 
   useEffect(() => {
     actions.getUserDetailsById(id)
@@ -85,7 +75,10 @@ function UserManagementDetail() {
               <LV label={t('userManagement.code')} value={userDetails.code} />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('userManagement.email')} value={userDetails.email} />
+              <LV
+                label={t('userManagement.fullName')}
+                value={userDetails.fullName}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
@@ -94,14 +87,13 @@ function UserManagementDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
+              <LV label={t('userManagement.email')} value={userDetails.email} />
+            </Grid>
+
+            <Grid item lg={6} xs={12}>
               <LV label={t('userManagement.phone')} value={userDetails.phone} />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.fullName')}
-                value={userDetails.fullName}
-              />
-            </Grid>
+
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.dateOfBirth')}
@@ -110,16 +102,17 @@ function UserManagementDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('userManagement.user')}
-                value={userDetails.createdBy?.username}
+                label={t('userManagement.createTime')}
+                value={convertUtcDateToLocalTz(userDetails.createdAt)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('userManagement.createTime')}
-                value={convertUtcDateTimeToLocalTz(userDetails.createdAt)}
+                label={t('userManagement.updatedAt')}
+                value={convertUtcDateToLocalTz(userDetails.updatedAt)}
               />
             </Grid>
+
             <Grid item xs={12}>
               <Typography variant="h4" mt={1}>
                 {t('userManagement.workInfo')}
@@ -128,18 +121,7 @@ function UserManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.companyName')}
-                value={
-                  companyList?.find((item) => item.id === userDetails.companyId)
-                    ?.name
-                }
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.factoryName')}
-                value={userDetails.factories
-                  ?.map((factory) => factory?.name)
-                  .join('; ')}
+                value={userDetails.company?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -152,7 +134,7 @@ function UserManagementDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('userManagement.roleAssign')}
+                label={t('userManagement.role')}
                 value={userDetails.userRoleSettings
                   ?.map((role) => role?.name)
                   .join('; ')}

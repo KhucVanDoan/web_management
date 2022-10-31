@@ -9,10 +9,7 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import {
-  MOVEMENT_IMPORT_TYPE,
-  MOVEMENT_TYPE_MAP,
-} from '~/modules/wmsx/constants'
+import { MOVEMENT_TYPE, MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -188,7 +185,9 @@ const WarehouseImportDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      {movementDetail?.movementType === MOVEMENT_IMPORT_TYPE.IMPORT && (
+      {[MOVEMENT_TYPE.PO_IMPORT_RECEIVE].includes(
+        movementDetail?.movementType,
+      ) && (
         <Box sx={{ mt: 3 }}>
           <ItemsSettingTable
             items={receiptDetail?.purchasedOrderImportDetails || []}
@@ -196,9 +195,13 @@ const WarehouseImportDetail = () => {
           />
         </Box>
       )}
-      {movementDetail?.movementType === MOVEMENT_IMPORT_TYPE.STORED && (
+      {[
+        MOVEMENT_TYPE.PO_IMPORT,
+        MOVEMENT_TYPE.TRANSFER_IMPORT,
+        MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT,
+      ].includes(movementDetail?.movementType) && (
         <Box sx={{ mt: 3 }}>
-          <ItemSettingTable items={[]} />
+          <ItemSettingTable items={movementDetail?.items || []} />
         </Box>
       )}
       <ActionBar onBack={backToList} />

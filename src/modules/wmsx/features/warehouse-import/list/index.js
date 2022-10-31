@@ -10,9 +10,10 @@ import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
 import {
-  MOVEMENT_IMPORT_TYPE_MAP,
   MOVEMENT_TYPE,
-  WAREHOUSE_IMPORT_TYPE_MAP,
+  MOVEMENT_TYPE_MAP,
+  WAREHOUSE_IMPORT_TYPE,
+  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseImport from '~/modules/wmsx/redux/hooks/useWarehouseImport'
 import { exportWarehouseImportApi } from '~/modules/wmsx/redux/sagas/warehouse-import/import-export-warehouse-import'
@@ -44,13 +45,9 @@ function WarehouseImport() {
 
   const DEFAULT_QUICK_FILTERS = {
     createdAt: '',
-    createdByUser: '',
     warehouseId: '',
-    movementType: [
-      MOVEMENT_TYPE.PO_IMPORT,
-      MOVEMENT_TYPE.TRANSFER_IMPORT,
-      MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT,
-    ],
+    orderType: WAREHOUSE_IMPORT_TYPE.PO,
+    movementType: MOVEMENT_TYPE.PO_IMPORT_RECEIVE,
   }
 
   const DEFAULT_FILTERS = {
@@ -100,14 +97,14 @@ function WarehouseImport() {
       headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
-      renderCell: (params) => params.row?.order?.code,
+      renderCell: (params) => params.row?.orderCode,
     },
     {
-      field: 'receiptType',
+      field: 'orderType',
       headerName: t('movements.importExport.receiptType'),
       width: 120,
       renderCell: (params) => {
-        return t(WAREHOUSE_IMPORT_TYPE_MAP[params.row?.orderType])
+        return t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])
       },
     },
     {
@@ -115,7 +112,7 @@ function WarehouseImport() {
       headerName: t('movements.importExport.movementType'),
       width: 120,
       renderCell: (params) => {
-        return t(MOVEMENT_IMPORT_TYPE_MAP[params.row?.movementType])
+        return t(MOVEMENT_TYPE_MAP[params.row?.movementType])
       },
     },
     {

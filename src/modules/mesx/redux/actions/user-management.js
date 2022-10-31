@@ -30,6 +30,14 @@ export const RESET_PASSWORD_START = 'MESX_RESET_PASSWORD_START'
 export const RESET_PASSWORD_SUCCESS = 'MESX_RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILED = 'MESX_RESET_PASSWORD_FAILED'
 
+export const CONFIRM_USER_START = 'MESX_CONFIRM_USER_START'
+export const CONFIRM_USER_SUCCESS = 'MESX_CONFIRM_USER_SUCCESS'
+export const CONFIRM_USER_FAILED = 'MESX_CONFIRM_USER_FAILED'
+
+export const REJECT_USER_START = 'MESX_REJECT_USER_START'
+export const REJECT_USER_SUCCESS = 'MESX_REJECT_RUSER_SUCCESS'
+export const REJECT_USER_FAILED = 'MESX_REJECT_RUSER_FAILED'
+
 export const RESET_USER_DETAILS_STATE = 'MESX_RESET_USER_DETAILS_STATE'
 /**
  * Search user
@@ -330,6 +338,49 @@ export function resetPasswordFailed() {
   }
 }
 
+export function confirmUserById(userId, onSuccess, onError) {
+  return {
+    type: CONFIRM_USER_START,
+    payload: userId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function confirmUserByIdSuccess(payload) {
+  return {
+    type: CONFIRM_USER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function confirmUserByIdFailed() {
+  return {
+    type: CONFIRM_USER_FAILED,
+  }
+}
+
+export function rejectUserById(userId, onSuccess, onError) {
+  return {
+    type: REJECT_USER_START,
+    payload: userId,
+    onSuccess: onSuccess,
+    onError: onError,
+  }
+}
+
+export function rejectUserByIdSuccess(payload) {
+  return {
+    type: REJECT_USER_SUCCESS,
+    payload: payload,
+  }
+}
+
+export function rejectUserByIdFailed() {
+  return {
+    type: REJECT_USER_FAILED,
+  }
+}
 export function resetUserDetailsState() {
   return {
     type: RESET_USER_DETAILS_STATE,
@@ -361,5 +412,11 @@ export default {
   resetPassword,
   resetPasswordSuccess,
   resetPasswordFailed,
+  confirmUserById,
+  confirmUserByIdSuccess,
+  confirmUserByIdFailed,
+  rejectUserById,
+  rejectUserByIdSuccess,
+  rejectUserByIdFailed,
   resetUserDetailsState,
 }

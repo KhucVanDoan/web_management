@@ -9,12 +9,15 @@ import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
+import Dialog from '~/components/Dialog'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
+import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
+import StatusSwitcher from '~/components/StatusSwitcher'
 import useUserManagement from '~/modules/mesx/redux/hooks/useUserManagement'
+import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
 import qs from '~/utils/qs'
@@ -38,7 +41,7 @@ const breadcrumbs = [
 ]
 
 function UserManagement() {
-  const { t } = useTranslation('mesx')
+  const { t } = useTranslation('wmsx')
   const history = useHistory()
   const location = useLocation()
   const { factoryId } = qs.parse(location.search)
@@ -74,8 +77,16 @@ function UserManagement() {
 
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
-
+  const [tempItem, setTempItem] = useState()
+  const [isActiveModal, setIsActiveModal] = useState(false)
   const columns = [
+    {
+      field: 'code',
+      headerName: t('userManagement.code'),
+      width: 100,
+      sortable: true,
+      fixed: true,
+    },
     {
       field: 'username',
       headerName: t('userManagement.username'),
@@ -90,12 +101,7 @@ function UserManagement() {
       sortable: true,
       fixed: true,
     },
-    {
-      field: 'email',
-      headerName: t('userManagement.email'),
-      width: 150,
-      sortable: false,
-    },
+
     {
       field: 'departmentName',
       headerName: t('userManagement.department'),
@@ -121,18 +127,6 @@ function UserManagement() {
       },
     },
     {
-      field: 'warehouseName',
-      headerName: t('userManagement.warehouse'),
-      width: 150,
-      sortable: false,
-      renderCell: (params) => {
-        const warehousesName = params.row.userWarehouses
-          ?.map((warehouse) => warehouse?.name)
-          ?.join('; ')
-        return warehousesName
-      },
-    },
-    {
       field: 'status',
       headerName: t('userManagement.status'),
       width: 80,
@@ -141,7 +135,7 @@ function UserManagement() {
         const { status } = params.row
         return (
           <Status
-            options={USER_MANAGEMENT_STATUS_OPTIONS}
+            options={ACTIVE_STATUS_OPTIONS}
             value={status}
             variant="text"
           />
@@ -156,7 +150,8 @@ function UserManagement() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params?.row
+        const { id, status } = params?.row
+        const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
             <IconButton
@@ -177,14 +172,8 @@ function UserManagement() {
             >
               <Icon name="edit" />
             </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  `${ROUTE.USER_MANAGEMENT.CREATE.PATH}?cloneId=${id}`,
-                )
-              }
-            >
-              <Icon name="clone" />
+            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+              <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
           </div>
         )
@@ -212,7 +201,14 @@ function UserManagement() {
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
-
+  const onClickUpdateStatus = (tempItem) => {
+    setIsActiveModal(true)
+    setTempItem(tempItem)
+  }
+  const onCloseUpdateStatusModal = () => {
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
   const renderHeaderRight = () => {
     return (
       <>
@@ -248,7 +244,19 @@ function UserManagement() {
       </>
     )
   }
-
+  const onSubmitUpdateStatus = () => {
+    if (tempItem?.status === ACTIVE_STATUS.ACTIVE) {
+      actions.rejectUserById(tempItem?.id, () => {
+        refreshData()
+      })
+    } else if (tempItem?.status === ACTIVE_STATUS.INACTIVE) {
+      actions.confirmUserById(tempItem?.id, () => {
+        refreshData()
+      })
+    }
+    setIsActiveModal(false)
+    setTempItem(null)
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -295,6 +303,44 @@ function UserManagement() {
           },
         }}
       />
+      <Dialog
+        open={isActiveModal}
+        title={t('general.updateStatus')}
+        onCancel={onCloseUpdateStatusModal}
+        cancelLabel={t('general:common.no')}
+        onSubmit={onSubmitUpdateStatus}
+        submitLabel={t('general:common.yes')}
+        {...(tempItem?.status === ACTIVE_STATUS.ACTIVE
+          ? {
+              submitProps: {
+                color: 'error',
+              },
+            }
+          : {})}
+        noBorderBottom
+      >
+        {t('general.confirmMessage')}
+        <LV
+          label={t('userManagement.code')}
+          value={tempItem?.code}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('userManagement.username')}
+          value={tempItem?.username}
+          sx={{ mt: 4 / 3 }}
+        />
+        <LV
+          label={t('general.status')}
+          value={
+            <StatusSwitcher
+              options={ACTIVE_STATUS_OPTIONS}
+              value={tempItem?.status}
+            />
+          }
+          sx={{ mt: 4 / 3 }}
+        />
+      </Dialog>
     </Page>
   )
 }
