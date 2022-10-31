@@ -38,13 +38,12 @@ const ReportExport = () => {
 
   const {
     data: { isLoading },
-    actions,
   } = useReportExport()
 
   const initialValues = {
     type: '',
     company: null,
-    time: '',
+    time: [new Date(), new Date()],
     fileFormat: '',
   }
 
@@ -59,26 +58,10 @@ const ReportExport = () => {
       dateFrom: values?.time?.[0]?.toISOString(),
       dateTo: values?.time?.[1]?.toISOString(),
     }
-    actions.exportReport(convertValues, () => {
-      window.location.reload()
-    })
-  }
-
-  const handleClickExport = (values) => {
-    const convertValues = {
-      reportType: values?.type,
-      exportType: values?.fileFormat,
-      companyId: values?.company?.id,
-      constructionId: values?.construction?.id.toString(),
-      warehouseId: values?.warehouse?.id,
-      receiveDepartmentId: values?.receivingDepartment?.id,
-      dateFrom: values?.time?.[0]?.toISOString(),
-      dateTo: values?.time?.[1]?.toISOString(),
-    }
     exportReportApi(convertValues)
   }
 
-  const renderActionBar = (handleReset, values) => {
+  const renderActionBar = (handleReset) => {
     return (
       <Box
         sx={{
@@ -92,7 +75,7 @@ const ReportExport = () => {
         <Button variant="outlined" color="subText" onClick={handleReset}>
           {t('general:actionBar.cancel')}
         </Button>
-        <Button onClick={() => handleClickExport(values)} icon="save">
+        <Button type="submit" icon="save">
           {t('reportExport.export')}
         </Button>
       </Box>
@@ -144,7 +127,8 @@ const ReportExport = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
                   </Grid>
@@ -160,7 +144,8 @@ const ReportExport = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={12} xs={12}>
@@ -175,7 +160,8 @@ const ReportExport = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                     />
                   </Grid>
                   <Grid item lg={12} xs={12}>
@@ -190,7 +176,8 @@ const ReportExport = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
                       disabled={
                         values?.type !== REPORT_TYPE.SITUATION_EXPORT_PERIOD
                       }
@@ -201,7 +188,10 @@ const ReportExport = () => {
                       name="time"
                       label={t('reportExport.time')}
                       placeholder={t('reportExport.time')}
-                      required
+                      required={
+                        values?.type !== REPORT_TYPE.INVENTORY &&
+                        values?.type !== REPORT_TYPE.SITUATION_INVENTORY_PERIOD
+                      }
                     />
                   </Grid>
                   <Grid item lg={12} xs={12}>
@@ -219,7 +209,7 @@ const ReportExport = () => {
                 </Grid>
               </Grid>
             </Grid>
-            {renderActionBar(handleReset, values)}
+            {renderActionBar(handleReset)}
           </Form>
         )}
       </Formik>

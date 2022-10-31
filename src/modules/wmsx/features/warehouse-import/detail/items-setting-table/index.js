@@ -15,6 +15,9 @@ const ItemSettingTable = ({ items }) => {
       field: 'id',
       headerName: '#',
       width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'code',
@@ -27,7 +30,7 @@ const ItemSettingTable = ({ items }) => {
       width: 120,
     },
     {
-      field: 'unit',
+      field: 'itemUnit',
       headerName: t('movements.itemDetails.unit'),
       width: 120,
     },
@@ -35,27 +38,25 @@ const ItemSettingTable = ({ items }) => {
       field: 'lotNumber',
       headerName: t('movements.itemDetails.lotNumber'),
       width: 120,
+      renderCell: (params) => params.row?.lots?.[0]?.lotNumber,
     },
     {
       field: 'storedQuantity',
       headerName: t('movements.itemDetails.storedQuantity'),
       width: 120,
-      renderCell: (params) => {
-        return Number(params.row?.quantity)
-      },
+      renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
     },
     {
       field: 'unstoredQuantity',
       headerName: t('movements.itemDetails.unstoredQuantity'),
       width: 120,
-      renderCell: (params) => {
-        return Number(params.row?.quantity)
-      },
+      renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
     },
     {
       field: 'location',
       headerName: t('movements.itemDetails.location'),
       width: 120,
+      renderCell: (params) => params.row?.lots?.[0]?.locationName,
     },
   ]
 
@@ -75,7 +76,7 @@ const ItemSettingTable = ({ items }) => {
       </Box>
 
       <DataTable
-        rows={[]}
+        rows={items}
         columns={columns}
         total={items.length}
         striped={false}

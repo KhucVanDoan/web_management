@@ -1290,15 +1290,16 @@
   },
   "warehouseMovementOrderType": {
     "poi": "Lệnh nhập theo đơn",
-    "po": "Lệnh đặt hàng",
+    "po": "Phiếu nhập kho",
     "pro": "Lệnh sản xuất",
-    "so": "Lệnh bán hàng",
+    "so": "Phiếu xuất kho",
     "transfer": "Lệnh chuyển kho",
     "imo": "Lệnh xuất nhập khác",
     "exo": "Lệnh xuất nhập khác",
     "ro": "abc",
     "proposal": "abc",
-    "swiftLocator": "abc"
+    "swiftLocator": "Đảo hàng",
+    "inventory": "Điều chỉnh tồn kho"
   },
   "warehouseMovementStatus": {
     "created": "Chờ xác nhận",
@@ -3246,19 +3247,6 @@
     "situationExportPeriod": "Thống kê tình hình xuất kho",
     "ageOfItemStock": "Thống kê tuổi hàng tồn kho"
   },
-  "receiptType": {
-    "impReceipt": "Phiếu nhập kho",
-    "expReceipt": "Phiếu xuất kho",
-    "inventoryTransfer": "Điều chỉnh tồn kho",
-    "transfer": "Lệnh chuyển kho",
-    "itemTransfer": "Đảo hàng"
-  },
-  "movementType": {
-    "import": "Nhập kho",
-    "export": "Xuất kho",
-    "stored": "Cất hàng",
-    "picked": "Lấy hàng"
-  },
   "inventoryAdjust": {
     "list": "Danh sách phiếu điều chỉnh",
     "searchPlaceholder": "Tìm kiếm thông tin...",
@@ -3317,6 +3305,12 @@
       "inputedQuantity": "Số lượng nhập",
       "locatorStored": "Vị trí cất"
     }
+  },
+  "movementType": {
+    "import": "Nhập kho",
+    "export": "Xuất kho",
+    "stored": "Cất hàng",
+    "picked": "Lấy hàng"
   },
   "userManagement": {
     "title": "Danh sách người dùng",
