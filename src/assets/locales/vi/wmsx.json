@@ -1295,7 +1295,10 @@
     "so": "Lệnh bán hàng",
     "transfer": "Lệnh chuyển kho",
     "imo": "Lệnh xuất nhập khác",
-    "exo": "Lệnh xuất nhập khác"
+    "exo": "Lệnh xuất nhập khác",
+    "ro": "abc",
+    "proposal": "abc",
+    "swiftLocator": "abc"
   },
   "warehouseMovementStatus": {
     "created": "Chờ xác nhận",
