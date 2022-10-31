@@ -1,20 +1,22 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { NOTIFICATION_TYPE } from '~/common/constants'
-import {
-  rejectDataSyncManagementSuccess,
-  rejectDataSyncManagementFailed,
-  WMSX_REJECT_DATA_SYNC_MANAGEMENT_START,
-} from '~/modules/wmsx/redux/actions/data-sync-management'
 import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
+import {
+  confirmUserByIdFailed,
+  confirmUserByIdSuccess,
+  CONFIRM_USER_START,
+} from '../../actions/user-management'
+
 /**
+ * Confirm production order
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const rejectDataSyncManagementApi = (params) => {
-  const uri = `/v1/datasync/jobs/${params}/reject`
+const confirmUserApi = (params) => {
+  const uri = `/v1/users/${params}/confirm`
   return api.put(uri)
 }
 
@@ -22,12 +24,12 @@ const rejectDataSyncManagementApi = (params) => {
  * Handle get data request and response
  * @param {object} action
  */
-function* doRejectDataSyncManagement(action) {
+function* doConfirmUser(action) {
   try {
-    const response = yield call(rejectDataSyncManagementApi, action?.payload)
+    const response = yield call(confirmUserApi, action?.payload)
 
     if (response?.statusCode === 200) {
-      yield put(rejectDataSyncManagementSuccess(response.payload))
+      yield put(confirmUserByIdSuccess(response.payload))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -40,10 +42,11 @@ function* doRejectDataSyncManagement(action) {
         response?.message || response?.statusText,
         NOTIFICATION_TYPE.ERROR,
       )
+
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(rejectDataSyncManagementFailed())
+    yield put(confirmUserByIdFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -54,9 +57,6 @@ function* doRejectDataSyncManagement(action) {
 /**
  * Watch search users
  */
-export default function* watchRejectDataSyncManagement() {
-  yield takeLatest(
-    WMSX_REJECT_DATA_SYNC_MANAGEMENT_START,
-    doRejectDataSyncManagement,
-  )
+export default function* watchConfirmUser() {
+  yield takeLatest(CONFIRM_USER_START, doConfirmUser)
 }

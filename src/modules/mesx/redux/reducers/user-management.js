@@ -23,6 +23,12 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_START,
   RESET_PASSWORD_SUCCESS,
+  CONFIRM_USER_FAILED,
+  CONFIRM_USER_START,
+  CONFIRM_USER_SUCCESS,
+  REJECT_USER_FAILED,
+  REJECT_USER_START,
+  REJECT_USER_SUCCESS,
   RESET_USER_DETAILS_STATE,
 } from '~/modules/mesx/redux/actions/user-management'
 
@@ -49,6 +55,8 @@ export default function userManagement(state = initialState, action) {
     case GENERATE_OTP_START:
     case VERIFY_OTP_START:
     case RESET_PASSWORD_START:
+    case CONFIRM_USER_START:
+    case REJECT_USER_START:
       return {
         ...state,
         isLoading: true,
@@ -80,6 +88,10 @@ export default function userManagement(state = initialState, action) {
     case VERIFY_OTP_FAILED:
     case RESET_PASSWORD_FAILED:
     case RESET_PASSWORD_SUCCESS:
+    case CONFIRM_USER_SUCCESS:
+    case CONFIRM_USER_FAILED:
+    case REJECT_USER_SUCCESS:
+    case REJECT_USER_FAILED:
       return {
         ...state,
         isLoading: false,
