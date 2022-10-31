@@ -221,24 +221,26 @@ export const MOVEMENT_STATUS = [
 ]
 
 export const MOVEMENT_TYPE = {
-  PO_IMPORT: 0,
-  PO_EXPORT: 1,
-  PRO_IMPORT: 2,
-  PRO_EXPORT: 3,
-  SO_IMPORT: 4,
-  SO_EXPORT: 5,
-  TRANSFER_IMPORT: 6,
-  TRANSFER_EXPORT: 7,
-  IMO_IMPORT: 8,
-  EMO_EXPORT: 9,
-  PO_IMPORT_RETURN: 10,
-  SO_EXPORT_RETURN: 11,
-  RETURN_IMPORT: 12,
-  RETURN_EXPORT: 13,
-  RETURN_PO_ERROR: 14,
-  RETURN_SO_ERROR: 15,
-  SWIFT_FLOOR_IMPORT: 16,
-  SWIFT_FLOOR_EXPORT: 17,
+  PO_IMPORT: 0, // Cất hàng
+  PO_EXPORT: 1, // bỏ
+  PRO_IMPORT: 2, // bỏ
+  PRO_EXPORT: 3, // bỏ
+  SO_IMPORT: 4, // bỏ
+  SO_EXPORT: 5, // xuất kho
+  TRANSFER_IMPORT: 6, // nhập chuyển kho
+  TRANSFER_EXPORT: 7, // xuất chuyển kho
+  IMO_IMPORT: 8, // bỏ
+  EMO_EXPORT: 9, // bỏ
+  PO_IMPORT_RETURN: 10, // bỏ
+  SO_EXPORT_RETURN: 11, // bỏ
+  RETURN_IMPORT: 12, // bỏ
+  RETURN_EXPORT: 13, // bỏ
+  RETURN_PO_ERROR: 14, // bỏ
+  RETURN_SO_ERROR: 15, // bỏ
+  SWIFT_FLOOR_IMPORT: 16, // nhập đảo hàng
+  SWIFT_FLOOR_EXPORT: 17, // xuất đảo hàng
+  PO_IMPORT_RECEIVE: 18, // lấy hàng
+  PO_EXPORT_RECEIVE: 19, // xuất lấy hàng
 }
 
 export const MOVEMENT_TYPE_MAP = {
@@ -1020,6 +1022,9 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE = {
   TRANSFER: 4,
   IMO: 5,
   EXO: 6,
+  RO: 7,
+  PROPOSAL: 8,
+  SWIFT_LOCATOR: 9,
 }
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
@@ -1031,6 +1036,11 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
     'warehouseMovementOrderType.transfer',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.IMO]: 'warehouseMovementOrderType.imo',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.EXO]: 'warehouseMovementOrderType.exo',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.RO]: 'warehouseMovementOrderType.ro',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.PROPOSAL]:
+    'warehouseMovementOrderType.proposal',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.SWIFT_LOCATOR]:
+    'warehouseMovementOrderType.swiftLocator',
 }
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
@@ -1051,7 +1061,7 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
     text: 'warehouseMovementOrderType.so',
   },
   {
-    id: 6,
+    id: 4,
     text: 'warehouseMovementOrderType.transfer',
   },
   {
@@ -1059,8 +1069,20 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
     text: 'warehouseMovementOrderType.imo',
   },
   {
-    id: 7,
+    id: 6,
     text: 'warehouseMovementOrderType.exo',
+  },
+  {
+    id: 7,
+    text: 'warehouseMovementOrderType.ro',
+  },
+  {
+    id: 8,
+    text: 'warehouseMovementOrderType.proposal',
+  },
+  {
+    id: 9,
+    text: 'warehouseMovementOrderType.swiftLocator',
   },
 ]
 
