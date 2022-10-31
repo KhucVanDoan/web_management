@@ -8,7 +8,7 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import {
-  MOVEMENT_EXPORT_TYPE_OPTIONS,
+  WAREHOUSE_EXPORT_TYPE,
   WAREHOUSE_EXPORT_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -24,9 +24,43 @@ const WarehouseExportFilter = ({
     setQuickFilters(values)
   }
 
+  const getMovementTypeList = (values) => {
+    const orderType = values?.orderType
+    switch (orderType) {
+      case WAREHOUSE_EXPORT_TYPE.SO:
+      case WAREHOUSE_EXPORT_TYPE.INVENTORY:
+        return [
+          {
+            id: 5,
+            text: 'movementType.export',
+          },
+          {
+            // id: 0,
+            text: 'movementType.picked',
+          },
+        ]
+      case WAREHOUSE_EXPORT_TYPE.TRANSFER:
+        return [
+          {
+            id: 7,
+            text: 'movementType.export',
+          },
+        ]
+      case WAREHOUSE_EXPORT_TYPE.SWIFT_LOCATOR:
+        return [
+          {
+            id: 17,
+            text: 'movementType.picked',
+          },
+        ]
+      default:
+        break
+    }
+  }
+
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
-      {({ resetForm }) => {
+      {({ values, resetForm, setFieldValue }) => {
         return (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 4 }}>
@@ -61,12 +95,13 @@ const WarehouseExportFilter = ({
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="receiptType"
+                      name="orderType"
                       label={t('movements.importExport.receiptType')}
                       placeholder={t('movements.importExport.receiptType')}
                       options={WAREHOUSE_EXPORT_TYPE_OPTIONS}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
+                      onChange={() => setFieldValue('movementType', null)}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -74,7 +109,7 @@ const WarehouseExportFilter = ({
                       name="movementType"
                       label={t('movements.importExport.movementType')}
                       placeholder={t('movements.importExport.movementType')}
-                      options={MOVEMENT_EXPORT_TYPE_OPTIONS}
+                      options={getMovementTypeList(values)}
                       getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />

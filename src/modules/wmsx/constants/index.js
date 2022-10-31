@@ -244,25 +244,62 @@ export const MOVEMENT_TYPE = {
 }
 
 export const MOVEMENT_TYPE_MAP = {
-  [MOVEMENT_TYPE.PO_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.PO_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.PRO_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.PRO_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.SO_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.SO_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.IMO_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.EMO_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.PO_IMPORT_RETURN]: 'movements.import',
-  [MOVEMENT_TYPE.SO_EXPORT_RETURN]: 'movements.export',
-  [MOVEMENT_TYPE.RETURN_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.RETURN_EXPORT]: 'movements.export',
-  [MOVEMENT_TYPE.RETURN_PO_ERROR]: 'movements.import',
-  [MOVEMENT_TYPE.RETURN_SO_ERROR]: 'movements.export',
-  [MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT]: 'movements.import',
-  [MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT]: 'movements.export',
+  [MOVEMENT_TYPE.PO_IMPORT]: 'movementType.stored',
+  [MOVEMENT_TYPE.PO_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.PRO_IMPORT]: 'movementType.import',
+  [MOVEMENT_TYPE.PRO_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.SO_IMPORT]: 'movementType.import',
+  [MOVEMENT_TYPE.SO_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'movementType.stored',
+  [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.IMO_IMPORT]: 'movementType.import',
+  [MOVEMENT_TYPE.EMO_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.PO_IMPORT_RETURN]: 'movementType.import',
+  [MOVEMENT_TYPE.SO_EXPORT_RETURN]: 'movementType.export',
+  [MOVEMENT_TYPE.RETURN_IMPORT]: 'movementType.import',
+  [MOVEMENT_TYPE.RETURN_EXPORT]: 'movementType.export',
+  [MOVEMENT_TYPE.RETURN_PO_ERROR]: 'movementType.import',
+  [MOVEMENT_TYPE.RETURN_SO_ERROR]: 'movementType.export',
+  [MOVEMENT_TYPE.SWIFT_FLOOR_IMPORT]: 'movementType.stored',
+  [MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT]: 'movementType.picked',
+  [MOVEMENT_TYPE.PO_IMPORT_RECEIVE]: 'movementType.import',
+  [MOVEMENT_TYPE.PO_EXPORT_RECEIVE]: 'movementType.stored',
 }
+
+export const MOVEMENT_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'movementType.stored',
+  },
+  {
+    id: 5,
+    text: 'movementType.export',
+  },
+  {
+    id: 6,
+    text: 'movementType.stored',
+  },
+  {
+    id: 7,
+    text: 'movementType.export',
+  },
+  {
+    id: 16,
+    text: 'movementType.stored',
+  },
+  {
+    id: 17,
+    text: 'movementType.picked',
+  },
+  {
+    id: 18,
+    text: 'movementType.import',
+  },
+  {
+    id: 19,
+    text: 'movementType.stored',
+  },
+]
 
 export const MOVEMENT_ORDER_TYPE_MAP = {
   [MOVEMENT_TYPE.PO_IMPORT]: 'movements.purchasedOrder',
@@ -279,48 +316,6 @@ export const MOVEMENT_WAREHOUSE_TRANSFER_ORDER_TYPE_MAP_TEXT = {
   [MOVEMENT_TYPE.TRANSFER_IMPORT]: 'warehouseTransferMovement.transferImport',
   [MOVEMENT_TYPE.TRANSFER_EXPORT]: 'warehouseTransferMovement.transferExport',
 }
-
-export const MOVEMENT_IMPORT_TYPE = {
-  IMPORT: 0,
-  STORED: 1,
-}
-
-export const MOVEMENT_IMPORT_TYPE_MAP = {
-  [MOVEMENT_IMPORT_TYPE.IMPORT]: 'movementType.import',
-  [MOVEMENT_IMPORT_TYPE.STORED]: 'movementType.stored',
-}
-
-export const MOVEMENT_IMPORT_TYPE_OPTIONS = [
-  {
-    id: 0,
-    text: 'movementType.import',
-  },
-  {
-    id: 1,
-    text: 'movementType.stored',
-  },
-]
-
-export const MOVEMENT_EXPORT_TYPE = {
-  EXPORT: 0,
-  PICKED: 1,
-}
-
-export const MOVEMENT_EXPORT_TYPE_MAP = {
-  [MOVEMENT_EXPORT_TYPE.EXPORT]: 'movementType.export',
-  [MOVEMENT_EXPORT_TYPE.PICKED]: 'movementType.picked',
-}
-
-export const MOVEMENT_EXPORT_TYPE_OPTIONS = [
-  {
-    id: 0,
-    text: 'movementType.export',
-  },
-  {
-    id: 1,
-    text: 'movementType.picked',
-  },
-]
 
 export const ORDER_STATUS = {
   PENDING: 0,
@@ -701,66 +696,68 @@ export const TRANSFER_MOVEMENT_TYPE_OPTIONS = [
 ]
 
 export const WAREHOUSE_IMPORT_TYPE = {
-  IMP_RECEIPT: 0,
-  INVENTORY_TRANSFER: 2,
-  TRANSFER: 6,
-  ITEM_TRANSFER: 8,
+  PO: 1, //phiếu nhập kho
+  TRANSFER: 4, //lệnh chuyển kho
+  SWIFT_LOCATOR: 9, //đảo hàng
+  INVENTORY: 10, //điều chuyển tồn kho fake
 }
 
 export const WAREHOUSE_IMPORT_TYPE_MAP = {
-  [WAREHOUSE_IMPORT_TYPE.IMP_RECEIPT]: 'receiptType.impReceipt',
-  [WAREHOUSE_IMPORT_TYPE.INVENTORY_TRANSFER]: 'receiptType.inventoryTransfer',
-  [WAREHOUSE_IMPORT_TYPE.TRANSFER]: 'receiptType.transfer',
-  [WAREHOUSE_IMPORT_TYPE.ITEM_TRANSFER]: 'receiptType.itemTransfer',
+  [WAREHOUSE_IMPORT_TYPE.PO]: 'warehouseMovementOrderType.po',
+  [WAREHOUSE_IMPORT_TYPE.TRANSFER]: 'warehouseMovementOrderType.transfer',
+  [WAREHOUSE_IMPORT_TYPE.SWIFT_LOCATOR]:
+    'warehouseMovementOrderType.swiftLocator',
+  [WAREHOUSE_IMPORT_TYPE.INVENTORY]: 'warehouseMovementOrderType.inventory',
 }
 export const WAREHOUSE_IMPORT_TYPE_OPTIONS = [
   {
-    id: 0,
-    text: 'receiptType.impReceipt',
+    id: 1,
+    text: 'warehouseMovementOrderType.po',
   },
   {
-    id: 2,
-    text: 'receiptType.inventoryTransfer',
+    id: 10,
+    text: 'warehouseMovementOrderType.inventory',
   },
   {
-    id: 6,
-    text: 'receiptType.transfer',
+    id: 4,
+    text: 'warehouseMovementOrderType.transfer',
   },
   {
-    id: 8,
-    text: 'receiptType.itemTransfer',
+    id: 9,
+    text: 'warehouseMovementOrderType.swiftLocator',
   },
 ]
 
 export const WAREHOUSE_EXPORT_TYPE = {
-  EXP_RECEIPT: 0,
-  INVENTORY_TRANSFER: 2,
-  TRANSFER: 6,
-  ITEM_TRANSFER: 8,
+  SO: 3, //phiếu xuất kho
+  TRANSFER: 4, //lệnh chuyển kho
+  SWIFT_LOCATOR: 9, //đảo hàng
+  INVENTORY: 10, //điều chuyển tồn kho fake
 }
 
 export const WAREHOUSE_EXPORT_TYPE_MAP = {
-  [WAREHOUSE_EXPORT_TYPE.EXP_RECEIPT]: 'receiptType.expReceipt',
-  [WAREHOUSE_EXPORT_TYPE.INVENTORY_TRANSFER]: 'receiptType.inventoryTransfer',
-  [WAREHOUSE_EXPORT_TYPE.TRANSFER]: 'receiptType.transfer',
-  [WAREHOUSE_EXPORT_TYPE.ITEM_TRANSFER]: 'receiptType.itemTransfer',
+  [WAREHOUSE_EXPORT_TYPE.SO]: 'warehouseMovementOrderType.so',
+  [WAREHOUSE_EXPORT_TYPE.TRANSFER]: 'warehouseMovementOrderType.transfer',
+  [WAREHOUSE_EXPORT_TYPE.SWIFT_LOCATOR]:
+    'warehouseMovementOrderType.swiftLocator',
+  [WAREHOUSE_EXPORT_TYPE.INVENTORY]: 'warehouseMovementOrderType.inventory',
 }
 export const WAREHOUSE_EXPORT_TYPE_OPTIONS = [
   {
-    id: 0,
-    text: 'receiptType.expReceipt',
+    id: 3,
+    text: 'warehouseMovementOrderType.so',
   },
   {
-    id: 2,
-    text: 'receiptType.inventoryTransfer',
+    id: 10,
+    text: 'warehouseMovementOrderType.inventory',
   },
   {
-    id: 6,
-    text: 'receiptType.transfer',
+    id: 4,
+    text: 'warehouseMovementOrderType.transfer',
   },
   {
-    id: 8,
-    text: 'receiptType.itemTransfer',
+    id: 9,
+    text: 'warehouseMovementOrderType.swiftLocator',
   },
 ]
 
@@ -1015,16 +1012,17 @@ export const SERVICE_PRICE_TYPE = [
 ]
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE = {
-  POI: 0,
-  PO: 1,
-  PRO: 2,
-  SO: 3,
-  TRANSFER: 4,
-  IMO: 5,
-  EXO: 6,
-  RO: 7,
-  PROPOSAL: 8,
-  SWIFT_LOCATOR: 9,
+  POI: 0, //bỏ
+  PO: 1, //phiếu nhập kho
+  PRO: 2, //bỏ
+  SO: 3, //phiếu xuất kho
+  TRANSFER: 4, //lệnh chuyển kho
+  IMO: 5, //bỏ
+  EXO: 6, //bỏ
+  RO: 7, //bỏ
+  PROPOSAL: 8, //giấy đề nghị
+  SWIFT_LOCATOR: 9, //đảo hàng
+  INVENTORY: 10, //điều chuyển tồn kho fake
 }
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
@@ -1041,45 +1039,51 @@ export const WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP = {
     'warehouseMovementOrderType.proposal',
   [WAREHOUSE_MOVEMENT_ORDER_TYPE.SWIFT_LOCATOR]:
     'warehouseMovementOrderType.swiftLocator',
+  [WAREHOUSE_MOVEMENT_ORDER_TYPE.INVENTORY]:
+    'warehouseMovementOrderType.inventory',
 }
 
 export const WAREHOUSE_MOVEMENT_ORDER_TYPE_OPTIONS = [
-  {
-    id: 0,
-    text: 'warehouseMovementOrderType.poi',
-  },
+  // {
+  //   id: 0,
+  //   text: 'warehouseMovementOrderType.poi',
+  // },
   {
     id: 1,
     text: 'warehouseMovementOrderType.po',
   },
-  {
-    id: 2,
-    text: 'warehouseMovementOrderType.pro',
-  },
+  // {
+  //   id: 2,
+  //   text: 'warehouseMovementOrderType.pro',
+  // },
   {
     id: 3,
     text: 'warehouseMovementOrderType.so',
   },
   {
+    id: 10,
+    text: 'warehouseMovementOrderType.inventory',
+  },
+  {
     id: 4,
     text: 'warehouseMovementOrderType.transfer',
   },
-  {
-    id: 5,
-    text: 'warehouseMovementOrderType.imo',
-  },
-  {
-    id: 6,
-    text: 'warehouseMovementOrderType.exo',
-  },
-  {
-    id: 7,
-    text: 'warehouseMovementOrderType.ro',
-  },
-  {
-    id: 8,
-    text: 'warehouseMovementOrderType.proposal',
-  },
+  // {
+  //   id: 5,
+  //   text: 'warehouseMovementOrderType.imo',
+  // },
+  // {
+  //   id: 6,
+  //   text: 'warehouseMovementOrderType.exo',
+  // },
+  // {
+  //   id: 7,
+  //   text: 'warehouseMovementOrderType.ro',
+  // },
+  // {
+  //   id: 8,
+  //   text: 'warehouseMovementOrderType.proposal',
+  // },
   {
     id: 9,
     text: 'warehouseMovementOrderType.swiftLocator',
