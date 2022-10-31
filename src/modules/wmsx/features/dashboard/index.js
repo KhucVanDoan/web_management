@@ -37,9 +37,9 @@ function Dashboard() {
           <Formik initialValues={{}} onSubmit={() => {}} enableReinitialize>
             {() => (
               <Form>
-                <Grid container columnSpacing={{ xl: 4, xs: 2 }}>
+                <Grid container rowSpacing={1} columnSpacing={2}>
                   <Grid item xs={12} lg={6} />
-                  <Grid item xs={12} lg={3}>
+                  <Grid item xs={12} lg={3} md={6}>
                     <Field.Autocomplete
                       name="companyId"
                       placeholder={t('dashboard.companyPlaceholder')}
@@ -53,7 +53,7 @@ function Dashboard() {
                       getOptionLabel={(opt) => opt?.name}
                     />
                   </Grid>
-                  <Grid item xs={12} lg={3}>
+                  <Grid item xs={12} lg={3} md={6}>
                     <Field.DateRangePicker name="createdAt" />
                   </Grid>
                 </Grid>
