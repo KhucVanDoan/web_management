@@ -4,8 +4,15 @@ const style = (theme) => ({
     overflowX: 'auto',
     position: 'relative',
   },
+  tableContainer: {
+    overflow: 'auto',
+    border: `1px solid ${theme.palette.grayE4.main}`,
+    borderTop: 'none',
+    boxSizing: 'border-box',
+  },
   table: {
-    borderCollapse: 'collapse',
+    borderCollapse: 'separate',
+    borderSpacing: 0,
     minWidth: '100%',
   },
 
@@ -27,6 +34,14 @@ const style = (theme) => ({
       borderBottomColor: theme.palette.grayF4.main,
     },
   },
+  tableRowBorderGrid: {
+    '.MuiTableCell-root': {
+      borderRight: `1px solid ${theme.palette.grayE4.main}`,
+      borderBottom: `1px solid ${theme.palette.grayE4.main}`,
+      borderLeft: 'none',
+      borderTop: 'none',
+    },
+  },
 
   tableRowHover: {
     '&:hover': {
@@ -36,24 +51,24 @@ const style = (theme) => ({
 
   tableRowGray: {
     backgroundColor: theme.palette.grayF4.main,
-    '>.MuiTableCell-root': {
-      borderBottomColor: theme.palette.subText.a1,
-    },
+    // '>.MuiTableCell-root': {
+    //   borderBottomColor: theme.palette.subText.a1,
+    // },
   },
 
   tableCell: {
-    padding: 16,
+    padding: 8,
     fontSize: 14,
     lineHeight: 22 / 14,
     textAlign: 'left',
+    overflow: 'hidden',
+    backgroundColor: '#fff',
   },
 
   tableCellCheckbox: {
-    padding: '16px 7px',
-
-    '.MuiCheckbox-root': {
-      margin: '-9px 0',
-    },
+    padding: '0 5px',
+    verticalAlign: 'middle',
+    width: 50,
   },
 
   tableCellAlignright: {
@@ -73,6 +88,12 @@ const style = (theme) => ({
     '&:not(:last-child)': {
       display: 'none !important',
     },
+  },
+  lastStickyLeft: {
+    borderRight: `2px solid ${theme.palette.primary.a3} !important`,
+  },
+  firstStickyRight: {
+    borderLeft: `2px solid ${theme.palette.primary.a3} !important`,
   },
 })
 export default style

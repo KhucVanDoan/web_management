@@ -4,7 +4,7 @@ import MuiTableBody from '@mui/material/TableBody'
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
-const TableBody = ({ children, rows, reorderable, onChangeRowsOrder }) => {
+const TableBody = ({ children, rows, reorderable, onRowsOrderChange }) => {
   /**
    *
    * @param {*} result
@@ -26,7 +26,7 @@ const TableBody = ({ children, rows, reorderable, onChangeRowsOrder }) => {
 
     tmpItems.splice(result.destination.index, 0, movedItem)
 
-    onChangeRowsOrder(tmpItems)
+    onRowsOrderChange(tmpItems)
   }
 
   if (reorderable) {
@@ -55,14 +55,14 @@ TableBody.defaultProps = {
   children: null,
   rows: [],
   reorderable: false,
-  onChangeRowsOrder: () => {},
+  onRowsOrderChange: () => {},
 }
 
 TableBody.propsTypes = {
   children: PropTypes.node,
   rows: PropTypes.arrayOf(PropTypes.shape()),
   reorderable: PropTypes.bool,
-  onChangeRowsOrder: PropTypes.func,
+  onRowsOrderChange: PropTypes.func,
 }
 
 export default TableBody
