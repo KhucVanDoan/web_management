@@ -287,6 +287,44 @@ export const FILE_TYPE = {
   },
 }
 
+export const IMG_FILE_TYPE = [
+  {
+    NAME: 'APNG',
+    EXT: '.apng',
+    MIME_TYPE: 'image/apng',
+  },
+  {
+    NAME: 'AVIF',
+    EXT: '.avif',
+    MIME_TYPE: 'image/avif',
+  },
+  {
+    NAME: 'GIF',
+    EXT: '.gif',
+    MIME_TYPE: 'image/gif',
+  },
+  {
+    NAME: 'JPEG',
+    EXT: '.jpg, .jpeg, .jfif, .pjpeg, .pjp',
+    MIME_TYPE: 'image/jpeg',
+  },
+  {
+    NAME: 'PNG',
+    EXT: '.png',
+    MIME_TYPE: 'image/png',
+  },
+  {
+    NAME: 'SVG',
+    EXT: '.svg',
+    MIME_TYPE: 'image/svg+xml',
+  },
+  {
+    NAME: 'WebP',
+    EXT: '.webp',
+    MIME_TYPE: 'image/webp',
+  },
+]
+
 export const IMPORT_SETTING = {
   FILE_SIZE_LIMIT: 2097152,
   NUMBER_OF_FILE: 1,
