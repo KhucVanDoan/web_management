@@ -32,14 +32,14 @@ const style = (theme) => ({
   textField: {
     display: 'flex',
     flex: 1,
-    padding: '9px 16px',
+    padding: '8px 16px',
     alignItems: 'center',
     minWidth: 0,
   },
   iconCalendar: {
     display: 'flex',
     alignItems: 'center',
-    padding: 10,
+    padding: '8px 10px',
   },
   paper: {
     marginTop: 12,
