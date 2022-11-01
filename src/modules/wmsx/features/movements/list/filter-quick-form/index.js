@@ -6,16 +6,42 @@ import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import { ORDER_STATUS } from '~/modules/wmsx/constants'
+import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
+import { convertFilterParams } from '~/utils'
 
-const MovementsFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
+const MovementsFilter = ({
+  setQuickFilters,
+  defaultFilter,
+  movementTypeOpts,
+  warehouse,
+  setExportReceiptList,
+}) => {
   const { t } = useTranslation(['wmsx'])
 
-  const onSubmit = (values) => {
-    setQuickFilters(values)
+  const onSubmit = async (values) => {
+    if (values?.movementType === 'export') {
+      const response = await searchWarehouseExportReceiptApi({
+        filter: convertFilterParams({
+          status: [
+            ORDER_STATUS.IN_COLLECTING,
+            ORDER_STATUS.COLLECTED,
+            ORDER_STATUS.COMPLETED,
+          ],
+        }),
+      })
+      setExportReceiptList(response?.data?.items)
+    } else {
+      setQuickFilters(values)
+    }
   }
 
   return (
-    <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
+    <Formik
+      initialValues={defaultFilter}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       {({ resetForm }) => {
         return (
           <Form>
@@ -29,7 +55,26 @@ const MovementsFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                   <Grid item lg={6} xs={12}>
                     <Field.DateRangePicker
                       name="createdAt"
-                      label={t('movements.createTime')}
+                      label={t('movements.importExport.executeDate')}
+                      placeholder={t('movements.importExport.executeDate')}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      name="warehouseId"
+                      label={t('movements.importExport.warehouseName')}
+                      value={warehouse?.name}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="movementType"
+                      label={t('movements.importExport.movementType')}
+                      placeholder={t('movements.importExport.movementType')}
+                      options={movementTypeOpts}
+                      getOptionValue={(opt) => opt?.id || opt?.type}
+                      getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
                   <Grid item xs={12}>

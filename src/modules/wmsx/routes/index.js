@@ -111,12 +111,20 @@ import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/d
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
 import WarehouseExportReceiptPickAndExport from '../features/warehouse-export-receipt/pick-and-export'
+import {
+  Transactions as WarehouseExportReceiptTransactions,
+  TransactionDetail as WarehouseExportReceiptTransactionDetail,
+} from '../features/warehouse-export-receipt/transactions'
 import WarehouseExportDetail from '../features/warehouse-export/detail'
 import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
 import WarehouseImportReceiveAndStorage from '../features/warehouse-import-receipt/detail/receive-and-storage'
 import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/form'
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
+import {
+  Transactions as WarehouseImportReceiptTransactions,
+  TransactionDetail as WarehouseImportReceiptTransactionDetail,
+} from '../features/warehouse-import-receipt/transactions'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
 import WarehouseImport from '../features/warehouse-import/list'
 import WarehouseTransferDetail from '../features/warehouse-transfer/detail'
@@ -124,6 +132,10 @@ import PickupAndWarehouseExport from '../features/warehouse-transfer/detail/pick
 import ReceiveAndStored from '../features/warehouse-transfer/detail/receive-and-stored'
 import WarehouseTransferForm from '../features/warehouse-transfer/form'
 import WarehouseTransfer from '../features/warehouse-transfer/list'
+import {
+  Transactions as WarehouseTransferTransactions,
+  TransactionDetail as WarehouseTransferTransactionDetail,
+} from '../features/warehouse-transfer/transactions'
 import { ROUTE } from './config'
 
 const routes = [
@@ -869,6 +881,19 @@ const routes = [
             component: WarehouseImportReceiptForm,
             isInSidebar: false,
           },
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.PATH,
+            component: WarehouseImportReceiptTransactions,
+            isInSidebar: false,
+          },
+
+          {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.DETAIL.PATH,
+            component: WarehouseImportReceiptTransactionDetail,
+            isInSidebar: false,
+          },
         ],
       },
       {
@@ -899,6 +924,19 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
             component: WarehouseExportReceiptPickAndExport,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.LIST.PATH,
+            component: WarehouseExportReceiptTransactions,
+            isInSidebar: false,
+          },
+
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.DETAIL.PATH,
+            component: WarehouseExportReceiptTransactionDetail,
             isInSidebar: false,
           },
         ],
@@ -969,6 +1007,19 @@ const routes = [
             name: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.TITLE,
             path: ROUTE.WAREHOUSE_TRANSFER.RECEIVE.PATH,
             component: ReceiveAndStored,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.PATH,
+            component: WarehouseTransferTransactions,
+            isInSidebar: false,
+          },
+
+          {
+            name: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.DETAIL.TITLE,
+            path: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.DETAIL.PATH,
+            component: WarehouseTransferTransactionDetail,
             isInSidebar: false,
           },
         ],

@@ -530,6 +530,16 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-receipt/:id/pick-and-export',
       TITLE: 'warehouseExportReceiptPickAndExport',
     },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wms/warehouse-export-receipt/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wms/warehouse-export-receipt/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
+    },
   },
   WAREHOUSE_IMPORT_RECEIPT: {
     LIST: {
@@ -551,6 +561,16 @@ export const ROUTE = {
     RECEIVE_AND_STORAGE: {
       PATH: '/wms/warehouse-import-receipt/:id/receive-and-storage',
       TITLE: 'warehouseImportReceiveAndStorage',
+    },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wms/warehouse-import-receipt/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wms/warehouse-import-receipt/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
     },
   },
   WAREHOUSE_EXPORT: {
@@ -656,6 +676,16 @@ export const ROUTE = {
     RECEIVE: {
       PATH: '/wms/warehouse-transfer/:id/receive',
       TITLE: 'receiveAndStored',
+    },
+    TRANSACTIONS: {
+      LIST: {
+        PATH: '/wms/warehouse-transfer/:parentId/transactions',
+        TITLE: 'movements',
+      },
+      DETAIL: {
+        PATH: '/wms/warehouse-transfer/:parentId/transactions/:id',
+        TITLE: 'movementDetail',
+      },
     },
   },
   USER_MANAGEMENT: {

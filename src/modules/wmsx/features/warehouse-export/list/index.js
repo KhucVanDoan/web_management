@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -39,8 +40,19 @@ function WarehouseExport() {
     data: { warehouseExportList, total, isLoading },
     actions,
   } = useWarehouseExport()
+
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
+  const [exportReceiptList, setExportReceiptList] = useState([])
+
+  const exportReceiptListFormat = exportReceiptList?.map((e) => ({
+    id: e?.id,
+    orderCode: e?.code,
+    orderType: 3,
+    movementType: 3,
+    warehouse: e?.warehouseId,
+    createdAt: e?.createdAt,
+  }))
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -150,15 +162,24 @@ function WarehouseExport() {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params.row
+        const { id, movementType, orderType } = params.row
         return (
           <div>
             <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
+              onClick={() => {
+                if (orderType === 3 && movementType !== 5) {
+                  history.push(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                } else {
+                  history.push(
+                    ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              }}
             >
               <Icon name="show" />
             </IconButton>
@@ -233,10 +254,15 @@ function WarehouseExport() {
         setQuickFilters={setQuickFilters}
         quickFilters={quickFilters}
         defaultFilter={DEFAULT_QUICK_FILTERS}
+        setExportReceiptList={setExportReceiptList}
       />
       <DataTable
         title={t('warehouseExport.tableTitle')}
-        rows={warehouseExportList}
+        rows={
+          isEmpty(exportReceiptList)
+            ? warehouseExportList
+            : exportReceiptListFormat
+        }
         pageSize={pageSize}
         page={page}
         columns={columns}

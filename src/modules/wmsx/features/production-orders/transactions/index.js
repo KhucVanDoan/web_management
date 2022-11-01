@@ -3,7 +3,7 @@ import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
-import MovementDetail from '~/modules/wmsx/features/movements/detail'
+import MovementDetail from '~/modules/wmsx/features/movements/detail-import'
 import Movements from '~/modules/wmsx/features/movements/list'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
