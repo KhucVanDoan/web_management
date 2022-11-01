@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_ALLOW, TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
-import { MAINTENANCE_TEAM_TYPE_OPTIONS } from '~/modules/mmsx/constants'
+import { MAINTENANCE_TEAM_TYPE_OPTIONS } from '~/modules/wmsx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation(['mmsx'])
