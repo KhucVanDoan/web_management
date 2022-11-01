@@ -34,10 +34,19 @@ const TableRow = ({
               {...props}
             >
               {reorderable && (
-                <TableCell className={classes.tableCell}>
+                <TableCell
+                  className={classes.tableCell}
+                  sx={{
+                    verticalAlign: 'middle',
+                    textAlign: 'center !important',
+                    position: 'sticky',
+                    left: 0,
+                    zIndex: 10,
+                  }}
+                >
                   <Box
                     {...draggableProvided.dragHandleProps}
-                    sx={{ display: 'flex' }}
+                    sx={{ display: 'inline-flex', mt: '5px' }}
                   >
                     <ReorderIcon color="subText" />
                   </Box>

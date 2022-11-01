@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 
-import { Box } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import clsx from 'clsx'
-import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import TruncateMarkup from 'react-truncate-markup'
 
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { withClasses } from '~/themes'
+import { getColumnsInBottomTree } from '~/utils'
 
 import Pagination from './Pagination'
 import TableBody from './TableBody'
 import TableHead from './TableHead'
 import TableRow from './TableRow'
 import TopBar from './TopBar'
+import Truncate from './Truncate'
 import style from './style'
 
 /**
@@ -29,14 +27,13 @@ const DataTable = (props) => {
   const {
     rows,
     classes,
-    columns: rawColumns,
+    columns: rawColumns = [],
     height,
     total,
     t,
     hideFooter,
-    reorderable,
-    striped,
-    hover,
+    // striped,
+    // hover,
     title,
     hideSetting,
     page,
@@ -48,18 +45,23 @@ const DataTable = (props) => {
     onPageChange,
     onPageSizeChange,
     onSelectionChange,
+    onRowsOrderChange,
     tableSettingKey,
     onSettingChange,
     beforeTopbar,
     afterTopbar,
     bulkActions,
+    enableResizable,
+    rowSpanMatrix,
+    rowGrayMatrix,
   } = props
 
   const [visibleColumns, setVisibleColumns] = useState([])
-  const { tableSetting, updateTableSetting } = useTableSetting(tableSettingKey)
+  const containerRef = useRef(null)
+
   const uniqKey = props.uniqKey ?? 'id'
   const checkboxSelection = typeof onSelectionChange === 'function'
-
+  const reorderable = typeof onRowsOrderChange === 'function'
   /**
    * Handle select all
    * @param {*} event
@@ -122,35 +124,28 @@ const DataTable = (props) => {
     return selected.findIndex((item) => item[uniqKey] === uniqKeyValue) !== -1
   }
 
-  const handleApplySetting = useCallback((cols = []) => {
-    setVisibleColumns(cols)
-    if (!hideSetting) {
-      updateTableSetting(cols)
-    }
-  }, [])
+  const columns = useMemo(
+    () =>
+      hideSetting
+        ? rawColumns.filter((col) => !col.hide)
+        : rawColumns.filter((col) => visibleColumns.includes(col.field)),
+    [hideSetting, rawColumns, visibleColumns],
+  )
 
-  useEffect(() => {
-    const initVisibleColumns =
-      (!hideSetting && tableSetting) ||
-      (rawColumns || []).reduce((acc, cur) => {
-        if (!cur.hide) return [...acc, cur.field]
-        return acc
-      }, [])
+  const bodyColumns = useMemo(() => getColumnsInBottomTree(columns), [columns])
 
-    handleApplySetting(initVisibleColumns)
-  }, [rawColumns, handleApplySetting])
+  const hasTableHead = useMemo(
+    () => columns.some((col) => col.headerName !== undefined),
+    [columns],
+  )
 
-  const tableSettingRef = useRef(null)
-  useEffect(() => {
-    if (!isEqual(tableSetting, tableSettingRef?.current)) {
-      onSettingChange(tableSetting)
-      tableSettingRef.current = tableSetting
-    }
-  }, [tableSetting])
-
-  const columns = rawColumns.filter((col) => visibleColumns.includes(col.field))
-
-  const rowSpanMatrix = props.rowSpanMatrix
+  const isTableResizable = useMemo(
+    () =>
+      enableResizable &&
+      hasTableHead &&
+      columns?.some((col) => col?.resizable !== false),
+    [enableResizable, hasTableHead, columns],
+  )
 
   return (
     <>
@@ -161,22 +156,31 @@ const DataTable = (props) => {
           title={title}
           columns={rawColumns}
           visibleColumns={visibleColumns}
-          onApplySetting={handleApplySetting}
           filters={filters}
           hideSetting={hideSetting}
           selected={selected}
           bulkActions={bulkActions}
           uniqKey={uniqKey}
+          tableSettingKey={tableSettingKey}
+          setVisibleColumns={setVisibleColumns}
+          onSettingChange={onSettingChange}
         />
       )}
       <TableContainer
+        ref={containerRef}
+        className={classes.tableContainer}
         sx={{
           maxHeight: 'calc(100vh - 160px)',
-          '.MuiDialog-container &': { maxHeight: 'calc(100vh - 280px)' },
-          ...(height ? { maxHeight: height } : { flex: 1, overflow: 'auto' }),
+          ...(height ? { maxHeight: height } : {}),
+          '.MuiDialog-container &': {
+            maxHeight: 'calc(100vh - 280px)',
+          },
         }}
       >
-        <Table className={classes.table} stickyHeader>
+        <Table
+          className={classes.table}
+          sx={isTableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
+        >
           <TableHead
             uniqKey={uniqKey}
             selected={selected}
@@ -187,13 +191,18 @@ const DataTable = (props) => {
             onSortChange={onSortChange}
             onSelectAllClick={handleSelectAllClick}
             checkboxSelection={checkboxSelection}
+            rawColumns={rawColumns}
             columns={columns}
             reorderable={reorderable}
+            enableResizable={enableResizable}
+            tableSettingKey={tableSettingKey}
+            containerRef={containerRef}
           />
+
           <TableBody
             rows={rows}
             reorderable={reorderable}
-            onChangeRowsOrder={props.onChangeRowsOrder}
+            onRowsOrderChange={onRowsOrderChange}
           >
             {rows?.length > 0 &&
               rows.map((row, index) => {
@@ -207,12 +216,16 @@ const DataTable = (props) => {
                     reorderable={reorderable}
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    className={clsx(classes.tableRow, {
-                      [classes.tableRowStriped]: striped,
-                      [classes.tableRowBorder]: !striped,
-                      [classes.tableRowHover]: hover,
-                      [classes.tableRowGray]: props.rowGrayMatrix?.[index],
-                    })}
+                    className={clsx(
+                      classes.tableRow,
+                      classes.tableRowBorderGrid,
+                      {
+                        // [classes.tableRowStriped]: striped,
+                        // [classes.tableRowBorder]: !striped,
+                        // [classes.tableRowHover]: hover,
+                        [classes.tableRowGray]: rowGrayMatrix?.[index],
+                      },
+                    )}
                     classes={classes}
                   >
                     {checkboxSelection && (
@@ -221,6 +234,11 @@ const DataTable = (props) => {
                           classes.tableCell,
                           classes.tableCellCheckbox,
                         )}
+                        sx={{
+                          position: 'sticky',
+                          left: reorderable ? 50 : 0,
+                          zIndex: 10,
+                        }}
                       >
                         <Checkbox
                           checked={isItemSelected}
@@ -233,19 +251,18 @@ const DataTable = (props) => {
                         />
                       </TableCell>
                     )}
-                    {columns.map((column, i) => {
+                    {bodyColumns.map((column, i) => {
                       const {
                         field,
                         align,
                         renderCell,
                         width,
                         cellStyle = {},
+                        sticky,
                       } = column
                       const cellValue = renderCell
                         ? renderCell({ row }, index)
                         : row[field]
-
-                      const canTruncated = typeof cellValue === 'string'
 
                       const rowSpan = rowSpanMatrix?.[index]?.[i]
 
@@ -255,42 +272,31 @@ const DataTable = (props) => {
                         <TableCell
                           className={clsx(classes.tableCell, {
                             [classes[`tableCellAlign${align}`]]: align,
+                            [classes.lastStickyLeft]:
+                              sticky?.left !== undefined &&
+                              !bodyColumns[i + 1]?.sticky?.left,
+                            [classes.firstStickyRight]:
+                              sticky?.right !== undefined &&
+                              !bodyColumns[i - 1]?.sticky?.right,
                           })}
                           key={`data-table-${field}-${i}`}
                           id={`data-table-${field}-${i}`}
-                          sx={{ minWidth: width, ...cellStyle }}
+                          sx={{
+                            width: width,
+                            minWidth: width,
+                            ...(sticky
+                              ? {
+                                  position: 'sticky',
+                                  left: sticky?.left ?? 'auto',
+                                  right: sticky?.right ?? 'auto',
+                                  zIndex: 10,
+                                }
+                              : {}),
+                            ...cellStyle,
+                          }}
                           {...(rowSpan > 1 ? { rowSpan } : {})}
                         >
-                          {canTruncated ? (
-                            <TruncateMarkup
-                              lines={2}
-                              ellipsis={(rootEl) => (
-                                <Box
-                                  title={rootEl.props.original}
-                                  component="span"
-                                  sx={{
-                                    display: 'inline-block',
-                                    '>span': {
-                                      display: 'inline !important',
-                                    },
-                                  }}
-                                >
-                                  {rootEl.props.children}...
-                                </Box>
-                              )}
-                            >
-                              <div
-                                className={classes.truncateCell}
-                                original={cellValue}
-                              >
-                                <span className={classes.originText}>
-                                  {cellValue}
-                                </span>
-                              </div>
-                            </TruncateMarkup>
-                          ) : (
-                            cellValue
-                          )}
+                          <Truncate value={cellValue} classes={classes} />
                         </TableCell>
                       )
                     })}
@@ -339,6 +345,7 @@ DataTable.defaultProps = {
   onPageChange: () => {},
   onPageSizeChange: () => {},
   onSettingChange: () => {},
+  enableResizable: true,
 }
 
 DataTable.propsTypes = {
@@ -366,8 +373,8 @@ DataTable.propsTypes = {
   onPageSizeChange: PropTypes.func,
   onSelectionChange: PropTypes.func,
   onSortChange: PropTypes.func,
+  onRowsOrderChange: PropTypes.func,
   hideFooter: PropTypes.bool,
-  reorderable: PropTypes.bool,
   striped: PropTypes.bool,
   hover: PropTypes.bool,
   title: PropTypes.string,
@@ -380,6 +387,7 @@ DataTable.propsTypes = {
   beforeTopbar: PropTypes.node,
   afterTopbar: PropTypes.node,
   bulkActions: PropTypes.shape(),
+  enableResizable: PropTypes.bool,
 }
 
 export default withTranslation()(withClasses(style)(DataTable))

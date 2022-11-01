@@ -16,12 +16,14 @@ const TopBar = ({
   title,
   columns,
   visibleColumns,
-  onApplySetting,
   hideSetting,
   filters,
   bulkActions,
   selected,
   uniqKey,
+  tableSettingKey,
+  setVisibleColumns,
+  onSettingChange,
 }) => {
   const classes = useClasses(style)
 
@@ -42,7 +44,9 @@ const TopBar = ({
           <TableSetting
             columns={columns}
             visibleColumns={visibleColumns}
-            onApplySetting={onApplySetting}
+            tableSettingKey={tableSettingKey}
+            setVisibleColumns={setVisibleColumns}
+            onSettingChange={onSettingChange}
           />
         )}
         {afterTopbar}
@@ -71,6 +75,9 @@ TopBar.propTypes = {
   beforeTopbar: PropTypes.node,
   afterTopbar: PropTypes.node,
   selected: PropTypes.array,
+  tableSettingKey: PropTypes.string,
+  setVisibleColumns: PropTypes.func,
+  onSettingChange: PropTypes.func,
 }
 
 export default TopBar

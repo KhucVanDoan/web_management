@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import {
   Box,
@@ -7,10 +7,12 @@ import {
   Popover,
   Typography,
 } from '@mui/material'
+import { isEqual } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { useClasses } from '~/themes'
 
 import style from './style'
@@ -18,11 +20,17 @@ import style from './style'
 const TableSetting = ({
   columns: rawColumns,
   visibleColumns,
-  onApplySetting,
+  setVisibleColumns,
+  onSettingChange,
+  tableSettingKey,
 }) => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
+  const tableSettingRef = useRef(null)
+
+  const { getTableSetting, updateTableSetting } =
+    useTableSetting(tableSettingKey)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -31,6 +39,45 @@ const TableSetting = ({
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const onApplySetting = (cols = []) => {
+    setVisibleColumns(cols)
+
+    const tbSetting = getTableSetting() || []
+    const newSetting = tbSetting.map((s) => {
+      if (cols.includes(s?.field)) return { ...s, visible: true }
+      return { ...s, visible: false }
+    })
+
+    updateTableSetting(newSetting)
+  }
+
+  useEffect(() => {
+    const tbSetting = getTableSetting() || []
+
+    let newVisibleColumns = []
+
+    if (tbSetting.length) {
+      newVisibleColumns = tbSetting.reduce((acc, cur) => {
+        if (cur.visible) return [...acc, cur.field]
+        return acc
+      }, [])
+    } else {
+      newVisibleColumns = rawColumns.reduce((acc, cur) => {
+        if (!cur.hide) return [...acc, cur.field]
+        return acc
+      }, [])
+    }
+
+    setVisibleColumns(newVisibleColumns)
+  }, [rawColumns])
+
+  useEffect(() => {
+    if (!isEqual(visibleColumns, tableSettingRef?.current)) {
+      onSettingChange(visibleColumns)
+      tableSettingRef.current = visibleColumns
+    }
+  }, [visibleColumns])
 
   const open = Boolean(anchorEl)
   const columns = rawColumns.filter((col) => !col.hide)
@@ -118,15 +165,18 @@ const TableSetting = ({
 }
 
 TableSetting.defaultProps = {
-  onApplySetting: () => {},
+  setVisibleColumns: () => {},
+  onSettingChange: () => {},
   columns: [],
   visibleColumns: [],
 }
 
 TableSetting.propTypes = {
-  onApplySetting: PropTypes.func,
   columns: PropTypes.array,
   visibleColumns: PropTypes.array,
+  setVisibleColumns: PropTypes.func,
+  onSettingChange: PropTypes.func,
+  tableSettingKey: PropTypes.string,
 }
 
 export default TableSetting
