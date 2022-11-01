@@ -129,14 +129,15 @@
     "warehouseExportReceiptCreate": "Tạo phiếu xuất kho",
     "warehouseExportReceiptEdit": "Sửa phiếu xuất kho",
     "warehouseExportReceiptDetail": "Chi tiết phiếu xuất kho",
+    "warehouseExportReceiptPickAndExport": "Lấy hàng & Xuất kho",
     "warehouseImportReceipt": "Phiếu nhập kho",
     "warehouseImportReceiptCreate": "Tạo phiếu nhập kho",
     "warehouseImportReceiptEdit": "Sửa phiếu nhập kho",
     "warehouseImportReceiptDetail": "Chi tiết phiếu nhập kho",
     "warehouseExportProposal": "Giấy đề nghị xuất vật tư",
-    "warehouseExportProposalCreate": "Tạo giấy đề nghị xuất vật tự",
-    "warehouseExportProposalEdit": "Sửa giấy đề nghị xuất vật tự",
-    "warehouseExportProposalDetail": "Chi tiết giấy đề nghị xuất vật tự",
+    "warehouseExportProposalCreate": "Tạo giấy đề nghị xuất vật tư",
+    "warehouseExportProposalEdit": "Cập nhật giấy đề nghị xuất vật tư",
+    "warehouseExportProposalDetail": "Chi tiết giấy đề nghị xuất vật tư",
     "receiptManagement": "Quản lý receipt",
     "receiptManagementDetail": "Chi tiết receipt",
     "reportStatistics": "Thống kê báo cáo",
@@ -164,6 +165,7 @@
     "roleDetail": "Chi tiết vai trò",
     "roleEdit": "Sửa vai trò",
     "roleAssign": "Phân quyền vai trò",
+    "dataSyncManagement": "Quản lý đồng bộ dữ liệu",
     "userInfo": "Thông tin cá nhân",
     "changePassword": "Đổi mật khẩu",
     "warehouseTransfer": "Lệnh chuyển kho",
@@ -262,7 +264,6 @@
     "importManufacturingOrderDetail": "Chi tiết lệnh xuất nhập khác",
     "createImportManufacturingOrder": "Tạo lệnh xuất nhập khác",
     "editImportManufacturingOrder": "Sửa lệnh xuất nhập khác",
-
     "warehouseArea": "Định nghĩa khu vực",
     "warehouseAreaDetail": "Chi tiết khu vực",
     "productionOrder": "Lệnh xuất nhập trong sản xuất",
@@ -316,7 +317,8 @@
     "returnOrder": "Lệnh trả hàng",
     "returnOrderCreate": "Tạo lệnh trả hàng",
     "returnOrderEdit": "Sửa lệnh trả hàng",
-    "returnOrderDetail": "Chi tiết lệnh trả hàng"
+    "returnOrderDetail": "Chi tiết lệnh trả hàng",
+    "warehouseImportReceiveAndStorage": "Nhập kho & Cất hàng"
   },
   "locationSetting": {
     "title": "Danh sách thiết lập vị trí",
@@ -354,6 +356,7 @@
     "typeServiceEdit": "Chỉnh sửa loại dịch vụ"
   },
   "dashboard": {
+    "companyPlaceholder": "Chọn công ty",
     "chart": {
       "viewMore": "Xem đầy đủ",
       "thisPeriod": "kỳ này",
@@ -421,7 +424,8 @@
       "ebsExport": "Xuất kho EBS"
     },
     "stockItemReport": {
-      "title": "Hàng tồn kho"
+      "title": "Hàng tồn kho",
+      "warehouseTransfer": "Lệnh chuyển kho"
     },
     "exportProposal": {
       "title": "Đề nghị xuất vật tư"
@@ -2627,14 +2631,14 @@
     "itemCode": "Mã vật tư",
     "itemName": "Tên vật tư",
     "unit": "Đơn vị",
-    "inventoryLimit": "Số lượng lưu kho an toàn",
-    "minInventoryLimit": "Số lượng lưu kho tối thiểu",
-    "maxInventoryLimit": "Số lượng lưu kho tối đa",
+    "inventoryLimit": "Số lượng tồn kho an toàn",
+    "minInventoryLimit": "Số lượng tồn kho tối thiểu",
+    "maxInventoryLimit": "Số lượng tồn kho tối đa",
     "createdAt": "Thời gian tạo",
     "inventorySettingDelete": "Xóa thiết lập tồn kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập tồn kho này không?",
-    "messageWarningMin": "Số lượng lưu kho tối thiểu phải nhỏ hơn số lượng lưu kho an toàn và số lượng lưu kho tối đa",
-    "messageWarningMax": "Số lượng lưu kho tối đa phải lớn hơn số lượng lưu kho tối thiểu và số lượng lưu kho an toàn"
+    "messageWarningMin": "Số lượng tồn kho tối thiểu phải nhỏ hơn số lượng tồn kho an toàn và số lượng tồn kho tối đa",
+    "messageWarningMax": "Số lượng tồn kho tối đa phải lớn hơn số lượng tồn kho tối thiểu và số lượng tồn kho an toàn"
   },
   "defineWarehouseGroup": {
     "list": "Danh sách nhóm kho",
@@ -2754,8 +2758,8 @@
     "normalizedCode": "Mã chuẩn hóa",
     "materialCategory": "Phân loại vật tư",
     "materialQuality": "Chất lượng",
-    "specifications": "Thông số kĩ thuật",
-    "uom": "Đơn vị tinh",
+    "files": "Thông số kĩ thuật",
+    "uom": "Đơn vị tính",
     "materialImage": "Ảnh vật tư",
     "status": "Trạng thái",
     "description": "Mô tả",
@@ -2775,7 +2779,7 @@
   },
   "setStoragePeriod": {
     "list": "Danh sách thiết lập thời hạn lưu kho",
-    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "searchPlaceholder": "Tìm kiếm thời hạn lưu kho theo mã hoặc tên kho",
     "warehouseCode": "Mã kho",
     "warehouseName": "Tên kho",
     "storageLimit": "Thời hạn lưu kho (ngày)",
@@ -2860,7 +2864,27 @@
       "debitAccount": "TK ghi nợ",
       "creditAccount": "TK ghi có",
       "suppliesList": "Danh sách vật tư",
-      "addSupplies": "Thêm vật tư"
+      "addSupplies": "Thêm vật tư",
+      "unit": "Đơn vị tính",
+      "quantityExportActual": "SL thực xuất",
+      "locator": "Vị trí"
+    },
+    "pickAndExport": {
+      "title": "Lấy hàng & Xuất kho",
+      "status": "Trạng thái",
+      "receiptId": "ID phiếu xuất WMS",
+      "createdAt": "Ngày lập phiếu",
+      "warehouseExportProposalCode": "Mã phiếu đề nghị xuất kho",
+      "nameOfReceiver": "Họ tên người nhận hàng",
+      "address": "Địa chỉ(Bộ phận)",
+      "exportInWarehouse": "Xuất tại kho",
+      "suorceAccountant": "Nguồn tài khoản kế toán",
+      "warehouseExportReason": "Lý do xuất kho",
+      "warehouseExportNumber": "Số phiếu xuất kho",
+      "deliverReceipt": "Phiếu giao hàng",
+      "explaination": "Diễn giải",
+      "construction": "Công trình",
+      "constructionItem": "Hạng mục"
     }
   },
   "warehouseImportReceipt": {
@@ -2917,14 +2941,19 @@
       "money": "Thành tiền",
       "price": "Đơn giá",
       "debitAcc": "TK ghi nợ",
-      "creditAcc": "TK ghi có"
-    }
+      "creditAcc": "TK ghi có",
+      "receivedQuantity": "SL thực nhập"
+    },
+    "receiveAndStorageBtn": "Nhập kho & Cất hàng",
+    "importedItemIsNotEnough": "Chưa nhập đủ vật tư"
   },
   "warehouseExportProposal": {
     "list": "Danh sách giấy đề nghị xuất vật tư",
     "searchPlaceholder": "Tìm kiếm thông tin",
+    "print": "Máy in",
     "paperNumber": "Số giấy",
     "unit": "Đơn vị",
+    "time": "Thời gian",
     "creator": "Người tạo",
     "materialReceiver": "Người lĩnh vật tư",
     "createAt": "Ngày tạo",
@@ -2941,10 +2970,10 @@
     "category": "Hạng mục",
     "reasonUse": "Lý do sử dụng",
     "placeholderReasonUse": "Nhập lý do sử dụng",
-    "details": "thông tin chi tiết",
+    "details": "Thông tin chi tiết",
     "deleteTitlePopup": "Xóa giấy đề nghị xuất vật tư",
     "confirmTitlePopup": "Xác nhận giấy đề nghị xuất vật tư",
-    "rejectTitlePopup": "Từ chối giấy xác nhận xóa vật tư",
+    "rejectTitlePopup": "Từ chối giấy đề nghị xuất vật tư",
     "deleteConfirm": "Bạn có chắc chắn muốn xóa giấy đề nghị xuất vật tư này không?",
     "Confirm": "Bạn có chắc chắn muốn xác nhận không",
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
@@ -3128,6 +3157,31 @@
     },
     "sourceWarehouseMustBeDiferenceWithDestinationWarehouse": "Kho xuất phải khác kho nhập",
     "destinationWarehouseMustBeDiferenceWithSourceWarehouse": "Kho nhập phải khác kho xuất"
+  },
+  "dataSyncManagement": {
+    "searchPlaceholder": "Tìm kiếm thông tin...",
+    "title": "Quản lý đồng bộ dữ liệu",
+    "search": "Lọc thông tin",
+    "type": "Loại giao dịch",
+    "signalCode": "Mã tín hiệu",
+    "objectCode": "Mã đối tượng",
+    "fromSystem": "Từ hệ thống",
+    "toSystem": "Đến hệ thống",
+    "status": "Trạng thái",
+    "sentDate": "Ngày gửi",
+    "receivedDate": "Ngày nhận",
+    "action": "Hành động",
+    "date": "Ngày",
+    "syncTitle": "Đồng bộ dữ liệu",
+    "rejectTitle": "Từ chối đồng bộ dữ liệu",
+    "confirmSync": "Bạn có chắc chắn muốn đồng bộ không?",
+    "confirmReject": "Bạn có chắc chắn muốn từ chối không?",
+    "placeholder": {
+      "objectCode": "Nhập mã đối tượng",
+      "status": "Chọn trạng thái đồng bộ",
+      "type": "Chọn loại giao dịch",
+      "date": "Chọn ngày,"
+    }
   },
   "roleList": {
     "title": "Danh sách vai trò",

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -9,48 +9,58 @@ import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items } = props
+  const { mode, arrayHelpers, items, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
-  const itemList = []
-  const lots = []
-  const locators = []
-  items
-    ?.filter((e) => !isEmpty(e?.itemCode))
-    ?.forEach((item) => {
-      const findLots = lots?.find(
-        (e) =>
-          e?.itemId === item?.itemCode?.itemId &&
-          e?.lotNumber === item?.lotNumber,
-      )
-      if (isEmpty(findLots)) {
-        lots.push({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          lotNumber: item?.lotNumber,
-        })
+  const {
+    data: { warehouseTransferDetails, itemStockAvailabe },
+    actions,
+  } = useWarehouseTransfer()
+  useEffect(() => {
+    if (!isEmpty(warehouseTransferDetails)) {
+      const params = {
+        items: warehouseTransferDetails?.warehouseTransferDetailLots?.map?.(
+          (item) => ({
+            itemId: item?.itemId,
+            warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
+            lotNumber: item?.lotNumber || null,
+          }),
+        ),
       }
-      const findLocator = locators?.find(
-        (e) =>
-          e?.itemId === item?.itemCode?.itemId &&
-          e?.locatorId === item?.locator?.locatorId,
-      )
-      if (isEmpty(findLocator)) {
-        locators.push({
-          itemId: item?.itemCode?.itemId || item?.itemCode?.id,
-          locatorId: item?.locator?.locatorId,
-          code: item?.locator?.code,
-          name: item?.locator?.name,
-        })
-      }
-      const findItem = itemList?.find(
-        (e) => e?.itemId === item?.itemCode?.itemId,
-      )
-      if (isEmpty(findItem)) {
-        itemList.push(item?.itemCode)
-      }
-    })
+      actions.getItemWarehouseStockAvailable(params)
+    }
+  }, [warehouseTransferDetails])
+  const handleChangItem = (val, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) => item?.itemId === val?.itemId,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
+  const handleChangLotNumber = (val, params, index) => {
+    const planQuantity =
+      warehouseTransferDetails?.warehouseTransferDetailLots?.find(
+        (item) =>
+          item?.itemId === params?.row?.itemCode?.itemId &&
+          item?.lotNumber === val,
+      )?.planQuantity
+    setFieldValue(`items[${index}].transferQuantity`, +planQuantity)
+  }
+  const itemList = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      ...item?.item,
+      itemId: item?.itemId,
+    }),
+  )
+  const lots = warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+    (item) => ({
+      lotNumber: item?.lotNumber,
+      itemId: item?.itemId,
+    }),
+  )
   const getColumns = () => {
     return [
       {
@@ -72,6 +82,7 @@ const ItemSettingTable = (props) => {
               options={itemList}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               getOptionLabel={(opt) => opt?.code}
+              onChange={(val) => handleChangItem(val, index)}
               required
             />
           )
@@ -119,6 +130,21 @@ const ItemSettingTable = (props) => {
               options={lotNumberList}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              onChange={(val) => handleChangLotNumber(val, params, index)}
+              disabled={
+                !Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot)
+              }
+              validate={(val) => {
+                if (
+                  Boolean(
+                    warehouseTransferDetails?.sourceWarehouse?.manageByLot,
+                  )
+                ) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
               isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
             />
           )
@@ -143,27 +169,57 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.exportedQuantity'),
         width: 180,
         renderCell: (params, index) => {
-          return <Field.TextField name={`items[${index}].ExportedQuantity`} />
+          return (
+            <Field.TextField
+              name={`items[${index}].ExportedQuantity`}
+              type="number"
+              validate={(val) => {
+                const totalExportedQuantity = items
+                  .filter(
+                    (item) =>
+                      item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                      item?.id !== params?.row?.id,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.ExportedQuantity), 0)
+                if (
+                  totalExportedQuantity + Number(val) !==
+                  params?.row?.transferQuantity
+                ) {
+                  return t('general:form.totalExportedQuantity', {
+                    exportQuantity: params?.row?.transferQuantity,
+                  })
+                }
+              }}
+            />
+          )
         },
       },
       {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
-        width: 150,
+        width: 200,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
-          const locationList = locators?.filter(
-            (item) =>
-              item?.itemId === params?.row?.itemCode?.itemId ||
-              params?.row?.itemCode?.id,
-          )
 
+          const locationList = itemStockAvailabe
+            ?.find(
+              (item) =>
+                item?.itemId === params?.row?.itemCode?.itemId &&
+                item?.itemAvailables?.length > 0,
+            )
+            ?.itemAvailables?.map((item) => ({
+              ...item,
+              code: item?.locator?.code,
+            }))
           return (
             <Field.Autocomplete
               name={`items[${index}].locator`}
               options={locationList}
               disabled={isEmpty(itemCode)}
               getOptionLabel={(opt) => opt?.code}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.locatorId === val?.locatorId
+              }
             />
           )
         },

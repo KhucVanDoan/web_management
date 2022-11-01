@@ -10,8 +10,18 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateMaterialApi = (params) => {
+  let form_data = new FormData()
+
+  if (params?.files) {
+    for (let i = 0; i < params.files.length; i++) {
+      form_data.append('files', params.files[i])
+    }
+  }
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
   const uri = `/v1/items/${params?.id}`
-  return api.put(uri, params)
+  return api.put(uri, form_data)
 }
 
 function* doUpdateMaterial(action) {

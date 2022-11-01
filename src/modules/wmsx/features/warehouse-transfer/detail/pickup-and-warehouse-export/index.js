@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -13,13 +14,14 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
-  ORDER_STATUS_OPTIONS,
+  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import ItemSettingTable from './items-setting-table'
+import { formSchema } from './schema'
 const PickupAndWarehouseExport = () => {
   const breadcrumbs = [
     {
@@ -54,22 +56,25 @@ const PickupAndWarehouseExport = () => {
   const initialValues = {
     items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
       (item) => ({
-        itemCode: {
-          itemId: item?.itemId,
-          id: item?.itemId,
-          ...item?.item,
-        },
-        lotNumber: item?.lotNumber,
-        locator: {
-          ...item?.locator,
-          locatorId: item?.locatorId,
-          itemId: item?.itemId,
-        },
-        itemName: item?.item?.name,
-        itemType: item?.item?.itemType?.name,
-        transferQuantity: +item?.planQuantity,
-
-        ExportedQuantity: item?.quantity,
+        itemCode: !isEmpty(item?.item)
+          ? {
+              itemId: item?.itemId,
+              id: item?.itemId,
+              ...item?.item,
+            }
+          : '',
+        lotNumber: item?.lotNumber || null,
+        locator: !isEmpty(item?.locator)
+          ? {
+              ...item?.locator,
+              locatorId: item?.locatorId,
+              itemId: item?.itemId,
+            }
+          : '',
+        itemName: item?.item?.name || '',
+        itemType: item?.item?.itemType?.name || '',
+        transferQuantity: +item?.planQuantity || '',
+        ExportedQuantity: item?.quantity || '',
       }),
     ),
   }
@@ -90,14 +95,19 @@ const PickupAndWarehouseExport = () => {
       breadcrumbs={breadcrumbs}
       title={t('menu.pickupAndWarehouseExport')}
       onBack={backToList}
+      onSubmit={onSubmit}
       loading={isLoading}
     >
       <Formik
         initialValues={initialValues}
-        // validationSchema={warehouseTranferSchema(t)}
+        validationSchema={formSchema(
+          t,
+          Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot),
+        )}
+        onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -112,7 +122,7 @@ const PickupAndWarehouseExport = () => {
                         label={t('warehouseTransfer.status')}
                         value={
                           <Status
-                            options={ORDER_STATUS_OPTIONS}
+                            options={TRANSFER_STATUS_OPTIONS}
                             value={warehouseTransferDetails?.status}
                           />
                         }
@@ -215,6 +225,7 @@ const PickupAndWarehouseExport = () => {
                     <ItemSettingTable
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                 />
@@ -227,7 +238,7 @@ const PickupAndWarehouseExport = () => {
                       <Icon name="print" mr={1} />
                       {t(`warehouseTransfer.printReceipt`)}
                     </Button>
-                    <Button onClick={() => onSubmit(values)}>
+                    <Button type="submit">
                       <Icon name="confirm" mr={1} />
                       {t(`warehouseTransfer.confirmWarehouseExport`)}
                     </Button>

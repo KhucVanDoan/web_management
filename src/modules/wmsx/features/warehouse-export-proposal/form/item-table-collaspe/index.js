@@ -126,8 +126,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.importedQuantity'),
       width: 200,
       renderCell: (params, index) => {
-        return isView ? (
-          params?.row?.importedQuantity
+        return isView || params?.row?.importQuantity ? (
+          params?.row?.importQuantity
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
@@ -303,7 +303,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
                 filter: convertFilterParams({
-                  code: parentData?.itemCode,
+                  codeSlice: parentData?.itemCode,
                 }),
               })
             }
@@ -338,8 +338,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.warehouseExport'),
       width: 150,
       renderCell: (params, index) => {
-        return isView ? (
-          params?.row?.warehouseExport
+        return isView || params?.row?.warehouse ? (
+          params?.row?.warehouse?.name
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
@@ -361,8 +361,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.lotNumber'),
       width: 150,
       renderCell: (params, index) => {
-        return isView ? (
-          params?.row?.lotNumber
+        return isView || params?.row?.lotNumbers ? (
+          params?.row?.lotNumbers
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].lotNumber`}
@@ -371,6 +371,15 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 item?.lotNumber &&
                 item?.itemId === params?.row?.exportSuppliesCode?.id,
             )}
+            disabled={!params?.row?.warehouseExport?.manageByLot}
+            validate={(val) => {
+              if (params?.row?.warehouseExport?.manageByLot) {
+                if (!val) {
+                  return t('general:form.required')
+                }
+              }
+              return true
+            }}
             getOptionLabel={(opt) => opt?.lotNumber}
             getOptionValue={(opt) => opt?.lotNumber}
           />
@@ -387,8 +396,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.quantityExport'),
       width: 150,
       renderCell: (params, index) => {
-        return isView ? (
-          params?.row?.quantityExport
+        return isView || params?.row?.exportQuantity ? (
+          params?.row?.exportQuantity
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${parentIndex}].details[${index}].quantityExport`}

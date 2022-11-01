@@ -24,6 +24,9 @@ import {
   GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_FAILED,
   GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START,
   GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_SUCCESS,
+  IMPORT_WAREHOUSE_START,
+  IMPORT_WAREHOUSE_SUCCESS,
+  IMPORT_WAREHOUSE_FAILED,
 } from '~/modules/wmsx/redux/actions/warehouse-import-receipt'
 
 const initialState = {
@@ -50,6 +53,7 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case REJECT_WAREHOUSE_IMPORT_RECEIPT_START:
     case GET_WAREHOUSE_IMPORT_RECEIPT_DETAILS_START:
     case GET_ATTRIBUITE_BUSINESS_TYPE_DETAILS_START:
+    case IMPORT_WAREHOUSE_START:
       return {
         ...state,
         isLoading: true,
@@ -77,6 +81,8 @@ export default function warehouseImportReceipt(state = initialState, action) {
     case UPDATE_WAREHOUSE_IMPORT_RECEIPT_FAILED:
     case DELETE_WAREHOUSE_IMPORT_RECEIPT_SUCCESS:
     case DELETE_WAREHOUSE_IMPORT_RECEIPT_FAILED:
+    case IMPORT_WAREHOUSE_SUCCESS:
+    case IMPORT_WAREHOUSE_FAILED:
       return {
         ...state,
         isLoading: false,

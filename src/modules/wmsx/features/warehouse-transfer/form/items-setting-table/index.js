@@ -111,7 +111,6 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.lotNumber'),
         width: 150,
         renderCell: (params, index) => {
-          const { itemCode } = params?.row
           const locationList = itemWarehouseStockList?.find(
             (item) =>
               item?.id === params?.row?.itemCode?.id ||
@@ -123,12 +122,16 @@ const ItemSettingTable = (props) => {
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
               options={flatMap(locationList?.locations, 'lots')}
-              disabled={
-                Boolean(values?.sourceWarehouseId?.manageByLot) &&
-                isEmpty(itemCode)
-              }
+              disabled={!Boolean(values?.sourceWarehouseId?.manageByLot)}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              validate={(val) => {
+                if (Boolean(values?.sourceWarehouseId?.manageByLot)) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
             />
           )
         },

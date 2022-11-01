@@ -25,7 +25,7 @@ const FilterForm = () => {
     <Grid container rowSpacing={4 / 3}>
       <Grid item xs={12}>
         <Field.TextField
-          name="id"
+          name="code"
           label={t('warehouseImportReceipt.id')}
           placeholder={t('warehouseImportReceipt.id')}
           inputProps={{
@@ -35,7 +35,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="businessType"
+          name="businessTypeId"
           label={t('warehouseImportReceipt.expenditureType')}
           placeholder={t('warehouseImportReceipt.expenditureType')}
           asyncRequest={(s) =>
@@ -55,7 +55,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="departmentReceipt"
+          name="departmentReceiptId"
           label={t('warehouseImportReceipt.unit')}
           placeholder={t('warehouseImportReceipt.unit')}
           asyncRequest={(s) =>
@@ -75,7 +75,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouse"
+          name="warehouseId"
           label={t('warehouseImportReceipt.warehouse')}
           placeholder={t('warehouseImportReceipt.warehouse')}
           asyncRequest={(s) =>
@@ -88,14 +88,14 @@ const FilterForm = () => {
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
         />
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="source"
+          name="sourceId"
           label={t('warehouseImportReceipt.sourceFilter')}
           placeholder={t('warehouseImportReceipt.sourceFilter')}
           asyncRequest={(s) =>
@@ -125,7 +125,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="createdAt"
+          name="receiptDate"
           label={t('warehouseImportReceipt.createdAt')}
         />
       </Grid>

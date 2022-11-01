@@ -19,6 +19,7 @@ import ConstructionItemsManagement from '../features/construction-items-manageme
 import ConstructionManagementDetail from '../features/construction-management/detail'
 import ConstructionManagementForm from '../features/construction-management/form'
 import ConstructionManagement from '../features/construction-management/list'
+import DataSyncManagement from '../features/data-sync-management'
 import DefineAssemblyDetail from '../features/define-assembly/detail'
 import DefineAssemblyForm from '../features/define-assembly/form'
 import DefineAssembly from '../features/define-assembly/list'
@@ -106,9 +107,11 @@ import WarehouseExportProposal from '../features/warehouse-export-proposal/list'
 import WarehouseExportReceiptDetail from '../features/warehouse-export-receipt/detail'
 import WarehouseExportReceiptForm from '../features/warehouse-export-receipt/form'
 import WarehouseExportReceipt from '../features/warehouse-export-receipt/list'
+import WarehouseExportReceiptPickAndExport from '../features/warehouse-export-receipt/pick-and-export'
 import WarehouseExportDetail from '../features/warehouse-export/detail'
 import WarehouseExport from '../features/warehouse-export/list'
 import WarehouseImportReceiptDetail from '../features/warehouse-import-receipt/detail'
+import WarehouseImportReceiveAndStorage from '../features/warehouse-import-receipt/detail/receive-and-storage'
 import WarehouseImportReceiptForm from '../features/warehouse-import-receipt/form'
 import WarehouseImportReceipt from '../features/warehouse-import-receipt/list'
 import WarehouseImportDetail from '../features/warehouse-import/detail'
@@ -852,6 +855,12 @@ const routes = [
             isInSidebar: false,
           },
           {
+            name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.TITLE,
+            path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH,
+            component: WarehouseImportReceiveAndStorage,
+            isInSidebar: false,
+          },
+          {
             name: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH,
             component: WarehouseImportReceiptForm,
@@ -881,6 +890,12 @@ const routes = [
             name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.TITLE,
             path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH,
             component: WarehouseExportReceiptForm,
+            isInSidebar: false,
+          },
+          {
+            name: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.TITLE,
+            path: ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH,
+            component: WarehouseExportReceiptPickAndExport,
             isInSidebar: false,
           },
         ],
@@ -1001,6 +1016,14 @@ const routes = [
         isInSidebar: false,
       },
     ],
+  },
+  {
+    name: ROUTE.DATA_SYNC_MANAGEMENT.LIST.TITLE,
+    path: ROUTE.DATA_SYNC_MANAGEMENT.LIST.PATH,
+    component: DataSyncManagement,
+    icon: 'database',
+    isInSidebar: true,
+    subMenu: [{}],
   },
   {
     name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,

@@ -30,6 +30,9 @@ import watchRejectConstruction from './construction-management/reject-constructi
 import watchSearchConstructions from './construction-management/search-constructions'
 import watchUpdateConstruction from './construction-management/update-construction'
 import watchDashboard from './dashboard'
+import watchRejectDataSyncManagement from './data-sync-management/reject-data-sync-management'
+import watchRetryDataSyncManagement from './data-sync-management/retry-data-sync-management'
+import watchSearchDataSyncManagement from './data-sync-management/search-data-sync-management'
 import watchConfirmAssembly from './define-assembly/confirm-assembly'
 import watchCreateAssembly from './define-assembly/create-assembly'
 import watchDeleteAssembly from './define-assembly/delete-assembly'
@@ -239,6 +242,7 @@ import watchCreateWarehouseImportReceipt from './warehouse-import-receipt/create
 import watchDeleteWarehouseImportReceipt from './warehouse-import-receipt/delete'
 import watchGetAttribuiteBusinessTypeDetails from './warehouse-import-receipt/get-attribute-business-type'
 import watchGetWarehouseImportReceiptDetails from './warehouse-import-receipt/get-details'
+import watchImportWarehouse from './warehouse-import-receipt/import-warehouse'
 import watchRejectWarehouseImportReceipt from './warehouse-import-receipt/reject'
 import watchSearchWarehouseImportReceipt from './warehouse-import-receipt/search'
 import watchUpdateWarehouseImportReceipt from './warehouse-import-receipt/update'
@@ -248,6 +252,7 @@ import watchConfirmWarehouseImport from './warehouse-transfer/confirm-warehouse-
 import watchConfirmWarehouseTransfer from './warehouse-transfer/confirm-warehouse-transfer'
 import watchCreateWarehouseTransfer from './warehouse-transfer/create-warehouse-transfer'
 import watchDeleteWarehouseTransfer from './warehouse-transfer/delete-warehouse-transfer'
+import watchGetItemWarehouseStockAvailable from './warehouse-transfer/get-item-warehouse-stock-available'
 import watchGetListItemWarehouseStock from './warehouse-transfer/get-list-item'
 import watchGetWarehouseTransferDetails from './warehouse-transfer/get-warehouse-transfer-detail'
 import watchRejectWarehouseTransfer from './warehouse-transfer/reject-warehouse-transfer'
@@ -562,6 +567,7 @@ export default function* sagas() {
     watchConfirmWarehouseImportReceipt(),
     watchRejectWarehouseImportReceipt(),
     watchGetAttribuiteBusinessTypeDetails(),
+    watchImportWarehouse(),
     // warehouse transfer
     watchConfirmWarehouseTransfer(),
     watchCreateWarehouseTransfer(),
@@ -573,7 +579,12 @@ export default function* sagas() {
     watchGetListItemWarehouseStock(),
     watchConfirmWarehouseExport(),
     watchConfirmWarehouseImport(),
+    watchGetItemWarehouseStockAvailable(),
 
+    // data sync management
+    watchSearchDataSyncManagement(),
+    watchRejectDataSyncManagement(),
+    watchRetryDataSyncManagement(),
     //role list
     watchSearchRoleList(),
     watchCreateRole(),

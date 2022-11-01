@@ -31,6 +31,7 @@ import useInventoryCalendar from '~/modules/wmsx/redux/hooks/useInventoryCalenda
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
+import { convertFilterParams } from '~/utils'
 
 import ItemsSettingTable from './items-setting-table'
 import { defineSchema } from './schema'
@@ -286,19 +287,21 @@ const InventoryCalendarForm = () => {
                         />
                       </Grid>
                     )}
-                    <Grid item lg={6} xs={12}>
-                      <Field.TextField
-                        label={t('inventoryCalendar.code')}
-                        name="code"
-                        placeholder={t('inventoryCalendar.code')}
-                        inputProps={{
-                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
-                        }}
-                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
-                        disabled
-                        required
-                      />
-                    </Grid>
+                    {isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          label={t('inventoryCalendar.code')}
+                          name="code"
+                          placeholder={t('inventoryCalendar.code')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_12.MAX,
+                          }}
+                          allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                          disabled
+                          required
+                        />
+                      </Grid>
+                    )}
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="name"
@@ -357,7 +360,9 @@ const InventoryCalendarForm = () => {
                           searchWarehouseApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            status: ACTIVE_STATUS.ACTIVE,
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}

@@ -179,8 +179,8 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].importQuantity`}
-              type="number"
               numberProps={{
+                thousandSeparator: true,
                 decimalScale: 2,
               }}
               validate={(val) => {

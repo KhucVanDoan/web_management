@@ -128,28 +128,34 @@ function LocationManagementForm() {
   }
 
   const onSubmit = (values) => {
+    const locations = [
+      {
+        level: 0,
+        locationId: values?.assembly?.id || values?.assembly?._id,
+      },
+    ]
+
+    if (values?.shelf)
+      locations.push({
+        level: 1,
+        locationId: values?.shelf?.id || values?.shelf?._id,
+      })
+    if (values?.drawer)
+      locations.push({
+        level: 2,
+        locationId: values?.drawer?.id || values?.drawer?._id,
+      })
+    if (values?.bin)
+      locations.push({
+        level: 3,
+        locationId: values?.bin?.id || values?.bin?._id,
+      })
     const convertValues = {
       warehouseId: values?.warehouse?.id,
       description: values?.description,
-      locations: [
-        {
-          level: 0,
-          locationId: values?.assembly?.id,
-        },
-        {
-          level: 1,
-          locationId: values?.shelf?.id,
-        },
-        {
-          level: 2,
-          locationId: values?.drawer?.id,
-        },
-        {
-          level: 3,
-          locationId: values?.bin?.id,
-        },
-      ],
+      locations,
     }
+
     if (mode === MODAL_MODE.CREATE) {
       actions.createLocation(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {

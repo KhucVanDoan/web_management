@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { Box, Grid } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
 
@@ -13,13 +14,14 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
-  ORDER_STATUS_OPTIONS,
+  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
 import ItemSettingTable from './items-setting-table'
+import { formSchema } from './schema'
 const ReceiveAndStored = () => {
   const breadcrumbs = [
     {
@@ -51,28 +53,35 @@ const ReceiveAndStored = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_TRANSFER.LIST.PATH)
   }
-  const initialValues = {
-    items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
-      (item) => ({
-        itemCode: {
-          itemId: item?.itemId,
-          id: item?.itemId,
-          ...item?.item,
-        },
-        lotNumber: item?.lotNumber,
-        locator: {
-          ...item?.locator,
-          locatorId: item?.locatorId,
-          itemId: item?.itemId,
-        },
-        itemName: item?.item?.name,
-        itemType: item?.item?.itemType?.name,
-        transferQuantity: +item?.planQuantity,
-        actualExportedQuantity: +item?.planQuantity,
-        inputedQuantity: item?.quantity,
-      }),
-    ),
-  }
+  const initialValues = useMemo(
+    () => ({
+      items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
+        (item) => ({
+          id: new Date().getTime(),
+          itemCode:
+            {
+              itemId: item?.itemId,
+              id: item?.itemId,
+              ...item?.item,
+            } || null,
+          lotNumber: item?.lotNumber ? item?.lotNumber : null,
+          locator: !isEmpty(item?.locator)
+            ? {
+                ...item?.locator,
+                locatorId: item?.locatorId,
+                itemId: item?.itemId,
+              }
+            : '',
+          itemName: item?.item?.name || '',
+          itemType: item?.item?.itemType?.name || '',
+          transferQuantity: +item?.planQuantity || '',
+          actualExportedQuantity: +item?.planQuantity || '',
+          inputedQuantity: item?.quantity || '',
+        }),
+      ),
+    }),
+    [warehouseTransferDetails],
+  )
   const onSubmit = (values) => {
     const params = {
       items: values?.items?.map((item) => ({
@@ -94,10 +103,14 @@ const ReceiveAndStored = () => {
     >
       <Formik
         initialValues={initialValues}
-        // validationSchema={warehouseTranferSchema(t)}
+        validationSchema={formSchema(
+          t,
+          Boolean(warehouseTransferDetails?.sourceWarehouse?.manageByLot),
+        )}
         enableReinitialize
+        onSubmit={onSubmit}
       >
-        {({ values }) => {
+        {({ values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -112,7 +125,7 @@ const ReceiveAndStored = () => {
                         label={t('warehouseTransfer.status')}
                         value={
                           <Status
-                            options={ORDER_STATUS_OPTIONS}
+                            options={TRANSFER_STATUS_OPTIONS}
                             value={warehouseTransferDetails?.status}
                           />
                         }
@@ -215,6 +228,7 @@ const ReceiveAndStored = () => {
                     <ItemSettingTable
                       items={values?.items}
                       arrayHelpers={arrayHelpers}
+                      setFieldValue={setFieldValue}
                     />
                   )}
                 />
@@ -227,7 +241,7 @@ const ReceiveAndStored = () => {
                       <Icon name="print" mr={1} />
                       {t(`warehouseTransfer.printReceipt`)}
                     </Button>
-                    <Button onClick={() => onSubmit(values)}>
+                    <Button type="submit">
                       <Icon name="confirm" mr={1} />
                       {t(`warehouseTransfer.confirmWarehouseImport`)}
                     </Button>

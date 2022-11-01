@@ -19,6 +19,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
+  ACTIVE_STATUS,
   CODE_TYPE_DATA_FATHER_JOB,
   ORDER_STATUS_OPTIONS,
   PARENT_BUSINESS_TYPE,
@@ -334,18 +335,25 @@ function WarehouseImportReceiptForm() {
     }
   }
   const handleChangeWarehouse = async (val, values, setFieldValue) => {
-    const findWarehouseExportProposal =
-      values?.businessTypeId?.bussinessTypeAttributes?.find(
-        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-      )?.id
-    if (!isEmpty(values[findWarehouseExportProposal])) {
-      setFieldValue('items', [{ ...DEFAULT_ITEMS }])
-      const params = {
-        id: values[findWarehouseExportProposal]?.id,
-        warehouseId: values?.warehouse?.id,
+    if (isEmpty(val)) {
+      setItemWarehouseExportProposal([])
+    }
+    if (val) {
+      const findWarehouseExportProposal =
+        values?.businessTypeId?.bussinessTypeAttributes?.find(
+          (item) =>
+            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+        )?.id
+
+      if (!isEmpty(values[findWarehouseExportProposal])) {
+        setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+        const params = {
+          id: values[findWarehouseExportProposal]?.id,
+          warehouseId: values?.warehouse?.id,
+        }
+        const res = await getWarehouseExportProposalItems(params)
+        setItemWarehouseExportProposal(res?.data)
       }
-      const res = await getWarehouseExportProposalItems(params)
-      setItemWarehouseExportProposal(res?.data)
     }
   }
   return (
@@ -477,13 +485,13 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        getOptionSubLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -498,7 +506,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               parentBusiness: PARENT_BUSINESS_TYPE.IMPORT,
                             }),
                           })
@@ -521,7 +529,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -546,7 +554,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -567,7 +575,7 @@ function WarehouseImportReceiptForm() {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }

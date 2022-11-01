@@ -13,8 +13,8 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
-  ORDER_STATUS,
-  ORDER_STATUS_OPTIONS,
+  TRANSFER_STATUS,
+  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -66,7 +66,7 @@ const WarehouseTransferDetail = () => {
     }))
   const renderHeaderRight = () => {
     switch (warehouseTransferDetails?.status) {
-      case ORDER_STATUS.CONFIRMED:
+      case TRANSFER_STATUS.CONFIRMED:
         return (
           <Button
             onClick={() =>
@@ -80,7 +80,7 @@ const WarehouseTransferDetail = () => {
             {t('warehouseTransfer.pickupAndWarehouseExport')}
           </Button>
         )
-      case ORDER_STATUS.COMPLETED:
+      case TRANSFER_STATUS.EXPORTED:
         return (
           <Button
             onClick={() =>
@@ -115,7 +115,7 @@ const WarehouseTransferDetail = () => {
                 label={t('warehouseTransfer.status')}
                 value={
                   <Status
-                    options={ORDER_STATUS_OPTIONS}
+                    options={TRANSFER_STATUS_OPTIONS}
                     value={warehouseTransferDetails?.status}
                   />
                 }

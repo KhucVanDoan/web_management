@@ -6,12 +6,12 @@ import {
   exportReportSuccess,
   EXPORT_REPORT_START,
 } from '~/modules/wmsx/redux/actions/report-export'
-import { reportApi } from '~/services/api'
+import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
-const exportReportApi = (body) => {
+const exportReportApi = (params) => {
   const uri = `/v1/reports/export`
-  return reportApi.post(uri, body)
+  return api.get(uri, params)
 }
 
 function* doExportReport(action) {

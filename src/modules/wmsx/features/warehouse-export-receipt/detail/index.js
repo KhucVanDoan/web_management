@@ -7,9 +7,12 @@ import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
@@ -75,16 +78,47 @@ function WarehouseExportReceiptDetail() {
     history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.LIST.PATH)
   }
 
+  const renderHeaderRight = () => {
+    return (
+      <Button
+        onClick={() =>
+          history.push(
+            ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
+              ':id',
+              `${id}`,
+            ),
+          )
+        }
+        sx={{ ml: 4 / 3 }}
+        icon="add"
+      >
+        {t('warehouseExportReceipt.pickAndExport.title')}
+      </Button>
+    )
+  }
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('menu.warehouseExportReceiptDetail')}
       onBack={backToList}
       loading={isLoading}
+      renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
         <Grid item xl={11} xs={12}>
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.status')}
+                value={
+                  <Status
+                    options={ORDER_STATUS_OPTIONS}
+                    value={warehouseExportReceiptDetails?.status}
+                  />
+                }
+              />
+            </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
@@ -93,12 +127,12 @@ function WarehouseExportReceiptDetail() {
                 )}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportProposalCode')}
                 value={warehouseExportReceiptDetails?.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
@@ -107,7 +141,7 @@ function WarehouseExportReceiptDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.address')}
+                label={t('warehouseExportReceipt.departmentReception')}
                 value={warehouseExportReceiptDetails?.departmentReceipt?.name}
               />
             </Grid>
@@ -117,12 +151,12 @@ function WarehouseExportReceiptDetail() {
                 value={warehouseExportReceiptDetails?.warehouse?.name}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.accountingAccountCode')}
                 value={warehouseExportReceiptDetails?.source?.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}

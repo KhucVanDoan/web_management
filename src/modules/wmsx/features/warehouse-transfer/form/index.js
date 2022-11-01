@@ -20,8 +20,9 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
-  ORDER_STATUS_OPTIONS,
+  ACTIVE_STATUS,
   PARENT_BUSINESS_TYPE,
+  TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
@@ -37,7 +38,7 @@ import ItemSettingTable from './items-setting-table'
 import warehouseTranferSchema from './schema'
 const DEFAULT_ITEM = {
   ids: new Date().getTime(),
-  itemCode: {},
+  itemCode: '',
   itemName: '',
   itemType: '',
   lotNumber: '',
@@ -87,7 +88,7 @@ const WarehouseTransferForm = () => {
         ? new Date(warehouseTransferDetails?.createdAt)
         : '',
       deliver: warehouseTransferDetails?.receiver || '',
-      explaination: warehouseTransferDetails?.explanation || '',
+      explanation: warehouseTransferDetails?.explanation || '',
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
         (item) => ({
           itemCode: {
@@ -117,11 +118,11 @@ const WarehouseTransferForm = () => {
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
-      explaination: values?.explaination || null,
+      explanation: values?.explanation || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
-          locatorId: +item?.locator?.locatorId,
+          locatorId: +item?.locator?.locatorId || null,
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
           debitAcc: '1519',
@@ -269,7 +270,7 @@ const WarehouseTransferForm = () => {
                           }
                           value={
                             <Status
-                              options={ORDER_STATUS_OPTIONS}
+                              options={TRANSFER_STATUS_OPTIONS}
                               value={warehouseTransferDetails?.status}
                             />
                           }
@@ -328,7 +329,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                               parentBusiness: PARENT_BUSINESS_TYPE.TRANSFER,
                             }),
                           })
@@ -362,9 +363,9 @@ const WarehouseTransferForm = () => {
                           searchSourceManagementApi({
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
-                            // filter: convertFilterParams({
-                            //   status: 1,
-                            // }),
+                            filter: convertFilterParams({
+                              status: ACTIVE_STATUS.ACTIVE,
+                            }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
@@ -384,7 +385,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -405,7 +406,7 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
@@ -429,12 +430,9 @@ const WarehouseTransferForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
-                              manageByLot: Boolean(
+                              status: ACTIVE_STATUS.ACTIVE,
+                              manageByLot:
                                 values?.sourceWarehouseId?.manageByLot,
-                              )
-                                ? values?.sourceWarehouseId?.manageByLot
-                                : null,
                             }),
                           })
                         }
@@ -464,7 +462,7 @@ const WarehouseTransferForm = () => {
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
-                        name="explaination"
+                        name="explanation"
                         label={t('warehouseTransfer.explaination')}
                         placeholder={t('warehouseTransfer.explaination')}
                         inputProps={{

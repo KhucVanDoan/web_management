@@ -15,6 +15,7 @@ import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import QRCodeGenerator from '~/components/QRCodeGenerator'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
 import {
@@ -28,7 +29,6 @@ import { ROUTE } from '~/modules/wmsx/routes/config'
 import { getLocalItem } from '~/utils'
 
 import ItemsSettingTable from '../form/items-setting-table'
-
 const DEFAULT_ITEM = {
   id: new Date().getTime(),
   itemId: '',
@@ -255,7 +255,12 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.country')}
-                value={materialDetails?.manufacturingCountry?.name}
+                value={
+                  materialDetails?.manufacturingCountry &&
+                  materialDetails?.manufacturingCountry?.code +
+                    ' - ' +
+                    materialDetails?.manufacturingCountry?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -267,19 +272,29 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialQuality')}
-                value={materialDetails?.itemQuality?.name}
+                value={
+                  materialDetails?.itemQuality &&
+                  materialDetails?.itemQuality?.code +
+                    ' - ' +
+                    materialDetails?.itemQuality?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.objectCategory')}
-                value={materialDetails?.objectCategory?.name}
+                value={
+                  materialDetails?.objectCategory &&
+                  materialDetails?.objectCategory?.code +
+                    ' - ' +
+                    materialDetails?.objectCategory?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('materialManagement.specifications')}
-                value={materialDetails?.specifications}
+                label={t('materialManagement.files')}
+                value={materialDetails?.files}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -292,6 +307,12 @@ function MaterialManagementDetail() {
               <LV
                 label={t('materialManagement.materialImage')}
                 value={materialDetails?.materialImage}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <LV
+                label={t('materialManagement.qrCode')}
+                value={<QRCodeGenerator value={'something'} />}
               />
             </Grid>
             <Grid item xs={12}>
@@ -323,7 +344,12 @@ function MaterialManagementDetail() {
                     name="itemWarehouseSources"
                     render={(arrayHelpers) => (
                       <ItemsSettingTable
-                        items={values?.itemWarehouseSources || []}
+                        items={
+                          values?.itemWarehouseSources.map((item, index) => ({
+                            id: index,
+                            ...item,
+                          })) || []
+                        }
                         mode={mode}
                         arrayHelpers={arrayHelpers}
                       />

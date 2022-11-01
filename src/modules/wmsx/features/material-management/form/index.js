@@ -23,6 +23,7 @@ import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
+import QRCodeGenerator from '~/components/QRCodeGenerator'
 import Status from '~/components/Status'
 import {
   ACTIVE_STATUS,
@@ -30,12 +31,12 @@ import {
   UOM_ACTIVE_STATUS,
 } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
-import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchUomsApi } from '~/modules/wmsx/redux/sagas/define-uom/search-uom'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import { useClasses } from '~/themes'
 import { convertFilterParams } from '~/utils'
 
@@ -52,6 +53,11 @@ function MaterialManagementForm() {
     data: { isLoading, materialDetails },
     actions,
   } = useMaterialManagement()
+
+  const getSubGroupApi = (params) => {
+    const uri = `/v1/items/item-type-settings/sub-groups`
+    return api.get(uri, params)
+  }
 
   const MODE_MAP = {
     [ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -70,7 +76,7 @@ function MaterialManagementForm() {
       uom: materialDetails?.itemUnit || null,
       materialCategory: materialDetails?.itemType || null,
       materialQuality: materialDetails?.itemQuality || null,
-      specifications: materialDetails?.specifications || null,
+      files: materialDetails?.files || null,
       materialImage: materialDetails?.materialImage || null,
       description: materialDetails?.description || '',
     }),
@@ -135,7 +141,9 @@ function MaterialManagementForm() {
       itemTypeId: values?.materialCategory?.id,
       itemQualityId: values?.materialQuality?.id,
       itemUnitId: values?.uom?.id,
+      files: values?.files,
     }
+
     if (mode === MODAL_MODE.CREATE) {
       actions.createMaterial(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
@@ -148,8 +156,7 @@ function MaterialManagementForm() {
   }
 
   const addSeperators = (str, mask) => {
-    const rawStr = str.replace(/[^\d]/g, '')
-    const chars = rawStr.split('')
+    const chars = str.split('')
     let count = 0
 
     let formatted = ''
@@ -167,21 +174,21 @@ function MaterialManagementForm() {
     return formatted
   }
 
-  const handleKeyDown = (e) => {
-    if (
-      /[^\d]/g.test(e?.key) &&
-      !['Enter', 'Backspace', 'ArrowLeft', 'ArrowRight'].includes(e?.key)
-    ) {
-      e.preventDefault()
-    }
+  const handleChangeCode = (val = '', setFieldValue) => {
+    setFieldValue(
+      'code',
+      addSeperators(
+        val.replace(TEXTFIELD_ALLOW.ALPHANUMERIC, ''),
+        '#.##.##.###.###.##.###',
+      ),
+    )
   }
 
-  const handleChangeCode = (val, setFieldValue) => {
-    setFieldValue('code', addSeperators(val, '#.##.##.###.###.##.###'))
-  }
-
-  const handleChangeNormalizeCode = (val, setFieldValue) => {
-    setFieldValue('normalizeCode', addSeperators(val, '#.##.##.###'))
+  const handleChangeNormalizeCode = (val = '', setFieldValue) => {
+    setFieldValue(
+      'normalizeCode',
+      addSeperators(val.replace(TEXTFIELD_ALLOW.NUMERIC, ''), '#.##.##.###'),
+    )
   }
 
   const renderActionBar = (handleReset) => {
@@ -255,9 +262,7 @@ function MaterialManagementForm() {
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_22.MAX,
                       }}
                       disabled={isUpdate}
-                      allow={TEXTFIELD_ALLOW.NUMERIC}
                       required
-                      onKeyDown={handleKeyDown}
                       onInput={(val) => {
                         handleChangeCode(val, setFieldValue)
                       }}
@@ -282,8 +287,6 @@ function MaterialManagementForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_11.MAX,
                       }}
-                      required
-                      onKeyDown={handleKeyDown}
                       onInput={(val) => {
                         handleChangeNormalizeCode(val, setFieldValue)
                       }}
@@ -316,18 +319,19 @@ function MaterialManagementForm() {
                       label={t('materialManagement.materialCategory')}
                       placeholder={t('materialManagement.materialCategory')}
                       asyncRequest={(s) =>
-                        searchMaterialCategoryApi({
+                        getSubGroupApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
-                          filter: convertFilterParams({
-                            status: ACTIVE_STATUS.ACTIVE,
-                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
                       isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => `${opt?.code}.11.22`}
-                      getOptionSubLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) =>
+                        `${opt?.code}.${opt?.mainGroupCode}.${opt?.subGroupCode}`
+                      }
+                      getOptionSubLabel={(opt) =>
+                        `${opt?.name}.${opt?.mainGroupName}.${opt?.subGroupName}`
+                      }
                       required
                       // dropdownWidth={800}
                       // dropdownHeader={
@@ -403,27 +407,26 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-
                   <Grid item lg={6} xs={12}>
                     <LV
                       label={
                         <Box sx={{ mt: 8 / 12 }}>
                           <FormLabel>
                             <Typography color={'text.main'} component="span">
-                              {t('materialManagement.specifications')}
+                              {t('materialManagement.files')}
                             </Typography>
                           </FormLabel>
                         </Box>
                       }
                     >
-                      {values?.specifications ? (
+                      {values?.files ? (
                         <>
                           <label htmlFor="select-file">
                             <Typography
                               className={classes.uploadText}
                               sx={{ mt: 8 / 12 }}
                             >
-                              {values?.specifications?.name}
+                              {values?.files?.map((i) => i?.name)?.join('\r\n')}
                             </Typography>
                           </label>
                           <input
@@ -431,8 +434,12 @@ function MaterialManagementForm() {
                             id="select-file"
                             multiple
                             type="file"
+                            accept="application/pdf"
                             onChange={(e) => {
-                              setFieldValue('specifications', e.target.files[0])
+                              setFieldValue(
+                                'files',
+                                Object.values(e.target.files),
+                              )
                             }}
                           />
                         </>
@@ -444,8 +451,12 @@ function MaterialManagementForm() {
                             id="select-file"
                             multiple
                             type="file"
+                            accept="application/pdf"
                             onChange={(e) => {
-                              setFieldValue('specifications', e.target.files[0])
+                              setFieldValue(
+                                'files',
+                                Object.values(e.target.files),
+                              )
                             }}
                           />
                         </Button>
@@ -473,72 +484,37 @@ function MaterialManagementForm() {
                       required
                     />
                   </Grid>
-                  {/* <Grid item lg={6} xs={12}>
-                    <LV
-                      label={
-                        <Box sx={{ mt: 8 / 12 }}>
-                          <FormLabel>
-                            <Typography color={'text.main'} component="span">
-                              {t('materialManagement.materialImage')}
-                            </Typography>
-                          </FormLabel>
-                        </Box>
-                      }
-                    >
-                      {values?.materialImage ? (
-                        <>
-                          <label htmlFor="select-image">
-                            <Typography
-                              className={classes.uploadText}
-                              sx={{ mt: 8 / 12 }}
-                            >
-                              {values?.materialImage?.name}
-                            </Typography>
-                          </label>
-                          <input
-                            hidden
-                            id="select-image"
-                            accept="image/*"
-                            multiple
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue('materialImage', e.target.files[0])
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <Button variant="contained" component="label">
-                          Upload
-                          <input
-                            hidden
-                            accept="image/*"
-                            id="select-image"
-                            multiple
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue('materialImage', e.target.files[0])
-                            }}
-                          />
-                        </Button>
-                      )}
-                    </LV>
-                  </Grid> */}
                   {isUpdate && (
                     <>
                       <Grid item lg={6} xs={12}>
                         <LV
                           label={
-                            <FormLabel>
-                              <Typography color={'text.main'} component="span">
-                                {t('materialManagement.qrCode')}
-                              </Typography>
-                            </FormLabel>
+                            <Box sx={{ mt: 8 / 12 }}>
+                              <FormLabel>
+                                <Typography
+                                  color={'text.main'}
+                                  component="span"
+                                >
+                                  {t('materialManagement.materialImage')}
+                                </Typography>
+                              </FormLabel>
+                            </Box>
                           }
                         >
-                          <Box />
+                          {values?.materialImage}
                         </LV>
                       </Grid>
                       <Grid item lg={6} xs={12}>
+                        <LV
+                          label={
+                            <Typography color={'text.main'} component="span">
+                              {t('materialManagement.qrCode')}
+                            </Typography>
+                          }
+                          value={<QRCodeGenerator value={'something'} />}
+                        />
+                      </Grid>
+                      {/* <Grid item lg={6} xs={12}>
                         <LV
                           label={
                             <FormLabel>
@@ -550,7 +526,7 @@ function MaterialManagementForm() {
                         >
                           {materialDetails?.qrCode}
                         </LV>
-                      </Grid>
+                      </Grid> */}
                     </>
                   )}
                   <Grid item xs={12}>

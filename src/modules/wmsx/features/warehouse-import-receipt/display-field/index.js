@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import {
+  ACTIVE_STATUS,
   DATA_TYPE,
   ORDER_STATUS,
   WAREHOUSE_EXPORT_PROPOSAL_STATUS,
@@ -53,10 +54,12 @@ const displayFollowBusinessTypeManagement = (
   )?.id
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
+    if (isEmpty(val)) {
+      setItemReceipt([])
+    }
     setFieldValue('items', DEFAULT_ITEMS)
-    if (val) {
+    if (!isEmpty(val)) {
       actions.getReceiptDetailsById(val?.id, (data) => {
-        setFieldValue('warehouse', data?.warehouse)
         setItemReceipt(data?.items)
       })
     }
@@ -64,6 +67,9 @@ const displayFollowBusinessTypeManagement = (
 
   const handleChangeProposals = async (val) => {
     setItemWarehouseExportProposal([])
+    if (isEmpty(val)) {
+      setItemWarehouseExportProposal([])
+    }
     if (val) {
       if (!isEmpty(values?.warehouse)) {
         setFieldValue('items', DEFAULT_ITEMS)
@@ -78,7 +84,10 @@ const displayFollowBusinessTypeManagement = (
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
     setItemWarehouseExportReceipt([])
-    if (val) {
+    if (isEmpty(val)) {
+      setItemWarehouseExportReceipt([])
+    }
+    if (!isEmpty(val)) {
       const res = await getWarehouseExportReceiptDetailsApi(val?.id)
       setItemWarehouseExportReceipt(res?.data?.saleOrderExportDetails)
     }
@@ -146,7 +155,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }
@@ -178,16 +187,13 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                         constructionId: values[constructions]?.id,
                       }),
                     })
                   }
                   asyncRequestHelper={(res) => res?.data?.items}
-                  asyncRequestDeps={[
-                    values?.businessTypeId,
-                    values[constructions],
-                  ]}
+                  asyncRequestDeps={values[constructions]}
                   disabled={!values[constructions]}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
@@ -248,7 +254,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -314,7 +320,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -345,7 +351,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -376,7 +382,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
@@ -407,7 +413,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: 1,
+                        status: ACTIVE_STATUS.ACTIVE,
                       }),
                     })
                   }}
