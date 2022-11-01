@@ -10,7 +10,7 @@ export const formSchema = (t) =>
     fileFormat: Yup.string().required(t('general:form.required')),
     time: Yup.array()
       .nullable()
-      .test('', '', (value, context) => {
+      .test('time', '', (value, context) => {
         const type = context.from?.[0]?.value?.type
         if (
           type !== REPORT_TYPE.INVENTORY &&
@@ -22,5 +22,6 @@ export const formSchema = (t) =>
             path: `${context.path}`,
           })
         }
+        return true
       }),
   })
