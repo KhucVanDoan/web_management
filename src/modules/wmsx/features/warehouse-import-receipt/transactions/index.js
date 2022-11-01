@@ -3,7 +3,7 @@ import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 
 import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
-import MovementTransferDetail from '~/modules/wmsx/features/movements/detail-transfer'
+import MovementImportDetail from '~/modules/wmsx/features/movements/detail-import'
 import Movements from '~/modules/wmsx/features/movements/list'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -14,24 +14,24 @@ export const Transactions = () => {
       title: 'receiptCommandManagement',
     },
     {
-      route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
-      title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
     },
     {
-      title: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.TITLE,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
     },
   ]
 
-  const movementType = MOVEMENT_TYPE.TRANSFER_IMPORT
+  const movementType = MOVEMENT_TYPE.PO_IMPORT_RECEIVE
 
   const movementTypeOpts = [
     {
-      id: 6,
-      text: 'movementType.stored',
+      id: 18,
+      text: 'movementType.import',
     },
     {
-      id: 7,
-      text: 'movementType.export',
+      id: 0,
+      text: 'movementType.stored',
     },
   ]
 
@@ -54,23 +54,23 @@ export const TransactionDetail = () => {
       title: 'receiptCommandManagement',
     },
     {
-      route: ROUTE.WAREHOUSE_TRANSFER.LIST.PATH,
-      title: ROUTE.WAREHOUSE_TRANSFER.LIST.TITLE,
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.TITLE,
     },
     {
-      route: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.PATH.replace(
+      route: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.PATH.replace(
         ':parentId',
         `${parentId}`,
       ),
-      title: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.LIST.TITLE,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.TITLE,
     },
     {
-      title: ROUTE.WAREHOUSE_TRANSFER.TRANSACTIONS.DETAIL.TITLE,
+      title: ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.DETAIL.TITLE,
     },
   ]
 
   return (
-    <MovementTransferDetail
+    <MovementImportDetail
       breadcrumbs={breadcrumbs}
       onBack={() => history.push(breadcrumbs[2].route)}
     />

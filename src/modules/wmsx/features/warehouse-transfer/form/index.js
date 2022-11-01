@@ -24,6 +24,7 @@ import {
   PARENT_BUSINESS_TYPE,
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
+  WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
@@ -407,9 +408,11 @@ const WarehouseTransferForm = () => {
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
+                              expiredInventoryTime: values.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG ? '1' : '0'
                             }),
                           })
                         }
+                        asyncRequestDeps={values.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG}
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}

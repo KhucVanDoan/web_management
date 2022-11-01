@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
+import { isEmpty } from 'lodash'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
@@ -9,9 +10,12 @@ import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
-import Status from '~/components/Status'
-import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  MOVEMENT_TYPE_MAP,
+  WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
+import { ROUTE } from '~/modules/wmsx/routes/config'
 import {
   convertFilterParams,
   convertSortParams,
@@ -20,7 +24,7 @@ import {
 
 import MovementsFilter from './filter-quick-form'
 
-const Movements = ({ breadcrumbs, movementType, onBack }) => {
+const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
   const location = useLocation()
@@ -31,10 +35,23 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
     actions,
   } = useMovements()
 
+  const warehouse = movementList?.[0]?.warehouse
+
   const DEFAULT_FILTERS = {
-    warehouseId: '',
     createdAt: '',
+    movementType: movementType,
   }
+
+  const [exportReceiptList, setExportReceiptList] = useState([])
+
+  const exportReceiptListFormat = exportReceiptList?.map((e) => ({
+    id: e?.id,
+    orderCode: e?.code,
+    orderType: 3,
+    movementType: 3,
+    warehouse: e?.warehouseId,
+    createdAt: e?.createdAt,
+  }))
 
   const {
     page,
@@ -52,56 +69,61 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
   const columns = [
     {
       field: 'id',
-      headerName: '#',
-      width: 50,
-      renderCell: (_, index) => {
-        return index + 1
-      },
+      headerName: t('movements.code'),
+      width: 120,
+      sortable: true,
+      fixed: true,
     },
     {
-      field: 'code',
-      headerName: t('movements.code'),
-      width: 100,
+      field: 'formNumber',
+      headerName: t('movements.importExport.formNumber'),
+      width: 120,
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        return params.row.id
+        const { form } = params?.row
+        return form?.name || ''
       },
     },
     {
-      field: 'warehouse',
-      headerName: t('movements.warehouse'),
-      width: 150,
+      field: 'idWms',
+      headerName: t('movements.importExport.idWms'),
+      width: 120,
+      fixed: true,
+      sortable: true,
+      renderCell: (params) => params.row?.orderCode,
+    },
+    {
+      field: 'orderType',
+      headerName: t('movements.importExport.receiptType'),
+      width: 120,
       renderCell: (params) => {
-        return params.row?.warehouse?.name
+        return t(WAREHOUSE_MOVEMENT_ORDER_TYPE_MAP[params.row?.orderType])
       },
     },
     {
-      field: 'orderCode',
-      headerName: t('movements.inventoryCode'),
+      field: 'movementType',
+      headerName: t('movements.importExport.movementType'),
+      width: 120,
+      renderCell: (params) => {
+        return t(MOVEMENT_TYPE_MAP[params.row?.movementType])
+      },
+    },
+    {
+      field: 'warehouseName',
+      headerName: t('movements.importExport.warehouseName'),
+      width: 120,
+      sortable: false,
+      renderCell: (params) => {
+        return params?.row?.warehouse?.name
+      },
+    },
+    {
+      field: 'createdAt',
+      headerName: t('movements.importExport.executeDate'),
+      filterFormat: 'date',
       width: 120,
       sortable: true,
-    },
-    {
-      field: 'orderStatus',
-      headerName: t('movements.inventoryStatus'),
-      width: 150,
-      renderCell: (params) => {
-        const status = Number(params?.row.order.status)
-        return (
-          <Status
-            options={ORDER_STATUS_OPTIONS}
-            value={status}
-            variant="text"
-          />
-        )
-      },
-    },
-    {
-      field: 'approveDate',
-      headerName: t('movements.approveDate'),
-      filterFormat: 'date',
-      width: 150,
       renderCell: (params) => {
         const createdAt = params.row.createdAt
         return convertUtcDateTimeToLocalTz(createdAt)
@@ -110,24 +132,10 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
     {
       field: 'createdByUser',
       headerName: t('movements.createdByUser'),
-      width: 150,
+      width: 120,
+      sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.fullName
-      },
-    },
-    {
-      field: 'movementStatus',
-      headerName: t('movements.movementStatus'),
-      width: 150,
-      renderCell: (params) => {
-        const status = Number(params?.row.status)
-        return (
-          <Status
-            options={ORDER_STATUS_OPTIONS}
-            value={status}
-            variant="text"
-          />
-        )
+        return params?.row?.user?.username
       },
     },
     {
@@ -137,11 +145,22 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       align: 'center',
       fixed: true,
       renderCell: (params) => {
-        const { id } = params.row
+        const { id, movementType, orderType } = params.row
         return (
           <div>
             <IconButton
-              onClick={() => history.push(`${location.pathname}/${id}`)}
+              onClick={() => {
+                if (orderType === 3 && movementType !== 5) {
+                  history.push(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                } else {
+                  history.push(`${location.pathname}/${id}`)
+                }
+              }}
             >
               <Icon name="show" />
             </IconButton>
@@ -159,7 +178,11 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
       page,
       limit: pageSize,
       filter: convertFilterParams(
-        { ...filters, movementType: movementType, orderId: parentId },
+        {
+          movementType: movementType,
+          orderId: parentId,
+          ...filters,
+        },
         columns,
       ),
       sort: convertSortParams(sort),
@@ -184,10 +207,15 @@ const Movements = ({ breadcrumbs, movementType, onBack }) => {
         setQuickFilters={setFilters}
         quickFilters={filters}
         defaultFilter={DEFAULT_FILTERS}
+        movementTypeOpts={movementTypeOpts}
+        warehouse={warehouse}
+        setExportReceiptList={setExportReceiptList}
       />
       <DataTable
         title={t('movements.title')}
-        rows={movementList}
+        rows={
+          isEmpty(exportReceiptList) ? movementList : exportReceiptListFormat
+        }
         pageSize={pageSize}
         page={page}
         columns={columns}

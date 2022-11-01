@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Grid } from '@mui/material'
+import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
@@ -12,29 +13,15 @@ import TextField from '~/components/TextField'
 import { MOVEMENT_TYPE, MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
-import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTableDetail from '../../warehouse-export-receipt/detail/item-setting-table'
-import ItemSettingTable from './items-setting-table'
+import ItemSettingTable from '../items-setting-table'
 
-const breadcrumbs = [
-  {
-    route: ROUTE.WAREHOUSE_EXPORT.LIST.PATH,
-    title: ROUTE.WAREHOUSE_EXPORT.LIST.TITLE,
-  },
-  {
-    route: ROUTE.WAREHOUSE_EXPORT.DETAIL.PATH,
-    title: ROUTE.WAREHOUSE_EXPORT.DETAIL.TITLE,
-  },
-]
-
-const WarehouseExportDetail = () => {
+const MovementExportDetail = ({ breadcrumbs, onBack }) => {
   const { t } = useTranslation(['wmsx'])
-  const history = useHistory()
   const { id } = useParams()
   const [receiptDetail, setReceiptDetail] = useState({})
-
   const {
     data: { isLoading, movementDetail },
     actions,
@@ -51,15 +38,11 @@ const WarehouseExportDetail = () => {
     }
   }, [id])
 
-  const backToList = () => {
-    history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)
-  }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
       title={t('movements.formTitle')}
-      onBack={backToList}
+      onBack={onBack}
       loading={isLoading}
     >
       <Grid container justifyContent="center">
@@ -89,71 +72,61 @@ const WarehouseExportDetail = () => {
                 value={convertUtcDateToLocalTz(movementDetail?.createdAt)}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            <Grid item xs={12}>
               <LV
-                label={t('warehouseExportReceipt.createdAt')}
-                value={convertUtcDateToLocalTz(receiptDetail?.createdAt)}
+                label={t('warehouseImportReceipt.id')}
+                value={movementDetail.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.nameOfReceiver')}
-                value={receiptDetail?.receiver}
+                label={t('warehouseImportReceipt.createdAt')}
+                value={convertUtcDateToLocalTz(receiptDetail.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.departmentReception')}
-                value={receiptDetail?.departmentReceipt?.name}
+                label={t('warehouseImportReceipt.attachedFile')}
+                value={receiptDetail.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.warehouseExport')}
-                value={receiptDetail?.warehouse?.name}
+                label={t('warehouseImportReceipt.shipper')}
+                value={receiptDetail.deliver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.warehouseExportReason')}
-                value={receiptDetail?.reason?.name}
+                label={t('warehouseImportReceipt.unit')}
+                value={receiptDetail?.departmentReceipt?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.warehouseExportReceipt')}
-                value={`02${
-                  receiptDetail?.warehouse?.code
-                    ? `.${receiptDetail?.warehouse?.code}`
-                    : ''
-                }${
-                  receiptDetail?.reason?.code
-                    ? `.${receiptDetail?.reason?.code}`
-                    : ''
-                }`}
+                label={t('warehouseImportReceipt.expenditureType')}
+                value={receiptDetail.businessType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.number')}
-                value={`03${
-                  receiptDetail?.warehouse?.code
-                    ? `.${receiptDetail?.warehouse?.code}`
-                    : ''
-                }${
-                  receiptDetail?.reason?.code
-                    ? `.${receiptDetail?.reason?.code}`
-                    : ''
-                }`}
+                label={t('warehouseImportReceipt.warehouse')}
+                value={receiptDetail.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseExportReceipt.suorceAccountant')}
+                label={t('warehouseImportReceipt.reason')}
+                value={receiptDetail.reason?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseImportReceipt.source')}
                 value={receiptDetail.source?.name}
               />
             </Grid>
-            {[]?.map((item) => {
+            {[].map((item) => {
               if (item.tableName) {
                 return (
                   <Grid item lg={6} xs={12}>
@@ -196,9 +169,7 @@ const WarehouseExportDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      {[MOVEMENT_TYPE.SO_EXPORT, MOVEMENT_TYPE.TRANSFER_EXPORT].includes(
-        movementDetail?.movementType,
-      ) && (
+      {movementDetail?.movementType !== MOVEMENT_TYPE.SO_EXPORT && (
         <Box sx={{ mt: 3 }}>
           <ItemSettingTableDetail
             items={receiptDetail?.saleOrderExportDetails || []}
@@ -206,16 +177,23 @@ const WarehouseExportDetail = () => {
           />
         </Box>
       )}
-      {[MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT].includes(
-        movementDetail?.movementType,
-      ) && (
+      {movementDetail?.movementType === MOVEMENT_TYPE.SO_EXPORT && (
         <Box sx={{ mt: 3 }}>
           <ItemSettingTable items={movementDetail?.items || []} />
         </Box>
       )}
-      <ActionBar onBack={backToList} />
+      <ActionBar onBack={onBack} />
     </Page>
   )
 }
 
-export default WarehouseExportDetail
+MovementExportDetail.defaultProps = {
+  breadcrumbs: [],
+}
+
+MovementExportDetail.propTypes = {
+  breadcrumbs: PropTypes.arrayOf(PropTypes.shape()),
+  onBack: PropTypes.func,
+}
+
+export default MovementExportDetail

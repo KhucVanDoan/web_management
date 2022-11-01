@@ -54,6 +54,10 @@ const style = (theme) => ({
     display: 'flex',
     justifyContent: 'center',
     padding: '25vh 10% 0',
+
+    img: {
+      maxWidth: '100%',
+    },
   },
 })
 

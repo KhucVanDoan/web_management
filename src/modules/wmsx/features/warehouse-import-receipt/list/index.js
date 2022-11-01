@@ -232,7 +232,12 @@ function WarehouseImportReceipt() {
                 size="small"
                 bold={false}
                 onClick={() =>
-                  history.push(`${ROUTE.WAREHOUSE_IMPORT.LIST.PATH}`)
+                  history.push(
+                    `${ROUTE.WAREHOUSE_IMPORT_RECEIPT.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
+                  )
                 }
               >
                 {t('warehouseTransfer.transactions')}
