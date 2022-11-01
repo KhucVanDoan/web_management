@@ -169,7 +169,12 @@
       "invalidType": "File tải lên không đúng định dạng quy định. Vui lòng tải lên file có định dạng",
       "invalidSize": "Dung lượng file không hợp lệ. Giới hạn dung lượng là",
       "invalidNumberOfFiles": "Số lượng file tải lên không được quá"
-    }
+    },
+    "drag": "Kéo thả file vào đây hoặc",
+    "selectFile": "chọn file",
+    "accept": "Chấp nhận",
+    "acceptAll": "Tất cả",
+    "noData": "Không có tệp tin nào"
   },
   "notification": {
     "heading": "Thông báo",

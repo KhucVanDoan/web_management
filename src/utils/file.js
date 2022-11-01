@@ -1,3 +1,5 @@
+import { IMG_FILE_TYPE } from '~/common/constants'
+
 export const formatFileSize = (bytes, decimals = 2) => {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
 
@@ -76,4 +78,10 @@ export const isValidFileType = (fileName, validType) => {
   const fileExt = fileName.split('.').pop()
 
   return `.${fileExt.toLowerCase()}` === validType.toLowerCase()
+}
+
+export const isImageFile = (file) => {
+  const fileType = file?.type
+  const imageTypes = IMG_FILE_TYPE.map((file) => file.MIME_TYPE)
+  return imageTypes.includes(fileType)
 }
