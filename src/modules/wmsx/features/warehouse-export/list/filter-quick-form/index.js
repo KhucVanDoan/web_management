@@ -8,20 +8,37 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import {
+  ORDER_STATUS,
   WAREHOUSE_EXPORT_TYPE,
   WAREHOUSE_EXPORT_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
+import { convertFilterParams } from '~/utils'
 
 const WarehouseExportFilter = ({
   setQuickFilters,
   quickFilters,
   defaultFilter,
+  setExportReceiptList,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
-  const onSubmit = (values) => {
-    setQuickFilters(values)
+  const onSubmit = async (values) => {
+    if (values?.movementType === 'export') {
+      const response = await searchWarehouseExportReceiptApi({
+        filter: convertFilterParams({
+          status: [
+            ORDER_STATUS.IN_COLLECTING,
+            ORDER_STATUS.COLLECTED,
+            ORDER_STATUS.COMPLETED,
+          ],
+        }),
+      })
+      setExportReceiptList(response?.data?.items)
+    } else {
+      setQuickFilters(values)
+    }
   }
 
   const getMovementTypeList = (values) => {
@@ -31,11 +48,11 @@ const WarehouseExportFilter = ({
       case WAREHOUSE_EXPORT_TYPE.INVENTORY:
         return [
           {
-            id: 5,
+            type: 'export',
             text: 'movementType.export',
           },
           {
-            // id: 0,
+            id: 5,
             text: 'movementType.picked',
           },
         ]
@@ -110,7 +127,7 @@ const WarehouseExportFilter = ({
                       label={t('movements.importExport.movementType')}
                       placeholder={t('movements.importExport.movementType')}
                       options={getMovementTypeList(values)}
-                      getOptionValue={(opt) => opt?.id}
+                      getOptionValue={(opt) => opt?.id || opt?.type}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>

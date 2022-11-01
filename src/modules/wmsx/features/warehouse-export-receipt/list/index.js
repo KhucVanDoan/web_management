@@ -230,7 +230,12 @@ function WarehouseExportReceipt() {
                 size="small"
                 bold={false}
                 onClick={() =>
-                  history.push(`${ROUTE.WAREHOUSE_IMPORT.LIST.PATH}`)
+                  history.push(
+                    `${ROUTE.WAREHOUSE_EXPORT_RECEIPT.TRANSACTIONS.LIST.PATH.replace(
+                      ':parentId',
+                      `${id}`,
+                    )}`,
+                  )
                 }
               >
                 {t('warehouseTransfer.transactions')}
@@ -253,9 +258,7 @@ function WarehouseExportReceipt() {
           businessTypeId: filters?.businessTypeId?.id,
           departmentReceiptId: filters?.departmentReceiptId?.id,
         },
-        [
-          { field: 'createdAt', filterFormat: 'date' },
-        ]
+        [{ field: 'createdAt', filterFormat: 'date' }],
       ),
       sort: convertSortParams(sort),
     }

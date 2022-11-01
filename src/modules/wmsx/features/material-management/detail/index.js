@@ -300,7 +300,7 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.uom')}
-                value={materialDetails?.itemUnit?.name}
+                value={materialDetails?.itemUnit?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
