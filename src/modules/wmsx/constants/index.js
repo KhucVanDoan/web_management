@@ -2156,3 +2156,14 @@ export const DATA_SYNC_STATUS_OPTIONS = [
     color: 'rejected',
   },
 ]
+
+export const MAINTENANCE_TEAM_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'maintenanceTeam.outer',
+  },
+  {
+    id: 1,
+    text: 'maintenanceTeam.inner',
+  },
+]

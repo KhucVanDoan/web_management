@@ -1,15 +1,34 @@
 const style = (theme) => ({
+  tableHead: {},
   headerCell: {
     background: theme.palette.bgPrimaryOpacity,
-    padding: '8px 16px',
-    border: 'none',
+    padding: 8,
     borderImageWidth: 0,
     textAlign: 'left',
-    zIndex: 10,
+    position: 'sticky',
     whiteSpace: 'nowrap',
+    borderRight: `1px solid ${theme.palette.text.a2}`,
+    borderBottom: `1px solid ${theme.palette.text.a2}`,
+    borderTop: 'none',
+    borderLeft: 'none',
+    boxSizing: 'border-box',
+    userSelect: 'none',
+
+    'tr:first-child &': {
+      borderTop: `1px solid ${theme.palette.text.a2}`,
+    },
   },
   headerCellCheckbox: {
-    padding: '8px 7px',
+    padding: '0 5px',
+    width: 50,
+  },
+  headerCellReorder: {
+    padding: '0 5px',
+    width: 50,
+  },
+  headerCellOffset: {
+    padding: 0,
+    border: 'none',
   },
   headerCellAlignright: {
     textAlign: 'right !important',
@@ -20,7 +39,8 @@ const style = (theme) => ({
   headerNameContainer: {
     display: 'inline-flex',
     alignItems: 'center',
-    cursor: 'pointer',
+    overflow: 'hidden',
+    maxWidth: '100%',
   },
   sortIcon: {
     display: 'block',
@@ -78,6 +98,26 @@ const style = (theme) => ({
       zIndex: -1,
       pointerEvents: 'none',
     },
+  },
+  resizeLine: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 9,
+    cursor: 'col-resize',
+    '&:hover': {
+      backgroundColor: '#0AA1DD',
+    },
+    '&:active': {
+      backgroundColor: '#0AA1DD',
+    },
+  },
+
+  lastStickyLeft: {
+    borderRight: `2px solid ${theme.palette.primary.a3} !important`,
+  },
+  firstStickyRight: {
+    borderLeft: `2px solid ${theme.palette.primary.a3} !important`,
   },
 })
 
