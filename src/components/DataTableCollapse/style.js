@@ -11,7 +11,20 @@ const style = (theme) => ({
   },
   tableRowCollapse: {
     '&>.MuiTableCell-root': {
+      borderLeft: `1px solid ${theme.palette.grayE4.main}`,
       borderBottom: 'none',
+      position: 'relative',
+
+      '&:after': {
+        content: '""',
+        display: 'inline-block',
+        width: 54,
+        height: 1,
+        backgroundColor: theme.palette.grayE4.main,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+      },
     },
   },
   tableRowSelected: {
@@ -20,14 +33,15 @@ const style = (theme) => ({
     },
   },
   tableRowRootSelected: {
-    backgroundColor: theme.palette.primary.a1,
-
-    '&:hover': {
-      backgroundColor: theme.palette.primary.a1,
+    '&>.MuiTableCell-root': {
+      backgroundColor: '#E6EFF7',
+    },
+    '&:hover>.MuiTableCell-root': {
+      backgroundColor: '#E6EFF7',
     },
   },
   collapse: {
-    paddingLeft: 54,
+    paddingLeft: 50,
     '&:not(.MuiCollapse-root *)': {
       borderRight: `1px solid ${theme.palette.grayF4.main}`,
     },
@@ -49,7 +63,7 @@ const style = (theme) => ({
       position: 'absolute',
       bottom: 0,
       right: 0,
-      left: 54,
+      left: 50,
       height: 1,
       backgroundColor: theme.palette.grayF4.main,
     },

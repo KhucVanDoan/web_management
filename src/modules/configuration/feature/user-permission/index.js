@@ -282,6 +282,7 @@ function UserPermission() {
                   onPageSizeChange={setPageSize}
                   total={total}
                   hideSetting
+                  enableResizable={false}
                 />
               </Box>
             )}

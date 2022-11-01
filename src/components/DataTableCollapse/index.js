@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -14,17 +14,14 @@ import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
-import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import TopBar from '~/components/DataTable/TopBar'
 
 import Pagination from '~/components/DataTable/Pagination'
 import TableHead from '~/components/DataTable/TableHead'
 import { withClasses } from '~/themes'
 import style from './style'
-
-/**
- * Data Table
- */
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import Truncate from '../DataTable/Truncate'
 
 const DataTableCollapse = (props) => {
   const {
@@ -37,7 +34,6 @@ const DataTableCollapse = (props) => {
     subColumns,
     subDataKey,
     isRoot,
-    type,
     rows = [],
     page,
     pageSize,
@@ -46,42 +42,25 @@ const DataTableCollapse = (props) => {
     onPageChange,
     onPageSizeChange,
     filters,
+    tableSettingKey,
+    onSettingChange,
+    enableResizable,
+    handleGetData,
   } = props
 
   const [open, setOpen] = useState({})
   const [sort, setSort] = useState(null)
   const [visibleColumns, setVisibleColumns] = useState([])
-  const { tableSetting, updateTableSetting } = useTableSetting()
+  const containerRef = useRef(null)
   const uniqKey = props.uniqKey ?? 'id'
 
-  const handleApplySetting = useCallback((cols = []) => {
-    setVisibleColumns(cols)
-    updateTableSetting(cols)
-  }, [])
+  const columns = hideSetting
+    ? rawColumns?.filter((col) => !col.hide)
+    : rawColumns.filter((col) => visibleColumns.includes(col.field))
 
-  useEffect(() => {
-    if (!isRoot) return
-
-    const initVisibleColumns =
-      (hideSetting ? null : tableSetting) ||
-      (rawColumns || []).reduce((acc, cur) => {
-        if (!cur.hide) return [...acc, cur.field]
-        return acc
-      }, [])
-
-    handleApplySetting(initVisibleColumns)
-  }, [rawColumns, handleApplySetting])
-
-  let columns = []
-  if (isRoot) {
-    columns = rawColumns?.filter((col) => visibleColumns.includes(col.field))
-  } else {
-    columns = rawColumns?.filter((col) => !col.hide)
-  }
-
-  const onOpen = (index, e, row, type) => {
-    if (type === 'list') {
-      props.handleGetData(row?.id)
+  const onOpen = (index, e, row) => {
+    if (typeof handleGetData === 'function') {
+      handleGetData(row?.id)
     }
 
     setOpen({
@@ -105,7 +84,7 @@ const DataTableCollapse = (props) => {
     if (!row) {
       return null
     } else {
-      return cellValue
+      return <Truncate value={cellValue} classes={classes} />
     }
   }
 
@@ -118,10 +97,21 @@ const DataTableCollapse = (props) => {
           visibleColumns={visibleColumns}
           onApplySetting={handleApplySetting}
           filters={filters}
+          tableSettingKey={tableSettingKey}
+          setVisibleColumns={setVisibleColumns}
+          onSettingChange={onSettingChange}
         />
       )}
-      <TableContainer style={{ height: height ? height : '100%' }}>
-        <Table className={classes.table} stickyHeader>
+      <TableContainer
+        className={classes.tableContainer}
+        style={{ height: height ? height : '100%' }}
+        {...(isRoot ? { ref: containerRef } : {})}
+      >
+        <Table
+          className={classes.table}
+          stickyHeader
+          sx={enableResizable ? { tableLayout: 'fixed', width: '100%' } : {}}
+        >
           {columns && (
             <TableHead
               classes={classes}
@@ -132,6 +122,10 @@ const DataTableCollapse = (props) => {
               orderBy={sort?.orderBy}
               onSortChange={onSortChange}
               columns={columns}
+              enableResizable={enableResizable}
+              tableSettingKey={tableSettingKey}
+              rawColumns={rawColumns}
+              containerRef={containerRef}
             />
           )}
           <TableBody>
@@ -147,7 +141,8 @@ const DataTableCollapse = (props) => {
                       key={row[uniqKey] || index}
                       className={clsx(
                         classes.tableRow,
-                        classes.tableRowBorder,
+                        classes.tableRowBorderGrid,
+                        // classes.tableRowBorder,
                         // classes.tableRowHover,
                         'original',
                         {
@@ -175,9 +170,7 @@ const DataTableCollapse = (props) => {
                               <IconButton
                                 aria-label="expand row"
                                 size="small"
-                                onClick={() =>
-                                  onOpen(index, !open[index], row, type)
-                                }
+                                onClick={() => onOpen(index, !open[index], row)}
                                 className={classes.toggler}
                               >
                                 {open[index] ? <RemoveIcon /> : <AddIcon />}
@@ -256,6 +249,14 @@ const DataTableCollapse = (props) => {
 DataTableCollapse.defaultProps = {
   onPageChange: () => {},
   onPageSizeChange: () => {},
+  pageSize: ROWS_PER_PAGE_OPTIONS[0],
+  page: 1,
+  title: '',
+  hideSetting: false,
+  onSettingChange: () => {},
+  enableResizable: true,
+  isRoot: true,
+  subDataKey: 'details',
 }
 
 DataTableCollapse.propsTypes = {
@@ -301,13 +302,7 @@ DataTableCollapse.propsTypes = {
   title: PropTypes.string,
   hideSetting: PropTypes.bool,
   filters: PropTypes.shape(),
-}
-DataTableCollapse.defaultProps = {
-  pageSize: 20,
-  page: 1,
-  title: '',
-  hideSetting: false,
-  subDataKey: 'details',
+  isRoot: PropTypes.bool,
 }
 
 export default withTranslation()(withClasses(style)(DataTableCollapse))
