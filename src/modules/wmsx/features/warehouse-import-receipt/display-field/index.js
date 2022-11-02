@@ -56,6 +56,7 @@ const displayFollowBusinessTypeManagement = (
     setItemReceipt([])
     if (isEmpty(val)) {
       setItemReceipt([])
+      setFieldValue('contractNumber', '')
     }
     setFieldValue('items', DEFAULT_ITEMS)
     if (!isEmpty(val)) {
@@ -290,7 +291,7 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: ORDER_STATUS.CONFIRMED,
+                        status: ORDER_STATUS.COMPLETED,
                       }),
                     })
                   }}

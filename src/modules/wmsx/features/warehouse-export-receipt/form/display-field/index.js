@@ -18,6 +18,7 @@ import { searchExpenditureTypeApi } from '~/modules/wmsx/redux/sagas/define-expe
 import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/search-receipt'
+import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
 import {
@@ -47,12 +48,29 @@ const displayFollowBusinessTypeManagement = (
   values,
   setItemWarehouseExport,
   setFieldValue,
+  setWarehouseList,
 ) => {
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
   )?.id
   const handleChangeProposals = async (val) => {
     if (val) {
+      const warehouseList = []
+      const warehouseExportProposalDetail =
+        await getWarehouseExportProposalDetailsApi(val?.id)
+      warehouseExportProposalDetail?.items?.forEach((item) => {
+        item?.childrens?.forEach((children) => {
+          const findWarehouse = warehouseList?.find(
+            (w) => w?.id === children?.warehouseExport?.id,
+          )
+          if (isEmpty(findWarehouse)) {
+            warehouseList.push({
+              ...children?.warehouseExport,
+            })
+          }
+        })
+      })
+      setWarehouseList(warehouseList)
       if (!isEmpty(values?.warehouseId)) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {
@@ -422,7 +440,11 @@ const displayFollowBusinessTypeManagement = (
                       keyword: s,
                       limit: ASYNC_SEARCH_LIMIT,
                       filter: convertFilterParams({
-                        status: ORDER_STATUS.CONFIRMED,
+                        status: [
+                          ORDER_STATUS.COMPLETED,
+                          ORDER_STATUS.RECEIVED,
+                          ORDER_STATUS.IN_PROGRESS,
+                        ],
                       }),
                     })
                   }}

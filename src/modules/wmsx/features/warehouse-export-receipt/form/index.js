@@ -83,6 +83,7 @@ function WarehouseExportReceiptForm() {
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const [itemWarehouseExport, setItemWarehouseExport] = useState([])
+  const [warehouseList, setWarehouseList] = useState([])
   const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
     () => ({
@@ -224,7 +225,7 @@ function WarehouseExportReceiptForm() {
             )?.value,
           ),
         )
-        setItemWarehouseExport(res?.data?.items)
+        setItemWarehouseExport(res?.data?.purchasedOrderImportDetails)
       }
       if (
         !isEmpty(
@@ -398,6 +399,12 @@ function WarehouseExportReceiptForm() {
                   (item) =>
                     item?.tableName === TABLE_NAME_ENUM.PURCHASED_ODER_IMPORT,
                 )?.id
+              const warehouseExprotProposal =
+                values?.businessTypeId?.bussinessTypeAttributes?.find(
+                  (item) =>
+                    item?.tableName ===
+                    TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+                )?.id
               return (
                 <Form>
                   <Grid
@@ -539,31 +546,53 @@ function WarehouseExportReceiptForm() {
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
-                      <Field.Autocomplete
-                        name="warehouseId"
-                        label={t('warehouseExportReceipt.warehouseExport')}
-                        placeholder={t(
-                          'warehouseExportReceipt.warehouseExport',
-                        )}
-                        asyncRequest={(s) =>
-                          searchWarehouseApi({
-                            keyword: s,
-                            limit: ASYNC_SEARCH_LIMIT,
-                            filter: convertFilterParams({
-                              status: 1,
-                            }),
-                          })
-                        }
-                        disabled={values[warehouseImportReceipt]}
-                        asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.code}
-                        getOptionSubLabel={(opt) => opt?.name}
-                        onChange={(val) =>
-                          handleChangeWarehouse(val, setFieldValue, values)
-                        }
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
-                      />
+                      {warehouseExprotProposal ? (
+                        <Field.Autocomplete
+                          name="warehouseId"
+                          label={t('warehouseExportReceipt.warehouseExport')}
+                          placeholder={t(
+                            'warehouseExportReceipt.warehouseExport',
+                          )}
+                          options={warehouseList}
+                          getOptionLabel={(opt) => opt?.name}
+                          disabled={!values[warehouseExprotProposal]}
+                          onChange={(val) =>
+                            handleChangeWarehouse(val, setFieldValue, values)
+                          }
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          required
+                        />
+                      ) : (
+                        <Field.Autocomplete
+                          name="warehouseId"
+                          label={t('warehouseExportReceipt.warehouseExport')}
+                          placeholder={t(
+                            'warehouseExportReceipt.warehouseExport',
+                          )}
+                          asyncRequest={(s) =>
+                            searchWarehouseApi({
+                              keyword: s,
+                              limit: ASYNC_SEARCH_LIMIT,
+                              filter: convertFilterParams({
+                                status: 1,
+                              }),
+                            })
+                          }
+                          disabled={values[warehouseImportReceipt]}
+                          asyncRequestHelper={(res) => res?.data?.items}
+                          getOptionLabel={(opt) => opt?.code}
+                          getOptionSubLabel={(opt) => opt?.name}
+                          onChange={(val) =>
+                            handleChangeWarehouse(val, setFieldValue, values)
+                          }
+                          isOptionEqualToValue={(opt, val) =>
+                            opt?.id === val?.id
+                          }
+                          required
+                        />
+                      )}
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.Autocomplete
@@ -630,6 +659,7 @@ function WarehouseExportReceiptForm() {
                       values,
                       setItemWarehouseExport,
                       setFieldValue,
+                      setWarehouseList,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
