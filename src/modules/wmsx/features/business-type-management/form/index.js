@@ -55,9 +55,7 @@ function BusinessTypeManagementForm() {
     () => ({
       code: businessTypeDetails?.code || '',
       name: businessTypeDetails?.name || '',
-      parentBusiness: businessTypeDetails?.parentBussiness
-        ? `${businessTypeDetails?.parentBussiness}`
-        : '',
+      parentBusiness: businessTypeDetails?.parentBussiness,
       description: businessTypeDetails?.description || '',
       itemOption:
         businessTypeDetails?.bussinessTypeAttributes
@@ -93,7 +91,6 @@ function BusinessTypeManagementForm() {
     }),
     [businessTypeDetails],
   )
-
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
@@ -299,7 +296,7 @@ function BusinessTypeManagementForm() {
                         getOptionLabel={(opt) =>
                           opt?.text ? t(opt?.text) : ''
                         }
-                        getOptionValue={(opt) => opt?.id?.toString()}
+                        getOptionValue={(opt) => opt?.id}
                         onChange={(val) =>
                           handleChangeParentBusiness(val, setFieldValue)
                         }

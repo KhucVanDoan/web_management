@@ -92,7 +92,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'departmentReceiptId',
+      field: 'departmentReceiptName',
       headerName: t('warehouseExportReceipt.unit'),
       width: 100,
       sortable: true,
@@ -102,7 +102,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'businessTypeId',
+      field: 'businessTypeName',
       headerName: t('warehouseExportReceipt.typeBusiness'),
       width: 120,
       sortable: true,
@@ -111,7 +111,7 @@ function WarehouseExportReceipt() {
       },
     },
     {
-      field: 'warehouseId',
+      field: 'warehouseName',
       headerName: t('warehouseExportReceipt.warehouseExport'),
       width: 120,
       sortable: true,
@@ -123,6 +123,7 @@ function WarehouseExportReceipt() {
       field: 'receiptDate',
       headerName: t('warehouseExportReceipt.createdAt'),
       width: 120,
+      filterFormat: 'date',
       renderCell: (params) => {
         return convertUtcDateToLocalTz(params?.row?.receiptDate)
       },
@@ -257,8 +258,9 @@ function WarehouseExportReceipt() {
           ...filters,
           businessTypeId: filters?.businessTypeId?.id,
           departmentReceiptId: filters?.departmentReceiptId?.id,
+          warehouseId: filters?.warehouseId?.id,
         },
-        [{ field: 'createdAt', filterFormat: 'date' }],
+        columns,
       ),
       sort: convertSortParams(sort),
     }
