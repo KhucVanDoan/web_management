@@ -35,7 +35,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       {
         field: 'suppliesName',
         headerName: t('warehouseExportProposal.items.suppliesName'),
-        width: 250,
+        width: 200,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.itemName
@@ -79,7 +79,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       {
         field: 'suppliesCode',
         headerName: t('warehouseExportProposal.items.suppliesCode'),
-        width: 250,
+        width: 200,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.itemCode
@@ -120,7 +120,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       {
         field: 'unit',
         headerName: t('warehouseExportProposal.items.unit'),
-        width: 150,
+        width: 100,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.itemUnit
@@ -156,7 +156,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       {
         field: 'quantityRequest',
         headerName: t('warehouseExportProposal.items.quantityRequest'),
-        width: 150,
+        width: 100,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantityRequest
@@ -173,10 +173,11 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           )
         },
       },
-      !isView && {
+      {
         field: 'planExportedQuantity',
         headerName: t('warehouseExportProposal.items.planExportedQuantity'),
-        width: 150,
+        width: 100,
+        hide: isView,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.importedQuantity
@@ -192,7 +193,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
       {
         field: 'note',
         headerName: t('warehouseExportProposal.items.note'),
-        width: 200,
+        width: 100,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.note
@@ -207,24 +208,24 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           )
         },
       },
-      !isView &&
-        items?.length > 1 && {
-          field: 'action',
-          width: 100,
-          align: 'center',
-          renderCell: (params, idx) => {
-            return (
-              <IconButton
-                onClick={() => {
-                  arrayHelpers.remove(idx)
-                }}
-                disabled={items?.length === 1}
-              >
-                <Icon name="remove" />
-              </IconButton>
-            )
-          },
+      {
+        field: 'action',
+        width: 100,
+        align: 'center',
+        hide: isView || items?.length === 1,
+        renderCell: (params, idx) => {
+          return (
+            <IconButton
+              onClick={() => {
+                arrayHelpers.remove(idx)
+              }}
+              disabled={items?.length === 1}
+            >
+              <Icon name="remove" />
+            </IconButton>
+          )
         },
+      },
     ],
     [items],
   )

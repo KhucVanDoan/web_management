@@ -132,7 +132,7 @@ function WarehouseExportProposal() {
       headerName: t('warehouseExportProposal.createdAt'),
       width: 120,
       renderCell: (params) => {
-        return convertUtcDateToLocalTz(params?.row?.createdAt)
+        return convertUtcDateToLocalTz(params?.row?.receiptDate)
       },
     },
     {

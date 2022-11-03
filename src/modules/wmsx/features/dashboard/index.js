@@ -2,14 +2,13 @@ import React from 'react'
 
 import { Grid } from '@mui/material'
 import { Form, Formik } from 'formik'
+import moment from 'moment'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import { searchCompaniesApi } from '../../redux/sagas/company-management/search-companies'
 import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
 import ImportReceipt from './components/import-export-receipt/import-receipt'
@@ -30,29 +29,22 @@ const breadcrumbs = [
 function Dashboard() {
   const { t } = useTranslation(['wmsx'])
 
+  const startOfWeek = moment().startOf('week').toDate()
+  const endOfWeek = moment().endOf('week').toDate()
+
   return (
     <Page title={t('dashboard.title')} breadcrumbs={breadcrumbs} freeSolo>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Formik initialValues={{}} onSubmit={() => {}} enableReinitialize>
+          <Formik
+            initialValues={{ createdAt: [startOfWeek, endOfWeek] }}
+            onSubmit={() => {}}
+            enableReinitialize
+          >
             {() => (
               <Form>
                 <Grid container rowSpacing={1} columnSpacing={2}>
-                  <Grid item xs={12} lg={6} />
-                  <Grid item xs={12} lg={3} md={6}>
-                    <Field.Autocomplete
-                      name="companyId"
-                      placeholder={t('dashboard.companyPlaceholder')}
-                      asyncRequest={(s) =>
-                        searchCompaniesApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
-                        })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                    />
-                  </Grid>
+                  <Grid item xs={12} lg={9} />
                   <Grid item xs={12} lg={3} md={6}>
                     <Field.DateRangePicker name="createdAt" />
                   </Grid>

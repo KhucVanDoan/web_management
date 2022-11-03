@@ -41,6 +41,11 @@ const DEFAULT_ITEM = [
     details: '',
     quantityRequest: '',
     planExportedQuantity: '',
+    importedQuantity: '',
+    exportSuppliesCode: '',
+    warehouseExport: '',
+    lotNumber: '',
+    quantityExport: '',
     note: '',
   },
 ]
@@ -71,6 +76,7 @@ function WarehouseExportReceiptForm() {
       note: item?.note,
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
+      importedQuantity: '',
       importedActualQuantity: item?.importedActualQuantity,
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
@@ -96,13 +102,13 @@ function WarehouseExportReceiptForm() {
               planExportedQuantity: childrens?.planExportedQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
-              warehouse: childrens?.warehouseExport,
+              warehouse: childrens?.warehouseExport || '',
               reservation: childrens?.isKeepSlot,
               updatedBy: item?.updatedBy,
               dayUpdate: item?.updatedAt,
             }))
           : DEFAULT_ITEM
-        : [],
+        : DEFAULT_ITEM,
     }),
   )
   const initialValues = useMemo(
@@ -587,145 +593,154 @@ function WarehouseExportReceiptForm() {
                 onSubmit={onSubmit}
                 enableReinitialize
               >
-                {({ handleReset, values, setFieldValue }) => (
-                  <Form>
-                    <Grid
-                      container
-                      rowSpacing={4 / 3}
-                      columnSpacing={{ xl: 8, xs: 4 }}
-                    >
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={
-                            <Typography>
-                              {t('warehouseExportProposal.status')}
-                            </Typography>
-                          }
-                          value={
-                            <Status
-                              options={WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION}
-                              value={warehouseExportProposalDetails?.status}
-                            />
-                          }
-                        />
+                {({ handleReset, values, setFieldValue }) => {
+                  return (
+                    <Form>
+                      <Grid
+                        container
+                        rowSpacing={4 / 3}
+                        columnSpacing={{ xl: 8, xs: 4 }}
+                      >
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={
+                              <Typography>
+                                {t('warehouseExportProposal.status')}
+                              </Typography>
+                            }
+                            value={
+                              <Status
+                                options={
+                                  WAREHOUSE_EXPORT_PROPOSAL_STATUS_OPTION
+                                }
+                                value={warehouseExportProposalDetails?.status}
+                              />
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={
+                              <Typography>
+                                {t(
+                                  'warehouseExportProposal.statusWarehouseExport',
+                                )}
+                              </Typography>
+                            }
+                            value={
+                              <Status
+                                options={
+                                  WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION
+                                }
+                                value={
+                                  warehouseExportProposalDetails?.exportStatus
+                                }
+                              />
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.creator')}
+                            value={
+                              warehouseExportProposalDetails?.createdBy
+                                ?.username
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.createAt')}
+                            value={convertUtcDateToLocalTz(
+                              warehouseExportProposalDetails?.createdAt,
+                            )}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.unit')}
+                            value={
+                              warehouseExportProposalDetails?.factory?.name
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.attachment')}
+                            value={''}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.dear')}
+                            value={
+                              warehouseExportProposalDetails?.greetingTitle
+                            }
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.proponent')}
+                            value={warehouseExportProposalDetails?.suggestedBy}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t(
+                              'warehouseExportProposal.nameAddressOfRecipient',
+                            )}
+                            value={warehouseExportProposalDetails?.receiverInfo}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.votes')}
+                            value={''}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.createdAtPaper')}
+                            value={convertUtcDateToLocalTz(
+                              warehouseExportProposalDetails?.receiptDate,
+                            )}
+                          />
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                          <LV
+                            label={t('warehouseExportProposal.construction')}
+                            value={
+                              warehouseExportProposalDetails?.construction?.name
+                            }
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            name="reasonUse"
+                            label={t('warehouseExportProposal.reasonUse')}
+                            multiline
+                            rows={3}
+                            value={warehouseExportProposalDetails?.reason}
+                            readOnly
+                            sx={{
+                              'label.MuiFormLabel-root': {
+                                color: (theme) => theme.palette.subText.main,
+                              },
+                            }}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={
-                            <Typography>
-                              {t(
-                                'warehouseExportProposal.statusWarehouseExport',
-                              )}
-                            </Typography>
-                          }
-                          value={
-                            <Status
-                              options={
-                                WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION
-                              }
-                              value={
-                                warehouseExportProposalDetails?.exportStatus
-                              }
-                            />
-                          }
+                      <Box sx={{ mt: 3 }}>
+                        <ItemTableCollaspe
+                          itemTableCollaspe={values?.itemTableCollaspe || []}
+                          setFieldValue={setFieldValue}
+                          mode={mode}
                         />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.creator')}
-                          value={
-                            warehouseExportProposalDetails?.createdBy?.username
-                          }
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.createAt')}
-                          value={convertUtcDateToLocalTz(
-                            warehouseExportProposalDetails?.createdAt,
-                          )}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.unit')}
-                          value={warehouseExportProposalDetails?.factory?.name}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.attachment')}
-                          value={''}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.dear')}
-                          value={warehouseExportProposalDetails?.greetingTitle}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.proponent')}
-                          value={warehouseExportProposalDetails?.suggestedBy}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t(
-                            'warehouseExportProposal.nameAddressOfRecipient',
-                          )}
-                          value={warehouseExportProposalDetails?.receiverInfo}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.votes')}
-                          value={''}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.createdAtPaper')}
-                          value={convertUtcDateToLocalTz(
-                            warehouseExportProposalDetails?.receiptDate,
-                          )}
-                        />
-                      </Grid>
-                      <Grid item lg={6} xs={12}>
-                        <LV
-                          label={t('warehouseExportProposal.construction')}
-                          value={
-                            warehouseExportProposalDetails?.construction?.name
-                          }
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          name="reasonUse"
-                          label={t('warehouseExportProposal.reasonUse')}
-                          multiline
-                          rows={3}
-                          value={warehouseExportProposalDetails?.reason}
-                          readOnly
-                          sx={{
-                            'label.MuiFormLabel-root': {
-                              color: (theme) => theme.palette.subText.main,
-                            },
-                          }}
-                        />
-                      </Grid>
-                    </Grid>
-                    <Box sx={{ mt: 3 }}>
-                      <ItemTableCollaspe
-                        itemTableCollaspe={values?.itemTableCollaspe || []}
-                        setFieldValue={setFieldValue}
-                        mode={mode}
-                      />
-                    </Box>
-                    {renderActionBar(handleReset)}
-                  </Form>
-                )}
+                      </Box>
+                      {renderActionBar(handleReset)}
+                    </Form>
+                  )
+                }}
               </Formik>
             )}
         </Grid>

@@ -48,8 +48,8 @@ const FilterForm = () => {
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
         />
       </Grid>
@@ -75,7 +75,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.Autocomplete
-          name="warehouseExport"
+          name="warehouseId"
           label={t('warehouseExportReceipt.warehouseExport')}
           placeholder={t('warehouseExportReceipt.warehouseExport')}
           asyncRequest={(s) =>
@@ -88,8 +88,8 @@ const FilterForm = () => {
             })
           }
           asyncRequestHelper={(res) => res?.data?.items}
-          getOptionLabel={(opt) => opt?.code}
-          getOptionSubLabel={(opt) => opt?.name}
+          getOptionLabel={(opt) => opt?.name}
+          getOptionSubLabel={(opt) => opt?.code}
           isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
         />
       </Grid>
@@ -125,7 +125,7 @@ const FilterForm = () => {
       </Grid>
       <Grid item xs={12}>
         <Field.DateRangePicker
-          name="createdAt"
+          name="receiptDate"
           label={t('warehouseExportReceipt.createdAt')}
         />
       </Grid>

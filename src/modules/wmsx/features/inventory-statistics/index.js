@@ -112,7 +112,7 @@ function InventoryStatistics() {
       field: 'location',
       headerName: t('inventoryStatistics.location'),
       width: 150,
-      renderCell: (params) => params.row?.locator?.name,
+      renderCell: (params) => params.row?.locator?.code,
     },
     {
       field: 'lotNumber',
