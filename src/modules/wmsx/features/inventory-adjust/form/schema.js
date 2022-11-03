@@ -11,6 +11,7 @@ const InventoryyAdjustSchema = (t) =>
     items: Yup.array().of(
       Yup.object().shape({
         itemCode: Yup.object().nullable().required(t('general:form.required')),
+        locator: Yup.object().nullable().required(t('general:form.required')),
       }),
     ),
   })

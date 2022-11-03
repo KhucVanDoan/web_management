@@ -14,8 +14,8 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const deleteInventoryAdjustApi = () => {
-  const uri = ``
+const deleteInventoryAdjustApi = (params) => {
+  const uri = `/v1/warehouses/inventory-adjustments/${params}/delete`
   return api.delete(uri)
 }
 

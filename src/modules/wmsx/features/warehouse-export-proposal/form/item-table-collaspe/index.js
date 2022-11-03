@@ -362,6 +362,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchWarehouseApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
               })
             }
             validate={(val) => {
@@ -391,9 +394,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 item?.lotNumber &&
                 item?.itemId === params?.row?.exportSuppliesCode?.id,
             )}
-            disabled={!params?.row?.warehouseExport?.manageByLot}
+            disabled={!Boolean(params?.row?.warehouseExport?.manageByLot)}
             validate={(val) => {
-              if (params?.row?.warehouseExport?.manageByLot) {
+              if (Boolean(params?.row?.warehouseExport?.manageByLot)) {
                 if (!val) {
                   return t('general:form.required')
                 }

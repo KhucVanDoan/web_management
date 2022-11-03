@@ -210,17 +210,15 @@ function BusinessTypeManagementForm() {
     }
   }
   const handleChangeParentBusiness = (val, setFieldValue) => {
-    if (!val) {
+    if (val === PARENT_BUSINESS_TYPE.EXPORT) {
+      setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT)
+    } else if (val === PARENT_BUSINESS_TYPE.IMPORT) {
+      setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT)
+    } else if (val === PARENT_BUSINESS_TYPE.TRANSFER) {
+      setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER)
+    } else {
       setFieldValue('itemDefault', [])
       setFieldValue('itemOption', [])
-    } else {
-      if (Number(val) === Number(PARENT_BUSINESS_TYPE.EXPORT)) {
-        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT)
-      } else if (Number(val) === Number(PARENT_BUSINESS_TYPE.IMPORT)) {
-        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT)
-      } else {
-        setFieldValue('itemDefault', DEFAULT_FIELD_LIST_WAREHOUSE_TRANSFER)
-      }
     }
   }
   return (
