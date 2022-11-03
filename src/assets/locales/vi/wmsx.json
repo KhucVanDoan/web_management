@@ -3287,6 +3287,14 @@
     "explanation": "Diễn giải",
     "confirmDate": "Ngày xác nhận",
     "confirmByUser": "Người xác nhận",
+    "warehouseImport": "Nhập kho",
+    "warehouseExport": "Xuất kho",
+    "inventoryAdjustStatus": {
+      "pending": "Chờ xác nhận",
+      "confirmed": "Xác nhận",
+      "completed": "Hoàn thành",
+      "rejected": "Từ chối"
+    },
     "items": {
       "itemList": "Danh sách vật tư",
       "createdAt": "Ngày tạo",

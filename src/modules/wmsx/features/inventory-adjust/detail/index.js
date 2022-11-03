@@ -10,8 +10,13 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import {
+  INVENTORY_ADJUST_STATUS_OPTIONS,
+  INVENTORY_ADJUST_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from '../form/item-setting-table'
 
@@ -48,7 +53,18 @@ const InventoryAdjustDetail = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_ADJUST.LIST.PATH)
   }
-
+  const items = inventoryAdjustDetails?.items?.map((item) => ({
+    itemCode: item?.item,
+    lotNumber: item?.lotNumber,
+    itemName: item?.item?.name,
+    itemUnit: item?.item?.itemUnit?.name,
+    locator: item?.locator,
+    quantity: item?.quantity,
+    price: item?.price,
+    amount: item?.amount,
+    debitAccount: item?.debitAccount,
+    creditAccount: item?.creditAccount,
+  }))
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -63,15 +79,26 @@ const InventoryAdjustDetail = () => {
               <LV
                 label={t('inventoryAdjust.status')}
                 value={
-                  <Status options={[]} value={inventoryAdjustDetails?.status} />
+                  <Status
+                    options={INVENTORY_ADJUST_STATUS_OPTIONS}
+                    value={inventoryAdjustDetails?.status}
+                  />
                 }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.createdAt')} value={''} />
+              <LV
+                label={t('inventoryAdjust.createdAt')}
+                value={convertUtcDateToLocalTz(
+                  inventoryAdjustDetails.createdAt,
+                )}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.createdByUser')} value={''} />
+              <LV
+                label={t('inventoryAdjust.createdByUser')}
+                value={inventoryAdjustDetails.createdBy?.username}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV label={t('inventoryAdjust.confirmDate')} value={''} />
@@ -92,31 +119,62 @@ const InventoryAdjustDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.type')} value={''} />
+              <LV
+                label={t('inventoryAdjust.type')}
+                value={t(
+                  `${INVENTORY_ADJUST_TYPE_MAP[inventoryAdjustDetails.type]}`,
+                )}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.warehouse')} value={''} />
+              <LV
+                label={t('inventoryAdjust.warehouse')}
+                value={inventoryAdjustDetails?.warehouse?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.departmentReceipts')} value={''} />
+              <LV
+                label={t('inventoryAdjust.departmentReceipts')}
+                value={inventoryAdjustDetails?.departmentReceipt?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.inventoryCalendar')} value={''} />
+              <LV
+                label={t('inventoryAdjust.inventoryCalendar')}
+                value={inventoryAdjustDetails.inventory?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.licenseDate')} value={''} />
+              <LV
+                label={t('inventoryAdjust.licenseDate')}
+                value={convertUtcDateToLocalTz(
+                  inventoryAdjustDetails?.receiptDate,
+                )}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.licenseNumber')} value={''} />
+              <LV
+                label={t('inventoryAdjust.licenseNumber')}
+                value={inventoryAdjustDetails?.receiptNumber}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.source')} value={''} />
+              <LV
+                label={t('inventoryAdjust.source')}
+                value={inventoryAdjustDetails?.source?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.reason')} value={''} />
+              <LV
+                label={t('inventoryAdjust.reason')}
+                value={inventoryAdjustDetails?.reason?.name}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.attachment')} value={''} />
+              <LV
+                label={t('inventoryAdjust.attachment')}
+                value={inventoryAdjustDetails?.attachment}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -124,7 +182,7 @@ const InventoryAdjustDetail = () => {
                 label={t('inventoryAdjust.explanation')}
                 multiline
                 rows={3}
-                value={inventoryAdjustDetails?.explanation}
+                value={inventoryAdjustDetails?.explaination}
                 readOnly
                 sx={{
                   'label.MuiFormLabel-root': {
@@ -138,7 +196,7 @@ const InventoryAdjustDetail = () => {
       </Grid>
 
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTable items={[]} mode={MODAL_MODE.DETAIL} />
+        <ItemSettingTable items={items} mode={MODAL_MODE.DETAIL} />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

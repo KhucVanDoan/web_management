@@ -15,8 +15,12 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const createInventoryAdjustsApi = (params) => {
-  const uri = ``
-  return api.post(uri, params)
+  const uri = `/v1/warehouses/inventory-adjustments/create`
+  let form_data = new FormData()
+  for (let key in params) {
+    form_data.append(key, params[key])
+  }
+  return api.post(uri, form_data)
 }
 
 /**

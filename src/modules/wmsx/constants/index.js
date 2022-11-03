@@ -2167,3 +2167,64 @@ export const MAINTENANCE_TEAM_TYPE_OPTIONS = [
     text: 'maintenanceTeam.inner',
   },
 ]
+
+export const INVENTORY_ADJUST_STATUS = {
+  PENDING: 0,
+  CONFIRM: 1,
+  COMPLETED: 2,
+  REJECTED: 3,
+}
+
+export const INVENTORY_ADJUST_STATUS_MAP = {
+  [INVENTORY_ADJUST_STATUS.PENDING]:
+    'inventoryAdjust.inventoryAdjustStatus.pending',
+  [INVENTORY_ADJUST_STATUS.CONFIRM]:
+    'inventoryAdjust.inventoryAdjustStatus.confirmed',
+  [INVENTORY_ADJUST_STATUS.COMPLETED]:
+    'inventoryAdjust.inventoryAdjustStatus.completed',
+  [INVENTORY_ADJUST_STATUS.REJECTED]:
+    'inventoryAdjust.inventoryAdjustStatus.rejected',
+}
+
+export const INVENTORY_ADJUST_STATUS_OPTIONS = [
+  {
+    id: 0,
+    text: 'inventoryAdjust.inventoryAdjustStatus.pending',
+    color: 'pending',
+  },
+  {
+    id: 1,
+    text: 'inventoryAdjust.inventoryAdjustStatus.confirmed',
+    color: 'confirmed',
+  },
+  {
+    id: 2,
+    text: 'inventoryAdjust.inventoryAdjustStatus.completed',
+    color: 'completed',
+  },
+  {
+    id: 3,
+    text: 'inventoryAdjust.inventoryAdjustStatus.rejected',
+    color: 'rejected',
+  },
+]
+
+export const INVENTORY_ADJUST_TYPE = {
+  WAREHOUSE_IMPORT: 0,
+  WAREHOUSE_EXPORT: 1,
+}
+export const INVENTORY_ADJUST_TYPE_MAP = {
+  [INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT]: 'inventoryAdjust.warehouseImport',
+  [INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT]: 'inventoryAdjust.warehouseExport',
+}
+
+export const INVENTORY_ADJUST_TYPE_OPTIONS = [
+  {
+    id: 0,
+    text: 'inventoryAdjust.warehouseImport',
+  },
+  {
+    id: 1,
+    text: 'inventoryAdjust.warehouseExport',
+  },
+]
