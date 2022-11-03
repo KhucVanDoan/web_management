@@ -26,7 +26,7 @@ const InventoryStatisticFilter = ({
 
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
-      {({ resetForm, values }) => {
+      {({ resetForm, values, setFieldValue }) => {
         return (
           <Form>
             <Grid container justifyContent="center">
@@ -40,32 +40,42 @@ const InventoryStatisticFilter = ({
                     <Field.Autocomplete
                       name="warehouseId"
                       label={t('inventoryStatistics.warehouseName')}
-                      placeholder={t('inventoryStatistics.warehouseName')}
+                      placeholder={t('inventoryStatistics.allWarehouse')}
                       options={userInfo?.userWarehouses}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
+                      onChange={() => {
+                        setFieldValue('itemId', null)
+                        setFieldValue('locationId', null)
+                      }}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="itemId"
                       label={t('inventoryStatistics.item')}
-                      placeholder={t('inventoryStatistics.item')}
+                      placeholder={t('inventoryStatistics.allItem')}
                       asyncRequest={(s) =>
                         searchMaterialsApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            warehouseId: values?.warehouseId?.id,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequestDeps={values?.warehouseId}
+                      disabled={!values?.warehouseId}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="locationId"
                       label={t('inventoryStatistics.location')}
-                      placeholder={t('inventoryStatistics.location')}
+                      placeholder={t('inventoryStatistics.allLocation')}
                       asyncRequest={(s) =>
                         searchLocationsApi({
                           keyword: s,
@@ -76,8 +86,9 @@ const InventoryStatisticFilter = ({
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
-                      getOptionLabel={(opt) => opt?.name}
-                      asyncRequestDeps={values?.warehouseId?.id}
+                      getOptionLabel={(opt) => opt?.code}
+                      asyncRequestDeps={values?.warehouseId}
+                      disabled={!values?.warehouseId}
                     />
                   </Grid>
                   <Grid item xs={12}>

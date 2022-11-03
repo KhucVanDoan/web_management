@@ -4,8 +4,10 @@ import { Bar } from '@ant-design/plots'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import { useDashboardItemStockReport } from '~/modules/wmsx/redux/hooks/useDashboard'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 
 const DEMO_DATA = [
   {
@@ -63,7 +65,7 @@ const UsedMaterialsReport = () => {
   const getData = () => {
     const payload = {
       reportType: 0,
-      itemTypeId: filterBy,
+      warehouseId: filterBy,
     }
     actions.getItemStockReport(payload)
   }
@@ -77,7 +79,7 @@ const UsedMaterialsReport = () => {
   }, [filterBy])
 
   const handleChangeSelect = (value) => {
-    setFilterBy(value)
+    setFilterBy(value?.id)
   }
 
   const color = [
@@ -253,16 +255,20 @@ const UsedMaterialsReport = () => {
         <Typography variant="h2">
           {t('dashboard.materialUsed.title')}
         </Typography>
-        <Box sx={{ mb: 2, width: '50%' }}>
-          <Autocomplete
-            value={filterBy}
-            options={[]}
-            getOptionValue={(opt) => opt?.id || ''}
-            getOptionLabel={(opt) => opt?.name}
-            onChange={handleChangeSelect}
-            disableClearable
-          />
-        </Box>
+        <Autocomplete
+          sx={{ width: '30%' }}
+          value={filterBy}
+          placeholder={t('dashboard.allWarehouse')}
+          asyncRequest={(s) =>
+            searchWarehouseApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+          onChange={handleChangeSelect}
+        />
       </Box>
       <Box sx={{ position: 'relative' }}>
         <Box

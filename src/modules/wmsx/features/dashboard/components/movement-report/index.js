@@ -29,22 +29,13 @@ const MovementReport = () => {
   }
 
   useEffect(() => {
-    if (groupBy && itemId && warehouseId) {
-      const payload = {
-        reportType: groupBy,
-        itemId: itemId,
-        warehouseId: warehouseId,
-      }
-      actions.getTransferReport(payload)
-    }
-  }, [groupBy, itemId, warehouseId])
-
-  useEffect(() => {
     const payload = {
       reportType: groupBy,
+      itemId: itemId,
+      warehouseId: warehouseId,
     }
     actions.getTransferReport(payload)
-  }, [groupBy])
+  }, [groupBy, itemId, warehouseId])
 
   const formatDataStock = (dataList) => {
     const newData = []
@@ -143,7 +134,7 @@ const MovementReport = () => {
         <Autocomplete
           sx={{ width: '45%' }}
           name="warehouseId"
-          placeholder={t('movements.importExport.warehouseName')}
+          placeholder={t('dashboard.allWarehouse')}
           asyncRequest={(s) =>
             searchWarehouseApi({
               keyword: s,

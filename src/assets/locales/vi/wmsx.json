@@ -362,6 +362,9 @@
   },
   "dashboard": {
     "companyPlaceholder": "Chọn công ty",
+    "allWarehouse": "Tất cả kho",
+    "itemName": "Tên vật tư",
+    "allDepartment": "Tất cả đơn vị",
     "chart": {
       "viewMore": "Xem đầy đủ",
       "thisPeriod": "kỳ này",
@@ -406,8 +409,8 @@
       "movementQuantity": "Lượng hàng giao dịch",
       "exportQuantity": "Số lượng xuất",
       "importQuantity": "Số lượng nhập",
-      "exportValue": "Giá trị xuất ",
-      "importValue": "Giá trị nhập ",
+      "exportValue": "Giá trị xuất (triệu đồng)",
+      "importValue": "Giá trị nhập (triệu đồng)",
       "export": "Xuất",
       "import": "Nhập",
       "transfer": "Chuyển kho"
@@ -1352,6 +1355,9 @@
     "tableTitle": "Danh sách tồn kho",
     "title": "Tra cứu tồn kho",
     "statisticsDate": "Ngày thống kê",
+    "allWarehouse": "Tất cả kho",
+    "allItem": "Tất cả vật tư",
+    "allLocation": "Tất cả vị trí",
     "item": "Vật tư",
     "warehouseSelect": "Chọn kho",
     "code": "Mã vật tư",

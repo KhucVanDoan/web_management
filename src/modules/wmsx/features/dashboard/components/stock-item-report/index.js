@@ -37,11 +37,11 @@ const StockItemReport = () => {
   }, [itemId, warehouseId])
 
   const data = [
+    { type: 'SL giữ', value: Number(itemGroupStockSummary?.totalItemPlanning) },
     {
       type: 'SL có thể xuất ',
       value: Number(itemGroupStockSummary?.totalItemStockAvaiable),
     },
-    { type: 'SL Giữ', value: Number(itemGroupStockSummary?.totalItemPlanning) },
   ]
 
   const config = {
@@ -51,14 +51,18 @@ const StockItemReport = () => {
     colorField: 'type',
     radius: 0.9,
     innerRadius: 0.7,
+    // label: {
+    //   type: 'inner',
+    //   offset: '-50%',
+    //   content: '{value}',
+    //   style: {
+    //     textAlign: 'center',
+    //     fontSize: 14,
+    //   },
+    // },
     label: {
-      type: 'inner',
-      offset: '-50%',
-      content: '{value}',
-      style: {
-        textAlign: 'center',
-        fontSize: 14,
-      },
+      type: 'outer',
+      style: { fontSize: 14, textOverflow: 'unset' },
     },
     interactions: [
       {
@@ -99,7 +103,7 @@ const StockItemReport = () => {
               mb: 1,
             }}
             name="warehouseId"
-            placeholder={t('movements.importExport.warehouseName')}
+            placeholder={t('dashboard.allWarehouse')}
             asyncRequest={(s) =>
               searchWarehouseApi({
                 keyword: s,
@@ -113,7 +117,7 @@ const StockItemReport = () => {
           <Autocomplete
             sx={{}}
             name="itemId"
-            placeholder={t('movements.importExport.itemCode')}
+            placeholder={t('dashboard.itemName')}
             asyncRequest={(s) =>
               searchMaterialsApi({
                 keyword: s,
