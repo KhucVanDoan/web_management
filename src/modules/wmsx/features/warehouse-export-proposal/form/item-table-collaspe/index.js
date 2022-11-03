@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
@@ -86,7 +87,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'suppliesCode',
       headerName: t('warehouseExportProposal.items.suppliesCode'),
-      width: 250,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.itemCode
       },
@@ -94,7 +95,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'suppliesName',
       headerName: t('warehouseExportProposal.items.suppliesName'),
-      width: 250,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.itemName
       },
@@ -102,7 +103,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'unit',
       headerName: t('warehouseExportProposal.items.unit'),
-      width: 250,
+      width: 100,
       renderCell: (params) => {
         return params?.row?.unit
       },
@@ -110,17 +111,17 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'quantityRequest',
       headerName: t('warehouseExportProposal.items.quantityRequest'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'quantityExport',
       headerName: t('warehouseExportProposal.items.quantityExport'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'importedQuantity',
@@ -132,19 +133,20 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         ) : (
           <Field.TextField
             name={`itemTableCollaspe[${index}].importedQuantity`}
-            type="number"
             numberProps={{
               thousandSeparator: true,
               decimalScale: 2,
             }}
-            // validate={(val) => {
-            //   if (val <= 0) {
-            //     return t('general:form.moreThanNumber', {
-            //       min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-            //     })
-            //   }
-            //   return true
-            // }}
+            validate={(val) => {
+              if (!val) {
+                return t('general:form.required')
+              }
+              if (val <= 0) {
+                return t('general:form.moreThanNumber', {
+                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                })
+              }
+            }}
           />
         )
       },
@@ -157,7 +159,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'dayUpdate',
       headerName: t('warehouseExportProposal.items.dayUpdate'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return convertUtcDateToLocalTz(params?.row?.dayUpdate)
       },
@@ -165,7 +167,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'supplyCode',
       headerName: t('warehouseExportProposal.items.supplyCode'),
-      width: 200,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           <Checkbox checked={true} name="supplyCode" disabled />
@@ -177,7 +179,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'suppliesType',
       headerName: t('warehouseExportProposal.items.suppliesType'),
-      width: 250,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           params?.row?.suppliesType
@@ -201,7 +203,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'categorySubject',
       headerName: t('warehouseExportProposal.items.categorySubject'),
-      width: 250,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           params?.row?.categorySubject
@@ -225,7 +227,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'producingCountry',
       headerName: t('warehouseExportProposal.items.producingCountry'),
-      width: 250,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           params?.row?.producingCountry
@@ -249,7 +251,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'materialQuality',
       headerName: t('warehouseExportProposal.items.materialQuality'),
-      width: 250,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           params?.row?.materialQuality
@@ -273,7 +275,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'suppliesNameNeedGrantCode',
       headerName: t('warehouseExportProposal.items.suppliesNameNeedGrantCode'),
-      width: 250,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemId ? (
           params?.row?.suppliesNameNeedGrantCode
@@ -295,7 +297,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'exportSuppliesCode',
       headerName: t('warehouseExportProposal.items.exportSuppliesCode'),
-      width: 200,
+      width: 150,
       renderCell: (params, index) => {
         return isView || params?.row?.itemCode ? (
           params?.row?.itemCode
@@ -313,6 +315,11 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 }),
               })
             }
+            validate={(val) => {
+              if (isEmpty(val)) {
+                return t('general:form.required')
+              }
+            }}
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.code}
@@ -325,7 +332,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'exportSuppliesName',
       headerName: t('warehouseExportProposal.items.exportSuppliesName'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.itemName || params?.row?.exportSuppliesCode?.name
       },
@@ -333,7 +340,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'unit',
       headerName: t('warehouseExportProposal.items.unit'),
-      width: 250,
+      width: 150,
       renderCell: (params) => {
         return (
           params?.row?.unit?.name ||
@@ -357,6 +364,11 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 limit: ASYNC_SEARCH_LIMIT,
               })
             }
+            validate={(val) => {
+              if (isEmpty(val)) {
+                return t('general:form.required')
+              }
+            }}
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
@@ -397,12 +409,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'planExportedQuantity',
       headerName: t('warehouseExportProposal.items.planExportedQuantity'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'quantityExport',
       headerName: t('warehouseExportProposal.items.quantityExport'),
-      width: 150,
+      width: 100,
       renderCell: (params, index) => {
         return isView || params?.row?.exportQuantity ? (
           params?.row?.exportQuantity
@@ -414,6 +426,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               decimalScale: 2,
             }}
             validate={(val) => {
+              if (!val) {
+                return t('general:form.required')
+              }
               if (val <= 0) {
                 return t('general:form.moreThanNumber', {
                   min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
@@ -427,12 +442,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'quantityExportActual',
       headerName: t('warehouseExportProposal.items.quantityExportActual'),
-      width: 150,
+      width: 100,
     },
     {
       field: 'reservation',
       headerName: t('warehouseExportProposal.items.reservation'),
-      width: 200,
+      width: 150,
       renderCell: (params, index) => {
         return isView ? (
           <Checkbox checked={true} name="supplyCode" disabled />
@@ -513,7 +528,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'suppliesType',
       headerName: t('warehouseExportProposal.items.suppliesType'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.suppliesType?.code
       },
@@ -521,7 +536,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'producingCountry',
       headerName: t('warehouseExportProposal.items.producingCountry'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.producingCountry?.code
       },
@@ -529,7 +544,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'materialQuality',
       headerName: t('warehouseExportProposal.items.materialQuality'),
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.materialQuality?.code
       },
@@ -537,7 +552,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: 'categorySubject',
       headerName: t('warehouseExportProposal.items.categorySubject'),
-      width: 50,
+      width: 150,
       renderCell: (params) => {
         return params?.row?.categorySubject?.name
       },

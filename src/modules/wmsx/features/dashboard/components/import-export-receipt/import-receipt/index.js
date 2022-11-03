@@ -59,7 +59,7 @@ const ImportReceipt = () => {
         <Autocomplete
           sx={{ width: '30%' }}
           name="warehouseId"
-          placeholder={t('movements.importExport.warehouseName')}
+          placeholder={t('dashboard.allWarehouse')}
           asyncRequest={(s) =>
             searchWarehouseApi({
               keyword: s,

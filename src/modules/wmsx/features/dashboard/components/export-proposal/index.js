@@ -4,7 +4,9 @@ import { Pie } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
+import { searchManagamentUnitApi } from '~/modules/wmsx/redux/sagas/management-unit/search'
 
 const ExportProposal = () => {
   const { t } = useTranslation(['wmsx'])
@@ -25,6 +27,7 @@ const ExportProposal = () => {
     radius: 0.7,
     label: {
       type: 'outer',
+      style: { fontSize: 14, textOverflow: 'unset' },
     },
     interactions: [
       {
@@ -50,7 +53,18 @@ const ExportProposal = () => {
             flexDirection: 'column',
           }}
         >
-          <Autocomplete disableClearable />
+          <Autocomplete
+            name="warehouseId"
+            placeholder={t('dashboard.allDepartment')}
+            asyncRequest={(s) =>
+              searchManagamentUnitApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+              })
+            }
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
+          />
         </Box>
       </Box>
       <Box

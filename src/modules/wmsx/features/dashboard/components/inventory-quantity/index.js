@@ -4,8 +4,11 @@ import { DualAxes } from '@ant-design/plots/es'
 import { Box, Card, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import DateGroupToggle from '~/components/DateGroupToggle'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 
 const InventoryQuantity = () => {
   const { t } = useTranslation(['wmsx'])
@@ -104,8 +107,32 @@ const InventoryQuantity = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Autocomplete sx={{ width: '45%' }} />
-        <Autocomplete sx={{ width: '45%' }} />
+        <Autocomplete
+          sx={{ width: '45%' }}
+          name="warehouseId"
+          placeholder={t('dashboard.allWarehouse')}
+          asyncRequest={(s) =>
+            searchWarehouseApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+        />
+        <Autocomplete
+          sx={{ width: '45%' }}
+          name="itemId"
+          placeholder={t('movements.importExport.itemCode')}
+          asyncRequest={(s) =>
+            searchMaterialsApi({
+              keyword: s,
+              limit: ASYNC_SEARCH_LIMIT,
+            })
+          }
+          asyncRequestHelper={(res) => res?.data?.items}
+          getOptionLabel={(opt) => opt?.name}
+        />
       </Box>
       <Box sx={{ height: 360 }}>
         <DualAxes {...config} />
