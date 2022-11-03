@@ -87,7 +87,7 @@ const DataTableCollapse = (props) => {
       return <Truncate value={cellValue} classes={classes} />
     }
   }
-
+  const handleApplySetting = () => {}
   return (
     <>
       {(title || filters || !hideSetting) && (
