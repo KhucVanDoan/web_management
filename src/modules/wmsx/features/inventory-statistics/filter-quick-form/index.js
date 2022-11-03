@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { convertFilterParams, getLocalItem } from '~/utils'
+import { convertFilterParams } from '~/utils'
 
 const InventoryStatisticFilter = ({
   setQuickFilters,
@@ -21,8 +22,6 @@ const InventoryStatisticFilter = ({
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
-
-  const userInfo = getLocalItem('userInfo')
 
   return (
     <Formik initialValues={quickFilters} onSubmit={onSubmit} enableReinitialize>
@@ -41,9 +40,15 @@ const InventoryStatisticFilter = ({
                       name="warehouseId"
                       label={t('inventoryStatistics.warehouseName')}
                       placeholder={t('inventoryStatistics.allWarehouse')}
-                      options={userInfo?.userWarehouses}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
+                      asyncRequest={(s) =>
+                        searchWarehouseApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      getOptionLabel={(opt) => opt?.name}
+                      getOptionSubLabel={(opt) => opt?.code}
                       onChange={() => {
                         setFieldValue('itemId', null)
                         setFieldValue('locationId', null)
