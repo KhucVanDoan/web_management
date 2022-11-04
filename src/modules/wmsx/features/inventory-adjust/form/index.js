@@ -1,43 +1,56 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Box, Grid, Typography } from '@mui/material'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
   ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
+  TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
+import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS,
+  INVENTORY_ADJUST_STATUS_OPTIONS,
+  INVENTORY_ADJUST_TYPE,
+  INVENTORY_ADJUST_TYPE_OPTIONS,
+} from '~/modules/wmsx/constants'
 import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
+import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchInventoryCalendarsApi } from '~/modules/wmsx/redux/sagas/inventory-calendar/search-inventory-calendars'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { useClasses } from '~/themes'
 import { convertFilterParams } from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import InventoryyAdjustSchema from './schema'
+import style from './style'
 
 const DEFAULT_ITEM = {
-  ids: new Date().getTime(),
-  itemCode: '',
+  id: new Date().getTime(),
+  itemId: '',
   itemName: '',
-  itemType: '',
+  locator: '',
   lotNumber: '',
-  mfg: '',
-  packageId: '',
-  planExportedQuantity: '',
-  unitType: '',
+  quantity: '',
+  price: '',
+  amount: '',
+  debitAccount: '',
+  creditAccount: '',
 }
 const InventoryAdjustForm = () => {
   const history = useHistory()
@@ -50,15 +63,21 @@ const InventoryAdjustForm = () => {
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
+  const classes = useClasses(style)
   const {
     data: { inventoryAdjustDetails, isLoading },
     actions,
   } = useInventoryAdjust()
-
+  const { actions: warehouseTransferAction } = useWarehouseTransfer()
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
-      actions.getInventoryAdjustDetailsById(id)
+      actions.getInventoryAdjustDetailsById(id, (data) => {
+        if (data?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+          warehouseTransferAction.getListItemWarehouseStock(data?.warehouse?.id)
+        }
+      })
     }
+
     return () => actions.resetInventoryAdjust()
   }, [mode])
   const initialValues = useMemo(
@@ -66,47 +85,53 @@ const InventoryAdjustForm = () => {
       code: inventoryAdjustDetails?.code || '',
       name: inventoryAdjustDetails?.name || '',
       type: inventoryAdjustDetails?.type || '',
+      departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
+      warehouse: inventoryAdjustDetails?.warehouse || '',
+      inventoryCalendar: inventoryAdjustDetails?.inventory || '',
+      receiptDate: inventoryAdjustDetails?.receiptDate || '',
+      receiptNumber: inventoryAdjustDetails?.receiptNumber || '',
       reasonId: inventoryAdjustDetails?.reason || '',
       sourceId: inventoryAdjustDetails?.source || '',
       explanation: inventoryAdjustDetails?.explanation || '',
-      items: inventoryAdjustDetails?.warehouseTransferDetailLots?.map(
-        (item) => ({
-          itemCode: {
-            itemId: item?.itemId,
-            id: item?.itemId,
-            ...item?.item,
-          },
-          lotNumber: item?.lotNumber,
-          itemName: item?.item?.name,
-          locator: { ...item?.locator, locatorId: item?.locatorId },
-          itemType: item?.item?.itemType?.name,
-          transferQuantity: +item?.planQuantity,
-        }),
-      ) || [{ ...DEFAULT_ITEM }],
+      attachment: inventoryAdjustDetails?.attachment || '',
+      items: inventoryAdjustDetails?.items?.map((item) => ({
+        itemCode: item?.item,
+        lotNumber: item?.lotNumber,
+        itemName: item?.item?.name,
+        locator: item?.locator,
+        quantity: item?.quantity,
+        price: item?.price,
+        amount: item?.amount,
+        debitAccount: item?.debitAccount,
+        creditAccount: item?.creditAccount,
+      })) || [{ ...DEFAULT_ITEM }],
     }),
     [inventoryAdjustDetails],
   )
   const onSubmit = (values) => {
     const params = {
-      // code: values?.code,
-      destinationWarehouseId: +values?.destinationWarehouseId?.id,
+      code: values?.code,
       name: values?.name,
-      bussinessTypeId: values?.businessTypeId?.id,
-      sourceWarehouseId: +values?.sourceWarehouseId?.id,
-      createdAt: values?.createdAt.toISOString(),
+      warehouseId: values?.warehouse?.id,
+      departmentReceiptId: values?.departmentReceiptId?.id,
+      inventoryId: values?.inventoryCalendar?.id,
+      receiptDate: values?.receiptDate.toISOString(),
+      receiptNumber: values?.receiptNumber,
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
-      receiver: values?.deliver,
+      attachment: JSON.stringify(values?.attachment?.map((item) => item)),
       explanation: values?.explanation || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
           locatorId: +item?.locator?.locatorId || null,
-          quantity: +item.transferQuantity,
-          lotNumber: item?.lotNumber || null,
-          debitAcc: '1519',
-          creditAcc: item?.creditAccount,
+          quantity: +item.quantity,
+          lotNumber: item?.lotNumber?.lotNumber || item?.lotNumber || null,
+          amount: item?.amount,
+          price: item?.price,
+          debitAccount: item?.debitAccount,
+          creditAccount: item?.creditAccount,
         })),
       ),
     }
@@ -180,6 +205,13 @@ const InventoryAdjustForm = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_ADJUST.LIST.PATH)
   }
+  const handleChangeWarehouse = (val, values) => {
+    if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+      if (!isEmpty(val)) {
+        warehouseTransferAction.getListItemWarehouseStock(val?.id)
+      }
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -193,7 +225,7 @@ const InventoryAdjustForm = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => {
+        {({ handleReset, values, setFieldValue }) => {
           return (
             <Form>
               <Grid container justifyContent="center">
@@ -213,7 +245,7 @@ const InventoryAdjustForm = () => {
                           }
                           value={
                             <Status
-                              options={[]}
+                              options={INVENTORY_ADJUST_STATUS_OPTIONS}
                               value={inventoryAdjustDetails?.status}
                             />
                           }
@@ -225,6 +257,10 @@ const InventoryAdjustForm = () => {
                         label={t('inventoryAdjust.code')}
                         name="code"
                         placeholder={t('inventoryAdjust.code')}
+                        allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        }}
                         required
                       />
                     </Grid>
@@ -242,9 +278,12 @@ const InventoryAdjustForm = () => {
                         name="type"
                         label={t('inventoryAdjust.type')}
                         placeholder={t('inventoryAdjust.type')}
-                        options={[]}
-                        getOptionLabel={(opt) => opt?.name}
+                        options={INVENTORY_ADJUST_TYPE_OPTIONS}
+                        getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        }
                         required
                       />
                     </Grid>
@@ -265,6 +304,7 @@ const InventoryAdjustForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
+                        onChange={(val) => handleChangeWarehouse(val, values)}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />
@@ -279,15 +319,14 @@ const InventoryAdjustForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
                             }),
                           })
                         }
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        getOptionSubLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -300,29 +339,34 @@ const InventoryAdjustForm = () => {
                             keyword: s,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
-                              status: 1,
+                              status: ACTIVE_STATUS.ACTIVE,
+                              warehouseId: values?.warehouse?.id,
                             }),
                           })
                         }
+                        asyncRequestDesp={values?.warehouse}
                         asyncRequestHelper={(res) => res?.data?.items}
-                        getOptionLabel={(opt) => opt?.name}
-                        getOptionSubLabel={(opt) => opt?.code}
+                        getOptionLabel={(opt) => opt?.code}
+                        getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
-                        name="licenseDate"
+                        name="receiptDate"
                         label={t('inventoryAdjust.licenseDate')}
                         placeholder={t('inventoryAdjust.licenseDate')}
+                        maxDate={new Date()}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
-                        name="licenseNumber"
+                        name="receiptNumber"
                         label={t('inventoryAdjust.licenseNumber')}
                         placeholder={t('inventoryAdjust.licenseNumber')}
+                        inputProps={{
+                          maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
+                        }}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -367,6 +411,69 @@ const InventoryAdjustForm = () => {
                         required
                       />
                     </Grid>
+                    <Grid item lg={6} xs={12}>
+                      <LV
+                        label={
+                          <Box sx={{ mt: 8 / 12 }}>
+                            <FormLabel>
+                              <Typography color={'text.main'} component="span">
+                                {t('inventoryAdjust.attachment')}
+                              </Typography>
+                            </FormLabel>
+                          </Box>
+                        }
+                      >
+                        {(values?.attachment ||
+                          inventoryAdjustDetails?.attachment) && (
+                          <label htmlFor="select-file">
+                            <Typography
+                              className={classes.uploadText}
+                              sx={{ mt: 8 / 12, mb: 1 }}
+                            >
+                              {isUpdate &&
+                                inventoryAdjustDetails?.attachment?.map((i) => {
+                                  return (
+                                    <>
+                                      <a
+                                        key={i?.id}
+                                        href={i?.fileUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                      >
+                                        {i?.fileNameRaw}
+                                      </a>
+                                      <br />
+                                    </>
+                                  )
+                                })}
+                              {values?.attachment
+                                ?.map((i) => i?.name)
+                                ?.join('\r\n')}
+                            </Typography>
+                          </label>
+                        )}
+                        <Button
+                          variant="contained"
+                          component="label"
+                          sx={{ backgroundColor: '#fff' }}
+                        >
+                          <FileUploadIcon color="primary" />
+                          <input
+                            hidden
+                            id="select-file"
+                            multiple
+                            type="file"
+                            accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'attachment',
+                                Object.values(e.target.files),
+                              )
+                            }}
+                          />
+                        </Button>
+                      </LV>
+                    </Grid>
 
                     <Grid item xs={12}>
                       <Field.TextField
@@ -389,6 +496,7 @@ const InventoryAdjustForm = () => {
                           items={values?.items}
                           mode={mode}
                           arrayHelpers={arrayHelpers}
+                          values={values}
                         />
                       )}
                     />

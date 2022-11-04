@@ -14,8 +14,8 @@ import addNotification from '~/utils/toast'
  * @param {any} params Params will be sent to server
  * @returns {Promise}
  */
-const confirmInventoryAdjustApi = () => {
-  const uri = ``
+const confirmInventoryAdjustApi = (params) => {
+  const uri = `/v1/warehouses/inventory-adjustments/${params}/confirm`
   return api.put(uri)
 }
 
