@@ -14,9 +14,18 @@ import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import {
+  INVENTORY_ADJUST_STATUS,
+  INVENTORY_ADJUST_STATUS_OPTIONS,
+  INVENTORY_ADJUST_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import {
+  convertFilterParams,
+  convertSortParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import FilterForm from './filter-form'
 
@@ -83,17 +92,26 @@ const InventoryAdjust = () => {
       {
         field: 'type',
         headerName: t('inventoryAdjust.type'),
-        width: 150,
+        width: 100,
+        renderCell: (params) => {
+          return t(`${INVENTORY_ADJUST_TYPE_MAP[params?.row?.type]}`)
+        },
       },
       {
         field: 'reason',
         headerName: t('inventoryAdjust.reason'),
-        width: 150,
+        width: 100,
+        renderCell: (params) => {
+          return params?.row?.reason?.name
+        },
       },
       {
-        field: 'licenseDate',
+        field: 'receiptDate',
         headerName: t('inventoryAdjust.licenseDate'),
         width: 150,
+        renderCell: (params) => {
+          return convertUtcDateToLocalTz(params?.row?.receiptDate)
+        },
       },
       {
         field: 'status',
@@ -101,18 +119,31 @@ const InventoryAdjust = () => {
         width: 150,
         renderCell: (params) => {
           const { status } = params.row
-          return <Status options={[]} value={status} variant="text" />
+          return (
+            <Status
+              options={INVENTORY_ADJUST_STATUS_OPTIONS}
+              value={status}
+              variant="text"
+            />
+          )
         },
       },
       {
         field: 'actions',
         headerName: t('inventoryAdjust.actions'),
-        width: 250,
+        width: 200,
         align: 'center',
         fixed: true,
         renderCell: (params) => {
-          const { id } = params?.row
-
+          const { id, status } = params?.row
+          const canConfirm = status === INVENTORY_ADJUST_STATUS.PENDING
+          const canRejected = status === INVENTORY_ADJUST_STATUS.PENDING
+          const canEdit =
+            status === INVENTORY_ADJUST_STATUS.PENDING ||
+            status === INVENTORY_ADJUST_STATUS.REJECTED
+          const canDelete =
+            status === INVENTORY_ADJUST_STATUS.PENDING ||
+            status === INVENTORY_ADJUST_STATUS.REJECTED
           return (
             <div>
               <IconButton
@@ -124,28 +155,32 @@ const InventoryAdjust = () => {
               >
                 <Icon name="show" />
               </IconButton>
-
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.INVENTORY_ADJUST.EDIT.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="edit" />
-              </IconButton>
-
-              <IconButton onClick={() => onClickDelete(params.row)}>
-                <Icon name="delete" />
-              </IconButton>
-
-              <IconButton onClick={() => onClickConfirmed(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
-
-              <IconButton onClick={() => onClickRejected(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              {canEdit && (
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.INVENTORY_ADJUST.EDIT.PATH.replace(':id', `${id}`),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              )}
+              {canDelete && (
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              )}
+              {canConfirm && (
+                <IconButton onClick={() => onClickConfirmed(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              )}
+              {canRejected && (
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              )}
             </div>
           )
         },

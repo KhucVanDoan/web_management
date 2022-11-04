@@ -8,7 +8,6 @@ import Autocomplete from '~/components/Autocomplete'
 import DataTable from '~/components/DataTable'
 import { useDashboardPurchasedOrderImports } from '~/modules/wmsx/redux/hooks/useDashboard'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { convertFilterParams } from '~/utils'
 const ImportReceipt = () => {
   const { t } = useTranslation(['wmsx'])
   const [warehouseId, setWarehouseId] = useState('')
@@ -17,12 +16,14 @@ const ImportReceipt = () => {
     useDashboardPurchasedOrderImports()
 
   useEffect(() => {
-    actions.getPurchasedOrderImports({
-      filter: convertFilterParams({
-        warehouseId: warehouseId,
-      }),
-    })
+    if (warehouseId) {
+      actions.getPurchasedOrderImports({ warehouseId })
+    }
   }, [warehouseId])
+
+  useEffect(() => {
+    actions.getPurchasedOrderImports()
+  }, [])
 
   const handleChangeWarehouse = (value) => {
     setWarehouseId(value?.id)

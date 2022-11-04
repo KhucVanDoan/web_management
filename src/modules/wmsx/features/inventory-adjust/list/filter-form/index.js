@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next'
 
 import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import { Field } from '~/components/Formik'
+import {
+  INVENTORY_ADJUST_STATUS_OPTIONS,
+  INVENTORY_ADJUST_TYPE_OPTIONS,
+} from '~/modules/wmsx/constants'
 
 const FilterForm = () => {
   const { t } = useTranslation('wmsx')
@@ -35,7 +39,7 @@ const FilterForm = () => {
           name="type"
           label={t('inventoryAdjust.type')}
           placeholder={t('inventoryAdjust.type')}
-          options={[]}
+          options={INVENTORY_ADJUST_TYPE_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
@@ -43,8 +47,8 @@ const FilterForm = () => {
       <Grid item xs={12}>
         <Field.DateRangePicker
           name="createdAt"
-          label={t('inventoryAdjust.table.createdAt')}
-          placeholder={t('inventoryAdjust.table.createdAt')}
+          label={t('inventoryAdjust.createdAt')}
+          placeholder={t('inventoryAdjust.createdAt')}
         />
       </Grid>
       <Grid item xs={12}>
@@ -52,7 +56,7 @@ const FilterForm = () => {
           name="status"
           label={t('inventoryAdjust.status')}
           placeholder={t('inventoryAdjust.status')}
-          options={[]}
+          options={INVENTORY_ADJUST_STATUS_OPTIONS}
           getOptionValue={(opt) => opt?.id?.toString()}
           getOptionLabel={(opt) => t(opt?.text)}
         />
