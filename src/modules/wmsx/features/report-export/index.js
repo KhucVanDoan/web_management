@@ -51,10 +51,10 @@ const ReportExport = () => {
     const convertValues = {
       reportType: values?.type,
       exportType: values?.fileFormat,
-      companyId: values?.company?.id,
-      constructionId: values?.construction?.id.toString(),
-      warehouseId: values?.warehouse?.id,
-      receiveDepartmentId: values?.receivingDepartment?.id,
+      companyCode: values?.company?.code,
+      constructionCode: values?.construction?.code,
+      warehouseCode: values?.warehouse?.code,
+      departmentReceiptCode: values?.receivingDepartment?.code,
       dateFrom: values?.time?.[0]?.toISOString(),
       dateTo: values?.time?.[1]?.toISOString(),
     }
