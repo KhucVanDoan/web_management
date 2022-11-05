@@ -19,10 +19,10 @@ import { searchExpenditureTypeApi } from '~/modules/wmsx/redux/sagas/define-expe
 import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/search-vendors'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/search-receipt'
+import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { convertFilterParams } from '~/utils'
 
 const DEFAULT_ITEMS = [
@@ -73,15 +73,23 @@ const displayFollowBusinessTypeManagement = (
       setItemWarehouseExportProposal([])
     }
     if (val) {
-      if (!isEmpty(values?.warehouse)) {
-        setFieldValue('items', DEFAULT_ITEMS)
-        const params = {
-          id: val?.id,
-          warehouseId: values?.warehouse?.id,
-        }
-        const res = await getWarehouseExportProposalItems(params)
-        setItemWarehouseExportProposal(res?.data)
-      }
+      const res = await getWarehouseExportProposalDetailsApi(val?.id)
+      const items = []
+      res?.data?.items?.forEach((item) => {
+        item?.childrens?.forEach((chil) => {
+          items.push({
+            itemCode: {
+              itemId: chil?.itemId,
+              code: chil?.itemCode || chil?.itemResponse?.code,
+              name: chil?.itemName || chil?.itemResponse?.name,
+              itemUnit: chil?.itemResponse?.itemUnit,
+              exportedQuantity: chil?.exportedQuantity,
+            },
+            lotNumber: chil?.lotNumber,
+          })
+        })
+      })
+      setItemWarehouseExportProposal(items)
     }
   }
   const handleChangeWarehouseExportReceipt = async (val) => {
