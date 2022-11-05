@@ -13,6 +13,7 @@ stages:
   - build
   - deploy
   - build_avenue_stg
+  - deploy_avenue_stg
   - deploy_staging
   - build_demo
   # - deploy_demo
@@ -85,6 +86,33 @@ build_avenue_stg:
     - docker push 10.1.13.50:5000/snp_smartwms/source/web:projects-avenue-wmsx-hq-demo
   rules:
     - if: '$CI_COMMIT_BRANCH == "projects/avenue_wmsx_hq_staging"'
+
+deploy_avenue_staging:
+  stage: deploy_avenue_staging
+  variables:
+    GIT_STRATEGY: none
+  only:
+    - projects/avenue_wmsx_stg
+  script:
+    - eval `ssh-agent -s`
+
+    - bash -c 'echo "$SSH_PRIVATE_KEY" | ssh-add -'
+    - mkdir -p ~/.ssh
+
+    - ssh-keyscan -H 10.1.47.52 >> ~/.ssh/known_hosts
+
+    - mkdir -p ~/.ssh
+
+    - chmod 644 ~/.ssh/known_hosts
+
+    - >
+      ssh $SSH_STAGING_USER@10.1.47.52
+      "docker login $PRIVATE_REGISTRY_HOST -u $PRIVATE_REGISTRY_USERNAME -p $PRIVATE_REGISTRY_PASSWD;
+      docker pull ${STAGING_CONTAINER_IMAGE};
+      docker stop  	stg-avenue_web || true; 
+      docker rm  	stg-avenue_web || true; 
+      docker run -d --name 	stg-avenue_web --restart=always -p 12001:80 ${STAGING_CONTAINER_IMAGE};
+      docker image prune -f;"
 deploy_staging:
   stage: deploy_staging
   variables:
