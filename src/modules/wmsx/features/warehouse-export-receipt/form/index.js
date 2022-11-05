@@ -546,7 +546,7 @@ function WarehouseExportReceiptForm() {
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
-                      {warehouseExprotProposal ? (
+                      {!isEmpty(values[warehouseExprotProposal]) ? (
                         <Field.Autocomplete
                           name="warehouseId"
                           label={t('warehouseExportReceipt.warehouseExport')}
@@ -555,7 +555,6 @@ function WarehouseExportReceiptForm() {
                           )}
                           options={warehouseList}
                           getOptionLabel={(opt) => opt?.name}
-                          disabled={!values[warehouseExprotProposal]}
                           onChange={(val) =>
                             handleChangeWarehouse(val, setFieldValue, values)
                           }

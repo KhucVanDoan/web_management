@@ -26,7 +26,10 @@ function ItemsSettingTable(props) {
     (item) => item?.tableName === 'receipts',
   )?.id
   const handleChangeItem = (val, index) => {
-    setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
+    setFieldValue(
+      `items[${index}].itemName`,
+      val?.item?.name || val?.name || val?.itemCode?.name,
+    )
     setFieldValue(
       `items[${index}].unit`,
       val?.item?.itemUnit || val?.itemUnit?.name,
@@ -76,10 +79,12 @@ function ItemsSettingTable(props) {
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemList}
-              getOptionLabel={(opt) => opt?.item?.code || ''}
-              getOptionSubLabel={(opt) => opt?.item?.name || ''}
+              getOptionLabel={(opt) => opt?.item?.code || opt?.itemCode?.code}
+              getOptionSubLabel={(opt) =>
+                opt?.item?.name || opt?.itemCode?.name
+              }
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              // isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
                 opt?.itemId !== items[index]?.itemCode?.id

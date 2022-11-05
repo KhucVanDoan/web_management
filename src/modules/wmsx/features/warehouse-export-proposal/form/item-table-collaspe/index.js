@@ -310,7 +310,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
                 filter: convertFilterParams({
-                  codeSlice: parentData?.itemCode,
+                  // codeSlice: parentData?.itemCode,
                   status: ACTIVE_STATUS.ACTIVE,
                 }),
               })
