@@ -333,7 +333,7 @@ function MaterialManagement() {
           await objDoc.EndPrint()
           await objDoc.Close()
         }
-        // await new Promise((r) => setTimeout(r, 5000))
+        setIsOpenPrintQRModal(false)
       }
     } catch (e) {
       /* eslint-disable no-console, no-control-regex*/

@@ -18,15 +18,16 @@ function ItemsSettingTable(props) {
 
   const {
     actions,
-    data: { locationList }
+    data: { locationList },
   } = useLocationManagement()
 
   useEffect(() => {
     if (warehouseId) {
       actions.searchLocations({
         filter: convertFilterParams({
-          warehouseId
-        })
+          warehouseId,
+          type: [0, 1],
+        }),
       })
     }
   }, [warehouseId])
@@ -94,10 +95,16 @@ function ItemsSettingTable(props) {
                 decimalScale: 2,
               }}
               validate={() => {
-                const totalReceivedQuantity = items.filter(item => (
-                  item.itemCode?.itemId === params?.row?.itemCode?.itemId
-                )).reduce((prev, cur) => (prev + Number(cur.receivedQuantity)), 0)
-                if (totalReceivedQuantity && totalReceivedQuantity !== params?.row?.itemCode?.quantity) {
+                const totalReceivedQuantity = items
+                  .filter(
+                    (item) =>
+                      item.itemCode?.itemId === params?.row?.itemCode?.itemId,
+                  )
+                  .reduce((prev, cur) => prev + Number(cur.receivedQuantity), 0)
+                if (
+                  totalReceivedQuantity &&
+                  totalReceivedQuantity !== params?.row?.itemCode?.quantity
+                ) {
                   return t('general:form.equalItem', {
                     quantity: params?.row?.itemCode?.quantity,
                   })
@@ -112,13 +119,16 @@ function ItemsSettingTable(props) {
         headerName: t('warehouseTransfer.table.locatorStored'),
         width: 150,
         renderCell: (params, index) => {
-          const selectedLocators = items.filter(item => (
-            item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
-            item?.id !== params?.row?.id
-          )).map(item => item.locator?.locatorId)
-          const availableLocators = locationList.filter(locator => (
-            !selectedLocators.includes(locator.locatorId)
-          ))
+          const selectedLocators = items
+            .filter(
+              (item) =>
+                item.itemCode?.itemId === params?.row?.itemCode?.itemId &&
+                item?.id !== params?.row?.id,
+            )
+            .map((item) => item.locator?.locatorId)
+          const availableLocators = locationList.filter(
+            (locator) => !selectedLocators.includes(locator.locatorId),
+          )
           return (
             <Field.Autocomplete
               dropdownWidth={250}

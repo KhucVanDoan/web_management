@@ -12,7 +12,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -80,18 +80,22 @@ function WarehouseImportReceiptDetail() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          onClick={() =>
-            history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH.replace(
-              ':id',
-              `${id}`,
-            ))
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('warehouseImportReceipt.receiveAndStorageBtn')}
-        </Button>
+        {warehouseImportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
+          <Button
+            onClick={() =>
+              history.push(
+                ROUTE.WAREHOUSE_IMPORT_RECEIPT.RECEIVE_AND_STORAGE.PATH.replace(
+                  ':id',
+                  `${id}`,
+                ),
+              )
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('warehouseImportReceipt.receiveAndStorageBtn')}
+          </Button>
+        )}
       </>
     )
   }

@@ -88,22 +88,31 @@ function WarehouseImportReceiveAndStorage() {
 
   const onSubmit = (values) => {
     try {
-      const itemByIds = groupBy(values.items?.map(item => ({
-        ...item,
-        itemId: item.itemCode?.itemId,
-      })), 'itemId')
+      const itemByIds = groupBy(
+        values.items?.map((item) => ({
+          ...item,
+          itemId: item.itemCode?.itemId,
+        })),
+        'itemId',
+      )
 
-      if (Object.keys(itemByIds)?.length < warehouseImportReceiptDetails?.purchasedOrderImportDetails?.length) {
-        addNotification(t('warehouseImportReceipt.importedItemIsNotEnough'), NOTIFICATION_TYPE.ERROR)
+      if (
+        Object.keys(itemByIds)?.length <
+        warehouseImportReceiptDetails?.purchasedOrderImportDetails?.length
+      ) {
+        addNotification(
+          t('warehouseImportReceipt.importedItemIsNotEnough'),
+          NOTIFICATION_TYPE.ERROR,
+        )
         return
-      } 
+      }
 
-      const itemsRequest = Object.keys(itemByIds)?.map(itemId => ({
+      const itemsRequest = Object.keys(itemByIds)?.map((itemId) => ({
         id: Number(itemId),
-        locations: itemByIds[itemId]?.map(locator => ({
+        locations: itemByIds[itemId]?.map((locator) => ({
           locatorId: locator.locator?.locatorId,
           quantity: locator.receivedQuantity,
-        }))
+        })),
       }))
       const userInfo = getLocalItem('userInfo')
       const payload = {
@@ -111,23 +120,26 @@ function WarehouseImportReceiveAndStorage() {
         movementType: MOVEMENT_TYPE.PO_IMPORT,
         orderId: Number(id),
         warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
-        items: itemsRequest
+        items: itemsRequest,
+        autoCreateReceive: 1,
       }
-      actions.importWarehouse(payload, backToDetail);
+      actions.importWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
   }
 
   const initialValues = {
-    items: [{
-      itemCode: '',
-      locator: '',
-      itemName: '',
-      itemUnit: '',
-      quantity: '',
-      receivedQuantity: '',
-    }]
+    items: [
+      {
+        itemCode: '',
+        locator: '',
+        itemName: '',
+        itemUnit: '',
+        quantity: '',
+        receivedQuantity: '',
+      },
+    ],
   }
 
   return (
@@ -148,7 +160,11 @@ function WarehouseImportReceiveAndStorage() {
             <Form>
               <Grid container justifyContent="center">
                 <Grid item xl={11} xs={12}>
-                  <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+                  <Grid
+                    container
+                    rowSpacing={4 / 3}
+                    columnSpacing={{ xl: 8, xs: 4 }}
+                  >
                     <Grid item xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.status')}
@@ -189,7 +205,9 @@ function WarehouseImportReceiveAndStorage() {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseImportReceipt.unit')}
-                        value={warehouseImportReceiptDetails?.departmentReceipt?.code}
+                        value={
+                          warehouseImportReceiptDetails?.departmentReceipt?.code
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -223,11 +241,17 @@ function WarehouseImportReceiveAndStorage() {
                             <LV
                               label={`${item.fieldName}`}
                               value={
-                                attributesBusinessTypeDetails[item.tableName]?.find(
-                                  (itemDetail) => itemDetail.id + '' === item.value,
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
                                 )?.name ||
-                                attributesBusinessTypeDetails[item.tableName]?.find(
-                                  (itemDetail) => itemDetail.id + '' === item.value,
+                                attributesBusinessTypeDetails[
+                                  item.tableName
+                                ]?.find(
+                                  (itemDetail) =>
+                                    itemDetail.id + '' === item.value,
                                 )?.code
                               }
                             />
@@ -236,7 +260,10 @@ function WarehouseImportReceiveAndStorage() {
                       } else {
                         return (
                           <Grid item lg={6} xs={12}>
-                            <LV label={`${item.fieldName}`} value={item.value} />
+                            <LV
+                              label={`${item.fieldName}`}
+                              value={item.value}
+                            />
                           </Grid>
                         )
                       }
@@ -255,10 +282,13 @@ function WarehouseImportReceiveAndStorage() {
                         <ItemsSettingTable
                           items={values?.items}
                           itemList={
-                            warehouseImportReceiptDetails?.purchasedOrderImportDetails || []
+                            warehouseImportReceiptDetails?.purchasedOrderImportDetails ||
+                            []
                           }
                           arrayHelpers={arrayHelpers}
-                          warehouseId={warehouseImportReceiptDetails?.warehouse?.id}
+                          warehouseId={
+                            warehouseImportReceiptDetails?.warehouse?.id
+                          }
                         />
                       )}
                     />

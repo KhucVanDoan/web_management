@@ -137,16 +137,16 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               thousandSeparator: true,
               decimalScale: 2,
             }}
-            validate={(val) => {
-              if (!val) {
-                return t('general:form.required')
-              }
-              if (val <= 0) {
-                return t('general:form.moreThanNumber', {
-                  min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
-                })
-              }
-            }}
+            // validate={(val) => {
+            //   if (!val) {
+            //     return t('general:form.required')
+            //   }
+            //   if (val <= 0) {
+            //     return t('general:form.moreThanNumber', {
+            //       min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+            //     })
+            //   }
+            // }}
           />
         )
       },
@@ -401,7 +401,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                   return t('general:form.required')
                 }
               }
-              return true
             }}
             getOptionLabel={(opt) => opt?.lotNumber}
             getOptionValue={(opt) => opt?.lotNumber}
