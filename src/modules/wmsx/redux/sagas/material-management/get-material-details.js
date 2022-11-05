@@ -8,11 +8,14 @@ import {
 import { api } from '~/services/api'
 
 export const getMaterialDetailsApi = (params) => {
-  //@TODO udpate api
   const uri = `/v1/items/${params}`
   return api.get(uri)
 }
 
+export const getqrCodeApi = (params) => {
+  const uri = `/v1/items/qr-code?itemIds=${params}`
+  return api.get(uri)
+}
 function* doGetMaterialDetails(action) {
   try {
     const response = yield call(getMaterialDetailsApi, action?.payload)
