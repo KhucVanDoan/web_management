@@ -22,6 +22,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { searchAssemblyApi } from '~/modules/wmsx/redux/sagas/define-assembly/search-assembly'
+import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
 import { searchDrawerApi } from '~/modules/wmsx/redux/sagas/define-drawer/search-drawer'
 import { searchShelfApi } from '~/modules/wmsx/redux/sagas/define-shelf/search-shelf'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -143,6 +144,11 @@ function LocationManagementForm() {
       locations.push({
         level: 2,
         locationId: values?.drawer?.id || values?.drawer?._id,
+      })
+    if (values?.bin)
+      locations.push({
+        level: 3,
+        locationId: values?.bin?.id || values?.bin?._id,
       })
     const convertValues = {
       warehouseId: values?.warehouse?.id,
@@ -376,6 +382,30 @@ function LocationManagementForm() {
                           setFieldValue('bin', null)
                         }
                       }}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.Autocomplete
+                      name="bin"
+                      label={t('locationManagement.binCode')}
+                      placeholder={t('locationManagement.binCode')}
+                      asyncRequest={(s) =>
+                        searchBinApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            level: WAREHOUSE_LAYOUTS.BIN,
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) =>
+                        opt?.code === val?.code
+                      }
+                      getOptionLabel={(opt) => opt?.code}
+                      getOptionSubLabel={(opt) => opt?.name}
+                      disabled={!values?.drawer}
                     />
                   </Grid>
                 </Grid>
