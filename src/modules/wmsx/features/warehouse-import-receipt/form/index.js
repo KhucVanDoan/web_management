@@ -270,7 +270,10 @@ function WarehouseImportReceiptForm() {
       warehouseId: values?.warehouse?.id,
       items: JSON.stringify(
         values?.items?.map((item) => ({
-          id: +item?.itemCode?.itemId || +item?.itemCode?.id,
+          id:
+            +item?.itemCode?.itemId ||
+            +item?.itemCode?.id ||
+            +item?.itemCode?.itemCode?.itemId,
           requestedItemIdImportActual: item?.itemCode?.item?.code,
           lotNumber: '',
           quantity: +item?.importQuantity,
@@ -337,28 +340,6 @@ function WarehouseImportReceiptForm() {
       val?.bussinessTypeAttributes?.forEach((item) => {
         initialValues[item?.id] = null
       })
-    }
-  }
-  const handleChangeWarehouse = async (val, values, setFieldValue) => {
-    if (isEmpty(val)) {
-      setItemWarehouseExportProposal([])
-    }
-    if (val) {
-      const findWarehouseExportProposal =
-        values?.businessTypeId?.bussinessTypeAttributes?.find(
-          (item) =>
-            item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-        )?.id
-
-      if (!isEmpty(values[findWarehouseExportProposal])) {
-        setFieldValue('items', [{ ...DEFAULT_ITEMS }])
-        const params = {
-          id: values[findWarehouseExportProposal]?.id,
-          warehouseId: values?.warehouse?.id,
-        }
-        const res = await getWarehouseExportProposalItems(params)
-        setItemWarehouseExportProposal(res?.data)
-      }
     }
   }
   return (
@@ -543,9 +524,6 @@ function WarehouseImportReceiptForm() {
                         disabled={values[receiptRequired]}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                        onChange={(val) =>
-                          handleChangeWarehouse(val, values, setFieldValue)
-                        }
                         required
                       />
                     </Grid>
@@ -640,9 +618,9 @@ function WarehouseImportReceiptForm() {
                           itemList={
                             itemReceipt?.length > 0
                               ? itemReceipt
-                              : itemWarehouseExportProposal?.length > 0
-                              ? itemWarehouseExportProposal
-                              : itemWarehouseExportReceipt
+                              : itemWarehouseExportReceipt?.length > 0
+                              ? itemWarehouseExportReceipt
+                              : itemWarehouseExportProposal
                           }
                           values={values}
                         />

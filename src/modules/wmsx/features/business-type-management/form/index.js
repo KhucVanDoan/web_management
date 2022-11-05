@@ -59,19 +59,38 @@ function BusinessTypeManagementForm() {
       description: businessTypeDetails?.description || '',
       itemOption:
         businessTypeDetails?.bussinessTypeAttributes
-          ?.filter((e) => e?.code === null)
+          ?.filter((e) => !e?.code)
           ?.map((item) => ({
             id: item?.id,
             labelEBS: item?.ebsLabel,
             fieldName: item?.fieldName,
             required: Boolean(item?.required),
             type: {
-              id: item?.type,
-              text: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.text,
-              type: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.type,
-              tableName: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)
-                ?.tableName,
-              code: DATA_TYPE_OPTIONS.find((e) => e?.id === item?.type)?.code,
+              id: DATA_TYPE_OPTIONS.find(
+                (e) => e?.tableName === item?.tableName,
+              )?.id,
+              text: DATA_TYPE_OPTIONS.find(
+                (e) =>
+                  e?.id ===
+                  DATA_TYPE_OPTIONS.find(
+                    (e) => e?.tableName === item?.tableName,
+                  )?.id,
+              )?.text,
+              type: DATA_TYPE_OPTIONS.find(
+                (e) =>
+                  e?.id ===
+                  DATA_TYPE_OPTIONS.find(
+                    (e) => e?.tableName === item?.tableName,
+                  )?.id,
+              )?.type,
+              tableName: item?.tableName,
+              code: DATA_TYPE_OPTIONS.find(
+                (e) =>
+                  e?.id ===
+                  DATA_TYPE_OPTIONS.find(
+                    (e) => e?.tableName === item?.tableName,
+                  )?.id,
+              )?.code,
             },
           })) || [],
       itemDefault:
