@@ -154,16 +154,6 @@ function LocationManagementDetail() {
                 }
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('locationManagement.binCode')}
-                value={
-                  locationDetails?.locations?.find(
-                    (i) => i?.level === WAREHOUSE_LAYOUTS.BIN,
-                  )?.code
-                }
-              />
-            </Grid>
           </Grid>
         </Grid>
       </Grid>
