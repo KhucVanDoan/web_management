@@ -13,7 +13,7 @@ stages:
   - build
   - deploy
   - build_avenue_stg
-  - deploy_avenue_stg
+  - deploy_avenue_staging
   - deploy_staging
   - build_demo
   # - deploy_demo
