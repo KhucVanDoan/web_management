@@ -90,7 +90,7 @@ function WarehouseImportReceipt() {
     },
     {
       field: 'unit',
-      headerName: t('warehouseImportReceipt.unit'),
+      headerName: t('warehouseImportReceipt.departmentReceipt'),
       width: 150,
       renderCell: (params) => {
         return params?.row?.departmentReceipt?.name

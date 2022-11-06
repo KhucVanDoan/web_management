@@ -12,7 +12,11 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
-import { ORDER_STATUS, ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ORDER_STATUS,
+  ORDER_STATUS_OPTIONS,
+  TABLE_NAME_ENUM,
+} from '~/modules/wmsx/constants'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
@@ -99,7 +103,9 @@ function WarehouseImportReceiptDetail() {
       </>
     )
   }
-
+  const receiptRequired = warehouseImportReceiptDetails?.attributes?.find(
+    (item) => item?.tableName === TABLE_NAME_ENUM.RECEIPT,
+  )
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -178,6 +184,14 @@ function WarehouseImportReceiptDetail() {
                 value={warehouseImportReceiptDetails.source?.name}
               />
             </Grid>
+            {receiptRequired && (
+              <Grid item lg={6} xs={12}>
+                <LV
+                  label={t('warehouseImportReceipt.contractNumber')}
+                  value={warehouseImportReceiptDetails?.contractNumber}
+                />
+              </Grid>
+            )}
             {warehouseImportReceiptDetails?.attributes?.map((item) => {
               if (item.tableName) {
                 return (
