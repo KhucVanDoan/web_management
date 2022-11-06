@@ -22,7 +22,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useLocationManagement from '~/modules/wmsx/redux/hooks/useLocationManagement'
 import { searchAssemblyApi } from '~/modules/wmsx/redux/sagas/define-assembly/search-assembly'
-import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
+// import { searchBinApi } from '~/modules/wmsx/redux/sagas/define-bin/search-bin'
 import { searchDrawerApi } from '~/modules/wmsx/redux/sagas/define-drawer/search-drawer'
 import { searchShelfApi } from '~/modules/wmsx/redux/sagas/define-shelf/search-shelf'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -145,11 +145,11 @@ function LocationManagementForm() {
         level: 2,
         locationId: values?.drawer?.id || values?.drawer?._id,
       })
-    if (values?.bin)
-      locations.push({
-        level: 3,
-        locationId: values?.bin?.id || values?.bin?._id,
-      })
+    // if (values?.bin)
+    //   locations.push({
+    //     level: 3,
+    //     locationId: values?.bin?.id || values?.bin?._id,
+    //   })
     const convertValues = {
       warehouseId: values?.warehouse?.id,
       description: values?.description,
@@ -384,7 +384,7 @@ function LocationManagementForm() {
                       }}
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="bin"
                       label={t('locationManagement.binCode')}
@@ -407,7 +407,7 @@ function LocationManagementForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       disabled={!values?.drawer}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>
