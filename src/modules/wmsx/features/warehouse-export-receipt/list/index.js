@@ -385,7 +385,7 @@ function WarehouseExportReceipt() {
       />
       <Dialog
         open={modal.isOpenDeleteModal}
-        title={t('warehouseImportReceipt.deleteTitlePopup')}
+        title={t('warehouseExportReceipt.deleteTitlePopup')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}
@@ -395,22 +395,22 @@ function WarehouseExportReceipt() {
         }}
         noBorderBottom
       >
-        {t('warehouseImportReceipt.deleteConfirm')}
+        {t('warehouseExportReceipt.deleteConfirm')}
       </Dialog>
       <Dialog
         open={modal.isOpenConfirmModal}
-        title={t('warehouseImportReceipt.confirmTitlePopup')}
+        title={t('warehouseExportReceipt.confirmTitlePopup')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitConfirm}
         submitLabel={t('general:common.yes')}
         noBorderBottom
       >
-        {t('warehouseImportReceipt.Confirm')}
+        {t('warehouseExportReceipt.Confirm')}
       </Dialog>
       <Dialog
         open={modal.isOpenRejectedModal}
-        title={t('warehouseImportReceipt.rejectTitlePopup')}
+        title={t('warehouseExportReceipt.rejectTitlePopup')}
         onCancel={onCloseDeleteModal}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitRejected}
@@ -420,7 +420,7 @@ function WarehouseExportReceipt() {
         }}
         noBorderBottom
       >
-        {t('warehouseImportReceipt.rejectConfirm')}
+        {t('warehouseExportReceipt.rejectConfirm')}
       </Dialog>
     </Page>
   )

@@ -74,12 +74,12 @@ function DefineExpenditureTypeDetail() {
                 value={expenditureTypeDetails.code}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineExpenditureType.source')}
                 value={expenditureTypeDetails?.source?.name}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineExpenditureType.name')}
@@ -87,12 +87,12 @@ function DefineExpenditureTypeDetail() {
               />
             </Grid>
             <Grid item lg={6} xs={12} />
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
                 label={t('defineExpenditureType.organizationPayment')}
                 value={expenditureTypeDetails?.organizationPayment?.name}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12} />
             <Grid item xs={12}>
               <TextField

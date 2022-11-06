@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -16,10 +17,11 @@ import { Field } from '~/components/Formik'
 import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
+import { searchCompaniesApi } from '~/modules/database/redux/sagas/define-company/search-companies'
 import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
-import useCompanyManagement from '~/modules/wmsx/redux/hooks/useCompanyManagement'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertFilterParams } from '~/utils'
 
 import { validateShema } from './schema'
 
@@ -34,10 +36,6 @@ const SourceManagementForm = () => {
     actions,
   } = useSourceManagement()
 
-  const {
-    data: { companyList },
-    actions: companyAction,
-  } = useCompanyManagement()
   const MODE_MAP = {
     [ROUTE.SOURCE_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.SOURCE_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
@@ -50,9 +48,6 @@ const SourceManagementForm = () => {
     history.push(ROUTE.SOURCE_MANAGEMENT.LIST.PATH)
   }
 
-  useEffect(() => {
-    companyAction.searchCompanies()
-  }, [])
   const initialValues = useMemo(
     () => ({
       code: detailSourceManagement?.code || '',
@@ -288,9 +283,17 @@ const SourceManagementForm = () => {
                       name="companyId"
                       label={t('sourceManagement.companyId')}
                       placeholder={t('sourceManagement.companyId')}
-                      options={companyList}
+                      asyncRequest={(s) =>
+                        searchCompaniesApi({
+                          keyword: s,
+                          limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: 1,
+                          }),
+                        })
+                      }
+                      asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.code}
-                      getOptionValue={(opt) => opt}
                       required
                     />
                   </Grid>

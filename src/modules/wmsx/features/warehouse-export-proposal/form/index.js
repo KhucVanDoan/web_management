@@ -158,10 +158,20 @@ function WarehouseExportReceiptForm() {
         })
         break
       case MODAL_MODE.UPDATE:
-        breadcrumbs.push({
-          route: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH,
-          title: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.TITLE,
-        })
+        switch (warehouseExportProposalDetails?.status) {
+          case WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED:
+            breadcrumbs.push({
+              route: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT_AFTER_CONFIRM.PATH,
+              title: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT_AFTER_CONFIRM.TITLE,
+            })
+            break
+          default:
+            breadcrumbs.push({
+              route: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH,
+              title: ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.TITLE,
+            })
+            break
+        }
         break
       default:
         break
@@ -183,7 +193,12 @@ function WarehouseExportReceiptForm() {
       case MODAL_MODE.CREATE:
         return ROUTE.WAREHOUSE_EXPORT_PROPOSAL.CREATE.TITLE
       case MODAL_MODE.UPDATE:
-        return ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.TITLE
+        switch (warehouseExportProposalDetails?.status) {
+          case WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED:
+            return ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT_AFTER_CONFIRM.TITLE
+          default:
+            return ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.TITLE
+        }
       default:
         break
     }

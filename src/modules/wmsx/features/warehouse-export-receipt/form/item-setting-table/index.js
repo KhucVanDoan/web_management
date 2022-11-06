@@ -10,9 +10,10 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
+import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
-
+import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 const ItemSettingTable = ({
   items,
   mode,
@@ -24,13 +25,37 @@ const ItemSettingTable = ({
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const hiden = Boolean(values?.warehouseId?.manageByLot)
+  const warehouseExprotProposal =
+    values?.businessTypeId?.bussinessTypeAttributes?.find(
+      (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
+    )?.id
   const {
     data: { detailSourceManagement },
   } = useSourceManagement()
   const {
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
-  const handleChangeItem = (val, index) => {
+  const handleChangeItem = async (val, index) => {
+    if (!isEmpty(val)) {
+      const params = {
+        items: [
+          {
+            itemId: val?.id,
+            warehouseId: values?.warehouseId?.id,
+            lotNumber: null,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) => item?.itemId === val?.itemId || val?.id,
+      )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
+      )
+    }
+
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
       `items[${index}].unit`,
@@ -39,10 +64,6 @@ const ItemSettingTable = ({
     setFieldValue(
       `items[${index}].debitAccount`,
       val?.item?.itemWarehouseSources?.accountIdentifier,
-    )
-    setFieldValue(
-      `items[${index}].planExportedQuantity`,
-      +val?.exportableQuantity || +val?.quantity || 0,
     )
 
     if (values?.sourceId) {
@@ -54,6 +75,29 @@ const ItemSettingTable = ({
           detailSourceManagement?.productCode,
           detailSourceManagement?.factorialCode,
         ].join('.'),
+      )
+    }
+  }
+  const handleChangeLotNumber = async (val, index, payload) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+            warehouseId: values?.warehouseId?.id,
+            lotNumber: val,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId === val?.itemId || (val?.id && item?.lotNumber === val),
+      )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
       )
     }
   }
@@ -164,6 +208,7 @@ const ItemSettingTable = ({
                   }
                 }
               }}
+              onChange={(val) => handleChangeLotNumber(val, index, params)}
             />
           ) : (
             <Field.Autocomplete
@@ -174,6 +219,7 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}
+              onChange={(val) => handleChangeLotNumber(val, index, params)}
               validate={(val) => {
                 if (values?.warehouseId?.manageByLot) {
                   if (!val) {
@@ -213,6 +259,13 @@ const ItemSettingTable = ({
               numberProps={{
                 thousandSeparator: true,
                 decimalScale: 2,
+              }}
+              validate={(val) => {
+                if (val > params?.row?.planExportedQuantity) {
+                  return t('general:form.maxNumber', {
+                    max: params?.row?.planExportedQuantity,
+                  })
+                }
               }}
             />
           )
@@ -307,7 +360,13 @@ const ItemSettingTable = ({
         },
       },
     ],
-    [items, itemList, values, itemWarehouseStockList],
+    [
+      items,
+      itemList,
+      values,
+      itemWarehouseStockList,
+      values[warehouseExprotProposal],
+    ],
   )
   return (
     <>
