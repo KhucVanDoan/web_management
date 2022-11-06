@@ -96,6 +96,7 @@ function WarehouseImportReceiptForm() {
             bussinessTypeAttributes: warehouseImportReceiptDetails?.attributes,
           }
         : null,
+      contractNumber: warehouseImportReceiptDetails?.contractNumber || '',
       departmentReceiptId:
         warehouseImportReceiptDetails?.departmentReceipt || '',
       warehouse: warehouseImportReceiptDetails?.warehouse || '',
@@ -268,6 +269,7 @@ function WarehouseImportReceiptForm() {
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
+      contractNumber: values?.contractNumber || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:

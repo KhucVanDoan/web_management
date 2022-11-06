@@ -2919,7 +2919,7 @@
     "list": "Danh sách phiếu nhập kho",
     "searchPlaceholder": "Tìm kiếm thông tin...",
     "id": "ID phiếu nhập WMS",
-    "departmentReceipt": "Đơn vị nhập",
+    "departmentReceipt": "Phòng ban nhận",
     "businessType": "Loại nghiệp vụ",
     "warehouse": "Kho nhập",
     "receiptDate": "Ngày lập phiếu",
