@@ -20,10 +20,10 @@ export const formSchema = (t) =>
           max: TEXTFIELD_REQUIRED_LENGTH.CODE_100.MAX,
         }),
       ),
-    source: Yup.object().nullable().required(t('general:form.required')),
-    organizationPayment: Yup.object()
-      .nullable()
-      .required(t('general:form.required')),
+    // source: Yup.object().nullable().required(t('general:form.required')),
+    // organizationPayment: Yup.object()
+    //   .nullable()
+    //   .required(t('general:form.required')),
     description: Yup.string().max(
       TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
       t('general:form.maxLength', {

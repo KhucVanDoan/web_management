@@ -16,10 +16,7 @@ const importWarehouseApi = (payload) => {
 
 function* doImportWarehouse(action) {
   try {
-    const response = yield call(
-      importWarehouseApi,
-      action?.payload,
-    )
+    const response = yield call(importWarehouseApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(importWarehouseSuccess(response.data))
@@ -44,8 +41,5 @@ function* doImportWarehouse(action) {
 }
 
 export default function* watchImportWarehouse() {
-  yield takeLatest(
-    IMPORT_WAREHOUSE_START,
-    doImportWarehouse,
-  )
+  yield takeLatest(IMPORT_WAREHOUSE_START, doImportWarehouse)
 }

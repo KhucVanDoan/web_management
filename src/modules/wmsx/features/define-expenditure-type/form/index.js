@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 import {
-  ASYNC_SEARCH_LIMIT,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -16,12 +15,9 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useDefineExpenditureType from '~/modules/wmsx/redux/hooks/useDefineExpenditureType'
-import { searchExpenditureOrgApi } from '~/modules/wmsx/redux/sagas/define-expenditure-org/search-expenditure-org'
-import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
 
 import { formSchema } from './schema'
 
@@ -47,8 +43,8 @@ function DefineExpenditureTypeForm() {
     () => ({
       code: expenditureTypeDetails?.code || '',
       name: expenditureTypeDetails?.name || '',
-      source: expenditureTypeDetails?.source,
-      organizationPayment: expenditureTypeDetails?.organizationPayment,
+      // source: expenditureTypeDetails?.source,
+      // organizationPayment: expenditureTypeDetails?.organizationPayment,
       description: expenditureTypeDetails?.description || '',
     }),
     [expenditureTypeDetails],
@@ -111,8 +107,8 @@ function DefineExpenditureTypeForm() {
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
-      organizationPaymentId: +values?.organizationPayment?.id,
-      sourceId: +values?.source?.id,
+      // organizationPaymentId: +values?.organizationPayment?.id,
+      // sourceId: +values?.source?.id,
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createExpenditureType(convertValues, backToList)
@@ -201,7 +197,7 @@ function DefineExpenditureTypeForm() {
                       required
                     />
                   </Grid>
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="source"
                       label={t('defineExpenditureType.source')}
@@ -221,7 +217,7 @@ function DefineExpenditureTypeForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item lg={6} xs={12}>
                     <Field.TextField
                       name="name"
@@ -234,7 +230,7 @@ function DefineExpenditureTypeForm() {
                     />
                   </Grid>
                   <Grid item lg={6} sx={12} />
-                  <Grid item lg={6} xs={12}>
+                  {/* <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="organizationPayment"
                       label={t('defineExpenditureType.organizationPayment')}
@@ -256,7 +252,7 @@ function DefineExpenditureTypeForm() {
                       getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12}>
                     <Field.TextField
                       name="description"

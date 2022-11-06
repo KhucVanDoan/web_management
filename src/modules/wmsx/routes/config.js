@@ -618,6 +618,10 @@ export const ROUTE = {
       PATH: '/wms/warehouse-export-proposal/:id/edit',
       TITLE: 'warehouseExportProposalEdit',
     },
+    EDIT_AFTER_CONFIRM: {
+      PATH: '/wms/warehouse-export-proposal/:id/edit',
+      TITLE: 'warehouseExportProposalEditAfterConfirn',
+    },
     DETAIL: {
       PATH: '/wms/warehouse-export-proposal/:id/detail',
       TITLE: 'warehouseExportProposalDetail',
