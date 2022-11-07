@@ -11,14 +11,45 @@ import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { WAREHOUSE_TRANSFER_TYPE } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
+import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values } = props
+  const { mode, arrayHelpers, items, values, setFieldValue } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
+  const handleChangeItem = (val, index) => {
+    if (val) {
+      setFieldValue(`items[${index}].planExportedQuantity`, val?.quantity)
+    }
+  }
+  const handleChangeLotnumber = async (val, index, payload) => {
+    if (val) {
+      const params = {
+        items: [
+          {
+            itemId:
+              payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId,
+            warehouseId: values?.sourceWarehouseId?.id,
+            lotNumber: val,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(params)
+      const planExportedQuantity = res?.data?.find(
+        (item) =>
+          item?.itemId ===
+            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+          item?.lotNumber === val,
+      )
+      setFieldValue(
+        `items[${index}].planExportedQuantity`,
+        planExportedQuantity?.quantity,
+      )
+    }
+  }
   const getColumns = () => {
     return [
       {
@@ -43,6 +74,7 @@ const ItemSettingTable = (props) => {
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               disabled={!values?.sourceWarehouseId}
+              onChange={(val) => handleChangeItem(val, index)}
               required
             />
           )
@@ -125,6 +157,7 @@ const ItemSettingTable = (props) => {
               disabled={!Boolean(values?.sourceWarehouseId?.manageByLot)}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
+              onChange={(val) => handleChangeLotnumber(val, index, params)}
               validate={(val) => {
                 if (Boolean(values?.sourceWarehouseId?.manageByLot)) {
                   if (!val) {
@@ -161,7 +194,7 @@ const ItemSettingTable = (props) => {
             <>{params?.row?.planExportedQuantity}</>
           ) : (
             <Field.TextField
-              name={`items[${index}].itemCode.quantity`}
+              name={`items[${index}].planExportedQuantity`}
               disabled
             />
           )
@@ -178,6 +211,13 @@ const ItemSettingTable = (props) => {
           ) : (
             <Field.TextField
               name={`items[${index}].transferQuantity`}
+              validate={(val) => {
+                if (val > params?.row?.planExportedQuantity) {
+                  return t('general:form.maxNumber', {
+                    max: params?.row?.planExportedQuantity,
+                  })
+                }
+              }}
               disabled={isEmpty(itemCode)}
             />
           )
@@ -190,15 +230,11 @@ const ItemSettingTable = (props) => {
         width: 100,
         renderCell: (params, index) => {
           return isView ? (
-            <Checkbox
-              checked={params?.row?.required}
-              name="itemCodeWarehouseImp"
-              disabled
-            />
+            <Checkbox name="itemCodeWarehouseImp" disabled />
           ) : (
             <Field.Checkbox
               name={`itemDefault[${index}].itemCodeWarehouseImp`}
-              disabled={isView}
+              disabled
             />
           )
         },
