@@ -302,7 +302,7 @@ function ProducingStep() {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onSettingChange={setColumnsSettings}
-          onSelectionChange={setSelectedRows}
+          //onSelectionChange={setSelectedRows}
           selected={selectedRows}
           total={total}
           title={t('producingStep.title')}

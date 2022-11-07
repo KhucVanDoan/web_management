@@ -200,7 +200,7 @@ const WorkCenterPlanList = () => {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={wcpList?.meta?.total}
         sort={sort}

@@ -281,7 +281,7 @@ function BomProducingStep() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         sort={sort}
         total={total}
