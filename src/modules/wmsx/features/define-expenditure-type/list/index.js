@@ -93,24 +93,6 @@ function DefineExpenditureType() {
       fixed: true,
     },
     {
-      field: 'organizationPayment',
-      headerName: t('defineExpenditureType.organizationPayment'),
-      width: 100,
-      sortable: true,
-      renderCell: (params) => {
-        return params.row?.organizationPayment?.name
-      },
-    },
-    {
-      field: 'source',
-      headerName: t('defineExpenditureType.source'),
-      width: 100,
-      sortable: true,
-      renderCell: (params) => {
-        return params.row?.source?.name
-      },
-    },
-    {
       field: 'description',
       headerName: t('defineExpenditureType.description'),
       width: 120,

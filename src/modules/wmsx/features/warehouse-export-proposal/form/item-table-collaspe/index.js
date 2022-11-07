@@ -109,6 +109,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       },
     },
     {
+      field: 'details',
+      headerName: t('warehouseExportProposal.details'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.itemDetail
+      },
+    },
+    {
       field: 'quantityRequest',
       headerName: t('warehouseExportProposal.items.quantityRequest'),
       width: 100,
@@ -293,6 +301,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: '#',
       headerName: '#',
       width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'exportSuppliesCode',

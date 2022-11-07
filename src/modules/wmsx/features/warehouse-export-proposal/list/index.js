@@ -260,7 +260,7 @@ function WarehouseExportProposal() {
 
   useEffect(() => {
     refreshData()
-  }, [page, pageSize, filters, sort, keyword])
+  }, [page, pageSize, filters, sort, keyword, quickFilters])
 
   useEffect(() => {
     setSelectedRows([])

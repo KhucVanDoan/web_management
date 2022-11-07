@@ -322,6 +322,9 @@ function MaterialManagementForm() {
                         getSubGroupApi({
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
+                          filter: convertFilterParams({
+                            status: ACTIVE_STATUS.ACTIVE,
+                          }),
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
