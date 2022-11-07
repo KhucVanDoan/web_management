@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, IconButton } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { sub } from 'date-fns'
 import { Formik, Form } from 'formik'
@@ -21,6 +21,7 @@ import {
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
+import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -46,7 +47,7 @@ function UserManagementForm() {
     [ROUTE.USER_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.USER_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
-
+  const [visible, setVisible] = useState(false)
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const {
@@ -60,6 +61,7 @@ function UserManagementForm() {
       username: userDetails?.username || '',
       companyId: userDetails?.company?.name || '',
       fullName: userDetails?.fullName || '',
+      password: userDetails?.password || '',
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
@@ -91,6 +93,8 @@ function UserManagementForm() {
       email: values?.email,
       fullName: values?.fullName,
       username: values?.username,
+      password: values?.password,
+      phone: values?.phone,
       id: id,
       status: values?.status?.toString() || '1',
       userRoleSettings: [{ id: values.role?.id }],
@@ -259,6 +263,35 @@ function UserManagementForm() {
                         required
                       />
                     </Grid>
+                    {!isUpdate && (
+                      <Grid item lg={6} xs={12}>
+                        <Field.TextField
+                          name="password"
+                          type={visible ? 'text' : 'password'}
+                          label={t('userManagement.password')}
+                          placeholder={t('userManagement.password')}
+                          inputProps={{
+                            maxLength: TEXTFIELD_REQUIRED_LENGTH.PASSWORD.MAX,
+                          }}
+                          endAdornment={
+                            <IconButton
+                              onClick={() => setVisible(!visible)}
+                              size="small"
+                              sx={{ mx: 0.5 }}
+                            >
+                              {visible ? (
+                                <Icon name="visible" />
+                              ) : (
+                                <Icon name="invisible" />
+                              )}
+                            </IconButton>
+                          }
+                          required
+                          allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
+                        />
+                      </Grid>
+                    )}
+
                     <Grid item lg={6} xs={12}>
                       <Field.TextField
                         name="email"
