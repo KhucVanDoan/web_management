@@ -21,7 +21,8 @@ export const exportReportApi = async (params) => {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.setAttribute('download', filename)
+  const nameFile = decodeURI(filename)
+  link.setAttribute('download', nameFile)
   document.body.appendChild(link)
   link.click()
   URL.revokeObjectURL(url)
