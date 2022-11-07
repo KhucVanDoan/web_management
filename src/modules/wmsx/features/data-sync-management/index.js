@@ -258,7 +258,7 @@ const DataSyncManagement = () => {
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
-        onSelectionChange={setSelectedRows}
+        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
