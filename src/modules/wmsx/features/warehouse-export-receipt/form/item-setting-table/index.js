@@ -43,6 +43,7 @@ const ItemSettingTable = ({
             itemId: val?.id,
             warehouseId: values?.warehouseId?.id,
             lotNumber: null,
+            locatorId: null,
           },
         ],
       }
@@ -93,7 +94,9 @@ const ItemSettingTable = ({
       const res = await getItemWarehouseStockAvailableApi(params)
       const planExportedQuantity = res?.data?.find(
         (item) =>
-          item?.itemId === val?.itemId || (val?.id && item?.lotNumber === val),
+          item?.itemId ===
+            (payload?.row?.itemCode?.id || payload?.row?.itemCode?.itemId) &&
+          item?.lotNumber === val,
       )
       setFieldValue(
         `items[${index}].planExportedQuantity`,

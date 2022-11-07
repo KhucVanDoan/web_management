@@ -93,7 +93,7 @@ function WarehouseExportReceipt() {
     },
     {
       field: 'departmentReceiptName',
-      headerName: t('warehouseExportReceipt.unit'),
+      headerName: t('warehouseExportReceipt.departmentReception'),
       width: 100,
       sortable: true,
       fixed: true,

@@ -8,7 +8,7 @@ export const validationSchema = (t) =>
     code: Yup.string().required(t('general:form.required')),
     fullName: Yup.string().required(t('general:form.required')),
     username: Yup.string().required(t('general:form.required')),
-
+    password: Yup.string().required(t('general:form.required')),
     email: Yup.string()
       .required(t('general:form.required'))
       .email(t('general:form.validEmail'))

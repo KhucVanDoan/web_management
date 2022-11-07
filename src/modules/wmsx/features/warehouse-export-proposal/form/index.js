@@ -675,7 +675,8 @@ function WarehouseExportReceiptForm() {
                           <LV
                             label={t('warehouseExportProposal.unit')}
                             value={
-                              warehouseExportProposalDetails?.factory?.name
+                              warehouseExportProposalDetails?.departmentSetting
+                                ?.name
                             }
                           />
                         </Grid>
@@ -710,7 +711,7 @@ function WarehouseExportReceiptForm() {
                         <Grid item lg={6} xs={12}>
                           <LV
                             label={t('warehouseExportProposal.votes')}
-                            value={''}
+                            value={warehouseExportProposalDetails?.code}
                           />
                         </Grid>
                         <Grid item lg={6} xs={12}>

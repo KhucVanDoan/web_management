@@ -58,7 +58,13 @@ function WarehouseExportReceiptPickAndExport() {
 
   const initialValues = useMemo(
     () => ({
-      items: []
+      items: [
+        {
+          itemCode: '',
+          exportedQuantity: '',
+          locator: '',
+        },
+      ],
     }),
     [warehouseExportReceiptDetails],
   )
@@ -108,14 +114,14 @@ function WarehouseExportReceiptPickAndExport() {
         movementType: MOVEMENT_TYPE.SO_EXPORT,
         orderId: Number(id),
         warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
-        items: values.items?.map(item => ({
+        items: values.items?.map((item) => ({
           id: item?.item?.itemId,
           locatorId: item.locator?.locatorId,
           lotNumber: item.lotNumber?.lotNumber,
           quantity: Number(item.exportedQuantity),
-        }))
+        })),
       }
-      actions.exportWarehouse(payload, backToDetail);
+      actions.exportWarehouse(payload, backToDetail)
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
@@ -276,8 +282,13 @@ function WarehouseExportReceiptPickAndExport() {
                       render={(arrayHelpers) => (
                         <ItemSettingTable
                           items={values?.items || []}
-                          itemList={warehouseExportReceiptDetails?.saleOrderExportDetails}
-                          lots={warehouseExportReceiptDetails?.saleOrderExportWarehouseLots}
+                          itemList={
+                            warehouseExportReceiptDetails?.saleOrderExportDetails
+                          }
+                          lots={
+                            warehouseExportReceiptDetails?.saleOrderExportWarehouseLots ||
+                            []
+                          }
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
                           mode={mode}
