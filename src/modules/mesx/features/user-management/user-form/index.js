@@ -4,7 +4,7 @@ import { Grid, IconButton } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { sub } from 'date-fns'
 import { Formik, Form } from 'formik'
-import { isEmpty, first } from 'lodash'
+import { first } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -67,7 +67,7 @@ function UserManagementForm() {
       phone: userDetails?.phone || '',
       role: first(userDetails?.userRoleSettings) || null,
       departmentSettings: first(userDetails?.departmentSettings) || [],
-      userWarehouses: first(userDetails.userWarehouses) || [],
+      userWarehouses: userDetails.userWarehouses || [],
     }),
     [userDetails],
   )
@@ -99,9 +99,10 @@ function UserManagementForm() {
       status: values?.status?.toString() || '1',
       userRoleSettings: [{ id: values.role?.id }],
       departmentSettings: [{ id: values?.departmentSettings?.id }],
-      userWarehouses: !isEmpty(values?.userWarehouses)
-        ? [{ id: values?.userWarehouses?.id }]
-        : [],
+      userWarehouses:
+        values?.userWarehouses?.map((item) => ({
+          id: item?.id,
+        })) || [],
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createUser(convertValues, backToList)
@@ -394,6 +395,7 @@ function UserManagementForm() {
                             }),
                           })
                         }
+                        multiple
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
                       />

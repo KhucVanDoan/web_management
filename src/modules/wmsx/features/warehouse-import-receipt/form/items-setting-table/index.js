@@ -84,7 +84,9 @@ function ItemsSettingTable(props) {
                 opt?.item?.name || opt?.itemCode?.name
               }
               onChange={(val) => handleChangeItem(val, index)}
-              // isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.itemCode?.itemId === val?.itemCode?.itemId
+              }
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
                 opt?.itemId !== items[index]?.itemCode?.id
@@ -285,7 +287,7 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList],
+    [items, itemList, detailSourceManagement],
   )
 
   return (

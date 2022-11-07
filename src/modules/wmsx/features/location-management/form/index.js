@@ -192,8 +192,8 @@ function LocationManagementForm() {
     const shelfCode = values?.shelf?.code || ''
     const binCode = values?.bin?.code || ''
 
-    return `${assemblyCode}${drawerCode ? `.${drawerCode}` : ''}${
-      shelfCode ? `.${shelfCode}` : ''
+    return `${assemblyCode}${shelfCode ? `.${shelfCode}` : ''}${
+      drawerCode ? `.${drawerCode}` : ''
     }${binCode ? `.${binCode}` : ''}`
   }
 
