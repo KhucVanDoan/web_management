@@ -190,7 +190,9 @@ function WarehouseExportReceiptForm() {
             data?.warehouse?.id || data?.warehouseId,
           )
         }
-        const attributes = data?.attributes?.filter((e) => e?.tableName)
+        const attributes = data?.attributes?.filter(
+          (e) => e?.tableName && e?.value,
+        )
         const params = {
           filter: JSON.stringify(
             uniq(map(attributes, 'tableName'))?.map((item) => ({

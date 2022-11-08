@@ -82,7 +82,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
         renderCell: (params, index) => {
           const row = params.row
           return isView ? (
-            <>{row?.source?.name || ''}</>
+            <>{row?.accounting || ''}</>
           ) : (
             // <Field.Autocomplete
             //   disabled={
@@ -106,7 +106,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               disabled={
                 type !== UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE
               }
-              name={`itemWarehouseSources[${index}].source.code`}
+              name={`itemWarehouseSources[${index}].accounting`}
               placeholder={t('materialManagement.item.source')}
               inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX }}
             />
@@ -159,6 +159,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
               arrayHelpers.push({
                 id: new Date().getTime(),
                 warehouseId: '',
+                accounting: '',
               })
               scrollToBottom()
             }}

@@ -234,10 +234,10 @@ const PickupAndWarehouseExport = () => {
                 onBack={backToList}
                 elAfter={
                   <>
-                    <Button>
+                    {/* <Button>
                       <Icon name="print" mr={1} />
                       {t(`warehouseTransfer.printReceipt`)}
-                    </Button>
+                    </Button> */}
                     <Button type="submit">
                       <Icon name="confirm" mr={1} />
                       {t(`warehouseTransfer.confirmWarehouseExport`)}

@@ -4,9 +4,8 @@ import { Box, Button, Grid, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -18,7 +17,10 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
 import { convertUtcDateToLocalTz } from '~/utils'
+import { getFileNameFromHeader } from '~/utils/api'
+import addNotification from '~/utils/toast'
 
 import ItemSettingTable from '../form/item-setting-table'
 import ItemTableCollaspe from '../form/item-table-collaspe'
@@ -119,12 +121,32 @@ function WarehouseExportProposalDetail() {
       itemName: item?.itemName,
     }),
   )
+  const dowFile = async (params) => {
+    const uri = `/v1/warehouses/warehouse-export-proposals/export/${params}`
+    const res = await api.get(uri, params, {
+      responseType: 'blob',
+      getHeaders: true,
+    })
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
   const renderHeaderRight = () => {
     return (
       <>
-        <Button sx={{ ml: 4 / 3 }}>
-          <Icon name="print" mr={1} />
-          {t('warehouseExportProposal.print')}
+        <Button sx={{ ml: 4 / 3 }} color="grayF4" onClick={() => dowFile(id)}>
+          {t('warehouseExportProposal.dowload')}
         </Button>
       </>
     )
@@ -211,7 +233,7 @@ function WarehouseExportProposalDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportProposal.votes')}
-                value={warehouseExportProposalDetails?.receiptNumber}
+                value={warehouseExportProposalDetails?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

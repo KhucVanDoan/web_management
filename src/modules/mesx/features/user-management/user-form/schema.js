@@ -10,7 +10,7 @@ export const validationSchema = (t) =>
     username: Yup.string().required(t('general:form.required')),
     password: Yup.string().required(t('general:form.required')),
     email: Yup.string()
-      .required(t('general:form.required'))
+      // .required(t('general:form.required'))
       .email(t('general:form.validEmail'))
       .min(
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
@@ -23,5 +23,7 @@ export const validationSchema = (t) =>
       .nullable()
       .max(new Date(), t('general:date.maxToday')),
     // companyId: Yup.string().required(t('general:form.required')),
-    departmentSettings: Yup.object().required(t('general:form.required')),
+    departmentSettings: Yup.object()
+      .nullable()
+      .required(t('general:form.required')),
   })

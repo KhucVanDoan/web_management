@@ -192,7 +192,7 @@ const DefineExpenditureOrgForm = () => {
                       name="name"
                       placeholder={t('defineExpenditureOrg.name')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
                       }}
                       required
                     />
