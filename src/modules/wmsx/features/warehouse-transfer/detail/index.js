@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
@@ -19,6 +19,9 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { api } from '~/services/api'
+import { getFileNameFromHeader } from '~/utils/api'
+import addNotification from '~/utils/toast'
 
 import ItemSettingTable from '../form/items-setting-table'
 
@@ -98,7 +101,28 @@ const WarehouseTransferDetail = () => {
         break
     }
   }
+  const dowFile = async (params) => {
+    const uri = `/v1/warehouses/transfers/export-warehouse-transfer/${params}?type=1`
+    const res = await api.get(uri, params, {
+      responseType: 'blob',
+      getHeaders: true,
+    })
 
+    if (res.status === 500) {
+      addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
+    } else {
+      const filename = getFileNameFromHeader(res)
+      const blob = new Blob([res?.data])
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      const nameFile = decodeURI(filename)
+      link.setAttribute('download', nameFile)
+      document.body.appendChild(link)
+      link.click()
+      URL.revokeObjectURL(url)
+    }
+  }
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -208,7 +232,18 @@ const WarehouseTransferDetail = () => {
       <Box sx={{ mt: 3 }}>
         <ItemSettingTable items={getDataItem} mode={mode} />
       </Box>
-      <ActionBar onBack={backToList} />
+      <ActionBar
+        onBack={backToList}
+        elBefore={
+          <Button
+            sx={{ mr: 'auto' }}
+            color="grayF4"
+            onClick={() => dowFile(id)}
+          >
+            {t(`warehouseExportReceipt.dowload`)}
+          </Button>
+        }
+      />
     </Page>
   )
 }

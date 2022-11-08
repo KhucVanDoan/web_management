@@ -46,7 +46,7 @@ function ReceiptDepartmentManagementForm() {
     () => ({
       code: receiptDepartmentDetails?.code || '',
       name: receiptDepartmentDetails?.name || '',
-      departmentType: receiptDepartmentDetails?.departmentType || '',
+      departmentType: `${receiptDepartmentDetails?.departmentType}` || '',
       description: receiptDepartmentDetails?.description || '',
     }),
     [receiptDepartmentDetails],
