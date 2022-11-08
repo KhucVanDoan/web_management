@@ -74,6 +74,7 @@ function WarehouseExportReceiptForm() {
       itemName: item?.itemName || item?.itemResponse?.name,
       itemId: item?.itemId,
       note: item?.note,
+      itemDetail: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
       importedQuantity: '',
@@ -93,7 +94,7 @@ function WarehouseExportReceiptForm() {
         ? item?.childrens?.length > 0
           ? item?.childrens?.map((childrens) => ({
               id: childrens?.id,
-              itemCode: childrens?.itemCode || null,
+              itemCode: childrens?.itemCode || childrens?.itemResponse?.code,
               itemName: childrens?.itemName || childrens?.itemResponse?.name,
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit,
@@ -253,7 +254,7 @@ function WarehouseExportReceiptForm() {
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
           childrens: item?.details?.map((e) => ({
-            itemId: e?.exportSuppliesCode?.itemId,
+            itemId: e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
             exportedQuantity: +e?.quantityExport,
             lotNumber: e?.lotNumber,
             warehouseExportId: e?.warehouseExport?.id,

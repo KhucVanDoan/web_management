@@ -63,6 +63,8 @@ const displayFollowBusinessTypeManagement = (
       actions.getReceiptDetailsById(val?.id, (data) => {
         setItemReceipt(data?.items)
         setFieldValue('warehouse', data?.warehouse)
+
+        setFieldValue('contractNumber', val?.contractNumber)
       })
     }
   }

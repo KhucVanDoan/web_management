@@ -88,7 +88,7 @@ const InventoryAdjustForm = () => {
       departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
       warehouse: inventoryAdjustDetails?.warehouse || '',
       inventoryCalendar: inventoryAdjustDetails?.inventory || '',
-      receiptDate: inventoryAdjustDetails?.receiptDate || '',
+      receiptDate: new Date(inventoryAdjustDetails?.receiptDate) || '',
       receiptNumber: inventoryAdjustDetails?.receiptNumber || '',
       reasonId: inventoryAdjustDetails?.reason || '',
       sourceId: inventoryAdjustDetails?.source || '',
@@ -96,9 +96,12 @@ const InventoryAdjustForm = () => {
       attachment: inventoryAdjustDetails?.attachment || '',
       items: inventoryAdjustDetails?.items?.map((item) => ({
         itemCode: item?.item,
-        lotNumber: item?.lotNumber,
+        lotNumber: {
+          lotNumber: item?.lotNumber,
+          quantityExported: item?.planQuantity,
+        },
         itemName: item?.item?.name,
-        locator: item?.locator,
+        locator: { ...item?.locator, locatorId: item?.locator?.id },
         quantity: item?.quantity,
         price: item?.price,
         amount: item?.amount,
@@ -120,7 +123,9 @@ const InventoryAdjustForm = () => {
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
-      attachment: JSON.stringify(values?.attachment?.map((item) => item)),
+      attachment: JSON.stringify(
+        (values?.attachment || [])?.map((item) => item),
+      ),
       explanation: values?.explanation || null,
       items: JSON.stringify(
         values?.items?.map((item) => ({
@@ -212,6 +217,14 @@ const InventoryAdjustForm = () => {
       }
     }
   }
+  const handleChangeType = (val, values, setFieldValue) => {
+    setFieldValue('items', [{ ...DEFAULT_ITEM }])
+    if (val === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+      if (!isEmpty(values?.warehouse)) {
+        warehouseTransferAction.getListItemWarehouseStock(values?.warehouse?.id)
+      }
+    }
+  }
   return (
     <Page
       breadcrumbs={getBreadcrumb()}
@@ -281,8 +294,9 @@ const InventoryAdjustForm = () => {
                         options={INVENTORY_ADJUST_TYPE_OPTIONS}
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id}
-                        onChange={() =>
-                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={(val) =>
+                          handleChangeType(val, values, setFieldValue)
                         }
                         required
                       />
@@ -446,7 +460,7 @@ const InventoryAdjustForm = () => {
                                     </>
                                   )
                                 })}
-                              {values?.attachment
+                              {(values?.attachment || [])
                                 ?.map((i) => i?.name)
                                 ?.join('\r\n')}
                             </Typography>

@@ -13,9 +13,9 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
+// import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import Icon from '~/components/Icon'
+// import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -186,12 +186,12 @@ const WarehouseTransferForm = () => {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.CREATE}
-            elBefore={
-              <Button sx={{ mr: 'auto' }}>
-                <Icon name="print" mr={1} />
-                {t(`warehouseTransfer.view`)}
-              </Button>
-            }
+            // elBefore={
+            //   <Button sx={{ mr: 'auto' }}>
+            //     <Icon name="print" mr={1} />
+            //     {t(`warehouseTransfer.view`)}
+            //   </Button>
+            // }
           />
         )
       case MODAL_MODE.UPDATE:
@@ -200,12 +200,12 @@ const WarehouseTransferForm = () => {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.UPDATE}
-            elBefore={
-              <Button sx={{ mr: 'auto' }}>
-                <Icon name="print" mr={1} />
-                {t(`warehouseTransfer.view`)}
-              </Button>
-            }
+            // elBefore={
+            //   <Button sx={{ mr: 'auto' }}>
+            //     <Icon name="print" mr={1} />
+            //     {t(`warehouseTransfer.view`)}
+            //   </Button>
+            // }
           />
         )
       default:
@@ -408,11 +408,18 @@ const WarehouseTransferForm = () => {
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
-                              expiredInventoryTime: values.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG ? '1' : '0'
+                              expiredInventoryTime:
+                                values.type ===
+                                WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+                                  ? '1'
+                                  : '0',
                             }),
                           })
                         }
-                        asyncRequestDeps={values.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG}
+                        asyncRequestDeps={
+                          values.type ===
+                          WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+                        }
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}

@@ -72,6 +72,7 @@ function WarehouseExportProposalDetail() {
       importedActualQuantity: item?.importedActualQuantity,
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
+      itemDetail: item?.itemDetail,
       id: item?.id,
       unit: item?.itemResponse?.itemUnit?.name,
       dayUpdate: item?.updatedAt,

@@ -13,9 +13,9 @@ import {
   TEXTFIELD_REQUIRED_LENGTH,
 } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
-import Button from '~/components/Button'
+// import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
-import Icon from '~/components/Icon'
+// import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -320,12 +320,12 @@ function WarehouseExportReceiptForm() {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.CREATE}
-            elBefore={
-              <Button sx={{ mr: 'auto' }}>
-                <Icon name="print" mr={1} />
-                {t(`warehouseTransfer.view`)}
-              </Button>
-            }
+            // elBefore={
+            //   <Button sx={{ mr: 'auto' }}>
+            //     <Icon name="print" mr={1} />
+            //     {t(`warehouseTransfer.view`)}
+            //   </Button>
+            // }
           />
         )
       case MODAL_MODE.UPDATE:
@@ -334,12 +334,12 @@ function WarehouseExportReceiptForm() {
             onBack={backToList}
             onCancel={handleReset}
             mode={MODAL_MODE.UPDATE}
-            elBefore={
-              <Button sx={{ mr: 'auto' }}>
-                <Icon name="print" mr={1} />
-                {t(`warehouseTransfer.view`)}
-              </Button>
-            }
+            // elBefore={
+            //   <Button sx={{ mr: 'auto' }}>
+            //     <Icon name="print" mr={1} />
+            //     {t(`warehouseTransfer.view`)}
+            //   </Button>
+            // }
           />
         )
       default:

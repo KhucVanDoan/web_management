@@ -28,7 +28,11 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.DatePicker
+                      views={['month']}
                       name="time"
+                      inputFormat="MMMM"
+                      openTo="month"
+                      disableFuture
                       label={t('warehouseExportProposal.time')}
                       placeholder={t('warehouseExportProposal.time')}
                     />

@@ -126,6 +126,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values }) => {
               options={lotNumberList}
               disabled={!values?.warehouse?.manageByLot}
               getOptionLabel={(opt) => opt.lotNumber}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.lotNumber === val?.lotNumber
+              }
               validate={(val) => {
                 if (values?.warehouse?.manageByLot) {
                   if (!val) {
@@ -139,6 +142,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values }) => {
               name={`items[${index}].lotNumber`}
               placeholder={t('inventoryAdjust.items.lotNumber')}
               disabled={!values?.warehouse?.manageByLot}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.lotNumber === val?.lotNumber
+              }
               validate={(val) => {
                 if (values?.warehouse?.manageByLot) {
                   if (!val) {
@@ -194,6 +200,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values }) => {
             <Field.Autocomplete
               name={`items[${index}].locator`}
               options={locationList}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.locatorId === val?.locatorId
+              }
               getOptionLabel={(opt) => opt.code}
             />
           )

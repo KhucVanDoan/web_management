@@ -6,7 +6,11 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import {
+  ASYNC_SEARCH_LIMIT,
+  MODAL_MODE,
+  TEXTFIELD_REQUIRED_LENGTH,
+} from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -16,7 +20,7 @@ import {
   UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE,
 } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+// import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
@@ -80,22 +84,31 @@ const ItemSettingTable = ({ items, mode, arrayHelpers }) => {
           return isView ? (
             <>{row?.source?.name || ''}</>
           ) : (
-            <Field.Autocomplete
+            // <Field.Autocomplete
+            //   disabled={
+            //     type !== UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE
+            //   }
+            //   name={`itemWarehouseSources[${index}].source`}
+            //   placeholder={t('materialManagement.item.source')}
+            //   asyncRequest={(s) =>
+            //     searchSourceManagementApi({
+            //       keyword: s,
+            //       limit: ASYNC_SEARCH_LIMIT,
+            //     })
+            //   }
+            //   asyncRequestHelper={(res) => res?.data?.items}
+            //   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+            //   getOptionLabel={(opt) => opt?.code}
+            //   getOptionSubLabel={(opt) => opt?.name}
+            // />
+
+            <Field.TextField
               disabled={
                 type !== UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE
               }
-              name={`itemWarehouseSources[${index}].source`}
+              name={`itemWarehouseSources[${index}].source.code`}
               placeholder={t('materialManagement.item.source')}
-              asyncRequest={(s) =>
-                searchSourceManagementApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                })
-              }
-              asyncRequestHelper={(res) => res?.data?.items}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
+              inputProps={{ maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX }}
             />
           )
         },
