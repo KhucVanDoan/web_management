@@ -4,7 +4,7 @@ import { Grid, IconButton } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import { sub } from 'date-fns'
 import { Formik, Form } from 'formik'
-import { first } from 'lodash'
+import { first, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useHistory,
@@ -64,7 +64,7 @@ function UserManagementForm() {
       password: userDetails?.password || '',
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
-      phone: userDetails?.phone || '',
+      phone: userDetails?.phone || 'null',
       role: first(userDetails?.userRoleSettings) || null,
       departmentSettings: first(userDetails?.departmentSettings) || [],
       userWarehouses: userDetails.userWarehouses || [],
@@ -90,15 +90,16 @@ function UserManagementForm() {
     const convertValues = {
       code: values?.code,
       companyId: JSON.parse(localStorage.getItem('userInfo'))?.companyId,
-      email: values?.email,
+      email: values?.email || null,
       fullName: values?.fullName,
       username: values?.username,
       password: values?.password,
       phone: values?.phone,
-      id: id,
       status: values?.status?.toString() || '1',
-      userRoleSettings: [{ id: values.role?.id }],
-      departmentSettings: [{ id: values?.departmentSettings?.id }],
+      userRoleSettings: !isEmpty(values.role) ? [{ id: values.role?.id }] : [],
+      departmentSettings: !isEmpty(values?.departmentSettings)
+        ? [{ id: values?.departmentSettings?.id }]
+        : [],
       userWarehouses:
         values?.userWarehouses?.map((item) => ({
           id: item?.id,
@@ -107,7 +108,7 @@ function UserManagementForm() {
     if (mode === MODAL_MODE.CREATE) {
       actions.createUser(convertValues, backToList)
     } else if (mode === MODAL_MODE.UPDATE) {
-      actions.updateUser(convertValues, backToList)
+      actions.updateUser({ ...convertValues, id: id }, backToList)
     }
   }
 
@@ -301,7 +302,6 @@ function UserManagementForm() {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                         }}
-                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

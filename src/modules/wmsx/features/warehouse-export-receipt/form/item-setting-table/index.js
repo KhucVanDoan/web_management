@@ -40,7 +40,7 @@ const ItemSettingTable = ({
       const params = {
         items: [
           {
-            itemId: val?.id,
+            itemId: val?.itemId || val?.id,
             warehouseId: values?.warehouseId?.id,
             lotNumber: null,
             locatorId: null,

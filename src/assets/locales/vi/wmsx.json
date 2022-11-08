@@ -2879,6 +2879,7 @@
     "deleteConfirm": "Bạn có chắc chắn muốn xóa phiếu Xuất kho này không?",
     "Confirm": "Bạn có chắc chắn muốn xác nhận không",
     "rejectConfirm": "Bạn có chắc chắn muốn từ chối không",
+    "dowload": "Tải phiếu",
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư",
@@ -3009,6 +3010,7 @@
     "requestMaterialCode": "Yêu cầu cấp mã vật tư",
     "infoMaterialCode": "Thông tin cấp mã vật tư",
     "nameMaterialCode": "Tên vật tư cần cấp mã",
+    "dowload": "Tải phiếu",
     "items": {
       "STT": "STT",
       "suppliesCode": "Mã vật tư yêu cầu",

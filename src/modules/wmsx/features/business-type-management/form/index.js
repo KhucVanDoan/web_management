@@ -19,6 +19,7 @@ import Tabs from '~/components/Tabs'
 import {
   ACTIVE_STATUS_OPTIONS,
   BUSINESS_TYPE_REQUIRED,
+  DATA_TYPE,
   DATA_TYPE_OPTIONS,
   DEFAULT_FIELD_LIST_WAREHOUSE_EXPORT,
   DEFAULT_FIELD_LIST_WAREHOUSE_IMPORT,
@@ -43,56 +44,105 @@ function BusinessTypeManagementForm() {
     data: { isLoading, businessTypeDetails },
     actions,
   } = useBusinessTypeManagement()
-
   const MODE_MAP = {
     [ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH]: MODAL_MODE.CREATE,
     [ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH]: MODAL_MODE.UPDATE,
   }
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
-
+  const getAttributes = () => {
+    const itemOption = []
+    businessTypeDetails?.bussinessTypeAttributes
+      ?.filter((e) => !e?.code)
+      ?.forEach((item) => {
+        switch (item?.type) {
+          case DATA_TYPE.TEXT:
+            itemOption.push({
+              id: item?.id,
+              labelEBS: item?.ebsLabel,
+              fieldName: item?.fieldName,
+              required: Boolean(item?.required),
+              type: {
+                ...DATA_TYPE_OPTIONS?.find(
+                  (item) => item?.id === DATA_TYPE.TEXT,
+                ),
+              },
+            })
+            return itemOption
+          case DATA_TYPE.DATE:
+            itemOption.push({
+              id: item?.id,
+              labelEBS: item?.ebsLabel,
+              fieldName: item?.fieldName,
+              required: Boolean(item?.required),
+              type: {
+                ...DATA_TYPE_OPTIONS?.find(
+                  (item) => item?.id === DATA_TYPE.DATE,
+                ),
+              },
+            })
+            return itemOption
+          case DATA_TYPE.NUMBER:
+            itemOption.push({
+              id: item?.id,
+              labelEBS: item?.ebsLabel,
+              fieldName: item?.fieldName,
+              required: Boolean(item?.required),
+              type: {
+                ...DATA_TYPE_OPTIONS?.find(
+                  (item) => item?.id === DATA_TYPE.NUMBER,
+                ),
+              },
+            })
+            return itemOption
+          case DATA_TYPE.LIST:
+            itemOption.push({
+              id: item?.id,
+              labelEBS: item?.ebsLabel,
+              fieldName: item?.fieldName,
+              required: Boolean(item?.required),
+              type: {
+                id: DATA_TYPE_OPTIONS.find(
+                  (e) => e?.tableName === item?.tableName,
+                )?.id,
+                text: DATA_TYPE_OPTIONS.find(
+                  (e) =>
+                    e?.id ===
+                    DATA_TYPE_OPTIONS.find(
+                      (e) => e?.tableName === item?.tableName,
+                    )?.id,
+                )?.text,
+                type: DATA_TYPE_OPTIONS.find(
+                  (e) =>
+                    e?.id ===
+                    DATA_TYPE_OPTIONS.find(
+                      (e) => e?.tableName === item?.tableName,
+                    )?.id,
+                )?.type,
+                tableName: item?.tableName,
+                code: DATA_TYPE_OPTIONS.find(
+                  (e) =>
+                    e?.id ===
+                    DATA_TYPE_OPTIONS.find(
+                      (e) => e?.tableName === item?.tableName,
+                    )?.id,
+                )?.code,
+              },
+            })
+            return itemOption
+          default:
+            return itemOption
+        }
+      })
+    return itemOption
+  }
   const initialValues = useMemo(
     () => ({
       code: businessTypeDetails?.code || '',
       name: businessTypeDetails?.name || '',
       parentBusiness: businessTypeDetails?.parentBussiness,
       description: businessTypeDetails?.description || '',
-      itemOption:
-        businessTypeDetails?.bussinessTypeAttributes
-          ?.filter((e) => !e?.code)
-          ?.map((item) => ({
-            id: item?.id,
-            labelEBS: item?.ebsLabel,
-            fieldName: item?.fieldName,
-            required: Boolean(item?.required),
-            type: {
-              id: DATA_TYPE_OPTIONS.find(
-                (e) => e?.tableName === item?.tableName,
-              )?.id,
-              text: DATA_TYPE_OPTIONS.find(
-                (e) =>
-                  e?.id ===
-                  DATA_TYPE_OPTIONS.find(
-                    (e) => e?.tableName === item?.tableName,
-                  )?.id,
-              )?.text,
-              type: DATA_TYPE_OPTIONS.find(
-                (e) =>
-                  e?.id ===
-                  DATA_TYPE_OPTIONS.find(
-                    (e) => e?.tableName === item?.tableName,
-                  )?.id,
-              )?.type,
-              tableName: item?.tableName,
-              code: DATA_TYPE_OPTIONS.find(
-                (e) =>
-                  e?.id ===
-                  DATA_TYPE_OPTIONS.find(
-                    (e) => e?.tableName === item?.tableName,
-                  )?.id,
-              )?.code,
-            },
-          })) || [],
+      itemOption: getAttributes(),
       itemDefault:
         businessTypeDetails?.bussinessTypeAttributes
           ?.filter((e) => e?.code !== null)
@@ -110,6 +160,7 @@ function BusinessTypeManagementForm() {
     }),
     [businessTypeDetails],
   )
+
   const getBreadcrumb = () => {
     const breadcrumbs = [
       {
