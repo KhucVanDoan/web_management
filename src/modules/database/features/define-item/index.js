@@ -8,8 +8,12 @@ import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { BULK_ACTION, QR_CODE_TYPE, TEXTFIELD_ALLOW } from '~/common/constants'
-import { API_URL } from '~/common/constants/apiUrl'
+import {
+  //  BULK_ACTION,
+  QR_CODE_TYPE,
+  TEXTFIELD_ALLOW,
+} from '~/common/constants'
+// import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -327,9 +331,9 @@ function DefineItem() {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
 
-  const onSelectionChange = (selected) => {
-    setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
-  }
+  // const onSelectionChange = (selected) => {
+  //   setSelectedRows(selected.map((item) => ({ ...item, amount: 1 })))
+  // }
 
   const renderHeaderRight = () => {
     return (
@@ -466,7 +470,7 @@ function DefineItem() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={onSelectionChange}
+        // onSelectionChange={onSelectionChange}
         selected={selectedRows}
         total={total}
         sort={sort}
@@ -477,18 +481,18 @@ function DefineItem() {
           onApply: setFilters,
           validationSchema: filterSchema(t),
         }}
-        bulkActions={{
-          actions: [BULK_ACTION.DELETE],
-          apiUrl: API_URL.ITEM,
-          onSuccess: () => {
-            if (page === 1) {
-              refreshData()
-            } else {
-              setPage(1)
-            }
-            setSelectedRows([])
-          },
-        }}
+        // bulkActions={{
+        //   actions: [BULK_ACTION.DELETE],
+        //   apiUrl: API_URL.ITEM,
+        //   onSuccess: () => {
+        //     if (page === 1) {
+        //       refreshData()
+        //     } else {
+        //       setPage(1)
+        //     }
+        //     setSelectedRows([])
+        //   },
+        // }}
       />
       <Dialog
         open={modal.isOpenDeleteModal}

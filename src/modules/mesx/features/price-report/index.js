@@ -194,7 +194,7 @@ const PriceReport = () => {
         rows={priceReport}
         columns={columns}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={priceReport?.length}
         filters={{

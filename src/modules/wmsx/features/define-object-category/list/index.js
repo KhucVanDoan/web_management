@@ -4,8 +4,8 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { BULK_ACTION } from '~/common/constants'
-import { API_URL } from '~/common/constants/apiUrl'
+// import { BULK_ACTION } from '~/common/constants'
+// import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
@@ -247,7 +247,7 @@ function DefineObjectCategory() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        onSelectionChange={setSelectedRows}
+        //onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
@@ -257,20 +257,20 @@ function DefineObjectCategory() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
         }}
-        bulkActions={{
-          actions: [BULK_ACTION.DELETE],
-          /* @TODO update uri */
+        // bulkActions={{
+        //   actions: [BULK_ACTION.DELETE],
+        //   /* @TODO update uri */
 
-          apiUrl: API_URL.COMPANY,
-          onSuccess: () => {
-            if (page === 1) {
-              refreshData()
-            } else {
-              setPage(1)
-            }
-            setSelectedRows([])
-          },
-        }}
+        //   apiUrl: API_URL.COMPANY,
+        //   onSuccess: () => {
+        //     if (page === 1) {
+        //       refreshData()
+        //     } else {
+        //       setPage(1)
+        //     }
+        //     setSelectedRows([])
+        //   },
+        // }}
       />
       <Dialog
         open={modal.isOpenUpdateStatusModal}

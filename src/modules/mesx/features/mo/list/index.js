@@ -350,7 +350,7 @@ const Mo = () => {
           onPageSizeChange={setPageSize}
           onSortChange={setSort}
           onSettingChange={setColumnsSettings}
-          onSelectionChange={setSelectedRows}
+          //onSelectionChange={setSelectedRows}
           selected={selectedRows}
           total={total}
           sort={sort}

@@ -56,6 +56,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
                 setFieldValue('suppliesCode', '')
                 setFieldValue('unit', '')
               }}
+              validate={(val) => {
+                if (val?.name?.length > TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX) {
+                  return t('general:form.maxLength', {
+                    max: TEXTFIELD_REQUIRED_LENGTH.COMMON.MAX,
+                  })
+                }
+              }}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.name}
