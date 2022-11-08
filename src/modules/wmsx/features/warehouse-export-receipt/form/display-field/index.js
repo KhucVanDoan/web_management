@@ -54,11 +54,12 @@ const displayFollowBusinessTypeManagement = (
     (item) => item?.tableName === 'constructions',
   )?.id
   const handleChangeProposals = async (val) => {
-    if (val) {
+    setFieldValue('warehouseId', '')
+    if (!isEmpty(val)) {
       const warehouseList = []
       const warehouseExportProposalDetail =
         await getWarehouseExportProposalDetailsApi(val?.id)
-      warehouseExportProposalDetail?.items?.forEach((item) => {
+      warehouseExportProposalDetail?.data?.items?.forEach((item) => {
         item?.childrens?.forEach((children) => {
           const findWarehouse = warehouseList?.find(
             (w) => w?.id === children?.warehouseExport?.id,

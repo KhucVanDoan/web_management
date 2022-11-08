@@ -194,7 +194,7 @@ function MaterialManagementDetail() {
     const payload = itemWarehouseSources.map((item) => ({
       itemId: Number(id),
       warehouseId: item?.warehouse?.id,
-      sourceId: item?.source?.id,
+      accounting: item?.accounting,
     }))
     switch (type) {
       case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE:
