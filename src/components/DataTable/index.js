@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
 
 import Checkbox from '@mui/material/Checkbox'
 import Table from '@mui/material/Table'
@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 import { withClasses } from '~/themes'
 import { getColumnsInBottomTree } from '~/utils'
 
@@ -58,6 +59,7 @@ const DataTable = (props) => {
 
   const [visibleColumns, setVisibleColumns] = useState([])
   const containerRef = useRef(null)
+  const { initTableSetting } = useTableSetting(tableSettingKey)
 
   const uniqKey = props.uniqKey ?? 'id'
   const checkboxSelection = typeof onSelectionChange === 'function'
@@ -146,6 +148,10 @@ const DataTable = (props) => {
       columns?.some((col) => col?.resizable !== false),
     [enableResizable, hasTableHead, columns],
   )
+
+  useEffect(() => {
+    initTableSetting(rawColumns)
+  }, [rawColumns])
 
   return (
     <>
@@ -307,7 +313,7 @@ const DataTable = (props) => {
             {!rows?.length && (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns.length + (checkboxSelection ? 1 : 0)}
                   sx={(theme) => ({
                     textAlign: 'center',
                     color: theme.palette.subText.main,

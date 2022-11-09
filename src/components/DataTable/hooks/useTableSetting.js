@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom'
 
 import storage from '~/utils/storage'
+const DEFAULT_MIN_COLUMN_WIDTH = 80
 
 const useTableSetting = (tableSettingKey) => {
   const { pathname } = useLocation()
@@ -14,7 +15,31 @@ const useTableSetting = (tableSettingKey) => {
     storage.setSessionItem(storageKey, newSetting)
   }
 
-  return { getTableSetting, updateTableSetting }
+  const initTableSetting = (rawColumns) => {
+    let setting = getTableSetting() || []
+
+    if (!setting.length) {
+      setting = rawColumns.reduce((acc, cur) => {
+        if (!cur.hide)
+          return [
+            ...acc,
+            {
+              field: cur.field,
+              width: cur.width || cur.minWidth || DEFAULT_MIN_COLUMN_WIDTH,
+              visible: true,
+              resizable: cur.resizable,
+            },
+          ]
+        return acc
+      }, [])
+
+      updateTableSetting(setting)
+    }
+
+    return setting
+  }
+
+  return { getTableSetting, updateTableSetting, initTableSetting }
 }
 
 export default useTableSetting
