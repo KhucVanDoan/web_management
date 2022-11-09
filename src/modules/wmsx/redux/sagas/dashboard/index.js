@@ -75,6 +75,16 @@ const getSaleOrderExports = (params) => {
   return api.get(uri, params)
 }
 
+export const getDashboardItems = (params) => {
+  const uri = `/v1/items/dashboard/items/list`
+  return api.get(uri, params)
+}
+
+export const getDashboardWarehouses = (params) => {
+  const uri = `/v1/warehouses/dashboard/warehouse/list`
+  return api.get(uri, params)
+}
+
 /**
  * Handle get data request and response
  * @param {object} action

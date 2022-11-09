@@ -103,10 +103,14 @@ const WarehouseTransferDetail = () => {
   }
   const dowFile = async (params) => {
     const uri = `/v1/warehouses/transfers/export-warehouse-transfer/${params}?type=1`
-    const res = await api.get(uri, params, {
-      responseType: 'blob',
-      getHeaders: true,
-    })
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
 
     if (res.status === 500) {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)

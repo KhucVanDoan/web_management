@@ -96,7 +96,7 @@ function WarehouseExportProposal() {
       sortable: true,
       fixed: true,
       renderCell: (params) => {
-        return params?.row?.receiptNumber
+        return params?.row?.code
       },
     },
     {

@@ -23,6 +23,12 @@ const ItemSettingTable = (props) => {
   const handleChangeItem = (val, index) => {
     if (val) {
       setFieldValue(`items[${index}].planExportedQuantity`, val?.quantity)
+      if (val?.itemWarehouseSources?.length > 0) {
+        setFieldValue(
+          `items[${index}].creditAcc`,
+          val?.itemWarehouseSources[0]?.accounting,
+        )
+      }
     }
   }
   const handleChangeLotnumber = async (val, index, payload) => {
@@ -212,7 +218,7 @@ const ItemSettingTable = (props) => {
             <Field.TextField
               name={`items[${index}].transferQuantity`}
               validate={(val) => {
-                if (val > params?.row?.planExportedQuantity) {
+                if (+val > +params?.row?.planExportedQuantity) {
                   return t('general:form.maxNumber', {
                     max: params?.row?.planExportedQuantity,
                   })

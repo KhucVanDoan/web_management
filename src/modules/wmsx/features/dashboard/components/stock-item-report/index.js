@@ -7,8 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import { useDashboardItemGroupStockSummary } from '~/modules/wmsx/redux/hooks/useDashboard'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import {
+  getDashboardItems,
+  getDashboardWarehouses,
+} from '~/modules/wmsx/redux/sagas/dashboard'
 import { convertFilterParams } from '~/utils'
 
 const StockItemReport = () => {
@@ -105,7 +107,7 @@ const StockItemReport = () => {
             name="warehouseId"
             placeholder={t('dashboard.allWarehouse')}
             asyncRequest={(s) =>
-              searchWarehouseApi({
+              getDashboardWarehouses({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
               })
@@ -119,7 +121,7 @@ const StockItemReport = () => {
             name="itemId"
             placeholder={t('dashboard.itemName')}
             asyncRequest={(s) =>
-              searchMaterialsApi({
+              getDashboardItems({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
               })
