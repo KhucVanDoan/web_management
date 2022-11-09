@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import { useDashboardItemStockReport } from '~/modules/wmsx/redux/hooks/useDashboard'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { getDashboardWarehouses } from '~/modules/wmsx/redux/sagas/dashboard'
 
 const DEMO_DATA = [
   {
@@ -260,7 +260,7 @@ const UsedMaterialsReport = () => {
           value={filterBy}
           placeholder={t('dashboard.allWarehouse')}
           asyncRequest={(s) =>
-            searchWarehouseApi({
+            getDashboardWarehouses({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
