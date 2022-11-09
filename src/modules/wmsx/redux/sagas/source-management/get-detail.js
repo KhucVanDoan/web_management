@@ -7,7 +7,7 @@ import {
 } from '~/modules/wmsx/redux/actions/source-management'
 import { api } from '~/services/api'
 
-const getSourceManagementApi = (params) => {
+export const getSourceManagementApi = (params) => {
   const uri = `/v1/sales/sources/${params}`
   return api.get(uri)
 }
