@@ -35,13 +35,15 @@ function ItemsSettingTable(props) {
       `items[${index}].itemName`,
       val?.item?.name || val?.name || val?.itemCode?.name,
     )
+    if (val?.itemWarehouseSources?.length > 0) {
+      setFieldValue(
+        `items[${index}].debitAcc`,
+        val?.itemWarehouseSources[0]?.accounting,
+      )
+    }
     setFieldValue(
       `items[${index}].unit`,
       val?.item?.itemUnit || val?.itemUnit?.name,
-    )
-    setFieldValue(
-      `items[${index}].debitAcc`,
-      val?.itemWarehouseSources[0]?.accounting,
     )
 
     setFieldValue(`items[${index}].importQuantity`, '')
@@ -103,8 +105,7 @@ function ItemsSettingTable(props) {
               }
               asyncRequestHelper={(res) => res?.data?.items}
               onChange={(val) => handleChangeItem(val, index)}
-              asyncRequestDeps={values?.warehouseId}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.itemCode?.id}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name || ''}
               getOptionDisabled={(opt) =>

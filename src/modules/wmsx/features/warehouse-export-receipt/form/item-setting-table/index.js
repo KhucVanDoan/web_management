@@ -54,10 +54,13 @@ const ItemSettingTable = ({
         planExportedQuantity?.quantity,
       )
     }
-    setFieldValue(
-      `items[${index}].creditAccount`,
-      val?.itemWarehouseSources[0]?.accounting,
-    )
+    if (val?.itemWarehouseSources?.length > 0) {
+      setFieldValue(
+        `items[${index}].creditAccount`,
+        val?.itemWarehouseSources[0]?.accounting,
+      )
+    }
+
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
       `items[${index}].unit`,
