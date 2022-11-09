@@ -73,7 +73,7 @@ import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
 import InventoryStatistics from '../features/inventory-statistics'
-import InventoryWarning from '../features/inventory-warning'
+// import InventoryWarning from '../features/inventory-warning'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
 import LocationManagement from '../features/location-management/list'
@@ -1089,12 +1089,12 @@ const routes = [
         component: InventoryStatistics,
         isInSidebar: true,
       },
-      {
-        path: ROUTE.INVENTORY_WARNING.PATH,
-        name: ROUTE.INVENTORY_WARNING.TITLE,
-        component: InventoryWarning,
-        isInSidebar: true,
-      },
+      // {
+      //   path: ROUTE.INVENTORY_WARNING.PATH,
+      //   name: ROUTE.INVENTORY_WARNING.TITLE,
+      //   component: InventoryWarning,
+      //   isInSidebar: true,
+      // },
       {
         name: ROUTE.INVENTORY_ADJUST.LIST.TITLE,
         path: ROUTE.INVENTORY_ADJUST.LIST.PATH,
