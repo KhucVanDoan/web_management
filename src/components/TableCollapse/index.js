@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -28,6 +28,7 @@ import TableHead from '../DataTable/TableHead'
 import DateRangePicker from '../DateRangePicker'
 import style from '../DataTableCollapse/style'
 import Truncate from '../DataTable/Truncate'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 
 /**
  * Data Table
@@ -72,6 +73,7 @@ const TableCollapse = (props) => {
   const [visibleColumns, setVisibleColumns] = useState([])
   const containerRef = useRef(null)
   const uniqKey = props.uniqKey ?? 'id'
+  const { initTableSetting } = useTableSetting(tableSettingKey)
 
   const columns = hideSetting
     ? rawColumns?.filter((col) => !col.hide)
@@ -266,6 +268,10 @@ const TableCollapse = (props) => {
     })
   }
 
+  useEffect(() => {
+    initTableSetting(rawColumns)
+  }, [rawColumns])
+
   return (
     <>
       {(title || filters || !hideSetting) && (
@@ -351,7 +357,10 @@ const TableCollapse = (props) => {
                       {columns.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
-                          ? renderCell({ row }, i)
+                          ? renderCell(
+                              { row, parentIndex: index, childIndex: i },
+                              i,
+                            )
                           : row[field]
                         return (
                           <TableCell

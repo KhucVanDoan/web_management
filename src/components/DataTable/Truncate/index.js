@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import TruncateMarkup from 'react-truncate-markup'
 
 const Truncate = ({ classes, value }) => {
-  if (typeof value !== 'string') return value || null
+  if (typeof value !== 'string') return value ?? null
 
   return (
     <TruncateMarkup
