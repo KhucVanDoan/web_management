@@ -46,7 +46,7 @@ const TableHead = (props) => {
   } = props
 
   const classes = useClasses(style)
-  const { getTableSetting, updateTableSetting } =
+  const { getTableSetting, updateTableSetting, initTableSetting } =
     useTableSetting(tableSettingKey)
 
   const columnRefs = columns.reduce(
@@ -204,25 +204,7 @@ const TableHead = (props) => {
   useEffect(() => {
     if (!isTableResizable) return
 
-    const tbSetting = getTableSetting() || []
-    let setting = tbSetting
-    if (!setting?.length) {
-      setting = rawColumns.reduce((acc, cur) => {
-        if (!cur.hide)
-          return [
-            ...acc,
-            {
-              field: cur.field,
-              width: cur.width || cur.minWidth || DEFAULT_MIN_COLUMN_WIDTH,
-              visible: true,
-              resizable: cur.resizable,
-            },
-          ]
-        return acc
-      }, [])
-    }
-
-    autoAdjustWidth(setting)
+    autoAdjustWidth(initTableSetting(rawColumns))
   }, [rawColumns, checkboxSelection, reorderable, columnRefs, isTableResizable])
 
   const onClickSort = (field) => {

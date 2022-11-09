@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -22,6 +22,7 @@ import { withClasses } from '~/themes'
 import style from './style'
 import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
 import Truncate from '../DataTable/Truncate'
+import useTableSetting from '~/components/DataTable/hooks/useTableSetting'
 
 const DataTableCollapse = (props) => {
   const {
@@ -53,6 +54,7 @@ const DataTableCollapse = (props) => {
   const [visibleColumns, setVisibleColumns] = useState([])
   const containerRef = useRef(null)
   const uniqKey = props.uniqKey ?? 'id'
+  const { initTableSetting } = useTableSetting(tableSettingKey)
 
   const columns = hideSetting
     ? rawColumns?.filter((col) => !col.hide)
@@ -87,7 +89,11 @@ const DataTableCollapse = (props) => {
       return <Truncate value={cellValue} classes={classes} />
     }
   }
-  const handleApplySetting = () => {}
+
+  useEffect(() => {
+    initTableSetting(rawColumns)
+  }, [rawColumns])
+
   return (
     <>
       {(title || filters || !hideSetting) && (
@@ -154,7 +160,10 @@ const DataTableCollapse = (props) => {
                       {columns?.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
-                          ? renderCell({ row }, index)
+                          ? renderCell(
+                              { row, parentIndex: index, childIndex: i },
+                              i,
+                            )
                           : row[field]
 
                         return (
