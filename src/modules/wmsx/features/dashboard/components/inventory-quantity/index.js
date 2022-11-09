@@ -7,8 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import DateGroupToggle from '~/components/DateGroupToggle'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
-import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import {
+  getDashboardItems,
+  getDashboardWarehouses,
+} from '~/modules/wmsx/redux/sagas/dashboard'
 
 const InventoryQuantity = () => {
   const { t } = useTranslation(['wmsx'])
@@ -112,7 +114,7 @@ const InventoryQuantity = () => {
           name="warehouseId"
           placeholder={t('dashboard.allWarehouse')}
           asyncRequest={(s) =>
-            searchWarehouseApi({
+            getDashboardWarehouses({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })
@@ -125,7 +127,7 @@ const InventoryQuantity = () => {
           name="itemId"
           placeholder={t('movements.importExport.itemCode')}
           asyncRequest={(s) =>
-            searchMaterialsApi({
+            getDashboardItems({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })

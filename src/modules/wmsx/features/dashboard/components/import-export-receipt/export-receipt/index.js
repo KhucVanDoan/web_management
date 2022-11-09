@@ -7,7 +7,7 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Autocomplete from '~/components/Autocomplete'
 import DataTable from '~/components/DataTable'
 import { useDashboardSaleOrderExports } from '~/modules/wmsx/redux/hooks/useDashboard'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { getDashboardWarehouses } from '~/modules/wmsx/redux/sagas/dashboard'
 const ExportReceipt = () => {
   const { t } = useTranslation(['wmsx'])
   const [warehouseId, setWarehouseId] = useState('')
@@ -61,7 +61,7 @@ const ExportReceipt = () => {
           name="warehouseId"
           placeholder={t('dashboard.allWarehouse')}
           asyncRequest={(s) =>
-            searchWarehouseApi({
+            getDashboardWarehouses({
               keyword: s,
               limit: ASYNC_SEARCH_LIMIT,
             })

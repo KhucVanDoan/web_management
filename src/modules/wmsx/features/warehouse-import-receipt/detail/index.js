@@ -57,10 +57,14 @@ function WarehouseImportReceiptDetail() {
   const dowFile = async (params) => {
     const warehouseImportId = JSON.stringify(params)
     const uri = `/v1/sales/export/purchased-order-import?queryIds=${warehouseImportId}&type=3`
-    const res = await api.get(uri, params, {
-      responseType: 'blob',
-      getHeaders: true,
-    })
+    const res = await api.get(
+      uri,
+      {},
+      {
+        responseType: 'blob',
+        getHeaders: true,
+      },
+    )
     if (res.status === 500) {
       addNotification(res?.statusText, NOTIFICATION_TYPE.ERROR)
     } else {
