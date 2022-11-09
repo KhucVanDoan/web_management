@@ -174,7 +174,7 @@ function WarehouseExportReceiptForm() {
     return breadcrumbs
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isUpdate) {
       actions.getWarehouseExportReceiptDetailsById(id, async (data) => {
         const res = await getSourceManagementApi(data?.source?.id)
