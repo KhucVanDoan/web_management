@@ -29,7 +29,7 @@ const ActionBar = ({
         mt: 2,
         position: 'sticky',
         bottom: 0,
-        zIndex: 20,
+        zIndex: 100,
         background: '#fff',
         borderTop: `1px solid ${theme.palette.grayF4.main}`,
 
@@ -81,7 +81,7 @@ ActionBar.defaultProps = {
   elBefore: null,
   elAfter: null,
   sx: {},
-  disableSaveButton: false
+  disableSaveButton: false,
 }
 
 ActionBar.propTypes = {
@@ -92,7 +92,7 @@ ActionBar.propTypes = {
   mode: PropTypes.oneOf([MODAL_MODE.CREATE, MODAL_MODE.UPDATE]),
   elBefore: PropTypes.node,
   elAfter: PropTypes.node,
-  disableSaveButton: PropTypes.bool
+  disableSaveButton: PropTypes.bool,
 }
 
 export default ActionBar
