@@ -33,6 +33,7 @@ import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
+import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import {
   getWarehouseImportReceiptDetailsApi,
@@ -65,7 +66,7 @@ function WarehouseExportReceiptForm() {
   const history = useHistory()
   const { id } = useParams()
   const routeMatch = useRouteMatch()
-
+  const [debitAccount, setDebitAccount] = useState('')
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
@@ -173,9 +174,18 @@ function WarehouseExportReceiptForm() {
     return breadcrumbs
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isUpdate) {
-      actions.getWarehouseExportReceiptDetailsById(id, (data) => {
+      actions.getWarehouseExportReceiptDetailsById(id, async (data) => {
+        const res = await getSourceManagementApi(data?.source?.id)
+        setDebitAccount(
+          [
+            res?.data?.accountant,
+            res?.data?.produceTypeCode,
+            res?.data?.productCode,
+            res?.data?.factorialCode,
+          ].join('.'),
+        )
         if (
           isEmpty(
             data?.attributes?.find(
@@ -284,7 +294,7 @@ function WarehouseExportReceiptForm() {
           lotNumber: item?.lotNumber || '',
           quantity: +item?.quantityExport,
           price: item?.price,
-          debitAccount: item?.debitAccount || null,
+          debitAccount: debitAccount || null,
           creditAccount: item?.creditAccount,
           warehouseId: values?.warehouseId?.id,
         })),
@@ -350,7 +360,16 @@ function WarehouseExportReceiptForm() {
   }
   const handleChangeSource = (val) => {
     if (val) {
-      sourceAction.getDetailSourceManagementById(val?.id)
+      sourceAction.getDetailSourceManagementById(val?.id, (data) => {
+        setDebitAccount(
+          [
+            data?.accountant,
+            data?.produceTypeCode,
+            data?.productCode,
+            data?.factorialCode,
+          ].join('.'),
+        )
+      })
     }
   }
   const handleChangeWarehouse = async (val, setFieldValue, values) => {
@@ -686,6 +705,7 @@ function WarehouseExportReceiptForm() {
                           arrayHelpers={arrayHelpers}
                           itemList={itemWarehouseExport}
                           setFieldValue={setFieldValue}
+                          debitAccount={debitAccount}
                           values={values}
                           mode={mode}
                         />

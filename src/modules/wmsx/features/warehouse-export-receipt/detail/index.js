@@ -12,6 +12,7 @@ import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import TextField from '~/components/TextField'
+import { ORDER_STATUS } from '~/modules/mesx/constants'
 import { ORDER_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
@@ -106,20 +107,24 @@ function WarehouseExportReceiptDetail() {
 
   const renderHeaderRight = () => {
     return (
-      <Button
-        onClick={() =>
-          history.push(
-            ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
-              ':id',
-              `${id}`,
-            ),
-          )
-        }
-        sx={{ ml: 4 / 3 }}
-        icon="add"
-      >
-        {t('warehouseExportReceipt.pickAndExport.title')}
-      </Button>
+      <>
+        {warehouseExportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
+          <Button
+            onClick={() =>
+              history.push(
+                ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
+                  ':id',
+                  `${id}`,
+                ),
+              )
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('warehouseExportReceipt.pickAndExport.title')}
+          </Button>
+        )}
+      </>
     )
   }
 
