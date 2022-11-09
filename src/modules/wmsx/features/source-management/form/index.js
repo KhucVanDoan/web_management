@@ -293,6 +293,7 @@ const SourceManagementForm = () => {
                         })
                       }
                       asyncRequestHelper={(res) => res?.data?.items}
+                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       getOptionLabel={(opt) => opt?.code}
                       required
                     />

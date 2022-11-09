@@ -94,7 +94,7 @@ function UserManagementForm() {
       fullName: values?.fullName,
       username: values?.username,
       password: values?.password,
-      phone: values?.phone,
+      phone: values?.phone || null,
       status: values?.status?.toString() || '1',
       userRoleSettings: !isEmpty(values.role) ? [{ id: values.role?.id }] : [],
       departmentSettings: !isEmpty(values?.departmentSettings)
