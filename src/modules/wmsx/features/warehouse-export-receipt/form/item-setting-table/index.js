@@ -11,7 +11,6 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
-import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 const ItemSettingTable = ({
@@ -21,6 +20,7 @@ const ItemSettingTable = ({
   itemList,
   setFieldValue,
   values,
+  debitAccount,
 }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
@@ -29,9 +29,7 @@ const ItemSettingTable = ({
     values?.businessTypeId?.bussinessTypeAttributes?.find(
       (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
     )?.id
-  const {
-    data: { detailSourceManagement },
-  } = useSourceManagement()
+
   const {
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
@@ -56,28 +54,15 @@ const ItemSettingTable = ({
         planExportedQuantity?.quantity,
       )
     }
-
+    setFieldValue(
+      `items[${index}].creditAccount`,
+      val?.itemWarehouseSources[0]?.accounting,
+    )
     setFieldValue(`items[${index}].itemName`, val?.item?.name || val?.name)
     setFieldValue(
       `items[${index}].unit`,
       val?.item?.itemUnit || val?.itemUnit?.name,
     )
-    setFieldValue(
-      `items[${index}].debitAccount`,
-      val?.item?.itemWarehouseSources?.accountIdentifier,
-    )
-
-    if (values?.sourceId) {
-      setFieldValue(
-        `items[${index}].creditAccount`,
-        [
-          detailSourceManagement?.accountant,
-          detailSourceManagement?.produceTypeCode,
-          detailSourceManagement?.productCode,
-          detailSourceManagement?.factorialCode,
-        ].join('.'),
-      )
-    }
   }
   const handleChangeLotNumber = async (val, index, payload) => {
     if (val) {
@@ -326,6 +311,7 @@ const ItemSettingTable = ({
           return (
             <Field.TextField
               name={`items[${index}].debitAccount`}
+              value={debitAccount}
               disabled
               required
             />
@@ -369,6 +355,7 @@ const ItemSettingTable = ({
       values,
       itemWarehouseStockList,
       values[warehouseExprotProposal],
+      debitAccount,
     ],
   )
   return (

@@ -32,6 +32,7 @@ import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/receipt-management/get-receipt-details'
+import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
@@ -65,6 +66,7 @@ function WarehouseImportReceiptForm() {
   const [itemReceipt, setItemReceipt] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
     useState([])
+  const [creditAccount, setCreditAccount] = useState('')
   const [itemWarehouseExportReceipt, setItemWarehouseExportReceipt] = useState(
     [],
   )
@@ -165,9 +167,18 @@ function WarehouseImportReceiptForm() {
     return breadcrumbs
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isUpdate) {
-      actions.getWarehouseImportReceiptDetailsById(id, (data) => {
+      actions.getWarehouseImportReceiptDetailsById(id, async (data) => {
+        const res = await getSourceManagementApi(data?.source?.id)
+        setCreditAccount(
+          [
+            res?.data?.accountant,
+            res?.data?.produceTypeCode,
+            res?.data?.productCode,
+            res?.data?.factorialCode,
+          ].join('.'),
+        )
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
         )
@@ -282,7 +293,7 @@ function WarehouseImportReceiptForm() {
           price: item?.price,
           amount: item?.money,
           debitAccount: item?.debitAcc || null,
-          creditAccount: item?.creditAcc,
+          creditAccount: creditAccount,
           warehouseId: values?.warehouse?.id,
         })),
       ),
@@ -334,7 +345,16 @@ function WarehouseImportReceiptForm() {
   }
   const handleChangeSource = (val) => {
     if (val) {
-      sourceAction.getDetailSourceManagementById(val?.id)
+      sourceAction.getDetailSourceManagementById(val?.id, (data) => {
+        setCreditAccount(
+          [
+            data?.accountant,
+            data?.produceTypeCode,
+            data?.productCode,
+            data?.factorialCode,
+          ].join('.'),
+        )
+      })
     }
   }
   const handleChangeBusinessType = (val) => {
@@ -617,6 +637,7 @@ function WarehouseImportReceiptForm() {
                           mode={mode}
                           arrayHelpers={arrayHelpers}
                           setFieldValue={setFieldValue}
+                          creditAccount={creditAccount}
                           itemList={
                             itemReceipt?.length > 0
                               ? itemReceipt

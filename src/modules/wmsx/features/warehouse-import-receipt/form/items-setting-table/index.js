@@ -11,16 +11,21 @@ import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
-import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams, scrollToBottom } from '~/utils'
 
 function ItemsSettingTable(props) {
   const { t } = useTranslation(['wmsx'])
-  const { items, mode, arrayHelpers, itemList, setFieldValue, values } = props
   const {
-    data: { detailSourceManagement },
-  } = useSourceManagement()
+    items,
+    mode,
+    arrayHelpers,
+    itemList,
+    setFieldValue,
+    values,
+    creditAccount,
+  } = props
+
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === 'receipts',
@@ -36,19 +41,9 @@ function ItemsSettingTable(props) {
     )
     setFieldValue(
       `items[${index}].debitAcc`,
-      val?.item?.itemWarehouseSources?.accountIdentifier,
+      val?.itemWarehouseSources[0]?.accounting,
     )
-    if (values?.sourceId) {
-      setFieldValue(
-        `items[${index}].creditAcc`,
-        [
-          detailSourceManagement?.accountant,
-          detailSourceManagement?.produceTypeCode,
-          detailSourceManagement?.productCode,
-          detailSourceManagement?.factorialCode,
-        ].join('.'),
-      )
-    }
+
     setFieldValue(`items[${index}].importQuantity`, '')
     setFieldValue(`items[${index}].money`, '')
     if (receiptRequired) {
@@ -89,7 +84,8 @@ function ItemsSettingTable(props) {
               }
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.itemId) &&
-                opt?.itemId !== items[index]?.itemCode?.id
+                opt?.itemId !==
+                  (items[index]?.itemCode?.itemId || items[index]?.itemCode?.id)
               }
             />
           ) : (
@@ -113,7 +109,7 @@ function ItemsSettingTable(props) {
               getOptionSubLabel={(opt) => opt?.name || ''}
               getOptionDisabled={(opt) =>
                 itemIdCodeList.some((id) => id === opt?.id) &&
-                opt?.id !== items[index]?.itemCode?.itemId
+                opt?.id !== items[index]?.itemCode?.id
               }
               required
             />
@@ -262,13 +258,14 @@ function ItemsSettingTable(props) {
       {
         field: 'creditAcc',
         headerName: t('warehouseImportReceipt.table.creditAcc'),
-        width: 180,
+        width: 250,
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.creditAccount}</>
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
+              value={creditAccount}
               disabled={true}
             />
           )
@@ -287,7 +284,7 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList, detailSourceManagement],
+    [items, itemList, creditAccount],
   )
 
   return (

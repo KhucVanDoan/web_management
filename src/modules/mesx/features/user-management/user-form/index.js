@@ -288,6 +288,11 @@ function UserManagementForm() {
                               )}
                             </IconButton>
                           }
+                          validate={(val) => {
+                            if (!val) {
+                              return t('general:form.required')
+                            }
+                          }}
                           required
                           allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                         />
