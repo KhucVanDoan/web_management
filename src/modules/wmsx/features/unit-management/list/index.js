@@ -25,7 +25,7 @@ import {
   importUnitApi,
 } from '~/modules/wmsx/redux/sagas/management-unit/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams } from '~/utils'
+import { convertFilterParams, convertSortParams, getLocalItem } from '~/utils'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
@@ -67,7 +67,7 @@ function ManagementUnit() {
     data: { isLoading, managementUnitList, total },
     actions,
   } = useManagementUnit()
-
+  const isSuperAdmin = getLocalItem('userInfo')?.code === '000000001'
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
@@ -120,6 +120,7 @@ function ManagementUnit() {
         const { row } = params
         const { id, status } = row
         const isLocked = status === ACTIVE_STATUS.ACTIVE
+
         return (
           <>
             <Guard code={FUNCTION_CODE.USER_DETAIL_DEPARTMENT_SETTING}>
@@ -155,15 +156,17 @@ function ManagementUnit() {
                 <Icon name={isLocked ? 'locked' : 'unlock'} />
               </IconButton>
             </Guard>
-            {/* <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="assign" />
-            </IconButton> */}
+            {isSuperAdmin && (
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="assign" />
+              </IconButton>
+            )}
           </>
         )
       },
