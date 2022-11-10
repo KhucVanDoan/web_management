@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -69,7 +72,7 @@ function InventorySetting() {
     tempItem: null,
     isOpenDeleteModal: false,
   })
-
+  const { canAccess } = useApp()
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
@@ -137,27 +140,33 @@ function InventorySetting() {
         const { id } = params?.row
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.INVENTORY_SETTING.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.INVENTORY_SETTING.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_INVENTORY_QUANTITY_NORM}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.INVENTORY_SETTING.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_INVENTORY_QUANTITY_NORM}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.INVENTORY_SETTING.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_DELETE_INVENTORY_QUANTITY_NORM}>
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -205,31 +214,51 @@ function InventorySetting() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importInventorySettingApi(params)}
-          onExport={() =>
-            exportInventorySettingApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportInventorySettingApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onImport: () =>
+                  importInventorySettingApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onDownloadTemplate={getInventorySettingTemplateApi}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.INVENTORY_SETTING.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_INVENTORY_QUANTITY_NORM}>
+          <Button
+            onClick={() => history.push(ROUTE.INVENTORY_SETTING.CREATE.PATH)}
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -61,7 +64,7 @@ function DefineExpenditureOrg() {
     setFilters,
     setKeyword,
   } = useQueryState()
-
+  const { canAccess } = useApp()
   const columns = [
     {
       field: 'code',
@@ -121,33 +124,45 @@ function DefineExpenditureOrg() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_EXPENDITURE_ORG.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_ORGANIZATION_PAYMENT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_EXPENDITURE_ORG.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.SALE_UPDATE_ORGANIZATION_PAYMENT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_EXPENDITURE_ORG.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.SALE_REJECT_ORGANIZATION_PAYMENT
+                  : FUNCTION_CODE.SALE_CONFIRM_ORGANIZATION_PAYMENT
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_EXPENDITURE_ORG.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -199,32 +214,43 @@ function DefineExpenditureOrg() {
       <>
         <ImportExport
           name={t('menu.importExportData')}
-          onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_ORGANIZATION_PAYMENT)
+            ? {
+                onExport: () =>
+                  exportCompanyApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                    type: TYPE_ENUM_EXPORT.COMPANY,
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_ORGANIZATION_PAYMENT)
+            ? {
+                onImport: () => {},
+              }
+            : {})}
           onDownloadTemplate={() => {}}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.DEFINE_EXPENDITURE_ORG.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.SALE_CREATE_ORGANIZATION_PAYMENT}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.DEFINE_EXPENDITURE_ORG.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

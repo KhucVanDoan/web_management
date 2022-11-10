@@ -4,12 +4,15 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -43,6 +46,8 @@ const breadcrumbs = [
 function DefineUom() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const { canAccess } = useApp()
+
   const {
     data: { uomList, isLoading, total },
     actions,
@@ -129,25 +134,39 @@ function DefineUom() {
         const isLocked = status === UOM_ACTIVE_STATUS.ACTIVE
         return (
           <>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_UOM.DETAIL.PATH.replace(':id', `${id}`),
-                )
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_ITEM_UNIT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_UOM.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_ITEM_UNIT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_UOM.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.ITEM_REJECT_ITEM_UNIT
+                  : FUNCTION_CODE.ITEM_CONFIRM_ITEM_UNIT
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(ROUTE.DEFINE_UOM.EDIT.PATH.replace(':id', `${id}`))
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </>
         )
       },
@@ -204,32 +223,41 @@ function DefineUom() {
       <>
         <ImportExport
           name={t('defineUom.export')}
-          onImport={() => {}}
-          onExport={() =>
-            exportItemUnitSettingApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ITEM_EXPORT.DEFINE_UOM,
-            })
-          }
-          onDownloadTemplate={getItemUnitSettingTemplateApi}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_UNIT)
+            ? {
+                onImport: () => {},
+                onDownloadTemplate: getItemUnitSettingTemplateApi,
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_UNIT)
+            ? {
+                onExport: () =>
+                  exportItemUnitSettingApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: x?.id })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                    type: TYPE_ITEM_EXPORT.DEFINE_UOM,
+                  }),
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.DEFINE_UOM.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_UNIT}>
+          <Button
+            onClick={() => history.push(ROUTE.DEFINE_UOM.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

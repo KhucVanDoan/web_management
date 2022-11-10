@@ -160,11 +160,12 @@ const DataTableCollapse = (props) => {
                       {columns?.map((column, i) => {
                         const { field, align, renderCell, width } = column
                         const cellValue = renderCell
-                          ? renderCell(
-                              { row, parentIndex: index, childIndex: i },
-                              i,
-                            )
-                          : row[field]
+                          ? renderCell({ row }, index)
+                          : // renderCell(
+                            //     { row, parentIndex: index, childIndex: i },
+                            //     i,
+                            //   )
+                            row[field]
 
                         return (
                           <TableCell

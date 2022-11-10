@@ -4,12 +4,15 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -38,6 +41,8 @@ const breadcrumbs = [
 function ReasonManagement() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+  const { canAccess } = useApp()
+
   const [tempItem, setTempItem] = useState()
   const [deleteModal, setDeleteModal] = useState(false)
   const [isActiveModal, setIsActiveModal] = useState(false)
@@ -121,28 +126,39 @@ function ReasonManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.REASON_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                )
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_REASON}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.REASON_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.SALE_UPDATE_REASON}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.REASON_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.SALE_REJECT_REASON
+                  : FUNCTION_CODE.SALE_CONFIRM_REASON
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.REASON_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </>
         )
       },
@@ -202,42 +218,50 @@ function ReasonManagement() {
       <>
         <ImportExport
           name={t('reasonManagement.export')}
-          onExport={() =>
-            exportReasonApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onImport={() =>
-            importReasonApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_REASON)
+            ? {
+                onExport: () =>
+                  exportReasonApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
+            ? {
+                onImport: () =>
+                  importReasonApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.REASON_MANAGEMENT.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.SALE_CREATE_REASON}>
+          <Button
+            onClick={() => history.push(ROUTE.REASON_MANAGEMENT.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

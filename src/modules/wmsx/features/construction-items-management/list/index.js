@@ -4,10 +4,13 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -57,7 +60,7 @@ function ConstructionItemsManagement() {
   } = useQueryState({
     filters: DEFAULT_FILTERS,
   })
-
+  const { canAccess } = useApp()
   const {
     data: { constructionItemsList, total, isLoading },
     actions,
@@ -126,33 +129,45 @@ function ConstructionItemsManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_CATEGORY_CONSTRUCTION}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.SALE_UPDATE_CATEGORY_CONSTRUCTION}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.REJECT_CATEGORY_CONSTRUCTION
+                  : FUNCTION_CODE.CONFIRM_CATEGORY_CONSTRUCTION
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -208,32 +223,42 @@ function ConstructionItemsManagement() {
         <ImportExport
           name={t('constructionItemsManagement.export')}
           onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_CATEGORY_CONSTRUCTION)
+            ? {
+                onExport: () =>
+                  exportCompanyApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                    type: TYPE_ENUM_EXPORT.COMPANY,
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_CATEGORY_CONSTRUCTION)
+            ? {
+                onImport: () => {},
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.SALE_CREATE_CATEGORY_CONSTRUCTION}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.CONSTRUCTION_ITEMS_MANAGEMENT.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

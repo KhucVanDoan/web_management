@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
@@ -50,7 +53,7 @@ function WarehouseExportProposal() {
     name: '',
     createTime: [],
   }
-
+  const { canAccess } = useApp()
   const DEFAULT_QUICK_FILTERS = {
     time: '',
     statusWarehouseExport: '',
@@ -184,60 +187,86 @@ function WarehouseExportProposal() {
           status === WAREHOUSE_EXPORT_PROPOSAL_STATUS.CONFIRMED
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_EXPORT_PROPOSAL.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
+            <Guard
+              code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_EXPORT_PROPOSAL}
             >
-              <Icon name="show" />
-            </IconButton>
-            {canEdit && (
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH.replace(
+                    ROUTE.WAREHOUSE_EXPORT_PROPOSAL.DETAIL.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
                   )
                 }
               >
-                <Icon name="edit" />
+                <Icon name="show" />
               </IconButton>
+            </Guard>
+            {canEdit && (
+              <Guard
+                code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_EXPORT_PROPOSAL}
+              >
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              </Guard>
             )}
             {canDelete && (
-              <IconButton onClick={() => onClickDelete(params.row)}>
-                <Icon name="delete" />
-              </IconButton>
+              <Guard
+                code={FUNCTION_CODE.WAREHOUSE_DELETE_WAREHOUSE_EXPORT_PROPOSAL}
+              >
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              </Guard>
             )}
             {canConfirm && (
-              <IconButton onClick={() => onClickConfirm(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
+              <Guard
+                code={FUNCTION_CODE.WAREHOUSE_CONFIRM_WAREHOUSE_EXPORT_PROPOSAL}
+              >
+                <IconButton onClick={() => onClickConfirm(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              </Guard>
             )}
             {canReject && (
-              <IconButton onClick={() => onClickReject(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              <Guard
+                code={FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_EXPORT_PROPOSAL}
+              >
+                <IconButton onClick={() => onClickReject(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </Guard>
             )}
             {updateQuantity && (
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
-                  )
+              <Guard
+                code={
+                  FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_EXPORT_AFTER_CONFIRM_PROPOSAL
                 }
               >
-                <Icon name="updateQuantity" />
-              </IconButton>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_EXPORT_PROPOSAL.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="updateQuantity" />
+                </IconButton>
+              </Guard>
             )}
           </div>
         )
@@ -308,20 +337,42 @@ function WarehouseExportProposal() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importWarehouseExportProposalApi(params)}
-          onExport={() =>
-            exportWarehouseExportProposalApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(
+            FUNCTION_CODE.WAREHOUSE_EXPORT_WAREHOUSE_EXPORT_PROPOSAL,
+          )
+            ? {
+                onExport: () =>
+                  exportWarehouseExportProposalApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(
+            FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_EXPORT_PROPOSAL,
+          )
+            ? {
+                onImport: () =>
+                  importWarehouseExportProposalApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onDownloadTemplate={getWarehouseExportProposalTemplateApi}
           onRefresh={refreshData}
           disabled
