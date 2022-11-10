@@ -6,10 +6,12 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -109,27 +111,36 @@ function SetStoragePeriod() {
         const { id } = params?.row
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.SET_STORAGE_PERIOD.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.SET_STORAGE_PERIOD.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(params.row)}>
-              <Icon name="delete" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.WAREHOUE_DETAIL_INVENTORY_TIME_LIMIT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.SET_STORAGE_PERIOD.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.WAREHOUE_UPDATE_INVENTORY_TIME_LIMIT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.SET_STORAGE_PERIOD.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.WAREHOUE_DELETE_INVENTORY_TIME_LIMIT}>
+              <IconButton onClick={() => onClickDelete(params.row)}>
+                <Icon name="delete" />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -175,13 +186,15 @@ function SetStoragePeriod() {
 
   const renderHeaderRight = () => {
     return (
-      <Button
-        onClick={() => history.push(ROUTE.SET_STORAGE_PERIOD.CREATE.PATH)}
-        sx={{ ml: 4 / 3 }}
-        icon="add"
-      >
-        {t('general:common.create')}
-      </Button>
+      <Guard code={FUNCTION_CODE.WAREHOUE_CREATE_INVENTORY_TIME_LIMIT}>
+        <Button
+          onClick={() => history.push(ROUTE.SET_STORAGE_PERIOD.CREATE.PATH)}
+          sx={{ ml: 4 / 3 }}
+          icon="add"
+        >
+          {t('general:common.create')}
+        </Button>
+      </Guard>
     )
   }
 

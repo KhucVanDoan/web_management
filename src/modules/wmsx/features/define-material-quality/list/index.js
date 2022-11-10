@@ -4,12 +4,15 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -39,6 +42,7 @@ const breadcrumbs = [
 function DefineMaterialQuality() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
+  const { canAccess } = useApp()
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -120,33 +124,45 @@ function DefineMaterialQuality() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_MATERIAL_QUALITY.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_ITEM_QUALITY}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_MATERIAL_QUALITY.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_ITEM_QUALITY}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.ITEM_REJECT_ITEM_QUALITY
+                  : FUNCTION_CODE.ITEM_CONFIRM_ITEM_QUALITY
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_MATERIAL_QUALITY.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -200,33 +216,42 @@ function DefineMaterialQuality() {
       <>
         <ImportExport
           name={t('constructionManagement.export')}
-          onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_QUALITY)
+            ? {
+                onExport: () =>
+                  exportCompanyApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                    type: TYPE_ENUM_EXPORT.COMPANY,
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_QUALITY)
+            ? {
+                onImport: () => {},
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_QUALITY}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

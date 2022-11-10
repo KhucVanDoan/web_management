@@ -1,3 +1,4 @@
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import UserManagement from '~/modules/mesx/features/user-management'
 import UserManagementDetail from '~/modules/mesx/features/user-management/user-detail'
 import UserManagementForm from '~/modules/mesx/features/user-management/user-form'
@@ -92,24 +93,28 @@ const routes = [
         name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
         path: ROUTE.USER_MANAGEMENT.LIST.PATH,
         component: UserManagement,
+        code: FUNCTION_CODE.USER_MANAGE_USER_PERMISSION,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
             path: ROUTE.USER_MANAGEMENT.CREATE.PATH,
             component: UserManagementForm,
+            code: FUNCTION_CODE.USER_CREATE_USER,
             isInSidebar: false,
           },
           {
             name: ROUTE.USER_MANAGEMENT.DETAIL.TITLE,
             path: ROUTE.USER_MANAGEMENT.DETAIL.PATH,
             component: UserManagementDetail,
+            code: FUNCTION_CODE.USER_DETAIL_USER,
             isInSidebar: false,
           },
           {
             name: ROUTE.USER_MANAGEMENT.EDIT.TITLE,
             path: ROUTE.USER_MANAGEMENT.EDIT.PATH,
             component: UserManagementForm,
+            code: FUNCTION_CODE.USER_UPDATE_USER,
             isInSidebar: false,
           },
         ],

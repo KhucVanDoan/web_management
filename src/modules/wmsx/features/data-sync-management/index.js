@@ -4,9 +4,11 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -157,14 +159,19 @@ const DataSyncManagement = () => {
             >
               <Icon name="show" />
             </IconButton>
+
             {isDisplay && (
               <>
-                <IconButton onClick={() => onClickRetry(params.row)}>
-                  <Icon name="sync" />
-                </IconButton>
-                <IconButton onClick={() => onClickReject(params.row)}>
-                  <Icon name="remove" />
-                </IconButton>
+                <Guard code={FUNCTION_CODE.DATASYNC_RETRY_JOB}>
+                  <IconButton onClick={() => onClickRetry(params.row)}>
+                    <Icon name="sync" />
+                  </IconButton>
+                </Guard>
+                <Guard code={FUNCTION_CODE.DATASYNC_CANCEL_JOB}>
+                  <IconButton onClick={() => onClickReject(params.row)}>
+                    <Icon name="remove" />
+                  </IconButton>
+                </Guard>
               </>
             )}
           </div>

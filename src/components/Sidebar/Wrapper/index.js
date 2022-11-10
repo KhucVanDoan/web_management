@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles'
 import { Link, useLocation } from 'react-router-dom'
 
 import LogoSrc from '~/assets/images/logo.png'
+import { useApp } from '~/common/hooks/useApp'
 import Icon from '~/components/Icon'
 import { appRoutesObj } from '~/routes'
 import { getCurrentModule } from '~/utils/menu'
@@ -23,6 +24,7 @@ export default function Sidebar() {
   const theme = useTheme()
   const currentModule = getCurrentModule(pathname)
   const { isMinimal, setIsMinimal, isMdDown } = useSidebar()
+  const { canAccess } = useApp()
 
   return (
     <Box
@@ -92,7 +94,7 @@ export default function Sidebar() {
           </Hidden> */}
           <ListMenu
             routes={appRoutesObj[currentModule]?.filter(
-              (item) => item?.isInSidebar,
+              (item) => item?.isInSidebar && canAccess(item?.code),
             )}
             currentModule={currentModule}
           />

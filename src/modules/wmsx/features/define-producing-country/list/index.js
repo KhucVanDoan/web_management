@@ -4,12 +4,14 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -120,33 +122,45 @@ function DefineProducingCountry() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_MANUFACTURING_COUNTRY}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_PRODUCING_COUNTRY.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_MANUFACTURING_COUNTRY}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.ITEM_REJECT_MANUFACTURING_COUNTRY
+                  : FUNCTION_CODE.ITEM_CONFIRM_MANUFACTURING_COUNTRY
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_PRODUCING_COUNTRY.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -218,15 +232,17 @@ function DefineProducingCountry() {
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_MANUFACTURING_COUNTRY}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

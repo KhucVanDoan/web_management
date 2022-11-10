@@ -6,10 +6,12 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -146,40 +148,64 @@ const InventoryAdjust = () => {
             status === INVENTORY_ADJUST_STATUS.REJECTED
           return (
             <div>
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.INVENTORY_ADJUST.DETAIL.PATH.replace(':id', `${id}`),
-                  )
-                }
-              >
-                <Icon name="show" />
-              </IconButton>
-              {canEdit && (
+              <Guard code={FUNCTION_CODE.WAREHOUE_DETAIL_INVENTORY_ADJUSTMENT}>
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.INVENTORY_ADJUST.EDIT.PATH.replace(':id', `${id}`),
+                      ROUTE.INVENTORY_ADJUST.DETAIL.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
                     )
                   }
                 >
-                  <Icon name="edit" />
+                  <Icon name="show" />
                 </IconButton>
+              </Guard>
+              {canEdit && (
+                <Guard
+                  code={FUNCTION_CODE.WAREHOUE_UPDATE_INVENTORY_ADJUSTMENT}
+                >
+                  <IconButton
+                    onClick={() =>
+                      history.push(
+                        ROUTE.INVENTORY_ADJUST.EDIT.PATH.replace(
+                          ':id',
+                          `${id}`,
+                        ),
+                      )
+                    }
+                  >
+                    <Icon name="edit" />
+                  </IconButton>
+                </Guard>
               )}
               {canDelete && (
-                <IconButton onClick={() => onClickDelete(params.row)}>
-                  <Icon name="delete" />
-                </IconButton>
+                <Guard
+                  code={FUNCTION_CODE.WAREHOUE_DELETE_INVENTORY_ADJUSTMENT}
+                >
+                  <IconButton onClick={() => onClickDelete(params.row)}>
+                    <Icon name="delete" />
+                  </IconButton>
+                </Guard>
               )}
               {canConfirm && (
-                <IconButton onClick={() => onClickConfirmed(params.row)}>
-                  <Icon name="tick" />
-                </IconButton>
+                <Guard
+                  code={FUNCTION_CODE.WAREHOUE_CONFIRM_INVENTORY_ADJUSTMENT}
+                >
+                  <IconButton onClick={() => onClickConfirmed(params.row)}>
+                    <Icon name="tick" />
+                  </IconButton>
+                </Guard>
               )}
               {canRejected && (
-                <IconButton onClick={() => onClickRejected(params.row)}>
-                  <Icon name="remove" />
-                </IconButton>
+                <Guard
+                  code={FUNCTION_CODE.WAREHOUE_REJECT_INVENTORY_ADJUSTMENT}
+                >
+                  <IconButton onClick={() => onClickRejected(params.row)}>
+                    <Icon name="remove" />
+                  </IconButton>
+                </Guard>
               )}
             </div>
           )
@@ -249,13 +275,15 @@ const InventoryAdjust = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          onClick={() => history.push(ROUTE.INVENTORY_ADJUST.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.WAREHOUE_CREATE_INVENTORY_ADJUSTMENT}>
+          <Button
+            onClick={() => history.push(ROUTE.INVENTORY_ADJUST.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

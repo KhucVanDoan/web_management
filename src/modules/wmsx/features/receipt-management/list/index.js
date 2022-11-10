@@ -4,8 +4,10 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import DataTable from '~/components/DataTable'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -130,15 +132,20 @@ function ReceiptManagement() {
         const { id } = params.row
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_RECEIPT}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
           </div>
         )
       },

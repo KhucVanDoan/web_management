@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
@@ -66,7 +69,7 @@ function WarehouseImportReceipt() {
     data: { warehouseImportReceiptList, total, isLoading },
     actions,
   } = useWarehouseImportReceipt()
-
+  const { canAccess } = useApp()
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenDeleteModal: false,
@@ -185,46 +188,56 @@ function WarehouseImportReceipt() {
           status === ORDER_STATUS.COMPLETED
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            {isEdit && (
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_PURCHASED_ORDER_IMPORT}>
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                    ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
                   )
                 }
               >
-                <Icon name="edit" />
+                <Icon name="show" />
               </IconButton>
+            </Guard>
+            {isEdit && (
+              <Guard code={FUNCTION_CODE.SALE_UPDATE_PURCHASED_ORDER_IMPORT}>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_IMPORT_RECEIPT.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              </Guard>
             )}
             {isDelete && (
-              <IconButton onClick={() => onClickDelete(params.row)}>
-                <Icon name="delete" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_DELETE_PURCHASED_ORDER_IMPORT}>
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              </Guard>
             )}
             {isConfirmed && (
-              <IconButton onClick={() => onClickConfirm(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_CONFIRM_PURCHASED_ORDER_IMPORT}>
+                <IconButton onClick={() => onClickConfirm(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              </Guard>
             )}
             {isRejected && (
-              <IconButton onClick={() => onClickRejected(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_REJECT_PURCHASED_ORDER_IMPORT}>
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </Guard>
             )}
             {hasTransaction && (
               <Button
@@ -318,21 +331,28 @@ function WarehouseImportReceipt() {
       <>
         <ImportExport
           name={t('constructionManagement.export')}
-          onImport={() => {}}
-          onExport={() =>
-            exportCompanyApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-              type: TYPE_ENUM_EXPORT.COMPANY,
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_PURCHASED_ORDER_IMPORT)
+            ? {
+                onExport: () =>
+                  exportCompanyApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                    type: TYPE_ENUM_EXPORT.COMPANY,
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_PURCHASED_ORDER_IMPORT)
+            ? {
+                onImport: () => {},
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />

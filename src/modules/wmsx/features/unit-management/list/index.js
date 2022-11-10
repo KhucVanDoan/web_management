@@ -4,12 +4,14 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -38,6 +40,7 @@ const breadcrumbs = [
 function ManagementUnit() {
   const { t } = useTranslation(['wmsx'])
   const history = useHistory()
+
   const [tempItem, setTempItem] = useState()
   const [selectedRows, setSelectedRows] = useState([])
   const [isActiveModal, setIsActiveModal] = useState(false)
@@ -119,28 +122,40 @@ function ManagementUnit() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.UNIT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                )
+            <Guard code={FUNCTION_CODE.USER_DETAIL_DEPARTMENT_SETTING}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.UNIT_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.USER_UPDATE_DEPARTMENT_SETTING}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.UNIT_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.USER_REJECT_DEPARTMENT_SETTING
+                  : FUNCTION_CODE.USER_CONFIRM_DEPARTMENT_SETTING
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.UNIT_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
-            <IconButton
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
+            {/* <IconButton
               onClick={() =>
                 history.push(
                   ROUTE.UNIT_MANAGEMENT.ASSIGN.PATH.replace(':id', `${id}`),
@@ -148,7 +163,7 @@ function ManagementUnit() {
               }
             >
               <Icon name="assign" />
-            </IconButton>
+            </IconButton> */}
           </>
         )
       },
@@ -227,13 +242,15 @@ function ManagementUnit() {
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.UNIT_MANAGEMENT.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.USER_CREATE_DEPARTMENT_SETTING}>
+          <Button
+            onClick={() => history.push(ROUTE.UNIT_MANAGEMENT.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }
