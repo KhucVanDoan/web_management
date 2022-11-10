@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -113,20 +115,22 @@ function WarehouseExportReceiptDetail() {
     return (
       <>
         {warehouseExportReceiptDetails?.status === ORDER_STATUS.CONFIRMED && (
-          <Button
-            onClick={() =>
-              history.push(
-                ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
-                  ':id',
-                  `${id}`,
-                ),
-              )
-            }
-            sx={{ ml: 4 / 3 }}
-            icon="add"
-          >
-            {t('warehouseExportReceipt.pickAndExport.title')}
-          </Button>
+          <Guard code={FUNCTION_CODE.SALE_COLLECT_SALE_ORDER_EXPORT}>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_EXPORT_RECEIPT.PICK_AND_EXPORT.PATH.replace(
+                    ':id',
+                    `${id}`,
+                  ),
+                )
+              }
+              sx={{ ml: 4 / 3 }}
+              icon="add"
+            >
+              {t('warehouseExportReceipt.pickAndExport.title')}
+            </Button>
+          </Guard>
         )}
       </>
     )

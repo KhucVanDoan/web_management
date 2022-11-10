@@ -4,12 +4,15 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -68,7 +71,7 @@ function DefineWarehouseGroup() {
     data: { warehouseGroupList, total, isLoading },
     actions,
   } = useDefineWarehouseGroup()
-
+  const { canAccess } = useApp()
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenUpdateStatusModal: false,
@@ -123,33 +126,45 @@ function DefineWarehouseGroup() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TYPE_SETTING}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_WAREHOUSE_GROUP.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TYPE_SETTING}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_TYPE_SETTING
+                  : FUNCTION_CODE.WAREHOUSE_CONFIRM_WAREHOUSE_TYPE_SETTING
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_WAREHOUSE_GROUP.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -200,31 +215,53 @@ function DefineWarehouseGroup() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importWarehouseGroupApi(params)}
-          onExport={() =>
-            exportWarehouseGroupApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.SALE_EXPORT_REASON)
+            ? {
+                onExport: () =>
+                  exportWarehouseGroupApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.SALE_IMPORT_REASON)
+            ? {
+                onImport: () =>
+                  importWarehouseGroupApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onDownloadTemplate={getWarehouseGroupTemplateApi}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TYPE_SETTING}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.DEFINE_WAREHOUSE_GROUP.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

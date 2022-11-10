@@ -6,10 +6,13 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import Page from '~/components/Page'
@@ -49,7 +52,7 @@ function WarehouseExportReceipt() {
     name: '',
     createTime: [],
   }
-
+  const { canAccess } = useApp()
   const {
     page,
     pageSize,
@@ -184,46 +187,56 @@ function WarehouseExportReceipt() {
           status === ORDER_STATUS.COMPLETED
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            {isEdit && (
+            <Guard code={FUNCTION_CODE.SALE_DETAIL_SALE_ORDER_EXPORT}>
               <IconButton
                 onClick={() =>
                   history.push(
-                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                    ROUTE.WAREHOUSE_EXPORT_RECEIPT.DETAIL.PATH.replace(
                       ':id',
                       `${id}`,
                     ),
                   )
                 }
               >
-                <Icon name="edit" />
+                <Icon name="show" />
               </IconButton>
+            </Guard>
+            {isEdit && (
+              <Guard code={FUNCTION_CODE.SALE_UPDATE_SALE_ORDER_EXPORT}>
+                <IconButton
+                  onClick={() =>
+                    history.push(
+                      ROUTE.WAREHOUSE_EXPORT_RECEIPT.EDIT.PATH.replace(
+                        ':id',
+                        `${id}`,
+                      ),
+                    )
+                  }
+                >
+                  <Icon name="edit" />
+                </IconButton>
+              </Guard>
             )}
             {isDelete && (
-              <IconButton onClick={() => onClickDelete(params.row)}>
-                <Icon name="delete" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_DELETE_SALE_ORDER_EXPORT}>
+                <IconButton onClick={() => onClickDelete(params.row)}>
+                  <Icon name="delete" />
+                </IconButton>
+              </Guard>
             )}
             {isConfirmed && (
-              <IconButton onClick={() => onClickConfirm(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_CONFIRM_SALE_ORDER_EXPORT}>
+                <IconButton onClick={() => onClickConfirm(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              </Guard>
             )}
             {isRejected && (
-              <IconButton onClick={() => onClickRejected(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.SALE_REJECT_SALE_ORDER_EXPORT}>
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </Guard>
             )}
             {hasTransaction && (
               <Button
@@ -310,33 +323,53 @@ function WarehouseExportReceipt() {
     return (
       <>
         <ImportExport
-          onImport={(params) => importWarehouseExportReceiptApi(params)}
-          onExport={() =>
-            exportWarehouseExportReceiptApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+            ? {
+                onExport: () =>
+                  exportWarehouseExportReceiptApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+            ? {
+                onImport: () =>
+                  importWarehouseExportReceiptApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onDownloadTemplate={getWarehouseExportReceiptTemplateApi}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.SALE_CREATE_SALE_ORDER_EXPORT}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.WAREHOUSE_EXPORT_RECEIPT.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

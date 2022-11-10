@@ -10,12 +10,15 @@ import {
   // BULK_ACTION,
   TEXTFIELD_ALLOW,
 } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -51,6 +54,7 @@ const breadcrumbs = [
 function MaterialManagement() {
   const { t } = useTranslation('wmsx')
   const history = useHistory()
+  const { canAccess } = useApp()
 
   const DEFAULT_FILTERS = {
     code: '',
@@ -149,27 +153,42 @@ function MaterialManagement() {
         const isLocked = status === MATERIAL_ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.MATERIAL_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                )
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_ITEM}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.MATERIAL_MANAGEMENT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_ITEM}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.MATERIAL_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.ITEM_REJECT_ITEM
+                  : FUNCTION_CODE.ITEM_CONFIRM_ITEM
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.MATERIAL_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -237,31 +256,40 @@ function MaterialManagement() {
           {t('materialManagement.printQRButton')}
         </Button>
         <ImportExport
-          onImport={(params) => importMaterialApi(params)}
-          onExport={() =>
-            exportMaterialApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: `${x?.id}` })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }
-          onDownloadTemplate={getMaterialTemplateApi}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM)
+            ? {
+                onImport: (params) => importMaterialApi(params),
+                onDownloadTemplate: getMaterialTemplateApi,
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM)
+            ? {
+                onExport: () =>
+                  exportMaterialApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: `${x?.id}` })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  }),
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM}>
+          <Button
+            onClick={() => history.push(ROUTE.MATERIAL_MANAGEMENT.CREATE.PATH)}
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }
@@ -387,7 +415,7 @@ function MaterialManagement() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}

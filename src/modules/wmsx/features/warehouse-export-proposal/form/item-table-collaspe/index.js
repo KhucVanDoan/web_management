@@ -11,10 +11,12 @@ import {
   MODAL_MODE,
   NUMBER_FIELD_REQUIRED_SIZE,
 } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import DataTable from '~/components/DataTable'
 import DataTableCollapse from '~/components/DataTableCollapse'
 import Dialog from '~/components/Dialog'
 import { Field } from '~/components/Formik'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
@@ -610,14 +612,20 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         hideSetting
         hideFooter
       />
-      <Button
-        sx={{ mt: 3 }}
-        onClick={() => {
-          setOpenModal(true)
-        }}
+      <Guard
+        code={
+          FUNCTION_CODE.WAREHOUSE_REQUEST_ITEM_CODE_WAREHOUSE_EXPORT_PROPOSAL
+        }
       >
-        {t('warehouseExportProposal.requestMaterialCode')}
-      </Button>
+        <Button
+          sx={{ mt: 3 }}
+          onClick={() => {
+            setOpenModal(true)
+          }}
+        >
+          {t('warehouseExportProposal.requestMaterialCode')}
+        </Button>
+      </Guard>
       <Dialog
         open={openModal}
         title={t('warehouseExportProposal.infoMaterialCode')}

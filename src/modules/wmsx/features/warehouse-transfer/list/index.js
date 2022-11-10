@@ -6,11 +6,15 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -41,7 +45,7 @@ const WarehouseTransfer = () => {
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false)
   const [isOpenRejectModal, setIsOpenRejectModal] = useState(false)
   const [selectedRows, setSelectedRows] = useState([])
-
+  const { canAccess } = useApp()
   const {
     data: { warehouseTransferList, isLoading, total },
     actions,
@@ -151,47 +155,59 @@ const WarehouseTransfer = () => {
             status === TRANSFER_STATUS.IN_PROGRESS
           return (
             <div>
-              <IconButton
-                onClick={() =>
-                  history.push(
-                    ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
-                      ':id',
-                      `${id}`,
-                    ),
-                  )
-                }
-              >
-                <Icon name="show" />
-              </IconButton>
-
-              {(isEdit || isRejected) && (
+              <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TRANSFER}>
                 <IconButton
                   onClick={() =>
                     history.push(
-                      ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(
+                      ROUTE.WAREHOUSE_TRANSFER.DETAIL.PATH.replace(
                         ':id',
                         `${id}`,
                       ),
                     )
                   }
                 >
-                  <Icon name="edit" />
+                  <Icon name="show" />
                 </IconButton>
+              </Guard>
+
+              {(isEdit || isRejected) && (
+                <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_WAREHOUSE_TRANSFER}>
+                  <IconButton
+                    onClick={() =>
+                      history.push(
+                        ROUTE.WAREHOUSE_TRANSFER.EDIT.PATH.replace(
+                          ':id',
+                          `${id}`,
+                        ),
+                      )
+                    }
+                  >
+                    <Icon name="edit" />
+                  </IconButton>
+                </Guard>
               )}
               {isDelete && (
-                <IconButton onClick={() => onClickDelete(params.row)}>
-                  <Icon name="delete" />
-                </IconButton>
+                <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_WAREHOUSE_TRANSFER}>
+                  <IconButton onClick={() => onClickDelete(params.row)}>
+                    <Icon name="delete" />
+                  </IconButton>
+                </Guard>
               )}
               {isConfirmed && (
-                <IconButton onClick={() => onClickConfirmed(params.row)}>
-                  <Icon name="tick" />
-                </IconButton>
+                <Guard
+                  code={FUNCTION_CODE.WAREHOUSE_CONFIRM_WAREHOUSE_TRANSFER}
+                >
+                  <IconButton onClick={() => onClickConfirmed(params.row)}>
+                    <Icon name="tick" />
+                  </IconButton>
+                </Guard>
               )}
               {isEdit && (
-                <IconButton onClick={() => onClickRejected(params.row)}>
-                  <Icon name="remove" />
-                </IconButton>
+                <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_WAREHOUSE_TRANSFER}>
+                  <IconButton onClick={() => onClickRejected(params.row)}>
+                    <Icon name="remove" />
+                  </IconButton>
+                </Guard>
               )}
               {hasTransaction && (
                 <Button
@@ -287,13 +303,31 @@ const WarehouseTransfer = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          onClick={() => history.push(ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <ImportExport
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_WAREHOUSE_TRANSFER)
+            ? {
+                onExport: () => {},
+              }
+            : {})}
+          {...(canAccess(
+            FUNCTION_CODE.WAREHOUSE_CONFIRM_IMPORT_WAREHOUSE_TRANSFER,
+          )
+            ? {
+                onImport: () => {},
+              }
+            : {})}
+          onRefresh={refreshData}
+          disabled
+        />
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_TRANSFER}>
+          <Button
+            onClick={() => history.push(ROUTE.WAREHOUSE_TRANSFER.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

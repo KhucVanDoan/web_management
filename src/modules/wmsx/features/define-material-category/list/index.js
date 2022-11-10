@@ -4,9 +4,12 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -37,6 +40,8 @@ const breadcrumbs = [
 ]
 const DefineMaterialCategory = () => {
   const { t } = useTranslation(['wmsx'])
+  const { canAccess } = useApp()
+
   const [bomTree, setBomTree] = useState([])
   const [columnsSettings, setColumnsSettings] = useState([])
 
@@ -124,33 +129,45 @@ const DefineMaterialCategory = () => {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
+            <Guard code={FUNCTION_CODE.ITEM_DETAIL_ITEM_TYPE}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_MATERIAL_CATEGORY.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.ITEM_UPDATE_ITEM_TYPE}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.ITEM_REJECT_ITEM_TYPE
+                  : FUNCTION_CODE.ITEM_CONFIRM_ITEM_TYPE
               }
             >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.DEFINE_MATERIAL_CATEGORY.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -292,30 +309,42 @@ const DefineMaterialCategory = () => {
       <>
         <ImportExport
           name={t('planReport.export')}
-          onImport={() => {}}
-          onExport={(params) => {
-            exportPlanReportApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(params?.map((x) => ({ id: x?.id }))),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }}
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_ITEM_TYPE)
+            ? {
+                onImport: () => {},
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_ITEM_TYPE)
+            ? {
+                onExport: (params) => {
+                  exportPlanReportApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      params?.map((x) => ({ id: x?.id })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  })
+                },
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.PATH)
-          }
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.ITEM_CREATE_ITEM_TYPE}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.PATH)
+            }
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

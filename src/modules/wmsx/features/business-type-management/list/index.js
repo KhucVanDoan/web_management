@@ -4,12 +4,14 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -137,36 +139,48 @@ function BussinessTypeManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH.replace(
-                    ':id',
-                    `${id}`,
-                  ),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_BUSSINESS_TYPE}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.BUSINESS_TYPE_MANAGEMENT.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_BUSSINESS_TYPE}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.BUSINESS_TYPE_MANAGEMENT.EDIT.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
             {/* <IconButton onClick={() => onClickDelete(params.row)}>
               <Icon name="delete" />
             </IconButton> */}
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.WAREHOUSE_REJECT_BUSSINESS_TYPE
+                  : FUNCTION_CODE.WAREHOUSE_CONFIRM_BUSSINESS_TYPE
+              }
+            >
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -250,15 +264,17 @@ function BussinessTypeManagement() {
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_BUSSINESS_TYPE}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

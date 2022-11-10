@@ -6,11 +6,15 @@ import { useHistory } from 'react-router-dom'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
+import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -64,6 +68,7 @@ function InventoryCalendar() {
     setFilters,
     setKeyword,
   } = useQueryState()
+  const { canAccess } = useApp()
   const columns = [
     {
       field: 'code',
@@ -147,43 +152,56 @@ function InventoryCalendar() {
           status === INVENTORY_CALENDAR_STATUS.IN_PROGRESS
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.INVENTORY_CALENDAR.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_INVENTORY}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.INVENTORY_CALENDAR.DETAIL.PATH.replace(
+                      ':id',
+                      `${id}`,
+                    ),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
             {hasEditDeleteBtn && (
               <>
-                <IconButton
-                  onClick={() =>
-                    history.push(
-                      ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(
-                        ':id',
-                        `${id}`,
-                      ),
-                    )
-                  }
-                >
-                  <Icon name="edit" />
-                </IconButton>
-                <IconButton onClick={() => onClickDelete(params.row)}>
-                  <Icon name="delete" />
-                </IconButton>
+                <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY}>
+                  <IconButton
+                    onClick={() =>
+                      history.push(
+                        ROUTE.INVENTORY_CALENDAR.EDIT.PATH.replace(
+                          ':id',
+                          `${id}`,
+                        ),
+                      )
+                    }
+                  >
+                    <Icon name="edit" />
+                  </IconButton>
+                </Guard>
+                <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_INVENTORY}>
+                  <IconButton onClick={() => onClickDelete(params.row)}>
+                    <Icon name="delete" />
+                  </IconButton>
+                </Guard>
               </>
             )}
             {isConfirmed && (
-              <IconButton onClick={() => onClickConfirmed(params.row)}>
-                <Icon name="tick" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.WAREHOUSE_CONFIRM_INVENTORY}>
+                <IconButton onClick={() => onClickConfirmed(params.row)}>
+                  <Icon name="tick" />
+                </IconButton>
+              </Guard>
             )}
             {isRejected && (
-              <IconButton onClick={() => onClickRejected(params.row)}>
-                <Icon name="remove" />
-              </IconButton>
+              <Guard code={FUNCTION_CODE.WAREHOUSE_REJECT_INVENTORY}>
+                <IconButton onClick={() => onClickRejected(params.row)}>
+                  <Icon name="remove" />
+                </IconButton>
+              </Guard>
             )}
             {hasTransaction && (
               <Button
@@ -272,16 +290,22 @@ function InventoryCalendar() {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button variant="outlined" icon="download" disabled>
-          {t('menu.importExportData')}
-        </Button>
-        <Button
-          onClick={() => history.push(ROUTE.INVENTORY_CALENDAR.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <ImportExport
+          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_INVENTORY)
+            ? {
+                onExport: () => {},
+              }
+            : {})}
+        />
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY}>
+          <Button
+            onClick={() => history.push(ROUTE.INVENTORY_CALENDAR.CREATE.PATH)}
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

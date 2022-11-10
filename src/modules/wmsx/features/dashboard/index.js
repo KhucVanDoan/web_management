@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { getLocalItem } from '~/utils'
 
 import ExportProposal from './components/export-proposal'
 import ExportReceipt from './components/import-export-receipt/export-receipt'
@@ -29,6 +30,16 @@ const breadcrumbs = [
 function Dashboard() {
   const { t } = useTranslation(['wmsx'])
 
+  const isSuperAdmin = getLocalItem('userInfo')?.code === '000000001'
+
+  if (!isSuperAdmin)
+    return (
+      <Page
+        title={t('dashboard.title')}
+        breadcrumbs={breadcrumbs}
+        freeSolo
+      ></Page>
+    )
   const startOfWeek = moment().startOf('week').toDate()
   const endOfWeek = moment().endOf('week').toDate()
 

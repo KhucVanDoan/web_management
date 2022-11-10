@@ -15,18 +15,20 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
+import { useApp } from '~/common/hooks/useApp'
 import Icon from '~/components/Icon'
 
 import { useSidebar } from '../hooks'
 import SubMenu from './SubMenu'
 import ListMenuStyled from './style'
 
-const ListMenu = ({ routes, currentModule }) => {
+const ListMenu = ({ routes = [], currentModule }) => {
   const [open, setOpen] = useState()
   const { pathname } = useLocation()
   const { t } = useTranslation([currentModule])
   const theme = useTheme()
   const { isMdUpMinimal, isMdDown, setIsMinimal } = useSidebar()
+  const { canAccess } = useApp()
 
   const isActive = (path = '') =>
     pathname === path ||
@@ -61,12 +63,21 @@ const ListMenu = ({ routes, currentModule }) => {
     setOpenedPopover(false)
   }
 
+  const visibleMenus = routes.filter((r) => {
+    if (!r?.subMenu) {
+      return canAccess(r?.code)
+    }
+
+    return r?.subMenu?.some((s) => s?.isInSidebar && canAccess(s?.code))
+  })
+
   return (
     <ListMenuStyled open={!isMdUpMinimal} component="div">
-      {routes.map((route, index) => {
+      {visibleMenus.map((route, index) => {
         const visibleSubMenu = route?.subMenu?.filter(
-          (item) => item?.isInSidebar,
+          (item) => item?.isInSidebar && canAccess(item?.code),
         )
+
         return (
           <React.Fragment key={index}>
             <ListItemButton

@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
@@ -71,31 +73,39 @@ const WarehouseTransferDetail = () => {
     switch (warehouseTransferDetails?.status) {
       case TRANSFER_STATUS.CONFIRMED:
         return (
-          <Button
-            onClick={() =>
-              history.push(
-                ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH.replace(':id', `${id}`),
-              )
-            }
-            icon="add"
-            sx={{ ml: 4 / 3 }}
+          <Guard
+            code={FUNCTION_CODE.WAREHOUSE_CONFIRM_EXPORT_WAREHOUSE_TRANSFER}
           >
-            {t('warehouseTransfer.pickupAndWarehouseExport')}
-          </Button>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_TRANSFER.PICKUP.PATH.replace(':id', `${id}`),
+                )
+              }
+              icon="add"
+              sx={{ ml: 4 / 3 }}
+            >
+              {t('warehouseTransfer.pickupAndWarehouseExport')}
+            </Button>
+          </Guard>
         )
       case TRANSFER_STATUS.EXPORTED:
         return (
-          <Button
-            onClick={() =>
-              history.push(
-                ROUTE.WAREHOUSE_TRANSFER.RECEIVE.PATH.replace(':id', `${id}`),
-              )
-            }
-            icon="add"
-            sx={{ ml: 4 / 3 }}
+          <Guard
+            code={FUNCTION_CODE.WAREHOUSE_CONFIRM_IMPORT_WAREHOUSE_TRANSFER}
           >
-            {t('warehouseTransfer.receiveAndStored')}
-          </Button>
+            <Button
+              onClick={() =>
+                history.push(
+                  ROUTE.WAREHOUSE_TRANSFER.RECEIVE.PATH.replace(':id', `${id}`),
+                )
+              }
+              icon="add"
+              sx={{ ml: 4 / 3 }}
+            >
+              {t('warehouseTransfer.receiveAndStored')}
+            </Button>
+          </Guard>
         )
       default:
         break
