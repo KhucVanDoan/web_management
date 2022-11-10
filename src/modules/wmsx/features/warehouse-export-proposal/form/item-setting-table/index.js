@@ -180,23 +180,23 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, setFieldValue }) => {
           )
         },
       },
-      {
-        field: 'planExportedQuantity',
-        headerName: t('warehouseExportProposal.items.planExportedQuantity'),
-        width: 100,
-        hide: isView,
-        renderCell: (params, index) => {
-          return isView ? (
-            params?.row?.importedQuantity
-          ) : (
-            <Field.TextField
-              name={`items[${index}].items.planExportedQuantity`}
-              disabled
-              required
-            />
-          )
-        },
-      },
+      // {
+      //   field: 'planExportedQuantity',
+      //   headerName: t('warehouseExportProposal.items.planExportedQuantity'),
+      //   width: 100,
+      //   hide: isView,
+      //   renderCell: (params, index) => {
+      //     return isView ? (
+      //       params?.row?.importedQuantity
+      //     ) : (
+      //       <Field.TextField
+      //         name={`items[${index}].items.planExportedQuantity`}
+      //         disabled
+      //         required
+      //       />
+      //     )
+      //   },
+      // },
       {
         field: 'note',
         headerName: t('warehouseExportProposal.items.note'),
