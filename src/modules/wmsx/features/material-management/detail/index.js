@@ -11,8 +11,10 @@ import {
 } from 'react-router-dom'
 
 import { MODAL_MODE } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
+import Guard from '~/components/Guard'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import QRCodeGenerator from '~/components/QRCodeGenerator'
@@ -145,36 +147,40 @@ function MaterialManagementDetail() {
   const renderHeaderRight = () =>
     mode === MODAL_MODE.DETAIL ? (
       <>
-        <Button
-          onClick={() =>
-            history.push(
-              `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
-                ':id',
-                `${id}`,
-              )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE}`,
-            )
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="edit"
-          disabled={!isPermittedToUpdateSource}
-        >
-          {t('materialManagement.updateSource')}
-        </Button>
-        <Button
-          onClick={() =>
-            history.push(
-              `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
-                ':id',
-                `${id}`,
-              )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE}`,
-            )
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="edit"
-          disabled={!isPermittedToUpdateWarehouse}
-        >
-          {t('materialManagement.updateWarehouse')}
-        </Button>
+        <Guard code={FUNCTION_CODE.UPDATE_ITEM_WAREHOUSE_SOURCE_PERMISSION}>
+          <Button
+            onClick={() =>
+              history.push(
+                `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
+                  ':id',
+                  `${id}`,
+                )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE}`,
+              )
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="edit"
+            disabled={!isPermittedToUpdateSource}
+          >
+            {t('materialManagement.updateSource')}
+          </Button>
+        </Guard>
+        <Guard code={FUNCTION_CODE.CREATE_ITEM_WAREHOUSE_SOURCE_PERMISSION}>
+          <Button
+            onClick={() =>
+              history.push(
+                `${ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.PATH.replace(
+                  ':id',
+                  `${id}`,
+                )}?type=${UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE}`,
+              )
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="edit"
+            disabled={!isPermittedToUpdateWarehouse}
+          >
+            {t('materialManagement.updateWarehouse')}
+          </Button>
+        </Guard>
       </>
     ) : (
       ''

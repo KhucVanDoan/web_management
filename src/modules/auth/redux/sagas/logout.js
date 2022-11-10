@@ -23,12 +23,16 @@ function* doLogout(action) {
     // Save refresh token from local storage
     localStorage.removeItem('refreshToken')
 
+    localStorage.removeItem('userInfo')
+
     yield put(logoutSuccess())
-    const callbackUrl = action?.callbackUrl
-    const params = new URLSearchParams({ callbackUrl }).toString()
+    // const callbackUrl = action?.callbackUrl
+    // const params = new URLSearchParams({ callbackUrl }).toString()
 
     // Redirect to home
-    callbackUrl ? redirectRouter(`/login?${params}`) : redirectRouter('/login')
+    // callbackUrl ? redirectRouter(`/login?${params}`) : redirectRouter('/login')
+
+    redirectRouter('/login')
   } catch (error) {
     yield put(logoutFailed())
     // Call callback action if provided

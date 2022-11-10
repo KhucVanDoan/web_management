@@ -4,12 +4,15 @@ import IconButton from '@mui/material/IconButton'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
 import { useQueryState } from '~/common/hooks'
+import { useApp } from '~/common/hooks/useApp'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
 import LV from '~/components/LabelValue'
@@ -45,6 +48,7 @@ function UserManagement() {
   const history = useHistory()
   const location = useLocation()
   const { factoryId } = qs.parse(location.search)
+  const { canAccess } = useApp()
 
   const DEFAULT_FILTERS = {
     username: '',
@@ -154,24 +158,28 @@ function UserManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.USER_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                history.push(
-                  ROUTE.USER_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
-                )
-              }
-            >
-              <Icon name="edit" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.USER_UPDATE_USER}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.USER_MANAGEMENT.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.USER_DETAIL_USER}>
+              <IconButton
+                onClick={() =>
+                  history.push(
+                    ROUTE.USER_MANAGEMENT.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
             <IconButton onClick={() => onClickUpdateStatus(params.row)}>
               <Icon name={isLocked ? 'locked' : 'unlock'} />
             </IconButton>
@@ -214,33 +222,43 @@ function UserManagement() {
       <>
         <ImportExport
           name={t('userManagement.import')}
-          onImport={(params) => {
-            importUserApi(params)
-          }}
-          onExport={() => {
-            exportUserApi({
-              columnSettings: JSON.stringify(columnsSettings),
-              queryIds: JSON.stringify(
-                selectedRows?.map((x) => ({ id: x?.id })),
-              ),
-              keyword: keyword.trim(),
-              filter: convertFilterParams(filters, [
-                { field: 'createdAt', filterFormat: 'date' },
-              ]),
-              sort: convertSortParams(sort),
-            })
-          }}
-          onDownloadTemplate={getUserTemplateApi}
+          {...(canAccess(FUNCTION_CODE.USER_LIST_USER)
+            ? {
+                onImport: (params) => {
+                  importUserApi(params)
+                },
+                onDownloadTemplate: getUserTemplateApi,
+              }
+            : {})}
+          {...(canAccess(FUNCTION_CODE.USER_LIST_USER)
+            ? {
+                onExport: () => {
+                  exportUserApi({
+                    columnSettings: JSON.stringify(columnsSettings),
+                    queryIds: JSON.stringify(
+                      selectedRows?.map((x) => ({ id: x?.id })),
+                    ),
+                    keyword: keyword.trim(),
+                    filter: convertFilterParams(filters, [
+                      { field: 'createdAt', filterFormat: 'date' },
+                    ]),
+                    sort: convertSortParams(sort),
+                  })
+                },
+              }
+            : {})}
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.USER_CREATE_USER}>
+          <Button
+            onClick={() => history.push(ROUTE.USER_MANAGEMENT.CREATE.PATH)}
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }
