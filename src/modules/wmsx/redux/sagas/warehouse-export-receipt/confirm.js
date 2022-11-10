@@ -13,6 +13,10 @@ const confirmWarehouseExportReceiptApi = (params) => {
   const uri = `/v1/sales/sale-order-exports/${params}/confirm`
   return api.put(uri)
 }
+export const approveWarehouseExportReceiptApi = (params) => {
+  const uri = `/v1/sales/sale-order-exports/${params}/approve`
+  return api.put(uri)
+}
 
 function* doConfirmWarehouseExportReceipt(action) {
   try {

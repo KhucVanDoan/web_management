@@ -177,10 +177,11 @@ function ReceiptDepartmentManagement() {
                   ? FUNCTION_CODE.USER_REJECT_DEPARTMENT_RECEIPT
                   : FUNCTION_CODE.USER_CONFIRM_DEPARTMENT_RECEIPT
               }
-            ></Guard>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+            >
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },

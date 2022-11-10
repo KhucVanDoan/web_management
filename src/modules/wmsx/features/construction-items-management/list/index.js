@@ -160,8 +160,8 @@ function ConstructionItemsManagement() {
             <Guard
               code={
                 isLocked
-                  ? FUNCTION_CODE.REJECT_CATEGORY_CONSTRUCTION
-                  : FUNCTION_CODE.CONFIRM_CATEGORY_CONSTRUCTION
+                  ? FUNCTION_CODE.SALE_REJECT_CATEGORY_CONSTRUCTION
+                  : FUNCTION_CODE.SALE_CONFIRM_CATEGORY_CONSTRUCTION
               }
             >
               <IconButton onClick={() => onClickUpdateStatus(params.row)}>
