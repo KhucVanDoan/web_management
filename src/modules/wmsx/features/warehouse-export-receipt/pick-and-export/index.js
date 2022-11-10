@@ -15,6 +15,7 @@ import TextField from '~/components/TextField'
 import { ORDER_STATUS_OPTIONS, MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 import useWarehouseExportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseExportReceipt'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
+import { approveWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/confirm'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz, getLocalItem } from '~/utils'
 import addNotification from '~/utils/toast'
@@ -121,7 +122,11 @@ function WarehouseExportReceiptPickAndExport() {
           quantity: Number(item.exportedQuantity),
         })),
       }
-      actions.exportWarehouse(payload, backToDetail)
+
+      actions.exportWarehouse(payload, () => {
+        backToDetail()
+        approveWarehouseExportReceiptApi(id)
+      })
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
     }
