@@ -112,12 +112,13 @@ function WarehouseExportReceiptForm() {
       warehouseExportReceipt:
         warehouseExportReceiptDetails?.warehouseExportReceipt || '',
       items:
-        warehouseExportReceiptDetails?.saleOrderExportDetails?.map((item) => ({
+        warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
           itemId: item?.itemId,
           itemName: item?.item?.name,
           unit: item?.item?.itemUnit,
           price: item?.price,
           money: item?.amount,
+          lotNumber: item?.lots[0]?.lotNumber,
           quantityExport: item?.quantity,
           debitAcc: item?.debitAccount,
           creditAcc: item?.creditAccount,
@@ -244,7 +245,8 @@ function WarehouseExportReceiptForm() {
           warehouseExportReceiptDetails?.attributes?.find(
             (item) =>
               item?.code ===
-              CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
+              item?.value,
           ),
         )
       ) {
@@ -253,7 +255,8 @@ function WarehouseExportReceiptForm() {
             warehouseExportReceiptDetails?.attributes?.find(
               (item) =>
                 item?.code ===
-                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
+                  CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
+                item?.value,
             )?.value,
           ),
           warehouseId: warehouseExportReceiptDetails?.warehouse?.id,

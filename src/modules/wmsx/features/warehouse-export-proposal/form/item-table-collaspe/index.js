@@ -32,6 +32,7 @@ import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
+  const isUpdate = mode === MODAL_MODE.UPDATE
   const [openModal, setOpenModal] = useState(false)
   const { actions } = useWarehouseExportProposal()
   const { id } = useParams()
@@ -612,20 +613,22 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         hideSetting
         hideFooter
       />
-      <Guard
-        code={
-          FUNCTION_CODE.WAREHOUSE_REQUEST_ITEM_CODE_WAREHOUSE_EXPORT_PROPOSAL
-        }
-      >
-        <Button
-          sx={{ mt: 3 }}
-          onClick={() => {
-            setOpenModal(true)
-          }}
+      {isUpdate && (
+        <Guard
+          code={
+            FUNCTION_CODE.WAREHOUSE_REQUEST_ITEM_CODE_WAREHOUSE_EXPORT_PROPOSAL
+          }
         >
-          {t('warehouseExportProposal.requestMaterialCode')}
-        </Button>
-      </Guard>
+          <Button
+            sx={{ mt: 3 }}
+            onClick={() => {
+              setOpenModal(true)
+            }}
+          >
+            {t('warehouseExportProposal.requestMaterialCode')}
+          </Button>
+        </Guard>
+      )}
       <Dialog
         open={openModal}
         title={t('warehouseExportProposal.infoMaterialCode')}
