@@ -28,7 +28,7 @@ const ActionBar = ({
         mb: -2,
         mt: 2,
         position: 'sticky',
-        bottom: 0,
+        bottom: -24,
         zIndex: 100,
         background: '#fff',
         borderTop: `1px solid ${theme.palette.grayF4.main}`,
