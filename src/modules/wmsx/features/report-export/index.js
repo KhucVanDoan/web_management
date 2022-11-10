@@ -10,13 +10,13 @@ import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useReportExport from '~/modules/wmsx/redux/hooks/useReportExport'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { getLocalItem } from '~/utils'
 
 import {
   REPORT_FILE_TYPE_OPTIONS,
   REPORT_TYPE,
   REPORT_TYPE_OPTIONS,
 } from '../../constants'
-import { searchCompaniesApi } from '../../redux/sagas/company-management/search-companies'
 import { searchConstructionsApi } from '../../redux/sagas/construction-management/search-constructions'
 import { searchWarehouseApi } from '../../redux/sagas/define-warehouse/search-warehouse'
 import { searchReceiptDepartmentApi } from '../../redux/sagas/receipt-department-management/search-receipt-department'
@@ -47,11 +47,13 @@ const ReportExport = () => {
     fileFormat: '',
   }
 
+  const userInfo = getLocalItem('userInfo')
+
   const onSubmit = (values) => {
     const convertValues = {
       reportType: values?.type,
       exportType: values?.fileFormat,
-      companyCode: values?.company?.code,
+      companyCode: userInfo?.company?.code,
       constructionCode: values?.construction?.code,
       warehouseCode: values?.warehouse?.code,
       departmentReceiptCode: values?.receivingDepartment?.code,
@@ -115,7 +117,7 @@ const ReportExport = () => {
                       required
                     />
                   </Grid>
-                  <Grid item lg={12} xs={12}>
+                  {/* <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
                       name="company"
                       label={t('reportExport.company')}
@@ -131,7 +133,7 @@ const ReportExport = () => {
                       getOptionSubLabel={(opt) => opt?.name}
                       required
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item lg={12} xs={12}>
                     <Field.Autocomplete
                       name="construction"
