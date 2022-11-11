@@ -356,15 +356,17 @@ function WarehouseImportReceipt() {
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.SALE_CREATE_PURCHASED_ORDER_IMPORT}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }
