@@ -377,15 +377,18 @@ function WarehouseExportProposal() {
           onRefresh={refreshData}
           disabled
         />
-        <Button
-          onClick={() =>
-            history.push(ROUTE.WAREHOUSE_EXPORT_PROPOSAL.CREATE.PATH)
-          }
-          sx={{ ml: 4 / 3 }}
-          icon="add"
-        >
-          {t('general:common.create')}
-        </Button>
+
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_WAREHOUSE_EXPORT_PROPOSAL}>
+          <Button
+            onClick={() =>
+              history.push(ROUTE.WAREHOUSE_EXPORT_PROPOSAL.CREATE.PATH)
+            }
+            sx={{ ml: 4 / 3 }}
+            icon="add"
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }
