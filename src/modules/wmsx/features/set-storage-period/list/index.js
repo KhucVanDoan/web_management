@@ -111,7 +111,7 @@ function SetStoragePeriod() {
         const { id } = params?.row
         return (
           <div>
-            <Guard code={FUNCTION_CODE.WAREHOUE_DETAIL_INVENTORY_TIME_LIMIT}>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_INVENTORY_TIME_LIMIT}>
               <IconButton
                 onClick={() =>
                   history.push(
@@ -125,7 +125,7 @@ function SetStoragePeriod() {
                 <Icon name="show" />
               </IconButton>
             </Guard>
-            <Guard code={FUNCTION_CODE.WAREHOUE_UPDATE_INVENTORY_TIME_LIMIT}>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY_TIME_LIMIT}>
               <IconButton
                 onClick={() =>
                   history.push(
@@ -136,7 +136,7 @@ function SetStoragePeriod() {
                 <Icon name="edit" />
               </IconButton>
             </Guard>
-            <Guard code={FUNCTION_CODE.WAREHOUE_DELETE_INVENTORY_TIME_LIMIT}>
+            <Guard code={FUNCTION_CODE.WAREHOUSE_DELETE_INVENTORY_TIME_LIMIT}>
               <IconButton onClick={() => onClickDelete(params.row)}>
                 <Icon name="delete" />
               </IconButton>
@@ -186,7 +186,7 @@ function SetStoragePeriod() {
 
   const renderHeaderRight = () => {
     return (
-      <Guard code={FUNCTION_CODE.WAREHOUE_CREATE_INVENTORY_TIME_LIMIT}>
+      <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY_TIME_LIMIT}>
         <Button
           onClick={() => history.push(ROUTE.SET_STORAGE_PERIOD.CREATE.PATH)}
           sx={{ ml: 4 / 3 }}
