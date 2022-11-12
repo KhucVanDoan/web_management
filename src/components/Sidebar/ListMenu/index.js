@@ -64,11 +64,14 @@ const ListMenu = ({ routes = [], currentModule }) => {
   }
 
   const visibleMenus = routes.filter((r) => {
-    if (canAccess(r?.code)) return true
-    if (!r?.subMenu) {
+    if (!r?.subMenu?.length) {
       return canAccess(r?.code)
     }
-    return r?.subMenu?.some((s) => s?.isInSidebar && canAccess(s?.code))
+
+    return (
+      (r?.code && canAccess(r?.code)) ||
+      r?.subMenu?.some((s) => s?.isInSidebar && canAccess(s?.code))
+    )
   })
 
   return (
