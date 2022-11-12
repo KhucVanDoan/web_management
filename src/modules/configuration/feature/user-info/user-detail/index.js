@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
@@ -9,44 +9,41 @@ import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
-import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
+// import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
+// import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertUtcDateTimeToLocalTz } from '~/utils'
+import {
+  convertUtcDateTimeToLocalTz,
+  convertUtcDateToLocalTz,
+  getLocalItem,
+} from '~/utils'
 
 function UserInfoDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  const { userInfo } = useAuth()
-  const {
-    data: { isLoading, userInfoDetails },
-    actions,
-  } = useUserInfo()
+  // const { userInfo } = useAuth()
+  // const {
+  //   data: { isLoading, userInfoDetails },
+  //   actions,
+  // } = useUserInfo()
 
   const breadcrumbs = [
     {
       title: 'userInfo',
     },
   ]
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
 
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
+  // useEffect(() => {
+  //   if (userInfo?.id) {
+  //     actions.getUserInfoDetails(userInfo?.id)
+  //   }
+  //   return () => {
+  //     actions.resetUserInfoDetailsState()
+  //   }
+  // }, [userInfo?.id])
 
-  useEffect(() => {
-    if (userInfo?.id) {
-      actions.getUserInfoDetails(userInfo?.id)
-    }
-    return () => {
-      actions.resetUserInfoDetailsState()
-    }
-  }, [userInfo?.id])
+  const userInfoDetails = getLocalItem('userInfo') || {}
 
   const renderHeaderRight = () => {
     return (
@@ -64,7 +61,7 @@ function UserInfoDetail() {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('general:page.userInfo')}
-      loading={isLoading}
+      // loading={isLoading}
       renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
@@ -119,7 +116,7 @@ function UserInfoDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.dateOfBirth')}
-                value={userInfoDetails.dateOfBirth}
+                value={convertUtcDateToLocalTz(userInfoDetails.dateOfBirth)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -142,19 +139,7 @@ function UserInfoDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.companyName')}
-                value={
-                  companyList?.find(
-                    (item) => item.id === userInfoDetails.companyId,
-                  )?.name
-                }
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.factoryName')}
-                value={userInfoDetails.factories
-                  ?.map((factory) => factory?.name)
-                  .join('; ')}
+                value={userInfoDetails?.company?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -167,7 +152,7 @@ function UserInfoDetail() {
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('userManagement.roleAssign')}
+                label={t('userManagement.role')}
                 value={userInfoDetails.userRoleSettings
                   ?.map((role) => role?.name)
                   .join('; ')}
