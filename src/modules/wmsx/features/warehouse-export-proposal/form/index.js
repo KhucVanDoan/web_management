@@ -26,7 +26,11 @@ import {
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchConstructionsApi } from '~/modules/wmsx/redux/sagas/construction-management/search-constructions'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
+import {
+  getLocalItem,
+  convertFilterParams,
+  convertUtcDateToLocalTz,
+} from '~/utils'
 
 import ItemSettingTable from './item-setting-table'
 import ItemTableCollaspe from './item-table-collaspe'
@@ -336,8 +340,8 @@ function WarehouseExportReceiptForm() {
                           label={t('warehouseExportProposal.unit')}
                           disabled
                           value={
-                            JSON.parse(localStorage.getItem('userInfo'))
-                              ?.departmentSettings[0]?.name
+                            getLocalItem('userInfo')?.departmentSettings?.[0]
+                              ?.name
                           }
                           required
                         />

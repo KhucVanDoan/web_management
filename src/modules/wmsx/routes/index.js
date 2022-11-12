@@ -1319,7 +1319,7 @@ const routes = [
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
-        code: FUNCTION_CODE.REPORT_CONFIG_QR,
+        code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION,
         isInSidebar: true,
       },
       {
@@ -1327,7 +1327,7 @@ const routes = [
         path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
         component: SignatureConfiguration,
         code: FUNCTION_CODE.USER_CONFIG_SIGNATURE,
-        isInSidebar: true,
+        isInSidebar: false, // BA request hide this on the sidebar tempoary
       },
       {
         name: ROUTE.ACCOUNT.DETAIL.TITLE,

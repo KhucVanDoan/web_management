@@ -31,7 +31,7 @@ import { ACTIVE_STATUS, ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchManagamentUnitApi } from '~/modules/wmsx/redux/sagas/management-unit/search'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, getLocalItem } from '~/utils'
 import qs from '~/utils/qs'
 
 import { validationSchema } from './schema'
@@ -55,11 +55,14 @@ function UserManagementForm() {
     actions,
   } = useUserManagement()
 
+  const loggedInUserInfo = getLocalItem('userInfo')
+
   const initialValues = useMemo(
     () => ({
       code: isUpdate ? userDetails?.code : '',
       username: userDetails?.username || '',
-      companyId: userDetails?.company?.name || '',
+      companyId:
+        userDetails?.company?.name || loggedInUserInfo?.companyId || '',
       fullName: userDetails?.fullName || '',
       password: userDetails?.password || '',
       dateOfBirth: userDetails?.dateOfBirth || null,
@@ -89,7 +92,7 @@ function UserManagementForm() {
     const id = Number(params?.id)
     const convertValues = {
       code: values?.code,
-      companyId: JSON.parse(localStorage.getItem('userInfo'))?.companyId,
+      companyId: values?.companyId,
       email: values?.email || null,
       fullName: values?.fullName,
       username: values?.username,
@@ -195,9 +198,6 @@ function UserManagementForm() {
             enableReinitialize
           >
             {({ handleReset }) => {
-              const company = JSON.parse(
-                localStorage.getItem('userInfo'),
-              )?.company
               return (
                 <Form>
                   <Grid
@@ -350,7 +350,7 @@ function UserManagementForm() {
                         name="companyId"
                         label={t('userManagement.companyName')}
                         placeholder={t('userManagement.companyName')}
-                        value={company?.name}
+                        value={loggedInUserInfo?.company?.name}
                         disabled
                         required
                       />
