@@ -112,7 +112,7 @@ function UserPermission() {
       permissions: permissionList,
     }
     actions.updateUserPermission(convertValues, () => {
-      window.location.reload()
+      // window.location.reload()
     })
   }
 
