@@ -5,6 +5,8 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import { MODAL_MODE, TEXTFIELD_ALLOW } from '~/common/constants'
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
+import { useApp } from '~/common/hooks/useApp'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
@@ -25,6 +27,7 @@ const breadcrumbs = [
 
 const QrCode = () => {
   const { t } = useTranslation(['wmsx'])
+  const { canAccess } = useApp()
 
   const {
     data: { isLoading, qrCodeDetails },
@@ -70,7 +73,10 @@ const QrCode = () => {
     })
   }
 
+  const editable = canAccess(FUNCTION_CODE.QR_CODE_ITEM_PERMISSION)
+
   const renderActionBar = (handleReset) => {
+    if (!editable) return null
     return <ActionBar onCancel={handleReset} mode={MODAL_MODE.UPDATE} />
   }
 
@@ -106,7 +112,7 @@ const QrCode = () => {
                       name="dataId"
                       label={t('qrCode.id')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -114,7 +120,7 @@ const QrCode = () => {
                       name="dataLength"
                       label={t('qrCode.length')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -123,7 +129,8 @@ const QrCode = () => {
                       label={t('qrCode.value')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
-                      required
+                      required={editable}
+                      disabled={!editable}
                     />
                   </Grid>
 
@@ -138,7 +145,7 @@ const QrCode = () => {
                       name="methodId"
                       label={t('qrCode.id')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -146,7 +153,7 @@ const QrCode = () => {
                       name="methodLength"
                       label={t('qrCode.length')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}></Grid>
@@ -155,7 +162,7 @@ const QrCode = () => {
                       name="subId1"
                       label={t('qrCode.subId1')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -163,7 +170,7 @@ const QrCode = () => {
                       name="length1"
                       label={t('qrCode.length1')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -172,7 +179,8 @@ const QrCode = () => {
                       label={t('qrCode.value1')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
-                      required
+                      required={editable}
+                      disabled={!editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -180,7 +188,7 @@ const QrCode = () => {
                       name="subId2"
                       label={t('qrCode.subId2')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -188,7 +196,7 @@ const QrCode = () => {
                       name="length2"
                       label={t('qrCode.length2')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -197,7 +205,8 @@ const QrCode = () => {
                       label={t('qrCode.value2')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
-                      required
+                      required={editable}
+                      disabled={!editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -205,7 +214,7 @@ const QrCode = () => {
                       name="subId3"
                       label={t('qrCode.subId3')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -213,7 +222,7 @@ const QrCode = () => {
                       name="length3"
                       label={t('qrCode.length3')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -222,7 +231,8 @@ const QrCode = () => {
                       label={t('qrCode.value3')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 2 }}
-                      required
+                      required={editable}
+                      disabled={!editable}
                     />
                   </Grid>
 
@@ -237,7 +247,7 @@ const QrCode = () => {
                       name="idenId"
                       label={t('qrCode.id')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -245,7 +255,7 @@ const QrCode = () => {
                       name="idenLength"
                       label={t('qrCode.length')}
                       disabled
-                      required
+                      required={editable}
                     />
                   </Grid>
                   <Grid item lg={4} xs={12}>
@@ -254,7 +264,8 @@ const QrCode = () => {
                       label={t('qrCode.value')}
                       allow={TEXTFIELD_ALLOW.NUMERIC}
                       inputProps={{ maxLength: 1 }}
-                      required
+                      required={editable}
+                      disabled={!editable}
                     />
                   </Grid>
                 </Grid>
