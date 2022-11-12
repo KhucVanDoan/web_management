@@ -197,9 +197,6 @@ function WarehouseImportReceiptForm() {
         actions.getAttribuiteBusinessTypeDetailsById(params)
       })
     }
-    return () => {
-      actions.resetWarehouseImportReceiptState()
-    }
   }, [id])
   useEffect(async () => {
     if (!isEmpty(warehouseImportReceiptDetails)) {
@@ -257,8 +254,13 @@ function WarehouseImportReceiptForm() {
         setItemWarehouseExportReceipt(res?.data?.items)
       }
     }
-    return () => actions.resetWarehouseImportReceiptState()
   }, [warehouseImportReceiptDetails])
+
+  useEffect(() => {
+    return () => {
+      actions.resetWarehouseImportReceiptState()
+    }
+  }, [])
   const getTitle = () => {
     switch (mode) {
       case MODAL_MODE.CREATE:
