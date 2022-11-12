@@ -148,7 +148,7 @@ const InventoryAdjust = () => {
             status === INVENTORY_ADJUST_STATUS.REJECTED
           return (
             <div>
-              <Guard code={FUNCTION_CODE.WAREHOUE_DETAIL_INVENTORY_ADJUSTMENT}>
+              <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_INVENTORY_ADJUSTMENT}>
                 <IconButton
                   onClick={() =>
                     history.push(
@@ -164,7 +164,7 @@ const InventoryAdjust = () => {
               </Guard>
               {canEdit && (
                 <Guard
-                  code={FUNCTION_CODE.WAREHOUE_UPDATE_INVENTORY_ADJUSTMENT}
+                  code={FUNCTION_CODE.WAREHOUSE_UPDATE_INVENTORY_ADJUSTMENT}
                 >
                   <IconButton
                     onClick={() =>
@@ -182,7 +182,7 @@ const InventoryAdjust = () => {
               )}
               {canDelete && (
                 <Guard
-                  code={FUNCTION_CODE.WAREHOUE_DELETE_INVENTORY_ADJUSTMENT}
+                  code={FUNCTION_CODE.WAREHOUSE_DELETE_INVENTORY_ADJUSTMENT}
                 >
                   <IconButton onClick={() => onClickDelete(params.row)}>
                     <Icon name="delete" />
@@ -191,7 +191,7 @@ const InventoryAdjust = () => {
               )}
               {canConfirm && (
                 <Guard
-                  code={FUNCTION_CODE.WAREHOUE_CONFIRM_INVENTORY_ADJUSTMENT}
+                  code={FUNCTION_CODE.WAREHOUSE_CONFIRM_INVENTORY_ADJUSTMENT}
                 >
                   <IconButton onClick={() => onClickConfirmed(params.row)}>
                     <Icon name="tick" />
@@ -200,7 +200,7 @@ const InventoryAdjust = () => {
               )}
               {canRejected && (
                 <Guard
-                  code={FUNCTION_CODE.WAREHOUE_REJECT_INVENTORY_ADJUSTMENT}
+                  code={FUNCTION_CODE.WAREHOUSE_REJECT_INVENTORY_ADJUSTMENT}
                 >
                   <IconButton onClick={() => onClickRejected(params.row)}>
                     <Icon name="remove" />
@@ -275,7 +275,7 @@ const InventoryAdjust = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Guard code={FUNCTION_CODE.WAREHOUE_CREATE_INVENTORY_ADJUSTMENT}>
+        <Guard code={FUNCTION_CODE.WAREHOUSE_CREATE_INVENTORY_ADJUSTMENT}>
           <Button
             onClick={() => history.push(ROUTE.INVENTORY_ADJUST.CREATE.PATH)}
             icon="add"
