@@ -403,6 +403,7 @@ function UserManagementForm() {
                         multiple
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                   </Grid>
