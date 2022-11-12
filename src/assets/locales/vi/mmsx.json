@@ -567,7 +567,7 @@
   "forgotPassword": {
     "generateOTP": {
       "title": "Quên mật khẩu",
-      "text": " Nhập thông tin đã đăng nhập vào hệ thống MESX để khôi phục mật khẩu. Chúng tôi sẽ gửi mã xác thực vào email để bạn có thể tiến hành đổi mật khẩu mới.",
+      "text": "Nhập email theo tài khoản đăng nhập vào hệ thống WMS của bạn để khôi phục mật khẩu. Chúng tôi sẽ gửi mã xác thực vào email để bạn có thể tiến hành đổi mật khẩu mới.",
       "account": "Tài khoản",
       "placeholder": "Điền tên đăng nhập hoặc email của bạn",
       "continue": "Tiếp tục",
@@ -575,7 +575,7 @@
     },
     "resetPassword": {
       "title": "Đặt mật khẩu mới",
-      "text": "Bây giờ bạn đã có thể tạo một mật khẩu mới để đăng nhập vào hệ thống MESX",
+      "text": "Bây giờ bạn đã có thể tạo một mật khẩu mới để đăng nhập vào hệ thống WMS",
       "newPassword": "Mật khẩu mới",
       "password": "Nhập mật khẩu mới",
       "confirmNewPassword": "Nhập lại mật khẩu mới",
