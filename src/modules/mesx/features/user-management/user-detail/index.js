@@ -97,7 +97,7 @@ function UserManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.dateOfBirth')}
-                value={userDetails.dateOfBirth}
+                value={convertUtcDateToLocalTz(userDetails.dateOfBirth)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

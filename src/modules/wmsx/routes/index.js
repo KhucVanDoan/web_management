@@ -1319,7 +1319,7 @@ const routes = [
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
-        code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION,
+        // code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION
         isInSidebar: true,
       },
       {
