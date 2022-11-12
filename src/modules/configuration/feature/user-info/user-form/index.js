@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { createFilterOptions, Grid } from '@mui/material'
 import Typography from '@mui/material/Typography'
@@ -16,32 +16,28 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
+// import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
-import useDefineCompany from '~/modules/database/redux/hooks/useDefineCompany'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { getLocalItem } from '~/utils'
 
 import { validationSchema } from './schema'
 
 function UserInfoForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  const { userInfo } = useAuth()
+  // const { userInfo } = useAuth()
 
   const {
-    data: { userInfoDetails, isLoading },
+    data: {
+      //  userInfoDetails,
+      isLoading,
+    },
     actions,
   } = useUserInfo()
 
-  const {
-    data: { companyList },
-    actions: companyActions,
-  } = useDefineCompany()
-
-  useEffect(() => {
-    companyActions.searchCompanies({ isGetAll: 1 })
-  }, [])
+  const userInfoDetails = getLocalItem('userInfo') || {}
 
   const initialValues = useMemo(
     () => ({
@@ -57,28 +53,27 @@ function UserInfoForm() {
       status: userInfoDetails?.status || '1',
       factories: userInfoDetails.factories?.map((item) => item) || [],
       userRoleSettings: userInfoDetails.userRoleSettings?.[0]?.id || null,
-      departmentSettings:
-        userInfoDetails.departmentSettings?.map((item) => item.id) || [],
+      departmentSettings: userInfoDetails.departmentSettings?.[0]?.id || null,
       userWarehouses:
         userInfoDetails.userWarehouses?.map((item) => item.id) || [],
     }),
     [userInfoDetails],
   )
 
-  useEffect(() => {
-    if (userInfo?.id) {
-      actions.getUserInfoDetails(userInfo?.id)
-    }
+  // useEffect(() => {
+  //   if (userInfo?.id) {
+  //     actions.getUserInfoDetails(userInfo?.id)
+  //   }
 
-    return () => {
-      actions.resetUserInfoDetailsState()
-    }
-  }, [userInfo?.id])
+  //   return () => {
+  //     actions.resetUserInfoDetailsState()
+  //   }
+  // }, [userInfo?.id])
 
   const onSubmit = (values) => {
     const convertValues = {
       ...values,
-      id: Number(userInfo?.id),
+      id: Number(userInfoDetails?.id),
       status: values?.status?.toString(),
       factories: values?.factories?.map((item) => ({
         id: item?.id,
@@ -86,9 +81,7 @@ function UserInfoForm() {
       userRoleSettings: values.userRoleSettings
         ? [{ id: values.userRoleSettings }]
         : [{ id: 1 }],
-      departmentSettings: values.departmentSettings?.map((item) => ({
-        id: item,
-      })),
+      departmentSettings: [{ id: userInfoDetails.departmentSettings?.[0]?.id }],
       userWarehouses: values?.userWarehouses?.map((item) => ({
         id: item,
       })),
@@ -177,6 +170,7 @@ function UserInfoForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                       }}
+                      disabled
                       required
                     />
                   </Grid>
@@ -200,6 +194,7 @@ function UserInfoForm() {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.NAME.MAX,
                       }}
+                      disabled
                       required
                     />
                   </Grid>
@@ -231,21 +226,10 @@ function UserInfoForm() {
                       name="companyId"
                       label={t('userManagement.companyName')}
                       placeholder={t('userManagement.companyName')}
-                      options={companyList}
+                      options={[userInfoDetails.company]}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item lg={6} xs={12}>
-                    <Field.Autocomplete
-                      name="factories"
-                      label={t('userManagement.factoryName')}
-                      placeholder={t('userManagement.factoryName')}
-                      options={userInfoDetails?.factories || []}
-                      getOptionLabel={(option) => option.name}
-                      multiple
                       disabled
                     />
                   </Grid>
@@ -257,7 +241,6 @@ function UserInfoForm() {
                       options={userInfoDetails?.departmentSettings || []}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
-                      multiple
                       required
                       disabled
                     />
@@ -265,8 +248,8 @@ function UserInfoForm() {
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
                       name="userRoleSettings"
-                      label={t('userManagement.roleAssign')}
-                      placeholder={t('userManagement.roleAssign')}
+                      label={t('userManagement.role')}
+                      placeholder={t('userManagement.role')}
                       options={userInfoDetails?.userRoleSettings || []}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}

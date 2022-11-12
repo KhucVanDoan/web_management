@@ -61,8 +61,7 @@ function UserManagementForm() {
     () => ({
       code: isUpdate ? userDetails?.code : '',
       username: userDetails?.username || '',
-      companyId:
-        userDetails?.company?.name || loggedInUserInfo?.companyId || '',
+      companyId: userDetails?.company?.name || loggedInUserInfo?.companyId,
       fullName: userDetails?.fullName || '',
       password: userDetails?.password || '',
       dateOfBirth: userDetails?.dateOfBirth || null,
@@ -92,7 +91,7 @@ function UserManagementForm() {
     const id = Number(params?.id)
     const convertValues = {
       code: values?.code,
-      companyId: values?.companyId,
+      companyId: Number(values?.companyId),
       email: values?.email || null,
       fullName: values?.fullName,
       username: values?.username,
@@ -403,6 +402,7 @@ function UserManagementForm() {
                         multiple
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.name}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                       />
                     </Grid>
                   </Grid>
