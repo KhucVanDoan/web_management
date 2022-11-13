@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const updateUserInfoApi = (params) => {
-  const uri = `/v1/users/${params.id}`
+  const uri = `/v1/users/me`
   return api.put(uri, params)
 }
 
@@ -32,7 +32,7 @@ function* doUpdateUserInfo(action) {
 
       // Call callback action if provided
       if (action.onSuccess) {
-        yield action.onSuccess()
+        yield action.onSuccess(response.data)
       }
       addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
