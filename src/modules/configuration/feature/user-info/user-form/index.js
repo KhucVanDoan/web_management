@@ -20,7 +20,7 @@ import Status from '~/components/Status'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { getLocalItem } from '~/utils'
+import { getLocalItem, setLocalItem } from '~/utils'
 
 import { validationSchema } from './schema'
 
@@ -72,21 +72,17 @@ function UserInfoForm() {
 
   const onSubmit = (values) => {
     const convertValues = {
-      ...values,
-      id: Number(userInfoDetails?.id),
-      status: values?.status?.toString(),
-      factories: values?.factories?.map((item) => ({
-        id: item?.id,
-      })),
-      userRoleSettings: values.userRoleSettings
-        ? [{ id: values.userRoleSettings }]
-        : [{ id: 1 }],
-      departmentSettings: [{ id: userInfoDetails.departmentSettings?.[0]?.id }],
-      userWarehouses: values?.userWarehouses?.map((item) => ({
-        id: item,
-      })),
+      phone: values.phone,
+      dateOfBirth: values.dateOfBirth,
     }
-    actions.updateUserInfo(convertValues, backToList)
+    actions.updateUserInfo(convertValues, (res = {}) => {
+      setLocalItem('userInfo', {
+        ...userInfoDetails,
+        phone: res.phone,
+        dateOfBirth: res.dateOfBirth,
+      })
+      backToList()
+    })
   }
 
   const breadcrumb = [
