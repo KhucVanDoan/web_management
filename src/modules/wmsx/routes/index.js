@@ -1349,23 +1349,27 @@ const routes = [
         name: ROUTE.ROLE_LIST.LIST.TITLE,
         path: ROUTE.ROLE_LIST.LIST.PATH,
         component: RoleList,
+        code: FUNCTION_CODE.USER_LIST_USER_ROLE_SETTING,
         isInSidebar: true,
         subMenu: [
           {
             name: ROUTE.ROLE_LIST.CREATE.TITLE,
             path: ROUTE.ROLE_LIST.CREATE.PATH,
             component: DefineRoleForm,
+            code: FUNCTION_CODE.USER_CREATE_USER_ROLE_SETTING,
             isInSidebar: false,
           },
           {
             name: ROUTE.ROLE_LIST.DETAIL.TITLE,
             path: ROUTE.ROLE_LIST.DETAIL.PATH,
             component: DefineRoleDetail,
+            code: FUNCTION_CODE.USER_DETAIL_USER_ROLE_SETTING,
             isInSidebar: false,
           },
           {
             name: ROUTE.ROLE_LIST.EDIT.TITLE,
             path: ROUTE.ROLE_LIST.EDIT.PATH,
+            code: FUNCTION_CODE.USER_UPDATE_USER_ROLE_SETTING,
             component: DefineRoleForm,
             isInSidebar: false,
           },

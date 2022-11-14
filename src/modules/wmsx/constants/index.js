@@ -2228,3 +2228,7 @@ export const INVENTORY_ADJUST_TYPE_OPTIONS = [
     text: 'inventoryAdjust.warehouseExport',
   },
 ]
+export const OPTIONS_QR_CODE = {
+  qrOld: 0,
+  qrNew: 1,
+}

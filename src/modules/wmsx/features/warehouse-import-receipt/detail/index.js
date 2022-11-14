@@ -178,7 +178,7 @@ function WarehouseImportReceiptDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={warehouseImportReceiptDetails.code}
+                value={warehouseImportReceiptDetails.attachedFile}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -257,7 +257,7 @@ function WarehouseImportReceiptDetail() {
               label={t('warehouseExportReceipt.explain')}
               multiline
               rows={3}
-              value={warehouseImportReceiptDetails?.explaination}
+              value={warehouseImportReceiptDetails?.explanation}
               readOnly
               sx={{
                 'label.MuiFormLabel-root': {
