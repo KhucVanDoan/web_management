@@ -318,7 +318,7 @@ function MaterialManagementDetail() {
             <Grid item xs={12}>
               <LV
                 label={t('materialManagement.qrCode')}
-                value={<QRCodeGenerator value={'something'} />}
+                value={<QRCodeGenerator value={materialDetails?.qrCode} />}
               />
             </Grid>
             <Grid item xs={12}>
