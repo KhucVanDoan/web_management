@@ -87,7 +87,7 @@ const StockItemReport = () => {
   }
 
   return (
-    <Card sx={{ p: 2, height: 400 }}>
+    <Card sx={{ p: 2, height: 412 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">
           {t('dashboard.stockItemReport.title')}

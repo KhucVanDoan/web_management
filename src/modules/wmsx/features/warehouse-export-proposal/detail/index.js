@@ -69,12 +69,13 @@ function WarehouseExportProposalDetail() {
       itemName: item?.itemName || item?.itemResponse?.name,
       itemId: item?.itemId,
       note: item?.note,
+      itemDetail: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
+      importedQuantity: '',
       importedActualQuantity: item?.importedActualQuantity,
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
-      itemDetail: item?.itemDetail,
       id: item?.id,
       unit: item?.itemResponse?.itemUnit?.name,
       dayUpdate: item?.updatedAt,
@@ -85,23 +86,23 @@ function WarehouseExportProposalDetail() {
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',
       details: item?.itemId
-        ? item?.childrens?.map((childrens) => ({
-            id: childrens?.id,
-            itemCode: childrens?.itemCode || null,
-            itemName:
-              childrens?.itemName || childrens?.itemResponse?.name || null,
-            itemId: childrens?.itemId,
-            unit: childrens?.itemResponse?.itemUnit?.name,
-            lotNumbers: childrens?.lotNumber,
-            isKeepSlot: childrens?.isKeepSlot,
-            planExportedQuantity: childrens?.planExportedQuantity || 0,
-            exportQuantity: childrens?.exportedQuantity || 0,
-            quantityExportActual: childrens?.exportedActualQuantity || 0,
-            warehouse: childrens?.warehouseExport,
-            reservation: false,
-            updatedBy: item?.updatedBy,
-            dayUpdate: item?.updatedAt,
-          }))
+        ? item?.childrens?.length > 0
+          ? item?.childrens?.map((childrens) => ({
+              id: childrens?.id,
+              itemCode: childrens?.itemCode || childrens?.itemResponse?.code,
+              itemName: childrens?.itemName || childrens?.itemResponse?.name,
+              itemId: childrens?.itemId,
+              unit: childrens?.itemResponse?.itemUnit,
+              lotNumbers: childrens?.lotNumber,
+              reservation: Boolean(childrens?.isKeepSlot) ? 1 : 0,
+              planExportedQuantity: childrens?.planExportedQuantity || 0,
+              exportQuantity: childrens?.exportedQuantity || 0,
+              quantityExportActual: childrens?.exportedActualQuantity || 0,
+              warehouse: childrens?.warehouseExport || '',
+              updatedBy: item?.updatedBy,
+              dayUpdate: item?.updatedAt,
+            }))
+          : []
         : [],
     }),
   )

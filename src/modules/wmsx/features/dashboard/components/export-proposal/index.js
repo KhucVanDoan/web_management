@@ -29,6 +29,9 @@ const ExportProposal = () => {
       type: 'outer',
       style: { fontSize: 14, textOverflow: 'unset' },
     },
+    legend: {
+      itemWidth: 90,
+    },
     interactions: [
       {
         type: 'pie-legend-active',
@@ -40,7 +43,7 @@ const ExportProposal = () => {
   }
 
   return (
-    <Card sx={{ p: 2, height: 400 }}>
+    <Card sx={{ p: 2, height: 412 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">
           {t('dashboard.exportProposal.title')}

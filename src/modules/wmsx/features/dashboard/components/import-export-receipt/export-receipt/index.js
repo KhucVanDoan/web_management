@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Box, Card, Typography } from '@mui/material'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
@@ -51,7 +52,7 @@ const ExportReceipt = () => {
     },
   ]
   return (
-    <Card sx={{ p: 2, mt: 1 }}>
+    <Card sx={{ p: 2, height: 170 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">
           {t('dashboard.exportReceipt.title')}
@@ -74,7 +75,7 @@ const ExportReceipt = () => {
       <DataTable
         hideFooter
         hideSetting
-        rows={[saleOrderExports]}
+        rows={isEmpty(saleOrderExports) ? [] : [saleOrderExports]}
         columns={columns}
       />
     </Card>

@@ -4,10 +4,12 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import Dialog from '~/components/Dialog'
+import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
@@ -78,29 +80,37 @@ const RoleList = () => {
         const { id } = row
         return (
           <div>
-            <IconButton
-              onClick={() => {
-                history.push(
-                  ROUTE.ROLE_LIST.DETAIL.PATH.replace(':id', `${id}`),
-                )
-              }}
-            >
-              <Icon name="show" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                history.push(ROUTE.ROLE_LIST.EDIT.PATH.replace(':id', `${id}`))
-              }}
-            >
-              <Icon name="edit" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                handleOpenDeleteModal(params.row)
-              }}
-            >
-              <Icon name="delete" />
-            </IconButton>
+            <Guard code={FUNCTION_CODE.USER_LIST_USER_ROLE_SETTING}>
+              <IconButton
+                onClick={() => {
+                  history.push(
+                    ROUTE.ROLE_LIST.DETAIL.PATH.replace(':id', `${id}`),
+                  )
+                }}
+              >
+                <Icon name="show" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.USER_UPDATE_USER_ROLE_SETTING}>
+              <IconButton
+                onClick={() => {
+                  history.push(
+                    ROUTE.ROLE_LIST.EDIT.PATH.replace(':id', `${id}`),
+                  )
+                }}
+              >
+                <Icon name="edit" />
+              </IconButton>
+            </Guard>
+            <Guard code={FUNCTION_CODE.USER_DELETE_USER_ROLE_SETTING}>
+              <IconButton
+                onClick={() => {
+                  handleOpenDeleteModal(params.row)
+                }}
+              >
+                <Icon name="delete" />
+              </IconButton>
+            </Guard>
           </div>
         )
       },
@@ -125,13 +135,15 @@ const RoleList = () => {
   const renderHeaderRight = () => {
     return (
       <>
-        <Button
-          onClick={() => history.push(ROUTE.ROLE_LIST.CREATE.PATH)}
-          icon="add"
-          sx={{ ml: 4 / 3 }}
-        >
-          {t('general:common.create')}
-        </Button>
+        <Guard code={FUNCTION_CODE.USER_CREATE_USER_ROLE_SETTING}>
+          <Button
+            onClick={() => history.push(ROUTE.ROLE_LIST.CREATE.PATH)}
+            icon="add"
+            sx={{ ml: 4 / 3 }}
+          >
+            {t('general:common.create')}
+          </Button>
+        </Guard>
       </>
     )
   }

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import Button from '~/components/Button'
 import Dropdown from '~/components/Dropdown'
 import NoData from '~/components/NoData'
-import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
+import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { useClasses } from '~/themes'
 
@@ -19,7 +19,9 @@ const Notification = () => {
   const classes = useClasses(style)
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
-  const { userInfo, isLoading: isLoadingStatus } = useAuth()
+  const {
+    data: { userInfo, isLoading: isLoadingUserInfo },
+  } = useUserInfo()
 
   const open = Boolean(anchorEl)
   const onClose = () => setAnchorEl(null)
@@ -94,7 +96,7 @@ const Notification = () => {
             margin: 0,
           },
 
-          ...(!isLoadingStatus && !isOn
+          ...(!isLoadingUserInfo && !isOn
             ? {
                 '&:before': {
                   content: '""',

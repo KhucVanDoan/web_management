@@ -2,19 +2,13 @@ export const UPDATE_USER_INFO_START = 'CONFIGURATION_UPDATE_USER_INFO_START'
 export const UPDATE_USER_INFO_SUCCESS = 'CONFIGURATION_UPDATE_USER_INFO_SUCCESS'
 export const UPDATE_USER_INFO_FAILED = 'CONFIGURATION_UPDATE_USER_INFO_FAILED'
 
-export const GET_USER_INFO_DETAILS_START =
-  'CONFIGURATION_GET_USER_INFO_DETAILS_START'
-export const GET_USER_INFO_DETAILS_SUCCESS =
-  'CONFIGURATION_GET_USER_INFO_DETAILS_SUCCESS'
-export const GET_USER_INFO_DETAILS_FAILED =
-  'CONFIGURATION_GET_USER_INFO_DETAILS_FAILED'
+export const GET_USER_INFO_START = 'CONFIGURATION_GET_USER_INFO_START'
+export const GET_USER_INFO_SUCCESS = 'CONFIGURATION_GET_USER_INFO_SUCCESS'
+export const GET_USER_INFO_FAILED = 'CONFIGURATION_GET_USER_INFO_FAILED'
 
 export const CHANGE_PASSWORD_START = 'CONFIGURATION_CHANGE_PASSWORD_START'
 export const CHANGE_PASSWORD_SUCCESS = 'CONFIGURATION_CHANGE_PASSWORD_SUCCESS'
 export const CHANGE_PASSWORD_FAILED = 'CONFIGURATION_CHANGE_PASSWORD_FAILED'
-
-export const RESET_USER_INFO_DETAILS_STATE =
-  'CONFIGURATION_RESET_USER_INFO_DETAILS_STATE'
 
 /**
  * Update user permission
@@ -53,9 +47,9 @@ export function updateUserInfoFailed() {
   }
 }
 
-export function getUserInfoDetails(payload, onSuccess, onError) {
+export function getUserInfo(payload, onSuccess, onError) {
   return {
-    type: GET_USER_INFO_DETAILS_START,
+    type: GET_USER_INFO_START,
     payload: payload,
     onSuccess: onSuccess,
     onError: onError,
@@ -67,9 +61,9 @@ export function getUserInfoDetails(payload, onSuccess, onError) {
  * @param {*} payload
  * @returns {object}
  */
-export function getUserInfoDetailsSuccess(payload) {
+export function getUserInfoSuccess(payload) {
   return {
-    type: GET_USER_INFO_DETAILS_SUCCESS,
+    type: GET_USER_INFO_SUCCESS,
     payload: payload,
   }
 }
@@ -78,15 +72,9 @@ export function getUserInfoDetailsSuccess(payload) {
  * Get user permission details by id failed action
  * @returns {object}
  */
-export function getUserInfoDetailsFailed() {
+export function getUserInfoFailed() {
   return {
-    type: GET_USER_INFO_DETAILS_FAILED,
-  }
-}
-
-export function resetUserInfoDetailsState() {
-  return {
-    type: RESET_USER_INFO_DETAILS_STATE,
+    type: GET_USER_INFO_FAILED,
   }
 }
 
@@ -124,11 +112,10 @@ export default {
   updateUserInfo,
   updateUserInfoSuccess,
   updateUserInfoFailed,
-  getUserInfoDetails,
-  getUserInfoDetailsSuccess,
-  getUserInfoDetailsFailed,
+  getUserInfo,
+  getUserInfoSuccess,
+  getUserInfoFailed,
   changePassword,
   changePasswordFailed,
   changePasswordSuccess,
-  resetUserInfoDetailsState,
 }
