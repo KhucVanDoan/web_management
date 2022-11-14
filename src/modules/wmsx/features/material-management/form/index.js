@@ -336,35 +336,6 @@ function MaterialManagementForm() {
                         `${opt?.name}.${opt?.mainGroupName}.${opt?.subGroupName}`
                       }
                       required
-                      // dropdownWidth={800}
-                      // dropdownHeader={
-                      //   <Box className={classes.autocompleteDropdownHeader}>
-                      //     <Typography variant="h5">Mã loại</Typography>
-                      //     <Typography variant="h5">Tên loại</Typography>
-                      //     <Typography variant="h5">Mã nhóm chính</Typography>
-                      //     <Typography variant="h5">Tên nhóm chính</Typography>
-                      //     <Typography variant="h5">Mã nhóm phụ</Typography>
-                      //     <Typography variant="h5">Tên nhóm phụ</Typography>
-                      //   </Box>
-                      // }
-                      // renderOption={(optProps, opt = {}, selected, sx) => (
-                      //   <ListItemButton
-                      //     {...optProps}
-                      //     component="li"
-                      //     sx={sx}
-                      //     className={clsx(classes.autocompleteListItemButton, {
-                      //       [classes.autocompleteListItemButtonSelected]:
-                      //         selected,
-                      //     })}
-                      //   >
-                      //     <Box>{opt.code}</Box>
-                      //     <Box>{opt.name}</Box>
-                      //     <Box> </Box>
-                      //     <Box> </Box>
-                      //     <Box> </Box>
-                      //     <Box> </Box>
-                      //   </ListItemButton>
-                      // )}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>
@@ -514,22 +485,11 @@ function MaterialManagementForm() {
                               {t('materialManagement.qrCode')}
                             </Typography>
                           }
-                          value={<QRCodeGenerator value={'something'} />}
+                          value={
+                            <QRCodeGenerator value={materialDetails?.qrCode} />
+                          }
                         />
                       </Grid>
-                      {/* <Grid item lg={6} xs={12}>
-                        <LV
-                          label={
-                            <FormLabel>
-                              <Typography color={'text.main'} component="span">
-                                {t('materialManagement.qrCodeVal')}
-                              </Typography>
-                            </FormLabel>
-                          }
-                        >
-                          {materialDetails?.qrCode}
-                        </LV>
-                      </Grid> */}
                     </>
                   )}
                   <Grid item xs={12}>
