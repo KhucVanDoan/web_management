@@ -250,7 +250,7 @@ const UsedMaterialsReport = () => {
   }
 
   return (
-    <Card sx={{ p: 2 }}>
+    <Card sx={{ p: 2, height: 400 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h2">
           {t('dashboard.materialUsed.title')}

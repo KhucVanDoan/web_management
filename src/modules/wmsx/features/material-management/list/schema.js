@@ -1,12 +1,14 @@
 import * as Yup from 'yup'
 
 import { NUMBER_FIELD_REQUIRED_SIZE } from '~/common/constants'
+import { OPTIONS_QR_CODE } from '~/modules/wmsx/constants'
 
-export const validationSchema = (t) =>
+export const validationSchema = (t, typeQR) =>
   Yup.object().shape({
     items: Yup.array().of(
       Yup.object().shape({
         amount: Yup.number()
+          .nullable()
           .required(t('general:form.required'))
           .min(
             1,
@@ -20,6 +22,10 @@ export const validationSchema = (t) =>
               max: NUMBER_FIELD_REQUIRED_SIZE.INTEGER_10K.MAX,
             }),
           ),
+        warehouse:
+          typeQR === OPTIONS_QR_CODE.qrOld
+            ? Yup.object().nullable().required(t('general:form.required'))
+            : null,
       }),
     ),
   })

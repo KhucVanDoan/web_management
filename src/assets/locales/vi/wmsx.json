@@ -2792,8 +2792,11 @@
     "updateSource": "Cập nhật tài khoản",
     "updateWarehouse": "Cập nhật kho",
     "printQRButton": "In mã QR",
-    "printQRModalTitle": "Danh sánh in mã vật tư",
+    "printQRModalTitle": "In mã QR",
     "productAmount": "Số lượng in",
+    "qrOld": "Mã QRCode mẫu cũ",
+    "qrNew": "Mã QRCode mẫu mới",
+    "warehouse": "Kho",
     "item": {
       "addItem": "Thêm kho, tài khoản",
       "name": "Tên kho",

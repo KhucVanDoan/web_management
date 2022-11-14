@@ -5,10 +5,6 @@ export const LOGOUT_START = 'LOGOUT_START'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAILED = 'LOGOUT_FAILED'
 
-export const GET_USER_ME_START = 'GET_USER_ME_START'
-export const GET_USER_ME_SUCCESS = 'GET_USER_ME_SUCCESS'
-export const GET_USER_ME_FAILED = 'GET_USER_ME_FAILED'
-
 /**
  * Login
  * @param {any} payload
@@ -85,27 +81,6 @@ export function logoutFailed() {
   }
 }
 
-export function getUserMe(onSuccess, onError) {
-  return {
-    type: GET_USER_ME_START,
-    onSuccess: onSuccess,
-    onError: onError,
-  }
-}
-
-export function getUserMeSuccess(payload) {
-  return {
-    type: GET_USER_ME_SUCCESS,
-    payload: payload,
-  }
-}
-
-export function getUserMeFailed() {
-  return {
-    type: GET_USER_ME_FAILED,
-  }
-}
-
 export default {
   login,
   loginSuccess,
@@ -113,7 +88,4 @@ export default {
   logout,
   logoutSuccess,
   logoutFailed,
-  getUserMe,
-  getUserMeSuccess,
-  getUserMeFailed,
 }

@@ -9,41 +9,23 @@ import Button from '~/components/Button'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-// import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
-// import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
+import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import {
-  convertUtcDateTimeToLocalTz,
-  convertUtcDateToLocalTz,
-  getLocalItem,
-} from '~/utils'
+import { convertUtcDateTimeToLocalTz, convertUtcDateToLocalTz } from '~/utils'
 
 function UserInfoDetail() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  // const { userInfo } = useAuth()
-  // const {
-  //   data: { isLoading, userInfoDetails },
-  //   actions,
-  // } = useUserInfo()
+  const {
+    data: { isLoading, userInfo },
+  } = useUserInfo()
 
   const breadcrumbs = [
     {
       title: 'userInfo',
     },
   ]
-
-  // useEffect(() => {
-  //   if (userInfo?.id) {
-  //     actions.getUserInfoDetails(userInfo?.id)
-  //   }
-  //   return () => {
-  //     actions.resetUserInfoDetailsState()
-  //   }
-  // }, [userInfo?.id])
-
-  const userInfoDetails = getLocalItem('userInfo') || {}
 
   const renderHeaderRight = () => {
     return (
@@ -61,7 +43,7 @@ function UserInfoDetail() {
     <Page
       breadcrumbs={breadcrumbs}
       title={t('general:page.userInfo')}
-      // loading={isLoading}
+      loading={isLoading}
       renderHeaderRight={renderHeaderRight}
     >
       <Grid container justifyContent="center">
@@ -78,57 +60,48 @@ function UserInfoDetail() {
                 value={
                   <Status
                     options={USER_MANAGEMENT_STATUS_OPTIONS}
-                    value={userInfoDetails?.status}
+                    value={userInfo?.status}
                   />
                 }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.code')}
-                value={userInfoDetails.code}
-              />
+              <LV label={t('userManagement.code')} value={userInfo.code} />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.email')}
-                value={userInfoDetails.email}
-              />
+              <LV label={t('userManagement.email')} value={userInfo.email} />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.username')}
-                value={userInfoDetails.username}
+                value={userInfo.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV
-                label={t('userManagement.phone')}
-                value={userInfoDetails.phone}
-              />
+              <LV label={t('userManagement.phone')} value={userInfo.phone} />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.fullName')}
-                value={userInfoDetails.fullName}
+                value={userInfo.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.dateOfBirth')}
-                value={convertUtcDateToLocalTz(userInfoDetails.dateOfBirth)}
+                value={convertUtcDateToLocalTz(userInfo.dateOfBirth)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.user')}
-                value={userInfoDetails.createdBy?.username}
+                value={userInfo.createdBy?.username}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.createTime')}
-                value={convertUtcDateTimeToLocalTz(userInfoDetails.createdAt)}
+                value={convertUtcDateTimeToLocalTz(userInfo.createdAt)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -139,13 +112,13 @@ function UserInfoDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.companyName')}
-                value={userInfoDetails?.company?.name}
+                value={userInfo?.company?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.departmentName')}
-                value={userInfoDetails.departmentSettings
+                value={userInfo.departmentSettings
                   ?.map((department) => department?.name)
                   .join('; ')}
               />
@@ -153,7 +126,7 @@ function UserInfoDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.role')}
-                value={userInfoDetails.userRoleSettings
+                value={userInfo.userRoleSettings
                   ?.map((role) => role?.name)
                   .join('; ')}
               />
@@ -161,7 +134,7 @@ function UserInfoDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('userManagement.warehouse')}
-                value={userInfoDetails.userWarehouses
+                value={userInfo.userWarehouses
                   ?.map((warehouse) => warehouse?.name)
                   ?.join('; ')}
               />

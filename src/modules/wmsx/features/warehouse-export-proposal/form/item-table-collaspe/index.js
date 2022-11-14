@@ -27,6 +27,7 @@ import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-pro
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { getLotNumberItem } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
+import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
@@ -59,7 +60,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     itemTableCollaspe[parentIndex].details.splice(index, 1)
     setFieldValue('itemTableCollaspe', itemTableCollaspe)
   }
-  const handleChangeItem = async (val) => {
+  const handleChangeItem = async (val, params, parentIndex, index) => {
     if (val) {
       const lotNumberList = []
       const res = await getLotNumberItem(val?.id)
@@ -79,6 +80,65 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         return unique
       }, [])
       setLotNumberList(lotnumbers)
+      if (!isEmpty(params?.row?.warehouseExport)) {
+        const payload = {
+          items: [
+            {
+              itemId: val?.itemId || val?.id,
+              warehouseId: params?.row?.warehouseExport?.id,
+            },
+          ],
+        }
+        const res = await getItemWarehouseStockAvailableApi(payload)
+        setFieldValue(
+          `itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`,
+          res?.data[0]?.quantity,
+        )
+      }
+    }
+  }
+  const handleChangeWarehouse = async (val, params, parentIndex, index) => {
+    if (!isEmpty(val)) {
+      if (!isEmpty(params?.row?.exportSuppliesCode)) {
+        const payload = {
+          items: [
+            {
+              itemId:
+                params?.row?.exportSuppliesCode?.itemId ||
+                params?.row?.exportSuppliesCode?.id,
+              warehouseId: val?.id,
+            },
+          ],
+        }
+        const res = await getItemWarehouseStockAvailableApi(payload)
+        setFieldValue(
+          `itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`,
+          res?.data[0]?.quantity,
+        )
+      }
+    }
+  }
+  const handleChangeLotNumber = async (val, params, parentIndex, index) => {
+    if (
+      !isEmpty(params?.row?.exportSuppliesCode) &&
+      !isEmpty(params?.row?.warehouseExport)
+    ) {
+      const payload = {
+        items: [
+          {
+            itemId:
+              params?.row?.exportSuppliesCode?.itemId ||
+              params?.row?.exportSuppliesCode?.id,
+            warehouseId: params?.row?.warehouseExport?.id,
+            lotNumber: val,
+          },
+        ],
+      }
+      const res = await getItemWarehouseStockAvailableApi(payload)
+      setFieldValue(
+        `itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`,
+        res?.data[0]?.quantity,
+      )
     }
   }
   const columns = [
@@ -338,7 +398,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.code}
             getOptionSubLabel={(opt) => opt?.name}
-            onChange={(val) => handleChangeItem(val)}
+            onChange={(val) =>
+              handleChangeItem(val, params, parentIndex, index)
+            }
           />
         )
       },
@@ -389,6 +451,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
             asyncRequestHelper={(res) => res?.data?.items}
             getOptionLabel={(opt) => opt?.name}
+            onChange={(val) =>
+              handleChangeWarehouse(val, params, parentIndex, index)
+            }
           />
         )
       },
@@ -416,6 +481,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 }
               }
             }}
+            onChange={(val) =>
+              handleChangeLotNumber(val, params, parentIndex, index)
+            }
             getOptionLabel={(opt) => opt?.lotNumber}
             getOptionValue={(opt) => opt?.lotNumber}
           />
@@ -426,6 +494,16 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'planExportedQuantity',
       headerName: t('warehouseExportProposal.items.planExportedQuantity'),
       width: 100,
+      renderCell: (params, index) => {
+        return isView ? (
+          params?.row?.planExportedQuantity
+        ) : (
+          <Field.TextField
+            name={`itemTableCollaspe[${parentIndex}].details[${index}].planExportedQuantity`}
+            disabled
+          />
+        )
+      },
     },
     {
       field: 'quantityExport',
@@ -445,9 +523,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               if (!val) {
                 return t('general:form.required')
               }
-              if (val <= 0) {
+              if (val < 0) {
                 return t('general:form.moreThanNumber', {
                   min: NUMBER_FIELD_REQUIRED_SIZE.WATTAGE.MIN,
+                })
+              }
+              if (val > params?.row?.planExportedQuantity) {
+                return t('general:form.maxNumber', {
+                  max: params?.row?.planExportedQuantity,
                 })
               }
             }}
@@ -461,15 +544,19 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 100,
     },
     {
-      field: 'reservation',
+      field: 'isKeepSlot',
       headerName: t('warehouseExportProposal.items.reservation'),
       width: 150,
       renderCell: (params, index) => {
-        return isView ? (
-          <Checkbox checked={true} name="supplyCode" disabled />
+        return isView || params?.row?.reservation ? (
+          <Checkbox
+            checked={Boolean(params?.row?.reservation)}
+            name="reservation"
+            disabled
+          />
         ) : (
           <Field.Checkbox
-            name={`itemTableCollaspe[${parentIndex}].details[${index}].reservation`}
+            name={`itemTableCollaspe[${parentIndex}].details[${index}].isKeepSlot`}
           />
         )
       },

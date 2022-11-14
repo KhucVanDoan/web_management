@@ -113,8 +113,8 @@ function WarehouseExportReceiptForm() {
         warehouseExportReceiptDetails?.warehouseExportReceipt || '',
       items:
         warehouseExportReceiptDetails?.itemsSync?.map((item) => ({
-          itemId: item?.itemId,
-          itemName: item?.item?.name,
+          itemId: item?.itemId || item?.id,
+          itemName: item?.name || item?.item?.name,
           unit: item?.item?.itemUnit,
           price: item?.price,
           money: item?.amount,
@@ -124,8 +124,8 @@ function WarehouseExportReceiptForm() {
           creditAcc: item?.creditAccount,
           itemCode: {
             ...item?.item,
-            itemId: item?.itemId,
-            id: item?.itemId,
+            itemId: item?.itemId || item?.id,
+            id: item?.itemId || item?.id,
             item: { ...item?.item },
           },
         })) || DEFAULT_ITEMS,

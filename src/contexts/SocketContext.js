@@ -3,7 +3,7 @@ import React, { useEffect, useState, createContext } from 'react'
 import io from 'socket.io-client'
 
 import { SOCKET_EVENTS } from '~/common/constants/socket'
-import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
+import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 
 export const SocketContext = createContext({})
@@ -14,7 +14,9 @@ export const SocketProvider = ({ children }) => {
   const [itemSocket, setItemSocket] = useState(null)
   const [notiSocket, setNotiSocket] = useState(null)
   const { actions } = useNotification()
-  const { userInfo } = useAuth()
+  const {
+    data: { userInfo },
+  } = useUserInfo()
 
   useEffect(() => {
     const itemSck = io(`${host}/items`, {

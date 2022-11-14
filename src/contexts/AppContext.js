@@ -1,21 +1,19 @@
-import React, {
-  //  useEffect,
-  createContext,
-  useCallback,
-  useState,
-} from 'react'
+import React, { useEffect, createContext, useCallback, useState } from 'react'
 
-// import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
-// import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
-// import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
+import { ROWS_PER_PAGE_OPTIONS } from '~/common/constants'
+import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
+import { useNotification } from '~/modules/shared/redux/hooks/useNotification'
 import { getLocalItem, isAuth } from '~/utils'
 
 export const AppContext = createContext({})
 
 export const AppProvider = ({ children }) => {
   const [refreshKey, setRefreshKey] = useState('')
-  // const { actions: authActions, userInfo } = useAuth()
-  // const { actions: notiActions } = useNotification()
+  const { actions: notiActions } = useNotification()
+  const {
+    data: { userInfo },
+    actions: userActions,
+  } = useUserInfo()
   const isAuthenticated = isAuth()
 
   const canAccess = useCallback(
@@ -29,17 +27,17 @@ export const AppProvider = ({ children }) => {
     [isAuthenticated],
   )
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     authActions.getUserMe()
-  //   }
-  // }, [isAuthenticated])
+  useEffect(() => {
+    if (isAuthenticated) {
+      userActions.getUserInfo()
+    }
+  }, [isAuthenticated])
 
-  // useEffect(() => {
-  //   if (userInfo?.statusNotification) {
-  //     notiActions.getNotifications({ limit: ROWS_PER_PAGE_OPTIONS[0] })
-  //   }
-  // }, [userInfo?.statusNotification])
+  useEffect(() => {
+    if (userInfo?.statusNotification) {
+      notiActions.getNotifications({ limit: ROWS_PER_PAGE_OPTIONS[0] })
+    }
+  }, [userInfo?.statusNotification])
 
   const value = {
     refreshKey,

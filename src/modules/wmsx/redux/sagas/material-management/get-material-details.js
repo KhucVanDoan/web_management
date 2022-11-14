@@ -13,8 +13,8 @@ export const getMaterialDetailsApi = (params) => {
 }
 
 export const getqrCodeApi = (params) => {
-  const uri = `/v1/items/qr-code?itemIds=${params}`
-  return api.get(uri)
+  const uri = `/v1/items/qr-code`
+  return api.get(uri, params)
 }
 function* doGetMaterialDetails(action) {
   try {
