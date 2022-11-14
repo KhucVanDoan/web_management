@@ -144,10 +144,11 @@ function ItemsSettingTable(props) {
           )
         },
       },
-      isView && {
+      {
         field: 'lotNumber',
         headerName: t('warehouseImportReceipt.table.lotNumber'),
         width: 180,
+        hide: !isView,
         renderCell: (params) => {
           return params?.row?.lotNumber
         },
@@ -272,10 +273,11 @@ function ItemsSettingTable(props) {
           )
         },
       },
-      items?.length > 1 && {
+      {
         field: 'remove',
         headerName: '',
         width: 50,
+        hide: !(items?.length > 1),
         renderCell: (params, idx) => {
           return isView ? null : (
             <IconButton onClick={() => arrayHelpers.remove(idx)} size="large">

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { Box } from '@mui/material'
+import { Box, FormControlLabel, Radio } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import {
+  ASYNC_SEARCH_LIMIT,
   // BULK_ACTION,
   TEXTFIELD_ALLOW,
 } from '~/common/constants'
@@ -26,10 +27,13 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import {
+  ACTIVE_STATUS,
   MATERIAL_ACTIVE_STATUS,
   MATERIAL_ACTIVE_STATUS_OPTIONS,
+  OPTIONS_QR_CODE,
 } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
+import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { getqrCodeApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details.js'
 import {
   exportMaterialApi,
@@ -61,7 +65,7 @@ function MaterialManagement() {
     name: '',
     createdAt: '',
   }
-
+  const [typeQR, setTypeQR] = useState(0)
   const {
     page,
     pageSize,
@@ -86,7 +90,6 @@ function MaterialManagement() {
     tempItem: null,
     isOpenUpdateStatusModal: false,
   })
-
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [isOpenPrintQRModal, setIsOpenPrintQRModal] = useState(false)
@@ -326,6 +329,33 @@ function MaterialManagement() {
         )
       },
     },
+    {
+      field: 'warehouse',
+      headerName: t('materialManagement.warehouse'),
+      width: 200,
+      renderCell: (_, index) => {
+        return (
+          <Field.Autocomplete
+            name={`items[${index}].warehouse`}
+            asyncRequest={(s) =>
+              searchWarehouseApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
+              })
+            }
+            disabled={typeQR === OPTIONS_QR_CODE.qrNew}
+            asyncRequestHelper={(res) => res?.data?.items}
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+            getOptionLabel={(opt) => opt?.code}
+            getOptionSubLabel={(opt) => opt?.name}
+            required
+          />
+        )
+      },
+    },
   ])
   const handleSubmitPrintQR = async (values) => {
     if (bpac.IsExtensionInstalled() === false) {
@@ -342,7 +372,23 @@ function MaterialManagement() {
       return
     }
     const itemIds = values?.items?.map((item) => item?.id).join(',')
-    const res = await getqrCodeApi(itemIds)
+    const warehouseCode = values?.items
+      ?.map((item) => item?.warehouse?.code)
+      .join(',')
+    const paramsQRCodeOld = {
+      itemIds: itemIds,
+      type: values?.switchMode,
+      warehouseCodes: warehouseCode,
+    }
+    const paramsQRCodeNew = {
+      itemIds: itemIds,
+      type: values?.switchMode,
+    }
+    const res = await getqrCodeApi(
+      values?.switchMode === OPTIONS_QR_CODE.qrOld
+        ? paramsQRCodeOld
+        : paramsQRCodeNew,
+    )
     const items = res?.data
     try {
       for (let indexItem = 0; indexItem < items?.length; indexItem++) {
@@ -350,7 +396,7 @@ function MaterialManagement() {
         const itemRequestDetail = values?.items?.find((i) => i?.id === item?.id)
         const objDoc = bpac.IDocument
         const ret = await objDoc.Open(
-          'http://10.1.53.106:3000/static/media/qr.e53103a3.lbx',
+          `${window.location.protocol}//${window.location.host}/static/qr.lbx`,
         )
         if (ret === true) {
           const itemName = await objDoc.GetObject('itemName')
@@ -383,10 +429,23 @@ function MaterialManagement() {
           },
         }}
       >
-        <Button color="grayF4" onClick={() => setIsOpenPrintQRModal(false)}>
+        <Button
+          color="grayF4"
+          onClick={() => {
+            setIsOpenPrintQRModal(false)
+            setTypeQR(OPTIONS_QR_CODE.qrOld)
+          }}
+        >
           {t('general:common.close')}
         </Button>
-        <Button variant="outlined" color="subText" onClick={resetForm}>
+        <Button
+          variant="outlined"
+          color="subText"
+          onClick={() => {
+            resetForm()
+            setTypeQR(OPTIONS_QR_CODE.qrOld)
+          }}
+        >
           {t('general:common.cancel')}
         </Button>
         <Button type="submit" icon="qrWhite">
@@ -395,7 +454,6 @@ function MaterialManagement() {
       </Box>
     )
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -488,15 +546,20 @@ function MaterialManagement() {
         title={t('materialManagement.printQRModalTitle')}
         maxWidth="md"
         renderFooter={renderFooterPrintModal}
-        onCancel={() => setIsOpenPrintQRModal(false)}
+        onCancel={() => {
+          setIsOpenPrintQRModal(false)
+          setTypeQR(OPTIONS_QR_CODE.qrOld)
+        }}
         formikProps={{
           initialValues: {
+            switchMode: typeQR,
             items: selectedRows?.map((item) => ({
               ...item,
               amount: 1,
+              warehouse: '',
             })),
           },
-          validationSchema: validationSchema(t),
+          validationSchema: validationSchema(t, typeQR),
           onSubmit: handleSubmitPrintQR,
           enableReinitialize: true,
         }}
@@ -504,13 +567,33 @@ function MaterialManagement() {
         <FieldArray
           name="items"
           render={() => (
-            <DataTable
-              rows={selectedRows}
-              columns={printQRColumns}
-              striped={false}
-              hideSetting
-              hideFooter
-            />
+            <>
+              <Field.RadioGroup name="switchMode" sx={{ mb: 1, ml: '30%' }}>
+                <Box sx={{ display: 'flex' }}>
+                  <FormControlLabel
+                    value={OPTIONS_QR_CODE.qrOld}
+                    control={<Radio />}
+                    label={t('materialManagement.qrOld')}
+                    onChange={() => setTypeQR(OPTIONS_QR_CODE.qrOld)}
+                  />
+                  <FormControlLabel
+                    value={OPTIONS_QR_CODE.qrNew}
+                    control={<Radio />}
+                    label={t('materialManagement.qrNew')}
+                    onChange={() => setTypeQR(OPTIONS_QR_CODE.qrNew)}
+                    sx={{ ml: 2 }}
+                  />
+                </Box>
+              </Field.RadioGroup>
+
+              <DataTable
+                rows={selectedRows}
+                columns={printQRColumns}
+                striped={false}
+                hideSetting
+                hideFooter
+              />
+            </>
           )}
         />
       </Dialog>

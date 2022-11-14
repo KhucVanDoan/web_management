@@ -103,12 +103,11 @@ function WarehouseExportReceiptForm() {
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,
-              isKeepSlot: childrens?.isKeepSlot,
+              reservation: Boolean(childrens?.isKeepSlot) ? 1 : 0,
               planExportedQuantity: childrens?.planExportedQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouse: childrens?.warehouseExport || '',
-              reservation: childrens?.isKeepSlot,
               updatedBy: item?.updatedBy,
               dayUpdate: item?.updatedAt,
             }))
@@ -260,6 +259,7 @@ function WarehouseExportReceiptForm() {
           childrens: item?.details?.map((e) => ({
             itemId: e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
             exportedQuantity: +e?.quantityExport,
+            isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
             lotNumber: e?.lotNumber,
             warehouseExportId: e?.warehouseExport?.id,
           })),
@@ -594,7 +594,6 @@ function WarehouseExportReceiptForm() {
                             arrayHelpers={arrayHelpers}
                             setFieldValue={setFieldValue}
                             mode={mode}
-                            values={values}
                           />
                         )}
                       />
@@ -756,6 +755,7 @@ function WarehouseExportReceiptForm() {
                           itemTableCollaspe={values?.itemTableCollaspe || []}
                           setFieldValue={setFieldValue}
                           mode={mode}
+                          values={values}
                         />
                       </Box>
                       {renderActionBar(handleReset)}
