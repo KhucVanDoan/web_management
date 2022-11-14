@@ -16,71 +16,47 @@ import { Field } from '~/components/Formik'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
-// import { useAuth } from '~/modules/auth/redux/hooks/useAuth'
 import useUserInfo from '~/modules/configuration/redux/hooks/useUserInfo'
 import { USER_MANAGEMENT_STATUS_OPTIONS } from '~/modules/mesx/constants'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { getLocalItem, setLocalItem } from '~/utils'
 
 import { validationSchema } from './schema'
 
 function UserInfoForm() {
   const { t } = useTranslation(['mesx'])
   const history = useHistory()
-  // const { userInfo } = useAuth()
 
   const {
-    data: {
-      //  userInfoDetails,
-      isLoading,
-    },
+    data: { userInfo, isLoading },
     actions,
   } = useUserInfo()
 
-  const userInfoDetails = getLocalItem('userInfo') || {}
-
   const initialValues = useMemo(
     () => ({
-      code: userInfoDetails?.code || '',
-      username: userInfoDetails?.username || '',
-      password: userInfoDetails?.password || '',
+      code: userInfo?.code || '',
+      username: userInfo?.username || '',
+      password: userInfo?.password || '',
       showPassword: false,
-      companyId: userInfoDetails?.companyId || '',
-      fullName: userInfoDetails?.fullName || '',
-      dateOfBirth: userInfoDetails?.dateOfBirth || null,
-      email: userInfoDetails?.email || '',
-      phone: userInfoDetails?.phone || '',
-      status: userInfoDetails?.status || '1',
-      factories: userInfoDetails.factories?.map((item) => item) || [],
-      userRoleSettings: userInfoDetails.userRoleSettings?.[0]?.id || null,
-      departmentSettings: userInfoDetails.departmentSettings?.[0]?.id || null,
-      userWarehouses:
-        userInfoDetails.userWarehouses?.map((item) => item.id) || [],
+      companyId: userInfo?.companyId || '',
+      fullName: userInfo?.fullName || '',
+      dateOfBirth: userInfo?.dateOfBirth || null,
+      email: userInfo?.email || '',
+      phone: userInfo?.phone || '',
+      status: userInfo?.status || '1',
+      factories: userInfo.factories?.map((item) => item) || [],
+      userRoleSettings: userInfo.userRoleSettings?.[0]?.id || null,
+      departmentSettings: userInfo.departmentSettings?.[0]?.id || null,
+      userWarehouses: userInfo.userWarehouses?.map((item) => item.id) || [],
     }),
-    [userInfoDetails],
+    [userInfo],
   )
-
-  // useEffect(() => {
-  //   if (userInfo?.id) {
-  //     actions.getUserInfoDetails(userInfo?.id)
-  //   }
-
-  //   return () => {
-  //     actions.resetUserInfoDetailsState()
-  //   }
-  // }, [userInfo?.id])
 
   const onSubmit = (values) => {
     const convertValues = {
       phone: values.phone,
       dateOfBirth: values.dateOfBirth,
     }
-    actions.updateUserInfo(convertValues, (res = {}) => {
-      setLocalItem('userInfo', {
-        ...userInfoDetails,
-        phone: res.phone,
-        dateOfBirth: res.dateOfBirth,
-      })
+    actions.updateUserInfo(convertValues, () => {
       backToList()
     })
   }
@@ -140,7 +116,7 @@ function UserInfoForm() {
                       value={
                         <Status
                           options={USER_MANAGEMENT_STATUS_OPTIONS}
-                          value={userInfoDetails?.status}
+                          value={userInfo?.status}
                         />
                       }
                     />
@@ -222,7 +198,7 @@ function UserInfoForm() {
                       name="companyId"
                       label={t('userManagement.companyName')}
                       placeholder={t('userManagement.companyName')}
-                      options={[userInfoDetails.company]}
+                      options={[userInfo.company]}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -234,7 +210,7 @@ function UserInfoForm() {
                       name="departmentSettings"
                       label={t('userManagement.departmentName')}
                       placeholder={t('userManagement.departmentName')}
-                      options={userInfoDetails?.departmentSettings || []}
+                      options={userInfo?.departmentSettings || []}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       required
@@ -246,7 +222,7 @@ function UserInfoForm() {
                       name="userRoleSettings"
                       label={t('userManagement.role')}
                       placeholder={t('userManagement.role')}
-                      options={userInfoDetails?.userRoleSettings || []}
+                      options={userInfo?.userRoleSettings || []}
                       getOptionLabel={(opt) => opt?.name}
                       getOptionValue={(opt) => opt?.id}
                       disabled
@@ -257,11 +233,10 @@ function UserInfoForm() {
                       name="userWarehouses"
                       label={t('userManagement.warehouse')}
                       placeholder={t('userManagement.warehouse')}
-                      options={(userInfoDetails?.userWarehouses || []).filter(
-                        (w) =>
-                          values.factories
-                            ?.map((f) => f.id)
-                            .includes(w.factoryId),
+                      options={(userInfo?.userWarehouses || []).filter((w) =>
+                        values.factories
+                          ?.map((f) => f.id)
+                          .includes(w.factoryId),
                       )}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({

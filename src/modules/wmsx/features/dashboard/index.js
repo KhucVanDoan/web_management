@@ -29,16 +29,6 @@ const breadcrumbs = [
 function Dashboard() {
   const { t } = useTranslation(['wmsx'])
 
-  // const isSuperAdmin = getLocalItem('userInfo')?.code === '000000001'
-
-  // if (!isSuperAdmin)
-  //   return (
-  //     <Page
-  //       title={t('dashboard.title')}
-  //       breadcrumbs={breadcrumbs}
-  //       freeSolo
-  //     ></Page>
-  //   )
   const startOfWeek = moment().startOf('week').toDate()
   const endOfWeek = moment().endOf('week').toDate()
 
