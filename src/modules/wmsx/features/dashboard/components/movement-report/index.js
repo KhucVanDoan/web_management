@@ -45,12 +45,12 @@ const MovementReport = () => {
       newData.push({
         time: data?.rangeDate,
         type: t('dashboard.movementReport.importQuantity'),
-        value: data.importStock,
+        value: data.importStock || 0,
       })
       newData.push({
         time: data?.rangeDate,
         type: t('dashboard.movementReport.exportQuantity'),
-        value: data.exportStock,
+        value: data.exportStock || 0,
       })
     })
     return newData
@@ -62,12 +62,12 @@ const MovementReport = () => {
       newData.push({
         time: data?.rangeDate,
         name: t('dashboard.movementReport.importValue'),
-        count: data.importAmount,
+        count: data.importAmount || 0,
       })
       newData.push({
         time: data?.rangeDate,
         name: t('dashboard.movementReport.exportValue'),
-        count: data.exportAmount,
+        count: data.exportAmount || 0,
       })
     })
     return newData
