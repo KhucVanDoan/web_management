@@ -11,7 +11,7 @@ export const AppProvider = ({ children }) => {
   const [refreshKey, setRefreshKey] = useState('')
   const { actions: notiActions } = useNotification()
   const {
-    data: { userInfo },
+    data: { userInfo, isLoading: isLoadingUser },
     actions: userActions,
   } = useUserInfo()
   const isAuthenticated = isAuth()
@@ -28,10 +28,10 @@ export const AppProvider = ({ children }) => {
   )
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !userInfo?.id && !isLoadingUser) {
       userActions.getUserInfo()
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, userInfo?.id, isLoadingUser])
 
   useEffect(() => {
     if (userInfo?.statusNotification) {
