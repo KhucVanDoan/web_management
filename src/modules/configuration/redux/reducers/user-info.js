@@ -1,3 +1,4 @@
+import { LOGOUT_SUCCESS } from '~/modules/auth/redux/actions/auth'
 import {
   UPDATE_USER_INFO_FAILED,
   UPDATE_USER_INFO_START,
@@ -65,6 +66,10 @@ export default function userInfo(state = initialState, action) {
           statusNotification: action.payload?.statusNotification || false,
         },
       }
+
+    case LOGOUT_SUCCESS:
+      return initialState
+
     default:
       return state
   }
