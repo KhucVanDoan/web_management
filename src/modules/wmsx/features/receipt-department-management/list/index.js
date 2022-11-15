@@ -140,7 +140,7 @@ function ReceiptDepartmentManagement() {
         const isLocked = status === ACTIVE_STATUS.ACTIVE
         return (
           <div>
-            <Guard code={FUNCTION_CODE.USER_CREATE_DEPARTMENT_RECEIPT}>
+            <Guard code={FUNCTION_CODE.USER_DETAIL_DEPARTMENT_RECEIPT}>
               <IconButton
                 onClick={() =>
                   history.push(

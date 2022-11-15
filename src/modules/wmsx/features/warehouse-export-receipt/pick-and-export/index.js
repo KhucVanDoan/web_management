@@ -123,9 +123,13 @@ function WarehouseExportReceiptPickAndExport() {
         })),
       }
 
-      actions.exportWarehouse(payload, () => {
-        backToDetail()
-        approveWarehouseExportReceiptApi(id)
+      actions.exportWarehouse(payload, async () => {
+        const res = await approveWarehouseExportReceiptApi(id)
+        if (res?.statusCode === 200) {
+          backToDetail()
+        } else {
+          addNotification(res.message, NOTIFICATION_TYPE.ERROR)
+        }
       })
     } catch (error) {
       addNotification(error.message, NOTIFICATION_TYPE.ERROR)
