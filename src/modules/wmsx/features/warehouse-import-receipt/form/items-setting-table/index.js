@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { IconButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
@@ -30,6 +31,10 @@ function ItemsSettingTable(props) {
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === 'receipts',
   )?.id
+  const warehouseExportProposal =
+    values?.businessTypeId?.bussinessTypeAttributes?.find(
+      (item) => item?.tableName === 'warehouse_export_proposals',
+    )?.id
   const handleChangeItem = (val, index) => {
     setFieldValue(
       `items[${index}].itemName`,
@@ -43,7 +48,9 @@ function ItemsSettingTable(props) {
     }
     setFieldValue(
       `items[${index}].unit`,
-      val?.item?.itemUnit || val?.itemUnit?.name,
+      val?.item?.itemUnit ||
+        val?.itemUnit?.name ||
+        val?.itemCode?.itemUnit?.name,
     )
 
     setFieldValue(`items[${index}].importQuantity`, '')
@@ -73,6 +80,25 @@ function ItemsSettingTable(props) {
           return isView ? (
             params?.row?.item?.code
           ) : itemList?.length > 0 ? (
+            <Field.Autocomplete
+              name={`items[${index}].itemCode`}
+              options={itemList}
+              getOptionLabel={(opt) => opt?.item?.code || opt?.itemCode?.code}
+              getOptionSubLabel={(opt) =>
+                opt?.item?.name || opt?.itemCode?.name
+              }
+              onChange={(val) => handleChangeItem(val, index)}
+              isOptionEqualToValue={(opt, val) =>
+                opt?.itemCode?.itemId === val?.itemCode?.itemId
+              }
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === opt?.itemId) &&
+                opt?.itemId !==
+                  (items[index]?.itemCode?.itemId || items[index]?.itemCode?.id)
+              }
+            />
+          ) : !isEmpty(values[warehouseExportProposal]) &&
+            isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemList}
