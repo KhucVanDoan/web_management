@@ -93,7 +93,7 @@ const DataTableCollapse = (props) => {
   useEffect(() => {
     initTableSetting(rawColumns)
   }, [rawColumns])
-
+  const handleApplySetting = () => {}
   return (
     <>
       {(title || filters || !hideSetting) && (

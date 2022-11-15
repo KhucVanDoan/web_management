@@ -6,10 +6,10 @@ import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '~/components/DataTable'
+import { MOVEMENT_TYPE } from '~/modules/wmsx/constants'
 
-const ItemSettingTable = ({ items }) => {
+const ItemSettingTable = ({ items, movementType }) => {
   const { t } = useTranslation(['wmsx'])
-
   const columns = [
     {
       field: 'id',
@@ -41,14 +41,30 @@ const ItemSettingTable = ({ items }) => {
       renderCell: (params) => params.row?.lots?.[0]?.lotNumber,
     },
     {
-      field: 'storedQuantity',
-      headerName: t('movements.itemDetails.storedQuantity'),
+      field: 'pickedQuantity',
+      headerName: t('movements.itemDetails.pickedQuantity'),
+      hide: movementType === !MOVEMENT_TYPE.SO_EXPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
     },
     {
+      field: 'storedQuantity',
+      headerName: t('movements.itemDetails.storedQuantity'),
+      hide: movementType === MOVEMENT_TYPE.SO_EXPORT,
+      width: 120,
+      renderCell: (params) => Number(params.row?.lots?.[0]?.quantity),
+    },
+    {
+      field: 'unpickedQuantity',
+      headerName: t('movements.itemDetails.unpickedQuantity'),
+      hide: movementType === !MOVEMENT_TYPE.SO_EXPORT,
+      width: 120,
+      renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
+    },
+    {
       field: 'unstoredQuantity',
       headerName: t('movements.itemDetails.unstoredQuantity'),
+      hide: movementType === MOVEMENT_TYPE.SO_EXPORT,
       width: 120,
       renderCell: (params) => Number(params.row?.lots?.[0]?.planQuantity),
     },
