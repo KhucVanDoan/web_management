@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 
 import {
   ASYNC_SEARCH_LIMIT,
+  NOTIFICATION_TYPE,
   // BULK_ACTION,
   TEXTFIELD_ALLOW,
 } from '~/common/constants'
@@ -42,6 +43,7 @@ import {
 } from '~/modules/wmsx/redux/sagas/material-management/import-export-material'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertFilterParams, convertSortParams } from '~/utils'
+import addNotification from '~/utils/toast.js'
 
 import * as bpac from '../../../../../assets/bpac.js'
 import FilterForm from './filter-form'
@@ -414,6 +416,10 @@ function MaterialManagement() {
       }
     } catch (e) {
       /* eslint-disable no-console, no-control-regex*/
+      addNotification(
+        t('materialManagement.errorPrint'),
+        NOTIFICATION_TYPE.ERROR,
+      )
       console.log('error', e)
     }
   }

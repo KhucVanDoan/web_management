@@ -2797,6 +2797,7 @@
     "qrOld": "Mã QRCode mẫu cũ",
     "qrNew": "Mã QRCode mẫu mới",
     "warehouse": "Kho",
+    "errorPrint": "Lỗi kết nối với máy in",
     "item": {
       "addItem": "Thêm kho, tài khoản",
       "name": "Tên kho",

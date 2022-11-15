@@ -192,9 +192,7 @@ const ItemSettingTable = ({
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
               disabled={!hiden}
-              isOptionEqualToValue={(opt, val) =>
-                opt?.lotNumber === val?.lotNumber
-              }
+              isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
               validate={(val) => {
                 if (values?.warehouseId?.manageByLot) {
                   if (!val) {
@@ -212,9 +210,7 @@ const ItemSettingTable = ({
               )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
-              isOptionEqualToValue={(opt, val) =>
-                opt?.lotNumber === val?.lotNumber
-              }
+              isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
               disabled={!hiden}
               onChange={(val) => handleChangeLotNumber(val, index, params)}
               validate={(val) => {

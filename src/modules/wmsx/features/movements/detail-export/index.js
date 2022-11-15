@@ -74,55 +74,55 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             </Grid>
             <Grid item xs={12}>
               <LV
-                label={t('warehouseImportReceipt.id')}
+                label={t('warehouseExportReceipt.receiptId')}
                 value={movementDetail.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.createdAt')}
+                label={t('warehouseExportReceipt.createdAt')}
                 value={convertUtcDateToLocalTz(receiptDetail.receiptDate)}
               />
             </Grid>
-            <Grid item lg={6} xs={12}>
+            {/* <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.attachedFile')}
+                label={t('warehouseExportReceipt.attachedFile')}
                 value={receiptDetail.code}
               />
-            </Grid>
+            </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.shipper')}
+                label={t('warehouseExportReceipt.nameOfReceiver')}
                 value={receiptDetail.deliver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.unit')}
+                label={t('warehouseExportReceipt.departmentReception')}
                 value={receiptDetail?.departmentReceipt?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.expenditureType')}
+                label={t('warehouseExportReceipt.typeBusiness')}
                 value={receiptDetail.businessType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.warehouse')}
+                label={t('warehouseExportReceipt.exportInWarehouse')}
                 value={receiptDetail.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.reason')}
+                label={t('warehouseExportReceipt.warehouseExportReason')}
                 value={receiptDetail.reason?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImportReceipt.source')}
+                label={t('warehouseExportReceipt.suorceAccountant')}
                 value={receiptDetail.source?.name}
               />
             </Grid>
@@ -179,7 +179,10 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
       )}
       {movementDetail?.movementType === MOVEMENT_TYPE.SO_EXPORT && (
         <Box sx={{ mt: 3 }}>
-          <ItemSettingTable items={movementDetail?.items || []} />
+          <ItemSettingTable
+            items={movementDetail?.items || []}
+            movementType={movementDetail?.movementType}
+          />
         </Box>
       )}
       <ActionBar onBack={onBack} />
