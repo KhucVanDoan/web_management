@@ -35,6 +35,7 @@ import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import {
   getWarehouseImportReceiptDetailsApi,
   getWarehouseExportProposalItems,
@@ -192,8 +193,9 @@ function WarehouseExportReceiptForm() {
             data?.attributes?.find(
               (att) =>
                 att?.code ===
-                  CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID ||
-                att?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID,
+                  (CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID ||
+                    att?.code === CODE_TYPE_DATA_FATHER_JOB.PO_IMPORT_ID) &&
+                att?.value,
             ),
           )
         ) {
@@ -250,7 +252,29 @@ function WarehouseExportReceiptForm() {
           ),
         )
       ) {
-        const res = await getWarehouseExportProposalItems({
+        const res = await getWarehouseExportProposalDetailsApi(
+          warehouseExportReceiptDetails?.attributes?.find(
+            (item) =>
+              item?.code ===
+                CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID &&
+              item?.value,
+          )?.value,
+        )
+        const warehouseList = []
+        res?.data?.items?.forEach((item) => {
+          item?.childrens?.forEach((children) => {
+            const findWarehouse = warehouseList?.find(
+              (w) => w?.id === children?.warehouseExport?.id,
+            )
+            if (isEmpty(findWarehouse)) {
+              warehouseList.push({
+                ...children?.warehouseExport,
+              })
+            }
+          })
+        })
+        setWarehouseList(warehouseList)
+        const response = await getWarehouseExportProposalItems({
           id: Number(
             warehouseExportReceiptDetails?.attributes?.find(
               (item) =>
@@ -261,7 +285,7 @@ function WarehouseExportReceiptForm() {
           ),
           warehouseId: warehouseExportReceiptDetails?.warehouse?.id,
         })
-        setItemWarehouseExport(res?.data)
+        setItemWarehouseExport(response?.data)
       }
     }
   }, [warehouseExportReceiptDetails])
