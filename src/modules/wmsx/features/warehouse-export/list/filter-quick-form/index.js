@@ -21,23 +21,31 @@ const WarehouseExportFilter = ({
   quickFilters,
   defaultFilter,
   setExportReceiptList,
+  setIsExport,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
   const onSubmit = async (values) => {
     if (values?.movementType === 'export') {
       const response = await searchWarehouseExportReceiptApi({
-        filter: convertFilterParams({
-          status: [
-            ORDER_STATUS.IN_COLLECTING,
-            ORDER_STATUS.COLLECTED,
-            ORDER_STATUS.COMPLETED,
-          ],
-        }),
+        filter: convertFilterParams(
+          {
+            status: [
+              ORDER_STATUS.IN_COLLECTING,
+              ORDER_STATUS.COLLECTED,
+              ORDER_STATUS.COMPLETED,
+            ],
+            warehouseId: values?.warehouseId?.id,
+            createdAt: values?.createdAt,
+          },
+          [{ field: 'createdAt', filterFormat: 'date' }],
+        ),
       })
       setExportReceiptList(response?.data?.items)
+      setIsExport(true)
     } else {
       setQuickFilters(values)
+      setIsExport(false)
     }
   }
 
@@ -45,14 +53,24 @@ const WarehouseExportFilter = ({
     const orderType = values?.orderType
     switch (orderType) {
       case WAREHOUSE_EXPORT_TYPE.SO:
-      case WAREHOUSE_EXPORT_TYPE.INVENTORY:
         return [
           {
-            type: 'export',
+            id: 'export',
             text: 'movementType.export',
           },
           {
             id: 5,
+            text: 'movementType.picked',
+          },
+        ]
+      case WAREHOUSE_EXPORT_TYPE.INVENTORY:
+        return [
+          {
+            id: null,
+            text: 'movementType.export',
+          },
+          {
+            id: null,
             text: 'movementType.picked',
           },
         ]
@@ -127,7 +145,7 @@ const WarehouseExportFilter = ({
                       label={t('movements.importExport.movementType')}
                       placeholder={t('movements.importExport.movementType')}
                       options={getMovementTypeList(values)}
-                      getOptionValue={(opt) => opt?.id || opt?.type}
+                      getOptionValue={(opt) => opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
