@@ -150,7 +150,7 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.suorceAccountant')}
-                value={receiptDetail.source?.name}
+                value={receiptDetail?.source?.name}
               />
             </Grid>
             {[]?.map((item) => {

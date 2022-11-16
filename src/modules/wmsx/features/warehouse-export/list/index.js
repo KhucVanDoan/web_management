@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import IconButton from '@mui/material/IconButton'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -44,6 +43,7 @@ function WarehouseExport() {
   const [columnsSettings, setColumnsSettings] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
   const [exportReceiptList, setExportReceiptList] = useState([])
+  const [isExport, setIsExport] = useState(false)
 
   const exportReceiptListFormat = exportReceiptList?.map((e) => ({
     id: e?.id,
@@ -255,14 +255,11 @@ function WarehouseExport() {
         quickFilters={quickFilters}
         defaultFilter={DEFAULT_QUICK_FILTERS}
         setExportReceiptList={setExportReceiptList}
+        setIsExport={setIsExport}
       />
       <DataTable
         title={t('warehouseExport.tableTitle')}
-        rows={
-          isEmpty(exportReceiptList)
-            ? warehouseExportList
-            : exportReceiptListFormat
-        }
+        rows={isExport ? exportReceiptListFormat : warehouseExportList}
         pageSize={pageSize}
         page={page}
         columns={columns}

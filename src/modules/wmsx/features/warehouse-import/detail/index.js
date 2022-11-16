@@ -91,25 +91,25 @@ const WarehouseImportDetail = () => {
             <Grid item xs={12}>
               <LV
                 label={t('warehouseImportReceipt.id')}
-                value={receiptDetail.code}
+                value={receiptDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.createdAt')}
-                value={convertUtcDateToLocalTz(receiptDetail.receiptDate)}
+                value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.attachedFile')}
-                value={receiptDetail.code}
+                value={receiptDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.shipper')}
-                value={receiptDetail.deliver}
+                value={receiptDetail?.deliver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -121,25 +121,25 @@ const WarehouseImportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.expenditureType')}
-                value={receiptDetail.businessType?.name}
+                value={receiptDetail?.businessType?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.warehouse')}
-                value={receiptDetail.warehouse?.name}
+                value={receiptDetail?.warehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.reason')}
-                value={receiptDetail.reason?.name}
+                value={receiptDetail?.reason?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseImportReceipt.source')}
-                value={receiptDetail.source?.name}
+                value={receiptDetail?.source?.name}
               />
             </Grid>
             {[].map((item) => {
