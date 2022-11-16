@@ -115,6 +115,7 @@ const ItemSettingTable = ({
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
               options={itemList}
               getOptionLabel={(opt) => opt?.item?.code}
+              getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               disabled={isEmpty(values?.warehouseId)}
@@ -125,6 +126,7 @@ const ItemSettingTable = ({
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
               options={itemWarehouseStockList}
               getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               disabled={isEmpty(values?.warehouseId)}

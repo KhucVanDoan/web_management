@@ -330,7 +330,7 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [values?.type],
+    [values?.type, values?.sourceWarehouseId],
   )
   return (
     <>

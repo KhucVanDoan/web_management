@@ -87,7 +87,7 @@ const WarehouseTransferForm = () => {
       sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
       createdAt: warehouseTransferDetails?.createdAt
         ? new Date(warehouseTransferDetails?.createdAt)
-        : '',
+        : new Date(),
       deliver: warehouseTransferDetails?.receiver || '',
       explanation: warehouseTransferDetails?.explanation || '',
       items: warehouseTransferDetails?.warehouseTransferDetailLots?.map(
@@ -352,6 +352,7 @@ const WarehouseTransferForm = () => {
                         options={WAREHOUSE_TRANSFER_TYPE_OPTIONS}
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id || ''}
+                        onChange={() => setFieldValue('sourceWarehouseId', '')}
                         required
                       />
                     </Grid>

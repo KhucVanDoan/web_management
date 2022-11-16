@@ -176,7 +176,7 @@ function ItemsSettingTable(props) {
         width: 180,
         hide: !isView,
         renderCell: (params) => {
-          return params?.row?.lotNumber
+          return params?.row?.lots[0]?.lotNumber
         },
       },
       {

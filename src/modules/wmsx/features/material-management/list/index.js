@@ -87,7 +87,7 @@ function MaterialManagement() {
     data: { materialList, total, isLoading },
     actions,
   } = useMaterialManagement()
-
+  const [isClicked, setIsClicked] = useState(false)
   const [modal, setModal] = useState({
     tempItem: null,
     isOpenUpdateStatusModal: false,
@@ -254,7 +254,10 @@ function MaterialManagement() {
         <Button
           variant="outlined"
           disabled={selectedRows.length === 0}
-          onClick={() => setIsOpenPrintQRModal(true)}
+          onClick={() => {
+            setIsOpenPrintQRModal(true)
+            setIsClicked(false)
+          }}
           sx={{ mr: 4 / 3 }}
           icon="qr"
         >
@@ -360,6 +363,7 @@ function MaterialManagement() {
     },
   ])
   const handleSubmitPrintQR = async (values) => {
+    if (!isClicked) setIsClicked(true)
     if (bpac.IsExtensionInstalled() === false) {
       const agent = window.navigator.userAgent.toLowerCase()
       const ischrome =
@@ -401,6 +405,7 @@ function MaterialManagement() {
           `${window.location.protocol}//${window.location.host}/static/qr.lbx`,
         )
         if (ret === true) {
+          setIsOpenPrintQRModal(false)
           const itemName = await objDoc.GetObject('itemName')
           itemName.Text = `Tên vật tư: ${item.name}`
           const itemCode = await objDoc.GetObject('itemCode')
@@ -411,10 +416,17 @@ function MaterialManagement() {
           await objDoc.PrintOut(itemRequestDetail.amount, 0)
           await objDoc.EndPrint()
           await objDoc.Close()
+        } else {
+          setIsOpenPrintQRModal(false)
+          addNotification(
+            t('materialManagement.errorPrint'),
+            NOTIFICATION_TYPE.ERROR,
+          )
+          setIsOpenPrintQRModal(false)
         }
-        setIsOpenPrintQRModal(false)
       }
     } catch (e) {
+      setIsOpenPrintQRModal(false)
       /* eslint-disable no-console, no-control-regex*/
       addNotification(
         t('materialManagement.errorPrint'),
@@ -454,7 +466,7 @@ function MaterialManagement() {
         >
           {t('general:common.cancel')}
         </Button>
-        <Button type="submit" icon="qrWhite">
+        <Button type="submit" icon="qrWhite" disabled={isClicked}>
           {t('general:common.print')}
         </Button>
       </Box>
