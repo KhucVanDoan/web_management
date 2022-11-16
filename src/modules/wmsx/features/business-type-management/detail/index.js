@@ -11,7 +11,10 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import Tabs from '~/components/Tabs'
 import TextField from '~/components/TextField'
-import { ACTIVE_STATUS_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  ACTIVE_STATUS_OPTIONS,
+  PARENT_BUSINESS_TYPE_MAP,
+} from '~/modules/wmsx/constants'
 import useBusinessTypeManagement from '~/modules/wmsx/redux/hooks/useBusinessTypeManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
@@ -69,6 +72,7 @@ function BusinessTypeManagementDetail() {
       columnName: item?.columnName,
       tableName: item?.tableName,
     }))
+
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -105,7 +109,11 @@ function BusinessTypeManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('businessTypeManagement.parentBusiness')}
-                value={businessTypeDetails?.parentBusiness}
+                value={t(
+                  PARENT_BUSINESS_TYPE_MAP[
+                    businessTypeDetails?.parentBussiness
+                  ],
+                )}
               />
             </Grid>
             <Grid item xs={12}>
