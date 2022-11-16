@@ -54,7 +54,6 @@ const WarehouseExportDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -196,7 +195,7 @@ const WarehouseExportDetail = () => {
           </Grid>
         </Grid>
       </Grid>
-      {[MOVEMENT_TYPE.SO_EXPORT, MOVEMENT_TYPE.TRANSFER_EXPORT].includes(
+      {[MOVEMENT_TYPE.TRANSFER_EXPORT].includes(
         movementDetail?.movementType,
       ) && (
         <Box sx={{ mt: 3 }}>
@@ -206,7 +205,7 @@ const WarehouseExportDetail = () => {
           />
         </Box>
       )}
-      {[MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT].includes(
+      {[MOVEMENT_TYPE.SO_EXPORT, MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT].includes(
         movementDetail?.movementType,
       ) && (
         <Box sx={{ mt: 3 }}>

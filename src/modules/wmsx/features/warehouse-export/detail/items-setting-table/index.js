@@ -9,7 +9,6 @@ import DataTable from '~/components/DataTable'
 
 const ItemSettingTable = ({ items }) => {
   const { t } = useTranslation(['wmsx'])
-
   const columns = [
     {
       field: 'id',
@@ -27,7 +26,7 @@ const ItemSettingTable = ({ items }) => {
       width: 120,
     },
     {
-      field: 'unit',
+      field: 'itemUnit',
       headerName: t('movements.itemDetails.unit'),
       width: 120,
     },
@@ -35,6 +34,9 @@ const ItemSettingTable = ({ items }) => {
       field: 'lotNumber',
       headerName: t('movements.itemDetails.lotNumber'),
       width: 120,
+      renderCell: (params) => {
+        return params?.row?.lots[0]?.lotNumber
+      },
     },
     {
       field: 'pickedQuantity',
@@ -56,6 +58,9 @@ const ItemSettingTable = ({ items }) => {
       field: 'location',
       headerName: t('movements.itemDetails.location'),
       width: 120,
+      renderCell: (params) => {
+        return params?.row?.lots[0]?.locationCode
+      },
     },
   ]
 
@@ -75,7 +80,7 @@ const ItemSettingTable = ({ items }) => {
       </Box>
 
       <DataTable
-        rows={[]}
+        rows={items}
         columns={columns}
         total={items.length}
         striped={false}
