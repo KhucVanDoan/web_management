@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import {
   useParams,
@@ -272,7 +273,11 @@ function MaterialManagementDetail() {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('materialManagement.materialCategory')}
-                value={`${materialDetails?.itemType?.code}.${materialDetails?.itemType?.mainGroupCode}.${materialDetails?.itemType?.subGroupCode}`}
+                value={
+                  !isEmpty(materialDetails?.itemType)
+                    ? `${materialDetails?.itemType?.code}.${materialDetails?.itemType?.mainGroupCode}.${materialDetails?.itemType?.subGroupCode}`
+                    : ''
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
