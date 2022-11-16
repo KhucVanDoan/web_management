@@ -131,7 +131,7 @@ function WarehouseImport() {
       width: 120,
       sortable: true,
       renderCell: (params) => {
-        const createdAt = params.row.createdAt
+        const createdAt = params.row?.createdAt
         return convertUtcDateToLocalTz(createdAt)
       },
     },
@@ -141,7 +141,7 @@ function WarehouseImport() {
       width: 120,
       sortable: false,
       renderCell: (params) => {
-        return params?.row?.user?.username
+        return params.row?.user?.username
       },
     },
     {
