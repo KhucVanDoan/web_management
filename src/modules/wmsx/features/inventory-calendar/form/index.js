@@ -80,6 +80,8 @@ const InventoryCalendarForm = () => {
             new Date(inventoryCalendarDetails?.executeTo),
           ]
         : '',
+      checkPointDataAttachment:
+        inventoryCalendarDetails?.checkPointDataAttachment || '',
       closingDay: inventoryCalendarDetails?.checkPointDate
         ? new Date(inventoryCalendarDetails?.checkPointDate)
         : new Date(),
@@ -438,48 +440,36 @@ const InventoryCalendarForm = () => {
                   CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT && (
                   <Grid item xs={12} lg={6} mt={1}>
                     <LV sx={{ ml: 6, mt: 1 }}>
-                      {values?.checkPointDataAttachment ? (
-                        <>
-                          <label htmlFor="select-file">
-                            <Typography
-                              className={classes.uploadText}
-                              sx={{ mt: 8 / 12 }}
-                            >
-                              {values?.checkPointDataAttachment?.name}
-                            </Typography>
-                          </label>
-                          <input
-                            hidden
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue(
-                                'checkPointDataAttachment',
-                                e.target.files[0],
-                              )
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          component="label"
-                          color="grayEE"
-                        >
-                          <FileUploadIcon /> Nhập dữ liệu
-                          <input
-                            name="checkPointDataAttachment"
-                            hidden
-                            id="select-file"
-                            type="file"
-                            onChange={(e) => {
-                              setFieldValue(
-                                'checkPointDataAttachment',
-                                e.target.files[0],
-                              )
-                            }}
-                          />
-                        </Button>
+                      {values?.checkPointDataAttachment && (
+                        <label htmlFor="select-file">
+                          <Typography
+                            className={classes.uploadText}
+                            sx={{ mt: 8 / 12, mb: 1 }}
+                          >
+                            {values?.checkPointDataAttachment?.name}
+                          </Typography>
+                        </label>
                       )}
+                      <Button
+                        variant="contained"
+                        component="label"
+                        color="grayEE"
+                      >
+                        <FileUploadIcon color="primary" /> Nhập dữ liệu
+                        <input
+                          hidden
+                          id="select-file"
+                          multiple
+                          type="file"
+                          accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                          onChange={(e) => {
+                            setFieldValue(
+                              'checkPointDataAttachment',
+                              e.target.files[0],
+                            )
+                          }}
+                        />
+                      </Button>
                     </LV>
                   </Grid>
                 )}

@@ -73,7 +73,7 @@ function WarehouseImportReceiveAndStorage() {
   }, [id])
 
   const backToDetail = () => {
-    history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.DETAIL.PATH.replace(':id', id))
+    history.push(ROUTE.WAREHOUSE_IMPORT_RECEIPT.LIST.PATH)
   }
 
   const renderActionBar = (handleReset) => {

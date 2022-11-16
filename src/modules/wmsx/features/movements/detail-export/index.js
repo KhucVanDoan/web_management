@@ -37,7 +37,6 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
       actions.resetMovementsDetailsState()
     }
   }, [id])
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -75,7 +74,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             <Grid item xs={12}>
               <LV
                 label={t('warehouseExportReceipt.receiptId')}
-                value={movementDetail.code}
+                value={receiptDetail.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

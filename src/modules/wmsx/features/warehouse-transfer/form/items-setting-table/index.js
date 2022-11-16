@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { Button, Checkbox, IconButton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -56,8 +56,8 @@ const ItemSettingTable = (props) => {
       )
     }
   }
-  const getColumns = () => {
-    return [
+  const getColumns = useMemo(
+    () => [
       {
         field: 'id',
         headerName: '#',
@@ -116,10 +116,11 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG && {
+      {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
+        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locations = itemWarehouseStockList?.find(
@@ -175,10 +176,11 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-      values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG && {
+      {
         field: 'warehouseImportDate',
         headerName: t('warehouseTransfer.table.warehouseImportDate'),
         width: 180,
+        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.transferQuantity
@@ -327,8 +329,9 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-    ]
-  }
+    ],
+    [values?.type],
+  )
   return (
     <>
       <Box
@@ -367,7 +370,7 @@ const ItemSettingTable = (props) => {
       </Box>
       <DataTable
         rows={items}
-        columns={getColumns()}
+        columns={getColumns}
         hideSetting
         hideFooter
         striped={false}
