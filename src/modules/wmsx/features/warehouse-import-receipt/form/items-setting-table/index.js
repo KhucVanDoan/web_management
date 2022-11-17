@@ -26,7 +26,6 @@ function ItemsSettingTable(props) {
     values,
     creditAccount,
   } = props
-
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === 'receipts',
@@ -75,7 +74,10 @@ function ItemsSettingTable(props) {
         width: 250,
         renderCell: (params, index) => {
           const itemIdCodeList = items.map(
-            (item) => item?.itemCode?.itemId || item?.itemCode?.id,
+            (item) =>
+              item?.itemCode?.itemCode?.itemId ||
+              item?.itemCode?.itemId ||
+              item?.itemCode?.id,
           )
           return isView ? (
             params?.row?.item?.code
@@ -89,19 +91,24 @@ function ItemsSettingTable(props) {
               }
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) =>
-                opt?.itemCode?.itemId === val?.itemCode?.itemId
+                (opt?.itemId || opt?.itemCode?.itemId) ===
+                (val?.itemId || val?.itemCode?.itemId)
               }
               getOptionDisabled={(opt) =>
-                itemIdCodeList.some((id) => id === opt?.itemId) &&
-                opt?.itemId !==
-                  (items[index]?.itemCode?.itemId || items[index]?.itemCode?.id)
+                itemIdCodeList.some(
+                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                ) &&
+                (opt?.itemId || opt?.itemCode?.itemId) !==
+                  (items[index]?.itemId ||
+                    items[index]?.itemCode?.itemId ||
+                    items[index]?.itemCode?.id)
               }
             />
           ) : !isEmpty(values[warehouseExportProposal]) &&
             isEmpty(values[receiptRequired]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
-              options={itemList}
+              options={[]}
               getOptionLabel={(opt) => opt?.item?.code || opt?.itemCode?.code}
               getOptionSubLabel={(opt) =>
                 opt?.item?.name || opt?.itemCode?.name
