@@ -50,7 +50,7 @@ const InventoryStatisticFilter = ({
                       getOptionLabel={(opt) => opt?.name}
                       getOptionSubLabel={(opt) => opt?.code}
                       onChange={() => {
-                        setFieldValue('itemId', null)
+                        // setFieldValue('itemId', null)
                         setFieldValue('locationId', null)
                       }}
                     />
@@ -72,8 +72,8 @@ const InventoryStatisticFilter = ({
                       asyncRequestHelper={(res) => res?.data?.items}
                       getOptionLabel={(opt) => opt?.code}
                       getOptionSubLabel={(opt) => opt?.name}
-                      asyncRequestDeps={values?.warehouseId}
-                      disabled={!values?.warehouseId}
+                      // asyncRequestDeps={values?.warehouseId}
+                      // disabled={!values?.warehouseId}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

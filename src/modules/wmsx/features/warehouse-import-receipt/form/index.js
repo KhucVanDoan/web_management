@@ -352,14 +352,7 @@ function WarehouseImportReceiptForm() {
   const handleChangeSource = (val) => {
     if (val) {
       sourceAction.getDetailSourceManagementById(val?.id, (data) => {
-        setCreditAccount(
-          [
-            data?.accountant,
-            data?.produceTypeCode,
-            data?.productCode,
-            data?.factorialCode,
-          ].join('.'),
-        )
+        setCreditAccount(data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'))
       })
     }
   }
