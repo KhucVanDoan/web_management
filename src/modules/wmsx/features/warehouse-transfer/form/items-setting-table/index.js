@@ -31,6 +31,7 @@ const ItemSettingTable = (props) => {
       }
     }
   }
+
   const handleChangeLotnumber = async (val, index, payload) => {
     if (val) {
       const params = {
@@ -77,7 +78,9 @@ const ItemSettingTable = (props) => {
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemWarehouseStockList}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) =>
+                (opt?.id || opt?.itemId) === val?.id
+              }
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               disabled={!values?.sourceWarehouseId}
@@ -153,15 +156,25 @@ const ItemSettingTable = (props) => {
         renderCell: (params, index) => {
           const locationList = itemWarehouseStockList?.find(
             (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
+              item?.id ===
+              (params?.row?.itemCode?.id || params?.row?.itemCode?.itemId),
           )
+          const lotNumberList = flatMap(
+            locationList?.locations,
+            'lots',
+          )?.reduce((unique, o) => {
+            if (!unique.some((obj) => obj.lotNumber === o.lotNumber)) {
+              unique.push(o)
+            }
+            return unique
+          }, [])
+
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
-              options={flatMap(locationList?.locations, 'lots')}
+              options={lotNumberList}
               disabled={!Boolean(values?.sourceWarehouseId?.manageByLot)}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
@@ -331,7 +344,7 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [values?.type, values?.sourceWarehouseId],
+    [values?.type, values?.sourceWarehouseId, itemWarehouseStockList],
   )
   return (
     <>
