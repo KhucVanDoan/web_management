@@ -192,7 +192,7 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.quantity}</>
+            <>{params?.row?.exportableQuantity}</>
           ) : (
             <Field.TextField
               name={`items[${index}].itemCode.requestedQuantity`}

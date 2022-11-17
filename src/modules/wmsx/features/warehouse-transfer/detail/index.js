@@ -22,6 +22,7 @@ import {
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
+import { convertUtcDateToLocalTz } from '~/utils'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
@@ -66,7 +67,7 @@ const WarehouseTransferDetail = () => {
       lotNumber: item?.lotNumber,
       itemName: item?.item?.name,
       itemType: item?.item?.itemType?.name,
-      planQuantity: +item?.planQuantity,
+      planExportedQuantity: item?.exportableQuantity,
       transferQuantity: +item?.planQuantity,
     }))
   const renderHeaderRight = () => {
@@ -212,7 +213,9 @@ const WarehouseTransferDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.createdAt')}
-                value={warehouseTransferDetails?.createdAt}
+                value={convertUtcDateToLocalTz(
+                  warehouseTransferDetails?.createdAt,
+                )}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
