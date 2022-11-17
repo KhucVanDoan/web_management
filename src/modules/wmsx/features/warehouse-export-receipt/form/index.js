@@ -105,7 +105,7 @@ function WarehouseExportReceiptForm() {
       warehouseId: warehouseExportReceiptDetails?.warehouse || '',
       reasonId: warehouseExportReceiptDetails?.reason || '',
       sourceId: warehouseExportReceiptDetails?.source || '',
-      explaination: warehouseExportReceiptDetails?.explanation || '',
+      explanation: warehouseExportReceiptDetails?.explaination || '',
       project: warehouseExportReceiptDetails?.project || '',
       task: warehouseExportReceiptDetails?.task || '',
       suggestExport: warehouseExportReceiptDetails?.suggestExport || '',
@@ -309,7 +309,7 @@ function WarehouseExportReceiptForm() {
       receiver: values?.deliver,
       businessTypeId: values?.businessTypeId?.id,
       reasonId: values?.reasonId?.id,
-      explanation: values?.explaination,
+      explaination: values?.explanation,
       receiptDate: values?.receiptDate.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
@@ -710,7 +710,7 @@ function WarehouseExportReceiptForm() {
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
-                        name="explain"
+                        name="explanation"
                         label={t('warehouseExportReceipt.explain')}
                         placeholder={t(
                           'warehouseExportReceipt.placeholderExplain',

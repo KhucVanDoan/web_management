@@ -407,9 +407,9 @@ function MaterialManagement() {
         if (ret === true) {
           setIsOpenPrintQRModal(false)
           const itemName = await objDoc.GetObject('itemName')
-          itemName.Text = `Tên vật tư: ${item.name}`
+          itemName.Text = `${item.name}`
           const itemCode = await objDoc.GetObject('itemCode')
-          itemCode.Text = `Mã vật tư: ${item.code}`
+          itemCode.Text = `${item.code}`
           const qrCode = await objDoc.GetObject('qrCode')
           qrCode.Text = item.qrCode
           await objDoc.StartPrint('', 0)
