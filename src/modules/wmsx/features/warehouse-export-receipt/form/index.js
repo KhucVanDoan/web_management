@@ -309,7 +309,7 @@ function WarehouseExportReceiptForm() {
       receiver: values?.deliver,
       businessTypeId: values?.businessTypeId?.id,
       reasonId: values?.reasonId?.id,
-      explaination: values?.explanation,
+      explaination: values?.explanation || null,
       receiptDate: values?.receiptDate.toISOString(),
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
@@ -318,7 +318,7 @@ function WarehouseExportReceiptForm() {
         values?.items?.map((item) => ({
           id: +item?.itemCode?.itemId || +item?.itemCode?.id,
           itemCode: item?.itemCode?.item?.code || item?.itemCode?.code,
-          lotNumber: item?.lotNumber || '',
+          lotNumber: item?.lotNumber || null,
           quantity: +item?.quantityExport,
           price: item?.price,
           debitAccount: debitAccount || null,
