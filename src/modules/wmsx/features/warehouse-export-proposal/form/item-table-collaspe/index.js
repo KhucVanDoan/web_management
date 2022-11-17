@@ -40,7 +40,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const [lotNumberlist, setLotNumberList] = useState([])
   const handleAddRow = (parentData, parentIndex) => {
     const newObj = {
-      id: new Date().getTime(),
       exportSuppliesCode: '',
       exportSuppliesName: '',
       unit: '',
@@ -565,7 +564,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'updater',
       headerName: t('warehouseExportProposal.items.updater'),
       width: 150,
-      renderCellz: (params) => {
+      renderCell: (params) => {
         return params?.row?.updatedBy?.username
       },
     },

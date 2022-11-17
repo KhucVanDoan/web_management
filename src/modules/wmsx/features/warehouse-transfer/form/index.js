@@ -97,6 +97,7 @@ const WarehouseTransferForm = () => {
             id: item?.itemId,
             ...item?.item,
           },
+          planExportedQuantity: item?.exportableQuantity,
           lotNumber: item?.lotNumber,
           itemName: item?.item?.name,
           locator: { ...item?.locator, locatorId: item?.locatorId },
@@ -352,7 +353,14 @@ const WarehouseTransferForm = () => {
                         options={WAREHOUSE_TRANSFER_TYPE_OPTIONS}
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id || ''}
-                        onChange={() => setFieldValue('sourceWarehouseId', '')}
+                        onChange={(val) => {
+                          if (
+                            val ===
+                            WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG
+                          ) {
+                            setFieldValue('sourceWarehouseId', '')
+                          }
+                        }}
                         required
                       />
                     </Grid>

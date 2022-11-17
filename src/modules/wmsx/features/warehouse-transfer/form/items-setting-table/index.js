@@ -79,6 +79,7 @@ const ItemSettingTable = (props) => {
               options={itemWarehouseStockList}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               disabled={!values?.sourceWarehouseId}
               onChange={(val) => handleChangeItem(val, index)}
               required
@@ -183,7 +184,7 @@ const ItemSettingTable = (props) => {
         hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.transferQuantity
+            ''
           ) : (
             <Field.TextField
               name={`items[${index}].warehouseImportDate`}

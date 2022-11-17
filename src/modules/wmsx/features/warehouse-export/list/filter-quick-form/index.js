@@ -66,11 +66,11 @@ const WarehouseExportFilter = ({
       case WAREHOUSE_EXPORT_TYPE.INVENTORY:
         return [
           {
-            id: null,
+            id: 20,
             text: 'movementType.export',
           },
           {
-            id: null,
+            id: 21,
             text: 'movementType.picked',
           },
         ]
