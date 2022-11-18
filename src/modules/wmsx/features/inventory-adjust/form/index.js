@@ -294,7 +294,7 @@ const InventoryAdjustForm = () => {
                         options={INVENTORY_ADJUST_TYPE_OPTIONS}
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        isOptionEqualToValue={(opt, val) => opt?.id === val}
                         onChange={(val) =>
                           handleChangeType(val, values, setFieldValue)
                         }
