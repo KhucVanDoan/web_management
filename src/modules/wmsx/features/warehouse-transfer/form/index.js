@@ -85,8 +85,8 @@ const WarehouseTransferForm = () => {
       destinationWarehouseId:
         warehouseTransferDetails?.destinationWarehouse || '',
       sourceWarehouseId: warehouseTransferDetails?.sourceWarehouse || '',
-      createdAt: warehouseTransferDetails?.createdAt
-        ? new Date(warehouseTransferDetails?.createdAt)
+      receiptDate: warehouseTransferDetails?.receiptDate
+        ? new Date(warehouseTransferDetails?.receiptDate)
         : new Date(),
       deliver: warehouseTransferDetails?.receiver || '',
       explanation: warehouseTransferDetails?.explanation || '',
@@ -115,7 +115,7 @@ const WarehouseTransferForm = () => {
       name: values?.name,
       bussinessTypeId: values?.businessTypeId?.id,
       sourceWarehouseId: +values?.sourceWarehouseId?.id,
-      createdAt: values?.createdAt.toISOString(),
+      receiptDate: values?.receiptDate.toISOString(),
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
@@ -282,7 +282,7 @@ const WarehouseTransferForm = () => {
 
                     <Grid item lg={6} xs={12}>
                       <Field.DatePicker
-                        name="createdAt"
+                        name="receiptDate"
                         label={t('warehouseTransfer.createdAt')}
                         placeholder={t('warehouseTransfer.createdAt')}
                         maxDate={new Date()}

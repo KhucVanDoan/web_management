@@ -11,7 +11,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 
-import { MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE, NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import ActionBar from '~/components/ActionBar'
 import Button from '~/components/Button'
@@ -30,6 +30,7 @@ import {
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { getLocalItem } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import ItemsSettingTable from '../form/items-setting-table'
 const DEFAULT_ITEM = {
@@ -160,7 +161,10 @@ function MaterialManagementDetail() {
             }
             sx={{ ml: 4 / 3 }}
             icon="edit"
-            disabled={!isPermittedToUpdateSource}
+            disabled={
+              !isPermittedToUpdateSource ||
+              !materialDetails?.itemWarehouseSources?.length > 0
+            }
           >
             {t('materialManagement.updateSource')}
           </Button>
@@ -203,6 +207,7 @@ function MaterialManagementDetail() {
       warehouseId: item?.warehouse?.id,
       accounting: item?.accounting,
     }))
+
     switch (type) {
       case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_WAREHOUSE:
         actions.createItemWarehouseSource({ data: payload }, () => {
@@ -210,9 +215,16 @@ function MaterialManagementDetail() {
         })
         break
       case UPDATE_ITEM_WAREHOUSE_SOURCE_TYPE.UPDATE_SOURCE:
-        actions.updateItemWarehouseSource({ data: payload }, () => {
-          backToList()
-        })
+        if (!isEmpty(payload?.find((item) => !item?.warehouseId))) {
+          addNotification(
+            t('materialManagement.errorUpdateSource'),
+            NOTIFICATION_TYPE.ERROR,
+          )
+        } else {
+          actions.updateItemWarehouseSource({ data: payload }, () => {
+            backToList()
+          })
+        }
         break
       default:
         break
