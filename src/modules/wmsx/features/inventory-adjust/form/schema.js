@@ -5,6 +5,7 @@ const InventoryyAdjustSchema = (t) =>
     code: Yup.string().nullable().required(t('general:form.required')),
     name: Yup.string().nullable().required(t('general:form.required')),
     type: Yup.string().nullable().required(t('general:form.required')),
+    warehouse: Yup.object().nullable().required(t('general:form.required')),
     reasonId: Yup.object().nullable().required(t('general:form.required')),
     sourceId: Yup.object().nullable().required(t('general:form.required')),
 

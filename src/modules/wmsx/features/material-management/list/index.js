@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
-import { Box, FormControlLabel, Radio } from '@mui/material'
+import { Box } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { FieldArray, useFormikContext } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import {
-  ASYNC_SEARCH_LIMIT,
   NOTIFICATION_TYPE,
   // BULK_ACTION,
   TEXTFIELD_ALLOW,
@@ -28,13 +27,11 @@ import Page from '~/components/Page'
 import Status from '~/components/Status'
 import StatusSwitcher from '~/components/StatusSwitcher'
 import {
-  ACTIVE_STATUS,
   MATERIAL_ACTIVE_STATUS,
   MATERIAL_ACTIVE_STATUS_OPTIONS,
   OPTIONS_QR_CODE,
 } from '~/modules/wmsx/constants'
 import useMaterialManagement from '~/modules/wmsx/redux/hooks/useMaterialManagement'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { getqrCodeApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details.js'
 import {
   exportMaterialApi,
@@ -334,33 +331,33 @@ function MaterialManagement() {
         )
       },
     },
-    {
-      field: 'warehouse',
-      headerName: t('materialManagement.warehouse'),
-      width: 200,
-      renderCell: (_, index) => {
-        return (
-          <Field.Autocomplete
-            name={`items[${index}].warehouse`}
-            asyncRequest={(s) =>
-              searchWarehouseApi({
-                keyword: s,
-                limit: ASYNC_SEARCH_LIMIT,
-                filter: convertFilterParams({
-                  status: ACTIVE_STATUS.ACTIVE,
-                }),
-              })
-            }
-            disabled={typeQR === OPTIONS_QR_CODE.qrNew}
-            asyncRequestHelper={(res) => res?.data?.items}
-            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-            getOptionLabel={(opt) => opt?.code}
-            getOptionSubLabel={(opt) => opt?.name}
-            required
-          />
-        )
-      },
-    },
+    // {
+    //   field: 'warehouse',
+    //   headerName: t('materialManagement.warehouse'),
+    //   width: 200,
+    //   renderCell: (_, index) => {
+    //     return (
+    //       <Field.Autocomplete
+    //         name={`items[${index}].warehouse`}
+    //         asyncRequest={(s) =>
+    //           searchWarehouseApi({
+    //             keyword: s,
+    //             limit: ASYNC_SEARCH_LIMIT,
+    //             filter: convertFilterParams({
+    //               status: ACTIVE_STATUS.ACTIVE,
+    //             }),
+    //           })
+    //         }
+    //         disabled={typeQR === OPTIONS_QR_CODE.qrNew}
+    //         asyncRequestHelper={(res) => res?.data?.items}
+    //         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+    //         getOptionLabel={(opt) => opt?.code}
+    //         getOptionSubLabel={(opt) => opt?.name}
+    //         required
+    //       />
+    //     )
+    //   },
+    // },
   ])
   const handleSubmitPrintQR = async (values) => {
     if (!isClicked) setIsClicked(true)
@@ -378,22 +375,23 @@ function MaterialManagement() {
       return
     }
     const itemIds = values?.items?.map((item) => item?.id).join(',')
-    const warehouseCode = values?.items
-      ?.map((item) => item?.warehouse?.code)
-      .join(',')
-    const paramsQRCodeOld = {
-      itemIds: itemIds,
-      type: values?.switchMode,
-      warehouseCodes: warehouseCode,
-    }
+    // const warehouseCode = values?.items
+    // ?.map((item) => item?.warehouse?.code)
+    // .join(',')
+    // const paramsQRCodeOld = {
+    //   itemIds: itemIds,
+    //   type: values?.switchMode,
+    //   warehouseCodes: warehouseCode,
+    // }
     const paramsQRCodeNew = {
       itemIds: itemIds,
-      type: values?.switchMode,
+      type: OPTIONS_QR_CODE.qrNew,
     }
     const res = await getqrCodeApi(
-      values?.switchMode === OPTIONS_QR_CODE.qrOld
-        ? paramsQRCodeOld
-        : paramsQRCodeNew,
+      paramsQRCodeNew,
+      // values?.switchMode === OPTIONS_QR_CODE.qrOld
+      //   ? paramsQRCodeOld
+      //   : paramsQRCodeNew,
     )
     const items = res?.data
     try {
@@ -574,7 +572,7 @@ function MaterialManagement() {
             items: selectedRows?.map((item) => ({
               ...item,
               amount: 1,
-              warehouse: '',
+              // warehouse: '',
             })),
           },
           validationSchema: validationSchema(t, typeQR),
@@ -586,7 +584,7 @@ function MaterialManagement() {
           name="items"
           render={() => (
             <>
-              <Field.RadioGroup name="switchMode" sx={{ mb: 1, ml: '30%' }}>
+              {/* <Field.RadioGroup name="switchMode" sx={{ mb: 1, ml: '30%' }}>
                 <Box sx={{ display: 'flex' }}>
                   <FormControlLabel
                     value={OPTIONS_QR_CODE.qrOld}
@@ -602,7 +600,7 @@ function MaterialManagement() {
                     sx={{ ml: 2 }}
                   />
                 </Box>
-              </Field.RadioGroup>
+              </Field.RadioGroup> */}
 
               <DataTable
                 rows={selectedRows}

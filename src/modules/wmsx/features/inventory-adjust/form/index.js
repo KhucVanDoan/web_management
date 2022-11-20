@@ -88,7 +88,9 @@ const InventoryAdjustForm = () => {
       departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
       warehouse: inventoryAdjustDetails?.warehouse || '',
       inventoryCalendar: inventoryAdjustDetails?.inventory || '',
-      receiptDate: new Date(inventoryAdjustDetails?.receiptDate) || '',
+      receiptDate: inventoryAdjustDetails?.receiptDate
+        ? new Date(inventoryAdjustDetails?.receiptDate)
+        : '',
       receiptNumber: inventoryAdjustDetails?.receiptNumber || '',
       reasonId: inventoryAdjustDetails?.reason || '',
       sourceId: inventoryAdjustDetails?.source || '',
@@ -116,10 +118,12 @@ const InventoryAdjustForm = () => {
       code: values?.code,
       name: values?.name,
       warehouseId: values?.warehouse?.id,
-      departmentReceiptId: values?.departmentReceiptId?.id,
-      inventoryId: values?.inventoryCalendar?.id,
-      receiptDate: values?.receiptDate.toISOString(),
-      receiptNumber: values?.receiptNumber,
+      departmentReceiptId: values?.departmentReceiptId?.id || '',
+      inventoryId: values?.inventoryCalendar?.id || '',
+      receiptDate: values?.receiptDate
+        ? values?.receiptDate?.toISOString()
+        : null,
+      receiptNumber: values?.receiptNumber || '',
       sourceId: values?.sourceId?.id,
       reasonId: values?.reasonId?.id,
       type: +values?.type,
@@ -294,7 +298,6 @@ const InventoryAdjustForm = () => {
                         options={INVENTORY_ADJUST_TYPE_OPTIONS}
                         getOptionLabel={(opt) => t(`${opt?.text}`)}
                         getOptionValue={(opt) => opt?.id}
-                        isOptionEqualToValue={(opt, val) => opt?.id === val}
                         onChange={(val) =>
                           handleChangeType(val, values, setFieldValue)
                         }

@@ -38,7 +38,6 @@ import { defineSchema } from './schema'
 
 const DEFAULT_ITEM = [
   {
-    id: new Date().getTime(),
     suppliesCode: '',
     suppliesName: '',
     unit: '',
@@ -86,7 +85,7 @@ function WarehouseExportReceiptForm() {
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
       id: item?.id,
-      unit: item?.itemResponse?.itemUnit?.name,
+      unit: item?.itemResponse?.itemUnit || item?.itemUnit,
       dayUpdate: item?.updatedAt,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,
