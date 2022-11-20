@@ -96,7 +96,7 @@ function UserInfoForm() {
             onSubmit={onSubmit}
             enableReinitialize
           >
-            {({ handleReset, values }) => (
+            {({ handleReset }) => (
               <Form>
                 <Grid
                   container
@@ -233,11 +233,7 @@ function UserInfoForm() {
                       name="userWarehouses"
                       label={t('userManagement.warehouse')}
                       placeholder={t('userManagement.warehouse')}
-                      options={(userInfo?.userWarehouses || []).filter((w) =>
-                        values.factories
-                          ?.map((f) => f.id)
-                          .includes(w.factoryId),
-                      )}
+                      options={userInfo?.userWarehouses || []}
                       getOptionLabel={(opt) => opt?.name}
                       filterOptions={createFilterOptions({
                         stringify: (opt) => `${opt?.code}|${opt?.name}`,

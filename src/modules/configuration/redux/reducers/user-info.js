@@ -48,7 +48,10 @@ export default function userInfo(state = initialState, action) {
     case UPDATE_USER_INFO_SUCCESS:
       return {
         ...state,
-        userInfo: action.payload,
+        userInfo: {
+          ...state.userInfo,
+          ...action.payload,
+        },
         isLoading: false,
       }
     case CHANGE_PASSWORD_SUCCESS:
