@@ -42,7 +42,9 @@ function ItemsSettingTable(props) {
     if (val?.itemWarehouseSources?.length > 0) {
       setFieldValue(
         `items[${index}].debitAcc`,
-        val?.itemWarehouseSources[0]?.accounting,
+        val?.itemWarehouseSources?.find(
+          (item) => item?.warehouseId === values?.warehouse?.id,
+        )?.accounting,
       )
     }
     setFieldValue(
