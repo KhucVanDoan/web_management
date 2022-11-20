@@ -35,11 +35,6 @@ function* doLogin(action) {
       cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
       cookies.set('userId', data.userId, CONFIG_COOKIES)
 
-      // Save token info to cookies
-      cookies.set('token', data.accessToken.token, CONFIG_COOKIES)
-      cookies.set('refreshToken', data.refreshToken.token, CONFIG_COOKIES)
-      cookies.set('userId', data.userId, CONFIG_COOKIES)
-
       // Save user infomation to local storage
       localStorage.setItem('userInfo', JSON.stringify(data.userInfo))
       yield put(loginSuccess(response.data.userInfo))
