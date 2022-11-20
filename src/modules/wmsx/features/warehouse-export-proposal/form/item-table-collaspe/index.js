@@ -145,6 +145,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: '#',
       headerName: '#',
       width: 50,
+      renderCell: (_, index) => {
+        return index + 1
+      },
     },
     {
       field: 'suppliesCode',
@@ -167,7 +170,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.unit'),
       width: 100,
       renderCell: (params) => {
-        return params?.row?.unit
+        return params?.row?.unit?.name
       },
     },
     {
@@ -564,7 +567,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'updater',
       headerName: t('warehouseExportProposal.items.updater'),
       width: 150,
-      renderCell: (params) => {
+      renderCellz: (params) => {
         return params?.row?.updatedBy?.username
       },
     },

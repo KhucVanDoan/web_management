@@ -12,10 +12,11 @@ import TextField from '~/components/TextField'
 import { MOVEMENT_TYPE, MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
+import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateToLocalTz } from '~/utils'
 
-import ItemSettingTableDetail from '../../warehouse-export-receipt/detail/item-setting-table'
+import ItemSettingTableDetail from './itemSetting_momentType_export'
 import ItemSettingTable from './items-setting-table'
 
 const breadcrumbs = [
@@ -42,9 +43,18 @@ const WarehouseExportDetail = () => {
 
   useEffect(() => {
     actions.getMovementsDetailsById(id, async (val) => {
-      const res = await getWarehouseExportReceiptDetailsApi(val?.orderId)
-
-      setReceiptDetail(res?.data)
+      switch (val?.movementType) {
+        case MOVEMENT_TYPE.TRANSFER_EXPORT:
+          const response = await getWarehouseTransferDetailsApi(val?.orderId)
+          setReceiptDetail(response?.data)
+          break
+        case MOVEMENT_TYPE.SO_EXPORT:
+          const res = await getWarehouseExportReceiptDetailsApi(val?.orderId)
+          setReceiptDetail(res?.data)
+          break
+        default:
+          break
+      }
     })
     return () => {
       actions.resetMovementsDetailsState()

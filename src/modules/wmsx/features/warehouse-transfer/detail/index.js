@@ -65,6 +65,7 @@ const WarehouseTransferDetail = () => {
         ...item?.item,
       },
       lotNumber: item?.lotNumber,
+      locator: item?.locator,
       itemName: item?.item?.name,
       itemType: item?.item?.itemType?.name,
       planExportedQuantity: item?.exportableQuantity,
@@ -214,7 +215,7 @@ const WarehouseTransferDetail = () => {
               <LV
                 label={t('warehouseTransfer.createdAt')}
                 value={convertUtcDateToLocalTz(
-                  warehouseTransferDetails?.createdAt,
+                  warehouseTransferDetails?.receiptDate,
                 )}
               />
             </Grid>
@@ -247,7 +248,11 @@ const WarehouseTransferDetail = () => {
         </Grid>
       </Grid>
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTable items={getDataItem} mode={mode} />
+        <ItemSettingTable
+          items={getDataItem}
+          mode={mode}
+          type={warehouseTransferDetails?.type}
+        />
       </Box>
       <ActionBar
         onBack={backToList}

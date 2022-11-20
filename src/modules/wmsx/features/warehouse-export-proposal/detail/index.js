@@ -77,7 +77,7 @@ function WarehouseExportProposalDetail() {
       quantityExport: item?.exportedQuantity,
       quantityExportActual: item?.exportedActualQuantity,
       id: item?.id,
-      unit: item?.itemResponse?.itemUnit?.name,
+      unit: item?.itemResponse?.itemUnit || item?.itemUnit,
       dayUpdate: item?.updatedAt,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,

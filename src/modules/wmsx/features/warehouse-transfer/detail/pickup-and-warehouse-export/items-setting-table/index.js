@@ -25,7 +25,7 @@ const ItemSettingTable = (props) => {
         items: warehouseTransferDetails?.warehouseTransferDetailLots?.map?.(
           (item) => ({
             itemId: item?.itemId,
-            warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
+            warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
             lotNumber: item?.lotNumber || null,
           }),
         ),
@@ -196,7 +196,7 @@ const ItemSettingTable = (props) => {
       },
       {
         field: 'locator',
-        headerName: t('warehouseTransfer.table.locator'),
+        headerName: t('warehouseTransfer.table.locatorPickUp'),
         width: 200,
         renderCell: (params, index) => {
           const { itemCode } = params?.row

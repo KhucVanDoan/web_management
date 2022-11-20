@@ -14,7 +14,7 @@ import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfe
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values, setFieldValue } = props
+  const { mode, arrayHelpers, items, values, setFieldValue, type } = props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -124,7 +124,9 @@ const ItemSettingTable = (props) => {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
-        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+        hide:
+          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locations = itemWarehouseStockList?.find(
@@ -194,7 +196,9 @@ const ItemSettingTable = (props) => {
         field: 'warehouseImportDate',
         headerName: t('warehouseTransfer.table.warehouseImportDate'),
         width: 180,
-        hide: values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+        hide:
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           return isView ? (
             ''
@@ -344,7 +348,7 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [values?.type, values?.sourceWarehouseId, itemWarehouseStockList],
+    [values?.type, values?.sourceWarehouseId, itemWarehouseStockList, type],
   )
   return (
     <>
