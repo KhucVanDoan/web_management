@@ -215,6 +215,7 @@ const ItemSettingTable = (props) => {
         field: 'planExportedQuantity',
         headerName: t('warehouseTransfer.table.planExportedQuantity'),
         width: 180,
+        hide: isView,
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.planExportedQuantity}</>
@@ -249,7 +250,21 @@ const ItemSettingTable = (props) => {
           )
         },
       },
-
+      {
+        field: 'actualExportedQuantity',
+        headerName: t('warehouseTransfer.table.actualExportedQuantity'),
+        width: 180,
+        hide: !isView,
+        renderCell: (params) => {
+          return params?.row?.actualQuantity
+        },
+      },
+      {
+        field: 'actualImportedQuantity',
+        headerName: t('warehouseTransfer.table.actualImportedQuantity'),
+        hide: !isView,
+        width: 180,
+      },
       {
         field: 'itemCodeWarehouseImp',
         headerName: t('warehouseTransfer.table.itemCodeWarehouseImp'),
