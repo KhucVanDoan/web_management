@@ -64,7 +64,6 @@ const WarehouseExportDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}
@@ -120,7 +119,10 @@ const WarehouseExportDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.warehouseExport')}
-                value={receiptDetail?.warehouse?.name}
+                value={
+                  receiptDetail?.warehouse?.name ||
+                  receiptDetail?.destinationWarehouse?.name
+                }
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -211,7 +213,7 @@ const WarehouseExportDetail = () => {
       ) && (
         <Box sx={{ mt: 3 }}>
           <ItemSettingTableDetail
-            items={receiptDetail?.saleOrderExportDetails || []}
+            items={receiptDetail?.warehouseTransferDetailLots || []}
             mode={MODAL_MODE.DETAIL}
           />
         </Box>

@@ -272,7 +272,7 @@ function WarehouseImportReceiveAndStorage() {
                   <Grid sx={{ mt: 1 }} item xs={12}>
                     <LV
                       label={t('warehouseExportReceipt.explain')}
-                      value={warehouseImportReceiptDetails?.explaination}
+                      value={warehouseImportReceiptDetails?.explanation}
                     />
                   </Grid>
                   <Box sx={{ mt: 3 }}>

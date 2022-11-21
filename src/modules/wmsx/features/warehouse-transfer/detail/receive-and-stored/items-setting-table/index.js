@@ -154,7 +154,7 @@ const ItemSettingTable = (props) => {
                   limit: ASYNC_SEARCH_LIMIT,
                   filter: convertFilterParams({
                     status: ACTIVE_STATUS.ACTIVE,
-                    rootId: warehouseTransferDetails?.destinationWarehouse?.id,
+                    rootId: warehouseTransferDetails?.sourceWarehouse?.id,
                   }),
                 })
               }
