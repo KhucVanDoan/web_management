@@ -53,7 +53,6 @@ const WarehouseImportDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_IMPORT.LIST.PATH)
   }
-
   return (
     <Page
       breadcrumbs={breadcrumbs}

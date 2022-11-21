@@ -8,7 +8,7 @@ export const formSchema = (t) =>
         receivedQuantity: Yup.number()
           .nullable()
           .required(t('general:form.required')),
-        locator: Yup.object().required(t('general:form.required'))
+        locator: Yup.object().nullable().required(t('general:form.required')),
       }),
     ),
   })

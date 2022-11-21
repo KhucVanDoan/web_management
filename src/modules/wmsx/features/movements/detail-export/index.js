@@ -62,7 +62,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('movements.importExport.createdUser')}
-                value={movementDetail?.user?.username}
+                value={movementDetail?.user?.fullName}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -71,7 +71,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
                 value={convertUtcDateToLocalTz(movementDetail?.createdAt)}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.receiptId')}
                 value={receiptDetail.code}
@@ -92,7 +92,7 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.nameOfReceiver')}
-                value={receiptDetail.deliver}
+                value={receiptDetail.receiver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
@@ -117,6 +117,34 @@ const MovementExportDetail = ({ breadcrumbs, onBack }) => {
               <LV
                 label={t('warehouseExportReceipt.warehouseExportReason')}
                 value={receiptDetail.reason?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.warehouseExportReceipt')}
+                value={`02${
+                  receiptDetail?.warehouse?.code
+                    ? `.${receiptDetail?.warehouse?.code}`
+                    : ''
+                }${
+                  receiptDetail?.reason?.code
+                    ? `.${receiptDetail?.reason?.code}`
+                    : ''
+                }`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseExportReceipt.number')}
+                value={`03${
+                  receiptDetail?.warehouse?.code
+                    ? `.${receiptDetail?.warehouse?.code}`
+                    : ''
+                }${
+                  receiptDetail?.reason?.code
+                    ? `.${receiptDetail?.reason?.code}`
+                    : ''
+                }`}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

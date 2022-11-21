@@ -42,7 +42,7 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.unit'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.item?.itemUnit
+          return params?.row?.item?.itemUnit?.name
         },
       },
       {
@@ -50,15 +50,15 @@ const ItemSettingTableDetail = ({ items }) => {
         headerName: t('warehouseExportReceipt.items.quantityRequest'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.quantityRequest
+          return params?.row?.exportableQuantity
         },
       },
       {
         field: 'quantityExport',
-        headerName: t('warehouseExportReceipt.items.quantityExport'),
+        headerName: t('warehouseExportReceipt.items.quantityTransfer'),
         width: 150,
         renderCell: (params) => {
-          return params?.row?.quantity
+          return params?.row?.planQuantity
         },
       },
       {
