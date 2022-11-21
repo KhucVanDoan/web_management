@@ -173,7 +173,7 @@
     "warehouseTransferCreate": "Tạo lệnh chuyển kho",
     "warehouseTransferEdit": "Sửa lệnh chuyển kho",
     "warehouseTransferDetail": "Chi tiết lệnh chuyển kho",
-    "pickupAndWarehouseExport": "Lấy hàng & xuất kho",
+    "pickupAndWarehouseExport": "Lấy hàng & Xuất kho",
     "receiveAndStored": "Nhận hàng & Cất hàng",
     "inventoryAdjust": "Điều chỉnh tồn kho",
     "inventoryAdjustCreate": "Tạo phiếu điều chỉnh",
@@ -2901,7 +2901,8 @@
       "addSupplies": "Thêm vật tư",
       "unit": "Đơn vị tính",
       "quantityExportActual": "SL thực xuất",
-      "locator": "Vị trí"
+      "locator": "Vị trí",
+      "quantityTransfer": "SL chuyển"
     },
     "pickAndExport": {
       "title": "Lấy hàng & Xuất kho",
@@ -3290,7 +3291,7 @@
     "receiptNo": "Số phiếu",
     "suggestExport": "Giấy đề nghị xuất vật tư",
     "contractNo": "Số hợp đồng",
-    "unit": "Đơn vị nhập",
+    "unit": "Đơn vị tính",
     "expenditureType": "Loại nghiệp vụ",
     "createdAt": "Ngày lập phiếu",
     "warehouseExportReceipt": "Phiếu xuất kho",
