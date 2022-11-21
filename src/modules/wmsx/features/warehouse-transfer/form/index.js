@@ -128,7 +128,7 @@ const WarehouseTransferForm = () => {
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
           debitAcc: '1519',
-          creditAcc: item?.creditAccount,
+          creditAcc: item?.creditAcc,
         })),
       ),
     }
