@@ -7,12 +7,6 @@ import { useParams, useHistory } from 'react-router-dom'
 import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
-// import Status from '~/components/Status'
-import {
-  MOVEMENT_ORDER_TYPE_MAP,
-  MOVEMENT_TYPE_MAP,
-  // ORDER_STATUS_OPTIONS,
-} from '~/modules/wmsx/constants'
 import useReceiptManagement from '~/modules/wmsx/redux/hooks/useReceiptManagement'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { convertUtcDateTimeToLocalTz } from '~/utils'
@@ -21,12 +15,12 @@ import ItemsSettingTable from './items-setting-table'
 
 const breadcrumbs = [
   {
-    route: ROUTE.WAREHOUSE_IMPORT.LIST.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT.LIST.TITLE,
+    route: ROUTE.RECEIPT_MANAGEMENT.LIST.PATH,
+    title: ROUTE.RECEIPT_MANAGEMENT.LIST.TITLE,
   },
   {
-    route: ROUTE.WAREHOUSE_IMPORT.DETAIL.PATH,
-    title: ROUTE.WAREHOUSE_IMPORT.DETAIL.TITLE,
+    route: ROUTE.RECEIPT_MANAGEMENT.DETAIL.PATH,
+    title: ROUTE.RECEIPT_MANAGEMENT.DETAIL.TITLE,
   },
 ]
 
@@ -53,7 +47,7 @@ const ReceiptManagementDetail = () => {
   return (
     <Page
       breadcrumbs={breadcrumbs}
-      title={t('movements.formTitle')}
+      title={t('receiptManagement.formTitle')}
       onBack={backToList}
       loading={isLoading}
     >
@@ -62,7 +56,7 @@ const ReceiptManagementDetail = () => {
           <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
             {/* <Grid item xs={12}>
               <LV
-                label={t('movements.movementStatus')}
+                label={t('receiptManagement.movementStatus')}
                 value={
                   <Status
                     options={ORDER_STATUS_OPTIONS}
@@ -73,45 +67,56 @@ const ReceiptManagementDetail = () => {
             </Grid> */}
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('movements.importExport.movementCode')}
+                label={t('receiptManagement.receiptNo')}
+                value={receiptDetail?.receiptNumber}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('receiptManagement.code')}
                 value={receiptDetail?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('movements.importExport.movementType')}
-                value={t(MOVEMENT_TYPE_MAP[receiptDetail?.movementType])}
+                label={t('receiptManagement.deliver')}
+                value={receiptDetail?.deliver}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImport.code')}
-                value={receiptDetail?.order?.code}
+                label={t('receiptManagement.receiptDate')}
+                value={convertUtcDateTimeToLocalTz(receiptDetail?.receiptDate)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('movements.importExport.formNumber')}
-                value={t(MOVEMENT_ORDER_TYPE_MAP[receiptDetail?.movementType])}
+                label={t('receiptManagement.warehouseCode')}
+                value={receiptDetail?.warehouse?.code}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('warehouseImport.warehouseName')}
-                value={receiptDetail?.warehouse?.name}
-              />
-            </Grid>
-            <Grid item lg={6} xs={6} />
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('movements.importExport.createdUser')}
-                value={receiptDetail?.user?.username}
+                label={t('receiptManagement.department')}
+                value={receiptDetail?.department}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
-                label={t('movements.importExport.movementDate')}
-                value={convertUtcDateTimeToLocalTz(receiptDetail?.createdAt)}
+                label={t('receiptManagement.contractNo')}
+                value={receiptDetail?.contractNumber}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('receiptManagement.purpose')}
+                value={receiptDetail?.purpose}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('receiptManagement.description')}
+                value={receiptDetail?.description}
               />
             </Grid>
           </Grid>
