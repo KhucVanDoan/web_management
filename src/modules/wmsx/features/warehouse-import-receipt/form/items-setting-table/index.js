@@ -26,6 +26,7 @@ function ItemsSettingTable(props) {
     values,
     creditAccount,
   } = props
+
   const isView = mode === MODAL_MODE.DETAIL
   const receiptRequired = values?.businessTypeId?.bussinessTypeAttributes?.find(
     (item) => item?.tableName === 'receipts',
@@ -46,6 +47,9 @@ function ItemsSettingTable(props) {
           (item) => item?.warehouseId === values?.warehouse?.id,
         )?.accounting,
       )
+    }
+    if (!isEmpty(warehouseExportProposal) && isEmpty(receiptRequired)) {
+      setFieldValue(`items[${index}].importQuantity`, val?.requestedQuantity)
     }
     setFieldValue(
       `items[${index}].unit`,
@@ -194,7 +198,7 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.exportableQuantity}</>
+            <>{params?.row?.requestedQuantity}</>
           ) : (
             <Field.TextField
               name={`items[${index}].itemCode.requestedQuantity`}
@@ -286,7 +290,6 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].debitAcc`}
-              type="number"
               disabled={true}
             />
           )
@@ -322,7 +325,7 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList, creditAccount],
+    [items, itemList, creditAccount, values?.warehouse],
   )
 
   return (
