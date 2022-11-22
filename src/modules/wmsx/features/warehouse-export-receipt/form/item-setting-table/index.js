@@ -242,6 +242,22 @@ const ItemSettingTable = ({
         },
       },
       {
+        field: 'planExportedQuantity',
+        headerName: t('warehouseExportReceipt.items.planExportedQuantity'),
+        width: 150,
+        renderCell: (params, index) => {
+          return isView ? (
+            params?.row?.planExportedQuantity
+          ) : (
+            <Field.TextField
+              name={`items[${index}].planExportedQuantity`}
+              disabled
+              required
+            />
+          )
+        },
+      },
+      {
         field: 'quantityExport',
         headerName: t('warehouseExportReceipt.items.quantityExport'),
         width: 150,
@@ -267,22 +283,7 @@ const ItemSettingTable = ({
           )
         },
       },
-      {
-        field: 'planExportedQuantity',
-        headerName: t('warehouseExportReceipt.items.planExportedQuantity'),
-        width: 150,
-        renderCell: (params, index) => {
-          return isView ? (
-            params?.row?.planExportedQuantity
-          ) : (
-            <Field.TextField
-              name={`items[${index}].planExportedQuantity`}
-              disabled
-              required
-            />
-          )
-        },
-      },
+
       {
         field: 'unitPriceRefer',
         headerName: t('warehouseExportReceipt.items.unitPriceRefer'),

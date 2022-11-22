@@ -64,6 +64,7 @@ const WarehouseTransferDetail = () => {
         id: item?.itemId,
         ...item?.item,
       },
+      actualQuantity: Number(item?.actualQuantity),
       lotNumber: item?.lotNumber,
       locator: item?.locator,
       itemName: item?.item?.name,
@@ -190,13 +191,13 @@ const WarehouseTransferDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.source')}
-                value={warehouseTransferDetails?.source?.name}
+                value={`${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.reason')}
-                value={warehouseTransferDetails?.reason?.name}
+                value={`${warehouseTransferDetails?.reason?.code} - ${warehouseTransferDetails?.reason?.name}`}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

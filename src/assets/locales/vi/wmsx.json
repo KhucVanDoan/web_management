@@ -2719,7 +2719,7 @@
   },
   "locationManagement": {
     "list": "Danh sách vị trí",
-    "searchPlaceholder": "Tìm kiếm vị trí theo mã hoặc tên",
+    "searchPlaceholder": "Tìm kiếm vị trí theo mã",
     "code": "Mã vị trí",
     "name": "Tên vị trí",
     "warehouseCode": "Mã kho",
