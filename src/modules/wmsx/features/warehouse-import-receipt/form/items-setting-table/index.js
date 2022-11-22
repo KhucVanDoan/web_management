@@ -60,7 +60,7 @@ function ItemsSettingTable(props) {
 
     setFieldValue(`items[${index}].importQuantity`, '')
     setFieldValue(`items[${index}].money`, '')
-    if (receiptRequired) {
+    if (!isEmpty(receiptRequired)) {
       setFieldValue(`items[${index}].importQuantity`, val?.requestedQuantity)
     }
   }
@@ -325,7 +325,7 @@ function ItemsSettingTable(props) {
         },
       },
     ],
-    [items, itemList, creditAccount, values?.warehouse],
+    [items, itemList, creditAccount, values?.warehouse, values?.businessTypeId],
   )
 
   return (

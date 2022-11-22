@@ -366,6 +366,7 @@ const ItemSettingTable = ({
       itemWarehouseStockList,
       values[warehouseExprotProposal],
       debitAccount,
+      values?.businessTypeId,
     ],
   )
   return (

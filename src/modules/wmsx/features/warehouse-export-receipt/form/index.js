@@ -420,6 +420,8 @@ function WarehouseExportReceiptForm() {
   }
   const handleChangeBusinessType = (val, setFieldValue) => {
     setFieldValue('items', DEFAULT_ITEMS)
+    setItemWarehouseExport([])
+    setWarehouseList([])
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         initialValues[item?.id] = ''
