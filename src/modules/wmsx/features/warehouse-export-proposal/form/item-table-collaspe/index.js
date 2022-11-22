@@ -242,8 +242,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.supplyCode'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.itemId ? (
-          <Checkbox checked={true} name="supplyCode" disabled />
+        return isView ? (
+          <Checkbox name="supplyCode" disabled />
         ) : (
           <Field.Checkbox name={`itemTableCollaspe[${index}].supplyCode`} />
         )
@@ -629,6 +629,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'unit',
       headerName: t('warehouseExportProposal.unit'),
       width: 200,
+      renderCell: (params) => {
+        return params?.row?.unit?.name || params?.row?.unit
+      },
     },
     {
       field: 'suppliesType',
@@ -713,6 +716,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             onClick={() => {
               setOpenModal(true)
             }}
+            disabled={!dataItem?.length > 0}
           >
             {t('warehouseExportProposal.requestMaterialCode')}
           </Button>

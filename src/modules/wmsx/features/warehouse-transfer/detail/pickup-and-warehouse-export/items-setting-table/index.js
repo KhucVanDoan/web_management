@@ -25,7 +25,7 @@ const ItemSettingTable = (props) => {
         items: warehouseTransferDetails?.warehouseTransferDetailLots?.map?.(
           (item) => ({
             itemId: item?.itemId,
-            warehouseId: warehouseTransferDetails?.destinationWarehouse?.id,
+            warehouseId: warehouseTransferDetails?.sourceWarehouse?.id,
             lotNumber: item?.lotNumber || null,
           }),
         ),

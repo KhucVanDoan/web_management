@@ -299,7 +299,7 @@ function WarehouseImportReceiptForm() {
           price: item?.price,
           amount: item?.money,
           debitAccount: item?.debitAcc || null,
-          creditAccount: creditAccount,
+          creditAccount: creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           warehouseId: values?.warehouse?.id,
         })),
       ),
@@ -545,6 +545,9 @@ function WarehouseImportReceiptForm() {
                         disabled={values[receiptRequired]}
                         getOptionSubLabel={(opt) => opt?.name}
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+                        }
                         required
                       />
                     </Grid>
