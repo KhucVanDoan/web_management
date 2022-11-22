@@ -57,8 +57,9 @@ const ItemSettingTable = ({
     if (val?.itemWarehouseSources?.length > 0) {
       setFieldValue(
         `items[${index}].creditAccount`,
-        val?.itemWarehouseSources?.find((item) => item?.warehouseId)
-          ?.accounting,
+        val?.itemWarehouseSources?.find(
+          (item) => item?.warehouseId === values?.warehouseId?.id,
+        )?.accounting,
       )
     }
 

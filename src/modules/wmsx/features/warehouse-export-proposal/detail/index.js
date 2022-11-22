@@ -69,6 +69,7 @@ function WarehouseExportProposalDetail() {
       itemName: item?.itemName || item?.itemResponse?.name,
       itemId: item?.itemId,
       note: item?.note,
+      supplyCode: item?.itemId ? true : false,
       itemDetail: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,

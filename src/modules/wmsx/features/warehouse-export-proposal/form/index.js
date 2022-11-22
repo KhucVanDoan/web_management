@@ -78,6 +78,7 @@ function WarehouseExportReceiptForm() {
       itemId: item?.itemId,
       note: item?.note,
       itemDetail: item?.itemDetail,
+      supplyCode: item?.itemId ? true : false,
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
       importedQuantity: '',
