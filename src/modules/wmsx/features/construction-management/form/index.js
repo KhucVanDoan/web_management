@@ -183,9 +183,9 @@ function ConstructionManagementForm() {
                       label={t('constructionManagement.code')}
                       placeholder={t('constructionManagement.code')}
                       inputProps={{
-                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE.MAX,
+                        maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_DOT}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                       disabled={isUpdate}
                       required
                     />
