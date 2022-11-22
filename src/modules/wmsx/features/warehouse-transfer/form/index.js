@@ -103,6 +103,8 @@ const WarehouseTransferForm = () => {
           locator: { ...item?.locator, locatorId: item?.locatorId },
           itemType: item?.item?.itemType?.name,
           transferQuantity: +item?.planQuantity,
+          debitAcc: item?.debitAccount,
+          creditAcc: item?.creditAccount,
         }),
       ) || [{ ...DEFAULT_ITEM }],
     }),
@@ -120,15 +122,15 @@ const WarehouseTransferForm = () => {
       reasonId: values?.reasonId?.id,
       type: +values?.type,
       receiver: values?.deliver,
-      explanation: values?.explanation || null,
+      explanation: values?.explanation,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           itemId: item?.itemCode?.id,
           locatorId: +item?.locator?.locatorId || null,
           quantity: +item.transferQuantity,
           lotNumber: item?.lotNumber || null,
-          debitAcc: '1519',
-          creditAcc: item?.creditAcc,
+          debitAccount: '1519',
+          creditAccount: item?.creditAcc,
         })),
       ),
     }
@@ -227,6 +229,7 @@ const WarehouseTransferForm = () => {
   }
 
   const handleChangeWarehouse = (val, setFieldValue) => {
+    setFieldValue('items', [{ ...DEFAULT_ITEM }])
     setFieldValue('destinationWarehouseId', '')
     if (val) {
       actions.getListItemWarehouseStock(val?.id)
