@@ -84,7 +84,7 @@ const InventoryAdjustForm = () => {
     () => ({
       code: inventoryAdjustDetails?.code || '',
       name: inventoryAdjustDetails?.name || '',
-      type: inventoryAdjustDetails?.type || '',
+      type: inventoryAdjustDetails?.type ? 1 : 0,
       departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
       warehouse: inventoryAdjustDetails?.warehouse || '',
       inventoryCalendar: inventoryAdjustDetails?.inventory || '',
@@ -98,11 +98,14 @@ const InventoryAdjustForm = () => {
       attachment: inventoryAdjustDetails?.attachment || '',
       items: inventoryAdjustDetails?.items?.map((item) => ({
         itemCode: item?.item,
-        lotNumber: {
-          lotNumber: item?.lotNumber,
-          quantityExported: item?.planQuantity,
-        },
+        lotNumber: item?.lotNumber
+          ? {
+              lotNumber: item?.lotNumber,
+              quantityExported: item?.planQuantity,
+            }
+          : null,
         itemName: item?.item?.name,
+        unit: item?.item?.unit,
         locator: { ...item?.locator, locatorId: item?.locator?.id },
         quantity: item?.quantity,
         price: item?.price,

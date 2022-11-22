@@ -279,9 +279,7 @@ function WarehouseExportReceiptDetail() {
           </Grid>
           <Box sx={{ mt: 3 }}>
             <ItemSettingTableDetail
-              items={
-                warehouseExportReceiptDetails?.saleOrderExportDetails || []
-              }
+              items={warehouseExportReceiptDetails?.itemsSync || []}
               mode={mode}
             />
           </Box>
