@@ -6,13 +6,13 @@ import {
   // exportReportSuccess,
   EXPORT_REPORT_START,
 } from '~/modules/wmsx/redux/actions/report-export'
-import { api } from '~/services/api'
+import { reportApi } from '~/services/api'
 import { getFileNameFromHeader } from '~/utils/api'
 import addNotification from '~/utils/toast'
 
 export const exportReportApi = async (params) => {
   const uri = `/v1/reports/export`
-  const res = await api.get(uri, params, {
+  const res = await reportApi.get(uri, params, {
     responseType: 'blob',
     getHeaders: true,
   })
