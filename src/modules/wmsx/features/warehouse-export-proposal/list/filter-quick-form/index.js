@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Grid, Box } from '@mui/material'
+import { endOfMonth, format, startOfMonth } from 'date-fns'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -10,8 +11,26 @@ import { Field } from '~/components/Formik'
 const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
   const { t } = useTranslation(['wmsx'])
 
+  const [startDate, setStartDate] = useState(
+    `${format(startOfMonth(new Date()), 'yyyy-MM-dd')}T00:00:00.000Z`,
+  )
+  const [endDate, setEndDate] = useState(
+    `${format(endOfMonth(new Date()), 'yyyy-MM-dd')}T23:59:59.999Z`,
+  )
+  const [selectedDate, setSelectedDate] = useState()
+
+  const handleChangeSelect = (value) => {
+    setSelectedDate(value)
+    setStartDate(`${format(startOfMonth(value), 'yyyy-MM-dd')}T00:00:00.000Z`)
+    setEndDate(`${format(endOfMonth(value), 'yyyy-MM-dd')}T23:59:59.999Z`)
+  }
   const onSubmit = (values) => {
-    setQuickFilters(values)
+    setQuickFilters({
+      ...quickFilters,
+      startDate: startDate,
+      endDate: endDate,
+      values,
+    })
   }
 
   return (
@@ -30,9 +49,10 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                     <Field.DatePicker
                       views={['year', 'month']}
                       name="time"
-                      openTo="month"
+                      value={selectedDate}
                       label={t('warehouseExportProposal.time')}
                       placeholder={t('warehouseExportProposal.time')}
+                      onChange={handleChangeSelect}
                     />
                   </Grid>
                   <Grid item lg={6} xs={12}>

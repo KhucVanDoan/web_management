@@ -342,10 +342,11 @@ const ItemSettingTable = ({
           )
         },
       },
-      items?.length > 1 && {
+      {
         field: 'action',
         width: 100,
         align: 'center',
+        hide: !items?.length > 1,
         renderCell: (params, idx) => {
           return (
             <IconButton

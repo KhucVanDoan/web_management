@@ -84,7 +84,7 @@ const InventoryAdjustForm = () => {
     () => ({
       code: inventoryAdjustDetails?.code || '',
       name: inventoryAdjustDetails?.name || '',
-      type: inventoryAdjustDetails?.type ? 1 : 0,
+      type: isUpdate ? inventoryAdjustDetails?.type : '',
       departmentReceiptId: inventoryAdjustDetails?.departmentReceipt || '',
       warehouse: inventoryAdjustDetails?.warehouse || '',
       inventoryCalendar: inventoryAdjustDetails?.inventory || '',

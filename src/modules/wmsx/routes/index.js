@@ -74,6 +74,7 @@ import InventorySettingDetail from '../features/inventory-setting/detail'
 import InventorySettingForm from '../features/inventory-setting/form'
 import InventorySetting from '../features/inventory-setting/list'
 import InventoryStatistics from '../features/inventory-statistics'
+import LicenseDetail from '../features/license-detail'
 // import InventoryWarning from '../features/inventory-warning'
 import LocationManagementDetail from '../features/location-management/detail'
 import LocationManagementForm from '../features/location-management/form'
@@ -1410,6 +1411,14 @@ const routes = [
             isInSidebar: false,
           },
         ],
+      },
+      {
+        name: ROUTE.LICENSE.TITLE,
+        path: ROUTE.LICENSE.PATH,
+        component: LicenseDetail,
+        // code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
+        isInSidebar: true,
+        subMenu: [],
       },
     ],
   },

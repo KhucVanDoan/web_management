@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import { Box, FormLabel, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
+import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import * as Yup from 'yup'
 
 // import { BULK_ACTION } from '~/common/constants'
 // import { API_URL } from '~/common/constants/apiUrl'
@@ -15,6 +19,7 @@ import Dialog from '~/components/Dialog'
 import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import ImportExport from '~/components/ImportExport'
+import LabelValue from '~/components/LabelValue'
 import Page from '~/components/Page'
 import Status from '~/components/Status'
 import {
@@ -56,6 +61,8 @@ function WarehouseExportProposal() {
   const { canAccess } = useApp()
   const DEFAULT_QUICK_FILTERS = {
     time: '',
+    startDate: '',
+    endDate: '',
     statusWarehouseExport: '',
   }
   const {
@@ -273,15 +280,24 @@ function WarehouseExportProposal() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          departmentSettingId: filters?.departmentSettingId?.id,
+          receiptMonth: quickFilters?.startDate
+            ? `${quickFilters?.startDate}|${quickFilters?.endDate}`
+            : null,
+        },
+        [
+          { field: 'receiptDate', filterFormat: 'date' },
+          { field: 'receiptMonth' },
+        ],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExportProposal(params)
@@ -463,6 +479,70 @@ function WarehouseExportProposal() {
         noBorderBottom
       >
         {t('warehouseExportProposal.Confirm')}
+        <Formik
+          initialValues={{
+            attachedFile: null,
+          }}
+          validationSchema={() =>
+            Yup.object().shape({
+              attachedFile: Yup.mixed().required(t('general:form.required')),
+            })
+          }
+          onSubmit={onSubmitConfirm}
+          enableReinitialize
+        >
+          {({ values, setFieldValue }) => {
+            return (
+              <Form>
+                <LabelValue
+                  label={
+                    <Box sx={{ mt: 8 / 12 }}>
+                      <FormLabel>
+                        <Typography color={'text.main'} component="span">
+                          {t('inventoryAdjust.attachment')}
+                        </Typography>
+                      </FormLabel>
+                    </Box>
+                  }
+                >
+                  {values?.attachedFile && (
+                    <label htmlFor="select-file">
+                      <Typography sx={{ mt: 8 / 12 }}>
+                        {values?.attachedFile
+                          ?.map((i) => i?.name)
+                          ?.join('\r\n')}
+                      </Typography>
+                    </label>
+                  )}
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ backgroundColor: '#fff' }}
+                  >
+                    <FileUploadIcon color="primary" />
+                    <input
+                      hidden
+                      id="select-file"
+                      multiple
+                      type="file"
+                      accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                      onChange={(e) => {
+                        setFieldValue(
+                          'attachedFile',
+                          Object.values(e.target.files),
+                        )
+                      }}
+                    />
+                  </Button>
+                </LabelValue>
+                {/* <Button color="grayF4" onClick={onCloseModal}>
+                  {t('general:common.no')}
+                </Button>
+                <Button type="submit">{t('general:common.yes')}</Button> */}
+              </Form>
+            )
+          }}
+        </Formik>
       </Dialog>
       <Dialog
         open={modal.isOpenRejectModal}

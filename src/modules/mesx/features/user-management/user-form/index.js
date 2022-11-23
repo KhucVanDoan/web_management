@@ -67,8 +67,14 @@ function UserManagementForm() {
       dateOfBirth: userDetails?.dateOfBirth || null,
       email: userDetails?.email || '',
       phone: userDetails?.phone || '',
-      role: first(userDetails?.userRoleSettings) || null,
-      departmentSettings: first(userDetails?.departmentSettings) || [],
+      role:
+        userDetails?.userRoleSettings?.length > 0
+          ? first(userDetails?.userRoleSettings)
+          : null,
+      departmentSettings:
+        userDetails?.departmentSettings?.length > 0
+          ? first(userDetails?.departmentSettings)
+          : [],
       userWarehouses: userDetails.userWarehouses || [],
     }),
     [userDetails],
