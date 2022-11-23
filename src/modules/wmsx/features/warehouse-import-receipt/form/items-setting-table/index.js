@@ -305,7 +305,7 @@ function ItemsSettingTable(props) {
           ) : (
             <Field.TextField
               name={`items[${index}].creditAcc`}
-              value={creditAccount}
+              value={creditAccount.replace(/^(\d*?[1-9])0+$/, '$1')}
               disabled={true}
             />
           )

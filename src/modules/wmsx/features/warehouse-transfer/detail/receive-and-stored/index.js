@@ -176,15 +176,15 @@ const ReceiveAndStored = () => {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.warehouseImport')}
-                        value={warehouseTransferDetails?.sourceWarehouse?.name}
+                        value={
+                          warehouseTransferDetails?.destinationWarehouse?.name
+                        }
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.warehouseExport')}
-                        value={
-                          warehouseTransferDetails?.destinationWarehouse?.name
-                        }
+                        value={warehouseTransferDetails?.sourceWarehouse?.name}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

@@ -790,4 +790,8 @@ export const ROUTE = {
       TITLE: 'inventoryAdjustEdit',
     },
   },
+  LICENSE: {
+    PATH: '/wms/license',
+    TITLE: 'license',
+  },
 }

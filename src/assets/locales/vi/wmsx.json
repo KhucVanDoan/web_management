@@ -179,7 +179,7 @@
     "inventoryAdjustCreate": "Tạo phiếu điều chỉnh",
     "inventoryAdjustEdit": "Sửa phiếu điều chỉnh",
     "inventoryAdjustDetail": "Chi tiết phiếu điều chỉnh",
-
+    "license": "Thông tin license",
     "____menu___": "Viết lên trên",
     "importExportData": "Nhập/Xuất dữ liệu",
     "defineCategory": "Định nghĩa danh mục",
@@ -2654,6 +2654,9 @@
     "inventoryLimit": "Số lượng tồn kho an toàn",
     "minInventoryLimit": "Số lượng tồn kho tối thiểu",
     "maxInventoryLimit": "Số lượng tồn kho tối đa",
+    "reorderPoint": "Điểm đặt hàng lại",
+    "eoq": "EOQ (Số lượng đặt hàng kinh tế)",
+    "leadtime": "Thời gian chờ (leadtime)",
     "createdAt": "Thời gian tạo",
     "inventorySettingDelete": "Xóa thiết lập tồn kho",
     "deleteConfirm": "Bạn có chắc chắn muốn xoá thiết lập tồn kho này không?",
@@ -3092,8 +3095,8 @@
     "warehouseCode": "Mã kho",
     "department": "Bộ phận nhận",
     "receiptDate": "Ngày lập phiếu",
-    "purpose":"Lý do",
-    "description":"Mô tả",
+    "purpose": "Lý do",
+    "description": "Mô tả",
     "itemDetails": {
       "title": "Danh sách vật tư",
       "code": "Mã vật tư",
@@ -3101,9 +3104,9 @@
       "unit": "Đơn vị tính",
       "quantity": "SL giao nhận",
       "price": "Đơn giá",
-      "amount":"Thành tiền",
-      "debitAccount":"TK nợ",
-      "creditAccount":"TK có"
+      "amount": "Thành tiền",
+      "debitAccount": "TK nợ",
+      "creditAccount": "TK có"
     }
   },
   "reportExport": {
@@ -3400,5 +3403,28 @@
   "userStatus": {
     "active": "Hoạt động",
     "inactive": "Tạm khóa"
+  },
+  "licenseActivation": {
+    "title": "Kích hoạt License key",
+    "item": "Sản phẩm",
+    "license": "License key",
+    "licenseForm": "Nhập license key",
+    "numberContract": "Số hợp đồng",
+    "numberContractForm": "Nhập số hợp đồng",
+    "active": "Kích hoạt",
+    "licenseInfo": "Thông tin License",
+    "wms": "WMS  –  Hệ thống quản lý kho thông minh",
+    "table": {
+      "#": "STT",
+      "license": "License",
+      "numberContract": "Số hợp đồng",
+      "departmentUsedQuantity": "Số đơn vị sử dụng",
+      "departmentUsed": "Đơn vị sử dụng",
+      "expiryDate": "Thời hạn sử dụng",
+      "status": "Trạng thái",
+      "activeDate": "Ngày kích hoạt"
+    },
+    "copyright": "Bản quyền được cấp cho Tổng công ty Phát Điện 3 - CTCP (EVNGENCO3) và được sử dụng tại Tổng công ty và các đơn vị thuộc phạm vi triển khai. EVNGENCO3 không được sử dụng cho các đơn vị khác hoặc cung cấp cho bên thứ ba khi chưa được sự đồng ý bằng văn bản của Avenue.",
+    "connectWMS": "Truy cập WMS"
   }
 }

@@ -25,6 +25,7 @@ import inventoryCalendar from './inventory-calendar'
 import inventorySetting from './inventory-setting'
 import inventoryStatistics from './inventory-statistics'
 import inventoryWarning from './inventory-warning'
+import license from './license'
 import locationManagement from './location-management'
 import managementUnit from './management-unit'
 import materialManagement from './material-management'
@@ -89,4 +90,5 @@ export default combineReducers({
   roleList,
   dataSyncManagement,
   inventoryAdjust,
+  license,
 })

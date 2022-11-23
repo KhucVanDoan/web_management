@@ -9,12 +9,16 @@ import { MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { WAREHOUSE_TRANSFER_TYPE } from '~/modules/wmsx/constants'
+import {
+  TRANSFER_STATUS,
+  WAREHOUSE_TRANSFER_TYPE,
+} from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 
 const ItemSettingTable = (props) => {
-  const { mode, arrayHelpers, items, values, setFieldValue, type } = props
+  const { mode, arrayHelpers, items, values, setFieldValue, type, status } =
+    props
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -125,8 +129,8 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
         hide:
-          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+          status !== TRANSFER_STATUS.COMPLETED &&
+          status !== TRANSFER_STATUS.EXPORTED,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locations = itemWarehouseStockList?.find(
