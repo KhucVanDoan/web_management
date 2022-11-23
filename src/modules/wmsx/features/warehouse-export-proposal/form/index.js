@@ -94,8 +94,8 @@ function WarehouseExportReceiptForm() {
       producingCountry: item?.manufacturingCountry?.name,
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',
-      details: item?.itemId
-        ? item?.childrens?.length > 0
+      details:
+        item?.childrens?.length > 0
           ? item?.childrens?.map((childrens) => ({
               id: childrens?.id,
               itemCode: childrens?.itemCode || childrens?.itemResponse?.code,
@@ -111,8 +111,7 @@ function WarehouseExportReceiptForm() {
               updatedBy: childrens?.updatedBy,
               dayUpdate: childrens?.updatedAt,
             }))
-          : DEFAULT_ITEM
-        : DEFAULT_ITEM,
+          : DEFAULT_ITEM,
     }),
   )
   const initialValues = useMemo(

@@ -113,7 +113,7 @@ function WarehouseImportReceiptForm() {
           lotNumber: item?.lotNumber,
           money: item?.amount,
           debitAcc: item?.debitAccount,
-          creditAcc: item?.creditAccount,
+          creditAcc: item?.creditAccount.replace(/^(\d*?[1-9])0+$/, '$1'),
           importQuantity: item?.quantity,
           itemCode: {
             itemId: item?.itemId,
@@ -128,7 +128,6 @@ function WarehouseImportReceiptForm() {
     }),
     [warehouseImportReceiptDetails],
   )
-
   warehouseImportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
       initialValues[`${item.id}`] =
@@ -172,14 +171,8 @@ function WarehouseImportReceiptForm() {
     if (isUpdate) {
       actions.getWarehouseImportReceiptDetailsById(id, async (data) => {
         const res = await getSourceManagementApi(data?.source?.id)
-        setCreditAccount(
-          [
-            res?.data?.accountant,
-            res?.data?.produceTypeCode,
-            res?.data?.productCode,
-            res?.data?.factorialCode,
-          ].join('.'),
-        )
+
+        setCreditAccount(res?.data?.accountant.replace(/^(\d*?[1-9])0+$/, '$1'))
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
         )

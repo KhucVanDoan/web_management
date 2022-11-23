@@ -228,6 +228,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'updater',
       headerName: t('warehouseExportProposal.items.updater'),
       width: 150,
+      renderCell: (params) => {
+        return params?.row?.updatedBy?.fullName
+      },
     },
     {
       field: 'dayUpdate',
@@ -243,6 +246,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 150,
       renderCell: (params, index) => {
         return isView ? (
+          <Checkbox name="supplyCode" disabled />
+        ) : params?.row?.itemId ? (
           <Checkbox name="supplyCode" disabled />
         ) : (
           <Field.Checkbox name={`itemTableCollaspe[${index}].supplyCode`} />
@@ -263,6 +268,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchMaterialCategoryApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -287,6 +295,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchObjectCategoryApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -311,6 +322,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchProducingCountryApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -335,6 +349,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               searchMaterialQualityApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
               })
             }
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
@@ -567,8 +584,8 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       field: 'updater',
       headerName: t('warehouseExportProposal.items.updater'),
       width: 150,
-      renderCellz: (params) => {
-        return params?.row?.updatedBy?.username
+      renderCell: (params) => {
+        return params?.row?.updatedBy?.fullName
       },
     },
     {

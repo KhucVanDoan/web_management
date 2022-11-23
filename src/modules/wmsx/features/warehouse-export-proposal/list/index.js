@@ -61,6 +61,8 @@ function WarehouseExportProposal() {
   const { canAccess } = useApp()
   const DEFAULT_QUICK_FILTERS = {
     time: '',
+    startDate: '',
+    endDate: '',
     statusWarehouseExport: '',
   }
   const {
@@ -278,15 +280,24 @@ function WarehouseExportProposal() {
       },
     },
   ]
-
   const refreshData = () => {
     const params = {
       keyword: keyword.trim(),
       page,
       limit: pageSize,
-      filter: convertFilterParams(filters, [
-        { field: 'createdAt', filterFormat: 'date' },
-      ]),
+      filter: convertFilterParams(
+        {
+          ...filters,
+          departmentSettingId: filters?.departmentSettingId?.id,
+          receiptMonth: quickFilters?.startDate
+            ? `${quickFilters?.startDate}|${quickFilters?.endDate}`
+            : null,
+        },
+        [
+          { field: 'receiptDate', filterFormat: 'date' },
+          { field: 'receiptMonth' },
+        ],
+      ),
       sort: convertSortParams(sort),
     }
     actions.searchWarehouseExportProposal(params)

@@ -450,18 +450,11 @@ const InventoryCalendarForm = () => {
                           </Typography>
                         </label>
                       )}
-                      <Button
-                        variant="contained"
-                        component="label"
-                        color="grayEE"
-                      >
-                        <FileUploadIcon color="primary" /> Nhập dữ liệu
+                      <>
                         <input
-                          hidden
-                          id="select-file"
-                          multiple
+                          style={{ display: 'none' }}
+                          id="contained-button-file"
                           type="file"
-                          accept="image/gif, image/jpeg, image/png, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                           onChange={(e) => {
                             setFieldValue(
                               'checkPointDataAttachment',
@@ -469,7 +462,16 @@ const InventoryCalendarForm = () => {
                             )
                           }}
                         />
-                      </Button>
+                        <label htmlFor="contained-button-file">
+                          <Button
+                            variant="contained"
+                            color="grayEE"
+                            component="span"
+                          >
+                            <FileUploadIcon color="primary" /> Nhập dữ liệu
+                          </Button>
+                        </label>
+                      </>
                     </LV>
                   </Grid>
                 )}

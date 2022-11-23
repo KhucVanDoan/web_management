@@ -64,6 +64,8 @@ const WarehouseTransferDetail = () => {
         id: item?.itemId,
         ...item?.item,
       },
+      creditAcc: item?.creditAccount,
+      debitAcc: item?.debitAccount,
       actualQuantity: Number(item?.actualQuantity),
       lotNumber: item?.lotNumber,
       locator: item?.locator,
