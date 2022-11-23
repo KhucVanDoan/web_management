@@ -102,6 +102,24 @@ function InventorySettingDetail() {
                 value={inventorySettingDetail?.maxInventoryLimit}
               />
             </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('inventorySetting.reorderPoint')}
+                value={inventorySettingDetail?.reorderPoint}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('inventorySetting.eoq')}
+                value={inventorySettingDetail?.eoq}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('inventorySetting.leadtime')}
+                value={inventorySettingDetail?.leadtime}
+              />
+            </Grid>
           </Grid>
           <ActionBar onBack={backToList} />
         </Grid>
