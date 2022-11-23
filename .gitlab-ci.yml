@@ -70,6 +70,8 @@ build_avenue_stg:
       --build-arg REACT_APP_HOST="http://10.1.47.45:12001"
       --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.47.45:12001"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.47.45:12001"
+      --build-arg	REACT_APP_REPORT_HOST="http://10.1.47.45:12101"
+      --build-arg	REACT_APP_REPORT_SOCKET_HOST="http://10.1.47.45:12101"
       --build-arg	REACT_APP_VTI_DOMAIN="" --no-cache .
 
     - docker build -t 10.1.13.50:5000/snp_smartwms/source/web:projects-avenue-wmsx-demo
