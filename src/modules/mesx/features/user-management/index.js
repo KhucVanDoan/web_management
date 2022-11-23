@@ -180,9 +180,17 @@ function UserManagement() {
                 <Icon name="edit" />
               </IconButton>
             </Guard>
-            <IconButton onClick={() => onClickUpdateStatus(params.row)}>
-              <Icon name={isLocked ? 'locked' : 'unlock'} />
-            </IconButton>
+            <Guard
+              code={
+                isLocked
+                  ? FUNCTION_CODE.USER_REJECT_USER
+                  : FUNCTION_CODE.USER_CONFIRM_USER
+              }
+            >
+              <IconButton onClick={() => onClickUpdateStatus(params.row)}>
+                <Icon name={isLocked ? 'locked' : 'unlock'} />
+              </IconButton>
+            </Guard>
           </div>
         )
       },

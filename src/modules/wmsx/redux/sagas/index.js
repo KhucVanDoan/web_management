@@ -159,6 +159,7 @@ import watchUpdateInventorySetting from './inventory-setting/update-inventory-se
 import watchSearchInventoryStatistics from './inventory-statistics/search-inventory-statistics'
 import watchUpdateInventoryStatistics from './inventory-statistics/update-inventory-statistics'
 import watchSearchInventoryWarning from './inventory-warning/search-inventory-warning'
+import watchDetailLicense from './license/detail-license'
 import watchConfirmLocation from './location-management/confirm-location'
 import watchCreateLocation from './location-management/create-location'
 import watchDeleteLocation from './location-management/delete-location'
@@ -608,5 +609,7 @@ export default function* sagas() {
     watchConfirmInventoryAdjust(),
     watchDeleteInventoryAdjust(),
     watchRejectInventoryAdjust(),
+    //license
+    watchDetailLicense(),
   ])
 }
