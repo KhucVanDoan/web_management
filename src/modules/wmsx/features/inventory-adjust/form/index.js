@@ -281,6 +281,7 @@ const InventoryAdjustForm = () => {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
+                        disabled={isUpdate}
                         required
                       />
                     </Grid>
