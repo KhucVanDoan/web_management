@@ -76,21 +76,21 @@ function ReceiptManagement() {
       fixed: true,
     },
     {
-      field: 'receiptCode',
+      field: 'code',
       headerName: t('receiptManagement.receiptCode'),
       width: 120,
       sortable: true,
       fixed: true,
     },
     {
-      field: 'receiptNo',
+      field: 'receiptNumber',
       headerName: t('receiptManagement.receiptNo'),
       width: 120,
       sortable: true,
       fixed: true,
     },
     {
-      field: 'contractNo',
+      field: 'contractNumber',
       headerName: t('receiptManagement.contractNo'),
       width: 120,
     },
@@ -111,7 +111,7 @@ function ReceiptManagement() {
       },
     },
     {
-      field: 'createdAt',
+      field: 'receiptDate',
       headerName: t('receiptManagement.createdAt'),
       filterFormat: 'date',
       width: 120,

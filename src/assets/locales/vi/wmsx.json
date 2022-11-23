@@ -3086,7 +3086,25 @@
     "contractNo": "Số hợp đồng",
     "createdAt": "Ngày tạo",
     "notYetStocked": "Chưa nhập kho",
-    "stocked": "Đã nhập kho"
+    "stocked": "Đã nhập kho",
+    "formTitle": "Chi tiết Receipt",
+    "code": "Số phiếu giao nhận",
+    "warehouseCode": "Mã kho",
+    "department": "Bộ phận nhận",
+    "receiptDate": "Ngày lập phiếu",
+    "purpose":"Lý do",
+    "description":"Mô tả",
+    "itemDetails": {
+      "title": "Danh sách vật tư",
+      "code": "Mã vật tư",
+      "name": "Tên vật tư",
+      "unit": "Đơn vị tính",
+      "quantity": "SL giao nhận",
+      "price": "Đơn giá",
+      "amount":"Thành tiền",
+      "debitAccount":"TK nợ",
+      "creditAccount":"TK có"
+    }
   },
   "reportExport": {
     "type": "Loại báo cáo",
