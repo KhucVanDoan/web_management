@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { Grid } from '@mui/material'
+import { Grid, InputAdornment } from '@mui/material'
 import { Formik, Form } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
@@ -48,6 +48,9 @@ function InventorySettingForm() {
       inventoryLimit: Number(inventorySettingDetail?.inventoryLimit) || 0,
       minInventoryLimit: Number(inventorySettingDetail?.minInventoryLimit) || 0,
       maxInventoryLimit: Number(inventorySettingDetail?.maxInventoryLimit) || 0,
+      reorderPoint: Number(inventorySettingDetail?.reorderPoint) || 0,
+      eoq: Number(inventorySettingDetail?.eoq) || 0,
+      leadtime: Number(inventorySettingDetail?.leadtime) || 0,
     }),
     [inventorySettingDetail],
   )
@@ -114,6 +117,9 @@ function InventorySettingForm() {
       inventoryLimit: Number(values?.inventoryLimit),
       minInventoryLimit: Number(values?.minInventoryLimit),
       maxInventoryLimit: Number(values?.maxInventoryLimit),
+      reorderPoint: Number(values?.reorderPoint),
+      eoq: Number(values?.eoq),
+      leadtime: Number(values?.leadtime),
     }
     if (mode === MODAL_MODE.CREATE) {
       actions.createInventorySetting(convertValues, backToList)
@@ -263,6 +269,40 @@ function InventorySettingForm() {
                       placeholder={t('inventorySetting.maxInventoryLimit')}
                       type="number"
                       allow={TEXTFIELD_ALLOW.NUMERIC}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      name="reorderPoint"
+                      label={t('inventorySetting.reorderPoint')}
+                      placeholder={t('inventorySetting.reorderPoint')}
+                      type="number"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      name="eoq"
+                      label={t('inventorySetting.eoq')}
+                      placeholder={t('inventorySetting.eoq')}
+                      type="number"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                    />
+                  </Grid>
+                  <Grid item lg={6} xs={12}>
+                    <Field.TextField
+                      name="leadtime"
+                      label={t('inventorySetting.leadtime')}
+                      placeholder={t('inventorySetting.leadtime')}
+                      type="number"
+                      allow={TEXTFIELD_ALLOW.NUMERIC}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end" sx={{ ml: 0, pr: 1 }}>
+                            {t('general:days')}
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Grid>
                 </Grid>
