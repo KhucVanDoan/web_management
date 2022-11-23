@@ -356,7 +356,11 @@ function WarehouseImportReceiptForm() {
       })
     }
   }
-  const handleChangeBusinessType = (val) => {
+  const handleChangeBusinessType = (val, setFieldValue) => {
+    setFieldValue('items', [{ ...DEFAULT_ITEMS }])
+    setItemReceipt([])
+    setItemWarehouseExportProposal([])
+    setItemWarehouseExportReceipt([])
     if (!isEmpty(val)) {
       val?.bussinessTypeAttributes?.forEach((item) => {
         initialValues[item?.id] = null
@@ -521,7 +525,9 @@ function WarehouseImportReceiptForm() {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
-                        onChange={(val) => handleChangeBusinessType(val)}
+                        onChange={(val) =>
+                          handleChangeBusinessType(val, setFieldValue)
+                        }
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

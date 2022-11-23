@@ -121,9 +121,11 @@ const InventoryCalendarDetail = () => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('inventoryCalendar.executionDay')}
-                value={convertUtcDateToLocalTz(
-                  inventoryCalendarDetails?.executionDay,
-                )}
+                value={`${convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.executeFrom,
+                )} - ${convertUtcDateToLocalTz(
+                  inventoryCalendarDetails?.executeTo,
+                )}`}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

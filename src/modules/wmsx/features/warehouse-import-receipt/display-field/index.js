@@ -88,6 +88,7 @@ const displayFollowBusinessTypeManagement = (
               exportedQuantity: chil?.exportedQuantity,
               requestedQuantity: chil?.exportedQuantity,
             },
+            requestedQuantity: chil?.exportedQuantity,
             lotNumber: chil?.lotNumber,
           })
         })

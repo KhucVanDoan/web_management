@@ -242,7 +242,7 @@ const SourceManagementForm = () => {
                       inputProps={{
                         maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_20.MAX,
                       }}
-                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC}
+                      allow={TEXTFIELD_ALLOW.ALPHANUMERIC_SPECIALS}
                       required
                     />
                   </Grid>
