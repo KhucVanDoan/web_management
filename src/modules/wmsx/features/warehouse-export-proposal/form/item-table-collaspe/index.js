@@ -550,9 +550,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.reservation'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.reservation ? (
+        return isView || params?.row?.itemId ? (
           <Checkbox
-            checked={Boolean(params?.row?.reservation)}
+            checked={params?.row?.reservation}
             name="reservation"
             disabled
           />
@@ -600,7 +600,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             onClick={() => {
               handleRemoveRow(params, index, parentIndex)
             }}
-            disabled={itemTableCollaspe[parentIndex]?.details?.length === 1}
+            disabled={params?.row?.itemId}
           >
             <Icon name="remove" />
           </IconButton>

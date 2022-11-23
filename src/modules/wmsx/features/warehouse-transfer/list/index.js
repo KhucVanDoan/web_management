@@ -379,7 +379,7 @@ const WarehouseTransfer = () => {
       />
       <Dialog
         open={isOpenDeleteModal}
-        title={t('warehouseTransfer.deleteModalTitle')}
+        title={t('warehouseTransfer.deleteTitlePopup')}
         onCancel={() => setIsOpenDeleteModal(false)}
         cancelLabel={t('general:common.no')}
         onSubmit={onSubmitDelete}

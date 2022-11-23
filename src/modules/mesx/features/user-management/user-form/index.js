@@ -249,7 +249,6 @@ function UserManagementForm() {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
                         }}
-                        disabled={isUpdate}
                         required
                       />
                     </Grid>
@@ -307,6 +306,7 @@ function UserManagementForm() {
                         inputProps={{
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                         }}
+                        disabled={isUpdate}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

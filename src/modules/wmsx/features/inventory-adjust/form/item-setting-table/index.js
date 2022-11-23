@@ -21,7 +21,7 @@ import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-manageme
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { convertFilterParams } from '~/utils'
 
-const ItemSettingTable = ({ items, mode, arrayHelpers, values }) => {
+const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
   const {
@@ -256,7 +256,9 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values }) => {
         field: 'quantityExported',
         headerName: t('inventoryAdjust.items.quantityExported'),
         width: 150,
-        hide: values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT,
+        hide:
+          type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ||
+          values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT,
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.quantityExported

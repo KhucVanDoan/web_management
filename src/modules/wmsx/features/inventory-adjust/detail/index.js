@@ -196,7 +196,11 @@ const InventoryAdjustDetail = () => {
       </Grid>
 
       <Box sx={{ mt: 3 }}>
-        <ItemSettingTable items={items} mode={MODAL_MODE.DETAIL} />
+        <ItemSettingTable
+          items={items}
+          mode={MODAL_MODE.DETAIL}
+          type={inventoryAdjustDetails.type}
+        />
       </Box>
       <ActionBar onBack={backToList} />
     </Page>

@@ -103,7 +103,7 @@ function WarehouseExportReceiptForm() {
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,
-              reservation: Boolean(childrens?.isKeepSlot) ? 1 : 0,
+              reservation: childrens?.isKeepSlot,
               planExportedQuantity: childrens?.planExportedQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
