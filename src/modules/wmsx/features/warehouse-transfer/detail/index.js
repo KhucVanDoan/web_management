@@ -252,6 +252,7 @@ const WarehouseTransferDetail = () => {
         <ItemSettingTable
           items={getDataItem}
           mode={mode}
+          status={warehouseTransferDetails?.status}
           type={warehouseTransferDetails?.type}
         />
       </Box>
