@@ -43,6 +43,7 @@ const DEFAULT_ITEM = {
   itemName: '',
   itemType: '',
   lotNumber: '',
+  transferQuantity: '',
   mfg: '',
   packageId: '',
   planExportedQuantity: '',
