@@ -9,7 +9,7 @@ import Autocomplete from '~/components/Autocomplete'
 import DataTable from '~/components/DataTable'
 import { useDashboardPurchasedOrderImports } from '~/modules/wmsx/redux/hooks/useDashboard'
 import { getDashboardWarehouses } from '~/modules/wmsx/redux/sagas/dashboard'
-const ImportReceipt = () => {
+const ImportReceipt = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
   const [warehouseId, setWarehouseId] = useState('')
 
@@ -18,16 +18,29 @@ const ImportReceipt = () => {
 
   useEffect(() => {
     if (warehouseId) {
-      actions.getPurchasedOrderImports({ warehouseId })
+      actions.getPurchasedOrderImports({
+        warehouseId: warehouseId,
+        from: fromDate?.toISOString(),
+        to: toDate?.toISOString(),
+      })
+    } else {
+      actions.getPurchasedOrderImports({
+        from: fromDate?.toISOString(),
+        to: toDate?.toISOString(),
+      })
     }
-  }, [warehouseId])
+  }, [warehouseId, fromDate, toDate])
 
   useEffect(() => {
     actions.getPurchasedOrderImports()
   }, [])
 
   const handleChangeWarehouse = (value) => {
-    setWarehouseId(value?.id)
+    if (!isEmpty(value)) {
+      setWarehouseId(value?.id)
+    } else {
+      setWarehouseId('')
+    }
   }
 
   const columns = [

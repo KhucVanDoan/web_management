@@ -39,11 +39,12 @@ function ChangePassword() {
 
   const onSubmit = (values) => {
     const params = {
-      password: values.password,
-      newPassword: values.newPassword,
-      confirmPassword: values.confirmPassword,
+      oldPassword: values.password,
+      password: values.newPassword,
     }
-    actions.changePassword(params)
+    actions.changePassword(params, () => {
+      window.location.reload()
+    })
   }
 
   const breadcrumb = [

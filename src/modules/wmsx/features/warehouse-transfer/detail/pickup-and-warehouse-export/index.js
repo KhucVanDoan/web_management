@@ -71,6 +71,7 @@ const PickupAndWarehouseExport = () => {
               itemId: item?.itemId,
             }
           : '',
+        creditAcc: item?.creditAccount,
         itemName: item?.item?.name || '',
         itemType: item?.item?.itemType?.name || '',
         transferQuantity: +item?.planQuantity || '',
