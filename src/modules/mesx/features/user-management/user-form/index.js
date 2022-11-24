@@ -313,6 +313,7 @@ function UserManagementForm() {
                           maxLength: TEXTFIELD_REQUIRED_LENGTH.EMAIL.MAX,
                         }}
                         disabled={isUpdate}
+                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -390,6 +391,7 @@ function UserManagementForm() {
                         }
                         asyncRequestHelper={(res) => res?.data}
                         getOptionLabel={(opt) => opt?.name}
+                        required
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
