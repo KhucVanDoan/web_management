@@ -140,18 +140,23 @@ import {
 } from '../features/warehouse-transfer/transactions'
 import { ROUTE } from './config'
 
-const routes = [
+const isControllingCompanyEnv =
+  process.env.REACT_APP_CONTROLLING_COMPANY === '1'
+
+let routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
     path: ROUTE.DASHBOARD.PATH,
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
+    isInControllingCompany: true,
   },
   {
     name: ROUTE.DATABASE.TITLE,
     icon: 'database',
     isInSidebar: true,
+    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
@@ -159,6 +164,7 @@ const routes = [
         component: CompanyManagement,
         code: FUNCTION_CODE.USER_LIST_COMPANY,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
@@ -339,6 +345,7 @@ const routes = [
         component: ReasonManagement,
         code: FUNCTION_CODE.SALE_LIST_REASON,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.REASON_MANAGEMENT.CREATE.TITLE,
@@ -369,6 +376,7 @@ const routes = [
         component: DefineUom,
         code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_UOM.CREATE.TITLE,
@@ -399,6 +407,7 @@ const routes = [
         component: DefineObjectCategory,
         code: FUNCTION_CODE.ITEM_LIST_OBJECT_CATEGORY,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.TITLE,
@@ -430,6 +439,7 @@ const routes = [
         component: DefineMaterialCategory,
         code: FUNCTION_CODE.ITEM_LIST_ITEM_TYPE,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.TITLE,
@@ -460,6 +470,7 @@ const routes = [
         component: DefineMaterialQuality,
         code: FUNCTION_CODE.ITEM_LIST_ITEM_QUALITY,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.TITLE,
@@ -490,6 +501,7 @@ const routes = [
         component: DefineProducingCountry,
         code: FUNCTION_CODE.ITEM_LIST_MANUFACTURING_COUNTRY,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.TITLE,
@@ -550,6 +562,7 @@ const routes = [
         component: DefineExpenditureType,
         code: FUNCTION_CODE.SALE_LIST_COST_TYPE,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_EXPENDITURE_TYPE.CREATE.TITLE,
@@ -580,6 +593,7 @@ const routes = [
         component: BussinessTypeManagement,
         code: FUNCTION_CODE.WAREHOUSE_LIST_BUSSINESS_TYPE,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
@@ -919,6 +933,7 @@ const routes = [
     component: MaterialManagement,
     code: FUNCTION_CODE.ITEM_LIST_ITEM,
     isInSidebar: true,
+    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.MATERIAL_MANAGEMENT.CREATE.TITLE,
@@ -1206,7 +1221,7 @@ const routes = [
     code: FUNCTION_CODE.DATASYNC_LIST_JOB,
     icon: 'database',
     isInSidebar: true,
-    subMenu: [{}],
+    isInControllingCompany: true,
   },
   {
     name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
@@ -1263,6 +1278,7 @@ const routes = [
     name: ROUTE.REPORT_STATISTICS.TITLE,
     icon: 'export',
     isInSidebar: true,
+    isInControllingCompany: true,
     subMenu: [
       {
         path: ROUTE.REPORT_EXPORT.PATH,
@@ -1278,6 +1294,7 @@ const routes = [
     name: ROUTE.SETTING.TITLE,
     icon: 'setting',
     isInSidebar: true,
+    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
@@ -1418,10 +1435,22 @@ const routes = [
         component: LicenseDetail,
         // code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
-        subMenu: [],
       },
     ],
   },
 ]
+
+if (isControllingCompanyEnv) {
+  routes = routes
+    .filter((r) => r.isInControllingCompany)
+    .map((r) => ({
+      ...r,
+      ...(r.subMenu
+        ? {
+            subMenu: r.subMenu.filter((s) => s.isInControllingCompany),
+          }
+        : {}),
+    }))
+}
 
 export default routes

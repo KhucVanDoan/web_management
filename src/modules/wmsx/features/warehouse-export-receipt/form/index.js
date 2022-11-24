@@ -121,6 +121,7 @@ function WarehouseExportReceiptForm() {
           money: item?.amount,
           lotNumber: item?.lots[0]?.lotNumber,
           quantityExport: item?.quantity,
+          planExportedQuantity: item?.exportableQuantity,
           debitAccount: item?.debitAccount,
           creditAccount: item?.creditAccount,
           itemCode: {
