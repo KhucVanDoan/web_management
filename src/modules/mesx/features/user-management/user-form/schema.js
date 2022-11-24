@@ -9,7 +9,7 @@ export const validationSchema = (t) =>
     fullName: Yup.string().required(t('general:form.required')),
     username: Yup.string().required(t('general:form.required')),
     email: Yup.string()
-      // .required(t('general:form.required'))
+      .required(t('general:form.required'))
       .email(t('general:form.validEmail'))
       .min(
         TEXTFIELD_REQUIRED_LENGTH.EMAIL.MIN,
@@ -25,4 +25,5 @@ export const validationSchema = (t) =>
     departmentSettings: Yup.object()
       .nullable()
       .required(t('general:form.required')),
+    role: Yup.object().nullable().required(t('general:form.required')),
   })
