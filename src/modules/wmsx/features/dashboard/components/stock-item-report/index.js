@@ -11,9 +11,8 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
-import { convertFilterParams } from '~/utils'
 
-const StockItemReport = () => {
+const StockItemReport = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
   const [itemId, setItemId] = useState('')
   const [warehouseId, setWarehouseId] = useState('')
@@ -31,12 +30,12 @@ const StockItemReport = () => {
 
   useEffect(() => {
     actions.getItemGroupStockSummary({
-      filter: convertFilterParams({
-        itemId: itemId,
-        warehouseId: warehouseId,
-      }),
+      itemId: itemId,
+      warehouseId: warehouseId,
+      from: fromDate?.toISOString(),
+      to: toDate?.toISOString(),
     })
-  }, [itemId, warehouseId])
+  }, [itemId, warehouseId, fromDate, toDate])
 
   const data = [
     { type: 'SL giữ', value: Number(itemGroupStockSummary?.totalItemPlanning) },

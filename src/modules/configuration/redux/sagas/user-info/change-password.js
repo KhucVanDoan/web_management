@@ -15,7 +15,7 @@ import addNotification from '~/utils/toast'
  * @returns {Promise}
  */
 const changePasswordApi = (params) => {
-  const uri = `/v1/users/change-password`
+  const uri = `/v1/users/change-password-me`
   return api.put(uri, params)
 }
 

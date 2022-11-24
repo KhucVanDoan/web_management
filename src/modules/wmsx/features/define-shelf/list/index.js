@@ -331,7 +331,7 @@ function DefineShelf() {
           sx={{ mt: 4 / 3 }}
         />
         <LV
-          label={t('defineShelf.description')}
+          label={t('defineShelf.name')}
           value={modal?.tempItem?.name}
           sx={{ mt: 4 / 3 }}
         />

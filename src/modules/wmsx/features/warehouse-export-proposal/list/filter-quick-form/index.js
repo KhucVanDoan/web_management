@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
 import Button from '~/components/Button'
+import DatePicker from '~/components/DatePicker'
 import { Field } from '~/components/Formik'
 
 const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
@@ -46,7 +47,7 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                   columnSpacing={{ xl: 8, xs: 4 }}
                 >
                   <Grid item lg={6} xs={12}>
-                    <Field.DatePicker
+                    <DatePicker
                       views={['year', 'month']}
                       name="time"
                       value={selectedDate}
