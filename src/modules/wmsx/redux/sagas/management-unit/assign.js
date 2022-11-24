@@ -1,11 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import {
   getDepartmentAssignDetailsFailed,
   getDepartmentAssignDetailsSuccess,
   GET_DEPARTMENT_ASSIGN_DETAILS_START,
 } from '~/modules/wmsx/redux/actions/management-unit'
 import { api } from '~/services/api'
+import addNotification from '~/utils/toast'
 
 /**
  * Search user API
@@ -33,6 +35,7 @@ function* doGetDepartmentAssignDetails(action) {
         yield action.onSuccess()
       }
     } else {
+      addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
     }
   } catch (error) {

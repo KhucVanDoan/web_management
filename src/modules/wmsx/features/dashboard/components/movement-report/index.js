@@ -12,8 +12,7 @@ import {
   getDashboardItems,
   getDashboardWarehouses,
 } from '~/modules/wmsx/redux/sagas/dashboard'
-
-const MovementReport = () => {
+const MovementReport = ({ fromDate, toDate }) => {
   const { t } = useTranslation(['wmsx'])
 
   const { data: transferReport, actions } = useDashboardTransferReport()
@@ -35,9 +34,12 @@ const MovementReport = () => {
       reportType: groupBy,
       itemId: itemId,
       warehouseId: warehouseId,
+      from: fromDate?.toISOString(),
+      to: toDate?.toISOString(),
     }
+
     actions.getTransferReport(payload)
-  }, [groupBy, itemId, warehouseId])
+  }, [groupBy, itemId, warehouseId, fromDate, toDate])
 
   const formatDataStock = (dataList) => {
     const newData = []
