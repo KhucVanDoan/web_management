@@ -279,7 +279,7 @@ function WarehouseImportReceiptForm() {
       departmentReceiptId: values?.departmentReceiptId?.id,
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
-      contractNumber: values?.contractNumber || null,
+      contractNumber: values?.contractNumber,
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:
@@ -611,6 +611,11 @@ function WarehouseImportReceiptForm() {
                             'warehouseImportReceipt.contractNumber',
                           )}
                           disabled={!isEmpty(values[receiptRequired])}
+                          validate={(val) => {
+                            if (!val) {
+                              return t('general:form.required')
+                            }
+                          }}
                           required
                         />
                       </Grid>

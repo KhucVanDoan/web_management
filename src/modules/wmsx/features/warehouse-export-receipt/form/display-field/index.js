@@ -21,10 +21,7 @@ import { searchReceiptApi } from '~/modules/wmsx/redux/sagas/receipt-management/
 import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { searchWarehouseExportProposalApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/search'
 import { searchWarehouseExportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/search'
-import {
-  getWarehouseExportProposalItems,
-  getWarehouseImportReceiptDetailsApi,
-} from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
+import { getWarehouseImportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { searchWarehouseImportReceiptApi } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/search'
 import { convertFilterParams } from '~/utils'
 
@@ -49,14 +46,23 @@ const displayFollowBusinessTypeManagement = (
   setItemWarehouseExport,
   setFieldValue,
   setWarehouseList,
+  setItemWarehouseExportProposal,
 ) => {
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
   )?.id
+  const categoryConstructions = type?.find(
+    (item) => item?.tableName === 'category_constructions',
+  )?.id
   const handleChangeProposals = async (val) => {
+    setItemWarehouseExportProposal([])
+    if (isEmpty(val)) {
+      setItemWarehouseExportProposal([])
+    }
     setFieldValue('warehouseId', '')
     if (!isEmpty(val)) {
       const warehouseList = []
+
       const warehouseExportProposalDetail =
         await getWarehouseExportProposalDetailsApi(val?.id)
       warehouseExportProposalDetail?.data?.items?.forEach((item) => {
@@ -72,15 +78,38 @@ const displayFollowBusinessTypeManagement = (
         })
       })
       setWarehouseList(warehouseList)
-      if (!isEmpty(values?.warehouseId)) {
-        setFieldValue('items', DEFAULT_ITEMS)
-        const params = {
-          id: val?.id,
-          warehouseId: values?.warehouseId?.id,
-        }
-        const res = await getWarehouseExportProposalItems(params)
-        setItemWarehouseExport(res?.data)
-      }
+      const items = []
+      warehouseExportProposalDetail?.data?.items?.forEach((item) => {
+        item?.childrens?.forEach((chil) => {
+          items.push({
+            item: {
+              itemId: chil?.itemId,
+              code: chil?.itemResponse?.code || chil?.itemCode,
+              name: chil?.itemResponse?.name || chil?.itemName,
+              itemUnit: chil?.itemResponse?.itemUnit?.name,
+              exportedQuantity: chil?.exportedQuantity,
+              requestedQuantity: chil?.exportedQuantity,
+            },
+            itemUnit: chil?.itemResponse?.itemUnit,
+            itemId: chil?.itemId,
+            code: chil?.itemResponse?.code || chil?.itemCode,
+            name: chil?.itemResponse?.name || chil?.itemName,
+            warehouseExport: chil?.warehouseExport,
+            requestedQuantity: chil?.exportedQuantity,
+            lotNumber: chil?.lotNumber,
+          })
+        })
+      })
+      setItemWarehouseExportProposal(items)
+      // if (!isEmpty(values?.warehouseId)) {
+      //   setFieldValue('items', DEFAULT_ITEMS)
+      //   const params = {
+      //     id: val?.id,
+      //     warehouseId: values?.warehouseId?.id,
+      //   }
+      //   const res = await getWarehouseExportProposalItems(params)
+      //   setItemWarehouseExport(res?.data)
+      // }
     }
   }
   const handleChangeWarehouseImportReciept = async (val) => {
@@ -159,6 +188,7 @@ const displayFollowBusinessTypeManagement = (
                     })
                   }
                   asyncRequestHelper={(res) => res?.data?.items}
+                  onChange={() => setFieldValue(`${categoryConstructions}`, '')}
                   asyncRequestDeps={values?.businessTypeId}
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
