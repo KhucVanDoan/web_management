@@ -125,12 +125,36 @@ const ItemSettingTable = (props) => {
         },
       },
       {
+        field: 'locatorPickUp',
+        headerName: t('warehouseTransfer.table.locatorPickUp'),
+        width: 150,
+        hide:
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED) ||
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG,
+        renderCell: (params) => {
+          return isView && <>{params?.row?.locatorPickUp?.code}</>
+        },
+      },
+      {
+        field: 'locatorStored',
+        headerName: t('warehouseTransfer.table.locatorStored'),
+        width: 150,
+        hide:
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED) ||
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_LONG,
+        renderCell: (params) => {
+          return isView && <>{params?.row?.locatorStored?.code}</>
+        },
+      },
+      {
         field: 'locator',
         headerName: t('warehouseTransfer.table.locator'),
         width: 150,
         hide:
-          status !== TRANSFER_STATUS.COMPLETED &&
-          status !== TRANSFER_STATUS.EXPORTED,
+          type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locations = itemWarehouseStockList?.find(
@@ -258,7 +282,10 @@ const ItemSettingTable = (props) => {
         field: 'actualExportedQuantity',
         headerName: t('warehouseTransfer.table.actualExportedQuantity'),
         width: 180,
-        hide: !isView,
+        hide:
+          !isView ||
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED),
         renderCell: (params) => {
           return params?.row?.actualQuantity
         },
@@ -266,7 +293,10 @@ const ItemSettingTable = (props) => {
       {
         field: 'actualImportedQuantity',
         headerName: t('warehouseTransfer.table.actualImportedQuantity'),
-        hide: !isView,
+        hide:
+          !isView ||
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED),
         width: 180,
       },
       {
