@@ -101,10 +101,18 @@ const InventoryAdjustDetail = () => {
               />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.confirmDate')} value={''} />
+              <LV
+                label={t('inventoryAdjust.confirmDate')}
+                value={convertUtcDateToLocalTz(
+                  inventoryAdjustDetails?.confirmedAt,
+                )}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
-              <LV label={t('inventoryAdjust.confirmByUser')} value={''} />
+              <LV
+                label={t('inventoryAdjust.confirmByUser')}
+                value={inventoryAdjustDetails?.confirmedBy?.username}
+              />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
