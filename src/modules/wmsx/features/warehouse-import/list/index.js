@@ -97,7 +97,11 @@ function WarehouseImport() {
       headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
-      renderCell: (params) => params.row?.orderCode,
+      renderCell: (params) => {
+        return params?.row?.orderType === WAREHOUSE_IMPORT_TYPE.SWIFT_LOCATOR
+          ? ''
+          : params.row?.orderCode
+      },
     },
     {
       field: 'orderType',
