@@ -32,7 +32,10 @@ const ImportReceipt = ({ fromDate, toDate }) => {
   }, [warehouseId, fromDate, toDate])
 
   useEffect(() => {
-    actions.getPurchasedOrderImports()
+    actions.getPurchasedOrderImports({
+      from: fromDate?.toISOString(),
+      to: toDate?.toISOString(),
+    })
   }, [])
 
   const handleChangeWarehouse = (value) => {

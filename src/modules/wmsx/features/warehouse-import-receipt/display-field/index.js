@@ -52,6 +52,9 @@ const displayFollowBusinessTypeManagement = (
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
   )?.id
+  const categoryConstructions = type?.find(
+    (item) => item?.tableName === 'category_constructions',
+  )?.id
   const handleChangeReceipt = (val) => {
     setItemReceipt([])
     if (isEmpty(val)) {
@@ -178,6 +181,7 @@ const displayFollowBusinessTypeManagement = (
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  onChange={() => setFieldValue(`${categoryConstructions}`, '')}
                   validate={(val) => {
                     if (item?.required) {
                       if (isEmpty(val)) {
