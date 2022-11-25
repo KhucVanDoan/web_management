@@ -85,6 +85,8 @@ function WarehouseExportReceiptForm() {
   const mode = MODE_MAP[routeMatch.path]
   const isUpdate = mode === MODAL_MODE.UPDATE
   const [itemWarehouseExport, setItemWarehouseExport] = useState([])
+  const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
+    useState([])
   const [warehouseList, setWarehouseList] = useState([])
   const { actions: sourceAction } = useSourceManagement()
   const initialValues = useMemo(
@@ -275,6 +277,29 @@ function WarehouseExportReceiptForm() {
           })
         })
         setWarehouseList(warehouseList)
+        const items = []
+        res?.data?.items?.forEach((item) => {
+          item?.childrens?.forEach((chil) => {
+            items.push({
+              item: {
+                itemId: chil?.itemId,
+                code: chil?.itemResponse?.code || chil?.itemCode,
+                name: chil?.itemResponse?.name || chil?.itemName,
+                itemUnit: chil?.itemResponse?.itemUnit?.name,
+                exportedQuantity: chil?.exportedQuantity,
+                requestedQuantity: chil?.exportedQuantity,
+              },
+              itemUnit: chil?.itemResponse?.itemUnit,
+              itemId: chil?.itemId,
+              code: chil?.itemResponse?.code || chil?.itemCode,
+              name: chil?.itemResponse?.name || chil?.itemName,
+              warehouseExport: chil?.warehouseExport,
+              requestedQuantity: chil?.exportedQuantity,
+              lotNumber: chil?.lotNumber,
+            })
+          })
+        })
+        setItemWarehouseExportProposal(items)
         const response = await getWarehouseExportProposalItems({
           id: Number(
             warehouseExportReceiptDetails?.attributes?.find(
@@ -710,6 +735,7 @@ function WarehouseExportReceiptForm() {
                       setItemWarehouseExport,
                       setFieldValue,
                       setWarehouseList,
+                      setItemWarehouseExportProposal,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
@@ -734,6 +760,9 @@ function WarehouseExportReceiptForm() {
                           items={values?.items || []}
                           arrayHelpers={arrayHelpers}
                           itemList={itemWarehouseExport}
+                          itemWarehouseExportProposal={
+                            itemWarehouseExportProposal
+                          }
                           setFieldValue={setFieldValue}
                           debitAccount={debitAccount}
                           values={values}

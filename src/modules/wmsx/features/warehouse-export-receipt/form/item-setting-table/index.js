@@ -18,6 +18,7 @@ const ItemSettingTable = ({
   mode,
   arrayHelpers,
   itemList,
+  itemWarehouseExportProposal,
   setFieldValue,
   values,
   debitAccount,
@@ -29,7 +30,6 @@ const ItemSettingTable = ({
     values?.businessTypeId?.bussinessTypeAttributes?.find(
       (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
     )?.id
-
   const {
     data: { itemWarehouseStockList },
   } = useWarehouseTransfer()
@@ -111,11 +111,13 @@ const ItemSettingTable = ({
         renderCell: (params, index) => {
           return isView ? (
             params?.row?.suplliesCode
-          ) : itemList?.length > 0 ? (
+          ) : !isEmpty(values[warehouseExprotProposal]) ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemList}
+              options={itemWarehouseExportProposal?.filter(
+                (item) => item?.warehouseExport?.id === values?.warehouseId?.id,
+              )}
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
@@ -126,13 +128,12 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemWarehouseStockList}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
+              options={itemList}
+              getOptionLabel={(opt) => opt?.item?.code}
+              getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
               disabled={isEmpty(values?.warehouseId)}
-              required
             />
           )
         },
