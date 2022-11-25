@@ -66,7 +66,6 @@ function WarehouseExport() {
     orderType: WAREHOUSE_EXPORT_TYPE.SO,
     movementType: MOVEMENT_TYPE.SO_EXPORT,
   }
-
   const {
     page,
     pageSize,
@@ -107,7 +106,11 @@ function WarehouseExport() {
       headerName: t('movements.importExport.idWms'),
       width: 120,
       sortable: true,
-      renderCell: (params) => params.row?.orderCode,
+      renderCell: (params) => {
+        return params?.row?.orderType === WAREHOUSE_EXPORT_TYPE.SWIFT_LOCATOR
+          ? ''
+          : params.row.orderCode
+      },
     },
     {
       field: 'orderType',

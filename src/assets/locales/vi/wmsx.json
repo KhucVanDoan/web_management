@@ -3176,6 +3176,7 @@
     "printReceipt": "In phiếu",
     "view": "Preview",
     "createdByUser": "Người tạo",
+    "warehouses": "Kho",
     "transferStatus": {
       "pending": "Chờ xác nhận",
       "completed": "Hoàn thành",

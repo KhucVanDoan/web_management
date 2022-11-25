@@ -9,7 +9,11 @@ import ActionBar from '~/components/ActionBar'
 import LV from '~/components/LabelValue'
 import Page from '~/components/Page'
 import TextField from '~/components/TextField'
-import { MOVEMENT_TYPE, MOVEMENT_TYPE_MAP } from '~/modules/wmsx/constants'
+import {
+  MOVEMENT_TYPE,
+  MOVEMENT_TYPE_MAP,
+  WAREHOUSE_TRANSFER_MAP,
+} from '~/modules/wmsx/constants'
 import useMovements from '~/modules/wmsx/redux/hooks/useMovements'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
 import { getWarehouseTransferDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-warehouse-transfer-detail'
@@ -64,40 +68,11 @@ const WarehouseExportDetail = () => {
   const backToList = () => {
     history.push(ROUTE.WAREHOUSE_EXPORT.LIST.PATH)
   }
-  return (
-    <Page
-      breadcrumbs={breadcrumbs}
-      title={t('movements.formTitle')}
-      onBack={backToList}
-      loading={isLoading}
-    >
-      <Grid container justifyContent="center">
-        <Grid item xl={11} xs={12}>
-          <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('movements.importExport.movementCode')}
-                value={movementDetail?.id}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('movements.importExport.movementType')}
-                value={t(MOVEMENT_TYPE_MAP[movementDetail?.movementType])}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('movements.importExport.createdUser')}
-                value={movementDetail?.user?.username}
-              />
-            </Grid>
-            <Grid item lg={6} xs={12}>
-              <LV
-                label={t('movements.importExport.movementDate')}
-                value={convertUtcDateToLocalTz(movementDetail?.createdAt)}
-              />
-            </Grid>
+  const display = () => {
+    switch (movementDetail?.movementType) {
+      case MOVEMENT_TYPE.SO_EXPORT:
+        return (
+          <>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseExportReceipt.createdAt')}
@@ -205,6 +180,142 @@ const WarehouseExportDetail = () => {
                 }}
               />
             </Grid>
+          </>
+        )
+      case MOVEMENT_TYPE.TRANSFER_EXPORT:
+        return (
+          <>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.code')}
+                value={receiptDetail.code}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.name')}
+                value={receiptDetail.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.businessType')}
+                value={receiptDetail?.bussinessType?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.type')}
+                value={t(`${WAREHOUSE_TRANSFER_MAP[receiptDetail?.type]}`)}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.source')}
+                value={`${receiptDetail?.source?.code} - ${receiptDetail?.source?.name}`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.reason')}
+                value={`${receiptDetail?.reason?.code} - ${receiptDetail?.reason?.name}`}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.warehouseImport')}
+                value={receiptDetail?.destinationWarehouse?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.warehouseExport')}
+                value={receiptDetail?.sourceWarehouse?.name}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.createdAt')}
+                value={convertUtcDateToLocalTz(receiptDetail?.receiptDate)}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV label={t('warehouseTransfer.receiptNo')} value={''} />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.deliver')}
+                value={receiptDetail?.receiver}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="explaination"
+                label={t('warehouseTransfer.explaination')}
+                multiline
+                rows={3}
+                value={receiptDetail?.explanation}
+                readOnly
+                sx={{
+                  'label.MuiFormLabel-root': {
+                    color: (theme) => theme.palette.subText.main,
+                  },
+                }}
+              />
+            </Grid>
+          </>
+        )
+      case MOVEMENT_TYPE.SWIFT_FLOOR_EXPORT:
+        return (
+          <>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('warehouseTransfer.warehouses')}
+                value={movementDetail?.warehouse?.name}
+              />
+            </Grid>
+          </>
+        )
+      default:
+        break
+    }
+  }
+  return (
+    <Page
+      breadcrumbs={breadcrumbs}
+      title={t('movements.formTitle')}
+      onBack={backToList}
+      loading={isLoading}
+    >
+      <Grid container justifyContent="center">
+        <Grid item xl={11} xs={12}>
+          <Grid container rowSpacing={4 / 3} columnSpacing={{ xl: 8, xs: 4 }}>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('movements.importExport.movementCode')}
+                value={movementDetail?.id}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('movements.importExport.movementType')}
+                value={t(MOVEMENT_TYPE_MAP[movementDetail?.movementType])}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('movements.importExport.createdUser')}
+                value={movementDetail?.user?.username}
+              />
+            </Grid>
+            <Grid item lg={6} xs={12}>
+              <LV
+                label={t('movements.importExport.movementDate')}
+                value={convertUtcDateToLocalTz(movementDetail?.createdAt)}
+              />
+            </Grid>
+            {display()}
           </Grid>
         </Grid>
       </Grid>

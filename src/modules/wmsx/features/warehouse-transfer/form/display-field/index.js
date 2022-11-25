@@ -14,9 +14,17 @@ import { searchVendorsApi } from '~/modules/wmsx/redux/sagas/define-vendor/searc
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { convertFilterParams } from '~/utils'
 
-const DisplayFollowBusinessTypeManagement = (type, t, values) => {
+const DisplayFollowBusinessTypeManagement = (
+  type,
+  t,
+  values,
+  setFieldValue,
+) => {
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
+  )?.id
+  const categoryConstructions = type?.find(
+    (item) => item?.tableName === 'category_constructions',
   )?.id
   const display = []
   type?.forEach((item) => {
@@ -90,6 +98,7 @@ const DisplayFollowBusinessTypeManagement = (type, t, values) => {
                   getOptionLabel={(opt) => opt?.code}
                   getOptionSubLabel={(opt) => opt?.name}
                   isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+                  onChange={() => setFieldValue(`${categoryConstructions}`, '')}
                   validate={(val) => {
                     if (item?.required) {
                       if (isEmpty(val)) {
