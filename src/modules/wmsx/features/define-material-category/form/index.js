@@ -139,6 +139,7 @@ function DefineMaterialCategoryForm() {
       level: 0,
       children: values?.mainGroups?.map((main) => ({
         ...main,
+        parentId: id,
         children: values?.subGroups?.filter(
           (sub) => sub.mainCode === main.code,
         ),

@@ -6,14 +6,18 @@ import { useTranslation } from 'react-i18next'
 import Summary from '~/components/Summary'
 import { useDashboardTotalItemSummaryReport } from '~/modules/wmsx/redux/hooks/useDashboard'
 
-function ItemSummary() {
+function ItemSummary(props) {
   const { t } = useTranslation(['wmsx'])
+  const { fromDate, toDate } = props
 
   const { data: totalItemSummaryReport, actions } =
     useDashboardTotalItemSummaryReport()
 
   useEffect(() => {
-    actions.getTotalItemSummaryReport()
+    actions.getTotalItemSummaryReport({
+      from: fromDate?.toISOString(),
+      to: toDate?.toISOString(),
+    })
   }, [])
 
   return (
