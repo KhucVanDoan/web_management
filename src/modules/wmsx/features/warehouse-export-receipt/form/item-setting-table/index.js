@@ -109,6 +109,12 @@ const ItemSettingTable = ({
         headerName: t('warehouseExportReceipt.items.suppliesCode'),
         width: 250,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map(
+            (item) =>
+              item?.itemCode?.itemCode?.itemId ||
+              item?.itemCode?.itemId ||
+              item?.itemCode?.id,
+          )
           return isView ? (
             params?.row?.suplliesCode
           ) : !isEmpty(values[warehouseExprotProposal]) ? (
@@ -122,6 +128,15 @@ const ItemSettingTable = ({
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some(
+                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                ) &&
+                (opt?.itemId || opt?.itemCode?.itemId) !==
+                  (items[index]?.itemId ||
+                    items[index]?.itemCode?.itemId ||
+                    items[index]?.itemCode?.id)
+              }
               disabled={isEmpty(values?.warehouseId)}
             />
           ) : (
@@ -133,6 +148,15 @@ const ItemSettingTable = ({
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
               isOptionEqualToValue={(opt, val) => opt?.itemId === val?.itemId}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some(
+                  (id) => id === (opt?.itemId || opt?.itemCode?.itemId),
+                ) &&
+                (opt?.itemId || opt?.itemCode?.itemId) !==
+                  (items[index]?.itemId ||
+                    items[index]?.itemCode?.itemId ||
+                    items[index]?.itemCode?.id)
+              }
               disabled={isEmpty(values?.warehouseId)}
             />
           )
