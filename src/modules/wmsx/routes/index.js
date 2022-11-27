@@ -140,23 +140,18 @@ import {
 } from '../features/warehouse-transfer/transactions'
 import { ROUTE } from './config'
 
-const isControllingCompanyEnv =
-  process.env.REACT_APP_CONTROLLING_COMPANY === '1'
-
-let routes = [
+const routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
     path: ROUTE.DASHBOARD.PATH,
     component: Dashboard,
     icon: 'home',
     isInSidebar: true,
-    isInControllingCompany: true,
   },
   {
     name: ROUTE.DATABASE.TITLE,
     icon: 'database',
     isInSidebar: true,
-    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.COMPANY_MANAGEMENT.LIST.TITLE,
@@ -164,7 +159,6 @@ let routes = [
         component: CompanyManagement,
         code: FUNCTION_CODE.USER_LIST_COMPANY,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.COMPANY_MANAGEMENT.CREATE.TITLE,
@@ -345,7 +339,6 @@ let routes = [
         component: ReasonManagement,
         code: FUNCTION_CODE.SALE_LIST_REASON,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.REASON_MANAGEMENT.CREATE.TITLE,
@@ -376,7 +369,6 @@ let routes = [
         component: DefineUom,
         code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_UOM.CREATE.TITLE,
@@ -407,7 +399,6 @@ let routes = [
         component: DefineObjectCategory,
         code: FUNCTION_CODE.ITEM_LIST_OBJECT_CATEGORY,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_OBJECT_CATEGORY.CREATE.TITLE,
@@ -439,7 +430,6 @@ let routes = [
         component: DefineMaterialCategory,
         code: FUNCTION_CODE.ITEM_LIST_ITEM_TYPE,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_CATEGORY.CREATE.TITLE,
@@ -470,7 +460,6 @@ let routes = [
         component: DefineMaterialQuality,
         code: FUNCTION_CODE.ITEM_LIST_ITEM_QUALITY,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_MATERIAL_QUALITY.CREATE.TITLE,
@@ -501,7 +490,6 @@ let routes = [
         component: DefineProducingCountry,
         code: FUNCTION_CODE.ITEM_LIST_MANUFACTURING_COUNTRY,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_PRODUCING_COUNTRY.CREATE.TITLE,
@@ -562,7 +550,6 @@ let routes = [
         component: DefineExpenditureType,
         code: FUNCTION_CODE.SALE_LIST_COST_TYPE,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.DEFINE_EXPENDITURE_TYPE.CREATE.TITLE,
@@ -593,7 +580,6 @@ let routes = [
         component: BussinessTypeManagement,
         code: FUNCTION_CODE.WAREHOUSE_LIST_BUSSINESS_TYPE,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.BUSINESS_TYPE_MANAGEMENT.CREATE.TITLE,
@@ -933,7 +919,6 @@ let routes = [
     component: MaterialManagement,
     code: FUNCTION_CODE.ITEM_LIST_ITEM,
     isInSidebar: true,
-    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.MATERIAL_MANAGEMENT.CREATE.TITLE,
@@ -941,7 +926,6 @@ let routes = [
         component: MaterialManagementForm,
         code: FUNCTION_CODE.ITEM_CREATE_ITEM,
         isInSidebar: false,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.DETAIL.TITLE,
@@ -949,7 +933,6 @@ let routes = [
         component: MaterialManagementDetail,
         code: FUNCTION_CODE.ITEM_DETAIL_ITEM,
         isInSidebar: false,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.TITLE,
@@ -957,7 +940,6 @@ let routes = [
         component: MaterialManagementDetail,
         code: FUNCTION_CODE.ITEM_DETAIL_ITEM,
         isInSidebar: false,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.EDIT.TITLE,
@@ -965,7 +947,6 @@ let routes = [
         component: MaterialManagementForm,
         code: FUNCTION_CODE.ITEM_UPDATE_ITEM,
         isInSidebar: false,
-        isInControllingCompany: true,
       },
     ],
   },
@@ -1225,7 +1206,7 @@ let routes = [
     code: FUNCTION_CODE.DATASYNC_LIST_JOB,
     icon: 'database',
     isInSidebar: true,
-    isInControllingCompany: true,
+    subMenu: [{}],
   },
   {
     name: ROUTE.WAREHOUSE_REPORT_MANAGEMENT.TITLE,
@@ -1282,7 +1263,6 @@ let routes = [
     name: ROUTE.REPORT_STATISTICS.TITLE,
     icon: 'export',
     isInSidebar: true,
-    isInControllingCompany: true,
     subMenu: [
       {
         path: ROUTE.REPORT_EXPORT.PATH,
@@ -1290,7 +1270,6 @@ let routes = [
         component: ReportExport,
         code: FUNCTION_CODE.WAREHOUSE_STATISTIC_REPORT,
         isInSidebar: true,
-        isInControllingCompany: true,
       },
     ],
   },
@@ -1299,7 +1278,6 @@ let routes = [
     name: ROUTE.SETTING.TITLE,
     icon: 'setting',
     isInSidebar: true,
-    isInControllingCompany: true,
     subMenu: [
       {
         name: ROUTE.USER_MANAGEMENT.LIST.TITLE,
@@ -1307,7 +1285,6 @@ let routes = [
         component: UserManagement,
         code: FUNCTION_CODE.USER_LIST_USER,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
@@ -1338,7 +1315,6 @@ let routes = [
         component: UserPermission,
         code: FUNCTION_CODE.USER_SET_PERMISSION_USER,
         isInSidebar: true,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.QR_CODE.TITLE,
@@ -1346,7 +1322,6 @@ let routes = [
         component: QrCode,
         // code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION
         isInSidebar: true,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
@@ -1354,26 +1329,22 @@ let routes = [
         component: SignatureConfiguration,
         code: FUNCTION_CODE.USER_CONFIG_SIGNATURE,
         isInSidebar: false, // BA request hide this on the sidebar tempoary
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.DETAIL.TITLE,
         path: ROUTE.ACCOUNT.DETAIL.PATH,
         component: UserInfoDetail,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.EDIT.TITLE,
         path: ROUTE.ACCOUNT.EDIT.PATH,
         component: UserInfoForm,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
         path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
         component: ChangePassword,
         code: FUNCTION_CODE.USER_CHANGE_PASSWORD_USER,
-        isInControllingCompany: true,
       },
       {
         name: ROUTE.ROLE_LIST.LIST.TITLE,
@@ -1381,7 +1352,6 @@ let routes = [
         component: RoleList,
         code: FUNCTION_CODE.USER_LIST_USER_ROLE_SETTING,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.ROLE_LIST.CREATE.TITLE,
@@ -1412,7 +1382,6 @@ let routes = [
         component: UnitManagement,
         code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
-        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
@@ -1449,23 +1418,10 @@ let routes = [
         component: LicenseDetail,
         // code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
-        isInControllingCompany: true,
+        subMenu: [],
       },
     ],
   },
 ]
-
-if (isControllingCompanyEnv) {
-  routes = routes
-    .filter((r) => r.isInControllingCompany)
-    .map((r) => ({
-      ...r,
-      ...(r.subMenu
-        ? {
-            subMenu: r.subMenu.filter((s) => s.isInControllingCompany),
-          }
-        : {}),
-    }))
-}
 
 export default routes

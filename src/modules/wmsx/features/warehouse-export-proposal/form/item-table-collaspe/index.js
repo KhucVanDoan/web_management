@@ -20,13 +20,14 @@ import Guard from '~/components/Guard'
 import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
+import { searchMaterialCategoryApi } from '~/modules/wmsx/redux/sagas/define-material-category/search-material-category'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
+import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { getLotNumberItem } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
-import { api } from '~/services/api'
 import { convertFilterParams, convertUtcDateToLocalTz } from '~/utils'
 
 const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
@@ -53,10 +54,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     }
     itemTableCollaspe[parentIndex].details.push(newObj)
     setFieldValue('itemTableCollaspe', itemTableCollaspe)
-  }
-  const getSubGroupApi = (params) => {
-    const uri = `/v1/items/item-type-settings/sub-groups`
-    return api.get(uri, params)
   }
   const handleRemoveRow = (params, index, parentIndex) => {
     itemTableCollaspe[parentIndex].details.splice(index, 1)
@@ -268,7 +265,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
           <Field.Autocomplete
             name={`itemTableCollaspe[${index}].suppliesType`}
             asyncRequest={(s) =>
-              getSubGroupApi({
+              searchMaterialCategoryApi({
                 keyword: s,
                 limit: ASYNC_SEARCH_LIMIT,
                 filter: convertFilterParams({
@@ -276,15 +273,36 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 }),
               })
             }
-            asyncRequestHelper={(res) => res?.data?.items}
             isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-            getOptionLabel={(opt) =>
-              `${opt?.code}.${opt?.mainGroupCode}.${opt?.subGroupCode}`
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
+            disabled={!params?.row?.supplyCode}
+          />
+        )
+      },
+    },
+    {
+      field: 'categorySubject',
+      headerName: t('warehouseExportProposal.items.categorySubject'),
+      width: 150,
+      renderCell: (params, index) => {
+        return isView || params?.row?.itemId ? (
+          params?.row?.categorySubject
+        ) : (
+          <Field.Autocomplete
+            name={`itemTableCollaspe[${index}].categorySubject`}
+            asyncRequest={(s) =>
+              searchObjectCategoryApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
+              })
             }
-            getOptionSubLabel={(opt) =>
-              `${opt?.name}.${opt?.mainGroupName}.${opt?.subGroupName}`
-            }
-            required
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.name}
             disabled={!params?.row?.supplyCode}
           />
         )
@@ -599,7 +617,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             onClick={() => {
               handleRemoveRow(params, index, parentIndex)
             }}
-            // disabled={params?.row?.itemId}
+            disabled={params?.row?.itemId}
           >
             <Icon name="remove" />
           </IconButton>
