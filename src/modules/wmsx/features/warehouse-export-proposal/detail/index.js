@@ -115,7 +115,7 @@ function WarehouseExportProposalDetail() {
         name: item?.itemName || item?.itemResponse?.name,
         itemUnit: item?.itemResponse?.itemUnit,
       },
-      itemUnit: item?.itemResponse?.itemUnit?.name,
+      itemUnit: item?.itemResponse?.itemUnit?.name || item?.itemUnit?.name,
       details: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
       note: item?.note,
