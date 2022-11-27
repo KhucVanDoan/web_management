@@ -98,8 +98,8 @@ function WarehouseExportReceiptForm() {
         item?.childrens?.length > 0
           ? item?.childrens?.map((childrens) => ({
               id: childrens?.id,
-              itemCode: childrens?.itemResponse?.code || childrens?.itemCode,
-              itemName: childrens?.itemResponse?.name || childrens?.itemName,
+              itemCode: childrens?.itemCode || childrens?.itemResponse?.code,
+              itemName: childrens?.itemName || childrens?.itemResponse?.name,
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,

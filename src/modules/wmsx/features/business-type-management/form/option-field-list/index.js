@@ -10,7 +10,11 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { DATA_TYPE_OPTIONS } from '~/modules/wmsx/constants'
+import {
+  DATA_TYPE,
+  DATA_TYPE_OPTIONS,
+  TABLE_NAME_ENUM,
+} from '~/modules/wmsx/constants'
 
 const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
   const { t } = useTranslation(['wmsx'])
@@ -58,11 +62,50 @@ const ItemSettingTable = ({ itemOption, arrayHelpers, mode }) => {
         headerName: t('businessTypeManagement.items.type'),
         width: 200,
         renderCell: (params, index) => {
-          const type = DATA_TYPE_OPTIONS.find(
-            (e) => e?.id === params?.row?.type,
-          )
+          const type = () => {
+            switch (params?.row?.type) {
+              case DATA_TYPE.TEXT:
+                return DATA_TYPE_OPTIONS.find(
+                  (item) => item?.id === DATA_TYPE.TEXT,
+                )?.text
+              case DATA_TYPE.DATE:
+                return DATA_TYPE_OPTIONS.find(
+                  (item) => item?.id === DATA_TYPE.DATE,
+                )?.text
+              case DATA_TYPE.NUMBER:
+                return DATA_TYPE_OPTIONS.find(
+                  (item) => item?.id === DATA_TYPE.NUMBER,
+                )?.text
+              case DATA_TYPE.LIST:
+                switch (params?.row?.tableName) {
+                  case TABLE_NAME_ENUM.DEPARTMENT_RECEIPT:
+                    return DATA_TYPE_OPTIONS.find(
+                      (item) =>
+                        item?.tableName === TABLE_NAME_ENUM.DEPARTMENT_RECEIPT,
+                    )?.text
+                  case TABLE_NAME_ENUM.VENDOR:
+                    return DATA_TYPE_OPTIONS.find(
+                      (item) => item?.tableName === TABLE_NAME_ENUM.VENDOR,
+                    )?.text
+                  case TABLE_NAME_ENUM.COST_TYPE:
+                    return DATA_TYPE_OPTIONS.find(
+                      (item) => item?.tableName === TABLE_NAME_ENUM.COST_TYPE,
+                    )?.text
+                  case TABLE_NAME_ENUM.ORGANIZATION_PAYMENT:
+                    return DATA_TYPE_OPTIONS.find(
+                      (item) =>
+                        item?.tableName ===
+                        TABLE_NAME_ENUM.ORGANIZATION_PAYMENT,
+                    )?.text
+                  default:
+                    return
+                }
+              default:
+                break
+            }
+          }
           return isView ? (
-            t(`${type?.text}`)
+            t(`${type()}`)
           ) : (
             <Field.Autocomplete
               name={`itemOption[${index}].type`}
