@@ -35,7 +35,6 @@ const ItemSettingTable = (props) => {
       }
     }
   }
-
   const handleChangeLotnumber = async (val, index, payload) => {
     if (val) {
       const params = {
@@ -76,19 +75,28 @@ const ItemSettingTable = (props) => {
         headerName: t('warehouseTransfer.table.itemCode'),
         width: 150,
         renderCell: (params, index) => {
+          const itemIdCodeList = items.map(
+            (item) => item?.itemCode?.id || item?.itemCode?.itemId,
+          )
           return isView ? (
             <>{params?.row?.itemCode?.code}</>
           ) : (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemWarehouseStockList}
-              isOptionEqualToValue={(opt, val) =>
-                (opt?.id || opt?.itemId) === val?.id
-              }
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
               disabled={!values?.sourceWarehouseId}
               onChange={(val) => handleChangeItem(val, index)}
+              getOptionDisabled={(opt) => {
+                if (values?.sourceWarehouseId?.manageByLot === 0) {
+                  return (
+                    itemIdCodeList.some((id) => id === opt?.id) &&
+                    opt?.id !== items[index]?.itemCode?.id
+                  )
+                }
+              }}
               required
             />
           )
@@ -174,7 +182,6 @@ const ItemSettingTable = (props) => {
             }
             return unique
           }, [])
-
           return isView ? (
             <>{params?.row?.lotNumber}</>
           ) : (

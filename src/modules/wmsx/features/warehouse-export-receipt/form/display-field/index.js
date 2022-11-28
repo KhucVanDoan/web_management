@@ -58,6 +58,7 @@ const displayFollowBusinessTypeManagement = (
     setItemWarehouseExportProposal([])
     if (isEmpty(val)) {
       setItemWarehouseExportProposal([])
+      setFieldValue('items', DEFAULT_ITEMS)
     }
     setFieldValue('warehouseId', '')
     if (!isEmpty(val)) {
