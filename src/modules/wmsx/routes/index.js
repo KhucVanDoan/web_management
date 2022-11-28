@@ -926,6 +926,7 @@ const routes = [
         component: MaterialManagementForm,
         code: FUNCTION_CODE.ITEM_CREATE_ITEM,
         isInSidebar: false,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.DETAIL.TITLE,
@@ -933,6 +934,7 @@ const routes = [
         component: MaterialManagementDetail,
         code: FUNCTION_CODE.ITEM_DETAIL_ITEM,
         isInSidebar: false,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.EDIT_WAREHOUSE_SOURCE.TITLE,
@@ -940,6 +942,7 @@ const routes = [
         component: MaterialManagementDetail,
         code: FUNCTION_CODE.ITEM_DETAIL_ITEM,
         isInSidebar: false,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.MATERIAL_MANAGEMENT.EDIT.TITLE,
@@ -947,6 +950,7 @@ const routes = [
         component: MaterialManagementForm,
         code: FUNCTION_CODE.ITEM_UPDATE_ITEM,
         isInSidebar: false,
+        isInControllingCompany: true,
       },
     ],
   },
@@ -1270,6 +1274,7 @@ const routes = [
         component: ReportExport,
         code: FUNCTION_CODE.WAREHOUSE_STATISTIC_REPORT,
         isInSidebar: true,
+        isInControllingCompany: true,
       },
     ],
   },
@@ -1285,6 +1290,7 @@ const routes = [
         component: UserManagement,
         code: FUNCTION_CODE.USER_LIST_USER,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.USER_MANAGEMENT.CREATE.TITLE,
@@ -1315,13 +1321,15 @@ const routes = [
         component: UserPermission,
         code: FUNCTION_CODE.USER_SET_PERMISSION_USER,
         isInSidebar: true,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
-        // code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION
+        code: FUNCTION_CODE.REPORT_GET_QR_CODE_SETTING,
         isInSidebar: true,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
@@ -1329,22 +1337,26 @@ const routes = [
         component: SignatureConfiguration,
         code: FUNCTION_CODE.USER_CONFIG_SIGNATURE,
         isInSidebar: false, // BA request hide this on the sidebar tempoary
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.DETAIL.TITLE,
         path: ROUTE.ACCOUNT.DETAIL.PATH,
         component: UserInfoDetail,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.EDIT.TITLE,
         path: ROUTE.ACCOUNT.EDIT.PATH,
         component: UserInfoForm,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
         path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
         component: ChangePassword,
         code: FUNCTION_CODE.USER_CHANGE_PASSWORD_USER,
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.ROLE_LIST.LIST.TITLE,
@@ -1352,6 +1364,7 @@ const routes = [
         component: RoleList,
         code: FUNCTION_CODE.USER_LIST_USER_ROLE_SETTING,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.ROLE_LIST.CREATE.TITLE,
@@ -1382,6 +1395,7 @@ const routes = [
         component: UnitManagement,
         code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
+        isInControllingCompany: true,
         subMenu: [
           {
             name: ROUTE.UNIT_MANAGEMENT.CREATE.TITLE,
@@ -1418,7 +1432,7 @@ const routes = [
         component: LicenseDetail,
         // code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
         isInSidebar: true,
-        subMenu: [],
+        isInControllingCompany: true,
       },
     ],
   },

@@ -160,11 +160,10 @@ const SubGroupTable = ({
         align: 'center',
         hide: isView,
         renderCell: (params, index) => {
-          const idx = subGroups.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
-                arrayHelpers.remove(idx)
+                arrayHelpers.remove(index)
               }}
               disabled={subGroups?.length === 1 || subGroups[index].parentId}
             >
@@ -194,7 +193,6 @@ const SubGroupTable = ({
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: new Date().getTime(),
                 mainCode: '',
                 code: '',
                 name: '',

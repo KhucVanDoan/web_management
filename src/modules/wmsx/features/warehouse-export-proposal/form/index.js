@@ -3,6 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
+import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -90,7 +91,6 @@ function WarehouseExportReceiptForm() {
       dayUpdate: item?.updatedAt,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,
-      categorySubject: item?.objectCategory?.name,
       producingCountry: item?.manufacturingCountry?.name,
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',
@@ -104,7 +104,7 @@ function WarehouseExportReceiptForm() {
               unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,
               reservation: childrens?.isKeepSlot,
-              planExportedQuantity: childrens?.planExportedQuantity || 0,
+              planExportedQuantity: childrens?.exportableQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouse: childrens?.warehouseExport || '',
@@ -255,14 +255,25 @@ function WarehouseExportReceiptForm() {
           id: item?.id,
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
-          childrens: item?.details?.map((e) => ({
-            id: e?.id || null,
-            itemId: e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
-            exportedQuantity: +e?.quantityExport,
-            isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
-            lotNumber: e?.lotNumber,
-            warehouseExportId: e?.warehouseExport?.id,
-          })),
+          childrens: item?.details?.map((e) => {
+            if (!isEmpty(e?.exportSuppliesCode)) {
+              return {
+                itemId:
+                  e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
+                exportedQuantity: +e?.quantityExport,
+                isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
+                lotNumber: e?.lotNumber,
+                warehouseExportId: e?.warehouseExport?.id,
+              }
+            } else if (e?.id) {
+              return {
+                id: e?.id,
+                exportedQuantity: e?.exportQuantity,
+              }
+            } else {
+              return {}
+            }
+          }),
         })),
       }
       actions.updateWarehouseExportProposalQuantity(params, backToList)

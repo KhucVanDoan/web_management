@@ -45,7 +45,6 @@ const FilterForm = () => {
           getOptionLabel={(opt) => opt?.name}
           getOptionSubLabel={(opt) => opt?.code}
           isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-          required
         />
       </Grid>
       <Grid item xs={12}>

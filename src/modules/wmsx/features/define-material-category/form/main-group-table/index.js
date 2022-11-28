@@ -135,11 +135,10 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
         align: 'center',
         hide: isView,
         renderCell: (params, index) => {
-          const idx = mainGroups.findIndex((item) => item.id === params.row.id)
           return (
             <IconButton
               onClick={() => {
-                arrayHelpers.remove(idx)
+                arrayHelpers.remove(index)
               }}
               disabled={mainGroups?.length === 1 || mainGroups[index].parentId}
             >
@@ -169,7 +168,6 @@ const MainGroupTable = ({ mainGroups, material, arrayHelpers, mode }) => {
             variant="outlined"
             onClick={() => {
               arrayHelpers.push({
-                id: new Date().getTime(),
                 code: '',
                 name: '',
                 level: 1,

@@ -73,7 +73,7 @@ const QrCode = () => {
     })
   }
 
-  const editable = canAccess(FUNCTION_CODE.QR_CODE_ITEM_PERMISSION)
+  const editable = canAccess(FUNCTION_CODE.REPORT_CREATE_QR_CODE_SETTING)
 
   const renderActionBar = (handleReset) => {
     if (!editable) return null
