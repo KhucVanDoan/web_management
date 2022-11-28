@@ -218,7 +218,7 @@ import watchDeleteStoragePeriod from './set-storage-period/delete-storage-period
 import watchGetStoragePeriodDetails from './set-storage-period/get-storage-period-details'
 import watchSearchStoragePeriods from './set-storage-period/search-storage-period'
 import watchUpdateStoragePeriod from './set-storage-period/update-storage-period'
-import watchGetSignatureConfigurationDetails from './signature-configuration/get-signature-configuration-details'
+import watchGetSignatureConfigurationList from './signature-configuration/get-signature-configuration-list'
 import watchUpdateSignatureConfiguration from './signature-configuration/update-signature-configuration'
 import watchConfirmSourceManagement from './source-management/confirm'
 import watchCreateSourceManagement from './source-management/create'
@@ -526,7 +526,7 @@ export default function* sagas() {
     watchSearchInventoryWarning(),
 
     //signature configuration
-    watchGetSignatureConfigurationDetails(),
+    watchGetSignatureConfigurationList(),
     watchUpdateSignatureConfiguration(),
     //QR-code
     watchGetQrCodeDetails(),

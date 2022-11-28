@@ -1,27 +1,27 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import {
-  getSignatureConfigurationDetailsFailed,
-  getSignatureConfigurationDetailsSuccess,
-  GET_SIGNATURE_CONFIGURATION_DETAILS_START,
+  getSignatureConfigurationListFailed,
+  getSignatureConfigurationListSuccess,
+  GET_SIGNATURE_CONFIGURATION_LIST_START,
 } from '~/modules/wmsx/redux/actions/signature-configuration'
 import { api } from '~/services/api'
 
-const getSignatureConfigurationDetailsApi = () => {
+const getSignatureConfigurationListApi = (params) => {
   //@TODO update api
-  const uri = `/v1/settings`
-  return api.get(uri)
+  const uri = `/v1/settings/setting-signature/list`
+  return api.get(uri, params)
 }
 
-function* doGetSignatureConfigurationDetails(action) {
+function* doGetSignatureConfigurationList(action) {
   try {
     const response = yield call(
-      getSignatureConfigurationDetailsApi,
+      getSignatureConfigurationListApi,
       action?.payload,
     )
 
     if (response?.statusCode === 200) {
-      yield put(getSignatureConfigurationDetailsSuccess(response.data))
+      yield put(getSignatureConfigurationListSuccess(response.data))
 
       // Call callback action if provided
       if (action.onSuccess) {
@@ -31,7 +31,7 @@ function* doGetSignatureConfigurationDetails(action) {
       throw new Error(response?.message)
     }
   } catch (error) {
-    yield put(getSignatureConfigurationDetailsFailed())
+    yield put(getSignatureConfigurationListFailed())
     // Call callback action if provided
     if (action.onError) {
       yield action.onError()
@@ -39,9 +39,9 @@ function* doGetSignatureConfigurationDetails(action) {
   }
 }
 
-export default function* watchGetSignatureConfigurationDetails() {
+export default function* watchGetSignatureConfigurationList() {
   yield takeLatest(
-    GET_SIGNATURE_CONFIGURATION_DETAILS_START,
-    doGetSignatureConfigurationDetails,
+    GET_SIGNATURE_CONFIGURATION_LIST_START,
+    doGetSignatureConfigurationList,
   )
 }

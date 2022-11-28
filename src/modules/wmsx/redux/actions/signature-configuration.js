@@ -5,12 +5,12 @@ export const UPDATE_SIGNATURE_CONFIGURATION_SUCCESS =
 export const UPDATE_SIGNATURE_CONFIGURATION_FAILED =
   'WMSX_UPDATE_SIGNATURE_CONFIGURATION_FAILED'
 
-export const GET_SIGNATURE_CONFIGURATION_DETAILS_START =
-  'WMSX_GET_SIGNATURE_CONFIGURATION_DETAILS_START'
-export const GET_SIGNATURE_CONFIGURATION_DETAILS_SUCCESS =
-  'WMSX_GET_SIGNATURE_CONFIGURATION_DETAILS_SUCCESS'
-export const GET_SIGNATURE_CONFIGURATION_DETAILS_FAILED =
-  'WMSX_GET_SIGNATURE_CONFIGURATION_DETAILS_FAILED'
+export const GET_SIGNATURE_CONFIGURATION_LIST_START =
+  'WMSX_GET_SIGNATURE_CONFIGURATION_LIST_START'
+export const GET_SIGNATURE_CONFIGURATION_LIST_SUCCESS =
+  'WMSX_GET_SIGNATURE_CONFIGURATION_LIST_SUCCESS'
+export const GET_SIGNATURE_CONFIGURATION_LIST_FAILED =
+  'WMSX_GET_SIGNATURE_CONFIGURATION_LIST_FAILED'
 
 export function updateSignatureConfiguration(payload, onSuccess, onError) {
   return {
@@ -34,25 +34,25 @@ export function updateSignatureConfigurationFailed() {
   }
 }
 
-export function getSignatureConfigurationDetails(id, onSuccess, onError) {
+export function getSignatureConfigurationList(id, onSuccess, onError) {
   return {
-    type: GET_SIGNATURE_CONFIGURATION_DETAILS_START,
+    type: GET_SIGNATURE_CONFIGURATION_LIST_START,
     payload: id,
     onSuccess: onSuccess,
     onError: onError,
   }
 }
 
-export function getSignatureConfigurationDetailsSuccess(payload) {
+export function getSignatureConfigurationListSuccess(payload) {
   return {
-    type: GET_SIGNATURE_CONFIGURATION_DETAILS_SUCCESS,
+    type: GET_SIGNATURE_CONFIGURATION_LIST_SUCCESS,
     payload: payload,
   }
 }
 
-export function getSignatureConfigurationDetailsFailed() {
+export function getSignatureConfigurationListFailed() {
   return {
-    type: GET_SIGNATURE_CONFIGURATION_DETAILS_FAILED,
+    type: GET_SIGNATURE_CONFIGURATION_LIST_FAILED,
   }
 }
 
@@ -60,7 +60,7 @@ export default {
   updateSignatureConfiguration,
   updateSignatureConfigurationSuccess,
   updateSignatureConfigurationFailed,
-  getSignatureConfigurationDetails,
-  getSignatureConfigurationDetailsSuccess,
-  getSignatureConfigurationDetailsFailed,
+  getSignatureConfigurationList,
+  getSignatureConfigurationListSuccess,
+  getSignatureConfigurationListFailed,
 }
