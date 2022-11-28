@@ -233,10 +233,10 @@ function WarehouseImportReceiptDetail() {
                       label={`${item.fieldName}`}
                       value={
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                          (itemDetail) => `${itemDetail.id}` === item.value,
                         )?.name ||
                         attributesBusinessTypeDetails[item.tableName]?.find(
-                          (itemDetail) => itemDetail.id + '' === item.value,
+                          (itemDetail) => `${itemDetail.id}` === item.value,
                         )?.code
                       }
                     />

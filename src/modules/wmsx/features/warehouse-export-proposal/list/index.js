@@ -292,6 +292,7 @@ function WarehouseExportProposal() {
           receiptMonth: quickFilters?.startDate
             ? `${quickFilters?.startDate}|${quickFilters?.endDate}`
             : null,
+          exportStatus: quickFilters?.exportStatus,
         },
         [
           { field: 'receiptDate', filterFormat: 'date' },

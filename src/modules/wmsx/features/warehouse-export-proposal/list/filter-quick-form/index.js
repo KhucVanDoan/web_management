@@ -8,16 +8,12 @@ import { useTranslation } from 'react-i18next'
 import Button from '~/components/Button'
 import DatePicker from '~/components/DatePicker'
 import { Field } from '~/components/Formik'
+import { WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION } from '~/modules/wmsx/constants'
 
 const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
   const { t } = useTranslation(['wmsx'])
-
-  const [startDate, setStartDate] = useState(
-    `${format(startOfMonth(new Date()), 'yyyy-MM-dd')}T00:00:00.000Z`,
-  )
-  const [endDate, setEndDate] = useState(
-    `${format(endOfMonth(new Date()), 'yyyy-MM-dd')}T23:59:59.999Z`,
-  )
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
   const [selectedDate, setSelectedDate] = useState()
 
   const handleChangeSelect = (value) => {
@@ -30,7 +26,7 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
       ...quickFilters,
       startDate: startDate,
       endDate: endDate,
-      values,
+      exportStatus: values?.exportStatus,
     })
   }
 
@@ -58,12 +54,14 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="statusWarehouseExport"
+                      name="exportStatus"
                       label={t('warehouseExportProposal.statusWarehouseExport')}
                       placeholder={t(
                         'warehouseExportProposal.statusWarehouseExport',
                       )}
-                      options={[]}
+                      options={
+                        WAREHOUSE_EXPORT_PROPOSAL_EXPORT_WAREHOUSE_STATUS_OPTION
+                      }
                       getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
                       getOptionValue={(opt) => opt?.id?.toString()}
                     />
@@ -76,6 +74,9 @@ const QuickFilter = ({ setQuickFilters, quickFilters, defaultFilter }) => {
                         onClick={() => {
                           resetForm()
                           setQuickFilters(defaultFilter)
+                          setStartDate('')
+                          setEndDate('')
+                          setSelectedDate('')
                         }}
                       >
                         {t('general:common.cancel')}

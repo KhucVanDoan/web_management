@@ -134,7 +134,7 @@ function WarehouseExportReceiptForm() {
           },
         })) || DEFAULT_ITEMS,
     }),
-    [warehouseExportReceiptDetails],
+    [warehouseExportReceiptDetails, attributesBusinessTypeDetails],
   )
   warehouseExportReceiptDetails?.attributes?.forEach((item) => {
     if (
