@@ -376,7 +376,13 @@ const ItemSettingTable = (props) => {
         },
       },
     ],
-    [values?.type, values?.sourceWarehouseId, itemWarehouseStockList, type],
+    [
+      values?.type,
+      values?.sourceWarehouseId,
+      itemWarehouseStockList,
+      type,
+      items,
+    ],
   )
   return (
     <>
