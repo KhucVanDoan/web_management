@@ -1344,7 +1344,7 @@ let routes = [
         name: ROUTE.QR_CODE.TITLE,
         path: ROUTE.QR_CODE.PATH,
         component: QrCode,
-        // code: FUNCTION_CODE.QR_CODE_ITEM_PERMISSION
+        code: FUNCTION_CODE.REPORT_GET_QR_CODE_SETTING,
         isInSidebar: true,
         isInControllingCompany: true,
       },
