@@ -13,7 +13,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchRoleListApi } from '~/modules/wmsx/redux/sagas/role-list/search-role-list'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
@@ -40,7 +40,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
               name={`items[${index}].role`}
               placeholder={t('signatureConfiguration.role')}
               asyncRequest={(s) =>
-                searchWarehouseApi({
+                searchRoleListApi({
                   keyword: s,
                   limit: ASYNC_SEARCH_LIMIT,
                 })

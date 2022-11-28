@@ -2232,3 +2232,30 @@ export const OPTIONS_QR_CODE = {
   qrOld: 0,
   qrNew: 1,
 }
+
+export const TYPE_OBJECT_ENUM = {
+  PURCHASED_ORDER_IMPORT: 2,
+  SALE_ORDER_EXPORT: 3,
+  EXPORT_WAREHOUSE_TRANSFER: 4,
+}
+
+export const TYPE_OBJECT_MAP = {
+  [TYPE_OBJECT_ENUM.PURCHASED_ORDER_IMPORT]: 'menu.warehouseImportReceipt',
+  [TYPE_OBJECT_ENUM.SALE_ORDER_EXPORT]: 'menu.warehouseExportReceipt',
+  [TYPE_OBJECT_ENUM.EXPORT_WAREHOUSE_TRANSFER]: 'menu.warehouseTransfer',
+}
+
+export const TYPE_OBJECT_OPTIONS = [
+  {
+    id: TYPE_OBJECT_ENUM.PURCHASED_ORDER_IMPORT,
+    text: 'menu.warehouseImportReceipt',
+  },
+  {
+    id: TYPE_OBJECT_ENUM.SALE_ORDER_EXPORT,
+    text: 'menu.warehouseExportReceipt',
+  },
+  {
+    id: TYPE_OBJECT_ENUM.EXPORT_WAREHOUSE_TRANSFER,
+    text: 'menu.warehouseTransfer',
+  },
+]
