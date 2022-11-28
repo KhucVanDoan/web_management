@@ -143,7 +143,9 @@ const ItemSettingTable = ({
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
-              options={itemList}
+              options={itemWarehouseExportProposal?.filter(
+                (item) => item?.warehouseExport?.id === values?.warehouseId?.id,
+              )}
               getOptionLabel={(opt) => opt?.item?.code}
               getOptionSubLabel={(opt) => opt?.item?.name}
               onChange={(val) => handleChangeItem(val, index)}
