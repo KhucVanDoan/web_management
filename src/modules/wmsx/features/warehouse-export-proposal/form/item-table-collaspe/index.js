@@ -656,14 +656,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         return params?.row?.materialQuality?.code
       },
     },
-    {
-      field: 'categorySubject',
-      headerName: t('warehouseExportProposal.items.categorySubject'),
-      width: 150,
-      renderCell: (params) => {
-        return params?.row?.categorySubject?.name
-      },
-    },
   ]
   const dataItem = itemTableCollaspe?.filter(
     (item) => item?.supplyCode === true && !item?.itemId,
@@ -675,7 +667,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
         detailId: +item?.id,
         itemId: item?.itemId,
         unitId: null,
-        objectCategoryId: item?.categorySubject?.id,
         manufacturingCountryId: item?.producingCountry?.id,
         itemQuanlityId: item?.materialQuality?.id,
         itemTypeSettingId: null,

@@ -67,6 +67,7 @@ const WarehouseTransferDetail = () => {
       creditAcc: item?.creditAccount,
       debitAcc: item?.debitAccount,
       actualQuantity: Number(item?.actualQuantity),
+      exportedQuantity: Number(item?.exportedQuantity),
       lotNumber: item?.lotNumber,
       locator: item?.locator,
       itemName: item?.item?.name,
