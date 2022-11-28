@@ -2841,7 +2841,7 @@
   },
   "signatureConfiguration": {
     "title": "Cấu hình chữ ký",
-    "formType": "Loại phiếu",
+    "typeObject": "Loại phiếu",
     "list": "Danh sách chữ ký",
     "add": "Thêm chữ ký",
     "action": "Hành động",

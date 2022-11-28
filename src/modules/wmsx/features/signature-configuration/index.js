@@ -4,20 +4,21 @@ import { Box, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
-import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
+import { MODAL_MODE } from '~/common/constants'
 import ActionBar from '~/components/ActionBar'
 import { Field } from '~/components/Formik'
 import Page from '~/components/Page'
 import useSignatureConfiguration from '~/modules/wmsx/redux/hooks/useSignatureConfiguration'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 
-import { searchMovementsApi } from '../../redux/sagas/movements/search-movements'
+import { TYPE_OBJECT_ENUM, TYPE_OBJECT_OPTIONS } from '../../constants'
 import ItemsSettingTable from './items-setting-table'
 import { formSchema } from './schema'
 
 const DEFAULT_ITEM = {
   id: new Date().getTime(),
-  itemId: '',
+  role: null,
+  signerName: '',
 }
 
 const breadcrumbs = [
@@ -34,24 +35,37 @@ const SignatureConfiguration = () => {
   const { t } = useTranslation(['wmsx'])
 
   const {
-    data: { isLoading, signatureConfigurationDetails },
+    data: { isLoading, signatureConfigurationList },
     actions,
   } = useSignatureConfiguration()
 
   const initialValues = {
-    formType: signatureConfigurationDetails?.formType || null,
-    items: signatureConfigurationDetails?.items || [{ ...DEFAULT_ITEM }],
+    typeObject: TYPE_OBJECT_ENUM.PURCHASED_ORDER_IMPORT,
+    items: signatureConfigurationList?.length
+      ? signatureConfigurationList?.map((item, index) => ({
+          id: index + 1,
+          role: item?.roleId || '',
+          signerName: item?.signature || '',
+        }))
+      : [{ ...DEFAULT_ITEM }],
   }
 
   useEffect(() => {
-    actions.getSignatureConfigurationDetails()
+    actions.getSignatureConfigurationList({
+      typeObject: TYPE_OBJECT_ENUM.PURCHASED_ORDER_IMPORT,
+    })
   }, [])
 
   const onSubmit = (values) => {
     const convertValues = {
-      formType: values.formType.id,
-      items: values.items,
+      signatures: values.items?.map((item) => ({
+        typeObject: values.typeObject,
+        roleId: item?.role?.id,
+        signature: item?.signerName,
+      })),
     }
+
+    console.log(convertValues)
     actions.updateSignatureConfiguration(convertValues, () => {
       window.location.reload()
     })
@@ -73,7 +87,7 @@ const SignatureConfiguration = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ handleReset, values }) => (
+        {({ handleReset, values, setFieldValue }) => (
           <Form>
             <Typography variant="h4" mt={1} mb={1}>
               {t('signatureConfiguration.title')}
@@ -101,20 +115,20 @@ const SignatureConfiguration = () => {
                 >
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="formType"
-                      label={t('signatureConfiguration.formType')}
-                      placeholder={t('signatureConfiguration.formType')}
-                      asyncRequest={(s) =>
-                        //@TODO update api
-                        searchMovementsApi({
-                          keyword: s,
-                          limit: ASYNC_SEARCH_LIMIT,
+                      name="typeObject"
+                      label={t('signatureConfiguration.typeObject')}
+                      placeholder={t('signatureConfiguration.typeObject')}
+                      options={TYPE_OBJECT_OPTIONS}
+                      getOptionLabel={(opt) => (opt?.text ? t(opt?.text) : '')}
+                      getOptionValue={(opt) => opt?.id}
+                      onChange={(val) => {
+                        setFieldValue('typeObject', val)
+                        actions.getSignatureConfigurationList({
+                          typeObject: val,
                         })
-                      }
-                      asyncRequestHelper={(res) => res?.data?.items}
-                      isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-                      getOptionLabel={(opt) => opt?.code}
-                      getOptionSubLabel={(opt) => opt?.name}
+                        handleReset()
+                      }}
+                      disableClearable
                       required
                     />
                   </Grid>
