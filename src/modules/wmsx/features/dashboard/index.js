@@ -65,7 +65,7 @@ function Dashboard() {
           </Formik>
         </Grid>
         <Grid item xs={12}>
-          <ItemSummary />
+          <ItemSummary fromDate={fromDate} toDate={toDate} />
         </Grid>
         <Grid item xs={12} lg={5} md={12} container rowSpacing={2}>
           <Grid item xs={12}>

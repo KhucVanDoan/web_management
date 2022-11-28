@@ -11,7 +11,11 @@ export const searchWarehouseApi = (params) => {
   const uri = `/v1/warehouses/list`
   return api.get(uri, params)
 }
-
+export const searchWarehouseByUserApi = (params) => {
+  console.log('params', params)
+  const uri = `/v1/users/warehouse/list-by-user`
+  return api.get(uri, params)
+}
 function* doSearchWarehouse(action) {
   try {
     const response = yield call(searchWarehouseApi, action?.payload)

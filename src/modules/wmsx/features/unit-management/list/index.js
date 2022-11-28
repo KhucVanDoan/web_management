@@ -25,7 +25,7 @@ import {
   importUnitApi,
 } from '~/modules/wmsx/redux/sagas/management-unit/import-export'
 import { ROUTE } from '~/modules/wmsx/routes/config'
-import { convertFilterParams, convertSortParams, getLocalItem } from '~/utils'
+import { convertFilterParams, convertSortParams } from '~/utils'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
@@ -67,7 +67,7 @@ function ManagementUnit() {
     data: { isLoading, managementUnitList, total },
     actions,
   } = useManagementUnit()
-  const isSuperAdmin = getLocalItem('userInfo')?.code === '000000001'
+
   useEffect(() => {
     setSelectedRows([])
   }, [keyword, sort, filters])
@@ -156,7 +156,11 @@ function ManagementUnit() {
                 <Icon name={isLocked ? 'locked' : 'unlock'} />
               </IconButton>
             </Guard>
-            {isSuperAdmin && (
+            <Guard
+              code={
+                FUNCTION_CODE.USER_DECENTRALIZATION_PERMISSION_GROUP_DEPARTMENT_SETTING
+              }
+            >
               <IconButton
                 onClick={() =>
                   history.push(
@@ -166,7 +170,7 @@ function ManagementUnit() {
               >
                 <Icon name="assign" />
               </IconButton>
-            )}
+            </Guard>
           </>
         )
       },

@@ -28,7 +28,7 @@ import {
 import useSourceManagement from '~/modules/wmsx/redux/hooks/useSourceManagement'
 import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseByUserApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
 import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-department-management/search-receipt-department'
 import { getReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/receipt-management/get-receipt-details'
@@ -38,7 +38,7 @@ import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/
 import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, getLocalItem } from '~/utils'
 
 import displayFollowBusinessTypeManagement from '../display-field'
 import ItemsSettingTable from './items-setting-table'
@@ -63,6 +63,7 @@ function WarehouseImportReceiptForm() {
   const { id } = useParams()
   const classes = useClasses(style)
   const routeMatch = useRouteMatch()
+  const loggedInUserInfo = getLocalItem('userInfo')
   const [itemReceipt, setItemReceipt] = useState([])
   const [itemWarehouseExportProposal, setItemWarehouseExportProposal] =
     useState([])
@@ -78,6 +79,7 @@ function WarehouseImportReceiptForm() {
     },
     actions,
   } = useWarehouseImportReceipt()
+
   const { actions: sourceAction } = useSourceManagement()
   const MODE_MAP = {
     [ROUTE.WAREHOUSE_IMPORT_RECEIPT.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -532,8 +534,9 @@ function WarehouseImportReceiptForm() {
                         label={t('warehouseImportReceipt.warehouse')}
                         placeholder={t('warehouseImportReceipt.warehouse')}
                         asyncRequest={(s) =>
-                          searchWarehouseApi({
+                          searchWarehouseByUserApi({
                             keyword: s,
+                            userId: loggedInUserInfo?.id,
                             limit: ASYNC_SEARCH_LIMIT,
                             filter: convertFilterParams({
                               status: ACTIVE_STATUS.ACTIVE,
