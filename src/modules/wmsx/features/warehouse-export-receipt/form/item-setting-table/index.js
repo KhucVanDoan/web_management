@@ -139,7 +139,7 @@ const ItemSettingTable = ({
               }
               disabled={isEmpty(values?.warehouseId)}
             />
-          ) : (
+          ) : itemList?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('warehouseExportReceipt.items.suppliesCode')}
@@ -158,6 +158,22 @@ const ItemSettingTable = ({
                   (items[index]?.itemId ||
                     items[index]?.itemCode?.itemId ||
                     items[index]?.itemCode?.id)
+              }
+              disabled={isEmpty(values?.warehouseId)}
+            />
+          ) : (
+            <Field.Autocomplete
+              name={`items[${index}].itemCode`}
+              placeholder={t('warehouseExportReceipt.items.suppliesCode')}
+              options={itemWarehouseStockList}
+              getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
+              onChange={(val) => handleChangeItem(val, index)}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              getOptionDisabled={(opt) =>
+                itemIdCodeList.some((id) => id === (opt?.id || opt?.itemId)) &&
+                (opt?.id || opt?.itemId) !==
+                  (items[index]?.id || items[index]?.itemId)
               }
               disabled={isEmpty(values?.warehouseId)}
             />
@@ -214,6 +230,25 @@ const ItemSettingTable = ({
               item?.itemId === params?.row?.itemCode?.id ||
               item?.itemId === params?.row?.itemCode?.itemId,
           )
+          const lotNumber = []
+          itemWarehouseExportProposal?.forEach((item) => {
+            if (
+              item?.itemId === params?.row?.itemCode?.itemId &&
+              item?.lotNumber
+            ) {
+              const findLotNumber = lotNumber?.find(
+                (lot) =>
+                  lot?.itemId === item?.itemId &&
+                  lot?.lotNumber === item?.lotNumber,
+              )
+              if (isEmpty(findLotNumber)) {
+                lotNumber.push({
+                  itemId: item?.itemId,
+                  lotNumber: item?.lotNumber,
+                })
+              }
+            }
+          })
           return itemList?.length > 0 ? (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
@@ -233,11 +268,29 @@ const ItemSettingTable = ({
               }}
               onChange={(val) => handleChangeLotNumber(val, index, params)}
             />
+          ) : itemWarehouseExportProposal?.length > 0 ? (
+            <Field.Autocomplete
+              name={`items[${index}].lotNumber`}
+              options={lotNumber}
+              getOptionLabel={(opt) => opt.lotNumber}
+              getOptionValue={(option) => option?.lotNumber}
+              isOptionEqualToValue={(opt, val) => opt?.lotNumber === val}
+              disabled={!hiden}
+              onChange={(val) => handleChangeLotNumber(val, index, params)}
+              validate={(val) => {
+                if (values?.warehouseId?.manageByLot) {
+                  if (!val) {
+                    return t('general:form.required')
+                  }
+                }
+              }}
+            />
           ) : (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
               options={flatMap(locationList?.locations, 'lots')?.filter(
-                (lot) => !lotsSelected.includes(lot.lotNumber),
+                (lot) =>
+                  !lotsSelected.includes(lot.lotNumber) && lot?.lotNumber,
               )}
               getOptionLabel={(opt) => opt.lotNumber}
               getOptionValue={(option) => option?.lotNumber}
