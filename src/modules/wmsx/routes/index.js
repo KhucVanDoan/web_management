@@ -143,6 +143,9 @@ import { ROUTE } from './config'
 const isControllingCompanyEnv =
   process.env.REACT_APP_CONTROLLING_COMPANY === '1'
 
+// eslint-disable-next-line no-console
+console.log('tct', process.env.REACT_APP_CONTROLLING_COMPANY)
+
 let routes = [
   {
     name: ROUTE.DASHBOARD.TITLE,
