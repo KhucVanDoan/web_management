@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useTranslation } from 'react-i18next'
 
+import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
@@ -24,6 +25,7 @@ function ItemsSettingTable(props) {
   useEffect(() => {
     if (warehouseId) {
       actions.searchLocations({
+        limit: ASYNC_SEARCH_LIMIT,
         filter: convertFilterParams({
           warehouseId,
           type: [0, 1],
