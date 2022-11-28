@@ -91,7 +91,6 @@ function WarehouseExportReceiptForm() {
       dayUpdate: item?.updatedAt,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,
-      categorySubject: item?.objectCategory?.name,
       producingCountry: item?.manufacturingCountry?.name,
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',

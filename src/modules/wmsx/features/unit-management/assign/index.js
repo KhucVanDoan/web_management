@@ -135,9 +135,7 @@ function UnitManagementAssign() {
       id: Number(id),
       groupPermissions: permissionList,
     }
-    actions.updateDepartmentAssign(convertValues, () => {
-      window.location.reload()
-    })
+    actions.updateDepartmentAssign(convertValues, backToList)
   }
 
   const backToList = () => {
@@ -151,7 +149,11 @@ function UnitManagementAssign() {
       onBack={backToList}
       loading={isLoading}
     >
-      <Formik onSubmit={onSubmit} enableReinitialize>
+      <Formik
+        onSubmit={onSubmit}
+        initialValues={featureList}
+        enableReinitialize
+      >
         {({ handleReset }) => (
           <Form>
             <Grid container justifyContent="center" sx={{ mb: 3 }}>
