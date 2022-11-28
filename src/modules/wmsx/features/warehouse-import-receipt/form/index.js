@@ -128,13 +128,13 @@ function WarehouseImportReceiptForm() {
         }),
       ) || [{ ...DEFAULT_ITEMS }],
     }),
-    [warehouseImportReceiptDetails],
+    [warehouseImportReceiptDetails, attributesBusinessTypeDetails],
   )
   warehouseImportReceiptDetails?.attributes?.forEach((item) => {
     if (item.tableName) {
       initialValues[`${item.id}`] =
         attributesBusinessTypeDetails[item.tableName]?.find(
-          (itemDetail) => itemDetail.id + '' === item.value,
+          (itemDetail) => `${itemDetail.id}` === item.value,
         ) || ''
     } else {
       initialValues[`${item.id}`] = item.value || ''

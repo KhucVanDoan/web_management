@@ -30,7 +30,9 @@ const ItemSettingTable = (props) => {
       if (val?.itemWarehouseSources?.length > 0) {
         setFieldValue(
           `items[${index}].creditAcc`,
-          val?.itemWarehouseSources[0]?.accounting,
+          val?.itemWarehouseSources?.find(
+            (item) => item?.warehouseId === values?.sourceWarehouseId?.id,
+          )?.accounting,
         )
       }
     }
@@ -138,7 +140,8 @@ const ItemSettingTable = (props) => {
         width: 150,
         hide:
           type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
-          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT,
+          values?.type === WAREHOUSE_TRANSFER_TYPE.WAREHOUSE_TRANSFER_SHORT ||
+          values?.type === '',
         renderCell: (params, index) => {
           const { itemCode } = params?.row
           const locations = itemWarehouseStockList?.find(

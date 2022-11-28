@@ -64,7 +64,12 @@ const WarehouseTransferDetail = () => {
         id: item?.itemId,
         ...item?.item,
       },
-      creditAcc: item?.creditAccount,
+      creditAcc:
+        item?.creditAccount ||
+        item?.item?.itemWarehouseSources?.find(
+          (item) =>
+            item?.warehouseId === warehouseTransferDetails?.sourceWarehouse?.id,
+        )?.accounting,
       debitAcc: item?.debitAccount,
       actualQuantity: Number(item?.actualQuantity),
       exportedQuantity: Number(item?.exportedQuantity),
