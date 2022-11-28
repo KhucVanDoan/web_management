@@ -10,8 +10,7 @@ import { api } from '~/services/api'
 import addNotification from '~/utils/toast'
 
 const updateSignatureConfigurationApi = (body) => {
-  //@TODO update api
-  const uri = `/v1/settings`
+  const uri = `/v1/settings/setting-signature/create`
   return api.post(uri, body)
 }
 
