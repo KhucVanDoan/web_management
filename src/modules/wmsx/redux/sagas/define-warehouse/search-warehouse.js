@@ -12,7 +12,6 @@ export const searchWarehouseApi = (params) => {
   return api.get(uri, params)
 }
 export const searchWarehouseByUserApi = (params) => {
-  console.log('params', params)
   const uri = `/v1/users/warehouse/list-by-user`
   return api.get(uri, params)
 }

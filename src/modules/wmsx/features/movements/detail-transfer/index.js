@@ -30,7 +30,6 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
     data: { isLoading, movementDetail },
     actions,
   } = useMovements()
-
   const formattedItem = receiptDetail?.warehouseTransferDetailLots?.map(
     (detail) => ({
       item: {
@@ -40,7 +39,13 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
       },
       quantityRequest: Number(detail?.planQuantity),
       quantity: Number(detail?.exportedQuantity),
-      actualExportedQuantity: Number(detail?.actualQuantity),
+      actualQuantity: Number(detail?.actualQuantity),
+      debitAccount: detail?.debitAccount,
+      creditAccount:
+        detail?.creditAccount ||
+        detail?.item?.itemWarehouseSources?.find(
+          (item) => item?.warehouseId === receiptDetail?.sourceWarehouse?.id,
+        )?.accounting,
     }),
   )
 

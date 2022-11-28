@@ -255,25 +255,27 @@ function WarehouseExportReceiptForm() {
           id: item?.id,
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
-          childrens: item?.details?.map((e) => {
-            if (!isEmpty(e?.exportSuppliesCode)) {
-              return {
-                itemId:
-                  e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
-                exportedQuantity: +e?.quantityExport,
-                isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
-                lotNumber: e?.lotNumber,
-                warehouseExportId: e?.warehouseExport?.id,
+          childrens: item?.details
+            ?.map((e) => {
+              if (!isEmpty(e?.exportSuppliesCode)) {
+                return {
+                  itemId:
+                    e?.exportSuppliesCode?.itemId || e?.exportSuppliesCode?.id,
+                  exportedQuantity: +e?.quantityExport,
+                  isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
+                  lotNumber: e?.lotNumber,
+                  warehouseExportId: e?.warehouseExport?.id,
+                }
+              } else if (e?.id) {
+                return {
+                  id: e?.id,
+                  exportedQuantity: e?.exportQuantity,
+                }
+              } else {
+                return {}
               }
-            } else if (e?.id) {
-              return {
-                id: e?.id,
-                exportedQuantity: e?.exportQuantity,
-              }
-            } else {
-              return {}
-            }
-          }),
+            })
+            ?.filter((item) => item?.itemId || item?.id),
         })),
       }
       actions.updateWarehouseExportProposalQuantity(params, backToList)
