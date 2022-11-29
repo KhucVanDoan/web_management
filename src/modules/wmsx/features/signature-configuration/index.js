@@ -65,7 +65,6 @@ const SignatureConfiguration = () => {
       })),
     }
 
-    console.log(convertValues)
     actions.updateSignatureConfiguration(convertValues, () => {
       window.location.reload()
     })
