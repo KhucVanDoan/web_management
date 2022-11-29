@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Grid, Box } from '@mui/material'
+import { add, sub } from 'date-fns'
 import { Form, Formik } from 'formik'
 import { useTranslation } from 'react-i18next'
 
@@ -16,11 +17,41 @@ const MovementsFilter = ({
   movementTypeOpts,
   warehouse,
   setExportReceiptList,
+  setMovement,
 }) => {
   const { t } = useTranslation(['wmsx'])
 
   const onSubmit = async (values) => {
     if (values?.movementType === 'export') {
+      let createdAt = ''
+      if (values?.createdAt[0] && !values?.createdAt[1]) {
+        createdAt = `${values?.createdAt[0]?.toISOString()}|${add(
+          values?.createdAt[0],
+          {
+            years: 0,
+            months: 0,
+            weeks: 0,
+            days: 0,
+            hours: 23,
+            minutes: 59,
+            seconds: 59,
+          },
+        )?.toISOString()}`
+      } else if (values?.createdAt[1] && !values?.createdAt[0]) {
+        createdAt = `${sub(values?.createdAt[1], {
+          years: 0,
+          months: 0,
+          weeks: 0,
+          days: 1,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        })?.toISOString()}|${values?.createdAt[1]?.toISOString()}`
+      } else if (values?.createdAt[0] && values?.createdAt[1]) {
+        createdAt = `${values?.createdAt[0]?.toISOString()}|${values?.createdAt[1]?.toISOString()}`
+      } else {
+        createdAt = null
+      }
       const response = await searchWarehouseExportReceiptApi({
         filter: convertFilterParams({
           status: [
@@ -28,10 +59,14 @@ const MovementsFilter = ({
             ORDER_STATUS.COLLECTED,
             ORDER_STATUS.COMPLETED,
           ],
+          createdAt: createdAt,
         }),
       })
+      setMovement('export')
       setExportReceiptList(response?.data?.items)
     } else {
+      setMovement('')
+      setExportReceiptList([])
       setQuickFilters(values)
     }
   }
@@ -73,7 +108,7 @@ const MovementsFilter = ({
                       label={t('movements.importExport.movementType')}
                       placeholder={t('movements.importExport.movementType')}
                       options={movementTypeOpts}
-                      getOptionValue={(opt) => opt?.id || opt?.type}
+                      getOptionValue={(opt) => opt?.type || opt?.id}
                       getOptionLabel={(opt) => t(opt?.text)}
                     />
                   </Grid>
