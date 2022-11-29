@@ -43,6 +43,7 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
   }
 
   const [exportReceiptList, setExportReceiptList] = useState([])
+  const [movement, setMovement] = useState('')
 
   const exportReceiptListFormat = exportReceiptList?.map((e) => ({
     id: e?.id,
@@ -187,6 +188,8 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
       ),
       sort: convertSortParams(sort),
     }
+    setExportReceiptList([])
+    setMovement('')
     actions.searchMovements(params)
   }
 
@@ -210,11 +213,14 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         movementTypeOpts={movementTypeOpts}
         warehouse={warehouse}
         setExportReceiptList={setExportReceiptList}
+        setMovement={setMovement}
       />
       <DataTable
         title={t('movements.title')}
         rows={
-          isEmpty(exportReceiptList) ? movementList : exportReceiptListFormat
+          isEmpty(exportReceiptList) && movement !== 'export'
+            ? movementList
+            : exportReceiptListFormat
         }
         pageSize={pageSize}
         page={page}

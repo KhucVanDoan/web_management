@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Grid } from '@mui/material'
 import { Box } from '@mui/system'
+import { uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory } from 'react-router-dom'
 
@@ -19,6 +20,7 @@ import {
   TRANSFER_STATUS_OPTIONS,
   WAREHOUSE_TRANSFER_MAP,
 } from '~/modules/wmsx/constants'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { api } from '~/services/api'
@@ -48,8 +50,30 @@ const WarehouseTransferDetail = () => {
     data: { warehouseTransferDetails, isLoading },
     actions,
   } = useWarehouseTransfer()
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: useWarehouseImportReceiptAction,
+  } = useWarehouseImportReceipt()
   useEffect(() => {
-    actions.getWarehouseTransferDetailsById(id)
+    actions.getWarehouseTransferDetailsById(id, (data) => {
+      const attributes = data?.attributes?.filter(
+        (e) => e?.tableName && e?.value,
+      )
+      const params = {
+        filter: JSON.stringify(
+          uniq(map(attributes, 'tableName'))?.map((item) => ({
+            tableName: item,
+            id: attributes
+              ?.filter((e) => e?.tableName === item)
+              ?.map((d) => d?.value)
+              .toString(),
+          })),
+        ),
+      }
+      useWarehouseImportReceiptAction.getAttribuiteBusinessTypeDetailsById(
+        params,
+      )
+    })
     return () => {
       actions.resetWarehouseTransfer()
     }
@@ -237,7 +261,31 @@ const WarehouseTransferDetail = () => {
                 value={warehouseTransferDetails?.receiver}
               />
             </Grid>
-
+            {warehouseTransferDetails?.attributes?.map((item) => {
+              if (item.tableName) {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV
+                      label={`${item.fieldName}`}
+                      value={
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
+                        )?.name ||
+                        attributesBusinessTypeDetails[item.tableName]?.find(
+                          (itemDetail) => `${itemDetail.id}` === item.value,
+                        )?.code
+                      }
+                    />
+                  </Grid>
+                )
+              } else {
+                return (
+                  <Grid item lg={6} xs={12}>
+                    <LV label={`${item.fieldName}`} value={item.value} />
+                  </Grid>
+                )
+              }
+            })}
             <Grid item xs={12}>
               <TextField
                 name="explaination"

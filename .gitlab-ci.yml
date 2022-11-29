@@ -28,7 +28,6 @@ build:
       --build-arg REACT_APP_HOST="http://10.1.47.52:20000"
       --build-arg	REACT_APP_NOTIFICATION_HOST="http://10.1.47.52:20000"
       --build-arg	REACT_APP_SOCKET_NOTIFICATION_HOST="http://10.1.47.52:20000"
-      --build-arg REACT_APP_CONTROLLING_COMPANY=""
       --no-cache .
     - docker push $DEV_CONTAINER_IMAGE
   rules:

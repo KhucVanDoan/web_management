@@ -22,8 +22,11 @@ import {
   REJECT_WAREHOUSE_EXPORT_RECEIPT_SUCCESS,
   RESET_WAREHOUSE_EXPORT_RECEIPT_DETAILS_STATE,
   EXPORT_WAREHOUSE_START,
-  EXPORT_WAREHOUSE_SUCCESS,
+  // EXPORT_WAREHOUSE_SUCCESS,
   EXPORT_WAREHOUSE_FAILED,
+  APPROVE_WAREHOUSE_EXPORT_RECEIPT_FAILED,
+  APPROVE_WAREHOUSE_EXPORT_RECEIPT_START,
+  APPROVE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS,
 } from '~/modules/wmsx/redux/actions/warehouse-export-receipt'
 
 const initialState = {
@@ -31,6 +34,7 @@ const initialState = {
   warehouseExportReceiptList: [],
   warehouseExportReceiptDetails: {},
   total: null,
+  isLoadingApprove: false,
 }
 
 /**
@@ -48,10 +52,21 @@ export default function warehouseExportReceipt(state = initialState, action) {
     case CONFIRM_WAREHOUSE_EXPORT_RECEIPT_START:
     case REJECT_WAREHOUSE_EXPORT_RECEIPT_START:
     case GET_WAREHOUSE_EXPORT_RECEIPT_DETAILS_START:
+    case APPROVE_WAREHOUSE_EXPORT_RECEIPT_START:
+      return {
+        ...state,
+        isLoading: true,
+      }
     case EXPORT_WAREHOUSE_START:
       return {
         ...state,
         isLoading: true,
+      }
+    case APPROVE_WAREHOUSE_EXPORT_RECEIPT_FAILED:
+    case APPROVE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
       }
     case SEARCH_WAREHOUSE_EXPORT_RECEIPT_SUCCESS:
       return {
@@ -76,7 +91,6 @@ export default function warehouseExportReceipt(state = initialState, action) {
     case UPDATE_WAREHOUSE_EXPORT_RECEIPT_FAILED:
     case DELETE_WAREHOUSE_EXPORT_RECEIPT_SUCCESS:
     case DELETE_WAREHOUSE_EXPORT_RECEIPT_FAILED:
-    case EXPORT_WAREHOUSE_SUCCESS:
     case EXPORT_WAREHOUSE_FAILED:
       return {
         ...state,

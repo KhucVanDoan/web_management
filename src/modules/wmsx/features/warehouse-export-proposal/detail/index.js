@@ -99,7 +99,7 @@ function WarehouseExportProposalDetail() {
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouse: childrens?.warehouseExport || '',
-              updatedBy: item?.updatedBy,
+              updatedBy: item?.updatedByChild,
               dayUpdate: item?.updatedAt,
             }))
           : []
