@@ -108,7 +108,7 @@ function WarehouseExportReceiptForm() {
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouse: childrens?.warehouseExport || '',
-              updatedBy: childrens?.updatedBy,
+              updatedBy: childrens?.updatedByChild,
               dayUpdate: childrens?.updatedAt,
             }))
           : DEFAULT_ITEM,
@@ -264,7 +264,8 @@ function WarehouseExportReceiptForm() {
                   exportedQuantity: +e?.quantityExport,
                   isKeepSlot: Boolean(e?.isKeepSlot) ? 1 : 0,
                   lotNumber: e?.lotNumber,
-                  warehouseExportId: e?.warehouseExport?.id,
+                  warehouseExportId:
+                    e?.warehouseExport?.id || e?.warehouseExport?.warehouse?.id,
                 }
               } else if (e?.id) {
                 return {

@@ -19,6 +19,7 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { ROUTE } from '~/modules/wmsx/routes/config'
+import { convertUtcDateToLocalTz } from '~/utils'
 
 import ItemSettingTable from './items-setting-table'
 import { formSchema } from './schema'
@@ -164,13 +165,13 @@ const ReceiveAndStored = () => {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.source')}
-                        value={warehouseTransferDetails?.source?.name}
+                        value={`${warehouseTransferDetails?.source?.code} - ${warehouseTransferDetails?.source?.name}`}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.reason')}
-                        value={warehouseTransferDetails?.reason?.name}
+                        value={`${warehouseTransferDetails?.reason?.code} - ${warehouseTransferDetails?.reason?.name}`}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>
@@ -190,7 +191,9 @@ const ReceiveAndStored = () => {
                     <Grid item lg={6} xs={12}>
                       <LV
                         label={t('warehouseTransfer.createdAt')}
-                        value={warehouseTransferDetails?.createdAt}
+                        value={convertUtcDateToLocalTz(
+                          warehouseTransferDetails?.createdAt,
+                        )}
                       />
                     </Grid>
                     <Grid item lg={6} xs={12}>

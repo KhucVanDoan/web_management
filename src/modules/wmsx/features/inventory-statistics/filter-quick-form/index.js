@@ -8,10 +8,10 @@ import { ASYNC_SEARCH_LIMIT } from '~/common/constants'
 import Button from '~/components/Button'
 import { Field } from '~/components/Formik'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
-import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { searchWarehouseByUserApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
-import { convertFilterParams } from '~/utils'
+import { convertFilterParams, getLocalItem } from '~/utils'
 
 const InventoryStatisticFilter = ({
   setQuickFilters,
@@ -19,7 +19,7 @@ const InventoryStatisticFilter = ({
   defaultFilter,
 }) => {
   const { t } = useTranslation(['wmsx'])
-
+  const loggedInUserInfo = getLocalItem('userInfo')
   const onSubmit = (values) => {
     setQuickFilters(values)
   }
@@ -42,7 +42,8 @@ const InventoryStatisticFilter = ({
                       label={t('inventoryStatistics.warehouseName')}
                       placeholder={t('inventoryStatistics.allWarehouse')}
                       asyncRequest={(s) =>
-                        searchWarehouseApi({
+                        searchWarehouseByUserApi({
+                          userId: loggedInUserInfo?.id,
                           keyword: s,
                           limit: ASYNC_SEARCH_LIMIT,
                         })

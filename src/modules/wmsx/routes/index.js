@@ -370,7 +370,7 @@ const routes = [
         name: ROUTE.DEFINE_UOM.LIST.TITLE,
         path: ROUTE.DEFINE_UOM.LIST.PATH,
         component: DefineUom,
-        code: FUNCTION_CODE.USER_LIST_DEPARTMENT_SETTING,
+        code: FUNCTION_CODE.ITEM_DETAIL_ITEM_UNIT,
         isInSidebar: true,
 
         subMenu: [

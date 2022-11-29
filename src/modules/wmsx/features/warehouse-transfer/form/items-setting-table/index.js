@@ -271,7 +271,9 @@ const ItemSettingTable = (props) => {
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
-            status !== TRANSFER_STATUS.EXPORTED),
+            status !== TRANSFER_STATUS.EXPORTED &&
+            status !== TRANSFER_STATUS.EXPORTING &&
+            status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params) => {
           return params?.row?.exportedQuantity
         },
@@ -282,7 +284,9 @@ const ItemSettingTable = (props) => {
         hide:
           !isView ||
           (status !== TRANSFER_STATUS.COMPLETED &&
-            status !== TRANSFER_STATUS.EXPORTED),
+            status !== TRANSFER_STATUS.EXPORTED &&
+            status !== TRANSFER_STATUS.EXPORTING &&
+            status !== TRANSFER_STATUS.INCOLLECTING),
         width: 180,
         renderCell: (params) => {
           return params?.row?.actualQuantity
@@ -307,6 +311,12 @@ const ItemSettingTable = (props) => {
         field: 'price',
         headerName: t('warehouseTransfer.table.price'),
         width: 180,
+        hide:
+          !isView ||
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED &&
+            status !== TRANSFER_STATUS.EXPORTING &&
+            status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.price}</>
@@ -323,6 +333,12 @@ const ItemSettingTable = (props) => {
         field: 'amount',
         headerName: t('warehouseTransfer.table.amount'),
         width: 180,
+        hide:
+          !isView ||
+          (status !== TRANSFER_STATUS.COMPLETED &&
+            status !== TRANSFER_STATUS.EXPORTED &&
+            status !== TRANSFER_STATUS.EXPORTING &&
+            status !== TRANSFER_STATUS.INCOLLECTING),
         renderCell: (params, index) => {
           return isView ? (
             <>{params?.row?.amount}</>

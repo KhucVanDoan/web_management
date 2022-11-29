@@ -152,7 +152,9 @@ const WarehouseTransfer = () => {
 
           const hasTransaction =
             status === TRANSFER_STATUS.COMPLETED ||
-            status === TRANSFER_STATUS.EXPORTED
+            status === TRANSFER_STATUS.EXPORTED ||
+            status === TRANSFER_STATUS.EXPORTING ||
+            status === TRANSFER_STATUS.INCOLLECTING
           return (
             <div>
               <Guard code={FUNCTION_CODE.WAREHOUSE_DETAIL_WAREHOUSE_TRANSFER}>
