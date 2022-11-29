@@ -1341,7 +1341,8 @@ const routes = [
         path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
         component: SignatureConfiguration,
         code: FUNCTION_CODE.USER_CONFIG_SIGNATURE,
-        isInSidebar: false, // BA request hide this on the sidebar tempoary
+        isInSidebar: true, // BA request hide this on the sidebar tempoary
+        isInControllingCompany: true,
       },
       {
         name: ROUTE.ACCOUNT.DETAIL.TITLE,

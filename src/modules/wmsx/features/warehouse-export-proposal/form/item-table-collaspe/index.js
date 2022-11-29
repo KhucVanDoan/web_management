@@ -66,30 +66,36 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   }
   const handleChangeItem = async (val, params, parentIndex, index) => {
     if (val) {
-      const lotNumberList = []
+      const lotNumberLists = []
       const res = await getLotNumberItem(val?.id)
       if (res?.statusCode === 200) {
-        res?.data?.lots?.forEach((item) => {
-          lotNumberList.push(item)
-        })
+        res?.data?.lots
+          ?.filter((l) => l?.lotNumber !== null)
+          ?.forEach((item) => {
+            const findItem = lotNumberLists?.find(
+              (lot) =>
+                lot?.itemId === item?.itemId &&
+                lot?.lotNumber === item?.lotNumber &&
+                new Date(`${lot?.mfg}`).toISOString() ===
+                  new Date(`${item?.mfg}`).toISOString(),
+            )
+            if (isEmpty(findItem)) {
+              lotNumberLists.push({
+                ...item,
+              })
+            }
+          })
       }
-      const lotnumbers = lotNumberList.reduce((unique, o) => {
-        if (
-          !unique.some(
-            (obj) => obj.itemId === o.ItemId && obj.lotNumber === o.lotNumber,
-          )
-        ) {
-          unique.push(o)
-        }
-        return unique
-      }, [])
-      setLotNumberList(lotnumbers)
+
+      setLotNumberList(lotNumberLists)
       if (!isEmpty(params?.row?.warehouseExport)) {
         const payload = {
           items: [
             {
               itemId: val?.itemId || val?.id,
-              warehouseId: params?.row?.warehouseExport?.id,
+              warehouseId:
+                params?.row?.warehouseExport?.id ||
+                params?.row?.warehouseExport?.warehouse?.id,
             },
           ],
         }
@@ -537,7 +543,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             )}
             disabled={!Boolean(params?.row?.warehouseExport?.manageByLot)}
             validate={(val) => {
-              if (Boolean(params?.row?.warehouseExport?.manageByLot)) {
+              if (
+                Boolean(
+                  params?.row?.warehouseExport?.manageByLot ||
+                    params?.row?.warehouseExport?.warehouse?.manageByLot,
+                )
+              ) {
                 if (!val) {
                   return t('general:form.required')
                 }
