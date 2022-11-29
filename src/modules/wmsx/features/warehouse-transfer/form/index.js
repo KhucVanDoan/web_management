@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Box, Grid, Typography } from '@mui/material'
 import { sub } from 'date-fns'
 import { FieldArray, Form, Formik } from 'formik'
-import { isEmpty } from 'lodash'
+import { isEmpty, uniq, map } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -26,6 +26,7 @@ import {
   WAREHOUSE_TRANSFER_TYPE_OPTIONS,
   WAREHOUSE_TRANSFER_TYPE,
 } from '~/modules/wmsx/constants'
+import useWarehouseImportReceipt from '~/modules/wmsx/redux/hooks/useWarehouseImportReceipt'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchBusinessTypesApi } from '~/modules/wmsx/redux/sagas/business-type-management/search-business-types'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
@@ -37,6 +38,7 @@ import { convertFilterParams } from '~/utils'
 import DisplayFollowBusinessTypeManagement from './display-field'
 import ItemSettingTable from './items-setting-table'
 import warehouseTranferSchema from './schema'
+
 const DEFAULT_ITEM = {
   ids: new Date().getTime(),
   itemCode: '',
@@ -64,11 +66,29 @@ const WarehouseTransferForm = () => {
     data: { warehouseTransferDetails, isLoading },
     actions,
   } = useWarehouseTransfer()
-
+  const {
+    data: { attributesBusinessTypeDetails },
+    actions: warehouseImportRecipt,
+  } = useWarehouseImportReceipt()
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getWarehouseTransferDetailsById(id, (data) => {
         actions.getListItemWarehouseStock(data?.sourceWarehouse?.id)
+        const attributes = data?.attributes?.filter(
+          (e) => e?.tableName && e?.value,
+        )
+        const params = {
+          filter: JSON.stringify(
+            uniq(map(attributes, 'tableName'))?.map((item) => ({
+              tableName: item,
+              id: attributes
+                ?.filter((e) => e?.tableName === item)
+                ?.map((d) => d?.value)
+                .toString(),
+            })),
+          ),
+        }
+        warehouseImportRecipt.getAttribuiteBusinessTypeDetailsById(params)
       })
     }
     return () => actions.resetWarehouseTransfer()
@@ -117,6 +137,16 @@ const WarehouseTransferForm = () => {
     }),
     [warehouseTransferDetails],
   )
+  warehouseTransferDetails?.attributes?.forEach((item) => {
+    if (item.tableName) {
+      initialValues[`${item.id}`] =
+        attributesBusinessTypeDetails[item.tableName]?.find(
+          (itemDetail) => `${itemDetail.id}` === item.value,
+        ) || ''
+    } else {
+      initialValues[`${item.id}`] = item.value || ''
+    }
+  })
   const onSubmit = (values) => {
     const params = {
       // code: values?.code,
@@ -142,10 +172,10 @@ const WarehouseTransferForm = () => {
       ),
     }
     values?.businessTypeId?.bussinessTypeAttributes?.forEach((att, index) => {
-      // if (values[att.tableName]) {
-      //   params[`attributes[${index}].id`] = att.id
-      //   params[`attributes[${index}].value`] = values[att.tableName]?.id
-      // }
+      if (values[att.tableName]) {
+        params[`attributes[${index}].id`] = att.id
+        params[`attributes[${index}].value`] = values[att.tableName]?.id
+      }
       if (values[att.id]) {
         params[`attributes[${index}].id`] = att.id
         params[`attributes[${index}].value`] =

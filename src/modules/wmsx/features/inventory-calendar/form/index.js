@@ -1,7 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
 import FileUploadIcon from '@mui/icons-material/FileUpload'
-import { Box, FormControlLabel, Grid, Radio, Typography } from '@mui/material'
+import {
+  Box,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  Radio,
+  Typography,
+} from '@mui/material'
 import { sub } from 'date-fns'
 import { Formik, Form, FieldArray } from 'formik'
 import { isEmpty } from 'lodash'
@@ -10,6 +17,7 @@ import { useParams, useHistory, useRouteMatch } from 'react-router-dom'
 
 import {
   ASYNC_SEARCH_LIMIT,
+  FILE_TYPE,
   MODAL_MODE,
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
@@ -455,6 +463,7 @@ const InventoryCalendarForm = () => {
                           style={{ display: 'none' }}
                           id="contained-button-file"
                           type="file"
+                          accept={FILE_TYPE.XLSX.EXT}
                           onChange={(e) => {
                             setFieldValue(
                               'checkPointDataAttachment',
@@ -471,6 +480,11 @@ const InventoryCalendarForm = () => {
                             <FileUploadIcon color="primary" /> Nhập dữ liệu
                           </Button>
                         </label>
+                        {!values?.checkPointDataAttachment && (
+                          <FormHelperText error>
+                            {t('general:form.required')}
+                          </FormHelperText>
+                        )}
                       </>
                     </LV>
                   </Grid>

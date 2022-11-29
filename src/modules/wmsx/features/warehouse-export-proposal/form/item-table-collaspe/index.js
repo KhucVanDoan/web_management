@@ -23,6 +23,7 @@ import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseE
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
+import { getMaterialDetailsApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
 import { getLotNumberItem } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
@@ -37,6 +38,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   const { actions } = useWarehouseExportProposal()
   const { id } = useParams()
   const [lotNumberlist, setLotNumberList] = useState([])
+  const [warehouseList, setWarehouseList] = useState([])
   const handleAddRow = (parentData, parentIndex) => {
     const newObj = {
       exportSuppliesCode: '',
@@ -97,6 +99,23 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
           res?.data[0]?.quantity,
         )
       }
+      const detailItem = await getMaterialDetailsApi(val?.id)
+      if (detailItem?.data?.itemWarehouseSources?.length > 0) {
+        detailItem?.data?.itemWarehouseSources?.forEach((item) => {
+          const findWarehouse = warehouseList?.find(
+            (w) =>
+              w?.warehouse?.id === item?.warehouse?.id &&
+              w?.itemId === detailItem?.data?.id,
+          )
+          if (isEmpty(findWarehouse)) {
+            warehouseList.push({
+              itemId: detailItem?.data?.id,
+              warehouse: { ...item.warehouse },
+            })
+            setWarehouseList([...warehouseList])
+          }
+        })
+      }
     }
   }
   const handleChangeWarehouse = async (val, params, parentIndex, index) => {
@@ -108,7 +127,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
               itemId:
                 params?.row?.exportSuppliesCode?.itemId ||
                 params?.row?.exportSuppliesCode?.id,
-              warehouseId: val?.id,
+              warehouseId: val?.id || val?.warehouse?.id,
             },
           ],
         }
@@ -131,7 +150,9 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
             itemId:
               params?.row?.exportSuppliesCode?.itemId ||
               params?.row?.exportSuppliesCode?.id,
-            warehouseId: params?.row?.warehouseExport?.id,
+            warehouseId:
+              params?.row?.warehouseExport?.id ||
+              params?.row?.warehouseExport?.warehouse?.id,
             lotNumber: val,
           },
         ],
@@ -364,9 +385,37 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
     {
       field: '#',
       headerName: '#',
-      width: 50,
+      width: 30,
       renderCell: (_, index) => {
         return index + 1
+      },
+    },
+    {
+      field: 'action',
+      width: 50,
+      align: 'center',
+      headerName: () => (
+        <IconButton
+          onClick={() => {
+            handleAddRow(parentData, parentIndex)
+          }}
+          sx={{ color: 'primary' }}
+        >
+          <Icon name="addRow" />
+        </IconButton>
+      ),
+      hide: isView,
+      renderCell: (params, index) => {
+        return (
+          <IconButton
+            onClick={() => {
+              handleRemoveRow(params, index, parentIndex)
+            }}
+            disabled={params?.row?.itemId}
+          >
+            <Icon name="remove" />
+          </IconButton>
+        )
       },
     },
     {
@@ -430,8 +479,20 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.warehouseExport'),
       width: 150,
       renderCell: (params, index) => {
+        const litWarehouse = warehouseList.filter(
+          (item) => item?.itemId === params?.row?.exportSuppliesCode?.id,
+        )
         return isView || params?.row?.warehouse ? (
           params?.row?.warehouse?.name
+        ) : litWarehouse?.length > 0 ? (
+          <Field.Autocomplete
+            name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
+            options={litWarehouse}
+            getOptionLabel={(opt) => opt?.warehouse?.name}
+            onChange={(val) =>
+              handleChangeWarehouse(val, params, parentIndex, index)
+            }
+          />
         ) : (
           <Field.Autocomplete
             name={`itemTableCollaspe[${parentIndex}].details[${index}].warehouseExport`}
@@ -576,34 +637,6 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 150,
       renderCell: (params) => {
         return convertUtcDateToLocalTz(params?.row?.dayUpdate)
-      },
-    },
-    {
-      field: 'action',
-      width: 100,
-      align: 'center',
-      headerName: () => (
-        <IconButton
-          onClick={() => {
-            handleAddRow(parentData, parentIndex)
-          }}
-          sx={{ color: 'primary' }}
-        >
-          <Icon name="addRow" />
-        </IconButton>
-      ),
-      hide: isView,
-      renderCell: (params, index) => {
-        return (
-          <IconButton
-            onClick={() => {
-              handleRemoveRow(params, index, parentIndex)
-            }}
-            // disabled={params?.row?.itemId}
-          >
-            <Icon name="remove" />
-          </IconButton>
-        )
       },
     },
   ]
