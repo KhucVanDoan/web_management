@@ -211,7 +211,7 @@ const ItemSettingTable = (props) => {
                   )
                   .reduce((prev, cur) => prev + Number(cur.inputedQuantity), 0)
                 if (
-                  totalInputedQuantity + Number(val) >
+                  totalInputedQuantity + Number(val) !==
                   params?.row?.transferQuantity
                 ) {
                   return t('general:form.totalInputedQuantity', {

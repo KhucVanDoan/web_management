@@ -16,10 +16,7 @@ const exportWarehouseApi = (payload) => {
 
 function* doExportWarehouse(action) {
   try {
-    const response = yield call(
-      exportWarehouseApi,
-      action?.payload,
-    )
+    const response = yield call(exportWarehouseApi, action?.payload)
 
     if (response?.statusCode === 200) {
       yield put(exportWarehouseSuccess(response.data))
@@ -28,8 +25,7 @@ function* doExportWarehouse(action) {
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      // addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(response?.message, NOTIFICATION_TYPE.ERROR)
       throw new Error(response?.message)
@@ -44,8 +40,5 @@ function* doExportWarehouse(action) {
 }
 
 export default function* watchExportWarehouse() {
-  yield takeLatest(
-    EXPORT_WAREHOUSE_START,
-    doExportWarehouse,
-  )
+  yield takeLatest(EXPORT_WAREHOUSE_START, doExportWarehouse)
 }

@@ -236,6 +236,7 @@ import watchRequestItemCode from './warehouse-export-proposal/request-item-code'
 import watchSearchWarehouseExportProposal from './warehouse-export-proposal/search'
 import watchUpdateWarehouseExportProposal from './warehouse-export-proposal/update'
 import watchUpdateWarehouseExportProposalQuantity from './warehouse-export-proposal/update-quantity'
+import watchApproveWarehouseExportReceipt from './warehouse-export-receipt/approve'
 import watchConfirmWarehouseExportReceipt from './warehouse-export-receipt/confirm'
 import watchCreateWarehouseExportReceipt from './warehouse-export-receipt/create'
 import watchDeleteWarehouseExportReceipt from './warehouse-export-receipt/delete'
@@ -540,6 +541,7 @@ export default function* sagas() {
     watchConfirmWarehouseExportReceipt(),
     watchRejectWarehouseExportReceipt(),
     watchExportWarehouse(),
+    watchApproveWarehouseExportReceipt(),
     // warehouse-export-proposal
     watchSearchWarehouseExportProposal(),
     watchConfirmWarehouseExportProposal(),
