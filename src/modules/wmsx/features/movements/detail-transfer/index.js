@@ -133,13 +133,13 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseImport')}
-                value={receiptDetail?.sourceWarehouse?.name}
+                value={receiptDetail?.destinationWarehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.warehouseExport')}
-                value={receiptDetail?.destinationWarehouse?.name}
+                value={receiptDetail?.sourceWarehouse?.name}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

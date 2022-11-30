@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 import { flatMap, isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
-import { MODAL_MODE } from '~/common/constants'
+import { ASYNC_SEARCH_LIMIT, MODAL_MODE } from '~/common/constants'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
@@ -15,6 +15,8 @@ import {
 } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
+import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
+import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = (props) => {
   const { mode, arrayHelpers, items, values, setFieldValue, type, status } =
@@ -86,9 +88,24 @@ const ItemSettingTable = (props) => {
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               options={itemWarehouseStockList}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              // isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              // getOptionLabel={(opt) => opt?.code}
+              // getOptionSubLabel={(opt) => opt?.name}
+              asyncRequest={(s) =>
+                getListItemWarehouseStockApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    warehouseId: values?.sourceWarehouseId?.id,
+                  }),
+                })
+              }
+              asyncRequestDeps={values?.sourceWarehouseId}
+              asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
               getOptionSubLabel={(opt) => opt?.name}
+              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+              required
               disabled={!values?.sourceWarehouseId}
               onChange={(val) => handleChangeItem(val, index)}
               getOptionDisabled={(opt) => {
@@ -99,7 +116,6 @@ const ItemSettingTable = (props) => {
                   )
                 }
               }}
-              required
             />
           )
         },

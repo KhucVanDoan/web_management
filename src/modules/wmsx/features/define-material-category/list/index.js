@@ -4,6 +4,7 @@ import { IconButton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
+import { NOTIFICATION_TYPE } from '~/common/constants'
 import { FUNCTION_CODE } from '~/common/constants/functionCode'
 import { useQueryState } from '~/common/hooks'
 import { useApp } from '~/common/hooks/useApp'
@@ -27,6 +28,7 @@ import {
   convertSortParams,
   convertUtcDateTimeToLocalTz,
 } from '~/utils'
+import addNotification from '~/utils/toast'
 
 import FilterForm from './filter-form'
 const breadcrumbs = [
@@ -72,7 +74,7 @@ const DefineMaterialCategory = () => {
 
   const columns = [
     {
-      field: 'materialCode',
+      field: 'code',
       headerName: t('defineMaterialCategory.materialCode'),
       width: 150,
       sortable: true,
@@ -80,7 +82,7 @@ const DefineMaterialCategory = () => {
       renderCell: (params) => params.row?.code,
     },
     {
-      field: 'materialName',
+      field: 'name',
       headerName: t('defineMaterialCategory.materialName'),
       width: 150,
       sortable: true,
@@ -265,22 +267,31 @@ const DefineMaterialCategory = () => {
 
   const handleGetData = async (id) => {
     const response = await getMaterialChildDetailsApi(id)
-    const newBomTree = bomTree?.map((bom) => {
-      if (bom?.id === id) {
-        const newBom = { ...bom }
-        if (!bom.subBom) {
-          newBom['subBom'] =
-            response?.data?.map((i) => ({
-              ...i,
-              producingSteps: i?.children,
-            })) || []
+    if (response?.status === 200 || response?.statusCode === 200) {
+      const newBomTree = bomTree?.map((bom) => {
+        if (bom?.id === id) {
+          const newBom = { ...bom }
+          if (!bom.subBom) {
+            if (response?.data?.length > 0) {
+              newBom['subBom'] =
+                (response?.data || [])?.map((i) => ({
+                  ...i,
+                  producingSteps: i?.children,
+                })) || []
+            }
+          }
+          return newBom
+        } else {
+          return bom
         }
-        return newBom
-      } else {
-        return bom
-      }
-    })
-    setBomTree(newBomTree)
+      })
+      setBomTree(newBomTree)
+    } else {
+      addNotification(
+        response?.statusText || response?.data?.statusText,
+        NOTIFICATION_TYPE.ERROR,
+      )
+    }
   }
 
   const onClickUpdateStatus = (tempItem) => {
