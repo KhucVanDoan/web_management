@@ -10,7 +10,7 @@ import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
+import { OrderTypeEnum, TABLE_NAME_ENUM } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { getItemWarehouseStockAvailableApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-item-warehouse-stock-available'
 const ItemSettingTable = ({
@@ -42,6 +42,9 @@ const ItemSettingTable = ({
             warehouseId: values?.warehouseId?.id,
             lotNumber: null,
             locatorId: null,
+            orderType: !isEmpty(values[warehouseExprotProposal])
+              ? OrderTypeEnum.PROPOSAL
+              : null,
           },
         ],
       }
@@ -358,6 +361,12 @@ const ItemSettingTable = ({
                   return t('general:form.maxNumber', {
                     max: params?.row?.planExportedQuantity,
                   })
+                } else if (params?.row?.itemCode.requestedQuantity) {
+                  if (val > params?.row?.itemCode.requestedQuantity) {
+                    return t('general:form.maxNumber', {
+                      max: params?.row?.itemCode.requestedQuantity,
+                    })
+                  }
                 }
               }}
             />

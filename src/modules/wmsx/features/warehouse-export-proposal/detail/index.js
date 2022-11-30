@@ -118,8 +118,8 @@ function WarehouseExportProposalDetail() {
       details: item?.itemDetail,
       quantityRequest: item?.requestedQuantity,
       note: item?.note,
-      itemCode: item?.itemCode,
-      itemName: item?.itemName,
+      itemCode: item?.itemCode || item?.itemResponse?.code,
+      itemName: item?.itemName || item?.itemResponse?.name,
     }),
   )
   const dowFile = async (params) => {

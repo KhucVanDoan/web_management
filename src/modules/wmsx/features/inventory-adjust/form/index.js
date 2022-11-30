@@ -3,7 +3,6 @@ import React, { useEffect, useMemo } from 'react'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import { Box, FormLabel, Grid, Typography } from '@mui/material'
 import { FieldArray, Form, Formik } from 'formik'
-import { isEmpty } from 'lodash'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
@@ -22,11 +21,9 @@ import Status from '~/components/Status'
 import {
   ACTIVE_STATUS,
   INVENTORY_ADJUST_STATUS_OPTIONS,
-  INVENTORY_ADJUST_TYPE,
   INVENTORY_ADJUST_TYPE_OPTIONS,
 } from '~/modules/wmsx/constants'
 import useInventoryAdjust from '~/modules/wmsx/redux/hooks/useInventoryAdjust'
-import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { searchInventoryCalendarsApi } from '~/modules/wmsx/redux/sagas/inventory-calendar/search-inventory-calendars'
 import { searchApi } from '~/modules/wmsx/redux/sagas/reason-management/search'
@@ -68,14 +65,9 @@ const InventoryAdjustForm = () => {
     data: { inventoryAdjustDetails, isLoading },
     actions,
   } = useInventoryAdjust()
-  const { actions: warehouseTransferAction } = useWarehouseTransfer()
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
-      actions.getInventoryAdjustDetailsById(id, (data) => {
-        if (data?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
-          warehouseTransferAction.getListItemWarehouseStock(data?.warehouse?.id)
-        }
-      })
+      actions.getInventoryAdjustDetailsById(id)
     }
 
     return () => actions.resetInventoryAdjust()
@@ -97,7 +89,23 @@ const InventoryAdjustForm = () => {
       explanation: inventoryAdjustDetails?.explanation || '',
       attachment: inventoryAdjustDetails?.attachment || '',
       items: inventoryAdjustDetails?.items?.map((item) => ({
-        itemCode: item?.item,
+        itemCode: {
+          ...item?.item,
+          locations: [
+            {
+              ...item?.locator,
+              locatorId: item?.locator?.id,
+              lots: [
+                item?.lotNumber
+                  ? {
+                      lotNumber: item?.lotNumber,
+                      quantityExported: item?.planQuantity,
+                    }
+                  : null,
+              ],
+            },
+          ],
+        },
         lotNumber: item?.lotNumber
           ? {
               lotNumber: item?.lotNumber,
@@ -217,20 +225,21 @@ const InventoryAdjustForm = () => {
   const backToList = () => {
     history.push(ROUTE.INVENTORY_ADJUST.LIST.PATH)
   }
-  const handleChangeWarehouse = (val, values) => {
-    if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
-      if (!isEmpty(val)) {
-        warehouseTransferAction.getListItemWarehouseStock(val?.id)
-      }
-    }
-  }
+  // const handleChangeWarehouse = (val, values) => {
+
+  //   if (values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+  //     if (!isEmpty(val)) {
+  //       warehouseTransferAction.getListItemWarehouseStock(val?.id)
+  //     }
+  //   }
+  // }
   const handleChangeType = (val, values, setFieldValue) => {
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
-    if (val === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
-      if (!isEmpty(values?.warehouse)) {
-        warehouseTransferAction.getListItemWarehouseStock(values?.warehouse?.id)
-      }
-    }
+    // if (val === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT) {
+    //   if (!isEmpty(values?.warehouse)) {
+    //     warehouseTransferAction.getListItemWarehouseStock(values?.warehouse?.id)
+    //   }
+    // }
   }
   return (
     <Page
@@ -325,7 +334,9 @@ const InventoryAdjustForm = () => {
                         asyncRequestHelper={(res) => res?.data?.items}
                         getOptionLabel={(opt) => opt?.code}
                         getOptionSubLabel={(opt) => opt?.name}
-                        onChange={(val) => handleChangeWarehouse(val, values)}
+                        onChange={() =>
+                          setFieldValue('items', [{ ...DEFAULT_ITEM }])
+                        }
                         isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
                         required
                       />

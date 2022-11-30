@@ -73,7 +73,10 @@ const WarehouseTransferForm = () => {
   useEffect(() => {
     if (mode === MODAL_MODE.UPDATE) {
       actions.getWarehouseTransferDetailsById(id, (data) => {
-        actions.getListItemWarehouseStock(data?.sourceWarehouse?.id)
+        // actions.getListItemWarehouseStock({
+        //   warehouseId: data?.sourceWarehouse?.id,
+        //   isGetAll: 1,
+        // })
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
         )
@@ -268,9 +271,12 @@ const WarehouseTransferForm = () => {
   const handleChangeWarehouse = (val, setFieldValue) => {
     setFieldValue('items', [{ ...DEFAULT_ITEM }])
     setFieldValue('destinationWarehouseId', '')
-    if (val) {
-      actions.getListItemWarehouseStock(val?.id)
-    }
+    // if (val) {
+    //   actions.getListItemWarehouseStock({
+    //     warehouseId: val?.id,
+    //     isGetAll: 1,
+    //   })
+    // }
   }
   const handleChangeBusinessType = (val) => {
     if (!isEmpty(val)) {

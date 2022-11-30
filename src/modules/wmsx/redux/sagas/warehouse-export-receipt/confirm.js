@@ -27,13 +27,11 @@ function* doConfirmWarehouseExportReceipt(action) {
 
     if (response?.statusCode === 200) {
       yield put(confirmWarehouseExportReceiptByIdSuccess(response.payload))
-
       // Call callback action if provided
       if (action.onSuccess) {
         yield action.onSuccess()
       }
-
-      addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
+      // addNotification(response?.message, NOTIFICATION_TYPE.SUCCESS)
     } else {
       addNotification(
         response?.message || response?.statusText,

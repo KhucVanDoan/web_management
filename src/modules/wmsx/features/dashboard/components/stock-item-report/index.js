@@ -80,6 +80,7 @@ const StockItemReport = ({ fromDate, toDate }) => {
           whiteSpace: 'pre-wrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
+          fontSize: '16px',
         },
       },
     },

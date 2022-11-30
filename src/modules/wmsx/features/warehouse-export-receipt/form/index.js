@@ -202,9 +202,10 @@ function WarehouseExportReceiptForm() {
             ),
           )
         ) {
-          warehouseTransferAction.getListItemWarehouseStock(
-            data?.warehouse?.id || data?.warehouseId,
-          )
+          warehouseTransferAction.getListItemWarehouseStock({
+            warehouseId: data?.warehouse?.id || data?.warehouseId,
+            isGetAll: 1,
+          })
         }
         const attributes = data?.attributes?.filter(
           (e) => e?.tableName && e?.value,
@@ -439,7 +440,10 @@ function WarehouseExportReceiptForm() {
       )?.id
     setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
-      warehouseTransferAction.getListItemWarehouseStock(val?.id)
+      warehouseTransferAction.getListItemWarehouseStock({
+        warehouseId: val?.id,
+        isGetAll: 1,
+      })
       if (!isEmpty(values[findWarehouseExportProposal])) {
         setFieldValue('items', DEFAULT_ITEMS)
         const params = {

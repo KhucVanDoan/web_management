@@ -220,15 +220,16 @@ function WarehouseExportReceiptForm() {
       reason: values?.reasonUse,
       receiverInfo: values?.nameAddressOfRecipient,
       items: values?.items?.map((item) => ({
-        itemName: item?.suppliesName?.name || null,
+        itemName: item?.suppliesName?.id ? null : item?.suppliesName?.name,
         itemId: item?.suppliesName?.id,
-        itemCode: item?.suppliesCode || item?.suppliesName?.code || null,
+        itemCode: item?.suppliesCode || null,
         itemDetail: item?.details || null,
         unitId: item?.unit?.id || item?.unit || null,
         requestedQuantity: +item?.quantityRequest,
         note: item?.note,
       })),
     }
+
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouseExportProposal(parmas, backToList)
     } else if (
