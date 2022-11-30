@@ -35,11 +35,12 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     actions,
   } = useMovements()
 
-  const warehouse = movementList?.[0]?.warehouse
-
+  const warehouse =
+    movementList?.length > 0 ? movementList?.[0]?.warehouse : null
   const DEFAULT_FILTERS = {
     createdAt: '',
     movementType: movementType,
+    warehouseId: warehouse?.name,
   }
 
   const [exportReceiptList, setExportReceiptList] = useState([])
@@ -211,7 +212,6 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
         quickFilters={filters}
         defaultFilter={DEFAULT_FILTERS}
         movementTypeOpts={movementTypeOpts}
-        warehouse={warehouse}
         setExportReceiptList={setExportReceiptList}
         setMovement={setMovement}
       />

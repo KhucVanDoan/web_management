@@ -282,7 +282,7 @@ function WarehouseImportReceiptForm() {
       sourceId: values?.sourceId?.id,
       warehouseId: values?.warehouse?.id,
       contractNumber: values?.contractNumber,
-      attachments: values?.attachments,
+      attachments: values?.attachments || '',
       items: JSON.stringify(
         values?.items?.map((item) => ({
           id:

@@ -56,7 +56,7 @@ const ItemSettingTable = ({ items }) => {
       field: 'location',
       headerName: t('movements.itemDetails.location'),
       width: 120,
-      renderCell: (params) => params.row?.lots?.[0]?.locationName,
+      renderCell: (params) => params.row?.lots?.[0]?.locationCode,
     },
   ]
 

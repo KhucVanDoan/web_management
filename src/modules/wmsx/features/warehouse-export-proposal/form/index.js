@@ -256,6 +256,7 @@ function WarehouseExportReceiptForm() {
           id: item?.id,
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
+          requestedQuantity: +item?.quantityRequest,
           childrens: item?.details
             ?.map((e) => {
               if (!isEmpty(e?.exportSuppliesCode)) {

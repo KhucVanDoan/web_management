@@ -1,9 +1,9 @@
 import * as Yup from 'yup'
 
-import { INVENTORY_TYPE } from '~/modules/wmsx/constants'
+import { CHECK_POINT_DATA_TYPE, INVENTORY_TYPE } from '~/modules/wmsx/constants'
 
-export const defineSchema = (t, inventoryType) =>
-  Yup.object().shape({
+export const defineSchema = (t, inventoryType, dataSnapshot) => {
+  return Yup.object().shape({
     name: Yup.string().nullable().required(t('general:form.required')),
     type: Yup.string().nullable().required(t('general:form.required')),
     switchMode: Yup.number().nullable().required(t('general:form.required')),
@@ -19,7 +19,11 @@ export const defineSchema = (t, inventoryType) =>
         const isValue = executionDay?.some((val) => val) || false
         return isValue
       }),
-    checkPointDataAttachment: Yup.mixed().required(t('general:form.required')),
+    checkPointDataAttachment:
+      dataSnapshot === CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT &&
+      inventoryType === INVENTORY_TYPE.PERIODIC
+        ? Yup.mixed().nullable().required(t('general:form.required'))
+        : null,
     items: Yup.array().of(
       Yup.object().shape({
         itemCode:
@@ -29,3 +33,4 @@ export const defineSchema = (t, inventoryType) =>
       }),
     ),
   })
+}

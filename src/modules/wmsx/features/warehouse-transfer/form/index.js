@@ -129,12 +129,11 @@ const WarehouseTransferForm = () => {
           transferQuantity: +item?.planQuantity,
           debitAcc: item?.debitAccount,
           creditAcc:
-            item?.creditAccount ||
             item?.item?.itemWarehouseSources?.find(
               (item) =>
                 item?.warehouseId ===
                 warehouseTransferDetails?.sourceWarehouse?.id,
-            )?.accounting,
+            )?.accounting || item?.creditAccount,
         }),
       ) || [{ ...DEFAULT_ITEM }],
     }),

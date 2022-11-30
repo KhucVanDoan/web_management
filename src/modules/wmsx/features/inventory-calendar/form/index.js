@@ -50,6 +50,7 @@ const InventoryCalendarForm = () => {
   const routeMatch = useRouteMatch()
   const { id } = useParams()
   const [inventoryType, setInventoryType] = useState(null)
+  const [dataSnapshot, setDataSnapshot] = useState(null)
   const classes = useClasses(style)
   const MODE_MAP = {
     [ROUTE.INVENTORY_CALENDAR.CREATE.PATH]: MODAL_MODE.CREATE,
@@ -89,7 +90,7 @@ const InventoryCalendarForm = () => {
           ]
         : '',
       checkPointDataAttachment:
-        inventoryCalendarDetails?.checkPointDataAttachment || '',
+        inventoryCalendarDetails?.checkPointDataAttachment || null,
       closingDay: inventoryCalendarDetails?.checkPointDate
         ? new Date(inventoryCalendarDetails?.checkPointDate)
         : new Date(),
@@ -266,7 +267,7 @@ const InventoryCalendarForm = () => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={defineSchema(t, inventoryType)}
+        validationSchema={defineSchema(t, inventoryType, dataSnapshot)}
         onSubmit={onSubmit}
         enableReinitialize
       >
@@ -424,6 +425,11 @@ const InventoryCalendarForm = () => {
                                     }
                                     control={<Radio />}
                                     label={t('inventoryCalendar.dataSnapshot')}
+                                    onChange={(val) => {
+                                      val
+                                        ? setDataSnapshot(0)
+                                        : setDataSnapshot(null)
+                                    }}
                                   />
                                   <FormControlLabel
                                     value={
@@ -432,6 +438,11 @@ const InventoryCalendarForm = () => {
                                     control={<Radio />}
                                     label={t('inventoryCalendar.snapshotWmsx')}
                                     sx={{ ml: 2 }}
+                                    onChange={(val) => {
+                                      val
+                                        ? setDataSnapshot(null)
+                                        : setDataSnapshot(0)
+                                    }}
                                   />
                                 </Box>
                               </Field.RadioGroup>

@@ -48,6 +48,7 @@ const WarehouseImportDetail = () => {
     actions.getMovementsDetailsById(id, async (val) => {
       switch (val?.movementType) {
         case MOVEMENT_TYPE.PO_IMPORT_RECEIVE:
+        case MOVEMENT_TYPE.PO_IMPORT:
           const res = await getWarehouseImportReceiptDetailsApi(val?.orderId)
           setReceiptDetail(res?.data)
           break
