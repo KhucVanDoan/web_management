@@ -19,6 +19,7 @@ import { ACTIVE_STATUS, INVENTORY_ADJUST_TYPE } from '~/modules/wmsx/constants'
 import useWarehouseTransfer from '~/modules/wmsx/redux/hooks/useWarehouseTransfer'
 import { searchLocationsApi } from '~/modules/wmsx/redux/sagas/location-management/search-locations'
 import { searchMaterialsApi } from '~/modules/wmsx/redux/sagas/material-management/search-materials'
+import { getListItemWarehouseStockApi } from '~/modules/wmsx/redux/sagas/warehouse-transfer/get-list-item'
 import { convertFilterParams } from '~/utils'
 
 const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
@@ -67,11 +68,21 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
             <Field.Autocomplete
               name={`items[${index}].itemCode`}
               placeholder={t('inventoryAdjust.items.itemCode')}
-              options={itemWarehouseStockList}
               hide={!values?.type}
+              asyncRequest={(s) =>
+                getListItemWarehouseStockApi({
+                  keyword: s,
+                  limit: ASYNC_SEARCH_LIMIT,
+                  filter: convertFilterParams({
+                    warehouseId: values?.warehouse?.id,
+                  }),
+                })
+              }
+              asyncRequestDeps={values?.warehouse}
+              asyncRequestHelper={(res) => res?.data?.items}
               getOptionLabel={(opt) => opt?.code}
+              getOptionSubLabel={(opt) => opt?.name}
               isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              required
             />
           )
         },
@@ -109,15 +120,13 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         headerName: t('inventoryAdjust.items.lotNumber'),
         width: 200,
         renderCell: (params, index) => {
-          const lotNumbers = itemWarehouseStockList?.find(
-            (item) => item?.id === params?.row?.itemCode?.id,
-          )
-          const lotNumberList = flatMap(lotNumbers?.locations, 'lots')?.map(
-            (item) => ({
-              ...item,
-              quantityExported: item?.quantity,
-            }),
-          )
+          const lotNumberList = flatMap(
+            params?.row?.itemCode?.locations,
+            'lots',
+          )?.map((item) => ({
+            ...item,
+            quantityExported: item?.quantity,
+          }))
           return isView ? (
             params?.row?.lotNumber
           ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_EXPORT ? (
@@ -161,17 +170,14 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         headerName: t('inventoryAdjust.items.locator'),
         width: 200,
         renderCell: (params, index) => {
-          const locations = itemWarehouseStockList?.find(
-            (item) =>
-              item?.id === params?.row?.itemCode?.id ||
-              params?.row?.itemCode?.itemId,
-          )?.locations
-          const locationList = locations?.map((item) => ({
-            code: item?.locator?.code,
-            name: item?.locator?.name,
-            quantityExported: item?.quantity,
-            locatorId: item?.locator?.locatorId,
-          }))
+          const locationList = params?.row?.itemCode?.locations?.map(
+            (item) => ({
+              code: item?.locator?.code || item?.code,
+              name: item?.locator?.name || item?.name,
+              quantityExported: item?.quantity,
+              locatorId: item?.locator?.locatorId || item?.locatorId,
+            }),
+          )
           return isView ? (
             params?.row?.locator?.code
           ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ? (
@@ -361,7 +367,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         },
       },
     ],
-    [items, values?.warehouse, itemWarehouseStockList],
+    [items, values?.warehouse, itemWarehouseStockList, values?.type],
   )
   return (
     <>

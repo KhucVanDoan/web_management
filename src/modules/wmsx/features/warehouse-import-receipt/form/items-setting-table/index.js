@@ -227,15 +227,15 @@ function ItemsSettingTable(props) {
                 thousandSeparator: true,
                 decimalScale: 2,
               }}
-              validate={(val) => {
-                if (val) {
-                  if (val > params?.row?.itemCode?.requestedQuantity) {
-                    return t('general:form.maxNumber', {
-                      max: params?.row?.itemCode?.requestedQuantity,
-                    })
-                  }
-                }
-              }}
+              // validate={(val) => {
+              //   if (val) {
+              //     if (val > params?.row?.itemCode?.requestedQuantity) {
+              //       return t('general:form.maxNumber', {
+              //         max: params?.row?.itemCode?.requestedQuantity,
+              //       })
+              //     }
+              //   }
+              // }}
             />
           )
         },
