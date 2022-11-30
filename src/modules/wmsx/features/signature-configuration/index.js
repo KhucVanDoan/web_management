@@ -44,7 +44,7 @@ const SignatureConfiguration = () => {
     items: signatureConfigurationList?.length
       ? signatureConfigurationList?.map((item, index) => ({
           id: index + 1,
-          role: item?.roleId || '',
+          role: item?.roleSetting || '',
           signerName: item?.signature || '',
         }))
       : [{ ...DEFAULT_ITEM }],
@@ -60,7 +60,7 @@ const SignatureConfiguration = () => {
     const convertValues = {
       signatures: values.items?.map((item) => ({
         typeObject: values.typeObject,
-        roleId: item?.role?.id,
+        roleId: item?.role,
         signature: item?.signerName,
       })),
     }

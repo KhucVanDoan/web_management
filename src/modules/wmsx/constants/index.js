@@ -2259,3 +2259,13 @@ export const TYPE_OBJECT_OPTIONS = [
     text: 'menu.warehouseTransfer',
   },
 ]
+export const OrderTypeEnum = {
+  PO: 1,
+  PRO: 2,
+  SO: 3,
+  TRANSFER: 4,
+  IMO: 5,
+  EXO: 6,
+  RO: 7,
+  PROPOSAL: 8,
+}

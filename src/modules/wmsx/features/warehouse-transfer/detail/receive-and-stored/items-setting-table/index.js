@@ -155,6 +155,7 @@ const ItemSettingTable = (props) => {
                   filter: convertFilterParams({
                     status: ACTIVE_STATUS.ACTIVE,
                     rootId: warehouseTransferDetails?.destinationWarehouse?.id,
+                    type: [0, 1],
                   }),
                 })
               }

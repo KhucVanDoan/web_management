@@ -5,15 +5,11 @@ import Box from '@mui/material/Box'
 import { PropTypes } from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-import {
-  ASYNC_SEARCH_LIMIT,
-  TEXTFIELD_REQUIRED_LENGTH,
-} from '~/common/constants'
+import { TEXTFIELD_REQUIRED_LENGTH } from '~/common/constants'
 import Button from '~/components/Button'
 import DataTable from '~/components/DataTable'
 import { Field } from '~/components/Formik'
 import Icon from '~/components/Icon'
-import { searchRoleListApi } from '~/modules/wmsx/redux/sagas/role-list/search-role-list'
 import { scrollToBottom } from '~/utils'
 
 const ItemSettingTable = ({ items, arrayHelpers }) => {
@@ -36,19 +32,12 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
         width: 200,
         renderCell: (params, index) => {
           return (
-            <Field.Autocomplete
+            <Field.TextField
               name={`items[${index}].role`}
               placeholder={t('signatureConfiguration.role')}
-              asyncRequest={(s) =>
-                searchRoleListApi({
-                  keyword: s,
-                  limit: ASYNC_SEARCH_LIMIT,
-                })
-              }
-              asyncRequestHelper={(res) => res?.data?.items}
-              isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
-              getOptionLabel={(opt) => opt?.code}
-              getOptionSubLabel={(opt) => opt?.name}
+              inputProps={{
+                maxLength: TEXTFIELD_REQUIRED_LENGTH.CODE_50.MAX,
+              }}
             />
           )
         },
