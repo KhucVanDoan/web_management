@@ -22,13 +22,11 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
   useEffect(() => {
     if (!isEmpty(lots)) {
       const params = {
-        items: lots?.map?.(
-          (lot) => ({
-            itemId: lot.itemId,
-            warehouseId: lot.warehouseId,
-            lotNumber: lot.lotNumber || null,
-          }),
-        ),
+        items: lots?.map?.((lot) => ({
+          itemId: lot.itemId,
+          warehouseId: lot.warehouseId,
+          lotNumber: lot.lotNumber || null,
+        })),
       }
       actions.getItemWarehouseStockAvailable(params)
     }
@@ -83,7 +81,9 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.lotNumber'),
         width: 250,
         renderCell: (params, index) => {
-          const lotNumbersOfItem = lots?.filter(lot => lot.itemId === params?.row?.item?.itemId)
+          const lotNumbersOfItem = lots?.filter(
+            (lot) => lot.itemId === params?.row?.item?.itemId,
+          )
           return (
             <Field.Autocomplete
               name={`items[${index}].lotNumber`}
@@ -91,7 +91,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
               options={lotNumbersOfItem}
               getOptionLabel={(opt) => opt?.lotNumber || ''}
               required
-              disabled={lotNumbersOfItem.some(lot => !lot.lotNumber)}
+              disabled={lotNumbersOfItem.some((lot) => !lot.lotNumber)}
             />
           )
         },
@@ -121,13 +121,19 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
             <Field.TextField
               name={`items[${index}].exportedQuantity`}
               validate={(val) => {
-                const exportPlanQuantity = params?.row?.lotNumber?.quantity || params?.row?.item?.quantity
-                const comparedQuantity = params?.row?.lotNumber?.requestedQuantity
-                  ? Math.min(params?.row?.lotNumber?.requestedQuantity, exportPlanQuantity)
+                const exportPlanQuantity =
+                  params?.row?.lotNumber?.quantity ||
+                  params?.row?.item?.quantity
+                const comparedQuantity = params?.row?.lotNumber
+                  ?.requestedQuantity
+                  ? Math.min(
+                      params?.row?.lotNumber?.requestedQuantity,
+                      exportPlanQuantity,
+                    )
                   : exportPlanQuantity
                 if (Number(val) > comparedQuantity) {
                   return t('general:form.maxNumber', {
-                    max: comparedQuantity
+                    max: comparedQuantity,
                   })
                 }
               }}
@@ -141,17 +147,20 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         headerName: t('warehouseExportReceipt.items.locator'),
         width: 250,
         renderCell: (params, index) => {
-          const locationList = uniqBy(itemStockAvailabe
-            ?.find(
-              (item) =>
-                item?.itemId === params?.row?.item?.itemId &&
-                item?.itemAvailables?.length > 0,
-            )
-            ?.itemAvailables?.map((item) => ({
-              ...item,
-              code: item?.locator?.code,
-              name: item?.locator?.name,
-            })), 'code')
+          const locationList = uniqBy(
+            itemStockAvailabe
+              ?.find(
+                (item) =>
+                  item?.itemId === params?.row?.item?.itemId &&
+                  item?.itemAvailables?.length > 0,
+              )
+              ?.itemAvailables?.map((item) => ({
+                ...item,
+                code: item?.locator?.code,
+                name: item?.locator?.name,
+              })),
+            'code',
+          )
 
           return (
             <Field.Autocomplete
@@ -181,7 +190,7 @@ const ItemSettingTable = ({ items, itemList, lots, arrayHelpers }) => {
         },
       },
     ],
-    [items],
+    [items, itemList],
   )
   return (
     <>
