@@ -15,7 +15,6 @@ const MovementsFilter = ({
   setQuickFilters,
   defaultFilter,
   movementTypeOpts,
-  warehouse,
   setExportReceiptList,
   setMovement,
 }) => {
@@ -98,7 +97,6 @@ const MovementsFilter = ({
                     <Field.TextField
                       name="warehouseId"
                       label={t('movements.importExport.warehouseName')}
-                      value={warehouse?.name}
                       disabled
                     />
                   </Grid>

@@ -18,7 +18,7 @@ export const importInventorySettingApi = (params) => {
  * @returns {Promise}
  */
 export const exportInventorySettingApi = (params) => {
-  const uri = `____ENTER_IMPORT_EXPORT_URL_HERE____`
+  const uri = `/v1/items/inventory-quantity-norms/export`
   return api.get(uri, params)
 }
 
