@@ -52,7 +52,7 @@ const ImportReceipt = ({ fromDate, toDate }) => {
       headerName: t('dashboard.importReceipt.total'),
     },
     {
-      field: 'totalCompleted',
+      field: 'totalReceived',
       headerName: t('dashboard.importReceipt.import'),
     },
     {
@@ -60,7 +60,7 @@ const ImportReceipt = ({ fromDate, toDate }) => {
       headerName: t('dashboard.importReceipt.inStock'),
     },
     {
-      field: 'totalReceived',
+      field: 'totalCompleted',
       headerName: t('dashboard.importReceipt.finishStock'),
     },
     {
