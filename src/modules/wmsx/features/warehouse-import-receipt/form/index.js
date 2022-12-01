@@ -34,8 +34,8 @@ import { searchReceiptDepartmentApi } from '~/modules/wmsx/redux/sagas/receipt-d
 import { getReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/receipt-management/get-receipt-details'
 import { getSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/get-detail'
 import { searchSourceManagementApi } from '~/modules/wmsx/redux/sagas/source-management/search'
+import { getWarehouseExportProposalDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-proposal/get-details'
 import { getWarehouseExportReceiptDetailsApi } from '~/modules/wmsx/redux/sagas/warehouse-export-receipt/get-details'
-import { getWarehouseExportProposalItems } from '~/modules/wmsx/redux/sagas/warehouse-import-receipt/get-details'
 import { ROUTE } from '~/modules/wmsx/routes/config'
 import { useClasses } from '~/themes'
 import { convertFilterParams, getLocalItem } from '~/utils'
@@ -220,17 +220,33 @@ function WarehouseImportReceiptForm() {
           ),
         )
       ) {
-        const res = await getWarehouseExportProposalItems({
-          id: Number(
+        const res = await getWarehouseExportProposalDetailsApi(
+          Number(
             warehouseImportReceiptDetails?.attributes?.find(
               (item) =>
                 item?.code ===
                 CODE_TYPE_DATA_FATHER_JOB.WAREHOUSE_EXPORT_PROPOSAL_ID,
             )?.value,
           ),
-          warehouseId: warehouseImportReceiptDetails?.warehouse?.id,
+        )
+        const items = []
+        res?.data?.items?.forEach((item) => {
+          item?.childrens?.forEach((chil) => {
+            items.push({
+              itemCode: {
+                itemId: chil?.itemId,
+                code: chil?.itemCode || chil?.itemResponse?.code,
+                name: chil?.itemName || chil?.itemResponse?.name,
+                itemUnit: chil?.itemResponse?.itemUnit,
+                exportedQuantity: chil?.exportedQuantity,
+                requestedQuantity: chil?.exportedQuantity,
+              },
+              requestedQuantity: chil?.exportedQuantity,
+              lotNumber: chil?.lotNumber,
+            })
+          })
         })
-        setItemWarehouseExportProposal(res?.data)
+        setItemWarehouseExportProposal(items)
       }
       if (
         !isEmpty(
