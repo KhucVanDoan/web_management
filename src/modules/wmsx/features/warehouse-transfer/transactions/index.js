@@ -22,7 +22,7 @@ export const Transactions = () => {
     },
   ]
 
-  const movementType = MOVEMENT_TYPE.TRANSFER_IMPORT
+  const movementType = MOVEMENT_TYPE.TRANSFER_EXPORT
 
   const movementTypeOpts = [
     {
