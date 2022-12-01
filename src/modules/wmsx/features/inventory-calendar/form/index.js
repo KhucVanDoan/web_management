@@ -335,6 +335,11 @@ const InventoryCalendarForm = () => {
                         onChange={(val) => {
                           setFieldValue('items', [])
                           setInventoryType(val)
+                          if (val === INVENTORY_TYPE.PERIODIC) {
+                            setDataSnapshot(
+                              CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT,
+                            )
+                          }
                         }}
                         required
                         disableClearable
@@ -427,7 +432,9 @@ const InventoryCalendarForm = () => {
                                     label={t('inventoryCalendar.dataSnapshot')}
                                     onChange={(val) => {
                                       val
-                                        ? setDataSnapshot(0)
+                                        ? setDataSnapshot(
+                                            CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT,
+                                          )
                                         : setDataSnapshot(null)
                                     }}
                                   />
@@ -441,7 +448,9 @@ const InventoryCalendarForm = () => {
                                     onChange={(val) => {
                                       val
                                         ? setDataSnapshot(null)
-                                        : setDataSnapshot(0)
+                                        : setDataSnapshot(
+                                            CHECK_POINT_DATA_TYPE.EXTERNAL_SNAPSHOT,
+                                          )
                                     }}
                                   />
                                 </Box>
