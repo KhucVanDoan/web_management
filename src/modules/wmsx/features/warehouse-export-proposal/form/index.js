@@ -256,6 +256,7 @@ function WarehouseExportReceiptForm() {
         items: values?.itemTableCollaspe?.map((item) => ({
           id: item?.id,
           itemId: item?.itemId,
+          requestedQuantity: +item?.quantityRequest,
           importedQuantity: +item?.importedQuantity,
           isProvideCode: item?.supplyCode ? 1 : 0,
           childrens: item?.details
