@@ -1358,7 +1358,7 @@ const routes = [
         name: ROUTE.ACCOUNT.CHANGE_PASSWORD.TITLE,
         path: ROUTE.ACCOUNT.CHANGE_PASSWORD.PATH,
         component: ChangePassword,
-        code: FUNCTION_CODE.USER_CHANGE_PASSWORD_USER,
+        // code: FUNCTION_CODE.USER_CHANGE_PASSWORD_USER,
       },
       {
         name: ROUTE.ROLE_LIST.LIST.TITLE,
