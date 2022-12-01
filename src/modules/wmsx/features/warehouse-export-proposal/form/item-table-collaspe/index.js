@@ -21,6 +21,7 @@ import Icon from '~/components/Icon'
 import { ACTIVE_STATUS } from '~/modules/wmsx/constants'
 import useWarehouseExportProposal from '~/modules/wmsx/redux/hooks/useWarehouseExportProposal'
 import { searchMaterialQualityApi } from '~/modules/wmsx/redux/sagas/define-material-quality/search-material-quality'
+import { searchObjectCategoryApi } from '~/modules/wmsx/redux/sagas/define-object-category/search-object-category'
 import { searchProducingCountryApi } from '~/modules/wmsx/redux/sagas/define-producing-country/search-producing-country'
 import { searchWarehouseApi } from '~/modules/wmsx/redux/sagas/define-warehouse/search-warehouse'
 import { getMaterialDetailsApi } from '~/modules/wmsx/redux/sagas/material-management/get-material-details'
@@ -66,13 +67,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
   }
   const handleChangeItem = async (val, params, parentIndex, index) => {
     if (val) {
-      const lotNumberLists = []
       const res = await getLotNumberItem(val?.id)
       if (res?.statusCode === 200) {
         res?.data?.lots
           ?.filter((l) => l?.lotNumber !== null)
           ?.forEach((item) => {
-            const findItem = lotNumberLists?.find(
+            const findItem = lotNumberlist?.find(
               (lot) =>
                 lot?.itemId === item?.itemId &&
                 lot?.lotNumber === item?.lotNumber &&
@@ -80,14 +80,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                   new Date(`${item?.mfg}`).toISOString(),
             )
             if (isEmpty(findItem)) {
-              lotNumberLists.push({
+              lotNumberlist.push({
                 ...item,
               })
             }
           })
       }
 
-      setLotNumberList(lotNumberLists)
+      setLotNumberList(lotNumberlist)
       if (!isEmpty(params?.row?.warehouseExport)) {
         const payload = {
           items: [
@@ -276,11 +276,46 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       width: 150,
       renderCell: (params, index) => {
         return isView ? (
-          <Checkbox name="supplyCode" disabled />
-        ) : params?.row?.itemId ? (
-          <Checkbox name="supplyCode" disabled />
+          <Checkbox
+            name="isProvideCode"
+            disabled
+            checked={params?.row?.isProvideCode}
+          />
+        ) : params?.row?.isProvideCode ? (
+          <Checkbox
+            name="isProvideCode"
+            disabled
+            checked={params?.row?.isProvideCode}
+          />
         ) : (
           <Field.Checkbox name={`itemTableCollaspe[${index}].supplyCode`} />
+        )
+      },
+    },
+    {
+      field: 'objectCategory',
+      headerName: t('warehouseExportProposal.items.objectCategory'),
+      width: 150,
+      renderCell: (params, index) => {
+        return isView || params?.row?.isProvideCode ? (
+          params?.row?.objectCategory
+        ) : (
+          <Field.Autocomplete
+            name={`itemTableCollaspe[${index}].objectCategory`}
+            asyncRequest={(s) =>
+              searchObjectCategoryApi({
+                keyword: s,
+                limit: ASYNC_SEARCH_LIMIT,
+                filter: convertFilterParams({
+                  status: ACTIVE_STATUS.ACTIVE,
+                }),
+              })
+            }
+            isOptionEqualToValue={(opt, val) => opt?.id === val?.id}
+            asyncRequestHelper={(res) => res?.data?.items}
+            getOptionLabel={(opt) => opt?.code}
+            disabled={!params?.row?.supplyCode}
+          />
         )
       },
     },
@@ -289,7 +324,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.suppliesType'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.itemId ? (
+        return isView || params?.row?.isProvideCode ? (
           params?.row?.suppliesType
         ) : (
           <Field.Autocomplete
@@ -322,7 +357,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.producingCountry'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.itemId ? (
+        return isView || params?.row?.isProvideCode ? (
           params?.row?.producingCountry
         ) : (
           <Field.Autocomplete
@@ -349,7 +384,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.materialQuality'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.itemId ? (
+        return isView || params?.row?.isProvideCode ? (
           params?.row?.materialQuality
         ) : (
           <Field.Autocomplete
@@ -376,7 +411,7 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       headerName: t('warehouseExportProposal.items.suppliesNameNeedGrantCode'),
       width: 150,
       renderCell: (params, index) => {
-        return isView || params?.row?.itemId ? (
+        return isView || params?.row?.isProvideCode ? (
           params?.row?.suppliesNameNeedGrantCode
         ) : (
           <Field.TextField
@@ -541,7 +576,12 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
                 item?.lotNumber &&
                 item?.itemId === params?.row?.exportSuppliesCode?.id,
             )}
-            disabled={!Boolean(params?.row?.warehouseExport?.manageByLot)}
+            disabled={
+              !Boolean(
+                params?.row?.warehouseExport?.manageByLot ||
+                  params?.row?.warehouseExport?.warehouse?.manageByLot,
+              )
+            }
             validate={(val) => {
               if (
                 Boolean(
@@ -677,6 +717,14 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       },
     },
     {
+      field: 'objectCategory',
+      headerName: t('warehouseExportProposal.items.objectCategory'),
+      width: 150,
+      renderCell: (params) => {
+        return params?.row?.objectCategory?.code
+      },
+    },
+    {
       field: 'suppliesType',
       headerName: t('warehouseExportProposal.items.suppliesType'),
       width: 150,
@@ -701,16 +749,15 @@ const ItemTableCollaspe = ({ itemTableCollaspe, mode, setFieldValue }) => {
       },
     },
   ]
-  const dataItem = itemTableCollaspe?.filter(
-    (item) => item?.supplyCode === true && !item?.itemId,
-  )
+  const dataItem = itemTableCollaspe?.filter((item) => item?.supplyCode)
   const onSubmit = () => {
     const params = {
       id: +id,
-      items: itemTableCollaspe?.map((item) => ({
+      items: dataItem?.map((item) => ({
         detailId: +item?.id,
         itemId: item?.itemId,
         unitId: null,
+        objectCategoryId: item?.objectCategory?.id,
         manufacturingCountryId: item?.producingCountry?.id,
         itemQuanlityId: item?.materialQuality?.id,
         itemTypeSettingId: null,

@@ -1340,7 +1340,7 @@ const routes = [
         name: ROUTE.SIGNATURE_CONFIGURATION.TITLE,
         path: ROUTE.SIGNATURE_CONFIGURATION.PATH,
         component: SignatureConfiguration,
-        code: FUNCTION_CODE.USER_CONFIG_SIGNATURE,
+        code: FUNCTION_CODE.REPORT_LIST_CONFIG_SIGNATURE,
         isInSidebar: true, // BA request hide this on the sidebar tempoary
         isInControllingCompany: true,
       },

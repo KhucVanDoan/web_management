@@ -209,12 +209,11 @@ function InventorySetting() {
   const onCloseDeleteModal = () => {
     setModal({ isOpenDeleteModal: false, tempItem: null })
   }
-
   const renderHeaderRight = () => {
     return (
       <>
         <ImportExport
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_EXPORT_LOCATION)
+          {...(canAccess(FUNCTION_CODE.ITEM_EXPORT_INVENTORY_QUANTITY_NORM)
             ? {
                 onExport: () =>
                   exportInventorySettingApi({
@@ -227,10 +226,11 @@ function InventorySetting() {
                       { field: 'createdAt', filterFormat: 'date' },
                     ]),
                     sort: convertSortParams(sort),
+                    type: 4,
                   }),
               }
             : {})}
-          {...(canAccess(FUNCTION_CODE.WAREHOUSE_IMPORT_LOCATION)
+          {...(canAccess(FUNCTION_CODE.ITEM_IMPORT_INVENTORY_QUANTITY_NORM)
             ? {
                 onImport: () =>
                   importInventorySettingApi({
@@ -282,7 +282,7 @@ function InventorySetting() {
         onPageSizeChange={setPageSize}
         onSortChange={setSort}
         onSettingChange={setColumnsSettings}
-        //onSelectionChange={setSelectedRows}
+        onSelectionChange={setSelectedRows}
         selected={selectedRows}
         total={total}
         sort={sort}
@@ -292,18 +292,20 @@ function InventorySetting() {
           defaultValue: DEFAULT_FILTERS,
           onApply: setFilters,
         }}
-        // bulkActions={{
-        //   actions: [BULK_ACTION.DELETE],
-        //   apiUrl: API_URL.INVENTORY_SETTING,
-        //   onSuccess: () => {
-        //     if (page === 1) {
-        //       refreshData()
-        //     } else {
-        //       setPage(1)
-        //     }
-        //     setSelectedRows([])
-        //   },
-        // }}
+        bulkActions={
+          {
+            // actions: [BULK_ACTION.DELETE],
+            // apiUrl: API_URL.INVENTORY_SETTING,
+            // onSuccess: () => {
+            //   if (page === 1) {
+            //     refreshData()
+            //   } else {
+            //     setPage(1)
+            //   }
+            //   setSelectedRows([])
+            // },
+          }
+        }
       />
       <Dialog
         open={modal.isOpenDeleteModal}

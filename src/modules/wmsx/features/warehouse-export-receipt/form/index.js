@@ -68,6 +68,7 @@ function WarehouseExportReceiptForm() {
   const { id } = useParams()
   const routeMatch = useRouteMatch()
   const [debitAccount, setDebitAccount] = useState('')
+  const [warehouseExportProposalId, setWarehouseExportProposalId] = useState()
   const {
     data: { isLoading, warehouseExportReceiptDetails },
     actions,
@@ -123,6 +124,7 @@ function WarehouseExportReceiptForm() {
           money: item?.amount,
           lotNumber: item?.lots[0]?.lotNumber,
           quantityExport: item?.quantity,
+          quantityRequest: item?.requestedQuantityWarehouseExportProposal,
           planExportedQuantity: item?.exportableQuantity,
           debitAccount: item?.debitAccount,
           creditAccount: item?.creditAccount,
@@ -131,6 +133,7 @@ function WarehouseExportReceiptForm() {
             itemId: item?.itemId || item?.id,
             id: item?.itemId || item?.id,
             item: { ...item?.item },
+            requestedQuantity: item?.requestedQuantityWarehouseExportProposal,
           },
         })) || DEFAULT_ITEMS,
     }),
@@ -433,26 +436,13 @@ function WarehouseExportReceiptForm() {
       })
     }
   }
-  const handleChangeWarehouse = async (val, setFieldValue, values) => {
-    const findWarehouseExportProposal =
-      values?.businessTypeId?.bussinessTypeAttributes?.find(
-        (item) => item?.tableName === TABLE_NAME_ENUM.WAREHOUSE_EXPORT_PROPOSAL,
-      )?.id
+  const handleChangeWarehouse = async (val, setFieldValue) => {
     setFieldValue('items', DEFAULT_ITEMS)
     if (val) {
       warehouseTransferAction.getListItemWarehouseStock({
         warehouseId: val?.id,
         isGetAll: 1,
       })
-      if (!isEmpty(values[findWarehouseExportProposal])) {
-        setFieldValue('items', DEFAULT_ITEMS)
-        const params = {
-          id: values[findWarehouseExportProposal]?.id,
-          warehouseId: val?.id,
-        }
-        const res = await getWarehouseExportProposalItems(params)
-        setItemWarehouseExport(res?.data)
-      }
     }
   }
   const handleChangeBusinessType = (val, setFieldValue) => {
@@ -747,6 +737,7 @@ function WarehouseExportReceiptForm() {
                       setFieldValue,
                       setWarehouseList,
                       setItemWarehouseExportProposal,
+                      setWarehouseExportProposalId,
                     )}
                     <Grid item xs={12}>
                       <Field.TextField
@@ -778,6 +769,7 @@ function WarehouseExportReceiptForm() {
                           debitAccount={debitAccount}
                           values={values}
                           mode={mode}
+                          warehouseExportProposalId={warehouseExportProposalId}
                         />
                       )}
                     />

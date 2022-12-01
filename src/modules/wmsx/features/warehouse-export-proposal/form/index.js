@@ -79,7 +79,8 @@ function WarehouseExportReceiptForm() {
       itemId: item?.itemId,
       note: item?.note,
       itemDetail: item?.itemDetail,
-      supplyCode: item?.itemId ? true : false,
+      isProvideCode: Boolean(item?.isProvideCode),
+      supplyCode: Boolean(item?.isProvideCode),
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
       importedQuantity: '',
@@ -89,6 +90,7 @@ function WarehouseExportReceiptForm() {
       id: item?.id,
       unit: item?.itemResponse?.itemUnit || item?.itemUnit,
       dayUpdate: item?.updatedAt,
+      objectCategory: item?.objectCategory?.name,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,
       producingCountry: item?.manufacturingCountry?.name,
@@ -220,16 +222,15 @@ function WarehouseExportReceiptForm() {
       reason: values?.reasonUse,
       receiverInfo: values?.nameAddressOfRecipient,
       items: values?.items?.map((item) => ({
-        itemName: item?.suppliesName?.id ? null : item?.suppliesName?.name,
+        itemName: item?.suppliesName?.name || null,
         itemId: item?.suppliesName?.id,
-        itemCode: item?.suppliesCode || null,
+        itemCode: item?.suppliesCode || item?.suppliesName?.code || null,
         itemDetail: item?.details || null,
         unitId: item?.unit?.id || item?.unit || null,
         requestedQuantity: +item?.quantityRequest,
         note: item?.note,
       })),
     }
-
     if (mode === MODAL_MODE.CREATE) {
       actions.createWarehouseExportProposal(parmas, backToList)
     } else if (
@@ -256,7 +257,7 @@ function WarehouseExportReceiptForm() {
           id: item?.id,
           itemId: item?.itemId,
           importedQuantity: +item?.importedQuantity,
-          requestedQuantity: +item?.quantityRequest,
+          isProvideCode: item?.supplyCode ? 1 : 0,
           childrens: item?.details
             ?.map((e) => {
               if (!isEmpty(e?.exportSuppliesCode)) {

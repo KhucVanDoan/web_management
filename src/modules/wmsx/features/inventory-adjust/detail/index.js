@@ -57,7 +57,7 @@ const InventoryAdjustDetail = () => {
     itemCode: item?.item,
     lotNumber: item?.lotNumber,
     itemName: item?.item?.name,
-    itemUnit: item?.item?.itemUnit?.name,
+    itemUnit: item?.item?.unitName,
     locator: item?.locator,
     quantity: item?.quantity,
     price: item?.price,
