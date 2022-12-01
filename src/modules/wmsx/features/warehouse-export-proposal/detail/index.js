@@ -69,8 +69,8 @@ function WarehouseExportProposalDetail() {
       itemName: item?.itemName || item?.itemResponse?.name,
       itemId: item?.itemId,
       note: item?.note,
-      supplyCode: item?.itemId ? true : false,
       itemDetail: item?.itemDetail,
+      isProvideCode: Boolean(item?.isProvideCode),
       quantityRequest: item?.requestedQuantity,
       importQuantity: item?.importedQuantity || 0,
       importedQuantity: '',
@@ -80,30 +80,30 @@ function WarehouseExportProposalDetail() {
       id: item?.id,
       unit: item?.itemResponse?.itemUnit || item?.itemUnit,
       dayUpdate: item?.updatedAt,
+      objectCategory: item?.objectCategory?.name,
       updatedBy: item?.updatedBy,
       suppliesType: item?.itemTypeSetting?.name,
       producingCountry: item?.manufacturingCountry?.name,
       materialQuality: item?.itemQuanlity?.name,
       suppliesNameNeedGrantCode: '',
-      details: item?.itemId
-        ? item?.childrens?.length > 0
+      details:
+        item?.childrens?.length > 0
           ? item?.childrens?.map((childrens) => ({
               id: childrens?.id,
-              itemCode: childrens?.itemCode || childrens?.itemResponse?.code,
-              itemName: childrens?.itemName || childrens?.itemResponse?.name,
+              itemCode: childrens?.itemResponse?.code || childrens?.itemCode,
+              itemName: childrens?.itemResponse?.name || childrens?.itemName,
               itemId: childrens?.itemId,
               unit: childrens?.itemResponse?.itemUnit,
               lotNumbers: childrens?.lotNumber,
-              reservation: Boolean(childrens?.isKeepSlot) ? 1 : 0,
-              planExportedQuantity: childrens?.planExportedQuantity || 0,
+              reservation: childrens?.isKeepSlot,
+              planExportedQuantity: childrens?.exportableQuantity || 0,
               exportQuantity: childrens?.exportedQuantity || 0,
               quantityExportActual: childrens?.exportedActualQuantity || 0,
               warehouse: childrens?.warehouseExport || '',
-              updatedBy: item?.updatedByChild,
-              dayUpdate: item?.updatedAt,
+              updatedBy: childrens?.updatedByChild,
+              dayUpdate: childrens?.updatedAt,
             }))
-          : []
-        : [],
+          : [],
     }),
   )
   const itemSettingTable = warehouseExportProposalDetails?.items?.map(

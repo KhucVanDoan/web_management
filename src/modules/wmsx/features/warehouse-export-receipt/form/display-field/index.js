@@ -47,6 +47,7 @@ const displayFollowBusinessTypeManagement = (
   setFieldValue,
   setWarehouseList,
   setItemWarehouseExportProposal,
+  setWarehouseExportProposalId,
 ) => {
   const constructions = type?.find(
     (item) => item?.tableName === 'constructions',
@@ -59,11 +60,12 @@ const displayFollowBusinessTypeManagement = (
     if (isEmpty(val)) {
       setItemWarehouseExportProposal([])
       setFieldValue('items', DEFAULT_ITEMS)
+      setWarehouseExportProposalId('')
     }
     setFieldValue('warehouseId', '')
     if (!isEmpty(val)) {
+      setWarehouseExportProposalId(val?.id)
       const warehouseList = []
-
       const warehouseExportProposalDetail =
         await getWarehouseExportProposalDetailsApi(val?.id)
       warehouseExportProposalDetail?.data?.items?.forEach((item) => {

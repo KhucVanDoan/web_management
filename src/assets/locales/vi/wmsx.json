@@ -3048,7 +3048,8 @@
       "reservation": "Giữ chỗ",
       "updater": "Người cập nhật",
       "producingCountry": "Nước sản xuất",
-      "materialQuality": "Chất lượng vật tư"
+      "materialQuality": "Chất lượng vật tư",
+      "objectCategory": "Danh mục đối tượng"
     },
     "warehouseExportProposalStatus": {
       "pending": "Chờ phê duyệt",
