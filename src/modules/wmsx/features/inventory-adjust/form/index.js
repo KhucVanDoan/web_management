@@ -41,6 +41,7 @@ const DEFAULT_ITEM = {
   id: new Date().getTime(),
   itemId: '',
   itemName: '',
+  unitName: '',
   locator: '',
   lotNumber: '',
   quantity: '',
@@ -91,6 +92,7 @@ const InventoryAdjustForm = () => {
       items: inventoryAdjustDetails?.items?.map((item) => ({
         itemCode: {
           ...item?.item,
+          itemUnit: { name: item?.item?.unitName },
           locations: [
             {
               ...item?.locator,
@@ -113,7 +115,7 @@ const InventoryAdjustForm = () => {
             }
           : null,
         itemName: item?.item?.name,
-        unit: item?.item?.unit,
+        unit: item?.item?.unitName,
         locator: { ...item?.locator, locatorId: item?.locator?.id },
         quantity: item?.quantity,
         price: item?.price,

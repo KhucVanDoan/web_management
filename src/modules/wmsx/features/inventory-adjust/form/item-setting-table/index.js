@@ -287,7 +287,7 @@ const ItemSettingTable = ({ items, mode, arrayHelpers, values, type }) => {
         width: 150,
         renderCell: (params, index) => {
           return isView ? (
-            params?.row?.totalMoney
+            params?.row?.amount
           ) : values?.type === INVENTORY_ADJUST_TYPE.WAREHOUSE_IMPORT ? (
             <Field.TextField
               name={`items[${index}].amount`}

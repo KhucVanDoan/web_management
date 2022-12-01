@@ -176,14 +176,6 @@ const PickupAndWarehouseExport = () => {
                     </Grid>
                     <Grid item lg={6} xs={12}>
                       <LV
-                        label={t('warehouseTransfer.warehouseImport')}
-                        value={
-                          warehouseTransferDetails?.destinationWarehouse?.name
-                        }
-                      />
-                    </Grid>
-                    <Grid item lg={6} xs={12}>
-                      <LV
                         label={t('warehouseTransfer.warehouseExport')}
                         value={warehouseTransferDetails?.sourceWarehouse?.name}
                       />
