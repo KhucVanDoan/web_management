@@ -145,7 +145,7 @@ const MovementTransferDetail = ({ breadcrumbs, onBack }) => {
             <Grid item lg={6} xs={12}>
               <LV
                 label={t('warehouseTransfer.createdAt')}
-                value={receiptDetail?.createdAt}
+                value={convertUtcDateToLocalTz(receiptDetail?.createdAt)}
               />
             </Grid>
             <Grid item lg={6} xs={12}>

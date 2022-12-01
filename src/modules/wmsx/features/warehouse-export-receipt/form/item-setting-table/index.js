@@ -22,6 +22,7 @@ const ItemSettingTable = ({
   setFieldValue,
   values,
   debitAccount,
+  warehouseExportProposalId,
 }) => {
   const { t } = useTranslation(['wmsx'])
   const isView = mode === MODAL_MODE.DETAIL
@@ -36,15 +37,18 @@ const ItemSettingTable = ({
   const handleChangeItem = async (val, index) => {
     if (!isEmpty(val)) {
       const params = {
+        order: !isEmpty(values[warehouseExprotProposal])
+          ? {
+              orderType: OrderTypeEnum.PROPOSAL,
+              orderId: warehouseExportProposalId,
+            }
+          : null,
         items: [
           {
             itemId: val?.itemId || val?.id,
             warehouseId: values?.warehouseId?.id,
             lotNumber: null,
             locatorId: null,
-            orderType: !isEmpty(values[warehouseExprotProposal])
-              ? OrderTypeEnum.PROPOSAL
-              : null,
           },
         ],
       }

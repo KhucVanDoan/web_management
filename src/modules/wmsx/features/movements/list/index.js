@@ -42,7 +42,6 @@ const Movements = ({ breadcrumbs, movementType, movementTypeOpts, onBack }) => {
     movementType: movementType,
     warehouseId: warehouse?.name,
   }
-
   const [exportReceiptList, setExportReceiptList] = useState([])
   const [movement, setMovement] = useState('')
 
