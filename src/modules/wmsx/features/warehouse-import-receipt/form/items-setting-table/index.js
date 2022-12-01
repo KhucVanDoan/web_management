@@ -198,7 +198,7 @@ function ItemsSettingTable(props) {
         width: 180,
         renderCell: (params, index) => {
           return isView ? (
-            <>{params?.row?.requestedQuantity}</>
+            <>{params?.row?.requestedQuantityWarehouseExportProposal}</>
           ) : (
             <Field.TextField
               name={`items[${index}].itemCode.requestedQuantity`}
