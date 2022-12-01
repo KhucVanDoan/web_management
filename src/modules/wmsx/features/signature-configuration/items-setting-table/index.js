@@ -106,6 +106,7 @@ const ItemSettingTable = ({ items, arrayHelpers }) => {
             })
             scrollToBottom()
           }}
+          disabled={items?.length >= 7}
         >
           {t('signatureConfiguration.add')}
         </Button>
