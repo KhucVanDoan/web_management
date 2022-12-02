@@ -84,6 +84,12 @@ const StockItemReport = ({ fromDate, toDate }) => {
         },
       },
     },
+    color: ['#0761AD', '#FF9054'],
+    legend: {
+      marker: {
+        symbol: 'square',
+      },
+    },
   }
 
   return (

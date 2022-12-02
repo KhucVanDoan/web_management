@@ -57,6 +57,26 @@ const InventoryQuantity = () => {
     data: [data, data],
     xField: 'time',
     yField: ['value', 'quantity'],
+    xAxis: {
+      title: {
+        text: t('general:currencyUnit.vnd'),
+        offset: 14,
+        position: 'end',
+      },
+    },
+    yAxis: {
+      value: {
+        grid: {
+          line: {
+            style: {
+              lineWidth: 2,
+              stroke: '#EDF0F4',
+              lineDash: [2, 2],
+            },
+          },
+        },
+      },
+    },
     slider: {
       height: 30,
       handlerStyle: {

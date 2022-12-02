@@ -82,6 +82,26 @@ const MovementReport = ({ fromDate, toDate }) => {
     data: [dataStockConvert, dataAmountConvert],
     xField: 'time',
     yField: ['value', 'count'],
+    xAxis: {
+      title: {
+        text: t('general:currencyUnit.vnd'),
+        offset: 14,
+        position: 'end',
+      },
+    },
+    yAxis: {
+      value: {
+        grid: {
+          line: {
+            style: {
+              lineWidth: 2,
+              stroke: '#EDF0F4',
+              lineDash: [2, 2],
+            },
+          },
+        },
+      },
+    },
     slider: {
       height: 30,
       handlerStyle: {
@@ -100,6 +120,7 @@ const MovementReport = ({ fromDate, toDate }) => {
         isGroup: true,
         seriesField: 'type',
         columnWidthRatio: 0.4,
+        color: ['#7F9EF4', '#0FA44A'],
       },
       {
         geometry: 'line',
@@ -109,6 +130,7 @@ const MovementReport = ({ fromDate, toDate }) => {
             opacity: 0.5,
           }
         },
+        color: ['#FF9054', '#B2DF8A'],
       },
     ],
     legend: {

@@ -53,7 +53,7 @@ const InventoryStatisticFilter = ({
                       getOptionSubLabel={(opt) => opt?.code}
                       onChange={() => {
                         // setFieldValue('itemId', null)
-                        setFieldValue('locationId', null)
+                        setFieldValue('locatorId', null)
                       }}
                     />
                   </Grid>
@@ -80,7 +80,7 @@ const InventoryStatisticFilter = ({
                   </Grid>
                   <Grid item lg={6} xs={12}>
                     <Field.Autocomplete
-                      name="locationId"
+                      name="locatorId"
                       label={t('inventoryStatistics.location')}
                       placeholder={t('inventoryStatistics.allLocation')}
                       asyncRequest={(s) =>

@@ -207,7 +207,7 @@ function InventoryStatistics() {
           ...quickFilters,
           warehouseId: quickFilters?.warehouseId?.id,
           itemId: quickFilters?.itemId?.id,
-          locationId: quickFilters?.locationId?.id,
+          locatorId: quickFilters?.locatorId?.locatorId,
         },
         columns,
       ),
